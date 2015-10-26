@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>登陆</title>
+    <script src="/resources/js/jQuery.min.js" type="text/javascript"></script>
+</head>
+<body>
+<form class="form-signin" id="loginForm" action="/upload/ckeditor" method="post" role="form" enctype="application/x-www-form-urlencoded">
+<fieldset>
+<legend><span >商品描述</span></legend>
+##<div class="control-group">
+## <div class="jk-form-tit"><h6>商品描述</h6></div>
+    <input type="text" value="$!itemForm.detailUrl" name="detailUrl"/>
+    <script type="text/javascript"src="/resources/ckeditor/ckeditor.js"></script>
+<textarea id="item_detail" name="detail" cols="20" rows="60" class="ckeditor"  ></textarea>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">保存</button>
+</form>
+<script>
+/*CKEDITOR.replace( 'detail');*/
+CKEDITOR.editorConfig = function( config ) {
+    // ...
+    // file upload url
+    config.filebrowserUploadUrl = '/ckupload/';
+    // ...
+};
+</script>
+</fieldset>
+</body>
+</html>
+
