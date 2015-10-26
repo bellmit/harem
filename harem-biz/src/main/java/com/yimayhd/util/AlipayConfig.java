@@ -13,7 +13,7 @@ public class AlipayConfig {
 
     public static final String KEY = "hzkdg9sasdca8qrrh2kqws7gyckd6ohq";         // 账号私钥
 
-    public static final String SELLER_EMAIL = "share@yimayhd.com";       // 卖家支付宝账号
+    public static final String SELLER_EMAIL = "share@com.yimayhd.com";       // 卖家支付宝账号
 
     public static final String PAYMENT_TYPE_BUY = "1";       // Alipay 支付类型
 

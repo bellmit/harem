@@ -1,11 +1,10 @@
-package yimayhd.controller;
+package com.yimayhd.controller;
 
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.base.BaseController;
 import com.yimayhd.base.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

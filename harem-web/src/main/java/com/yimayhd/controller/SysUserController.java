@@ -1,4 +1,4 @@
-package yimayhd.controller;
+package com.yimayhd.controller;
 
 import com.yimayhd.base.BaseController;
 import com.yimayhd.base.PageVo;

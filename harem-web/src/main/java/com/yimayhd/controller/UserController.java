@@ -1,4 +1,4 @@
-package yimayhd.controller;
+package com.yimayhd.controller;
 
 import com.yimayhd.base.BaseController;
 import com.yimayhd.base.PageVo;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import com.yimayhd.service.MessageCodeService;
+//import com.com.yimayhd.service.MessageCodeService;
 
 /**
  * 用户信息

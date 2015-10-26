@@ -1,4 +1,4 @@
-package yimayhd.controller;
+package com.yimayhd.controller;
 
 import com.yimayhd.base.BaseController;
 import com.yimayhd.service.UserService;
@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//import com.yimayhd.service.MessageCodeService;
+//import com.com.yimayhd.service.MessageCodeService;
 
 /**
  * 用户信息

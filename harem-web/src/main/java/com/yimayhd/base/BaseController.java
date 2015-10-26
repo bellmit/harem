@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author czf
+ * @author wenfeng zhang
  */
 public class BaseController {
 
@@ -24,16 +24,16 @@ public class BaseController {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    protected ResponseVo handleException(Exception e) {
+    protected com.yimayhd.base.ResponseVo handleException(Exception e) {
         logger.error(e.getMessage(), e);
         if (e instanceof HttpMessageNotReadableException ||
             e instanceof NumberFormatException ||
             e instanceof InvalidPropertyException) {
-            return new ResponseVo(ResponseStatus.DATA_PARSE_ERROR.VALUE, ResponseStatus.DATA_PARSE_ERROR.MESSAGE + e.getLocalizedMessage());
+            return new com.yimayhd.base.ResponseVo(ResponseStatus.DATA_PARSE_ERROR.VALUE, ResponseStatus.DATA_PARSE_ERROR.MESSAGE + e.getLocalizedMessage());
         } else if (e instanceof NoticeException) {
-            return new ResponseVo(ResponseStatus.FORBIDDEN.VALUE, e.getMessage());
+            return new com.yimayhd.base.ResponseVo(ResponseStatus.FORBIDDEN.VALUE, e.getMessage());
         }
-        return new ResponseVo(ResponseStatus.ERROR.VALUE, ResponseStatus.ERROR.MESSAGE + e.getLocalizedMessage());
+        return new com.yimayhd.base.ResponseVo(ResponseStatus.ERROR.VALUE, ResponseStatus.ERROR.MESSAGE + e.getLocalizedMessage());
     }
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder){
