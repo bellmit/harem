@@ -1,6 +1,6 @@
 package com.yimayhd.net;
 
-//import com.com.yimayhd.service.SmsService;
+//import com.yimayhd.service.SmsService;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

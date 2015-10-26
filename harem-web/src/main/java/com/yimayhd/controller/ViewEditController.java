@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//import com.com.yimayhd.service.MessageCodeService;
+//import com.yimayhd.service.MessageCodeService;
 
 /**
  * 用户信息

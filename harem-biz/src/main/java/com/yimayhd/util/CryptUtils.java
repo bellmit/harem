@@ -40,7 +40,7 @@ public class CryptUtils {
     }
 
     public static void main(String[] args) {
-        String preSignText = "_input_charset=utf-8&notify_url=http://127.0.0.1:8080/create_direct_pay_by_user-JAVA-UTF-8/notify_url.jsp&out_trade_no=20150611183916353&partner=2088911646876372&payment_type=1&return_url=http://127.0.0.1:8080/create_direct_pay_by_user-JAVA-UTF-8/return_url.jsp&seller_email=share@com.yimayhd.com&service=create_direct_pay_by_user&subject=产地武夷山大红袍&total_fee=0.01";
+        String preSignText = "_input_charset=utf-8&notify_url=http://127.0.0.1:8080/create_direct_pay_by_user-JAVA-UTF-8/notify_url.jsp&out_trade_no=20150611183916353&partner=2088911646876372&payment_type=1&return_url=http://127.0.0.1:8080/create_direct_pay_by_user-JAVA-UTF-8/return_url.jsp&seller_email=share@yimayhd.com&service=create_direct_pay_by_user&subject=产地武夷山大红袍&total_fee=0.01";
         String signResult = "44898e7d628576bc6ed5a3a60d86505f";
         String key = "hzkdg9sasdca8qrrh2kqws7gyckd6ohq";
         System.out.println(verify(preSignText, signResult, key));
