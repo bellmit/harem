@@ -76,7 +76,7 @@
                         <td>$!trade.cashierName</td>
                         <td>$!trade.remark</td>
                         <td><a href="javascript:getOrder('$!trade.id');">订单详情</a></td>
-                        <td>发起退款</td>
+                        <td><a href="javascript:toRefund('$!trade.id');">发起退款</a></td>
                     </tr>
                     #end
                 </tbody>
@@ -90,6 +90,10 @@
 
     function getOrder(id)
     {
-        window.open("/orderManage/id", "_blank");
+        window.open("/orderManage/"+id, "_blank");
+    }
+    function toRefund(id)
+    {
+        window.open("/refundManage/add/"+id, "_blank");
     }
 </script>

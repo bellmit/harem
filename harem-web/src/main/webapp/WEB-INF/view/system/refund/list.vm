@@ -72,7 +72,7 @@
                         <td>$!refund.terminalName</td>
                         <td>$!refund.operatorName</td>
                         <td>$!refund.remark</td>
-                        <td>退款详情</td>
+                        <td><a href="javascript:geRefund('$!refund.id');">退款详情</a></td>
                     </tr>
                     #end
                 </tbody>
@@ -80,3 +80,13 @@
         </div>
     </article>
 </div>
+<script>
+    $(function(){
+    });
+
+    function geRefund(id)
+    {
+        window.open("/refundManage/"+id, "_blank");
+    }
+
+</script>

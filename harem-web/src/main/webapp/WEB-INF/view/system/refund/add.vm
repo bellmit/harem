@@ -1,35 +1,116 @@
 <html>
 <head>
-    <title>登陆</title>
+    <title>申请退款</title>
     <script src="/resources/js/md5.min.js" type="text/javascript"></script>
     <link href="/resources/zui/css/zui.min.css" rel="stylesheet">
-    <script src="/resources/zui/lib/jquery.js" type="text/javascript"></script>
+    <script src="/resources/js/jquery.js" type="text/javascript"></script>
     <script src="/resources/zui/js/zui.min.js" type="text/javascript"></script>
 </head>
 <body>
+    <article>
+        <div class="orderInformation">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>订单编号</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                </tr>
+                </thead>
+                <tbody>
+                    #foreach($commodity in $order.commodityList)
+                    <tr>
+                        <td>$!velocityCount</td>
+                        <td>$!order.orderNO</td>
+                        <td>$!commodity.name</td>
+                        <td>$!commodity.price</td>
+                        <td>$!commodity.number</td>
+
+                    </tr>
+                    #end
+                </tbody>
+            </table>
+        </div>
+    </article>
 <div class="container">
-    <form class="form-signin" id="refundAddForm" action="/refundManage/list" method="GET" role="form">
+    <div>
+        说明
+        1 作为查看页面时文本框不可编辑
+        2 点击退款弹出确认退款提示
+        3 如果退款订单产生的积分已经使用，使用的部分需要折算成人民币在退款中扣除
+        4 需返还积分=该笔交易赠送的总积分 -（消费金额-退款金额）*消费积分兑换规则
+        5 可返还积分=该笔交易赠送的积分余量
+    </div>
+    <form class="form-signin" id="refundAddForm" action="/refundManage/add" method="POST" role="form">
         <div class="form-group">
             <div>
-                <label for="tradNO">交易号</label>
-                <input type="text" class="form-control" placeholder="交易号" name="refundNO" value="$!refundListQuery.refundNO">
+                <label for="refundMoney">退款金额</label>
+                <input id="refundMoney" type="text" class="form-control refundMoney" placeholder="退款金额" name="refundMoney" value="">
             </div>
             <div>
-                <label for="phone">手机号</label>
-                <input type="text" class="form-control" placeholder="手机号" name="phone" value="$!refundListQuery.phone">
+                <label for="shouldRefundPoint">需返还积分</label>
+                <input type="text" class="form-control shouldRefundPoint" placeholder="需返还积分" name="shouldRefundPoint" value="" readonly>
             </div>
             <div>
-                <label for="userName">会员名</label>
-                <input type="text" class="form-control" placeholder="会员名" name="userName" value="$!refundListQuery.userName">
+                <label for="availablePoint">可返还积分</label>
+                <input type="text" class="form-control availablePoint" placeholder="可返还积分" name="availablePoint" value="" readonly>
             </div>
             <div>
-                <label for="terminalName">终端编号</label>
-                <input type="text" class="form-control" placeholder="终端编号" name="terminalName" value="$!refundListQuery.terminalName">
+                <label for="deductMoneyOffsetPoint">超出积分扣现</label>
+                <input type="text" class="form-control deductMoneyOffsetPoint" placeholder="超出积分扣现" name="deductMoneyOffsetPoint" value="" readonly>
+            </div>
+            <div>
+                <label for="factRefundMoney">实际退款金额</label>
+                <input type="text" class="form-control factRefundMoney" placeholder="实际退款金额" name="factRefundMoney" value="" readonly>
+            </div>
+            <div>
+                <label for="operatorName">操作员</label>
+                <input type="text" class="form-control operatorName" placeholder="操作员" name="operatorName" value="" readonly>
+            </div>
+            <div>
+                <label for="remark">备注</label>
+                <input type="text" class="form-control remark" placeholder="备注" name="remark" value="" >
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+
+            <button id="btnSubmit" class="btn btn-lg btn-primary btn-block" type="button">提交</button>
         </div>
     </form>
 </div>
 </body>
+<script>
+    $(function(){
+        $("#refundMoney").blur( function () {
+            $('#btnSubmit').prop("disabled",true);
+            $.post('/refundManage/refund',{refundMoney:$(this).val()},function(data){
+                if(data&&data.status==200){
+                    data = data.data;
+                    $('.shouldRefundPoint').val(data.shouldRefundPoint);
+                    $('.availablePoint').val(data.availablePoint);
+                    $('.deductMoneyOffsetPoint').val(data.deductMoneyOffsetPoint);
+                    $('.factRefundMoney').val(data.factRefundMoney);
+                    $('.operatorName').val(data.operatorName);
+                    $('#btnSubmit').prop("disabled",false);
+                }else{
+                    alert('请求失败');
+                }
+
+            });
+
+        });
+        $('#btnSubmit').click(function(){
+            $.post('/refundManage/add',$("#refundAddForm").serialize(),function(data){
+                if(data.status==200){
+                    alert('提交成功');
+                    window.close();
+                }else{
+                    alert('提交失败');
+                }
+            });
+        });
+
+    });
+</script>
 </html>

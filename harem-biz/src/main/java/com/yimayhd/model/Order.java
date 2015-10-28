@@ -9,8 +9,8 @@ import java.util.List;
  * Created by Administrator on 2015/10/27.
  */
 public class Order extends BaseModel {
-    private String orderNO;//订单号
-    private long orderId;//商品名称
+    private String orderNO;//订单编号
+    private long orderId;//貌似有问题
     private List<Commodity> commodityList;
 
 
