@@ -1,8 +1,9 @@
 <h1>退款</h1>
 <div>
+    <form class="form-signin" id="refundListForm" name="refundListForm" action="/refundManage/list" method="GET" role="form">
     <article>
         <div class="container">
-            <form class="form-signin" id="refundListForm" action="/refundManage/list" method="GET" role="form">
+
                 <div class="form-group">
                     <div>
                         <label for="tradNO">交易号</label>
@@ -27,7 +28,7 @@
                     </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">查询</button>
                 </div>
-            </form>
+
         </div>
     </article>
     <article>
@@ -76,6 +77,10 @@
             </table>
         </div>
     </article>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle($!pageVo,"refundListForm")
+    </form>
 </div>
 <script>
     $(function(){

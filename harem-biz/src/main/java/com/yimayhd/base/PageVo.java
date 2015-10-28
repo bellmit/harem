@@ -19,15 +19,15 @@ public class PageVo<T extends BaseModel> implements Serializable {
     /**
      * 分页时的第几页
      */
-    private Integer page = DEFAULT__PAGE;
+    private Integer currentPage = DEFAULT__PAGE;
     /**
      * 每页数目，默认为 DEFAULT__SIZE
      */
-    private Integer size = DEFAULT__SIZE;
+    private Integer pageSize = DEFAULT__SIZE;
     /**
      * 查询结果总数
      */
-    private Long sum;
+    private Long totalSum;
     /**
      * 是否分页，默认是
      */
@@ -41,30 +41,6 @@ public class PageVo<T extends BaseModel> implements Serializable {
 
     private Object list;
 
-    public Integer getPage() {
-        return page;
-    }
-
-    public void setPage(Integer page) {
-        this.page = page > 0 ? page : DEFAULT__PAGE;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
-    public Long getSum() {
-        return sum;
-    }
-
-    public void setSum(Long sum) {
-        this.sum = sum;
-    }
-
     public Integer getIsPaging() {
         return isPaging;
     }
@@ -75,7 +51,7 @@ public class PageVo<T extends BaseModel> implements Serializable {
 
     @JsonIgnore
     public Long getFrom() {
-        return size.longValue() * (page - 1);
+        return pageSize.longValue() * (currentPage - 1);
     }
 
     public T getEntity() {
@@ -92,5 +68,29 @@ public class PageVo<T extends BaseModel> implements Serializable {
 
     public void setList(Object list) {
         this.list = list;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage > 0 ? currentPage : DEFAULT__PAGE;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Long getTotalSum() {
+        return totalSum;
+    }
+
+    public void setTotalSum(Long totalSum) {
+        this.totalSum = totalSum;
     }
 }

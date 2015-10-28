@@ -1,6 +1,7 @@
 package com.yimayhd.controller;
 
 import com.yimayhd.base.BaseController;
+import com.yimayhd.base.PageVo;
 import com.yimayhd.base.ResponseVo;
 import com.yimayhd.model.Order;
 import com.yimayhd.model.Refund;
@@ -59,6 +60,10 @@ public class refundManageController extends BaseController {
     String getById(Model model,@PathVariable(value = "id") long id) throws Exception {
         Refund refund = refundService.getById(id);
         Order order = orderService.getById(id);
+        PageVo pageVo = new PageVo();
+        pageVo.setTotalSum((long) 14800);
+        pageVo.setCurrentPage(60);
+        model.addAttribute("pageVo", pageVo);
         model.addAttribute("order",order);
         model.addAttribute("refund",refund);
         return "/system/refund/information";

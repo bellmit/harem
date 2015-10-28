@@ -1,6 +1,7 @@
 package com.yimayhd.controller;
 
 import com.yimayhd.base.BaseController;
+import com.yimayhd.base.PageVo;
 import com.yimayhd.model.Trade;
 import com.yimayhd.model.query.TradeListQuery;
 import com.yimayhd.service.TradeService;
@@ -33,11 +34,16 @@ private TradeService tradeService;
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public
-    String list(Model model,TradeListQuery tradeListQuery) throws Exception {
-        System.out.println(tradeListQuery.getUserName());
+    String list(Model model,TradeListQuery tradeListQuery,PageVo pageVo) throws Exception {
         Trade trade = new Trade();
         trade.setTradeListQuery(tradeListQuery);
         List<Trade> tradeList = tradeService.getList(trade);
+
+            pageVo.setTotalSum((long) 14800);
+            //pageVo.setCurrentPage(60);
+
+
+        model.addAttribute("pageVo", pageVo);
         model.addAttribute("tradeListQuery", tradeListQuery);
         model.addAttribute("tradeList", tradeList);
 

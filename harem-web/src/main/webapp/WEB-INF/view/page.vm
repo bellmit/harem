@@ -1,19 +1,30 @@
 ##     totalPage 总页数   showSize-10   cpage 当前页
-#macro(pageStyle $totalPage $pageSize $cpage $formId)
-#set($showSize =20) 
+#macro(pageStyle $pageVo $formId)
+    #set($totalPage =($pageVo.totalSum + $pageVo.pageSize - 1)/$pageVo.pageSize)
+    #set($totalSum =$pageVo.totalSum)
+    #set($pageSize =$pageVo.pageSize)
+    #set($cpage =$pageVo.currentPage)
+    #set($showSize =20)
 #if($cpage)
-<input type="hidden"  name="totalPage" value="$!totalPage"/>
+<input type="hidden"  name="totalSum" value="$!totalSum"/>
 <input type="hidden"  name="pageSize" value="$!pageSize"/>
 <input type="hidden"  name="currentPage" id="currentPage" value="$!cpage"/>
 <div class="pagination pagination-large pagination-right">
     <ul>
         #if($cpage>1)
-            <li><a href="javascript:void(0)"  id="prePage">上一页</a></li>
+            <ul class="pager">
+                <li class="previous">
+                    <a href="#" id="prePage">« 上一页</a>
+                </li>
+            </ul>
         #end
 
     ##总页数<=1
+    <ul class="pager">
         #if($totalPage<=1)
-            <li  class="active"><span>1</span></li>
+            <li class="active">
+                <a href="#">1</a>
+            </li>
         #else
 
             #set($pageStart = 1)  ##开始页
@@ -59,9 +70,12 @@
             #end
 
         #end
+    </ul>
 
         #if($cpage<$totalPage)
-            <li><a href="javascript:void(0)" id="nextPage" >下一页</a></li>
+            <ul class="pager">
+                <li><a href="javascript:void(0)" id="nextPage" class="previous">下一页»</a></li>
+            </ul>
         #end
     </ul>
 </div>

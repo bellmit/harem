@@ -73,7 +73,7 @@ public class SysUserController extends BaseController {
     ResponseVo index(SysUser sysUser, PageVo<SysUser> vo) throws Exception {
         vo.setEntity(sysUser);
         vo.setList(sysUserService.getList(vo));
-        vo.setSum(sysUserService.getCount(sysUser));
+        vo.setTotalSum(sysUserService.getCount(sysUser));
         return new ResponseVo(vo);
     }
 
