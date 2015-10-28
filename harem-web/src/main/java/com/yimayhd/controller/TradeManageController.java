@@ -41,6 +41,7 @@ private TradeService tradeService;
         model.addAttribute("tradeListQuery", tradeListQuery);
         model.addAttribute("tradeList", tradeList);
 
+
         return "/system/trade/list";
     }
     /**

@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<link href="$!request.getContextPath()/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="$!request.getContextPath()/bootstrap/css/reset.css" rel="stylesheet" media="screen">
-##<link href="$!request.getContextPath()/css/normal.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="$!request.getContextPath()/js/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="$!request.getContextPath()/js/common.js"></script>
-<script type="text/javascript" src="$!request.getContextPath()/js/jquery.validate.js"></script>
-<script src="$!request.getContextPath()/bootstrap/js/bootstrap.min.js"></script>
-<script src="$!request.getContextPath()/bootstrap/js/bootstrap-alert.js"></script>
-$screen_content
+</<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link href="${rc.contextPath}/resources/zui/css/zui.min.css" rel="stylesheet">
+    <script src="${rc.contextPath}/resources/js/jquery.js" type="text/javascript"></script>
+    <script src="${rc.contextPath}/resources/zui/js/zui.min.js" type="text/javascript"></script>
+    <title>运营管理系统</title>
+</head>
+<body>
+    $screen_content
+</body>
+</html>
 

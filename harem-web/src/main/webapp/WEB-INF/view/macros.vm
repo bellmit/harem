@@ -1,0 +1,49 @@
+#macro(CREDIT_RULE_STATUS $status)
+    #if($status == '1')
+        新建
+    #elseif($status == '2')
+        禁用
+    #elseif($status == '3')
+        启用
+    #end
+#end
+
+#macro(CREDIT_RULE_FREQUENCY $type)
+    #if($type == '1')
+        每天
+    #elseif($type == '2')
+        每周
+    #elseif($type == '3')
+        每月
+    #elseif($type == '4')
+        每用户
+    #end
+#end
+
+#macro(IS_RECOMMEND $isRecommend)
+    #if($isRecommend == 'true')
+        已推荐
+    #elseif($isRecommend == 'false')
+        未推荐
+    #else
+        未推荐
+    #end
+#end
+
+#macro(IS_RECOMMEND_SELECTED $isRecommend)
+<option value="">全部</option> 
+<option value="true" #if($isRecommend=="true")selected#end>已推荐</option> 
+<option value="false" #if($isRecommend=="false")selected#end>未推荐</option> 
+#end
+##doctorcenter 外部医生列表
+#macro(DOCTOR_LIST_STATUS $status)
+    <option value="-1">全部</option>
+    <option value="20" #if($status==20) selected="selected" #end>审核已通过</option>
+    <option value="40" #if($status==40) selected="selected" #end>账户锁定</option>
+#end
+##外部医生审核列表
+#macro(DOCTOR_AUDITS_STATUS $status)
+<option value="-1">全部</option>
+<option value="15" #if($status==15) selected="selected" #end>等待审核</option>
+<option value="30" #if($status==30) selected="selected" #end>审核未通过</option>
+#end

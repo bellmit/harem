@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+    <toolbox scope="application">
+        <tool key="dateUtil" class="com.pajk.starcraft.util.DateUtils"></tool>
+        <tool key="stringUtil" class="org.apache.commons.lang3.StringUtils"></tool>
+    </toolbox>
+
+</tools>

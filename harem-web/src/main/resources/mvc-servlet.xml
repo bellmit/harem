@@ -50,15 +50,24 @@
         <property name="configLocation" value="classpath:velocity.properties" />
     </bean>
 
-    <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+    <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
         <property name="suffix" value=".vm" /><!-- 视图文件的后缀名 -->
-        <property name="dateToolAttribute" value="date" /><!--日期函数名称-->
-        <property name="numberToolAttribute" value="number" /><!--数字函数名称-->
+        <!--<property name="prefix" value="template/"/>&lt;!&ndash; 视图文件的路径 &ndash;&gt;-->
+        <property name="cache" value="false"/>
         <property name="contentType" value="text/html;charset=UTF-8" />
         <property name="exposeSpringMacroHelpers" value="true" /><!--是否使用spring对宏定义的支持-->
         <property name="exposeRequestAttributes" value="true" /><!--是否开放request属性-->
         <property name="requestContextAttribute" value="rc"/><!--request属性引用名称-->
+        <property name="layoutUrl" value="/system/layout/empty.vm"/>
+        <property name="dateToolAttribute" value="date" /><!--日期函数名称-->
+        <property name="numberToolAttribute" value="number" /><!--数字函数名称-->
+        <property name="toolboxConfigLocation" value="/WEB-INF/view/toolbox.xml"/>
+        <!--下面两项属性不明白-->
+        <!--<property name="order" value="0"/>
+        <property name="viewClass" value="com.pajk.starcraft.mvc.view.VelocityLayoutToolbox20View"/>-->
+
     </bean>
+
     <!-- 支持上传文件 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"></property>
