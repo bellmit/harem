@@ -1,5 +1,3 @@
-<%@ page language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html lang="zh-cn">
 <head>
@@ -8,8 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>登陆</title>
 	<script src="/resources/js/md5.min.js" type="text/javascript"></script>
-	<link href="/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="/resources/css/login.css" rel="stylesheet" type="text/css">
+	<link href="/resources/zui/css/zui.min.css" rel="stylesheet">
+	<script src="/resources/zui/js/zui.min.js" type="text/javascript"></script>
 	<%--<script type="text/javascript">
 		function subForm(obj) {
 			var username=document.getElementById("username");
@@ -38,6 +36,7 @@
 			<h3 class="form-signin-heading">登录</h3>
 			<label class="sr-only" for="userName"></label>
 			<input class="form-control" id="userName" name="userName" type="text" required autofocus placeholder="用户名"/>
+
 			<label class="sr-only" for="password">Email address</label>
 			<input class="form-control" id="password" name="password" type="password" required autofocus placeholder="密码"/>
 			<%--<label class="checkbox" for="remmberme">

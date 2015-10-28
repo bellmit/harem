@@ -42,40 +42,8 @@ public class SysUserController extends BaseController {
         return new ResponseVo();
     }
 
-    /**
-     * 删除管理员
-     *
-     * @param id      管理员主键
-     * @param sysUser 管理员信息
-     * @return 成功信息
-     * @throws Exception
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public
-    @ResponseBody
-    ResponseVo delete(@PathVariable("id") String id, SysUser sysUser) throws Exception {
-        sysUser.setId(id);
-        //sysUser.setStatus(ConstantType.STATUS_DELETE);
-        sysUserService.modify(sysUser);
-        return new ResponseVo();
-    }
 
-    /**
-     * 修改管理员密码
-     *
-     * @param id      管理员主键
-     * @param sysUser 管理员信息
-     * @return 成功信息
-     * @throws Exception
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public
-    @ResponseBody
-    ResponseVo modify(@PathVariable("id") String id, @RequestBody SysUser sysUser) throws Exception {
-        sysUser.setId(id);
-        sysUserService.modify(sysUser);
-        return new ResponseVo();
-    }
+
 
     /**
      * 根据主键查询用户信息

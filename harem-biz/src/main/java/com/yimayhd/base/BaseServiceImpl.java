@@ -1,6 +1,5 @@
 package com.yimayhd.base;
 
-import com.yimayhd.util.UUIDUtil;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
@@ -34,7 +33,7 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
 
     @Override
     public void add(T entity) throws Exception {
-        entity.setId(UUIDUtil.generateUniqueKey());
+        //entity.setId(UUIDUtil.generateUniqueKey());
         entity.setCreatedOn(new Date());
         baseMapper.add(entity);
     }

@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>登陆</title>
+    <script src="/resources/js/md5.min.js" type="text/javascript"></script>
+    <link href="/resources/zui/css/zui.min.css" rel="stylesheet">
+    <script src="/resources/zui/lib/jquery.js" type="text/javascript"></script>
+    <script src="/resources/zui/js/zui.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" id="refundAddForm" action="/refundManage/list" method="GET" role="form">
+        <div class="form-group">
+            <div>
+                <label for="tradNO">交易号</label>
+                <input type="text" class="form-control" placeholder="交易号" name="refundNO" value="$!refundListQuery.refundNO">
+            </div>
+            <div>
+                <label for="phone">手机号</label>
+                <input type="text" class="form-control" placeholder="手机号" name="phone" value="$!refundListQuery.phone">
+            </div>
+            <div>
+                <label for="userName">会员名</label>
+                <input type="text" class="form-control" placeholder="会员名" name="userName" value="$!refundListQuery.userName">
+            </div>
+            <div>
+                <label for="terminalName">终端编号</label>
+                <input type="text" class="form-control" placeholder="终端编号" name="terminalName" value="$!refundListQuery.terminalName">
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

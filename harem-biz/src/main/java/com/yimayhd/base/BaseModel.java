@@ -16,28 +16,28 @@ public class BaseModel implements Serializable {
     /**
      * 主键
      */
-    private String id;
+    protected long id;
 
     /**
      * 创建时间
      */
-    private Date createdOn;
+    protected Date createdOn;
 
     /**
      * 更新时间
      */
-    private Date updatedOn;
+    protected Date updatedOn;
 
     /**
-     * 1-正常0-删除，详见ConstantType:STATUS
+     * 1-正常0-删除
      */
-    private Integer status;
+    protected int status;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -57,11 +57,11 @@ public class BaseModel implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

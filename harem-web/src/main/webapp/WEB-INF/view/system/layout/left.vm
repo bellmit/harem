@@ -1,0 +1,43 @@
+ 
+<div>
+    <nav class="menu" data-toggle="menu" style="width: 200px">
+        <ul class="nav nav-primary">
+            <li>
+				#foreach($menu in $menuList)
+                    <a href="#"><i class="icon-time"></i> $!menu.name</a>
+
+                		<ul class="nav">
+							#foreach($!menuSub in $!menu.menuList)
+                                <li><a href="javascript:iFrameJumpPage('$!{menuSub.linkUrl}','$!menuSub.id');">$!menuSub.name</a></li>
+							#end
+						</ul>
+
+				#end
+            </li>
+            <li><a href="#"><i class="icon-th"></i> Dashboard</a></li>
+            <li><a href="#"><i class="icon-user"></i> Me</a></li>
+            <li>
+                <a href="#"><i class="icon-time"></i> Time</a>
+                <ul class="nav">
+                    <li><a href="#">Today</a></li>
+                    <li><a href="#">Tomarrow</a></li>
+                    ...
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+
+</div>
+<script>
+$(function(){
+});
+
+function iFrameJumpPage(url,id)
+ {
+ 	$("#nav a").removeClass("active");
+	$("#"+id).addClass('active');
+    $("#RightIFrame").attr("src",url);
+ }
+</script>
+ 

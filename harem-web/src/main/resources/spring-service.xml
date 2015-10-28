@@ -10,4 +10,7 @@
 
     <bean class="com.yimayhd.service.impl.UserServiceImpl"></bean>
     <bean class="com.yimayhd.service.impl.SysUserServiceImpl"></bean>
+    <bean class="com.yimayhd.service.impl.TradeServiceImpl"></bean>
+    <bean class="com.yimayhd.service.impl.RefundServiceImpl"></bean>
+    <bean class="com.yimayhd.service.impl.OrderServiceImpl"></bean>
 </beans>
