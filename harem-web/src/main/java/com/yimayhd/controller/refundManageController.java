@@ -6,6 +6,7 @@ import com.yimayhd.base.ResponseVo;
 import com.yimayhd.model.Order;
 import com.yimayhd.model.Refund;
 import com.yimayhd.model.query.RefundListQuery;
+import com.yimayhd.model.vo.RefundVO;
 import com.yimayhd.service.OrderService;
 import com.yimayhd.service.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,9 @@ public class refundManageController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public
     String list(Model model,RefundListQuery refundListQuery) throws Exception {
-        Refund refund = new Refund();
-        refund.setRefundListQuery(refundListQuery);
-        List<Refund> refundList = refundService.getList(refund);
+        RefundVO refundVO = new RefundVO();
+        refundVO.setRefundListQuery(refundListQuery);
+        List<Refund> refundList = refundService.getList(refundVO);
         model.addAttribute("refundListQuery",refundListQuery);
         model.addAttribute("refundList",refundList);
         return "/system/refund/list";

@@ -14,13 +14,8 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public List<Trade> getList(Trade trade) throws Exception{
         List<Trade> tradeList = new ArrayList<Trade>();
-        int j;
+        int j = 10;
         //是否有查询条件
-        if(trade.getTradeListQuery()==null){
-            j=10;
-        }else{
-            j=5;
-        }
         for (int i = 0;i <= j;i++){
             Trade tradeData = new Trade();
             tradeData.setId(i);

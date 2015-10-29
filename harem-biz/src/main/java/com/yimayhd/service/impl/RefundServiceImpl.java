@@ -14,13 +14,8 @@ public class RefundServiceImpl implements RefundService {
     @Override
     public List<Refund> getList(Refund refund) throws Exception{
         List<Refund> refundList = new ArrayList<Refund>();
-        int j;
-        //是否有查询条件
-        if(refund.getRefundListQuery()==null){
-            j=10;
-        }else{
-            j=5;
-        }
+        int j = 10;
+
         for (int i = 0;i <= j;i++){
             Refund refundData = new Refund();
             refundData.setRefundNO("2008100109" + i);//交易编号

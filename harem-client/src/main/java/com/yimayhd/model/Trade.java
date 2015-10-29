@@ -1,7 +1,6 @@
 package com.yimayhd.model;
 
 import com.yimayhd.base.BaseModel;
-import com.yimayhd.model.query.TradeListQuery;
 
 import java.util.Date;
 
@@ -24,7 +23,6 @@ public class Trade extends BaseModel {
     private String cashierName;//收银员
     private String remark;//备注
 
-    private TradeListQuery tradeListQuery;//查询条件
 
     public String getTradNO() {
         return tradNO;
@@ -137,12 +135,5 @@ public class Trade extends BaseModel {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
-    public TradeListQuery getTradeListQuery() {
-        return tradeListQuery;
-    }
-
-    public void setTradeListQuery(TradeListQuery tradeListQuery) {
-        this.tradeListQuery = tradeListQuery;
-    }
 }
+

@@ -12,6 +12,10 @@
     <artifactId>harem-biz</artifactId>
     <dependencies>
         <dependency>
+            <groupId>com.yimayhd</groupId>
+            <artifactId>harem-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <scope>compile</scope>
@@ -178,7 +182,7 @@
     </dependencies>
 
 <build>
-<finalName>harem</finalName>
+<finalName>harem-biz</finalName>
 <plugins>
     <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

@@ -4,6 +4,7 @@ import com.yimayhd.base.BaseController;
 import com.yimayhd.base.PageVo;
 import com.yimayhd.model.Trade;
 import com.yimayhd.model.query.TradeListQuery;
+import com.yimayhd.model.vo.TradeVO;
 import com.yimayhd.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,9 +36,9 @@ private TradeService tradeService;
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public
     String list(Model model,TradeListQuery tradeListQuery,PageVo pageVo) throws Exception {
-        Trade trade = new Trade();
-        trade.setTradeListQuery(tradeListQuery);
-        List<Trade> tradeList = tradeService.getList(trade);
+        TradeVO tradeVO = new TradeVO();
+        tradeVO.setTradeListQuery(tradeListQuery);
+        List<Trade> tradeList = tradeService.getList(tradeVO);
 
             pageVo.setTotalSum((long) 14800);
             //pageVo.setCurrentPage(60);

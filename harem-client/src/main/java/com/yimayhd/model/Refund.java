@@ -1,7 +1,6 @@
 package com.yimayhd.model;
 
 import com.yimayhd.base.BaseModel;
-import com.yimayhd.model.query.RefundListQuery;
 
 import java.util.Date;
 
@@ -21,7 +20,6 @@ public class Refund extends BaseModel {
     private int refundStatus;//退款状态
     private String operatorName;//操作员
     private String remark;//备注
-    private RefundListQuery refundListQuery;//查询条件
 
     public double getRefundMoney() {
         return refundMoney;
@@ -85,15 +83,6 @@ public class Refund extends BaseModel {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-
-    public RefundListQuery getRefundListQuery() {
-        return refundListQuery;
-    }
-
-    public void setRefundListQuery(RefundListQuery refundListQuery) {
-        this.refundListQuery = refundListQuery;
     }
 
     public String getRefundNO() {
