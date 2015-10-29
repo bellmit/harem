@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yimayhd.mapper.SysUserMapper">
+<mapper namespace="com.yimayhd.harem.mapper.SysUserMapper">
     <cache/>
-    <resultMap id="BaseResultMap" type="com.yimayhd.model.SysUser">
+    <resultMap id="BaseResultMap" type="com.yimayhd.harem.model.SysUser">
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -15,13 +15,13 @@
         id, username, created_on, updated_on, status
     </sql>
 
-    <insert id="add" parameterType="com.yimayhd.model.SysUser">
+    <insert id="add" parameterType="com.yimayhd.harem.model.SysUser">
         insert into sys_user (id, username, password, created_on)
         values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
             #{createdOn,jdbcType=TIMESTAMP})
     </insert>
 
-    <update id="modify" parameterType="com.yimayhd.model.SysUser">
+    <update id="modify" parameterType="com.yimayhd.harem.model.SysUser">
         update sys_user
         <set>
             <if test="username != null">
@@ -49,7 +49,7 @@
         where username = #{username,jdbcType=VARCHAR}
     </select>
 
-    <select id="login" resultMap="BaseResultMap" parameterType="com.yimayhd.model.SysUser">
+    <select id="login" resultMap="BaseResultMap" parameterType="com.yimayhd.harem.model.SysUser">
         select <include refid="Base_Column_List"/>
         from sys_user
         where username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR} and status = 1
@@ -71,7 +71,7 @@
         </where>
     </sql>
 
-    <select id="getList" parameterType="com.yimayhd.base.PageVo" resultMap="BaseResultMap">
+    <select id="getList" parameterType="com.yimayhd.harem.base.PageVo" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_user t1

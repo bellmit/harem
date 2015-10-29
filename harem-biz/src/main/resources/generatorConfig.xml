@@ -16,9 +16,9 @@
 		</commentGenerator>
 		
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://10.0.128.115:3307/snscenter?useUnicode=true&amp;amp;characterset=utf-8"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/seller_console?useUnicode=true&amp;amp;characterset=utf-8"
             userId="root"
-			password="123456" />
+			password="root" />
 		
 		<javaModelGenerator targetPackage="com.yimayhd.harem.client.domain"
 			targetProject="../harem-client/src/main/java" />

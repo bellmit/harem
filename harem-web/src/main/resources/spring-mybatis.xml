@@ -46,7 +46,7 @@
 	</bean>
 	<!-- 扫描所有Mapper接口文件-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.yimayhd.mapper"/>
+		<property name="basePackage" value="com.yimayhd.harem.mapper"/>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>
 	<!-- 配置事务 -->
@@ -62,14 +62,14 @@
 			<!-- 一次执行多次查询来统计某些信息，这时为了保证数据整体的一致性，要用只读事务 -->
 			<tx:method name="get*" read-only="true"/>
 
-			<tx:method name="save*" rollback-for="Exception" propagation="REQUIRED"/>
+			<!--<tx:method name="save*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="update*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="delete*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="insert*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="remove*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="modify*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="create*" rollback-for="Exception" propagation="REQUIRED"/>
-			<tx:method name="add*" rollback-for="Exception" propagation="REQUIRED"/>
+			<tx:method name="add*" rollback-for="Exception" propagation="REQUIRED"/>-->
 
 			<tx:method name="*" propagation="SUPPORTS"/>
 		</tx:attributes>
@@ -80,7 +80,7 @@
 	<aop:config>
 		<!--  声明事务切入点(配置哪些类的哪些方法参与事务) -->
 		<aop:pointcut id="AllServiceMethod"
-					  expression="execution(* com.yimayhd..*Impl.*(..))"/>
+					  expression="execution(* com.yimayhd.harem..*Impl.*(..))"/>
 		<!-- 通知器(把事务通知绑定到切入点) -->
 		<aop:advisor pointcut-ref="AllServiceMethod" advice-ref="txAdvice"/>
 	</aop:config>
