@@ -49,6 +49,8 @@ public class UploadController extends BaseController {
         //保存文件到tfs
         String titleFileName=tfsManager.saveFile(titleFile.getBytes(), null, null);
         //返回文件名
+        System.out.println(titleFileName);
+        System.out.println(new ResponseVo(titleFileName));
         return new ResponseVo(titleFileName);
     }
     /**
