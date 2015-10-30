@@ -37,4 +37,16 @@ public class ViewEditController extends BaseController {
         model.addAttribute("message","请输入帐号和密码");
         return "/demo/editView";
     }
+
+    /**
+     * 富文本编辑页面
+     * @return 富文本编辑页面
+     * @throws Exception
+     */
+    @RequestMapping(value = "/toCalendar", method = RequestMethod.GET)
+    public
+    String toCalendarEdit(Model model) throws Exception {
+
+        return "/demo/calendar";
+    }
 }

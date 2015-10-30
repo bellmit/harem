@@ -1,9 +1,6 @@
-<html>
-<head>
-<title>登陆</title>
-    <script src="/resources/js/jQuery.min.js" type="text/javascript"></script>
-</head>
-<body>
+
+<h1>富文本编辑</h1>
+<div>
 <form class="form-signin" id="loginForm" action="/upload/ckeditor" method="post" role="form" enctype="application/x-www-form-urlencoded">
 <fieldset>
 <legend><span >商品描述</span></legend>
@@ -24,6 +21,6 @@ CKEDITOR.editorConfig = function( config ) {
 };
 </script>
 </fieldset>
-</body>
-</html>
+</div>
+
 

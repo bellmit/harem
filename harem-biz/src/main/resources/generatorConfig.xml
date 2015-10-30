@@ -8,8 +8,8 @@
 			/> -->
 		<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
 		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
-			<property name="searchString" value="Example$" />
-			<property name="replaceString" value="Conditions" />
+			<!--<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Conditions" />-->
 		</plugin>
 		<commentGenerator>
 			<property name="suppressAllComments" value="true" />
@@ -20,20 +20,19 @@
             userId="root"
 			password="root" />
 		
-		<javaModelGenerator targetPackage="com.yimayhd.harem.client.domain"
+		<javaModelGenerator targetPackage="com.yimayhd.harem.model"
 			targetProject="../harem-client/src/main/java" />
 		<sqlMapGenerator targetPackage="com.yimayhd.harem.mapper"
-			targetProject="../harem-biz/src/main/resources" />
+			targetProject="../harem-biz/src/main/resources/mybatis" />
 		<javaClientGenerator targetPackage="com.yimayhd.harem.mapper"
 			targetProject="../harem-biz/src/main/java" type="XMLMAPPER" />
 
-        <table tableName="sns_follow_relation" domainObjectName="SnsFollowRelationDO">
+        <table tableName="ha_menu" domainObjectName="MenuDO">
             <generatedKey column="id" sqlStatement="JDBC" />
             <columnOverride column="id" javaType="long" />
-            <columnOverride column="user_id" javaType="long" />
+            <columnOverride column="level" javaType="int" />
+            <columnOverride column="parent_id" javaType="long" />
             <columnOverride column="status" javaType="int" />
-            <columnOverride column="followed_id" javaType="long" />
-            <columnOverride column="followed_type" javaType="int" />
         </table>
 
         <!--<table tableName="sns_tag" domainObjectName="SnsTagDO">-->
