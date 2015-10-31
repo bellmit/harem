@@ -3,6 +3,7 @@ package com.yimayhd.harem.controller;
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.util.WebConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -66,5 +69,16 @@ public class UploadController extends BaseController {
         String detailTfs = tfsManager.saveFile((encodeHtml+ckeditor).getBytes("utf-8"), null, "html");
         //返回文件名
         return new ResponseVo(detailTfs);
+    }
+
+    /**
+     * 读取配置文件
+     * @return test
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/property", method = RequestMethod.GET)
+    public ResponseVo uploadCKEditor(HttpServletRequest request) throws Exception {
+        return new ResponseVo(WebConfigUtil.getTfsRootPath(request)+WebConfigUtil.getPropertyByKey("tfs.groupName",request));
     }
 }
