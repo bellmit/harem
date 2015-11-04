@@ -108,48 +108,55 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
                     <h4 class="modal-title">对话框标题</h4>
                 </div>
-                <div class="modal-body">
-                    <div>
-                        说明
-                        1 作为查看页面时文本框不可编辑
-                        2 点击退款弹出确认退款提示
-                        3 如果退款订单产生的积分已经使用，使用的部分需要折算成人民币在退款中扣除
-                        4 需返还积分=该笔交易赠送的总积分 -（消费金额-退款金额）*消费积分兑换规则
-                        5 可返还积分=该笔交易赠送的积分余量
-                    </div>
+                <div class="modal-body dialogPoint">
                     <form class="form-signin" id="refundAddForm" action="/refundManage/add" method="POST" role="form">
                         <div class="form-group">
-                            <div>
-                                <label for="refundMoney">退款金额</label>
-                                <input id="refundMoney" type="text" class="form-control refundMoney" placeholder="退款金额" name="refundMoney" value="">
+                            <ul class="formPoint">
+                                <li>
+                                    <label for="refundMoney">退款金额</label>
+                                    <input id="refundMoney" type="text" class="form-control refundMoney" placeholder="退款金额" name="refundMoney" value="">
+                                </li>
+                                <li>
+                                    <label for="shouldRefundPoint">需返还积分</label>
+                                    <input type="text" class="form-control shouldRefundPoint pointShow" placeholder="需返还积分" name="shouldRefundPoint" value="" readonly="">
+                                </li>
+                                <li>
+                                    <label for="availablePoint">可返还积分</label>
+                                    <input type="text" class="form-control availablePoint pointShow" placeholder="可返还积分" name="availablePoint" value="" readonly="">
+                                </li>
+                                <li>
+                                    <label for="deductMoneyOffsetPoint">超出积分扣现</label>
+                                    <input type="text" class="form-control deductMoneyOffsetPoint pointShow" placeholder="超出积分扣现" name="deductMoneyOffsetPoint" value="" readonly="">
+                                </li>
+                                <li>
+                                    <label for="deductMoneyOffsetPoint">超出积分扣现</label>
+                                    <input type="text" class="form-control deductMoneyOffsetPoint pointShow" placeholder="超出积分扣现" name="deductMoneyOffsetPoint" value="" readonly="">
+                                </li>
+                                <li>
+                                    <label for="factRefundMoney">实际退款金额</label>
+                                    <input type="text" class="form-control factRefundMoney pointShow" placeholder="实际退款金额" name="factRefundMoney" value="" readonly="">
+                                </li>
+                                <li>
+                                    <label for="operatorName">操作员</label>
+                                    <input type="text" class="form-control operatorName pointShow" placeholder="操作员" name="operatorName" value="" readonly="">
+                                </li>
+                            </ul>
+                            <div class="alert dialogDec">
+                                <h4>说明</h4>
+                                <hr>
+                                <p>1 作为查看页面时文本框不可编辑</p>
+                                <p>2 点击退款弹出确认退款提示</p>
+                                <p>3 如果退款订单产生的积分已经使用，使用的部分需要折算成人民币在退款中扣除</p>
+                                <p>4 需返还积分=该笔交易赠送的总积分 -（消费金额-退款金额）*消费积分兑换规则</p>
+                                <p>5 可返还积分=该笔交易赠送的积分余量</p>
                             </div>
-                            <div>
-                                <label for="shouldRefundPoint">需返还积分</label>
-                                <input type="text" class="form-control shouldRefundPoint" placeholder="需返还积分" name="shouldRefundPoint" value="" readonly>
-                            </div>
-                            <div>
-                                <label for="availablePoint">可返还积分</label>
-                                <input type="text" class="form-control availablePoint" placeholder="可返还积分" name="availablePoint" value="" readonly>
-                            </div>
-                            <div>
-                                <label for="deductMoneyOffsetPoint">超出积分扣现</label>
-                                <input type="text" class="form-control deductMoneyOffsetPoint" placeholder="超出积分扣现" name="deductMoneyOffsetPoint" value="" readonly>
-                            </div>
-                            <div>
-                                <label for="factRefundMoney">实际退款金额</label>
-                                <input type="text" class="form-control factRefundMoney" placeholder="实际退款金额" name="factRefundMoney" value="" readonly>
-                            </div>
-                            <div>
-                                <label for="operatorName">操作员</label>
-                                <input type="text" class="form-control operatorName" placeholder="操作员" name="operatorName" value="" readonly>
-                            </div>
-                            <div>
-                                <label for="remark">备注</label>
-                                <input type="text" class="form-control remark" placeholder="备注" name="remark" value="" >
-                            </div>
-
-
-                            <button id="btnSubmit" class="btn btn-lg btn-primary btn-block" type="button">提交</button>
+                            <ul class="noteDialog">
+                                <li>
+                                    <label for="remark">备注</label>
+                                    <textarea name="summary" id="summary" rows="2" class="form-control remark" placeholder="备注" name="remark" value=""></textarea>
+                                </li>
+                            </ul>
+                            <button id="btnSubmit" class="btn btn-large btn-block btn-primary" type="button" disabled="">提交</button>
                         </div>
                     </form>
                 </div>

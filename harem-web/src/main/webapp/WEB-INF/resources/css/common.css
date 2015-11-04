@@ -12,7 +12,18 @@
 @media (max-width: 500px) {
     .inpSingle{width: 100%;float: left;}
 }
+.pageWrap{text-align: center;}
 
+.dialogPoint .formPoint{padding: 0;float: left;width: 50%;margin: 0;}
+.dialogPoint .formPoint li{overflow: hidden;margin-bottom: 4px;}
+.dialogPoint .formPoint li label{float: left;width: 100px;height: 33px;line-height: 33px;text-align: right;margin-bottom: 0;margin-right: 15px;}
+.dialogPoint .formPoint li input{float: left;width: 50%;}
+.dialogPoint .formPoint li .pointShow{background: transparent;border: none;box-shadow: none;}
+.dialogPoint .dialogDec{float: right;width: 50%;margin-bottom: 32px;}
+.dialogPoint .noteDialog{padding: 0;overflow: hidden;float: left;width: 100%;}
+.dialogPoint .noteDialog label{float: left;width: 100px;height: 33px;line-height: 33px;text-align: right;margin-bottom: 0;margin-right: 15px;}
+.dialogPoint .noteDialog .remark{width: 78%;float: right;}
+.dialogPoint .form-group{margin: 0;}
 
 
 
