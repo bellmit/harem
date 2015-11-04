@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yimayhd.harem.mapper.HaMenuMapper">
+    <resultMap id="BaseResultMap" type="com.yimayhd.harem.model.HaMenuDO">
+
+        <id column="id" property="id" jdbcType="BIGINT"/>
+    
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+
+        <result column="link_url" property="linkUrl" jdbcType="VARCHAR"/>
+
+        <result column="level" property="level" jdbcType="INTEGER"/>
+
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/>
+
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+
+        <result column="status" property="status" jdbcType="INTEGER"/>
+
+</resultMap>
+    <resultMap id="menuList" extends="BaseResultMap" type="com.yimayhd.harem.model.HaMenuDO">
+            <collection property="haMenuDOList" columnPrefix="C_" resultMap="BaseResultMap"></collection>
+    </resultMap>
+
+    <resultMap id="menuListAll" extends="BaseResultMap" type="com.yimayhd.harem.model.HaMenuDO">
+        <collection property="haMenuDOList" columnPrefix="B_" resultMap="menuList">
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,link_url,level,parent_id,gmt_created,gmt_modified,status
+    </sql>
+
+    <insert id="add" parameterType="com.yimayhd.harem.model.HaMenuDO" useGeneratedKeys="true" keyProperty="id">
+        insert into ha_menu  (name,link_url,level,parent_id,gmt_created)
+        values (
+        
+          #{name,jdbcType=VARCHAR},
+        
+          #{linkUrl,jdbcType=VARCHAR},
+        
+          #{level,jdbcType=INTEGER},
+        
+          #{parentId,jdbcType=BIGINT},
+        
+          #{gmtCreated,jdbcType=TIMESTAMP}
+        
+        )
+    </insert>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="long">
+        select <include refid="Base_Column_List"/>
+        from ha_menu t
+        where
+        t.id = #{id}
+    </select>
+
+    <sql id="search_clause">
+        <where>
+            <if test="entity != null">
+                <if test="entity.status == null">
+                    and t.status = 1
+                </if>
+                <if test="entity.status != null">
+                    and t.status = #{entity.status}
+                </if>
+            </if>
+            <if test="entity == null">
+                and t.status = 1
+            </if>
+        </where>
+    </sql>
+
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.yimayhd.harem.base.PageVo">
+        select
+        <include refid="Base_Column_List"/>
+        from ha_menu t
+        <include refid="search_clause"/>
+        order by t.created_on desc
+        <if test="isPaging != 0">
+            limit #{from},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="long" parameterType="com.yimayhd.harem.model.HaMenuDO">
+        select count(1) from ha_menu t
+        <include refid="search_clause"/>
+    </select>
+
+    <update id="modify" parameterType="com.yimayhd.harem.model.HaMenuDO">
+        update ha_menu t
+        <set>
+        
+            <if test="name != null">
+                t.name = #{name,jdbcType=VARCHAR},
+            </if>
+        
+            <if test="linkUrl != null">
+                t.link_url = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+        
+            <if test="level != null">
+                t.level = #{level,jdbcType=INTEGER},
+            </if>
+        
+            <if test="parentId != null">
+                t.parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+        
+            <if test="gmtCreated != null">
+                t.gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+        
+            <if test="gmtModified != null">
+                t.gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        
+            <if test="status != null">
+                t.status = #{status,jdbcType=INTEGER}
+            </if>
+        
+        </set>
+        where
+        t.id = #{id}
+    </update>
+
+    <update id="delete" parameterType="long">
+      update ha_menu t set t.status = 0 where t.id = #{value}
+    </update>
+
+
+    <select id="getMenuListByUserId" parameterType="long" resultMap="menuListAll">
+        SELECT
+            A.id,
+            A.name,
+            A.link_url,
+            A.level,
+            A.parent_id,
+            B.id B_id,
+            B.name B_name,
+            B.link_url B_link_url,
+            B.level B_level,
+            B.parent_id B_parent_id,
+            C.id B_C_id,
+            C.name B_C_name,
+            C.link_url B_C_link_url,
+            C.level B_C_level,
+            C.parent_id B_C_parent_id
+
+        from
+            (select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+                    ha_user_role hur
+                    ,ha_role hr
+                    ,ha_role_menu hrm
+                    ,ha_menu hm
+                where 1 = 1
+                and hr.id = hur.ha_role_id
+                and hrm.ha_role_id = hr.id
+                and hm.id = hrm.ha_menu_id
+                and hm.status = 1
+                and hr.status = 1
+                and hrm.status = 1
+                and hur.status = 1
+                and hur.id = #{id}
+                and hm.level = 1) A
+        left join
+            (select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+                    ha_user_role hur
+                    ,ha_role hr
+                    ,ha_role_menu hrm
+                    ,ha_menu hm
+                where 1 = 1
+                and hr.id = hur.ha_role_id
+                and hrm.ha_role_id = hr.id
+                and hm.id = hrm.ha_menu_id
+                and hm.status = 1
+                and hr.status = 1
+                and hrm.status = 1
+                and hur.status = 1
+                and hur.id = #{id}
+                and hm.level = 2) B
+        on A.id = B.parent_id
+        left join
+            (select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+                    ha_user_role hur
+                    ,ha_role hr
+                    ,ha_role_menu hrm
+                    ,ha_menu hm
+                where 1 = 1
+                and hr.id = hur.ha_role_id
+                and hrm.ha_role_id = hr.id
+                and hm.id = hrm.ha_menu_id
+                and hm.status = 1
+                and hr.status = 1
+                and hrm.status = 1
+                and hur.status = 1
+                and hur.id = #{id}
+                and hm.level = 3) C
+        on B.id = C.parent_id
+
+    </select>
+</mapper>

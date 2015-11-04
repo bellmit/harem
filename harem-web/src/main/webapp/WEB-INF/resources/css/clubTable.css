@@ -1,0 +1,23 @@
+/***************创建俱乐部表格*************/
+.createClubTable .spColor{color: #ff0000;font-size: 18px;}
+.createClubTable tr td:nth-child(1){font-size: 14px;font-weight: bold;}
+.createClubTable .fileImg{position: relative;float: left;padding-top: 20px;}
+.createClubTable .fileImg .btn{width: 100px;}
+.createClubTable .fileImg .fileInp{position: absolute;top: 19px;left: 0;font-size: 25px;width: 102px;height: 33px;opacity: 0;filter:alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;-webkit-opacity: 0;}
+.createClubTable .fileImg p{font-size: 12px;margin-top: 8px;}
+.createClubTable .logoView{float: left;border-radius: 200px;overflow: hidden;margin-left: 15px;}
+.createClubTable .logoView img{width: 100px;height: 100px;border-radius: 200px;}
+.createClubTable .propagandaView{float: left;overflow: hidden;margin-left: 15px;}
+.createClubTable .propagandaView img{height: 100px;}
+.createClubTable .userBtn{float: left;padding-top: 10px;}
+.createClubTable .userBtn .btn{width: 100px;}
+.createClubTable .userView{float: left;border-radius: 200px;overflow: hidden;margin-left: 38px;}
+.createClubTable .userView img{width: 50px;height: 50px;border-radius: 200px;}
+.createClubTable .userView span{margin-left: 10px;}
+.createClubTable .radioTwo{margin-left: 20px;}
+.createClubTable .radioSel input{float: left;margin-right: 3px;}
+.createClubTable .radioSel .sp{float: left;}
+.createClubTable .radioSel .radSp{font-weight: normal;margin-bottom: 0;}
+.clubBotBtn{text-align: center;}
+.clubBotBtn .btn{width: 100px;}
+.clubBotBtn .btn-group:nth-child(1){margin-right: 20px;}

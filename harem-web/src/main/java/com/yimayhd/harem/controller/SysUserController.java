@@ -55,7 +55,7 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ResponseVo getById(@PathVariable("id") String id) throws Exception {
+    ResponseVo getById(@PathVariable("id") long id) throws Exception {
         return new ResponseVo(sysUserService.getById(id));
     }
 

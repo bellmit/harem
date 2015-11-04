@@ -1,56 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yimayhd.harem.mapper.HaMenuDOMapper">
-    <resultMap id="BaseResultMap" type="com.yimayhd.harem.model.HaMenuDO">
+<mapper namespace="com.yimayhd.harem.mapper.HaUserRoleMapper">
+    <resultMap id="BaseResultMap" type="com.yimayhd.harem.model.HaUserRoleDO">
 
         <id column="id" property="id" jdbcType="BIGINT"/>
     
-        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="ha_user_id" property="haUserId" jdbcType="BIGINT"/>
 
-        <result column="link_url" property="linkUrl" jdbcType="VARCHAR"/>
-
-        <result column="level" property="level" jdbcType="NUMERIC"/>
-
-        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="ha_role_id" property="haRoleId" jdbcType="BIGINT"/>
 
         <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/>
 
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
 
-        <result column="status" property="status" jdbcType="NUMERIC"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
 
 </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,link_url,level,parent_id,gmt_created,gmt_modified,status
+        id,ha_user_id,ha_role_id,gmt_created,gmt_modified,status
     </sql>
 
-    <insert id="add" parameterType="com.yimayhd.harem.model.HaMenuDO">
-        insert into ha_menu  (id,name,link_url,level,parent_id,gmt_created,gmt_modified,status)
+    <!--insert的时候要去掉ID，创建时间，更新时间和状态-->
+    <insert id="add" parameterType="com.yimayhd.harem.model.HaUserRoleDO"  useGeneratedKeys="true" keyProperty="id">
+        insert into ha_user_role  (id,ha_user_id,ha_role_id,gmt_created,gmt_modified,status)
         values (
         
           #{id,jdbcType=BIGINT},
         
-          #{name,jdbcType=VARCHAR},
+          #{haUserId,jdbcType=BIGINT},
         
-          #{linkUrl,jdbcType=VARCHAR},
-        
-          #{level,jdbcType=NUMERIC},
-        
-          #{parentId,jdbcType=BIGINT},
+          #{haRoleId,jdbcType=BIGINT},
         
           #{gmtCreated,jdbcType=TIMESTAMP},
         
           #{gmtModified,jdbcType=TIMESTAMP},
         
-          #{status,jdbcType=NUMERIC}
+          #{status,jdbcType=INTEGER}
         
         )
     </insert>
 
-    <select id="getById" resultMap="BaseResultMap" parameterType="string">
+    <select id="getById" resultMap="BaseResultMap" parameterType="long">
         select <include refid="Base_Column_List"/>
-        from ha_menu t
+        from ha_user_role t
         where
         t.id = #{id}
     </select>
@@ -74,7 +67,7 @@
     <select id="getList" resultMap="BaseResultMap" parameterType="com.yimayhd.harem.base.PageVo">
         select
         <include refid="Base_Column_List"/>
-        from ha_menu t
+        from ha_user_role t
         <include refid="search_clause"/>
         order by t.created_on desc
         <if test="isPaging != 0">
@@ -82,29 +75,21 @@
         </if>
     </select>
 
-    <select id="getCount" resultType="long" parameterType="com.yimayhd.harem.model.HaMenuDO">
-        select count(1) from ha_menu t
+    <select id="getCount" resultType="long" parameterType="com.yimayhd.harem.model.HaUserRoleDO">
+        select count(1) from ha_user_role t
         <include refid="search_clause"/>
     </select>
 
-    <update id="modify" parameterType="com.yimayhd.harem.model.HaMenuDO">
-        update ha_menu t
+    <update id="modify" parameterType="com.yimayhd.harem.model.HaUserRoleDO">
+        update ha_user_role t
         <set>
         
-            <if test="name != null">
-                t.name = #{name,jdbcType=VARCHAR},
+            <if test="haUserId != null">
+                t.ha_user_id = #{haUserId,jdbcType=BIGINT},
             </if>
         
-            <if test="linkUrl != null">
-                t.link_url = #{linkUrl,jdbcType=VARCHAR},
-            </if>
-        
-            <if test="level != null">
-                t.level = #{level,jdbcType=NUMERIC},
-            </if>
-        
-            <if test="parentId != null">
-                t.parent_id = #{parentId,jdbcType=BIGINT},
+            <if test="haRoleId != null">
+                t.ha_role_id = #{haRoleId,jdbcType=BIGINT},
             </if>
         
             <if test="gmtCreated != null">
@@ -116,7 +101,7 @@
             </if>
         
             <if test="status != null">
-                t.status = #{status,jdbcType=NUMERIC}
+                t.status = #{status,jdbcType=INTEGER}
             </if>
         
         </set>
@@ -124,7 +109,7 @@
         t.id = #{id}
     </update>
 
-    <update id="delete" parameterType="string">
-      update ha_menu t set t.status = 0 where t.id = #{value}
+    <update id="delete" parameterType="long">
+      update ha_user_role t set t.status = 0 where t.id = #{value}
     </update>
 </mapper>

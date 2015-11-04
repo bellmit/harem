@@ -1,32 +1,29 @@
-
-<article>
-    <div class="orderInformation">
-        <table class="table table-hover">
-            <thead>
+<link rel="stylesheet" href="/resources/css/style.css"/>
+<div class="tableGroup whole">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>订单编号</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+        </tr>
+        </thead>
+        <tbody>
+            #foreach($commodity in $order.commodityList)
             <tr>
-                <th>#</th>
-                <th>订单编号</th>
-                <th>商品名称</th>
-                <th>单价</th>
-                <th>数量</th>
+                <td>$!velocityCount</td>
+                <td>$!order.orderNO</td>
+                <td>$!commodity.name</td>
+                <td>$!commodity.price</td>
+                <td>$!commodity.number</td>
             </tr>
-            </thead>
-            <tbody>
-                #foreach($commodity in $order.commodityList)
-                <tr>
-                    <td>$!velocityCount</td>
-                    <td>$!order.orderNO</td>
-                    <td>$!commodity.name</td>
-                    <td>$!commodity.price</td>
-                    <td>$!commodity.number</td>
-
-                </tr>
-                #end
-            </tbody>
-        </table>
-    </div>
-</article>
-<div class="container">
+            #end
+        </tbody>
+    </table>
+</div>
+<div class="tableGroup whole">
     <div>
         说明
         1 作为查看页面时文本框不可编辑
@@ -58,7 +55,7 @@
         </div>
         <div>
             <label>退款时间</label>
-            <label>$!refund.refundTime</label>
+            <label>$utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</label>
         </div>
         <div>
             <label>操作员</label>

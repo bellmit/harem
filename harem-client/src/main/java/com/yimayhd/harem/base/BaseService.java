@@ -10,7 +10,7 @@ public interface BaseService<T extends BaseModel> {
      * @param entity 条件
      * @throws Exception
      */
-    Long getCount(T entity) throws Exception;
+    long getCount(T entity) throws Exception;
 
     /**
      * 查询
@@ -30,25 +30,25 @@ public interface BaseService<T extends BaseModel> {
 
     /**
      * 添加
-     *
+     * @return 主键
      * @param entity 数据实体
      * @throws Exception
      */
-    void add(T entity) throws Exception;
+    T add(T entity) throws Exception;
 
     /**
      * 根据主键获取
      *
-     * @param id 主键String类型的
+     * @param id 主键long类型的
      * @throws Exception
      */
-    T getById(String id) throws Exception;
+    T getById(long id) throws Exception;
 
     /**
      * 删除
      *
-     * @param id 主键String类型的
+     * @param id 主键long类型的
      * @throws Exception
      */
-    void delete(String id) throws Exception;
+    void delete(long id) throws Exception;
 }

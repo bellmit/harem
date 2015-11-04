@@ -12,7 +12,7 @@ import java.util.TimeZone;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 
-public class DateUtils {
+public class DateUtil {
 
 	// protected static Logger logger =LogManager.getLogger();
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";

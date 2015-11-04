@@ -1,26 +1,24 @@
-package mybatis;
+package com.yimayhd.harem.model;
 
 import com.yimayhd.harem.base.BaseModel;
 
+import java.util.Date;
+
 /**
- * 菜单表
- * @table ha_menu
+ * 角色菜单表
+ * @table ha_role_menu
  * @author czf
  **/
-public class HaMenuDO extends BaseModel {
+public class HaRoleMenuDO extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
 
-    private long id; // ID主键
+    private long id; // 
 
-    private String name; // 菜单名称
+    private long haMenuId; // 
 
-    private String linkUrl; // 连接地址
-
-    private int level; // 菜单等级
-
-    private long parentId; // 父级菜单ID
+    private long haRoleId; // 
 
     private Date gmtCreated; // 创建时间
 
@@ -37,36 +35,20 @@ public class HaMenuDO extends BaseModel {
         return id;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setHaMenuId(long haMenuId){
+        this.haMenuId = haMenuId;
     }
 
-    public String getName() {
-        return name;
+    public long getHaMenuId() {
+        return haMenuId;
     }
 
-    public void setLinkUrl(String linkUrl){
-        this.linkUrl = linkUrl;
+    public void setHaRoleId(long haRoleId){
+        this.haRoleId = haRoleId;
     }
 
-    public String getLinkUrl() {
-        return linkUrl;
-    }
-
-    public void setLevel(int level){
-        this.level = level;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setParentId(long parentId){
-        this.parentId = parentId;
-    }
-
-    public long getParentId() {
-        return parentId;
+    public long getHaRoleId() {
+        return haRoleId;
     }
 
     public void setGmtCreated(Date gmtCreated){

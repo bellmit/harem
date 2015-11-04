@@ -1,0 +1,103 @@
+<link href="$!{request.getContextPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$!{request.getContextPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<h1>交易列表</h1>
+<div>
+    <form class="form-signin" id="clubListForm" name="clubListForm" action="/clubManage/list" method="GET" role="form">
+    <article>
+        <div class="container">
+                <div class="form-group">
+                    <div>
+                        <label for="name">俱乐部名称</label>
+                        <input type="text" class="form-control" placeholder="交易号" name="name" value="$!clubListQuery.name">
+                    </div>
+                    <div>
+                        <label for="beginDate">创建时间</label>
+                        <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!clubListQuery.beginDate"></div>
+                        <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" value="$!clubListQuery.endDate"></div>
+                    </div>
+                    <div>
+                        <label for="joinStatus">状态：</label>
+                        <input type="text" class="form-control" placeholder="手机号" name="joinStatus" value="$!clubListQuery.joinStatus">
+                    </div>
+                    <div>
+                        <label for="showStatus">前台显示：</label>
+                        <input type="text" class="form-control" placeholder="会员名" name="showStatus" value="$!clubListQuery.showStatus">
+                    </div>
+
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">查询</button>
+                </div>
+
+        </div>
+    </article>
+    <article>
+        <div class="tradeList">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>名称</th>
+                    <th>logo</th>
+                    <th>是否允许加入状态</th>
+                    <th>是否显示状态</th>
+                    <th>成员数</th>
+                    <th>成员限额</th>
+                    <th>部长名称</th>
+                    <th>部长logo</th>
+                    <th>累计活动</th>
+                    <th>操作</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                    #foreach($trade in $tradeList)
+                    <tr>
+                        <td>$!velocityCount</td>
+                        <td>$!trade.name</td>
+                        <td>$!trade.logoUrl</td>
+                        <td>$!trade.joinStatus</td>
+                        <td>$!trade.showStatus</td>
+                        <td>$!trade.joinNum</td>
+                        <td>$!trade.limitNum</td>
+                        <td>$!trade.manageUserName</td>
+                        <td>$!trade.manageUserLogoUrl</td>
+                        <td>$!trade.hasActivityNum</td>
+
+                        <td><a href="javascript:getOrder('$!trade.id');">详情</a></td>
+                        <td><a href="javascript:toRefund('$!trade.id');">禁止</a></td>
+                    </tr>
+                    #end
+                </tbody>
+            </table>
+        </div>
+    </article>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle($!pageVo,"clubListForm")
+    </form>
+</div>
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+    $(function(){
+    });
+
+    function getOrder(id)
+    {
+        window.open("/orderManage/"+id, "_blank");
+    }
+    function toRefund(id)
+    {
+        window.open("/refundManage/add/"+id, "_blank");
+    }
+</script>

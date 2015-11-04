@@ -1,0 +1,96 @@
+
+<article>
+    <div class="orderInformation">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            private String name;//名称
+            private String logoUrl;//logo
+            private int joinStatus;//是否允许加入状态
+            private int showStatus;//是否显示状态
+            private long joinNum;//成员数
+            private long limitNum;//成员限额
+            private String manageUserName;//部长名称
+            private String manageUserLogoUrl;//部长logo
+            private long hasActivityNum;//累计活动
+                #foreach($commodity in $club.commodityList)
+                <tr>
+                    <td>*俱乐部名称</td><td>$!velocityCount</td>
+                    <td>*俱乐部LOGO</td><td>$!club.orderNO</td>
+                    <td>*俱乐部宣传图</td><td>$!club.name</td>
+                    <td>*成员限额</td><td>$!club.price</td>
+                    <td>*部长</td><td>$!club.number</td>
+                    <td>*排序</td><td>$!club.orderNO</td>
+                    <td>*状态</td><td>$!club.name</td>
+                    <td>*前台显示</td><td>$!club.price</td>
+                    <td>创建时间</td><td>$!club.number</td>
+                    <td>更新时间</td><td>$!club.orderNO</td>
+                    <td>累计活动</td><td>$!club.name</td>
+                    <td>成员</td><td>$!club.price</td>
+
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+</article>
+<div class="container">
+    <div>
+        说明
+        1 作为查看页面时文本框不可编辑
+        2 点击退款弹出确认退款提示
+        3 如果退款订单产生的积分已经使用，使用的部分需要折算成人民币在退款中扣除
+        4 需返还积分=该笔交易赠送的总积分 -（消费金额-退款金额）*消费积分兑换规则
+        5 可返还积分=该笔交易赠送的积分余量
+    </div>
+    <div>
+        <div>
+            <label>退款金额</label>
+            <label>$!refund.refundNO</label>
+        </div>
+        <div>
+            <label>需返还积分</label>
+            <label>$!refund.shouldRefundPoint</label>
+        </div>
+        <div>
+            <label>可返还积分</label>
+            <label>$!refund.availablePoint</label>
+        </div>
+        <div>
+            <label>超出积分扣现</label>
+            <label>$!refund.deductMoneyOffsetPoint</label>
+        </div>
+        <div>
+            <label>实际退款金额</label>
+            <label>$!refund.factRefundMoney</label>
+        </div>
+        <div>
+            <label>退款时间</label>
+            <label>$!refund.refundTime</label>
+        </div>
+        <div>
+            <label>操作员</label>
+            <label>$!refund.operatorName</label>
+        </div>
+        <div>
+            <label>备注</label>
+            <label>$!refund.remark</label>
+        </div>
+    </div>
+</div>
+<script></script>

@@ -42,10 +42,15 @@ public class refundManageController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public
-    String list(Model model,RefundListQuery refundListQuery) throws Exception {
+    String list(Model model,RefundListQuery refundListQuery,PageVo pageVo) throws Exception {
         RefundVO refundVO = new RefundVO();
         refundVO.setRefundListQuery(refundListQuery);
         List<Refund> refundList = refundService.getList(refundVO);
+        pageVo.setTotalSum((long) 42);
+        //pageVo.setCurrentPage(60);
+
+
+        model.addAttribute("pageVo", pageVo);
         model.addAttribute("refundListQuery",refundListQuery);
         model.addAttribute("refundList",refundList);
         return "/system/refund/list";
@@ -66,7 +71,7 @@ public class refundManageController extends BaseController {
         model.addAttribute("pageVo", pageVo);
         model.addAttribute("order",order);
         model.addAttribute("refund",refund);
-        return "/system/refund/information";
+        return "/system/refund/detail";
     }
 
     /**
@@ -76,11 +81,13 @@ public class refundManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/add/{tradId}", method = RequestMethod.GET)
+    @ResponseBody
     public
-    String toAddRefund(Model model,@PathVariable(value = "tradId") long tradId) throws Exception {
+    ResponseVo toAddRefund(@PathVariable(value = "tradId") long tradId) throws Exception {
         Order order = orderService.getById(tradId);
-        model.addAttribute("order",order);
-        return "/system/refund/add";
+        //model.addAttribute("order",order);
+        //return "/system/refund/add";
+        return new ResponseVo(order);
     }
 
     /**

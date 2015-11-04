@@ -21,12 +21,12 @@ public class BaseModel implements Serializable {
     /**
      * 创建时间
      */
-    protected Date createdOn;
+    protected Date gmtCreated;
 
     /**
      * 更新时间
      */
-    protected Date updatedOn;
+    protected Date gmtModified;
 
     /**
      * 1-正常0-删除
@@ -41,27 +41,27 @@ public class BaseModel implements Serializable {
         this.id = id;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Date getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(Date updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Date getGmtCreated() {
+        return gmtCreated;
+    }
+
+    public void setGmtCreated(Date gmtCreated) {
+        this.gmtCreated = gmtCreated;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }

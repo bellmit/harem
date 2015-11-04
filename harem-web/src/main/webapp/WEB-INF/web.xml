@@ -14,6 +14,9 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>com.yimayhd.harem.HaremLoaderListener</listener-class>
+    </listener>
     <!-- springMvc编码拦截器，springMvc内置的编码拦截器 -->
     <filter>
         <filter-name>encodingFilter</filter-name>

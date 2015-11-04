@@ -1,31 +1,29 @@
 
-    <article>
-        <div class="orderInformation">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>订单编号</th>
-                    <th>商品名称</th>
-                    <th>单价</th>
-                    <th>数量</th>
-                </tr>
-                </thead>
-                <tbody>
-                    #foreach($commodity in $order.commodityList)
-                    <tr>
-                        <td>$!velocityCount</td>
-                        <td>$!order.orderNO</td>
-                        <td>$!commodity.name</td>
-                        <td>$!commodity.price</td>
-                        <td>$!commodity.number</td>
+<div class="orderInformation">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>订单编号</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+        </tr>
+        </thead>
+        <tbody>
+            #foreach($commodity in $order.commodityList)
+            <tr>
+                <td>$!velocityCount</td>
+                <td>$!order.orderNO</td>
+                <td>$!commodity.name</td>
+                <td>$!commodity.price</td>
+                <td>$!commodity.number</td>
 
-                    </tr>
-                    #end
-                </tbody>
-            </table>
-        </div>
-    </article>
+            </tr>
+            #end
+        </tbody>
+    </table>
+</div>
 <div class="container">
     <div>
         说明

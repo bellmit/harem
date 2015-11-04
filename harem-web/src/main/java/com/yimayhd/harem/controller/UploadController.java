@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -37,7 +38,8 @@ public class UploadController extends BaseController {
      */
     @RequestMapping(value = "/toUpload", method = RequestMethod.GET)
     public
-    String toUpload() throws Exception {
+    String toUpload(HttpServletRequest request) throws Exception {
+        request.setAttribute("hello", new Date());
         return "/demo/upload";
     }
 

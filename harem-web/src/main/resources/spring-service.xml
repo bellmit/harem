@@ -13,4 +13,13 @@
     <bean class="com.yimayhd.harem.service.impl.TradeServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.RefundServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.OrderServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.HaMenuServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.HaRoleMenuServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.HaRoleServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.HaUserRoleServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
+   <!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
+
+    </bean>-->
+
 </beans>

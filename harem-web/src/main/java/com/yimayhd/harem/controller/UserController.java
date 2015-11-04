@@ -1,9 +1,13 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.model.HaMenuDO;
 import com.yimayhd.harem.model.Menu;
 import com.yimayhd.harem.model.User;
+import com.yimayhd.harem.service.HaMenuService;
 import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.util.WebConfigUtil;
+import com.yimayhd.harem.util.WebResourceConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +28,9 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HaMenuService haMenuService;
 
    /* @Autowired
     private MessageCodeService messageCodeService;
@@ -52,7 +59,7 @@ public class UserController extends BaseController {
         System.out.println(user.getUserName());
         System.out.println(user.getPassword());
         long userId = 1;
-        List<Menu> menuList = new ArrayList<Menu>();
+       /* List<Menu> menuList = new ArrayList<Menu>();
 
         Menu menu = new Menu(1,"交易管理","/tradeManage",1,0);
         List<Menu> menuListSub = new ArrayList<Menu>();
@@ -62,8 +69,9 @@ public class UserController extends BaseController {
 
         Menu menu2 = new Menu(1,"会员管理","/userManage",1,0);
         menuList.add(menu);
-        menuList.add(menu2);
-        model.addAttribute("menuList", menuList);
+        menuList.add(menu2);*/
+        List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(userId);
+        model.addAttribute("menuList", haMenuDOList);
 
         return "/system/layout/layout";
     }
@@ -76,38 +84,6 @@ public class UserController extends BaseController {
     String welcome() throws Exception {
         return "/system/welcome";
     }
-
-    /**
-     * 增加用户
-     *
-     * @param user 用户信息
-     * @return 成功信息
-     * @throws Exception
-     *//*
-    @RequestMapping(method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseVo save(@RequestBody User user) throws Exception {
-        //默认性别
-        user.setGender(3);
-        if(messageCodeService.checkCode(user.getTel(),user.getCode()) > 0) {
-            if(user.getPassword()!=null&&!user.getPassword().equals("")) {
-                if(userService.getCountByTel(user.getTel())>0){
-                    //验证唯一性
-                    throw new NoticeException("此电话已注册！");
-                }else {
-                    //保存用户
-                    userService.add(user);
-                    return new ResponseVo(user);
-                }
-            }else{
-                throw new NoticeException("密码不能为空！");
-            }
-        }else{
-            throw new NoticeException("验证码不正确或已过期！");
-        }
-    }*/
-
 
    /* *//**
      * 查询用户的信息
@@ -141,48 +117,7 @@ public class UserController extends BaseController {
         return new ResponseVo(vo);
     }
 
-    *//**
-     *
-     * @param tel 注册电话检查
-     * @return 是否已注册（0：未注册；1：已注册）
-     * @throws Exception
-     *//*
-    @RequestMapping(value = "/tel/{tel}",method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ResponseVo getUserBytel(@PathVariable("tel") String tel) throws Exception {
-        //返回结果
-        int success = 0;
-        Map<String,String> hp = new HashMap<String,String>();
-        //错误信息
-        long total = userService.getCountByTel(tel);
-        if(total>0){
-            success = 1;
-            //throw  new NoticeException("电话号码已注册");
-        }
-        hp.put("signup", String.valueOf(success));
-        return new ResponseVo(hp);
-    }
 
-    *//**
-     *
-     * @param user 条件参数
-     * @return 用户
-     * @throws Exception
-     *//*
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ResponseVo login(@RequestBody User user) throws Exception {
-
-        User _user = userService.login(user);
-
-        if (_user == null) {
-            //错误信息
-            throw new NoticeException("用户名或密码错误！");
-        }
-        return new ResponseVo(_user);
-    }
 
     *//**
      * 获取用户基本信息

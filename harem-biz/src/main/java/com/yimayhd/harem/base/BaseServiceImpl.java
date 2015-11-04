@@ -17,7 +17,7 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public Long getCount(T entity) throws Exception {
+    public long getCount(T entity) throws Exception {
         return baseMapper.getCount(entity);
     }
 
@@ -32,19 +32,20 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public void add(T entity) throws Exception {
+    public T add(T entity) throws Exception {
         //entity.setId(UUIDUtil.generateUniqueKey());
-        entity.setCreatedOn(new Date());
+        entity.setGmtCreated(new Date());
         baseMapper.add(entity);
+        return entity;
     }
 
     @Override
-    public T getById(String id) throws Exception {
+    public T getById(long id) throws Exception {
         return baseMapper.getById(id);
     }
 
     @Override
-    public void delete(String id) throws Exception {
+    public void delete(long id) throws Exception {
         baseMapper.delete(id);
     }
 }

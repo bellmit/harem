@@ -3,7 +3,7 @@ package com.yimayhd.harem.util;
 /**
  * Created by Administrator on 2015/10/27.
  */
-public class UtilNumble {
+public class NumUtil {
 
     /**
      * 金额转换（分转换为元）

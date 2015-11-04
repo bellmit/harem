@@ -4,7 +4,7 @@ package com.yimayhd.harem.util;
 import java.util.Calendar;
 
 /**
- * Date field for date math functions of {@link DateUtils}.<br>
+ * Date field for date math functions of {@link DateUtil}.<br>
  * Copyright (c) 2006 Datavantage Corporation
  *
  * @author dberkland
@@ -12,21 +12,21 @@ import java.util.Calendar;
  * @created Aug 25, 2006
  */
 public enum CalendarField {
-  /** the Year field for date math functions of {@link DateUtils} */
+  /** the Year field for date math functions of {@link DateUtil} */
   YEAR(Calendar.YEAR),
-  /** the Month field for date math functions of {@link DateUtils} */
+  /** the Month field for date math functions of {@link DateUtil} */
   MONTH(Calendar.MONTH),
-  /** the Day field for date math functions of {@link DateUtils} */
+  /** the Day field for date math functions of {@link DateUtil} */
   WEEK(Calendar.WEEK_OF_YEAR),
-  /** the Day field for date math functions of {@link DateUtils} */
+  /** the Day field for date math functions of {@link DateUtil} */
   DAY(Calendar.DATE),
-  /** the hour field for date math functions of {@link DateUtils} */
+  /** the hour field for date math functions of {@link DateUtil} */
   HOUR(Calendar.HOUR),
-  /** the Minute field for date math functions of {@link DateUtils} */
+  /** the Minute field for date math functions of {@link DateUtil} */
   MINUTE(Calendar.MINUTE),
-  /** the Second field for date math functions of {@link DateUtils} */
+  /** the Second field for date math functions of {@link DateUtil} */
   SECOND(Calendar.SECOND),
-  /** the Millisecond field for date math functions of {@link DateUtils} */
+  /** the Millisecond field for date math functions of {@link DateUtil} */
   MILLISECOND(Calendar.MILLISECOND);
 
   private CalendarField(int argField) {

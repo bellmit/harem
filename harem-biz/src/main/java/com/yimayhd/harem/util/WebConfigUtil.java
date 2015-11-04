@@ -1,5 +1,6 @@
 package com.yimayhd.harem.util;
 
+import com.yimayhd.harem.config.ResourceConfig;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -8,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Properties;
 
 /**
+ * 由WebResourceConfig工具类代替,弃用
  * Created by Administrator on 2015/10/31.
  */
 public class WebConfigUtil extends WebApplicationContextUtils {
+
     public final static String CONFIG_BEAN_NAME = "haremProperties";
 
     private final static String TFS_ROOT_PATH_KEY = "harem.tfsRootPath";
@@ -39,7 +42,7 @@ public class WebConfigUtil extends WebApplicationContextUtils {
     }
 
     public static String getTfsRootPath(HttpServletRequest request) {
-        return (String) getConfigByKey(TFS_ROOT_PATH_KEY, request);
+        return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
     }
 
     public static String getPropertyByKey(String key,HttpServletRequest request) {

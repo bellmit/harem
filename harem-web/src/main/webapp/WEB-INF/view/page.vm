@@ -1,16 +1,16 @@
 ##     totalPage 总页数   showSize-10   cpage 当前页
-#macro(pageStyle $pageVo $formId)
+#macro(pageStyle $formId)
     #set($totalPage =($pageVo.totalSum + $pageVo.pageSize - 1)/$pageVo.pageSize)
     #set($totalSum =$pageVo.totalSum)
     #set($pageSize =$pageVo.pageSize)
     #set($cpage =$pageVo.currentPage)
     #set($showSize =20)
 #if($cpage)
-<input type="hidden"  name="totalSum" value="$!totalSum"/>
-<input type="hidden"  name="pageSize" value="$!pageSize"/>
+##<input type="hidden"  name="totalSum" value="$!totalSum"/>
+##<input type="hidden"  name="pageSize" value="$!pageSize"/>
 <input type="hidden"  name="currentPage" id="currentPage" value="$!cpage"/>
-<div class="pagination pagination-large pagination-right">
-    <ul>
+<div class="pagination pagination-large pagination-right whole">
+    <ul class="pageWrap">
         #if($cpage>1)
             <ul class="pager">
                 <li class="previous">

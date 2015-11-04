@@ -11,14 +11,6 @@ public class RefundListQuery extends BaseQuery {
     private String userName;//会员名
     private String terminalName;//终端编号
 
-    public String getTradNO() {
-        return refundNO;
-    }
-
-    public void setTradNO(String refundNO) {
-        this.refundNO = refundNO;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -41,5 +33,13 @@ public class RefundListQuery extends BaseQuery {
 
     public void setTerminalName(String terminalName) {
         this.terminalName = terminalName;
+    }
+
+    public String getRefundNO() {
+        return refundNO;
+    }
+
+    public void setRefundNO(String refundNO) {
+        this.refundNO = refundNO;
     }
 }

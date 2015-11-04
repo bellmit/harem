@@ -62,9 +62,11 @@
         <property name="dateToolAttribute" value="date" /><!--日期函数名称-->
         <property name="numberToolAttribute" value="number" /><!--数字函数名称-->
         <property name="toolboxConfigLocation" value="/WEB-INF/view/toolbox.xml"/>
+        <!--spring3.1支持velocity-tools2.0-->
+        <property name="viewClass" value="com.yimayhd.harem.view.VelocityLayoutToolbox20View"/>
         <!--下面两项属性不明白-->
-        <!--<property name="order" value="0"/>
-        <property name="viewClass" value="com.pajk.starcraft.mvc.view.VelocityLayoutToolbox20View"/>-->
+        <!--<property name="order" value="0"/>-->
+
 
     </bean>
 

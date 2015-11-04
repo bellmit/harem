@@ -3,6 +3,7 @@ package com.yimayhd.harem.model;
 import com.yimayhd.harem.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 菜单表
@@ -29,6 +30,8 @@ public class HaMenuDO extends BaseModel {
     private Date gmtModified; // 更新时间
 
     private int status; // 状态（0：删除；1：正常）
+
+    private List<HaMenuDO> haMenuDOList;
 
 
     public void setId(long id){
@@ -95,4 +98,11 @@ public class HaMenuDO extends BaseModel {
         return status;
     }
 
+    public List<HaMenuDO> getHaMenuDOList() {
+        return haMenuDOList;
+    }
+
+    public void setHaMenuDOList(List<HaMenuDO> haMenuDOList) {
+        this.haMenuDOList = haMenuDOList;
+    }
 }
