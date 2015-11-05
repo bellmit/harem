@@ -99,6 +99,7 @@ jQuery.extend({
                         // If a local callback was specified, fire it and pass it the data
                         if ( s.success )
                             s.success( data, status );
+
     
                         // Fire the global callback
                         if( s.global )

@@ -1,19 +1,21 @@
 package com.yimayhd.harem.model;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Administrator on 2015/10/27.
  */
 public class Commodity {
-    private long orderId;//订单ID
+    private Long orderId;//订单ID
     private String name;//商品名称
-    private double price;//单价
-    private long number;//数量
+    private BigDecimal price;//单价
+    private Long number;//数量
 
-    public long getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -25,19 +27,19 @@ public class Commodity {
         this.name = name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public long getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 }

@@ -18,6 +18,9 @@ public class ResourceConfig {
         return resourceConfig;
     }
     public  String getValueByKey(String key){
-        return map.get(key).toString();
+        if(map.get(key) != null){
+            return map.get(key).toString();
+        }
+        return "";
     }
 }

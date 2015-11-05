@@ -13,66 +13,27 @@ public class HaRoleMenuDO extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
+    private Long haMenuId; //菜单ID
 
-    private long id; // 
+    private Long haRoleId; //角色ID
 
-    private long haMenuId; // 
-
-    private long haRoleId; // 
-
-    private Date gmtCreated; // 创建时间
-
-    private Date gmtModified; // 更新时间
-
-    private int status; // 状态（0：删除；1：正常）
-
-
-    public void setId(long id){
-        this.id = id;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setHaMenuId(long haMenuId){
-        this.haMenuId = haMenuId;
-    }
-
-    public long getHaMenuId() {
+    public Long getHaMenuId() {
         return haMenuId;
     }
 
-    public void setHaRoleId(long haRoleId){
-        this.haRoleId = haRoleId;
+    public void setHaMenuId(Long haMenuId) {
+        this.haMenuId = haMenuId;
     }
 
-    public long getHaRoleId() {
+    public Long getHaRoleId() {
         return haRoleId;
     }
 
-    public void setGmtCreated(Date gmtCreated){
-        this.gmtCreated = gmtCreated;
+    public void setHaRoleId(Long haRoleId) {
+        this.haRoleId = haRoleId;
     }
-
-    public Date getGmtCreated() {
-        return gmtCreated;
-    }
-
-    public void setGmtModified(Date gmtModified){
-        this.gmtModified = gmtModified;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setStatus(int status){
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
 }

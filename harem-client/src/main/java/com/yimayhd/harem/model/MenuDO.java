@@ -1,34 +1,20 @@
 package com.yimayhd.harem.model;
 
+import com.yimayhd.harem.base.BaseModel;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class MenuDO implements Serializable {
-    private long id;
+public class MenuDO extends BaseModel {
 
     private String name;
 
     private String linkUrl;
 
-    private int level;
+    private Integer level;
 
-    private long parentId;
+    private Long parentId;
 
-    private Date gmtCreated;
-
-    private Date gmtModified;
-
-    private int status;
-
-    private static final long serialVersionUID = 1L;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -46,43 +32,19 @@ public class MenuDO implements Serializable {
         this.linkUrl = linkUrl;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
-    public long getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(long parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public Date getGmtCreated() {
-        return gmtCreated;
-    }
-
-    public void setGmtCreated(Date gmtCreated) {
-        this.gmtCreated = gmtCreated;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;}
-.whole{width: 80%;float: right;margin: 10px;}
+.whole{width: 98%;float: right;margin: 10px;}
 .inpSingle{margin-bottom: 10px;width: 32%;float: left;margin-right: 1%;}
 @media (min-width: 800px){
     .inpSingle{width: 32%;float: left;margin-right: 1%;}

@@ -16,7 +16,7 @@ public class BaseModel implements Serializable {
     /**
      * 主键
      */
-    protected long id;
+    protected Long id;
 
     /**
      * 创建时间
@@ -33,20 +33,12 @@ public class BaseModel implements Serializable {
      */
     protected int status;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public Date getGmtCreated() {
@@ -63,5 +55,13 @@ public class BaseModel implements Serializable {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

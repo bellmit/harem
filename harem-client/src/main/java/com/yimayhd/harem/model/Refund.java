@@ -2,6 +2,7 @@ package com.yimayhd.harem.model;
 
 import com.yimayhd.harem.base.BaseModel;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -11,79 +12,15 @@ public class Refund extends BaseModel {
     private String refundNO;//交易编号
     private String userName;//用户姓名
     private String phone;//手机号
-    private double refundMoney;//退款金额
-    private double shouldRefundPoint;//需返还积分
-    private double availablePoint;//可返还积分
-    private double deductMoneyOffsetPoint;//超出积分扣现
-    private double factRefundMoney;//实际退款金额
+    private BigDecimal refundMoney;//退款金额
+    private BigDecimal shouldRefundPoint;//需返还积分
+    private BigDecimal availablePoint;//可返还积分
+    private BigDecimal deductMoneyOffsetPoint;//超出积分扣现
+    private BigDecimal factRefundMoney;//实际退款金额
     private Date refundTime;//退款时间
-    private int refundStatus;//退款状态
+    private Integer refundStatus;//退款状态
     private String operatorName;//操作员
     private String remark;//备注
-
-    public double getRefundMoney() {
-        return refundMoney;
-    }
-
-    public void setRefundMoney(double refundMoney) {
-        this.refundMoney = refundMoney;
-    }
-
-    public double getShouldRefundPoint() {
-        return shouldRefundPoint;
-    }
-
-    public void setShouldRefundPoint(double shouldRefundPoint) {
-        this.shouldRefundPoint = shouldRefundPoint;
-    }
-
-    public double getAvailablePoint() {
-        return availablePoint;
-    }
-
-    public void setAvailablePoint(double availablePoint) {
-        this.availablePoint = availablePoint;
-    }
-
-    public double getDeductMoneyOffsetPoint() {
-        return deductMoneyOffsetPoint;
-    }
-
-    public void setDeductMoneyOffsetPoint(double deductMoneyOffsetPoint) {
-        this.deductMoneyOffsetPoint = deductMoneyOffsetPoint;
-    }
-
-    public double getFactRefundMoney() {
-        return factRefundMoney;
-    }
-
-    public void setFactRefundMoney(double factRefundMoney) {
-        this.factRefundMoney = factRefundMoney;
-    }
-
-    public Date getRefundTime() {
-        return refundTime;
-    }
-
-    public void setRefundTime(Date refundTime) {
-        this.refundTime = refundTime;
-    }
-
-    public String getOperatorName() {
-        return operatorName;
-    }
-
-    public void setOperatorName(String operatorName) {
-        this.operatorName = operatorName;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 
     public String getRefundNO() {
         return refundNO;
@@ -109,11 +46,75 @@ public class Refund extends BaseModel {
         this.phone = phone;
     }
 
-    public int getRefundStatus() {
+    public BigDecimal getRefundMoney() {
+        return refundMoney;
+    }
+
+    public void setRefundMoney(BigDecimal refundMoney) {
+        this.refundMoney = refundMoney;
+    }
+
+    public BigDecimal getShouldRefundPoint() {
+        return shouldRefundPoint;
+    }
+
+    public void setShouldRefundPoint(BigDecimal shouldRefundPoint) {
+        this.shouldRefundPoint = shouldRefundPoint;
+    }
+
+    public BigDecimal getAvailablePoint() {
+        return availablePoint;
+    }
+
+    public void setAvailablePoint(BigDecimal availablePoint) {
+        this.availablePoint = availablePoint;
+    }
+
+    public BigDecimal getDeductMoneyOffsetPoint() {
+        return deductMoneyOffsetPoint;
+    }
+
+    public void setDeductMoneyOffsetPoint(BigDecimal deductMoneyOffsetPoint) {
+        this.deductMoneyOffsetPoint = deductMoneyOffsetPoint;
+    }
+
+    public BigDecimal getFactRefundMoney() {
+        return factRefundMoney;
+    }
+
+    public void setFactRefundMoney(BigDecimal factRefundMoney) {
+        this.factRefundMoney = factRefundMoney;
+    }
+
+    public Date getRefundTime() {
+        return refundTime;
+    }
+
+    public void setRefundTime(Date refundTime) {
+        this.refundTime = refundTime;
+    }
+
+    public Integer getRefundStatus() {
         return refundStatus;
     }
 
-    public void setRefundStatus(int refundStatus) {
+    public void setRefundStatus(Integer refundStatus) {
         this.refundStatus = refundStatus;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

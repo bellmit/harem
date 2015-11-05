@@ -6,14 +6,17 @@ import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.util.WebConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -50,14 +53,30 @@ public class UploadController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/file", method = RequestMethod.POST)
-    public ResponseVo uploadFile(@RequestParam(value = "file", required = false)MultipartFile titleFile) throws Exception {
+    public ResponseVo uploadFile(@RequestParam(required = false)MultipartFile file) throws Exception {
         //保存文件到tfs
-        String titleFileName=tfsManager.saveFile(titleFile.getBytes(), null, null);
+        String fileName=tfsManager.saveFile(file.getBytes(), null, null);
         //返回文件名
-        System.out.println(titleFileName);
-        System.out.println(new ResponseVo(titleFileName));
-        return new ResponseVo(titleFileName);
+        System.out.println(fileName);
+        System.out.println(new ResponseVo(fileName));
+        return new ResponseVo(fileName);
     }
+    @RequestMapping("/files")
+    @ResponseBody
+    public ResponseVo uploadFiles(HttpServletRequest request) throws Exception {
+        List<String> stringList = new ArrayList<String>();
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            Iterator<String> iterator = multipartRequest.getFileNames();
+            while(iterator.hasNext()){
+                MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
+                String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, null);
+                stringList.add(tfsName);
+            }
+        return new ResponseVo(stringList.toString());
+
+    }
+
+
     /**
      * 上传文件
      * @return 上传文件

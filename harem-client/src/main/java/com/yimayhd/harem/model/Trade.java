@@ -2,6 +2,7 @@ package com.yimayhd.harem.model;
 
 import com.yimayhd.harem.base.BaseModel;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -11,18 +12,17 @@ public class Trade extends BaseModel {
     private String tradNO;//交易编号
     private String userName;//会员姓名
     private String phone;//手机号
-    private double shouldMoney;//应付金额
-    private double tradeMoney;//实付金额
-    private double reduceMoney;//优惠金额
-    private double usePoint;//使用积分
-    private double sendPoint;//赠送积分
-    private double point;//剩余积分
-    private int tradeStatus;//交易状态
+    private BigDecimal shouldMoney;//应付金额
+    private BigDecimal tradeMoney;//实付金额
+    private BigDecimal reduceMoney;//优惠金额
+    private BigDecimal usePoint;//使用积分
+    private BigDecimal sendPoint;//赠送积分
+    private BigDecimal point;//剩余积分
+    private Integer tradeStatus;//交易状态
     private Date tradeTime;//交易时间
     private String terminalName;//终端
     private String cashierName;//收银员
     private String remark;//备注
-
 
     public String getTradNO() {
         return tradNO;
@@ -48,59 +48,59 @@ public class Trade extends BaseModel {
         this.phone = phone;
     }
 
-    public double getShouldMoney() {
+    public BigDecimal getShouldMoney() {
         return shouldMoney;
     }
 
-    public void setShouldMoney(double shouldMoney) {
+    public void setShouldMoney(BigDecimal shouldMoney) {
         this.shouldMoney = shouldMoney;
     }
 
-    public double getTradeMoney() {
+    public BigDecimal getTradeMoney() {
         return tradeMoney;
     }
 
-    public void setTradeMoney(double tradeMoney) {
+    public void setTradeMoney(BigDecimal tradeMoney) {
         this.tradeMoney = tradeMoney;
     }
 
-    public double getReduceMoney() {
+    public BigDecimal getReduceMoney() {
         return reduceMoney;
     }
 
-    public void setReduceMoney(double reduceMoney) {
+    public void setReduceMoney(BigDecimal reduceMoney) {
         this.reduceMoney = reduceMoney;
     }
 
-    public double getUsePoint() {
+    public BigDecimal getUsePoint() {
         return usePoint;
     }
 
-    public void setUsePoint(double usePoint) {
+    public void setUsePoint(BigDecimal usePoint) {
         this.usePoint = usePoint;
     }
 
-    public double getSendPoint() {
+    public BigDecimal getSendPoint() {
         return sendPoint;
     }
 
-    public void setSendPoint(double sendPoint) {
+    public void setSendPoint(BigDecimal sendPoint) {
         this.sendPoint = sendPoint;
     }
 
-    public double getPoint() {
+    public BigDecimal getPoint() {
         return point;
     }
 
-    public void setPoint(double point) {
+    public void setPoint(BigDecimal point) {
         this.point = point;
     }
 
-    public int getTradeStatus() {
+    public Integer getTradeStatus() {
         return tradeStatus;
     }
 
-    public void setTradeStatus(int tradeStatus) {
+    public void setTradeStatus(Integer tradeStatus) {
         this.tradeStatus = tradeStatus;
     }
 

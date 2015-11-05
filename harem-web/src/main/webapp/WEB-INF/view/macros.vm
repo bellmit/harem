@@ -30,6 +30,22 @@
     #end
 #end
 
+#macro(IS_JOIN_STATUS $type)
+    #if($type == '1')
+    允许加入
+    #elseif($type == '2')
+    禁止加入
+    #end
+#end
+
+#macro(IS_SHOW_STATUS $type)
+    #if($type == '1')
+    显示
+    #elseif($type == '2')
+    隐藏
+    #end
+#end
+
 #macro(IS_RECOMMEND_SELECTED $isRecommend)
 <option value="">全部</option> 
 <option value="true" #if($isRecommend=="true")selected#end>已推荐</option> 

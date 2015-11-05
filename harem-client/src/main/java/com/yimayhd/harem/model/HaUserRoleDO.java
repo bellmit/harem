@@ -14,65 +14,23 @@ public class HaUserRoleDO extends BaseModel {
     private static final long serialVersionUID = 1L;
 
 
-    private long id; // ID
+    private Long haUserId; // 用户ID
 
-    private long haUserId; // 用户ID
+    private Long haRoleId; // 角色ID
 
-    private long haRoleId; // 角色ID
-
-    private Date gmtCreated; // 创建时间
-
-    private Date gmtModified; // 更新时间
-
-    private int status; // 状态（0：删除；1：正常）
-
-
-    public void setId(long id){
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setHaUserId(long haUserId){
-        this.haUserId = haUserId;
-    }
-
-    public long getHaUserId() {
+    public Long getHaUserId() {
         return haUserId;
     }
 
-    public void setHaRoleId(long haRoleId){
-        this.haRoleId = haRoleId;
+    public void setHaUserId(Long haUserId) {
+        this.haUserId = haUserId;
     }
 
-    public long getHaRoleId() {
+    public Long getHaRoleId() {
         return haRoleId;
     }
 
-    public void setGmtCreated(Date gmtCreated){
-        this.gmtCreated = gmtCreated;
+    public void setHaRoleId(Long haRoleId) {
+        this.haRoleId = haRoleId;
     }
-
-    public Date getGmtCreated() {
-        return gmtCreated;
-    }
-
-    public void setGmtModified(Date gmtModified){
-        this.gmtModified = gmtModified;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setStatus(int status){
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
 }

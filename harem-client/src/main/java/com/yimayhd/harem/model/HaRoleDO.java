@@ -11,58 +11,14 @@ import java.util.Date;
  **/
 public class HaRoleDO extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
-
-
-    private long id; // ID
-
     private String name; // 角色名称
 
-    private Date gmtCreated; // 创建时间
-
-    private Date gmtModified; // 更新时间
-
-    private int status; // 状态（0：删除；1：正常）
-
-
-    public void setId(long id){
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setGmtCreated(Date gmtCreated){
-        this.gmtCreated = gmtCreated;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public Date getGmtCreated() {
-        return gmtCreated;
-    }
-
-    public void setGmtModified(Date gmtModified){
-        this.gmtModified = gmtModified;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setStatus(int status){
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
 }

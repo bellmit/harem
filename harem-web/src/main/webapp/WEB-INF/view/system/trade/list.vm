@@ -1,6 +1,6 @@
-<link href="$!{rc.contextPath}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<script src="$!{rc.contextPath}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/resources/css/style.css"/>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <h1>交易列表</h1>
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm" action="/tradeManage/list" method="GET" role="form">
@@ -193,7 +193,7 @@
 
     $(function(){
         $('.addRefund').click(function(){
-            $.post('/refundManage/add/'+$(this).attr('tradeNO'),function(data){
+            $.get('/refundManage/add/'+$(this).attr('tradeNO'),function(data){
                 if(data&&data.status==200){
                     data = data.data;
                     $('.orderDetail').add()

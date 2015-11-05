@@ -26,7 +26,7 @@
                     $.ajaxFileUpload
                     (
                             {
-                                url: '/upload/file', //用于文件上传的服务器端请求地址
+                                url: '/upload/files', //用于文件上传的服务器端请求地址
                                 secureuri: false, //是否需要安全协议，一般设置为false
                                 fileElementId: 'fileID', //文件上传域的ID
                                 dataType: 'json', //返回值类型 一般设置为json
@@ -34,7 +34,7 @@
                                 {
                                     if(data && data.status==200){
                                         /*var srcUrl = $('#fileID').attr('linkUrl')
-                                        var tfsPaht = $utilWebconfig.getStaticResourcesPath();
+
                                         $('#'+srcUrl).attr('src',tfsPaht + data.data);*/
                                         alert('上传成功');
                                     }else{

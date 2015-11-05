@@ -1,40 +1,26 @@
- 
-<div>
-    <nav class="menu" data-toggle="menu" style="width: 200px">
-        <ul class="nav nav-primary">
+<!--左侧栏开始-->
+<div class="menu" data-toggle="menu" style="width: 200px;">
 
-				#foreach($menu in $menuList)
-                    <li>
-                        #if($menu.haMenuDOList.size() == 0)
-                            <li><a href="javascript:iFrameJumpPage('$!{menu.linkUrl}','$!menuSub.id');">$!menu.name</a></li>
-                        #else
-                            <a href="#"><i class="icon-time"></i> $!menu.name</a>
+    <ul class="nav nav-primary">
 
-                            <ul class="nav">
-                                #foreach($!menuSub in $!menu.haMenuDOList)
-                                    <li><a href="javascript:iFrameJumpPage('$!{menuSub.linkUrl}','$!menuSub.id');">$!menuSub.name</a></li>
-                                #end
-                            </ul>
-                        #end
-
-                    </li>
-				#end
-
-            <li><a href="#"><i class="icon-th"></i> Dashboard</a></li>
-            <li><a href="#"><i class="icon-user"></i> Me</a></li>
+        #foreach($menu in $menuList)
             <li>
-                <a href="#"><i class="icon-time"></i> Time</a>
-                <ul class="nav">
-                    <li><a href="#">Today</a></li>
-                    <li><a href="#">Tomarrow</a></li>
-                    ...
-                </ul>
+                #if($menu.haMenuDOList.size() == 0)
+                    <li><a href="javascript:iFrameJumpPage('$!{menu.linkUrl}','$!menuSub.id');">$!menu.name</a></li>
+                #else
+                    <a href="#"><i class="icon-th"></i> $!menu.name</a>
+
+                    <ul class="nav">
+                        #foreach($!menuSub in $!menu.haMenuDOList)
+                            <li><a href="javascript:iFrameJumpPage('$!{menuSub.linkUrl}','$!menuSub.id');">$!menuSub.name</a></li>
+                        #end
+                    </ul>
+                #end
             </li>
-
-        </ul>
-    </nav>
-
+        #end
+    </ul>
 </div>
+<!--左侧栏结束-->
 <script>
 $(function(){
 });

@@ -19,7 +19,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     }
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        long userId = 1;
+        /*long userId = 1;
         List<Menu> menuList = new ArrayList<Menu>();
 
         Menu menu = new Menu(1,"交易管理","/tradeManage",1,0);
@@ -30,7 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Menu menu2 = new Menu(1,"会员管理","/userManage",1,0);
         menuList.add(menu);
         menuList.add(menu2);
-        modelAndView.addObject("menuList",menuList);
+        modelAndView.addObject("menuList",menuList);*/
 
     }
 

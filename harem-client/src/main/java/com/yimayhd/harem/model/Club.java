@@ -8,14 +8,15 @@ import com.yimayhd.harem.base.BaseModel;
 public class Club extends BaseModel {
     private String name;//名称
     private String logoUrl;//logo
-    private String picturePoster;//
-    private int joinStatus;//是否允许加入状态
-    private int showStatus;//是否显示状态
-    private long joinNum;//成员数
-    private long limitNum;//成员限额
+    private String picturePoster;//俱乐部宣传图
+    private Integer sequenceNum;//排序
+    private Integer joinStatus;//是否允许加入状态
+    private Integer showStatus;//是否显示状态
+    private Long joinNum;//成员数
+    private Long limitNum;//成员限额
     private String manageUserName;//部长名称
     private String manageUserLogoUrl;//部长logo
-    private long hasActivityNum;//累计活动
+    private Long hasActivityNum;//累计活动
 
     public String getName() {
         return name;
@@ -33,35 +34,51 @@ public class Club extends BaseModel {
         this.logoUrl = logoUrl;
     }
 
-    public int getJoinStatus() {
+    public String getPicturePoster() {
+        return picturePoster;
+    }
+
+    public void setPicturePoster(String picturePoster) {
+        this.picturePoster = picturePoster;
+    }
+
+    public Integer getSequenceNum() {
+        return sequenceNum;
+    }
+
+    public void setSequenceNum(Integer sequenceNum) {
+        this.sequenceNum = sequenceNum;
+    }
+
+    public Integer getJoinStatus() {
         return joinStatus;
     }
 
-    public void setJoinStatus(int joinStatus) {
+    public void setJoinStatus(Integer joinStatus) {
         this.joinStatus = joinStatus;
     }
 
-    public int getShowStatus() {
+    public Integer getShowStatus() {
         return showStatus;
     }
 
-    public void setShowStatus(int showStatus) {
+    public void setShowStatus(Integer showStatus) {
         this.showStatus = showStatus;
     }
 
-    public long getJoinNum() {
+    public Long getJoinNum() {
         return joinNum;
     }
 
-    public void setJoinNum(long joinNum) {
+    public void setJoinNum(Long joinNum) {
         this.joinNum = joinNum;
     }
 
-    public long getLimitNum() {
+    public Long getLimitNum() {
         return limitNum;
     }
 
-    public void setLimitNum(long limitNum) {
+    public void setLimitNum(Long limitNum) {
         this.limitNum = limitNum;
     }
 
@@ -81,11 +98,11 @@ public class Club extends BaseModel {
         this.manageUserLogoUrl = manageUserLogoUrl;
     }
 
-    public long getHasActivityNum() {
+    public Long getHasActivityNum() {
         return hasActivityNum;
     }
 
-    public void setHasActivityNum(long hasActivityNum) {
+    public void setHasActivityNum(Long hasActivityNum) {
         this.hasActivityNum = hasActivityNum;
     }
 }

@@ -1,6 +1,6 @@
 <link href="$!{rc.contextPath}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$!{rc.contextPath}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/resources/css/style.css"/>
+<link rel="stylesheet" href="/resources/css/common.css"/>
 <h1>退款</h1>
 <div>
     <form class="form-signin" id="refundListForm" name="refundListForm" action="/refundManage/list" method="GET" role="form">

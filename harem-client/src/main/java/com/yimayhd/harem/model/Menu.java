@@ -10,7 +10,7 @@ import java.util.List;
 public class Menu extends BaseModel {
     private String name;
     private String linkUrl;
-    private int level;
+    private Integer level;
     private Long parentId;
     private List<Menu> menuList;
 
@@ -18,7 +18,7 @@ public class Menu extends BaseModel {
 
     }
 
-    public Menu(long id,String name,String linkUrl,int level,long parentId){
+    public Menu(Long id,String name,String linkUrl,Integer level,Long parentId){
         this.id = id;
         this.name = name;
         this.linkUrl = linkUrl;
@@ -43,11 +43,11 @@ public class Menu extends BaseModel {
         this.linkUrl = linkUrl;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

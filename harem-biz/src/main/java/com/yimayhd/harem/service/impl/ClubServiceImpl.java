@@ -17,16 +17,16 @@ public class ClubServiceImpl implements ClubService {
         //是否有查询条件
         for (int i = 0;i <= j;i++){
             Club clubData = new Club();
-            clubData.setId(i);
+            clubData.setId((long) i);
             clubData.setName("俱乐部" + i);//交易编号
             clubData.setLogoUrl("/123");
             clubData.setJoinStatus(1);
             clubData.setShowStatus(i / 2 + 1);
-            clubData.setJoinNum(50 + i);
-            clubData.setLimitNum(100 + i);
+            clubData.setJoinNum(Long.valueOf(50 + i));
+            clubData.setLimitNum(Long.valueOf(100 + i));
             clubData.setManageUserName("王武" + i);
             clubData.setManageUserLogoUrl("/456");
-            clubData.setHasActivityNum(30*i);
+            clubData.setHasActivityNum(Long.valueOf(30*i));
             clubList.add(clubData);
         }
         return clubList;
@@ -36,16 +36,26 @@ public class ClubServiceImpl implements ClubService {
     public Club getById(long id) throws Exception {
         Club clubData = new Club();
         int i = 3;
-        clubData.setId(i);
+        clubData.setId(id);
         clubData.setName("俱乐部" + i);//交易编号
         clubData.setLogoUrl("/123");
         clubData.setJoinStatus(1);
         clubData.setShowStatus(i / 2 + 1);
-        clubData.setJoinNum(50 + i);
-        clubData.setLimitNum(100 + i);
+        clubData.setJoinNum(Long.valueOf(50 + i));
+        clubData.setLimitNum(Long.valueOf(100 + i));
         clubData.setManageUserName("王武" + i);
         clubData.setManageUserLogoUrl("/456");
-        clubData.setHasActivityNum(30*i);
+        clubData.setHasActivityNum(Long.valueOf(30*i));
         return clubData;
+    }
+
+    @Override
+    public Club add(Club club) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void modify(Club club) throws Exception {
+
     }
 }

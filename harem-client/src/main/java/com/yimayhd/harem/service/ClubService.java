@@ -19,4 +19,19 @@ public interface ClubService {
      */
     Club getById(long id)throws Exception;
 
+    /**
+     * 添加俱乐部
+     * @param club
+     * @return
+     * @throws Exception
+     */
+    Club add(Club club)throws Exception;
+
+    /**
+     * 修改俱乐部
+     * @param club
+     * @throws Exception
+     */
+    void modify(Club club)throws Exception;
+
 }

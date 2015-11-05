@@ -3,6 +3,7 @@ package com.yimayhd.harem.service.impl;
 import com.yimayhd.harem.model.Refund;
 import com.yimayhd.harem.service.RefundService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +22,11 @@ public class RefundServiceImpl implements RefundService {
             refundData.setRefundNO("2008100109" + i);//交易编号
             refundData.setUserName("张三" + i);
             refundData.setPhone("18618162075");
-            refundData.setRefundMoney(488.88);
-            refundData.setShouldRefundPoint(400);
-            refundData.setAvailablePoint(200);
-            refundData.setDeductMoneyOffsetPoint(20);
-            refundData.setFactRefundMoney(468.88);
+            refundData.setRefundMoney(BigDecimal.valueOf(488.88));
+            refundData.setShouldRefundPoint(BigDecimal.valueOf(400));
+            refundData.setAvailablePoint(BigDecimal.valueOf(200));
+            refundData.setDeductMoneyOffsetPoint(BigDecimal.valueOf(20));
+            refundData.setFactRefundMoney(BigDecimal.valueOf(468.88));
             refundData.setRefundTime(new Date());
             refundData.setRefundStatus(1);
             refundData.setOperatorName("李四");
@@ -41,11 +42,11 @@ public class RefundServiceImpl implements RefundService {
         refundData.setRefundNO("2008100109");//交易编号
         refundData.setUserName("张三");
         refundData.setPhone("18618162075");
-        refundData.setRefundMoney(488.88);
-        refundData.setShouldRefundPoint(400);
-        refundData.setAvailablePoint(200);
-        refundData.setDeductMoneyOffsetPoint(20);
-        refundData.setFactRefundMoney(468.88);
+        refundData.setRefundMoney(BigDecimal.valueOf(488.88));
+        refundData.setShouldRefundPoint(BigDecimal.valueOf(400));
+        refundData.setAvailablePoint(BigDecimal.valueOf(200));
+        refundData.setDeductMoneyOffsetPoint(BigDecimal.valueOf(20));
+        refundData.setFactRefundMoney(BigDecimal.valueOf(468.88));
         refundData.setRefundTime(new Date());
         refundData.setRefundStatus(1);
         refundData.setOperatorName("李四");
@@ -60,11 +61,11 @@ public class RefundServiceImpl implements RefundService {
         refundData.setRefundNO("2008100109");//交易编号
         refundData.setUserName("张三");
         refundData.setPhone("18618162075");
-        refundData.setRefundMoney(refundMoney + 1);
-        refundData.setShouldRefundPoint(refundMoney + 1);
-        refundData.setAvailablePoint(refundMoney + 1);
-        refundData.setDeductMoneyOffsetPoint(refundMoney + 1);
-        refundData.setFactRefundMoney(refundMoney + 1);
+        refundData.setRefundMoney(BigDecimal.valueOf(refundMoney + 1));
+        refundData.setShouldRefundPoint(BigDecimal.valueOf(refundMoney + 1));
+        refundData.setAvailablePoint(BigDecimal.valueOf(refundMoney + 1));
+        refundData.setDeductMoneyOffsetPoint(BigDecimal.valueOf(refundMoney + 1));
+        refundData.setFactRefundMoney(BigDecimal.valueOf(refundMoney + 1));
         refundData.setRefundTime(new Date());
         refundData.setRefundStatus(1);
         refundData.setOperatorName("李四");
