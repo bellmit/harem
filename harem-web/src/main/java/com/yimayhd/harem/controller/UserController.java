@@ -58,6 +58,7 @@ public class UserController extends BaseController {
     String loginTest(User user,Model model) throws Exception {
         System.out.println(user.getUserName());
         System.out.println(user.getPassword());
+        System.out.println(user.getGmtCreated());
         long userId = 1;
        /* List<Menu> menuList = new ArrayList<Menu>();
 

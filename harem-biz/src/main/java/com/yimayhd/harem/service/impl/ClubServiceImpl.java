@@ -46,6 +46,7 @@ public class ClubServiceImpl implements ClubService {
         clubData.setManageUserName("王武" + i);
         clubData.setManageUserLogoUrl("/456");
         clubData.setHasActivityNum(Long.valueOf(30*i));
+
         return clubData;
     }
 

@@ -4,8 +4,10 @@ package com.yimayhd.harem.service;
 import com.yimayhd.harem.base.BaseService;
 import com.yimayhd.harem.model.User;
 
+import java.util.List;
+
 /**
- * @author liuhaiming
+ * @author
  */
 public interface UserService extends BaseService<User> {
     User login(User user) throws Exception;
@@ -33,4 +35,13 @@ public interface UserService extends BaseService<User> {
      */
     void passwordModify(User user) throws Exception;
 
+//    以上部分以后会删除
+
+    /**
+     * 根据俱乐部ID获取俱乐部成员列表
+     * @param clubId 俱乐部ID
+     * @return
+     * @throws Exception
+     */
+    List<User> getClubMemberListByClubId(long clubId)throws Exception;
 }

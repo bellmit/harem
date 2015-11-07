@@ -1,4 +1,4 @@
-
+<script type="text/javascript"src="/resources/ckeditor/ckeditor.js"></script>
 <h1>富文本编辑</h1>
 <div>
 <form class="form-signin" id="loginForm" action="/upload/ckeditor" method="post" role="form" enctype="application/x-www-form-urlencoded">
@@ -7,18 +7,17 @@
 ##<div class="control-group">
 ## <div class="jk-form-tit"><h6>商品描述</h6></div>
     <input type="text" value="$!itemForm.detailUrl" name="detailUrl"/>
-    <script type="text/javascript"src="/resources/ckeditor/ckeditor.js"></script>
 <textarea id="item_detail" name="detail" cols="20" rows="60" class="ckeditor"  ></textarea>
     <button class="btn btn-lg btn-primary btn-block" type="submit">保存</button>
 </form>
 <script>
-/*CKEDITOR.replace( 'detail');*/
+/*/!*CKEDITOR.replace( 'detail');*!/
 CKEDITOR.editorConfig = function( config ) {
     // ...
     // file upload url
     config.filebrowserUploadUrl = '/ckupload/';
     // ...
-};
+};*/
 </script>
 </fieldset>
 </div>

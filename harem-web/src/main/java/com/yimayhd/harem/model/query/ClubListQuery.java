@@ -7,8 +7,8 @@ import com.yimayhd.harem.base.BaseQuery;
  */
 public class ClubListQuery extends BaseQuery {
     private String name;//名称
-    private int joinStatus;//是否允许加入状态
-    private int showStatus;//是否显示状态
+    private Integer joinStatus;//是否允许加入状态
+    private Integer showStatus;//是否显示状态
 
     public String getName() {
         return name;
@@ -18,19 +18,19 @@ public class ClubListQuery extends BaseQuery {
         this.name = name;
     }
 
-    public int getJoinStatus() {
+    public Integer getJoinStatus() {
         return joinStatus;
     }
 
-    public void setJoinStatus(int joinStatus) {
+    public void setJoinStatus(Integer joinStatus) {
         this.joinStatus = joinStatus;
     }
 
-    public int getShowStatus() {
+    public Integer getShowStatus() {
         return showStatus;
     }
 
-    public void setShowStatus(int showStatus) {
+    public void setShowStatus(Integer showStatus) {
         this.showStatus = showStatus;
     }
 }

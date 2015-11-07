@@ -12,7 +12,7 @@ public interface ClubService {
      * 获取俱乐部列表(可带查询条件)
      * @return 俱乐部列表
      */
-    List<Club> getList(Club clubVO)throws Exception;
+    List<Club> getList(Club club)throws Exception;
     /**
      * 获取俱乐部详情
      * @return 俱乐部详情

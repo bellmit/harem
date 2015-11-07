@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后"></td>
+                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>状态</td>

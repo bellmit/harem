@@ -10,8 +10,6 @@ import com.yimayhd.harem.model.query.ClubListQuery;
 public class ClubVO {
     private Club club;
     private ClubListQuery clubListQuery;
-    private PageVo pageVo;
-
     public Club getClub() {
         return club;
     }
@@ -28,11 +26,4 @@ public class ClubVO {
         this.clubListQuery = clubListQuery;
     }
 
-    public PageVo getPageVo() {
-        return pageVo;
-    }
-
-    public void setPageVo(PageVo pageVo) {
-        this.pageVo = pageVo;
-    }
 }

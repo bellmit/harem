@@ -18,6 +18,7 @@
     <bean class="com.yimayhd.harem.service.impl.HaRoleServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.HaUserRoleServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.ActivityServiceImpl"></bean>
    <!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
 
     </bean>-->
