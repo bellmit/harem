@@ -33,4 +33,31 @@ public class OrderServiceImpl implements OrderService {
         order.setCommodityList(commodityList);
         return order;
     }
+
+	@Override
+	public List<Order> getActivityOrderList(Order order) throws Exception {
+		List<Order> orderList = new ArrayList<Order>();
+		int j = 10;
+		//是否有查询条件
+		for (int i = 0; i <j; i++) {
+			Order orders = new Order();
+			orders.setId((long)i);
+			orders.setOrderNO("20151109"+i);
+			List<Commodity> commoditys =  new ArrayList<Commodity>();
+			int b = 3;
+			for (int k = 0; k < b; k++) {
+				Commodity commodity = new Commodity();
+				commodity.setName("商品名称");
+				commodity.setOrderId(Long.valueOf(10086));
+				commodity.setNumber(Long.valueOf(2));
+				commodity.setPrice(BigDecimal.valueOf(60));
+				commoditys.add(commodity);
+			}
+			orders.setCommodityList(commoditys);
+			orderList.add(orders);
+		}
+		return orderList;
+	}
+
+	
 }

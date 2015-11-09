@@ -1,14 +1,23 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVo;
 import com.yimayhd.harem.model.Order;
+import com.yimayhd.harem.model.Trade;
+import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.harem.model.query.TradeListQuery;
+import com.yimayhd.harem.model.vo.OrderVO;
+import com.yimayhd.harem.model.vo.TradeVO;
 import com.yimayhd.harem.service.OrderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -43,6 +52,25 @@ public class OrderManageController extends BaseController {
         Order order = orderService.getById(id);
         model.addAttribute("order",order);
         return "/system/order/information";
+    }
+
+
+    /**
+     * 活动订单
+     * @return 活动订单
+     * @throws Exception
+     */
+    @RequestMapping(value = "/activityOrderList", method = RequestMethod.GET)
+    public
+    String activityOrderList(Model model,OrderListQuery orderListQuery,PageVo pageVo) throws Exception {
+    	OrderVO orderVO = new OrderVO();
+    	orderVO.setOrderListQuery(orderListQuery);
+        List<Order> activityOrderList = orderService.getActivityOrderList(orderVO);
+        pageVo.setTotalSum((long) 14800);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("orderListQuery", orderListQuery);
+        model.addAttribute("orderList", activityOrderList);
+        return "/system/order/list";
     }
 
 }
