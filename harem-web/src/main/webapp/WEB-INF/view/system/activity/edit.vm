@@ -85,8 +85,6 @@
         setup();
     })
 </script>
-</head>
-<body>
 <div class="example whole">
     <form name="activityForm" id="activityForm" action="" method="post" activityId="$!activity.id">
         <ul id="myTab" class="nav nav-tabs">
@@ -352,7 +350,7 @@
             </div>
             <div class="tab-pane" id="tab4">
                 <input type="text" value="$!activity.activityDetailAppUrl" name="activityDetailAppUrl"/>
-                <textarea id="activityDetailApp" name="activityDetailApp" cols="20" rows="60" class="ckeditor"  ></textarea>
+                <textarea id="activityDetailWeb" name="activityDetailApp" cols="20" rows="60" class="ckeditor"  ></textarea>
             </div>
             <div class="clubBotBtn">
                 <div class="btn-group">
@@ -365,6 +363,7 @@
         </div>
     </form>
 </div>
+<a href="http://192.168.1.209:7500/v1/tfs/T11RhTByxT1RX1qZUK">11111111111111111111111111</a>
 <script>
 
 
@@ -418,7 +417,8 @@
             }
             alert(actionUrl);
             $('#activityForm').attr('action',actionUrl);
-            $.post(actionUrl,$('#activityForm').serialize(),function(data){
+            $('#activityForm').submit();
+            /*$.post(actionUrl,$('#activityForm').serialize(),function(data){
                 if(data.status == 200){
                     var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                     msg.show();
@@ -430,7 +430,7 @@
                     msg.show();
                     $(this).prop('disabled',false);
                 }
-            });
+            });*/
         });
     });
 </script>
