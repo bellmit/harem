@@ -8,6 +8,6 @@
 #parse("system/layout/top.vm")
 #parse("system/layout/left.vm")
 <div class="content-page">
-    <iframe id="RightIFrame" name="RightIFrame" frameborder="0" scrolling="auto" width="100%" height="1000px" src="/user/welcome"></iframe>
+    <iframe id="RightIFrame" name="RightIFrame" frameborder="0" scrolling="auto" width="100%" height="1000px" src="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/welcome"></iframe>
 </div>
 ##   #parse("system/layout/footer.vm")

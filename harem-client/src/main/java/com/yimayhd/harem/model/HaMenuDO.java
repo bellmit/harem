@@ -2,7 +2,6 @@ package com.yimayhd.harem.model;
 
 import com.yimayhd.harem.base.BaseModel;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,8 +11,7 @@ import java.util.List;
  **/
 public class HaMenuDO extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 789855997864204104L;
     private String name; // 菜单名称
 
     private String linkUrl; // 连接地址
@@ -24,9 +22,6 @@ public class HaMenuDO extends BaseModel {
 
     private List<HaMenuDO> haMenuDOList;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getName() {
         return name;

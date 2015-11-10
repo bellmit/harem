@@ -13,31 +13,8 @@ import java.util.List;
 /**
  * @author czf
  */
-public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @Override
-    protected void initBaseMapper() {
-        setBaseMapper(userMapper);
-    }
-    public User login(User user) throws Exception {
-        return userMapper.login(user);
-    }
-    public long getCountByTel(String tel) throws Exception {
-        return userMapper.getCountByTel(tel);
-    }
-
-    @Override
-    public User getUserDetail(String id) throws Exception {
-        return userMapper.getUserDetail(id);
-    }
-
-    @Override
-    public void passwordModify(User user) throws Exception {
-        userMapper.passwordModify(user);
-    }
 
     @Override
     public List<User> getClubMemberListByClubId(long clubId) throws Exception {
@@ -49,6 +26,28 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
             user.setUserName("李四" + i);
             user.setGmtCreated(new Date());
             userList.add(user);
+        }
+        return userList;
+    }
+
+    @Override
+    public List<User> getUserList(User user) throws Exception {
+        List<User> userList = new ArrayList<User>();
+        for(int i = 0;i < 5;i++){
+            User userData = new User();
+            userData.setId((long) i);
+            userData.setUserName("Gost");
+            userData.setRealName("宋江");
+            userData.setGender(1);
+            userData.setCard("4101831900");
+            userData.setAge(18);
+            userData.setHomePlace("湖南老家");
+            userData.setProvinceId((long) 10010);
+            userData.setProvinceName("湖南");
+            userData.setCityName("郴州");
+            userData.setGmtCreated(new Date());
+            userData.setRemark("备注");
+            userList.add(userData);
         }
         return userList;
     }

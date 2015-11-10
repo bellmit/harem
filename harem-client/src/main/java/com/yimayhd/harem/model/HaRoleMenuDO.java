@@ -11,8 +11,8 @@ import java.util.Date;
  **/
 public class HaRoleMenuDO extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = -2564673778661573399L;
     private Long haMenuId; //菜单ID
 
     private Long haRoleId; //角色ID

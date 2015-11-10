@@ -1,0 +1,38 @@
+<h1>赠送积分规则</h1>
+<div>
+    <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/sendPointRule" method="GET" role="form">
+        <div class="inputGroup whole">
+            当前规则：
+            积分发放规则：$utilNum.moneyTransform($sendPointRule.Ratio)RMB=1积分
+            积分使用规则：1积分=$utilNum.moneyTransform($usePointRule.Ratio)RMB
+            积分有效期：3天
+        </div>
+        <div class="tableGroup whole">
+            <h2>规则历史</h2>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>规则</th>
+                    <th>有效期</th>
+                    <th>操作人</th>
+                    <th>生效时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                    #foreach($sendPointRule in $sendPointRuleList)
+                    <tr>
+                        <td>$!velocityCount</td>
+                        <td>1积分=$utilNum.moneyTransform($sendPointRule.Ratio)RMB</td>
+                        <td>$!sendPointRule.avaiablepPeriod</td>
+                        <td>$!user.operaName</td>
+                        <td>$utilDate.dateToString($!sendPointRule.effectiveDate,"yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                    #end
+                </tbody>
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("sendPointRuleListForm")
+    </form>

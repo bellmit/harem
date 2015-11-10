@@ -343,14 +343,16 @@
                     </label>
                 </div>
             </div>
-
+            $!activity.activityDetailApp
             <div class="tab-pane" id="tab3">
-                <input type="text" value="$!activity.activityDetailWebUrl" name="activityDetailWebUrl"/>
-                <textarea id="activityDetailWeb" name="activityDetailWeb" cols="20" rows="60" class="ckeditor"  ></textarea>
+                <textarea id="activityDetailWeb" name="activityDetailWeb" cols="20" rows="60" class="ckeditor"  >
+                    $!activity.activityDetailWeb
+                </textarea>
             </div>
             <div class="tab-pane" id="tab4">
-                <input type="text" value="$!activity.activityDetailAppUrl" name="activityDetailAppUrl"/>
-                <textarea id="activityDetailWeb" name="activityDetailApp" cols="20" rows="60" class="ckeditor"  ></textarea>
+                <textarea id="activityDetailWeb" name="activityDetailApp" cols="20" rows="60" class="ckeditor"  >
+                    $!activity.activityDetailApp
+                </textarea>
             </div>
             <div class="clubBotBtn">
                 <div class="btn-group">
@@ -363,7 +365,6 @@
         </div>
     </form>
 </div>
-<a href="http://192.168.1.209:7500/v1/tfs/T11RhTByxT1RX1qZUK">11111111111111111111111111</a>
 <script>
 
 

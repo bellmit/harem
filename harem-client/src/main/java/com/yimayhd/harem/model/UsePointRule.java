@@ -1,0 +1,18 @@
+package com.yimayhd.harem.model;
+
+import com.yimayhd.harem.base.BaseModel;
+
+/**
+ * Created by Administrator on 2015/11/9.
+ */
+public class UsePointRule extends BaseModel {
+    private Long Ratio;//比率（人民币/积分）；
+
+    public Long getRatio() {
+        return Ratio;
+    }
+
+    public void setRatio(Long ratio) {
+        Ratio = ratio;
+    }
+}

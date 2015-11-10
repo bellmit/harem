@@ -13,7 +13,7 @@
     隐藏
     #end
 #end
-
+#*活动上下架状态*#
 #macro(ACTIVITY_STATUS $type)
     #if($type == '1')
     上架
@@ -23,6 +23,16 @@
     满员
     #elseif($type == '4')
     活动结束
+    #end
+#end
+#*性别*#
+#macro(GENDER $type)
+    #if($type == '0')
+    未知
+    #elseif($type == '1')
+    男
+    #elseif($type == '2')
+    女
     #end
 #end
 

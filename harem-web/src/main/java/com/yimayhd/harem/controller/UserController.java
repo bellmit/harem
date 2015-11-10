@@ -1,19 +1,23 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVo;
 import com.yimayhd.harem.model.HaMenuDO;
-import com.yimayhd.harem.model.Menu;
+import com.yimayhd.harem.model.SendPointRule;
+import com.yimayhd.harem.model.UsePointRule;
 import com.yimayhd.harem.model.User;
+import com.yimayhd.harem.model.query.UserListQuery;
+import com.yimayhd.harem.model.vo.UserVO;
 import com.yimayhd.harem.service.HaMenuService;
+import com.yimayhd.harem.service.SendPointRuleService;
+import com.yimayhd.harem.service.UsePointRuleService;
 import com.yimayhd.harem.service.UserService;
-import com.yimayhd.harem.util.WebConfigUtil;
-import com.yimayhd.harem.util.WebResourceConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //import com.yimayhd.service.MessageCodeService;
@@ -23,7 +27,7 @@ import java.util.List;
  * @author czf
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/trade/userManage")
 public class UserController extends BaseController {
 
     @Autowired
@@ -31,6 +35,12 @@ public class UserController extends BaseController {
 
     @Autowired
     private HaMenuService haMenuService;
+
+    @Autowired
+    private SendPointRuleService sendPointRuleService;
+
+    @Autowired
+    private UsePointRuleService usePointRuleService;
 
    /* @Autowired
     private MessageCodeService messageCodeService;
@@ -85,6 +95,45 @@ public class UserController extends BaseController {
     String welcome() throws Exception {
         return "/system/welcome";
     }
+
+    /**
+     * 用户列表
+     * @param model
+     * @param pageVo 分页条件
+     * @param userListQuery 查询条件
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/userList", method = RequestMethod.GET)
+    public
+    String userList(Model model,PageVo pageVo,UserListQuery userListQuery) throws Exception {
+        UserVO userVO = new UserVO();
+        List<User> userList = userService.getUserList(userVO.getUser());
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("userListQuery",userListQuery);
+        model.addAttribute("userList",userList);
+        return "/system/user/list";
+    }
+
+    /**
+     * 积分发送规则
+     * @param model
+     * @param pageVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sendPointRule", method = RequestMethod.GET)
+    public
+    String sendPointRule(Model model,PageVo pageVo) throws Exception {
+        SendPointRule sendPointRule = sendPointRuleService.getSendPointRuleNow();
+        UsePointRule usePointRule = usePointRuleService.getUsePointRuleNow();
+        List<SendPointRule> sendPointRuleList = sendPointRuleService.getSendPointRuleHistory();
+        model.addAttribute("sendPointRule",sendPointRule);
+        model.addAttribute("usePointRule",usePointRule);
+        model.addAttribute("sendPointRuleList",sendPointRuleList);
+        return "/system/user/sendPointRule";
+    }
+
 
    /* *//**
      * 查询用户的信息

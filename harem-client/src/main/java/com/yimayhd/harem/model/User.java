@@ -19,14 +19,6 @@ public class User extends BaseModel {
      */
     private Integer gender;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     /**
      * 用户名
      */
@@ -37,35 +29,32 @@ public class User extends BaseModel {
      */
     private String password;
 
-    public String getPassword() {
-        return password;
-    }
+    private String realName;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private String card;
 
-    public String getTel() {
-        return tel;
-    }
+    private Integer age;
 
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
+    private String homePlace;
 
-    /**
-     * 注册电话
-     */
+    private Long provinceId;
+
+    private String provinceName;
+
+    private Long cityId;
+
+    private String cityName;
+
     private String tel;
 
-
+    private String remark;
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public Integer getGender() {
@@ -76,27 +65,99 @@ public class User extends BaseModel {
         this.gender = gender;
     }
 
-    public String getCode() {
-        return code;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    //注册验证码
-    private String code;
-
-    //默认地址ID
-    private String address;
-
-    public String getAddress() {
-        return address;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
+    public String getRealName() {
+        return realName;
+    }
 
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getCard() {
+        return card;
+    }
+
+    public void setCard(String card) {
+        this.card = card;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getHomePlace() {
+        return homePlace;
+    }
+
+    public void setHomePlace(String homePlace) {
+        this.homePlace = homePlace;
+    }
+
+    public Long getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Long provinceId) {
+        this.provinceId = provinceId;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }

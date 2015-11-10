@@ -7,7 +7,6 @@ import com.yimayhd.harem.model.Activity;
 import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.model.vo.ActivityVO;
 import com.yimayhd.harem.service.ActivityService;
-import com.yimayhd.harem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +24,8 @@ import java.util.List;
  * @author czf
  */
 @Controller
-@RequestMapping("/activityManage")
-public class ActivityManageController extends BaseController {
+@RequestMapping("/TravelManage")
+public class TravelManageController extends BaseController {
     @Autowired
     private ActivityService activityService;
 

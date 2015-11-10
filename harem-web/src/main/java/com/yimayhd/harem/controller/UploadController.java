@@ -3,11 +3,9 @@ package com.yimayhd.harem.controller;
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.util.WebConfigUtil;
 import com.yimayhd.harem.util.WebResourceConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/10/23.

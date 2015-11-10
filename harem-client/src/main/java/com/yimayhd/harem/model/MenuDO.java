@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class MenuDO extends BaseModel {
 
+    private static final long serialVersionUID = -3841255297152329985L;
     private String name;
 
     private String linkUrl;

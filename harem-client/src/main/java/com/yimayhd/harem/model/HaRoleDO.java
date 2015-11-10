@@ -11,6 +11,7 @@ import java.util.Date;
  **/
 public class HaRoleDO extends BaseModel {
 
+    private static final long serialVersionUID = 4253103877866042198L;
     private String name; // 角色名称
 
 

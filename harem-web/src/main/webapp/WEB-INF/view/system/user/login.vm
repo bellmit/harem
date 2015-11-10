@@ -2,7 +2,7 @@
 
 <div>登陆$!{rc.realPath}</div>
 <div class="container">
-    <form class="form-signin" id="loginForm" action="/user/login" method="post" role="form">
+    <form class="form-signin" id="loginForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/login" method="post" role="form">
         <div class="form-group" style="width:450px;">
             <h3 class="form-signin-heading">登录</h3>
             <div>

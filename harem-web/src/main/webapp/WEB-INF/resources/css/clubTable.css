@@ -1,6 +1,10 @@
-/***************¥¥Ω®æ„¿÷≤ø±Ì∏Ò*************/
+@charset "UTF-8";
+
+table{border: 1px solid #ddd;}
+/**********************************‰ø±‰πêÈÉ®********************************/
+/***************ÂàõÂª∫Ë°®Ê†º*************/
 .createClubTable .spColor{color: #ff0000;font-size: 18px;}
-.createClubTable tr td:nth-child(1){font-size: 14px;font-weight: bold;}
+.createClubTable tr td:nth-child(1){font-size: 14px;font-weight: bold;min-width: 95px;}
 .createClubTable .fileImg{position: relative;float: left;padding-top: 20px;}
 .createClubTable .fileImg .btn{width: 100px;}
 .createClubTable .fileImg .fileInp{position: absolute;top: 19px;left: 0;font-size: 25px;width: 102px;height: 33px;opacity: 0;filter:alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;-webkit-opacity: 0;}
@@ -21,3 +25,38 @@
 .clubBotBtn{text-align: center;}
 .clubBotBtn .btn{width: 100px;}
 .clubBotBtn .btn-group:nth-child(1){margin-right: 20px;}
+/***************ÂàõÂª∫Ê¥ªÂä®*************/
+.createClubTable .activeImg{float: left;overflow: hidden;margin-left: 15px;}
+.createClubTable .activeImg img{width: 150px;margin-right: 10px;margin-bottom: 5px;}
+.createClubTable .dateTo{float: left;display: block;height: 30px;line-height: 30px;}
+.createClubTable .activeFile{margin: 0;padding: 0;}
+.createClubTable .activeFile p{margin-bottom: 0;}
+.createClubTable .selCity{width: 48%;float: left;}
+.createClubTable .selCity:nth-last-child(1){width: 48%;float: right;}
+.activeMnyPane{border: 1px solid #ddd;overflow: hidden;border-top: none;}
+.activeMnyPane .pNote{padding: 15px;margin: 0;}
+.activeMnyPane .col-md-10{width: 100%;padding: 0;}
+.activeMnyPane .radioActive{width: 100%;padding: 10px 25px 0 38px;border-bottom: 1px solid #ddd;margin: 0;}
+.activeMnyPane .radioActive .checkActiveType{font-weight: normal;}
+.activeMnyPane .radioActive:nth-child(1){padding-top: 0;}
+.activeMnyPane .radioActive .checkboxLeft{margin-left: 10px;}
+.activeMnyPane .radioActive input[type="checkbox"]{margin-right: 5px;margin-top: 3px;}
+.activeMnyPane .radioActive .totalSp{margin-left: 10px;}
+.activeMnyPane table{text-align: center;margin-top: 10px;}
+.activeMnyPane table th{text-align: center;}
+.activeBotBtn{width: 100%;float: left;margin-top: 20px;}
+/***************ÂàõÂª∫Ê¥ªÂä®1*************/
+.clubCreateActivePage{text-align: center;padding: 20px;}
+.clubCreateActivePage select{display: inline-block;width: 50%;}
+.clubCreateActivePage button{margin-top: 20px;width: 100px;}
+/***************Âä®ÊÄÅÁÆ°ÁêÜ*************/
+.clubDynamicPage .dynamicTop{margin-bottom: 12px;}
+.clubDynamicPage .dynamicTop .illegalBtn{display: block;}
+.clubDynamicPage .dynamicTop .recoveryBtn{display: block;}
+.clubDynamicPage .dynamicTop textarea{width: 82%;border: 1px solid #ddd;display: inline-block;}
+.clubDynamicPage .dynamicTop button{width: 13%;height: 52px;padding: 10px 0;float: right;min-width: 40px;}
+.clubDynamicPage table .imgCircle{width: 70px;height: 70px;}
+.clubDynamicPage table .imgRectangular{width: 100px;height: 100px;margin-bottom: 5px;cursor: pointer;}
+.clubDynamicPage table tr td:nth-child(1){font-weight: bold;min-width: 80px;}
+.clubDynamicPage table .viewBtn{margin-left: 10px;}
+

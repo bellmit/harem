@@ -3,13 +3,9 @@ package com.yimayhd.harem.controller;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVo;
 import com.yimayhd.harem.model.Order;
-import com.yimayhd.harem.model.Trade;
 import com.yimayhd.harem.model.query.OrderListQuery;
-import com.yimayhd.harem.model.query.TradeListQuery;
 import com.yimayhd.harem.model.vo.OrderVO;
-import com.yimayhd.harem.model.vo.TradeVO;
 import com.yimayhd.harem.service.OrderService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

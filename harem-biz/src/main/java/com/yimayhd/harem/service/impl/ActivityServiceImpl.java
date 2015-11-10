@@ -5,6 +5,7 @@ import com.yimayhd.harem.model.Activity;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.ClubService;
+import com.yimayhd.harem.util.HttpRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -99,6 +100,10 @@ public class ActivityServiceImpl implements ActivityService {
         activity.setTagList(stringList);
         activity.setActivityDetailWebUrl("T1xyhTByhT1RX1qZUK");
         activity.setActivityDetailAppUrl("T13RhTByhT1RX1qZUK");
+        HttpRequestUtil httpRequestUtil = new HttpRequestUtil();
+        String resault = httpRequestUtil.sendGet("http://192.168.1.209:7500/v1/tfs/T1QRJTByZT1RX1qZUK");
+        activity.setActivityDetailWeb(resault);
+        activity.setActivityDetailApp(resault);
         return activity;
     }
 
@@ -117,10 +122,10 @@ public class ActivityServiceImpl implements ActivityService {
         String encodeHtml = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
         String activityDetailWeb = tfsManager.saveFile((encodeHtml+activity.getActivityDetailWeb()).getBytes("utf-8"), null, "html");
         String activityDetailApp = tfsManager.saveFile((encodeHtml+activity.getActivityDetailApp()).getBytes("utf-8"), null, "html");
-        activity.setActivityDetailWebUrl(activityDetailWeb);
+        /*activity.setActivityDetailWebUrl(activityDetailWeb);
         activity.setActivityDetailAppUrl(activityDetailApp);
         System.out.println(activityDetailWeb);
-        System.out.println(activityDetailApp);
+        System.out.println(activityDetailApp);*/
 
     }
 }

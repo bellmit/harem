@@ -1,4 +1,6 @@
 @charset "UTF-8";
+*{ margin:0;padding:0;}
+ul li,ol li{list-style: none;}
 
 .inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;}
 .whole{width: 98%;float: right;margin: 10px;}
@@ -25,12 +27,7 @@
 .dialogPoint .noteDialog .remark{width: 78%;float: right;}
 .dialogPoint .form-group{margin: 0;}
 
-
-
-
-
-
-
+.alertPageNote{margin-bottom: 0;}
 
 
 

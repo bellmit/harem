@@ -9,7 +9,6 @@
     <context:component-scan base-package="com.yimayhd.harem.service, com.yimayhd.harem.task"/>
 
     <bean class="com.yimayhd.harem.service.impl.UserServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.SysUserServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.TradeServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.RefundServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.OrderServiceImpl"></bean>
@@ -19,6 +18,9 @@
     <bean class="com.yimayhd.harem.service.impl.HaUserRoleServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
     <bean class="com.yimayhd.harem.service.impl.ActivityServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.SendPointRuleServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.UsePointRuleServiceImpl"></bean>
+    <bean class="com.yimayhd.harem.service.impl.TrendServiceImpl"></bean>
    <!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
 
     </bean>-->
