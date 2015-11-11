@@ -101,9 +101,10 @@ public class ActivityServiceImpl implements ActivityService {
         activity.setActivityDetailWebUrl("T1xyhTByhT1RX1qZUK");
         activity.setActivityDetailAppUrl("T13RhTByhT1RX1qZUK");
         HttpRequestUtil httpRequestUtil = new HttpRequestUtil();
-        String resault = httpRequestUtil.sendGet("http://192.168.1.209:7500/v1/tfs/T1QRJTByZT1RX1qZUK");
+        String resault = httpRequestUtil.sendGet("http://192.168.1.209:7500/v1/tfs/T1IyhTByZT1RX1qZUK");
         activity.setActivityDetailWeb(resault);
         activity.setActivityDetailApp(resault);
+        System.out.println(resault);
         return activity;
     }
 
@@ -120,12 +121,24 @@ public class ActivityServiceImpl implements ActivityService {
         System.out.println(activity.getActivityDetailApp());
         //保存文件到tfs
         String encodeHtml = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
-        String activityDetailWeb = tfsManager.saveFile((encodeHtml+activity.getActivityDetailWeb()).getBytes("utf-8"), null, "html");
-        String activityDetailApp = tfsManager.saveFile((encodeHtml+activity.getActivityDetailApp()).getBytes("utf-8"), null, "html");
-        /*activity.setActivityDetailWebUrl(activityDetailWeb);
+        String encodeHtmlHead = "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n" +
+                "    <title></title>\n" +
+                "</head>\n" +
+                "<body>";
+        String encodeHtmlFoot = "</body>\n" +
+                "</html>";
+
+        String activityDetailWeb = tfsManager.saveFile((encodeHtmlHead + activity.getActivityDetailWeb() + encodeHtmlFoot).getBytes("utf-8"), null, "html");
+        String activityDetailApp = tfsManager.saveFile((encodeHtmlHead + activity.getActivityDetailApp() + encodeHtmlFoot).getBytes("utf-8"), null, "html");
+        activity.setActivityDetailWebUrl(activityDetailWeb);
         activity.setActivityDetailAppUrl(activityDetailApp);
         System.out.println(activityDetailWeb);
-        System.out.println(activityDetailApp);*/
+        System.out.println(activityDetailApp);
 
     }
 }

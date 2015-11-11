@@ -37,7 +37,7 @@ public class TrendServiceImpl implements TrendService{
             trendData.setPraiseNum(278);
             trendData.setIp("192.168.1.100");
 
-            trendList.add(trend);
+            trendList.add(trendData);
         }
         return trendList;
     }

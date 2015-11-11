@@ -35,6 +35,22 @@
     女
     #end
 #end
+#*俱乐部-动态状态*#
+#macro(TREND_STATUS $type)
+    #if($type == '1')
+    正常
+    #elseif($type == '2')
+    违规
+    #end
+#end
+#*官方游记状态*#
+#macro(TRAVELOFFICIAL_STATUS $type)
+    #if($type == '1')
+    上架
+    #elseif($type == '2')
+    下架
+    #end
+#end
 
 #macro(IS_RECOMMEND_SELECTED $isRecommend)
 <option value="">全部</option> 

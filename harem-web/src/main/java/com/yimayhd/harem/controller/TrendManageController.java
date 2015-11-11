@@ -38,13 +38,12 @@ public class TrendManageController extends BaseController {
         TrendVO trendVO = new TrendVO();
         trendVO.setTrendListQuery(trendListQuery);
         List<Trend> trendList = trendService.getList(trendVO.getTrend());
-
         pageVo.setTotalSum((long) 14800);
         //pageVo.setCurrentPage(60);
         model.addAttribute("pageVo", pageVo);
         model.addAttribute("trendListQuery", trendListQuery);
         model.addAttribute("trendList", trendList);
-        return "/system/activity/list";
+        return "/system/trend/list";
     }
 
     /**

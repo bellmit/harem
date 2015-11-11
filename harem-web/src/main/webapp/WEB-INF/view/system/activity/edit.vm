@@ -343,7 +343,6 @@
                     </label>
                 </div>
             </div>
-            $!activity.activityDetailApp
             <div class="tab-pane" id="tab3">
                 <textarea id="activityDetailWeb" name="activityDetailWeb" cols="20" rows="60" class="ckeditor"  >
                     $!activity.activityDetailWeb
@@ -365,6 +364,8 @@
         </div>
     </form>
 </div>
+#*<object style="border:0px" type="text/x-scriptlet" data="http://192.168.1.209:7500/v1/tfs/T1IRhTByZT1RX1qZUK" width=100% height=30></object>*#
+
 <script>
 
 

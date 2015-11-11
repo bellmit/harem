@@ -8,8 +8,8 @@ import com.yimayhd.harem.base.BaseQuery;
 public class TrendListQuery extends BaseQuery {
     private Long tag;
     private Integer trendStatus;
-    private String Tel;
-    private String name;
+    private String userTel;
+    private String userName;
 
     public Long getTag() {
         return tag;
@@ -27,19 +27,19 @@ public class TrendListQuery extends BaseQuery {
         this.trendStatus = trendStatus;
     }
 
-    public String getTel() {
-        return Tel;
+    public String getUserTel() {
+        return userTel;
     }
 
-    public void setTel(String tel) {
-        Tel = tel;
+    public void setUserTel(String userTel) {
+        this.userTel = userTel;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

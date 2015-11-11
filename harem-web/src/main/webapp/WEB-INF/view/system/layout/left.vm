@@ -24,12 +24,25 @@
 <script>
 $(function(){
 });
-
+function openwin(url) {
+    var a = document.createElement("a");
+    a.setAttribute("href", url);
+    a.setAttribute("target", "_blank");
+    a.setAttribute("id", "camnpr");
+    document.body.appendChild(a);
+    a.click();
+}
 function iFrameJumpPage(url,id)
  {
  	$("#nav a").removeClass("active");
-	$("#"+id).addClass('active');
+
     $("#RightIFrame").attr("src",url);
+    $("#"+id).addClass('active');
+     $('#RightIFrame').load(function(){
+         $('#RightIFrame').height($('#RightIFrame').contents().height()+200);
+     });
  }
+
+
 </script>
  
