@@ -3,7 +3,7 @@
 ul li,ol li{list-style: none;}
 
 .inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;}
-.whole{width: 98%;float: right;margin: 10px;}
+.whole{}
 .inpSingle{margin-bottom: 10px;width: 32%;float: left;margin-right: 1%;}
 @media (min-width: 800px){
     .inpSingle{width: 32%;float: left;margin-right: 1%;}
@@ -29,7 +29,16 @@ ul li,ol li{list-style: none;}
 
 .alertPageNote{margin-bottom: 0;}
 
-
-
+/*标签页*/
+.tabsWrap{position: fixed;top: 42px;left: 0;width: 100%;z-index: 90;}
+.tabsWrap .dropdown{display: none;}
+.tabsWrap .dropdown .dropdown-menu{height: 250px;overflow: auto;}
+.tabsWrap #myTabList{background: #F5F5EF;height: 38px;margin-left: 200px;}
+/*.tabsWrap #myTabList .js_tabClick{height: 38px;position: relative;}
+.tabsWrap #myTabList .js_tabClick a{display: inline-block;padding-right: 25px;}
+.tabsWrap #myTabList .tabClose{margin-left: 20px;position: absolute;right: 7px;top: 11px;}*/
+.tabsWrap #myTabContent{margin-left: 220px;margin-top: 20px;margin-right: 20px;}
+.tabsWrap .tab-content .tab-pane{}
+.tabsWrap .tab-content .tab-pane iframe{width: 100%;}
 
 

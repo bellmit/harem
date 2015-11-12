@@ -1,48 +1,146 @@
 <!--左侧栏开始-->
-<div class="menu" data-toggle="menu" style="width: 200px;">
 
+<div class="menu" data-toggle="menu" style="width: 200px;z-index: 100;background: #fff;">
     <ul class="nav nav-primary">
-
+        <li><a href="#" id="tubiao" onclick="tabsAdd('tubiao','http://localhost:8080/trade/userManage/userList',2,'图表')"><i class="icon-th"></i> 图表</a></li>
         #foreach($menu in $menuList)
-            <li>
-                #if($menu.haMenuDOList.size() == 0)
-                    <li><a href="javascript:iFrameJumpPage('$!{menu.linkUrl}','$!menuSub.id');">$!menu.name</a></li>
-                #else
-                    <a href="#"><i class="icon-th"></i> $!menu.name</a>
+        <li>
+            #if($menu.haMenuDOList.size() == 0)
+                <li><a href="javascript:iFrameJumpPage('$!{menu.linkUrl}','$!menuSub.id');">$!menu.name</a></li>
+            #else
+                <a href="#"><i class="icon-th"></i> $!menu.name</a>
 
-                    <ul class="nav">
-                        #foreach($!menuSub in $!menu.haMenuDOList)
-                            <li><a href="javascript:iFrameJumpPage('$!{menuSub.linkUrl}','$!menuSub.id');">$!menuSub.name</a></li>
-                        #end
-                    </ul>
-                #end
+                <ul class="nav">
+                    #foreach($!menuSub in $!menu.haMenuDOList)
+                        <li><a href="javascript:iFrameJumpPage('$!{menuSub.linkUrl}','$!menuSub.id');">$!menuSub.name</a></li>
+                    #end
+                </ul>
+            #end
             </li>
         #end
     </ul>
 </div>
 <!--左侧栏结束-->
 <script>
-$(function(){
-});
-function openwin(url) {
-    var a = document.createElement("a");
-    a.setAttribute("href", url);
-    a.setAttribute("target", "_blank");
-    a.setAttribute("id", "camnpr");
-    document.body.appendChild(a);
-    a.click();
-}
-function iFrameJumpPage(url,id)
- {
- 	$("#nav a").removeClass("active");
+    /*function openwin(url) {
+        var a = document.createElement("a");
+        a.setAttribute("href", url);
+        a.setAttribute("target", "_blank");
+        a.setAttribute("id", "camnpr");
+        document.body.appendChild(a);
+        a.click();
+    }
+    function iFrameJumpPage(url,id)
+     {
+         $("#nav a").removeClass("active");
 
-    $("#RightIFrame").attr("src",url);
-    $("#"+id).addClass('active');
-     $('#RightIFrame').load(function(){
-         $('#RightIFrame').height($('#RightIFrame').contents().height()+200);
-     });
- }
+        $("#RightIFrame").attr("src",url);
+        $("#"+id).addClass('active');
+         $('#RightIFrame').load(function(){
+             $('#RightIFrame').height($('#RightIFrame').contents().height()+200);
+         });
+     }*/
+    /*点击元素新建头部标签页,openType为当前点击元素的tab类型，tabName为当前点击元素的文本内容*/
+    var num=0;
+    function tabsAdd(id,url,openType,tabName){
+        num++;
+        var tabLi = $("#myTabList li");
+        var activeLi = $("#myTabList>li.active");
+        var activeIframeWrap = $("#myTabContent>div.active");
+        var tabId = id + num ;
+        var elVal = tabName + num;
+        var tabList = '<li class="js_tabClick active" dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
+        var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
+        tabLi.removeClass("active");
+        $("#myTabContent>.tab-pane").removeClass("active");
+        $("#myTabContent>.tab-pane").removeClass("in");
+        if(openType==1){
+            if(tabLi.length==1){
+                $("#myTabList").prepend(tabList);
+                $("#myTabContent").prepend(paneTab);
+            }else {
+                activeLi.before(tabList);
+                activeIframeWrap.before(paneTab);
+            }
+        }else{
+            if(tabLi.length==1){
+                $("#myTabList").prepend(tabList);
+                $("#myTabContent").prepend(paneTab);
+            }else {
+                activeLi.after(tabList);
+                activeIframeWrap.after(paneTab);
+            }
+        }
+        if(tabLi.length >= 10){
+            $("#myTabList>li.dropdown").show();
+            //alert(activeLi.index());
+            if(activeLi.index()>=4){
+                var tabMore = tabLi.slice(0,1)[0];
+                tabMore.remove();
+                $(tabMore).attr("tabindex","-1");
+                $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
+            }else{
+                var tabMore = tabLi.slice(8,9)[0];
+                tabMore.remove();
+                $(tabMore).attr("tabindex","-1");
+                $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
+            }
+        }
+        $('#'+tabId+' .tabIframe').attr('src',url);
+        $('#'+tabId+' .tabIframe').load(function(){
+            $(this).height($(this).contents().height()+200);
+        });
+    }
 
+    $(function(){
+        $(document).delegate(".tabClose","click",function(e){
+            e.stopPropagation();
+            if($("#myTabList li").length == 11){
+                $("#myTabList>li.dropdown").hide();
+            }
+            var prevNode = $(this).parent().parent().prev();
+            var prevId = $(prevNode).attr("dataId");
+            var paneId = $(this).parent().parent().attr("dataId");
+            $("#myTabContent").find("#"+paneId).remove();
+            $(this).parent().parent().remove();
+            $("#myTabList li").removeClass("active");
+            if($(this).parent().parent().attr("tabindex")=="-1"){
+                $("#myTabList li:first").addClass("active");
+                var firstId = $("#myTabList li:first").attr("dataId");
+                $('#'+firstId+'').show();
+                if($("#myTabList .dropdown-menu li").length==0){
+                    $("#myTabList .dropdown").hide();
+                }
+            }else{
+                if($(".dropdown").css("display")=="block"){
+                    var firstDrop = $("#myTabList .dropdown-menu li:first");
+                    $(firstDrop).remove();
+                    $(firstDrop).removeAttr("tabindex");
+                    $("#myTabList .dropdown").before(firstDrop);
+                }
+                $(prevNode).addClass("active");
+                $('#'+prevId+'').show();
+            }
+
+        });
+
+        /*标签页点击切换*/
+        $(document).delegate(".js_tabClick","click",function(){
+            var tab_id = $(this).attr("dataId");
+            $(".tab-pane").hide();
+            $('#'+tab_id+'').show();
+        });
+        /*标签页查看更多点击*/
+        $(document).delegate(".dropdown-menu .js_tabClick","click",function(){
+            var th = $(this);
+            th.remove();
+            var tabMore = $("#myTabList li").slice(8,9)[0];
+            tabMore.remove();
+            $("#myTabList>li.dropdown").show();
+            $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
+            $("#myTabList").prepend(th);
+        })
+    })
 
 </script>
  
