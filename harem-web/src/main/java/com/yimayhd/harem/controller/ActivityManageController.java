@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-//import com.yimayhd.service.MessageCodeService;
-
 /**
  * 活动管理
  * @author czf
  */
 @Controller
-@RequestMapping("/activityManage")
+@RequestMapping("/B2C/activityManage")
 public class ActivityManageController extends BaseController {
     @Autowired
     private ActivityService activityService;
@@ -71,6 +69,7 @@ public class ActivityManageController extends BaseController {
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public
     String toAdd() throws Exception {
+        System.out.println("toAdd11111");
         return "/system/activity/edit";
     }
     /**
@@ -79,10 +78,10 @@ public class ActivityManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo add(Activity activity) throws Exception {
+    public String add(Activity activity) throws Exception {
         activityService.add(activity);
-        return new ResponseVo();
+        System.out.println("add11111");
+        return "/success";
     }
     /**
      * 编辑活动
@@ -94,7 +93,7 @@ public class ActivityManageController extends BaseController {
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
         Activity activity = activityService.getById(id);
         model.addAttribute("activity", activity);
-
+        System.out.println("toEdit111111");
         return "/system/activity/edit";
     }
 
@@ -104,12 +103,11 @@ public class ActivityManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @ResponseBody
     public
-    ResponseVo edit(Activity activity) throws Exception {
+    String edit(Activity activity) throws Exception {
         activityService.modify(activity);
-        System.out.println(activity.getTagList().get(0));
-        return new ResponseVo();
+        System.out.println("edit111111");
+        return "/error";
     }
 
     /**

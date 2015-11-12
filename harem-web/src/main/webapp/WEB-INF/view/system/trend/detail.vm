@@ -17,7 +17,7 @@
                 <td>用户信息</td>
                 <td>
                     <img src="images/11.jpg" alt="" class="img-circle imgCircle"/>
-                    <input name="id" value="$trend.id" id="trendId">
+                    <input type="hidden" name="id" value="$trend.id" id="trendId">
                     <span>$!trend.user.name</span>
                     <span>$!trend.user.tel</span>
                 </td>

@@ -1,7 +1,7 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <h1>活动列表</h1>
-    <form class="form-signin" id="activityListForm" name="activityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/activityManage/list" method="GET" role="form">
+    <form class="form-signin" id="activityListForm" name="activityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/activityManage/list" method="GET" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -123,24 +123,15 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-    function openwin(url) {
-        var a = document.createElement("a");
-        a.setAttribute("href", url);
-        a.setAttribute("target", "_blank");
-        a.setAttribute("id", "camnpr");
-        document.body.appendChild(a);
-        a.click();
-    }
-
     $(function(){
         $('.activityAdd').click(function(){
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/activityManage/toAdd';
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/activityManage/toAdd';
             window.openwin(url);
         });
 
         $('.activityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/activityManage/'+ $(this).attr('activityId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/activityManage/'+ $(this).attr('activityId');
                 window.openwin(url);
             });
 
@@ -149,7 +140,7 @@
         $('.activityBtn').each(function(){
             $(this).click(function(){
                 $(this).prop('disabled',true);
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/activityManage/setIsStatus/' + $(this).attr('activityId') ,{'isStatus':$(this).attr('isStatus')} ,function(data){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/activityManage/setIsStatus/' + $(this).attr('activityId') ,{'isStatus':$(this).attr('isStatus')} ,function(data){
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();

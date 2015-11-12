@@ -24,7 +24,7 @@ ul li,ol li{list-style: none;}
 .dialogPoint .dialogDec{float: right;width: 50%;margin-bottom: 32px;}
 .dialogPoint .noteDialog{padding: 0;overflow: hidden;float: left;width: 100%;}
 .dialogPoint .noteDialog label{float: left;width: 100px;height: 33px;line-height: 33px;text-align: right;margin-bottom: 0;margin-right: 15px;}
-.dialogPoint .noteDialog .remark{width: 78%;float: right;}
+.dialogPoint .noteDialog .remark{width: 78%;float: left;}
 .dialogPoint .form-group{margin: 0;}
 
 .alertPageNote{margin-bottom: 0;}

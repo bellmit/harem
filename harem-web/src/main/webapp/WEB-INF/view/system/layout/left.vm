@@ -6,13 +6,13 @@
         #foreach($menu in $menuList)
         <li>
             #if($menu.haMenuDOList.size() == 0)
-                <li><a href="javascript:iFrameJumpPage('$!{menu.linkUrl}','$!menuSub.id');">$!menu.name</a></li>
+                <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menu.linkUrl}" href="javascript:void(0);">$!menu.name</a></li>
             #else
                 <a href="#"><i class="icon-th"></i> $!menu.name</a>
 
                 <ul class="nav">
                     #foreach($!menuSub in $!menu.haMenuDOList)
-                        <li><a href="javascript:iFrameJumpPage('$!{menuSub.linkUrl}','$!menuSub.id');">$!menuSub.name</a></li>
+                        <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menuSub.linkUrl}" href="javascript:void(0);">$!menuSub.name</a></li>
                     #end
                 </ul>
             #end
@@ -22,6 +22,7 @@
 </div>
 <!--左侧栏结束-->
 <script>
+
     /*function openwin(url) {
         var a = document.createElement("a");
         a.setAttribute("href", url);
@@ -47,8 +48,10 @@
         var tabLi = $("#myTabList li");
         var activeLi = $("#myTabList>li.active");
         var activeIframeWrap = $("#myTabContent>div.active");
-        var tabId = id + num ;
-        var elVal = tabName + num;
+        //暂时去掉
+        //var tabId = id + num ;
+        var tabId = 'tab' + num
+        var elVal = tabName;
         var tabList = '<li class="js_tabClick active" dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
         var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
         tabLi.removeClass("active");
@@ -93,6 +96,11 @@
     }
 
     $(function(){
+        $('.menuLi').click(function(){
+            tabsAdd($(this).attr('id'),$(this).attr('menuLinkUrl'),1,$(this).text());
+
+        });
+
         $(document).delegate(".tabClose","click",function(e){
             e.stopPropagation();
             if($("#myTabList li").length == 11){

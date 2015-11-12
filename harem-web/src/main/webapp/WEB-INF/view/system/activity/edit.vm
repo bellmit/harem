@@ -413,26 +413,13 @@
             var actionUrl;
             var activityId = $('#activityForm').attr('activityId');
             if(activityId){
-                actionUrl = '/activityManage/edit';
+                actionUrl = '$!utilWebconfig.getActionDefaultFontPath()/B2C/activityManage/edit';
             }else{
-                actionUrl = '/activityManage/add';
+                actionUrl = '$!utilWebconfig.getActionDefaultFontPath()/B2C/activityManage/add';
             }
             alert(actionUrl);
             $('#activityForm').attr('action',actionUrl);
             $('#activityForm').submit();
-            /*$.post(actionUrl,$('#activityForm').serialize(),function(data){
-                if(data.status == 200){
-                    var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                    msg.show();
-                    setTimeout(function(){
-                        window.close();
-                    },1050);
-                }else{
-                    var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                    msg.show();
-                    $(this).prop('disabled',false);
-                }
-            });*/
         });
     });
 </script>
