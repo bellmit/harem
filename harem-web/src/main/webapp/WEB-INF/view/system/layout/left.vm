@@ -92,13 +92,13 @@
         $('#'+tabId+' .tabIframe').attr('src',url);
         $('#'+tabId+' .tabIframe').load(function(){
             $(this).height($(this).contents().height()+200);
+            $(".js_tabClick.active").click();
         });
     }
 
     $(function(){
         $('.menuLi').click(function(){
             tabsAdd($(this).attr('id'),$(this).attr('menuLinkUrl'),1,$(this).text());
-
         });
 
         $(document).delegate(".tabClose","click",function(e){
