@@ -19,11 +19,11 @@
 
         setTimeout(function(){
             window.opener.location.href = window.opener.location.href;
-            //window.close();
+            window.close();
         },2000)
     })
     $('.closeBtn').click(function(){
-        //window.close();
+        window.close();
     });
 
 </script>

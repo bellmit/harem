@@ -182,14 +182,9 @@
             });
 
 
-    function getOrder(id)
-    {
-        window.open("/orderManage/"+id, "_blank");
-    }
-
     $(function(){
         $('.orderLink').click(function(){
-            tabsAdd('',$(this).attr('orderLinkUrl'),2,$(this).text());
+            top.tabsAdd('',$(this).attr('orderLinkUrl'),2,$(this).text());
 
         });
         $('.addRefund').click(function(){

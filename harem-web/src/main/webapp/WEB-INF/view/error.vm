@@ -24,7 +24,7 @@
             //history.back();
         });
         $('.closeBtn').click(function(){
-            //window.close();
+            window.close();
         });
     })
 </script>
