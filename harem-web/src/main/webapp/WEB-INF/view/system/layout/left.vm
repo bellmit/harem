@@ -23,6 +23,17 @@
 <!--左侧栏结束-->
 <script>
 
+   /* var myJsonLeft = {
+        "employees": [
+            { "firstName":"Bill" , "lastName":"Gates" },
+            { "firstName":"George" , "lastName":"Bush" },
+            { "firstName":"Thomas" , "lastName":"Carter" }
+        ]
+    }
+    function returnJsonLeft(){
+        return myJsonLeft;
+    }*/
+
     /*function openwin(url) {
         var a = document.createElement("a");
         a.setAttribute("href", url);

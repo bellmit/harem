@@ -114,4 +114,10 @@
         window.open("/refundManage/"+id, "_blank");
     }
 
+    $("#refundListForm").validate({
+        rules:{
+            refundNO:"required"
+        }
+    })
+
 </script>
