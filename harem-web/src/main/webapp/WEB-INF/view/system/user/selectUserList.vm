@@ -73,6 +73,15 @@
     </form>
     <script>
         $(function(){
+
+            function selUserList(){
+                var resultValue = new Array();
+                $('.subChecked:checked').each(function(){
+                    var user = {id:$(this).val(),name:$(this).attr('userName')}
+                    resultValue.push(user);
+                });
+                top.resultValue = resultValue;
+            }
             /*$('.selectBtn').click(function(){
                 var resultValue = new Array();
                 $('.subChecked:checked').each(function(){
@@ -87,9 +96,11 @@
             }*/
             $('.allChecked').click(function(){
                 $('.subChecked').prop('checked',$(this).prop('checked'));
+                selUserList();
             });
             $('.subCheckedTR').click(function(){
                 $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
+                selUserList();
             });
         });
 

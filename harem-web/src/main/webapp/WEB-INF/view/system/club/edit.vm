@@ -105,17 +105,11 @@
                 area: ['1000px', '500px'],
                 content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
                 yes: function(){
-                    var resultValue = new Array();
-                    frames[0].$('.subChecked:checked').each(function(){
-                        var user = {id:$(this).val(),name:$(this).attr('userName')}
-                        resultValue.push(user);
-                    });
-                    if(resultValue.length==0){
+                    alert(top.resultValue.length)
+                    if(top.resultValue.length==0){
                         alert("请选择用户");
                         return false;
                     }
-                    top.resultValue = resultValue;
-                    alert(resultValue.length);
                 },cancel: function(){
                     //return false;
                 },end: function(){
