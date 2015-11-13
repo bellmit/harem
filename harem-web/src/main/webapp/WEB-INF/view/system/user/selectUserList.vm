@@ -1,7 +1,7 @@
-<h1>用户列表</h1>
-<div>
+
+<div style="margin: 15px;">
     <form class="form-signin" id="userListForm" name="userListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/userList" method="GET" role="form">
-        <div class="inputGroup whole">
+        <div class="inputGroup" style="margin-bottom: 10px;">
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">会员名</button>
@@ -26,7 +26,7 @@
 
         </div>
 
-        <div class="tableGroup whole">
+        <div class="tableGroup">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -64,24 +64,23 @@
                 </tbody>
             </table>
         </div>
-        <div class="btn-group">
+        #*<div class="btn-group">
             <button type="button" class="btn btn-primary selectBtn">选择</button>
-        </div>
+        </div>*#
     #*分页*#
     #parse("/page.vm")
     #pageStyle("userListForm")
     </form>
     <script>
         $(function(){
-            $('.selectBtn').click(function(){
-                $('.subChecked:checked').foreach(function(){
+            /*$('.selectBtn').click(function(){
+                var resultValue = new Array();
+                $('.subChecked:checked').each(function(){
                     var user = {id:$(this).val(),name:$(this).attr('userName')}
-                    var resultValue = new Array();
-                    resultValue.add(user);
-                    return resultValue;
-
+                    resultValue.push(user);
                 });
-            });
+                top.resultValue = resultValue;
+            });*/
             /*var resultValue = new Array();
             function returnJson(){
                 return resultValue;
