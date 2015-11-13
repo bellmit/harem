@@ -18,17 +18,20 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderId(10086);
         order.setOrderNO("2015102710001");
         List<Commodity> commodityList = new ArrayList<Commodity>();
-        Commodity commodity = new Commodity();
-        commodity.setOrderId(Long.valueOf(10086));
-        commodity.setName("圆明园门票");
-        commodity.setPrice(BigDecimal.valueOf(15));
-        commodity.setNumber(Long.valueOf(2));
+		for (int i = 0; i < 10; i++) {
+			Commodity commodity = new Commodity();
+			commodity.setOrderId(Long.valueOf(10086));
+			commodity.setName("圆明园门票");
+			commodity.setPrice(BigDecimal.valueOf(15));
+			commodity.setNumber(Long.valueOf(2));
+			commodityList.add(commodity);
+		}
+
         Commodity commodity2 = new Commodity();
-        commodity2.setOrderId(Long.valueOf(10086));
-        commodity2.setName("故宫门票");
-        commodity2.setPrice(BigDecimal.valueOf(60));
-        commodity2.setNumber(Long.valueOf(2));
-        commodityList.add(commodity);
+		commodity2.setOrderId(Long.valueOf(10086));
+		commodity2.setName("故宫门票");
+		commodity2.setPrice(BigDecimal.valueOf(60));
+		commodity2.setNumber(Long.valueOf(2));
         commodityList.add(commodity2);
         order.setCommodityList(commodityList);
         return order;

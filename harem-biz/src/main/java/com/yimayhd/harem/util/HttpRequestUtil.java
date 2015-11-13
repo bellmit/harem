@@ -18,7 +18,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 
-public class HttpRequestUtil{
+public class  HttpRequestUtil{
 
     //请求器是否已经初始化
     private boolean hasInit = false;

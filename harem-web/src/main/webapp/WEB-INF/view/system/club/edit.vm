@@ -46,7 +46,7 @@
                 <td><span class="spColor">*</span>部长</td>
                 <td>
                     <div class="userBtn">
-                        <button type="button" class="btn btn-info">选择用户</button>
+                        <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
                         <input type="hidden" name="manageUserName" value="$!club.manageUserName">
                         <input type="hidden" name="manageUserLogoUrl" value="$!club.manageUserLogoUrl">
                     </div>
@@ -92,9 +92,19 @@
     </form>
 </div>
 <script>
-
-
     $(function(){
+        $('.selectUserBtn').click(function(
+                layer.open({
+                    type: 2,
+                    //skin: 'layui-layer-lan',
+                    title: 'layer弹层组件',
+                    fix: false,
+                    shadeClose: true,
+                    maxmin: true,
+                    area: ['1000px', '500px'],
+                    content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/sendPointRule'
+                });
+        ));
         $(document).delegate('#logoUrlUploadFile','change',function(){
             $.ajaxFileUpload
             (

@@ -116,6 +116,25 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 选择用户列表
+     * @param model
+     * @param pageVo 分页条件
+     * @param userListQuery 查询条件
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/selectUserList", method = RequestMethod.GET)
+    public
+    String selectUserList(Model model,PageVo pageVo,UserListQuery userListQuery) throws Exception {
+        UserVO userVO = new UserVO();
+        List<User> userList = userService.getUserList(userVO.getUser());
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("userListQuery",userListQuery);
+        model.addAttribute("userList",userList);
+        return "/system/user/selectUserList";
+    }
+
+    /**
      * 积分发送规则
      * @param model
      * @param pageVo

@@ -17,8 +17,9 @@ public class RegionServiceImpl implements RegionService {
             Region regionData = new Region();
             regionData.setId((long) (i * 10 + 10));
             regionData.setName("省份" + i);
+            regionList.add(regionData);
         }
-        return null;
+        return regionList;
     }
 
     @Override
@@ -29,7 +30,8 @@ public class RegionServiceImpl implements RegionService {
             regionData.setId((long) (i * 10 + 100));
             regionData.setName("城市" + i);
             regionData.setParentId(id);
+            regionList.add(regionData);
         }
-        return null;
+        return regionList;
     }
 }
