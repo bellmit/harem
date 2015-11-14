@@ -6,13 +6,13 @@ import com.yimayhd.harem.base.BaseModel;
  * Created by Administrator on 2015/11/9.
  */
 public class UsePointRule extends BaseModel {
-    private Long Ratio;//比率（人民币/积分）；
+    private Long ratio;//比率（人民币/积分）；
 
     public Long getRatio() {
-        return Ratio;
+        return ratio;
     }
 
     public void setRatio(Long ratio) {
-        Ratio = ratio;
+        this.ratio = ratio;
     }
 }

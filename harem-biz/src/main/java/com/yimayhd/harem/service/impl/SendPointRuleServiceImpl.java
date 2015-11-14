@@ -32,4 +32,9 @@ public class SendPointRuleServiceImpl implements SendPointRuleService {
         }
         return sendPointRuleList;
     }
+
+    @Override
+    public SendPointRule add(SendPointRule sendPointRule) throws Exception {
+        return null;
+    }
 }
