@@ -13,11 +13,11 @@ public class Tourist {
 	private Integer docType;// 证件类型
 	private String docNo;// 证件号
 
-	public int getTouristType() {
+	public Integer getTouristType() {
 		return touristType;
 	}
 
-	public void setTouristType(int touristType) {
+	public void setTouristType(Integer touristType) {
 		this.touristType = touristType;
 	}
 
@@ -37,11 +37,11 @@ public class Tourist {
 		this.mobile = mobile;
 	}
 
-	public int getDocType() {
+	public Integer getDocType() {
 		return docType;
 	}
 
-	public void setDocType(int docType) {
+	public void setDocType(Integer docType) {
 		this.docType = docType;
 	}
 
@@ -52,4 +52,5 @@ public class Tourist {
 	public void setDocNo(String docNo) {
 		this.docNo = docNo;
 	}
+
 }

@@ -79,11 +79,11 @@ public class OrderServiceImpl implements OrderService {
 		tourist1.setDocNo("530112199106150000");
 		tourists.add(tourist1);
 		Tourist tourist2 = new Tourist();
-		tourist1.setTouristType(2);
-		tourist1.setName("张四");
-		tourist1.setMobile("13529000000");
-		tourist1.setDocType(1);
-		tourist1.setDocNo("530112199106150000");
+		tourist2.setTouristType(2);
+		tourist2.setName("张四");
+		tourist2.setMobile("13529000000");
+		tourist2.setDocType(1);
+		tourist2.setDocNo("530112199106150000");
 		tourists.add(tourist2);
 		order.setTourists(tourists);
 		// 订单商品信息
@@ -104,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
 			commodity.setNumber(Long.valueOf(2));
 			commodityList.add(commodity);
 		}
+		order.setCommodityList(commodityList);
 		return order;
 	}
 

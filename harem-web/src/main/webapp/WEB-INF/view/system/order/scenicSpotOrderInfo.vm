@@ -8,7 +8,7 @@
     <div class="orderInfo">
     	<div>订单商品信息</div>
     	<div>
-    		<span>订单总额：￥$!orderTotalPrice</span>
+    		<span>订单总额：￥$!order.orderTotalPrice</span>
     		<span>
     			<span>优惠券：</span>
     			#foreach($coupon in $order.coupons)

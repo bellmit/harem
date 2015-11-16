@@ -2,6 +2,7 @@
 <div class="orderState">
 	<div>
 		<span>订单状态：<span>
+		<span>#ORDER_STATUS($!order.orderState)<span>
 	</div>
 </div>
 <!-- 买家信息 -->
@@ -16,7 +17,7 @@
 <!-- 订单基础信息 -->
 <div class="orderBaseInfo">
 	<div>订单基础信息</div>
-	<table>
+	<table class="table table-hover">
         <tbody>
             <tr>
                 <td>订单编号：</td>
@@ -27,7 +28,7 @@
             <tr>
                 <td>付款时间：</td>
                 <td>$utilDate.date2String($order.paymentTime)</td>
-                <td>付款方式：/td>
+                <td>付款方式：</td>
                 <td>$!order.paymentMethod</td>
             </tr>
             <tr>
@@ -58,7 +59,7 @@
         </tr>
         </thead>
         <tbody>
-            #foreach($contact in $order.contacts
+            #foreach($contact in $order.contacts)
             <tr>
                 <td>$velocityCount</td>
                 <td>$!contact.name</td>
@@ -84,13 +85,13 @@
         </tr>
         </thead>
         <tbody>
-            #foreach($tourist in $order.tourists
+            #foreach($tourist in $order.tourists)
             <tr>
                 <td>$velocityCount</td>
-                <td>$tourist.touristType</td>
+                <td>#ORDER_TOURIST_TYPE($!tourist.touristType)</td>
                 <td>$!tourist.name</td>
                 <td>$!tourist.mobile</td>
-                <td>$tourist.docType</td>
+                <td>#ORDER_TOURIST_DOCTYPE($!tourist.docType)</td>
                 <td>$!tourist.docNo</td>
             </tr>
             #end
