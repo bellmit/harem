@@ -21,4 +21,12 @@ public interface SendPointRuleService {
      * @throws Exception
      */
     List<SendPointRule> getSendPointRuleHistory()throws Exception;
+
+    /**
+     * 新增积分赠送规则
+     * @param sendPointRule
+     * @return
+     * @throws Exception
+     */
+    SendPointRule add(SendPointRule sendPointRule)throws Exception;
 }

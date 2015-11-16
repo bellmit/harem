@@ -3,9 +3,10 @@
     <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/sendPointRule" method="GET" role="form">
         <div class="inputGroup whole">
             当前规则：
-            积分发放规则：$utilNum.moneyTransform($sendPointRule.Ratio)RMB=1积分
-            积分使用规则：1积分=$utilNum.moneyTransform($usePointRule.Ratio)RMB
+            积分发放规则：$utilNum.moneyTransform($sendPointRule.ratio)RMB=1积分
+            积分使用规则：1积分=$utilNum.moneyTransform($usePointRule.ratio)RMB
             积分有效期：3天
+            <button type="button" class="btn btn-primary sendPointRuleAdd">新建</button>
         </div>
         <div class="tableGroup whole">
             <h2>规则历史</h2>
@@ -23,7 +24,7 @@
                     #foreach($sendPointRule in $sendPointRuleList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>1积分=$utilNum.moneyTransform($sendPointRule.Ratio)RMB</td>
+                        <td>1积分=$utilNum.moneyTransform($sendPointRule.ratio)RMB</td>
                         <td>$!sendPointRule.avaiablepPeriod</td>
                         <td>$!user.operaName</td>
                         <td>$utilDate.dateToString($!sendPointRule.effectiveDate,"yyyy-MM-dd HH:mm:ss")</td>
@@ -36,3 +37,11 @@
     #parse("/page.vm")
     #pageStyle("sendPointRuleListForm")
     </form>
+    <script>
+        $(function(){
+            $('.sendPointRuleAdd').click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/trade/userManage/sendPointRule/toAdd';
+                window.openwin(url);
+            });
+        });
+    </script>

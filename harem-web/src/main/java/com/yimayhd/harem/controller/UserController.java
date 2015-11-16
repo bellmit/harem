@@ -141,7 +141,7 @@ public class UserController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/sendPointRule", method = RequestMethod.GET)
+    @RequestMapping(value = "/sendPointRule/list", method = RequestMethod.GET)
     public
     String sendPointRule(Model model,PageVo pageVo) throws Exception {
         SendPointRule sendPointRule = sendPointRuleService.getSendPointRuleNow();
@@ -151,6 +151,27 @@ public class UserController extends BaseController {
         model.addAttribute("usePointRule",usePointRule);
         model.addAttribute("sendPointRuleList",sendPointRuleList);
         return "/system/user/sendPointRule";
+    }
+    /**
+     * 新增积分发送规则
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sendPointRule/toAdd", method = RequestMethod.GET)
+    public
+    String sendPointRuleToAdd() throws Exception {
+        return "/system/user/sendPointRuleAdd";
+    }
+    /**
+     * 新增积分发送规则
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sendPointRule/add", method = RequestMethod.POST)
+    public
+    String sendPointRuleAdd(SendPointRule sendPointRule) throws Exception {
+        sendPointRuleService.add(sendPointRule);
+        return "/success";
     }
 
 

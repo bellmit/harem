@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Administrator on 2015/11/9.
  */
 public class SendPointRule extends BaseModel {
-    private Long Ratio;//比率（人民币/积分）；
+    private Long ratio;//比率（人民币/积分）；
 
     private Integer avaiablepPeriod;
 
@@ -19,11 +19,11 @@ public class SendPointRule extends BaseModel {
     private Date effectiveDate;
 
     public Long getRatio() {
-        return Ratio;
+        return ratio;
     }
 
     public void setRatio(Long ratio) {
-        Ratio = ratio;
+        this.ratio = ratio;
     }
 
     public Integer getAvaiablepPeriod() {
