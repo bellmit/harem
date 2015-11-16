@@ -32,10 +32,12 @@ public class OrderServiceImpl implements OrderService {
 			int b = 3;
 			for (int k = 0; k < b; k++) {
 				Commodity commodity = new Commodity();
-				commodity.setName("商品名称");
-				commodity.setOrderId(Long.valueOf(10086));
-				commodity.setNumber(Long.valueOf(2));
-				commodity.setPrice(BigDecimal.valueOf(60));
+				commodity.setImageUrl("图片");
+				commodity.setDescription("圆明园门票");
+				commodity.setPrice(BigDecimal.valueOf(7199));
+				commodity.setAmount(12);
+				commodity.setTradeState(1);
+				commodity.setDiscount("-");
 				commoditys.add(commodity);
 			}
 			orders.setCommodityList(commoditys);
@@ -98,10 +100,12 @@ public class OrderServiceImpl implements OrderService {
 		List<Commodity> commodityList = new ArrayList<Commodity>();
 		for (int i = 0; i < 10; i++) {
 			Commodity commodity = new Commodity();
-			commodity.setOrderId(Long.valueOf(10086));
-			commodity.setName("圆明园门票");
-			commodity.setPrice(BigDecimal.valueOf(15));
-			commodity.setNumber(Long.valueOf(2));
+			commodity.setImageUrl("图片");
+			commodity.setDescription("圆明园门票");
+			commodity.setPrice(BigDecimal.valueOf(7199));
+			commodity.setAmount(12);
+			commodity.setTradeState(1);
+			commodity.setDiscount("-");
 			commodityList.add(commodity);
 		}
 		order.setCommodityList(commodityList);

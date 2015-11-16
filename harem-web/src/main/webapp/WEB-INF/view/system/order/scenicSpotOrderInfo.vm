@@ -18,21 +18,22 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>#</th>
-                <th>订单编号</th>
-                <th>商品名称</th>
+                <th colspan="2">景点</th>
                 <th>单价</th>
                 <th>数量</th>
+                <th>交易状态</th>
+                <th>优惠</th>
             </tr>
             </thead>
             <tbody>
                 #foreach($commodity in $order.commodityList)
                 <tr>
-                    <td>$velocityCount</td>
-                    <td>$!order.orderNO</td>
-                    <td>$!commodity.name</td>
+                    <td>$!commodity.imageUrl</td>
+                    <td>$!commodity.description</td>
                     <td>$!commodity.price</td>
-                    <td>$!commodity.number</td>
+                    <td>$!commodity.amount</td>
+                    <td>$!commodity.tradeState</td>
+                    <td>$!commodity.discount</td>
                 </tr>
                 #end
             </tbody>

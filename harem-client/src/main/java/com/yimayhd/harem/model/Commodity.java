@@ -3,43 +3,65 @@ package com.yimayhd.harem.model;
 import java.math.BigDecimal;
 
 /**
- * Created by Administrator on 2015/10/27.
+ * 商品信息
+ * 
+ * @author yebin
+ *
  */
 public class Commodity {
-    private Long orderId;//订单ID
-    private String name;//商品名称
-    private BigDecimal price;//单价
-    private Long number;//数量
+	private String imageUrl;// 图片
+	private String description;// 描述
+	private BigDecimal price;// 单价
+	private Integer amount;// 数量
+	private Integer tradeState;// 交易状态
+	private String discount;// 优惠
 
-    public Long getOrderId() {
-        return orderId;
-    }
+	public String getImageUrl() {
+		return imageUrl;
+	}
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public Long getNumber() {
-        return number;
-    }
+	public Integer getTradeState() {
+		return tradeState;
+	}
 
-    public void setNumber(Long number) {
-        this.number = number;
-    }
+	public void setTradeState(Integer tradeState) {
+		this.tradeState = tradeState;
+	}
+
+	public String getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
 }
