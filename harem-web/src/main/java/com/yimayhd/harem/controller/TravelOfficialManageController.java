@@ -24,7 +24,7 @@ import java.util.List;
 //import com.yimayhd.service.MessageCodeService;
 
 /**
- * 官方动态管理
+ * 官方游记管理
  * @author czf
  */
 @Controller
@@ -34,8 +34,8 @@ public class TravelOfficialManageController extends BaseController {
     private TravelOfficialService travelOfficialService;
 
     /**
-     * 官方动态列表
-     * @return 官方动态列表
+     * 官方游记列表
+     * @return 官方游记列表
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -54,8 +54,8 @@ public class TravelOfficialManageController extends BaseController {
     }
 
     /**
-     * 根据官方动态ID获取官方动态详情
-     * @return 官方动态详情
+     * 根据官方游记ID获取官方游记详情
+     * @return 官方游记详情
      * @throws Exception
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -67,8 +67,8 @@ public class TravelOfficialManageController extends BaseController {
     }
 
     /**
-     * 新增官方动态
-     * @return 官方动态详情
+     * 新增官方游记
+     * @return 官方游记详情
      * @throws Exception
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
@@ -77,7 +77,7 @@ public class TravelOfficialManageController extends BaseController {
         return "/system/travelOfficial/edit";
     }
     /**
-     * 新增官方动态
+     * 新增官方游记
      * @return
      * @throws Exception
      */
@@ -88,8 +88,8 @@ public class TravelOfficialManageController extends BaseController {
         return new ResponseVo();
     }
     /**
-     * 编辑官方动态
-     * @return 官方动态详情
+     * 编辑官方游记
+     * @return 官方游记详情
      * @throws Exception
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -102,7 +102,7 @@ public class TravelOfficialManageController extends BaseController {
     }
 
     /**
-     * 编辑官方动态
+     * 编辑官方游记
      * @return
      * @throws Exception
      */
@@ -115,7 +115,7 @@ public class TravelOfficialManageController extends BaseController {
     }
 
     /**
-     * 官方动态状态变更
+     * 官方游记状态变更
      * @return
      * @throws Exception
      */

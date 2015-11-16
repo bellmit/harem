@@ -28,9 +28,18 @@ public interface TrendService {
     Trend add(Trend trend)throws Exception;
 
     /**
-     * 修改动态
+     * 修改
      * @param trend
      * @throws Exception
      */
     void modify(Trend trend)throws Exception;
+
+    /**
+     * 批量修改动态状态
+     * @param trendStatusList
+     * @throws Exception
+     */
+    void setTrendStatus(List<Long> trendStatusList)throws Exception;
+
+
 }

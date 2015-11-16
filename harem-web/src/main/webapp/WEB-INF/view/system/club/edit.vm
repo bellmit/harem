@@ -98,22 +98,21 @@
                 type: 2,
                 btn: ['确定', '取消'],
                 skin: 'layui-layer-lan',
-                title: 'layer弹层组件',
+                title: '用户选择',
                 fix: false,
                 shadeClose: true,
                 maxmin: true,
                 area: ['1000px', '500px'],
                 content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
-                yes: function(){
+                yes: function(index){
+                    console.log(frames == window);
                     alert(top.resultValue.length)
-                    if(top.resultValue.length==0){
+                    if(top.resultValue&&top.resultValue.length==0){
                         alert("请选择用户");
                         return false;
+                    }else{
+                        console.log(top.resultValue);
                     }
-                },cancel: function(){
-                    //return false;
-                },end: function(){
-                    //alert(33333333);
                 }
             });
         })

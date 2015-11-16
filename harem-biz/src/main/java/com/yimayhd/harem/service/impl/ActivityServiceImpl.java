@@ -98,10 +98,10 @@ public class ActivityServiceImpl implements ActivityService {
         stringList.add("标签2");
         stringList.add("标签3");
         activity.setTagList(stringList);
-        activity.setActivityDetailWebUrl("T1xyhTByhT1RX1qZUK");
-        activity.setActivityDetailAppUrl("T13RhTByhT1RX1qZUK");
+        activity.setActivityDetailWebUrl("T1QtJTByYT1RX1qZUK");
+        activity.setActivityDetailAppUrl("T1QtJTByYT1RX1qZUK");
         HttpRequestUtil httpRequestUtil = new HttpRequestUtil();
-        String resault = httpRequestUtil.sendGet("http://192.168.1.209:7500/v1/tfs/T1IyhTByZT1RX1qZUK");
+        String resault = httpRequestUtil.sendGet("http://192.168.1.209:7500/v1/tfs/T1QtJTByYT1RX1qZUK");
         activity.setActivityDetailWeb(resault);
         activity.setActivityDetailApp(resault);
         System.out.println(resault);
@@ -125,8 +125,8 @@ public class ActivityServiceImpl implements ActivityService {
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
-                "    <meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\">\n" +
-                "    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n" +
+                "    <meta http-equiv=\"x-ua-compatible\" content=\"IE=edge,chrome=1\">\n" +
+                "    <meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no\">\n" +
                 "    <title></title>\n" +
                 "</head>\n" +
                 "<body>";

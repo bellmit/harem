@@ -55,6 +55,12 @@ public class TrendServiceImpl implements TrendService{
         List<String> pictureUrlList = new ArrayList<String>();
         pictureUrlList.add("url1");
         pictureUrlList.add("url2");
+        pictureUrlList.add("url3");
+        pictureUrlList.add("url4");
+        pictureUrlList.add("url5");
+        pictureUrlList.add("url6");
+        pictureUrlList.add("url7");
+        pictureUrlList.add("url8");
         trendData.setPictureUrlList(pictureUrlList);
         trendData.setPublishDate(new Date());
         trendData.setTrendStatus(1);
@@ -77,5 +83,15 @@ public class TrendServiceImpl implements TrendService{
     @Override
     public void modify(Trend trend) throws Exception {
 
+    }
+
+    @Override
+    public void setTrendStatus(List<Long> trendStatusList) throws Exception {
+        for(Long id:trendStatusList){
+            Trend trend = new Trend();
+            trend.setId(id);
+            trend.setTrendStatus(2);
+            this.modify(trend);
+        }
     }
 }

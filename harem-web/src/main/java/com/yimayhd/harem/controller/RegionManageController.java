@@ -6,6 +6,7 @@ import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +30,22 @@ public class RegionManageController extends BaseController {
     @RequestMapping(value = "/regionList", method = RequestMethod.GET)
     @ResponseBody
     public ResponseVo list(Long id) throws Exception {
+        List<Region> regionList;
+        if(id == null){
+            regionList = regionService.getProvince();
+        }else{
+            regionList = regionService.getRegionByParentId(id);
+        }
+        return new ResponseVo(regionList);
+    }
+    /**
+     * 根据父id获取地区列表
+     * @return 地区列表
+     * @throws Exception
+     */
+    @RequestMapping(value = "/regionList/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseVo listById(@PathVariable("id") Long id) throws Exception {
         List<Region> regionList;
         if(id == null){
             regionList = regionService.getProvince();

@@ -12,6 +12,11 @@
     <script src="$utilWebconfig.getStaticResourcesPath()/resources/layer-v2.1/layer.js"></script>
     <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
     <title>运营管理系统</title>
+    <script>
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+    </script>
 </head>
 <body>
     $screen_content
