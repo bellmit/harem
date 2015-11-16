@@ -64,7 +64,7 @@ public class refundManageController extends BaseController {
     public
     String getById(Model model,@PathVariable(value = "id") long id) throws Exception {
         Refund refund = refundService.getById(id);
-        Order order = orderService.getById(id);
+        Order order = orderService.getOrderById(id);
         PageVo pageVo = new PageVo();
         pageVo.setTotalSum((long) 14800);
         pageVo.setCurrentPage(60);
@@ -84,7 +84,7 @@ public class refundManageController extends BaseController {
     @ResponseBody
     public
     ResponseVo toAddRefund(@PathVariable(value = "tradId") long tradId) throws Exception {
-        Order order = orderService.getById(tradId);
+        Order order = orderService.getOrderById(tradId);
         //model.addAttribute("order",order);
         //return "/system/refund/add";
         return new ResponseVo(order);

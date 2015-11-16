@@ -1,8 +1,25 @@
-
 <div>
-
+	<!-- 位置 -->
+	<div class="position">
+	</div>
+	<!-- 订单状态 -->
+	<div class="orderState">
+	</div>
+	<!-- 卖家信息 -->
+	<div class="buyerInfo">
+	</div>
+	<!-- 订单基础信息 -->
+	<div class="orderBaseInfo">
+	</div>
+	<!-- 联系人 -->
+	<div class="contacts">
+	</div>
+	<!-- 联系人 -->
+	<div class="ouristInfo">
+	</div>
     <article>
-        <div class="orderInformation">
+        <div class="orderInfo">
+        	<div></div>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -21,7 +38,6 @@
                         <td>$!commodity.name</td>
                         <td>$!commodity.price</td>
                         <td>$!commodity.number</td>
-
                     </tr>
                     #end
                 </tbody>

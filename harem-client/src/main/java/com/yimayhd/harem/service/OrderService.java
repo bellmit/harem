@@ -5,15 +5,27 @@ import java.util.List;
 import com.yimayhd.harem.model.Order;
 
 /**
- * Created by Administrator on 2015/10/27.
+ * 订单服务接口
+ * 
+ * @author yebin
+ *
  */
 public interface OrderService {
-    Order getById(long id)throws Exception;
-    /**
-     * 获取活动订单列表(可带查询条件)
-     * @return 活动订单
-     */
-	List<Order> getActivityOrderList(Order order)throws Exception;
+	/**
+	 * 通过ID获取订单
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	Order getOrderById(long id) throws Exception;
 
-   
+	/**
+	 * 获取订单列表
+	 * 
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	List<Order> getOrderList(Order order) throws Exception;
 }

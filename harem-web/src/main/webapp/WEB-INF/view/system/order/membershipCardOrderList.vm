@@ -1,7 +1,7 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
-<h1>#ORDER_TYPE($!orderType)</h1>
+<h1>会员卡订单</h1>
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm" action="/tradeManage/list" method="GET" role="form">
         <div class="inputGroup whole">
@@ -48,7 +48,7 @@
                 </div>
               	<div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">活动名称</button>
+                        <button class="btn btn-default" type="button">会员卡名称</button>
                     </span>
                     <input type="text" class="form-control" name="buyerName" value="$!orderListQuery.buyerName">
                 </div>
@@ -82,7 +82,7 @@
                   </tr>
                 <tr>
                     <th>全选</th>
-                    <th>商品</th>
+                    <th>会员卡</th>
                     <th>单价</th>
                     <th>数量</th>
                     <th>买家</th>
@@ -102,7 +102,7 @@
 	                  </tr>
 	                   #foreach($commodity in $order.commodityList)
 	                  <tr>
-	                 	<td>商品图片</td>
+	                 	<td>会员卡图片</td>
 	                 	<td>$!commodity.name</td>
 	                 	<td>$!commodity.price</td>
 	                 	<td>$!commodity.number</td>
@@ -168,18 +168,7 @@
 <script>
     function getOrder(id)
     {
-    
-    	#if($!orderType == '1')
-    	top.tabsAdd('',"/B2C/orderManage/routeOrder/"+id,2,"线路订单详情");
-	    #elseif($!orderType == '2')
-	    top.tabsAdd('',"/B2C/orderManage/scenicSpotOrder/"+id,2,"景区订单详情");
-	    #elseif($!orderType == '3')
-	    top.tabsAdd('',"/B2C/orderManage/goodsOrder/"+id,2,"商品订单详情");
-	    #elseif($!orderType == '4')
-	    top.tabsAdd('',"/B2C/orderManage/activityOrder/"+id,2,"活动订单详情");
-	    #elseif($!orderType == '5')
 	    top.tabsAdd('',"/B2C/orderManage/membershipCardOrder/"+id,2,"会员卡订单详情");
-	    #end
     }
 
     $(function(){
