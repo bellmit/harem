@@ -14,7 +14,9 @@
     <title>运营管理系统</title>
     <script>
         layer.config({
-            extend: 'extend/layer.ext.js'
+            extend: 'extend/layer.ext.js',
+            extend:['skin/mySkin/style.css'],
+            skin:'layer-ext-mySkin'
         });
     </script>
 </head>

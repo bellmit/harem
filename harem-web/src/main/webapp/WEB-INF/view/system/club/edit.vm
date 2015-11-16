@@ -97,7 +97,6 @@
             layer.open({
                 type: 2,
                 btn: ['确定', '取消'],
-                skin: 'layui-layer-lan',
                 title: '用户选择',
                 fix: false,
                 shadeClose: true,
