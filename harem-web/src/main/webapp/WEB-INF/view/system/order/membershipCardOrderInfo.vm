@@ -1,0 +1,41 @@
+<div>
+	<!-- 位置 -->
+	<div class="position">
+		<div>您所在的位置： 订单管理>会员卡订单>订单详情</div>
+	</div>
+	#parse("/system/order/commonOrderInfo.vm")
+	<!-- 订单商品信息 -->
+    <div class="orderInfo">
+    	<div>订单商品信息</div>
+    	<div>
+    		<span>订单总额：￥$!orderTotalPrice</span>
+    		<span>
+    			<span>优惠券：</span>
+    			#foreach($coupon in $order.coupons)
+    			<span>$!coupon.count / $!coupon.price元</span> |
+    			#end
+    	</div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>订单编号</th>
+                <th>商品名称</th>
+                <th>单价</th>
+                <th>数量</th>
+            </tr>
+            </thead>
+            <tbody>
+                #foreach($commodity in $order.commodityList)
+                <tr>
+                    <td>$velocityCount</td>
+                    <td>$!order.orderNO</td>
+                    <td>$!commodity.name</td>
+                    <td>$!commodity.price</td>
+                    <td>$!commodity.number</td>
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+</div>
