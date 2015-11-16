@@ -1,6 +1,5 @@
 package com.yimayhd.harem.util;
 
-
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,10 +18,9 @@ public class DateUtil {
 	public static final String DATE_FORMAT_TIME = "yyyy-MM-dd";
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DAY_FORMAT = "yyyy-MM-dd";
-    public static final String DAY_HORU_FORMAT="yyyy-MM-dd HH:mm";
-    public static final String DAY_DATE_EN_FORMAT="yyyy年MM月dd日";
-    public static final String DEFAULT_HOUR_MINUTE="HH:mm";
-
+	public static final String DAY_HORU_FORMAT = "yyyy-MM-dd HH:mm";
+	public static final String DAY_DATE_EN_FORMAT = "yyyy年MM月dd日";
+	public static final String DEFAULT_HOUR_MINUTE = "HH:mm";
 
 	/** the Year field for date math functions of this class */
 	@Deprecated
@@ -48,15 +46,15 @@ public class DateUtil {
 
 	private static final TimeZone TIME_ZONE_LOCAL = TimeZone.getDefault();
 
-
 	/**
 	 * time=0 过滤时间为1970-01-01 情况
+	 * 
 	 * @param time
 	 * @return
 	 */
-	public static Date longToDate(long time){
-		if(time!=0){
-			Date date=new Date(time);
+	public static Date longToDate(long time) {
+		if (time != 0) {
+			Date date = new Date(time);
 			return date;
 		}
 		return null;
@@ -69,9 +67,12 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String date2String(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String result = format.format(date);
-		return result;
+		StringBuffer result = new StringBuffer();
+		if (date != null) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			result.append(format.format(date));
+		}
+		return result.toString();
 	}
 
 	private static ThreadLocal<Calendar> CAL = new ThreadLocal<Calendar>() {
@@ -126,6 +127,7 @@ public class DateUtil {
 
 	private static final long START_OF_DAY;
 	private static final long END_OF_DAY;
+
 	static {
 		START_OF_DAY = clearTime(clearDate(0));
 		Calendar cal = Calendar.getInstance();
@@ -422,8 +424,7 @@ public class DateUtil {
 	 *            the second date
 	 * @return the number of time units
 	 */
-	public static final long dateDiff(CalendarField argField, Date argDate1,
-									  Date argDate2) {
+	public static final long dateDiff(CalendarField argField, Date argDate1, Date argDate2) {
 		return dateDiff(argField, argDate1.getTime(), argDate2.getTime());
 	}
 
@@ -442,58 +443,56 @@ public class DateUtil {
 	 *            the second date
 	 * @return the number of time units
 	 */
-	public static final long dateDiff(CalendarField argField, long argDate1,
-									  long argDate2) {
+	public static final long dateDiff(CalendarField argField, long argDate1, long argDate2) {
 		long diff = argDate1 - argDate2;
 		long divisor = 1;
 		switch (argField) {
-			// unable to reliably support year and month because of
-			// variable year and month length ... not needed at this time, so not
-			// implementing
+		// unable to reliably support year and month because of
+		// variable year and month length ... not needed at this time, so not
+		// implementing
 
-			case YEAR:
+		case YEAR:
 
-				/** @todo IMPLEMENT!! */
-				throw new UnsupportedOperationException("not yet implemented");
+			/** @todo IMPLEMENT!! */
+			throw new UnsupportedOperationException("not yet implemented");
 
-			case MONTH:
+		case MONTH:
 
-				/** @todo IMPLEMENT!! */
-				throw new UnsupportedOperationException("not yet implemented");
+			/** @todo IMPLEMENT!! */
+			throw new UnsupportedOperationException("not yet implemented");
 
-			case WEEK:
+		case WEEK:
 
-				// 7 days in a week
-				divisor *= 7;
+			// 7 days in a week
+			divisor *= 7;
 
-			case DAY:
+		case DAY:
 
-				// 24 hours per day
-				divisor *= 24;
+			// 24 hours per day
+			divisor *= 24;
 
-			case HOUR:
+		case HOUR:
 
-				// 60 minutes per hour
-				divisor *= 60;
+			// 60 minutes per hour
+			divisor *= 60;
 
-			case MINUTE:
+		case MINUTE:
 
-				// 60 seconds per minute
-				divisor *= 60;
+			// 60 seconds per minute
+			divisor *= 60;
 
-			case SECOND:
+		case SECOND:
 
-				// 1000 milliseconds per second
-				divisor *= 1000;
+			// 1000 milliseconds per second
+			divisor *= 1000;
 
-			case MILLISECOND:
-				break;
+		case MILLISECOND:
+			break;
 
-			default:
-				throw new IllegalArgumentException();
+		default:
+			throw new IllegalArgumentException();
 		}
-		BigDecimal d = BigDecimal.valueOf(diff).divide(
-				BigDecimal.valueOf(divisor), 0, BigDecimal.ROUND_HALF_UP);
+		BigDecimal d = BigDecimal.valueOf(diff).divide(BigDecimal.valueOf(divisor), 0, BigDecimal.ROUND_HALF_UP);
 		return d.longValue();
 		// diff /= divisor;
 		// return diff;
@@ -529,8 +528,7 @@ public class DateUtil {
 		return cal.getTime();
 	}
 
-	private static final void matchField(int argField, Calendar toCalendar,
-										 Calendar fromCalendar) {
+	private static final void matchField(int argField, Calendar toCalendar, Calendar fromCalendar) {
 		toCalendar.set(argField, fromCalendar.get(argField));
 	}
 
@@ -550,8 +548,7 @@ public class DateUtil {
 	 *            the date to add to
 	 * @return the resultant date/time
 	 */
-	public static final Date dateAdd(CalendarField argField, int argAmount,
-									 Date argDate) {
+	public static final Date dateAdd(CalendarField argField, int argAmount, Date argDate) {
 		return new Date(dateAdd(argField, argAmount, argDate.getTime()));
 	}
 
@@ -571,8 +568,7 @@ public class DateUtil {
 	 *            the date to add to
 	 * @return the resultant date/time
 	 */
-	public static final long dateAdd(CalendarField argField, int argAmount,
-									 long argDate) {
+	public static final long dateAdd(CalendarField argField, int argAmount, long argDate) {
 
 		Calendar cal = CAL.get();
 
@@ -660,22 +656,25 @@ public class DateUtil {
 		Calendar cal = getCurrentDateCalendar();
 		return cal.getTime();
 	}
-    /**
-     * 获取时间HH:mm:ss
-     * @param date
-     * @return
-     */
-    public static String getDateTime(Date date){
-        if(date==null){
-            return "";
-        }
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(date);
-        int hh=calendar.get(Calendar.HOUR_OF_DAY);
-        int mm=calendar.get(Calendar.MINUTE);
-        int ss=calendar.get(Calendar.SECOND);
-        return hh+":"+mm+":"+ss;
-    }
+
+	/**
+	 * 获取时间HH:mm:ss
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getDateTime(Date date) {
+		if (date == null) {
+			return "";
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int hh = calendar.get(Calendar.HOUR_OF_DAY);
+		int mm = calendar.get(Calendar.MINUTE);
+		int ss = calendar.get(Calendar.SECOND);
+		return hh + ":" + mm + ":" + ss;
+	}
+
 	public static Date getCurrentDate(final String dateFormats) throws Exception {
 		Calendar cal = getCurrentDateCalendar();
 		Date date = cal.getTime();
@@ -702,9 +701,8 @@ public class DateUtil {
 
 		try {
 			/*
-			 * if (logger.isDebugEnabled()) {
-			 * logger.debug("converting date with pattern: " +
-			 * DEFAULT_DATE_FORMAT); }
+			 * if (logger.isDebugEnabled()) { logger.debug(
+			 * "converting date with pattern: " + DEFAULT_DATE_FORMAT); }
 			 */
 
 			aDate = convertStringToDate(DATE_FORMAT_TIME, strDate);
@@ -783,170 +781,177 @@ public class DateUtil {
 		}
 		return dateStr;
 	}
-    /**
-     * 将Date类型时间 转换成String 格式的时间
-     * @param date
-     * @param fmat
-     * @return
-     */
-    public static String dateToString(Date date,String fmat){
-        if(date==null|| fmat==null||"".equals(fmat)){
-            return null;
-        }
-        String result=null;
-        try{
-            SimpleDateFormat format = new SimpleDateFormat(fmat);
-            result=format.format(date);
-        }catch (Exception e){
-            new Exception("date to string error . format="+fmat,e);
-        }
-        return result;
-    }
 
-	public static boolean isOverYear(){
+	/**
+	 * 将Date类型时间 转换成String 格式的时间
+	 * 
+	 * @param date
+	 * @param fmat
+	 * @return
+	 */
+	public static String dateToString(Date date, String fmat) {
+		if (date == null || fmat == null || "".equals(fmat)) {
+			return null;
+		}
+		String result = null;
+		try {
+			SimpleDateFormat format = new SimpleDateFormat(fmat);
+			result = format.format(date);
+		} catch (Exception e) {
+			new Exception("date to string error . format=" + fmat, e);
+		}
+		return result;
+	}
+
+	public static boolean isOverYear() {
 		Calendar now = Calendar.getInstance();
 		int nowMonth = now.get(Calendar.MONTH) + 1;
 		if (nowMonth < 6) {
 			return true;
 		}
 		return false;
-    }
-	public static Date getEndDate(int startYearInv){		//小端
-    	Calendar now = Calendar.getInstance();
-    	int nowYear = now.get(Calendar.YEAR);
-		int nowMonth = now.get(Calendar.MONTH) + 1;
-		int startYear;
-		int startMonth;
-    	if (isOverYear()) {
-			startYear = (nowYear-startYearInv);
-			startMonth = (nowMonth+12) - 5;
-		}else {
-			startYear = (nowYear-startYearInv) + 1;
-			startMonth = nowMonth - 5;
-		}
-    	DateFormat df = new SimpleDateFormat(DAY_FORMAT);
-    	try {
-    		System.out.println(startYear+"-"+startMonth+"-01");
-			return df.parse(startYear+"-"+startMonth+"-01");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-    }
-	public static Date getStartDate(int endYearInv){		//大端
-    	Calendar now = Calendar.getInstance();
-    	int nowYear = now.get(Calendar.YEAR);
-		int nowMonth = now.get(Calendar.MONTH) + 1;
-		int startYear;
-		int startMonth;
-    	if (isOverYear()) {
-			startYear = (nowYear-endYearInv)-1;
-			startMonth = (nowMonth+12) - 5;
-		}else {
-			startYear = (nowYear-endYearInv);
-			startMonth = nowMonth - 5;
-		}
-    	DateFormat df = new SimpleDateFormat(DAY_FORMAT);
-    	try {
-    		System.out.println(startYear+"-"+startMonth+"-01");
-			return df.parse(startYear+"-"+startMonth+"-01");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-    }
-    /**
-     * 将long 类型 时间 转换成String 类型
-     * @param time
-     * @return
-     */
-    public static String longToString(long time){
-        if(time>=0){
-            Date date=new Date(time);
-            return dateToString(date,DATE_TIME_FORMAT);
-        }
-        return null;
-    }
-
-	public static String formatDate(Date time){
-		if(time == null){
-			return null;
-		}
-		return dateToString(time,DATE_TIME_FORMAT);
 	}
 
-    /**
-     * 根据用户生日计算年龄
-     */
-    public static int getAgeByBirthday(long birthdayTime) {
-        if(birthdayTime<=0){
-            return 0;
-        }
-        Date birthday=new Date(birthdayTime);
-        Calendar cal = Calendar.getInstance();
+	public static Date getEndDate(int startYearInv) { // 小端
+		Calendar now = Calendar.getInstance();
+		int nowYear = now.get(Calendar.YEAR);
+		int nowMonth = now.get(Calendar.MONTH) + 1;
+		int startYear;
+		int startMonth;
+		if (isOverYear()) {
+			startYear = (nowYear - startYearInv);
+			startMonth = (nowMonth + 12) - 5;
+		} else {
+			startYear = (nowYear - startYearInv) + 1;
+			startMonth = nowMonth - 5;
+		}
+		DateFormat df = new SimpleDateFormat(DAY_FORMAT);
+		try {
+			System.out.println(startYear + "-" + startMonth + "-01");
+			return df.parse(startYear + "-" + startMonth + "-01");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-        if (cal.before(birthday)) {
-            throw new IllegalArgumentException(
-                    "The birthDay is before Now.It's unbelievable!");
-        }
+	public static Date getStartDate(int endYearInv) { // 大端
+		Calendar now = Calendar.getInstance();
+		int nowYear = now.get(Calendar.YEAR);
+		int nowMonth = now.get(Calendar.MONTH) + 1;
+		int startYear;
+		int startMonth;
+		if (isOverYear()) {
+			startYear = (nowYear - endYearInv) - 1;
+			startMonth = (nowMonth + 12) - 5;
+		} else {
+			startYear = (nowYear - endYearInv);
+			startMonth = nowMonth - 5;
+		}
+		DateFormat df = new SimpleDateFormat(DAY_FORMAT);
+		try {
+			System.out.println(startYear + "-" + startMonth + "-01");
+			return df.parse(startYear + "-" + startMonth + "-01");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-        int yearNow = cal.get(Calendar.YEAR);
-        int monthNow = cal.get(Calendar.MONTH) + 1;
-        int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+	/**
+	 * 将long 类型 时间 转换成String 类型
+	 * 
+	 * @param time
+	 * @return
+	 */
+	public static String longToString(long time) {
+		if (time >= 0) {
+			Date date = new Date(time);
+			return dateToString(date, DATE_TIME_FORMAT);
+		}
+		return null;
+	}
 
-        cal.setTime(birthday);
-        int yearBirth = cal.get(Calendar.YEAR);
-        int monthBirth = cal.get(Calendar.MONTH) + 1;
-        int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
-
-        int age = yearNow - yearBirth;
-
-        if (monthNow <= monthBirth) {
-            if (monthNow == monthBirth) {
-                // monthNow==monthBirth
-                if (dayOfMonthNow < dayOfMonthBirth) {
-                    age--;
-                }
-            } else {
-                // monthNow>monthBirth
-                age--;
-            }
-        }
-        return age;
-    }
-    
-    /**
-     * 获取一天的最大时间
-     * @param date
-     * @return
-     */
-    public static Date formatMaxTimeForDate(Date date){
-    	if (date == null) {
+	public static String formatDate(Date time) {
+		if (time == null) {
 			return null;
 		}
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        return calendar.getTime();
-    }
-    
-    /**
-     * 获取一天的最小时间
-     * @param date
-     * @return
-     */
-    public static Date formatMinTimeForDate(Date date){
-    	if( date == null ){
-    		return null ;
-    	}
-    	Calendar calendar = Calendar.getInstance();
-    	calendar.setTime(date);
-    	calendar.set(Calendar.HOUR_OF_DAY, 0);
-    	calendar.set(Calendar.MINUTE, 0);
-    	calendar.set(Calendar.SECOND, 0);
-    	calendar.set(Calendar.MILLISECOND, 0);
+		return dateToString(time, DATE_TIME_FORMAT);
+	}
+
+	/**
+	 * 根据用户生日计算年龄
+	 */
+	public static int getAgeByBirthday(long birthdayTime) {
+		if (birthdayTime <= 0) {
+			return 0;
+		}
+		Date birthday = new Date(birthdayTime);
+		Calendar cal = Calendar.getInstance();
+
+		if (cal.before(birthday)) {
+			throw new IllegalArgumentException("The birthDay is before Now.It's unbelievable!");
+		}
+
+		int yearNow = cal.get(Calendar.YEAR);
+		int monthNow = cal.get(Calendar.MONTH) + 1;
+		int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+
+		cal.setTime(birthday);
+		int yearBirth = cal.get(Calendar.YEAR);
+		int monthBirth = cal.get(Calendar.MONTH) + 1;
+		int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
+
+		int age = yearNow - yearBirth;
+
+		if (monthNow <= monthBirth) {
+			if (monthNow == monthBirth) {
+				// monthNow==monthBirth
+				if (dayOfMonthNow < dayOfMonthBirth) {
+					age--;
+				}
+			} else {
+				// monthNow>monthBirth
+				age--;
+			}
+		}
+		return age;
+	}
+
+	/**
+	 * 获取一天的最大时间
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static Date formatMaxTimeForDate(Date date) {
+		if (date == null) {
+			return null;
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
 		return calendar.getTime();
-    }
+	}
+
+	/**
+	 * 获取一天的最小时间
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static Date formatMinTimeForDate(Date date) {
+		if (date == null) {
+			return null;
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
+	}
 }

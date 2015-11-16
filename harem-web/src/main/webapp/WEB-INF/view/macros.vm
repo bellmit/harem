@@ -52,6 +52,40 @@
     #end
 #end
 
+#*订单管理*#
+#*订单状态*#
+#macro(ORDER_STATUS $type)
+    #if($type == '1')
+    待付款
+    #elseif($type == '2')
+    待确认
+    #elseif($type == '2')
+    待出行
+    #elseif($type == '2')
+    已完成
+    #elseif($type == '2')
+    交易关闭
+    #elseif($type == '2')
+    待处理
+    #elseif($type == '2')
+    已退款
+    #end
+#end
+#*订单-游客-游客类型*#
+#macro(RDER_TOURIST_TYPE $type)
+    #if($type == '1')
+    成人
+    #elseif($type == '2')
+    儿童
+    #end
+#end
+#*订单-游客-证件类型*#
+#macro(ORDER_TOURIST_DOC_TYPE $type)
+    #if($type == '1')
+    身份证
+    #end
+#end
+
 #macro(IS_RECOMMEND_SELECTED $isRecommend)
 <option value="">全部</option> 
 <option value="true" #if($isRecommend=="true")selected#end>已推荐</option> 

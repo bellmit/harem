@@ -39,7 +39,7 @@ public class OrderManageController extends BaseController {
 	public String getRouteOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
 		Order order = orderService.getOrderById(id);
 		model.addAttribute("order", order);
-		return "/system/order/information";
+		return "/system/order/routeOrderInfo";
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class OrderManageController extends BaseController {
 	public String getScenicSpotOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
 		Order order = orderService.getOrderById(id);
 		model.addAttribute("order", order);
-		return "/system/order/information";
+		return "/system/order/scenicSpotOrderInfo";
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class OrderManageController extends BaseController {
 	public String getGoodOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
 		Order order = orderService.getOrderById(id);
 		model.addAttribute("order", order);
-		return "/system/order/information";
+		return "/system/order/goodsOrderInfo";
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class OrderManageController extends BaseController {
 	public String getActivityOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
 		Order order = orderService.getOrderById(id);
 		model.addAttribute("order", order);
-		return "/system/order/information";
+		return "/system/order/activityOrderInfo";
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class OrderManageController extends BaseController {
 	public String getMembershipCardOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
 		Order order = orderService.getOrderById(id);
 		model.addAttribute("order", order);
-		return "/system/order/information";
+		return "/system/order/membershipCardOrderInfo";
 	}
 
 	/**
