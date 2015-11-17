@@ -69,14 +69,11 @@ public class LiveManageController {
     @RequestMapping(value = "/setAudit/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo setJoinStatus(@PathVariable(value = "id")long id,String audit) throws Exception {
-      /*  Club club = new Club();
-        club.setId(id);
-        club.setJoinStatus(joinStatus);
-        clubService.modify(club);*/
+    
         return new ResponseVo();
     }
     
-    
+   
    
 	
 }
