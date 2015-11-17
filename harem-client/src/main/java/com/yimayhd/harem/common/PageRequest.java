@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * 分页请求信息 其中范型<T>为filters的类型
  * 
- * @author badqiu
+ * 分页请求信息：其中范型<T>为filters的类型
+ * 
+ * @author yebin
+ *
  */
 public class PageRequest implements Serializable {
 

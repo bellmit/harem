@@ -1,7 +1,7 @@
 package com.yimayhd.harem.common;
 
 /**
- * 分页器，根据page,pageSize,totalItem用于页面上分页显示多项内容，计算页码和当前页的偏移量，方便页面分页使用.
+ * 分页器：根据page,pageSize,totalItem用于页面上分页显示多项内容，计算页码和当前页的偏移量，方便页面分页使用.
  * 
  * @author yebin
  *

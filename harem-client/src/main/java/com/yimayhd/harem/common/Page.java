@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * 分页数据对象
+ * 
+ * @author yebin
+ *
+ * @param <T>
+ */
 public class Page<T> implements Serializable, Iterable<T> {
 
 	/**
