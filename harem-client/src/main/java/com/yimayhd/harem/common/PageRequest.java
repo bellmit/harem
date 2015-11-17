@@ -13,6 +13,10 @@ import java.util.Map;
 public class PageRequest implements Serializable {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8793134703133688121L;
+	/**
 	 * 过滤参数
 	 */
 	private Map<String, Object> filters;

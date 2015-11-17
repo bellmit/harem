@@ -7,7 +7,11 @@ package com.yimayhd.harem.common;
  *
  */
 public class Paginator implements java.io.Serializable {
-	private static final long serialVersionUID = 6089482156906595931L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1114379632851178629L;
 
 	private static final int DEFAULT_SLIDERS_COUNT = 7;
 
