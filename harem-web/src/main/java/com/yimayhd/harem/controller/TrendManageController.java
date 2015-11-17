@@ -8,13 +8,13 @@ import com.yimayhd.harem.model.query.TrendListQuery;
 import com.yimayhd.harem.model.vo.TrendVO;
 import com.yimayhd.harem.service.TrendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,21 +59,44 @@ public class TrendManageController extends BaseController {
         return "/system/trend/detail";
     }
 
+    /**
+     * 根据id获取动态图片列表
+     * @return 图片列表
+     * @throws Exception
+     */
+    @RequestMapping(value = "/picture/{trendId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseVo getPictureById(@PathVariable("trendId") Long trendId) throws Exception {
+        List<String> pictureUrlList = trendService.getById(trendId).getPictureUrlList();
+        return new ResponseVo(pictureUrlList);
+    }
+
 
     /**
-     * 动态状态变更
+     * 动态状态变更(批量)
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/setIsStatus/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/setTrendStatusList", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo setJoinStatus(@PathVariable(value = "id")long id,int trendStatus) throws Exception {
-        Trend trend = new Trend();
-        trend.setId(id);
-        trend.setTrendStatus(trendStatus);
+    public ResponseVo setJoinStatusList(@RequestParam("trendStatusList[]")ArrayList<Long> trendStatusList) throws Exception {
+        trendService.setTrendStatus(trendStatusList);
+        return new ResponseVo();
+    }
+    /**
+     * 动态状态变更(批量)
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/setTrendStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseVo setJoinStatus(Trend trend) throws Exception {
         trendService.modify(trend);
         return new ResponseVo();
     }
+
+
+
 
 
 

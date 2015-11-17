@@ -18,6 +18,7 @@ public class Trend extends BaseModel{
     private Integer commentNum;
     private Integer praiseNum;
     private String ip;
+    private String summary;//审核备注
 
     public User getUser() {
         return user;
@@ -89,5 +90,13 @@ public class Trend extends BaseModel{
 
     public void setPraiseNum(Integer praiseNum) {
         this.praiseNum = praiseNum;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }

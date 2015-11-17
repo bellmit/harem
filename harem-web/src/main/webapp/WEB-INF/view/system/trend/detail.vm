@@ -2,14 +2,15 @@
 <div class="clubDynamicPage whole">
     <div class="dynamicTop">
         <p>审核备注：（200字以内）</p>
-        <textarea name="summary" id="" rows="2" class="form-control"></textarea>
-        #if($!trend.trendStatus == 1)
-            <button type="button" class="btn btn-lg btn-info recoveryBtn" data-toggle="modal" data-target="#recoveryModal">违规</button>
-        #elseif($!trend.trendStatus == 1)
-            <button type="button" class="btn btn-lg btn-info recoveryBtn" data-toggle="modal" data-target="#recoveryModal">恢复</button>
-        #end
-        <button type="button" class="btn btn-lg btn-info illegalBtn">违规</button>
-
+        <input type="hidden" name="id" value="$trend.id" id="trendId">
+        <textarea name="summary" id="" rows="2" class="form-control summary"></textarea>
+        <div class="btn-group">
+            #if($trend.trendStatus == 1)
+                <button type="button" class="btn btn-info setTrendStatusBtn" trendStatus="2">违规</button>
+            #elseif($trend.trendStatus == 2)
+                <button type="button" class="btn btn-info setTrendStatusBtn" trendStatus="1">恢复</button>
+            #end
+        </div>
     </div>
     <table class="table">
         <tbody>
@@ -17,7 +18,6 @@
                 <td>用户信息</td>
                 <td>
                     <img src="images/11.jpg" alt="" class="img-circle imgCircle"/>
-                    <input type="hidden" name="id" value="$trend.id" id="trendId">
                     <span>$!trend.user.name</span>
                     <span>$!trend.user.tel</span>
                 </td>
@@ -29,9 +29,11 @@
             <tr>
                 <td>动态图片</td>
                 <td>
-                    #foreach($pictureUrl in $!trend.pictureUrlList)
-                        <img src="$pictureUrl" alt="" class="imgRectangular"/>
-                    #end
+                    <div id="layer-photos-demo">
+                        #foreach($pictureUrl in $!trend.pictureUrlList)
+                            <img  layer-src="http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK" src="$!utilWebconfig.getTfsRootPath()$pictureUrl" alt="图片" class="imgRectangular">
+                        #end
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -70,34 +72,61 @@
             </tr>
         </tbody>
     </table>
-    <!--恢复模态框start-->
-    <div class="modal modal-for-page fade" id="recoveryModal" data-backdrop="static">
-        <div class="modal-dialog" style="margin-top: 55.6667px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                    <h4 class="modal-title">请选择</h4>
-                </div>
-                <div class="modal-body">
-                    <p>是否确认修改该条内容状态为#TREND_STATUS($!trend.trendStatus)？</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" id="modifyTrendStatusBtn">确定</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <script>
-    $('#modifyTrendStatusBtn').click(function(){
-        $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/refundManage/add',{trendStatus:,id:$('#trendId').val()},function(data){
-            if(data.status==200){
-                alert('提交成功');
-                window.location.href = window.location.href;
-            }else{
-                alert('提交失败');
-            }
+
+    $(function(){
+
+        $('.setTrendStatusBtn').click(function(){
+            $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/setTrendStatus',{trendStatus:$(this).attr('trendStatus'),id:$('#trendId').val(),summary:$('.summary').val()},function(data){
+                if(data.status==200){
+                    alert('操作成功');
+                    window.location.href = window.location.href;
+                }else{
+                    alert('操作失败');
+                }
+            });
+        });
+
+        $('.imgRectangular').click(function(){
+
+                layer.photos({
+                    area: ['450px', '300px'],
+                    photos: '#layer-photos-demo',
+                    tab: function(pic, layero){
+                        console.log(pic) //当前图片的一些信息
+                    }
+                });
+            /*var index = $(this).index();
+            $.getJSON('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/picture/' + $('#trendId').val(), function(data){
+
+                if(data && data.status == 200 && data.data.length > 0){
+                    var pictureArr = new Array();
+                    for(var picture in data.data){
+                        pictureArr.push({
+,                                            "alt": "图片名",
+                                            "pid": 666, //图片id
+                                            "src": "http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK",//data.data[picture], //原图地址
+                                            "thumb": "" //缩略图地址
+                                        });
+
+                    }
+                    var json={
+                        "title": "动态图片预览", //相册标题
+                        "start": index, //初始显示的图片序号，默认0
+                        "data": pictureArr
+                    };
+
+                    layer.photos({
+                        area: ['450px', '300px'],
+                        photos: json
+                    });
+
+                }else{
+                    alert('请求错误');
+                }
+
+            });*/
         });
     });
 </script>

@@ -72,15 +72,17 @@
     #pageStyle("userListForm")
     </form>
     <script>
+        var resultValue;
         $(function(){
 
             function selUserList(){
-                var resultValue = new Array();
+                resultValue = new Array();
                 $('.subChecked:checked').each(function(){
                     var user = {id:$(this).val(),name:$(this).attr('userName')}
                     resultValue.push(user);
                 });
                 top.resultValue = resultValue;
+                //window.resultValue = resultValue;
             }
             /*$('.selectBtn').click(function(){
                 var resultValue = new Array();
