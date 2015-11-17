@@ -1,0 +1,56 @@
+<input type="hidden"  name="thisPageNumber" value="$!page.thisPageNumber"/>
+<input type="hidden"  name="pageSize" value="$!page.pageSize"/>
+<div class="pagination pagination-large pagination-right whole">
+	#set($pageNo = $page.thisPageNumber)
+	#set($before=0)
+	#set($after=0)
+    <ul class="pager pager-pills">
+		#if($page.hasPreviousPage)
+        <li class="previous">
+            <a href="#" id="prePage">« 上一页</a>
+        </li>
+		#else
+		<li class="previous disabled">
+            <a href="#" id="prePage">« 上一页</a>
+        </li>
+		#end
+        #foreach($i in [1 .. $page.lastPageNumber])
+            #if($pageNo == $i)
+            <li class="active">
+        		<span><a href="#">$i</a></span>
+        	</li>
+			#elseif(1 >= $i - 2)
+    		<li>
+    			<span><a href="#">$i</a></span>
+    		</li>
+            #elseif($page.lastPageNumber <= $i + 2)
+    		<li>
+    			<span><a href="#">$i</a></span>
+    		</li>
+			#elseif($pageNo >= $i - 2 && $pageNo <= $i + 2)
+			<li>
+				<span><a href="#">$i</a></span>
+			</li>
+			#elseif($pageNo > $i && $before==0)
+			<li>
+              <a href="#" data-toggle="pager" data-placement="top">...</a>
+            </li>
+			#set($before=1)
+			#elseif($pageNo < $i && $after==0)
+			<li>
+              <a href="#" data-toggle="pager" data-placement="top">...</a>
+            </li>
+			#set($after=1)
+            #end
+        #end
+        #if($page.hasNextPage)
+        <li class="next">
+			<a href="javascript:void(0)" id="nextPage">下一页»</a>
+		</li>
+		#else
+        <li class="next disabled">
+			<a href="javascript:void(0)" id="nextPage">下一页»</a>
+		</li>
+        #end
+    </ul>
+</div>

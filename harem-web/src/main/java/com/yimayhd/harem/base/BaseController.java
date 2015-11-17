@@ -89,6 +89,7 @@ public class BaseController {
 	 * 
 	 * @param request
 	 * @param defaultSortColumns
+	 *            排序的多个列用“，”隔开，如：username desc，id asc
 	 * @return
 	 */
 	protected PageRequest newPageRequest(final HttpServletRequest request, final String defaultSortColumns) {

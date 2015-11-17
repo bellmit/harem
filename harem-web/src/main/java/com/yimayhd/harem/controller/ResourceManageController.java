@@ -18,7 +18,7 @@ import com.yimayhd.harem.service.RestaurantService;
  *
  */
 @Controller
-@RequestMapping("/B2C/ResourceManage")
+@RequestMapping("/B2C/resourceManage")
 public class ResourceManageController extends BaseController {
 	@Autowired
 	private RestaurantService restaurantService;
@@ -28,6 +28,7 @@ public class ResourceManageController extends BaseController {
 		PageRequest pageRequest = newPageRequest(request);
 		Page<Restaurant> page = restaurantService.getList(pageRequest);
 		put("page", page);
-		return "/system/resourrestaurant/list";
+		put("query", pageRequest.getFilters());
+		return "/system/resource/restaurant/list";
 	}
 }

@@ -6,24 +6,25 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 	<context:component-scan
 		base-package="com.yimayhd.harem.service, com.yimayhd.harem.task" />
-    <bean class="com.yimayhd.harem.service.impl.UserServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.TradeServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.RefundServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.OrderServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.HaMenuServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.HaRoleMenuServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.HaRoleServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.HaUserRoleServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.ActivityServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.SendPointRuleServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.UsePointRuleServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.TrendServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.TravelOfficialImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.RegionServiceImpl"></bean>
-    <bean class="com.yimayhd.harem.service.impl.LiveServiceImpl"></bean>
-   <!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
-
-    </bean>-->
+	<bean class="com.yimayhd.harem.service.impl.UserServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.TradeServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.RefundServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.OrderServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.HaMenuServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.HaRoleMenuServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.HaRoleServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.HaUserRoleServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.ActivityServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.SendPointRuleServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.UsePointRuleServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.TrendServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.TravelOfficialImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.RegionServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.LiveServiceImpl"></bean>
+	<!-- 资源管理 -->
+	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
+	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
+		</bean> -->
 
 </beans>
