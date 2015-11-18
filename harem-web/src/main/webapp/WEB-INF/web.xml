@@ -35,6 +35,10 @@
             <param-name>excludePaths</param-name>
             <param-value>/login,/chkcode/gen,/toLogin</param-value>
         </init-param>
+        <init-param>
+            <param-name>staticSuffix</param-name>
+            <param-value>css,js,jpg,png,jpeg,gif,html,xhtml</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>sessionFilter</filter-name>
