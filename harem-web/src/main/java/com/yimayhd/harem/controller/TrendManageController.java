@@ -1,17 +1,5 @@
 package com.yimayhd.harem.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -19,6 +7,13 @@ import com.yimayhd.harem.model.Trend;
 import com.yimayhd.harem.model.query.TrendListQuery;
 import com.yimayhd.harem.model.vo.TrendVO;
 import com.yimayhd.harem.service.TrendService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 动态管理
@@ -30,6 +25,7 @@ import com.yimayhd.harem.service.TrendService;
 public class TrendManageController extends BaseController {
 	@Autowired
 	private TrendService trendService;
+
 
 	/**
 	 * 动态列表
