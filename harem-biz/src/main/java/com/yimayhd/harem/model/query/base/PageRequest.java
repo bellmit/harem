@@ -1,9 +1,8 @@
 package com.yimayhd.harem.model.query.base;
 
-import com.yimayhd.harem.model.query.Query;
-
 import java.io.Serializable;
 
+import com.yimayhd.harem.base.BaseQuery;
 
 /**
  * 
@@ -12,7 +11,7 @@ import java.io.Serializable;
  * @author yebin
  *
  */
-public class PageRequest<T extends Query> implements Serializable {
+public class PageRequest<T extends BaseQuery> implements Serializable {
 
 	/**
 	 * 

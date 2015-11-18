@@ -73,7 +73,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                  #foreach($item in $page.itemList)
+                  #foreach($item in $pageVo.itemList)
                     <tr>
                         <td><span>$!item.imageUrl</span></td>
 						<td><span>$!item.name<br/>$!item.code</span></td>

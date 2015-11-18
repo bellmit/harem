@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yimayhd.harem.model.query.base.Page;
-import com.yimayhd.harem.model.query.base.PageRequest;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.Restaurant;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
@@ -17,17 +16,17 @@ import com.yimayhd.harem.service.RestaurantService;
  * @author yebin
  *
  */
-public class RestaurantServiceImpl implements RestaurantService {
+public class RestaurantServiceImpl implements RestaurantService { 
 
 	@Override
-	public Page<Restaurant> getList(PageRequest<RestaurantListQuery> pageRequest) throws Exception {
-		int totalCount = count(pageRequest.getQuery());
-		Page<Restaurant> page = new Page<Restaurant>(pageRequest, totalCount);
-		List<Restaurant> itemList = find(pageRequest);
+	public PageVO<Restaurant> getList(RestaurantListQuery query) throws Exception {
+		int totalCount = count(query);
+		PageVO<Restaurant> page = new PageVO<Restaurant>(query.getPageNumber(), query.getPageSize(), totalCount);
+		List<Restaurant> itemList = find(query);
 		page.setItemList(itemList);
 		return page;
 	}
-
+	
 	@Override
 	public Restaurant getById(Long id) throws Exception {
 		Region province = new Region();
@@ -62,9 +61,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return 1000;
 	}
 
-	protected List<Restaurant> find(PageRequest<RestaurantListQuery> pageRequest) throws Exception {
+	protected List<Restaurant> find(RestaurantListQuery query) throws Exception {
 		List<Restaurant> restaurants = new ArrayList<Restaurant>();
-		for (Long i = 0L; i < 10; i++) {
+		for (Long i = 0L; i < query.getPageSize(); i++) {
 			restaurants.add(getById(i));
 		}
 		return restaurants;
