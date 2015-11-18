@@ -21,10 +21,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <harem.version>1.0-SNAPSHOT</harem.version>
-<<<<<<< Updated upstream
         <itemcenter_api_version>1.0.0-SNAPSHOT</itemcenter_api_version>
-=======
->>>>>>> Stashed changes
         <jackson.version>2.6.3</jackson.version>
         <session.manager.version>1.5.2-SNAPSHOT</session.manager.version>
         <user.api.version>1.5.2-SNAPSHOT</user.api.version>
@@ -270,9 +267,6 @@
             <groupId>com.yimayhd.item</groupId>
             <artifactId>itemcenter-client</artifactId>
             <version>${itemcenter_api_version}</version>
-=======
-
->>>>>>> Stashed changes
             <exclusions>
                 <exclusion>
                     <groupId>log4j</groupId>
