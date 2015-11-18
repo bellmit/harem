@@ -9,6 +9,7 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.common.Page;
 import com.yimayhd.harem.common.PageRequest;
 import com.yimayhd.harem.model.Restaurant;
+import com.yimayhd.harem.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantService;
 
 /**
@@ -24,11 +25,11 @@ public class ResourceManageController extends BaseController {
 	private RestaurantService restaurantService;
 
 	@RequestMapping(value = "/restaurant/list", method = RequestMethod.GET)
-	public String restaurantList() throws Exception {
-		PageRequest pageRequest = newPageRequest(request);
+	public String restaurantList(RestaurantListQuery restaurantListQuery) throws Exception {
+		PageRequest<RestaurantListQuery> pageRequest = newPageRequest(request, restaurantListQuery);
 		Page<Restaurant> page = restaurantService.getList(pageRequest);
 		put("page", page);
-		put("query", pageRequest.getFilters());
+		put("query", restaurantListQuery);
 		return "/system/resource/restaurant/list";
 	}
 }

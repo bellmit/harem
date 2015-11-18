@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <h1>餐厅管理</h1>
 <div>
-    <form class="form-signin" id="restaurantListForm" name="restaurantListForm" action="/B2C/resourceManage/list" method="GET" role="form">
+    <form class="form-signin" id="restaurantListForm" name="restaurantListForm" action="/B2C/resourceManage/restaurant/list" method="GET" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -40,9 +40,9 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">创建日期</button>
                 </span>
-                <input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="createeginDate" value="$!query.createBeginDate">
+                <input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="createBeginDate" value="$utilDate.date2StringByDay($query.createBeginDate)">
                 <span class="input-group-addon fix-border fix-padding">至</span>
-                <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="createEndDate" value="$!query.createEndDate">
+                <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="createEndDate" value="$utilDate.date2StringByDay($query.createEndDate)">
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">查询</button>
@@ -94,6 +94,7 @@
             </table>
         </div>
     #*分页*#
+	#set($pageForm = 'restaurantListForm')
     #parse("/pageBar.vm")
     </form>
 
@@ -142,6 +143,18 @@
 
 </div>
 <script>
+	$(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
     function getOrder(id)
     {
 	    top.tabsAdd('',"/B2C/orderManage/activityOrder/"+id,2,"活动订单详情");

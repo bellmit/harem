@@ -21,6 +21,7 @@ import com.yimayhd.harem.common.PageRequest;
 import com.yimayhd.harem.common.SimpleTablePageRequestFactory;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.exception.NoticeException;
+import com.yimayhd.harem.query.Query;
 
 /**
  * @author wenfeng zhang
@@ -92,12 +93,13 @@ public class BaseController {
 	 *            排序的多个列用“，”隔开，如：username desc，id asc
 	 * @return
 	 */
-	protected PageRequest newPageRequest(final HttpServletRequest request, final String defaultSortColumns) {
-		return SimpleTablePageRequestFactory.newPageRequest(request, defaultSortColumns);
+	protected <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
+			final String defaultSortColumns) {
+		return SimpleTablePageRequestFactory.newPageRequest(request, query, defaultSortColumns);
 	}
 
-	protected PageRequest newPageRequest(final HttpServletRequest request) {
-		return SimpleTablePageRequestFactory.newPageRequest(request, null);
+	protected <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query) {
+		return SimpleTablePageRequestFactory.newPageRequest(request, query, null);
 	}
 
 }

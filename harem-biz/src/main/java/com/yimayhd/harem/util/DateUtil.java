@@ -69,7 +69,22 @@ public class DateUtil {
 	public static String date2String(Date date) {
 		StringBuffer result = new StringBuffer();
 		if (date != null) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+			result.append(format.format(date));
+		}
+		return result.toString();
+	}
+
+	/**
+	 * 日期格式化成字符串 输入：日期对象 输出：如：2012-10-11
+	 *
+	 * @param date
+	 * @return
+	 */
+	public static String date2StringByDay(Date date) {
+		StringBuffer result = new StringBuffer();
+		if (date != null) {
+			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_TIME);
 			result.append(format.format(date));
 		}
 		return result.toString();

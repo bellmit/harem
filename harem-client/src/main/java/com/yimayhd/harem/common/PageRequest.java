@@ -1,7 +1,8 @@
 package com.yimayhd.harem.common;
 
 import java.io.Serializable;
-import java.util.Map;
+
+import com.yimayhd.harem.query.Query;
 
 /**
  * 
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author yebin
  *
  */
-public class PageRequest implements Serializable {
+public class PageRequest<T extends Query> implements Serializable {
 
 	/**
 	 * 
@@ -19,7 +20,7 @@ public class PageRequest implements Serializable {
 	/**
 	 * 过滤参数
 	 */
-	private Map<String, Object> filters;
+	private T query;
 	/**
 	 * 页号码,页码从1开始
 	 */
@@ -37,35 +38,35 @@ public class PageRequest implements Serializable {
 		this(0, 0);
 	}
 
-	public PageRequest(Map<String, Object> filters) {
-		this(0, 0, filters);
+	public PageRequest(T query) {
+		this(0, 0, query);
 	}
 
 	public PageRequest(int pageNumber, int pageSize) {
-		this(pageNumber, pageSize, (Map<String, Object>) null);
+		this(pageNumber, pageSize, (T) null);
 	}
 
-	public PageRequest(int pageNumber, int pageSize, Map<String, Object> filters) {
-		this(pageNumber, pageSize, filters, null);
+	public PageRequest(int pageNumber, int pageSize, T query) {
+		this(pageNumber, pageSize, query, null);
 	}
 
 	public PageRequest(int pageNumber, int pageSize, String sortColumns) {
 		this(pageNumber, pageSize, null, sortColumns);
 	}
 
-	public PageRequest(int pageNumber, int pageSize, Map<String, Object> filters, String sortColumns) {
+	public PageRequest(int pageNumber, int pageSize, T query, String sortColumns) {
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
-		setFilters(filters);
+		setQuery(query);
 		setSortColumns(sortColumns);
 	}
 
-	public Map<String, Object> getFilters() {
-		return filters;
+	public T getQuery() {
+		return query;
 	}
 
-	public void setFilters(Map<String, Object> filters) {
-		this.filters = filters;
+	public void setQuery(T query) {
+		this.query = query;
 	}
 
 	public int getPageNumber() {

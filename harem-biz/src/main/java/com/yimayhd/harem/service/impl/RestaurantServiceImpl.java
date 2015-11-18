@@ -3,12 +3,12 @@ package com.yimayhd.harem.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.yimayhd.harem.common.Page;
 import com.yimayhd.harem.common.PageRequest;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.Restaurant;
+import com.yimayhd.harem.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantService;
 
 /**
@@ -20,8 +20,8 @@ import com.yimayhd.harem.service.RestaurantService;
 public class RestaurantServiceImpl implements RestaurantService {
 
 	@Override
-	public Page<Restaurant> getList(PageRequest pageRequest) throws Exception {
-		int totalCount = count(pageRequest.getFilters());
+	public Page<Restaurant> getList(PageRequest<RestaurantListQuery> pageRequest) throws Exception {
+		int totalCount = count(pageRequest.getQuery());
 		Page<Restaurant> page = new Page<Restaurant>(pageRequest, totalCount);
 		List<Restaurant> itemList = find(pageRequest);
 		page.setItemList(itemList);
@@ -54,15 +54,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 	/**
 	 * 查找总数
 	 * 
-	 * @param filters
+	 * @param query
 	 * @return
 	 * @throws Exception
 	 */
-	protected Integer count(Map<String, Object> filters) throws Exception {
+	protected Integer count(RestaurantListQuery query) throws Exception {
 		return 1000;
 	}
 
-	protected List<Restaurant> find(PageRequest pageRequest) throws Exception {
+	protected List<Restaurant> find(PageRequest<RestaurantListQuery> pageRequest) throws Exception {
 		List<Restaurant> restaurants = new ArrayList<Restaurant>();
 		for (Long i = 0L; i < 10; i++) {
 			restaurants.add(getById(i));

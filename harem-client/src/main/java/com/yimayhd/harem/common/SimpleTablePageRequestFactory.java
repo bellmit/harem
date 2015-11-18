@@ -3,7 +3,8 @@ package com.yimayhd.harem.common;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.web.util.WebUtils;
+
+import com.yimayhd.harem.query.Query;
 
 /**
  * PageRequest工厂
@@ -21,22 +22,23 @@ public class SimpleTablePageRequestFactory {
 		System.out.println("SimpleTablePageRequestFactory.MAX_PAGE_SIZE=" + MAX_PAGE_SIZE);
 	}
 
-	public static PageRequest newPageRequest(final HttpServletRequest request, final String defaultSortColumns) {
-		return newPageRequest(request, defaultSortColumns, DEFAULT_PAGE_SIZE);
+	public static <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
+			final String defaultSortColumns) {
+		return newPageRequest(request, query, defaultSortColumns, DEFAULT_PAGE_SIZE);
 	}
 
-	public static PageRequest newPageRequest(final HttpServletRequest request, final String defaultSortColumns,
-			final int defaultPageSize) {
-		final PageRequest pageRequest = new PageRequest();
-		return bindPageRequestParameters(pageRequest, request, defaultSortColumns, defaultPageSize);
-	}
-
-	public static PageRequest bindPageRequestParameters(final PageRequest pageRequest, final HttpServletRequest request,
+	public static <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
 			final String defaultSortColumns, final int defaultPageSize) {
+		final PageRequest<T> pageRequest = new PageRequest<T>();
+		return bindPageRequestParameters(pageRequest, request, query, defaultSortColumns, defaultPageSize);
+	}
+
+	public static <T extends Query> PageRequest<T> bindPageRequestParameters(final PageRequest<T> pageRequest,
+			final HttpServletRequest request, T query, final String defaultSortColumns, final int defaultPageSize) {
 		pageRequest.setPageNumber(getIntParameter(request, "pageNumber", 1));
 		pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
 		pageRequest.setSortColumns(getStringParameter(request, "sortColumns", defaultSortColumns));
-		pageRequest.setFilters(WebUtils.getParametersStartingWith(request, "s_"));
+		pageRequest.setQuery(query);
 
 		if (pageRequest.getPageSize() > MAX_PAGE_SIZE) {
 			pageRequest.setPageSize(MAX_PAGE_SIZE);
