@@ -69,7 +69,7 @@ form {
     background-color: rgba(180,180,180,0.7) ;
 }
 .loginBox .head{height: 36px;margin-top: 16px;}
-.loginBox .logo{width:30px; height: 30px;background: url(../images/logo.png) no-repeat; border: 0 none;display: inline-block;}
+.loginBox .logo{width:30px; height: 30px;background: url(../img/logo.png) no-repeat; border: 0 none;display: inline-block;}
 .loginBox h1 {
 		font-size: 20px;
 		font-weight: 500;
@@ -105,11 +105,11 @@ form {
  }
 .btn:hover {background: #1e92eb;}
 
-.ico_01{background: url(../images/DL-01.png) no-repeat; width: 26px; height: 26px; border:0 none;}
-.ico_02{background: url(../images/DL-02.png) no-repeat; width: 26px; height: 26px; border:0 none;}
-.ico_03{background: url(../images/DL-03.png) no-repeat; width: 26px; height: 26px; border:0 none;}
-.ico_04{background: url(../images/DL-04.png) no-repeat; width: 26px; height: 26px; border:0 none;}
-.ico_05{background: url(../images/DL-05.png) no-repeat; width: 26px; height: 26px; border:0 none;display: inline-block; vertical-align: middle; cursor: pointer;}
-.ico_checkOk{background: url(../images/check_ok.png) no-repeat; width: 20px; height: 20px; border:0 none;display: inline-block;vertical-align: middle;}
-.ico_checkUn{background: url(../images/check_un.png) no-repeat; width: 20px; height: 20px; border:0 none;display: inline-block;vertical-align: middle;}
+.ico_01{background: url(../img/DL-01.png) no-repeat; width: 26px; height: 26px; border:0 none;}
+.ico_02{background: url(../img/DL-01.png) no-repeat; width: 26px; height: 26px; border:0 none;}
+.ico_03{background: url(../img/DL-03.png) no-repeat; width: 26px; height: 26px; border:0 none;}
+.ico_04{background: url(../img/DL-04.png) no-repeat; width: 26px; height: 26px; border:0 none;}
+.ico_05{background: url(../img/DL-05.png) no-repeat; width: 26px; height: 26px; border:0 none;display: inline-block; vertical-align: middle; cursor: pointer;}
+.ico_checkOk{background: url(../img/check_ok.png) no-repeat; width: 20px; height: 20px; border:0 none;display: inline-block;vertical-align: middle;}
+.ico_checkUn{background: url(../img/check_un.png) no-repeat; width: 20px; height: 20px; border:0 none;display: inline-block;vertical-align: middle;}
 .txtRemember{line-height: 20px;vertical-align: middle;}

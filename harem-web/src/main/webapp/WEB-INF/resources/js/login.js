@@ -77,13 +77,13 @@ jQuery(function($) {
 		fit_landscape: 0,
 		slide_links: 'blank',
 		slides: [{
-			image: '../loginDemo/images/bj01.jpg'
+			image: '/resources/img/bj01.jpg'
 		}, {
-			image: '../loginDemo/images/bj02.jpg'
+			image: '/resources/img/bj02.jpg'
 		}, {
-			image: '../loginDemo/images/bj03.jpg'
+			image: '/resources/img/bj03.jpg'
 		}, {
-			image: '../loginDemo/images/bj04.jpg'
+			image: '/resources/img/bj04.jpg'
 		}]
 	});
 
