@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.harem.common.PageRequest;
-import com.yimayhd.harem.common.SimpleTablePageRequestFactory;
+import com.yimayhd.harem.model.query.base.PageRequest;
+import com.yimayhd.harem.model.query.base.SimpleTablePageRequestFactory;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.exception.NoticeException;
-import com.yimayhd.harem.query.Query;
+import com.yimayhd.harem.model.query.Query;
 
 /**
  * @author wenfeng zhang

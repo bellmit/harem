@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yimayhd.harem.common.Page;
-import com.yimayhd.harem.common.PageRequest;
+import com.yimayhd.harem.model.query.base.Page;
+import com.yimayhd.harem.model.query.base.PageRequest;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.Restaurant;
-import com.yimayhd.harem.query.RestaurantListQuery;
+import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantService;
 
 /**

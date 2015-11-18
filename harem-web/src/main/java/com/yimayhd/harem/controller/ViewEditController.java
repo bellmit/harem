@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //import com.yimayhd.service.MessageCodeService;
 
 /**
- * 
+ *
  * @author
  */
 @Controller

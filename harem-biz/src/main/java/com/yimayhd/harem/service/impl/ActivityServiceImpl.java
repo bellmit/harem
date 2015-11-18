@@ -2,9 +2,7 @@ package com.yimayhd.harem.service.impl;
 
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.model.Activity;
-import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.service.ActivityService;
-import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.harem.util.HttpRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 

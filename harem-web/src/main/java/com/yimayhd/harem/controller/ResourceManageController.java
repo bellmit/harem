@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.common.Page;
-import com.yimayhd.harem.common.PageRequest;
+import com.yimayhd.harem.model.query.base.Page;
+import com.yimayhd.harem.model.query.base.PageRequest;
 import com.yimayhd.harem.model.Restaurant;
-import com.yimayhd.harem.query.RestaurantListQuery;
+import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantService;
 
 /**
