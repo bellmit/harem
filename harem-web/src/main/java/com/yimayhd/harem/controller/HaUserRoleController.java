@@ -1,14 +1,19 @@
 package com.yimayhd.harem.controller;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVo;
-import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.model.HaUserRoleDO;
-import com.yimayhd.harem.service.HaUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageQuery;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.HaUserRoleDO;
+import com.yimayhd.harem.service.HaUserRoleService;
 
 /**
  * 用户角色表
@@ -23,7 +28,7 @@ public class HaUserRoleController extends BaseController{
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseVo getList(HaUserRoleDO haUserRoleDO, PageVo<HaUserRoleDO> vo) throws Exception {
+    public ResponseVo getList(HaUserRoleDO haUserRoleDO, PageQuery<HaUserRoleDO> vo) throws Exception {
         vo.setEntity(haUserRoleDO);
         vo.setList(haUserRoleService.getList(vo));
         vo.setTotalSum(haUserRoleService.getCount(haUserRoleDO));

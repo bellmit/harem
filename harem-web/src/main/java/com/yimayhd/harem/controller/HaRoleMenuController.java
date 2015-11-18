@@ -1,14 +1,19 @@
 package com.yimayhd.harem.controller;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVo;
-import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.model.HaRoleMenuDO;
-import com.yimayhd.harem.service.HaRoleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageQuery;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.HaRoleMenuDO;
+import com.yimayhd.harem.service.HaRoleMenuService;
 
 /**
  * 角色菜单表
@@ -23,7 +28,7 @@ public class HaRoleMenuController extends BaseController{
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseVo getList(HaRoleMenuDO haRoleMenuDO, PageVo<HaRoleMenuDO> vo) throws Exception {
+    public ResponseVo getList(HaRoleMenuDO haRoleMenuDO, PageQuery<HaRoleMenuDO> vo) throws Exception {
         vo.setEntity(haRoleMenuDO);
         vo.setList(haRoleMenuService.getList(vo));
         vo.setTotalSum(haRoleMenuService.getCount(haRoleMenuDO));

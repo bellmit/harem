@@ -12,5 +12,5 @@ import java.util.List;
 public interface HaMenuMapper extends BaseMapper<HaMenuDO>{
 
     List<HaMenuDO> getMenuListByUserId(long id)throws Exception;
-
+    List<HaMenuDO> getMenuList() throws Exception;
 }

@@ -1,0 +1,23 @@
+<div>
+	<ul class="nav nav-tabs">
+        <li class="active">
+          <a href="javascript:void(0)" data-toggle="tab">餐厅信息</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" data-toggle="tab">图片集</a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            Other tabs <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+            <li>
+              <a href="#tab3" tabindex="-1" data-toggle="tab">Tab3</a>
+            </li>
+            <li>
+              <a href="#tab4" tabindex="-1" data-toggle="tab">Tab4</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+</div>

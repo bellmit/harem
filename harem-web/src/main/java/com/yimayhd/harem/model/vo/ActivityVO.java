@@ -1,10 +1,9 @@
 package com.yimayhd.harem.model.vo;
 
-import com.yimayhd.harem.base.PageVo;
+import java.util.List;
+
 import com.yimayhd.harem.model.Activity;
-import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.query.ActivityListQuery;
-import com.yimayhd.harem.model.query.ClubListQuery;
 
 /**
  * Created by Administrator on 2015/11/2.
@@ -12,6 +11,7 @@ import com.yimayhd.harem.model.query.ClubListQuery;
 public class ActivityVO {
     private Activity activity;
     private ActivityListQuery activityListQuery;
+    private List<Activity> activityList;
 
     public Activity getActivity() {
         return activity;

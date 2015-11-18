@@ -1,6 +1,6 @@
 package com.yimayhd.harem.model.vo;
 
-import com.yimayhd.harem.base.PageVo;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.query.ClubListQuery;
 

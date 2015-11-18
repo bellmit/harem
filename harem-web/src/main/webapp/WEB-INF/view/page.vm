@@ -1,115 +1,69 @@
 ##     totalPage 总页数   showSize-10   cpage 当前页
 #macro(pageStyle $formId)
-    #set($totalPage =($pageVo.totalSum + $pageVo.pageSize - 1)/$pageVo.pageSize)
-    #set($totalSum =$pageVo.totalSum)
-    #set($pageSize =$pageVo.pageSize)
-    #set($cpage =$pageVo.currentPage)
-    #set($showSize =20)
-#if($cpage)
-##<input type="hidden"  name="totalSum" value="$!totalSum"/>
-##<input type="hidden"  name="pageSize" value="$!pageSize"/>
-<input type="hidden"  name="currentPage" id="currentPage" value="$!cpage"/>
-<div class="pagination pagination-large pagination-right whole">
-    <ul class="pageWrap">
-        #if($cpage>1)
-            <ul class="pager">
-                <li class="previous">
-                    <a href="#" id="prePage">« 上一页</a>
-                </li>
-            </ul>
-        #end
-
-    ##总页数<=1
-    <ul class="pager">
-        #if($totalPage<=1)
-            <li class="active">
-                <a href="#">1</a>
+	<input type="hidden"  name="pageNumber" id="pageNo"/>
+    <input type="hidden"  name="pageSize" id="pageSize" value="$!pageVo.pageSize"/>
+    <div class="pagination pagination-large pagination-right whole">
+    	#set($pageVoNo = $pageVo.thisPageNumber)
+    	#set($before=0)
+    	#set($after=0)
+        <ul class="pager pager-pills">
+    		#if($pageVo.hasPreviousPage)
+            <li class="previous">
+                <a href="javascript:void(0)" class="LinkeToPage" pageNo="$pageVo.previousPageNumber" id="prePage">« 上一页</a>
             </li>
-        #else
-
-            #set($pageStart = 1)  ##开始页
-            #set($pageEnd = $showSize)  ##结束页
-
-            ##总页数<=需要显示的页数
-            #if($totalPage<=$showSize)
-
-                #set($pageStart = 1)
-                #set($pageEnd = $totalPage)
-
-            #else
-
-                #set($hasfSize = $showSize/2)
-                #set($lastHalf = $totalPage - $hasfSize)
-
-
-                #if($cpage <= $hasfSize)
-                    #set($pageStart = 1)
-                    #set($pageEnd = $showSize)
-                #elseif($cpage >=$lastHalf)
-                    #set($pageStart = $totalPage - $showSize+1)
-                    #set($pageEnd = $totalPage)
-                #else
-                    #if($showSize%2==1)
-                        #set($pageStart = $cpage - $hasfSize )
-                    #else
-                        #set($pageStart = $cpage - $hasfSize +1)
-                    #end
-
-
-                    #set($pageEnd = $pageStart + $showSize+(-1))
-                #end
-
-            #end
-
-            #foreach($i in [$pageStart .. $pageEnd])
-                #if($cpage==$i)
-                    <li  class="active"><span>$i</span></li>
-                #else
-                    <li  ><a href="javascript:void(0)" name="linkToPage">$i</a></li>
+    		#else
+    		<li class="previous disabled">
+                <a href="#" id="prePage">« 上一页</a>
+            </li>
+    		#end
+            #foreach($i in [1 .. $pageVo.lastPageNumber])
+                #if($pageVoNo == $i)
+                <li class="active">
+            		<span><a href="javascript:void(0)">$i</a></span>
+            	</li>
+    			#elseif(1 >= $i - 1)
+        		<li>
+        			<span><a href="javascript:void(0)" class="LinkeToPage" pageNo="$i">$i</a></span>
+        		</li>
+                #elseif($pageVo.lastPageNumber <= $i + 1)
+        		<li>
+        			<span><a href="javascript:void(0)" class="LinkeToPage" pageNo="$i">$i</a></span>
+        		</li>
+    			#elseif($pageVoNo >= $i - 2 && $pageVoNo <= $i + 2)
+    			<li>
+    				<span><a href="javascript:void(0)" class="LinkeToPage" pageNo="$i">$i</a></span>
+    			</li>
+    			#elseif($pageVoNo > $i && $before==0)
+    			<li>
+                  <a href="javascript:void(0)" data-toggle="pager" data-placement="top">...</a>
+                </li>
+    			#set($before=1)
+    			#elseif($pageVoNo < $i && $after==0)
+    			<li>
+                  <a href="javascript:void(0)" data-toggle="pager" data-placement="top">...</a>
+                </li>
+    			#set($after=1)
                 #end
             #end
-
-        #end
-    </ul>
-
-        #if($cpage<$totalPage)
-            <ul class="pager">
-                <li><a href="javascript:void(0)" id="nextPage" class="previous">下一页»</a></li>
-            </ul>
-        #end
-    </ul>
-</div>
-<script>
-$(function(){
-    //上一页
-    $("#prePage").click(function(){
-        var currentPage = $("[name='currentPage']").val();
-        $("[name='currentPage']").val(currentPage-1);
-        //form提交
-        var formId = "#$formId";
-        $(formId).submit();
-
-    });
-
-    //下一页
-    $("#nextPage").click(function(){
-         var currentPage = $("[name='currentPage']").val();
-         $("[name='currentPage']").val(parseInt(currentPage)+1);
-         //form提交
-         var formId = "#$formId";
-         $(formId).submit();
-    });
-    //跳转到某一页
-    $("[name='linkToPage']").click(function(){
-          var page  = $(this).html();
-          $("[name='currentPage']").val(page);
-           //form提交
-         var formId = "#$formId";
-         $(formId).submit();
-    });
-});
-</script>
-#end
+            #if($pageVo.hasNextPage)
+            <li class="next">
+    			<a href="javascript:void(0)" class="LinkeToPage" pageNo="$pageVo.nextPageNumber" id="nextPage">下一页»</a>
+    		</li>
+    		#else
+            <li class="next disabled">
+    			<a href="javascript:void(0)" id="nextPage">下一页»</a>
+    		</li>
+            #end
+        </ul>
+    	<script type="text/javascript">
+        	$(function(){
+    			$(".LinkeToPage").click(function(){
+    				$("#pageNo").val($(this).attr("pageNo"));
+    				$("#$formId").submit();
+    			});
+            });
+        </script>
+    </div>
 #end
 
 ##显示验证错误信息

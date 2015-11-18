@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,5 +32,12 @@ public class ResourceManageController extends BaseController {
 		put("page", page);
 		put("query", restaurantListQuery);
 		return "/system/resource/restaurant/list";
+	}
+
+	@RequestMapping(value = "/restaurant/{id}", method = RequestMethod.GET)
+	public String restaurant(@PathVariable("id") Long id) throws Exception {
+		Restaurant restaurant = restaurantService.getById(id);
+		put("restaurant", restaurant);
+		return "/system/resource/restaurant/Info";
 	}
 }

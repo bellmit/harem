@@ -73,7 +73,7 @@
         </where>
     </sql>
 
-    <select id="getList" resultMap="BaseResultMap" parameterType="com.yimayhd.harem.base.PageVo">
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.yimayhd.harem.base.PageQuery">
         select
         <include refid="Base_Column_List"/>
         from ha_menu t
@@ -200,5 +200,45 @@
                 and hm.level = 3) C
         on B.id = C.parent_id
 
+    </select>
+    
+    <select id="getMenuList" resultMap="menuListAll">
+        SELECT
+            A.id,
+            A.name,
+            A.link_url,
+            A.level,
+            A.parent_id,
+            B.id B_id,
+            B.name B_name,
+            B.link_url B_link_url,
+            B.level B_level,
+            B.parent_id B_parent_id,
+            C.id B_C_id,
+            C.name B_C_name,
+            C.link_url B_C_link_url,
+            C.level B_C_level,
+            C.parent_id B_C_parent_id
+
+        from
+            (select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+                    ha_menu hm
+                where 1 = 1
+                and hm.status = 1
+                and hm.level = 1) A
+        left join
+            (select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+                   ha_menu hm
+                where 1 = 1
+                and hm.status = 1
+                and hm.level = 2) B
+        on A.id = B.parent_id
+        left join
+            (select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+                   ha_menu hm
+                where 1 = 1
+                and hm.status = 1
+                and hm.level = 3) C
+        on B.id = C.parent_id
     </select>
 </mapper>
