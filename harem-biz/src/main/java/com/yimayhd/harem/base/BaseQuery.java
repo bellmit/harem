@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class BaseQuery implements Serializable {
 
 	private static final long serialVersionUID = 7184354135734117464L;
-
 	private static final int DEFAULT_SIZE = 20;
 	private static final int DEFAULT_PAGE = 1;
 	public static final int PAGING_YES = 1;
@@ -35,5 +34,4 @@ public class BaseQuery implements Serializable {
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
-
 }

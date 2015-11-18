@@ -3,7 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
         >
-	<!-- ===========================  user =============================== -->
+	<!-- ===========================  item =============================== -->
+    <!--demo开始-->
 	<bean id="categoryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.ic.client.service.item.CategoryService"/>
         <property name="application" ref="dubboApplicationConfig"/>
@@ -12,6 +13,6 @@
         <property name="check" value="${consumer.dubbo.check}"/>
         <property name="version" value="${consumer.dubbo.version}"/>
     </bean>
+    <!--demo结束-->
 
-	
 </beans>
