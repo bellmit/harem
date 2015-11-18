@@ -10,8 +10,13 @@
     <!--加载外部配置-->
     <context:property-placeholder location="classpath:config.properties" file-encoding="utf-8"
                                   ignore-unresolvable="true"/>
+
+
     <!--程序中获取配置文件信息-->
     <util:properties id="haremProperties" location="classpath:config.properties"/>
+    <!--dubbo-->
+    <import resource="spring-dubbo.xml"/>
+    <import resource="spring-consumer.xml"/>
     <!--加载数据源和事务配置-->
     <import resource="spring-mybatis.xml"/>
     <!--tfs上传文件-->

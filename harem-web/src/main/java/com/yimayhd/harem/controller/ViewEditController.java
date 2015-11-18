@@ -1,7 +1,8 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.service.UserService;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.ic.client.service.item.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,20 +12,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //import com.yimayhd.service.MessageCodeService;
 
 /**
- * 用户信息
- * @author liuhaiming
+ * 
+ * @author
  */
 @Controller
 @RequestMapping("/view")
 public class ViewEditController extends BaseController {
 
     @Autowired
-    private UserService userService;
-
-   /* @Autowired
-    private MessageCodeService messageCodeService;
-
-    */
+    private CategoryService categoryServiceRef;
 
     /**
      * 富文本编辑页面
@@ -34,6 +30,8 @@ public class ViewEditController extends BaseController {
     @RequestMapping(value = "/toViewEditTest", method = RequestMethod.GET)
     public
     String toViewEdit(Model model) throws Exception {
+        CategoryResult categoryResult = categoryServiceRef.getCategory(1);
+        System.out.println(categoryResult.getResultCode());
         model.addAttribute("message","请输入帐号和密码");
         return "/demo/editView";
     }
