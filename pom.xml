@@ -21,7 +21,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <harem.version>1.0-SNAPSHOT</harem.version>
+<<<<<<< Updated upstream
         <itemcenter_api_version>1.0.0-SNAPSHOT</itemcenter_api_version>
+=======
+>>>>>>> Stashed changes
         <jackson.version>2.6.3</jackson.version>
         <session.manager.version>1.5.2-SNAPSHOT</session.manager.version>
         <user.api.version>1.5.2-SNAPSHOT</user.api.version>
@@ -237,7 +240,6 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.1</version>
         </dependency>
-        <!--dubbo-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
@@ -268,6 +270,9 @@
             <groupId>com.yimayhd.item</groupId>
             <artifactId>itemcenter-client</artifactId>
             <version>${itemcenter_api_version}</version>
+=======
+
+>>>>>>> Stashed changes
             <exclusions>
                 <exclusion>
                     <groupId>log4j</groupId>
