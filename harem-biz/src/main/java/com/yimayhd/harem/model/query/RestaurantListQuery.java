@@ -2,6 +2,7 @@ package com.yimayhd.harem.model.query;
 
 import java.util.Date;
 
+import com.yimayhd.harem.base.BaseQuery;
 import com.yimayhd.harem.model.Region;
 
 /**
@@ -10,7 +11,11 @@ import com.yimayhd.harem.model.Region;
  * @author yebin
  *
  */
-public class RestaurantListQuery implements Query {
+public class RestaurantListQuery extends BaseQuery {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -872735064959961097L;
 	private String name;// 名称
 	private Integer state;// 状态
 	private String provinceCode;// 省

@@ -2,8 +2,9 @@ package com.yimayhd.harem.model.query.base;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yimayhd.harem.model.query.Query;
 import org.apache.commons.lang.StringUtils;
+
+import com.yimayhd.harem.base.BaseQuery;
 
 
 /**
@@ -22,18 +23,18 @@ public class SimpleTablePageRequestFactory {
 		System.out.println("SimpleTablePageRequestFactory.MAX_PAGE_SIZE=" + MAX_PAGE_SIZE);
 	}
 
-	public static <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
+	public static <T extends BaseQuery> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
 			final String defaultSortColumns) {
 		return newPageRequest(request, query, defaultSortColumns, DEFAULT_PAGE_SIZE);
 	}
 
-	public static <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
+	public static <T extends BaseQuery> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
 			final String defaultSortColumns, final int defaultPageSize) {
 		final PageRequest<T> pageRequest = new PageRequest<T>();
 		return bindPageRequestParameters(pageRequest, request, query, defaultSortColumns, defaultPageSize);
 	}
 
-	public static <T extends Query> PageRequest<T> bindPageRequestParameters(final PageRequest<T> pageRequest,
+	public static <T extends BaseQuery> PageRequest<T> bindPageRequestParameters(final PageRequest<T> pageRequest,
 			final HttpServletRequest request, T query, final String defaultSortColumns, final int defaultPageSize) {
 		pageRequest.setPageNumber(getIntParameter(request, "pageNumber", 1));
 		pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));

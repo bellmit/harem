@@ -17,11 +17,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.harem.model.query.base.PageRequest;
-import com.yimayhd.harem.model.query.base.SimpleTablePageRequestFactory;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.exception.NoticeException;
-import com.yimayhd.harem.model.query.Query;
+import com.yimayhd.harem.model.query.base.PageRequest;
+import com.yimayhd.harem.model.query.base.SimpleTablePageRequestFactory;
 
 /**
  * @author wenfeng zhang
@@ -93,12 +92,12 @@ public class BaseController {
 	 *            排序的多个列用“，”隔开，如：username desc，id asc
 	 * @return
 	 */
-	protected <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
+	protected <T extends BaseQuery> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
 			final String defaultSortColumns) {
 		return SimpleTablePageRequestFactory.newPageRequest(request, query, defaultSortColumns);
 	}
 
-	protected <T extends Query> PageRequest<T> newPageRequest(final HttpServletRequest request, T query) {
+	protected <T extends BaseQuery> PageRequest<T> newPageRequest(final HttpServletRequest request, T query) {
 		return SimpleTablePageRequestFactory.newPageRequest(request, query, null);
 	}
 

@@ -60,7 +60,7 @@
         </where>
     </sql>
 
-    <select id="getList" resultMap="BaseResultMap" parameterType="com.yimayhd.harem.base.PageVo">
+    <select id="getList" resultMap="BaseResultMap" parameterType="com.yimayhd.harem.base.PageQuery">
         select
         <include refid="Base_Column_List"/>
         from ha_role t

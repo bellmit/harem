@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.harem.base.PageVo;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.Live;
@@ -37,7 +37,7 @@ public class LiveManageController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model,LiveListQuery liveListQuery,PageVo pageVo)  throws Exception {
+    public String list(Model model,LiveListQuery liveListQuery,PageVO pageVo)  throws Exception {
     	LiveVO liveVO = new LiveVO();
     	liveVO.setLiveListQuery(liveListQuery);
     	List<Live> liveList = liveService.getList(liveVO.getLive());

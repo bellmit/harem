@@ -35,4 +35,19 @@ public interface HotelService {
      */
     void modify(HotelDO hotelDO)throws Exception;
 
+    /**
+     * 批量修改酒店状态
+     * @param idList
+     * @param hotelStatus
+     * @throws Exception
+     */
+    void setHotelStatusList(List<Integer> idList,int hotelStatus)throws Exception;
+    /**
+     * 修改酒店状态
+     * @param id
+     * @param hotelStatus
+     * @throws Exception
+     */
+    void setHotelStatus(long id,int hotelStatus)throws Exception;
+
 }

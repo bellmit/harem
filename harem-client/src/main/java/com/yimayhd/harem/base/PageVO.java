@@ -1,20 +1,14 @@
-package com.yimayhd.harem.model.query.base;
+package com.yimayhd.harem.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.yimayhd.harem.base.Paginator;
-
 /**
- * 分页数据对象
- * 
- * @author yebin
- *
- * @param <T>
+ * @author wenfeng zhang @ 14-10-10
  */
-public class Page<T> implements Serializable, Iterable<T> {
+public class PageVO<T> implements Serializable, Iterable<T> {
 
 	/**
 	 * 
@@ -25,32 +19,15 @@ public class Page<T> implements Serializable, Iterable<T> {
 
 	private Paginator paginator;
 
-	public Page(PageRequest<?> p, int totalCount) {
-		this(p.getPageNumber(), p.getPageSize(), totalCount);
-	}
-
-	@Deprecated
-	public Page(int pageNumber, int pageSize, int totalCount) {
+	public PageVO(int pageNumber, int pageSize, int totalCount) {
 		this(pageNumber, pageSize, totalCount, new ArrayList<T>(0));
 	}
 
-	@Deprecated
-	public Page(int pageNumber, int pageSize, int totalCount, List<T> result) {
+	public PageVO(int pageNumber, int pageSize, int totalCount, List<T> result) {
 		if (pageSize <= 0)
 			throw new IllegalArgumentException("[pageSize] must great than zero");
 		this.paginator = new Paginator(pageNumber, pageSize, totalCount);
 		setItemList(result);
-	}
-
-	@Deprecated
-	public Page(Paginator paginator) {
-		setPaginator(paginator);
-	}
-
-	@Deprecated
-	public Page(List<T> itemList, Paginator paginator) {
-		setItemList(itemList);
-		setPaginator(paginator);
 	}
 
 	/**

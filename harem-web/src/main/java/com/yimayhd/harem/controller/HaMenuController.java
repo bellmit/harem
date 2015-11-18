@@ -1,14 +1,19 @@
 package com.yimayhd.harem.controller;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVo;
-import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.model.HaMenuDO;
-import com.yimayhd.harem.service.HaMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageQuery;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.HaMenuDO;
+import com.yimayhd.harem.service.HaMenuService;
 
 /**
  * 菜单表
@@ -23,7 +28,7 @@ public class HaMenuController extends BaseController{
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseVo getList(HaMenuDO haMenuDO, PageVo<HaMenuDO> vo) throws Exception {
+    public ResponseVo getList(HaMenuDO haMenuDO, PageQuery<HaMenuDO> vo) throws Exception {
         vo.setEntity(haMenuDO);
         vo.setList(haMenuService.getList(vo));
         vo.setTotalSum(haMenuService.getCount(haMenuDO));

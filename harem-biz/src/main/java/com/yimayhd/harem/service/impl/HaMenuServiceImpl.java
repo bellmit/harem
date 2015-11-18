@@ -11,21 +11,27 @@ import java.util.List;
 
 /**
  * 菜单表
+ * 
  * @author czf
  */
-//@Service
-public class HaMenuServiceImpl extends BaseServiceImpl<HaMenuDO> implements HaMenuService{
+// @Service
+public class HaMenuServiceImpl extends BaseServiceImpl<HaMenuDO> implements HaMenuService {
 
-    @Autowired
-    private HaMenuMapper haMenuMapper;
+	@Autowired
+	private HaMenuMapper haMenuMapper;
 
-    @Override
-    protected void initBaseMapper() {
-        setBaseMapper(haMenuMapper);
-    }
+	@Override
+	protected void initBaseMapper() {
+		setBaseMapper(haMenuMapper);
+	}
 
-    @Override
-    public List<HaMenuDO> getMenuListByUserId(long id) throws Exception {
-        return haMenuMapper.getMenuListByUserId(id);
-    }
+	@Override
+	public List<HaMenuDO> getMenuListByUserId(long id) throws Exception {
+		return haMenuMapper.getMenuListByUserId(id);
+	}
+
+	@Override
+	public List<HaMenuDO> getMenuList() throws Exception {
+		return haMenuMapper.getMenuList();
+	}
 }

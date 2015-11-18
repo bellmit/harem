@@ -51,14 +51,12 @@
                 <button type="submit" class="btn btn-primary" onclick="resetForm();">重置</button>
             </div>
         </div>
-          <div class="tableGroup whole">
+          <div class="btn-toolbar" style="margin: 0;">
 			<div class="btn-group">
                 <button type="button" class="btn">添加餐厅</button>
-            </div>
-      		<div class="btn-group">
-                <button type="button" class="btn">批量启用</button>
-            </div>
+			</div>
 			<div class="btn-group">
+                <button type="button" class="btn">批量启用</button>
                 <button type="button" class="btn">批量停用</button>
             </div>
 		  </div>
@@ -75,18 +73,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                  #foreach($item in $page.itemList)
+                  #foreach($item in $pageVo.itemList)
                     <tr>
-                        <td><span>$!{item.imageUrl}</span></td>
-						<td><span>$!{item.name}<br/>$!{item.code}</span></td>
-                     	<td>$!{item.state}</td>
-                     	<td>$!{item.province.name}</td>
-						<td>$!{item.city.name}</td>
+                        <td><span>$!item.imageUrl</span></td>
+						<td><span>$!item.name<br/>$!item.code</span></td>
+                     	<td>$!item.state</td>
+                     	<td>$!item.province.name</td>
+						<td>$!item.city.name</td>
                      	<td>￥$!{item.basePrice}元起</td>
-						<td>$!{item.contactName}<br/>$!{item.contactPhone}</td>
+						<td>$!item.contactName<br/>$!item.contactPhone</td>
                      	<td>
-							<button type="button" class="btn btn-lg btn-primary " data-toggle="modal" data-target="" tradeNO="">查看</button>
-							<button type="button" class="btn btn-lg btn-primary " data-toggle="modal" data-target="" tradeNO="">停用</button>
+							<button class="btn btn-primary LinkToInfo" type="button" item-id="$!item.id">查看</button>
+							<button class="btn LinkToStop" type="button" item-id="$!item.id">停用</button>
 						</td>
                     </tr>
 				  #end
@@ -94,8 +92,8 @@
             </table>
         </div>
     #*分页*#
-	#set($pageForm = 'restaurantListForm')
-    #parse("/pageBar.vm")
+	#parse("/page.vm")
+    #pageStyle("restaurantListForm")
     </form>
 
     <!-- 退款模态框 -->
@@ -123,10 +121,7 @@
                                     <label for="availablePoint">可返还积分</label>
                                     <input type="text" class="form-control availablePoint pointShow" placeholder="可返还积分" name="availablePoint" value="" readonly="">
                                 </li>
-                                
-                                
                             </ul>
-                          
                             <button id="btnSubmit" class="btn btn-large btn-block btn-primary" type="button" disabled="">提交</button>
                         </div>
                     </form>
@@ -143,6 +138,7 @@
 
 </div>
 <script>
+	// 日期输入框初始化
 	$(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -155,13 +151,18 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-    function getOrder(id)
-    {
-	    top.tabsAdd('',"/B2C/orderManage/activityOrder/"+id,2,"活动订单详情");
-    }
-
+	// 列表查看按钮绑定
+	$(".LinkToInfo").click(function() {
+		var id = $(this).attr("item-id"); 
+		top.tabsAdd('',"/B2C/resourceManage/restaurant/"+id,2,"查看餐厅详情");
+	});
+	// 列表停用按钮绑定
+	$(".LinkToStop").click(function() {
+		// 还未实现
+		alert($(this).attr("item-id"));
+	});
+	
     $(function(){
-      
-
+		
     });
 </script>

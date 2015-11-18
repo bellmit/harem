@@ -10,42 +10,28 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BaseQuery implements Serializable {
 
-    private static final long serialVersionUID = 7184354135734117464L;
-    private PageVo pageVo;
+	private static final long serialVersionUID = 7184354135734117464L;
+	private static final int DEFAULT_SIZE = 10;
+	private static final int DEFAULT_PAGE = 1;
+	public static final int PAGING_YES = 1;
+	public static final int PAGING_NO = 0;
 
+	protected Integer pageNumber = DEFAULT_PAGE;
+	protected Integer pageSize = DEFAULT_SIZE;
 
-    /**
-     * 开始时间
-     */
-    private String beginDate;
+	public Integer getPageNumber() {
+		return pageNumber;
+	}
 
-    /**
-     * 结束时间
-     */
-    private String endDate;
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
 
-    public String getBeginDate() {
-        return beginDate;
-    }
+	public Integer getPageSize() {
+		return pageSize;
+	}
 
-    public void setBeginDate(String beginDate) {
-        this.beginDate = beginDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-
-    public PageVo getPageVo() {
-        return pageVo;
-    }
-
-    public void setPageVo(PageVo pageVo) {
-        this.pageVo = pageVo;
-    }
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 }

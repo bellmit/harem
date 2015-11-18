@@ -1,9 +1,10 @@
 package com.yimayhd.harem.base;
 
 
-import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 public abstract class BaseServiceImpl<T extends BaseModel> implements BaseService<T> {
 
@@ -22,7 +23,7 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public List<T> getList(PageVo<T> vo) throws Exception {
+    public List<T> getList(PageQuery<T> vo) throws Exception {
         return baseMapper.getList(vo);
     }
 
