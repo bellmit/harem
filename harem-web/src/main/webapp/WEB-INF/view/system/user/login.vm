@@ -1,20 +1,47 @@
+<link href="/css/login.css" rel="stylesheet" />
+<link href="/supersized/supersized.css" rel="stylesheet" />
+<div class="page-container">
 
+    <form action="" method="post" id="loginForm">
+        <div class="loginBox">
+            <div class="head">
 
-<div>登陆$!{rc.realPath}</div>
-<div class="container">
-    <form class="form-signin" id="loginForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/login" method="post" role="form">
-        <div class="form-group" style="width:450px;">
-            <h3 class="form-signin-heading">登录</h3>
-            <div>
-                <label class="sr-only" for="userName">用户名</label>
-                <input type="text" class="form-control" placeholder="用户名" name="userName" required autofocus>
+                <p class="logo left"></p><h1 >B2C和商贸后台</h1></div>
+            <!--<div class="clear"></div>
+            <div class="row">
+                <p class="ico_01 left"></p><p class="right"><input type="text" id="company" placeholder="企业编号" maxlength="20" class="input inp_w1" /></p>
+            </div>-->
+            <div class="clear"></div>
+            <div class="row">
+                <p class="ico_02 left"></p><p class="right"><input type="text" id="username" placeholder="用户名" maxlength="20" class="input inp_w1" /></p>
             </div>
-            <div>
-                <label class="sr-only" for="password">密码</label>
-                <input class="form-control" name="password" type="password" placeholder="密码" required autofocus />
+            <div class="clear"></div>
+            <div class="row">
+                <p class="ico_03 left"></p><p class="right"><input type="password" id="password" maxlength="20" placeholder="密码" class="input inp_w1"  oncontextmenu="return false" onpaste="return false" /></p>
             </div>
-            <label class="sr-only">$!message</label>
-            <button class="btn btn-primary btn-block" type="submit">登录</button>
+            <div class="clear"></div>
+            <div class="row">
+                <p class="ico_04 left"></p><p class="right">
+                <input type="text" id="verify" placeholder="验证码" class="input inp_w2" maxlength="4"  oncontextmenu="return false" onpaste="return false" />
+                <img src="#" /><b class="ico_05"></b>
+            </p>
+            </div>
+            <div class="clear"></div>
+            <!--<div class="row">
+                <p class="rember"><label><b class="ico_checkUn" id="isRemember"></b><span class="txtRemember">记住用户名</span></label></p>
+            </div>-->
+            <!--<div class="clear"></div>-->
+
+            <!--<div class="row">
+                <p class="rember" id="pHint"><span class="hint">验证码错误等信息。。。</span></p>
+            </div>-->
+            <div class="clear"></div>
+            <input type="button" id="btnSubmit" value="登 录" class="btn" />
         </div>
     </form>
+
 </div>
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/supersized/supersized.3.2.7.min.js"></script>
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/js/verify.js"></script>
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/js/login.js"></script>

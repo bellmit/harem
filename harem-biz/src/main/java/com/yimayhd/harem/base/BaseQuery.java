@@ -10,8 +10,8 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BaseQuery implements Serializable {
 
-
     private static final long serialVersionUID = 7184354135734117464L;
+    private PageVo pageVo;
 
 
     /**
@@ -41,5 +41,11 @@ public class BaseQuery implements Serializable {
     }
 
 
+    public PageVo getPageVo() {
+        return pageVo;
+    }
 
+    public void setPageVo(PageVo pageVo) {
+        this.pageVo = pageVo;
+    }
 }
