@@ -26,7 +26,7 @@
 
 
     <import resource="classpath:application-session.xml"></import>
-    <import resource="application-import.xml"></import>
+    <!--<import resource="application-import.xml"></import>-->
 
 
     <!-- spring注解定时任务 -->
