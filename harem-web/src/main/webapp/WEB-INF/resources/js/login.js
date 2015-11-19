@@ -1,25 +1,24 @@
-﻿var opChk = function(obj) {
-	var curState = $(obj).attr("class");
-	if (curState == "ico_checkUn") {
-		curState = "ico_checkOk";
-	} else {
-		curState = "ico_checkUn";
-	}
-	$(obj).attr("class", curState);
-}
+﻿var checkSubmitFlg = false;
 
-var getInfo_fromCookie = function() {
-	var user = $.cookie('lvdao_user');
-	var company = $.cookie('lvdao_company');
-	if (user)
-		$("#username").val(user);
-	if (company) {
-		$("#company").val(company);
-		$("#isRemember").attr("class", "ico_checkOk");
+function chkLen(field_name, allow_len, label_name,defaultEmpty) {
+	var s = field_name.value;
+	if (typeof(defaultEmpty) == "undefined") defaultEmpty = true;
+	if(isEmpty(s)) {
+		if (!defaultEmpty) {
+			field_name.focus();
+			field_name.style.background=fieldbg;
+			alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+			return false;
+		} else return true;
 	}
+	if (getTextLen(s) > allow_len) {
+		field_name.focus();
+		field_name.style.background=fieldbg;
+		alert(label_name + " \u7684\u957f\u5ea6\u4e0d\u80fd\u5927\u4e8e" + allow_len + " \u4e2a\u5b57\u8282\uff0c\u8bf7\u91cd\u65b0\u586b\u5199\u3002");
+		return false;
+	}
+	return true;
 }
-
-var checkSubmitFlg = false;
 
 function is_CheckSubmit() {
 	if (checkSubmitFlg == true) {
@@ -44,22 +43,6 @@ var loginVerify = function() {
 		return;
 	}
 
-	//记住cookie状态
-	/*var curState = $("#isRemember").attr("class");
-	if (curState == "ico_checkUn") {
-		$.cookie('lvdao_user', '');
-		$.cookie('lvdao_company', '');
-	} else {
-		$.cookie('lvdao_user', $("#username").val());
-		$.cookie('lvdao_company', $("#company").val());
-	}
-
-	if (is_CheckSubmit()) {
-		form.submit();
-	} else {
-		alert('在上一个动作未执行完成之前，请不要重复提交。');
-		checkSubmitFlg = false;
-	}*/
 }
 
 jQuery(function($) {
@@ -93,8 +76,5 @@ jQuery(function($) {
 	$("#btnSubmit").bind("click", function() {
 		loginVerify();
 	});
-	$("#isRemember").bind("click", function() {
-		opChk(this);
-	});
-	getInfo_fromCookie();
+
 });

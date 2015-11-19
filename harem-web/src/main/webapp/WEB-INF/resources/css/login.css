@@ -79,7 +79,7 @@ form {
 		line-height: 31px;
 }
 .loginBox .row{margin: 10px 0;}
-.loginBox .row img{display: inline-block; width:26px; height: 26px;vertical-align: middle;}
+.loginBox .row img{display: inline-block; width:75px; height: 26px;vertical-align: middle;}
 .loginBox .left{float: left;   margin: 0 10px 0 36px;}
 .loginBox .right{float:left; line-height: 26px; height: 26px; }
 .loginBox .rember{font-size: 12px;  text-align: left;  padding-left: 70px;}

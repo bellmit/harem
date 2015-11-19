@@ -8,31 +8,27 @@
             <p class="logo left"></p><h1 >B2C和商贸后台</h1></div>
             <div class="clear"></div>
             <div class="row">
-                <p class="ico_02 left"></p><p class="right"><input type="text" id="username" placeholder="用户名" maxlength="20" class="input inp_w1" /></p>
+                <p class="ico_02 left"></p><p class="right"><input type="text" name="loginUsername" id="loginUsername" placeholder="用户名" maxlength="20" class="input inp_w1" /></p>
             </div>
             <div class="clear"></div>
             <div class="row">
-                <p class="ico_03 left"></p><p class="right"><input type="password" id="password" maxlength="20" placeholder="密码" class="input inp_w1"  oncontextmenu="return false" onpaste="return false" /></p>
+                <p class="ico_03 left"></p><p class="right"><input type="password" name="loginPassword" id="loginPassword" maxlength="20" placeholder="密码" class="input inp_w1"  oncontextmenu="return false" onpaste="return false" /></p>
             </div>
             <div class="clear"></div>
             <div class="row">
                 <p class="ico_04 left"></p><p class="right">
-                <input type="text" id="verify" placeholder="验证码" class="input inp_w2" maxlength="4"  oncontextmenu="return false" onpaste="return false" />
-                <img src="" /><b class="ico_05"></b>
+                <input type="text" name="loginVerify" id="loginVerify" placeholder="验证码" class="input inp_w2" maxlength="5"  oncontextmenu="return false" onpaste="return false" />
+                <img src="/chkcode/gen" onclick="refresh(this)"/>#*<b class="ico_05" onclick="refresh(this.previousSbiling)"></b>*#
             </p>
             </div>
-            <div class="clear"></div>
-            <!--<div class="row">
-                <p class="rember"><label><b class="ico_checkUn" id="isRemember"></b><span class="txtRemember">记住用户名</span></label></p>
-            </div>-->
 
             <div class="clear"></div>
-            <input type="button" id="btnSubmit" value="登 录" class="btn" />
+            <input type="button" name="loginSubmit" id="loginSubmit" value="登 录" class="btn" />
         </div>
     </form>
 
 </div>
 <script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.3.2.7.min.js"></script>
 <script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/verify.js"></script>
-<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/login.js"></script>
+#*<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/verify.js"></script>*#
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/loginT.js"></script>

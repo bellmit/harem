@@ -18,6 +18,9 @@
             extend:['skin/mySkin/style.css'],
             skin:'layer-ext-mySkin'
         });
+        var actionDefaultPath = '$!utilWebconfig.getActionDefaultFontPath()';
+        var tfsRootPath = '$utilWebconfig.getTfsRootPath()';
+        var staticResourcesPath='$utilWebconfig.getStaticResourcesPath()';
     </script>
 </head>
 <body>
