@@ -29,7 +29,7 @@ public class LoginoutControll {
 
     @RequestMapping("/login")
     public JsonResult login(LoginoutVO loginoutVO) {
-        LOGGER.info("loginoutVO= {}", loginoutVO);
+        LOGGER.info("login loginoutVO= {}", loginoutVO);
 
         String validateCode = SessionUtils.getValidateCode();
         if (StringUtils.isBlank(validateCode) ||
@@ -44,10 +44,28 @@ public class LoginoutControll {
         if (Integer.valueOf(AbstractReturnCode._C_SUCCESS) == Integer.valueOf(errorCode)) {
             LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
             SessionUtils.setUserId(result.getValue().toString());
+//            SessionUtils.setValidateCode(null);
             return JsonResult.buildSuccessResult(result.getResultMsg(), null);
         }
 
         LOGGER.warn("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
         return JsonResult.buildFailResult(Integer.valueOf(errorCode), result.getResultMsg(), null);
+    }
+
+
+    @RequestMapping("/validateCode")
+    public JsonResult validateCode(LoginoutVO loginoutVO) {
+        LOGGER.info("validateCode loginoutVO= {}", loginoutVO);
+
+        String validateCode = SessionUtils.getValidateCode();
+        if (StringUtils.isBlank(validateCode) ||
+                !SessionUtils.getValidateCode().equalsIgnoreCase(loginoutVO.getVerifyCode())) {
+            LOGGER.warn("validateCode SessionUtils.getValidateCode() = {}, but loginoutVO.getVerifyCode() = {}",
+                    validateCode, loginoutVO.getVerifyCode());
+            return JsonResult.buildFailResult(1, "验证码错误!", null);
+        }
+
+        LOGGER.info("validateCode success loginoutVO= {}", loginoutVO);
+        return JsonResult.buildSuccessResult("", null);
     }
 }
