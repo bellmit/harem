@@ -46,6 +46,17 @@ public class UploadController extends BaseController {
         request.setAttribute("hello", new Date());
         return "/demo/upload";
     }
+    /**
+     * 上传页面
+     * @return 上传页面
+     * @throws Exception
+     */
+    @RequestMapping(value = "/toUpload2", method = RequestMethod.GET)
+    public
+    String toUpload2(HttpServletRequest request) throws Exception {
+        request.setAttribute("hello", new Date());
+        return "/demo/upload2";
+    }
 
     /**
      * 上传单个文件
@@ -58,7 +69,9 @@ public class UploadController extends BaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Iterator<String> iterator = multipartRequest.getFileNames();
         MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-        String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, null);
+        String fileName=multipartFile.getOriginalFilename();
+        String suffix=fileName.substring(fileName.lastIndexOf("."));
+        String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix);
         return new ResponseVo(tfsName);
     }
 
@@ -76,7 +89,9 @@ public class UploadController extends BaseController {
             Iterator<String> iterator = multipartRequest.getFileNames();
             while(iterator.hasNext()){
                 MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-                String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, null);
+                String fileName=multipartFile.getOriginalFilename();
+                String suffix=fileName.substring(fileName.lastIndexOf("."));
+                String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix);
                 stringList.add(tfsName);
             }
         return new ResponseVo(stringList.toString());

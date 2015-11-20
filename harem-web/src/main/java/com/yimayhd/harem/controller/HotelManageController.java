@@ -95,6 +95,7 @@ public class HotelManageController extends BaseController {
         hotelDO.setId(id);
         hotelDO.setStatus(hotelStatus);
         hotelService.modify(hotelDO);
+        System.out.println(0);
         return new ResponseVo();
     }
     /**
@@ -102,10 +103,11 @@ public class HotelManageController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/setTrendStatusList", method = RequestMethod.POST)
+    @RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo setHotelStatusList(@RequestParam("hotelStatusList[]")ArrayList<Integer> trendStatusList,int hotelStatus) throws Exception {
-        hotelService.setHotelStatusList(trendStatusList,hotelStatus);
+    public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]")ArrayList<Integer> hotelIdList,int hotelStatus) throws Exception {
+        hotelService.setHotelStatusList(hotelIdList,hotelStatus);
+        System.out.println(1);
         return new ResponseVo();
     }
 
