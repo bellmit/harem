@@ -40,6 +40,7 @@ public class HotelServiceImpl implements HotelService {
             hotelDOData.setLocationTownName("海淀区");
             hotelDOData.setGmtCreated(new Date());
             hotelDOData.setGmtModified(new Date());
+            hotelDOData.setStatus(1);
             hotelDOList.add(hotelDOData);
         }
         return hotelDOList;
