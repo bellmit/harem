@@ -1,0 +1,77 @@
+<div>
+	<ul class="nav nav-tabs">
+		<li class="active">
+          <a href="#tab1" data-toggle="tab">套餐</a>
+        </li>
+        <li>
+          <a href="#tab2" data-toggle="tab">图片集</a>
+        </li>
+     </ul>
+    <div class="tab-content">
+        <div class="tab-pane in active" id="tab1">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td>可选出发日：</td>
+						<td>
+							<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!beginDate">
+                            <span class="input-group-addon fix-border fix-padding">至</span>
+                            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" value="$!ndDate">
+                        </td>
+                    </tr>
+					<tr>
+						<td>可选套餐：</td>
+						<td colspan="2">
+							<ul id="myTab" class="nav nav-tabs">
+                                <li class="active">
+                                  <a href="#tab1" data-toggle="tab">Tab1</a>
+                                </li>
+                                <li>
+                                  <a href="#tab2" data-toggle="tab">Tab2</a>
+                                </li>
+                              </ul>
+                              <div class="tab-content">
+                                <div class="tab-pane in active" id="tab1">
+                                  <p>口是心非你深情的承诺</p>
+                                  <p>都随着西风飘渺远走</p>
+                                  <p>痴人梦话我钟情的倚托</p>
+                                  <p>就像枯萎凋零的花朵</p>
+                                </div>
+                                <div class="tab-pane" id="tab2">
+                                  <p>星火燎原我热情的眼眸</p>
+                                  <p>曾点亮最灿烂的天空</p>
+                                  <p>晴天霹雳你绝情的放手</p>
+                                  <p>在我最需要你的时候</p>
+                                  <p>于是爱恨交错人消瘦</p>
+                                </div>
+                        
+                                <div class="tab-pane" id="tab3">
+                                  <p>怕是怕这些苦没来由</p>
+                                  <p>于是悲欢起落人静默</p>
+                                  <p>等一等这些伤会自由</p>
+                                  <p>于是爱恨交错人消瘦</p>
+                                  <p>怕是怕这些苦没来由</p>
+                                  <p>于是悲欢起落人静默</p>
+                                  <p>等一等这些伤会自由</p>
+                                </div>
+                                <div class="tab-pane" id="tab4">
+                                  <p>口是心非你矫情的面容</p>
+                                  <p>都烙印在心灵的角落</p>
+                                  <p>无话可说我纵情的结果</p>
+                                  <p>就像残破光秃的山头</p>
+                                  <p>浑然天成我纯情的悸动</p>
+                                  <p>曾奔放最滚烫的节奏</p>
+                                  <p>不可收拾你滥情的抛空</p>
+                                </div>
+                              </div>
+                            </div> 
+						</td>
+                    </tr>
+                </tbody>
+            </table>
+		</div>
+        <div class="tab-pane in" id="tab2">
+			123
+		</div>
+    </div>
+</div>
