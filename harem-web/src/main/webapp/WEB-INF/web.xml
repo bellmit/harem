@@ -19,7 +19,7 @@
     </listener>
 
 
-    <filter>
+    <!--<filter>
         <filter-name>springSessionRepositoryFilter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
@@ -52,7 +52,7 @@
     <filter-mapping>
         <filter-name>VerifyCodeFilter</filter-name>
         <url-pattern>/chkcode/gen</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <!-- springMvc编码拦截器，springMvc内置的编码拦截器 -->
     <filter>
