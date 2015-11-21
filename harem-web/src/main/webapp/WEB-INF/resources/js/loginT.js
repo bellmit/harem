@@ -57,7 +57,7 @@ $(function () {
         //开始发送数据
         $.ajax
         ({ //请求登录处理页
-            url: actionDefaultPath + '/login', //登录处理页
+            url: '/login', //登录处理页
             dataType: "json",
             //传送请求数据
             data: { username: strTxtName, password: strTxtPass ,verifyCode: strTxtVerify},
