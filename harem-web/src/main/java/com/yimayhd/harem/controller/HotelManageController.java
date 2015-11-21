@@ -3,8 +3,8 @@ package com.yimayhd.harem.controller;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
-import com.yimayhd.harem.model.vo.HotelVO;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,7 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public
     String list(Model model,HotelListQuery hotelListQuery) throws Exception {
-        HotelVO hotelVO = new HotelVO();
-        hotelVO.setHotelListQuery(hotelListQuery);
-        List<HotelDO> hotelDOList = hotelService.getList(hotelVO);
+        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
         PageVO pageVo = new PageVO(1,10,300);
         model.addAttribute("pageVo", pageVo);
         model.addAttribute("hotelListQuery", hotelListQuery);
@@ -74,11 +72,11 @@ public class HotelManageController extends BaseController {
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public
-    String edit(HotelDO hotelDO) throws Exception {
-        if(hotelDO.getId() == 0) {
-            hotelService.modify(hotelDO);
+    String edit(HotelVO hotelVO) throws Exception {
+        if(hotelVO.getId() == 0) {
+            hotelService.modify(hotelVO);
         }else{
-            hotelService.modify(hotelDO);
+            hotelService.modify(hotelVO);
         }
         return "/success";
     }
@@ -91,10 +89,10 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo setHotelStatus(@PathVariable("id") long id,int hotelStatus) throws Exception {
-        HotelDO hotelDO = new HotelDO();
-        hotelDO.setId(id);
-        hotelDO.setStatus(hotelStatus);
-        hotelService.modify(hotelDO);
+        HotelVO hotelVO = new HotelVO();
+        hotelVO.setId(id);
+        hotelVO.setStatus(hotelStatus);
+        hotelService.modify(hotelVO);
         return new ResponseVo();
     }
     /**
@@ -102,10 +100,11 @@ public class HotelManageController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/setTrendStatusList", method = RequestMethod.POST)
+    @RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo setHotelStatusList(@RequestParam("hotelStatusList[]")ArrayList<Integer> trendStatusList,int hotelStatus) throws Exception {
-        hotelService.setHotelStatusList(trendStatusList,hotelStatus);
+    public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]")ArrayList<Integer> hotelIdList,int hotelStatus) throws Exception {
+        hotelService.setHotelStatusList(hotelIdList,hotelStatus);
+        System.out.println(1);
         return new ResponseVo();
     }
 

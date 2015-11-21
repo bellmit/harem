@@ -14,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -46,6 +43,17 @@ public class UploadController extends BaseController {
         request.setAttribute("hello", new Date());
         return "/demo/upload";
     }
+    /**
+     * 上传页面
+     * @return 上传页面
+     * @throws Exception
+     */
+    @RequestMapping(value = "/toUpload2", method = RequestMethod.GET)
+    public
+    String toUpload2(HttpServletRequest request) throws Exception {
+        request.setAttribute("hello", new Date());
+        return "/demo/upload2";
+    }
 
     /**
      * 上传单个文件
@@ -58,7 +66,9 @@ public class UploadController extends BaseController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Iterator<String> iterator = multipartRequest.getFileNames();
         MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-        String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, null);
+        String fileName=multipartFile.getOriginalFilename();
+        String suffix=fileName.substring(fileName.lastIndexOf("."));
+        String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
         return new ResponseVo(tfsName);
     }
 
@@ -71,15 +81,17 @@ public class UploadController extends BaseController {
     @RequestMapping("/files")
     @ResponseBody
     public ResponseVo uploadFiles(HttpServletRequest request) throws Exception {
-        List<String> stringList = new ArrayList<String>();
+        Map<String,String> map = new HashMap();
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             Iterator<String> iterator = multipartRequest.getFileNames();
             while(iterator.hasNext()){
                 MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-                String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, null);
-                stringList.add(tfsName);
+                String fileName=multipartFile.getOriginalFilename();
+                String suffix=fileName.substring(fileName.lastIndexOf("."));
+                String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix)  + suffix;
+                map.put(fileName,tfsName);
             }
-        return new ResponseVo(stringList.toString());
+        return new ResponseVo(map);
 
     }
 

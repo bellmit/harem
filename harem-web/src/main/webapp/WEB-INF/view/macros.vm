@@ -52,6 +52,15 @@
     #end
 #end
 
+#*官方游记状态*#
+#macro(HOTEL_STATUS $type)
+    #if($type == '1')
+    启用
+    #elseif($type == '2')
+    停用
+    #end
+#end
+
 #*订单管理*#
 #*订单状态*#
 #macro(ORDER_STATUS $type)
