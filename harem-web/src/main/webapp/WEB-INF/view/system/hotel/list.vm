@@ -47,7 +47,7 @@
                 <button type="reset" class="btn btn-primary">重置</button>
             </div>
         </div>
-        <button type="button" class="btn btn-primary hotelBtn">添加酒店</button>
+        <button type="button" class="btn btn-primary addHotelBtn">添加酒店</button>
         <button type="button" class="btn btn-primary hotelBatchBtn" btnType="1">批量启用</button>
         <button type="button" class="btn btn-primary hotelBatchBtn" btnType="2">批量禁用</button>
         <div class="tableGroup whole">
@@ -77,8 +77,8 @@
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>
                         <td>￥ $utilNum.moneyTransform($!hotel.price)起</td>
                         <td>
-                            Tracy
-                            18611111111
+                            $!hotel.contactPerson
+                            $!hotel.contactPhone
                         </td>
                         <td>
                         <button type="button" class="btn btn-primary hotelDetail" hotelId="$hotel.id">查看</button>
@@ -121,11 +121,12 @@
         $('.hotelDetail').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/'+ $(this).attr('hotelId');
+                //TODO
                 window.openwin(url);
             });
 
         });
-
+        //单个启用停用
         $('.hotelBtn').each(function(){
             $(this).click(function(){
                 $(this).prop('disabled',true);
@@ -165,8 +166,6 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
-            console.log(arr);
-
             $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/hotelManage/setHotelStatusList',{hotelIdList:arr,hotelStatus:$(this).attr('btnType')},function(data){
                 if(data&&data.status == 200){
                     layer.msg('操作成功', {
@@ -186,7 +185,7 @@
             })
         });
         //新建
-        $('.hotelBtn').click(function(){
+        $('.addHotelBtn').click(function(){
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/toAdd';
             window.openwin(url);
         });

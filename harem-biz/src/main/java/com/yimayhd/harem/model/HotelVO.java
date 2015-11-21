@@ -19,7 +19,6 @@ public class HotelVO extends HotelDO {
     public HotelVO(){
 
     }
-
     public static HotelVO getHotelVO(HotelDO hotelDO){
         HotelVO hotelVO = new HotelVO();
         BeanUtils.copyProperties(hotelDO,hotelVO);
