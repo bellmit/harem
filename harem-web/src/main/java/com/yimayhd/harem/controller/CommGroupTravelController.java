@@ -15,7 +15,7 @@ import com.yimayhd.harem.base.BaseController;
  *
  */
 @Controller
-@RequestMapping("/B2C/comm/goupTravel")
+@RequestMapping("/B2C/comm/groupTravel")
 public class CommGroupTravelController extends BaseController {
 	/**
 	 * 基本信息页
