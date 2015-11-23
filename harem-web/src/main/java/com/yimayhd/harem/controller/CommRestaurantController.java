@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.model.Goods;
 
 /**
  * 商品管理
@@ -16,11 +15,16 @@ import com.yimayhd.harem.model.Goods;
  *
  */
 @Controller
-@RequestMapping("/B2C/goodsManage")
-public class GoodsManageController extends BaseController {
-
-	@RequestMapping(value = "/route", method = RequestMethod.GET)
-	public String restaurantList(Long id) throws Exception {
+@RequestMapping("/B2C/comm/restaurant")
+public class CommRestaurantController extends BaseController {
+	/**
+	 * 餐厅
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String list(Long id) throws Exception {
 		put("query", new ArrayList<Object>());
 		return "/system/goods/route/info";
 	}
