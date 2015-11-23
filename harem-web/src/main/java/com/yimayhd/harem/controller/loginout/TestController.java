@@ -3,12 +3,14 @@ package com.yimayhd.harem.controller.loginout;
 import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.enums.UserType;
+import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionUtils;
 import net.pocrd.util.Md5Util;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -21,6 +23,7 @@ import java.util.Map;
 @RestController
 public class TestController {
 
+    @Resource
     private UserService userService;
 
     @RequestMapping("/test/test1")
@@ -66,15 +69,13 @@ public class TestController {
 
         UserDO userDO = new UserDO();
         userDO.setMobile(loginoutVO.getUsername());
-        userDO.setUserType(UserType.U.getType());
-        userDO.setPassword(new String(Md5Util.compute((loginoutVO.getPassword() + "yimayhd.com%FG&G**HI%%F_q").getBytes())));
-        Date now = new Date();
-        userDO.setGmtCreate(now);
-        userDO.setGmtUpdate(now);
-        userService.createUser(userDO);
+        userDO.setPassword(loginoutVO.getPassword());
+
+        BaseResult<UserDO> baseResult = userService.createUserAndPutCache(userDO);
 
 
         map.put("status", "create success");
+        map.put("baseResult", baseResult);
         return map;
     }
 }

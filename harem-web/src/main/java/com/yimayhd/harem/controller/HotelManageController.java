@@ -4,8 +4,10 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.HotelVO;
+import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelService;
+import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ import java.util.List;
 public class HotelManageController extends BaseController {
     @Autowired
     private HotelService hotelService;
+    @Autowired
+    private RegionService regionService;
     /**
      * 酒店（资源）列表
      * @return 酒店（资源）列表
@@ -49,7 +53,9 @@ public class HotelManageController extends BaseController {
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public
-    String toAdd() throws Exception {
+    String toAdd(Model model) throws Exception {
+        List<Region> provinceList= regionService.getProvince();
+        model.addAttribute("hotelDOList", provinceList);
         return "/system/hotel/edit";
     }
     /**
@@ -61,7 +67,11 @@ public class HotelManageController extends BaseController {
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
         HotelDO hotelDO = hotelService.getById(id);
-        model.addAttribute("hotelDO",hotelDO);
+        List<Region> provinceList= regionService.getProvince();
+        List<Region> cityList= regionService.getRegionByParentId(hotelDO.getLocationProvinceId());
+        model.addAttribute("provinceList", provinceList);
+        model.addAttribute("cityList", cityList);
+        model.addAttribute("hotel",hotelDO);
         return "/system/hotel/edit";
     }
 

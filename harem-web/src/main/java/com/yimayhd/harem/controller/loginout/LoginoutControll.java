@@ -5,6 +5,7 @@ import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
 import com.yimayhd.user.api.LoginServiceHttpExport;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
+import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
 import com.yimayhd.user.session.manager.JsonResult;
 import com.yimayhd.user.session.manager.SessionUtils;
 import net.pocrd.entity.AbstractReturnCode;
@@ -27,24 +28,23 @@ public class LoginoutControll {
     @Resource
     private UserService importUserService;
 
+    @Resource
+    private ImageVerifyCodeValidate imageVerifyCodeValidate;
+
     @RequestMapping("/login")
     public JsonResult login(LoginoutVO loginoutVO) {
         LOGGER.info("login loginoutVO= {}", loginoutVO);
 
-        String validateCode = SessionUtils.getValidateCode();
-        if (StringUtils.isBlank(validateCode) ||
-                !SessionUtils.getValidateCode().equalsIgnoreCase(loginoutVO.getVerifyCode())) {
-            LOGGER.warn("SessionUtils.getValidateCode() = {}, but loginoutVO.getVerifyCode() = {}",
-                    validateCode, loginoutVO.getVerifyCode());
-            return JsonResult.buildFailResult(1, "验证码错误!", null);
-        }
+//        if (!imageVerifyCodeValidate.validateImageVerifyCode(loginoutVO.getVerifyCode())) {
+//            LOGGER.warn("loginoutVO.getVerifyCode() = {} is not correct", loginoutVO.getVerifyCode());
+//            return JsonResult.buildFailResult(1, "验证码错误!", null);
+//        }
 
         BaseResult<Long> result = importUserService.login(loginoutVO.getUsername(), loginoutVO.getPassword());
         String errorCode = result.getErrorCode();
-        if (Integer.valueOf(AbstractReturnCode._C_SUCCESS) == Integer.valueOf(errorCode)) {
+        if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
             LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
             SessionUtils.setUserId(result.getValue().toString());
-//            SessionUtils.setValidateCode(null);
             return JsonResult.buildSuccessResult(result.getResultMsg(), null);
         }
 
@@ -57,11 +57,8 @@ public class LoginoutControll {
     public JsonResult validateCode(LoginoutVO loginoutVO) {
         LOGGER.info("validateCode loginoutVO= {}", loginoutVO);
 
-        String validateCode = SessionUtils.getValidateCode();
-        if (StringUtils.isBlank(validateCode) ||
-                !SessionUtils.getValidateCode().equalsIgnoreCase(loginoutVO.getVerifyCode())) {
-            LOGGER.warn("validateCode SessionUtils.getValidateCode() = {}, but loginoutVO.getVerifyCode() = {}",
-                    validateCode, loginoutVO.getVerifyCode());
+        if (!imageVerifyCodeValidate.validateImageVerifyCode(loginoutVO.getVerifyCode())) {
+            LOGGER.warn("loginoutVO.getVerifyCode() = {} is not correct", loginoutVO.getVerifyCode());
             return JsonResult.buildFailResult(1, "验证码错误!", null);
         }
 
