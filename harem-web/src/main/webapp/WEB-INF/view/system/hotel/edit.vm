@@ -1,6 +1,27 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+#*<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>*#
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+
+            #*<tr>
+                <td><span class="spColor">*</span>状态</td>
+                <td class="radioSel">
+                    <div class="col-md-10">
+                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="1" #if($!club.joinStatus == 1) checked #end> 允许加入 </label>
+                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="0" #if($!club.joinStatus == 2) checked #end> 禁止加入 </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>前台显示</td>
+                <td class="radioSel">
+                    <div class="col-md-10">
+                        <label class="radio-inline"> <input type="radio" name="showStatus" value="1" #if($!club.showStatus == 1) checked #end> 显示 </label>
+                        <label class="radio-inline"> <input type="radio" name="showStatus" value="0" #if($!club.showStatus == 2) checked #end> 隐藏 </label>
+                    </div>
+                </td>
+            </tr>*#
+
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
         <a href="#grogshopInfo" data-toggle="tab">酒店信息</a>
@@ -16,83 +37,58 @@
                 <tbody>
                 <tr>
                     <td><span class="spColor">*</span>酒店名称</td>
-                    <td><input type="text" class="inpCtlBlock" name="name" value="$!hotel.name" id="grogshopName" placeholder="请输入20个字以内"></td>
+                    <td><input type="text" class="inpCtlBlock" name="name" id="grogshopName" placeholder="请输入20个字以内"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>选择地址</td>
                     <td>
                         <div class="selectList">
-                            <input type="text" class="inpCtlBlock provinceSelectId" name="name" value="$!hotel.locationProvinceName">
-                            <select class="selCity inpControl provinceSelect" name="locationProvinceId">
+                            <select class="selCity inpControl" name="locationProvinceId" id="provinceSelect">
                                 <option>请选择省份</option>
-                                #foreach($province in $provinceList)
-                                    <option #if($province ==  $!hotel.locationProvinceId) checked #end value="$province.id">$province.name</option>
-                                #end
                             </select>
-                            <input type="text" class="inpCtlBlock provinceSelectId" name="name" value="$!hotel.locationCityName">
                             <select class="selCity inpControl" name="locationCityId" id="citySelect">
                                 <option>请选择城市</option>
-                                #foreach($city in $cityList)
-                                    <option #if($city == $!hotel.locationCityId) checked #end value="$province.id">$city.name</option>
-                                #end
                             </select>
-                            <input type="text" class="inpControl" name="locationText" value="$!hotel.locationText" placeholder="请输入100个字以内">
+                            <input type="text" class="inpControl" name="locationTownName" id="locationTownName" placeholder="请输入100个字以内">
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>星级</td>
                     <td>
-                        <select class="form-control" name="level">
-                            <option value="4" #if($!hotel.level == 4) checked #end>2星及以下 经济型</option>
-                            <option value="3" #if($!hotel.level == 3) checked #end>3星 舒适型</option>
-                            <option value="2" #if($!hotel.level == 2) checked #end>4星 高档型</option>
-                            <option value="1" #if($!hotel.level == 1) checked #end>5星 豪华型</option>
+                        <select class="form-control {required:true}" id="grade" name="grade">
+                            <option>请选择</option>
+                            <option value="1">5星 豪华型</option>
+                            <option value="2">4星 高档型</option>
+                            <option value="3">3星 舒适型</option>
+                            <option value="4">2星及以下 经济型</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>地址经纬度</td>
-                    <td>
-                        <span>经度</span><input type="text" name="locationX" value="$!hotel.locationX" class="inpControl getAddress">
-                        <span>维度</span><input type="text" name="locationY" value="$!hotel.locationY" class="inpControl getAddress">
-                        <button class="btn btn-primary locationXYSelectBtn">查找经纬度</button><code>点击查找经纬度可自动获取</code>
-                    </td>
+                    <td><span>经度</span><input type="text" name="locationX" class="inpControl getAddress"><span>维度</span><input type="text" name="locationY" class="inpControl getAddress"><button class="btn btn-primary locationXYSelectBtn">查找经纬度</button><code>点击查找经纬度可自动获取</code></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
-                    <td>
-                        #if(!$!hotel.phoneNumList)
-                            <input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字">
-                        #else
-                            #foreach($phoneNum in $!hotel.phoneNumList)
-                                <input type="text" class="inpCtlBlock" name="phoneNum" value="$phoneNum" id="phoneNum" placeholder="请输入数字">
-                                <button class="btn btn-primary delPhoneNum">删除</button>
-                            #end
-                        #end
-                        <button class="btn btn-primary addPhoneNum">添加</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>酒店简介</td>
-                    <td><textarea name="description" value="$!hotel.description" rows="3" class="form-control" placeholder="请输入500字以内"></textarea></td>
-
+                    <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>特色描述</td>
-                    <td><textarea name="oneword" id="grogDescr" rows="3" class="form-control" placeholder="请输入80字以内">
-                            $!hotel.oneword
-                        </textarea>
-                    </td>
+                    <td><textarea name="grogDescr" id="grogDescr" rows="3" class="form-control" placeholder="请输入80字以内" disabled></textarea></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店简介</td>
+                    <td><textarea name="grogInfo" id="grogInfo" rows="3" class="form-control" placeholder="请输入500字以内" disabled></textarea></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>基础价格</td>
-                    <td><input type="text" name="grogBasePrice" id="grogBasePrice" class="inpControl" >起</td>
+                    <td><input type="text" name="grogBasePrice" id="grogBasePrice" class="inpControl" disabled>起</td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店联系人</td>
-                    <td><span>姓名：</span><input type="text" name="grogLinkmanName" id="grogLinkmanName" class="inpControl" >
-                        <span>电话：</span><input type="text" name="grogLinkmanPhone" id="grogLinkmanPhone" class="inpControl" >
+                    <td><span>姓名：</span><input type="text" name="grogLinkmanName" id="grogLinkmanName" class="inpControl" disabled>
+                        <span>电话：</span><input type="text" name="grogLinkmanPhone" id="grogLinkmanPhone" class="inpControl" disabled>
                     </td>
                 </tr>
                 <tr>
@@ -128,20 +124,20 @@
                 <tr>
                     <td><span class="spColor">*</span>最晚到店时间</td>
                     <td>
-                        <input type="text" name="grogArrivalDate" id="grogArrivalDate" class="inpCtlBlock" placeholder="请输入50字以内" >
-                        <select class="selCity inpControl" name="enDtime" id="" >
+                        <input type="text" name="grogArrivalDate" id="grogArrivalDate" class="inpCtlBlock" placeholder="请输入50字以内" disabled>
+                        <select class="selCity inpControl" name="enDtime" id="" disabled>
                             <option>请选择</option>
                             <option value="1" #if($!hotel.showStatus == 1) checked #end>1</option>
                             <option value="2" #if($!hotel.showStatus == 1) checked #end>1</option>
                             <option value="3" #if($!hotel.showStatus == 1) checked #end>1</option>
                         </select>
-                        <select class="selCity inpControl" name="enDtime" id="" >
+                        <select class="selCity inpControl" name="enDtime" id="" disabled>
                             <option>请选择</option>
                             <option value="1" #if($!hotel.showStatus == 1) checked #end>1</option>
                             <option value="2" #if($!hotel.showStatus == 1) checked #end>1</option>
                             <option value="3" #if($!hotel.showStatus == 1) checked #end>1</option>
                         </select>
-                        <select class="selCity inpControl" name="enDtime" id="" >
+                        <select class="selCity inpControl" name="enDtime" id="" disabled>
                             <option>请选择</option>
                             <option value="1" #if($!hotel.showStatus == 1) checked #end>1</option>
                             <option value="2" #if($!hotel.showStatus == 1) checked #end>1</option>
@@ -156,7 +152,7 @@
                         <button type="button" class="btn btn-info selectUserBtn">选择旅游咖</button>
                         <img src="#if($hotel.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!hotel.manageUserLogoUrl  #end" alt="头像" class="img-circle grogUserLogo"><span>Tracy</span>
                         <textarea name="recommend" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内"></textarea>
-                        <input type="hidden" name="userId" value="$!hotel.userId" >
+                        <input type="hidden" name="userId" value="$!hotel.userId" disabled>
                     </td>
                 </tr>
                 </tbody>
@@ -164,13 +160,12 @@
         </div>
     </div>
     <div class="tab-pane" id="grogshopImgs">
-
+        #parse("/system/hotel/picture.vm")
     </div>
 </div>
 </form>
 <script>
     $(function(){
-        var a = <%%>
         $('.selectUserBtn').click(function(){
             layer.open({
                 type: 2,

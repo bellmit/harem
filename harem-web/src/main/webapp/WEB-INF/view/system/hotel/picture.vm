@@ -1,1 +1,160 @@
 #*资源管理下的 餐厅、酒店、景区公用*#
+<section class="cards grogCards grogBatchAddWrap">
+    <div>
+        <input type="button" name="grogBatchAdd" id="grogBatchAdd" value="添加" class="btn">
+    </div>
+    #*<div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        <div class="card">
+            <div href="#" class="media-wrapper">
+                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img1.jpg" alt="">
+            </div>
+            <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
+            <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
+            <a href="#" class="card-heading"><strong>图片1</strong></a>
+        </div>
+    </div>*#
+</section>
+
+
+<div class="grogBatchWrap">
+    <div class="grogBatchUpload">
+        <input type="button" name="" value="批量上传" class="btn">
+        <input type="file" name="" multiple="multiple" id="batchUploadBtn" class="btn btnFile">
+    </div>
+    <div>
+        <input type="button" name="grogBatchManager" id="grogBatchManager" value="批量管理" class="btn">
+    </div>
+</div>
+<div class="grogImgsWrap">
+    <input type="checkbox" name=""><span>本页全选</span>
+    <input type="button" value="设为展示图" class="btn">
+    <input type="button" value="批量删除" class="btn">
+    <span>请选择3张图作为展示图</span>
+</div>
+<section class="cards grogCards grogBatchAll">
+    <div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        <div class="card">
+            <div href="#" class="media-wrapper">
+                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img1.jpg" alt="">
+            </div>
+            <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
+            <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
+            <a href="#" class="card-heading"><strong>图片1</strong></a>
+        </div>
+    </div>
+    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        <div class="card">
+            <div class="media-wrapper">
+                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img2.jpg" alt="">
+            </div>
+            <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
+            <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
+            <a href="#" class="card-heading"><strong>图片2</strong></a>
+        </div>
+    </div>
+    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        <div class="card">
+            <div class="media-wrapper">
+                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img3.jpg" alt="">
+            </div>
+            <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
+            <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
+            <a href="#" class="card-heading"><strong>图片3</strong></a>
+        </div>
+    </div>
+    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        <div class="card">
+            <div class="media-wrapper">
+                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img4.jpg" alt="">
+            </div>
+            <span class="grogImgFlag"><i class="icon"></i></span>
+            <span class="grogImgCircle"><i class="icon icon-circle-thin"></i></span>
+            <a href="#" class="card-heading"><strong>图片4</strong></a>
+        </div>
+    </div>
+    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        <div class="card">
+            <div class="media-wrapper">
+                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img4.jpg" alt="">
+                <div class="grog"></div>
+            </div>
+            <span class="grogImgFlag"><i class="icon"></i></span>
+            <span class="grogImgCircle"><i class="icon icon-circle-thin"></i></span>
+            <a href="#" class="card-heading"><strong>图片5</strong></a>
+        </div>
+    </div>
+</section>
+
+<script>
+    var batchCallBack = function(data){
+        console.log(JSON.stringify(data));
+        var dataVal = JSON.parse(data.target.responseText);
+        for(key in dataVal.data){
+            if(dataVal.data.hasOwnProperty(key)){
+                //alert(key);
+                var addImgs =   '<div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">'+
+                        '<div class="card">'+
+                        '<div href="#" class="media-wrapper">'+
+                            /*'<img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img1.jpg" alt="">'+*/
+                        '<img src="'+tfsRootPath + dataVal.data[key]+'" alt="">'+
+                        '</div>'+
+                        '<span class="grogImgFlag"><i class="icon"></i></span>'+
+                        '<span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>'+
+                        '<a href="#" class="card-heading"><strong>'+key+'</strong></a>'+
+                        '</div>'+
+                        '</div>'
+
+                $(".grogBatchAddWrap").append(addImgs);
+            }
+        }
+        $(".grogBatchAddWrap").show();
+    }
+
+
+    $(function(){
+        /*点击批量管理*/
+        $("#grogBatchManager").on("click",function(){
+            $(".grogBatchWrap").hide();
+            $(".grogImgsWrap").show();
+            $(".grogImgFlag").show()
+            $(".grogImgCircle").show()
+        });
+
+        /*$(".grogImgCircle").on("click",function(){
+            $(this).find("i").toggleClass("icon-check-circle-o");
+        });*/
+
+        /*$(".grogImgFlag").on("click",function(){
+            $(this).find("i").toggleClass("icon-flag");
+            if($(this).find("i").hasClass("icon-flag")){
+                $(this).css({opacity:1,filter:alpha(opacity=100)});
+            }
+        });*/
+
+        //添加图片
+        $("#grogBatchAdd").on("click",function(){
+            var addImgDiv = $(".grogBatchAddWrap .grogImgWrap");
+            console.log(addImgDiv);
+            addImgDiv.remove();
+            $(".grogBatchAddWrap").hide();
+            $(".grogBatchAll").append(addImgDiv);
+        })
+
+    })
+
+    /*图片是否设为展示图*/
+    $(document).delegate(".grogImgFlag","click",function(){
+        $(this).find("i").toggleClass("icon-flag");
+    })
+
+    /*图片选中*/
+    $(document).delegate(".grogImgCircle","click",function(){
+        $(this).find("i").toggleClass("icon-check-circle-o");
+    })
+
+    /****************批量上传*****************/
+    $(document).delegate("#batchUploadBtn",'change',function(){
+        batchUp('#batchUploadBtn',2,batchCallBack);
+    })
+
+</script>
