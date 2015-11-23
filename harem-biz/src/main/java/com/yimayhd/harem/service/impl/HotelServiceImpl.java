@@ -51,14 +51,14 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelDO getById(long id) throws Exception {
+    public HotelVO getById(long id) throws Exception {
         HotelDO hotelDOData = new HotelDO();
         hotelDOData.setId(30);
         hotelDOData.setName("温德姆至尊豪廷大酒店");
         hotelDOData.setOneword("是个不错的酒店");
         hotelDOData.setDescription("至尊豪，真的是个不错的酒店");
         hotelDOData.setPhoneNum("[\"18618161816\",\"18618161817\",\"18618161819\"]");
-        hotelDOData.setLevel(4);
+        hotelDOData.setLevel(2);
         hotelDOData.setRecommend("希望更豪华");
         //hotelDOData.setRoomFacility("1,2,3");
         //hotelDOData.setRoomService("2,3");
@@ -68,9 +68,9 @@ public class HotelServiceImpl implements HotelService {
         hotelDOData.setLocationX(1000.555);
         hotelDOData.setLocationY(2000.666);
         hotelDOData.setLocationText("海淀区");
-        hotelDOData.setLocationProvinceId(1);
+        hotelDOData.setLocationProvinceId(10);
         hotelDOData.setLocationProvinceName("云南");
-        hotelDOData.setLocationCityId(11);
+        hotelDOData.setLocationCityId(100);
         hotelDOData.setLocationCityName("昆明");
         hotelDOData.setGmtCreated(new Date());
         hotelDOData.setGmtModified(new Date());
@@ -81,8 +81,8 @@ public class HotelServiceImpl implements HotelService {
         hotelDOData.setContactPhone("18039262076");
         hotelDOData.setLogoUrl("logo.png");
         hotelDOData.setCoverUrl("main.png");
-        hotelDOData.setRecommend("{\"userName\":\"tini\",\"userLogo\":\"2.png\",\"text\":\"很棒的酒店\"}");
-        return hotelDOData;
+        hotelDOData.setRecommend("{\"name\":\"tini\",\"description\":\"很棒的酒店\",\"id\":1,\"user_id\":2,\"user_pic\":\"pic.png\"}");
+        return HotelVO.getHotelVO(hotelDOData);
     }
 
     @Override

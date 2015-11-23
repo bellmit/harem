@@ -19,7 +19,7 @@ public interface HotelService {
      * 获取酒店资源详情
      * @return 酒店资源详情
      */
-    HotelDO getById(long id)throws Exception;
+    HotelVO getById(long id)throws Exception;
 
     /**
      * 添加酒店资源

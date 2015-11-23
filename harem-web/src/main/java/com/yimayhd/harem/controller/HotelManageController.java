@@ -6,8 +6,10 @@ import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.service.FacilityIconService;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RegionService;
+import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +26,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/B2C/hotelManage")
 public class HotelManageController extends BaseController {
+    private final static int ROOMFACILITY_TYPE = 1;
+    private final static int ROOMSERVICELIST_TYPE = 2;
+    private final static int HOTELFACILITYLIST_TYPE = 3;
     @Autowired
     private HotelService hotelService;
     @Autowired
     private RegionService regionService;
+    @Autowired
+    private FacilityIconService facilityIconService;
     /**
      * 酒店（资源）列表
      * @return 酒店（资源）列表
@@ -47,6 +54,26 @@ public class HotelManageController extends BaseController {
     }
 
     /**
+     * 选择酒店列表
+     * @param model
+     * @param hotelListQuery
+     * @param multiSelect 是否多选（1：单选；2：多选）
+     * @return 酒店（资源）列表
+     * @throws Exception
+     */
+    @RequestMapping(value = "/selectList", method = RequestMethod.GET)
+    public
+    String selectList(Model model,HotelListQuery hotelListQuery,int multiSelect) throws Exception {
+        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
+        PageVO pageVo = new PageVO(1,10,300);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("hotelListQuery", hotelListQuery);
+        model.addAttribute("hotelDOList", hotelDOList);
+        model.addAttribute("multiSelect",multiSelect);
+        return "/system/hotel/selectList";
+    }
+
+    /**
      * 新增酒店（资源）
      * @return 酒店（资源）详情
      * @throws Exception
@@ -55,7 +82,13 @@ public class HotelManageController extends BaseController {
     public
     String toAdd(Model model) throws Exception {
         List<Region> provinceList= regionService.getProvince();
-        model.addAttribute("hotelDOList", provinceList);
+        List<FacilityIconDO> roomFacilityList = facilityIconService.getListByType(ROOMFACILITY_TYPE);
+        List<FacilityIconDO> roomServiceList = facilityIconService.getListByType(ROOMSERVICELIST_TYPE);
+        List<FacilityIconDO> hotelFacilityList = facilityIconService.getListByType(HOTELFACILITYLIST_TYPE);
+        model.addAttribute("provinceList", provinceList);
+        model.addAttribute("roomFacilityList",roomFacilityList);
+        model.addAttribute("roomServiceList",roomServiceList);
+        model.addAttribute("hotelFacilityList",hotelFacilityList);
         return "/system/hotel/edit";
     }
     /**
@@ -66,12 +99,19 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-        HotelDO hotelDO = hotelService.getById(id);
+        HotelVO hotelVO = hotelService.getById(id);
         List<Region> provinceList= regionService.getProvince();
-        List<Region> cityList= regionService.getRegionByParentId(hotelDO.getLocationProvinceId());
+        List<Region> cityList= regionService.getRegionByParentId(hotelVO.getLocationProvinceId());
+        List<FacilityIconDO> roomFacilityList = facilityIconService.getListByType(ROOMFACILITY_TYPE);
+        List<FacilityIconDO> roomServiceList = facilityIconService.getListByType(ROOMSERVICELIST_TYPE);
+        List<FacilityIconDO> hotelFacilityList = facilityIconService.getListByType(HOTELFACILITYLIST_TYPE);
         model.addAttribute("provinceList", provinceList);
         model.addAttribute("cityList", cityList);
-        model.addAttribute("hotel",hotelDO);
+        model.addAttribute("hotel",hotelVO);
+        model.addAttribute("roomFacilityList",roomFacilityList);
+        model.addAttribute("roomServiceList",roomServiceList);
+        model.addAttribute("hotelFacilityList",hotelFacilityList);
+
         return "/system/hotel/edit";
     }
 
@@ -80,14 +120,23 @@ public class HotelManageController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public
-    String edit(HotelVO hotelVO) throws Exception {
-        if(hotelVO.getId() == 0) {
-            hotelService.modify(hotelVO);
-        }else{
-            hotelService.modify(hotelVO);
-        }
+    String edit(HotelVO hotelVO,@PathVariable("id") long id) throws Exception {
+        hotelVO.setId(id);
+        hotelService.modify(hotelVO);
+        return "/success";
+    }
+
+    /**
+     * 新增酒店（资源）
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public
+    String add(HotelVO hotelVO) throws Exception {
+        hotelService.add(hotelVO);
         return "/success";
     }
 
