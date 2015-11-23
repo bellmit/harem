@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.model.ProductInfoVO;
 
 /**
  * 商品-跟团游
@@ -25,7 +26,7 @@ public class CommGroupTravelController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public String info(Long id) throws Exception {
+	public String info(ProductInfoVO productInfoVO) throws Exception {
 		put("query", new ArrayList<Object>());
 		return "/system/comm/groupTravel/info";
 	}
