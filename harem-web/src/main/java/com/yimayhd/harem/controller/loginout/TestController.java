@@ -71,7 +71,7 @@ public class TestController {
         userDO.setMobile(loginoutVO.getUsername());
         userDO.setPassword(loginoutVO.getPassword());
 
-        BaseResult<UserDO> baseResult = userService.createUserAndPutCache(userDO);
+        BaseResult<UserDO> baseResult = null;//userService.createUserAndPutCache(userDO);
 
 
         map.put("status", "create success");

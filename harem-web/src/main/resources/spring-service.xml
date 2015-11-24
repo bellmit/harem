@@ -25,7 +25,8 @@
 	<!-- 资源管理 -->
 	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>
-	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
+	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
+	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
 		</bean> -->
 
 </beans>

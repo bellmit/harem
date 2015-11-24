@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 酒店管理（资源）
+ * 酒店管理（商品）
  * @author czf
  */
 @Controller
 @RequestMapping("/B2C/hotelManage")
-public class HotelManageController extends BaseController {
+public class CommHotelManageController extends BaseController {
     private final static int ROOMFACILITY_TYPE = 1;
     private final static int ROOMSERVICELIST_TYPE = 2;
     private final static int HOTELFACILITYLIST_TYPE = 3;
@@ -35,47 +35,11 @@ public class HotelManageController extends BaseController {
     private RegionService regionService;
     @Autowired
     private FacilityIconService facilityIconService;
-    /**
-     * 酒店（资源）列表
-     * @return 酒店（资源）列表
-     * @throws Exception
-     */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public
-    String list(Model model,HotelListQuery hotelListQuery) throws Exception {
-        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-        PageVO pageVo = new PageVO(1,10,300);
-        model.addAttribute("pageVo", pageVo);
-        model.addAttribute("hotelListQuery", hotelListQuery);
-        model.addAttribute("hotelDOList", hotelDOList);
 
-
-        return "/system/hotel/list";
-    }
 
     /**
-     * 选择酒店列表
-     * @param model
-     * @param hotelListQuery
-     * @param multiSelect 是否多选（1：单选；2：多选）
-     * @return 酒店（资源）列表
-     * @throws Exception
-     */
-    @RequestMapping(value = "/selectList", method = RequestMethod.GET)
-    public
-    String selectList(Model model,HotelListQuery hotelListQuery,int multiSelect) throws Exception {
-        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-        PageVO pageVo = new PageVO(1,10,300);
-        model.addAttribute("pageVo", pageVo);
-        model.addAttribute("hotelListQuery", hotelListQuery);
-        model.addAttribute("hotelDOList", hotelDOList);
-        model.addAttribute("multiSelect",multiSelect);
-        return "/system/hotel/selectList";
-    }
-
-    /**
-     * 新增酒店（资源）
-     * @return 酒店（资源）详情
+     * 新增酒店（商品）
+     * @return 酒店（商品）详情
      * @throws Exception
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
@@ -92,8 +56,8 @@ public class HotelManageController extends BaseController {
         return "/system/hotel/edit";
     }
     /**
-     * 编辑酒店（资源）
-     * @return 酒店（资源）详情
+     * 编辑酒店（商品）
+     * @return 酒店（商品）详情
      * @throws Exception
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -116,7 +80,7 @@ public class HotelManageController extends BaseController {
     }
 
     /**
-     * 编辑酒店（资源）
+     * 编辑酒店（商品）
      * @return
      * @throws Exception
      */
@@ -129,7 +93,7 @@ public class HotelManageController extends BaseController {
     }
 
     /**
-     * 新增酒店（资源）
+     * 新增酒店（商品）
      * @return
      * @throws Exception
      */
@@ -139,65 +103,4 @@ public class HotelManageController extends BaseController {
         hotelService.add(hotelVO);
         return "/success";
     }
-
-    /**
-     * 酒店（资源）状态变更
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo setHotelStatus(@PathVariable("id") long id,int hotelStatus) throws Exception {
-        HotelVO hotelVO = new HotelVO();
-        hotelVO.setId(id);
-        hotelVO.setStatus(hotelStatus);
-        hotelService.modify(hotelVO);
-        return new ResponseVo();
-    }
-    /**
-     * 动态状态变更(批量)
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]")ArrayList<Integer> hotelIdList,int hotelStatus) throws Exception {
-        hotelService.setHotelStatusList(hotelIdList, hotelStatus);
-        System.out.println(1);
-        return new ResponseVo();
-    }
-
-    //TODO
-    /**
-     * 添加图片
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/picture/add/{hotelId}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo addHotelPicture(@PathVariable("hotelId") long id) throws Exception {
-        return new ResponseVo();
-    }
-    /**
-     * 删除图片
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/picture/delete/{hotelId}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo delHotelPicture(@PathVariable("hotelId") long id) throws Exception {
-        return new ResponseVo();
-    }
-    /**
-     * 置顶图片
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/picture/top/{hotelId}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo topHotelPicture(@PathVariable("hotelId") long id) throws Exception {
-        return new ResponseVo();
-    }
-
-
 }
