@@ -3,6 +3,7 @@
     <form class="form-signin" id="hotelDOListForm" name="hotelDOListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/hotelManage/selectList" method="GET" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
+                <input type="hidden" class="form-control" name="multiSelect" value="$multiSelect">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">酒店名称</button>
                     </span>
