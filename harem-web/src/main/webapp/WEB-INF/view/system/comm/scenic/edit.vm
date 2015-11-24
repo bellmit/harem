@@ -1,0 +1,166 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+
+
+<div class="tab-content grogInfoWrap"  style="">
+<form id="saveScenic">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+		
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>分类</td>
+                    <td><input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内"></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>景区</td>
+                    <td>
+                       <input type="text" class="inpControl" name="name" id="name" placeholder="请选择">
+						<button class="btn btn-primary selectScenic">选择景区</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>主题</td>
+                    <td>
+                       <input type="text" class="inpCtlBlock" name="" id="" placeholder="请输入20个字以内">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>排序</td>
+                    <td>
+						<input type="text" class="inpCtlBlock" name="" id="" placeholder="请输入20个字以内">
+					</td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>时间区间</td>
+                    <td>用户可选入园时间为
+						<input type="text" class="inpControl" name="" id="" placeholder="请输入数字">天内</td>
+                </tr>
+                </tbody>
+                
+            </table>
+			<table class="table">
+				<tbody>
+					<tr>
+							<td>商品名称</td>
+							<td>包含项目（100字内）</td>
+							<td>入园限制（100字内）</td>
+							<td>入园规则</td>
+							<td>单价</td>
+							<td>会员优惠额度</td>
+							<td>会员限购</td>
+					<tr>
+						<tr>
+							<td></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+					<tr>
+				</tbody>
+			</table>
+        </div>
+    </div>
+    <button  type="submit" class="btn btn-primary">保存</button>
+	</form>
+</div>
+
+
+
+
+
+<script>
+   $(function(){
+   /*弹出框**/
+        $('.selectScenic').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '景区选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: actionDefaultPath + '/B2C/comm/scenicManage/scenicList',
+				success:function(layero, index){
+    				win = window[layero.find('iframe')[0]['name']];
+    			},
+                yes: function(index){
+                   var arr = win.getScenicList(); 
+                   if(arr.length==0){
+    					$.warn("请选择景区");
+    					return false;
+    				}
+					
+    					console.log("id:"+arr.id+",name:"+arr.name);
+    				
+    				//一般设定yes回调，必须进行手工关闭
+    		        layer.close(index); 
+                },cancel: function(index){
+    		    	layer.close(index);
+    		    }
+            });
+        })
+		/*提交**/
+		$("#saveScenic").validate(
+			{
+				rules:{
+					'name' : {
+						required : true
+					}
+					
+				},
+				errorPlacement : function(error, element) { // 指定错误信息位置
+
+					if (element.is(':radio') || element.is(':checkbox')
+							|| element.is(':input')) { // 如果是radio或checkbox
+						var eid = element.attr('name'); // 获取元素的name属性
+						error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
+					} else {
+						error.insertAfter(element);
+					}
+				},
+				submitHandler : function(form) {
+
+					var options = {
+						url : "edit",
+						type : "post",
+						dataType : "json",
+						success : function(data) {
+							
+							if (data.success) {
+								$.success('操作成功',function(){
+									alert("123")
+								});
+							} else {
+								layer.alert(data.msg, {
+									icon : 5
+								});
+
+							}
+						},
+						error : function(XMLHttpRequest, textStatus,
+								errorThrown) {
+							layer.alert('服务忙，请稍后再试', {
+								icon : 5
+							});
+						}
+					};
+					
+					$(form).ajaxSubmit(options);
+				},
+				invalidHandler : function(form, validator) { // 不通过回调
+					return false;
+				}
+			});
+		
+		
+});
+
+
+
+
+</script>

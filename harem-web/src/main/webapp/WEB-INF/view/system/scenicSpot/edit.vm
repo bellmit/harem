@@ -1,0 +1,293 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+<style type="text/css">
+.demo{width:850px;margin:20px auto;display:none;}
+#l-map{height:400px;width:600px;float:left;border:1px solid #bcbcbc;}
+#r-result{height:400px;width:230px;float:right;}
+</style>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#grogshopInfo" data-toggle="tab">景区信息</a>
+    </li>
+    <li>
+        <a href="#grogshopImgs" data-toggle="tab">图片集</a>
+    </li>
+</ul>
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td><span class="spColor">*</span>景区名称</td>
+                    <td><input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内"></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>区域</td>
+                    <td>
+                        <div class="selectList">
+                            <select class="selCity inpControl" name="locationProvinceName" id="provinceSelect">
+                                <option>请选择省份</option>
+                            </select>
+                            <select class="selCity inpControl" name="locationCityName" id="citySelect">
+                                <option>请选择城市</option>
+                            </select>
+                            <input type="text" class="inpCtlBlock" name="locationText" id="locationTownName" placeholder="请输入100个字以内">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>等级</td>
+                    <td>
+                        <select class="form-control {required:true}" id="grade" name="level">
+                            <option>请选择</option>
+                            <option value="1">5星 豪华型</option>
+                            <option value="2">4星 高档型</option>
+                            <option value="3">3星 舒适型</option>
+                            <option value="4">2星及以下 经济型</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>地址经纬度</td>
+                    <td><span>经度</span><input type="text" name="locationX" id="locationX" class="inpControl getAddress">
+						<span>维度</span><input type="text" name="locationY" id="locationY" class="inpControl getAddress"><button class="btn btn-primary locationXYSelectBtn" onclick="openBaiduMap();">查找经纬度</button><code>点击查找经纬度可自动获取</code></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>景区电话</td>
+                    <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+                </tr>
+				  <tr>
+                    <td><span class="spColor">*</span>营业时间</td>
+                    <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字"></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>景区简介</td>
+                    <td><textarea name="oneword" id="grogInfo" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                </tr>
+				 <tr>
+                    <td><span class="spColor">*</span>特色描述</td>
+                    <td><textarea name="description" id="grogInfo" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                </tr>
+				<tr>
+                    <td><span class="spColor">*</span>温馨提示</td>
+                    <td><textarea name="" id="" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                </tr>
+				<tr>
+                    <td><span class="spColor">*</span>退改规定</td>
+                    <td><textarea name="refundRule" id="refundRule" rows="3" class="form-control" placeholder="请输入500字以内"></textarea></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>基础价格</td>
+                    <td><input type="text" name="price" id="price" class="inpControl" >起</td>
+                </tr>
+				 <tr>
+                    <td>景区联系人</td>
+                    <td>
+						<span>姓名</span><input type="text" name="contactPerson"  class="inpControl">
+						<span>电话</span><input type="text" name="contactPhone"  class="inpControl">
+					</td>
+                </tr>
+                <tr>
+                    <td>大咖推荐</td>
+                    <td>
+                        <button type="button" class="btn btn-info selectUserBtn">选择旅游咖</button>
+                        <img src="#if($hotel.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!hotel.manageUserLogoUrl  #end" alt="头像" class="img-circle grogUserLogo"><span>Tracy</span>
+                        <textarea name="recommend" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内"></textarea>
+                        <input type="hidden" name="userId" value="$!hotel.userId" disabled>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane" id="grogshopImgs">
+
+    </div>
+</div>
+</form>
+
+
+<div class="demo" id="baiduMap" >
+	<p style="height:40px;">输入城市：<input id="txtCity" type="text"/>  <button  onClick="getPoint()">获取坐标</button> 经度：<input id="txtPointX" type="text"/>维度<input id="txtPointY" type="text"/></p>
+	<div id="l-map"></div>
+	<div id="r-result"></div>
+
+</div>
+
+<script>
+var map = new BMap.Map("l-map");            // 创建Map实例
+	map.centerAndZoom(new BMap.Point(115.727899, 37.723961), 4);
+	map.enableScrollWheelZoom();
+	var local = new BMap.LocalSearch("全国", {
+	renderOptions: {
+		map: map,
+		panel : "r-result",
+		autoViewport: true,
+		selectFirstResult: false
+	  }
+	});
+		map.addEventListener("click",function(e){
+		
+		document.getElementById("txtPointX").value=e.point.lng;
+		document.getElementById("txtPointY").value=e.point.lat;
+	});
+function getPoint(){
+	
+   var city = document.getElementById("txtCity").value;
+	local.search(city);                 // 初始化地图,设置城市和地图级别。
+	                            //启用滚轮放大缩小
+
+}
+function openBaiduMap(){
+	layer.open({
+		type : 1, title : '地图', closeBtn : false,
+		area : [ '900px', '600px' ], shadeClose : false,
+		content : $('#baiduMap'),
+		btn : [ '确认', '取消' ],
+		yes : function(index) {
+			$("#locationX").val($("#txtPointX").val());
+			$("#locationY").val($("#txtPointY").val());
+			layer.close(index);
+		},
+		cancel : function(index) {
+			layer.close(index);
+		}
+	});
+}
+
+
+
+    $(function(){
+        $('.selectUserBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
+                    console.log(frames == window);
+                    alert(top.resultValue.length)
+                    if(top.resultValue&&top.resultValue.length==0){
+                        alert("请选择用户");
+                        return false;
+                    }else{
+                        console.log(top.resultValue);
+                    }
+                }
+            });
+        })
+
+
+        $("#editScenicForm").validate({
+            //添加景区验证规则
+            rules: {
+                grogshopName: {    //酒店名称
+                    required: true,
+                    maxlength: 20,
+                    minlength: 2
+                },
+                grogshopAddress: {   //选择地址
+                    required: true
+                },
+                grogBasePrice: {   //基础价格
+                    required: true,
+                    digits: true
+                },
+                grogshopTele: {   //酒店电话
+                    required: true,
+                    number: true
+                },
+                grogDescr: {    //特色描述
+                    required: true,
+                    maxlength: 80
+                },
+                grogInfo: {    //酒店简介
+                    required: true,
+                    maxlength: 500
+                },
+                grogLinkmanName: {   //酒店联系人姓名
+                    required: true
+                },
+                grogLinkmanPhone: {   //酒店联系人电话
+                    required: true
+                },
+                grogArrivalDate: {    //最晚到店时间
+                    required: true,
+                    maxlength: 50
+                }
+            },
+            //添加酒店验证错误，提示信息
+            messages: {
+                grogshopName: {     //酒店名称
+                    required: "请填写酒店名称",
+                    maxlength: "请输入不多于20字",
+                    minlength: "请至少输入2个字"
+                },
+                grogshopAddress: {    //选择地址
+                    required: "请输入您的详细地址"
+                },
+                grogBasePrice: {     //基础价格
+                    required: "请填写基础价格",
+                    digits: "请输入正整数"
+                },
+                grogshopTele: {   //酒店电话
+                    required: "请填写酒店电话",
+                    number: "请输入数字"
+                },
+                grogDescr: {    //特色描述
+                    required: "请输入特色描述",
+                    maxlength: "请输入不多于80字"
+                },
+                grogInfo: {    //酒店简介
+                    required: "请输入酒店简介",
+                    maxlength: "请输入不多于500字"
+                },
+                grogLinkmanName: {   //酒店联系人姓名
+                    required: "请输入联系人"
+                },
+                grogLinkmanPhone: {   //酒店联系人电话
+                    required: "请输入联系人电话"
+                },
+                grogArrivalDate: {    //最晚到店时间
+                    required: "请输入最晚到店时间",
+                    maxlength: "请输入不多于50字以内"
+                }
+            }
+        });
+
+        $('#btnSubmit').click(function(){
+            $(this).prop('disabled',true);
+            var actionUrl;
+            var hotelId = $('#hotelForm').attr('hotelId');
+            if(hotelId){
+                actionUrl = '/hotelManage/edit';
+            }else{
+                actionUrl = '/hotelManage/add';
+            }
+            alert(actionUrl);
+            $('#hotelForm').attr('action',actionUrl);
+            $.post(actionUrl,$('#scenicForm').serialize(),function(data){
+                if(data.status == 200){
+                    var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                    msg.show();
+                    setTimeout(function(){
+                        window.close();
+                    },1050);
+                }else{
+                    var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                    msg.show();
+                    $(this).prop('disabled',false);
+                }
+            });
+        });
+    });
+</script>

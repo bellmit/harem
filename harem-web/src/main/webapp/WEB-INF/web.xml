@@ -37,7 +37,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
+    <!--  <filter>
         <filter-name>sessionFilter</filter-name>
         <filter-class>com.yimayhd.user.session.manager.SessionFilter</filter-class>
         <init-param>
@@ -52,7 +52,9 @@
     <filter-mapping>
         <filter-name>sessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
+
+    </filter-mapping> -->
+
 
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>

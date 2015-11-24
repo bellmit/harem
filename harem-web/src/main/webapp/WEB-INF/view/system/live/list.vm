@@ -89,7 +89,7 @@
                         <td>$!live.status</td>
                         <td>$utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
-                        <button type="button" class="btn btn-primary clubDetail" liveId="$live.id">详情</button>
+                        <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>
                         <button type="button" class="btn btn-primary " liveId="$live.id">图片</button>
                         </td>
                     </tr>
@@ -99,14 +99,14 @@
         </div>
     #*分页*#
     #parse("/page.vm")
-    #pageStyle("clubListForm")
+    #pageStyle("liveListForm")
     </form>
 <script>
   
     $(function(){
-        $('.clubDetail').each(function(){
+        $('.liveDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/liveManage/'+ $(this).attr('liveId');
+                var url = actionDefaultPath + '/B2C/liveManage/'+ $(this).attr('liveId');
                 window.openwin(url);
             });
 
