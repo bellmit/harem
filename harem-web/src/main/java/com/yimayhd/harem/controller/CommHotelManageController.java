@@ -24,7 +24,7 @@ import java.util.List;
  * @author czf
  */
 @Controller
-@RequestMapping("/B2C/hotelManage")
+@RequestMapping("/B2C/commHotelManage")
 public class CommHotelManageController extends BaseController {
     private final static int ROOMFACILITY_TYPE = 1;
     private final static int ROOMSERVICELIST_TYPE = 2;
