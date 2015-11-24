@@ -25,9 +25,20 @@ public class CommGroupTravelController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public String info(ProductInfoVO productInfoVO) throws Exception {
-		put("query", new ArrayList<Object>());
-		return "/system/comm/groupTravel/info";
+	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
+	public String baseInfo(ProductInfoVO productInfoVO) throws Exception {
+		return "/system/comm/groupTravel/baseInfo";
+	}
+
+	/**
+	 * 价格信息2
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/priceInfo", method = RequestMethod.GET)
+	public String priceInfo() throws Exception {
+		return "/system/comm/groupTravel/priceInfo";
 	}
 }
