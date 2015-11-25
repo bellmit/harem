@@ -36,6 +36,19 @@ public interface HotelService {
      */
     void modify(HotelVO hotelVO)throws Exception;
 
-
+    /**
+     * 批量修改酒店资源状态
+     * @param idList
+     * @param hotelStatus
+     * @throws Exception
+     */
+    void setHotelStatusList(List<Long> idList,int hotelStatus)throws Exception;
+    /**
+     * 修改酒店资源状态
+     * @param id
+     * @param hotelStatus
+     * @throws Exception
+     */
+    void setHotelStatus(long id,int hotelStatus)throws Exception;
 
 }

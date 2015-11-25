@@ -85,7 +85,7 @@
                     <td>$!commodity.stockNum</td>
                     <td>$!utilDate.dateToString($!commodity.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>
-                        <button type="button" class="btn btn-primary commodityDetail" commodityId="$commodity.id">查看</button>
+                        <button type="button" class="btn btn-primary commodityDetail" commodityId="$commodity.id" itemType="$commodity.itemType">查看</button>
                         <button type="button" class="btn btn-primary commodityBtn"  commodityId="$commodity.id" status="$commodity.status">#if($commodity.status == 1) 停用 #elseif($commodity.status == 2) 启用 #end </button>
                     </td>
                 </tr>
@@ -124,7 +124,7 @@
         });
         $('.commodityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/'+ $(this).attr('commodityId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/'+ $(this).attr('commodityId') + '?itemType=' + $(this).attr('itemType');
                 //TODO
                 window.openwin(url);
             });

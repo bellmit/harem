@@ -19,6 +19,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/B2C/commodityManage")
 public class CommodityManageController extends BaseController {
+
+    private final static int ITEM_TYPE_HOTEL = 1;//酒店
+    private final static int ITEM_TYPE_SCENIC = 2;//景区
     @Autowired
     private CommodityService commodityService;
     /**
@@ -36,7 +39,7 @@ public class CommodityManageController extends BaseController {
 
     /**
      * 新增商品
-     * @return 酒店（资源）详情
+     * @return 商品分类
      * @throws Exception
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
@@ -44,15 +47,32 @@ public class CommodityManageController extends BaseController {
     String toAdd(Model model) throws Exception {
         return "/system/hotel/edit";
     }
+
     /**
      * 编辑商品
-     * @return 酒店（资源）详情
+     * @param model
+     * @param id 商品ID
+     * @param itemType 商品类型
+     * @return  商品详情
      * @throws Exception
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
-    String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-        return "/system/hotel/edit";
+    String toEdit(Model model,@PathVariable(value = "id") long id,int itemType) throws Exception {
+        String redirectUrl = "";
+        switch (itemType) {
+            case (ITEM_TYPE_HOTEL):
+                redirectUrl = "/B2C/hotelManage/edit/" + id;
+                break;
+            case(ITEM_TYPE_SCENIC):
+                redirectUrl = "/B2C/scenicSpotManage/edit/" + id;
+                break;
+            default:
+                //TODO
+                redirectUrl = "/B2C/otherSpotManage/edit/" + id;
+                break;
+        }
+        return "redirect:" + redirectUrl;
     }
 
     /**

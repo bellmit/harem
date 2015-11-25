@@ -151,7 +151,7 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo setHotelStatus(@PathVariable("id") long id,int hotelStatus) throws Exception {
-        commodityService.setCommStatus(id,hotelStatus);
+        hotelService.setHotelStatus(id,hotelStatus);
         return new ResponseVo();
     }
     /**
@@ -162,7 +162,7 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]")ArrayList<Long> hotelIdList,int hotelStatus) throws Exception {
-        commodityService.setCommStatusList(hotelIdList, hotelStatus);
+        hotelService.setHotelStatusList(hotelIdList, hotelStatus);
         return new ResponseVo();
     }
 

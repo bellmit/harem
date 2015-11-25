@@ -94,4 +94,15 @@ public class HotelServiceImpl implements HotelService {
     public void modify(HotelVO hotelVO) throws Exception {
 
     }
+
+    @Override
+    public void setHotelStatusList(List<Long> idList, int hotelStatus) throws Exception {
+
+    }
+
+    @Override
+    public void setHotelStatus(long id, int hotelStatus) throws Exception {
+
+
+    }
 }

@@ -64,7 +64,7 @@
                     <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
                 </div>
                 <div class="btn-group">
-                    <button class="btn closBtn">取消</button>
+                    <button type="button"  class="btn closBtn">取消</button>
                 </div>
             </div>
         <div class="">
@@ -127,9 +127,10 @@
             $('#commHotelForm').attr('action',actionUrl);
             $('#commHotelForm').submit();
         });
-        //关闭窗口
-        $('.closBtn')click(function(){
+
+        $('.closBtn').click(function(){
             window.close();
         });
+
     });
 </script>
