@@ -2,6 +2,8 @@ package com.yimayhd.harem.model.query;
 
 import com.yimayhd.harem.base.BaseQuery;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2015/11/10.
  */
@@ -10,6 +12,8 @@ public class TrendListQuery extends BaseQuery {
     private Integer trendStatus;
     private String userTel;
     private String userName;
+    private String beginDate;
+    private String endDate;
 
     public Long getTag() {
         return tag;
@@ -41,5 +45,21 @@ public class TrendListQuery extends BaseQuery {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getBeginDate() {
+        return beginDate;
+    }
+
+    public void setBeginDate(String beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }
