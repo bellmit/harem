@@ -38,4 +38,20 @@ public interface CommodityService {
      */
     void modifyCommHotel(ItemDO itemDO)throws Exception;
 
+
+    /**
+     * 批量修改商品状态
+     * @param idList 商品idList
+     * @param status 状态
+     * @throws Exception
+     */
+    void setCommStatusList(List<Long> idList,int status)throws Exception;
+    /**
+     * 修改商品状态
+     * @param id 商品ID
+     * @param status 状态
+     * @throws Exception
+     */
+    void setCommStatus(long id,int status)throws Exception;
+
 }

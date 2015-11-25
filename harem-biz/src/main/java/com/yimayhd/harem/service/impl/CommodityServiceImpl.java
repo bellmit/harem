@@ -3,6 +3,7 @@ package com.yimayhd.harem.service.impl;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,33 @@ import java.util.List;
 public class CommodityServiceImpl implements CommodityService {
     @Override
     public List<ItemDO> getList() throws Exception {
-        return null;
+        List<ItemDO> itemDOList = new ArrayList<ItemDO>();
+        for (int i = 0; i < 10; i++) {
+            ItemDO itemDOData = new ItemDO();
+            itemDOData.setId(i);
+            itemDOData.setRootCategoryId(1);
+            itemDOData.setCategoryId(2);
+            //酒店id
+            //排序
+            //时间区间
+            if(i % 3 == 0){
+                itemDOData.setTitle("故宫门票");
+                itemDOData.setSubTitle("通票");
+                itemDOData.setPrice(10000);
+            }else{
+                itemDOData.setTitle("高级双床房");
+                itemDOData.setSubTitle("房间35m，双床，可住2人");
+                itemDOData.setPrice(9900);
+            }
+            //会员限购
+            itemDOData.setPicUrls("beautiful.png");
+            itemDOData.setGmtCreated(new Date());
+            itemDOData.setGmtModified(new Date());
+            itemDOData.setStatus(1);
+            itemDOData.setStockNum(i * 50);
+            itemDOList.add(itemDOData);
+        }
+        return itemDOList;
     }
 
     @Override
@@ -42,6 +69,16 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public void modifyCommHotel(ItemDO itemDO) throws Exception {
+
+    }
+
+    @Override
+    public void setCommStatusList(List<Long> idList, int status) throws Exception {
+
+    }
+
+    @Override
+    public void setCommStatus(long id, int status) throws Exception {
 
     }
 }
