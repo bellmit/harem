@@ -42,7 +42,7 @@ function chkSeleect(field_name,label_name) {
 	       if (i==0) {
 			   field_name.focus();
 		       //field_name.style.background=fieldbg;
-		       alert ("\u8bf7\u9009\u62e9" + label_name+"\u3002");
+		       layer.alert ("\u8bf7\u9009\u62e9" + label_name+"\u3002");
 			   return false;
 		   }
 	       else    
@@ -62,14 +62,14 @@ function chkEmail(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
 	}
 	if (!str.test(s))  {
     	        field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u8bf7\u8f93\u5165\u6b63\u786e\u7684Email\u3002");
+	        layer.alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u8bf7\u8f93\u5165\u6b63\u786e\u7684Email\u3002");
 	        return false;
         }
 	return true;
@@ -82,14 +82,14 @@ function chkNum(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
          }
          if (!isNum(s)) {
          	field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u3002");
+	        layer.alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u3002");
 	        return false;
          }
          return true;
@@ -102,14 +102,14 @@ function chkCharNum(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
     }
     if (!isCharNum(s)) {
 	    field_name.focus();
 	    field_name.style.background=fieldbg;
-	    alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u548c\u5b57\u6bcd\u3002");
+	    layer.alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u548c\u5b57\u6bcd\u3002");
 	    return false;
     }	
     return true;
@@ -123,7 +123,7 @@ function chkPhone(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
     }
@@ -143,14 +143,14 @@ function chkPostCode(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
     }
     if(!isNum(s)||s.length!=6) {
       	    field_name.focus();
 	    field_name.style.background=fieldbg;
-	    alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\u3002");
+	    layer.alert(label_name+" \u8f93\u5165\u4e0d\u5408\u6cd5\u3002");
 	    return false; 
     }
     return true;    
@@ -163,14 +163,14 @@ function chkInteger(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
     }
     if (!reInteger.test(s) || parseInt(s,10)==0) {
     	        field_name.focus();
 		field_name.style.background=fieldbg;
-	        alert ("\u8bf7\u5728" + label_name+"\u4e2d\u8f93\u5165\u6b63\u6574\u6570\u3002");
+	        layer.alert ("\u8bf7\u5728" + label_name+"\u4e2d\u8f93\u5165\u6b63\u6574\u6570\u3002");
 	        return false; 
     }
     return true; 
@@ -181,7 +181,7 @@ function chkWhiteSpace(field_name,label_name) {
     if (isEmpty(s) || reWhitespace.test(s)) {
 		field_name.focus();
 		field_name.style.background=fieldbg;
-		alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+		layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
     	return false;
 	}
 	return true;
@@ -199,7 +199,7 @@ function chkFloat(field_name,allow_len,dec,label_name,allow_zero,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
     }
@@ -223,7 +223,7 @@ function chkFloat(field_name,allow_len,dec,label_name,allow_zero,defaultEmpty) {
     if (s.charAt(0) == '-' || (!allow_zero && parseFloat(s) == 0)) {
              field_name.focus();
 	     field_name.style.background=fieldbg;
-	     alert("\u8bf7\u5728" + label_name+"\u4e2d\u8f93\u5165\u6b63\u6570\u3002");
+	     layer.alert("\u8bf7\u5728" + label_name+"\u4e2d\u8f93\u5165\u6b63\u6570\u3002");
 	     return false;
     }    
     
@@ -252,18 +252,18 @@ function chkFloat(field_name,allow_len,dec,label_name,allow_zero,defaultEmpty) {
      if (seenDecimalPoint == true) {
     	if ((s.length - posDecimalPoint - 1) > dec || posDecimalPoint==(s.length-1)) { //right too long
 	    	if (!isEmpty(label_name)) 
-        		alert("\u8bf7\u5728"+label_name+"\u4e2d\u8f93\u5165\u6570\u5b57\uff0c"+dec+"\u4f4d\u5c0f\u6570\u3002");
+        		layer.alert("\u8bf7\u5728"+label_name+"\u4e2d\u8f93\u5165\u6570\u5b57\uff0c"+dec+"\u4f4d\u5c0f\u6570\u3002");
     		return false;
     	}
     	else if (posDecimalPoint > (allow_len - dec)	) { // left too long
     		if (!isEmpty(label_name)) 
-        			alert("\u8bf7\u6ce8\u610f"+label_name+"\u7684\u503c\u4e0d\u80fd\u5927\u4e8e "+floatErrMes+"\u3002");
+        			layer.alert("\u8bf7\u6ce8\u610f"+label_name+"\u7684\u503c\u4e0d\u80fd\u5927\u4e8e "+floatErrMes+"\u3002");
     		return false;
     		
 		} //else
     } else if (s.length > allow_len - dec) { // left too long
     		if (!isEmpty(label_name)) 
-        			alert("\u8bf7\u6ce8\u610f"+label_name+"\u7684\u503c\u4e0d\u80fd\u5927\u4e8e "+floatErrMes+"\u3002");
+        			layer.alert("\u8bf7\u6ce8\u610f"+label_name+"\u7684\u503c\u4e0d\u80fd\u5927\u4e8e "+floatErrMes+"\u3002");
     		return false;
     
     } //else
@@ -274,7 +274,7 @@ function chkFloat(field_name,allow_len,dec,label_name,allow_zero,defaultEmpty) {
 function isFloatNaN (s,label_name) {
 	if (isNaN(s)) {
   		if (!isEmpty(label_name)) {
-        		alert("\u8bf7\u5728"+label_name+"\u4e2d\u8f93\u5165\u6570\u5b57\u3002");
+        		layer.alert("\u8bf7\u5728"+label_name+"\u4e2d\u8f93\u5165\u6570\u5b57\u3002");
                 }
     	        return true;
         } 
@@ -291,13 +291,13 @@ function chkFileChar(field_name,label_name,defaultEmpty){
     var s = field_name.value;
     if(isEmpty(s)) {
 		if (!defaultEmpty) {	              
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
     }
   var str = s.substring(s.lastIndexOf("\\")+1);
    if (!isFileCharNum(str)) {
-	    alert(label_name+"\u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u548c\u5b57\u6bcd\u3002");
+	    layer.alert(label_name+"\u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u548c\u5b57\u6bcd\u3002");
 	    return false;
     } 
     return true;
@@ -310,44 +310,44 @@ function chkAlias(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
          }
          if (s.length<=5) {
           	field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+"\u957f\u5ea6\u5fc5\u987b\u5927\u4e8e6");
+	        layer.alert(label_name+"\u957f\u5ea6\u5fc5\u987b\u5927\u4e8e6");
 	        return false;
          }
          if (isNum(s)) {
           	field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+"\u4e0d\u5141\u8bb8\u662f\u5168\u6570\u5b57");
+	        layer.alert(label_name+"\u4e0d\u5141\u8bb8\u662f\u5168\u6570\u5b57");
 	        return false;
          }
          if (isOneCharAndNum(s)){
            	field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+"\u4e0d\u5141\u8bb8\u662f1\u4e2a\u5b57\u6bcd\u5f00\u59cb\u52a0\u6570\u5b57");
+	        layer.alert(label_name+"\u4e0d\u5141\u8bb8\u662f1\u4e2a\u5b57\u6bcd\u5f00\u59cb\u52a0\u6570\u5b57");
 	        return false;
          }
          if (isTwoCharAndNum(s)){
            	field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+"\u4e0d\u5141\u8bb8\u662f2\u4e2a\u5b57\u6bcd\u5f00\u59cb\u52a0\u6570\u5b57");
+	        layer.alert(label_name+"\u4e0d\u5141\u8bb8\u662f2\u4e2a\u5b57\u6bcd\u5f00\u59cb\u52a0\u6570\u5b57");
 	        return false;
          }
          if (isThreeCharAndNum(s)){
            	field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+"\u4e0d\u5141\u8bb8\u662f3\u4e2a\u5b57\u6bcd\u5f00\u59cb\u52a0\u6570\u5b57");
+	        layer.alert(label_name+"\u4e0d\u5141\u8bb8\u662f3\u4e2a\u5b57\u6bcd\u5f00\u59cb\u52a0\u6570\u5b57");
 	        return false;
          }
          if (!isUserId(s)) {
 		    field_name.focus();
 		    field_name.style.background=fieldbg;
-		    alert(label_name+"\u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u548c\u5b57\u6bcd\u3002");
+		    layer.alert(label_name+"\u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u53ea\u80fd\u8f93\u5165\u6570\u5b57\u548c\u5b57\u6bcd\u3002");
 		    return false;
     	 }	
      return true;
@@ -401,14 +401,14 @@ function chkBirthday(field_name,label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 	               field_name.focus();
 	               field_name.style.background=fieldbg;
-	               alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+	               layer.alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 	               return false;
 	        } else return true;
          }
          if (!isValidBirthday(s)) {
          	field_name.focus();
 	        field_name.style.background=fieldbg;
-	        alert(label_name+"\u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u8bf7\u8f93\u5165 yyyymmdd\u3002");
+	        layer.alert(label_name+"\u8f93\u5165\u4e0d\u5408\u6cd5\uff0c\u8bf7\u8f93\u5165 yyyymmdd\u3002");
 	        return false;
          }   
          return true;

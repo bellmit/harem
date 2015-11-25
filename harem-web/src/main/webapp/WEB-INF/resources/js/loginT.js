@@ -65,12 +65,12 @@ $(function () {
                 //根据返回值进行状态显示
                 if (data && data.status == 0) {//注意是True,不是true
                     //$(".clsShow").html("操作提示，登录成功！" + strValue);
-                    alert("登陆成功");
+                    layer.alert("登陆成功");
                     location.href = 'www.baidu.com';
                 }
                 else {
                     //$("#divError").show().html("用户名或密码错误！" + strValue);
-                    alert(data.message);
+                    layer.alert(data.message);
                 }
             }
         })

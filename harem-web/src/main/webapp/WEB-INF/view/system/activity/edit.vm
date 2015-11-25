@@ -398,12 +398,12 @@
                                 $('#imageUploadFileReturnImg').attr('src',tfsPath + data.data);
 
                             }else{
-                                alert('上传失败');
+                                layer.alert('上传失败');
                             }
                         },
                         error: function (data)//服务器响应失败处理函数
                         {
-                            alert('服务器异常');
+                            layer.alert('服务器异常');
                         }
                     }
             )
@@ -417,7 +417,7 @@
             }else{
                 actionUrl = '$!utilWebconfig.getActionDefaultFontPath()/B2C/activityManage/add';
             }
-            alert(actionUrl);
+            layer.alert(actionUrl);
             $('#activityForm').attr('action',actionUrl);
             $('#activityForm').submit();
         });

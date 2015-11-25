@@ -133,7 +133,7 @@
 							
 							if (data.success) {
 								$.success('操作成功',function(){
-									alert("123")
+									layer.alert("123")
 								});
 							} else {
 								layer.alert(data.msg, {

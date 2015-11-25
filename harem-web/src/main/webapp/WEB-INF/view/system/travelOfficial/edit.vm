@@ -111,12 +111,12 @@
                                 $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
 
                             }else{
-                                alert('上传失败');
+                                layer.alert('上传失败');
                             }
                         },
                         error: function (data)//服务器响应失败处理函数
                         {
-                            alert('服务器异常');
+                            layer.alert('服务器异常');
                         }
                     }
             )
@@ -138,12 +138,12 @@
                                 $('#picturePosterUploadFileReturnImg').attr('src',tfsPath + data.data);
 
                             }else{
-                                alert('上传失败');
+                                layer.alert('上传失败');
                             }
                         },
                         error: function (data)//服务器响应失败处理函数
                         {
-                            alert('服务器异常');
+                            layer.alert('服务器异常');
                         }
                     }
             )
@@ -157,7 +157,7 @@
             }else{
                 actionUrl = '/clubManage/add';
             }
-            alert(actionUrl);
+            layer.alert(actionUrl);
             $('#clubForm').attr('action',actionUrl);
             $.post(actionUrl,$('#clubForm').serialize(),function(data){
                 if(data.status == 200){

@@ -80,10 +80,10 @@
         $('.setTrendStatusBtn').click(function(){
             $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/setTrendStatus',{trendStatus:$(this).attr('trendStatus'),id:$('#trendId').val(),summary:$('.summary').val()},function(data){
                 if(data.status==200){
-                    alert('操作成功');
+                    layer.alert('操作成功');
                     window.location.href = window.location.href;
                 }else{
-                    alert('操作失败');
+                    layer.alert('操作失败');
                 }
             });
         });

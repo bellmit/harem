@@ -83,7 +83,7 @@
                     $('.operatorName').val(data.operatorName);
                     $('#btnSubmit').prop("disabled",false);
                 }else{
-                    alert('请求失败');
+                    layer.alert('请求失败');
                 }
 
             });
@@ -92,10 +92,10 @@
         $('#btnSubmit').click(function(){
             $.post('/refundManage/add',$("#refundAddForm").serialize(),function(data){
                 if(data.status==200){
-                    alert('提交成功');
+                    layer.alert('提交成功');
                     window.close();
                 }else{
-                    alert('提交失败');
+                    layer.alert('提交失败');
                 }
             });
         });

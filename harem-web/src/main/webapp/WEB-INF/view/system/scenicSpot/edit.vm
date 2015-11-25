@@ -175,9 +175,9 @@ function openBaiduMap(){
                 content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
                 yes: function(index){
                     console.log(frames == window);
-                    alert(top.resultValue.length)
+                    layer.alert(top.resultValue.length)
                     if(top.resultValue&&top.resultValue.length==0){
-                        alert("请选择用户");
+                        layer.alert("请选择用户");
                         return false;
                     }else{
                         console.log(top.resultValue);
@@ -273,7 +273,7 @@ function openBaiduMap(){
             }else{
                 actionUrl = '/hotelManage/add';
             }
-            alert(actionUrl);
+            layer.alert(actionUrl);
             $('#hotelForm').attr('action',actionUrl);
             $.post(actionUrl,$('#scenicForm').serialize(),function(data){
                 if(data.status == 200){

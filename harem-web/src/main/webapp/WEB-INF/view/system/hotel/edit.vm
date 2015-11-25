@@ -178,7 +178,7 @@
                     }
                     $('.citySelect').append(optionList);
                 }else{
-                    layer.msg('市级地址加载失败', {
+                    layer.alert('市级地址加载失败', {
                         icon: 2,
                         time: 2000
                     });
@@ -211,9 +211,9 @@
                 content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
                 yes: function(index){
                     console.log(frames == window);
-                    alert(top.resultValue.length)
+                    layer.alert(top.resultValue.length)
                     if(top.resultValue&&top.resultValue.length==0){
-                        alert("请选择旅游咖");
+                        layer.alert("请选择旅游咖");
                         return false;
                     }else{
                         $('.masterRecommendImg').val('');

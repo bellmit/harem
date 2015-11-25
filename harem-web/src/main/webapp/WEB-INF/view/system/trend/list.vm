@@ -144,9 +144,9 @@
 
             $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/setTrendStatusList',{trendStatusList:arr},function(data){
                 if(data&&data.status == 200){
-                    alert('操作成功');
+                    layer.alert('操作成功');
                 }else{
-                    alert("失败");
+                    layer.alert("失败");
                 }
             })
         });

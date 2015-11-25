@@ -7,14 +7,14 @@ function chkLen(field_name, allow_len, label_name,defaultEmpty) {
 		if (!defaultEmpty) {
 			field_name.focus();
 			field_name.style.background=fieldbg;
-			alert ("\u8bf7\u8f93\u5165" + label_name+"\u3002");
+			layer.alert("\u8bf7\u8f93\u5165" + label_name+"\u3002");
 			return false;
 		} else return true;
 	}
 	if (getTextLen(s) > allow_len) {
 		field_name.focus();
 		field_name.style.background=fieldbg;
-		alert(label_name + " \u7684\u957f\u5ea6\u4e0d\u80fd\u5927\u4e8e" + allow_len + " \u4e2a\u5b57\u8282\uff0c\u8bf7\u91cd\u65b0\u586b\u5199\u3002");
+		layer.alert(label_name + " \u7684\u957f\u5ea6\u4e0d\u80fd\u5927\u4e8e" + allow_len + " \u4e2a\u5b57\u8282\uff0c\u8bf7\u91cd\u65b0\u586b\u5199\u3002");
 		return false;
 	}
 	return true;

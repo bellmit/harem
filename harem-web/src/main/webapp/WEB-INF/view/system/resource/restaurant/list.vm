@@ -159,7 +159,7 @@
 	// 列表停用按钮绑定
 	$(".LinkToStop").click(function() {
 		// 还未实现
-		alert($(this).attr("item-id"));
+		layer.alert($(this).attr("item-id"));
 	});
 	
     $(function(){

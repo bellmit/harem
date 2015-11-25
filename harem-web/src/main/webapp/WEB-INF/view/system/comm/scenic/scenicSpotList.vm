@@ -32,7 +32,7 @@ function searchBtn() {
     			$("#tableDiv").html(data);
     	},
     	error:function(XMLHttpRequest, textStatus, errorThrown){
-    		alert("123");
+    		layer.alert("123");
     	}	
     };
     $("#scenicSpotForm").ajaxSubmit(options);	

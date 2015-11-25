@@ -64,17 +64,17 @@
                     }
                     var xhr = new XMLHttpRequest();
                     xhr.onload = function(data) {
-                        alert("上传成功！");
-                        alert(JSON.stringify(data));
+                        layer.alert("上传成功！");
+                        layer.alert(JSON.stringify(data));
 
                     };
                     //xhr.addEventListener("load", uploadComplete, false);
                     xhr.addEventListener("error", function(data){
-                        alert("失败");
-                        alert(JSON.stringify(data));
+                        layer.alert("失败");
+                        layer.alert(JSON.stringify(data));
                     }, false);
                     xhr.addEventListener("abort", function(data){
-                        alert(JSON.stringify(data));
+                        layer.alert(JSON.stringify(data));
                     }, false);
                     xhr.open("POST", "/upload/files", true);
 

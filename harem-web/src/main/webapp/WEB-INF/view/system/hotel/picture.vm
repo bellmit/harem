@@ -3,18 +3,7 @@
     <div>
         <input type="button" name="grogBatchAdd" id="grogBatchAdd" value="添加" class="btn">
     </div>
-    #*<div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">
-        <div class="card">
-            <div href="#" class="media-wrapper">
-                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img1.jpg" alt="">
-            </div>
-            <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
-            <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
-            <a href="#" class="card-heading"><strong>图片1</strong></a>
-        </div>
-    </div>*#
 </section>
-
 
 <div class="grogBatchWrap">
     <div class="grogBatchUpload">
@@ -42,47 +31,6 @@
             <a href="#" class="card-heading"><strong>图片1</strong></a>
         </div>
     </div>
-    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
-        <div class="card">
-            <div class="media-wrapper">
-                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img2.jpg" alt="">
-            </div>
-            <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
-            <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
-            <a href="#" class="card-heading"><strong>图片2</strong></a>
-        </div>
-    </div>
-    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
-        <div class="card">
-            <div class="media-wrapper">
-                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img3.jpg" alt="">
-            </div>
-            <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
-            <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
-            <a href="#" class="card-heading"><strong>图片3</strong></a>
-        </div>
-    </div>
-    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
-        <div class="card">
-            <div class="media-wrapper">
-                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img4.jpg" alt="">
-            </div>
-            <span class="grogImgFlag"><i class="icon"></i></span>
-            <span class="grogImgCircle"><i class="icon icon-circle-thin"></i></span>
-            <a href="#" class="card-heading"><strong>图片4</strong></a>
-        </div>
-    </div>
-    <div class=" col-md-4 col-sm-6 col-lg-3 grogImgWrap">
-        <div class="card">
-            <div class="media-wrapper">
-                <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img4.jpg" alt="">
-                <div class="grog"></div>
-            </div>
-            <span class="grogImgFlag"><i class="icon"></i></span>
-            <span class="grogImgCircle"><i class="icon icon-circle-thin"></i></span>
-            <a href="#" class="card-heading"><strong>图片5</strong></a>
-        </div>
-    </div>
 </section>
 
 <script>
@@ -91,19 +39,16 @@
         var dataVal = JSON.parse(data.target.responseText);
         for(key in dataVal.data){
             if(dataVal.data.hasOwnProperty(key)){
-                //alert(key);
                 var addImgs =   '<div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">'+
-                        '<div class="card">'+
-                        '<div href="#" class="media-wrapper">'+
-                            /*'<img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img1.jpg" alt="">'+*/
-                        '<img src="'+tfsRootPath + dataVal.data[key]+'" alt="">'+
-                        '</div>'+
-                        '<span class="grogImgFlag"><i class="icon"></i></span>'+
-                        '<span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>'+
-                        '<a href="#" class="card-heading"><strong>'+key+'</strong></a>'+
-                        '</div>'+
-                        '</div>'
-
+                                '<div class="card">'+
+                                '<div href="#" class="media-wrapper">'+
+                                '<img src="'+tfsRootPath + dataVal.data[key]+'" alt="">'+
+                                '</div>'+
+                                '<span class="grogImgFlag"><i class="icon"></i></span>'+
+                                '<span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>'+
+                                '<a href="#" class="card-heading"><strong>'+key+'</strong></a>'+
+                                '</div>'+
+                                '</div>'
                 $(".grogBatchAddWrap").append(addImgs);
             }
         }
@@ -119,17 +64,6 @@
             $(".grogImgFlag").show()
             $(".grogImgCircle").show()
         });
-
-        /*$(".grogImgCircle").on("click",function(){
-            $(this).find("i").toggleClass("icon-check-circle-o");
-        });*/
-
-        /*$(".grogImgFlag").on("click",function(){
-            $(this).find("i").toggleClass("icon-flag");
-            if($(this).find("i").hasClass("icon-flag")){
-                $(this).css({opacity:1,filter:alpha(opacity=100)});
-            }
-        });*/
 
         //添加图片
         $("#grogBatchAdd").on("click",function(){

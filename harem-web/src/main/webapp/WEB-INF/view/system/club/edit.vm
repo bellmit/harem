@@ -105,9 +105,9 @@
                 content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
                 yes: function(index){
                     console.log(frames == window);
-                    alert(top.resultValue.length)
+                    layer.alert(top.resultValue.length)
                     if(top.resultValue&&top.resultValue.length==0){
-                        alert("请选择用户");
+                        layer.alert("请选择用户");
                         return false;
                     }else{
                         console.log(top.resultValue);
@@ -132,12 +132,12 @@
                                 $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
 
                             }else{
-                                alert('上传失败');
+                                layer.alert('上传失败');
                             }
                         },
                         error: function (data)//服务器响应失败处理函数
                         {
-                            alert('服务器异常');
+                            layer.alert('服务器异常');
                         }
                     }
             )
@@ -159,12 +159,12 @@
                                 $('#picturePosterUploadFileReturnImg').attr('src',tfsPath + data.data);
 
                             }else{
-                                alert('上传失败');
+                                layer.alert('上传失败');
                             }
                         },
                         error: function (data)//服务器响应失败处理函数
                         {
-                            alert('服务器异常');
+                            layer.alert('服务器异常');
                         }
                     }
             )
@@ -178,7 +178,7 @@
             }else{
                 actionUrl = '/clubManage/add';
             }
-            alert(actionUrl);
+            layer.alert(actionUrl);
             $('#clubForm').attr('action',actionUrl);
             $.post(actionUrl,$('#clubForm').serialize(),function(data){
                 if(data.status == 200){
