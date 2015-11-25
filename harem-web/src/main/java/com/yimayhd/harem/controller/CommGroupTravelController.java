@@ -19,6 +19,17 @@ import com.yimayhd.harem.model.ProductInfoVO;
 @RequestMapping("/B2C/comm/groupTravel")
 public class CommGroupTravelController extends BaseController {
 	/**
+	 * 详细信息页
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	public String detail() throws Exception {
+		return "/system/comm/groupTravel/detail";
+	}
+
+	/**
 	 * 基本信息页
 	 * 
 	 * @param id
