@@ -1,0 +1,118 @@
+<div class="example whole">
+    <form name="activityForm" id="activityForm" action="" method="post" activityId="$!activity.id">
+            <div class="">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td><span class="spColor">*</span>分类</td>
+                        <td>
+                            酒店
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>酒店</td>
+                        <td>
+                            <button type="button" class="btn btn-info selectHotelBtn">选择酒店</button>
+                            <input type="hidden" name="outId" value="$!commHotel.outId" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>排序</td>
+                        <td><input type="text" name="index" value="$!commHotel.index" disabled></td>
+                    </tr>
+                    <tr>
+                        <td>*时间区间</td>
+                        <td>用户可选入住时间为<input type="text" name="dateInterval" value="$!commHotel.dateInterval" disabled></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>商品名称</th>
+                        <th>说明</th>
+                        <th>单价</th>
+                        <th>会员优惠额度</th>
+                        <th>会员限购</th>
+                        <th>图片</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="subCheckedTR">
+                            <td><input type="text" name="title" value="$!commHotel.title"></td>
+                            <td><input type="text" name="subTitle" value="$!commHotel.subTitle"></td>
+                            <td><input type="text" name="price" value="$!commHotel.price"></td>
+                            <td><input type="text" name="huiyuanyouhuiedu" value="$!commHotel.huiyuanyouhuiedu" disabled></td>
+                            <td><input type="text" name="huiyuanxiangou" value="$!commHotel.huiyuanxiangou" disabled></td>
+                            <td>
+                                <input id="fileID" type="file" accept="image/png,image/gif">
+                                <img class="picUrlImg" src="#if($!hotel.logoUrl)$utilWebconfig.getTfsRootPath()$!hotel.logoUrl #end">
+                                <input class="picUrlVal" type="hidden" name="picUrls" value="$!commHotel.picUrls">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="clubBotBtn">
+                <div class="btn-group">
+                    <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn">取消</button>
+                </div>
+            </div>
+        <div class="">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>创建时间</td>
+                    <td>
+                        $!utilDate.dateToString($!commHotel.gmtCreated,"yyyy-MM-dd HH:mm:ss")
+                    </td>
+                </tr>
+                <tr>
+                    <td>更新时间</td>
+                    <td>
+                        $!utilDate.dateToString($!commHotel.gmtModified,"yyyy-MM-dd HH:mm:ss")
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+<script>
+    var pictureUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.picUrlVal').val(data.data);
+            $('.picUrlImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+    $(function(){
+        $(document).delegate("#fileID",'change',function(){
+            fileUpload('#batchUploadBtn',2,pictureUploadCallBack);
+        })
+        $('').click(function(){
+            http://localhost:8080/trade/userManage/selectUserList
+        });
+        $('#btnSubmit').click(function(){
+            $(this).prop('disabled',true);
+            var actionUrl;
+            var activityId = $('#activityForm').attr('activityId');
+            if(activityId){
+                actionUrl = '$!utilWebconfig.getActionDefaultFontPath()/B2C/activityManage/edit';
+            }else{
+                actionUrl = '$!utilWebconfig.getActionDefaultFontPath()/B2C/activityManage/add';
+            }
+            alert(actionUrl);
+            $('#activityForm').attr('action',actionUrl);
+            $('#activityForm').submit();
+        });
+    });
+</script>

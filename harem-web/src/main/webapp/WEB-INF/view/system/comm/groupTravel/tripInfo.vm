@@ -1,0 +1,115 @@
+<div>
+    <ul id="day_tab" class="nav nav-tabs">
+        <li class="day_btn">
+          <button class='btn btn-primary addDay'>添加1天</button>
+		  <script type="text/javascript">
+		  	var dayId = 1;
+		  	$(".addDay").click(function() {
+				var id = dayId++;
+				var tab = createDayTab(id);
+				var page = createDayPage(id);
+				$(".day_btn").before(tab);
+				$(".tab-content").append(page);
+				tab.children("a").click();
+				show();
+			});
+			//重新计算day_tab显示天数
+			function show() {
+				$(".day_tab_a").each(function(idx,el){
+					$(el).text("Day"+(idx+1));
+				});
+			}
+			// 创建一天的Tab
+			function createDayTab(dayId) {
+				var li = $("<li class='day_"+dayId+"_tab'></li>");
+				li.append($("<a href='#day_"+dayId+"_page' data-toggle='tab' class='day_tab_a'>Day</a>"));
+				return li;
+			}
+			// 创建一天的page
+			function createDayPage(dayId) {
+				var page = $("<div class='tab-pane in' id='day_"+dayId+"_page'></div>");
+				// 交通
+				var traffic = $("<div class='panel add-traffic'></div>");
+				traffic.append($("<div class='panel-heading'><i class='icon icon-2x icon-plane'></i>添加交通</div>"));
+				var traffic_btn = $("<button class='btn btn-default'>选择交通</button>");
+				traffic_btn.click(function(){
+					selectTraffic();
+				});
+				traffic.append($("<div class='panel-body traffic'></div>").append(traffic_btn));
+				page.append(traffic);
+				// 行程描述
+				var desc = $("<div class='panel trip-description'></div>");
+                desc.append($("<div class='panel-heading'><i class='icon icon-2x icon-exclamation-sign'></i>行程描述</div>"));
+                var desc_content = $("<div class='panel-body trip-description-content'></div>");
+				desc_content.append($("<textarea class='form-control' rows='3'></textarea>"));
+                desc.append(desc_content);	
+				page.append(desc);
+                // 用餐
+				var restaurant = $("<div class='panel add-restaurant'></div>");
+				restaurant.append($("<div class='panel-heading'><i class='icon icon-2x icon-coffee'></i>添加用餐</div>"));				
+                var restaurantList = $("<div class='panel-body restaurant'></div>");
+				restaurant.append(restaurantList);
+				var input_group1 = $("<div class='input-group'></div>");
+				input_group1.append($("<span class='input-group-addon'>早餐</span>"));
+				input_group1.append($("<input type='text' class='form-control'/>"));
+				input_group1.append($("<span class='input-group-btn'><button class='btn btn-default' type='button'>选择餐厅</button></span>"));
+                restaurantList.append(input_group1);
+				var input_group2 = $("<div class='input-group'></div>");
+				input_group2.append($("<span class='input-group-addon'>午餐</span>"));
+				input_group2.append($("<input type='text' class='form-control'/>"));
+				input_group2.append($("<span class='input-group-btn'><button class='btn btn-default' type='button'>选择餐厅</button></span>"));
+				restaurantList.append(input_group2);
+				var input_group3 = $("<div class='input-group'></div>");
+				input_group3.append($("<span class='input-group-addon'>晚餐</span>"));
+				input_group3.append($("<input type='text' class='form-control'/>"));
+				input_group3.append($("<span class='input-group-btn'><button class='btn btn-default' type='button'>选择餐厅</button></span>"));
+                restaurantList.append(input_group3);
+				page.append(restaurant);
+				// 景区
+				var scenic_spot = $("<div class='panel add-scenic-spot'></div>");
+				scenic_spot.append($("<div class='panel-heading'><i class='icon icon-2x icon-pushpin'></i>添加景区</div>"));
+				scenic_spot.append($("<div class='panel-body scenic-spot'><button class='btn btn-default'>选择景区</button></div>"));
+				page.append(scenic_spot);
+				// 酒店
+				var hotel = $("<div class='panel add-hotel'></div>");
+				hotel.append($("<div class='panel-heading'><i class='icon icon-2x icon-home'></i>添加酒店</div>"));
+				hotel.append($("<div class='panel-body hotel'><button class='btn btn-default'>选择酒店</button></div>"));
+				page.append(hotel);
+				return page;
+			}
+          </script>
+        </li>
+    </ul>
+    <div class="tab-content">
+    </div>
+	<script type="text/javascript">
+	    // 选择交通
+		function selectTraffic(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '选择交通方式 ',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: actionDefaultPath + '/B2C/comm/groupTravel/selectTraffic',
+				success:function(layero, index){
+    				win = window[layero.find('iframe')[0]['name']];
+    			},
+                yes: function(index){
+                   var arr = win.getScenicList(); 
+                   if(arr.length==0){
+    					$.warn("请选择景区");
+    					return false;
+    				}
+					console.log("id:"+arr.id+",name:"+arr.name);
+    				//一般设定yes回调，必须进行手工关闭
+    		        layer.close(index); 
+                },cancel: function(index){
+    		    	layer.close(index);
+    		    }
+            });
+        }
+    </script>
+</div>

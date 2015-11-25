@@ -1,5 +1,5 @@
 //不是插件
-var batchUp = function(id,type,callBack){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data
+var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data
     var oFiles = document.querySelector(id).files;
     // 实例化一个表单数据对象
     var formData = new FormData();
@@ -22,9 +22,9 @@ var batchUp = function(id,type,callBack){//id：上传控件筛选器（‘#id�
         layer.message('提交出错',{icon:2});
     }, false);
     if(type==1){
-        xhr.open("POST", "/upload/file", true);
+        xhr.open("POST", actionDefaultPath + "/upload/file", true);
     }else{
-        xhr.open("POST", "/upload/files", true);
+        xhr.open("POST",  actionDefaultPath + "/upload/files", true);
     }
     // 发送表单数据
     xhr.send(formData);

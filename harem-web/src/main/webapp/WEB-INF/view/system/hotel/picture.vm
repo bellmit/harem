@@ -88,7 +88,7 @@
 
     /****************批量上传*****************/
     $(document).delegate("#batchUploadBtn",'change',function(){
-        batchUp('#batchUploadBtn',2,batchCallBack);
+        fileUpload('#batchUploadBtn',2,batchCallBack);
     })
 
 </script>

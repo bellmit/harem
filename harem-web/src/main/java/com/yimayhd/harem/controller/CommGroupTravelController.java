@@ -26,12 +26,24 @@ public class CommGroupTravelController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
-	public String baseInfo(ProductInfoVO productInfoVO) throws Exception {
+	public String baseInfo() throws Exception {
 		return "/system/comm/groupTravel/baseInfo";
 	}
 
 	/**
-	 * 价格信息2
+	 * 行程信息页
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/tripInfo", method = RequestMethod.GET)
+	public String triInfo() throws Exception {
+		return "/system/comm/groupTravel/tripInfo";
+	}
+
+	/**
+	 * 价格信息页
 	 * 
 	 * @param id
 	 * @return
@@ -40,5 +52,16 @@ public class CommGroupTravelController extends BaseController {
 	@RequestMapping(value = "/priceInfo", method = RequestMethod.GET)
 	public String priceInfo() throws Exception {
 		return "/system/comm/groupTravel/priceInfo";
+	}
+
+	/**
+	 * 选择交通
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectTraffic")
+	public String selectTraffic() throws Exception {
+		return "/system/comm/groupTravel/selectTraffic";
 	}
 }

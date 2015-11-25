@@ -1,0 +1,19 @@
+<div>
+    <div class='input-group'>
+		<span class='input-group-addon'>*出发城市：</span>
+		<input type='text' name="from" id="from" class='form-control'/>
+	</div>
+	<div class='input-group'>
+		<span class='input-group-addon'>&nbsp;到达城市：</span>
+		<input type='text' name="to" id="to" class='form-control'/>
+	</div>
+	<div class='input-group'>
+		<span class='input-group-addon'>*交通方式：</span>
+		<select class="form-control" name="way" id="way">
+			<option value="1">飞机</option>
+			<option value="2">火车</option>
+			<option value="3">巴士</option>
+			<option value="4">轮船</option>
+        </select>
+	</div>
+</div>
