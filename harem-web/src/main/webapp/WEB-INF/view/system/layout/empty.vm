@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    #set($xxx = $utilWebconfig.getStaticResourcesPath())
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css" rel="stylesheet">

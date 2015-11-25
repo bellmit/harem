@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author wenfeng zhang @ 14-10-10
  */
-public class PageVO<T> implements Serializable, Iterable<T> {
+public class PageVO<T> implements Serializable {
 
 	/**
 	 * 

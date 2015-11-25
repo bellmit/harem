@@ -3,6 +3,7 @@ package com.yimayhd.harem.service.impl;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +29,8 @@ public class CommodityServiceImpl implements CommodityService {
         itemDOData.setPrice(9900);
         //会员限购
         itemDOData.setPicUrls("");
+        itemDOData.setGmtCreated(new Date());
+        itemDOData.setGmtModified(new Date());
 
         return itemDOData;
     }

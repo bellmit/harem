@@ -99,10 +99,9 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
-	public String userList(Model model, PageVO pageVo, UserListQuery userListQuery) throws Exception {
+	public String userList(Model model,UserListQuery userListQuery) throws Exception {
 		UserVO userVO = new UserVO();
 		List<User> userList = userService.getUserList(userVO.getUser());
-		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("userListQuery", userListQuery);
 		model.addAttribute("userList", userList);
 		return "/system/user/list";
@@ -112,7 +111,6 @@ public class UserController extends BaseController {
 	 * 选择用户列表
 	 * 
 	 * @param model
-	 * @param pageVo
 	 *            分页条件
 	 * @param userListQuery
 	 *            查询条件
@@ -120,10 +118,9 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectUserList", method = RequestMethod.GET)
-	public String selectUserList(Model model, PageVO pageVo, UserListQuery userListQuery) throws Exception {
+	public String selectUserList(Model model,UserListQuery userListQuery) throws Exception {
 		UserVO userVO = new UserVO();
 		List<User> userList = userService.getUserList(userVO.getUser());
-		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("userListQuery", userListQuery);
 		model.addAttribute("userList", userList);
 		return "/system/user/selectUserList";
@@ -133,12 +130,11 @@ public class UserController extends BaseController {
 	 * 积分发送规则
 	 * 
 	 * @param model
-	 * @param pageVo
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/sendPointRule/list", method = RequestMethod.GET)
-	public String sendPointRule(Model model, PageVO pageVo) throws Exception {
+	public String sendPointRule(Model model) throws Exception {
 		SendPointRule sendPointRule = sendPointRuleService.getSendPointRuleNow();
 		UsePointRule usePointRule = usePointRuleService.getUsePointRuleNow();
 		List<SendPointRule> sendPointRuleList = sendPointRuleService.getSendPointRuleHistory();

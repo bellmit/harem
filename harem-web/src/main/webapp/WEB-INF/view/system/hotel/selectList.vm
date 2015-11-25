@@ -78,6 +78,8 @@
     </form>
 <script>
     var multiSelect = $multiSelect;
+</script>
+<script>
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -91,11 +93,16 @@
                 format: "yyyy-mm-dd"
             });
     function selectList(){
-        resultValue = new Array();
-        $('.subChecked:checked').each(function(){
-            var user = {id:$(this).val(),name:$(this).attr('hotelName')}
-            resultValue.push(user);
-        });
+        var resultValue;
+        if(multiSelect == 1){
+            resultValue = {id:$('.subChecked:checked').val(),name:$('.subChecked:checked').attr('hotelName')}
+        }else{
+            resultValue = new Array();
+            $('.subChecked:checked').each(function(){
+                var user = {id:$(this).val(),name:$(this).attr('hotelName')}
+                resultValue.push(user);
+            });
+        }
         top.resultValue = resultValue;
     }
     $(function(){
