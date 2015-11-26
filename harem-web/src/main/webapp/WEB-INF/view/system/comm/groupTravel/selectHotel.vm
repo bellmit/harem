@@ -37,7 +37,7 @@
     			$(event.checks.checks).each(function() {
     				var str = this.split("_");
     				if($("#r_"+str[1]).length <= 0) {
-        				var btn = $("<button class='btn btn-primary resources'></button>");
+        				var btn = $("<button class='btn btn-default resources'></button>");
         				// check 
     					btn.click(function(){
     						$("tr[data-id^='resource_"+$(this).attr("rId")+"_']").removeClass("active");

@@ -10,10 +10,10 @@
 	<div class='input-group'>
 		<span class='input-group-addon'>*交通方式：</span>
 		<select class="form-control" name="way" id="way">
-			<option value="1">飞机</option>
-			<option value="2">火车</option>
-			<option value="3">巴士</option>
-			<option value="4">轮船</option>
+			<option value="0">飞机</option>
+			<option value="1">火车</option>
+			<option value="2">巴士</option>
+			<option value="3">轮船</option>
         </select>
 	</div>
 </div>

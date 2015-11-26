@@ -90,7 +90,7 @@ public class ScenicSpotServiceImpl implements ScenicSpotService {
 			if (toIndex > result.size()) {
 				toIndex = result.size();
 			}
-			result.subList(fromIndex, toIndex);
+			result = result.subList(fromIndex, toIndex);
 		}
 		return result;
 	}
