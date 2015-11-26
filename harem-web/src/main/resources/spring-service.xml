@@ -30,6 +30,7 @@
 	
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
 
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
 		</bean> -->
