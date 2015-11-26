@@ -222,6 +222,10 @@
             <groupId>com.yimayhd.user</groupId>
             <artifactId>user-client</artifactId>
         </dependency>
+       <dependency>
+			<groupId>com.yimayhd.resourcecenter</groupId>
+			<artifactId>resourcecenter-client</artifactId>
+		</dependency>
     </dependencies>
 
     <build>
