@@ -26,7 +26,7 @@ public class ScenicSpotServiceImpl implements ScenicSpotService {
 	@Override
 	public ScenicDO getById(long id) throws Exception {
 		
-		return itemQueryService.getScenic(id);
+		return null;
 	}
 
 	@Override
