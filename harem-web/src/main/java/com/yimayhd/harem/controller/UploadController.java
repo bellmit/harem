@@ -67,7 +67,10 @@ public class UploadController extends BaseController {
         Iterator<String> iterator = multipartRequest.getFileNames();
         MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
         String fileName=multipartFile.getOriginalFilename();
-        String suffix=fileName.substring(fileName.lastIndexOf("."));
+        String suffix = "";
+        if(fileName.lastIndexOf(".") != -1){
+            suffix=fileName.substring(fileName.lastIndexOf("."));
+        }
         String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
         return new ResponseVo(tfsName);
     }
@@ -87,7 +90,10 @@ public class UploadController extends BaseController {
             while(iterator.hasNext()){
                 MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
                 String fileName=multipartFile.getOriginalFilename();
-                String suffix=fileName.substring(fileName.lastIndexOf("."));
+                String suffix = "";
+                if(fileName.lastIndexOf(".") != -1){
+                    suffix=fileName.substring(fileName.lastIndexOf("."));
+                }
                 String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix)  + suffix;
                 map.put(fileName,tfsName);
             }
