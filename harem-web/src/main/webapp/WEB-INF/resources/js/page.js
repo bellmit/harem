@@ -111,7 +111,7 @@ var pageUtils = {
 		var params_str = $("#" + pageUtils.pageParams).val() || "{}";
 		var params = JSON.parse(params_str);
 		if (p != null) {
-			for ( var i in params) {
+			for ( var i in p) {
 				params[i] = p[i];
 			}
 		}
