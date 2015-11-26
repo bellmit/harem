@@ -91,8 +91,6 @@ public class UserController extends BaseController {
 	 * 用户列表
 	 * 
 	 * @param model
-	 * @param pageVo
-	 *            分页条件
 	 * @param userListQuery
 	 *            查询条件
 	 * @return
