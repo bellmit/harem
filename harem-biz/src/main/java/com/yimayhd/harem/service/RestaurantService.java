@@ -1,8 +1,8 @@
 package com.yimayhd.harem.service;
 
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.Restaurant;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
+import com.yimayhd.ic.client.model.domain.RestaurantDO;
 
 /**
  * 餐厅服务
@@ -18,7 +18,7 @@ public interface RestaurantService {
 	 * @return
 	 * @throws Exception
 	 */
-	PageVO<Restaurant> getList(RestaurantListQuery query) throws Exception;
+	PageVO<RestaurantDO> getListByPage(RestaurantListQuery query) throws Exception;
 
 	/**
 	 * 获取指定ID餐厅信息
@@ -27,5 +27,5 @@ public interface RestaurantService {
 	 * @return
 	 * @throws Exception
 	 */
-	Restaurant getById(Long id) throws Exception;
+	RestaurantDO getById(Long id) throws Exception;
 }

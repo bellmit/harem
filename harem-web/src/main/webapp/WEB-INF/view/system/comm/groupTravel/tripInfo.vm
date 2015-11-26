@@ -80,12 +80,22 @@
 				// 景区
 				var scenic_spot = $("<div class='panel add-scenic-spot'></div>");
 				scenic_spot.append($("<div class='panel-heading'><i class='icon icon-2x icon-pushpin'></i>添加景区</div>"));
-				scenic_spot.append($("<div class='panel-body scenic-spot'><button class='btn btn-default'>选择景区</button></div>"));
+				scenic_spot.append($("<div class='panel-body scenic-spot'></div>"));
+				var scenic_spot_btn = $("<button class='btn btn-default'>选择景区</button>");
+				scenic_spot.append(scenic_spot_btn);
+				scenic_spot_btn.click(function(){
+					selectScnicSpot();
+				});
 				page.append(scenic_spot);
 				// 酒店
 				var hotel = $("<div class='panel add-hotel'></div>");
 				hotel.append($("<div class='panel-heading'><i class='icon icon-2x icon-home'></i>添加酒店</div>"));
-				hotel.append($("<div class='panel-body hotel'><button class='btn btn-default'>选择酒店</button></div>"));
+				hotel.append($("<div class='panel-body hotel'></div>"));
+				var hotel_btn = $("<button class='btn btn-default'>选择酒店</button>");
+				hotel.append(hotel_btn);
+				hotel_btn.click(function(){
+					selectHotel();
+				});
 				page.append(hotel);
 				return page;
 			}
@@ -121,7 +131,7 @@
 		
 		// 选择景区
 		function selectScnicSpot(){
-			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectScnicSpot','选择景区',function() {
+			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectScenicSpot','选择景区',function() {
 				var tra = win.getScnicSpot(); 
                 if(tra==null){
 					return false;
@@ -135,11 +145,9 @@
 		// 选择酒店
 		function selectHotel(){
 			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectHotel','选择酒店 ',function() {
-				var tra = win.getHotel(); 
-                if(tra==null){
-					return false;
-				}
-				console.log(JSON.stringify(tra));
+				var hot = win.getHotel(); 
+                alert(JSON.stringify(hot));
+				console.log(JSON.stringify(hot));
 				//一般设定yes回调，必须进行手工关闭
 				return true;
 			});

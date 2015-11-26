@@ -8,12 +8,12 @@ import java.math.BigDecimal;
  * @author yebin
  *
  */
-public class Restaurant {
+public class RestaurantVO {
 	private Long id;
 	private String code;// 商品编码
 	private String imageUrl;// 餐厅图片
 	private String name;// 名称
-	private Integer state;// 状态
+	private Integer status;// 状态
 	private Region province;// 省
 	private Region city;// 市
 	private BigDecimal basePrice;// 基础价格
@@ -36,12 +36,12 @@ public class Restaurant {
 		this.name = name;
 	}
 
-	public Integer getState() {
-		return state;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setState(Integer state) {
-		this.state = state;
+	public void setStatus(Integer state) {
+		this.status = state;
 	}
 
 	public Region getProvince() {
