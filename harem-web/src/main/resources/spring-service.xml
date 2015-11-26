@@ -34,4 +34,11 @@
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
 		</bean> -->
 
+	<!-- resources -->
+	<bean class="com.yimayhd.harem.service.impl.RcBoothServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.RcOperationServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.RcShowcaseServiceImpl"></bean>
+	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
+		</bean> -->
+
 </beans>

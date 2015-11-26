@@ -209,6 +209,11 @@
         <dependency>
 		  <groupId>com.yimayhd.snscenter</groupId>
 		  <artifactId>snscenter-client</artifactId>
+        </dependency>
+         <dependency>
+			<groupId>com.yimayhd.resourcecenter</groupId>
+			<artifactId>resourcecenter-client</artifactId>
+			<version>0.2.1-SNAPSHOT</version>
 		</dependency>
     </dependencies>
     
