@@ -1,7 +1,5 @@
 ##     totalPage 总页数   showSize-10   cpage 当前页
 #macro(pageStyle $formId)
-	<input type="hidden"  name="pageNumber" id="pageNo"/>
-    <input type="hidden"  name="pageSize" id="pageSize" value="$!pageVo.pageSize"/>
     <div class="pagination pagination-large pagination-right whole">
     	#set($pageVoNo = $pageVo.thisPageNumber)
     	#set($before=0)
@@ -53,15 +51,38 @@
             <li class="next disabled">
     			<a href="javascript:void(0)" id="nextPage">下一页»</a>
     		</li>
-            #end
+			#end
+			<li>
+    			 <div class="input-group">
+                    <span class="input-group-addon">每页</span>
+                    <select class="form-control pageSize" name="pageSize" id="pageSize">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                    </select>
+					<span class="input-group-addon">条</span>
+                 </div>
+    		</li>
         </ul>
     	<script type="text/javascript">
-        	$(function(){
+			$(function() {
     			$(".LinkeToPage").click(function(){
-    				$("#pageNo").val($(this).attr("pageNo"));
-    				$("#$formId").submit();
+					pageFormSubmit($(this).attr("pageNo"),$("#pageSize").val());
     			});
-            });
+				$(".pageSize").val("$!pageVo.pageSize");
+    			$(".pageSize").change(function(){
+    				pageFormSubmit(1,$(this).val());
+    			});
+			});
+			function pageFormSubmit(no,size) {
+				var pageNo = $("<input type='hidden'  name='pageNumber'/>");
+				pageNo.val(no);
+				$("#$formId").append(pageNo);
+				var pageSize = $("<input type='hidden'  name='pageSize'/>");
+				pageSize.val(size);
+				$("#$formId").append(pageSize);
+				$("#$formId").submit();
+			}
         </script>
     </div>
 #end

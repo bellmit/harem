@@ -1,13 +1,19 @@
 package com.yimayhd.harem.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.model.ProductInfoVO;
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.Restaurant;
+import com.yimayhd.harem.model.query.RestaurantListQuery;
+import com.yimayhd.harem.service.RestaurantService;
 
 /**
  * 商品-跟团游
@@ -18,6 +24,9 @@ import com.yimayhd.harem.model.ProductInfoVO;
 @Controller
 @RequestMapping("/B2C/comm/groupTravel")
 public class CommGroupTravelController extends BaseController {
+	@Autowired
+	private RestaurantService restaurantService;
+
 	/**
 	 * 详细信息页
 	 * 
@@ -74,5 +83,53 @@ public class CommGroupTravelController extends BaseController {
 	@RequestMapping(value = "/selectTraffic")
 	public String selectTraffic() throws Exception {
 		return "/system/comm/groupTravel/selectTraffic";
+	}
+
+	/**
+	 * 选择餐厅
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectRestaurant")
+	public String selectRstaurant() throws Exception {
+		return "/system/comm/groupTravel/selectRestaurant";
+	}
+
+	/**
+	 * 选择餐厅
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryRestaurantForSelect")
+	public @ResponseBody Map<String, Object> queryRestaurantForSelect(RestaurantListQuery query) throws Exception {
+		PageVO<Restaurant> pageVo = restaurantService.getList(query);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", query);
+		return result;
+	}
+
+	/**
+	 * 选择景区
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectScenicSpot")
+	public String selectScnicSpot() throws Exception {
+		return "/system/comm/groupTravel/selectScenicSpot";
+	}
+
+	/**
+	 * 选择酒店
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectHotel")
+	public String selectHotel() throws Exception {
+		return "/system/comm/groupTravel/selectHotel";
 	}
 }

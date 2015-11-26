@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.Restaurant;
@@ -16,7 +18,18 @@ import com.yimayhd.harem.service.RestaurantService;
  * @author yebin
  *
  */
-public class RestaurantServiceImpl implements RestaurantService { 
+public class RestaurantServiceImpl implements RestaurantService {
+	private List<Restaurant> table = new ArrayList<Restaurant>();
+
+	public RestaurantServiceImpl() {
+		for (long i = 0; i < 100; i++) {
+			try {
+				table.add(getById(i));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	@Override
 	public PageVO<Restaurant> getList(RestaurantListQuery query) throws Exception {
@@ -26,7 +39,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		page.setItemList(itemList);
 		return page;
 	}
-	
+
 	@Override
 	public Restaurant getById(Long id) throws Exception {
 		Region province = new Region();
@@ -39,7 +52,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		Restaurant restaurant = new Restaurant();
 		restaurant.setId(id);
 		restaurant.setCode("YM00000000" + id);
-		restaurant.setName("怡心园");
+		restaurant.setName("怡心园" + id);
 		restaurant.setImageUrl("餐厅图片");
 		restaurant.setBasePrice(BigDecimal.valueOf(68));
 		restaurant.setCity(city);
@@ -58,13 +71,21 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 * @throws Exception
 	 */
 	protected Integer count(RestaurantListQuery query) throws Exception {
-		return 1000;
+		return find(table, query).size();
 	}
 
 	protected List<Restaurant> find(RestaurantListQuery query) throws Exception {
-		List<Restaurant> restaurants = new ArrayList<Restaurant>();
-		for (Long i = 0L; i < query.getPageSize(); i++) {
-			restaurants.add(getById(i));
+		int fromIndex = query.getPageSize() * (query.getPageNumber() - 1);
+		int toIndex = query.getPageSize() * query.getPageNumber();
+		return find(table, query).subList(fromIndex, toIndex);
+	}
+
+	private List<Restaurant> find(List<Restaurant> restaurants, RestaurantListQuery query) {
+		List<Restaurant> result = new ArrayList<Restaurant>();
+		for (Restaurant restaurant : restaurants) {
+			if (StringUtils.isNotBlank(query.getName()) && restaurant.getName().indexOf(query.getName()) != -1) {
+				result.add(restaurant);
+			}
 		}
 		return restaurants;
 	}
