@@ -11,6 +11,7 @@ import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.RestaurantDO;
 
 /**
  * Created by Administrator on 2015/11/18.
@@ -137,7 +138,14 @@ public class HotelServiceImpl implements HotelService {
 	protected List<HotelDO> find(HotelListQuery query) throws Exception {
 		int fromIndex = query.getPageSize() * (query.getPageNumber() - 1);
 		int toIndex = query.getPageSize() * query.getPageNumber();
-		return query(table, query).subList(fromIndex, toIndex);
+		List<HotelDO> result = query(table, query);
+		if (result.size() > 0) {
+			if (toIndex > result.size()) {
+				toIndex = result.size();
+			}
+			result.subList(fromIndex, toIndex);
+		}
+		return result;
 	}
 
 	private List<HotelDO> query(List<HotelDO> hotels, HotelListQuery query) {

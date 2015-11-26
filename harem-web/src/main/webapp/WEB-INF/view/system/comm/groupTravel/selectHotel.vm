@@ -3,8 +3,8 @@
 <div>
 	<div class="input-group">
 		<span class="input-group-addon">酒店名称</span>
-		<input type="text" class="form-control" name="name" id="name" value="$!query.name">
-		<span class="input-group-btn"><button class="btn btn-default" type="button">搜索</button></span>
+		<input type="text" class="form-control" name="hotelName" id="hotelName">
+		<span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>
 	</div>
 	<div class="input-group selectResourceTable">
 	</div>
@@ -18,6 +18,9 @@
 </div>
 <script type="text/javascript">
 	var checks = {};
+	$(".search").click(function() {
+		pageUtils.request(1, $(".pageSize").val(),{hotelName:$("#hotelName").val()});
+	});
 	function initTable() { 
     	$('table.resourceTable').datatable({
     		checkable: true,
@@ -52,6 +55,7 @@
 	}
 	// 初始化分页条
 	pageUtils.intall(".pageBar", "$!{actionDefaultPath}/B2C/comm/groupTravel/queryHotelForSelect", function(query, pageVo){
+		$("#hotelName").val(query.hotelName);
 		showData(pageVo.itemList);
 	});
 	function showData(itemList) {

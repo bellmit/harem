@@ -9,6 +9,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
 
 /**
  * 餐厅服务实例
@@ -61,7 +62,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 	protected List<RestaurantDO> find(RestaurantListQuery query) throws Exception {
 		int fromIndex = query.getPageSize() * (query.getPageNumber() - 1);
 		int toIndex = query.getPageSize() * query.getPageNumber();
-		return query(table, query).subList(fromIndex, toIndex);
+		List<RestaurantDO> result = query(table, query);
+		if (result.size() > 0) {
+			if (toIndex > result.size()) {
+				toIndex = result.size();
+			}
+			result.subList(fromIndex, toIndex);
+		}
+		return result;
 	}
 
 	private List<RestaurantDO> query(List<RestaurantDO> restaurants, RestaurantListQuery query) {

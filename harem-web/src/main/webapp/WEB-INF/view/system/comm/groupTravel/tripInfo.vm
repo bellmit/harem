@@ -84,7 +84,7 @@
 				var scenic_spot_btn = $("<button class='btn btn-default'>选择景区</button>");
 				scenic_spot.append(scenic_spot_btn);
 				scenic_spot_btn.click(function(){
-					selectScnicSpot();
+					selectScenicSpot();
 				});
 				page.append(scenic_spot);
 				// 酒店
@@ -121,7 +121,7 @@
 		// 选择餐厅
 		function selectRstaurant(rType){
 			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectRestaurant','选择餐厅',function() {
-				var res = win.getRestaurant();
+				var res = win.getRestaurants();
 				alert(JSON.stringify(res));
 				console.log(JSON.stringify(res));
 				//返回true成功关闭
@@ -130,12 +130,10 @@
         }
 		
 		// 选择景区
-		function selectScnicSpot(){
+		function selectScenicSpot(){
 			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectScenicSpot','选择景区',function() {
-				var tra = win.getScnicSpot(); 
-                if(tra==null){
-					return false;
-				}
+				var tra = win.getScenicSpots(); 
+                alert(JSON.stringify(hot));
 				console.log(JSON.stringify(tra));
 				//一般设定yes回调，必须进行手工关闭
 				return true;
@@ -145,7 +143,7 @@
 		// 选择酒店
 		function selectHotel(){
 			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectHotel','选择酒店 ',function() {
-				var hot = win.getHotel(); 
+				var hot = win.getHotels(); 
                 alert(JSON.stringify(hot));
 				console.log(JSON.stringify(hot));
 				//一般设定yes回调，必须进行手工关闭
