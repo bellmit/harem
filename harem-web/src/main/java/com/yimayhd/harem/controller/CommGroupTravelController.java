@@ -28,17 +28,6 @@ public class CommGroupTravelController extends BaseController {
 	private RestaurantService restaurantService;
 
 	/**
-	 * 详细信息页
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String detail() throws Exception {
-		return "/system/comm/groupTravel/detail";
-	}
-
-	/**
 	 * 基本信息页
 	 * 
 	 * @param id

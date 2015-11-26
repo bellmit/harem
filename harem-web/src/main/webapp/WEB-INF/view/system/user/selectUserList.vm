@@ -1,6 +1,6 @@
 
 <div style="margin: 15px;">
-    <form class="form-signin" id="userListForm" name="userListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/userList" method="GET" role="form">
+    <form class="form-signin" id="userListForm" name="userListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList" method="GET" role="form">
         <div class="inputGroup" style="margin-bottom: 10px;">
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -72,28 +72,16 @@
     #pageStyle("userListForm")
     </form>
     <script>
+       var selUserList = function(){
+            var resultValue = new Array();
+            $('.subChecked:checked').each(function(){
+                var user = {id:$(this).val(),name:$(this).attr('userName')}
+                resultValue.push(user);
+            });
+            top.resultValue = resultValue;
+        }
         $(function(){
-            function selUserList(){
-                resultValue = new Array();
-                $('.subChecked:checked').each(function(){
-                    var user = {id:$(this).val(),name:$(this).attr('userName')}
-                    resultValue.push(user);
-                });
-                top.resultValue = resultValue;
-                //window.resultValue = resultValue;
-            }
-            /*$('.selectBtn').click(function(){
-                var resultValue = new Array();
-                $('.subChecked:checked').each(function(){
-                    var user = {id:$(this).val(),name:$(this).attr('userName')}
-                    resultValue.push(user);
-                });
-                top.resultValue = resultValue;
-            });*/
-            /*var resultValue = new Array();
-            function returnJson(){
-                return resultValue;
-            }*/
+
             $('.allChecked').click(function(){
                 $('.subChecked').prop('checked',$(this).prop('checked'));
                 selUserList();

@@ -6,6 +6,7 @@ import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.FacilityIconService;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RegionService;
@@ -35,6 +36,8 @@ public class HotelManageController extends BaseController {
     private RegionService regionService;
     @Autowired
     private FacilityIconService facilityIconService;
+    @Autowired
+    private CommodityService commodityService;
     /**
      * 酒店（资源）列表
      * @return 酒店（资源）列表
@@ -148,22 +151,18 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo setHotelStatus(@PathVariable("id") long id,int hotelStatus) throws Exception {
-        HotelVO hotelVO = new HotelVO();
-        hotelVO.setId(id);
-        hotelVO.setStatus(hotelStatus);
-        hotelService.modify(hotelVO);
+        hotelService.setHotelStatus(id,hotelStatus);
         return new ResponseVo();
     }
     /**
-     * 动态状态变更(批量)
+     * 酒店状态变更(批量)
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]")ArrayList<Integer> hotelIdList,int hotelStatus) throws Exception {
+    public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]")ArrayList<Long> hotelIdList,int hotelStatus) throws Exception {
         hotelService.setHotelStatusList(hotelIdList, hotelStatus);
-        System.out.println(1);
         return new ResponseVo();
     }
 

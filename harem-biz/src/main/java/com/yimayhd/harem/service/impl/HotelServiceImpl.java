@@ -96,7 +96,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void setHotelStatusList(List<Integer> idList, int hotelStatus) throws Exception {
+    public void setHotelStatusList(List<Long> idList, int hotelStatus) throws Exception {
 
     }
 

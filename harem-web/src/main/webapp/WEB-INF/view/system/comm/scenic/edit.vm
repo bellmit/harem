@@ -17,7 +17,7 @@
                     <td><span class="spColor">*</span>景区</td>
                     <td>
                        <input type="text" class="inpControl" name="name" id="name" placeholder="请选择">
-						<button type="button" class="btn btn-primary selectScenic">选择景区</button>
+						<button class="btn btn-primary selectScenic">选择景区</button>
                     </td>
                 </tr>
                 <tr>

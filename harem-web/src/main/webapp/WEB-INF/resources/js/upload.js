@@ -11,7 +11,7 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
     var xhr = new XMLHttpRequest();
     xhr.onload = function(data) {
         //执行回调
-        callBack(data);
+        callBack(JSON.parse(data.target.response));
 
     };
     //xhr.addEventListener("load", uploadComplete, false);

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
     #set($staticResourcesPath = $utilWebconfig.getStaticResourcesPath())
 	#set($actionDefaultPath = $utilWebconfig.getActionDefaultFontPath())
 	#set($tfsRootPath = $utilWebconfig.getTfsRootPath())
+=======
+    #set($xxx = $utilWebconfig.getStaticResourcesPath())
+>>>>>>> branch 'develop' of http://192.168.1.111/server/harem.git
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css" rel="stylesheet">

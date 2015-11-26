@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author czf
  */
 @Controller
-@RequestMapping("/B2C/commHotelManage")
+@RequestMapping("/B2C/comm/hotelManage")
 public class CommHotelManageController extends BaseController {
     @Autowired
     private CommodityService commodityService;
