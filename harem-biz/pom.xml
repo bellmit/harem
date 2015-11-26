@@ -206,7 +206,13 @@
             <groupId>com.yimayhd.item</groupId>
             <artifactId>itemcenter-client</artifactId>
         </dependency>
+        <dependency>
+		  <groupId>com.yimayhd.snscenter</groupId>
+		  <artifactId>snscenter-client</artifactId>
+		</dependency>
     </dependencies>
+    
+    
 
 <build>
 <finalName>harem-biz</finalName>

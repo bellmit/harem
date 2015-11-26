@@ -27,6 +27,7 @@
         <user.api.version>1.5.2-SNAPSHOT</user.api.version>
         <spring.version>4.1.6.RELEASE</spring.version>
         <spring.session.version>1.0.2.RELEASE</spring.session.version>
+        <snscenter.api.version>0.0.6-SNAPSHOT</snscenter.api.version>
     </properties>
 <dependencyManagement>
     <dependencies>
@@ -331,7 +332,16 @@
             <artifactId>user-client</artifactId>
             <version>${user.api.version}</version>
         </dependency>
+          <dependency>
+		  <groupId>com.yimayhd.snscenter</groupId>
+		  <artifactId>snscenter-client</artifactId>
+		   <version>${snscenter.api.version}</version>
+		</dependency>
+        
     </dependencies>
+    
+    
+    
 </dependencyManagement>
 
 
