@@ -1,4 +1,4 @@
-package com.yimayhd.harem.model.query.base;
+package com.yimayhd.harem.model.query;
 
 import com.yimayhd.harem.base.BaseQuery;
 
@@ -6,7 +6,11 @@ import com.yimayhd.harem.base.BaseQuery;
  * Created by Administrator on 2015/11/18.
  */
 public class CommodityListQuery extends BaseQuery {
-    private long category_id;//商品分类
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4699187319874706808L;
+	private long category_id;//商品分类
     private String commName;//商品名称
     private String commCode;//商品编码
     private int commStatus;//状态

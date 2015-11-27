@@ -2,7 +2,7 @@ package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.model.query.base.CommodityListQuery;
+import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;

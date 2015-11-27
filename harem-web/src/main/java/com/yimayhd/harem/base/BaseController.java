@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.exception.NoticeException;
-import com.yimayhd.harem.model.query.base.PageRequest;
-import com.yimayhd.harem.model.query.base.SimpleTablePageRequestFactory;
 
 /**
  * @author wenfeng zhang
@@ -83,22 +81,4 @@ public class BaseController {
 	protected void put(final String key, final Object value) {
 		request.setAttribute(key, value);
 	}
-
-	/**
-	 * 创建PageRequest
-	 * 
-	 * @param request
-	 * @param defaultSortColumns
-	 *            排序的多个列用“，”隔开，如：username desc，id asc
-	 * @return
-	 */
-	protected <T extends BaseQuery> PageRequest<T> newPageRequest(final HttpServletRequest request, T query,
-			final String defaultSortColumns) {
-		return SimpleTablePageRequestFactory.newPageRequest(request, query, defaultSortColumns);
-	}
-
-	protected <T extends BaseQuery> PageRequest<T> newPageRequest(final HttpServletRequest request, T query) {
-		return SimpleTablePageRequestFactory.newPageRequest(request, query, null);
-	}
-
 }
