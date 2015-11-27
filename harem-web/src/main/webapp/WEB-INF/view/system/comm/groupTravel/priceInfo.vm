@@ -1,6 +1,8 @@
+<!--
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/CalendarUtils.js" type="text/javascript"></script>
+-->
 <div>
 	<div>
 		<div>可选出发日：</div>
@@ -27,7 +29,6 @@
 		</div>
     </div>
 </div>
-<button class='btn btn-primary save'>保存</button>
 <script type="text/javascript">
 	// 日期输入框初始化
 	$(".form-date").datetimepicker(
@@ -217,8 +218,6 @@
 			});
 			tcs.push({id:tcId,months:months});
 		});
-		var result = {tcs:tcs,limit:$(".day-limit").val()};
-		alert(JSON.stringify(result));
+		return {tcs:tcs,limit:$(".day-limit").val()};
 	}
-	$(".save").click(getPriceInfo);
 </script>

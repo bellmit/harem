@@ -1,5 +1,8 @@
-<script src="$!{staticResourcesPath}/resources/js/layerModal.js" type="text/javascript"></script><div>
-    <ul id="day_tab" class="nav nav-tabs">
+<!--
+<script src="$!{staticResourcesPath}/resources/js/layerModal.js" type="text/javascript"></script>
+-->
+<div>
+	<ul id="day_tab" class="nav nav-tabs">
         <li class="day_btn">
           <button class='btn btn-primary addDay'>添加1天</button>
 		  <script type="text/javascript">
@@ -108,7 +111,6 @@
     </ul>
     <div class="tab-content">
     </div>
-	<button class='btn btn-primary save'>保存</button>
 	<script type="text/javascript">
 		var currentTId;
 		var currentRId;
@@ -282,8 +284,7 @@
 				}
 				result.push(day);
 			});
-			alert(JSON.stringify(result));
+			return result;
 		}
-		$(".save").click(getTripInfo);
     </script>
 </div>

@@ -1,4 +1,7 @@
-<script src="$!{staticResourcesPath}/resources/js/layerModal.js" type="text/javascript"></script><div>
+<!--
+<script src="$!{staticResourcesPath}/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$!{staticResourcesPath}/resources/js/upload.js"></script>
+-->
 <div>
 	<div >
         <div>
@@ -15,15 +18,17 @@
     			<tr >
     				<td>*产品封面图：</td>
     				<td>
-                        <span><button class="btn btn-default">请选择图片</button>图片大小不超过5M，背景图尺寸为：750x420和600*800</span>
-                        <span><input type="hidden" class="productImage" value="$!product.roductImage"/></span>
+                        <input id="productImageFile" type="file" accept="image/png,image/gif">
+                        <img class="productImageUrlImg" src="#if($!product.productImageUrl)$!tfsRootPath$!product.productImageUrl #end">
+                        <input class="productImageUrlVal" type="hidden" value="$!product.productImageUrl">
 					</td>
                 </tr>
 				<tr >
     				<td>*行程封面图：</td>
     				<td>
-                        <span><button class="btn btn-default">请选择图片</button>图片大小不超过5M，背景图尺寸为：750x420和600*800</span>
-                        <span><input type="hidden" class="tripImage" value="$!product.tripImage"/></span>
+                        <input id="tripImageFile" type="file" accept="image/png,image/gif" value="$!product.tripImageUrl">
+                        <img class="tripImageUrlImg" src="#if($!product.tripImageUrl)$!tfsRootPath$!poduct.tripImageUrl #end">
+                        <input class="tripImageUrlVal" type="hidden" value="$!product.tripImageUrl">
 					</td>
                 </tr>
     			<tr >
@@ -87,42 +92,87 @@
 		</div>
 		<div>
     		<div>报名须知</div>
-			<div><button class="btn btn-default">增加条目</button></div>
-        	<table>
+			<div><button class="btn btn-default add-extra-info-item">增加条目</button></div>
+        	<table class="extra-info">
 				<thead >
             		<tr >
         				<th>标题（10个字以内）</th>
         				<th>内容（500字以内）</th>
                     </tr>
                 </thead>
-				<tbody >
-            		<tr >
-        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
-        				<td><textarea class="form-control" rows="3"></textarea></td>
-						<td><button class="btn btn-link">删除</button></td>
+				<tbody class="extra-info-list">
+            		<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
-					<tr >
-        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
-        				<td><textarea class="form-control" rows="3"></textarea></td>
-						<td><button class="btn btn-link">删除</button></td>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
-					<tr >
-        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
-        				<td><textarea class="form-control" rows="3"></textarea></td>
-						<td><button class="btn btn-link">删除</button></td>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
-					<tr >
-        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
-        				<td><textarea class="form-control" rows="3"></textarea></td>
-						<td><button class="btn btn-link">删除</button></td>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+                    </tr>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
                 </tbody>
             </table>
 			<div>重要条款：<input type="text" class="form-control"><button class="btn btn-default">浏览</button></div>
 		</div>
-		<div><button class="btn btn-primary save">保存</button></div>
     </div>
 	<script type="text/javascript">
+		$(function(){
+            //上传图片
+            $(document).delegate("#productImageFile",'change',function(){
+                fileUpload('#productImageFile',1,function(data){
+                    if(data && data.status == 200){
+                        $('.productImageUrlVal').val(data.data);
+                        $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
+                    }else{
+                        layer.msg('图片上传失败，请重试', {icon: 2});
+                    }
+				});
+            });
+			$(document).delegate("#tripImageFile",'change',function(){
+                fileUpload('#tripImageFile',1,function(data){
+                    if(data && data.status == 200){
+                        $('.tripImageUrlVal').val(data.data);
+                        $('.tripImageUrlImg').attr('src',tfsRootPath + data.data);
+                    }else{
+                        layer.msg('图片上传失败，请重试', {icon: 2});
+                    }
+				});
+            });
+		});
+		$(".add-extra-info-item").click(function(){
+			var content = $(".extra-info-list");
+			var item = $("<tr class='extra-info-item'/>");
+			item.append($("<td><input type='text' class='form-control extra-info-item-title' placeholder='费用包含'></td>"));
+			item.append($("<td><textarea class='form-control extra-info-item-text' rows='3'></textarea></td>"));
+			var delete_btn = $("<button class='btn btn-link extra-info-item-delete'>删除</button>");
+			delete_btn.click(function(){
+    			$(this).parent().parent().remove();
+    		});
+			item.append($("<td/>").append(delete_btn));
+			content.append(item);
+		});
+		$(".extra-info-item-delete").click(function(){
+			$(this).parent().parent().remove();
+		});
+		$(".extra-info-item-delete").click(function(){
+			$(this).parent().parent().remove();
+		});
 		$(".publisherType").click(function() {
 			if($(this).val()==1) {
 				$(".travel-ka-panel").show();
@@ -147,8 +197,8 @@
 		function getBaseInfo() {
 			var type = $(".productType").val();
 			var name = $(".productNme").val();
-			var productImage = $(".productImage").val();
-			var tripImage = $(".tripImage").val();
+			var productImage = $(".productImageUrlVal").val();
+			var tripImage = $(".tripImageUrlVal").val();
 			var themes = [];
 			$(".productTheme:checked").each(function(){
 				var id = $(this).attr("rId");
@@ -170,6 +220,14 @@
 			tos.push({id:to_arr[1],name:to_arr[0]});
 			var highlights = $(".highlights").val();
 			var recommond = $(".recommond").val();
+			var extra_infos = [];
+			$(".extra-info-item").each(function(){
+				var title = $(this).find(".extra-info-item-title").val();
+				var text = $(this).find(".extra-info-item-text").val();
+				if(title&&text) {
+					extra_infos.push({title:title,content:text});
+				}
+			});
 			var result = {
 				type:type,
 				name:name,
@@ -181,14 +239,14 @@
 				froms:froms,
 				tos:tos,
 				highlights:highlights,
-				recommond:recommond
+				recommond:recommond,
+				extra_infos:extra_infos
 			};
 			if(publisherType!=0) {
 				var travel_ka = $(".travel-ka");
 				result["publisher"] = {id:travel_ka.attr("rId"),name:travel_ka.attr("rName")};
 			}
-			alert(JSON.stringify(result));
+			return result();
 		}
-		$(".save").click(getBaseInfo);
     </script>
 </div>
