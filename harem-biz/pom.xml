@@ -183,6 +183,11 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
         </dependency>
+        <!--excel-->
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+        </dependency>
         <!--dubbo-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -213,7 +218,6 @@
          <dependency>
 			<groupId>com.yimayhd.resourcecenter</groupId>
 			<artifactId>resourcecenter-client</artifactId>
-			<version>0.2.1-SNAPSHOT</version>
 		</dependency>
     </dependencies>
     

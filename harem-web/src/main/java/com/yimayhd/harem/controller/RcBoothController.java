@@ -61,13 +61,13 @@ public class RcBoothController{
 	
 	
 	@RequestMapping("/list") 
-	public String list(Model model,Integer page,String code,String status)throws Exception{
-		if(null == page){
-			page = 1;
+	public String list(Model model,Integer pageNumber,String code,String status)throws Exception{
+		if(null == pageNumber){
+			pageNumber = 1;
 		}
 		BoothQuery boothQuery=new BoothQuery();
 		boothQuery.setCode(code);
-		boothQuery.setPageNo(page);
+		boothQuery.setPageNo(pageNumber);
 		boothQuery.setPageSize(10); 
 		if(StringUtils.isNotEmpty(status)){
 			boothQuery.setStatus(Integer.parseInt(status));
@@ -76,7 +76,7 @@ public class RcBoothController{
 		PageVO<BoothDO> pageVO = null;
 		
 		if(boothResult.isSuccess()){
-			pageVO = new PageVO<BoothDO>(page, 10, boothResult.getTotalCount());
+			pageVO = new PageVO<BoothDO>(pageNumber, 10, boothResult.getTotalCount());
 			model.addAttribute("bothList", boothResult.getList());
 			
 		}
@@ -155,10 +155,10 @@ public class RcBoothController{
 	}
 
 	@RequestMapping("/operaList") 
-	public String operaList(Model model,int page,String code,String status)throws Exception{
+	public String operaList(Model model,Integer pageNumber,String code,String status)throws Exception{
 		OperationQuery operationQuery=new OperationQuery();
 		operationQuery.setCode(code);
-		operationQuery.setPageNo(page);
+		operationQuery.setPageNo(pageNumber);
 		operationQuery.setPageSize(10); 
 		if(StringUtils.isNotEmpty(status)){
 			operationQuery.setStatus(Integer.parseInt(status));
@@ -169,7 +169,7 @@ public class RcBoothController{
 		
 		if(operationResult.isSuccess()){
 			model.addAttribute("operaList", operationResult.getList());
-			pageVO = new PageVO<OperationDO>(page, 10, operationResult.getTotalCount());
+			pageVO = new PageVO<OperationDO>(pageNumber, 10, operationResult.getTotalCount());
 		}
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("code", code);
@@ -250,10 +250,10 @@ public class RcBoothController{
 	 * 列表
 	 */
 	@RequestMapping("/showList")
-	public String showList(Model model,String status,String boothId,Integer page,String appVersionCode){
+	public String showList(Model model,String status,String boothId,Integer pageNumber,String appVersionCode){
 		
-		if(null == page){
-			page = 1;
+		if(null == pageNumber){
+			pageNumber = 1;
 		}
 		ShowcaseQuery showcaseQuery=new ShowcaseQuery();
 		if(StringUtils.isNotEmpty(status)){
@@ -265,7 +265,7 @@ public class RcBoothController{
 		if(StringUtils.isNotEmpty(appVersionCode)){
 			showcaseQuery.setAppVersionCode(Long.parseLong(appVersionCode));
 		}
-		showcaseQuery.setPageNo(page);
+		showcaseQuery.setPageNo(pageNumber);
 		showcaseQuery.setPageSize(10);
 		RCPageResult<ShowCaseResult> showCaseResult=showcaseClientServer.getShowcaseResult(showcaseQuery);
 		//查询展位列表
@@ -283,7 +283,7 @@ public class RcBoothController{
 		if (result != null && result.isSuccess()){
 			model.addAttribute("appVersionList", result.getT());
 			
-			pageVO = new PageVO<ShowcaseDO>(page, 10, showCaseResult.getTotalCount());
+			pageVO = new PageVO<ShowcaseDO>(pageNumber, 10, showCaseResult.getTotalCount());
 		}
 		model.addAttribute("appVersionCode", appVersionCode);
 		model.addAttribute("boothList", boothResult.getList());

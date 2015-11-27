@@ -4,6 +4,10 @@ import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.util.WebResourceConfigUtil;
+import com.yimayhd.harem.util.excel.JxlFor2003;
+import com.yimayhd.harem.util.excel.TestPerson;
+import org.apache.http.message.BasicNameValuePair;
+import org.bouncycastle.asn1.x509.sigi.PersonalData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -67,7 +72,10 @@ public class UploadController extends BaseController {
         Iterator<String> iterator = multipartRequest.getFileNames();
         MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
         String fileName=multipartFile.getOriginalFilename();
-        String suffix=fileName.substring(fileName.lastIndexOf("."));
+        String suffix = "";
+        if(fileName.lastIndexOf(".") != -1){
+            suffix=fileName.substring(fileName.lastIndexOf("."));
+        }
         String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
         return new ResponseVo(tfsName);
     }
@@ -87,7 +95,10 @@ public class UploadController extends BaseController {
             while(iterator.hasNext()){
                 MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
                 String fileName=multipartFile.getOriginalFilename();
-                String suffix=fileName.substring(fileName.lastIndexOf("."));
+                String suffix = "";
+                if(fileName.lastIndexOf(".") != -1){
+                    suffix=fileName.substring(fileName.lastIndexOf("."));
+                }
                 String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix)  + suffix;
                 map.put(fileName,tfsName);
             }
@@ -126,5 +137,22 @@ public class UploadController extends BaseController {
         String detailTfs = tfsManager.saveFile((encodeHtml+detail).getBytes("utf-8"), null, "html");
         //返回文件名
         return new ResponseVo(detailTfs);
+    }
+    //TODO test
+    @RequestMapping("/exportExcel")
+    public void exportExcel(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        List<TestPerson> testPersonList = new ArrayList<TestPerson>();
+        for (int i = 0; i < 5; i++) {
+            TestPerson testPersonData = new TestPerson();
+            testPersonData.setId(i);
+            testPersonData.setName("张三" + i);
+            testPersonData.setAge(i * 2);
+            testPersonList.add(testPersonData);
+        }
+        List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
+        headList.add(new BasicNameValuePair("id", "编号"));
+        headList.add(new BasicNameValuePair("name", "名称"));
+        JxlFor2003.exportExcel(response,"测试.xls",testPersonList,headList);
+
     }
 }

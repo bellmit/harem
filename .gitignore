@@ -4,3 +4,5 @@ target
 .settings/
 .classpath
 .project
+/harem-client/bin
+/harem-web/bin
