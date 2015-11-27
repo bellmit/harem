@@ -45,7 +45,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    #foreach($user in $pageVo.itemList)
+                    #foreach($user in $pagVo.itemList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" userName="$!user.userName" type="checkbox" value="$!user.id"></td>
                         <td>$!user.userName</td>
@@ -93,3 +93,5 @@
         });
 
     </script>
+</div>
+</div>
