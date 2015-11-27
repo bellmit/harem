@@ -240,13 +240,13 @@
 				tos:tos,
 				highlights:highlights,
 				recommond:recommond,
-				extra_infos:extra_infos
+				extraInfos:extra_infos
 			};
 			if(publisherType!=0) {
 				var travel_ka = $(".travel-ka");
 				result["publisher"] = {id:travel_ka.attr("rId"),name:travel_ka.attr("rName")};
 			}
-			return result();
+			return result;
 		}
     </script>
 </div>

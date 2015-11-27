@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.serialize.support.json.FastJsonSerialization;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.model.query.ScenicSpotListQuery;
@@ -172,5 +175,17 @@ public class CommGroupTravelController extends BaseController {
 	@RequestMapping(value = "/selectHotel")
 	public String selectHotel() throws Exception {
 		return "/system/comm/groupTravel/selectHotel";
+	}
+
+	/**
+	 * 选择酒店
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/save")
+	public @ResponseBody GroupTravel save(String json) throws Exception {
+		GroupTravel groupTravel = JSON.parse(json, GroupTravel.class);
+		return groupTravel;
 	}
 }

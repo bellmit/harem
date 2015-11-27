@@ -207,14 +207,14 @@
 					};
 					var srd = $("#"+day_id+"_41").val();
 					days.push({
-						id:dId,
+						time:dId,
 						adult:adult,
-						children_0_2:children_0_2,
-						children_2_12:children_2_12,
+						children02:children_0_2,
+						children212:children_2_12,
 						srd:srd
 					});
 				});
-				months.push({id:mId,days:days});
+				months.push({time:mId,days:days});
 			});
 			tcs.push({id:tcId,months:months});
 		});

@@ -230,7 +230,6 @@
 					day["description"] = des;
 				}
 				// 餐厅
-				var res = {};
 				var res_1 = [];
 				if($(".day_"+day_id+"_restaurant_1_item").length > 0) {
     				$(".day_"+day_id+"_restaurant_1_item").each(function(){
@@ -238,7 +237,7 @@
     					var rName = $(this).attr("rName");
     					res_1.push({id:rId,name:rName});
     				});
-    				res["restaurant_1"] = res_1;
+    				day["restaurant1"] = res_1;
 				}
 				var res_2 = [];
 				if($(".day_"+day_id+"_restaurant_2_item").length > 0) {
@@ -247,7 +246,7 @@
     					var rName = $(this).attr("rName");
     					res_2.push({id:rId,name:rName});
     				});
-    				res["restaurant_2"] = res_2;
+    				day["restaurant2"] = res_2;
 				}
 				var res_3 = [];
 				if($(".day_"+day_id+"_restaurant_3_item").length > 0) {
@@ -256,10 +255,7 @@
     					var rName = $(this).attr("rName");
     					res_3.push({id:rId,name:rName});
     				});
-    				res["restaurant_3"] = res_3;
-				}
-				if(res_1.length>0 || res_2.length>0 || res_3.length>0) {
-					day["restaurant"] = res;
+    				day["restaurant3"] = res_3;
 				}
 				// 景点
 				var sce = [];
@@ -269,7 +265,7 @@
     					var rName = $(this).attr("rName");
     					sce.push({id:rId,name:rName});
     				});
-    				day["scenic"] = sce;
+    				day["scenics"] = sce;
 				}
 				
 				// 酒店
@@ -280,7 +276,7 @@
     					var rName = $(this).attr("rName");
     					hotel.push({id:rId,name:rName});
     				});
-    				day["hotel"] = hotel;
+    				day["hotels"] = hotel;
 				}
 				result.push(day);
 			});
