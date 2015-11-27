@@ -219,6 +219,10 @@
 			<groupId>com.yimayhd.resourcecenter</groupId>
 			<artifactId>resourcecenter-client</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.yimayhd.membercenter</groupId>
+            <artifactId>membercenter-client</artifactId>
+        </dependency>
     </dependencies>
     
     

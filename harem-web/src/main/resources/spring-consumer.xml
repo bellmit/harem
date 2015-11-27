@@ -3,73 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
         >
-	<!-- ===========================  item =============================== -->
-    <!--demo开始-->
-	<bean id="categoryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.ic.client.service.item.CategoryService"/>
-        <property name="application" ref="dubboApplicationConfig"/>
-        <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.item.check}"/>
-        <property name="version" value="${consumer.dubbo.item.version}"/>
-    </bean>
-    <!--demo结束-->
-    <!--userclient-->
-    <bean id="importUserService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.user.client.service.UserService"/>
-        <property name="application" ref="dubboApplicationConfig"/>
-        <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="version" value="${dubbo.import.user.version}"/>
-        <property name="check" value="${dubbo.import.consumer.user.check}"/>
-    </bean>
-    <bean id="itemQueryService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.ic.client.service.item.ItemQueryService"/>
-        <property name="application" ref="dubboApplicationConfig"/>
-        <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="version" value="${dubbo.import.user.version}"/>
-        <property name="check" value="${dubbo.import.consumer.user.check}"/>
-    </bean>
-	<bean id="boothClientServerConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.resourcecenter.service.BoothClientServer"/>
-        <property name="application" ref="dubboApplicationConfig"/>
-        <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
-    </bean>
-    
-	
-	<bean id="operationClientServerConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.resourcecenter.service.OperationClientServer"/>
-        <property name="application" ref="dubboApplicationConfig"/>
-        <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
-    </bean>
-	
-	<bean id="showcaseClientServerConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.resourcecenter.service.ShowcaseClientServer"/>
-        <property name="application" ref="dubboApplicationConfig"/>
-        <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
-    </bean>
-    
-	
-	<bean id="appVersionClientServiceConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.resourcecenter.service.AppVersionClientService"/>
-        <property name="application" ref="dubboApplicationConfig"/>
-        <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
-    </bean>
+    <import resource="spring-consumer-item.xml"/>
+    <import resource="spring-consumer-resource.xml"/>
+    <import resource="spring-consumer-user.xml"/>
 </beans>

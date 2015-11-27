@@ -83,7 +83,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 				result.add(restaurant);
 			}
 		}
-		return result;
+		return restaurants;
 	}
 
 	@Override

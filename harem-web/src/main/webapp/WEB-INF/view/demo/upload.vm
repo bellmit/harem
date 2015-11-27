@@ -66,6 +66,7 @@
                     xhr.onload = function(data) {
                         layer.alert("上传成功！");
                         layer.alert(JSON.stringify(data));
+
                     };
                     //xhr.addEventListener("load", uploadComplete, false);
                     xhr.addEventListener("error", function(data){

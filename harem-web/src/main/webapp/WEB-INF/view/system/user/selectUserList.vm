@@ -6,19 +6,19 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">会员名</button>
                     </span>
-                    <input type="text" class="form-control" name="userName" value="$!query.userName">
+                    <input type="text" class="form-control" name="userName" value="$!userListQuery.userName">
                 </div>
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">手机号</button>
                     </span>
-                    <input type="text" class="form-control" name="tel" value="$!query.tel">
+                    <input type="text" class="form-control" name="tel" value="$!userListQuery.tel">
                 </div>
                 <div class="input-group inpSingle">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">城市</button>
                         </span>
-                    <input type="text" class="form-control" name="cityName" value="$!query.cityName">
+                    <input type="text" class="form-control" name="cityName" value="$!userListQuery.cityName">
                 </div>
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">查询</button>
@@ -45,7 +45,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    #foreach($user in $pageVo.itemList)
+                    #foreach($user in $userList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" userName="$!user.userName" type="checkbox" value="$!user.id"></td>
                         <td>$!user.userName</td>

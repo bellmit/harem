@@ -1,31 +1,77 @@
-<!--
-<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/CalendarUtils.js" type="text/javascript"></script>
--->
 <div>
-	<div>
-		<div>可选出发日：</div>
-		<div>
-			<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="startDate" id="startDate">
-            <span class="input-group-addon fix-border fix-padding">至</span>
-            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" id="endDate">
-			<button class="btn btn-primary addTC">添加新套餐</button>
-        </div>
-    </div>
-	<div>
-		<div>套餐设置：</div>
-		<div>
-			<ul id="tc_tab" class="nav nav-tabs">
-            </ul>
-			<div id="tc_page" class="tab-content">
-            </div> 
-		</div>
-    </div>
-	<div>
-		<div>提前报名天数：</div>
-		<div>
-			<input type="text" class="form-control day-limit">
+	<ul class="nav nav-tabs">
+		<li class="active">
+          <a href="#money" data-toggle="tab">tab</a>
+        </li>
+     </ul>
+    <div class="tab-content">
+        <div class="tab-pane in active" id="money">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td>可选出发日：</td>
+						<td>
+							<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="startDate" id="startDate">
+                            <span class="input-group-addon fix-border fix-padding">至</span>
+                            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" id="endDate">
+							<button class="btn btn-primary addTC">添加新套餐</button>
+                        </td>
+                    </tr>
+					<tr>
+						<td>套餐设置：</td>
+						<td>
+							<ul id="tc_tab" class="nav nav-tabs">
+                            </ul>
+							<div id="tc_page" class="tab-content">
+                            </div> 
+						</td>
+                    </tr>
+					<tr>
+						<td>提前报名天数：</td>
+						<td>
+							<input type="text" class="form-control">
+						</td>
+                    </tr>
+					<tr>
+						<td>所在地：</td>
+						<td>
+							<span>
+								<select class="form-control">
+                                    <option>云南</option>
+                                </select>
+							</span>
+							<span>省</span>
+							<span>
+								<select class="form-control">
+                                    <option>昆明</option>
+                                </select>
+							</span>
+                            <span>市</span>
+						</td>
+                    </tr>
+					<tr>
+						<td>开始时间：</td>
+						<td>
+							<div><input type="radio" name="startTime">立即</div>
+							<div><input type="radio" name="startTime">设定<input type="text" class='form-control form-datetime' placeholder='开始日期：yyyy-MM-dd hh:mm' readonly name="startTimer" id="startTimer"</div>
+							<div><input type="radio" name="startTime">放进仓库</div>
+						</td>
+                    </tr>
+					<tr>
+						<td>库存计数：</td>
+						<td>
+							<div><input type="radio" name="inventoryCount">拍下减库存</div>
+							<div><input type="radio" name="inventoryCount">付款减库存</div>
+						</td>
+                    </tr>
+					<tr>
+						<td>会员打折：</td>
+						<td>
+							<div><input type="checkbox" name="mmberDiscounts">参与会员打折</div>
+						</td>
+                    </tr>
+                </tbody>
+            </table>
 		</div>
     </div>
 </div>
@@ -81,7 +127,7 @@
 		curTcId = $("#tc_tab li").length;
 	});
 	function createTcTab(id) {
-		var tcTab = $("<li class='tab-page tc-tab' rId='"+id+"' id='tc_"+id+"_tab'/>");
+		var tcTab = $("<li class='tab-page' id='tc_"+id+"_tab'/>");
 		var tabA = $("<a href='#tc_"+id+"' data-toggle='tab' id='tc_tab_"+id+"_a'>套餐"+id+"&nbsp;&nbsp;</a>");
 		var remove = $("<i class='icon icon-remove' tcId='"+id+"'/>");
 		remove.click(function() {
@@ -114,13 +160,21 @@
 	function createDateTab(id,dateJson,startDate,endDate) {
 		var tab = $("<ul class='nav nav-tabs'/>");
 		for(i in dateJson) {
-			var tcTab = $("<li class='tab-page tc-"+id+"-month' rId='"+i+"' id='tc_"+id+"_month_"+i+"_tab'/>");
+			var tcTab = $("<li class='tab-page' id='tc_"+id+"_month_"+i+"_tab'/>");
 			var month = CalendarUtils.getFormat(new Date(parseInt(i)),"yyyy年MM月");
 			var tabA = $("<a href='#tc_"+id+"_month_"+i+"' data-toggle='tab'>"+month+"</a>");
 			tab.append(tcTab.append(tabA));
 		}
 		var batch = $("<button class='btn btn-primary'>批量录入</button>");
-		//特效
+		batch.click(function(){
+			layer.open({
+                type: 2,
+                area: ['700px', '530px'],
+                fix: tue,
+                maxmin: true,
+                content: 'test/iframe.html'
+            });
+		});
 		tab.append($("<li>").append(batch));
 		return tab;
 	}
@@ -132,46 +186,14 @@
 			var list = dateJson[i];
 			var tr;
 			for(j in list) {
-				if(j % 2 == 0) {
+				if(j % 5 == 0) {
 					tr = $("<tr/>");
 					table.append(tr);
 				}
 				var time = new Date(list[j]);
 				var d =  CalendarUtils.getFormat(time ,"dd日 " + WEEK[time.getDay()]);
 				// 扩展点
-				var td = $("<td class='tc-"+id+"-month-"+i+"-day' rId='"+list[j]+"'></td>");
-				var day_id = "tc_"+id+"_month_"+i+"_day_"+list[j];
-				var div_date = $("<div>"+d+"</div>");
-				td.append(div_date);
-				var group_1 = $("<div class='input-group'/>")
-				group_1.append("<span class='input-group-addon'>￥成人价：</span>");
-				group_1.append("<input type='text' class='form-control' id='"+day_id+"_11' placeholder='请输入成人价'>"); 
-				group_1.append("<span class='input-group-addon'>库存：</span>");
-				group_1.append("<input type='text' class='form-control' id='"+day_id+"_12' placeholder='请输入库存'>"); 
-				group_1.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_1.append("<input type='text' class='form-control' id='"+day_id+"_13' placeholder='请输入会员优惠'>"); 
-				td.append(group_1);
-				var group_2 = $("<div class='input-group'/>")
-				group_2.append("<span class='input-group-addon'>￥儿童价（0-2）：</span>");
-				group_2.append("<input type='text' class='form-control' id='"+day_id+"_21' placeholder='请输入儿童价'>"); 
-				group_2.append("<span class='input-group-addon'>库存：</span>");
-				group_2.append("<input type='text' class='form-control' id='"+day_id+"_22' placeholder='请输入库存'>"); 
-				group_2.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_2.append("<input type='text' class='form-control' id='"+day_id+"_23' placeholder='请输入会员优惠'>"); 
-				td.append(group_2);
-				var group_3 = $("<div class='input-group'/>")
-				group_3.append("<span class='input-group-addon'>￥儿童价（2-12）：</span>");
-				group_3.append("<input type='text' class='form-control' id='"+day_id+"_31' placeholder='请输入儿童价'>"); 
-				group_3.append("<span class='input-group-addon'>库存：</span>");
-				group_3.append("<input type='text' class='form-control' id='"+day_id+"_32' placeholder='请输入库存'>"); 
-				group_3.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_3.append("<input type='text' class='form-control' id='"+day_id+"_33' placeholder='请输入会员优惠'>"); 
-				td.append(group_3);
-				var group_4 = $("<div class='input-group'/>")
-				group_4.append("<span class='input-group-addon'>￥单房差：</span>");
-				group_4.append("<input type='text' class='form-control' id='"+day_id+"_41' placeholder='请输入单房差'>"); 
-				td.append(group_4);
-				tr.append(td);
+				tr.append($("<td id='"+d+"'>"+d+"</td>"));
 			}
 			content.append(tcTab.append(table));
 		}

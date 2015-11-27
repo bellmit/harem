@@ -27,8 +27,9 @@
 		</div>
       </div>
 	  <div>
-		<button class="btn btn-primary save">保存</button>
+		<button class="btn btn-primary">保存</button>
       </div>
+<<<<<<< HEAD
 	  <script type="text/javascript">
 	  	$(".save").click(function(){
 			var result = {
@@ -42,4 +43,6 @@
 		});
       </script>
       </script>
+=======
+>>>>>>> branch 'develop' of http://192.168.1.111/server/harem.git
 </div>
