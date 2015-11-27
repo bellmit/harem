@@ -6,7 +6,11 @@ import com.yimayhd.harem.base.BaseQuery;
  * Created by Administrator on 2015/11/9.
  */
 public class UserListQuery extends BaseQuery {
-    private String userName;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -603714674325753343L;
+	private String userName;
     private String tel;
     private Long cityName;
 
