@@ -38,18 +38,6 @@ public class CommGroupTravelController extends BaseController {
 	private ScenicSpotService scenicSpotService;
 
 	/**
-	 * 详细信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String detail() throws Exception {
-		return "/system/comm/groupTravel/detail";
-	}
-
-	/**
 	 * 基本信息页
 	 * 
 	 * @param id
@@ -58,7 +46,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
 	public String baseInfo() throws Exception {
-		return "/system/comm/groupTral/baseInfo";
+		return "/system/comm/groupTravel/baseInfo";
 	}
 
 	/**

@@ -932,6 +932,12 @@ public class DateUtil {
 		}
 		return age;
 	}
+	public static int getAgeByBirthday(Date birthdayTime) {
+		if (birthdayTime == null) {
+			return 0;
+		}
+		return getAgeByBirthday(birthdayTime.getTime());
+	}
 
 	/**
 	 * 获取一天的最大时间
