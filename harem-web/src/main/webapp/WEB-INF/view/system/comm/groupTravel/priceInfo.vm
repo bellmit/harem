@@ -2,37 +2,28 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/CalendarUtils.js" type="text/javascript"></script>
 <div>
-	<ul class="nav nav-tabs">
-		<li class="active">
-          <a href="#money" data-toggle="tab">tab</a>
-        </li>
-     </ul>
-    <div class="tab-content">
-        <div class="tab-pane in active" id="money">
-			<div>
-				<div>可选出发日：</div>
-				<div>
-					<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="startDate" id="startDate">
-                    <span class="input-group-addon fix-border fix-padding">至</span>
-                    <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" id="endDate">
-					<button class="btn btn-primary addTC">添加新套餐</button>
-                </div>
-            </div>
-			<div>
-				<div>套餐设置：</div>
-				<div>
-					<ul id="tc_tab" class="nav nav-tabs">
-                    </ul>
-					<div id="tc_page" class="tab-content">
-                    </div> 
-				</div>
-            </div>
-			<div>
-				<div>提前报名天数：</div>
-				<div>
-					<input type="text" class="form-control day-limit">
-				</div>
-            </div>
+	<div>
+		<div>可选出发日：</div>
+		<div>
+			<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="startDate" id="startDate">
+            <span class="input-group-addon fix-border fix-padding">至</span>
+            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" id="endDate">
+			<button class="btn btn-primary addTC">添加新套餐</button>
+        </div>
+    </div>
+	<div>
+		<div>套餐设置：</div>
+		<div>
+			<ul id="tc_tab" class="nav nav-tabs">
+            </ul>
+			<div id="tc_page" class="tab-content">
+            </div> 
+		</div>
+    </div>
+	<div>
+		<div>提前报名天数：</div>
+		<div>
+			<input type="text" class="form-control day-limit">
 		</div>
     </div>
 </div>
@@ -128,15 +119,7 @@
 			tab.append(tcTab.append(tabA));
 		}
 		var batch = $("<button class='btn btn-primary'>批量录入</button>");
-		batch.click(function(){
-			layer.open({
-                type: 2,
-                area: ['700px', '530px'],
-                fix: tue,
-                maxmin: true,
-                content: 'test/iframe.html'
-            });
-		});
+		//特效
 		tab.append($("<li>").append(batch));
 		return tab;
 	}

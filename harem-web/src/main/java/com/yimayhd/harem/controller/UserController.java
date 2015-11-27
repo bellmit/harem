@@ -97,9 +97,9 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
-	public String userList(Model model,UserListQuery userListQuery) throws Exception {
+	public String userList(Model model, UserListQuery userListQuery) throws Exception {
 		UserVO userVO = new UserVO();
-		List<User> userList = userService.getUserList(userVO.getUser());
+		List<User> userList = userService.getList(userVO.getUser());
 		model.addAttribute("userListQuery", userListQuery);
 		model.addAttribute("userList", userList);
 		return "/system/user/list";
@@ -116,11 +116,10 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectUserList", method = RequestMethod.GET)
-	public String selectUserList(Model model,UserListQuery userListQuery) throws Exception {
-		UserVO userVO = new UserVO();
-		List<User> userList = userService.getUserList(userVO.getUser());
-		model.addAttribute("userListQuery", userListQuery);
-		model.addAttribute("userList", userList);
+	public String selectUserList(UserListQuery query) throws Exception {
+		PageVO<User> pageVo = userService.getListByPage(query);
+		put("query", query);
+		put("pageVo", pageVo);
 		return "/system/user/selectUserList";
 	}
 
