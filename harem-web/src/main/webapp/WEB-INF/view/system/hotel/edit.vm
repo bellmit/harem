@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
-
+<script src="$!{staticResourcesPath}/resources/js/json2.js" type="text/javascript"></script>
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
         <a href="#grogshopInfo" data-toggle="tab">酒店信息</a>
@@ -62,13 +62,17 @@
                         <div class="phoneNumListTd">
                             #if(!$!hotel.phoneNumList)
                                 <div>
-                                    <input type="text" class="inpControl" name="phoneNumList[]" id="phoneNum" placeholder="请输入酒店电话">
+                                    <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" placeholder="请输入酒店电话">
+                                    <button class="btn btn-primary delPhoneNum">删除</button>
+                                </div>
+								<div>
+                                    <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" placeholder="请输入酒店电话">
                                     <button class="btn btn-primary delPhoneNum">删除</button>
                                 </div>
                             #else
                                 #foreach($phoneNum in $!hotel.phoneNumList)
                                 <div>
-                                    <input type="text" class="inpControl" name="phoneNumList[]" value="$phoneNum" id="phoneNum" placeholder="请输入酒店电话">
+                                    <input type="text" class="inpControl" name="phoneNumList" value="$phoneNum" id="phoneNum" placeholder="请输入酒店电话">
                                     <button class="btn btn-primary delPhoneNum">删除</button>
                                 </div>
                                 #end
@@ -161,139 +165,150 @@
 </div>
 </form>
 <script>
-    //表单验证
-    $("#hotelForm").validate({
-        //添加酒店验证规则
-        rules: {
-            name: {    //酒店名称
-                required: true,
-                maxlength: 20,
-                minlength: 2
+    //表单验
+        $("#hotelForm").validate({
+            //添加酒店验证规则
+            rules: {
+                name: {    //酒店名称
+                    required: true,
+                    maxlength: 20,
+                    minlength: 2
+                },
+                locationProvinceId: {   //选择省级地址
+                    required: true
+                },
+                locationCityId: {   //选择市级地址
+                    required: true
+                },
+                locationTownName: {   //填写详细地址
+                    required: true
+                },
+                locationX: {   //地址经纬度_经度
+                    required: true
+                },
+                locationY: {   //地址经纬度_纬度
+                    required: true
+                },
+                phoneNumList: {   //酒店电话
+                    requiredAll: true,
+                    isTel: true
+                },
+                oneword: {   //酒店简介
+                    required: true,
+                    maxlength: 80
+                },
+                description: {   //特色描述
+                    required: true,
+                    maxlength: 500
+                },
+                price: {   //基础价格
+                    required: true,
+                    number: true
+                },
+                grogLinkmanName: {   //酒店联系人姓名
+                    required: true
+                },
+                grogLinkmanPhone: {   //酒店联系人电话
+                    required: true,
+                    number: true
+                },
+                roomFacilityList: {   //房间设施(多选)
+                    required: true
+                },
+                roomServiceList: {    //请选择特色服务(多选)
+                    required: true
+                },
+                hotelFacilityList: {   //酒店设施(多选)
+                    required: true
+                },
+                'openTimeList[]': {   //最晚到店时间
+                    required: true
+                }
             },
-            locationProvinceId: {   //选择省级地址
-                required: true
+            //添加酒店验证错误，提示信息
+            messages: {
+                name: {     //酒店名称
+                    required: "请填写酒店名称",
+                    maxlength: "请输入不多于20字",
+                    minlength: "请至少输入2个字"
+                },
+                locationProvinceId: {    //选择省份
+                    required: "请输入您的详细地址"
+                },
+                locationCityId: {    //选择地址
+                    required: "请输入您的详细地址"
+                },
+                locationTownName: {   //填写详细地址
+                    required: "请输入您的详细地址"
+                },
+                locationX: {   //地址经纬度_经度
+                    required: "请填写您的经度"
+                },
+                locationY: {   //地址经纬度_纬度
+                    required: "请填写您的纬度"
+                },
+                phoneNumList: {   //酒店电话
+                    requiredAll: "请输入全部的酒店电话",
+                    isTel: "请填写正确的电话号码"
+                },
+                oneword: {   //酒店简介
+                    required: "请输入酒店简介",
+                    maxlength: "请输入80字以内"
+                },
+                description: {   //特色描述
+                    required: "请填写特色描述",
+                    maxlength: "请输入500字以内"
+                },
+                price: {   //基础价格
+                    required: "请输入基础价格",
+                    number: "请输入数字"
+                },
+                grogLinkmanName: {   //酒店联系人姓名
+                    required: "请填写酒店联系人姓名"
+                },
+                grogLinkmanPhone: {   //酒店联系人电话
+                    required: "请填写酒店联系人电话",
+                    number: "请输入数字"
+                },
+                roomFacilityList: {   //房间设施(多选)
+                    required: "请选择房间设施"
+                },
+                roomServiceList: {    //特色服务(多选)
+                    required: "请选择特色服务"
+                },
+                hotelFacilityList: {   //酒店设施(多选)
+                    required: "请选择酒店设施"
+                },
+                'openTimeList[]': {   //最晚到店时间
+                    required: "请选择最晚到店时间"
+                }
             },
-            locationCityId: {   //选择市级地址
-                required: true
-            },
-            locationTownName: {   //填写详细地址
-                required: true
-            },
-            locationX: {   //地址经纬度_经度
-                required: true
-            },
-            locationY: {   //地址经纬度_纬度
-                required: true
-            },
-            'phoneNumList[]': {   //酒店电话
-                required: true,
-                isTel: true
-            },
-            oneword: {   //酒店简介
-                required: true,
-                maxlength: 80
-            },
-            description: {   //特色描述
-                required: true,
-                maxlength: 500
-            },
-            price: {   //基础价格
-                required: true,
-                number: true
-            },
-            grogLinkmanName: {   //酒店联系人姓名
-                required: true
-            },
-            grogLinkmanPhone: {   //酒店联系人电话
-                required: true,
-                number: true
-            },
-            roomFacilityList: {   //房间设施(多选)
-                required: true
-            },
-            roomServiceList: {    //请选择特色服务(多选)
-                required: true
-            },
-            hotelFacilityList: {   //酒店设施(多选)
-                required: true
-            },
-            'openTimeList[]': {   //最晚到店时间
-                required: true
-            }
-        },
-        //添加酒店验证错误，提示信息
-        messages: {
-            name: {     //酒店名称
-                required: "请填写酒店名称",
-                maxlength: "请输入不多于20字",
-                minlength: "请至少输入2个字"
-            },
-            locationProvinceId: {    //选择省份
-                required: "请输入您的详细地址"
-            },
-            locationCityId: {    //选择地址
-                required: "请输入您的详细地址"
-            },
-            locationTownName: {   //填写详细地址
-                required: "请输入您的详细地址"
-            },
-            locationX: {   //地址经纬度_经度
-                required: "请填写您的经度"
-            },
-            locationY: {   //地址经纬度_纬度
-                required: "请填写您的纬度"
-            },
-            'phoneNumList[]': {   //酒店电话
-                required: "请输入酒店电话",
-                isTel: "请填写正确的电话号码"
-            },
-            oneword: {   //酒店简介
-                required: "请输入酒店简介",
-                maxlength: "请输入80字以内"
-            },
-            description: {   //特色描述
-                required: "请填写特色描述",
-                maxlength: "请输入500字以内"
-            },
-            price: {   //基础价格
-                required: "请输入基础价格",
-                number: "请输入数字"
-            },
-            grogLinkmanName: {   //酒店联系人姓名
-                required: "请填写酒店联系人姓名"
-            },
-            grogLinkmanPhone: {   //酒店联系人电话
-                required: "请填写酒店联系人电话",
-                number: "请输入数字"
-            },
-            roomFacilityList: {   //房间设施(多选)
-                required: "请选择房间设施"
-            },
-            roomServiceList: {    //特色服务(多选)
-                required: "请选择特色服务"
-            },
-            hotelFacilityList: {   //酒店设施(多选)
-                required: "请选择酒店设施"
-            },
-            'openTimeList[]': {   //最晚到店时间
-                required: "请选择最晚到店时间"
-            }
-        },
-        //错误信息显示位置
-        errorPlacement: function(error, element) {
-            if(element.is(":checkbox")){
-                //error.appendTo (element.parent().parent().parent());
-                element.parent().parent().append (error);
-            }else{
-                if(element.next().length==0){
-                    element.parent().append(error);
-                }else{
-                    element.next().before(error);
+            //错误信息显示位置
+            errorPlacement: function(error, element) {
+                if(element.is(":checkbox")){
+                    //error.appendTo (element.parent().parent().parent());
+                    element.parent().parent().append (error);
+                } else if(element.attr("name") == "phoneNumList") {
+					element.parent().parent().parent().append(error);
+				}else{
+                    if(element.next().length==0){
+                        element.parent().append(error);
+                    }else{
+                        element.next().before(error);
+                    }
                 }
             }
-        }
-    });
-
+        });
+    $.validator.addMethod("requiredAll",function(value,element,params){
+		var name = $(element).attr("name");
+		var flag = true;
+		$("input[name="+name+"]").each(function(){
+			if(!$(this).val()) {
+				flag = false;
+			}
+		});
+		return flag;
+	});
 
 
     $(function(){
@@ -330,7 +345,7 @@
             $(this).parent().remove();
         });
         $('.addPhoneNum').click(function(){
-            $('.phoneNumListTd').append('<div><input type="text" class="inpControl" name="phoneNumList[]" id="phoneNum" placeholder="请输入数字"> <button class="btn btn-primary delPhoneNum">删除</button> </div>');
+            $('.phoneNumListTd').append('<div><input type="text" class="inpControl" name="phoneNumList" id="phoneNum" placeholder="请输入数字"> <button class="btn btn-primary delPhoneNum">删除</button> </div>');
         });
         //选择旅游咖
         $('.selectUserBtn').click(function(){
@@ -359,7 +374,6 @@
                 }
             });
         });
-
 
         $('#btnSubmit').click(function(){
             if($("#hotelForm").valid()) {
