@@ -223,6 +223,10 @@
             <groupId>com.yimayhd.membercenter</groupId>
             <artifactId>membercenter-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.yimayhd.pay</groupId>
+            <artifactId>paycore-client</artifactId>
+        </dependency>
     </dependencies>
     
     

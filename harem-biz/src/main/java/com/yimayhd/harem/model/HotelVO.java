@@ -24,7 +24,6 @@ public class HotelVO extends HotelDO implements Serializable {
     private List<String> roomFacilityList;
     private List<String> roomServiceList;
     private List<String> hotelFacilityList;
-
     public HotelVO(){
 
     }

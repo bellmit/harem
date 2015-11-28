@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.dubbo.common.json.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.model.query.ScenicSpotListQuery;
@@ -38,18 +36,6 @@ public class CommGroupTravelController extends BaseController {
 	private HotelService hotelService;
 	@Autowired
 	private ScenicSpotService scenicSpotService;
-
-	/**
-	 * 详细信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String detail() throws Exception {
-		return "/system/comm/groupTravel/detail";
-	}
 
 	/**
 	 * 基本信息页
@@ -166,17 +152,6 @@ public class CommGroupTravelController extends BaseController {
 	}
 
 	/**
-	 * 批量录入
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/batchInsert")
-	public String batchInsert() throws Exception {
-		return "/system/comm/groupTravel/batchInsert";
-	}
-
-	/**
 	 * 选择酒店
 	 * 
 	 * @return
@@ -185,17 +160,5 @@ public class CommGroupTravelController extends BaseController {
 	@RequestMapping(value = "/selectHotel")
 	public String selectHotel() throws Exception {
 		return "/system/comm/groupTravel/selectHotel";
-	}
-
-	/**
-	 * 保存
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/save")
-	public @ResponseBody GroupTravel save(String json) throws Exception {
-		GroupTravel groupTravel = JSON.parse(json, GroupTravel.class);
-		return groupTravel;
 	}
 }

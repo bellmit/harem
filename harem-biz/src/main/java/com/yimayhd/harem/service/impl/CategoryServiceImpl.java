@@ -4,6 +4,7 @@ import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.ic.client.model.result.item.CategoryTreeResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
     private com.yimayhd.ic.client.service.item.CategoryService categoryServiceRef;
     @Override
     public List<CategoryDO> getCategoryDOList() throws Exception {
-        //CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryList();
-        //return categoryQryResult.getCategroyDOList();
-        List<CategoryDO> categoryDOList = new ArrayList<CategoryDO>();
+        CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryList();
+        return categoryQryResult.getCategroyDOList();
+        /*List<CategoryDO> categoryDOList = new ArrayList<CategoryDO>();
         for (int i = 0; i < 4; i++) {
             CategoryDO categoryDOData = new CategoryDO();
             categoryDOData.setId(i);
@@ -29,15 +30,15 @@ public class CategoryServiceImpl implements CategoryService {
             categoryDOData.setParentId(0);
             categoryDOList.add(categoryDOData);
         }
-        return categoryDOList;
+        return categoryDOList;*/
     }
 
     @Override
     public List<CategoryDO> getCategoryDOList(long parentId) throws Exception {
         //TODO
-        //CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryChildren();
-        //return categoryQryResult.getCategroyDOList();
-        List<CategoryDO> categoryDOList = new ArrayList<CategoryDO>();
+        CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryChildren();
+        return categoryQryResult.getCategroyDOList();
+        /*List<CategoryDO> categoryDOList = new ArrayList<CategoryDO>();
         for (int i = 0; i < 4; i++) {
             CategoryDO categoryDOData = new CategoryDO();
             categoryDOData.setId(10 + i);
@@ -47,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
             categoryDOData.setParentId(parentId);
             categoryDOList.add(categoryDOData);
         }
-        return categoryDOList;
+        return categoryDOList;*/
     }
 
     @Override

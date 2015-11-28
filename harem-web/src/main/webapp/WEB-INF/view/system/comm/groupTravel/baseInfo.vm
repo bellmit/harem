@@ -1,7 +1,3 @@
-<!--
-<script src="$!{staticResourcesPath}/resources/js/layerModal.js" type="text/javascript"></script>
-<script src="$!{staticResourcesPath}/resources/js/upload.js"></script>
--->
 <div>
 	<div >
         <div>
@@ -9,243 +5,124 @@
         	<table>
         		<tr >
     				<td>*产品类型：</td>
-    				<td>跟团游<input type="hidden" class="productType" value="0"/></td>
+    				<td>跟团游<input type="hidden" name="type" id="type" value="$!product.type"/></td>
                 </tr>
     			<tr >
     				<td>*产品名称：</td>
-    				<td><input type="text" class="form-control" placeholder="请输入产品名称" name="productName" value="$!product.name"></td>
+    				<td><input type="text" class="form-control" placeholder="请输入产品名称" name="name" id="name" value="$!product.name"></td>
                 </tr>
     			<tr >
     				<td>*产品封面图：</td>
     				<td>
-                        <input id="productImageFile" type="file" accept="image/png,image/gif">
-                        <img class="productImageUrlImg" src="#if($!product.productImageUrl)$!tfsRootPath$!product.productImageUrl #end">
-                        <input class="productImageUrlVal" type="hidden" value="$!product.productImageUrl">
-					</td>
-                </tr>
-				<tr >
-    				<td>*行程封面图：</td>
-    				<td>
-                        <input id="tripImageFile" type="file" accept="image/png,image/gif" value="$!product.tripImageUrl">
-                        <img class="tripImageUrlImg" src="#if($!product.tripImageUrl)$!tfsRootPath$!poduct.tripImageUrl #end">
-                        <input class="tripImageUrlVal" type="hidden" value="$!product.tripImageUrl">
+                        <span><button class="btn btn-default">请选择图片</button>图片大小不超过5M，背景图尺寸为：750x420和600*800</span>
+                        <span><input type="hidden" name="image" id="image" value="$!product.image"/></span>
 					</td>
                 </tr>
     			<tr >
     				<td>*产品主题：</td>
                     <td>
-						<input type="checkbox" class="productTheme" rId="0" rName="热门推荐" id="theme0"/><label for="theme0">热门推荐</label>
-						<input type="checkbox" class="productTheme" rId="1" rName="热门推荐" id="theme1"/><label for="theme1">亲子</label>
-						<input type="checkbox" class="productTheme" rId="2" rName="热门推荐" id="theme2"/><label for="theme2">户外</label>
+    					<span><input type="checkbox" value="0" name="themes" id="theme1"><label for="theme1">热门推荐</label></span>
+    					<span><input type="checkbox" value="1" name="themes" id="theme2"><label for="theme2">亲子</label></span>
+    					<span><input type="checkbox" value="2" name="themes" id="theme3"><label for="theme3">户外</label></span>	
     				</td>
                 </tr>
     			<tr >
     				<td>*产品标签：</td>
                     <td>
-						<input type="checkbox" class="productTag" rId="0" rName="亲子夏令营" id="tag0"/><label for="tag0">亲子夏令营</label>
-						<input type="checkbox" class="productTag" rId="1" rName="蜜月之旅" id="tag1"/><label for="tag1">蜜月之旅</label>
+    					<span><label for="tag1">亲子夏令营</label><input type="checkbox" value="0" name="tags" id="tag1"></span>
+    					<span><label for="tag2">蜜月之旅</label><input type="checkbox" value="1" name="tags" id="tag2"></span>
     				</td>
                 </tr>
     			<tr >
     				<td>*发布人：</td>
                     <td>
-    					<span><input type="radio" value="0" name="publisherType" class="publisherType" checked><label for="publisherType1">怡美官方</label></span>
-    					<span><input type="radio" value="1" name="publisherType" class="publisherType"><label for="publisherType2">旅游咖</label></span>
-    					<span class="travel-ka-panel" style="display:none;">
-    						<button class="btn btn-primary" id="selectTravelKa">请选择旅游咖</button>
-    						<span class="travel-ka-content"></span>
-						</span>
+    					<span><input type="radio" value="0" name="publisherType" id="publisherType1"><label for="publisherType1">怡美官方</label></span>
+    					<span><input type="radio" value="1" name="publisherType" id="publisherType2"><label for="publisherType2">旅游咖</label></span>
+    					<span><button class="btn btn-default">请选择旅游咖</button></span>
+						<span><input type="hidden" name="publisher" id="publisher" value="$!product.publisher"/></span>
     				</td>
                 </tr>
     			<tr >
     				<td>出发地：</td>
                     <td>
-    					<select class="form-control from">
-                            <option value="北京_1" selected>北京</option>
-							<option value="南京_2">南京</option>
-                         </select>
+    					<span><button class="btn btn-default">选择出发地</button></span>
+                        <span>
+							<span>北京</span>
+							<span><input type="hidden" name="fromAddress"></span>
+							<span><a href="#"><i class="icon icon-remove"></i></span>
+						</span>
+    					<span>
+							<span>南京</span>
+							<span><input type="hidden" name="fromAddress"></span>
+							<span><a href="#"><i class="icon icon-remove"></i></span>
+						</span>
     				</td>
                 </tr>
     			<tr >
     				<td>*目的地：</td>
                     <td>
-    					<select class="form-control to">
-                            <option value="大理_3" selected>大理</option>
-							<option value="丽江_4">丽江</option>
-                         </select>
-    				</td>
+    					<span><button class="btn btn-default">选择目的地</button></span>
+						<span>
+							<span>大理</span>
+							<span><input type="hidden" name="toAddress"></span>
+							<span><a href="#"><i class="icon icon-remove"></i></span>
+						</span>
+						<span>
+							<span>丽江</span>
+							<span><input type="hidden" name="toAddress"></span>
+							<span><a href="#"><i class="icon icon-remove"></i></span>
+						</span>
     				</td>
                 </tr>
     			<tr >
     				<td>*线路设计亮点：</td>
                     <td>
-    					<textarea class="form-control highlights" rows="3" value="$!product.highlights"></textarea>
+    					<textarea class="form-control" rows="3" value="$!product.highlights" name="highlights" id="highlights"></textarea>
     				</td>
                 </tr>
     			<tr >
     				<td>我为自己代言：</td>
                     <td>
-    					<textarea class="form-control recommond" rows="3" value="$!product.recommond"></textarea>
+    					<textarea class="form-control" rows="3" value="$!product.recommond" name="recommond" id="recommond"></textarea>
     				</td>
                 </tr>
             </table>
 		</div>
 		<div>
     		<div>报名须知</div>
-			<div><button class="btn btn-default add-extra-info-item">增加条目</button></div>
-        	<table class="extra-info">
+			<div><button class="btn btn-default">增加条目</button></div>
+        	<table>
 				<thead >
             		<tr >
-        				<th>标题（10个字以内）</th>
-        				<th>内容（500字以内）</th>
+        				<th>标题（10个字以内）</td>
+        				<th>内容（500字以内）</td>
                     </tr>
                 </thead>
-				<tbody class="extra-info-list">
-            		<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+				<tbody >
+            		<tr >
+        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
+        				<td><textarea class="form-control" rows="3"></textarea></td>
+						<td><button class="btn btn-link">删除</button></td>
                     </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+					<tr >
+        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
+        				<td><textarea class="form-control" rows="3"></textarea></td>
+						<td><button class="btn btn-link">删除</button></td>
                     </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+					<tr >
+        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
+        				<td><textarea class="form-control" rows="3"></textarea></td>
+						<td><button class="btn btn-link">删除</button></td>
                     </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+					<tr >
+        				<td><input type="text" class="form-control" placeholder="费用包含"></td>
+        				<td><textarea class="form-control" rows="3"></textarea></td>
+						<td><button class="btn btn-link">删除</button></td>
                     </tr>
                 </tbody>
             </table>
+			<div>重要条款：<input type="text" class="form-control"><button class="btn btn-default">浏览</button></div>
 		</div>
+		<div><button class="btn btn-primary">保存</button></div>
     </div>
-	<script type="text/javascript">
-		$(function(){
-            //上传图片
-            $(document).delegate("#productImageFile",'change',function(){
-                fileUpload('#productImageFile',1,function(data){
-                    if(data && data.status == 200){
-                        $('.productImageUrlVal').val(data.data);
-                        $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
-                    }else{
-                        layer.msg('图片上传失败，请重试', {icon: 2});
-                    }
-				});
-            });
-			$(document).delegate("#tripImageFile",'change',function(){
-                fileUpload('#tripImageFile',1,function(data){
-                    if(data && data.status == 200){
-                        $('.tripImageUrlVal').val(data.data);
-                        $('.tripImageUrlImg').attr('src',tfsRootPath + data.data);
-                    }else{
-                        layer.msg('图片上传失败，请重试', {icon: 2});
-                    }
-				});
-            });
-		});
-		$(".add-extra-info-item").click(function(){
-			var content = $(".extra-info-list");
-			var item = $("<tr class='extra-info-item'/>");
-			item.append($("<td><input type='text' class='form-control extra-info-item-title' placeholder='费用包含'></td>"));
-			item.append($("<td><textarea class='form-control extra-info-item-text' rows='3'></textarea></td>"));
-			var delete_btn = $("<button class='btn btn-link extra-info-item-delete'>删除</button>");
-			delete_btn.click(function(){
-    			$(this).parent().parent().remove();
-    		});
-			item.append($("<td/>").append(delete_btn));
-			content.append(item);
-		});
-		$(".extra-info-item-delete").click(function(){
-			$(this).parent().parent().remove();
-		});
-		$(".extra-info-item-delete").click(function(){
-			$(this).parent().parent().remove();
-		});
-		$(".publisherType").click(function() {
-			if($(this).val()==1) {
-				$(".travel-ka-panel").show();
-			} else {
-				$(".travel-ka-panel").hide();
-			}
-		});
-	
-		$("#selectTravelKa").click(function() {
-			openModal('$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList','选择旅游咖', function(resultValue) {
-				var id = resultValue[0].id;
-				var name = resultValue[0].name;
-				var span = $("<span class='label label-badge label-info travel-ka'>"+name+"</span>");
-				span.attr("rId",id);
-				span.attr("rName",name);
-				var content = $(".travel-ka-content");
-				content.empty();
-				content.append(span);
-			});
-		});
-		// 获取行程信息
-		function getBaseInfo() {
-			var type = $(".productType").val();
-			var name = $(".productNme").val();
-			var productImage = $(".productImageUrlVal").val();
-			var tripImage = $(".tripImageUrlVal").val();
-			var themes = [];
-			$(".productTheme:checked").each(function(){
-				var id = $(this).attr("rId");
-				var name = $(this).attr("rName");
-				themes.push({id:id,name:name});
-			});
-			var tags = [];
-			$(".productTag:checked").each(function(){
-				var id = $(this).attr("rId");
-				var name = $(this).attr("rName");
-				tags.push({id:id,name:name});
-			});
-			var publisherType = $(".publisherType:checked").val();
-			var froms = [];
-			var from_arr = $(".from").val().split("_");
-			froms.push({id:from_arr[1],name:from_arr[0]});
-			var tos = [];
-			var to_arr = $(".to").val().split("_");
-			tos.push({id:to_arr[1],name:to_arr[0]});
-			var highlights = $(".highlights").val();
-			var recommond = $(".recommond").val();
-			var extra_infos = [];
-			$(".extra-info-item").each(function(){
-				var title = $(this).find(".extra-info-item-title").val();
-				var text = $(this).find(".extra-info-item-text").val();
-				if(title&&text) {
-					extra_infos.push({title:title,content:text});
-				}
-			});
-			var result = {
-				type:type,
-				name:name,
-				productImage:productImage,
-				tripImage:tripImage,
-				themes:themes,
-				tags:tags,
-				publisherType:publisherType,
-				froms:froms,
-				tos:tos,
-				highlights:highlights,
-				recommond:recommond,
-				extraInfos:extra_infos
-			};
-			if(publisherType!=0) {
-				var travel_ka = $(".travel-ka");
-				result["publisher"] = {id:travel_ka.attr("rId"),name:travel_ka.attr("rName")};
-			}
-			return result;
-		}
-    </script>
 </div>

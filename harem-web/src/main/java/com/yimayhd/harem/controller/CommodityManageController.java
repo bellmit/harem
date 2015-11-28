@@ -1,6 +1,11 @@
 package com.yimayhd.harem.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.taobao.tair.json.Json;
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.JsonResultUtil;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.service.CategoryService;
@@ -12,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +56,7 @@ public class CommodityManageController extends BaseController {
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public
-    String toAdd(long categoryId) throws Exception {
+    String toAdd(Model model,long categoryId) throws Exception {
         CategoryDO categoryDO = categoryService.getCategoryById(categoryId);
         String redirectUrl = "";
         //TODO 对应的商品类型现在还没有，之后会提供
@@ -62,8 +69,9 @@ public class CommodityManageController extends BaseController {
                 redirectUrl = "/B2C/scenicSpotManage/toAdd/";
                 break;
             default:
-                redirectUrl = "/B2C/otherSpotManage/toAdd/";
-                break;
+                //普通商品，伴手礼应该也走普通商品
+                model.addAttribute("category",categoryDO);
+                return "/system/comm/souvenir/edit";
         }
         return "redirect:" + redirectUrl;
     }
@@ -139,8 +147,14 @@ public class CommodityManageController extends BaseController {
      */
     @RequestMapping(value = "/subCategory/{parentId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseVo getCategoryByParentId(@PathVariable("parentId") long parentId) throws Exception {
+    public void getCategoryByParentId(HttpServletResponse response,@PathVariable("parentId") long parentId) throws Exception {
         List<CategoryDO> categoryDOList = categoryService.getCategoryDOList(parentId);
-        return new ResponseVo(categoryDOList);
+
+        for (int i = 0; i < categoryDOList.size(); i++) {
+            categoryDOList.get(i).setParent(null);
+            categoryDOList.get(i).setChildren(null);
+        }
+        String aaa = JSON.toJSONString(categoryDOList);
+        JsonResultUtil.jsonResult(response, categoryDOList);
     }
 }

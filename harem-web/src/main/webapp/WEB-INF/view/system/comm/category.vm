@@ -19,7 +19,7 @@
     $(function(){
         $(document).delegate('.selectCategory','change',function(){
             //清除掉之后的选项
-            $(this).parent().nextAll().remove();
+            $(this).nextAll().remove();
             //清除掉已选择的叶子节点id
             $('.selectCategoryId').val('');
             var id = $(this).val();

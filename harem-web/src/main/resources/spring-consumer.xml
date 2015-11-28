@@ -6,4 +6,5 @@
     <import resource="spring-consumer-item.xml"/>
     <import resource="spring-consumer-resource.xml"/>
     <import resource="spring-consumer-user.xml"/>
+    <import resource="spring-consumer-paycore.xml"/>
 </beans>

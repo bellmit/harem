@@ -1,24 +1,25 @@
 package com.yimayhd.harem.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.model.HaMenuDO;
+import com.yimayhd.harem.model.User;
+import com.yimayhd.harem.model.query.TradeMemberQuery;
+import com.yimayhd.harem.model.query.UserListQuery;
+import com.yimayhd.harem.service.HaMenuService;
+import com.yimayhd.harem.service.SendPointRuleService;
+import com.yimayhd.harem.service.UsePointRuleService;
+import com.yimayhd.harem.service.UserService;
+import com.yimayhd.user.client.domain.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.HaMenuDO;
-import com.yimayhd.harem.model.User;
-import com.yimayhd.harem.model.query.TradeMemberQuery;
-import com.yimayhd.harem.model.query.UserListQuery;
-import com.yimayhd.harem.service.HaMenuService;
-import com.yimayhd.harem.service.UserService;
-import com.yimayhd.user.client.domain.UserDO;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+
 /**
  * 用户信息
  * 
@@ -87,7 +88,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "/trade/userManage/userList", method = RequestMethod.GET)
 	public String userList(Model model,UserListQuery userListQuery) throws Exception {
-		List<User> userList = userService.getList(null);
+		List<User> userList = userService.getUserList(null);
 		model.addAttribute("userListQuery", userListQuery);
 		model.addAttribute("userList", userList);
 		return "/system/user/list";
@@ -97,17 +98,16 @@ public class UserController extends BaseController {
 	 * 选择用户列表
 	 * 
 	 * @param model
-	 *            分页条件
 	 * @param userListQuery
 	 *            查询条件
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/trade/userManage/selectUserList", method = RequestMethod.GET)
-	public String selectUserList(UserListQuery query) throws Exception {
-		PageVO<User> pageVo = userService.getListByPage(query);
-		put("query", query);
-		put("pageVo", pageVo);
+	public String selectUserList(Model model,UserListQuery userListQuery) throws Exception {
+		List<User> userList = userService.getUserList(null);
+		model.addAttribute("userListQuery", userListQuery);
+		model.addAttribute("userList", userList);
 		return "/system/user/selectUserList";
 	}
 
