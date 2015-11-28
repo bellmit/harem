@@ -52,38 +52,97 @@
 				var restaurant = $("<div class='panel add-restaurant'></div>");
 				restaurant.append($("<div class='panel-heading'><i class='icon icon-2x icon-coffee'></i>添加用餐</div>"));				
                 var restaurantList = $("<div class='panel-body restaurant'></div>");
-				restaurant.append(restaurantList);
+				page.append(restaurant.append(restaurantList));
 				// 1
-				var input_group1 = $("<div class='panel'></div>");
-				input_group1.append($("<div class='panel-heading'>早餐</div>"));
-				input_group1.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_1'></div>"));
-				var input_group1_btn = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_1'>选择餐厅</button>");
-				input_group1_btn.click(function(){
+				var input_panel1 = $("<div class='panel'></div>");
+				input_panel1.append($("<div class='panel-heading'>早餐</div>"));
+				input_panel1.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_1'></div>"));
+				var input_group1 = $("<div class='input-group'></div>");
+				var input_group1_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_1_add'>");
+				var input_group1_btn_add = $("<button class='btn btn-default' type='button' display-id='day_"+dayId+"_restaurant_1'>添加餐厅</button>");
+				input_group1_btn_add.click(function(){
+					var _currentRId = $(this).attr("display-id");
+					var content = $("#"+_currentRId);
+					var rName = $("#"+_currentRId+"_add").val();
+					if(rName) {
+    					var btn = $("<button class='btn btn-default "+_currentRId+"_item'></button>");
+    					btn.attr("rId", 0);
+    					btn.attr("rName", rName);
+    					btn.click(function() {
+    						$(this).remove();
+    					});
+    					content.append(btn.text(rName));
+						$("#"+_currentRId+"_add").val("");
+					}
+				});
+				var input_group1_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_1'>选择餐厅</button>");
+				input_group1_btn_select.click(function(){
 					selectRestaurant($(this).attr("display-id"));
 				});
-				input_group1.append($("<span class='input-group-btn'></span>").append(input_group1_btn));
-                restaurantList.append(input_group1);
+				input_group1.append(input_group1_text);
+				input_group1.append($("<span class='input-group-btn'></span>").append(input_group1_btn_add));
+				input_group1.append($("<span class='input-group-btn'></span>").append(input_group1_btn_select));
+                restaurantList.append(input_panel1.append(input_group1));
 				// 2
-				var input_group2 = $("<div class='panel'></div>");
-				input_group2.append($("<div class='panel-heading'>午餐</div>"));
-				input_group2.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_2'></div>"));
-				var input_group2_btn = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_2'>选择餐厅</button>");
-				input_group2_btn.click(function(){
+				var input_panel2 = $("<div class='panel'></div>");
+				input_panel2.append($("<div class='panel-heading'>午餐</div>"));
+				input_panel2.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_2'></div>"));
+				var input_group2 = $("<div class='input-group'></div>");
+				var input_group2_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_2_add'>");
+				var input_group2_btn_add = $("<button class='btn btn-default' type='button' display-id='day_"+dayId+"_restaurant_2'>添加餐厅</button>");
+				input_group2_btn_add.click(function(){
+					var _currentRId = $(this).attr("display-id");
+					var content = $("#"+_currentRId);
+					var rName = $("#"+_currentRId+"_add").val();
+					if(rName) {
+    					var btn = $("<button class='btn btn-default "+_currentRId+"_item'></button>");
+    					btn.attr("rId", 0);
+    					btn.attr("rName", rName);
+    					btn.click(function() {
+    						$(this).remove();
+    					});
+    					content.append(btn.text(rName));
+						$("#"+_currentRId+"_add").val("");
+					}
+				});
+				var input_group2_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_2'>选择餐厅</button>");
+				input_group2_btn_select.click(function(){
 					selectRestaurant($(this).attr("display-id"));
 				});
-				input_group2.append($("<span class='input-group-btn'></span>").append(input_group2_btn));
-                restaurantList.append(input_group2);
+				input_group2.append(input_group2_text);
+				input_group2.append($("<span class='input-group-btn'></span>").append(input_group2_btn_add));
+				input_group2.append($("<span class='input-group-btn'></span>").append(input_group2_btn_select));
+                restaurantList.append(input_panel2.append(input_group2));
 				// 3
-				var input_group3 = $("<div class='panel'></div>");
-				input_group3.append($("<div class='panel-heading'>晚餐</div>"));
-				input_group3.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_3'></div>"));
-				var input_group3_btn = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_3'>选择餐厅</button>");
-				input_group3_btn.click(function(){
+				var input_panel3 = $("<div class='panel'></div>");
+				input_panel3.append($("<div class='panel-heading'>晚餐</div>"));
+				input_panel3.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_3'></div>"));
+				var input_group3 = $("<div class='input-group'></div>");
+				var input_group3_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_3_add'>");
+				var input_group3_btn_add = $("<button class='btn btn-default' type='button' display-id='day_"+dayId+"_restaurant_3'>添加餐厅</button>");
+				input_group3_btn_add.click(function(){
+					var _currentRId = $(this).attr("display-id");
+					var content = $("#"+_currentRId);
+					var rName = $("#"+_currentRId+"_add").val();
+					if(rName) {
+    					var btn = $("<button class='btn btn-default "+_currentRId+"_item'></button>");
+    					btn.attr("rId", 0);
+    					btn.attr("rName", rName);
+    					btn.click(function() {
+    						$(this).remove();
+    					});
+    					content.append(btn.text(rName));
+						$("#"+_currentRId+"_add").val("");
+					}
+				});
+				var input_group3_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_3'>选择餐厅</button>");
+				input_group3_btn_select.click(function(){
 					selectRestaurant($(this).attr("display-id"));
 				});
-				input_group3.append($("<span class='input-group-btn'></span>").append(input_group3_btn));
-                restaurantList.append(input_group3);
-				page.append(restaurant);
+				input_group3.append(input_group3_text);
+				input_group3.append($("<span class='input-group-btn'></span>").append(input_group3_btn_add));
+				input_group3.append($("<span class='input-group-btn'></span>").append(input_group3_btn_select));
+                restaurantList.append(input_panel3.append(input_group3));
 				// 景区
 				var scenic_spot = $("<div class='panel add-scenic-spot'></div>");
 				scenic_spot.append($("<div class='panel-heading'><i class='icon icon-2x icon-pushpin'></i>添加景区</div>"));
@@ -139,9 +198,9 @@
 			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectRestaurant','选择餐厅',function() {
 				var res = win.getRestaurants();
 				var content = $("#"+currentRId);
-				content.empty();
                 for(var i in res) {
-					var btn = $("<button class='btn btn-default "+currentRId+"_item'></button>");
+					if($("#"+currentRId+"_item_"+res[i].id).length > 0) continue;
+					var btn = $("<button class='btn btn-info "+currentRId+"_item' id='"+currentRId+"_item_"+res[i].id+"'></button>");
 					btn.attr("rId", res[i].id);
 					btn.attr("rName", res[i].name);
 					btn.click(function() {
@@ -163,7 +222,7 @@
 				var content = $("#"+currentSId);
 				content.empty();
                 for(var i in sce) {
-					var btn = $("<button class='btn btn-default "+currentSId+"_item'></button>");
+					var btn = $("<button class='btn btn-info "+currentSId+"_item'></button>");
 					btn.attr("rId", sce[i].id);
 					btn.attr("rName", sce[i].name);
 					btn.click(function() {
@@ -185,7 +244,7 @@
 				var content = $("#"+currentHId);
 				content.empty();
                 for(var i in hot) {
-					var btn = $("<button class='btn btn-default "+currentHId+"_item'></button>");
+					var btn = $("<button class='btn btn-info "+currentHId+"_item'></button>");
 					btn.attr("rId", hot[i].id);
 					btn.attr("rName", hot[i].name);
 					btn.click(function() {
