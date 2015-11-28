@@ -2,6 +2,9 @@
 *{ margin:0;padding:0;}
 ul li,ol li{list-style: none;}
 
+.error{color: #ff0000;}
+.spColor{color: #ff0000;}
+
 .inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;}
 .whole{}
 .inpSingle{margin-bottom: 10px;width: 32%;float: left;margin-right: 1%;}
@@ -14,7 +17,8 @@ ul li,ol li{list-style: none;}
 @media (max-width: 500px) {
     .inpSingle{width: 100%;float: left;}
 }
-.pageWrap{text-align: center;}
+.pageWrap{width: 50%;margin: 0 auto;}
+.pageWrap .pageSize{width: 100px;}
 
 .dialogPoint .formPoint{padding: 0;float: left;width: 50%;margin: 0;}
 .dialogPoint .formPoint li{overflow: hidden;margin-bottom: 4px;}
