@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.alibaba.dubbo.common.serialize.support.json.FastJsonSerialization;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.groupTravel.GroupTravel;
@@ -189,7 +188,7 @@ public class CommGroupTravelController extends BaseController {
 	}
 
 	/**
-	 * 选择酒店
+	 * 保存
 	 * 
 	 * @return
 	 * @throws Exception
