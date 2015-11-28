@@ -100,6 +100,8 @@
 	}
 	function createTcContent(id,startDate,endDate) {
 		var pane = $("<div class='tab-pane in' id='tc_"+id+"'/>")
+		pane.append($("<input type='hidden' id='tc_"+id+"_startDate' value='"+startDate.getTime()+"'>"));
+		pane.append($("<input type='hidden' id='tc_"+id+"_endDate' value='"+endDate.getTime()+"'>"));
 		var table = $("<table class='table'/>");
 		var td = $("<td/>");
 		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></div>")
@@ -245,6 +247,8 @@
 			});
 			tcs.push({
 				id:tcId,
+				startDate:$("#tc_"+tcId+"_startDate").val(),
+				endDate:$("#tc_"+tcId+"_endDate").val(),
 				name:$("#tc_"+tcId+"_name").val(),
 				from:$("#tc_"+tcId+"_from").val(),
 				months:months
