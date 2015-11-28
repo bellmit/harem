@@ -61,7 +61,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
 	public String baseInfo() throws Exception {
-		return "/system/comm/groupTral/baseInfo";
+		return "/system/comm/groupTravel/baseInfo";
 	}
 
 	/**
@@ -164,6 +164,17 @@ public class CommGroupTravelController extends BaseController {
 	@RequestMapping(value = "/selectScenicSpot")
 	public String selectScnicSpot() throws Exception {
 		return "/system/comm/groupTravel/selectScenicSpot";
+	}
+
+	/**
+	 * 批量录入
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/batchInsert")
+	public String batchInsert() throws Exception {
+		return "/system/comm/groupTravel/batchInsert";
 	}
 
 	/**

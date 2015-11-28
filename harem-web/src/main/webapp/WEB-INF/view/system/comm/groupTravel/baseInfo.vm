@@ -9,7 +9,7 @@
         	<table>
         		<tr >
     				<td>*产品类型：</td>
-    				<td>跟团游<input type="hidden" class="productType" value="1"/></td>
+    				<td>跟团游<input type="hidden" class="productType" value="0"/></td>
                 </tr>
     			<tr >
     				<td>*产品名称：</td>

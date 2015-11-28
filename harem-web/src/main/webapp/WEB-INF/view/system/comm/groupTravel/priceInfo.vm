@@ -119,7 +119,10 @@
 			var tabA = $("<a href='#tc_"+id+"_month_"+i+"' data-toggle='tab'>"+month+"</a>");
 			tab.append(tcTab.append(tabA));
 		}
-		var batch = $("<button class='btn btn-primary'>批量录入</button>");
+		var batch = $("<button class='btn btn-primary' tc-id='"+id+"'>批量录入</button>");
+		batch.click(function() {
+			batchInsert($(this).attr("tc-id"));
+		});
 		//特效
 		tab.append($("<li>").append(batch));
 		return tab;
@@ -145,31 +148,31 @@
 				td.append(div_date);
 				var group_1 = $("<div class='input-group'/>")
 				group_1.append("<span class='input-group-addon'>￥成人价：</span>");
-				group_1.append("<input type='text' class='form-control' id='"+day_id+"_11' placeholder='请输入成人价'>"); 
+				group_1.append("<input type='text' class='form-control tc-"+id+"-item-11' id='"+day_id+"_11' placeholder='请输入成人价'>"); 
 				group_1.append("<span class='input-group-addon'>库存：</span>");
-				group_1.append("<input type='text' class='form-control' id='"+day_id+"_12' placeholder='请输入库存'>"); 
+				group_1.append("<input type='text' class='form-control tc-"+id+"-item-12' id='"+day_id+"_12' placeholder='请输入库存'>"); 
 				group_1.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_1.append("<input type='text' class='form-control' id='"+day_id+"_13' placeholder='请输入会员优惠'>"); 
+				group_1.append("<input type='text' class='form-control tc-"+id+"-item-13' id='"+day_id+"_13' placeholder='请输入会员优惠'>"); 
 				td.append(group_1);
 				var group_2 = $("<div class='input-group'/>")
 				group_2.append("<span class='input-group-addon'>￥儿童价（0-2）：</span>");
-				group_2.append("<input type='text' class='form-control' id='"+day_id+"_21' placeholder='请输入儿童价'>"); 
+				group_2.append("<input type='text' class='form-control tc-"+id+"-item-21' id='"+day_id+"_21' placeholder='请输入儿童价'>"); 
 				group_2.append("<span class='input-group-addon'>库存：</span>");
-				group_2.append("<input type='text' class='form-control' id='"+day_id+"_22' placeholder='请输入库存'>"); 
+				group_2.append("<input type='text' class='form-control tc-"+id+"-item-22' id='"+day_id+"_22' placeholder='请输入库存'>"); 
 				group_2.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_2.append("<input type='text' class='form-control' id='"+day_id+"_23' placeholder='请输入会员优惠'>"); 
+				group_2.append("<input type='text' class='form-control tc-"+id+"-item-23' id='"+day_id+"_23' placeholder='请输入会员优惠'>"); 
 				td.append(group_2);
 				var group_3 = $("<div class='input-group'/>")
 				group_3.append("<span class='input-group-addon'>￥儿童价（2-12）：</span>");
-				group_3.append("<input type='text' class='form-control' id='"+day_id+"_31' placeholder='请输入儿童价'>"); 
+				group_3.append("<input type='text' class='form-control tc-"+id+"-item-31' id='"+day_id+"_31' placeholder='请输入儿童价'>"); 
 				group_3.append("<span class='input-group-addon'>库存：</span>");
-				group_3.append("<input type='text' class='form-control' id='"+day_id+"_32' placeholder='请输入库存'>"); 
+				group_3.append("<input type='text' class='form-control tc-"+id+"-item-32' id='"+day_id+"_32' placeholder='请输入库存'>"); 
 				group_3.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_3.append("<input type='text' class='form-control' id='"+day_id+"_33' placeholder='请输入会员优惠'>"); 
+				group_3.append("<input type='text' class='form-control tc-"+id+"-item-33' id='"+day_id+"_33' placeholder='请输入会员优惠'>"); 
 				td.append(group_3);
 				var group_4 = $("<div class='input-group'/>")
 				group_4.append("<span class='input-group-addon'>￥单房差：</span>");
-				group_4.append("<input type='text' class='form-control' id='"+day_id+"_41' placeholder='请输入单房差'>"); 
+				group_4.append("<input type='text' class='form-control tc-"+id+"-item-41' id='"+day_id+"_41' placeholder='请输入单房差'>"); 
 				td.append(group_4);
 				tr.append(td);
 			}
@@ -177,6 +180,28 @@
 		}
 		return content;
 	}
+	
+	var currentTcId;
+    // 选择交通
+	function batchInsert(tId){
+		var currentTcId = tId;
+		openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/batchInsert','批量录入 ',function() {
+			var data = win.getData();
+			$(".tc-"+currentTcId+"-item-11").val(data.adult.price);
+			$(".tc-"+currentTcId+"-item-12").val(data.adult.stock);
+			$(".tc-"+currentTcId+"-item-13").val(data.adult.discount);
+			$(".tc-"+currentTcId+"-item-21").val(data.children02.price);
+			$(".tc-"+currentTcId+"-item-22").val(data.children02.stock);
+			$(".tc-"+currentTcId+"-item-23").val(data.children02.discount);
+			$(".tc-"+currentTcId+"-item-31").val(data.children212.price);
+			$(".tc-"+currentTcId+"-item-32").val(data.children212.stock);
+			$(".tc-"+currentTcId+"-item-33").val(data.children212.discount);
+			$(".tc-"+currentTcId+"-item-41").val(data.srd);
+			// console.log(JSON.stringify(data));
+			// 一般设定yes回调，必须进行手工关闭
+			return true;
+		});
+    }
 	
 	// 获取价格信息
 	function getPriceInfo() {

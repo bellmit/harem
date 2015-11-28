@@ -1,0 +1,57 @@
+<div>
+	<div class="input-group">
+		<span class="input-group-addon">￥成人价：</span>
+		<input type="text" class="form-control" id="item_11" placeholder="请输入成人价">
+			<span class="input-group-addon">库存：</span>
+			<input type="text" class="form-control" id="item_12" placeholder="请输入库存">
+			<span class="input-group-addon">会员优惠：</span>
+			<input type="text" class="form-control" id="item_13" placeholder="请输入会员优惠">
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon">￥儿童价（0-2）：</span>
+		<input type="text" class="form-control" id="item_21" placeholder="请输入儿童价">
+		<span class="input-group-addon">库存：</span>
+		<input type="text" class="form-control" id="item_22" placeholder="请输入库存">
+		<span class="input-group-addon">会员优惠：</span>
+		<input type="text" class="form-control" id="item_23" placeholder="请输入会员优惠">
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon">￥儿童价（2-12）：</span>
+		<input type="text" class="form-control" id="item_31" placeholder="请输入儿童价">
+		<span class="input-group-addon">库存：</span>
+		<input type="text" class="form-control" id="item_32" placeholder="请输入库存">
+		<span class="input-group-addon">会员优惠：</span>
+		<input type="text" class="form-control" id="item_33" placeholder="请输入会员优惠">
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon">￥单房差：</span>
+		<input type="text" class="form-control" id="item_41" placeholder="请输入单房差">
+	</div>
+</div>
+<script type="text/javascript">
+	function getData() {
+		var day_id = "item";
+		var adult = {
+			price:$("#"+day_id+"_11").val(),
+			stock:$("#"+day_id+"_12").val(),
+			discount:$("#"+day_id+"_13").val()
+		};
+		var children_0_2 = {
+			price:$("#"+day_id+"_21").val(),
+			stock:$("#"+day_id+"_22").val(),
+			discount:$("#"+day_id+"_23").val()
+		};
+		var children_2_12 = {
+			price:$("#"+day_id+"_31").val(),
+			stock:$("#"+day_id+"_32").val(),
+			discount:$("#"+day_id+"_33").val()
+		};
+		var srd = $("#"+day_id+"_41").val();
+		return {
+			adult:adult,
+			children02:children_0_2,
+			children212:children_2_12,
+			srd:srd
+		};
+	}
+</script>

@@ -175,7 +175,7 @@
 		var currentRId;
 		var currentSId;
 		var currentHId;
-		var icon = ["飞机","火车","巴士","轮船"]
+		var icon = ["飞机","火车","巴士","轮船"];
 	    // 选择交通
 		function selectTraffic(tId){
 			var currentTId = tId;
