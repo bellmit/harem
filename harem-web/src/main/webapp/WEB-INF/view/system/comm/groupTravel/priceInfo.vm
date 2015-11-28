@@ -102,8 +102,10 @@
 		var pane = $("<div class='tab-pane in' id='tc_"+id+"'/>")
 		var table = $("<table class='table'/>");
 		var td = $("<td/>");
-		var tcName = $("<span>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></span>")
+		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></div>")
 		td.append(tcName);
+		var tcFrom = $("<div>出发地：<input type='text' id='tc_"+id+"_from' class='form-control' placeholder='出发地'></div>")
+		td.append(tcFrom);
 		table.append($("<tr/>").append(td));
 		var dateJson = CalendarUtils.getMonthTree(startDate,endDate);
 		var dateTab = createDateTab(id,dateJson,startDate,endDate);
@@ -241,7 +243,12 @@
 				});
 				months.push({time:mId,days:days});
 			});
-			tcs.push({id:tcId,months:months});
+			tcs.push({
+				id:tcId,
+				name:$("#tc_"+tcId+"_name").val(),
+				from:$("#tc_"+tcId+"_from").val(),
+				months:months
+			});
 		});
 		return {tcs:tcs,limit:$(".day-limit").val()};
 	}
