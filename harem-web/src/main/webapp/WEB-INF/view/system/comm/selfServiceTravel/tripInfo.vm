@@ -1,0 +1,76 @@
+ <script src="$!{staticResourcesPath}/resources/js/layerModal.js" type="text/javascript"></script>
+ <div>
+	<div class='panel add-fight'>
+		<div class='panel-heading'><i class='icon icon-2x icon-home'></i>航班信息</div>
+		<div class='panel-body'>
+			<table class="table">
+				<tr>
+					<td>
+						<div>
+							<input type="radio" value="0" id="no-flight" name="flight-status" checked><label for="no-flight">无航班信息</label>
+                        </div>
+						<div>备注信息：</div>
+						<div>
+							<textarea class="form-control" id="note-info" rows="3"></textarea>
+						</div>
+                    </td>
+					<td>
+						<div>
+							<input type="radio" value="1" id="has-flight" name="flight-status" ><label for="has-flight">有航班信息</label>
+                        </div>
+						<div>
+							<button class='btn btn-primary add-flight'>添加航班信息</button>
+						</div>
+						<div class="flight-info"></div>
+                    </td>
+                </tr>
+            </table>
+		</div>
+	</div>
+	<div class='panel add-hotel'>
+		<div class='panel-heading'><i class='icon icon-2x icon-home'></i>添加酒店</div>
+		<div class='panel-body hotel' id='day_hotel'></div>
+		<button class='btn btn-primary select-htel'>选择酒店</button>
+	</div>
+</div> 
+<script type="text/javascript">
+	$(".add-flight").click(function(){
+		selectFlight();
+	});
+	$(".select-hotel").click(function(){
+		selectHotel();
+	});
+	// 添加航班
+	function selectFlight(){
+		openModalForForm(actionDefaultPath + '/B2C/comm/selfServiceTravel/addFlight','添加航班 ',function() {
+			var hot = win.getFlights(); 
+			
+			//console.log(JSON.stringify(hot));
+			//一般设定yes回调，必须进行手工关闭
+			return true;
+		});
+	}
+	// 选择酒店
+	function selectHotel(){
+		openModalForForm(actionDefaultPath + '/B2C/comm/selfServiceTravel/selectHotel','选择酒店 ',function() {
+			var hot = win.getHotels(); 
+			var content = $("#day_hotel");
+			content.empty();
+            for(var i in hot) {
+				var btn = $("<button class='btn btn-info hotel_item'></button>");
+				btn.attr("rId", hot[i].id);
+				btn.attr("rName", hot[i].name);
+				btn.click(function() {
+					$(this).remove();
+				});
+				content.append(btn.text(hot[i].name));
+			}
+			//console.log(JSON.stringify(hot));
+			//一般设定yes回调，必须进行手工关闭
+			return true;
+		});
+    }
+	function getTripInfo(){
+		
+	}
+</script>
