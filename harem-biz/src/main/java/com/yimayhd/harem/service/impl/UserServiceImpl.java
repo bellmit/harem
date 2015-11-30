@@ -1,17 +1,14 @@
 package com.yimayhd.harem.service.impl;
 
-import com.yimayhd.harem.model.User;
-import com.yimayhd.harem.model.query.TradeMemberQuery;
-import com.yimayhd.harem.service.UserService;
-import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.membercenter.client.service.merchant.MerchantService;
-import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
-import com.yimayhd.user.client.domain.UserDO;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.yimayhd.harem.model.User;
+import com.yimayhd.harem.model.query.TradeMemberQuery;
+import com.yimayhd.harem.service.UserService;
+import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
+import com.yimayhd.user.client.domain.UserDO;
 
 /**
  * @author czf
