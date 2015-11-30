@@ -9,7 +9,6 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
 
 /**
  * 餐厅服务实例
@@ -83,7 +82,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 				result.add(restaurant);
 			}
 		}
-		return restaurants;
+		return result;
 	}
 
 	@Override
