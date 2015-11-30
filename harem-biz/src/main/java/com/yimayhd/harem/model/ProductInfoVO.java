@@ -1,8 +1,8 @@
 package com.yimayhd.harem.model;
 
 import java.util.List;
+import java.util.Map;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
 import com.yimayhd.harem.base.BaseModel;
 
 public class ProductInfoVO extends BaseModel {
