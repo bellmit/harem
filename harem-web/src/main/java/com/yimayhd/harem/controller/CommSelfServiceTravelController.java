@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
+import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
 
 /**
  * 商品-自由行
@@ -50,9 +50,9 @@ public class CommSelfServiceTravelController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/tripInfo", method = RequestMethod.GET)
-	public String triInfo() throws Exception {
-		return "/system/comm/selfServiceTravel/tripInfo";
+	@RequestMapping(value = "/tripPackageInfo", method = RequestMethod.GET)
+	public String tripPackageInfo() throws Exception {
+		return "/system/comm/selfServiceTravel/tripPackageInfo";
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectHotel")
 	public String selectHotel() throws Exception {
-		return "/system/comm/selfServiceTravel/selectHotel";
+		return "/system/comm/selectHotel";
 	}
 
 	/**
@@ -107,8 +107,8 @@ public class CommSelfServiceTravelController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody GroupTravel save(String json) throws Exception {
-		GroupTravel selfServiceTravel = JSON.parse(json, GroupTravel.class);
+	public @ResponseBody SelfServiceTravel save(String json) throws Exception {
+		SelfServiceTravel selfServiceTravel = JSON.parse(json, SelfServiceTravel.class);
 		return selfServiceTravel;
 	}
 }

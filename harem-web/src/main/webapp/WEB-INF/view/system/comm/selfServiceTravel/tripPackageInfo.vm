@@ -7,7 +7,7 @@
 				<tr>
 					<td>
 						<div>
-							<input type="radio" value="0" id="no-flight" name="flight-status" checked><label for="no-flight">无航班信息</label>
+							<input type="radio" value="0" id="no-flight" name="has-flight" checked><label for="no-flight">无航班信息</label>
                         </div>
 						<div>备注信息：</div>
 						<div>
@@ -16,7 +16,7 @@
                     </td>
 					<td>
 						<div>
-							<input type="radio" value="1" id="has-flight" name="flight-status" ><label for="has-flight">有航班信息</label>
+							<input type="radio" value="1" id="has-flight" name="has-flight" ><label for="has-flight">有航班信息</label>
                         </div>
 						<div>
 							<button class='btn btn-primary add-flight'>添加航班信息</button>
@@ -30,7 +30,7 @@
 	<div class='panel add-hotel'>
 		<div class='panel-heading'><i class='icon icon-2x icon-home'></i>添加酒店</div>
 		<div class='panel-body hotel' id='day_hotel'></div>
-		<button class='btn btn-primary select-htel'>选择酒店</button>
+		<button class='btn btn-primary select-hotel'>选择酒店</button>
 	</div>
 </div> 
 <script type="text/javascript">
@@ -44,7 +44,22 @@
 	function selectFlight(){
 		openModalForForm(actionDefaultPath + '/B2C/comm/selfServiceTravel/addFlight','添加航班 ',function() {
 			var flights = win.getFlights();
-			console.log(JSON.stringify(flights));
+			// console.log(JSON.stringify(flights));
+			var content = $(".flight-info");
+			// 数据绑定点：开始
+			var go = $("<input type='text' class='flight-go'>");
+			go.val(JSON.stringify(flights.go));
+			go = $("<div/>").append(go);
+			var back = $("<input type='text' class='flight-back'>");
+			back.val(JSON.stringify(flights.back));
+			back = $("<div/>").append(back);
+			var del_btn = $("<button class='btn btn-primary'>删除</button>");
+			del_btn.click(function(){
+				$(this).parent().remove();
+			});
+			content.append($("<div class='flight'/>").append(go).append(back).append(del_btn));
+			back.val(JSON.stringify(flights.back));
+			// 数据绑定点：结束
 			//一般设定yes回调，必须进行手工关闭
 			return true;
 		});
@@ -69,7 +84,34 @@
 			return true;
 		});
     }
-	function getTripInfo(){
-		
+	function getTripPackageInfo(){
+		var result = {};
+		var flight_status = $("[name='has-flight']:checked").val();
+		if(flight_status == 0) {
+			var note_info = $(".note-info").val();
+			result["noteInfo"] = note_info;
+		} else {
+			var flights = [];
+			$(".flight").each(function() {
+				flights.push({
+					go : JSON.parse($(this).find(".flight-go").val()),
+					back : JSON.parse($(this).find(".flight-back").val())
+				});
+			});
+			result["flights"] = flights;
+		}
+		// 酒店
+		var hotels = [];
+		$(".hotel_item").each(function(){
+			var rId = $(this).attr("rId");
+			var rName = $(this).attr("rName");
+			hotels.push({id:rId,name:rName});
+		});
+		return {
+			hasFlight:flight_status,
+			noteInfo:note_info,
+			flights:flights,
+			hotels:hotels
+		};
 	}
 </script>

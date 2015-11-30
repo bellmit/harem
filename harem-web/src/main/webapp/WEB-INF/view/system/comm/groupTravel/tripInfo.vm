@@ -282,61 +282,46 @@
 					day["traffic"] = tra;
 				}
 				// 描述
-				var des = "";
-				var _des = $("#day_"+day_id+"_trip_description");
-				if(_des.length > 0) {
-					des=_des.val();
-					day["description"] = des;
-				}
+				day["description"] = $("#day_"+day_id+"_trip_description").val()||"";
 				// 餐厅
 				var res_1 = [];
-				if($(".day_"+day_id+"_restaurant_1_item").length > 0) {
-    				$(".day_"+day_id+"_restaurant_1_item").each(function(){
-    					var rId = $(this).attr("rId");
-    					var rName = $(this).attr("rName");
-    					res_1.push({id:rId,name:rName});
-    				});
-    				day["restaurant1"] = res_1;
-				}
+				$(".day_"+day_id+"_restaurant_1_item").each(function(){
+					var rId = $(this).attr("rId");
+					var rName = $(this).attr("rName");
+					res_1.push({id:rId,name:rName});
+				});
+				day["restaurant1"] = res_1;
 				var res_2 = [];
-				if($(".day_"+day_id+"_restaurant_2_item").length > 0) {
-    				$(".day_"+day_id+"_restaurant_2_item").each(function(){
-    					var rId = $(this).attr("rId");
-    					var rName = $(this).attr("rName");
-    					res_2.push({id:rId,name:rName});
-    				});
-    				day["restaurant2"] = res_2;
-				}
+				$(".day_"+day_id+"_restaurant_2_item").each(function(){
+					var rId = $(this).attr("rId");
+					var rName = $(this).attr("rName");
+					res_2.push({id:rId,name:rName});
+				});
+				day["restaurant2"] = res_2;
 				var res_3 = [];
-				if($(".day_"+day_id+"_restaurant_3_item").length > 0) {
-    				$(".day_"+day_id+"_restaurant_3_item").each(function(){
-    					var rId = $(this).attr("rId");
-    					var rName = $(this).attr("rName");
-    					res_3.push({id:rId,name:rName});
-    				});
-    				day["restaurant3"] = res_3;
-				}
+				$(".day_"+day_id+"_restaurant_3_item").each(function(){
+					var rId = $(this).attr("rId");
+					var rName = $(this).attr("rName");
+					res_3.push({id:rId,name:rName});
+				});
+				day["restaurant3"] = res_3;
 				// 景点
 				var sce = [];
-				if($(".day_"+day_id+"_scenic_item").length > 0) {
-					$(".day_"+day_id+"_scenic_item").each(function(){
-    					var rId = $(this).attr("rId");
-    					var rName = $(this).attr("rName");
-    					sce.push({id:rId,name:rName});
-    				});
-    				day["scenics"] = sce;
-				}
+				$(".day_"+day_id+"_scenic_item").each(function(){
+					var rId = $(this).attr("rId");
+					var rName = $(this).attr("rName");
+					sce.push({id:rId,name:rName});
+				});
+				day["scenics"] = sce;
 				
 				// 酒店
 				var hotel = [];
-				if($(".day_"+day_id+"_hotel_item").length > 0) {
-    				$(".day_"+day_id+"_hotel_item").each(function(){
-    					var rId = $(this).attr("rId");
-    					var rName = $(this).attr("rName");
-    					hotel.push({id:rId,name:rName});
-    				});
-    				day["hotels"] = hotel;
-				}
+				$(".day_"+day_id+"_hotel_item").each(function(){
+					var rId = $(this).attr("rId");
+					var rName = $(this).attr("rName");
+					hotel.push({id:rId,name:rName});
+				});
+				day["hotels"] = hotel;
 				result.push(day);
 			});
 			return result;

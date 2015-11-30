@@ -12,6 +12,7 @@ import com.yimayhd.harem.model.travel.PriceInfo;
 public class SelfServiceTravel {
 
 	private BaseInfo baseInfo;// 基础信息
+	private TripPackageInfo tripPackageInfo;// 套餐信息
 	private PriceInfo priceInfo;// 价格信息
 
 	public BaseInfo getBaseInfo() {
@@ -28,6 +29,14 @@ public class SelfServiceTravel {
 
 	public void setPriceInfo(PriceInfo priceInfo) {
 		this.priceInfo = priceInfo;
+	}
+
+	public TripPackageInfo getTripPackageInfo() {
+		return tripPackageInfo;
+	}
+
+	public void setTripPackageInfo(TripPackageInfo tripPackageInfo) {
+		this.tripPackageInfo = tripPackageInfo;
 	}
 
 }

@@ -20,7 +20,7 @@
 			#parse("/system/comm/selfServiceTravel/baseInfo.vm")
         </div>
         <div class="tab-pane" id="tripInfo">
-			#parse("/system/comm/selfServiceTravel/tripInfo.vm")
+			#parse("/system/comm/selfServiceTravel/tripPackageInfo.vm")
         </div>
         <div class="tab-pane" id="priceInfo">
 			#parse("/system/comm/selfServiceTravel/priceInfo.vm")
@@ -33,7 +33,7 @@
 	  	$(".save").click(function(){
 			var result = {
 				baseInfo:getBaseInfo(),
-				tripInfo:getTripInfo(),
+				tripPackageInfo:getTripPackageInfo(),
 				priceInfo:getPriceInfo()
 			};
 			$.getJSON("$!{actionDefaultPath}/B2C/comm/selfServiceTravel/save",{json:JSON.stringify(result)},function(data){
