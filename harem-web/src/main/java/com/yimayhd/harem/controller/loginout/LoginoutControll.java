@@ -41,7 +41,7 @@ public class LoginoutControll {
 //        }
 
         BaseResult<Long> result = importUserService.login(loginoutVO.getUsername(), loginoutVO.getPassword());
-        String errorCode = result.getErrorCode();
+        int errorCode = result.getErrorCode();
         if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
             LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
             SessionUtils.setUserId(result.getValue().toString());
