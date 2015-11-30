@@ -8,6 +8,8 @@ import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.model.vo.ActivityVO;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.UserService;
+import com.yimayhd.snscenter.client.domain.SnsActivityDO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,11 +39,8 @@ public class ActivityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, ActivityListQuery query) throws Exception {
-		ActivityVO activityVO = new ActivityVO();
-		activityVO.setActivityListQuery(query);
-		List<Activity> activityList = activityService.getList(activityVO.getActivity());
-		PageVO<Activity> pageVo = new PageVO<Activity>(query.getPageNumber(), query.getPageSize(), 14800);
-		// pageVo.setCurrentPage(60);
+		List<SnsActivityDO> activityList = activityService.getList(query);
+		PageVO pageVo = new PageVO(query.getPageNumber(), query.getPageSize(), 14800);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("activityListQuery", query);
 		model.addAttribute("activityList", activityList);

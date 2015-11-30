@@ -66,51 +66,60 @@
 
         <div class="tableGroup whole">
             <button type="button" class="btn btn-primary activityAdd">新建</button>
-            <table class="table table-hover">
+         <table class="table table-hover">
+			
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th><input type="checkbox" name="checkAll" id="checkAll" value="" /></th>
                     <th>活动名称</th>
                     <th>所属俱乐部</th>
-                    <th>活动时间</th>
-                    <th>报名时间</th>
+                    <th>主题</th>
+                    <th>活动状态</th>
                     <th>状态</th>
+                    <th>报名状态</th>
                     <th>报名数量</th>
                     <th>报名限额</th>
                     <th>价格</th>
                     <th>访问量</th>
-                    <th>创建时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                     #foreach($activity in $activityList)
                     <tr>
-                        <td>$!velocityCount</td>
+                        <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!activity.id" /></td>
                         <td>$!activity.title</td>
                         <td>$!activity.clubName</td>
-                        <td>$utilDate.dateToString($!activity.startDate,"yyyy-MM-dd HH:mm")至$utilDate.dateToString($!activity.endDate,"yyyy-MM-dd HH:mm")</td>
-                        <td>$utilDate.dateToString($!activity.enrollBeginDate,"yyyy-MM-dd HH:mm")至$utilDate.dateToString($!activity.enrollEndDate,"yyyy-MM-dd HH:mm")</td>
+                        <td></td>
                         <td>#ACTIVITY_STATUS($!activity.status)</td>
                         <td>$!activity.memberCount</td>
                         <td>$!activity.memberCountLimit</td>
                         <td>$!activity.originalPrice</td>
                         <td>88</td>
-                        <td>$utilDate.dateToString($!activity.createrTime,"yyyy-MM-dd HH:mm")</td>
+                        <td></td>
+						<td></td>
                         <td>
                         <button type="button" class="btn btn-primary activityDetail" activityId="$activity.id">查看</button>
-                        <button type="button" class="btn btn-primary activityBtn"  activityId="$activity.id" isStatus="$activity.isStatus">#if($activity.isStatus == 1) 下架 #elseif($activity.isStatus == 2) 上架 #end </button>
+                        <button type="button" class="btn btn-primary activityBtn"  activityId="$activity.id" isStatus="$activity.isStatus">#if(1 == 1) 下架 #elseif($activity.isStatus == 2) 上架 #end </button>
                         </td>
                     </tr>
                     #end
                 </tbody>
             </table>
         </div>
+		
+		
+		
+		
     #*分页*#
     #parse("/page.vm")
     #pageStyle("activityListForm")
     </form>
 <script>
+
+
+
+
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -124,6 +133,16 @@
                 format: "yyyy-mm-dd"
             });
     $(function(){
+		
+	$("#checkAll").click(function() {
+		
+         $('input[name="subBox"]').attr("checked",this.checked); 
+     });
+    
+	
+	
+	
+	
         $('.activityAdd').click(function(){
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/activityManage/toAdd';
             window.openwin(url);
@@ -131,7 +150,7 @@
 
         $('.activityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/activityManage/'+ $(this).attr('activityId');
+                var url =  actionDefaultPath+ '/B2C/activityManage/'+ $(this).attr('activityId');
                 window.openwin(url);
             });
 

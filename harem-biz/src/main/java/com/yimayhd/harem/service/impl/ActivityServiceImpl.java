@@ -2,8 +2,11 @@ package com.yimayhd.harem.service.impl;
 
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.model.Activity;
+import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.util.HttpRequestUtil;
+import com.yimayhd.snscenter.client.domain.SnsActivityDO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -19,41 +22,15 @@ public class ActivityServiceImpl implements ActivityService {
     private TfsManager tfsManager;
 
     @Override
-    public List<Activity> getList(Activity activity) throws Exception {
-        List<Activity> activityList = new ArrayList<Activity>();
+    public List<SnsActivityDO> getList(ActivityListQuery activity) throws Exception {
+        List<SnsActivityDO> activityList = new ArrayList<SnsActivityDO>();
         for (int i = 0; i < 6; i++) {
-            Activity activityData = new Activity();
-
-            activityData.setId((long) i);
-            activityData.setOutId((long) 100);
-            activityData.setTitle("活动标题");
-            activityData.setClubName("古迹俱乐部");
-            activityData.setMemberCount(32);
-            activityData.setOriginalPrice((long) 150000);
-            activityData.setPreferentialPrice((long) 10000);
-            activityData.setStatus(2);
-            activityData.setImage("/1.png");
-            activityData.setModifyTime(new Date());
-            activityData.setCreaterTime(new Date());
-            activityData.setOutType(1);
-            activityData.setFavorName("会员优惠");
-            activityData.setFavorComent("八折");
-            activityData.setRecruitingGroups("招募的对象");
-            activityData.setStartDate(new Date());
-            activityData.setEndDate(new Date());
-            activityData.setPoiContent("西三旗");
-            activityData.setCostDesc("全部费用");
-            activityData.setActiveRoute("七天七夜");
-            activityData.setServiceTel("010-12345678");
-            activityData.setContent("游长城");
-            activityData.setProductId((long) 33);
-            activityData.setIsStatus(1);
-            activityData.setClubImg("/2.png");
-            activityData.setEnrollBeginDate(new Date());
-            activityData.setEnrollEndDate(new Date());
-            activityData.setMemberCountLimit(50);
-            activityList.add(activityData);
-
+        	SnsActivityDO activityDO = new SnsActivityDO();
+        	activityDO.setTitle("活动啊");
+        	activityDO.setProductId(i);
+        	activityDO.setOutType(i);
+        	activityDO.setId(i);
+        	activityList.add(activityDO);
 
         }
         return activityList;
