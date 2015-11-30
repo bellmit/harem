@@ -88,10 +88,9 @@ public class ClubManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseVo add(Club club) throws Exception {
+	public String add(Club club) throws Exception {
 		clubService.add(club);
-		return new ResponseVo();
+		return "/success";
 	}
 
 	/**

@@ -1,13 +1,14 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
 <div class="createClubTable whole">
     <form name="addClub" id="clubForm" action="" method="post" clubId="$!club.id">
         <table class="table">
             <tbody>
             <tr>
                 <td><span class="spColor">*</span>俱乐部名称</td>
-                <input type="hidden" class="form-control" name="id" value="$!club.id">
+            
                 <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!club.name"></td>
             </tr>
             <tr>
@@ -15,8 +16,8 @@
                 <td>
                     <div class="fileImg">
                         <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
                         <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+                        <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
                         <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
                     </div>
                     <div class="logoView">
@@ -29,8 +30,10 @@
                 <td>
                     <div class="fileImg">
                         <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="picturePoster" value="$!club.picturePoster"  id="picturePosterUploadFileReturnInput">
-                        <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile">
+						
+                        <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile" accept="image/png,image/gif">
+						<input type="hidden" name="picturePoster" value="$!club.picturePoster"  id="picturePosterUploadFileReturnInput">
+							
                         <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                     </div>
                     <div class="propagandaView">
@@ -97,77 +100,62 @@
             $('.userNameShow').text(data[0].name);
         }
     }
+	
+	var pictureUploadCallBack = function(data){
+        if(data && data.status == 200){
+		    console.log(data.data);
+            $('#picturePosterUploadFileReturnInput').val(data.data);
+            $('#picturePosterUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+	
+		var LogoPicloadCallBack = function(data){
+        if(data && data.status == 200){
+		    console.log(data.data);
+            $('#logoUrlUploadFileReturnInput').val(data.data);
+            $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+	
     $(function(){
         $('.selectUserBtn').click(function(){
             '$!utilWebconfig.getActionDefaultFontPath()',
                     openModal(actionDefaultPath + '/trade/userManage/selectUserList', "选择用户", selectUserCallBack)
         })
 
-        $(document).delegate('#logoUrlUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                        url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
-                                $('#logoUrlUploadFileReturnInput').val(data.data);
-                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+		 //上传图片
+        $(document).delegate("#picturePosterUploadFile",'change',function(){
+            fileUpload('#picturePosterUploadFile',1,pictureUploadCallBack);
+        })
+		
+		 //上传图片
+        $(document).delegate("#logoUrlUploadFile",'change',function(){
+            fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack);
+        })
+		
+		
 
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
 
-        $(document).delegate('#picturePosterUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                        url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'picturePosterUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
-                                $('#picturePosterUploadFileReturnInput').val(data.data);
-                                $('#picturePosterUploadFileReturnImg').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
         $('#btnSubmit').click(function(){
             $(this).prop('disabled',true);
             var actionUrl;
             var clubId = $('#clubForm').attr('clubId');
             if(clubId){
-                actionUrl = '/clubManage/edit';
+                actionUrl = '/clubManage/edit/'+clubId;
             }else{
                 actionUrl = '/clubManage/add';
             }
             layer.alert(actionUrl);
             $('#clubForm').attr('action',actionUrl);
-            $.post(actionUrl,$('#clubForm').serialize(),function(data){
+			$('#clubForm').submit();
+           #* 
+			$.post(actionUrl,$('#clubForm').serialize(),function(data){
                 if(data.status == 200){
                     var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                     msg.show();
@@ -180,6 +168,7 @@
                     $(this).prop('disabled',false);
                 }
             });
+			*#
         });
     });
 </script>
