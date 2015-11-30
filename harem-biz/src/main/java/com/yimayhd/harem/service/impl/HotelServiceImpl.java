@@ -45,7 +45,7 @@ public class HotelServiceImpl implements HotelService {
 			// hotelDOData.setRoomService("2,3");
 			// hotelDOData.setHotelFacility("1,2,3");
 			hotelDOData.setLogoUrl("123.png");
-			hotelDOData.setPictures("[\"123.png\",\"2.png\",\"3.png\"]");
+			hotelDOData.setPictures("[{\"url\":\"1.png\",\"top\":1,\"name\":\"1\"},{\"url\":\"2.png\",\"top\":1,\"name\":\"2\"},{\"url\":\"3.png\",\"top\":1,\"name\":\"3\"},{\"url\":\"4.png\",\"top\":0,\"name\":\"4\"}]");
 			hotelDOData.setLocationX(1000.555);
 			hotelDOData.setLocationY(2000.666);
 			hotelDOData.setLocationText("海淀区");
@@ -80,7 +80,7 @@ public class HotelServiceImpl implements HotelService {
 		// hotelDOData.setRoomService("2,3");
 		// hotelDOData.setHotelFacility("1,2,3");
 		hotelDOData.setLogoUrl("123.png");
-		hotelDOData.setPictures("[\"123.png\",\"2.png\",\"3.png\"]");
+		hotelDOData.setPictures("[{\"url\":\"1.png\",\"top\":1,\"name\":\"1\"},{\"url\":\"2.png\",\"top\":1,\"name\":\"2\"},{\"url\":\"3.png\",\"top\":1,\"name\":\"3\"},{\"url\":\"4.png\",\"top\":0,\"name\":\"4\"}]");
 		hotelDOData.setLocationX(1000.555);
 		hotelDOData.setLocationY(2000.666);
 		hotelDOData.setLocationText("海淀区");

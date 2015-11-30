@@ -15,8 +15,9 @@
                         <td><span class="spColor">*</span>酒店</td>
                         <td>
                             <button type="button" class="btn btn-info selectHotelBtn">选择酒店</button>
-                            <span class="hotelName"></span>
-                            <input class="hotelNameInp" type="hidden" name="outId" value="$!commHotel.outId" disabled>
+                            <span class="hotelName">$!commHotel.subTitle</span>
+                            <input class="hotelNameInp" type="hidden" name="subTitle" value="$!commHotel.subTitle" disabled>
+                            <input class="hotelIdInp" type="hidden" name="outId" value="$!commHotel.outId" disabled>
                         </td>
                     </tr>
                     <tr>
@@ -46,7 +47,7 @@
                     <tbody>
                         <tr class="subCheckedTR">
                             <td><input type="text" name="title" value="$!commHotel.title"></td>
-                            <td><input type="text" name="subTitle" value="$!commHotel.subTitle"></td>
+                            <td><input type="text" name="oneWord" value="$!commHotel.oneWord"></td>
                             <td><input type="text" name="price" value="$!commHotel.price"></td>
                             <td><input type="text" name="huiyuanyouhuiedu" value="$!commHotel.huiyuanyouhuiedu" disabled></td>
                             <td><input type="text" name="huiyuanxiangou" value="$!commHotel.huiyuanxiangou" disabled></td>
@@ -103,6 +104,7 @@
         if(data){
             $('.hotelName').text(data['name']);
             $('.hotelNameInp').val(data['id']);
+            $('.hotelNameInp').val(data['name']);
         }
     }
     $(function(){

@@ -13,6 +13,7 @@ import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -111,6 +112,7 @@ public class HotelManageController extends BaseController {
         model.addAttribute("provinceList", provinceList);
         model.addAttribute("cityList", cityList);
         model.addAttribute("hotel",hotelVO);
+        model.addAttribute("pictureList",hotelVO.getPictureList());
         model.addAttribute("roomFacilityList",roomFacilityList);
         model.addAttribute("roomServiceList",roomServiceList);
         model.addAttribute("hotelFacilityList",hotelFacilityList);
@@ -172,9 +174,9 @@ public class HotelManageController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/picture/add/{hotelId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/picture/add/{hotelId}", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseVo addHotelPicture(@PathVariable("hotelId") long id) throws Exception {
+    public ResponseVo addHotelPicture(@PathVariable("hotelId") long id,ArrayList<String> pictureList) throws Exception {
         return new ResponseVo();
     }
     /**

@@ -19,7 +19,7 @@ public class HotelVO extends HotelDO implements Serializable {
     private static final long serialVersionUID = 6419972389326909198L;
     private MasterRecommend masterRecommend;
     private List<String> phoneNumList;
-    private List<String> picturesList;
+    private List<Picture> pictureList;
     private List<String> openTimeList;
     private List<String> roomFacilityList;
     private List<String> roomServiceList;
@@ -33,7 +33,7 @@ public class HotelVO extends HotelDO implements Serializable {
         //个性化转换
         hotelVO.setMasterRecommend(JSON.parseObject(hotelDO.getRecommend(), MasterRecommend.class));
         hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
-        hotelVO.setPicturesList(JSON.parseArray(hotelDO.getPictures(), String.class));
+        hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
         hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));
         FacilityIconServiceImpl facilityIconService = new FacilityIconServiceImpl();
         hotelVO.setRoomFacilityList(BitUtil.convertFacility(hotelDO.getRoomFacility(),facilityIconService.getMapByType(1),0));
@@ -46,7 +46,7 @@ public class HotelVO extends HotelDO implements Serializable {
         //个性化转换
         hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
         hotelDO.setPhoneNum(JSON.toJSONString(hotelVO.getPhoneNumList()));
-        hotelDO.setPictures(JSON.toJSONString(hotelVO.getPicturesList()));
+        hotelDO.setPictures(JSON.toJSONString(hotelVO.getPictureList()));
         hotelDO.setOpenTime(JSON.toJSONString(hotelVO.getOpenTimeList()));
         hotelDO.setRoomFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         hotelDO.setRoomService(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
@@ -70,12 +70,16 @@ public class HotelVO extends HotelDO implements Serializable {
         this.phoneNumList = phoneNumList;
     }
 
-    public List<String> getPicturesList() {
-        return picturesList;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setPicturesList(List<String> picturesList) {
-        this.picturesList = picturesList;
+    public List<Picture> getPictureList() {
+        return pictureList;
+    }
+
+    public void setPictureList(List<Picture> pictureList) {
+        this.pictureList = pictureList;
     }
 
     public List<String> getOpenTimeList() {
@@ -124,7 +128,7 @@ public class HotelVO extends HotelDO implements Serializable {
         hotelDOData.setRoomService(6);
         hotelDOData.setHotelFacility(3);
         hotelDOData.setLogoUrl("123.png");
-        hotelDOData.setPictures("[\"123.png\",\"2.png\",\"3.png\"]");
+        hotelDOData.setPictures("[{\"url\":\"1.png\",\"top\":1,\"name\":\"1\"},{\"url\":\"2.png\",\"top\":1,\"name\":\"2\"},{\"url\":\"3.png\",\"top\":1,\"name\":\"3\"},{\"url\":\"4.png\",\"top\":0,\"name\":\"4\"}]");
         hotelDOData.setLocationX(1000.555);
         hotelDOData.setLocationY(2000.666);
         hotelDOData.setLocationText("海淀区");
