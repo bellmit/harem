@@ -1,6 +1,9 @@
-package com.yimayhd.harem.model.groupTravel;
+package com.yimayhd.harem.model.travel.groupTravel;
 
 import java.util.List;
+
+import com.yimayhd.harem.model.travel.BaseInfo;
+import com.yimayhd.harem.model.travel.PriceInfo;
 
 /**
  * 跟团游

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.model.groupTravel.GroupTravel;
+import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 
 /**
  * 商品-自由行

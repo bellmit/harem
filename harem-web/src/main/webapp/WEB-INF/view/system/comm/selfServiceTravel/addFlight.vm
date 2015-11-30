@@ -11,99 +11,99 @@
     </li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane in active" id="fromFlight">
+    <div class="tab-pane in active" id="goFlight">
 		<table class="table">
 			<tr>
 				<td>*出发日期：</td>
-				<td><input type="text" class='form-control go-off-date' placeholder='请选择出发日期' readonly id="1_go_off"></td>
+				<td><input type="text" class='form-control go-off-date' placeholder='请选择出发日期' readonly id="go_off"></td>
             </tr>
 			<tr>
 				<td>*出发城市：</td>
-				<td><input type="text" class="form-control" placeholder="请输入出发城市" id="1_from_city"></td>
+				<td><input type="text" class="form-control" placeholder="请输入出城市" id="go_fromCity"></td>
             </tr>
 			<tr>
 				<td>*出发机场：</td>
-				<td><input type="text" class="form-control" placeholder="请输入出发机场" id="1_from_airport"></td>
+				<td><input type="text" class="form-control" placeholder="请输入出发机场" id="go_fromAirport"></td>
             </tr>
 			<tr>
 				<td>*到达城市：</td>
-				<td><input type="text" class="form-control" placeholder="请输入到达城市" id="1_to_city"></td>
+				<td><input type="text" class="form-control" placeholder="请输入到达城市" id="go_toCity"></td>
             </tr>
 			<tr>
 				<td>*到达机场：</td>
-				<td><input type="text" class="form-control" placeholder="请输入到达机场" id="1_to_airport"></td>
+				<td><input type="text" class="form-control" placeholder="请输入到达机场" id="go_toAirport"></td>
             </tr>
 			<tr>
 				<td>航班公司：</td>
-				<td><input type="text" class="form-control" placeholder="请输入航班公司" id="1_airways"></td>
+				<td><input type="text" class="form-control" placeholder="请输入航班公司" id="go_airways"></td>
             </tr>
 			<tr>
 				<td>航班号：</td>
-				<td><input type="text" class="form-control" placeholder="请输入航班号" id="1_flight_number"></td>
+				<td><input type="text" class="form-control" placeholder="请输入航班号" id="go_flightNumber"></td>
             </tr>
 			<tr>
 				<td>计划起飞时间：</td>
-				<td><input type="text" class='form-control plan-time' placeholder='请选择计划起飞时间' readonly id="1_plan_start" rId="1"></td>
+				<td><input type="text" class='form-control plan-time' placeholder='请选择计划起飞时间' readonly id="go_planStart" rId="go"></td>
             </tr>
 			<tr>
 				<td>计划到达时间：</td>
-				<td><input type="text" class='form-control plan-time' placeholder='请选择计划到达时间' readonly id="1_plan_end" rId="1"></td>
+				<td><input type="text" class='form-control plan-time' placeholder='请选择计划到达时间' readonly id="go_planEnd" rId="go"></td>
             </tr>
 			<tr>
 				<td>运行时间：</td>
-				<td><input type="text" class="form-control" placeholder="自动计算运行时间" readonly id="1_run_time"></td>
+				<td><input type="text" class="form-control" placeholder="自动计算运行时间" readonly id="go_runTime"></td>
             </tr>
 			<tr>
 				<td>备注信息：</td>
-				<td><textarea class="form-control" id="note-info" rows="3"></textarea></td>
+				<td><textarea class="form-control" id="go_noteInfo" rows="3"></textarea></td>
             </tr>
         </table>
     </div>
-    <div class="tab-pane" id="toFlight">
-      <table class="table">
+    <div class="tab-pane in active" id="backFlight">
+		<table class="table">
 			<tr>
 				<td>*出发日期：</td>
-				<td><input type="text" class='form-control go-off-date' placeholder='请选择出发日期' readonly id="2_go_off"></td>
+				<td><input type="text" class='form-control go-off-date' placeholder='请选择出发日期' readonly id="back_off"></td>
             </tr>
 			<tr>
 				<td>*出发城市：</td>
-				<td><input type="text" class="form-control" placeholder="请输入出发城市" id="2_from_city"></td>
+				<td><input type="text" class="form-control" placeholder="请输入出城市" id="back_fromCity"></td>
             </tr>
 			<tr>
 				<td>*出发机场：</td>
-				<td><input type="text" class="form-control" placeholder="请输入出发机场" id="2_from_airport"></td>
+				<td><input type="text" class="form-control" placeholder="请输入出发机场" id="back_fromAirport"></td>
             </tr>
 			<tr>
 				<td>*到达城市：</td>
-				<td><input type="text" class="form-control" placeholder="请输入到达城市" id="2_to_city"></td>
+				<td><input type="text" class="form-control" placeholder="请输入到达城市" id="back_toCity"></td>
             </tr>
 			<tr>
 				<td>*到达机场：</td>
-				<td><input type="text" class="form-control" placeholder="请输入到达机场" id="2_to_airport"></td>
+				<td><input type="text" class="form-control" placeholder="请输入到达机场" id="back_toAirport"></td>
             </tr>
 			<tr>
 				<td>航班公司：</td>
-				<td><input type="text" class="form-control" placeholder="请输入航班公司" id="2_airways"></td>
+				<td><input type="text" class="form-control" placeholder="请输入航班公司" id="back_airways"></td>
             </tr>
 			<tr>
 				<td>航班号：</td>
-				<td><input type="text" class="form-control" placeholder="请输入航班号" id="2_flight_number"></td>
+				<td><input type="text" class="form-control" placeholder="请输入航班号" id="back_flightNumber"></td>
             </tr>
 			<tr>
 				<td>计划起飞时间：</td>
-				<td><input type="text" class='form-control plan-time' placeholder='请选择计划起飞时间' readonly id="2_plan_start" rId="2"></td>
+				<td><input type="text" class='form-control plan-time' placeholder='请选择计划起飞时间' readonly id="back_planStart" rId="back"></td>
             </tr>
 			<tr>
 				<td>计划到达时间：</td>
-				<td><input type="text" class='form-control plan-time' placeholder='请选择计划到达时间' readonly id="2_plan_end" rId="2"></td>
+				<td><input type="text" class='form-control plan-time' placeholder='请选择计划到达时间' readonly id="back_planEnd" rId="back"></td>
             </tr>
 			<tr>
 				<td>运行时间：</td>
-				<td><input type="text" class="form-control" placeholder="自动计算运行时间" readonly id="2_run_time"></td>
+				<td><input type="text" class="form-control" placeholder="自动计算运行时间" readonly id="back_runTime"></td>
             </tr>
 			<tr>
 				<td>备注信息：</td>
-				<td><textarea class="form-control" id="note-info" rows="3"></textarea></td>
+				<td><textarea class="form-control" id="back_noteInfo" rows="3"></textarea></td>
             </tr>
         </table>
     </div>
@@ -136,31 +136,27 @@
             });
 	function timeChange() {
 		var rId = $(this).attr("rId");
-		var start_date = $("#"+rId+"_plan_start").val();
-		var end_date = $("#"+rId+"_plan_end").val();
+		var start_date = $("#"+rId+"_planStart").val();
+		var end_date = $("#"+rId+"_planEnd").val();
 		if(!start_date || !end_date) {
-    		$("#"+rId+"_run_time").val("");
+    		$("#"+rId+"_runTime").val("");
 		} else {
     		var start = new Date(start_date);
         	var end = new Date(end_date);
     		var run_time = CalendarUtils.getTimeDifferenceByMinute(start,end);
-			$("#"+rId+"_run_time").val(run_time);
+			$("#"+rId+"_runTime").val(run_time);
 		}
 	}
 	$(".plan-time").change(timeChange);
 	function getFlights() {
-		if($("#from").val() == '') {
-			layer.alert("请输入出发城市");
-			return null;
-		}
-		if($("#to").val() == '') {
-			layer.alert("请输入到达城市");
-			return null;
-		}
-		return {
-			from: $("#from").val(),
-			to: $("#to").val(),
-			way: $("#way").val()
-		};
+		var result = {go:{},back:{}};
+		$(".form-control").each(function() {
+			var id = $(this).attr("id");
+			if(id) {
+				var str = id.split("_");
+				result[str[0]][str[1]] = $(this).val();
+			}
+		});
+		return result;
 	}
 </script>

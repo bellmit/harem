@@ -1,4 +1,4 @@
-package com.yimayhd.harem.model.groupTravel;
+package com.yimayhd.harem.model.travel.groupTravel;
 
 import java.util.List;
 import java.util.Map;

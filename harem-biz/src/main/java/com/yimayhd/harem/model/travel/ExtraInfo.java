@@ -1,4 +1,4 @@
-package com.yimayhd.harem.model.groupTravel;
+package com.yimayhd.harem.model.travel;
 
 public class ExtraInfo {
 	private String title;
