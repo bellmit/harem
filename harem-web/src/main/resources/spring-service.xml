@@ -39,6 +39,9 @@
 	<bean class="com.yimayhd.harem.service.impl.RcBoothServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RcOperationServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RcShowcaseServiceImpl"></bean>
+	
+	<!-- home config -->
+	<bean class="com.yimayhd.harem.service.impl.HomeCfgServiceImpl"></bean>
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
 		</bean> -->
 

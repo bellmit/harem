@@ -2,7 +2,7 @@ package com.yimayhd.harem.service;
 
 import java.util.List;
 
-import com.yimayhd.harem.model.HomeVipVO;
+import com.yimayhd.harem.model.HomeBaseVO;
 
 /**
  * 首页配置信息
@@ -11,7 +11,13 @@ import com.yimayhd.harem.model.HomeVipVO;
  */
 public interface HomeCfgService {
 
-	public String addVipList(HomeVipVO homeVipVO);
+	public boolean addVipList(HomeBaseVO homeVipVO);
 	
-	public List<HomeVipVO> getHomeVipList();
+	public List<HomeBaseVO> getHomeVipList();
+
+	public boolean addLineList(HomeBaseVO homeBaseVO);
+
+	public boolean addTravelKaList(HomeBaseVO homeBaseVO);
+
+	public boolean addCityList(HomeBaseVO homeBaseVO);
 }
