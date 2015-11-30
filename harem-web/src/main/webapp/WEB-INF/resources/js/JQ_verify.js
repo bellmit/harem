@@ -49,3 +49,25 @@ jQuery.validator.addMethod("isZipCode", function(value, element) {
     var tel = /^[0-9]{6}$/;
     return this.optional(element) || (tel.test(value));
 }, "请正确填写您的邮政编码");
+
+//多个同名元素验证
+jQuery.validator.addMethod("requiredAll",function(value,element,params){
+    var flag = true;
+    var name = $(element).attr("name");
+    //var name = element.name;
+    var eleNode = element.nodeName;
+    if(eleNode == "INPUT"){
+        $("input[name="+name+"]").each(function(){
+            if(!$(this).val() || isNaN($(this).val())) {
+                flag = false;
+            }
+        });
+    }else{
+        $("select[name="+name+"]").each(function(){
+            if($(this)[0].options[$(this)[0].selectedIndex].value == ""){
+                flag = false;
+            }
+        });
+    };
+    return flag;
+});
