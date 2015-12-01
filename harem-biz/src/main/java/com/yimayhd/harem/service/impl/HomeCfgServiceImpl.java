@@ -1,6 +1,7 @@
 package com.yimayhd.harem.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -10,6 +11,7 @@ import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.entity.recommend.TravelKaItem;
 import com.yimayhd.resourcecenter.model.resource.LineInfo;
+import com.yimayhd.resourcecenter.model.resource.TravelSpecialInfo;
 import com.yimayhd.resourcecenter.model.resource.UserInfo;
 
 public class HomeCfgServiceImpl implements HomeCfgService{
@@ -98,6 +100,29 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	public boolean addCityList(HomeBaseVO homeBaseVO) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean addTravelSpecialList(HomeBaseVO homeBaseVO) {
+		
+		 TravelSpecialInfo travelSpecialInfo = new TravelSpecialInfo();
+	        travelSpecialInfo.setTitle("穿梭在云端的日子");
+	        travelSpecialInfo.setBackImg(img);
+	        UserInfo userInfo = new UserInfo();
+	        userInfo.setId(233);
+	        userInfo.setName("sam");
+	        userInfo.setAge(23);
+	        userInfo.setSignature("云南旅游达人");
+	        userInfo.setGender(1);
+	        userInfo.setAvatar(img);
+	        travelSpecialInfo.setUserInfo(userInfo);
+	        travelSpecialInfo.setSupportNum(234);
+	        travelSpecialInfo.setRedNum(333);
+
+
+	        System.out.println(JSON.toJSONString(travelSpecialInfo));
+		
+		return true;
 	}
 	
 	

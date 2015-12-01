@@ -20,4 +20,6 @@ public interface HomeCfgService {
 	public boolean addTravelKaList(HomeBaseVO homeBaseVO);
 
 	public boolean addCityList(HomeBaseVO homeBaseVO);
+
+	public boolean addTravelSpecialList(HomeBaseVO homeBaseVO);
 }
