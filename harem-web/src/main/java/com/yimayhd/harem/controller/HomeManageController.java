@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.HomeBaseVO;
 import com.yimayhd.harem.service.HomeCfgService;
+import com.yimayhd.resourcecenter.model.result.RcResult;
 
 /**
   * @autuor : xusq
@@ -36,11 +38,14 @@ public class HomeManageController extends BaseController{
 	public ResponseVo addHomeVip(HomeBaseVO homeBaseVO){
 		
 		ResponseVo responseVo = new ResponseVo();
-		boolean addVipstatus  = homecfgService.addVipList(homeBaseVO);
+		RcResult<Boolean> addVipstatus  = homecfgService.addVipList(homeBaseVO);
 		
-		if(!addVipstatus){
-			responseVo.setStatus(500);
-			responseVo.setMessage("服务器错误！");
+		if(addVipstatus.isSuccess()){
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		}else{
+			responseVo.setMessage(addVipstatus.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 		
 		return responseVo;
@@ -54,11 +59,14 @@ public class HomeManageController extends BaseController{
 	public ResponseVo addHomeLineInfo(HomeBaseVO homeBaseVO){
 		ResponseVo responseVo = new ResponseVo();
 		
-		boolean addLineStatus = homecfgService.addLineList(homeBaseVO);
+		RcResult<Boolean> addLineStatus = homecfgService.addLineList(homeBaseVO);
 		
-		if(!addLineStatus){
-			responseVo.setStatus(500);
-			responseVo.setMessage("服务器错误！");
+		if(addLineStatus.isSuccess()){
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		}else{
+			responseVo.setMessage(addLineStatus.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 		
 		return responseVo;
@@ -73,11 +81,14 @@ public class HomeManageController extends BaseController{
 		
 		ResponseVo responseVo = new ResponseVo();
 		
-		boolean addTravelKaStatus = homecfgService.addTravelKaList(homeBaseVO);
+		RcResult<Boolean> addTravelKaStatus = homecfgService.addTravelKaList(homeBaseVO);
 		
-		if(!addTravelKaStatus){
-			responseVo.setStatus(500);
-			responseVo.setMessage("服务器错误！");
+		if(addTravelKaStatus.isSuccess()){
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		}else{
+			responseVo.setMessage(addTravelKaStatus.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 		
 		return responseVo;
@@ -91,14 +102,15 @@ public class HomeManageController extends BaseController{
 	public ResponseVo addHomeCity(HomeBaseVO homeBaseVO){
 		ResponseVo responseVo = new ResponseVo();
 		
-		boolean addCityStatus = homecfgService.addCityList(homeBaseVO);
+		RcResult<Boolean> addCityStatus = homecfgService.addCityList(homeBaseVO);
 		
-		if(!addCityStatus){
-			responseVo.setStatus(500);
-			responseVo.setMessage("服务器错误！");
+		if(addCityStatus.isSuccess()){
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		}else{
+			responseVo.setMessage(addCityStatus.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
-		
-		
 		
 		return responseVo;
 	}
@@ -112,11 +124,14 @@ public class HomeManageController extends BaseController{
 		
 		ResponseVo responseVo = new ResponseVo();
 		
-		boolean addCityStatus = homecfgService.addTravelSpecialList(homeBaseVO);
+		RcResult<Boolean> addStatus = homecfgService.addTravelSpecialList(homeBaseVO);
 		
-		if(!addCityStatus){
-			responseVo.setStatus(500);
-			responseVo.setMessage("服务器错误！");
+		if(addStatus.isSuccess()){
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		}else{
+			responseVo.setMessage(addStatus.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 		
 		

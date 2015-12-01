@@ -3,6 +3,7 @@ package com.yimayhd.harem.service;
 import java.util.List;
 
 import com.yimayhd.harem.model.HomeBaseVO;
+import com.yimayhd.resourcecenter.model.result.RcResult;
 
 /**
  * 首页配置信息
@@ -11,15 +12,15 @@ import com.yimayhd.harem.model.HomeBaseVO;
  */
 public interface HomeCfgService {
 
-	public boolean addVipList(HomeBaseVO homeVipVO);
+	public RcResult<Boolean> addVipList(HomeBaseVO homeVipVO);
 	
 	public List<HomeBaseVO> getHomeVipList();
 
-	public boolean addLineList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addLineList(HomeBaseVO homeBaseVO);
 
-	public boolean addTravelKaList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addTravelKaList(HomeBaseVO homeBaseVO);
 
-	public boolean addCityList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addCityList(HomeBaseVO homeBaseVO);
 
-	public boolean addTravelSpecialList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addTravelSpecialList(HomeBaseVO homeBaseVO);
 }

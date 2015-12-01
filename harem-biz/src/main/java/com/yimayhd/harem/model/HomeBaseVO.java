@@ -10,7 +10,9 @@ public class HomeBaseVO implements Serializable{
 	private static final long serialVersionUID = 6285809936992791263L;
 	
 	private long boothId;
-
+	
+	private String boothCode;
+	
 	private long[] itemIds;
 	
 	private String[] imgUrl;
@@ -61,5 +63,21 @@ public class HomeBaseVO implements Serializable{
 		this.description = description;
 	}
 
+	public long getBoothId() {
+		return boothId;
+	}
 
+	public void setBoothId(long boothId) {
+		this.boothId = boothId;
+	}
+
+	public String getBoothCode() {
+		return boothCode;
+	}
+
+	public void setBoothCode(String boothCode) {
+		this.boothCode = boothCode;
+	}
+
+	
 }
