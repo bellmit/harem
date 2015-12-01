@@ -1,6 +1,7 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.HaMenuDO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -109,6 +111,13 @@ public class UserController extends BaseController {
 		model.addAttribute("userListQuery", userListQuery);
 		model.addAttribute("userList", userList);
 		return "/system/user/selectUserList";
+	}
+	
+	@RequestMapping(value = "/trade/userManage/getUserList", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo getUserList(Model model,UserListQuery userListQuery) throws Exception {
+		List<User> userList = userService.getUserList(null);
+		return new ResponseVo(userList);
 	}
 
 	//商贸部分

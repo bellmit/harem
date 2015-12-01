@@ -12,4 +12,15 @@
         <property name="version" value="${dubbo.import.user.version}"/>
         <property name="check" value="${dubbo.import.consumer.user.check}"/>
     </bean>
+    
+    <bean id="comCenterService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.commentcenter.client.service.ComCenterService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.resources.dubbo.check}"/>
+        <property name="version" value="${consumer.resource.dubbo.version}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+    </bean>
+    
 </beans>

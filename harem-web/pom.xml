@@ -13,6 +13,10 @@
     <name>harem-web</name>
 
     <dependencies>
+    	<dependency>
+			  <groupId>com.yimayhd.snscenter</groupId>
+			  <artifactId>snscenter-client</artifactId>
+		</dependency>
         <dependency>
             <groupId>com.yimayhd</groupId>
             <artifactId>harem-biz</artifactId>
