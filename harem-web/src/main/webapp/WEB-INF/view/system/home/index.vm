@@ -28,7 +28,7 @@
                         <tr>
                             <td><span class="spColor">*</span>副标题</td>
                             <td>
-                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectUserBtn">选择商品</button>
+                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectUserBtn">选择活动</button>
                             </td>
                         </tr>
                         </tbody>
@@ -56,7 +56,7 @@
             </div>
             </form>
             </div>
-            <div class="tab-pane activeMnyPane" id="tab2">
+            <div class="tab-pane" id="tab2">
                  <form id="lineForm" action="" method="post">
                     <div class="createClubTable">
                         <table class="table">
@@ -64,7 +64,7 @@
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectLineBtn">选择商品</button>
+                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectLineBtn">选择线路</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -72,7 +72,7 @@
                         <table class="table lineTable">
                         	<thead>
                         		<tr>
-                                <td>头像</td>
+                                <td>商品名称</td>
                                 <td>名称</td>
                                 <td>用户</td>
                                 <td>操作</td>
@@ -100,7 +100,7 @@
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectTravelKaBtn">选择商品</button>
+                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectTravelKaBtn">选择大咖</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -109,7 +109,7 @@
                         	<thead>
                         		<tr>
                                 <td>头像</td>
-                                <td>昵称</td>
+                                <td>用户昵称</td>
                                 <td>操作</td>
                             </tr>
                         	</thead>
@@ -135,7 +135,7 @@
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectCityBtn">选择商品</button>
+                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectCityBtn">选择目的地</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -163,37 +163,39 @@
                 </form>
             </div>
             <div class="tab-pane" id="tab5">
-            <div class="createClubTable">
-                        <table class="table">
-                            <tbody>
-                            <tr>
-                                <td><span class="spColor">*</span>副标题</td>
-                                <td>
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectCityBtn">选择商品</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <table class="table cityTable">
-                        	<thead>
-                        		<tr>
-                                <td>图片</td>
-                                <td>目的地</td>
-                                <td>操作</td>
-                            </tr>
-                        	</thead>
-                        	<tbody>
-                        	</tbody>
-                        </table>
+				<form id="travelSpecialForm" action="" method="post">
+                <div class="createClubTable">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td><span class="spColor">*</span>副标题</td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value=""> <button type="button" class="btn btn-success selectTravelSpecialBtn">选择游记</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table travelSpecialTable">
+                            	<thead>
+                            		<tr>
+                                    <td>游记图片</td>
+                                    <td>游记标题</td>
+                                    <td>用户</td>
+                                    <td>操作</td>
+                                </tr>
+                            	</thead>
+                            	<tbody>
+                            	</tbody>
+                            </table>
+                        </div>
+                         <div class="clubBotBtn">
+                        <div class="btn-group">
+                            <button class="btn btn-success"  type="button"  id="travelSpecialSubmit" >添加</button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn">取消</button>
+                        </div>
                     </div>
-                     <div class="clubBotBtn">
-                    <div class="btn-group">
-                        <button class="btn btn-success"  type="button"  id="citySubmit" >添加</button>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn">取消</button>
-                    </div>
-                </div>
                 </form>
             </div>
         </div>
@@ -204,7 +206,7 @@
 
     $(function(){
     
-	    $(document).on("click",".delUser a",function(){
+	    $(document).on("click",".delItem a",function(){
 			 $(this).parents("tr:eq(0)").remove();
 		}); 
     	
@@ -221,7 +223,6 @@
                 area: ['1000px', '500px'],
                 content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
                 yes: function(index){
-                    layer.alert(top.resultValue.length)
                     if(top.resultValue&&top.resultValue.length==0){
                         layer.alert("请选择用户信息");
                         return false;
@@ -233,7 +234,7 @@
                     		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img id='imgUploadUrlVip"+resultValue[i].id+"' src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
                     		"<input type='file' name='file' class='fileInp' id='imageUploadFileVip"+resultValue[i].id+"'><input type='hidden' id='imgUrlVip"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
                     		"<td><input type='text' name='itemTitle' readonly value='"+resultValue[i].name+"'></td>"+
-                    		"<td><input type='text' name='description' value=''></td><td class='delUser'><a>删除</a></td></tr>";
+                    		"<td><input type='text' name='description' value=''></td><td class='delItem'><a>删除</a></td></tr>";
                     		_uploadImg("Vip"+resultValue[i].id);
                     	}
                     	$(".userTable").find("tbody").append(tr);
@@ -242,6 +243,7 @@
                     }
                 }
             });
+		});
 			
          //选择线路信息
         $('.selectLineBtn').click(function(){
@@ -255,7 +257,70 @@
                 area: ['1000px', '500px'],
                 content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
                 yes: function(index){
-                    layer.alert(top.resultValue.length)
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择用户信息");
+                        return false;
+                    }else{
+                    console.log(resultValue);
+						var tr = "";
+                    	for(var i = 0;i<resultValue.length;i++){
+                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'>"+resultValue[i].name+"</td>"+
+                    		"<td>188.00</td>"+
+                    		"<td><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' > "+resultValue[i].id+"</td>"+
+							"<td class='delItem'><a>删除</a></td></tr>";
+                    	}
+                    	$(".lineTable").find("tbody").append(tr);
+                    	
+                    	 layer.close(index);
+                    }
+                }
+            });
+		});
+		
+		
+         //选择旅游咖信息
+        $('.selectTravelKaBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择用户信息");
+                        return false;
+                    }else{
+                    console.log(resultValue);
+						var tr = "";
+                    	for(var i = 0;i<resultValue.length;i++){
+                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'><input type='hidden' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' ></td>"+
+                    		"<td><input type='hidden' name='itemTitle' value='"+resultValue[i].name+"'>"+resultValue[i].name+"</td>"+
+                    		"<td class='delItem'><a>删除</a></td></tr>";
+                    	}
+                    	$(".travelKaTable").find("tbody").append(tr);
+                    	
+                    	 layer.close(index);
+                    }
+                }
+            });
+		});
+		
+		 //选择目的地信息
+        $('.selectCityBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
                     if(top.resultValue&&top.resultValue.length==0){
                         layer.alert("请选择用户信息");
                         return false;
@@ -264,20 +329,54 @@
                     	var tbody = $(".userTable tbody");
 						var tr = "";
                     	for(var i = 0;i<resultValue.length;i++){
-                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img id='imgUploadUrlVip"+resultValue[i].id+"' src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
-                    		"<input type='file' name='file' class='fileInp' id='imageUploadFileVip"+resultValue[i].id+"'><input type='hidden' id='imgUrlVip"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
+                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img id='imgUploadUrlCity"+resultValue[i].id+"' src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
+                    		"<input type='file' name='file' class='fileInp' id='imageUploadFileCity"+resultValue[i].id+"'><input type='hidden' id='imgUrlCity"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
                     		"<td><input type='text' name='itemTitle' readonly value='"+resultValue[i].name+"'></td>"+
-                    		"<td><input type='text' name='description' value=''></td><td class='delUser'><a>删除</a></td></tr>";
-                    		_uploadImg("Vip"+resultValue[i].id);
+                    		"<td class='delItem'><a>删除</a></td></tr>";
+                    		_uploadImg("City"+resultValue[i].id);
                     	}
-                    	$(".userTable").find("tbody").append(tr);
+                    	$(".cityTable").find("tbody").append(tr);
                     	
                     	 layer.close(index);
                     }
                 }
             });
-            })
-            
+		});
+		
+		 //选择游记信息
+        $('.selectTravelSpecialBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择用户信息");
+                        return false;
+                    }else{
+                    console.log(resultValue);
+                    	var tbody = $(".userTable tbody");
+						var tr = "";
+                    	for(var i = 0;i<resultValue.length;i++){
+                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img id='imgUploadUrlTravelSpecial"+resultValue[i].id+"' src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
+                    		"<input type='file' name='file' class='fileInp' id='imageUploadFileTravelSpecial"+resultValue[i].id+"'><input type='hidden' id='imgUrlTravelSpecial"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
+                    		"<td>"+resultValue[i].name+"</td>"+
+                    		"<td>"+resultValue[i].name+"</td>"+
+                    		"<td class='delItem'><a>删除</a></td></tr>";
+                    		_uploadImg("TravelSpecial"+resultValue[i].id);
+                    	}
+                    	$(".travelSpecialTable").find("tbody").append(tr);
+                    	
+                    	 layer.close(index);
+                    }
+                }
+            });
+		});
             
       
         
@@ -303,6 +402,102 @@
 				}
 			});
         });
+		
+        $('#lineSubmit').click(function(){
+            $(this).prop('disabled',true);
+            $.ajax({
+				type:'post',
+				url:'addHomeLine',
+				data:$("#lineForm").serialize(),
+				error:function(){
+					$("#lineSubmit").attr("disabled",false);
+					alert('服务器忙，请稍后再试！');
+				},
+				success:function(data){
+				
+					if(data.status==200){
+						 layer.alert('操作成功');
+						 $("#lineSubmit").attr("disabled",false);
+                    }else{
+                   		$("#lineSubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+				}
+			});
+        });
+		
+		
+        $('#travelKaSubmit').click(function(){
+            $(this).prop('disabled',true);
+            $.ajax({
+				type:'post',
+				url:'addHomeTravelKa',
+				data:$("#travelKaForm").serialize(),
+				error:function(){
+					$("#travelKaSubmit").attr("disabled",false);
+					alert('服务器忙，请稍后再试！');
+				},
+				success:function(data){
+				
+					if(data.status==200){
+						 layer.alert('操作成功');
+						 $("#travelKaSubmit").attr("disabled",false);
+                    }else{
+                   		$("#travelKaSubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+				}
+			});
+        });
+		
+        $('#citySubmit').click(function(){
+            $(this).prop('disabled',true);
+            $.ajax({
+				type:'post',
+				url:'addHomeCity',
+				data:$("#cityForm").serialize(),
+				error:function(){
+					$("#citySubmit").attr("disabled",false);
+					alert('服务器忙，请稍后再试！');
+				},
+				success:function(data){
+				
+					if(data.status==200){
+						 layer.alert('操作成功');
+						 $("#citySubmit").attr("disabled",false);
+                    }else{
+                   		$("#citySubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+				}
+			});
+        });
+		
+        $('#travelSpecialSubmit').click(function(){
+            $(this).prop('disabled',true);
+            $.ajax({
+				type:'post',
+				url:'addHomeTravelSpecial',
+				data:$("#travelSpecialForm").serialize(),
+				error:function(){
+					$("#travelSpecialSubmit").attr("disabled",false);
+					alert('服务器忙，请稍后再试！');
+				},
+				success:function(data){
+				
+					if(data.status==200){
+						 layer.alert('操作成功');
+						 $("#travelSpecialSubmit").attr("disabled",false);
+                    }else{
+                   		$("#travelSpecialSubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+				}
+			});
+        });
+		
+		
+		
     });
     
     

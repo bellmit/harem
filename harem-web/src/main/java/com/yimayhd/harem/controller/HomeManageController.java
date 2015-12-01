@@ -2,8 +2,8 @@ package com.yimayhd.harem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
@@ -31,7 +31,7 @@ public class HomeManageController extends BaseController{
 	/**
 	 * 会员专享
 	 */
-	@RequestMapping("/addHomeVip")
+	@RequestMapping(value="/addHomeVip",method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo addHomeVip(HomeBaseVO homeBaseVO){
 		
@@ -49,7 +49,7 @@ public class HomeManageController extends BaseController{
 	/**
 	 * 大咖带你玩
 	 */
-	@RequestMapping("/addHomeLine")
+	@RequestMapping(value="/addHomeLine",method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo addHomeLineInfo(HomeBaseVO homeBaseVO){
 		ResponseVo responseVo = new ResponseVo();
@@ -67,7 +67,7 @@ public class HomeManageController extends BaseController{
 	/**
 	 * 旅游咖
 	 */
-	@RequestMapping("/addHomeTravelKa")
+	@RequestMapping(value="/addHomeTravelKa",method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo addHomeTravelKa(HomeBaseVO homeBaseVO){
 		
@@ -80,14 +80,13 @@ public class HomeManageController extends BaseController{
 			responseVo.setMessage("服务器错误！");
 		}
 		
-		
 		return responseVo;
 	}
 	
 	/**
 	 * 目的地
 	 */
-	@RequestMapping("/addHomeCity")
+	@RequestMapping(value="/addHomeCity",method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo addHomeCity(HomeBaseVO homeBaseVO){
 		ResponseVo responseVo = new ResponseVo();
@@ -107,7 +106,7 @@ public class HomeManageController extends BaseController{
 	/**
 	 * 游记
 	 */
-	@RequestMapping("/addHomeTravelSpecial")
+	@RequestMapping(value="/addHomeTravelSpecial",method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo addHomeTravelSpecial(HomeBaseVO homeBaseVO){
 		
