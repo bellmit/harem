@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
-<script src="$!{staticResourcesPath}/resources/js/json2.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/json2.js" type="text/javascript"></script>
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
         <a href="#grogshopInfo" data-toggle="tab">酒店信息</a>

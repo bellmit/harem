@@ -1,4 +1,8 @@
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 <div>
 	<ul class="nav nav-tabs">
         <li class="active">
@@ -23,6 +27,19 @@
 		</div>
       </div>
 	  <div>
-		<button class="btn btn-primary">保存</button>
+		<button class="btn btn-primary save">保存</button>
       </div>
+	  <script type="text/javascript">
+	  	$(".save").click(function(){
+			var result = {
+				baseInfo:getBaseInfo(),
+				tripInfo:getTripInfo(),
+				priceInfo:getPriceInfo()
+			};
+			console.log(JSON.stringify(result));
+			$.post("$!{actionDefaultPath}/B2C/comm/groupTravel/save",{json:JSON.stringify(result)},function(data){
+				alert(JSON.stringify(data));
+			},"json");
+		});
+      </script>
 </div>

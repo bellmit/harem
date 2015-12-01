@@ -11,6 +11,7 @@ import java.util.List;
 public class BaseInfo {
 	private long id;// ID
 	private int type;// 类型
+	private String productName;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
 	private List<IdNameData> themes;// 主题
@@ -125,6 +126,14 @@ public class BaseInfo {
 
 	public void setExtraInfos(List<ExtraInfo> extraInfos) {
 		this.extraInfos = extraInfos;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 }

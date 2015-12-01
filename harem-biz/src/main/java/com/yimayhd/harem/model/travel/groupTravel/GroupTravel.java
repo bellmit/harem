@@ -12,7 +12,7 @@ import com.yimayhd.harem.model.travel.PriceInfo;
  *
  */
 public class GroupTravel {
-
+	private long id;
 	private BaseInfo baseInfo;// 基础信息
 	private List<TripDay> tripInfo;// 行程信息
 	private PriceInfo priceInfo;// 价格信息
@@ -39,6 +39,14 @@ public class GroupTravel {
 
 	public void setPriceInfo(PriceInfo priceInfo) {
 		this.priceInfo = priceInfo;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

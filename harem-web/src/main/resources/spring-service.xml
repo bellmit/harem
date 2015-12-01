@@ -27,22 +27,23 @@
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ScenicSpotServiceImpl"></bean>
-	
+
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
 
-	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
+	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
 		</bean> -->
 
 	<!-- resources -->
 	<bean class="com.yimayhd.harem.service.impl.RcBoothServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RcOperationServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RcShowcaseServiceImpl"></bean>
-	
+
 	<!-- home config -->
 	<bean class="com.yimayhd.harem.service.impl.HomeCfgServiceImpl"></bean>
-	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init">
+	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
 		</bean> -->
-
+	<!-- commodity -->
+	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
 </beans>

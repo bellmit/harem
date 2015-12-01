@@ -1,4 +1,4 @@
- <script src="$!{staticResourcesPath}/resources/js/layerModal.js" type="text/javascript"></script>
+ <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
  <div>
 	<div class='panel add-fight'>
 		<div class='panel-heading'><i class='icon icon-2x icon-home'></i>航班信息</div>

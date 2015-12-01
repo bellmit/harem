@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,7 @@ import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.model.query.ScenicSpotListQuery;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
+import com.yimayhd.harem.service.GroupTravelService;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.harem.service.ScenicSpotService;
@@ -38,6 +40,8 @@ public class CommGroupTravelController extends BaseController {
 	private HotelService hotelService;
 	@Autowired
 	private ScenicSpotService scenicSpotService;
+	@Autowired
+	private GroupTravelService groupTravelService;
 
 	/**
 	 * 详细信息页
@@ -46,8 +50,23 @@ public class CommGroupTravelController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String detail() throws Exception {
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	public String detail(@PathVariable(value = "id") long id) throws Exception {
+		if (id != 0) {
+			GroupTravel gt = groupTravelService.getById(id);
+			put("product", gt);
+		}
+		return "/system/comm/groupTravel/detail";
+	}
+
+	/**
+	 * 创建跟团游
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String create() throws Exception {
 		return "/system/comm/groupTravel/detail";
 	}
 
@@ -184,7 +203,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectHotel")
 	public String selectHotel() throws Exception {
-		return "/system/comm/groupTravel/selectHotel";
+		return "/system/comm/selectHotel";
 	}
 
 	/**
@@ -196,6 +215,7 @@ public class CommGroupTravelController extends BaseController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody GroupTravel save(String json) throws Exception {
 		GroupTravel groupTravel = JSON.parse(json, GroupTravel.class);
+		groupTravelService.save(groupTravel);
 		return groupTravel;
 	}
 }
