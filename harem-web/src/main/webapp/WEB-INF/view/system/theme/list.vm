@@ -61,9 +61,9 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!theme.name</td>
-                        <td>$!theme.status</td>
-                        <td>$!theme.gmtCreated</td>
-                        <td>$!theme.gmtModified</td>
+                        <td>#if($!theme.status == 1) 启用  #else 禁用  #end </td>
+                        <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
+                        <td>$!utilDate.dateToString($!theme.gmtModified,"yyyy-MM-dd HH:mm:ss") </td>
                         <td>
                         <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">修改</button>
                         </td>

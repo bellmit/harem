@@ -26,8 +26,8 @@ public class ThemeServiceImpl implements ThemeService {
 			t.setId(i);
 			t.setGmtModified(new Date());
 			t.setScore(i);
-			t.setStatus(1);
 			int type=s.nextInt(2);
+			t.setStatus(type);
 			if(1==type){
 				t.setName("活动主题"+i);	
 			}else{
