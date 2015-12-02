@@ -16,26 +16,23 @@ import java.util.List;
  * Created by Administrator on 2015/10/26.
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-    @Autowired
-    private HaMenuService haMenuService;
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String url = request.getRequestURI();
-        if(!url.equals("/user/noPower")){
-            long userId = 1;
-            List<HaMenuDO> haMenuList = haMenuService.getUrlListByUserId(userId);
-            for (HaMenuDO haMenu:haMenuList){
-                if(url.equals(haMenu.getLinkUrl())){
-                    return true;
-                }
-            }
-            return true;
-            //response.sendRedirect("/user/noPower?urlName=" + url);
-            //return false;
+	@Autowired
+	private HaMenuService haMenuService;
 
-        }else{
-            return true;
-        }
-    }
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		/*
+		 * String url = request.getRequestURI();
+		 * if(!url.equals("/user/noPower")){ long userId = 1; List<HaMenuDO>
+		 * haMenuList = haMenuService.getUrlListByUserId(userId); for (HaMenuDO
+		 * haMenu:haMenuList){ if(url.equals(haMenu.getLinkUrl())){ return true;
+		 * } } return true; //response.sendRedirect("/user/noPower?urlName=" +
+		 * url); //return false;
+		 * 
+		 * }else{ return true; }
+		 */
+		return true;
+	}
 
 }

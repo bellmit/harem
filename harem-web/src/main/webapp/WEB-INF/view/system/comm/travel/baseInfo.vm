@@ -13,7 +13,7 @@
                 </tr>
     			<tr >
     				<td>*产品名称：</td>
-    				<td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.productName"></td>
+    				<td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.name"></td>
                 </tr>
     			<tr >
     				<td>*产品封面图：</td>
@@ -49,7 +49,7 @@
     			<tr >
     				<td>*发布人：</td>
                     <td>
-    					<span><input type="radio" value="1" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} != '2') checked #end><label for="publisherType1">怡美官方$!{product.baseInfo.publisherType}</label></span>
+    					<span><input type="radio" value="1" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} != '2') checked #end><label for="publisherType1">怡美官方</label></span>
     					<span><input type="radio" value="2" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} == '2') checked #end><label for="publisherType2">旅游咖</label></span>
     					<span class="travel-ka-panel" #if($!{product.baseInfo.publisherType} != 2) style="display:none;" #end>
     						<button class="btn btn-primary" id="selectTravelKa">请选择旅游咖</button>
@@ -233,7 +233,7 @@
 			$(".extra-info-item").each(function(){
 				var title = $(this).find(".extra-info-item-title").val();
 				var content = $(this).find(".extra-info-item-content").val();
-				if(title&&text) {
+				if(title&&content) {
 					extra_infos.push({title:title,content:content});
 				}
 			});

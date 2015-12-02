@@ -12,7 +12,7 @@ import java.util.Map;
 public class BaseInfo {
 	private long id;// ID
 	private int type;// 类型
-	private String productName;// 产品名称
+	private String name;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
 	private List<Map<String, String>> themes;// 主题
@@ -75,14 +75,6 @@ public class BaseInfo {
 
 	public void setType(int type) {
 		this.type = type;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
 	}
 
 	public String getProductImage() {
@@ -171,5 +163,13 @@ public class BaseInfo {
 
 	public void setExtraInfos(List<Map<String, String>> extraInfos) {
 		this.extraInfos = extraInfos;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
