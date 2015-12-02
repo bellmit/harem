@@ -67,7 +67,7 @@
 	// 选择酒店
 	function selectHotel(){
 		openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
-			var hot = win.getHotels(); 
+			var hot = win.getItems(); 
 			var content = $("#day_hotel");
 			content.empty();
             for(var i in hot) {

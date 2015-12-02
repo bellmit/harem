@@ -196,7 +196,7 @@
 		function selectRestaurant(rId){
 			currentRId = rId;
 			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectRestaurant','选择餐厅',function() {
-				var res = win.getRestaurants();
+				var res = win.getItems();
 				var content = $("#"+currentRId);
                 for(var i in res) {
 					if($("#"+currentRId+"_item_"+res[i].id).length > 0) continue;
@@ -217,8 +217,8 @@
 		// 选择景区
 		function selectScenicSpot(sId){
 			currentSId = sId;
-			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenicSpot','选择景区',function() {
-				var sce = win.getScenicSpots(); 
+			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenic','选择景区',function() {
+				var sce = win.getItems(); 
 				var content = $("#"+currentSId);
 				content.empty();
                 for(var i in sce) {
@@ -240,7 +240,7 @@
 		function selectHotel(hId){
 			currentHId = hId;
 			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
-				var hot = win.getHotels(); 
+				var hot = win.getItems(); 
 				var content = $("#"+currentHId);
 				content.empty();
                 for(var i in hot) {
