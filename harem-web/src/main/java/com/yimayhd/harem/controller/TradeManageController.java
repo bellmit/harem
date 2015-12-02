@@ -1,8 +1,11 @@
 package com.yimayhd.harem.controller;
 
-import java.util.List;
-
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.BizOrderVO;
 import com.yimayhd.harem.model.query.PayListQuery;
+import com.yimayhd.harem.model.query.TradeListQuery;
+import com.yimayhd.harem.service.TradeService;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.Trade;
-import com.yimayhd.harem.model.query.TradeListQuery;
-import com.yimayhd.harem.model.vo.TradeVO;
-import com.yimayhd.harem.service.TradeService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 交易管理
@@ -41,11 +38,11 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/order/list", method = RequestMethod.GET)
 	public String list(Model model, TradeListQuery tradeListQuery) throws Exception {
-		PageVO<BizOrderDO> pageVo = tradeService.getOrderList(tradeListQuery);
-		List<BizOrderDO> bizOrderDOList = pageVo.getItemList();
+		PageVO<BizOrderVO> pageVo = tradeService.getOrderList(tradeListQuery);
+		List<BizOrderVO> bizOrderVOList = pageVo.getItemList();
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("tradeListQuery", tradeListQuery);
-		model.addAttribute("orderList", bizOrderDOList);
+		model.addAttribute("orderList", bizOrderVOList);
 		return "/system/trade/order/list";
 	}
 
