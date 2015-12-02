@@ -8,7 +8,7 @@ import com.yimayhd.harem.base.BaseQuery;
 public class PayListQuery extends BaseQuery {
 
     private long sellerId;
-    private String tradeNo;
+    private long bizOrderId;
     private String beginDate;
     private String endDate;
 
@@ -20,12 +20,12 @@ public class PayListQuery extends BaseQuery {
         this.sellerId = sellerId;
     }
 
-    public String getTradeNo() {
-        return tradeNo;
+    public long getBizOrderId() {
+        return bizOrderId;
     }
 
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
+    public void setBizOrderId(long bizOrderId) {
+        this.bizOrderId = bizOrderId;
     }
 
     public String getBeginDate() {

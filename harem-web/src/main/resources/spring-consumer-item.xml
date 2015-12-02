@@ -13,7 +13,7 @@
         <property name="check" value="${consumer.dubbo.item.check}"/>
         <property name="version" value="${consumer.dubbo.item.version}"/>
     </bean>
-    <bean id="itemQueryService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+    <bean id="itemQueryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.ic.client.service.item.ItemQueryService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>

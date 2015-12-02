@@ -1,6 +1,9 @@
 package com.yimayhd.harem.interceptor;
 
+import com.yimayhd.harem.model.HaMenuDO;
 import com.yimayhd.harem.model.Menu;
+import com.yimayhd.harem.service.HaMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -13,25 +16,26 @@ import java.util.List;
  * Created by Administrator on 2015/10/26.
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
+    @Autowired
+    private HaMenuService haMenuService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return true;
-    }
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        /*long userId = 1;
-        List<Menu> menuList = new ArrayList<Menu>();
+        String url = request.getRequestURI();
+        if(!url.equals("/user/noPower")){
+            long userId = 1;
+            List<HaMenuDO> haMenuList = haMenuService.getUrlListByUserId(userId);
+            for (HaMenuDO haMenu:haMenuList){
+                if(url.equals(haMenu.getLinkUrl())){
+                    return true;
+                }
+            }
+            return true;
+            //response.sendRedirect("/user/noPower?urlName=" + url);
+            //return false;
 
-        Menu menu = new Menu(1,"交易管理","/tradeManage",1,0);
-        List<Menu> menuListSub = new ArrayList<Menu>();
-        menuListSub.add(new Menu(7,"交易流水","/tradeManage/list",2,1));
-        menu.setMenuList(menuListSub);
-
-        Menu menu2 = new Menu(1,"会员管理","/userManage",1,0);
-        menuList.add(menu);
-        menuList.add(menu2);
-        modelAndView.addObject("menuList",menuList);*/
-
+        }else{
+            return true;
+        }
     }
 
 }

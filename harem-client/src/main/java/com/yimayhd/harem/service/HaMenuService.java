@@ -18,5 +18,13 @@ public interface HaMenuService extends BaseService<HaMenuDO>{
      * @throws Exception
      */
     List<HaMenuDO> getMenuListByUserId(long id)throws Exception;
+
+    /**
+     * 根据用户ID获取权限url
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    List<HaMenuDO> getUrlListByUserId(long id)throws Exception;
     List<HaMenuDO> getMenuList()throws Exception;
 }

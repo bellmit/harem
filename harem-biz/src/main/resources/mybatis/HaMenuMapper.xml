@@ -9,6 +9,8 @@
 
         <result column="link_url" property="linkUrl" jdbcType="VARCHAR"/>
 
+        <result column="type" property="type" jdbcType="INTEGER"/>
+
         <result column="level" property="level" jdbcType="INTEGER"/>
 
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
@@ -30,16 +32,18 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,link_url,level,parent_id,gmt_created,gmt_modified,status
+        id,name,link_url,type,level,parent_id,gmt_created,gmt_modified,status
     </sql>
 
     <insert id="add" parameterType="com.yimayhd.harem.model.HaMenuDO" useGeneratedKeys="true" keyProperty="id">
-        insert into ha_menu  (name,link_url,level,parent_id,gmt_created)
+        insert into ha_menu  (name,link_url,type,level,parent_id,gmt_created)
         values (
         
           #{name,jdbcType=VARCHAR},
         
           #{linkUrl,jdbcType=VARCHAR},
+
+          #{type,jdbcType=INTEGER},
         
           #{level,jdbcType=INTEGER},
         
@@ -99,6 +103,10 @@
         
             <if test="linkUrl != null">
                 t.link_url = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+
+            <if test="type != null">
+                t.level = #{type,jdbcType=INTEGER},
             </if>
         
             <if test="level != null">
@@ -163,6 +171,7 @@
                 and hr.status = 1
                 and hrm.status = 1
                 and hur.status = 1
+                and hm.type = 1
                 and hur.id = #{id}
                 and hm.level = 1) A
         left join
@@ -179,6 +188,7 @@
                 and hr.status = 1
                 and hrm.status = 1
                 and hur.status = 1
+                and hm.type = 1
                 and hur.id = #{id}
                 and hm.level = 2) B
         on A.id = B.parent_id
@@ -196,9 +206,32 @@
                 and hr.status = 1
                 and hrm.status = 1
                 and hur.status = 1
+                and hm.type = 1
                 and hur.id = #{id}
                 and hm.level = 3) C
         on B.id = C.parent_id
+
+    </select>
+    <select id="getUrlListByUserId" parameterType="long" resultMap="menuListAll">
+        SELECT
+            hm.id,
+            hm.name,
+            hm.link_url
+        FROM
+            ha_user_role hur,
+            ha_role hr,
+            ha_role_menu hrm,
+            ha_menu hm
+        WHERE
+            1 = 1
+        AND hr.id = hur.ha_role_id
+        AND hrm.ha_role_id = hr.id
+        AND hm.id = hrm.ha_menu_id
+        AND hm. STATUS = 1
+        AND hr. STATUS = 1
+        AND hrm. STATUS = 1
+        AND hur. STATUS = 1
+        AND hur.id = 1
 
     </select>
     

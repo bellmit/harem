@@ -1,13 +1,13 @@
 package com.yimayhd.harem.base;
 
+import com.alibaba.fastjson.JSON;
+
 /**
- * @author liuhaiming
+ * @author
  */
 public class BaseException extends Exception {
-
     private static final long serialVersionUID = 715232087424762931L;
-
-    public BaseException(String msg) {
-        super(msg);
+    public BaseException(Object msg) {
+        super(JSON.toJSONString(msg));
     }
 }

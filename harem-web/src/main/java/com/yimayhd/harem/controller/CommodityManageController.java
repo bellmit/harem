@@ -1,9 +1,6 @@
 package com.yimayhd.harem.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.taobao.tair.json.Json;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.JsonResultUtil;
 import com.yimayhd.harem.base.ResponseVo;
@@ -12,13 +9,13 @@ import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,15 +60,15 @@ public class CommodityManageController extends BaseController {
         int itemType = 1;
         switch(itemType){
             case ITEM_TYPE_HOTEL:
-                redirectUrl = "/B2C/hotelManage/toAdd";//TODO 之后会把品类id或对应的属性传过去
+                redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;//TODO 之后会把品类id或对应的属性传过去
                 break;
             case ITEM_TYPE_SCENIC:
-                redirectUrl = "/B2C/scenicSpotManage/toAdd/";
+                redirectUrl = "/B2C/scenicSpotManage/toAdd?categoryId=" + categoryId;
                 break;
             default:
                 //普通商品，伴手礼应该也走普通商品
                 model.addAttribute("category",categoryDO);
-                return "/system/comm/souvenir/edit";
+                return "/B2C/commodityManage/common/toAdd?categoryId=" + categoryId;
         }
         return "redirect:" + redirectUrl;
     }
@@ -79,28 +76,58 @@ public class CommodityManageController extends BaseController {
     /**
      * 编辑商品
      * @param model
-     * @param id 商品ID
+     * @param itemId 商品ID
      * @param itemType 商品类型
      * @return  商品详情
      * @throws Exception
      */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{itemId}", method = RequestMethod.GET)
     public
-    String toEdit(Model model,@PathVariable(value = "id") long id,int itemType) throws Exception {
+    String toEdit(Model model,@PathVariable(value = "itemId") long itemId,int itemType) throws Exception {
         String redirectUrl = "";
         switch (itemType) {
             case (ITEM_TYPE_HOTEL):
-                redirectUrl = "/B2C/hotelManage/edit/" + id;
+                redirectUrl = "/B2C/hotelManage/edit/" + itemId;
                 break;
             case(ITEM_TYPE_SCENIC):
-                redirectUrl = "/B2C/scenicSpotManage/edit/" + id;
+                redirectUrl = "/B2C/scenicSpotManage/edit/" + itemId;
                 break;
             default:
-                //TODO
-                redirectUrl = "/B2C/otherSpotManage/edit/" + id;
+                redirectUrl = "/B2C/commodityManage/common/edit/" + itemId;
                 break;
         }
         return "redirect:" + redirectUrl;
+    }
+
+    /**
+     * 新增普通商品
+     * @return 新增普通商品页
+     * @throws Exception
+     */
+    @RequestMapping(value = "/common/toAdd", method = RequestMethod.GET)
+    public
+    String toAddCommon(Model model,long categoryId) throws Exception {
+        CategoryDO categoryDO = categoryService.getCategoryById(categoryId);
+        model.addAttribute("category", categoryDO);
+        return "";
+    }
+
+    /**
+     * 编辑普通商品
+     * @param model
+     * @param itemId 商品ID
+     * @param itemType 商品类型
+     * @return  普通商品详情
+     * @throws Exception
+     */
+    @RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.GET)
+    public
+    String toEditCommon(Model model,@PathVariable(value = "id") long itemId,int itemType) throws Exception {
+        ItemResult itemResult = commodityService.getCommodityById(itemId);
+        model.addAttribute("category", itemResult.getCategory());
+        model.addAttribute("commodity", itemResult.getItem());
+        model.addAttribute("itemSkuList", itemResult.getItemSkuDOList());
+        return "";
     }
 
 

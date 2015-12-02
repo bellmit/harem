@@ -23,9 +23,18 @@ public class PageVO<T> implements Serializable {
 		this(pageNumber, pageSize, totalCount, new ArrayList<T>(0));
 	}
 
+	/**
+	 *
+	 *
+	 * @param pageNumber 当前页码
+	 * @param pageSize 每页显示条数
+	 * @param totalCount 总记录条数
+	 * @param result 结果list
+	 */
 	public PageVO(int pageNumber, int pageSize, int totalCount, List<T> result) {
-		if (pageSize <= 0)
-			throw new IllegalArgumentException("[pageSize] must great than zero");
+		//TODO 调试不方便，暂时注释掉
+		/*if (pageSize <= 0)
+			throw new IllegalArgumentException("[pageSize] must great than zero");*/
 		this.paginator = new Paginator(pageNumber, pageSize, totalCount);
 		setItemList(result);
 	}
