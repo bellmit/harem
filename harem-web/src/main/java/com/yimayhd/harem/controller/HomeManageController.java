@@ -34,7 +34,7 @@ public class HomeManageController extends BaseController{
 	@RequestMapping("/index")
 	public String toHomePageManage(Model model){
 		
-		Map<String, HomeResultVO> homeResults = new HashMap<>();
+		Map<String, HomeResultVO> homeResults = new HashMap<String, HomeResultVO>();
 		
 		HomeResultVO vipList = homecfgService.getVipList();
 		HomeResultVO lineList = homecfgService.getLineList();

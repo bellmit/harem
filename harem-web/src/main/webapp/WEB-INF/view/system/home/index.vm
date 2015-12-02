@@ -85,6 +85,13 @@
                             </tr>
                         	</thead>
                         	<tbody>
+								#foreach($line in $homeCfg.lineList.homeCfgInfoList)
+									<tr>
+										<td><input type='hidden' name='itemIds' value='$!line.itemId'>$!line.itemTitle</td>
+										<td>$!line.itemPrice</td>
+										<td><img src='$!line.extImg' width=100px height=80px alt='头像' > $!line.extName</td>
+										<td class='delItem'><a>删除</a></td></tr>
+								#end
                         	</tbody>
                         </table>
                     </div>
@@ -120,6 +127,15 @@
                             </tr>
                         	</thead>
                         	<tbody>
+								
+								#foreach($line in $homeCfg.travelKaList.homeCfgInfoList)
+									<tr >
+										<td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'><input type='hidden' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' ></td>
+										<td><input type='hidden' name='itemTitle' value='"+resultValue[i].name+"'>"+resultValue[i].name+"</td>
+										<td class='delItem'><a>删除</a></td>
+									</tr>
+								#end
+								
                         	</tbody>
                         </table>
                     </div>
