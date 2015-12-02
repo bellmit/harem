@@ -237,7 +237,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				
 				List<CfgResultInfo> homeCfgInfoList  = setBaseShowCase(showcaseResult.getList());
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -327,7 +327,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -384,7 +384,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -441,7 +441,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -499,7 +499,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;

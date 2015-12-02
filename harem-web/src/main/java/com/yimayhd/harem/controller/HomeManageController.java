@@ -36,6 +36,15 @@ public class HomeManageController extends BaseController{
 		
 		Map<String, CfgResultVO> homeResults = new HashMap<String, CfgResultVO>();
 		
+		getResultVOs(homeResults);
+		
+		model.addAttribute("homeCfg", homeResults);
+		
+		return "/system/home/index";
+	}
+
+	private void getResultVOs(Map<String, CfgResultVO> homeResults) {
+		
 		CfgResultVO vipList = homecfgService.getVipList();
 		CfgResultVO lineList = homecfgService.getLineList();
 		CfgResultVO travelKaList = homecfgService.getTravelKaList();
@@ -47,10 +56,6 @@ public class HomeManageController extends BaseController{
 		homeResults.put("travelKaList", travelKaList);
 		homeResults.put("cityList", cityList);
 		homeResults.put("travelSpecialList", travelSpecialList);
-		
-		model.addAttribute("homeCfg", homeResults);
-		
-		return "/system/home/index";
 	}
 	
 	/**

@@ -2,6 +2,11 @@ package com.yimayhd.harem.model.vo;
 
 import java.io.Serializable;
 
+/**
+  * @autuor : xusq
+  * @date : 2015年11月30日
+  * @description : 回显showcase信息
+  */
 public class CfgResultInfo implements Serializable{
 
 	/**

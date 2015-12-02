@@ -45,7 +45,7 @@
                         </tr>
                     	</thead>
                     	<tbody>
-							#foreach($vip in $homeCfg.vipList.homeCfgInfoList)
+							#foreach($vip in $homeCfg.vipList.cfgInfoList)
 								<tr >
 									<td>
 										<input type='hidden' name='itemIds' value='$!vip.itemId'> <img id='' src='$!vip.itemImg' width=100px height=80px alt='头像' >
@@ -95,7 +95,7 @@
                             </tr>
                         	</thead>
                         	<tbody>
-								#foreach($line in $homeCfg.lineList.homeCfgInfoList)
+								#foreach($line in $homeCfg.lineList.cfgInfoList)
 									<tr>
 										<td><input type='hidden' name='itemIds' value='$!line.itemId'>$!line.itemTitle</td>
 										<td>$!line.itemPrice</td>
@@ -140,7 +140,7 @@
                         	</thead>
                         	<tbody>
 								
-								#foreach($travelKa in $homeCfg.travelKaList.homeCfgInfoList)
+								#foreach($travelKa in $homeCfg.travelKaList.cfgInfoList)
 									<tr >
 										<td><input type='hidden' name='itemIds' value='$!travelKa.itemId'><input type='hidden' name='imgUrl' value='$!travelKa.itemImg'><img src='$!travelKa.itemImg' width=100px height=80px alt='头像' ></td>
 										<td><input type='hidden' name='itemTitle' value='$!travelKa.itemTitle'>$!travelKa.itemTitle</td>
@@ -185,7 +185,7 @@
                             </tr>
                         	</thead>
                         	<tbody>
-								#foreach($city in $homeCfg.cityList.homeCfgInfoList)
+								#foreach($city in $homeCfg.cityList.cfgInfoList)
 									<tr >
 										<td>
 											<input type='hidden' name='itemIds' value='$!city.itemId'> 
@@ -234,7 +234,7 @@
                                 </tr>
                             	</thead>
                             	<tbody>
-									#foreach($travelSpecial in $homeCfg.travelSpecialList.homeCfgInfoList)
+									#foreach($travelSpecial in $homeCfg.travelSpecialList.cfgInfoList)
 									<tr >
 										<td>
 											<input type='hidden' name='itemIds' value='$!travelSpecial.itemId'> <img src='$!travelSpecial.itemImg' width=100px height=80px alt='头像' >

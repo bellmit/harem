@@ -3,6 +3,11 @@ package com.yimayhd.harem.model.vo;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+  * @autuor : xusq
+  * @date : 2015年11月30日
+  * @description : booth信息集合
+  */
 public class CfgResultVO implements Serializable{
 
 	/**
@@ -17,7 +22,7 @@ public class CfgResultVO implements Serializable{
 	
 	private String boothDesc;
 	
-	private List<CfgResultInfo> homeCfgInfoList;
+	private List<CfgResultInfo> cfgInfoList;
 
 	public long getBoothId() {
 		return boothId;
@@ -43,12 +48,12 @@ public class CfgResultVO implements Serializable{
 		this.boothDesc = boothDesc;
 	}
 
-	public List<CfgResultInfo> getHomeCfgInfoList() {
-		return homeCfgInfoList;
+	public List<CfgResultInfo> getCfgInfoList() {
+		return cfgInfoList;
 	}
 
-	public void setHomeCfgInfoList(List<CfgResultInfo> homeCfgInfoList) {
-		this.homeCfgInfoList = homeCfgInfoList;
+	public void setCfgInfoList(List<CfgResultInfo> cfgInfoList) {
+		this.cfgInfoList = cfgInfoList;
 	}
-	
+
 }
