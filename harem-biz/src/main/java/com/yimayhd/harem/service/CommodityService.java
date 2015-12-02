@@ -1,6 +1,7 @@
 package com.yimayhd.harem.service;
 
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
 
 import java.util.List;
 
@@ -14,6 +15,14 @@ public interface CommodityService {
      * @throws Exception
      */
     List<ItemDO> getList()throws Exception;
+
+    /**
+     * 根据id获取商品信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    ItemResult getCommodityById(long id)throws Exception;
 
     /**
      * 根据id获取酒店商品

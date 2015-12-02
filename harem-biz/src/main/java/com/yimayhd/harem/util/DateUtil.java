@@ -21,6 +21,8 @@ public class DateUtil {
 	public static final String DAY_HORU_FORMAT = "yyyy-MM-dd HH:mm";
 	public static final String DAY_DATE_EN_FORMAT = "yyyy年MM月dd日";
 	public static final String DEFAULT_HOUR_MINUTE = "HH:mm";
+	public static final String DAY_BEGIN = " 00:00:00";
+	public static final String DAY_END = " 23:59:59";
 
 	/** the Year field for date math functions of this class */
 	@Deprecated
@@ -956,6 +958,10 @@ public class DateUtil {
 		calendar.set(Calendar.SECOND, 59);
 		return calendar.getTime();
 	}
+	public static Date formatMaxTimeForDate(String dataStr) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+		return format.parse(dataStr + DAY_BEGIN);
+	}
 
 	/**
 	 * 获取一天的最小时间
@@ -975,4 +981,9 @@ public class DateUtil {
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
+	public static Date formatMinTimeForDate(String dataStr) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+		return format.parse(dataStr + DAY_END);
+	}
+
 }

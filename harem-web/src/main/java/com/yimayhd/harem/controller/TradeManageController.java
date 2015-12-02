@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,16 +39,14 @@ public class TradeManageController extends BaseController {
 	 * @return 交易列表
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/order/list", method = RequestMethod.GET)
 	public String list(Model model, TradeListQuery tradeListQuery) throws Exception {
-		TradeVO tradeVO = new TradeVO();
-		tradeVO.setTradeListQuery(tradeListQuery);
-		List<Trade> tradeList = tradeService.getList(tradeVO);
-		PageVO<Trade> pageVo = new PageVO<Trade>(tradeListQuery.getPageNumber(), tradeListQuery.getPageSize(), 14800);
+		PageVO<BizOrderDO> pageVo = tradeService.getOrderList(tradeListQuery);
+		List<BizOrderDO> bizOrderDOList = pageVo.getItemList();
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("tradeListQuery", tradeListQuery);
-		model.addAttribute("tradeList", tradeList);
-		return "/system/trade/list";
+		model.addAttribute("orderList", bizOrderDOList);
+		return "/system/trade/order/list";
 	}
 
 	/**

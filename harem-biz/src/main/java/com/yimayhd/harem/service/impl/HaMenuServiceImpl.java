@@ -5,7 +5,6 @@ import com.yimayhd.harem.mapper.HaMenuMapper;
 import com.yimayhd.harem.model.HaMenuDO;
 import com.yimayhd.harem.service.HaMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -28,6 +27,11 @@ public class HaMenuServiceImpl extends BaseServiceImpl<HaMenuDO> implements HaMe
 	@Override
 	public List<HaMenuDO> getMenuListByUserId(long id) throws Exception {
 		return haMenuMapper.getMenuListByUserId(id);
+	}
+
+	@Override
+	public List<HaMenuDO> getUrlListByUserId(long id) throws Exception {
+		return haMenuMapper.getUrlListByUserId(id);
 	}
 
 	@Override

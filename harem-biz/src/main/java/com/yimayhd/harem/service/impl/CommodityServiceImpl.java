@@ -2,6 +2,10 @@ package com.yimayhd.harem.service.impl;
 
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +15,8 @@ import java.util.List;
  * Created by Administrator on 2015/11/24.
  */
 public class CommodityServiceImpl implements CommodityService {
+    @Autowired
+    private ItemQueryService itemQueryServiceRef;
     @Override
     public List<ItemDO> getList() throws Exception {
         List<ItemDO> itemDOList = new ArrayList<ItemDO>();
@@ -40,6 +46,18 @@ public class CommodityServiceImpl implements CommodityService {
             itemDOList.add(itemDOData);
         }
         return itemDOList;
+    }
+
+    @Override
+    public ItemResult getCommodityById(long id) throws Exception {
+        ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
+        //TODO 暂时全部设置成true
+        itemOptionDTO.setCreditFade(true);
+        itemOptionDTO.setNeedCategory(true);
+        itemOptionDTO.setNeedSku(true);
+        ItemResult itemResult = itemQueryServiceRef.getItem(id,itemOptionDTO);
+
+        return itemResult;
     }
 
     @Override

@@ -373,6 +373,16 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+				<groupId>com.yimayhd.snscenter</groupId>
+				<artifactId>snscenter-client</artifactId>
+				<version>${snscenter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yimayhd.commentcenter</groupId>
+				<artifactId>commentcenter-client</artifactId>
+				<version>${comment.version}</version>
+			</dependency>
 
 		</dependencies>
 

@@ -8,15 +8,15 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">交易号</button>
                     </span>
-                    <input type="text" class="form-control" name="tradNO" value="$!payListQuery.tradNO">
+                    <input type="text" class="form-control" name="bizOrderId" value="$!payListQuery.bizOrderId">
                 </div>
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">创建时间</button>
                     </span>
-                    <input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!tradeListQuery.beginDate">
+                    <input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!payListQuery.beginDate">
                     <span class="input-group-addon fix-border fix-padding">至</span>
-                    <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" value="$!tradeListQuery.endDate">
+                    <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" value="$!payListQuery.endDate">
                 </div>
 
                 <div class="btn-group">
@@ -45,7 +45,7 @@
                     #foreach($pay in $payList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>$!pay.tradNO</td>
+                        <td>$!pay.id</td>
                         <td>$!pay.id</td>
                         <td>$!pay.subject</td>
                         <td>$!pay.buyerAccount</td>

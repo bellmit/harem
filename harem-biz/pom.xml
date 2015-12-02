@@ -231,6 +231,11 @@
             <groupId>com.yimayhd.pay</groupId>
             <artifactId>paycore-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.yimayhd.tradecenter</groupId>
+            <artifactId>tradecenter-client</artifactId>
+            <version>${tradecenter.client.version}</version>
+        </dependency>
     </dependencies>
     
     
