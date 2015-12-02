@@ -179,7 +179,7 @@
 	    // 选择交通
 		function selectTraffic(tId){
 			var currentTId = tId;
-			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectTraffic','选择交通方式 ',function() {
+			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectTraffic','选择交通方式 ',function() {
 				var tra = win.getTraffic();
 				var content = $("#"+currentTId);
 				content.empty();
@@ -195,7 +195,7 @@
 		// 选择餐厅
 		function selectRestaurant(rId){
 			currentRId = rId;
-			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectRestaurant','选择餐厅',function() {
+			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectRestaurant','选择餐厅',function() {
 				var res = win.getRestaurants();
 				var content = $("#"+currentRId);
                 for(var i in res) {
@@ -217,7 +217,7 @@
 		// 选择景区
 		function selectScenicSpot(sId){
 			currentSId = sId;
-			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectScenicSpot','选择景区',function() {
+			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenicSpot','选择景区',function() {
 				var sce = win.getScenicSpots(); 
 				var content = $("#"+currentSId);
 				content.empty();
@@ -239,7 +239,7 @@
 		// 选择酒店
 		function selectHotel(hId){
 			currentHId = hId;
-			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectHotel','选择酒店 ',function() {
+			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
 				var hot = win.getHotels(); 
 				var content = $("#"+currentHId);
 				content.empty();

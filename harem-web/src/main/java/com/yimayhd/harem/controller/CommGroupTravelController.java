@@ -35,12 +35,6 @@ import com.yimayhd.ic.client.model.domain.ScenicDO;
 @RequestMapping("/B2C/comm/groupTravel")
 public class CommGroupTravelController extends BaseController {
 	@Autowired
-	private RestaurantService restaurantService;
-	@Autowired
-	private HotelService hotelService;
-	@Autowired
-	private ScenicSpotService scenicSpotService;
-	@Autowired
 	private GroupTravelService groupTravelService;
 
 	/**
@@ -56,7 +50,7 @@ public class CommGroupTravelController extends BaseController {
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
 		}
-		return "/system/comm/groupTravel/detail";
+		return "/system/comm/travel/groupTravel/detail";
 	}
 
 	/**
@@ -67,7 +61,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create() throws Exception {
-		return "/system/comm/groupTravel/detail";
+		return "/system/comm/travel/groupTravel/detail";
 	}
 
 	/**
@@ -79,7 +73,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
 	public String baseInfo() throws Exception {
-		return "/system/comm/groupTravel/baseInfo";
+		return "/system/comm/travel/baseInfo";
 	}
 
 	/**
@@ -90,8 +84,8 @@ public class CommGroupTravelController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/tripInfo", method = RequestMethod.GET)
-	public String triInfo() throws Exception {
-		return "/system/comm/groupTravel/tripInfo";
+	public String tripInfo() throws Exception {
+		return "/system/comm/travel/groupTravel/tripInfo";
 	}
 
 	/**
@@ -103,85 +97,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/priceInfo", method = RequestMethod.GET)
 	public String priceInfo() throws Exception {
-		return "/system/comm/groupTravel/priceInfo";
-	}
-
-	/**
-	 * 选择交通
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectTraffic")
-	public String selectTraffic() throws Exception {
-		return "/system/comm/groupTravel/selectTraffic";
-	}
-
-	/**
-	 * 选择餐厅
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectRestaurant")
-	public String selectRstaurant() throws Exception {
-		return "/system/comm/groupTravel/selectRestaurant";
-	}
-
-	/**
-	 * 选择景点
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/queryRestaurantForSelect")
-	public @ResponseBody Map<String, Object> queryRestaurantForSelect(RestaurantListQuery query) throws Exception {
-		PageVO<RestaurantDO> pageVo = restaurantService.getListByPage(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return result;
-	}
-
-	/**
-	 * 选择酒店
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/queryScenicSpotForSelect")
-	public @ResponseBody Map<String, Object> queryScenicSpotForSelect(ScenicSpotListQuery query) throws Exception {
-		PageVO<ScenicDO> pageVo = scenicSpotService.getListByPage(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return result;
-	}
-
-	/**
-	 * 选择酒店
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/queryHotelForSelect")
-	public @ResponseBody Map<String, Object> queryHotelForSelect(HotelListQuery query) throws Exception {
-		PageVO<HotelDO> pageVo = hotelService.getListByPage(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return result;
-	}
-
-	/**
-	 * 选择景区
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectScenicSpot")
-	public String selectScnicSpot() throws Exception {
-		return "/system/comm/groupTravel/selectScenicSpot";
+		return "/system/comm/travel/priceInfo";
 	}
 
 	/**
@@ -192,18 +108,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/batchInsert")
 	public String batchInsert() throws Exception {
-		return "/system/comm/groupTravel/batchInsert";
-	}
-
-	/**
-	 * 选择酒店
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectHotel")
-	public String selectHotel() throws Exception {
-		return "/system/comm/selectHotel";
+		return "/system/comm/travel/batchInsert";
 	}
 
 	/**
@@ -217,5 +122,16 @@ public class CommGroupTravelController extends BaseController {
 		GroupTravel groupTravel = JSON.parse(json, GroupTravel.class);
 		groupTravelService.save(groupTravel);
 		return groupTravel;
+	}
+
+	/**
+	 * 选择交通
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectTraffic")
+	public String selectTraffic() throws Exception {
+		return "/system/comm/travel/groupTravel/selectTraffic";
 	}
 }

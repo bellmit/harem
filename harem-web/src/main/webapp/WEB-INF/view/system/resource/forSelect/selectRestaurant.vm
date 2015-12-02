@@ -2,7 +2,7 @@
 <div>
 	<div class="input-group">
 		<span class="input-group-addon">酒店名称</span>
-		<input type="text" class="form-control" name="hotelName" id="hotelName">
+		<input type="text" class="form-control" name="name" id="name" value="$!query.name">
 		<span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>
 	</div>
 	<div class="input-group selectResourceTable">
@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	var checks = {};
 	$(".search").click(function() {
-		pageUtils.request(1, $(".pageSize").val(),{hotelName:$("#hotelName").val()});
+		pageUtils.request(1, $(".pageSize").val(),{name:$("#name").val()});
 	});
 	function initTable() { 
     	$('table.resourceTable').datatable({
@@ -53,8 +53,8 @@
     	});
 	}
 	// 初始化分页条
-	pageUtils.intall(".pageBar", "$!{actionDefaultPath}/B2C/comm/groupTravel/queryHotelForSelect", function(query, pageVo){
-		$("#hotelName").val(query.hotelName);
+	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/queryRestaurantForSelect", function(query, pageVo){
+		$("#name").val(query.name);
 		showData(pageVo.itemList);
 	});
 	function showData(itemList) {
@@ -81,7 +81,7 @@
 		});
 	}
 	// 获得最终结果
-	function getHotels() {
+	function getRestaurants() {
 		var result = [];
 		$(".resources").each(function(){
 			var rId = $(this).attr("rId");

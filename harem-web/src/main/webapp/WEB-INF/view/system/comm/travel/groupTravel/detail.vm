@@ -1,6 +1,7 @@
 <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 <div>
 	<ul class="nav nav-tabs">
@@ -16,13 +17,13 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane in active" id="baseInfo">
-			#parse("/system/comm/selfServiceTravel/baseInfo.vm")
+			#parse("/system/comm/travel/baseInfo.vm")
         </div>
         <div class="tab-pane" id="tripInfo">
-			#parse("/system/comm/selfServiceTravel/tripPackageInfo.vm")
+			#parse("/system/comm/travel/groupTravel/tripInfo.vm")
         </div>
         <div class="tab-pane" id="priceInfo">
-			#parse("/system/comm/selfServiceTravel/priceInfo.vm")
+			#parse("/system/comm/travel/priceInfo.vm")
 		</div>
       </div>
 	  <div>
@@ -32,11 +33,11 @@
 	  	$(".save").click(function(){
 			var result = {
 				baseInfo:getBaseInfo(),
-				tripPackageInfo:getTripPackageInfo(),
+				tripInfo:getTripInfo(),
 				priceInfo:getPriceInfo()
 			};
 			console.log(JSON.stringify(result));
-			$.post("$!{actionDefaultPath}/B2C/comm/selfServiceTravel/save",{json:JSON.stringify(result)},function(data){
+			$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save",{json:JSON.stringify(result)},function(data){
 				alert(JSON.stringify(data));
 			},"json");
 		});

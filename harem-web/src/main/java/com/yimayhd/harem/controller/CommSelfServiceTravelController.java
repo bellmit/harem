@@ -28,7 +28,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String detail() throws Exception {
-		return "/system/comm/selfServiceTravel/detail";
+		return "/system/comm/travel/selfServiceTravel/detail";
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
 	public String baseInfo() throws Exception {
-		return "/system/comm/selfServiceTravel/baseInfo";
+		return "/system/comm/travel/baseInfo";
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/tripPackageInfo", method = RequestMethod.GET)
 	public String tripPackageInfo() throws Exception {
-		return "/system/comm/selfServiceTravel/tripPackageInfo";
+		return "/system/comm/travel/selfServiceTravel/tripPackageInfo";
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/priceInfo", method = RequestMethod.GET)
 	public String priceInfo() throws Exception {
-		return "/system/comm/selfServiceTravel/priceInfo";
+		return "/system/comm/travel/priceInfo";
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/batchInsert")
 	public String batchInsert() throws Exception {
-		return "/system/comm/selfServiceTravel/batchInsert";
+		return "/system/comm/travel/batchInsert";
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectHotel")
 	public String selectHotel() throws Exception {
-		return "/system/comm/selectHotel";
+		return "/system/comm/travel/selectHotel";
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/addFlight")
 	public String addFlight() throws Exception {
-		return "/system/comm/selfServiceTravel/addFlight";
+		return "/system/comm/travel/selfServiceTravel/addFlight";
 	}
 
 	/**

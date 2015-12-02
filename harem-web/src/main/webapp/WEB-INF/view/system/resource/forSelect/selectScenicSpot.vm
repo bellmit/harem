@@ -53,7 +53,7 @@
     	});
 	}
 	// 初始化分页条
-	pageUtils.intall(".pageBar", "$!{actionDefaultPath}/B2C/comm/groupTravel/queryScenicSpotForSelect", function(query, pageVo){
+	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/queryScenicSpotForSelect", function(query, pageVo){
 		$("#scenicName").val(query.scenicName);
 		showData(pageVo.itemList);
 	});
