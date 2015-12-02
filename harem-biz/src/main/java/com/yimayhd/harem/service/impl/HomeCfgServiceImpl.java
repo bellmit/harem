@@ -51,7 +51,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	/**
 	 * 品质游记boothid
 	 */
-	private static final long HOME_CONFIG_TRAVEL_SPECIAL_BOOTH_ID = 63;
+	private static final long HOME_CONFIG_TRAVEL_SPECIAL_BOOTH_ID = 64;
 	
 	private static final String img = "T1xthTB4YT1R4cSCrK.png";
 	
@@ -140,7 +140,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
         userInfo.setName("sam");
         userInfo.setAge(23);
         userInfo.setSignature("云南旅游达人");
-        userInfo.setGender(1);
+        userInfo.setGender("MALE");
         userInfo.setAvatar(img);
         lineInfo.setUserInfo(userInfo);
         System.out.println(JSON.toJSONString(lineInfo));
@@ -193,7 +193,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
         userInfo.setName("sam");
         userInfo.setAge(23);
         userInfo.setSignature("云南旅游达人");
-        userInfo.setGender(1);
+        userInfo.setGender("FEMALE");
         userInfo.setAvatar(img);
         travelSpecialInfo.setUserInfo(userInfo);
         travelSpecialInfo.setSupportNum(234);

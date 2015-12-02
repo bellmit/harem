@@ -43,6 +43,12 @@
                         </tr>
                     	</thead>
                     	<tbody>
+							#foreach($vip in $homeCfg.vipList.homeCfgInfoList)
+								<tr ><td><input type='hidden' name='itemIds' value='$!vip.itemId'> <img id='' src='$!vip.itemImg' width=100px height=80px alt='头像' >
+                        		<input type='file' name='file' class='fileInp' id=''><input type='hidden' id='' name='imgUrl' value='$!vip.itemImg'></td>
+                        		<td><input type='text' name='itemTitle' readonly value='$vip.itemTitle'></td>
+                        		<td><input type='text' name='description' value='$!vip.itemDesc'></td><td class='delItem'><a>删除</a></td></tr>
+							#end
                     	</tbody>
                     </table>
                 </div>

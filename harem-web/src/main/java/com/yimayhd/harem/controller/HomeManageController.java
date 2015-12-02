@@ -1,7 +1,12 @@
 package com.yimayhd.harem.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.validator.GenericTypeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,6 +15,7 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.HomeBaseVO;
+import com.yimayhd.harem.model.vo.HomeResultVO;
 import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 
@@ -26,7 +32,24 @@ public class HomeManageController extends BaseController{
 	private HomeCfgService homecfgService;
 
 	@RequestMapping("/index")
-	public String toHomePageManage(){
+	public String toHomePageManage(Model model){
+		
+		Map<String, HomeResultVO> homeResults = new HashMap<>();
+		
+		HomeResultVO vipList = homecfgService.getVipList();
+		HomeResultVO lineList = homecfgService.getLineList();
+		HomeResultVO travelKaList = homecfgService.getTravelKaList();
+		HomeResultVO cityList = homecfgService.getCityList();
+		HomeResultVO travelSpecialList = homecfgService.getTravelSpecialList();
+		
+		homeResults.put("vipList", vipList);
+		homeResults.put("lineList", lineList);
+		homeResults.put("travelKaList", travelKaList);
+		homeResults.put("cityList", cityList);
+		homeResults.put("travelSpecialList", travelSpecialList);
+		
+		model.addAttribute("homeCfg", homeResults);
+		
 		return "/system/home/index";
 	}
 	
