@@ -19,7 +19,7 @@
     </listener>
 
 
-    <!--<filter>
+    <filter>
         <filter-name>springSessionRepositoryFilter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
@@ -52,13 +52,12 @@
     <filter-mapping>
         <filter-name>sessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-    </filter-mapping> -->
 
-
-   <!--  <listener>
+    <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener> -->
+    </listener>
 
     <!-- springMvc编码拦截器，springMvc内置的编码拦截器 -->
     <filter>
