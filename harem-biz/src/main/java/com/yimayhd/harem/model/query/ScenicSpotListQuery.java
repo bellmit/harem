@@ -10,14 +10,14 @@ public class ScenicSpotListQuery extends BaseQuery {
 	 * 
 	 */
 	private static final long serialVersionUID = 8442217000035261162L;
-	private String scenicName;
+	private String name;
 
-	public String getScenicName() {
-		return scenicName;
+	public String getName() {
+		return name;
 	}
 
-	public void setScenicName(String scenicName) {
-		this.scenicName = scenicName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

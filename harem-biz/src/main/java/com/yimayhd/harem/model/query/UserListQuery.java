@@ -6,35 +6,35 @@ import com.yimayhd.harem.base.BaseQuery;
  * Created by Administrator on 2015/11/9.
  */
 public class UserListQuery extends BaseQuery {
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -603714674325753343L;
-	private String userName;
-    private String tel;
-    private Long cityName;
+	private String name;
+	private String tel;
+	private Long cityName;
 
-    public String getUserName() {
-        return userName;
-    }
+	public String getTel() {
+		return tel;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
 
-    public String getTel() {
-        return tel;
-    }
+	public Long getCityName() {
+		return cityName;
+	}
 
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
+	public void setCityName(Long cityName) {
+		this.cityName = cityName;
+	}
 
-    public Long getCityName() {
-        return cityName;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setCityName(Long cityName) {
-        this.cityName = cityName;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 }

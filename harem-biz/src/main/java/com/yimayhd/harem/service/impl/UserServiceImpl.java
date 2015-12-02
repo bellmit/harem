@@ -131,8 +131,8 @@ public class UserServiceImpl implements UserService {
 	private List<User> query(List<User> users, UserListQuery query) {
 		List<User> result = new ArrayList<User>();
 		for (User user : users) {
-			if (StringUtils.isNotBlank(query.getUserName())) {
-				if (user.getName().indexOf(query.getUserName()) != -1) {
+			if (StringUtils.isNotBlank(query.getName())) {
+				if (user.getName().indexOf(query.getName()) != -1) {
 					result.add(user);
 				}
 			} else {

@@ -98,8 +98,8 @@ public class ScenicSpotServiceImpl implements ScenicSpotService {
 	private List<ScenicDO> query(List<ScenicDO> hotels, ScenicSpotListQuery query) {
 		List<ScenicDO> result = new ArrayList<ScenicDO>();
 		for (ScenicDO hotel : hotels) {
-			if (StringUtils.isNotBlank(query.getScenicName())) {
-				if (hotel.getName().indexOf(query.getScenicName()) != -1) {
+			if (StringUtils.isNotBlank(query.getName())) {
+				if (hotel.getName().indexOf(query.getName()) != -1) {
 					result.add(hotel);
 				}
 			} else {

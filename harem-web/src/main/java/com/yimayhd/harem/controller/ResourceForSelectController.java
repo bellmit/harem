@@ -73,8 +73,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/queryScenicSpotForSelect")
-	public @ResponseBody Map<String, Object> queryScenicSpotForSelect(ScenicSpotListQuery query) throws Exception {
+	@RequestMapping(value = "/queryScenicForSelect")
+	public @ResponseBody Map<String, Object> queryScenicForSelect(ScenicSpotListQuery query) throws Exception {
 		PageVO<ScenicDO> pageVo = scenicSpotService.getListByPage(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
@@ -88,9 +88,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectScenicSpot")
+	@RequestMapping(value = "/selectScenic")
 	public String selectScnicSpot() throws Exception {
-		return "/system/resource/forSelect/selectScenicSpot";
+		return "/system/resource/forSelect/selectScenic";
 	}
 
 	/**

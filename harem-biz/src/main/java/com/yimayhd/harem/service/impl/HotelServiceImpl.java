@@ -11,7 +11,6 @@ import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.RestaurantDO;
 
 /**
  * Created by Administrator on 2015/11/18.
@@ -151,8 +150,8 @@ public class HotelServiceImpl implements HotelService {
 	private List<HotelDO> query(List<HotelDO> hotels, HotelListQuery query) {
 		List<HotelDO> result = new ArrayList<HotelDO>();
 		for (HotelDO hotel : hotels) {
-			if (StringUtils.isNotBlank(query.getHotelName())) {
-				if (hotel.getName().indexOf(query.getHotelName()) != -1) {
+			if (StringUtils.isNotBlank(query.getName())) {
+				if (hotel.getName().indexOf(query.getName()) != -1) {
 					result.add(hotel);
 				}
 			} else {
