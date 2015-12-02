@@ -3,7 +3,7 @@ package com.yimayhd.harem.model.vo;
 import java.io.Serializable;
 import java.util.List;
 
-public class HomeResultVO implements Serializable{
+public class CfgResultVO implements Serializable{
 
 	/**
 	 * 
@@ -17,7 +17,7 @@ public class HomeResultVO implements Serializable{
 	
 	private String boothDesc;
 	
-	private List<HomeResultInfo> homeCfgInfoList;
+	private List<CfgResultInfo> homeCfgInfoList;
 
 	public long getBoothId() {
 		return boothId;
@@ -43,11 +43,11 @@ public class HomeResultVO implements Serializable{
 		this.boothDesc = boothDesc;
 	}
 
-	public List<HomeResultInfo> getHomeCfgInfoList() {
+	public List<CfgResultInfo> getHomeCfgInfoList() {
 		return homeCfgInfoList;
 	}
 
-	public void setHomeCfgInfoList(List<HomeResultInfo> homeCfgInfoList) {
+	public void setHomeCfgInfoList(List<CfgResultInfo> homeCfgInfoList) {
 		this.homeCfgInfoList = homeCfgInfoList;
 	}
 	

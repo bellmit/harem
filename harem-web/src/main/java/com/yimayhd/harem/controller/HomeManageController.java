@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
-import com.yimayhd.harem.model.HomeBaseVO;
-import com.yimayhd.harem.model.vo.HomeResultVO;
+import com.yimayhd.harem.model.vo.CfgBaseVO;
+import com.yimayhd.harem.model.vo.CfgResultVO;
 import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 
@@ -34,13 +34,13 @@ public class HomeManageController extends BaseController{
 	@RequestMapping("/index")
 	public String toHomePageManage(Model model){
 		
-		Map<String, HomeResultVO> homeResults = new HashMap<String, HomeResultVO>();
+		Map<String, CfgResultVO> homeResults = new HashMap<String, CfgResultVO>();
 		
-		HomeResultVO vipList = homecfgService.getVipList();
-		HomeResultVO lineList = homecfgService.getLineList();
-		HomeResultVO travelKaList = homecfgService.getTravelKaList();
-		HomeResultVO cityList = homecfgService.getCityList();
-		HomeResultVO travelSpecialList = homecfgService.getTravelSpecialList();
+		CfgResultVO vipList = homecfgService.getVipList();
+		CfgResultVO lineList = homecfgService.getLineList();
+		CfgResultVO travelKaList = homecfgService.getTravelKaList();
+		CfgResultVO cityList = homecfgService.getCityList();
+		CfgResultVO travelSpecialList = homecfgService.getTravelSpecialList();
 		
 		homeResults.put("vipList", vipList);
 		homeResults.put("lineList", lineList);
@@ -58,7 +58,7 @@ public class HomeManageController extends BaseController{
 	 */
 	@RequestMapping(value="/addHomeVip",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo addHomeVip(HomeBaseVO homeBaseVO){
+	public ResponseVo addHomeVip(CfgBaseVO homeBaseVO){
 		
 		ResponseVo responseVo = new ResponseVo();
 		RcResult<Boolean> addVipstatus  = homecfgService.addVipList(homeBaseVO);
@@ -79,7 +79,7 @@ public class HomeManageController extends BaseController{
 	 */
 	@RequestMapping(value="/addHomeLine",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo addHomeLineInfo(HomeBaseVO homeBaseVO){
+	public ResponseVo addHomeLineInfo(CfgBaseVO homeBaseVO){
 		ResponseVo responseVo = new ResponseVo();
 		
 		RcResult<Boolean> addLineStatus = homecfgService.addLineList(homeBaseVO);
@@ -100,7 +100,7 @@ public class HomeManageController extends BaseController{
 	 */
 	@RequestMapping(value="/addHomeTravelKa",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo addHomeTravelKa(HomeBaseVO homeBaseVO){
+	public ResponseVo addHomeTravelKa(CfgBaseVO homeBaseVO){
 		
 		ResponseVo responseVo = new ResponseVo();
 		
@@ -122,7 +122,7 @@ public class HomeManageController extends BaseController{
 	 */
 	@RequestMapping(value="/addHomeCity",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo addHomeCity(HomeBaseVO homeBaseVO){
+	public ResponseVo addHomeCity(CfgBaseVO homeBaseVO){
 		ResponseVo responseVo = new ResponseVo();
 		
 		RcResult<Boolean> addCityStatus = homecfgService.addCityList(homeBaseVO);
@@ -143,7 +143,7 @@ public class HomeManageController extends BaseController{
 	 */
 	@RequestMapping(value="/addHomeTravelSpecial",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo addHomeTravelSpecial(HomeBaseVO homeBaseVO){
+	public ResponseVo addHomeTravelSpecial(CfgBaseVO homeBaseVO){
 		
 		ResponseVo responseVo = new ResponseVo();
 		

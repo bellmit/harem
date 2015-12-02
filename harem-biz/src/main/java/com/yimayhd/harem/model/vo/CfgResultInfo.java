@@ -2,7 +2,7 @@ package com.yimayhd.harem.model.vo;
 
 import java.io.Serializable;
 
-public class HomeResultInfo implements Serializable{
+public class CfgResultInfo implements Serializable{
 
 	/**
 	 * 

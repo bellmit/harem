@@ -1,7 +1,7 @@
 package com.yimayhd.harem.service;
 
-import com.yimayhd.harem.model.HomeBaseVO;
-import com.yimayhd.harem.model.vo.HomeResultVO;
+import com.yimayhd.harem.model.vo.CfgBaseVO;
+import com.yimayhd.harem.model.vo.CfgResultVO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 
 /**
@@ -14,51 +14,51 @@ public interface HomeCfgService {
 	/**
 	 * 添加会员专享信息
 	 */
-	public RcResult<Boolean> addVipList(HomeBaseVO homeVipVO);
+	public RcResult<Boolean> addVipList(CfgBaseVO homeVipVO);
 
 	/**
 	 * 添加线路信息
 	 */
-	public RcResult<Boolean> addLineList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addLineList(CfgBaseVO homeBaseVO);
 
 	/**
 	 * 添加旅游咖信息
 	 */
-	public RcResult<Boolean> addTravelKaList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addTravelKaList(CfgBaseVO homeBaseVO);
 
 	/**
 	 * 添加目的地信息
 	 */
-	public RcResult<Boolean> addCityList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addCityList(CfgBaseVO homeBaseVO);
 
 	/**
 	 * 添加游记信息
 	 */
-	public RcResult<Boolean> addTravelSpecialList(HomeBaseVO homeBaseVO);
+	public RcResult<Boolean> addTravelSpecialList(CfgBaseVO homeBaseVO);
 	
 	/**
 	 * 获取会员专享信息
 	 */
-	public HomeResultVO getVipList();
+	public CfgResultVO getVipList();
 	
 	/**
 	 * 获取线路信息
 	 */
-	public HomeResultVO getLineList();
+	public CfgResultVO getLineList();
 	
 	/**
 	 * 获取旅游咖信息
 	 */
-	public HomeResultVO getTravelKaList();
+	public CfgResultVO getTravelKaList();
 	
 	/**
 	 * 获取目的地信息
 	 */
-	public HomeResultVO getCityList();
+	public CfgResultVO getCityList();
 	
 	/**
 	 * 获取游记信息
 	 */
-	public HomeResultVO getTravelSpecialList();
+	public CfgResultVO getTravelSpecialList();
 	
 }

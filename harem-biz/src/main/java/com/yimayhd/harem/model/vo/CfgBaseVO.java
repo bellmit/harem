@@ -1,8 +1,8 @@
-package com.yimayhd.harem.model;
+package com.yimayhd.harem.model.vo;
 
 import java.io.Serializable;
 
-public class HomeBaseVO implements Serializable{
+public class CfgBaseVO implements Serializable{
 
 	/**
 	 * 
