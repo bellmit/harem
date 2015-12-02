@@ -10,18 +10,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.model.query.ScenicSpotListQuery;
+import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.harem.service.ScenicSpotService;
+import com.yimayhd.harem.service.UserService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 
 /**
- * 资源管理
+ * 资源选择理
  * 
  * @author yebin
  *
@@ -32,9 +35,11 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private RestaurantService restaurantService;
 	@Autowired
+	private ScenicSpotService scenicSpotService;
+	@Autowired
 	private HotelService hotelService;
 	@Autowired
-	private ScenicSpotService scenicSpotService;
+	private UserService userService;
 
 	/**
 	 * 选择景点
@@ -112,5 +117,31 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/selectHotel")
 	public String selectHotel() throws Exception {
 		return "/system/resource/forSelect/selectHotel";
+	}
+
+	/**
+	 * 选择用户
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryUserForSelect")
+	public @ResponseBody Map<String, Object> queryUserForSelect(UserListQuery query) throws Exception {
+		PageVO<User> pageVo = userService.getUserListByPage(query);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", query);
+		return result;
+	}
+
+	/**
+	 * 选择用户
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectUser")
+	public String selectUser() throws Exception {
+		return "/system/resource/forSelect/selectUser";
 	}
 }
