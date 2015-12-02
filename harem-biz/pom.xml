@@ -14,7 +14,6 @@
 			<groupId>com.yimayhd.commentcenter</groupId>
 			<artifactId>commentcenter-client</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.yimayhd</groupId>
 			<artifactId>harem-client</artifactId>
