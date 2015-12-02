@@ -111,22 +111,13 @@
 </div>
 </form>
 
-
-<div class="demo" id="baiduMap" >
-	<p style="height:40px;">输入城市：<input id="txtCity" type="text"/>  <button  onClick="getPoint()">获取坐标</button> 经度：<input id="txtPointX" type="text"/>维度<input id="txtPointY" type="text"/></p>
-	<div id="l-map"></div>
-	<div id="r-result"></div>
-
-</div>
-
 <script>
-
-var mapCallback = function(data){
-    if(data){
-        $("#locationX").val(data['pointX']);
-        $("#locationY").val(data['pointY']);
+    var mapCallback = function(data){
+        if(data){
+            $("#locationX").val(data['pointX']);
+            $("#locationY").val(data['pointY']);
+        }
     }
-}
 
     $(function(){
         $('.locationXYSelectBtn').click(function(){
