@@ -62,7 +62,7 @@
                 </div>
                  <div class="clubBotBtn">
                 <div class="btn-group">
-                    <button class="btn btn-success" type="button" id="vipSubmit" >添加</button>
+                    <button class="btn btn-success" type="button" id="vipSubmit" >保存</button>
                 </div>
                 <div class="btn-group">
                     <button class="btn">取消</button>
@@ -107,7 +107,7 @@
                     </div>
                      <div class="clubBotBtn">
                     <div class="btn-group">
-                        <button class="btn btn-success"  type="button"  id="lineSubmit" >添加</button>
+                        <button class="btn btn-success"  type="button"  id="lineSubmit" >保存</button>
                     </div>
                     <div class="btn-group">
                         <button class="btn">取消</button>
@@ -153,7 +153,7 @@
                     </div>
                      <div class="clubBotBtn">
                     <div class="btn-group">
-                        <button class="btn btn-success"  type="button"  id="travelKaSubmit" >添加</button>
+                        <button class="btn btn-success"  type="button"  id="travelKaSubmit" >保存</button>
                     </div>
                     <div class="btn-group">
                         <button class="btn">取消</button>
@@ -201,7 +201,7 @@
                     </div>
                      <div class="clubBotBtn">
                     <div class="btn-group">
-                        <button class="btn btn-success"  type="button"  id="citySubmit" >添加</button>
+                        <button class="btn btn-success"  type="button"  id="citySubmit" >保存</button>
                     </div>
                     <div class="btn-group">
                         <button class="btn">取消</button>
@@ -251,7 +251,7 @@
                         </div>
                          <div class="clubBotBtn">
                         <div class="btn-group">
-                            <button class="btn btn-success"  type="button"  id="travelSpecialSubmit" >添加</button>
+                            <button class="btn btn-success"  type="button"  id="travelSpecialSubmit" >保存</button>
                         </div>
                         <div class="btn-group">
                             <button class="btn">取消</button>
@@ -261,8 +261,6 @@
             </div>
         </div>
 </div>
-#*<object style="border:0px" type="text/x-scriptlet" data="http://192.168.1.209:7500/v1/tfs/T1IRhTByZT1RX1qZUK" width=100% height=30></object>*#
-
 <script>
 
     $(function(){
@@ -272,7 +270,7 @@
 		}); 
     	
         
-         //选择用户信息
+         //选择活动商品信息
         $('.selectUserBtn').click(function(){
             layer.open({
                 type: 2,
@@ -339,7 +337,7 @@
 		});
 		
 		
-         //选择旅游咖信息
+         //选择大咖信息
         $('.selectTravelKaBtn').click(function(){
             layer.open({
                 type: 2,

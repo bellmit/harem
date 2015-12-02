@@ -62,16 +62,16 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	private BoothClientServer boothCilentServer;
 	
 	@Override
-	public RcResult<Boolean> addVipList(CfgBaseVO homeVipVO) {
+	public RcResult<Boolean> addVipList(CfgBaseVO cfgBaseVO) {
 		RcResult<Boolean> batchInsertShowcase = new RcResult<Boolean>();
 		
-		if(null == homeVipVO){
+		if(null == cfgBaseVO){
 			batchInsertShowcase.setErrorCode(ErrorCode.PARAM_ERROR);
 		}
 		
-		BoothDO boothDO = setBoothInfo(homeVipVO); 
+		BoothDO boothDO = setBoothInfo(cfgBaseVO); 
 		
-		List<ShowcaseDO> showcaseList = setShowCaseListBase(homeVipVO);
+		List<ShowcaseDO> showcaseList = setShowCaseListBase(cfgBaseVO);
 		
 		batchInsertShowcase = showCaseClientServer.batchInsertShowcase(boothDO, showcaseList);
 		
@@ -79,42 +79,42 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 		return batchInsertShowcase;
 	}
 
-	private BoothDO setBoothInfo(CfgBaseVO homeBaseVO) {
+	private BoothDO setBoothInfo(CfgBaseVO cfgBaseVO) {
 		
 		BoothDO boothDO = new BoothDO();
-		boothDO.setDesc(homeBaseVO.getSubTitle());
-		boothDO.setCode(homeBaseVO.getBoothCode());
-		boothDO.setId(homeBaseVO.getBoothId());
+		boothDO.setDesc(cfgBaseVO.getSubTitle());
+		boothDO.setCode(cfgBaseVO.getBoothCode());
+		boothDO.setId(cfgBaseVO.getBoothId());
 		
 		return boothDO;
 	}
 
-	private List<ShowcaseDO> setShowCaseListBase(CfgBaseVO homeVipVO) {
+	private List<ShowcaseDO> setShowCaseListBase(CfgBaseVO cfgBaseVO) {
 		
 		List<ShowcaseDO> showcaseList = new ArrayList<ShowcaseDO>();
 		
 		ShowcaseDO showcaseDO = null;
 		
-		long[] vipIds = homeVipVO.getItemIds();
+		long[] vipIds = cfgBaseVO.getItemIds();
 		
 		for (int i = 0; i < vipIds.length; i++) {
 			
 			showcaseDO = new ShowcaseDO();
 			//TODO
-			if(homeVipVO.getBoothId() > 1){
-				showcaseDO.setBoothId(homeVipVO.getBoothId());
+			if(cfgBaseVO.getBoothId() > 1){
+				showcaseDO.setBoothId(cfgBaseVO.getBoothId());
 			}
-			if(!Common.isEmptyArray(homeVipVO.getItemTitle())){
-				showcaseDO.setTitle(homeVipVO.getItemTitle()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getItemTitle())){
+				showcaseDO.setTitle(cfgBaseVO.getItemTitle()[i]);
 			}
-			if(!Common.isEmptyArray(homeVipVO.getImgUrl())){
-				showcaseDO.setImgUrl(homeVipVO.getImgUrl()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getImgUrl())){
+				showcaseDO.setImgUrl(cfgBaseVO.getImgUrl()[i]);
 			}
-			if(!Common.isEmptyArray(homeVipVO.getDescription())){
-				showcaseDO.setSummary(homeVipVO.getDescription()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getDescription())){
+				showcaseDO.setSummary(cfgBaseVO.getDescription()[i]);
 			}
-			if(!Common.isEmptyArray(homeVipVO.getItemIds())){
-				showcaseDO.setOperationId(homeVipVO.getItemIds()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getItemIds())){
+				showcaseDO.setOperationId(cfgBaseVO.getItemIds()[i]);
 			}
 			
 			showcaseList.add(showcaseDO);
@@ -124,7 +124,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addLineList(CfgBaseVO homeBaseVO) {
+	public RcResult<Boolean> addLineList(CfgBaseVO cfgBaseVO) {
 		
         LineInfo lineInfo = new LineInfo();
         lineInfo.setName("线路1");
@@ -154,7 +154,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addTravelKaList(CfgBaseVO homeBaseVO) {
+	public RcResult<Boolean> addTravelKaList(CfgBaseVO cfgBaseVO) {
 		
 	 	TravelKaItem travelKaItem = new TravelKaItem();
         travelKaItem.setId(233);
@@ -175,7 +175,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addCityList(CfgBaseVO homeBaseVO) {
+	public RcResult<Boolean> addCityList(CfgBaseVO cfgBaseVO) {
 		 List<ShowcaseDO> showcaseDOList = new ArrayList<ShowcaseDO>();
 			BoothDO boothDO = new BoothDO();
 			RcResult<Boolean> insertStatus = showCaseClientServer.batchInsertShowcase(boothDO, showcaseDOList);
@@ -183,7 +183,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addTravelSpecialList(CfgBaseVO homeBaseVO) {
+	public RcResult<Boolean> addTravelSpecialList(CfgBaseVO cfgBaseVO) {
 		
 		TravelSpecialInfo travelSpecialInfo = new TravelSpecialInfo();
         travelSpecialInfo.setTitle("穿梭在云端的日子");
