@@ -7,9 +7,9 @@
 	<div>
 		<div>可选出发日：</div>
 		<div>
-			<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="startDate" id="startDate">
+			<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly id="startTime">
             <span class="input-group-addon fix-border fix-padding">至</span>
-            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" id="endDate">
+            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly id="endTime">
 			<button class="btn btn-primary addTC">添加新套餐</button>
         </div>
     </div>
@@ -17,8 +17,89 @@
 		<div>套餐设置：</div>
 		<div>
 			<ul id="tc_tab" class="nav nav-tabs">
+				#foreach($tc in $!{product.priceInfo.tcs})
+				<li class="tab-page tc-tab #if($!{velocityCount}==1) active #end" rId="$!{velocityCount}" id="tc_$!{velocityCount}_tab">
+					<a href="#tc_$!{velocityCount}" data-toggle="tab" id="tc_tab_$!{velocityCount}_a">套餐$!{velocityCount}&nbsp;&nbsp;</a>
+					<i class="icon icon-remove" tcid="$!{velocityCount}"></i>
+				</li>
+				#end
             </ul>
 			<div id="tc_page" class="tab-content">
+				#foreach($tc in ${product.priceInfo.tcs})
+				<div class="tab-pane in #if($!{velocityCount}==1) active #end" id="tc_$!{velocityCount}">
+					<input type="hidden" id="tc_$!{velocityCount}_startTime" value="$!{tc.startTime}">
+					<input type="hidden" id="tc_$!{velocityCount}_endTime" value="$!{tc.endTime}">
+					<table class="table">
+						<tbody>
+							<tr>
+								<td>
+									<div>套餐名称：*<input type="text" id="tc_$!{velocityCount}_name" class="form-control" placeholder="请输入套餐名称"></div>
+									<div>出发地：<input type="text" id="tc_$!{velocityCount}_from" class="form-control" placeholder="出发地"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<ul class="nav nav-tabs">
+										#foreach($month in ${tc.months})
+										<li class="tab-page tc-$!{velocityCount}-month active" rId="${month.time}" id="tc_$!{velocityCount}_month_${month.time}_tab">
+											<a href="#tc_$!{velocityCount}_month_${month.time}" data-toggle="tab">2015年12月</a>
+										</li>
+										#end
+										<li>
+											<button class="btn btn-primary" tc-id="3">批量录入</button>
+										</li>
+									</ul>
+									<div class="tab-content">
+										#foreach($month in ${tc.months})
+										<div class="tab-pane in active" id="tc_$!{velocityCount}_month_$!{month.time}">
+											<table class="table">
+												<tbody>
+													#foreach($day in ${month.days})
+													<tr>
+														<td class="tc-$!{velocityCount}-month-$!{month.time}-day" rId="$!{day.time}">
+															<div>03日 周四</div>
+															<div class="input-group">
+																<span class="input-group-addon">￥成人价：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-11" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_11" placeholder="请输入成人价">
+																<span class="input-group-addon">库存：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-12" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_12" placeholder="请输入库存">
+																<span class="input-group-addon">会员优惠：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-13" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_13" placeholder="请输入会员优惠">
+															</div>
+															<div class="input-group">
+																<span class="input-group-addon">￥儿童价（0-2）：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-21" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_21" placeholder="请输入儿童价">
+																<span class="input-group-addon">库存：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-22" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_22" placeholder="请输入库存">
+																<span class="input-group-addon">会员优惠：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-23" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_23" placeholder="请输入会员优惠">
+															</div>
+															<div class="input-group">
+																<span class="input-group-addon">￥儿童价（2-12）：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-31" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_31" placeholder="请输入儿童价">
+																<span class="input-group-addon">库存：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-32" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_32" placeholder="请输入库存">
+																<span class="input-group-addon">会员优惠：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-33" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_33" placeholder="请输入会员优惠">
+															</div>
+															<div class="input-group">
+																<span class="input-group-addon">￥单房差：</span>
+																<input type="text" class="form-control tc-$!{velocityCount}-item-41" id="tc_$!{velocityCount}_month_${month.time}_day_$!{day.time}_41" placeholder="请输入单房差">
+															</div>
+														</td>
+													</tr>
+													#end
+												</tbody>
+											</table>
+										</div>
+										#end
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				#end
             </div> 
 		</div>
     </div>
@@ -68,9 +149,9 @@
 		curTcId = curTcId + 1;
 		var tcTab = createTcTab(curTcId);
 		$("#tc_tab").append(tcTab);
-		var startDate = new Date($("#startDate").val());
-		var endDate = new Date($("#endDate").val());
-		var tcTabContent = createTcContent(curTcId,startDate,endDate);
+		var startTime = new Date($("#startTime").val());
+		var endTime = new Date($("#endTime").val());
+		var tcTabContent = createTcContent(curTcId,startTime,endTime);
 		$("#tc_page").append(tcTabContent);
 		$("#tc_"+curTcId).find(".tab-page a").eq(0).click();
 		$("#tc_tab_"+curTcId+"_a").click();
@@ -98,10 +179,10 @@
 		});
 		return tcTab.append(tabA).append(remove);
 	}
-	function createTcContent(id,startDate,endDate) {
+	function createTcContent(id,startTime,endTime) {
 		var pane = $("<div class='tab-pane in' id='tc_"+id+"'/>")
-		pane.append($("<input type='hidden' id='tc_"+id+"_startDate' value='"+startDate.getTime()+"'>"));
-		pane.append($("<input type='hidden' id='tc_"+id+"_endDate' value='"+endDate.getTime()+"'>"));
+		pane.append($("<input type='hidden' id='tc_"+id+"_startTime' value='"+startTime.getTime()+"'>"));
+		pane.append($("<input type='hidden' id='tc_"+id+"_endTime' value='"+endTime.getTime()+"'>"));
 		var table = $("<table class='table'/>");
 		var td = $("<td/>");
 		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></div>")
@@ -109,13 +190,13 @@
 		var tcFrom = $("<div>出发地：<input type='text' id='tc_"+id+"_from' class='form-control' placeholder='出发地'></div>")
 		td.append(tcFrom);
 		table.append($("<tr/>").append(td));
-		var dateJson = CalendarUtils.getMonthTree(startDate,endDate);
-		var dateTab = createDateTab(id,dateJson,startDate,endDate);
-		var dateTabContent = createDateContent(id,dateJson,startDate,endDate);
+		var dateJson = CalendarUtils.getMonthTree(startTime,endTime);
+		var dateTab = createDateTab(id,dateJson,startTime,endTime);
+		var dateTabContent = createDateContent(id,dateJson,startTime,endTime);
 		pane.append(table.append($("<tr/>").append($("<td/>").append(dateTab).append(dateTabContent))));
 		return pane;
 	}
-	function createDateTab(id,dateJson,startDate,endDate) {
+	function createDateTab(id,dateJson,startTime,endTime) {
 		var tab = $("<ul class='nav nav-tabs'/>");
 		for(i in dateJson) {
 			var tcTab = $("<li class='tab-page tc-"+id+"-month' rId='"+i+"' id='tc_"+id+"_month_"+i+"_tab'/>");
@@ -131,7 +212,7 @@
 		tab.append($("<li>").append(batch));
 		return tab;
 	}
-	function createDateContent(id,dateJson,startDate,endDate) {
+	function createDateContent(id,dateJson,startTime,endTime) {
 		var content = $("<div class='tab-content'/>");
 		for(i in dateJson) {
 			var tcTab = $("<div class='tab-pane in' id='tc_"+id+"_month_"+i+"'/>");
@@ -247,8 +328,8 @@
 			});
 			tcs.push({
 				id:tcId,
-				startDate:$("#tc_"+tcId+"_startDate").val(),
-				endDate:$("#tc_"+tcId+"_endDate").val(),
+				startTime:$("#tc_"+tcId+"_startTime").val(),
+				endTime:$("#tc_"+tcId+"_endTime").val(),
 				name:$("#tc_"+tcId+"_name").val(),
 				from:$("#tc_"+tcId+"_from").val(),
 				months:months

@@ -23,7 +23,7 @@ public class BaseInfo {
 	private Map<String, String> publisher;// 发布者
 	private String highlights;// 亮点
 	private String recommond;// 代言
-	private List<ExtraInfo> extraInfos;// 报名须知
+	private List<Map<String, String>> extraInfos;// 报名须知
 
 	/**
 	 * 包含某个tag
@@ -165,11 +165,11 @@ public class BaseInfo {
 		this.recommond = recommond;
 	}
 
-	public List<ExtraInfo> getExtraInfos() {
+	public List<Map<String, String>> getExtraInfos() {
 		return extraInfos;
 	}
 
-	public void setExtraInfos(List<ExtraInfo> extraInfos) {
+	public void setExtraInfos(List<Map<String, String>> extraInfos) {
 		this.extraInfos = extraInfos;
 	}
 }

@@ -9,8 +9,8 @@ import java.util.List;
  *
  */
 public class PackageInfo {
-	private long startDate;
-	private long endDate;
+	private String startTime; // 开始时间
+	private String endTime;// 结束时间
 	private String name;// 套餐名
 	private String from;// 出发地
 	private List<PackageMonth> months;
@@ -39,20 +39,20 @@ public class PackageInfo {
 		this.months = months;
 	}
 
-	public long getStartDate() {
-		return startDate;
+	public String getStartTime() {
+		return startTime;
 	}
 
-	public void setStartDate(long startDate) {
-		this.startDate = startDate;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 
-	public long getEndDate() {
-		return endDate;
+	public String getEndTime() {
+		return endTime;
 	}
 
-	public void setEndDate(long endDate) {
-		this.endDate = endDate;
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 }
