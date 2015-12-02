@@ -234,7 +234,6 @@
         <dependency>
             <groupId>com.yimayhd.tradecenter</groupId>
             <artifactId>tradecenter-client</artifactId>
-            <version>${tradecenter.client.version}</version>
         </dependency>
     </dependencies>
     

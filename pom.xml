@@ -30,8 +30,9 @@
 		<resourcecenter.client.version>0.2.1-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.0.0-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0-SNAPSHOT</paycore.client.version>
+		<tradecenter.client.version>1.0.0-SNAPSHOT</tradecenter.client.version>
 		<comment.version>0.0.6-SNAPSHOT</comment.version>
-		 <snscenter.version>0.0.6-SNAPSHOT</snscenter.version>
+		<snscenter.version>0.0.6-SNAPSHOT</snscenter.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -258,6 +259,13 @@
 				<artifactId>jxl</artifactId>
 				<version>2.6</version>
 			</dependency>
+			<!--fastJSON-->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.1.39</version>
+			</dependency>
+			<!--dubbo-->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
@@ -372,6 +380,11 @@
 						<artifactId>spring</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.yimayhd.tradecenter</groupId>
+				<artifactId>tradecenter-client</artifactId>
+				<version>${tradecenter.client.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd.snscenter</groupId>
