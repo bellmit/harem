@@ -13,9 +13,9 @@ public class TripDay {
 	private long id;// ID
 	private Map<String, String> traffic;// 交通方式
 	private String description;// 描述
-	private Map<String, String> restaurant1;// 早餐
-	private Map<String, String> restaurant2;// 午餐
-	private Map<String, String> restaurant3;// 晚餐
+	private List<Map<String, String>> restaurant1;// 早餐
+	private List<Map<String, String>> restaurant2;// 午餐
+	private List<Map<String, String>> restaurant3;// 晚餐
 	private List<Map<String, String>> scenics;// 景区
 	private List<Map<String, String>> hotels;// 酒店
 
@@ -43,30 +43,6 @@ public class TripDay {
 		this.description = description;
 	}
 
-	public Map<String, String> getRestaurant1() {
-		return restaurant1;
-	}
-
-	public void setRestaurant1(Map<String, String> restaurant1) {
-		this.restaurant1 = restaurant1;
-	}
-
-	public Map<String, String> getRestaurant2() {
-		return restaurant2;
-	}
-
-	public void setRestaurant2(Map<String, String> restaurant2) {
-		this.restaurant2 = restaurant2;
-	}
-
-	public Map<String, String> getRestaurant3() {
-		return restaurant3;
-	}
-
-	public void setRestaurant3(Map<String, String> restaurant3) {
-		this.restaurant3 = restaurant3;
-	}
-
 	public List<Map<String, String>> getScenics() {
 		return scenics;
 	}
@@ -81,6 +57,30 @@ public class TripDay {
 
 	public void setHotels(List<Map<String, String>> hotels) {
 		this.hotels = hotels;
+	}
+
+	public List<Map<String, String>> getRestaurant1() {
+		return restaurant1;
+	}
+
+	public void setRestaurant1(List<Map<String, String>> restaurant1) {
+		this.restaurant1 = restaurant1;
+	}
+
+	public List<Map<String, String>> getRestaurant2() {
+		return restaurant2;
+	}
+
+	public void setRestaurant2(List<Map<String, String>> restaurant2) {
+		this.restaurant2 = restaurant2;
+	}
+
+	public List<Map<String, String>> getRestaurant3() {
+		return restaurant3;
+	}
+
+	public void setRestaurant3(List<Map<String, String>> restaurant3) {
+		this.restaurant3 = restaurant3;
 	}
 
 }

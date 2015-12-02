@@ -1,8 +1,5 @@
 package com.yimayhd.harem.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,20 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.query.HotelListQuery;
-import com.yimayhd.harem.model.query.RestaurantListQuery;
-import com.yimayhd.harem.model.query.ScenicSpotListQuery;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.service.GroupTravelService;
-import com.yimayhd.harem.service.HotelService;
-import com.yimayhd.harem.service.RestaurantService;
-import com.yimayhd.harem.service.ScenicSpotService;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.RestaurantDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
 
 /**
  * 商品-跟团游
@@ -119,9 +107,9 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/save")
 	public @ResponseBody GroupTravel save(String json) throws Exception {
-		GroupTravel groupTravel = JSON.parse(json, GroupTravel.class);
-		groupTravelService.save(groupTravel);
-		return groupTravel;
+		GroupTravel gt = (GroupTravel) JSONObject.parseObject(json, GroupTravel.class);
+		System.out.println(JSON.toJSONString(gt));
+		return gt;
 	}
 
 	/**

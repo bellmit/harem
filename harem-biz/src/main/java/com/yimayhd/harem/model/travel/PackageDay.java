@@ -10,7 +10,7 @@ import java.util.Map;
  *
  */
 public class PackageDay {
-	private long time;// 日期
+	private Date date;// 日期
 	private Map<String, String> adult;// 成人
 	private Map<String, String> children02;// 儿童0-2
 	private Map<String, String> children212;// 儿童2-12
@@ -48,12 +48,12 @@ public class PackageDay {
 		this.srd = srd;
 	}
 
-	public long getTime() {
-		return time;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setTime(long time) {
-		this.time = time;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }
