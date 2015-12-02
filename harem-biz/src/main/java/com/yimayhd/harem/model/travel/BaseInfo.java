@@ -1,6 +1,7 @@
 package com.yimayhd.harem.model.travel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基本信息
@@ -14,15 +15,51 @@ public class BaseInfo {
 	private String productName;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
-	private List<IdNameData> themes;// 主题
-	private List<IdNameData> tags;// 标签
-	private List<IdNameData> froms;// 出发地
-	private List<IdNameData> tos;// 目的地
-	private int publisherType;// 发布者类型
-	private IdNameData publisher;// 发布者
+	private List<Map<String, String>> themes;// 主题
+	private List<Map<String, String>> tags;// 标签
+	private Map<String, String> from;// 出发地
+	private Map<String, String> to;// 目的地
+	private String publisherType;// 发布者类型
+	private Map<String, String> publisher;// 发布者
 	private String highlights;// 亮点
 	private String recommond;// 代言
 	private List<ExtraInfo> extraInfos;// 报名须知
+
+	/**
+	 * 包含某个tag
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean containsTag(String id) {
+		if (tags == null || tags.size() <= 0) {
+			return false;
+		}
+		for (Map<String, String> tag : tags) {
+			if (tag.containsKey("id") && tag.get("id").equals(id)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 包含某个theme
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean containsTheme(String id) {
+		if (themes == null || themes.size() <= 0) {
+			return false;
+		}
+		for (Map<String, String> theme : themes) {
+			if (theme.containsKey("id") && theme.get("id").equals(id)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public long getId() {
 		return id;
@@ -38,6 +75,14 @@ public class BaseInfo {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 	public String getProductImage() {
@@ -56,51 +101,51 @@ public class BaseInfo {
 		this.tripImage = tripImage;
 	}
 
-	public List<IdNameData> getThemes() {
+	public List<Map<String, String>> getThemes() {
 		return themes;
 	}
 
-	public void setThemes(List<IdNameData> themes) {
+	public void setThemes(List<Map<String, String>> themes) {
 		this.themes = themes;
 	}
 
-	public List<IdNameData> getTags() {
+	public List<Map<String, String>> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<IdNameData> tags) {
+	public void setTags(List<Map<String, String>> tags) {
 		this.tags = tags;
 	}
 
-	public List<IdNameData> getFroms() {
-		return froms;
+	public Map<String, String> getFrom() {
+		return from;
 	}
 
-	public void setFroms(List<IdNameData> froms) {
-		this.froms = froms;
+	public void setFrom(Map<String, String> from) {
+		this.from = from;
 	}
 
-	public List<IdNameData> getTos() {
-		return tos;
+	public Map<String, String> getTo() {
+		return to;
 	}
 
-	public void setTos(List<IdNameData> tos) {
-		this.tos = tos;
+	public void setTo(Map<String, String> to) {
+		this.to = to;
 	}
 
-	public int getPublisherType() {
+	public String getPublisherType() {
 		return publisherType;
 	}
 
-	public void setPublisherType(int publisherType) {
+	public void setPublisherType(String publisherType) {
 		this.publisherType = publisherType;
 	}
 
-	public IdNameData getPublisher() {
+	public Map<String, String> getPublisher() {
 		return publisher;
 	}
 
-	public void setPublisher(IdNameData publisher) {
+	public void setPublisher(Map<String, String> publisher) {
 		this.publisher = publisher;
 	}
 
@@ -127,13 +172,4 @@ public class BaseInfo {
 	public void setExtraInfos(List<ExtraInfo> extraInfos) {
 		this.extraInfos = extraInfos;
 	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
 }
