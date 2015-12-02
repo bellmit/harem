@@ -13,6 +13,4 @@
 	        <property name="check" value="${dubbo.import.consumer.user.check}"/>
 	    </bean>
     
-    </bean>
-    
 </beans>
