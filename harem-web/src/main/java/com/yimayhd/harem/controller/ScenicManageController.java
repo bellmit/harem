@@ -17,7 +17,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.query.ScenicSpotListQuery;
 import com.yimayhd.harem.model.vo.ScenicSpotVO;
-import com.yimayhd.harem.service.ScenicSpotService;
+import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 
 /**
@@ -26,9 +26,9 @@ import com.yimayhd.ic.client.model.domain.ScenicDO;
  */
 @Controller
 @RequestMapping("/B2C/scenicSpotManage")
-public class ScenicSpotManageController extends BaseController {
+public class ScenicManageController extends BaseController {
     @Autowired
-    private ScenicSpotService scenicSpotService;
+    private ScenicService scenicSpotService;
     /**
      * 景区（资源）列表
      * @return 景区（资源）列表
