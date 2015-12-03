@@ -65,12 +65,12 @@ public class UserController extends BaseController {
 	 * @return 成功信息
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/trade/userManage/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/trade/userManage/login", method = RequestMethod.GET)
 	public String loginTest(User user, Model model) throws Exception {
 		System.out.println(user.getUserName());
 		System.out.println(user.getPassword());
 		System.out.println(user.getGmtCreated());
-		List<HaMenuDO> haMenuDOList = haMenuService.getMenuList();
+		List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(10);
 		model.addAttribute("menuList", haMenuDOList);
 		return "/system/layout/layout";
 	}
