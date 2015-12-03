@@ -62,7 +62,6 @@ public class TestController {
         return map;
     }
 
-
     @RequestMapping("/extern/test/createUser")
     public Map<String, Object> createUser(LoginoutVO loginoutVO) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -71,7 +70,7 @@ public class TestController {
         userDO.setMobile(loginoutVO.getUsername());
         userDO.setPassword(loginoutVO.getPassword());
 
-        BaseResult<UserDO> baseResult = null;//userService.createUserAndPutCache(userDO);
+        BaseResult<UserDO> baseResult = userService.createUserAndPutCache(userDO);
 
 
         map.put("status", "create success");

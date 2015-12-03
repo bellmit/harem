@@ -10,7 +10,7 @@ import java.util.List;
  *
  */
 public class PackageMonth {
-	private long time;// 日期
+	private Date date;// 日期
 	private List<PackageDay> days;// 日期列表
 
 	public List<PackageDay> getDays() {
@@ -21,12 +21,12 @@ public class PackageMonth {
 		this.days = days;
 	}
 
-	public long getTime() {
-		return time;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setTime(long time) {
-		this.time = time;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

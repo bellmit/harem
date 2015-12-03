@@ -6,18 +6,18 @@ import com.yimayhd.harem.base.BaseQuery;
  * Created by Administrator on 2015/10/27.
  */
 public class TradeListQuery extends BaseQuery {
-    private String bizOrderId;//交易号
+    private Long bizOrderId;//交易号
     private String phone;//手机号
     private String userName;//会员名
     private String terminalName;//终端编号
     private String beginDate;//交易开始时间
     private String endDate;//交易结束时间
 
-    public String getBizOrderId() {
+    public Long getBizOrderId() {
         return bizOrderId;
     }
 
-    public void setBizOrderId(String bizOrderId) {
+    public void setBizOrderId(Long bizOrderId) {
         this.bizOrderId = bizOrderId;
     }
 

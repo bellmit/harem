@@ -2,7 +2,7 @@ package com.yimayhd.harem.model;
 
 import com.yimayhd.harem.base.BaseModel;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * 菜单表
@@ -11,55 +11,58 @@ import java.util.List;
  **/
 public class HaMenuDO extends BaseModel {
 
-    private static final long serialVersionUID = 789855997864204104L;
-    private String name; // 菜单名称
-
-    private String linkUrl; // 连接地址
-
-    private Integer level; // 菜单等级
-
-    private Long parentId; // 父级菜单ID
-
-    private List<HaMenuDO> haMenuDOList;
+    private static final long serialVersionUID = 1L;
 
 
-    public String getName() {
-        return name;
+    private long id; // ID主键
+
+    private long haUrlId; // 连接地址
+
+    private Date gmtCreated; // 创建时间
+
+    private Date gmtModified; // 更新时间
+
+    private int status; // 状态（0：删除；1：正常）
+
+
+    public void setId(long id){
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public long getId() {
+        return id;
     }
 
-    public String getLinkUrl() {
-        return linkUrl;
+    public void setHaUrlId(long haUrlId){
+        this.haUrlId = haUrlId;
     }
 
-    public void setLinkUrl(String linkUrl) {
-        this.linkUrl = linkUrl;
+    public long getHaUrlId() {
+        return haUrlId;
     }
 
-    public Integer getLevel() {
-        return level;
+    public void setGmtCreated(Date gmtCreated){
+        this.gmtCreated = gmtCreated;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public Date getGmtCreated() {
+        return gmtCreated;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public void setGmtModified(Date gmtModified){
+        this.gmtModified = gmtModified;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public Date getGmtModified() {
+        return gmtModified;
     }
 
-    public List<HaMenuDO> getHaMenuDOList() {
-        return haMenuDOList;
+    public void setStatus(int status){
+        this.status = status;
     }
 
-    public void setHaMenuDOList(List<HaMenuDO> haMenuDOList) {
-        this.haMenuDOList = haMenuDOList;
+    public int getStatus() {
+        return status;
     }
+
 }

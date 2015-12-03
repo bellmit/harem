@@ -1,15 +1,12 @@
 package com.yimayhd.harem.controller.loginout;
 
-
 import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
-import com.yimayhd.user.api.LoginServiceHttpExport;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
 import com.yimayhd.user.session.manager.JsonResult;
 import com.yimayhd.user.session.manager.SessionUtils;
 import net.pocrd.entity.AbstractReturnCode;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;

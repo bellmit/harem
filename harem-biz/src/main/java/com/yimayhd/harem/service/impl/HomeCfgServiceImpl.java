@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.harem.model.HomeBaseVO;
-import com.yimayhd.harem.model.vo.HomeResultInfo;
-import com.yimayhd.harem.model.vo.HomeResultVO;
+import com.yimayhd.harem.model.vo.CfgBaseVO;
+import com.yimayhd.harem.model.vo.CfgResultInfo;
+import com.yimayhd.harem.model.vo.CfgResultVO;
 import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.harem.util.Common;
 import com.yimayhd.resourcecenter.domain.BoothDO;
@@ -62,16 +62,16 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	private BoothClientServer boothCilentServer;
 	
 	@Override
-	public RcResult<Boolean> addVipList(HomeBaseVO homeVipVO) {
+	public RcResult<Boolean> addVipList(CfgBaseVO cfgBaseVO) {
 		RcResult<Boolean> batchInsertShowcase = new RcResult<Boolean>();
 		
-		if(null == homeVipVO){
+		if(null == cfgBaseVO){
 			batchInsertShowcase.setErrorCode(ErrorCode.PARAM_ERROR);
 		}
 		
-		BoothDO boothDO = setBoothInfo(homeVipVO); 
+		BoothDO boothDO = setBoothInfo(cfgBaseVO); 
 		
-		List<ShowcaseDO> showcaseList = setShowCaseListBase(homeVipVO);
+		List<ShowcaseDO> showcaseList = setShowCaseListBase(cfgBaseVO);
 		
 		batchInsertShowcase = showCaseClientServer.batchInsertShowcase(boothDO, showcaseList);
 		
@@ -79,42 +79,42 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 		return batchInsertShowcase;
 	}
 
-	private BoothDO setBoothInfo(HomeBaseVO homeBaseVO) {
+	private BoothDO setBoothInfo(CfgBaseVO cfgBaseVO) {
 		
 		BoothDO boothDO = new BoothDO();
-		boothDO.setDesc(homeBaseVO.getSubTitle());
-		boothDO.setCode(homeBaseVO.getBoothCode());
-		boothDO.setId(homeBaseVO.getBoothId());
+		boothDO.setDesc(cfgBaseVO.getSubTitle());
+		boothDO.setCode(cfgBaseVO.getBoothCode());
+		boothDO.setId(cfgBaseVO.getBoothId());
 		
 		return boothDO;
 	}
 
-	private List<ShowcaseDO> setShowCaseListBase(HomeBaseVO homeVipVO) {
+	private List<ShowcaseDO> setShowCaseListBase(CfgBaseVO cfgBaseVO) {
 		
 		List<ShowcaseDO> showcaseList = new ArrayList<ShowcaseDO>();
 		
 		ShowcaseDO showcaseDO = null;
 		
-		long[] vipIds = homeVipVO.getItemIds();
+		long[] vipIds = cfgBaseVO.getItemIds();
 		
 		for (int i = 0; i < vipIds.length; i++) {
 			
 			showcaseDO = new ShowcaseDO();
 			//TODO
-			if(homeVipVO.getBoothId() > 1){
-				showcaseDO.setBoothId(homeVipVO.getBoothId());
+			if(cfgBaseVO.getBoothId() > 1){
+				showcaseDO.setBoothId(cfgBaseVO.getBoothId());
 			}
-			if(!Common.isEmptyArray(homeVipVO.getItemTitle())){
-				showcaseDO.setTitle(homeVipVO.getItemTitle()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getItemTitle())){
+				showcaseDO.setTitle(cfgBaseVO.getItemTitle()[i]);
 			}
-			if(!Common.isEmptyArray(homeVipVO.getImgUrl())){
-				showcaseDO.setImgUrl(homeVipVO.getImgUrl()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getImgUrl())){
+				showcaseDO.setImgUrl(cfgBaseVO.getImgUrl()[i]);
 			}
-			if(!Common.isEmptyArray(homeVipVO.getDescription())){
-				showcaseDO.setSummary(homeVipVO.getDescription()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getDescription())){
+				showcaseDO.setSummary(cfgBaseVO.getDescription()[i]);
 			}
-			if(!Common.isEmptyArray(homeVipVO.getItemIds())){
-				showcaseDO.setOperationId(homeVipVO.getItemIds()[i]);
+			if(!Common.isEmptyArray(cfgBaseVO.getItemIds())){
+				showcaseDO.setOperationId(cfgBaseVO.getItemIds()[i]);
 			}
 			
 			showcaseList.add(showcaseDO);
@@ -124,7 +124,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addLineList(HomeBaseVO homeBaseVO) {
+	public RcResult<Boolean> addLineList(CfgBaseVO cfgBaseVO) {
 		
         LineInfo lineInfo = new LineInfo();
         lineInfo.setName("线路1");
@@ -154,7 +154,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addTravelKaList(HomeBaseVO homeBaseVO) {
+	public RcResult<Boolean> addTravelKaList(CfgBaseVO cfgBaseVO) {
 		
 	 	TravelKaItem travelKaItem = new TravelKaItem();
         travelKaItem.setId(233);
@@ -175,7 +175,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addCityList(HomeBaseVO homeBaseVO) {
+	public RcResult<Boolean> addCityList(CfgBaseVO cfgBaseVO) {
 		 List<ShowcaseDO> showcaseDOList = new ArrayList<ShowcaseDO>();
 			BoothDO boothDO = new BoothDO();
 			RcResult<Boolean> insertStatus = showCaseClientServer.batchInsertShowcase(boothDO, showcaseDOList);
@@ -183,7 +183,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public RcResult<Boolean> addTravelSpecialList(HomeBaseVO homeBaseVO) {
+	public RcResult<Boolean> addTravelSpecialList(CfgBaseVO cfgBaseVO) {
 		
 		TravelSpecialInfo travelSpecialInfo = new TravelSpecialInfo();
         travelSpecialInfo.setTitle("穿梭在云端的日子");
@@ -210,7 +210,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 	
 	@Override
-	public HomeResultVO getVipList() {
+	public CfgResultVO getVipList() {
 		
 		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_VIP_BOOTH_ID);
 		
@@ -218,7 +218,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 
 			
-			HomeResultVO homeResultVO = new HomeResultVO();
+			CfgResultVO homeResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
@@ -235,9 +235,9 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<HomeResultInfo> homeCfgInfoList  = setBaseShowCase(showcaseResult.getList());
+				List<CfgResultInfo> homeCfgInfoList  = setBaseShowCase(showcaseResult.getList());
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -249,20 +249,20 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	
-	private List<HomeResultInfo> setBaseShowCase(List<ShowCaseResult> showCaseList) {
+	private List<CfgResultInfo> setBaseShowCase(List<ShowCaseResult> showCaseList) {
 		
 		if(null == showCaseList){
 			return null;
 		}
 		
-		List<HomeResultInfo> homeResultInfos = new ArrayList<HomeResultInfo>();
+		List<CfgResultInfo> homeResultInfos = new ArrayList<CfgResultInfo>();
 		
-		HomeResultInfo homeResultInfo = null;
+		CfgResultInfo homeResultInfo = null;
 		
 		for (ShowCaseResult showCaseResult : showCaseList) {
 			
 			ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-			homeResultInfo = new HomeResultInfo();
+			homeResultInfo = new CfgResultInfo();
 			
 			homeResultInfo.setItemId(showcaseDO.getOperationId());
 			homeResultInfo.setItemImg(showcaseDO.getImgUrl());
@@ -278,7 +278,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	
 	
 	@Override
-	public HomeResultVO getLineList() {
+	public CfgResultVO getLineList() {
 		
 		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_LINE_BOOTH_ID);
 		
@@ -286,7 +286,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 
 			
-			HomeResultVO homeResultVO = new HomeResultVO();
+			CfgResultVO homeResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
@@ -303,17 +303,17 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<HomeResultInfo> homeCfgInfoList = new ArrayList<HomeResultInfo>();
+				List<CfgResultInfo> homeCfgInfoList = new ArrayList<CfgResultInfo>();
 				
 				
-				HomeResultInfo homeResultInfo = null;
+				CfgResultInfo homeResultInfo = null;
 				
 				List<ShowCaseResult> showCaseList = showcaseResult.getList();
 				
 				for (ShowCaseResult showCaseResult : showCaseList) {
 					
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-					homeResultInfo = new HomeResultInfo();
+					homeResultInfo = new CfgResultInfo();
 					
 					LineInfo lineInfo = JSON.parseObject(showcaseDO.getOperationContent(),LineInfo.class);
 					
@@ -327,7 +327,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -337,7 +337,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public HomeResultVO getTravelKaList() {
+	public CfgResultVO getTravelKaList() {
 		
 		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_TRAVEL_KA_BOOTH_ID);
 		
@@ -345,7 +345,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 
 			
-			HomeResultVO homeResultVO = new HomeResultVO();
+			CfgResultVO homeResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
@@ -362,17 +362,17 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<HomeResultInfo> homeCfgInfoList = new ArrayList<HomeResultInfo>();
+				List<CfgResultInfo> homeCfgInfoList = new ArrayList<CfgResultInfo>();
 				
 				
-				HomeResultInfo homeResultInfo = null;
+				CfgResultInfo homeResultInfo = null;
 				
 				List<ShowCaseResult> showCaseList = showcaseResult.getList();
 				
 				for (ShowCaseResult showCaseResult : showCaseList) {
 					
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-					homeResultInfo = new HomeResultInfo();
+					homeResultInfo = new CfgResultInfo();
 					
 					TravelKaItem travelKaItem = JSON.parseObject(showcaseDO.getOperationContent(), TravelKaItem.class);
 					
@@ -384,7 +384,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -394,7 +394,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public HomeResultVO getCityList() {
+	public CfgResultVO getCityList() {
 		
 		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_CITY_BOOTH_ID);
 		
@@ -402,7 +402,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 
 			
-			HomeResultVO homeResultVO = new HomeResultVO();
+			CfgResultVO homeResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
@@ -419,17 +419,17 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<HomeResultInfo> homeCfgInfoList = new ArrayList<HomeResultInfo>();
+				List<CfgResultInfo> homeCfgInfoList = new ArrayList<CfgResultInfo>();
 				
 				
-				HomeResultInfo homeResultInfo = null;
+				CfgResultInfo homeResultInfo = null;
 				
 				List<ShowCaseResult> showCaseList = showcaseResult.getList();
 				
 				for (ShowCaseResult showCaseResult : showCaseList) {
 					
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-					homeResultInfo = new HomeResultInfo();
+					homeResultInfo = new CfgResultInfo();
 					
 					CityInfo cityInfo = JSON.parseObject(showcaseDO.getOperationContent(), CityInfo.class);
 					
@@ -441,7 +441,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;
@@ -450,7 +450,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public HomeResultVO getTravelSpecialList() {
+	public CfgResultVO getTravelSpecialList() {
 		
 		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_TRAVEL_SPECIAL_BOOTH_ID);
 		
@@ -458,7 +458,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 
 			
-			HomeResultVO homeResultVO = new HomeResultVO();
+			CfgResultVO homeResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
@@ -475,17 +475,17 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<HomeResultInfo> homeCfgInfoList = new ArrayList<HomeResultInfo>();
+				List<CfgResultInfo> homeCfgInfoList = new ArrayList<CfgResultInfo>();
 				
 				
-				HomeResultInfo homeResultInfo = null;
+				CfgResultInfo homeResultInfo = null;
 				
 				List<ShowCaseResult> showCaseList = showcaseResult.getList();
 				
 				for (ShowCaseResult showCaseResult : showCaseList) {
 					
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-					homeResultInfo = new HomeResultInfo();
+					homeResultInfo = new CfgResultInfo();
 					
 					TravelSpecialInfo travelSpecialInfo = JSON.parseObject(showcaseDO.getOperationContent(), TravelSpecialInfo.class);
 					
@@ -499,7 +499,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				}
 				
 				
-				homeResultVO.setHomeCfgInfoList(homeCfgInfoList);
+				homeResultVO.setCfgInfoList(homeCfgInfoList);
 			}
 			
 			return homeResultVO;

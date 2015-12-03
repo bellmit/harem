@@ -1,8 +1,13 @@
-package com.yimayhd.harem.model;
+package com.yimayhd.harem.model.vo;
 
 import java.io.Serializable;
 
-public class HomeBaseVO implements Serializable{
+/**
+  * @autuor : xusq
+  * @date : 2015年11月30日
+  * @description : 配置信息保存
+  */
+public class CfgBaseVO implements Serializable{
 
 	/**
 	 * 

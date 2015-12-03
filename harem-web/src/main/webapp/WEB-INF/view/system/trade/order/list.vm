@@ -71,18 +71,18 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!order.bizOrderId</td>
-                        <td>$!order.payOrderId</td>--流水号
-                        <td>$!order</td>--部门
-                        <td>$!order</td>--工号
-                        <td>$!order</td>--终端编号
-                        <td>$!order</td>会员名
-                        <td>$!order</td>手机号
-                        <td>#PAY_STATUS($!order.payStatus)</td>支付方式
+                        <td>流水号--$!order.payOrderId</td>
+                        <td>$!order.mallInfo.dt</td>
+                        <td>$!order.mallInfo.jn</td>
+                        <td>$!order.mallInfo.dc</td>
+                        <td>$!order.userDO.nickname</td>
+                        <td>$!order.mallInfo.pn</td>
+                        <td>支付方式--#PAY_STATUS($!order.payStatus)</td>
                         <td>$!utilNum.moneyTransform($!order.actualTotalFee)</td>
-                        <td>$!order.sendPoint</td>使用积分
-                        <td>$!order.point</td>赠送积分
-                        <td>$!utilDate.dateToString($!order.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td>$!utilDate.dateToString($!order.gmtUsefulDate,"yyyy-MM-dd HH:mm:ss")</td>小票时间
+                        <td>使用积分--$!order.sendPoint</td>
+                        <td>赠送积分--$!order.point</td>
+                        <td>$!utilDate.dateToString($!order.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>$!order.gmtCreated
+                        <td>$!utilDate.longToString($!order.mallInfo.stt)</td>
                         <td><a class="orderLink" orderlinkUrl="/orderManage/$!trade.id" href="javascript:void(0);">订单详情</a></td>
                     </tr>
                     #end
