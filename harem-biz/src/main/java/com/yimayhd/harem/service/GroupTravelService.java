@@ -1,6 +1,5 @@
 package com.yimayhd.harem.service;
 
-import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 
 /**

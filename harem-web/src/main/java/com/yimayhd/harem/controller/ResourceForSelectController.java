@@ -17,7 +17,7 @@ import com.yimayhd.harem.model.query.ScenicSpotListQuery;
 import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RestaurantService;
-import com.yimayhd.harem.service.ScenicSpotService;
+import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.UserService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
@@ -35,7 +35,7 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private RestaurantService restaurantService;
 	@Autowired
-	private ScenicSpotService scenicSpotService;
+	private ScenicService scenicSpotService;
 	@Autowired
 	private HotelService hotelService;
 	@Autowired

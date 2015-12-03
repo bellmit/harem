@@ -7,21 +7,29 @@
 				<tr>
 					<td>
 						<div>
-							<input type="radio" value="0" id="no-flight" name="has-flight" checked><label for="no-flight">无航班信息</label>
+							<input type="radio" value="0" id="no-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}==0) checked #end><label for="no-flight">无航班信息</label>
                         </div>
 						<div>备注信息：</div>
 						<div>
-							<textarea class="form-control" id="note-info" rows="3"></textarea>
+							<textarea class="form-control" id="note-info" rows="3">$!{product.tripPackageInfo.noteInfo}</textarea>
 						</div>
                     </td>
 					<td>
 						<div>
-							<input type="radio" value="1" id="has-flight" name="has-flight" ><label for="has-flight">有航班信息</label>
+							<input type="radio" value="1" id="has-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}!=0) checked #end><label for="has-flight">有航班信息</label>
                         </div>
 						<div>
 							<button class='btn btn-primary add-flight'>添加航班信息</button>
 						</div>
-						<div class="flight-info"></div>
+						<div class="flight-info">
+						#foreach($flight in $product.tripPackageInfo.flights)
+							<div class="flight">
+								<div><input type="text" class="flight-go" value="$flight.go.toString()"/></div>
+								<div><input type="text" class="flight-back" value="$flight.back.toString()"/></div>
+								<button class="btn btn-primary remove-parent">删除</button>
+							</div>
+						#end
+						</div>
                     </td>
                 </tr>
             </table>
@@ -29,7 +37,11 @@
 	</div>
 	<div class='panel add-hotel'>
 		<div class='panel-heading'><i class='icon icon-2x icon-home'></i>添加酒店</div>
-		<div class='panel-body hotel' id='day_hotel'></div>
+		<div class='panel-body hotel' id='day_hotel'>
+		#foreach($hotel in $product.tripPackageInfo.hotels)
+			<button class="btn btn-info remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
+		#end
+		</div>
 		<button class='btn btn-primary select-hotel'>选择酒店</button>
 	</div>
 </div> 
@@ -40,6 +52,14 @@
 	$(".select-hotel").click(function(){
 		selectHotel();
 	});
+	function removeSelf() {
+		$(this).remove();
+	}
+	$(".remove-self").click(removeSelf);
+	function removeParent(){
+		$(this).parent().remove();
+	}
+	$(".remove-parent").click(removeParent);
 	// 添加航班
 	function selectFlight(){
 		openModalForForm(actionDefaultPath + '/B2C/comm/selfServiceTravel/addFlight','添加航班 ',function() {
@@ -53,10 +73,8 @@
 			var back = $("<input type='text' class='flight-back'>");
 			back.val(JSON.stringify(flights.back));
 			back = $("<div/>").append(back);
-			var del_btn = $("<button class='btn btn-primary'>删除</button>");
-			del_btn.click(function(){
-				$(this).parent().remove();
-			});
+			var del_btn = $("<button class='btn btn-primary remove-parent'>删除</button>");
+			del_btn.click(removeParent);
 			content.append($("<div class='flight'/>").append(go).append(back).append(del_btn));
 			back.val(JSON.stringify(flights.back));
 			// 数据绑定点：结束
@@ -87,6 +105,7 @@
 	function getTripPackageInfo(){
 		var result = {};
 		var flight_status = $("[name='has-flight']:checked").val();
+		result["hasFlight"] = flight_status;
 		if(flight_status == 0) {
 			var note_info = $(".note-info").val();
 			result["noteInfo"] = note_info;
@@ -107,11 +126,7 @@
 			var rName = $(this).attr("rName");
 			hotels.push({id:rId,name:rName});
 		});
-		return {
-			hasFlight:flight_status,
-			noteInfo:note_info,
-			flights:flights,
-			hotels:hotels
-		};
+		result["hotels"] = hotels;
+		return result;
 	}
 </script>

@@ -26,9 +26,8 @@
 	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.ScenicSpotServiceImpl"></bean>
-
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
+	
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
 
@@ -47,4 +46,5 @@
 		</bean> -->
 	<!-- commodity -->
 	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.SelfServiceTravelServiceImpl"></bean>
 </beans>
