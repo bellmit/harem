@@ -5,26 +5,24 @@ import com.yimayhd.harem.model.Refund;
 import com.yimayhd.harem.model.query.RefundListQuery;
 import com.yimayhd.harem.service.RefundService;
 import com.yimayhd.harem.util.DateUtil;
-import com.yimayhd.tradecenter.client.model.domain.imall.TcRefundRecordDO;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import com.yimayhd.tradecenter.client.model.query.IMallRefundRecordQuery;
 import com.yimayhd.tradecenter.client.model.result.TCPageResult;
-import com.yimayhd.tradecenter.client.service.imall.TcIMallHaremService;
+import com.yimayhd.tradecenter.client.service.imall.IMallHaremService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by czf on 2015/10/27.
  */
 public class RefundServiceImpl implements RefundService {
     @Autowired
-    private TcIMallHaremService tcIMallHaremServiceRef;
+    private IMallHaremService iMallHaremServiceRef;
     @Override
-    public PageVO<TcRefundRecordDO> getList(RefundListQuery refundListQuery) throws Exception{
+    public PageVO<IMallRefundRecordDO> getList(RefundListQuery refundListQuery) throws Exception{
         IMallRefundRecordQuery tcRefundRecordQuery = new IMallRefundRecordQuery();
         //TODO 商家ID
         tcRefundRecordQuery.setSellerId((long) 1);
@@ -40,10 +38,10 @@ public class RefundServiceImpl implements RefundService {
         tcRefundRecordQuery.setCurrentPage(refundListQuery.getPageNumber());
         tcRefundRecordQuery.setPageSize(refundListQuery.getPageSize());
 
-        TCPageResult<TcRefundRecordDO> tcPageResult = tcIMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
-        PageVO<TcRefundRecordDO> pageVO = null;
+        TCPageResult<IMallRefundRecordDO> tcPageResult = iMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
+        PageVO<IMallRefundRecordDO> pageVO = null;
         if(null != tcPageResult && tcPageResult.isSuccess()) {
-            pageVO = new PageVO<TcRefundRecordDO>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(), (int) tcPageResult.getTotalCount(), tcPageResult.getList());
+            pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(), (int) tcPageResult.getTotalCount(), tcPageResult.getList());
         }
         return pageVO;
     }

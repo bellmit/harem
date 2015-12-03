@@ -15,8 +15,11 @@ import com.yimayhd.pay.client.service.QueryPayOrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
+import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.service.UserService;
 import org.apache.http.message.BasicNameValuePair;
@@ -70,31 +73,32 @@ public class TradeServiceImpl implements TradeService {
             List<UserDO> userDOList = userServiceRef.getUserInfoList(userIdList);
             Map<Long,UserDO> userMap = new HashMap<Long, UserDO>();
             for (UserDO userDO : userDOList){
-
                 userMap.put(userDO.getId(),userDO);
             }
             for (BizOrderDO bizOrderDO : batchQueryResult.getBizOrderDOList()){
-
                 BizOrderVO bizOrderVO = BizOrderVO.getBizOrderVO(bizOrderDO);
+                //获取部门工号，中短号等信息
+                bizOrderVO.setMallInfo(BizOrderUtil.getIMallInfo(bizOrderDO));
                 //TODO 给order加上买家信息对象
                 //bizOrderVO.setBuyer(userMap.get(bizOrderDO.getBuyerId()));
                 bizOrderVOList.add(bizOrderVO);
             }
             pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(), tradeListQuery.getPageSize(), (int) batchQueryResult.getTotalCount(), bizOrderVOList);
-        }else{
-            //返回的结果错误
-            throw new BaseException(batchQueryResult);
         }
         return pageVO;
     }
 
     @Override
     public void exportOrderList(HttpServletResponse response, TradeListQuery tradeListQuery) throws Exception {
+        //查询条件对接
         OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
         //TODO 商家ID
         orderQueryDTO.setSellerId((long) 1);
-        //TODO 缺少交易号、买家电话、终端号条件
         orderQueryDTO.setOrderBizTypes(new int[]{OrderBizType.MEMBER_RECHARGE.getBizType(), OrderBizType.BUSINESS_OUT.getBizType()});
+        if(null == tradeListQuery.getBizOrderId()) {
+            List<Long> bizOrderIds = new ArrayList<Long>();
+            bizOrderIds.add(tradeListQuery.getBizOrderId());
+        }
         if(null != tradeListQuery.getBeginDate() && "".equals(tradeListQuery.getBeginDate())) {
             orderQueryDTO.setStartDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getBeginDate()));
         }
@@ -169,5 +173,13 @@ public class TradeServiceImpl implements TradeService {
             throw new BaseException(payPageResultDTO);
         }
 
+    }
+
+    @Override
+    public BizOrderDO getOrderByOrderId(long orderId) throws Exception {
+        OrderQueryOption orderQueryOption = new OrderQueryOption();
+        orderQueryOption.setAll();
+        SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(orderId,orderQueryOption);
+        return singleQueryResult.getBizOrderDO();
     }
 }

@@ -1,5 +1,6 @@
 package com.yimayhd.harem.model;
 
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.user.client.domain.UserDO;
 import org.apache.commons.beanutils.BeanUtils;
@@ -9,6 +10,7 @@ import org.apache.commons.beanutils.BeanUtils;
  */
 public class BizOrderVO extends BizOrderDO {
     private UserDO userDO;
+    private IMallInfo mallInfo;
 
     public UserDO getUserDO() {
         return userDO;
@@ -25,5 +27,13 @@ public class BizOrderVO extends BizOrderDO {
     }
     public static BizOrderDO getBizOrderDO(BizOrderVO bizOrderVO){
         return bizOrderVO;
+    }
+
+    public IMallInfo getMallInfo() {
+        return mallInfo;
+    }
+
+    public void setMallInfo(IMallInfo mallInfo) {
+        this.mallInfo = mallInfo;
     }
 }
