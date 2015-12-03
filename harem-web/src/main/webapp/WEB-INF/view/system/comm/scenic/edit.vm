@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 
 
 <div class="tab-content grogInfoWrap"  style="">
@@ -17,7 +18,7 @@
                     <td><span class="spColor">*</span>景区</td>
                     <td>
                        <input type="text" class="inpControl" name="name" id="name" placeholder="请选择">
-						<button class="btn btn-primary selectScenic">选择景区</button>
+						<button type="button" class="btn btn-primary selectScenic">选择景区</button>
                     </td>
                 </tr>
                 <tr>
@@ -76,33 +77,14 @@
    $(function(){
    /*弹出框**/
         $('.selectScenic').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '景区选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: actionDefaultPath + '/B2C/comm/scenicManage/scenicList',
-				success:function(layero, index){
-    				win = window[layero.find('iframe')[0]['name']];
-    			},
-                yes: function(index){
-                   var arr = win.getScenicList(); 
-                   if(arr.length==0){
-    					$.warn("请选择景区");
-    					return false;
-    				}
-					
-    					console.log("id:"+arr.id+",name:"+arr.name);
-    				
-    				//一般设定yes回调，必须进行手工关闭
-    		        layer.close(index); 
-                },cancel: function(index){
-    		    	layer.close(index);
-    		    }
-            });
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenic','选择景区',function() {
+				var sce = win.getItems();
+				
+				   for(var i in sce) {
+				   		
+				   }
+				return true;
+			});
         })
 		/*提交**/
 		$("#saveScenic").validate(
