@@ -39,11 +39,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     	//TODO:待功能完善后放开以下注释即可
-       /* String url = request.getRequestURI();
+        /*String url = request.getRequestURI();
         int reqType= map.get(request.getMethod());
         if(!url.equals("/user/noPower")){
             long userId = 10;
-            //List<HaMenuDO> haMenuList = haMenuService.getUrlListByUserId(userId);
             List<HaMenuDO> haMenuList = haMenuService.getUrlListByUserId(userId);
             if(null !=haMenuList && haMenuList.size()>0){
             	for (HaMenuDO haMenuDO : haMenuList) {
@@ -79,7 +78,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
      */
 	public static boolean hasBrackets(String str){
 		boolean flag=str.contains("{");
-	    System.out.println(flag);
 		return flag;
 	}
     
@@ -94,9 +92,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
      */
     public static String turnBrackets(String str){
 		String interval  =str.substring(str.indexOf("{"), str.indexOf("}")+1);
-		System.out.println("old="+str +"    ,interval="+interval+"  ,str="+str);
 		str=str.replace(interval,"[^/]+?");
-		System.out.println(str);
 		return str;
 	}
     
@@ -115,7 +111,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		Pattern pattern = Pattern.compile(regEx);
 	    Matcher matcher = pattern.matcher(str);
 	    boolean rs = matcher.matches();
-	    System.out.println(rs);
 		return rs;
 	}
     
