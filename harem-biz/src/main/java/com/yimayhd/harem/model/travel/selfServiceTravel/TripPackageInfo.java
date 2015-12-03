@@ -13,7 +13,7 @@ import com.yimayhd.harem.model.travel.IdNamePair;
 public class TripPackageInfo {
 	private int hasFlight;// 有无航班
 	private String noteInfo;// 备注
-	private List<FlightInfo> flights;// 航班信息
+	private List<FlightPair> flights;// 航班信息
 	private List<IdNamePair> hotels;// 酒店
 
 	public String getNoteInfo() {
@@ -22,14 +22,6 @@ public class TripPackageInfo {
 
 	public void setNoteInfo(String noteInfo) {
 		this.noteInfo = noteInfo;
-	}
-
-	public List<FlightInfo> getFlights() {
-		return flights;
-	}
-
-	public void setFlights(List<FlightInfo> flights) {
-		this.flights = flights;
 	}
 
 	public int getHasFlight() {
@@ -46,6 +38,14 @@ public class TripPackageInfo {
 
 	public void setHotels(List<IdNamePair> hotels) {
 		this.hotels = hotels;
+	}
+
+	public List<FlightPair> getFlights() {
+		return flights;
+	}
+
+	public void setFlights(List<FlightPair> flights) {
+		this.flights = flights;
 	}
 
 }

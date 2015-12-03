@@ -193,7 +193,7 @@
 						<div class="panel-heading">早餐</div>
 						<div class="panel-body" id="day_${velocityCount}_restaurant_1">
 						#foreach($restaurant in $tripDay.restaurant1)
-							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_1_item" id="day_${day}_restaurant_1_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
+							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_1_item remove-self" id="day_${day}_restaurant_1_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
 						</div>
 						<div class="input-group">
@@ -210,7 +210,7 @@
 						<div class="panel-heading">午餐</div>
 						<div class="panel-body" id="day_${velocityCount}_restaurant_2">
 						#foreach($restaurant in $tripDay.restaurant2)
-							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_2_item" id="day_${day}_restaurant_2_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
+							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_2_item remove-self" id="day_${day}_restaurant_2_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
 						</div>
 						<div class="input-group">
@@ -227,7 +227,7 @@
 						<div class="panel-heading">晚餐</div>
 						<div class="panel-body" id="day_${velocityCount}_restaurant_3">
 						#foreach($restaurant in $tripDay.restaurant3)
-							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_3_item" id="day_${day}_restaurant_3_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
+							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_3_item remove-self" id="day_${day}_restaurant_3_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
 						</div>
 						<div class="input-group">
@@ -246,7 +246,7 @@
 				<div class="panel-heading"><i class="icon icon-2x icon-pushpin"></i>添加景区</div>
 				<div class="panel-body scenic-spot" id="day_${velocityCount}_scenic">
 				#foreach($scenic in $tripDay.scenics)
-					<button class="btn btn-info day_${day}_scenic_item" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
+					<button class="btn btn-info day_${day}_scenic_item remove-self" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
 				#end
 				</div>
 				<button class="btn btn-primary select-scenic" display-id="day_${velocityCount}_scenic">选择景区</button>
@@ -255,7 +255,7 @@
 				<div class="panel-heading"><i class="icon icon-2x icon-home"></i>添加酒店</div>
 				<div class="panel-body hotel" id="day_${velocityCount}_hotel">
 				#foreach($hotel in $tripDay.hotels)
-					<button class="btn btn-info day_${day}_hotel_item" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
+					<button class="btn btn-info day_${day}_hotel_item remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
 				#end
 				</div>
 				<button class="btn btn-primary select-hotel" display-id="day_${velocityCount}_hotel">选择酒店</button>
@@ -264,6 +264,10 @@
 		#end
     </div>
 	<script type="text/javascript">
+		function removeSelf() {
+			$(this).remove();
+		}
+		$(".remove-self").click(removeSelf);
 		var currentTId;
 		var currentRId;
 		var currentSId;
@@ -295,12 +299,10 @@
 				var content = $("#"+currentRId);
                 for(var i in res) {
 					if($("#"+currentRId+"_item_"+res[i].id).length > 0) continue;
-					var btn = $("<button class='btn btn-info "+currentRId+"_item' id='"+currentRId+"_item_"+res[i].id+"'></button>");
+					var btn = $("<button class='btn btn-info "+currentRId+"_item remove-self' id='"+currentRId+"_item_"+res[i].id+"'></button>");
 					btn.attr("rId", res[i].id);
 					btn.attr("rName", res[i].name);
-					btn.click(function() {
-						$(this).remove();
-					});
+					btn.click(removeSelf);
 					content.append(btn.text(res[i].name));
 				}
 				//console.log(JSON.stringify(res));
@@ -318,12 +320,10 @@
 				var content = $("#"+currentSId);
 				content.empty();
                 for(var i in sce) {
-					var btn = $("<button class='btn btn-info "+currentSId+"_item'></button>");
+					var btn = $("<button class='btn btn-info "+currentSId+"_item remove-self'></button>");
 					btn.attr("rId", sce[i].id);
 					btn.attr("rName", sce[i].name);
-					btn.click(function() {
-						$(this).remove();
-					});
+					btn.click(removeSelf);
 					content.append(btn.text(sce[i].name));
 				}
 				//console.log(JSON.stringify(tra));
@@ -340,12 +340,10 @@
 				var content = $("#"+currentHId);
 				content.empty();
                 for(var i in hot) {
-					var btn = $("<button class='btn btn-info "+currentHId+"_item'></button>");
+					var btn = $("<button class='btn btn-info "+currentHId+"_item remove-self'></button>");
 					btn.attr("rId", hot[i].id);
 					btn.attr("rName", hot[i].name);
-					btn.click(function() {
-						$(this).remove();
-					});
+					btn.click(removeSelf);
 					content.append(btn.text(hot[i].name));
 				}
 				//console.log(JSON.stringify(hot));

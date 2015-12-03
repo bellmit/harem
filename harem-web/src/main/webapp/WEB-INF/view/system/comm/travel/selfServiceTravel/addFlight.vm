@@ -4,10 +4,10 @@
 <div>
   <ul class="nav nav-tabs">
     <li class="active">
-      <a href="#fromFlight" data-toggle="tab">去程</a>
+      <a href="#goFlight" data-toggle="tab">去程</a>
     </li>
     <li>
-      <a href="#toFlight" data-toggle="tab">返程</a>
+      <a href="#backFlight" data-toggle="tab">返程</a>
     </li>
   </ul>
   <div class="tab-content">
@@ -59,7 +59,7 @@
             </tr>
         </table>
     </div>
-    <div class="tab-pane in active" id="backFlight">
+    <div class="tab-pane in" id="backFlight">
 		<table class="table">
 			<tr>
 				<td>*出发日期：</td>
@@ -154,7 +154,11 @@
 			var id = $(this).attr("id");
 			if(id) {
 				var str = id.split("_");
-				result[str[0]][str[1]] = $(this).val();
+				if($(this).hasClass("plan-time")) {
+					result[str[0]][str[1]] = $(this).val()+":00";
+				} else {
+					result[str[0]][str[1]] = $(this).val();
+				}
 			}
 		});
 		return result;

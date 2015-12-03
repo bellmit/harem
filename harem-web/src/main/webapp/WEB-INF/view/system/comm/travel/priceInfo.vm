@@ -41,8 +41,8 @@
 								<td>
 									<ul class="nav nav-tabs">
 										#foreach($month in ${tc.months})
-											#set($m = $month.time)
-										<li class="tab-page tc-${velocityCount}-month #if(${velocityCount}==1) active #end" rId="${month.date.getTime()}" id="tc_${velocityCount}_month_${month.date.getTime()}_tab">
+										#set($monthDate = $utilDate.dateToString($month.date,"yyyy-MM-dd"))
+										<li class="tab-page tc-${velocityCount}-month #if(${velocityCount}==1) active #end" rId="${month.date.getTime()}" id="tc_${velocityCount}_month_${month.date.getTime()}_tab" rDate="$!{monthDate}">
 											<a href="#tc_${velocityCount}_month_${month.date.getTime()}" data-toggle="tab">$utilDate.dateToString($month.date,"yyyy-MM")</a>
 										</li>
 										#end
@@ -56,8 +56,9 @@
 											<table class="table">
 												<tbody>
 													#foreach($day in ${month.days})
+													#set($dayDate = $utilDate.dateToString($day.date,"yyyy-MM-dd"))
 													<tr>
-														<td class="tc-${velocityCount}-month-${month.date.getTime()}-day" rId="${day.date.getTime()}">
+														<td class="tc-${velocityCount}-month-${month.date.getTime()}-day" rId="${day.date.getTime()}" rDate="$!{dayDate}">
 														<div>$utilDate.dateToString($day.date,"dd")  $utilDate.formatWeekOnly($day.date)</div>
 															<div class="input-group">
 																<span class="input-group-addon">￥成人价：</span>

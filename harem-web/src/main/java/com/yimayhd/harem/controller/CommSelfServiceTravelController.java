@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
 import com.yimayhd.harem.service.SelfServiceTravelService;
@@ -114,7 +114,8 @@ public class CommSelfServiceTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/save")
 	public @ResponseBody SelfServiceTravel save(String json) throws Exception {
-		SelfServiceTravel selfServiceTravel = JSON.parse(json, SelfServiceTravel.class);
+		SelfServiceTravel selfServiceTravel = JSON.parseObject(json, SelfServiceTravel.class);
+		System.out.println(JSON.toJSONString(selfServiceTravel));
 		selfServiceTravelService.save(selfServiceTravel);
 		return selfServiceTravel;
 	}
