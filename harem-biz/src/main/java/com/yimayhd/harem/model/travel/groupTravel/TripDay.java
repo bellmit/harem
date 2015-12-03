@@ -1,7 +1,8 @@
 package com.yimayhd.harem.model.travel.groupTravel;
 
 import java.util.List;
-import java.util.Map;
+
+import com.yimayhd.harem.model.travel.IdNamePair;
 
 /**
  * 行程-天
@@ -11,13 +12,13 @@ import java.util.Map;
  */
 public class TripDay {
 	private long id;// ID
-	private Map<String, String> traffic;// 交通方式
+	private TripTraffic traffic;// 交通方式
 	private String description;// 描述
-	private List<Map<String, String>> restaurant1;// 早餐
-	private List<Map<String, String>> restaurant2;// 午餐
-	private List<Map<String, String>> restaurant3;// 晚餐
-	private List<Map<String, String>> scenics;// 景区
-	private List<Map<String, String>> hotels;// 酒店
+	private List<IdNamePair> restaurant1;// 早餐
+	private List<IdNamePair> restaurant2;// 午餐
+	private List<IdNamePair> restaurant3;// 晚餐
+	private List<IdNamePair> scenics;// 景区
+	private List<IdNamePair> hotels;// 酒店
 
 	public long getId() {
 		return id;
@@ -25,14 +26,6 @@ public class TripDay {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public Map<String, String> getTraffic() {
-		return traffic;
-	}
-
-	public void setTraffic(Map<String, String> traffic) {
-		this.traffic = traffic;
 	}
 
 	public String getDescription() {
@@ -43,44 +36,52 @@ public class TripDay {
 		this.description = description;
 	}
 
-	public List<Map<String, String>> getScenics() {
-		return scenics;
+	public TripTraffic getTraffic() {
+		return traffic;
 	}
 
-	public void setScenics(List<Map<String, String>> scenics) {
-		this.scenics = scenics;
+	public void setTraffic(TripTraffic traffic) {
+		this.traffic = traffic;
 	}
 
-	public List<Map<String, String>> getHotels() {
-		return hotels;
-	}
-
-	public void setHotels(List<Map<String, String>> hotels) {
-		this.hotels = hotels;
-	}
-
-	public List<Map<String, String>> getRestaurant1() {
+	public List<IdNamePair> getRestaurant1() {
 		return restaurant1;
 	}
 
-	public void setRestaurant1(List<Map<String, String>> restaurant1) {
+	public void setRestaurant1(List<IdNamePair> restaurant1) {
 		this.restaurant1 = restaurant1;
 	}
 
-	public List<Map<String, String>> getRestaurant2() {
+	public List<IdNamePair> getRestaurant2() {
 		return restaurant2;
 	}
 
-	public void setRestaurant2(List<Map<String, String>> restaurant2) {
+	public void setRestaurant2(List<IdNamePair> restaurant2) {
 		this.restaurant2 = restaurant2;
 	}
 
-	public List<Map<String, String>> getRestaurant3() {
+	public List<IdNamePair> getRestaurant3() {
 		return restaurant3;
 	}
 
-	public void setRestaurant3(List<Map<String, String>> restaurant3) {
+	public void setRestaurant3(List<IdNamePair> restaurant3) {
 		this.restaurant3 = restaurant3;
+	}
+
+	public List<IdNamePair> getScenics() {
+		return scenics;
+	}
+
+	public void setScenics(List<IdNamePair> scenics) {
+		this.scenics = scenics;
+	}
+
+	public List<IdNamePair> getHotels() {
+		return hotels;
+	}
+
+	public void setHotels(List<IdNamePair> hotels) {
+		this.hotels = hotels;
 	}
 
 }
