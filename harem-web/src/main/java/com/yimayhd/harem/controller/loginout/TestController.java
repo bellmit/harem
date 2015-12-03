@@ -77,4 +77,17 @@ public class TestController {
         map.put("baseResult", baseResult);
         return map;
     }
+    
+    @RequestMapping("/a/b/{id}/c")
+    public void a(LoginoutVO loginoutVO) {}
+    
+    @RequestMapping("/a/b/{name}/c")
+    public void b(LoginoutVO loginoutVO) {}
+    
+    @RequestMapping("/a/b/{name}")
+    public void c(LoginoutVO loginoutVO) {}
+    
+    @RequestMapping("/a/b/{name}/c/d")
+    public void d(LoginoutVO loginoutVO) {}
+    
 }

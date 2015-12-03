@@ -26,5 +26,6 @@ public interface HaMenuService extends BaseService<HaMenuDO>{
      * @throws Exception
      */
     List<HaMenuDO> getUrlListByUserId(long id)throws Exception;
+    
     List<HaMenuDO> getMenuList()throws Exception;
 }

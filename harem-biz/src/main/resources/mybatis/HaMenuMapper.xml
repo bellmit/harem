@@ -235,26 +235,28 @@
         AND hur.ha_user_id = #{id}
 
     </select>
-    <select id="getUrlListByUserId" parameterType="long" resultMap="menuListAll">
-        SELECT
-        hm.id,
-        hm.name,
-        hm.link_url
-        FROM
-        ha_user_role hur,
-        ha_role hr,
-        ha_role_menu hrm,
-        ha_menu hm
-        WHERE
-        1 = 1
-        AND hr.id = hur.ha_role_id
-        AND hrm.ha_role_id = hr.id
-        AND hm.id = hrm.ha_menu_id
-        AND hm. STATUS = 1
-        AND hr. STATUS = 1
-        AND hrm. STATUS = 1
-        AND hur. STATUS = 1
-        AND hur.id = 1
+    <select id="getUrlListByUserId" parameterType="long" resultMap="BaseResultMap">
+       SELECT DISTINCT
+		hm.id,
+		hm.NAME,
+		hm.url,
+	    hm.req_type  
+	FROM
+		ha_user_role hur,
+		ha_role hr,
+		ha_role_menu hrm,
+		ha_menu hm
+	WHERE
+		1 = 1
+	AND hur.ha_role_id = hr.id
+	AND hr.id = hrm.ha_role_id
+	AND hrm.ha_menu_id = hm.id
+	AND hm. STATUS = 1
+	AND hr. STATUS = 1
+	AND hrm. STATUS = 1
+	AND hur. STATUS = 1
+	AND hur.ha_user_id = 10
+	AND hm.url != "#"
 
     </select>
 
