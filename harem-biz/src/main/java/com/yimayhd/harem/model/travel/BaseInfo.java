@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
+import com.yimayhd.ic.client.model.domain.LineDO;
+
 /**
  * 基本信息
  * 
@@ -17,7 +20,6 @@ public class BaseInfo {
 	private String name;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
-	private List<IdNamePair> themes;// 主题
 	private List<IdNamePair> tags;// 标签
 	private IdNamePair from;// 出发地
 	private IdNamePair to;// 目的地
@@ -26,6 +28,20 @@ public class BaseInfo {
 	private String highlights;// 亮点
 	private String recommond;// 代言
 	private List<ExtraInfo> extraInfos;// 报名须知
+
+	public BaseInfo() {
+	}
+
+	public BaseInfo(LineDO line, String routeCoverUrl, List<ComTagRelationDO> tagRelationDOs) {
+		// TODO YEBIN 数据对象生成展示对象
+		this.id = line.getId();
+		this.type = line.getType();
+		this.name = line.getName();
+		this.productImage = line.getCoverUrl();
+		this.tripImage = routeCoverUrl;
+		// 主题/tag别的接口
+
+	}
 
 	/**
 	 * 包含某个tag
@@ -39,24 +55,6 @@ public class BaseInfo {
 		}
 		for (IdNamePair tag : tags) {
 			if (id.equals(tag.getId())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * 包含某个theme
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public boolean containsTheme(String id) {
-		if (StringUtils.isBlank(id) || themes == null || themes.size() <= 0) {
-			return false;
-		}
-		for (IdNamePair theme : themes) {
-			if (id.equals(theme.getId())) {
 				return true;
 			}
 		}
@@ -101,14 +99,6 @@ public class BaseInfo {
 
 	public void setTripImage(String tripImage) {
 		this.tripImage = tripImage;
-	}
-
-	public List<IdNamePair> getThemes() {
-		return themes;
-	}
-
-	public void setThemes(List<IdNamePair> themes) {
-		this.themes = themes;
 	}
 
 	public List<IdNamePair> getTags() {

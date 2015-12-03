@@ -52,10 +52,20 @@ public class TripTraffic {
 		this.way = way;
 	}
 
+	/**
+	 * 获取交通方式的名称
+	 * 
+	 * @return
+	 */
 	public String wayName() {
 		return WAYS.get(way);
 	}
 
+	/**
+	 * 得到全部的交通方式
+	 * 
+	 * @return
+	 */
 	public static List<Entry<Integer, String>> ways() {
 		return new ArrayList<Entry<Integer, String>>(WAYS.entrySet());
 	}
