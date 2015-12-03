@@ -6,13 +6,13 @@
         #foreach($menu in $menuList)
         <li>
             #if($menu.haMenuDOList.size() == 0)
-                <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menu.linkUrl}" href="javascript:void(0);">$!menu.name</a></li>
+                <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menu.url}" href="javascript:void(0);">$!menu.name</a></li>
             #else
                 <a href="#"><i class="icon-th"></i> $!menu.name</a>
 
                 <ul class="nav">
                     #foreach($!menuSub in $!menu.haMenuDOList)
-                        <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menuSub.linkUrl}" href="javascript:void(0);">$!menuSub.name</a></li>
+                        <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menuSub.url}" href="javascript:void(0);">$!menuSub.name</a></li>
                     #end
                 </ul>
             #end

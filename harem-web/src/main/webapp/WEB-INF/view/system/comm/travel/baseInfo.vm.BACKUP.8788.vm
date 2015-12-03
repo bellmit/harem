@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!--
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js"></script>
@@ -167,6 +168,7 @@
                     }
 				});
             });
+=======
 
 <div class="baseInfoList">
 	<p class="lineDetail">线路明细</p>
@@ -312,6 +314,7 @@
 					layer.msg('图片上传失败，请重试', {icon: 2});
 				}
 			});
+>>>>>>> Stashed changes
 		});
 		$(document).delegate("#tripImageFile",'change',function(){
 			fileUpload('#tripImageFile',1,function(data){
@@ -361,12 +364,14 @@
 			content.empty();
 			content.append(span);
 		});
+<<<<<<< Updated upstream
 		$(".publisherType").click(function() {
 			if($(this).val()==2) {
 				$(".travel-ka-panel").show();
 			} else {
 				$(".travel-ka-panel").hide();
 			}
+=======
 	});
 	// 获取行程信息
 	function getBaseInfo() {
@@ -379,6 +384,7 @@
 			var id = $(this).attr("rId");
 			var name = $(this).attr("rName");
 			themes.push({id:id,name:name});
+>>>>>>> Stashed changes
 		});
 		var tags = [];
 		$(".productTag:checked").each(function(){
@@ -386,6 +392,7 @@
 			var name = $(this).attr("rName");
 			tags.push({id:id,name:name});
 		});
+<<<<<<< Updated upstream
 		// 获取行程信息
 		function getBaseInfo() {
 			var type = $(".productType").val();
@@ -434,6 +441,7 @@
 			if(publisherType!='1') {
 				var travel_ka = $(".travel-ka");
 				result["publisher"] = {id:travel_ka.attr("rId"),name:travel_ka.attr("rName")};
+=======
 		var publisherType = $(".publisherType:checked").val();
 		var froms = [];
 		var from_arr = $(".from").val().split("_");
@@ -449,6 +457,7 @@
 			var text = $(this).find(".extra-info-item-text").val();
 			if(title&&text) {
 				extra_infos.push({title:title,content:text});
+>>>>>>> Stashed changes
 			}
 		});
 		var result = {

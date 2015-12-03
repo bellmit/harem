@@ -1,10 +1,10 @@
 <h1>赠送积分规则</h1>
 <div>
-    <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/sendPointRule" method="GET" role="form">
+    <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/PointManage/sendPointRule" method="GET" role="form">
         <div class="inputGroup whole">
             当前规则：
-            积分发放规则：$utilNum.moneyTransform($sendPointRule.ratio)RMB=1积分
-            积分使用规则：1积分=$utilNum.moneyTransform($usePointRule.ratio)RMB
+            积分发放规则：$!utilNum.moneyTransform($!sendPointRule.payment)RMB=1积分
+            积分使用规则：1积分=1RMB
             积分有效期：3天
             <button type="button" class="btn btn-primary sendPointRuleAdd">新建</button>
         </div>
@@ -13,8 +13,8 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>规则</th>
+                    <th>序号</th>
+                    <th>发放规则</th>
                     <th>有效期</th>
                     <th>操作人</th>
                     <th>生效时间</th>
@@ -24,10 +24,10 @@
                     #foreach($sendPointRule in $sendPointRuleList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>1积分=$utilNum.moneyTransform($sendPointRule.ratio)RMB</td>
-                        <td>$!sendPointRule.avaiablepPeriod</td>
-                        <td>$!user.operaName</td>
-                        <td>$utilDate.dateToString($!sendPointRule.effectiveDate,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td>1积分=$!utilNum.moneyTransform($!sendPointRule.payment)RMB</td>
+                        <td>$!sendPointRule.validityDays</td>
+                        <td>$!user.vendorName</td>
+                        <td>$!utilDate.dateToString($!sendPointRule.beginTime,"yyyy-MM-dd HH:mm:ss")</td>
                     </tr>
                     #end
                 </tbody>
@@ -40,7 +40,7 @@
     <script>
         $(function(){
             $('.sendPointRuleAdd').click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/trade/userManage/sendPointRule/toAdd';
+                var url = actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd';
                 window.openwin(url);
             });
         });

@@ -16,8 +16,7 @@
 	<bean class="com.yimayhd.harem.service.impl.HaUserRoleServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ActivityServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.SendPointRuleServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.UsePointRuleServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.PointRuleServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TrendServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TravelOfficialImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RegionServiceImpl"></bean>
@@ -27,9 +26,8 @@
 	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.ScenicSpotServiceImpl"></bean>
-
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
+	
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
 
@@ -48,4 +46,5 @@
 		</bean> -->
 	<!-- commodity -->
 	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.SelfServiceTravelServiceImpl"></bean>
 </beans>

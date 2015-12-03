@@ -3,26 +3,40 @@ package com.yimayhd.harem.model;
 import com.yimayhd.harem.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * 菜单表
+ * controller路径表
  * @table ha_menu
  * @author czf
  **/
 public class HaMenuDO extends BaseModel {
 
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 832142812705236148L;
+    private long id; // ID
 
-    private long id; // ID主键
+    private String name; // 
 
-    private long haUrlId; // 连接地址
+    private String url; // controller路径
+
+    private int reqType; // 请求方式（0:不限;1：GET;2:POST;3:PUT;4:DELETE）
+
+    private int type; // 0:功能；1：菜单
+
+    private int level; // 菜单级别
+
+    private int leaf; // 是否叶子节点
+
+    private long parentId; // 伏击菜单ID
 
     private Date gmtCreated; // 创建时间
 
     private Date gmtModified; // 更新时间
 
     private int status; // 状态（0：删除；1：正常）
+
+    private List<HaMenuDO> haMenuDOList;
 
 
     public void setId(long id){
@@ -33,13 +47,47 @@ public class HaMenuDO extends BaseModel {
         return id;
     }
 
-    public void setHaUrlId(long haUrlId){
-        this.haUrlId = haUrlId;
+    public void setName(String name){
+        this.name = name;
     }
 
-    public long getHaUrlId() {
-        return haUrlId;
+    public String getName() {
+        return name;
     }
+
+    public void setUrl(String url){
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+
+    public void setType(int type){
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setLevel(int level){
+        this.level = level;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLeaf(int leaf){
+        this.leaf = leaf;
+    }
+
+    public int getLeaf() {
+        return leaf;
+    }
+
 
     public void setGmtCreated(Date gmtCreated){
         this.gmtCreated = gmtCreated;
@@ -65,4 +113,27 @@ public class HaMenuDO extends BaseModel {
         return status;
     }
 
+    public int getReqType() {
+        return reqType;
+    }
+
+    public void setReqType(int reqType) {
+        this.reqType = reqType;
+    }
+
+    public long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
+    }
+
+    public List<HaMenuDO> getHaMenuDOList() {
+        return haMenuDOList;
+    }
+
+    public void setHaMenuDOList(List<HaMenuDO> haMenuDOList) {
+        this.haMenuDOList = haMenuDOList;
+    }
 }

@@ -24,7 +24,7 @@ import java.util.Map;
 public class TestController {
 
     @Resource
-    private UserService userService;
+    private UserService userServiceRef;
 
     @RequestMapping("/test/test1")
     public Map<String, Object> testOne() {
@@ -70,7 +70,7 @@ public class TestController {
         userDO.setMobile(loginoutVO.getUsername());
         userDO.setPassword(loginoutVO.getPassword());
 
-        BaseResult<UserDO> baseResult = userService.createUserAndPutCache(userDO);
+        BaseResult<UserDO> baseResult = userServiceRef.createUserAndPutCache(userDO);
 
 
         map.put("status", "create success");

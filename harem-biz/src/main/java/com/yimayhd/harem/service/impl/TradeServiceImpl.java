@@ -22,6 +22,7 @@ import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,10 +53,10 @@ public class TradeServiceImpl implements TradeService {
             List<Long> bizOrderIds = new ArrayList<Long>();
             bizOrderIds.add(tradeListQuery.getBizOrderId());
         }
-        if(null != tradeListQuery.getBeginDate() && "".equals(tradeListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
             orderQueryDTO.setStartDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getBeginDate()));
         }
-        if(null != tradeListQuery.getEndDate() && "".equals(tradeListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
             orderQueryDTO.setEndDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getEndDate()));
         }
         orderQueryDTO.setPageNo(tradeListQuery.getPageNumber());
@@ -99,10 +100,10 @@ public class TradeServiceImpl implements TradeService {
             List<Long> bizOrderIds = new ArrayList<Long>();
             bizOrderIds.add(tradeListQuery.getBizOrderId());
         }
-        if(null != tradeListQuery.getBeginDate() && "".equals(tradeListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
             orderQueryDTO.setStartDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getBeginDate()));
         }
-        if(null != tradeListQuery.getEndDate() && "".equals(tradeListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
             orderQueryDTO.setEndDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getEndDate()));
         }
         orderQueryDTO.setPageNo(tradeListQuery.getPageNumber());
@@ -120,15 +121,17 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public PageVO<PayOrderDO> getPayOrderList(PayListQuery payListQuery)throws Exception{
         PayOrderQuery payOrderQuery = new PayOrderQuery();
-        payOrderQuery.setBizOrderId(payListQuery.getBizOrderId());
+        if(null != payListQuery.getBizOrderId()) {
+            payOrderQuery.setBizOrderId(payListQuery.getBizOrderId());
+        }
         //TODO SessionUtil商家ID
         payOrderQuery.setSellerId(10000000);
         payOrderQuery.setPageSize(payListQuery.getPageSize());
         payOrderQuery.setPageNo(payListQuery.getPageNumber());
-        if(null != payListQuery.getBeginDate() && "".equals(payListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setStartDate(DateUtil.formatMaxTimeForDate(payListQuery.getBeginDate()));
         }
-        if(null != payListQuery.getEndDate() && "".equals(payListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setEndDate(DateUtil.formatMaxTimeForDate(payListQuery.getEndDate()));
         }
         PayPageResultDTO<PayOrderDO> payPageResultDTO = QueryPayOrderServiceRef.getPayOrderResult(payOrderQuery);
@@ -151,10 +154,10 @@ public class TradeServiceImpl implements TradeService {
         payOrderQuery.setSellerId(10000000);
         //导出10000条
         payOrderQuery.setPageSize(10000);
-        if(null != payListQuery.getBeginDate() && "".equals(payListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setStartDate(DateUtil.formatMaxTimeForDate(payListQuery.getBeginDate()));
         }
-        if (null != payListQuery.getEndDate() && "".equals(payListQuery.getBeginDate())) {
+        if (!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setEndDate(DateUtil.formatMaxTimeForDate(payListQuery.getEndDate()));
         }
         PayPageResultDTO<PayOrderDO> payPageResultDTO = QueryPayOrderServiceRef.getPayOrderResult(payOrderQuery);

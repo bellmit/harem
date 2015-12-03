@@ -8,13 +8,13 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">积分赠送规则</button>
                     </span>
-                消费<input type="text" class="form-control" name="ratio" value="">RMB=1积分
+                消费<input type="text" class="form-control" name="paymentY" value="">RMB=1积分
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">积分有效期：</button>
                     </span>
-                <input type="text" class="form-control" name="avaiablepPeriod" value="">天
+                <input type="text" class="form-control" name="validityDays" value="">天
             </div>
             <div class="btn-group">
                 <button type="buttion" class="btn btn-primary sendPontAddBtn">新增并生效</button>
@@ -25,7 +25,7 @@
 <script>
     $('.sendPontAddBtn').click(function(){
         if(confirm("确定新增并立即生效吗？")){
-            $('#sendPontAddForm').attr('action','$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/sendPointRule/add');
+            $('#sendPontAddForm').attr('action',actionDefaultPath + '/trade/PointManage/sendPointRule/add');
             $('#sendPontAddForm').submit();
         }
     });

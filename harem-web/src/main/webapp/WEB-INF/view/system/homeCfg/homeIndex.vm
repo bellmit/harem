@@ -287,7 +287,6 @@
                         return false;
                     }else{
                     console.log(resultValue);
-                    	var tbody = $(".userTable tbody");
 						var tr = "";
                     	for(var i = 0;i<resultValue.length;i++){
                     		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
@@ -419,7 +418,6 @@
                         return false;
                     }else{
                     console.log(resultValue);
-                    	var tbody = $(".userTable tbody");
 						var tr = "";
                     	for(var i = 0;i<resultValue.length;i++){
                     		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 

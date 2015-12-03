@@ -7,8 +7,6 @@ import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
 import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.HaMenuService;
-import com.yimayhd.harem.service.SendPointRuleService;
-import com.yimayhd.harem.service.UsePointRuleService;
 import com.yimayhd.harem.service.UserService;
 import com.yimayhd.user.client.domain.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +65,12 @@ public class UserController extends BaseController {
 	 * @return 成功信息
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/trade/userManage/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/trade/userManage/login", method = RequestMethod.GET)
 	public String loginTest(User user, Model model) throws Exception {
 		System.out.println(user.getUserName());
 		System.out.println(user.getPassword());
 		System.out.println(user.getGmtCreated());
-		List<HaMenuDO> haMenuDOList = haMenuService.getMenuList();
+		List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(10);
 		model.addAttribute("menuList", haMenuDOList);
 		return "/system/layout/layout";
 	}
