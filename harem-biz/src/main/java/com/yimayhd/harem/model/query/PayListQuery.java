@@ -20,11 +20,11 @@ public class PayListQuery extends BaseQuery {
         this.sellerId = sellerId;
     }
 
-    public long getBizOrderId() {
+    public Long getBizOrderId() {
         return bizOrderId;
     }
 
-    public void setBizOrderId(long bizOrderId) {
+    public void setBizOrderId(Long bizOrderId) {
         this.bizOrderId = bizOrderId;
     }
 

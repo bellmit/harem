@@ -27,7 +27,7 @@
                         <td>1积分=$!utilNum.moneyTransform($!sendPointRule.payment)RMB</td>
                         <td>$!sendPointRule.validityDays</td>
                         <td>$!user.vendorName</td>
-                        <td>$!utilDate.dateToString($!sendPointRule.javaTime,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td>$!utilDate.dateToString($!sendPointRule.beginTime,"yyyy-MM-dd HH:mm:ss")</td>
                     </tr>
                     #end
                 </tbody>

@@ -57,11 +57,12 @@
                         <td>$!refund.terminalNumber</td>
                         <td>#PAY_STATUS($!refund.payment)</td>
                         <td>$!utilNum.moneyTransform($!refund.refundPayment)</td>
+                        <td>$!utilNum.moneyTransform($!refund.refundPayment)</td>
                         <td>$!refund.shouldRefundPoint</td>
                         <td>$!refund.availablePoint</td>
-                        <td>$utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td>$utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td><a href="javascript:geRefund('$!refund.id');">>订单详情</a></td>
+                        <td>$!utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td>$!utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td><a href="javascript:void(0);" class="getOrderDetail">订单详情</a></td>
                     </tr>
                     #end
                 </tbody>
@@ -86,10 +87,11 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-    function geRefund(id)
-    {
-        window.open("/refundManage/"+id, "_blank");
-    }
+    $(function(){
+        $('.getOrderDetail').click(function(){
+            window.open("/refundManage/"+id, "_blank");
+        });
+    });
 
     $("#refundListForm").validate({
         rules:{
