@@ -1,0 +1,251 @@
+
+<div class="baseInfoList">
+	<p class="lineDetail">线路明细</p>
+	<table>
+		<tr >
+			<td><span class="spColor">*</span>产品类型：</td>
+			<td>跟团游<input type="hidden" class="productType" value="0"/></td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>产品名称：</td>
+			<td><input type="text" class="form-control marBot productName" placeholder="请输入产品名称" value="$!product.baseInfo.productName"></td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>产品封面图：</td>
+			<td class="fileWrap">
+                <button class="btn">选择图片</button>
+				<input class="fileBtn" id="productImageFile" type="file" accept="image/png,image/gif">
+				<img class="productImageUrlImg" src="#if($!{product.baseInfo.productImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImage} #end">
+				<input class="productImageUrlVal" type="hidden" value="$!product.baseInfo.productImage">
+			</td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>行程封面图：</td>
+			<td class="fileWrap">
+				<button class="btn">选择图片</button>
+				<input class="fileBtn" id="tripImageFile" type="file" accept="image/png,image/gif">
+				<img class="tripImageUrlImg" src="#if($!{product.baseInfo.tripImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.tripImage} #end">
+				<input class="tripImageUrlVal" type="hidden" value="$!product.baseInfo.tripImage">
+			</td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>产品主题：</td>
+			<td>
+				<input type="checkbox" class="productTheme" rId="0" rName="热门推荐" id="theme0"/><label for="theme0">热门推荐</label>
+				<input type="checkbox" class="productTheme" rId="1" rName="热门推荐" id="theme1"/><label for="theme1">亲子</label>
+				<input type="checkbox" class="productTheme" rId="2" rName="热门推荐" id="theme2"/><label for="theme2">户外</label>
+			</td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>产品标签：</td>
+			<td>
+                <span class="tagSel">
+					<label for="tag0">亲子夏令营</label>
+					<input type="checkbox" class="productTag" rId="0" rName="亲子夏令营" id="tag0"/>
+				</span>
+				<span class="tagSel">
+					<label for="tag1">蜜月之旅</label>
+					<input type="checkbox" class="productTag" rId="1" rName="蜜月之旅" id="tag1"/>
+				</span>
+			</td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>发布人：</td>
+			<td>
+				<input type="radio" value="0" name="publisherType" class="publisherType" checked><label for="publisherType1">怡美官方</label>
+				<input type="radio" value="1" name="publisherType" class="publisherType"><label for="publisherType2">旅游咖</label>
+				<span class="travel-ka-panel" style="display:none;">
+					<button class="btn btn-primary" id="selectTravelKa">请选择旅游咖</button>
+					<span class="travel-ka-content"></span>
+				</span>
+			</td>
+		</tr>
+		<tr >
+			<td>出发地：</td>
+			<td>
+				<select class="form-control marBot from">
+					<option value="北京_1" selected>北京</option>
+					<option value="南京_2">南京</option>
+				 </select>
+			</td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>目的地：</td>
+			<td>
+				<select class="form-control marBot to">
+					<option value="大理_3" selected>大理</option>
+					<option value="丽江_4">丽江</option>
+				 </select>
+			</td>
+			</td>
+		</tr>
+		<tr >
+			<td><span class="spColor">*</span>线路设计亮点：</td>
+			<td>
+				<textarea class="form-control marBot" rows="3" value="$!product.highlights"></textarea>
+			</td>
+		</tr>
+		<tr >
+			<td>我为自己代言：</td>
+			<td>
+				<textarea class="form-control marBot" rows="3" value="$!product.recommond"></textarea>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="baseInfoApply">
+	<p class="applyNote">报名须知</p>
+	<div class="addItem">
+		<button class="btn addItemBtn">增加条目</button>
+		<table>
+			<tr >
+				<th>标题（10个字以内）</th>
+				<th>内容（500字以内）</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td><input class="form-control" type="text" placeholder="费用包含"></td>
+				<td><textarea class="form-control" rows="3"></textarea></td>
+				<td><button class="btn">删除</button></td>
+			</tr>
+			<tr>
+				<td><input class="form-control" type="text" placeholder="费用包含"></td>
+				<td><textarea class="form-control" rows="3"></textarea></td>
+				<td><button class="btn">删除</button></td>
+			</tr>
+			<tr>
+				<td><input class="form-control" type="text" placeholder="费用包含"></td>
+				<td><textarea class="form-control" rows="3"></textarea></td>
+				<td><button class="btn">删除</button></td>
+			</tr>
+			<tr>
+				<td><input class="form-control" type="text" placeholder="费用包含"></td>
+				<td><textarea class="form-control" rows="3"></textarea></td>
+				<td><button class="btn">删除</button></td>
+			</tr>
+			<tr>
+				<td><input class="form-control" type="text" placeholder="费用包含"></td>
+				<td><textarea class="form-control" rows="3"></textarea></td>
+				<td><button class="btn">删除</button></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		//上传图片
+		$(document).delegate("#productImageFile",'change',function(){
+			fileUpload('#productImageFile',1,function(data){
+				if(data && data.status == 200){
+					$('.productImageUrlVal').val(data.data);
+					$('.productImageUrlImg').attr('src',tfsRootPath + data.data);
+				}else{
+					layer.msg('图片上传失败，请重试', {icon: 2});
+				}
+			});
+		});
+		$(document).delegate("#tripImageFile",'change',function(){
+			fileUpload('#tripImageFile',1,function(data){
+				if(data && data.status == 200){
+					$('.tripImageUrlVal').val(data.data);
+					$('.tripImageUrlImg').attr('src',tfsRootPath + data.data);
+				}else{
+					layer.msg('图片上传失败，请重试', {icon: 2});
+				}
+			});
+		});
+	});
+	$(".add-extra-info-item").click(function(){
+		var content = $(".extra-info-list");
+		var item = $("<tr class='extra-info-item'/>");
+		item.append($("<td><input type='text' class='form-control extra-info-item-title' placeholder='费用包含'></td>"));
+		item.append($("<td><textarea class='form-control extra-info-item-text' rows='3'></textarea></td>"));
+		var delete_btn = $("<button class='btn btn-link extra-info-item-delete'>删除</button>");
+		delete_btn.click(function(){
+			$(this).parent().parent().remove();
+		});
+		item.append($("<td/>").append(delete_btn));
+		content.append(item);
+	});
+	$(".extra-info-item-delete").click(function(){
+		$(this).parent().parent().remove();
+	});
+	$(".extra-info-item-delete").click(function(){
+		$(this).parent().parent().remove();
+	});
+	$(".publisherType").click(function() {
+		if($(this).val()==1) {
+			$(".travel-ka-panel").show();
+		} else {
+			$(".travel-ka-panel").hide();
+		}
+	});
+
+	$("#selectTravelKa").click(function() {
+		openModal('$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList','选择旅游咖', function(resultValue) {
+			var id = resultValue[0].id;
+			var name = resultValue[0].name;
+			var span = $("<span class='label label-badge label-info travel-ka'>"+name+"</span>");
+			span.attr("rId",id);
+			span.attr("rName",name);
+			var content = $(".travel-ka-content");
+			content.empty();
+			content.append(span);
+		});
+	});
+	// 获取行程信息
+	function getBaseInfo() {
+		var type = $(".productType").val();
+		var name = $(".productName").val();
+		var productImage = $(".productImageUrlVal").val();
+		var tripImage = $(".tripImageUrlVal").val();
+		var themes = [];
+		$(".productTheme:checked").each(function(){
+			var id = $(this).attr("rId");
+			var name = $(this).attr("rName");
+			themes.push({id:id,name:name});
+		});
+		var tags = [];
+		$(".productTag:checked").each(function(){
+			var id = $(this).attr("rId");
+			var name = $(this).attr("rName");
+			tags.push({id:id,name:name});
+		});
+		var publisherType = $(".publisherType:checked").val();
+		var froms = [];
+		var from_arr = $(".from").val().split("_");
+		froms.push({id:from_arr[1],name:from_arr[0]});
+		var tos = [];
+		var to_arr = $(".to").val().split("_");
+		tos.push({id:to_arr[1],name:to_arr[0]});
+		var highlights = $(".highlights").val();
+		var recommond = $(".recommond").val();
+		var extra_infos = [];
+		$(".extra-info-item").each(function(){
+			var title = $(this).find(".extra-info-item-title").val();
+			var text = $(this).find(".extra-info-item-text").val();
+			if(title&&text) {
+				extra_infos.push({title:title,content:text});
+			}
+		});
+		var result = {
+			type:type,
+			name:name,
+			productImage:productImage,
+			tripImage:tripImage,
+			themes:themes,
+			tags:tags,
+			publisherType:publisherType,
+			froms:froms,
+			tos:tos,
+			highlights:highlights,
+			recommond:recommond,
+			extraInfos:extra_infos
+		};
+		if(publisherType!=0) {
+			var travel_ka = $(".travel-ka");
+			result["publisher"] = {id:travel_ka.attr("rId"),name:travel_ka.attr("rName")};
+		}
+		return result;
+	}
+</script>
