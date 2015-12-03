@@ -17,14 +17,6 @@ public class GroupTravel {
 	private List<TripDay> tripInfo;// 行程信息
 	private PriceInfo priceInfo;// 价格信息
 
-	public List<TripDay> getTripInfo() {
-		return tripInfo;
-	}
-
-	public void setTripInfo(List<TripDay> tripInfo) {
-		this.tripInfo = tripInfo;
-	}
-
 	public BaseInfo getBaseInfo() {
 		return baseInfo;
 	}
@@ -47,6 +39,14 @@ public class GroupTravel {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public List<TripDay> getTripInfo() {
+		return tripInfo;
+	}
+
+	public void setTripInfo(List<TripDay> tripInfo) {
+		this.tripInfo = tripInfo;
 	}
 
 }

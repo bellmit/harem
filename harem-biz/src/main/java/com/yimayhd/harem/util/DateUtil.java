@@ -48,6 +48,9 @@ public class DateUtil {
 
 	private static final TimeZone TIME_ZONE_LOCAL = TimeZone.getDefault();
 
+	private static final String[] WEEK = new String[] { "周日", "周一", "周二", "周三", "周四", "周五", "周六" };
+	private static final String[] STAR_WEEK = new String[] { "星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+
 	/**
 	 * time=0 过滤时间为1970-01-01 情况
 	 * 
@@ -934,6 +937,7 @@ public class DateUtil {
 		}
 		return age;
 	}
+
 	public static int getAgeByBirthday(Date birthdayTime) {
 		if (birthdayTime == null) {
 			return 0;
@@ -958,6 +962,7 @@ public class DateUtil {
 		calendar.set(Calendar.SECOND, 59);
 		return calendar.getTime();
 	}
+
 	public static Date formatMaxTimeForDate(String dataStr) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
 		return format.parse(dataStr + DAY_BEGIN);
@@ -981,9 +986,35 @@ public class DateUtil {
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
+
 	public static Date formatMinTimeForDate(String dataStr) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
 		return format.parse(dataStr + DAY_END);
 	}
 
+	/**
+	 * 周*
+	 * 
+	 * @param time
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String formatWeekOnly(Date date) throws ParseException {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(date.getTime());
+		return WEEK[c.get(Calendar.DAY_OF_WEEK) - 1];
+	}
+
+	/**
+	 * 星期*
+	 * 
+	 * @param time
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String formatStarWeekOnly(Date date) throws ParseException {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(date.getTime());
+		return STAR_WEEK[c.get(Calendar.DAY_OF_WEEK) - 1];
+	}
 }

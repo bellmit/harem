@@ -179,7 +179,7 @@
 	    // 选择交通
 		function selectTraffic(tId){
 			var currentTId = tId;
-			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectTraffic','选择交通方式 ',function() {
+			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectTraffic','选择交通方式 ',function() {
 				var tra = win.getTraffic();
 				var content = $("#"+currentTId);
 				content.empty();

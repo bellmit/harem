@@ -9,25 +9,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">交易号</button>
                     </span>
-                <input type="text" class="form-control" name="refundNO" value="$!refundListQuery.refundNO">
-            </div>
-            <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">手机号</button>
-                    </span>
-                <input type="text" class="form-control" name="phone" value="$!refundListQuery.phone">
-            </div>
-            <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">会员名</button>
-                    </span>
-                <input type="text" class="form-control" name="userName" value="$!refundListQuery.userName">
-            </div>
-            <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">终端编号</button>
-                    </span>
-                <input type="text" class="form-control" name="terminalName" value="$!refundListQuery.terminalName">
+                <input type="text" class="form-control" name="tradeId" value="$!refundListQuery.refundNO">
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -50,20 +32,18 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th>序号</th>
                     <th>交易编号</th>
-                    <th>会员姓名</th>
-                    <th>手机号</th>
-                    <th>退款金额</th>
-                    <th>需返还积分</th>
-                    <th>可返还积分</th>
-                    <th>超出积分扣现</th>
+                    <th>部门</th>
+                    <th>工号</th>
+                    <th>终端编号</th>
+                    <th>支付方式</th>
                     <th>实际退款金额</th>
-                    <th>退款时间</th>
-                    <th>退款状态</th>
-                    <th>终端</th>
-                    <th>操作员</th>
-                    <th>备注</th>
+                    <th>付款金额</th>
+                    <th>使用积分</th>
+                    <th>赠送积分</th>
+                    <th>交易时间</th>
+                    <th>小票时间</th>
                     <th>查看</th>
                 </tr>
                 </thead>
@@ -71,20 +51,17 @@
                     #foreach($refund in $refundList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>$!refund.refundNO</td>
-                        <td>$!refund.userName</td>
-                        <td>$!refund.phone</td>
-                        <td>$!refund.refundMoney</td>
+                        <td>$!refund.tradeId</td>
+                        <td>$!refund.department</td>
+                        <td>$!refund.jobNumber</td>
+                        <td>$!refund.terminalNumber</td>
+                        <td>#PAY_STATUS($!refund.payment)</td>
+                        <td>$!utilNum.moneyTransform($!refund.refundPayment)</td>
                         <td>$!refund.shouldRefundPoint</td>
                         <td>$!refund.availablePoint</td>
-                        <td>$!refund.deductMoneyOffsetPoint</td>
-                        <td>$!refund.factRefundMoney</td>
                         <td>$utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td>$!refund.refundStatus</td>
-                        <td>$!refund.terminalName</td>
-                        <td>$!refund.operatorName</td>
-                        <td>$!refund.remark</td>
-                        <td><a href="javascript:geRefund('$!refund.id');">退款详情</a></td>
+                        <td>$utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td><a href="javascript:geRefund('$!refund.id');">>订单详情</a></td>
                     </tr>
                     #end
                 </tbody>

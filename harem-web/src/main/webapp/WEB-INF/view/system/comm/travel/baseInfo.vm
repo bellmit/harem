@@ -13,7 +13,7 @@
                 </tr>
     			<tr >
     				<td>*产品名称：</td>
-    				<td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.productName"></td>
+    				<td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.name"></td>
                 </tr>
     			<tr >
     				<td>*产品封面图：</td>
@@ -34,26 +34,30 @@
     			<tr >
     				<td>*产品主题：</td>
                     <td>
-						<input type="checkbox" class="productTheme" rId="0" rName="热门推荐" id="theme0"/><label for="theme0">热门推荐</label>
-						<input type="checkbox" class="productTheme" rId="1" rName="热门推荐" id="theme1"/><label for="theme1">亲子</label>
-						<input type="checkbox" class="productTheme" rId="2" rName="热门推荐" id="theme2"/><label for="theme2">户外</label>
+						<input type="checkbox" class="productTheme" rId="1" rName="热门推荐" id="theme1" #if($!{product.baseInfo.containsTheme('1')}) checked #end/><label for="theme1">热门推荐</label>
+						<input type="checkbox" class="productTheme" rId="2" rName="亲子" id="theme2" #if($!{product.baseInfo.containsTheme('2')}) checked #end/><label for="theme2">亲子</label>
+						<input type="checkbox" class="productTheme" rId="3" rName="户外" id="theme3" #if($!{product.baseInfo.containsTheme('3')}) checked #end/><label for="theme3">户外</label>
     				</td>
                 </tr>
     			<tr >
     				<td>*产品标签：</td>
                     <td>
-						<input type="checkbox" class="productTag" rId="0" rName="亲子夏令营" id="tag0"/><label for="tag0">亲子夏令营</label>
-						<input type="checkbox" class="productTag" rId="1" rName="蜜月之旅" id="tag1"/><label for="tag1">蜜月之旅</label>
+						<input type="checkbox" class="productTag" rId="1" rName="亲子夏令营" id="tag1" #if($!{product.baseInfo.containsTag('1')}) checked #end/><label for="tag1">亲子夏令营</label>
+						<input type="checkbox" class="productTag" rId="2" rName="蜜月之旅" id="tag2" #if($!{product.baseInfo.containsTag('2')}) checked #end/><label for="tag2">蜜月之旅</label>
     				</td>
                 </tr>
     			<tr >
     				<td>*发布人：</td>
                     <td>
-    					<span><input type="radio" value="0" name="publisherType" class="publisherType" checked><label for="publisherType1">怡美官方</label></span>
-    					<span><input type="radio" value="1" name="publisherType" class="publisherType"><label for="publisherType2">旅游咖</label></span>
-    					<span class="travel-ka-panel" style="display:none;">
+    					<span><input type="radio" value="1" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} != '2') checked #end><label for="publisherType1">怡美官方</label></span>
+    					<span><input type="radio" value="2" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} == '2') checked #end><label for="publisherType2">旅游咖</label></span>
+    					<span class="travel-ka-panel" #if($!{product.baseInfo.publisherType} != 2) style="display:none;" #end>
     						<button class="btn btn-primary" id="selectTravelKa">请选择旅游咖</button>
-    						<span class="travel-ka-content"></span>
+    						<span class="travel-ka-content">
+								#if($!{product.baseInfo.publisher})
+									<span class='label label-badge label-info travel-ka' rId="$!{product.baseInfo.publisher.id}" rName="$!{product.baseInfo.publisher.name}">$!{product.baseInfo.publisher.name}</span>
+								#end
+							</span>
 						</span>
     				</td>
                 </tr>
@@ -61,8 +65,8 @@
     				<td>出发地：</td>
                     <td>
     					<select class="form-control from">
-                            <option value="北京_1" selected>北京</option>
-							<option value="南京_2">南京</option>
+                            <option value="北京_1" #if($!{product.baseInfo.from.id}=='1') selected #end>北京</option>
+							<option value="南京_2" #if($!{product.baseInfo.from.id}=='2') selected #end>南京</option>
                          </select>
     				</td>
                 </tr>
@@ -70,8 +74,8 @@
     				<td>*目的地：</td>
                     <td>
     					<select class="form-control to">
-                            <option value="大理_3" selected>大理</option>
-							<option value="丽江_4">丽江</option>
+                            <option value="大理_3" #if($!{product.baseInfo.to.id}=='3') selected #end>大理</option>
+							<option value="丽江_4" #if($!{product.baseInfo.to.id}=='4') selected #end>丽江</option>
                          </select>
     				</td>
     				</td>
@@ -79,13 +83,13 @@
     			<tr >
     				<td>*线路设计亮点：</td>
                     <td>
-    					<textarea class="form-control highlights" rows="3" value="$!product.highlights"></textarea>
+    					<textarea class="form-control highlights" rows="3">$!{product.baseInfo.highlights}</textarea>
     				</td>
                 </tr>
     			<tr >
     				<td>我为自己代言：</td>
                     <td>
-    					<textarea class="form-control recommond" rows="3" value="$!product.recommond"></textarea>
+    					<textarea class="form-control recommond" rows="3">$!{product.baseInfo.recommond}</textarea>
     				</td>
                 </tr>
             </table>
@@ -101,31 +105,41 @@
                     </tr>
                 </thead>
 				<tbody class="extra-info-list">
+					#if($!{product.baseInfo.extraInfos}&&$!{product.baseInfo.extraInfos.size()}>0)
+						#foreach($extraInfo in $!{product.baseInfo.extraInfos})
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{extraInfo.title}"></td>
+        				<td><textarea class="form-control extra-info-item-content" rows="3">$!{extraInfo.content}</textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+                    </tr>
+						#end
+					#else
             		<tr class="extra-info-item">
         				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
 						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
 					<tr class="extra-info-item">
         				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
 						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
 					<tr class="extra-info-item">
         				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
 						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
 					<tr class="extra-info-item">
         				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
 						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
 					<tr class="extra-info-item">
         				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
 						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
+					#end
                 </tbody>
             </table>
 		</div>
@@ -173,7 +187,7 @@
 			$(this).parent().parent().remove();
 		});
 		$(".publisherType").click(function() {
-			if($(this).val()==1) {
+			if($(this).val()==2) {
 				$(".travel-ka-panel").show();
 			} else {
 				$(".travel-ka-panel").hide();
@@ -211,20 +225,16 @@
 				tags.push({id:id,name:name});
 			});
 			var publisherType = $(".publisherType:checked").val();
-			var froms = [];
 			var from_arr = $(".from").val().split("_");
-			froms.push({id:from_arr[1],name:from_arr[0]});
-			var tos = [];
 			var to_arr = $(".to").val().split("_");
-			tos.push({id:to_arr[1],name:to_arr[0]});
 			var highlights = $(".highlights").val();
 			var recommond = $(".recommond").val();
 			var extra_infos = [];
 			$(".extra-info-item").each(function(){
 				var title = $(this).find(".extra-info-item-title").val();
-				var text = $(this).find(".extra-info-item-text").val();
-				if(title&&text) {
-					extra_infos.push({title:title,content:text});
+				var content = $(this).find(".extra-info-item-content").val();
+				if(title&&content) {
+					extra_infos.push({title:title,content:content});
 				}
 			});
 			var result = {
@@ -235,13 +245,13 @@
 				themes:themes,
 				tags:tags,
 				publisherType:publisherType,
-				froms:froms,
-				tos:tos,
+				from:{id:from_arr[1],name:from_arr[0]},
+				to:{id:to_arr[1],name:to_arr[0]},
 				highlights:highlights,
 				recommond:recommond,
 				extraInfos:extra_infos
 			};
-			if(publisherType!=0) {
+			if(publisherType!='1') {
 				var travel_ka = $(".travel-ka");
 				result["publisher"] = {id:travel_ka.attr("rId"),name:travel_ka.attr("rName")};
 			}

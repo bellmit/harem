@@ -14,27 +14,27 @@ public interface HomeCfgService {
 	/**
 	 * 添加会员专享信息
 	 */
-	public RcResult<Boolean> addVipList(CfgBaseVO homeVipVO);
+	public RcResult<Boolean> addVipList(CfgBaseVO cfgBaseVO);
 
 	/**
 	 * 添加线路信息
 	 */
-	public RcResult<Boolean> addLineList(CfgBaseVO homeBaseVO);
+	public RcResult<Boolean> addLineList(CfgBaseVO cfgBaseVO);
 
 	/**
 	 * 添加旅游咖信息
 	 */
-	public RcResult<Boolean> addTravelKaList(CfgBaseVO homeBaseVO);
+	public RcResult<Boolean> addTravelKaList(CfgBaseVO cfgBaseVO);
 
 	/**
 	 * 添加目的地信息
 	 */
-	public RcResult<Boolean> addCityList(CfgBaseVO homeBaseVO);
+	public RcResult<Boolean> addCityList(CfgBaseVO cfgBaseVO);
 
 	/**
 	 * 添加游记信息
 	 */
-	public RcResult<Boolean> addTravelSpecialList(CfgBaseVO homeBaseVO);
+	public RcResult<Boolean> addTravelSpecialList(CfgBaseVO cfgBaseVO);
 	
 	/**
 	 * 获取会员专享信息

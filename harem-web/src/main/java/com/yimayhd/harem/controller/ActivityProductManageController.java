@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.model.HotelVO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 
 /**
  * 活动商品
@@ -12,7 +14,7 @@ import com.yimayhd.harem.base.BaseController;
  * @author xuzj
  */
 @Controller
-@RequestMapping("/B2C/activityProductManage")
+@RequestMapping("/B2C/comm/activityProductManage")
 public class ActivityProductManageController extends BaseController {
 	
 
@@ -28,6 +30,19 @@ public class ActivityProductManageController extends BaseController {
 		
 		return "/system/comm/activityProduct/edit";
 	}
+
+	
+	 /**
+     * 新增活动商品
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public
+    String add(ItemDO itemDO) throws Exception {
+        
+        return "/success";
+    }
 
 	
 	

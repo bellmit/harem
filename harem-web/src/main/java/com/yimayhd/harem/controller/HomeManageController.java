@@ -40,7 +40,7 @@ public class HomeManageController extends BaseController{
 		
 		model.addAttribute("homeCfg", homeResults);
 		
-		return "/system/home/index";
+		return "/system/homeCfg/homeIndex";
 	}
 
 	private void getResultVOs(Map<String, CfgResultVO> homeResults) {
