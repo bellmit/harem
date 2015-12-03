@@ -81,9 +81,9 @@
                         <td>$!utilNum.moneyTransform($!order.actualTotalFee)</td>
                         <td>使用积分--$!order.sendPoint</td>
                         <td>赠送积分--$!order.point</td>
-                        <td>$!utilDate.dateToString($!order.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>$!order.gmtCreated
+                        <td>$!utilDate.dateToString($!order.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>$!utilDate.longToString($!order.mallInfo.stt)</td>
-                        <td><a class="orderLink" orderlinkUrl="/orderManage/$!trade.id" href="javascript:void(0);">订单详情</a></td>
+                        <td><a class="orderLink" orderId="$!order.bizOrderId" href="javascript:void(0);">订单详情</a></td>
                     </tr>
                     #end
                 </tbody>
@@ -111,7 +111,7 @@
 
     $(function(){
         $('.orderLink').click(function(){
-            top.tabsAdd('',$(this).attr('orderLinkUrl'),2,$(this).text());
+            top.tabsAdd('',actionDefaultPath + '/trade/tradeManage/order/' + $(this).attr('orderId'),2,$(this).text());
 
         });
 

@@ -72,7 +72,6 @@ public class CommodityManageController extends BaseController {
         }
         return "redirect:" + redirectUrl;
     }
-
     /**
      * 编辑商品
      * @param model
