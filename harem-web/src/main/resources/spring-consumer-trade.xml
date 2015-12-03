@@ -4,8 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
         >
 	<!-- ===========================  trade =============================== -->
-	<bean id="tcIMallHaremServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.tradecenter.client.service.imall.TcIMallHaremService"/>
+	<bean id="iMallHaremServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.tradecenter.client.service.imall.IMallHaremService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>

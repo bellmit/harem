@@ -2,7 +2,7 @@ package com.yimayhd.harem.controller;
 
 import java.util.List;
 
-import com.yimayhd.tradecenter.client.model.domain.imall.TcRefundRecordDO;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +47,7 @@ public class refundManageController extends BaseController {
 	public String list(Model model, RefundListQuery refundListQuery) throws Exception {
 		RefundVO refundVO = new RefundVO();
 		refundVO.setRefundListQuery(refundListQuery);
-		PageVO<TcRefundRecordDO> pageVO = refundService.getList(refundListQuery);
+		PageVO<IMallRefundRecordDO> pageVO = refundService.getList(refundListQuery);
 		PageVO<Refund> pageVo = new PageVO<Refund>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(), 14800);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("refundListQuery", refundListQuery);

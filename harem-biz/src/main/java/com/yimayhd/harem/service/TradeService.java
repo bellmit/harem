@@ -5,6 +5,7 @@ import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
 import com.yimayhd.harem.model.BizOrderVO;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,5 +38,12 @@ public interface TradeService {
      * @return
      */
     void exportPayOrderList(HttpServletResponse response,PayListQuery payListQuery)throws Exception;
+
+    /**
+     * 根据交易id获取详情
+     * @return
+     * @throws Exception
+     */
+    BizOrderDO getOrderByOrderId(long orderId)throws Exception;
 
 }
