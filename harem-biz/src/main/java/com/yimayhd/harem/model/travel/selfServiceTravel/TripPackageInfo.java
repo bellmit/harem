@@ -1,8 +1,7 @@
 package com.yimayhd.harem.model.travel.selfServiceTravel;
 
 import java.util.List;
-
-import com.yimayhd.harem.model.travel.IdNameData;
+import java.util.Map;
 
 /**
  * 行程套餐信息
@@ -14,7 +13,7 @@ public class TripPackageInfo {
 	private int hasFlight;// 有无航班
 	private String noteInfo;// 备注
 	private List<FlightInfo> flights;// 航班信息
-	private List<IdNameData> hotels;// 酒店
+	private List<Map<String, String>> hotels;// 酒店
 
 	public String getNoteInfo() {
 		return noteInfo;
@@ -32,11 +31,11 @@ public class TripPackageInfo {
 		this.flights = flights;
 	}
 
-	public List<IdNameData> getHotels() {
+	public List<Map<String, String>> getHotels() {
 		return hotels;
 	}
 
-	public void setHotels(List<IdNameData> hotels) {
+	public void setHotels(List<Map<String, String>> hotels) {
 		this.hotels = hotels;
 	}
 

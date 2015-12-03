@@ -1,5 +1,6 @@
 package com.yimayhd.harem.model.travel;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,8 +10,8 @@ import java.util.List;
  *
  */
 public class PackageInfo {
-	private long startDate;
-	private long endDate;
+	private Date startDate; // 开始时间
+	private Date endDate;// 结束时间
 	private String name;// 套餐名
 	private String from;// 出发地
 	private List<PackageMonth> months;
@@ -39,20 +40,19 @@ public class PackageInfo {
 		this.months = months;
 	}
 
-	public long getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(long startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public long getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(long endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
 }
