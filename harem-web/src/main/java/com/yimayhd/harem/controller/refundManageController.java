@@ -30,7 +30,7 @@ import com.yimayhd.harem.service.RefundService;
  */
 @Controller
 @RequestMapping("/trade/refundManage")
-public class refundManageController extends BaseController {
+public class RefundManageController extends BaseController {
 
 	@Autowired
 	private RefundService refundService;

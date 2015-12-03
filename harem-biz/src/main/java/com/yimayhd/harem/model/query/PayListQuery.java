@@ -8,7 +8,7 @@ import com.yimayhd.harem.base.BaseQuery;
 public class PayListQuery extends BaseQuery {
 
     private long sellerId;
-    private long bizOrderId;
+    private Long bizOrderId;
     private String beginDate;
     private String endDate;
 

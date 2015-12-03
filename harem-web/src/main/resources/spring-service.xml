@@ -16,8 +16,7 @@
 	<bean class="com.yimayhd.harem.service.impl.HaUserRoleServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ActivityServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.SendPointRuleServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.UsePointRuleServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.PointRuleServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TrendServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TravelOfficialImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RegionServiceImpl"></bean>
