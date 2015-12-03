@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.MerchantService;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.User;
@@ -13,11 +14,17 @@ import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.UserService;
 import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.user.client.domain.UserDO;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author czf
  */
 public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private MerchantService merchantServiceRef;
+
 	private List<User> table = new ArrayList<User>();
 
 	public UserServiceImpl() {
@@ -29,8 +36,7 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 	}
-	// @Autowired
-	// private MerchantService merchantServiceRef;
+
 
 	@Override
 	public List<User> getClubMemberListByClubId(long clubId) throws Exception {
@@ -70,27 +76,24 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDO> getMemberByUserId(TradeMemberQuery tradeMemberQuery) throws Exception {
+		//查询条件转换
 		MerchantPageQueryVO merchantPageQueryVO = new MerchantPageQueryVO();
+		//TODO 商户ID
+		merchantPageQueryVO.setMerchantId((long) 1);
 		merchantPageQueryVO.setMerchantUserId(tradeMemberQuery.getMerchantUserId());
-		merchantPageQueryVO.setNickName(tradeMemberQuery.getNickName());
-		merchantPageQueryVO.setCity(tradeMemberQuery.getCityName());
-		merchantPageQueryVO.setMobile(tradeMemberQuery.getTel());
-		// MemResult<List<UserDO>> result =
-		// merchantServiceRef.findPageUsersByMerchant(merchantPageQueryVO);
-		// List<UserDO> userDOList= result.getValue();
-		List<UserDO> userDOList = new ArrayList<UserDO>();
-		for (int i = 0; i < 5; i++) {
-			UserDO userDOData = new UserDO();
-			userDOData.setId(i);
-			userDOData.setNick("kaka");
-			userDOData.setGender(i / 2);
-			userDOData.setMobile("110");
-			userDOData.setCertId("410123556487468535");
-			userDOData.setBirthday(new Date());
-			userDOData.setProvince("伊拉克");
-			userDOData.setCity("中东");
-			userDOData.setGmtCreate(new Date());
-			userDOList.add(userDOData);
+		if(!StringUtils.isBlank(tradeMemberQuery.getNickName())){
+			merchantPageQueryVO.setNickName(tradeMemberQuery.getNickName());
+		}
+		if(!StringUtils.isBlank(tradeMemberQuery.getCityName())){
+			merchantPageQueryVO.setCity(tradeMemberQuery.getCityName());
+		}
+		if(!StringUtils.isBlank(tradeMemberQuery.getTel())){
+			merchantPageQueryVO.setMobile(tradeMemberQuery.getTel());
+		}
+		MemResult<List<UserDO>> memResult = merchantServiceRef.findPageUsersByMerchant(merchantPageQueryVO);
+		List<UserDO> userDOList = null;
+		if(memResult.isSuccess()){
+			userDOList = memResult.getValue();
 		}
 		return userDOList;
 	}

@@ -52,9 +52,11 @@ public class TradeManageController extends BaseController {
 	 * @return 交易详情
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getById(@PathVariable(value = "id") long id) throws Exception {
-		return "/system/trade/information";
+	@RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
+	public String getById(Model model,@PathVariable(value = "orderId") long orderId) throws Exception {
+		List<BizOrderDO> bizOrderDOList = tradeService.getOrderByOrderId(orderId);
+		model.addAttribute("orderDetailList",bizOrderDOList);
+		return "/system/trade/order/detail";
 	}
 
 	/**

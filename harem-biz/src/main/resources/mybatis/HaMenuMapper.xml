@@ -211,7 +211,7 @@
             hm.name hm_name,
             hm.url hm_url,
             hhmm.id,
-            hm.name
+            hhmm.name
         FROM
             ha_user_role hur,
             ha_role hr,

@@ -138,9 +138,6 @@ public class TradeServiceImpl implements TradeService {
         PageVO<PayOrderDO> pageVO = null;
         if(null != payPageResultDTO && payPageResultDTO.isSuccess()) {
             pageVO = new PageVO<PayOrderDO>(payListQuery.getPageSize(),payPageResultDTO.getTotalCount(),payPageResultDTO.getPageNo(),payPageResultDTO.getList());
-        }else{
-            //返回的结果错误
-            throw new BaseException(payPageResultDTO);
         }
 
         return pageVO;
@@ -171,18 +168,25 @@ public class TradeServiceImpl implements TradeService {
             headList.add(new BasicNameValuePair("payStatus", "状态"));
             JxlFor2003.exportExcel(response, "payList.xls", payPageResultDTO.getList(), headList);
 
-        }else{
-            //返回的结果错误
-            throw new BaseException(payPageResultDTO);
         }
 
     }
 
     @Override
-    public BizOrderDO getOrderByOrderId(long orderId) throws Exception {
+    public List<BizOrderDO> getOrderByOrderId(long orderId) throws Exception {
         OrderQueryOption orderQueryOption = new OrderQueryOption();
         orderQueryOption.setAll();
         SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(orderId,orderQueryOption);
-        return singleQueryResult.getBizOrderDO();
+        //返回数组
+        List<BizOrderDO> bizOrderDOList = new ArrayList<BizOrderDO>();
+        if(singleQueryResult.isSuccess()) {
+            //判断是否有自订单
+            if (BizOrderUtil.hasDetailOrder(singleQueryResult.getBizOrderDO())) {
+                bizOrderDOList = singleQueryResult.getBizOrderDO().getDetailOrderList();
+            } else {
+                bizOrderDOList.add(singleQueryResult.getBizOrderDO());
+            }
+        }
+        return bizOrderDOList;
     }
 }
