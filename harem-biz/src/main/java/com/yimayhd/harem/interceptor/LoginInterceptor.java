@@ -38,7 +38,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     private HaMenuService haMenuService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-      /*  String url = request.getRequestURI();
+    	//TODO:待功能完善后放开以下注释即可
+       /* String url = request.getRequestURI();
         int reqType= map.get(request.getMethod());
         if(!url.equals("/user/noPower")){
             long userId = 10;
