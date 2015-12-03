@@ -2,10 +2,17 @@
 *{ margin:0;padding:0;}
 ul li,ol li{list-style: none;}
 
+table{width: 100%;}
+table th,table td{min-width: 60px;padding: 8px 0 !important;}
+
 .error{color: #ff0000;}
 .spColor{color: #ff0000;}
 
-.inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;}
+
+.dateInp{background: #fff;}
+.dateInpCenter{padding: 0 10px;background: #f1f1f1;}
+
+.inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;margin-bottom: 10px;}
 .whole{}
 .inpSingle{margin-bottom: 10px;width: 32%;float: left;margin-right: 1%;}
 @media (min-width: 800px){

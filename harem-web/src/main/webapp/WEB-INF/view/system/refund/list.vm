@@ -15,7 +15,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">交易时间</button>
                     </span>
-                <input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!refundListQuery.beginDate">
+                <input type="text" class='form-control form-date startDate' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!refundListQuery.beginDate">
                 <span class="input-group-addon fix-border fix-padding">至</span>
                 <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" value="$!refundListQuery.endDate">
             </div>
@@ -75,6 +75,29 @@
     </form>
 </div>
 <script>
+    $("#refundListForm").validate({
+        rules:{
+            tradeId:{
+                number:true
+            },
+            endDate:{
+                compareDate:".startDate"
+            }
+        },
+        messages:{
+            tradeId:{
+                number:"请输入正确的交易号"
+            },
+            endDate:{
+                compareDate:"结束日期必须大于开始日期!"
+            }
+        },
+        errorPlacement: function(error, element) {
+            element.parent().parent().append (error);
+        }
+    })
+
+
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",

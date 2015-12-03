@@ -4,7 +4,7 @@
     #set($pageVoNo = $pageVo.thisPageNumber)
     #set($before=0)
     #set($after=0)
-    <ul class="pager pager-pills">
+    <ul class="pager pager-pills" style="width: 100%;">
         #if($pageVo.hasPreviousPage)
             <li class="previous">
                 <a href="javascript:void(0)" class="LinkeToPage" pageNo="$pageVo.previousPageNumber" id="prePage">«
@@ -54,7 +54,7 @@
             </li>
         #end
         <li>
-            <div class="input-group">
+            <div class="input-group" style="width: 189px;">
                 <span class="input-group-addon">每页</span>
                 <select class="form-control pageSize" name="pageSize" id="pageSize">
                     <option value="10">10</option>

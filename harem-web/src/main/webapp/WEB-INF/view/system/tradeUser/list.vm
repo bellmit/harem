@@ -1,4 +1,4 @@
-<div>
+
     <form class="form-signin" id="userListForm" name="userListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/memberList" method="GET" role="form">
         <div class="inputGroup whole">
                 <div class="input-group inpSingle">

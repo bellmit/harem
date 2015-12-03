@@ -16,7 +16,7 @@ var pageUtils = {
         var pageVoNo = pageVo.thisPageNumber;
         var before = 0;
         var after = 0;
-        var pager = $("<ul class='pager pager-pills'/>");
+        var pager = $("<ul class='pager pager-pills' style='width: 100%;'/>");
         root.append(pager);
         if (pageVo.hasPreviousPage) {
             var previous = $("<li class='previous'/>");
@@ -91,7 +91,7 @@ var pageUtils = {
             pager.append(next.append(LinkeToPage));
         }
         var li = $("</li>");
-        var input_group = $("<div class='input-group'/>");
+        var input_group = $("<div class='input-group' style='width: 189px;'/>");
         input_group.append($("<span class='input-group-addon'>每页</span>"));
         var select = $("<select class='form-control pageSize' name='pageSize' id='pageSize'/>");
         select.append($("<option value='10'>10</option><option value='20'>20</option><option value='50'>50</option>"));

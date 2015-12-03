@@ -71,3 +71,15 @@ jQuery.validator.addMethod("requiredAll",function(value,element,params){
     };
     return flag;
 });
+
+//判断两个时间的先后顺序
+jQuery.validator.addMethod("compareDate",function(value, element, param) {
+    //var startDate = jQuery(param).val() + ":00";补全yyyy-MM-dd HH:mm:ss格式
+    //value = value + ":00";
+
+    var startDate = jQuery(param).val();
+
+    var date1 = new Date(Date.parse(startDate.replace("-", "/")));
+    var date2 = new Date(Date.parse(value.replace("-", "/")));
+    return date1 < date2;
+});
