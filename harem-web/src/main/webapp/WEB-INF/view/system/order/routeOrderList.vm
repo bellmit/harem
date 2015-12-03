@@ -53,10 +53,9 @@
                     <input type="text" class="form-control" name="buyerName" value="$!orderListQuery.buyerName">
                 </div>
 				<div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">附属要求</button>
-                    <input type='checkbox' class="" name="buyerName" value="$!orderListQuery.buyerName">sdf含备注
-                    <input type='checkbox' name="buyerName" value="$!orderListQuery.buyerName">含备注
+                    <button class="btn btn-default" type="button">附属要求</button>
+                    <input type='checkbox' class="" name="buyerName" value="$!orderListQuery.buyerName">含备注
+                    <input type='checkbox' name="buyerName" value="$!orderListQuery.buyerName">需发票
                 </div>
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">查询</button>
@@ -112,7 +111,10 @@
 	                 	<td>4</td>
 	                 	<td>6</td>
 	                 	<td>5</td>
-	                 	<td><button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button><a href="javascript:getOrder('$!order.id');">详情</a></td>
+	                 	<td>
+	                 		<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>
+	                 		<button type="button" class="btn btn-lg btn-primary addRefund detail">详情</button>
+	                 	</td>
 	                 </tr>
 	                 #end
                   #end
@@ -188,6 +190,8 @@
 
     $(function(){
       
-
+		$(".detail").click(function() {
+			alert("detail!!!");
+		});
     });
 </script>
