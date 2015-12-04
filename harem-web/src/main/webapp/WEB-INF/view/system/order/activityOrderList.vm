@@ -191,7 +191,9 @@
       	return;
       });
       $('.detail').click(function() {
-      	alert("detail!!!! ");
+      	window.parent.tabsAddSub(
+      		201512034578,
+      		"/B2C/orderManage/activityOrder/201512034578",1,"活动订单"+201512034578+"详情");
       	return;
       });
     });
