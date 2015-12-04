@@ -27,7 +27,8 @@ public class GroupTravel {
 		// TODO YEBIN DO对象解析
 		LineDO line = lineResult.getLineDO();
 		RouteDO route = lineResult.getRouteDO();
-		this.baseInfo = new BaseInfo(line, route.getPicture(), comTagDOs);
+		String routeCoverUrl = "";// route.getPicture();
+		this.baseInfo = new BaseInfo(line, routeCoverUrl, comTagDOs);
 		this.tripInfo = parseTripInfo(route);
 		// priceInfo
 	}

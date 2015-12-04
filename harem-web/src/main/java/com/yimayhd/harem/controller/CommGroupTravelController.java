@@ -13,7 +13,7 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.GroupTravelService;
-import com.yimayhd.resourcecenter.service.RegionClientService;
+import com.yimayhd.ic.client.model.domain.share_json.LineOwnerType;
 
 /**
  * 商品-跟团游
@@ -27,8 +27,9 @@ public class CommGroupTravelController extends BaseController {
 	@Autowired
 	private GroupTravelService groupTravelService;
 
-/*	@Autowired
-	private RegionClientService regionClientService;*/
+	/*
+	 * @Autowired private RegionClientService regionClientService;
+	 */
 
 	/**
 	 * 详细信息页
@@ -40,6 +41,7 @@ public class CommGroupTravelController extends BaseController {
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
 	public String detail(@PathVariable(value = "id") long id) throws Exception {
 		if (id != 0) {
+			initBaseInfo();
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
 		}
@@ -54,43 +56,13 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create() throws Exception {
+		initBaseInfo();
 		return "/system/comm/travel/groupTravel/detail";
 	}
 
-	/**
-	 * 基本信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
-	public String baseInfo() throws Exception {
-		return "/system/comm/travel/baseInfo";
-	}
-
-	/**
-	 * 行程信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/tripInfo", method = RequestMethod.GET)
-	public String tripInfo() throws Exception {
-		return "/system/comm/travel/groupTravel/tripInfo";
-	}
-
-	/**
-	 * 价格信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/priceInfo", method = RequestMethod.GET)
-	public String priceInfo() throws Exception {
-		return "/system/comm/travel/priceInfo";
+	private void initBaseInfo() {
+		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
+		put("PT_MASTER", LineOwnerType.MASTER.getType());
 	}
 
 	/**

@@ -2,12 +2,14 @@ package com.yimayhd.harem.model.travel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 
 /**
  * 基本信息
@@ -22,10 +24,10 @@ public class BaseInfo {
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
 	private List<IdNamePair> tags;// 标签
-	private IdNamePair from;// 出发地
-	private IdNamePair to;// 目的地
-	private String publisherType;// 发布者类型
-	private Map<String, String> publisher;// 发布者
+	private long fromId;// 出发地
+	private long toId;// 目的地
+	private int publisherType;// 发布者类型
+	private long publisherId;// 发布者Id
 	private String highlights;// 亮点
 	private String recommond;// 代言
 	private List<ExtraInfo> extraInfos;// 报名须知
@@ -34,15 +36,32 @@ public class BaseInfo {
 	}
 
 	public BaseInfo(LineDO line, String routeCoverUrl, List<ComTagDO> comTagDOs) {
-		// TODO YEBIN 数据对象生成展示对象
 		this.id = line.getId();
 		this.type = line.getType();
 		this.name = line.getName();
 		this.productImage = line.getCoverUrl();
 		this.tripImage = routeCoverUrl;
-		this.tags = new ArrayList<IdNamePair>();
-		// 主题/tag别的接口
-
+		tags = new ArrayList<IdNamePair>();
+		if (comTagDOs != null) {
+			for (ComTagDO comTagDO : comTagDOs) {
+				tags.add(new IdNamePair(comTagDO.getId(), comTagDO.getName()));
+			}
+		}
+		this.fromId = line.getStartProvinceId();
+		this.toId = line.getDestProvinceId();
+		this.publisherType = line.getOwnerType();
+		this.publisherId = line.getOwnerId();
+		this.highlights = line.getDescription();
+		this.recommond = line.getRecommend();
+		this.extraInfos = new ArrayList<ExtraInfo>();
+		NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
+		List<TextItem> textItems = needKnow.getFrontNeedKnow();
+		this.extraInfos = new ArrayList<ExtraInfo>();
+		if (textItems != null) {
+			for (TextItem textItem : textItems) {
+				this.extraInfos.add(new ExtraInfo(textItem.getTitle(), textItem.getContent()));
+			}
+		}
 	}
 
 	/**
@@ -111,36 +130,12 @@ public class BaseInfo {
 		this.tags = tags;
 	}
 
-	public IdNamePair getFrom() {
-		return from;
-	}
-
-	public void setFrom(IdNamePair from) {
-		this.from = from;
-	}
-
-	public IdNamePair getTo() {
-		return to;
-	}
-
-	public void setTo(IdNamePair to) {
-		this.to = to;
-	}
-
-	public String getPublisherType() {
+	public int getPublisherType() {
 		return publisherType;
 	}
 
-	public void setPublisherType(String publisherType) {
+	public void setPublisherType(int publisherType) {
 		this.publisherType = publisherType;
-	}
-
-	public Map<String, String> getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(Map<String, String> publisher) {
-		this.publisher = publisher;
 	}
 
 	public String getHighlights() {
@@ -165,6 +160,30 @@ public class BaseInfo {
 
 	public void setExtraInfos(List<ExtraInfo> extraInfos) {
 		this.extraInfos = extraInfos;
+	}
+
+	public long getFromId() {
+		return fromId;
+	}
+
+	public void setFromId(long fromId) {
+		this.fromId = fromId;
+	}
+
+	public long getToId() {
+		return toId;
+	}
+
+	public void setToId(long toId) {
+		this.toId = toId;
+	}
+
+	public long getPublisherId() {
+		return publisherId;
+	}
+
+	public void setPublisherId(long publisherId) {
+		this.publisherId = publisherId;
 	}
 
 }

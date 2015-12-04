@@ -41,13 +41,13 @@
     			<tr >
     				<td>*发布人：</td>
                     <td>
-    					<span><input type="radio" value="1" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} != '2') checked #end><label for="publisherType1">怡美官方</label></span>
-    					<span><input type="radio" value="2" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} == '2') checked #end><label for="publisherType2">旅游咖</label></span>
+    					<span><input type="radio" value="$!{PT_DEFAULT}" id="publisherType1" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} != $!{PT_MASTER}) checked #end><label for="publisherType1">怡美官方</label></span>
+    					<span><input type="radio" value="$!{PT_MASTER}" id="publisherType2" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} == $!{PT_MASTER}) checked #end><label for="publisherType2">旅游咖</label></span>
     					<span class="travel-ka-panel" #if($!{product.baseInfo.publisherType} != 2) style="display:none;" #end>
     						<button class="btn btn-primary" id="selectTravelKa">请选择旅游咖</button>
     						<span class="travel-ka-content">
-								#if($!{product.baseInfo.publisher})
-									<span class='label label-badge label-info travel-ka' rId="$!{product.baseInfo.publisher.id}" rName="$!{product.baseInfo.publisher.name}">$!{product.baseInfo.publisher.name}</span>
+								#if($!{publisher} == 2)
+									<span class='label label-badge label-info travel-ka' rId="$!{publisher.id}" rName="$!{publisher.name}">$!{publisher.name}</span>
 								#end
 							</span>
 						</span>
@@ -236,9 +236,11 @@
 				recommond:recommond,
 				extraInfos:extra_infos
 			};
-			if(publisherType==2) {
+			if(publisherType==$!{PT_MASTER}) {
 				var travel_ka = $(".travel-ka");
-				result["publisher"] = {id:travel_ka.attr("rId"),name:travel_ka.attr("rName")};
+				result["publisherId"] = travel_ka.attr("rId");
+			} else {
+				result["publisherId"] = 0;
 			}
 			return result;
 		}

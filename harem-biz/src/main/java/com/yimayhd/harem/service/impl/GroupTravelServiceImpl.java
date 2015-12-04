@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
@@ -57,7 +56,7 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 			}
 			GroupTravel groupTravel = null;
 			try {
-				groupTravel = new GroupTravel(lineResult, null);
+				groupTravel = new GroupTravel(lineResult, tags);
 			} catch (Exception e) {
 				throw new BaseException("解析线路信息失败", e);
 			}

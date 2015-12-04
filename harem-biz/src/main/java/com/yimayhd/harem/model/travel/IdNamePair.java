@@ -7,16 +7,22 @@ package com.yimayhd.harem.model.travel;
  *
  */
 public class IdNamePair {
-	private String id;
+	private long id;
 	private String name;
 
-	
-	
-	public String getId() {
+	public IdNamePair() {
+	}
+
+	public IdNamePair(long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
