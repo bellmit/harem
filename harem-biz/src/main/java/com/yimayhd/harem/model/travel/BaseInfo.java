@@ -35,12 +35,11 @@ public class BaseInfo {
 	public BaseInfo() {
 	}
 
-	public BaseInfo(LineDO line, String routeCoverUrl, List<ComTagDO> comTagDOs) {
+	public BaseInfo(LineDO line, List<ComTagDO> comTagDOs) {
 		this.id = line.getId();
 		this.type = line.getType();
 		this.name = line.getName();
 		this.productImage = line.getCoverUrl();
-		this.tripImage = routeCoverUrl;
 		tags = new ArrayList<IdNamePair>();
 		if (comTagDOs != null) {
 			for (ComTagDO comTagDO : comTagDOs) {
@@ -54,12 +53,14 @@ public class BaseInfo {
 		this.highlights = line.getDescription();
 		this.recommond = line.getRecommend();
 		this.extraInfos = new ArrayList<ExtraInfo>();
-		NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
-		List<TextItem> textItems = needKnow.getFrontNeedKnow();
 		this.extraInfos = new ArrayList<ExtraInfo>();
-		if (textItems != null) {
-			for (TextItem textItem : textItems) {
-				this.extraInfos.add(new ExtraInfo(textItem.getTitle(), textItem.getContent()));
+		if (StringUtils.isNotBlank(line.getNeedKnow())) {
+			NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
+			List<TextItem> textItems = needKnow.getFrontNeedKnow();
+			if (textItems != null) {
+				for (TextItem textItem : textItems) {
+					this.extraInfos.add(new ExtraInfo(textItem.getTitle(), textItem.getContent()));
+				}
 			}
 		}
 	}

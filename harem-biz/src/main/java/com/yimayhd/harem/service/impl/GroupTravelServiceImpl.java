@@ -35,7 +35,7 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 
 	@Override
 	public GroupTravel getById(long id) throws Exception {
-		id = 6;
+		id = 7;
 		// TODO YEBIN 通过ID获取跟团游对象
 		if (id == 0) {
 			return null;
