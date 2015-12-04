@@ -78,18 +78,18 @@
         rules:{
             tradeId:{
                 number:true
-            },
-            endDate:{
-                compareDate:".startDate"
             }
+            /*endDate:{
+                compareDate:".startDate"
+            }*/
         },
         messages:{
             tradeId:{
                 number:"请输入正确的交易号"
-            },
-            endDate:{
-                compareDate:"结束日期必须大于开始日期!"
             }
+            /*endDate:{
+                compareDate:"结束日期必须大于开始日期!"
+            }*/
         },
         errorPlacement: function(error, element) {
             element.parent().parent().append (error);
@@ -120,7 +120,6 @@
                     $('.endDate').parent().parent().append('<label id="phone-error" class="error" for="phone">结束日期必须大于开始日期!</label>');
                     return false;
                 }
-
             }
             if($("#refundListForm").valid()){
                 $('#refundListForm').attr('action',actionDefaultPath + '/trade/refundManage/list')
@@ -129,6 +128,7 @@
         });
         $('.exportBtn').click(function(){
             if($("#refundListForm").valid()){
+                layer.alert("此功能还未开通哦")
                 /*window.open(actionDefaultPath + '/trade/tradeManage/pay/export');
                 $.get(actionDefaultPath + '/trade/tradeManage/pay/export',$("#payListForm").serialize(),function(){
 

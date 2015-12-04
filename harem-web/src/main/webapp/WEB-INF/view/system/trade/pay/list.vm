@@ -120,10 +120,11 @@
         });
         $('.exportBtn').click(function(){
             if($("#payListForm").valid()){
-                window.open(actionDefaultPath + '/trade/tradeManage/pay/export');
+                layer.alert("此功能还未开通哦")
+                /*window.open(actionDefaultPath + '/trade/tradeManage/pay/export');
                 $.get(actionDefaultPath + '/trade/tradeManage/pay/export',$("#payListForm").serialize(),function(){
 
-                });
+                });*/
             }
         });
     });

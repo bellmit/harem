@@ -164,8 +164,8 @@
         });
         $('.exportBtn').click(function(){
             if($("#tradeListForm").valid()){
-            top.tabsAdd('',actionDefaultPath + '/trade/tradeManage/order/' + $(this).attr('orderId'),2,$(this).text());
-
+            //top.tabsAdd('',actionDefaultPath + '/trade/tradeManage/order/' + $(this).attr('orderId'),2,$(this).text());
+                layer.alert("此功能还未开通哦")
             }
         });
 

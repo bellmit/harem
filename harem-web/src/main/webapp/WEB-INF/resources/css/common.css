@@ -41,7 +41,7 @@ table th,table td{min-width: 60px;padding: 8px 0 !important;}
 .alertPageNote{margin-bottom: 0;}
 
 /*标签页*/
-.tabsWrap{position: fixed;top: 42px;left: 0;width: 100%;z-index: 90;}
+.tabsWrap{position: fixed;top: 42px;left: 0;width: 100%;bottom: 10px;z-index: 90;overflow: auto;}
 .tabsWrap .dropdown{display: none;}
 .tabsWrap .dropdown .dropdown-menu{height: 250px;overflow: auto;}
 .tabsWrap #myTabList{background: #F5F5EF;height: 38px;margin-left: 200px;}
