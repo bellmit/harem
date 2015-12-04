@@ -17,7 +17,6 @@ public class BaseInfo {
 	private String name;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
-	private List<IdNamePair> themes;// 主题
 	private List<IdNamePair> tags;// 标签
 	private IdNamePair from;// 出发地
 	private IdNamePair to;// 目的地
@@ -39,24 +38,6 @@ public class BaseInfo {
 		}
 		for (IdNamePair tag : tags) {
 			if (id.equals(tag.getId())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * 包含某个theme
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public boolean containsTheme(String id) {
-		if (StringUtils.isBlank(id) || themes == null || themes.size() <= 0) {
-			return false;
-		}
-		for (IdNamePair theme : themes) {
-			if (id.equals(theme.getId())) {
 				return true;
 			}
 		}
@@ -101,14 +82,6 @@ public class BaseInfo {
 
 	public void setTripImage(String tripImage) {
 		this.tripImage = tripImage;
-	}
-
-	public List<IdNamePair> getThemes() {
-		return themes;
-	}
-
-	public void setThemes(List<IdNamePair> themes) {
-		this.themes = themes;
 	}
 
 	public List<IdNamePair> getTags() {
