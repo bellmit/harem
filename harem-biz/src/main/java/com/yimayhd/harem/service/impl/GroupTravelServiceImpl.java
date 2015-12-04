@@ -57,7 +57,7 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 			}
 			GroupTravel groupTravel = null;
 			try {
-				groupTravel = new GroupTravel(lineResult, tags);
+				groupTravel = new GroupTravel(lineResult, null);
 			} catch (Exception e) {
 				throw new BaseException("解析线路信息失败", e);
 			}

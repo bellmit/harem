@@ -57,8 +57,8 @@
     				<td>出发地：</td>
                     <td>
     					<select class="form-control from">
-                            <option value="北京_1" #if($!{product.baseInfo.from.id}=='1') selected #end>北京</option>
-							<option value="南京_2" #if($!{product.baseInfo.from.id}=='2') selected #end>南京</option>
+                            <option value="北京_1" #if($!{product.baseInfo.fromId}=='1') selected #end>北京</option>
+							<option value="南京_2" #if($!{product.baseInfo.fromId}=='2') selected #end>南京</option>
                          </select>
     				</td>
                 </tr>
@@ -66,8 +66,8 @@
     				<td>*目的地：</td>
                     <td>
     					<select class="form-control to">
-                            <option value="大理_3" #if($!{product.baseInfo.to.id}=='3') selected #end>大理</option>
-							<option value="丽江_4" #if($!{product.baseInfo.to.id}=='4') selected #end>丽江</option>
+                            <option value="大理_3" #if($!{product.baseInfo.toId}=='3') selected #end>大理</option>
+							<option value="丽江_4" #if($!{product.baseInfo.toId}=='4') selected #end>丽江</option>
                          </select>
     				</td>
     				</td>
