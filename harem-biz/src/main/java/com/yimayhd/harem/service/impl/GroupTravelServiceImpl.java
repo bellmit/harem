@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
@@ -43,16 +44,16 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 		LineResult lineResult = null;
 		lineResult = itemQueryServiceRef.getLineResult(id);
 		if (lineResult != null && lineResult.isSuccess()) {
-			BaseResult<List<ComTagRelationDO>> tagResult = comCenterServiceRef.getTagRelationByOutIdAndType(id,
+			BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.getTagInfoByOutIdAndType(id,
 					TagType.LINETAG.name());
-			List<ComTagRelationDO> tags = null;
+			List<ComTagDO> tags = null;
 			if (tagResult != null && tagResult.isSuccess()) {
 				tags = tagResult.getValue();
 			} else {
 				throw new BaseException("获取线路标签出错");
 			}
 			if (tags == null) {
-				tags = new ArrayList<ComTagRelationDO>();
+				tags = new ArrayList<ComTagDO>();
 			}
 			GroupTravel groupTravel = null;
 			try {

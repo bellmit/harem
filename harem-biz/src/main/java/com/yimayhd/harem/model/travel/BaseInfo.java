@@ -1,11 +1,12 @@
 package com.yimayhd.harem.model.travel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 
 /**
@@ -32,13 +33,14 @@ public class BaseInfo {
 	public BaseInfo() {
 	}
 
-	public BaseInfo(LineDO line, String routeCoverUrl, List<ComTagRelationDO> tagRelationDOs) {
+	public BaseInfo(LineDO line, String routeCoverUrl, List<ComTagDO> comTagDOs) {
 		// TODO YEBIN 数据对象生成展示对象
 		this.id = line.getId();
 		this.type = line.getType();
 		this.name = line.getName();
 		this.productImage = line.getCoverUrl();
 		this.tripImage = routeCoverUrl;
+		this.tags = new ArrayList<IdNamePair>();
 		// 主题/tag别的接口
 
 	}
