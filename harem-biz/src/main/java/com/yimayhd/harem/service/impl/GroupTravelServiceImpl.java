@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
@@ -36,7 +35,7 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 
 	@Override
 	public GroupTravel getById(long id) throws Exception {
-		id = 6;
+		id = 7;
 		// TODO YEBIN 通过ID获取跟团游对象
 		if (id == 0) {
 			return null;

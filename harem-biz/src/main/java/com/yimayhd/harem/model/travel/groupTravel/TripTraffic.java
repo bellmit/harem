@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 
 /**
@@ -27,6 +28,15 @@ public class TripTraffic {
 	private String from;
 	private String to;
 	private int way;
+
+	public TripTraffic() {
+	}
+
+	public TripTraffic(RouteTrafficInfo trafficInfo) {
+		this.from = trafficInfo.startCity;
+		this.to = trafficInfo.destCity;
+		this.way = RouteItemType.getByName(trafficInfo.type).getType();
+	}
 
 	public String getFrom() {
 		return from;
