@@ -3,7 +3,6 @@ package com.yimayhd.harem.model.travel.groupTravel;
 import java.util.List;
 
 import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
-import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.travel.BaseInfo;
 import com.yimayhd.harem.model.travel.PriceInfo;
 import com.yimayhd.ic.client.model.domain.LineDO;
@@ -24,17 +23,13 @@ public class GroupTravel {
 	public GroupTravel() {
 	}
 
-	public GroupTravel(LineResult lineResult, List<ComTagRelationDO> tagRelationDOs) throws BaseException {
+	public GroupTravel(LineResult lineResult, List<ComTagRelationDO> tagRelationDOs) throws Exception {
 		// TODO YEBIN DO对象解析
-		try {
-			LineDO line = lineResult.getLineDO();
-			RouteDO route = lineResult.getRouteDO();
-			this.baseInfo = new BaseInfo(line, route.getPicture(), tagRelationDOs);
-			this.tripInfo = parseTripInfo(route);
-			// priceInfo
-		} catch (Exception e) {
-			throw new BaseException("解析线路信息失败", e);
-		}
+		LineDO line = lineResult.getLineDO();
+		RouteDO route = lineResult.getRouteDO();
+		this.baseInfo = new BaseInfo(line, route.getPicture(), tagRelationDOs);
+		this.tripInfo = parseTripInfo(route);
+		// priceInfo
 	}
 
 	private static List<TripDay> parseTripInfo(RouteDO route) {

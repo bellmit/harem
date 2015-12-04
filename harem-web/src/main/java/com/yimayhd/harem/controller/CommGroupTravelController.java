@@ -27,8 +27,8 @@ public class CommGroupTravelController extends BaseController {
 	@Autowired
 	private GroupTravelService groupTravelService;
 
-	@Autowired
-	private RegionClientService regionClientService;
+/*	@Autowired
+	private RegionClientService regionClientService;*/
 
 	/**
 	 * 详细信息页
