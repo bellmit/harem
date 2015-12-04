@@ -30,7 +30,7 @@ public class DiscoveryManageController extends BaseController{
 	@RequestMapping("/index")
 	public String toDiscoveryIndex(Model model){
 		
-		Map<String , CfgResultVO> cfgResult = new HashMap<>();
+		Map<String , CfgResultVO> cfgResult = new HashMap<String , CfgResultVO>();
 		
 		CfgResultVO itemList = discoveryCfgService.getItemList();
 		CfgResultVO travelSpecialList = discoveryCfgService.getTravelSpecialList();
