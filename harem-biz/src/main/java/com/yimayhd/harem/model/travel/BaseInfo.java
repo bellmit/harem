@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
+import com.yimayhd.ic.client.model.domain.LineDO;
+
 /**
  * 基本信息
  * 
@@ -25,6 +28,20 @@ public class BaseInfo {
 	private String highlights;// 亮点
 	private String recommond;// 代言
 	private List<ExtraInfo> extraInfos;// 报名须知
+
+	public BaseInfo() {
+	}
+
+	public BaseInfo(LineDO line, String routeCoverUrl, List<ComTagRelationDO> tagRelationDOs) {
+		// TODO YEBIN 数据对象生成展示对象
+		this.id = line.getId();
+		this.type = line.getType();
+		this.name = line.getName();
+		this.productImage = line.getCoverUrl();
+		this.tripImage = routeCoverUrl;
+		// 主题/tag别的接口
+
+	}
 
 	/**
 	 * 包含某个tag

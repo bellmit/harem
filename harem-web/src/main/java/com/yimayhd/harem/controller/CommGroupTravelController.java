@@ -11,7 +11,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
+import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.GroupTravelService;
+import com.yimayhd.resourcecenter.service.RegionClientService;
 
 /**
  * 商品-跟团游
@@ -24,6 +26,9 @@ import com.yimayhd.harem.service.GroupTravelService;
 public class CommGroupTravelController extends BaseController {
 	@Autowired
 	private GroupTravelService groupTravelService;
+
+/*	@Autowired
+	private RegionClientService regionClientService;*/
 
 	/**
 	 * 详细信息页
@@ -120,6 +125,7 @@ public class CommGroupTravelController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectTraffic")
 	public String selectTraffic() throws Exception {
+		put("ways", TripTraffic.ways());
 		return "/system/comm/travel/groupTravel/selectTraffic";
 	}
 }
