@@ -30,13 +30,13 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">交易时间</button>
                     </span>
-                    <input type="text" class='form-control form-date startDate dateInp' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!tradeListQuery.beginDate">
+                    <input type="text" class='form-control form-date startDate dateInp' readonly name="beginDate" value="$!tradeListQuery.beginDate">
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                    <input type="text" class='form-control form-date dateInp endDate' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" value="$!tradeListQuery.endDate">
+                    <input type="text" class='form-control form-date dateInp endDate' readonly name="endDate" value="$!tradeListQuery.endDate">
                 </div>
 
                 <div class="btn-group">
-                    <button type="submit" id="btnSubmit" class="btn btn-primary">查询</button>
+                    <button id="btnSubmit" class="btn btn-primary">查询</button>
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn exportBtn">导出</button>
@@ -151,6 +151,13 @@
             top.tabsAdd('',$(this).attr('orderLinkUrl'),2,$(this).text());
         });
         $('#btnSubmit').click(function(){
+            if($('.startDate').val() && $('.endDate').val()){
+                if($('.startDate').val() > $('.endDate').val()){
+                    $('.endDate').parent().parent().append('<label id="phone-error" class="error" for="phone">结束日期必须大于开始日期!</label>');
+                    return false;
+                }
+
+            }
             if($("#tradeListForm").valid()){
                 $('#tradeListForm').submit();
             }

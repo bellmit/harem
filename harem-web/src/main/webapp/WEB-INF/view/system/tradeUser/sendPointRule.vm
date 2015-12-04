@@ -1,4 +1,4 @@
-<h1>赠送积分规则</h1>
+
     <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/PointManage/sendPointRule" method="GET" role="form">
         <div class="inputGroup whole">
             当前规则：

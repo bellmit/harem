@@ -12,9 +12,9 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">创建时间</button>
                     </span>
-                    <input type="text" class='form-control form-date dateInp startDate' placeholder='开始日期：yyyy-MM-dd' readonly name="beginDate" value="$!payListQuery.beginDate">
+                    <input type="text" class='form-control form-date dateInp startDate' readonly name="beginDate" value="$!payListQuery.beginDate">
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                    <input type="text" class='form-control form-date endDate dateInp' placeholder='结束日期：yyyy-MM-dd' readonly name="endDate" value="$!payListQuery.endDate">
+                    <input type="text" class='form-control form-date endDate dateInp' readonly name="endDate" value="$!payListQuery.endDate">
                 </div>
 
                 <div class="btn-group">

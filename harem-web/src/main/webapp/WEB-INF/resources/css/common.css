@@ -9,8 +9,8 @@ table th,table td{min-width: 60px;padding: 8px 0 !important;}
 .spColor{color: #ff0000;}
 
 
-.dateInp{background: #fff;}
-.dateInpCenter{padding: 0 10px;background: #f1f1f1;}
+.dateInp{background: #fff !important;}
+.dateInpCenter{padding: 0 10px !important;background: #f1f1f1 !important;}
 
 .inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;margin-bottom: 10px;}
 .whole{}
