@@ -42,6 +42,7 @@
 	<!-- home config -->
 	<bean class="com.yimayhd.harem.service.impl.HomeCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.PeripheryCfgServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.DiscoveryCfgServiceImpl"></bean>
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
 		</bean> -->
 	<!-- commodity -->

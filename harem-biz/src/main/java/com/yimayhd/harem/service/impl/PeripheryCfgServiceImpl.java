@@ -28,17 +28,17 @@ public class PeripheryCfgServiceImpl implements PeripheryCfgService{
 	/**
 	 * 俱乐部主题boothid
 	 */
-	private static final long HOME_CONFIG_CLUB_CATEGORY_BOOTH_ID = 71;
+	private static final long PERIPHERY_CONFIG_CLUB_CATEGORY_BOOTH_ID = 71;
 	
 	/**
 	 * 热门周边boothid
 	 */
-	private static final long HOME_CONFIG_CITY_BOOTH_ID = 72;
+	private static final long PERIPHERY_CONFIG_CITY_BOOTH_ID = 72;
 	
 	/**
 	 * 精彩活动boothid
 	 */
-	private static final long HOME_CONFIG_ACTIVITY_BOOTH_ID = 73;
+	private static final long PERIPHERY_CONFIG_ACTIVITY_BOOTH_ID = 73;
 
 	@Autowired
 	private ShowcaseClientServer showCaseClientServer;
@@ -48,52 +48,52 @@ public class PeripheryCfgServiceImpl implements PeripheryCfgService{
 	private static final Logger LOGGER = LoggerFactory.getLogger(PeripheryCfgServiceImpl.class);
 	
 	@Override
-	public RcResult<Boolean> addClubCategoryList(CfgBaseVO homeVipVO) {
+	public RcResult<Boolean> addClubCategoryList(CfgBaseVO cfgBaseVO) {
 		return null;
 	}
 
 	@Override
-	public RcResult<Boolean> addCityList(CfgBaseVO homeBaseVO) {
+	public RcResult<Boolean> addCityList(CfgBaseVO cfgBaseVO) {
 		return null;
 	}
 
 	@Override
-	public RcResult<Boolean> addActivityList(CfgBaseVO homeBaseVO) {
+	public RcResult<Boolean> addActivityList(CfgBaseVO cfgBaseVO) {
 		return null;
 	}
 
 	@Override
 	public CfgResultVO getClubCattegoryList() {
 		
-		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_CLUB_CATEGORY_BOOTH_ID);
+		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(PERIPHERY_CONFIG_CLUB_CATEGORY_BOOTH_ID);
 		
 		if(boothResult.isSuccess()){
 			
 
 			
-			CfgResultVO homeResultVO = new CfgResultVO();
+			CfgResultVO cfgResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
-			showCaseQuery.setBoothId(HOME_CONFIG_CLUB_CATEGORY_BOOTH_ID);
+			showCaseQuery.setBoothId(PERIPHERY_CONFIG_CLUB_CATEGORY_BOOTH_ID);
 			
 			showCaseQuery.setPageSize(100);
 			RCPageResult<ShowCaseResult> showcaseResult = showCaseClientServer.getShowcaseResult(showCaseQuery);
 			
 			BoothDO boothDO = boothResult.getT();
 			
-			homeResultVO.setBoothCode(boothDO.getCode());
-			homeResultVO.setBoothDesc(boothDO.getDesc());
-			homeResultVO.setBoothId(HOME_CONFIG_CLUB_CATEGORY_BOOTH_ID);
+			cfgResultVO.setBoothCode(boothDO.getCode());
+			cfgResultVO.setBoothDesc(boothDO.getDesc());
+			cfgResultVO.setBoothId(PERIPHERY_CONFIG_CLUB_CATEGORY_BOOTH_ID);
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<CfgResultInfo> homeCfgInfoList  = setBaseShowCase(showcaseResult.getList());
+				List<CfgResultInfo> peripheryCfgInfoList  = setBaseShowCase(showcaseResult.getList());
 				
-				homeResultVO.setCfgInfoList(homeCfgInfoList);
+				cfgResultVO.setCfgInfoList(peripheryCfgInfoList);
 			}
 			
-			return homeResultVO;
+			return cfgResultVO;
 		}
 		
 		
@@ -104,53 +104,53 @@ public class PeripheryCfgServiceImpl implements PeripheryCfgService{
 	@Override
 	public CfgResultVO getActivityList() {
 		
-		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_ACTIVITY_BOOTH_ID);
+		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(PERIPHERY_CONFIG_ACTIVITY_BOOTH_ID);
 		
 		if(boothResult.isSuccess()){
 			
 			
-			CfgResultVO homeResultVO = new CfgResultVO();
+			CfgResultVO peripheryCfgResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
-			showCaseQuery.setBoothId(HOME_CONFIG_ACTIVITY_BOOTH_ID);
+			showCaseQuery.setBoothId(PERIPHERY_CONFIG_ACTIVITY_BOOTH_ID);
 			
 			showCaseQuery.setPageSize(100);
 			RCPageResult<ShowCaseResult> showcaseResult = showCaseClientServer.getShowcaseResult(showCaseQuery);
 			
 			BoothDO boothDO = boothResult.getT();
 			
-			homeResultVO.setBoothCode(boothDO.getCode());
-			homeResultVO.setBoothDesc(boothDO.getDesc());
-			homeResultVO.setBoothId(HOME_CONFIG_ACTIVITY_BOOTH_ID);
+			peripheryCfgResultVO.setBoothCode(boothDO.getCode());
+			peripheryCfgResultVO.setBoothDesc(boothDO.getDesc());
+			peripheryCfgResultVO.setBoothId(PERIPHERY_CONFIG_ACTIVITY_BOOTH_ID);
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<CfgResultInfo> homeCfgInfoList = new ArrayList<CfgResultInfo>();
+				List<CfgResultInfo> peripheryCfgInfoList = new ArrayList<CfgResultInfo>();
 				
 				
-				CfgResultInfo homeResultInfo = null;
+				CfgResultInfo cfgResultInfo = null;
 				
 				List<ShowCaseResult> showCaseList = showcaseResult.getList();
 				
 				for (ShowCaseResult showCaseResult : showCaseList) {
 					
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-					homeResultInfo = new CfgResultInfo();
+					cfgResultInfo = new CfgResultInfo();
 					
 					SnsActivePageInfo activityInfo = JSON.parseObject(showcaseDO.getOperationContent(), SnsActivePageInfo.class);
 					
-					homeResultInfo.setItemId(activityInfo.getId());
-					homeResultInfo.setItemTitle(activityInfo.getClubName());
+					cfgResultInfo.setItemId(activityInfo.getId());
+					cfgResultInfo.setItemTitle(activityInfo.getClubName());
 					
-					homeCfgInfoList.add(homeResultInfo);
+					peripheryCfgInfoList.add(cfgResultInfo);
 				}
 				
 				
-				homeResultVO.setCfgInfoList(homeCfgInfoList);
+				peripheryCfgResultVO.setCfgInfoList(peripheryCfgInfoList);
 			}
 			
-			return homeResultVO;
+			return peripheryCfgResultVO;
 		}
 		
 		return null;
@@ -159,55 +159,56 @@ public class PeripheryCfgServiceImpl implements PeripheryCfgService{
 
 	@Override
 	public CfgResultVO getCityList() {
-RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_CITY_BOOTH_ID);
+		
+		RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(PERIPHERY_CONFIG_CITY_BOOTH_ID);
 		
 		if(boothResult.isSuccess()){
 			
 
 			
-			CfgResultVO homeResultVO = new CfgResultVO();
+			CfgResultVO cfgResultVO = new CfgResultVO();
 			
 			ShowcaseQuery showCaseQuery = new ShowcaseQuery();
 			
-			showCaseQuery.setBoothId(HOME_CONFIG_CITY_BOOTH_ID);
+			showCaseQuery.setBoothId(PERIPHERY_CONFIG_CITY_BOOTH_ID);
 			
 			showCaseQuery.setPageSize(100);
 			RCPageResult<ShowCaseResult> showcaseResult = showCaseClientServer.getShowcaseResult(showCaseQuery);
 			
 			BoothDO boothDO = boothResult.getT();
 			
-			homeResultVO.setBoothCode(boothDO.getCode());
-			homeResultVO.setBoothDesc(boothDO.getDesc());
-			homeResultVO.setBoothId(HOME_CONFIG_CITY_BOOTH_ID);
+			cfgResultVO.setBoothCode(boothDO.getCode());
+			cfgResultVO.setBoothDesc(boothDO.getDesc());
+			cfgResultVO.setBoothId(PERIPHERY_CONFIG_CITY_BOOTH_ID);
 			
 			if(showcaseResult.isSuccess()){
 				
-				List<CfgResultInfo> homeCfgInfoList = new ArrayList<CfgResultInfo>();
+				List<CfgResultInfo> cfgInfoList = new ArrayList<CfgResultInfo>();
 				
 				
-				CfgResultInfo homeResultInfo = null;
+				CfgResultInfo cfgResultInfo = null;
 				
 				List<ShowCaseResult> showCaseList = showcaseResult.getList();
 				
 				for (ShowCaseResult showCaseResult : showCaseList) {
 					
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-					homeResultInfo = new CfgResultInfo();
+					cfgResultInfo = new CfgResultInfo();
 					
 					CityInfo cityInfo = JSON.parseObject(showcaseDO.getOperationContent(), CityInfo.class);
 					
-					homeResultInfo.setItemId(cityInfo.id);
-					homeResultInfo.setItemTitle(cityInfo.name);
-					homeResultInfo.setItemImg(cityInfo.url);
+					cfgResultInfo.setItemId(cityInfo.id);
+					cfgResultInfo.setItemTitle(cityInfo.name);
+					cfgResultInfo.setItemImg(cityInfo.url);
 					
-					homeCfgInfoList.add(homeResultInfo);
+					cfgInfoList.add(cfgResultInfo);
 				}
 				
 				
-				homeResultVO.setCfgInfoList(homeCfgInfoList);
+				cfgResultVO.setCfgInfoList(cfgInfoList);
 			}
 			
-			return homeResultVO;
+			return cfgResultVO;
 		}
 		return null;
 	}
@@ -219,24 +220,24 @@ RcResult<BoothDO> boothResult = boothCilentServer.getBoothById(HOME_CONFIG_CITY_
 			return null;
 		}
 		
-		List<CfgResultInfo> homeResultInfos = new ArrayList<CfgResultInfo>();
+		List<CfgResultInfo> cfgResultInfos = new ArrayList<CfgResultInfo>();
 		
-		CfgResultInfo homeResultInfo = null;
+		CfgResultInfo cfgResultInfo = null;
 		
 		for (ShowCaseResult showCaseResult : showCaseList) {
 			
 			ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
-			homeResultInfo = new CfgResultInfo();
+			cfgResultInfo = new CfgResultInfo();
 			
-			homeResultInfo.setItemId(showcaseDO.getOperationId());
-			homeResultInfo.setItemImg(showcaseDO.getImgUrl());
-			homeResultInfo.setItemTitle(showcaseDO.getTitle());
-			homeResultInfo.setItemDesc(showcaseDO.getSummary());
+			cfgResultInfo.setItemId(showcaseDO.getOperationId());
+			cfgResultInfo.setItemImg(showcaseDO.getImgUrl());
+			cfgResultInfo.setItemTitle(showcaseDO.getTitle());
+			cfgResultInfo.setItemDesc(showcaseDO.getSummary());
 			
-			homeResultInfos.add(homeResultInfo);
+			cfgResultInfos.add(cfgResultInfo);
 		}
 		
 		
-		return homeResultInfos;
+		return cfgResultInfos;
 	}
 }

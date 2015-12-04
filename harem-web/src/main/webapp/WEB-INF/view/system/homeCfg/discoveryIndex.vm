@@ -22,9 +22,9 @@
                         <tr>
                             <td><span class="spColor">*</span>副标题</td>
                             <td>
-								<input type="hidden" name="boothId" value="$!peripheryCfg.clubCategoryList.boothId">
-								<input type="hidden" name="boothCode" value="$!peripheryCfg.clubCategoryList.boothCode">
-                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.clubCategoryList.boothDesc"><button type="button" class="btn btn-success selectItemBtn">选择伴手礼</button>
+								<input type="hidden" name="boothId" value="$!discoveryCfg.itemList.boothId">
+								<input type="hidden" name="boothCode" value="$!discoveryCfg.itemList.boothCode">
+                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!discoveryCfg.itemList.boothDesc"><button type="button" class="btn btn-success selectItemBtn">选择伴手礼</button>
                             </td>
                         </tr>
                         </tbody>
@@ -38,13 +38,13 @@
                         </tr>
                     	</thead>
                     	<tbody>
-							#foreach($clubCategory in $peripheryCfg.clubCategoryList.cfgInfoList)
+							#foreach($item in $discoveryCfg.itemList.cfgInfoList)
 								<tr >
-									<td><input type='text' name='itemTitle' readonly value='$clubCategory.itemTitle'></td>
+									<td><input type='text' name='itemTitle' readonly value='$item.itemTitle'></td>
 									<td>
-										<input type='hidden' name='itemIds' value='$!clubCategory.itemId'> <img id='' src='$!clubCategory.itemImg' width=100px height=80px alt='头像' >
-										<input type='file' name='file' class='fileInp' id='itemImg_$!clubCategory.itemId'>
-										<input type='hidden' id='url_itemImg_$!clubCategory.itemId' name='imgUrl' value='$!clubCategory.itemImg'>
+										<input type='hidden' name='itemIds' value='$!item.itemId'> <img id='' src='$!item.itemImg' width=100px height=80px alt='头像' >
+										<input type='file' name='file' class='fileInp' id='itemImg_$!item.itemId'>
+										<input type='hidden' id='url_itemImg_$!item.itemId' name='imgUrl' value='$!item.itemImg'>
 									</td>
     								<td class='delItem'><a>删除</a></td>
 								</tr>
@@ -70,9 +70,9 @@
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
-									<input type="hidden" name="boothId" value="$!peripheryCfg.cityList.boothId">
-									<input type="hidden" name="boothCode" value="$!peripheryCfg.cityList.boothCode">
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.cityList.boothDesc"> <button type="button" class="btn btn-success selectTravelSpecialBtn">选择游记</button>
+									<input type="hidden" name="boothId" value="$!discoveryCfg.travelSpecialList.boothId">
+									<input type="hidden" name="boothCode" value="$!discoveryCfg.travelSpecialList.boothCode">
+                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!discoveryCfg.travelSpecialList.boothDesc"> <button type="button" class="btn btn-success selectTravelSpecialBtn">选择游记</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -87,10 +87,10 @@
                             </tr>
                         	</thead>
                         	<tbody>
-								#foreach($city in $peripheryCfg.cityList.cfgInfoList)
+								#foreach($travelSpecia in $discoveryCfg.travelSpecialList.cfgInfoList)
 									<tr>
-										<td><input type='hidden' name='itemIds' value='$!city.itemId'>$!city.itemTitle</td>
-										<td>$!city.extName</td>
+										<td><input type='hidden' name='itemIds' value='$!travelSpecia.itemId'>$!travelSpecia.itemTitle</td>
+										<td>$!travelSpecia.extName</td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
                         	</tbody>
@@ -114,9 +114,9 @@
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
-									<input type="hidden" name="boothId" value="$!peripheryCfg.activityList.boothId">
-									<input type="hidden" name="boothCode" value="$!peripheryCfg.activityList.boothCode">
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.activityList.boothDesc"> <button type="button" class="btn btn-success selectSubjectBtn">选择直播</button>
+									<input type="hidden" name="boothId" value="$!discoveryCfg.subjectList.boothId">
+									<input type="hidden" name="boothCode" value="$!discoveryCfg.subjectList.boothCode">
+                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!discoveryCfg.subjectList.boothDesc"> <button type="button" class="btn btn-success selectSubjectBtn">选择直播</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -130,10 +130,10 @@
                         	</thead>
                         	<tbody>
 								
-								#foreach($activity in $peripheryCfg.activityList.cfgInfoList)
+								#foreach($subject in $discoveryCfg.subjectList.cfgInfoList)
 									<tr >
-										<td><input type='hidden' name='itemIds' value='$!activity.itemId'>
-											$!activity.itemTitle
+										<td><input type='hidden' name='itemIds' value='$!subject.itemId'>
+											$!subject.itemTitle
 										</td>
 										<td class='delItem'><a>删除</a></td>
 									</tr>
@@ -262,46 +262,46 @@
             
       
         
-        $('#clubCategorySubmit').click(function(){
+        $('#itemSubmit').click(function(){
             $(this).prop('disabled',true);
             $.ajax({
 				type:'post',
-				url:'addPeripheryClubCategory',
-				data:$("#clubCategoryForm").serialize(),
+				url:'addDiscoveryItem',
+				data:$("#itemForm").serialize(),
 				error:function(){
-					$("#clubCategorySubmit").attr("disabled",false);
+					$("#itemSubmit").attr("disabled",false);
 					alert('服务器忙，请稍后再试！');
 				},
 				success:function(data){
 				
 					if(data.status==200){
 						 layer.alert('操作成功');
-						 $("#clubCategorySubmit").attr("disabled",false);
+						 $("#itemSubmit").attr("disabled",false);
                     }else{
-                   		$("#clubCategorySubmit").attr("disabled",false);
+                   		$("#itemSubmit").attr("disabled",false);
                         layer.alert('操作失败');
                     }
 				}
 			});
         });
 		
-        $('#citySubmit').click(function(){
+        $('#travelSpecialSubmit').click(function(){
             $(this).prop('disabled',true);
             $.ajax({
 				type:'post',
-				url:'addPeripheryCity',
-				data:$("#cityForm").serialize(),
+				url:'addDiscoveryTravelSpecial',
+				data:$("#travelSpecialForm").serialize(),
 				error:function(){
-					$("#citySubmit").attr("disabled",false);
+					$("#travelSpecialSubmit").attr("disabled",false);
 					alert('服务器忙，请稍后再试！');
 				},
 				success:function(data){
 				
 					if(data.status==200){
 						 layer.alert('操作成功');
-						 $("#citySubmit").attr("disabled",false);
+						 $("#travelSpecialSubmit").attr("disabled",false);
                     }else{
-                   		$("#citySubmit").attr("disabled",false);
+                   		$("#travelSpecialSubmit").attr("disabled",false);
                         layer.alert('操作失败');
                     }
 				}
@@ -309,23 +309,23 @@
         });
 		
 		
-        $('#activitySubmit').click(function(){
+        $('#subjectSubmit').click(function(){
             $(this).prop('disabled',true);
             $.ajax({
 				type:'post',
-				url:'addPeripheryActivity',
-				data:$("#acivityForm").serialize(),
+				url:'addDisoverySubject',
+				data:$("#subjectForm").serialize(),
 				error:function(){
-					$("#activitySubmit").attr("disabled",false);
+					$("#subjectSubmit").attr("disabled",false);
 					alert('服务器忙，请稍后再试！');
 				},
 				success:function(data){
 				
 					if(data.status==200){
 						 layer.alert('操作成功');
-						 $("#activitySubmit").attr("disabled",false);
+						 $("#subjectSubmit").attr("disabled",false);
                     }else{
-                   		$("#activitySubmit").attr("disabled",false);
+                   		$("#subjectSubmit").attr("disabled",false);
                         layer.alert('操作失败');
                     }
 				}
@@ -356,8 +356,6 @@
                         var tfsPath = '$utilWebconfig.getTfsRootPath()';
 						$('#'+id).parent().find("img").attr("src",tfsPath + data.data)
                         $('#url_'+id).val(tfsPath + data.data);
-                       //$('#imgUploadUrl'+id).attr('src',tfsPath + data.data);
-
                     }else{
                         layer.alert('上传失败');
                     }

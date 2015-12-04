@@ -1,5 +1,9 @@
 package com.yimayhd.harem.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.vo.CfgBaseVO;
+import com.yimayhd.harem.model.vo.CfgResultVO;
+import com.yimayhd.harem.service.DiscoveryCfgService;
 
 /**
   * @autuor : xusq
@@ -17,9 +23,24 @@ import com.yimayhd.harem.model.vo.CfgBaseVO;
 @Controller
 @RequestMapping("/B2C/discoveryManage")
 public class DiscoveryManageController extends BaseController{
+	
+	@Autowired
+	private DiscoveryCfgService discoveryCfgService;
 
 	@RequestMapping("/index")
 	public String toDiscoveryIndex(Model model){
+		
+		Map<String , CfgResultVO> cfgResult = new HashMap<>();
+		
+		CfgResultVO itemList = discoveryCfgService.getItemList();
+		CfgResultVO travelSpecialList = discoveryCfgService.getTravelSpecialList();
+		CfgResultVO subjectList = discoveryCfgService.getSubjectList();
+		
+		cfgResult.put("itemList", itemList);
+		cfgResult.put("travelSpecialList", travelSpecialList);
+		cfgResult.put("subjectList", subjectList);
+		
+		model.addAttribute("discoveryCfg", cfgResult);
 		
 		return "/system/homeCfg/discoveryIndex";
 	}
@@ -43,7 +64,7 @@ public class DiscoveryManageController extends BaseController{
 	  */
 	@RequestMapping("/addDiscoveryTravelSpecial")
 	@ResponseBody
-	public ResponseVo addDiscoveryTravelSpecial(){
+	public ResponseVo addDiscoveryTravelSpecial(CfgBaseVO baseVO){
 		ResponseVo responseVo = new ResponseVo();
 		
 		return responseVo;
@@ -51,7 +72,7 @@ public class DiscoveryManageController extends BaseController{
 	
 	@RequestMapping("/addDisoverySubject")
 	@ResponseBody
-	public ResponseVo addDisoverySubject(){
+	public ResponseVo addDisoverySubject(CfgBaseVO baseVO){
 		ResponseVo responseVo = new ResponseVo();
 		
 		return responseVo;
