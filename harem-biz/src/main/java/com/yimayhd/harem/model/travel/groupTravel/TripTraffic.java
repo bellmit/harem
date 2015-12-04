@@ -1,7 +1,12 @@
 package com.yimayhd.harem.model.travel.groupTravel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
+
+import com.yimayhd.ic.client.model.enums.RouteItemType;
 
 /**
  * 交通方式
@@ -10,13 +15,13 @@ import java.util.TreeMap;
  *
  */
 public class TripTraffic {
-	public static final Map<Integer, String> WAYS = new TreeMap<Integer, String>();
+	private static final Map<Integer, String> WAYS = new TreeMap<Integer, String>();
 
 	static {
-		WAYS.put(0, "飞机");
-		WAYS.put(1, "火车");
-		WAYS.put(2, "巴士");
-		WAYS.put(3, "轮船");
+		WAYS.put(RouteItemType.PLANE.getType(), RouteItemType.PLANE.getDesc());
+		WAYS.put(RouteItemType.TRAIN.getType(), RouteItemType.TRAIN.getDesc());
+		WAYS.put(RouteItemType.BUS.getType(), RouteItemType.BUS.getDesc());
+		WAYS.put(RouteItemType.BOAT.getType(), RouteItemType.BOAT.getDesc());
 	}
 
 	private String from;
@@ -47,7 +52,21 @@ public class TripTraffic {
 		this.way = way;
 	}
 
+	/**
+	 * 获取交通方式的名称
+	 * 
+	 * @return
+	 */
 	public String wayName() {
 		return WAYS.get(way);
+	}
+
+	/**
+	 * 得到全部的交通方式
+	 * 
+	 * @return
+	 */
+	public static List<Entry<Integer, String>> ways() {
+		return new ArrayList<Entry<Integer, String>>(WAYS.entrySet());
 	}
 }

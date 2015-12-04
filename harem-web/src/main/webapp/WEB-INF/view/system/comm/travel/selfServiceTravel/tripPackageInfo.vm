@@ -7,7 +7,7 @@
 				<tr>
 					<td>
 						<div>
-							<input type="radio" value="0" id="no-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}==0) checked #end><label for="no-flight">无航班信息</label>
+							<input type="radio" value="0" id="no-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}!=1) checked #end><label for="no-flight">无航班信息</label>
                         </div>
 						<div>备注信息：</div>
 						<div>
@@ -16,7 +16,7 @@
                     </td>
 					<td>
 						<div>
-							<input type="radio" value="1" id="has-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}!=0) checked #end><label for="has-flight">有航班信息</label>
+							<input type="radio" value="1" id="has-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}==1) checked #end><label for="has-flight">有航班信息</label>
                         </div>
 						<div>
 							<button class='btn btn-primary add-flight'>添加航班信息</button>

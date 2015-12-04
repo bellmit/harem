@@ -1,5 +1,11 @@
 package com.yimayhd.harem.model.travel;
 
+/**
+ * 额外信息
+ * 
+ * @author yebin
+ *
+ */
 public class ExtraInfo {
 	private String title;
 	private String content;
