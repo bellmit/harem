@@ -55,24 +55,13 @@ $(function () {
         //获取验证码
         var strTxtVerify = encodeURI($("#loginVerify").val());
         //开始发送数据
-        $.ajax
-        ({ //请求登录处理页
-            url: '/login', //登录处理页
-            dataType: "json",
-            //传送请求数据
-            data: { username: strTxtName, password: strTxtPass ,verifyCode: strTxtVerify},
-            success: function (data) { //登录成功后返回的数据
-                //根据返回值进行状态显示
-                if (data && data.status == 0) {//注意是True,不是true
-                    //$(".clsShow").html("操作提示，登录成功！" + strValue);
-                    layer.alert("登陆成功");
-                    location.href = 'www.baidu.com';
-                }
-                else {
-                    //$("#divError").show().html("用户名或密码错误！" + strValue);
-                    layer.alert(data.message);
-                }
+
+        $.post(actionDefaultPath + '/login',{ username: strTxtName, password: strTxtPass ,verifyCode: strTxtVerify},function(data){
+            if (data && data.status == 0) {//注意是True,不是true
+                location.href = actionDefaultPath + '/main';
+            } else {
+                layer.alert(data.message);
             }
-        })
+        });
     })
 })

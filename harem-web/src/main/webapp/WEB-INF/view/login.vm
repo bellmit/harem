@@ -1,3 +1,4 @@
+#set($layout = "/system/layout/blank.vm")
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/css/login.css" rel="stylesheet" />
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.css" rel="stylesheet" />
 <div class="page-container">
@@ -28,6 +29,8 @@
     </form>
 
 </div>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.js"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/layer-v2.1/layer.js"></script>
 <script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.3.2.7.min.js"></script>
 <script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.cookie.js"></script>
 #*<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/verify.js"></script>*#

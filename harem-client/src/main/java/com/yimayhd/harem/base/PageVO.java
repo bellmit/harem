@@ -19,6 +19,10 @@ public class PageVO<T> implements Serializable {
 
 	private Paginator paginator;
 
+	public PageVO(){
+
+	}
+
 	public PageVO(int pageNumber, int pageSize, int totalCount) {
 		this(pageNumber, pageSize, totalCount, new ArrayList<T>(0));
 	}

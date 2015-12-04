@@ -16,18 +16,6 @@
                 </div>
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">会员名</button>
-                    </span>
-                    <input type="text" class="form-control" name="userName" value="$!tradeListQuery.userName">
-                </div>
-                <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">终端编号</button>
-                    </span>
-                    <input type="text" class="form-control" name="terminalName" value="$!tradeListQuery.terminalName">
-                </div>
-                <div class="input-group inpSingle">
-                    <span class="input-group-btn">
                         <button class="btn btn-default" type="button">交易时间</button>
                     </span>
                     <input type="text" class='form-control form-date startDate dateInp' readonly name="beginDate" value="$!tradeListQuery.beginDate">

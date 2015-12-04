@@ -2,18 +2,15 @@ package com.yimayhd.harem.controller.loginout;
 
 import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.enums.UserType;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionUtils;
-import net.pocrd.util.Md5Util;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

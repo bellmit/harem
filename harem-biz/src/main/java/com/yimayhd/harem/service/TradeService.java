@@ -38,7 +38,7 @@ public interface TradeService {
      * @param payListQuery
      * @return
      */
-    void exportPayOrderList(HttpServletResponse response,PayListQuery payListQuery)throws Exception;
+    List<PayOrderDO> exportPayOrderList(PayListQuery payListQuery)throws Exception;
 
     /**
      * 根据交易id获取详情

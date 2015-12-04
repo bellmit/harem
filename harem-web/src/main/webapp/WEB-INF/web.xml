@@ -19,14 +19,14 @@
     </listener>
 
 
-    <!-- <filter>
+     <filter>
         <filter-name>springSessionRepositoryFilter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>springSessionRepositoryFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping> -->
+    </filter-mapping>
 
     <filter>
         <filter-name>VerifyCodeFilter</filter-name>
@@ -37,7 +37,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-   <!-- <filter>
+    <filter>
         <filter-name>sessionFilter</filter-name>
         <filter-class>com.yimayhd.user.session.manager.SessionFilter</filter-class>
         <init-param>
@@ -48,12 +48,15 @@
             <param-name>staticSuffix</param-name>
             <param-value>css,js,jpg,png,jpeg,gif,html,xhtml</param-value>
         </init-param>
+        <init-param>
+            <param-name>notLoginUrl</param-name>
+            <param-value>/toLogin</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>sessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping> -->
-
+    </filter-mapping>
 
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
@@ -71,6 +74,7 @@
             <param-name>forceEncoding</param-name>
             <param-value>true</param-value>
         </init-param>
+
     </filter>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
@@ -95,10 +99,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- 默认首页   -->
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
 
 
 </web-app>

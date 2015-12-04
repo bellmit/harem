@@ -31,60 +31,6 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private HaMenuService haMenuService;
-
-	/**
-	 * 没有权限页面
-	 *
-	 * @return 登录页面
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/user/noPower", method = RequestMethod.GET)
-	public String toNoPower(Model model,String urlName) throws Exception {
-			model.addAttribute("message","没有"+ urlName +"权限，请联系管理员");
-		return "/system/error";
-	}
-
-	/**
-	 * 登录页面
-	 * 
-	 * @return 登录页面
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/trade/userManage/toLogin", method = RequestMethod.GET)
-	public String toLogin(User user) throws Exception {
-		return "/system/user/login";
-	}
-
-	/**
-	 * 登录
-	 * 
-	 * @param user
-	 *            用户的信息
-	 * @return 成功信息
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/trade/userManage/login", method = RequestMethod.GET)
-	public String loginTest(User user, Model model) throws Exception {
-		System.out.println(user.getUserName());
-		System.out.println(user.getPassword());
-		System.out.println(user.getGmtCreated());
-		List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(10);
-		model.addAttribute("menuList", haMenuDOList);
-		return "/system/layout/layout";
-	}
-
-	/**
-	 * 登录后的欢迎页
-	 * 
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/trade/userManage/welcome", method = RequestMethod.GET)
-	public String welcome() throws Exception {
-		return "/system/welcome";
-	}
-
 	/**
 	 * 用户列表
 	 * 

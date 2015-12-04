@@ -6,8 +6,12 @@ import com.yimayhd.harem.model.BizOrderVO;
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
 import com.yimayhd.harem.service.TradeService;
+import com.yimayhd.harem.util.excel.JxlFor2003;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.user.session.manager.SessionUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.mina.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,7 +84,19 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/pay/export", method = RequestMethod.GET)
 	public void payListExport(HttpServletRequest request,HttpServletResponse response,PayListQuery payListQuery) throws Exception {
-		tradeService.exportPayOrderList(response,payListQuery);
+		SessionUtils.getUserId();
+		List<PayOrderDO> payOrderDOList = tradeService.exportPayOrderList(payListQuery);
+		if(payOrderDOList.size() > 0) {
+			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
+			headList.add(new BasicNameValuePair("tradeNo", "交易号"));
+			headList.add(new BasicNameValuePair("id", "商户订单号"));
+			headList.add(new BasicNameValuePair("subject", "商品信息"));
+			headList.add(new BasicNameValuePair("buyerAccount", "对方账号"));
+			headList.add(new BasicNameValuePair("totalAmount", "交易金额"));
+			headList.add(new BasicNameValuePair("payStatus", "状态"));
+			JxlFor2003.exportExcel(response, "payList.xls", payOrderDOList, headList);
+		}
+
 
 	}
 

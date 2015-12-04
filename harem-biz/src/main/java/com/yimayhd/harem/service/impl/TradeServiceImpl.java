@@ -21,6 +21,7 @@ import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -44,8 +45,20 @@ public class TradeServiceImpl implements TradeService {
     private UserService userServiceRef;
     @Override
     public PageVO<BizOrderVO> getOrderList(TradeListQuery tradeListQuery) throws Exception{
+        //返回结果
+        PageVO<BizOrderVO> pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),0);
         //查询条件对接
         OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
+        if(!StringUtils.isBlank(tradeListQuery.getPhone())){
+            //根据手机号查询用户
+            BaseResult<UserDO> baseResult = userServiceRef.getUserDOByMobile(tradeListQuery.getPhone());
+            if(null != baseResult || baseResult.isSuccess()){
+                //用户不存在的话直接返回空记录
+                return pageVO;
+            }
+            orderQueryDTO.setBuyerId(baseResult.getValue().getId());
+        }
+
         //TODO 商家ID
         orderQueryDTO.setSellerId((long) 1);
         orderQueryDTO.setOrderBizTypes(new int[]{OrderBizType.MEMBER_RECHARGE.getBizType(), OrderBizType.BUSINESS_OUT.getBizType()});
@@ -61,9 +74,12 @@ public class TradeServiceImpl implements TradeService {
         }
         orderQueryDTO.setPageNo(tradeListQuery.getPageNumber());
         orderQueryDTO.setPageSize(tradeListQuery.getPageSize());
+
+
+
         //调用接口
         BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrderForSeller(orderQueryDTO);
-        PageVO<BizOrderVO> pageVO = null;
+
         List<BizOrderVO> bizOrderVOList = new ArrayList<BizOrderVO>();
         if(null != batchQueryResult && batchQueryResult.isSuccess()) {
             //查会员
@@ -91,6 +107,8 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public void exportOrderList(HttpServletResponse response, TradeListQuery tradeListQuery) throws Exception {
+        //返回结果
+        PageVO<BizOrderDO> pageVO = new PageVO<BizOrderDO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),0);
         //查询条件对接
         OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
         //TODO 商家ID
@@ -109,7 +127,7 @@ public class TradeServiceImpl implements TradeService {
         orderQueryDTO.setPageNo(tradeListQuery.getPageNumber());
         orderQueryDTO.setPageSize(tradeListQuery.getPageSize());
         BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrderForSeller(orderQueryDTO);
-        PageVO<BizOrderDO> pageVO = null;
+
         if(null != batchQueryResult && batchQueryResult.isSuccess()) {
             //TODO
         }else{
@@ -120,6 +138,7 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public PageVO<PayOrderDO> getPayOrderList(PayListQuery payListQuery)throws Exception{
+        PageVO<PayOrderDO> pageVO = new PageVO<PayOrderDO>(payListQuery.getPageNumber(),payListQuery.getPageSize(),0);
         PayOrderQuery payOrderQuery = new PayOrderQuery();
         if(null != payListQuery.getBizOrderId()) {
             payOrderQuery.setBizOrderId(payListQuery.getBizOrderId());
@@ -135,7 +154,6 @@ public class TradeServiceImpl implements TradeService {
             payOrderQuery.setEndDate(DateUtil.formatMaxTimeForDate(payListQuery.getEndDate()));
         }
         PayPageResultDTO<PayOrderDO> payPageResultDTO = QueryPayOrderServiceRef.getPayOrderResult(payOrderQuery);
-        PageVO<PayOrderDO> pageVO = null;
         if(null != payPageResultDTO && payPageResultDTO.isSuccess()) {
             pageVO = new PageVO<PayOrderDO>(payListQuery.getPageSize(),payPageResultDTO.getTotalCount(),payPageResultDTO.getPageNo(),payPageResultDTO.getList());
         }
@@ -144,13 +162,15 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public void exportPayOrderList(HttpServletResponse response,PayListQuery payListQuery) throws Exception {
+    public List<PayOrderDO> exportPayOrderList(PayListQuery payListQuery) throws Exception {
+        List<PayOrderDO> payOrderDOList = new ArrayList<PayOrderDO>();
         PayOrderQuery payOrderQuery = new PayOrderQuery();
         payOrderQuery.setBizOrderId(payListQuery.getBizOrderId());
         //TODO SessionUtil商家ID
         payOrderQuery.setSellerId(10000000);
         //导出10000条
         payOrderQuery.setPageSize(10000);
+        payOrderQuery.setPageNo(1);
         if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setStartDate(DateUtil.formatMaxTimeForDate(payListQuery.getBeginDate()));
         }
@@ -159,16 +179,9 @@ public class TradeServiceImpl implements TradeService {
         }
         PayPageResultDTO<PayOrderDO> payPageResultDTO = QueryPayOrderServiceRef.getPayOrderResult(payOrderQuery);
         if(null != payPageResultDTO && payPageResultDTO.isSuccess()) {
-            List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
-            headList.add(new BasicNameValuePair("tradeNo", "交易号"));
-            headList.add(new BasicNameValuePair("id", "商户订单号"));
-            headList.add(new BasicNameValuePair("subject", "商品信息"));
-            headList.add(new BasicNameValuePair("buyerAccount", "对方账号"));
-            headList.add(new BasicNameValuePair("totalAmount", "交易金额"));
-            headList.add(new BasicNameValuePair("payStatus", "状态"));
-            JxlFor2003.exportExcel(response, "payList.xls", payPageResultDTO.getList(), headList);
-
+            payOrderDOList = payPageResultDTO.getList();
         }
+        return payOrderDOList;
 
     }
 
