@@ -40,7 +40,7 @@
                     	<tbody>
 							#foreach($item in $discoveryCfg.itemList.cfgInfoList)
 								<tr >
-									<td><input type='text' name='itemTitle' readonly value='$item.itemTitle'></td>
+									<td>$item.itemTitle</td>
 									<td>
 										<input type='hidden' name='itemIds' value='$!item.itemId'> <img id='' src='$!item.itemImg' width=100px height=80px alt='头像' >
 										<input type='file' name='file' class='fileInp' id='itemImg_$!item.itemId'>
@@ -80,7 +80,6 @@
                         <table class="table travelSpecialTable">
                         	<thead>
                         		<tr>
-                                <td>游记图片</td>
                                 <td>游记标题</td>
                                 <td>用户</td>
                                 <td>操作</td>
