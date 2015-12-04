@@ -26,7 +26,7 @@ public class PointRuleServiceImpl implements PointRuleService {
         IMallPointRuleQuery iMallPointRuleQuery = new IMallPointRuleQuery();
         //TODO 商家ID
         iMallPointRuleQuery.setVendorId(1);
-        TCResultDTO<IMallPointRuleResult> tcResultDTO = iMallHaremServiceRef.queryRuleDetail(iMallPointRuleQuery);
+        TCResultDTO<IMallPointRuleResult> tcResultDTO = iMallHaremServiceRef.queryValidRuleBySellerId(iMallPointRuleQuery);
         IMallPointRuleResult iMallPointRuleResult = null;
         if(null != tcResultDTO && tcResultDTO.isSuccess()) {
             iMallPointRuleResult = tcResultDTO.getT();
@@ -55,6 +55,7 @@ public class PointRuleServiceImpl implements PointRuleService {
     public boolean add(IMallPointRuleVO iMallPointRuleVO) throws Exception {
         //TODO 商家ID
         IMallPointRuleDTO iMallPointRuleDTO = IMallPointRuleVO.getIMallPointRuleDTO(iMallPointRuleVO);
+        iMallPointRuleDTO.setVendorId(1);
         //TODO 元换算分
         TCResultDTO<IMallPointRuleResult> tcResultDTO= iMallHaremServiceRef.addPointRule(iMallPointRuleDTO);
         if(null != tcResultDTO && tcResultDTO.isSuccess()) {

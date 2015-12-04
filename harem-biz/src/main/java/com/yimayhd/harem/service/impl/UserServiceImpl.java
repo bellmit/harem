@@ -79,8 +79,9 @@ public class UserServiceImpl implements UserService {
 		//查询条件转换
 		MerchantPageQueryVO merchantPageQueryVO = new MerchantPageQueryVO();
 		//TODO 商户ID
-		merchantPageQueryVO.setMerchantId((long) 1);
-		merchantPageQueryVO.setMerchantUserId(tradeMemberQuery.getMerchantUserId());
+		merchantPageQueryVO.setMerchantUserId((long) 123456789);
+		merchantPageQueryVO.setPageNo(tradeMemberQuery.getPageNumber());
+		merchantPageQueryVO.setPageSize(tradeMemberQuery.getPageSize());
 		if(!StringUtils.isBlank(tradeMemberQuery.getNickName())){
 			merchantPageQueryVO.setNickName(tradeMemberQuery.getNickName());
 		}

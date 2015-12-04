@@ -56,7 +56,7 @@ public class TradeServiceImpl implements TradeService {
         if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
             orderQueryDTO.setStartDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getBeginDate()));
         }
-        if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(tradeListQuery.getEndDate())) {
             orderQueryDTO.setEndDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getEndDate()));
         }
         orderQueryDTO.setPageNo(tradeListQuery.getPageNumber());
@@ -103,7 +103,7 @@ public class TradeServiceImpl implements TradeService {
         if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
             orderQueryDTO.setStartDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getBeginDate()));
         }
-        if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(tradeListQuery.getEndDate())) {
             orderQueryDTO.setEndDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getEndDate()));
         }
         orderQueryDTO.setPageNo(tradeListQuery.getPageNumber());
@@ -131,7 +131,7 @@ public class TradeServiceImpl implements TradeService {
         if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setStartDate(DateUtil.formatMaxTimeForDate(payListQuery.getBeginDate()));
         }
-        if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
+        if(!StringUtils.isBlank(payListQuery.getEndDate())) {
             payOrderQuery.setEndDate(DateUtil.formatMaxTimeForDate(payListQuery.getEndDate()));
         }
         PayPageResultDTO<PayOrderDO> payPageResultDTO = QueryPayOrderServiceRef.getPayOrderResult(payOrderQuery);
@@ -154,7 +154,7 @@ public class TradeServiceImpl implements TradeService {
         if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setStartDate(DateUtil.formatMaxTimeForDate(payListQuery.getBeginDate()));
         }
-        if (!StringUtils.isBlank(payListQuery.getBeginDate())) {
+        if (!StringUtils.isBlank(payListQuery.getEndDate())) {
             payOrderQuery.setEndDate(DateUtil.formatMaxTimeForDate(payListQuery.getEndDate()));
         }
         PayPageResultDTO<PayOrderDO> payPageResultDTO = QueryPayOrderServiceRef.getPayOrderResult(payOrderQuery);
