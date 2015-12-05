@@ -75,11 +75,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDO> getMemberByUserId(TradeMemberQuery tradeMemberQuery) throws Exception {
+	public List<UserDO> getMemberByUserId(long sellerId,TradeMemberQuery tradeMemberQuery) throws Exception {
 		//查询条件转换
 		MerchantPageQueryVO merchantPageQueryVO = new MerchantPageQueryVO();
-		//TODO 商户ID
-		merchantPageQueryVO.setMerchantUserId((long) 123456789);
+		merchantPageQueryVO.setMerchantUserId(sellerId);
 		merchantPageQueryVO.setPageNo(tradeMemberQuery.getPageNumber());
 		merchantPageQueryVO.setPageSize(tradeMemberQuery.getPageSize());
 		if(!StringUtils.isBlank(tradeMemberQuery.getNickName())){

@@ -22,7 +22,7 @@
                     #foreach($sendPointRule in $sendPointRuleList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>1积分=$!utilNum.moneyTransform($!sendPointRule.payment)RMB</td>
+                        <td>$!utilNum.moneyTransform($!sendPointRule.payment)RMB = 1积分</td>
                         <td>$!sendPointRule.validityDays</td>
                         <td>$!user.vendorName</td>
                         <td>$!utilDate.dateToString($!sendPointRule.beginTime,"yyyy-MM-dd HH:mm:ss")</td>

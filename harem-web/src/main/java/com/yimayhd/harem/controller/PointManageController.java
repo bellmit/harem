@@ -8,12 +8,15 @@ import com.yimayhd.harem.model.SendPointRule;
 import com.yimayhd.harem.model.UsePointRule;
 import com.yimayhd.harem.service.PointRuleService;
 import com.yimayhd.tradecenter.client.model.result.imall.pointrule.IMallPointRuleResult;
+import com.yimayhd.user.session.manager.SessionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -38,9 +41,12 @@ public class PointManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/sendPointRule/list", method = RequestMethod.GET)
-	public String sendPointRule(Model model,BaseQuery baseQuery) throws Exception {
-		IMallPointRuleResult iMallPointRuleResult = pointRuleService.getSendPointRuleNow();
-		PageVO<IMallPointRuleResult> pageVO = pointRuleService.getSendPointRuleHistory(baseQuery);
+	public String sendPointRule(HttpServletRequest request,Model model,BaseQuery baseQuery) throws Exception {
+		//TODO
+		//long sellerId = StringUtils.isBlank(SessionUtils.getUserId()) ? 1 :Long.parseLong(SessionUtils.getUserId());
+		long sellerId = 1;
+		IMallPointRuleResult iMallPointRuleResult = pointRuleService.getSendPointRuleNow(sellerId);
+		PageVO<IMallPointRuleResult> pageVO = pointRuleService.getSendPointRuleHistory(sellerId,baseQuery);
 		model.addAttribute("sendPointRule", iMallPointRuleResult);
 		model.addAttribute("sendPointRuleList", pageVO.getItemList());
 		return "/system/tradeUser/sendPointRule";
@@ -64,8 +70,11 @@ public class PointManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/sendPointRule/add", method = RequestMethod.POST)
-	public String sendPointRuleAdd(IMallPointRuleVO iMallPointRuleVO) throws Exception {
-		boolean success = pointRuleService.add(iMallPointRuleVO);
+	public String sendPointRuleAdd(HttpServletRequest request,IMallPointRuleVO iMallPointRuleVO) throws Exception {
+		//TODO
+		//long sellerId = StringUtils.isBlank(SessionUtils.getUserId()) ? 1 :Long.parseLong(SessionUtils.getUserId());
+		long sellerId = 1;
+		boolean success = pointRuleService.add(sellerId,iMallPointRuleVO);
 		if(success){
 			return "/success";
 		}

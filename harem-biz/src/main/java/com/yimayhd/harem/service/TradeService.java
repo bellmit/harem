@@ -16,29 +16,33 @@ import java.util.List;
 public interface TradeService {
     /**
      * 获取交易列表(可带查询条件)
+     * @param sellerId 商家ID
      * @return 交易列表
      */
-    PageVO<BizOrderVO> getOrderList(TradeListQuery tradeListQuery)throws Exception;
+    PageVO<BizOrderVO> getOrderList(long sellerId,TradeListQuery tradeListQuery)throws Exception;
     /**
      * 导出交易列表
+     * @param sellerId 商家ID
      * @param tradeListQuery
      * @return
      */
-    void exportOrderList(HttpServletResponse response,TradeListQuery tradeListQuery)throws Exception;
+    List<BizOrderDO> exportOrderList(long sellerId,TradeListQuery tradeListQuery)throws Exception;
 
     /**
      * 支付列表
+     * @param sellerId 商家ID
      * @param payListQuery
      * @return
      */
-    PageVO<PayOrderDO> getPayOrderList(PayListQuery payListQuery)throws Exception;
+    PageVO<PayOrderDO> getPayOrderList(long sellerId,PayListQuery payListQuery)throws Exception;
 
     /**
      * 导出支付列表
+     * @param sellerId 商家ID
      * @param payListQuery
      * @return
      */
-    List<PayOrderDO> exportPayOrderList(PayListQuery payListQuery)throws Exception;
+    List<PayOrderDO> exportPayOrderList(long sellerId,PayListQuery payListQuery)throws Exception;
 
     /**
      * 根据交易id获取详情

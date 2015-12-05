@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by czf on 2015/10/27.
@@ -22,10 +24,10 @@ public class RefundServiceImpl implements RefundService {
     @Autowired
     private IMallHaremService iMallHaremServiceRef;
     @Override
-    public PageVO<IMallRefundRecordDO> getList(RefundListQuery refundListQuery) throws Exception{
+    public PageVO<IMallRefundRecordDO> getList(long sellerId,RefundListQuery refundListQuery) throws Exception{
+        //查询条件
         IMallRefundRecordQuery tcRefundRecordQuery = new IMallRefundRecordQuery();
-        //TODO 商家ID
-        tcRefundRecordQuery.setSellerId((long) 1);
+        tcRefundRecordQuery.setSellerId(sellerId);
         if(!StringUtils.isEmpty(refundListQuery.getTradeId())){
             tcRefundRecordQuery.setTradeId(refundListQuery.getTradeId());
         }
@@ -39,6 +41,7 @@ public class RefundServiceImpl implements RefundService {
         tcRefundRecordQuery.setPageSize(refundListQuery.getPageSize());
 
         TCPageResult<IMallRefundRecordDO> tcPageResult = iMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
+        //返回结果
         PageVO<IMallRefundRecordDO> pageVO = null;
         if(null != tcPageResult && tcPageResult.isSuccess()) {
             pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(), (int) tcPageResult.getTotalCount(), tcPageResult.getList());
@@ -47,21 +50,27 @@ public class RefundServiceImpl implements RefundService {
     }
 
     @Override
-    public Refund getById(long refundId) throws Exception {
-        Refund refundData = new Refund();
-        refundData.setRefundNO("2008100109");//交易编号
-        refundData.setUserName("张三");
-        refundData.setPhone("18618162075");
-        refundData.setRefundMoney(BigDecimal.valueOf(488.88));
-        refundData.setShouldRefundPoint(BigDecimal.valueOf(400));
-        refundData.setAvailablePoint(BigDecimal.valueOf(200));
-        refundData.setDeductMoneyOffsetPoint(BigDecimal.valueOf(20));
-        refundData.setFactRefundMoney(BigDecimal.valueOf(468.88));
-        refundData.setRefundTime(new Date());
-        refundData.setRefundStatus(1);
-        refundData.setOperatorName("李四");
-        refundData.setRemark("重复下单");
-        return refundData;
+    public List<IMallRefundRecordDO> exportRefundList(long sellerId, RefundListQuery refundListQuery) throws Exception {
+        //返回结果
+        List<IMallRefundRecordDO> iMallRefundRecordDOList = null;
+        //查询条件
+        IMallRefundRecordQuery tcRefundRecordQuery = new IMallRefundRecordQuery();
+        tcRefundRecordQuery.setSellerId(sellerId);
+        if(!StringUtils.isEmpty(refundListQuery.getTradeId())){
+            tcRefundRecordQuery.setTradeId(refundListQuery.getTradeId());
+        }
+        if(!StringUtils.isEmpty(refundListQuery.getBeginDate())) {
+            tcRefundRecordQuery.setGmtCreatedStart(DateUtil.formatMaxTimeForDate(refundListQuery.getBeginDate()));
+        }
+        if(!StringUtils.isEmpty(refundListQuery.getEndDate())) {
+            tcRefundRecordQuery.setGmtCreatedEnd(DateUtil.formatMaxTimeForDate(refundListQuery.getEndDate()));
+        }
+        tcRefundRecordQuery.setCurrentPage(1);
+        tcRefundRecordQuery.setPageSize(10000);
+        TCPageResult<IMallRefundRecordDO> tcPageResult = iMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
+        if(null != tcPageResult && tcPageResult.isSuccess()) {
+            iMallRefundRecordDOList = tcPageResult.getList();
+        }
+        return iMallRefundRecordDOList;
     }
-
 }
