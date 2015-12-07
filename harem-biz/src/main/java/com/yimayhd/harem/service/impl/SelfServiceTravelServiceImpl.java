@@ -13,7 +13,6 @@ public class SelfServiceTravelServiceImpl extends TravelServiceImpl implements S
 
 	@Override
 	public SelfServiceTravel getById(long id) throws Exception {
-		id = 3;
 		return getById(id, SelfServiceTravel.class);
 	}
 

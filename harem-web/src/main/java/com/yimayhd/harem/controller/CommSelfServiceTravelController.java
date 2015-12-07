@@ -2,12 +2,13 @@ package com.yimayhd.harem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
 import com.yimayhd.harem.service.SelfServiceTravelService;
 
@@ -19,7 +20,7 @@ import com.yimayhd.harem.service.SelfServiceTravelService;
  */
 @Controller
 @RequestMapping("/B2C/comm/selfServiceTravel")
-public class CommSelfServiceTravelController extends BaseController {
+public class CommSelfServiceTravelController extends BaseTravelController {
 	@Autowired
 	private SelfServiceTravelService selfServiceTravelService;
 
@@ -30,47 +31,14 @@ public class CommSelfServiceTravelController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String detail() throws Exception {
-		SelfServiceTravel product = selfServiceTravelService.getById(1);
-		put("product", product);
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	public String detail(@PathVariable(value = "id") long id) throws Exception {
+		if (id > 0) {
+			initBaseInfo();
+			SelfServiceTravel product = selfServiceTravelService.getById(id);
+			put("product", product);
+		}
 		return "/system/comm/travel/selfServiceTravel/detail";
-	}
-
-	/**
-	 * 基本信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/baseInfo", method = RequestMethod.GET)
-	public String baseInfo() throws Exception {
-		return "/system/comm/travel/baseInfo";
-	}
-
-	/**
-	 * 行程信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/tripPackageInfo", method = RequestMethod.GET)
-	public String tripPackageInfo() throws Exception {
-		return "/system/comm/travel/selfServiceTravel/tripPackageInfo";
-	}
-
-	/**
-	 * 价格信息页
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/priceInfo", method = RequestMethod.GET)
-	public String priceInfo() throws Exception {
-		return "/system/comm/travel/priceInfo";
 	}
 
 	/**
@@ -116,7 +84,7 @@ public class CommSelfServiceTravelController extends BaseController {
 	public @ResponseBody SelfServiceTravel save(String json) throws Exception {
 		SelfServiceTravel selfServiceTravel = JSON.parseObject(json, SelfServiceTravel.class);
 		System.out.println(JSON.toJSONString(selfServiceTravel));
-		selfServiceTravelService.save(selfServiceTravel);
+		selfServiceTravelService.saveOrUpdate(selfServiceTravel);
 		return selfServiceTravel;
 	}
 }
