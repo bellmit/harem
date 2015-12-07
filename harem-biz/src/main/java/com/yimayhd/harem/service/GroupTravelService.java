@@ -10,20 +10,12 @@ import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
  */
 public interface GroupTravelService {
 	/**
-	 * 保存
+	 * 保存或更新
 	 * 
 	 * @param groupTravel
 	 * @return
 	 */
-	public void save(GroupTravel groupTravel) throws Exception;
-
-	/**
-	 * 更新
-	 * 
-	 * @param groupTravel
-	 * @return
-	 */
-	public void update(GroupTravel groupTravel) throws Exception;
+	public void saveOrUpdate(GroupTravel groupTravel) throws Exception;
 
 	/**
 	 * 查询跟团游产品

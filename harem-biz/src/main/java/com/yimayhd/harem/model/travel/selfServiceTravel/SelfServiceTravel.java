@@ -1,7 +1,7 @@
 package com.yimayhd.harem.model.travel.selfServiceTravel;
 
-import com.yimayhd.harem.model.travel.BaseInfo;
-import com.yimayhd.harem.model.travel.PriceInfo;
+import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.ic.client.model.result.item.LineResult;
 
 /**
  * 跟团游
@@ -9,26 +9,14 @@ import com.yimayhd.harem.model.travel.PriceInfo;
  * @author yebin
  *
  */
-public class SelfServiceTravel {
+public class SelfServiceTravel extends BaseTravel {
 
-	private BaseInfo baseInfo;// 基础信息
 	private TripPackageInfo tripPackageInfo;// 套餐信息
-	private PriceInfo priceInfo;// 价格信息
 
-	public BaseInfo getBaseInfo() {
-		return baseInfo;
-	}
+	@Override
+	protected void parseTripInfo(LineResult lineResult) {
+		// TODO Auto-generated method stub
 
-	public void setBaseInfo(BaseInfo baseInfo) {
-		this.baseInfo = baseInfo;
-	}
-
-	public PriceInfo getPriceInfo() {
-		return priceInfo;
-	}
-
-	public void setPriceInfo(PriceInfo priceInfo) {
-		this.priceInfo = priceInfo;
 	}
 
 	public TripPackageInfo getTripPackageInfo() {
