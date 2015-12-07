@@ -140,12 +140,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><span class="spColor">*</span>活动日期</td>
+                            <td><span class="spColor">*</span>活动时间</td>
                             <td>
                                 <div class="row">
                                     <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="startDate" value="$!utilDate.dateToString($!activity.startDate,"yyyy-MM-dd HH:mm:ss")"></div>
-                                    <span class="input-group-addon fix-border fix-padding">至</span>
-                                    <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="endDate" value="$!utilDate.dateToString($!activity.endDate,"yyyy-MM-dd HH:mm:ss")"></div>
+                                   </div>
                                 </div>
                             </td>
                         </tr>
@@ -185,7 +184,12 @@
                         </tr>
                          <tr>
                             <td>基础价格</td>
-                            <td><input type="text" class="form-control" placeholder="请输入30字以内" name="addrDetail" value="$!activity.addrDetail"></td>
+                            <td>
+                            	<div class="row">
+                            		<div class="col-md-4"><input type="text" class="form-control" placeholder="会员" name="addrDetail" value="$!activity.addrDetail"></div>
+                            		<div class="col-md-4"><input type="text" class="form-control" placeholder="非会员" name="addrDetail" value="$!activity.addrDetail"></div>
+                            	</div>
+                            </td>
                         </tr>
                       	<tr>
                 <td><span class="spColor">*</span>俱乐部LOGO</td>

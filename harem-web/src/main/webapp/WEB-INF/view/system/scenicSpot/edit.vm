@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/ckeditor/ckeditor.js" type="text/javascript"></script>
 <style type="text/css">
 .demo{width:850px;margin:20px auto;display:none;}
 #l-map{height:400px;width:600px;float:left;border:1px solid #bcbcbc;}
@@ -11,14 +12,17 @@
 
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
-        <a href="#grogshopInfo" data-toggle="tab">景区信息</a>
+        <a href="#scenicInfo" data-toggle="tab">景区信息</a>
+    </li>
+	<li>
+        <a href="#scenicDetailDiv" data-toggle="tab">景区详情</a>
     </li>
     <li>
-        <a href="#grogshopImgs" data-toggle="tab">图片集</a>
+        <a href="#scenicImgs" data-toggle="tab">图片集</a>
     </li>
 </ul>
 <div class="tab-content grogInfoWrap"  style="">
-    <div class="tab-pane active" id="grogshopInfo">
+    <div class="tab-pane active" id="scenicInfo">
         <div class="createHotrlTable">
             <table class="table">
                 <tbody>
@@ -74,8 +78,47 @@
                     <td><textarea name="description" id="grogInfo" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
                 </tr>
 				<tr>
-                    <td><span class="spColor">*</span>温馨提示</td>
-                    <td><textarea name="" id="" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                    <td><span class="spColor">*</span>入园须知</td>
+                    <td>
+                    	<button type="button" class="btn btn-default add-extra-info-item">增加条目</button>
+        	<table class="table">
+				<thead >
+            		<tr >
+        				<th>标题（10个字以内）</th>
+        				<th>内容（500字以内）</th>
+        				<th></th>
+                    </tr>
+                </thead>
+				<tbody class="extra-info-list">
+            		<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button type="button"  class="btn btn-link extra-info-item-delete">删除</button></td>
+                    </tr>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+                    </tr>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+                    </tr>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+                    </tr>
+					<tr class="extra-info-item">
+        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+                    </tr>
+                </tbody>
+            </table>
+                    
+                    </td>
                 </tr>
 				<tr>
                     <td><span class="spColor">*</span>退改规定</td>
@@ -105,7 +148,12 @@
             </table>
         </div>
     </div>
-    <div class="tab-pane" id="grogshopImgs">
+    <div class="tab-pane" id="scenicDetailDiv">
+		<textarea id="scenicDetail" name="scenicDetail" cols="20" rows="60" class="ckeditor"  >
+                  
+       </textarea>
+    </div>
+    <div class="tab-pane" id="scenicImgs">
 
     </div>
 </div>
@@ -120,6 +168,26 @@
     }
 
     $(function(){
+    	$(".add-extra-info-item").click(function(){
+			var content = $(".extra-info-list");
+			var item = $("<tr class='extra-info-item'/>");
+			item.append($("<td><input type='text' class='form-control extra-info-item-title' placeholder='费用包含'></td>"));
+			item.append($("<td><textarea class='form-control extra-info-item-text' rows='3'></textarea></td>"));
+			var delete_btn = $("<button class='btn btn-link extra-info-item-delete'>删除</button>");
+			delete_btn.click(function(){
+    			$(this).parent().parent().remove();
+    		});
+			item.append($("<td/>").append(delete_btn));
+			content.append(item);
+		});
+      $(".extra-info-item-delete").click(function(){
+			$(this).parent().parent().remove();
+		});
+		$(".extra-info-item-delete").click(function(){
+			$(this).parent().parent().remove();
+		});
+    
+    
         $('.locationXYSelectBtn').click(function(){
             openBaiduMap(115.727899,37.723961,mapCallback);
         });
