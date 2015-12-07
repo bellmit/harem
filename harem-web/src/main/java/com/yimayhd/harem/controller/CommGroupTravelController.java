@@ -1,5 +1,7 @@
 package com.yimayhd.harem.controller;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.GroupTravelService;
-import com.yimayhd.ic.client.model.domain.share_json.LineOwnerType;
+import com.yimayhd.ic.client.model.enums.LineOwnerType;
 
 /**
  * 商品-跟团游
@@ -26,6 +29,8 @@ import com.yimayhd.ic.client.model.domain.share_json.LineOwnerType;
 public class CommGroupTravelController extends BaseController {
 	@Autowired
 	private GroupTravelService groupTravelService;
+	@Resource
+	private ComCenterService comCenterServiceRef;
 
 	/*
 	 * @Autowired private RegionClientService regionClientService;

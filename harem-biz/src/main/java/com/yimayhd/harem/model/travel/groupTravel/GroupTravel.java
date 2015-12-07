@@ -77,10 +77,10 @@ public class GroupTravel {
 			days.add(routeItem.getDay());
 			if (routeItem.getType() == RouteItemBizType.DESCRIPTION.getType()) {
 				desMap.put(routeItem.getDay(), routeItem.getValue());
-			} else if (routeItem.getType() == RouteItemBizType.TRAFFIC.getType()) {
+			} else if (routeItem.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
 				RouteTrafficInfo routeTrafficInfo = JSON.parseObject(routeItem.getValue(), RouteTrafficInfo.class);
 				trafficMap.put(routeItem.getDay(), routeTrafficInfo);
-			} else if (routeItem.getType() == RouteItemBizType.SHORT_ITEM.getType()) {
+			} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
 				RouteItemDesc desc = JSON.parseObject(routeItem.getValue(), RouteItemDesc.class);
 				if (desc != null) {
 					if (RouteItemType.BREAKFAST.name().equals(desc.type)) {
@@ -95,8 +95,10 @@ public class GroupTravel {
 						hotelMap.put(routeItem.getDay(), desc);
 					}
 				}
-			} else if (routeItem.getType() == RouteItemBizType.DETAIL.getType()) {
-				// RouteItemDetail detail = JSON.parseObject(routeItem.getValue(), RouteItemDetail.class);
+			} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
+				// RouteItemDetail detail =
+				// JSON.parseObject(routeItem.getValue(),
+				// RouteItemDetail.class);
 				// TODO 富文本
 			}
 		}
