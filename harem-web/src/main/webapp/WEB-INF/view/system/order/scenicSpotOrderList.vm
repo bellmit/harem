@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <h1>景区订单</h1>
 <div>
-    <form class="form-signin" id="tradeListForm" name="tradeListForm" action="/tradeManage/list" method="GET" role="form">
+    <form class="form-signin" id="tradeListForm" name="tradeListForm" action="/B2C/orderManage/scenicSpotOrderList" method="GET" role="form">
         <div class="inputGroup whole">
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
