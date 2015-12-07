@@ -1,7 +1,7 @@
 
     <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/PointManage/sendPointRule" method="GET" role="form">
         <div class="inputGroup whole">
-            <p style="font-size: 16px;font-weight: bold;">当前规则：<button style="margin-left: 165px;" type="button" class="btn btn-primary sendPointRuleAdd">新增规则</button></p>
+            <p style="font-size: 16px;font-weight: bold;">当前规则：<button style="margin-left: 165px;" type="button" class="btn btn-primary sendPointRuleAdd" id="sendPointRuleAdd">新增规则</button></p>
             <span>积分发放规则：$!utilNum.moneyTransform($!sendPointRule.payment)RMB=1积分</span><br>
             <span>积分使用规则：1积分=1RMB</span><br>
             <span>积分有效期：3天</span>
@@ -38,8 +38,9 @@
     <script>
         $(function(){
             $('.sendPointRuleAdd').click(function(){
-                var url = actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd';
-                window.openwin(url);
+                top.tabsAdd('sendPointRuleAdd',actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd',2,$(this).text())
+                /*var url = actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd';
+                window.openwin(url);*/
             });
         });
     </script>
