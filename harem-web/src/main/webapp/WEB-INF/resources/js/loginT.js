@@ -13,12 +13,6 @@ jQuery(function($) {
         fit_landscape: 0,
         slide_links: 'blank',
         slides: [{
-            image: '/resources/img/bj01.jpg'
-        }, {
-            image: '/resources/img/bj02.jpg'
-        }, {
-            image: '/resources/img/bj03.jpg'
-        }, {
             image: '/resources/img/bj04.jpg'
         }]
     });
@@ -52,6 +46,7 @@ $(function () {
         var strTxtName = encodeURI($("#loginUsername").val());
         //获取输入密码
         var strTxtPass = encodeURI($("#loginPassword").val());
+        strTxtPass = md5(strTxtPass);
         //获取验证码
         var strTxtVerify = encodeURI($("#loginVerify").val());
         //开始发送数据

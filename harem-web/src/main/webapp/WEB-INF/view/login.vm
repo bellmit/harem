@@ -1,12 +1,13 @@
 #set($layout = "/system/layout/blank.vm")
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/css/login.css" rel="stylesheet" />
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.css" rel="stylesheet" />
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/md5.min.js"></script>
 <div class="page-container">
 
     <form action="" method="post" id="loginForm">
         <div class="loginBox">
             <div class="head">
-            <p class="logo left"></p><h1 >B2C和商贸后台</h1></div>
+            <p class="logo left"></p><h1 >商贸后台</h1></div>
             <div class="clear"></div>
             <div class="row">
                 <p class="ico_02 left"></p><p class="right"><input type="text" name="loginUsername" id="loginUsername" placeholder="用户名" maxlength="20" class="input inp_w1" /></p>
