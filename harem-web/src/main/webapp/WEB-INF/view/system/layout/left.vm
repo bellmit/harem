@@ -78,12 +78,13 @@
             $('#'+tabId+'').show();
          	
         } else {
-        
+		
         	tabIdArray.push(tabId);
         	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
         	var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
         
         	tabLi.removeClass("active");
+			//activeIframeWrap.removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("in");
         
@@ -98,7 +99,7 @@
             	}
             
         	}else{
-        		
+        				
             	if(tabLi.length==1){
                 	$("#myTabList").prepend(tabList);
                 	$("#myTabContent").prepend(paneTab);
@@ -107,6 +108,7 @@
                 	activeIframeWrap.after(paneTab);
             	}
         	}
+			
         	if(tabLi.length >= 6){
 
                 var tabMore = tabLi.slice(4,5)[0];
@@ -175,6 +177,7 @@
                     $("#myTabList .dropdown").before(firstDrop);
                 }
                 $(prevNode).addClass("active");
+				$("#"+$(prevNode).attr("dataid")).addClass("active");
                 $('#'+prevId+'').show();
             }
             
@@ -236,7 +239,6 @@
         if(tabLi.length >= 5){
         	
             $("#myTabList>li.dropdown").show();
-            //alert(activeLi.index());
             if(activeLi.index()>=4){
                 var tabMore = tabLi.slice(0,1)[0];
                 tabMore.remove();

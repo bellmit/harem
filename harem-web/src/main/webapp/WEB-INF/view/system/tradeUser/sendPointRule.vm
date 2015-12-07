@@ -38,7 +38,7 @@
     <script>
         $(function(){
             $('.sendPointRuleAdd').click(function(){
-                top.tabsAdd('sendPointRuleAdd',actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd',2,$(this).text())
+                window.parent.tabsAdd('sendPointRuleAdd',actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd',2,$(this).text())
                 /*var url = actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd';
                 window.openwin(url);*/
             });
