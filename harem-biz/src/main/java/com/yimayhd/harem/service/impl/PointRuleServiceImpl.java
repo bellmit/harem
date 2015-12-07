@@ -22,10 +22,9 @@ public class PointRuleServiceImpl implements PointRuleService {
     @Autowired
     private IMallHaremService iMallHaremServiceRef;
     @Override
-    public IMallPointRuleResult getSendPointRuleNow() throws Exception {
+    public IMallPointRuleResult getSendPointRuleNow(long sellerId) throws Exception {
         IMallPointRuleQuery iMallPointRuleQuery = new IMallPointRuleQuery();
-        //TODO 商家ID
-        iMallPointRuleQuery.setVendorId(1);
+        iMallPointRuleQuery.setVendorId(sellerId);
         TCResultDTO<IMallPointRuleResult> tcResultDTO = iMallHaremServiceRef.queryValidRuleBySellerId(iMallPointRuleQuery);
         IMallPointRuleResult iMallPointRuleResult = null;
         if(null != tcResultDTO && tcResultDTO.isSuccess()) {
@@ -36,11 +35,10 @@ public class PointRuleServiceImpl implements PointRuleService {
     }
 
     @Override
-    public PageVO<IMallPointRuleResult> getSendPointRuleHistory(BaseQuery baseQuery) throws Exception {
+    public PageVO<IMallPointRuleResult> getSendPointRuleHistory(long sellerId,BaseQuery baseQuery) throws Exception {
 
         IMallPointRuleQuery iMallPointRuleQuery = new IMallPointRuleQuery();
-        //TODO 商家ID
-        iMallPointRuleQuery.setVendorId(1);
+        iMallPointRuleQuery.setVendorId(sellerId);
         iMallPointRuleQuery.setPageSize(baseQuery.getPageSize());
         iMallPointRuleQuery.setCurrentPage(baseQuery.getPageNumber());
         TCPageResult<IMallPointRuleResult> tcPageResult =  iMallHaremServiceRef.queryRuleRecords(iMallPointRuleQuery);
@@ -52,11 +50,9 @@ public class PointRuleServiceImpl implements PointRuleService {
     }
 
     @Override
-    public boolean add(IMallPointRuleVO iMallPointRuleVO) throws Exception {
-        //TODO 商家ID
+    public boolean add(long sellerId,IMallPointRuleVO iMallPointRuleVO) throws Exception {
         IMallPointRuleDTO iMallPointRuleDTO = IMallPointRuleVO.getIMallPointRuleDTO(iMallPointRuleVO);
-        iMallPointRuleDTO.setVendorId(1);
-        //TODO 元换算分
+        iMallPointRuleDTO.setVendorId(sellerId);
         TCResultDTO<IMallPointRuleResult> tcResultDTO= iMallHaremServiceRef.addPointRule(iMallPointRuleDTO);
         if(null != tcResultDTO && tcResultDTO.isSuccess()) {
             return true;

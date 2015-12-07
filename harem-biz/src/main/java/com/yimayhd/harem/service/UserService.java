@@ -45,11 +45,12 @@ public interface UserService {
 
 	/**
 	 * 根据商贸用户id获取会员列表
-	 * 
+	 *
+	 * @param sellerId 商家ID
 	 * @return 会员列表
 	 * @throws Exception
 	 */
-	List<UserDO> getMemberByUserId(TradeMemberQuery tradeMemberQuery) throws Exception;
+	List<UserDO> getMemberByUserId(long sellerId,TradeMemberQuery tradeMemberQuery) throws Exception;
 
 	User getById(long id) throws Exception;
 }

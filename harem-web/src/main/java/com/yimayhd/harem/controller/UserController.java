@@ -9,6 +9,7 @@ import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.HaMenuService;
 import com.yimayhd.harem.service.UserService;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.session.manager.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,7 +84,9 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/trade/userManage/memberList", method = RequestMethod.GET)
 	public String getTradeMemberList(Model model,HttpServletRequest request,TradeMemberQuery tradeMemberQuery) throws Exception {
 		//获取当前用户ID
-		List<UserDO>  userDOList= userService.getMemberByUserId(tradeMemberQuery);
+		//TODO
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		List<UserDO>  userDOList= userService.getMemberByUserId(sellerId,tradeMemberQuery);
 		model.addAttribute("tradeMemberQuery", tradeMemberQuery);
 		model.addAttribute("userList", userDOList);
 		return "/system/tradeUser/list";

@@ -1,6 +1,6 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-    <form class="form-signin" id="payListForm" name="payListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/tradeManage/pay/list" method="GET" role="form">
+    <form class="form-signin" id="payListForm" name="payListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/tradeManage/pay/list" method="GET" role="form" listSize="$!payList.size()">
         <div class="inputGroup whole">
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -120,12 +120,13 @@
         });
         $('.exportBtn').click(function(){
             if($("#payListForm").valid()){
-                layer.alert("此功能还未开通哦")
-                /*window.open(actionDefaultPath + '/trade/tradeManage/pay/export');
-                $.get(actionDefaultPath + '/trade/tradeManage/pay/export',$("#payListForm").serialize(),function(){
-
-                });*/
+                if($("#payListForm").attr('listSize') >= 0){
+                    window.location = actionDefaultPath + '/trade/tradeManage/pay/export?'+ $("#payListForm").serialize();
+                }else{
+                    layer.msg('没有可导出的记录',{icon:5,time:2000});
+                }
             }
         });
+
     });
 </script>

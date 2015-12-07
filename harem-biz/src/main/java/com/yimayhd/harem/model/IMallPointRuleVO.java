@@ -16,7 +16,7 @@ public class IMallPointRuleVO extends IMallPointRuleDTO {
         return iMallPointRuleVO;
     }
     public static IMallPointRuleDTO getIMallPointRuleDTO(IMallPointRuleVO iMallPointRuleVO){
-        iMallPointRuleVO.setPayment((long) (iMallPointRuleVO.getPaymentY() * 100 / 100));
+        iMallPointRuleVO.setPayment((long) (iMallPointRuleVO.getPaymentY() * 100));
         return iMallPointRuleVO;
     }
 
