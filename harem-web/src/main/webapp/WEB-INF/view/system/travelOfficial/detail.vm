@@ -6,44 +6,28 @@
         <table class="table">
             <tbody>
             <tr>
-                <td><span class="spColor">*</span>俱乐部名称</td>
+                <td><span class="spColor">*</span>游记标题</td>
                 <input type="hidden" class="form-control" name="id" value="$!club.id">
                 <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!club.name"></td>
             </tr>
+           
+               
             <tr>
-                <td><span class="spColor">*</span>俱乐部LOGO</td>
-                <td>
-                    <div class="fileImg">
-                        <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
-                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
-                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-                    </div>
-                    <div class="logoView">
-                        <img src="#if($club.logoUrl) $utilWebconfig.getTfsRootPath()$!club.logoUrl #end" class="img-circle" id="logoUrlUploadFileReturnImg">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>俱乐部宣传图</td>
-                <td>
-                    <div class="fileImg">
-                        <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="picturePoster" value="$!club.picturePoster"  id="picturePosterUploadFileReturnInput">
-                        <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile">
-                        <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
-                    </div>
-                    <div class="propagandaView">
-                        <img src="#if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end" id="picturePosterUploadFileReturnImg">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>成员限额</td>
+                <td><span class="spColor">*</span>发布时间</td>
                 <td><input type="text" class="form-control" placeholder="请输入数字" name="limitNum" value="$!club.limitNum"></td>
             </tr>
+			<tr>
+                <td><span class="spColor">*</span>目的地</td>
+                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
+            </tr>
+			##<tr>
+                ##<td><span class="spColor">*</span>游记封面</td>
+                ##<td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
+					##<div >
+					## </div>
+            ##</tr>
             <tr>
-                <td><span class="spColor">*</span>部长</td>
+                <td><span class="spColor">*</span>作者信息</td>
                 <td>
                     <div class="userBtn">
                         <button type="button" class="btn btn-info">选择用户</button>
@@ -52,35 +36,39 @@
                     </div>
                     <div class="userView">
                         <img src=" #if($club.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!club.manageUserLogoUrl  #end">
-                        #*TODO*#
                         <span>Tracy</span>
                     </div>
                 </td>
+			</tr>
+			
+			<tr>
+                <td><span class="spColor">*</span>游记封面</td>
+               ## <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
+					<div >
+						
+					</div>
             </tr>
-            <tr>
-                <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>状态</td>
+	        <tr>
+                <td><span class="spColor">*</span>点赞数</td>
                 <td class="radioSel">
                     <div class="col-md-10">
                         <label class="radio-inline"> <input type="radio" name="joinStatus" value="1" #if($!club.joinStatus == 1) checked #end> 允许加入 </label>
                         <label class="radio-inline"> <input type="radio" name="joinStatus" value="0" #if($!club.joinStatus == 2) checked #end> 禁止加入 </label>
-                    </div>
+                    </div> 
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>前台显示</td>
+                <td><span class="spColor">*</span>浏览量</td>
                 <td class="radioSel">
                     <div class="col-md-10">
-                        <label class="radio-inline"> <input type="radio" name="showStatus" value="1" #if($!club.showStatus == 1) checked #end> 显示 </label>
-                        <label class="radio-inline"> <input type="radio" name="showStatus" value="0" #if($!club.showStatus == 2) checked #end> 隐藏 </label>
+                       <label class="radio-inline"> <input type="radio" name="showStatus" value="1" #if($!club.showStatus == 1) checked #end> 显示 </label>
+                       <label class="radio-inline"> <input type="radio" name="showStatus" value="0" #if($!club.showStatus == 2) checked #end> 隐藏 </label>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
+		
         <div class="clubBotBtn">
             <div class="btn-group">
                 <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
@@ -89,8 +77,11 @@
                 <button class="btn">取消</button>
             </div>
         </div>
+		
     </form>
 </div>
+
+
 <script>
 
 
