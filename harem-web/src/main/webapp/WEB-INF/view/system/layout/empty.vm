@@ -25,6 +25,8 @@
         var actionDefaultPath = '$!{utilWebconfig.getActionDefaultFontPath()}';
         var tfsRootPath = '$!{utilWebconfig.getTfsRootPath()}';
         var staticResourcesPath='$!{utilWebconfig.getStaticResourcesPath()}';
+        var uploadFile='$!{utilWebconfig.getActionUploadFilePath()}';
+        var uploadFiles='$!{utilWebconfig.getActionUploadFilesPath()}';
     </script>
 </head>
 <body>

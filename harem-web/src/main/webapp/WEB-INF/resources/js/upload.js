@@ -22,9 +22,9 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
         layer.message('提交出错',{icon:2});
     }, false);
     if(type==1){
-        xhr.open("POST", actionDefaultPath + "/upload/file", true);
+        xhr.open("POST", uploadFile, true);
     }else{
-        xhr.open("POST",  actionDefaultPath + "/upload/files", true);
+        xhr.open("POST",  uploadFiles + "/upload/files", true);
     }
     // 发送表单数据
     xhr.send(formData);

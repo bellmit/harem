@@ -100,6 +100,7 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String loginTest(Model model) throws Exception {
+        //TODO 登陆人ID
         List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(10);
         model.addAttribute("menuList", haMenuDOList);
         return "/system/layout/layout";

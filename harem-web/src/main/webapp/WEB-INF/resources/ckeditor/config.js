@@ -7,7 +7,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-    config.filebrowserUploadUrl='/upload/ckeditorFile';
+    //图片上传路径
+    config.filebrowserUploadUrl='http://192.168.1.126:8080/filegw/file/upload';
     config.toolbar = 'Full';
 
     //表情符使用的是项目中的图片，隐藏掉此功能

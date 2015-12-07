@@ -10,6 +10,8 @@ public class WebResourceConfigUtil {
     private final static String TFS_ROOT_PATH_KEY = "harem.tfsRootPath";
     private final static String STATIC_RESOURCE_PAHT_KEY = "harem.staticResourcesPath";
     private final static String ACTION_DEFAULT_FONT_PATH_KEY= "harem.actionDefaultFontPath";
+    private final static String ACTION_UPLOAD_FILE_PATH_KEY = "actionUploadFilePath";
+    private final static String ACTION_UPLOAD_FILES_PATH_KEY = "actionUploadFilesPath";
 
     public static String getTfsRootPath() {
         return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
@@ -21,5 +23,13 @@ public class WebResourceConfigUtil {
 
     public static String getActionDefaultFontPath(){
         return ResourceConfig.getInstance().getValueByKey(ACTION_DEFAULT_FONT_PATH_KEY);
+    }
+
+    public static String getActionUploadFilePath(){
+        return ResourceConfig.getInstance().getValueByKey(ACTION_UPLOAD_FILE_PATH_KEY);
+    }
+
+    public static String getActionUploadFilesPath(){
+        return ResourceConfig.getInstance().getValueByKey(ACTION_UPLOAD_FILES_PATH_KEY);
     }
 }
