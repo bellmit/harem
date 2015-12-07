@@ -1,5 +1,5 @@
 
-    <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/PointManage/sendPointRule" method="GET" role="form">
+    <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/PointManage/sendPointRule/list" method="GET" role="form">
         <div class="inputGroup whole">
             <p style="font-size: 16px;font-weight: bold;">当前规则：<button style="margin-left: 165px;" type="button" class="btn btn-primary sendPointRuleAdd" id="sendPointRuleAdd">新增规则</button></p>
             <span>积分发放规则：$!utilNum.moneyTransform($!sendPointRule.payment)RMB=1积分</span><br>
