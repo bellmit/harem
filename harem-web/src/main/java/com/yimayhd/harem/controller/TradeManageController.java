@@ -46,7 +46,9 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/order/list", method = RequestMethod.GET)
 	public String orderList(Model model, TradeListQuery tradeListQuery) throws Exception {
+		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		//long sellerId = 1;
 		PageVO<BizOrderVO> pageVo = tradeService.getOrderList(sellerId,tradeListQuery);
 		List<BizOrderVO> bizOrderVOList = pageVo.getItemList();
 		model.addAttribute("pageVo", pageVo);
@@ -60,6 +62,7 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/order/export", method = RequestMethod.GET)
 	public void orderListExport(HttpServletRequest request,HttpServletResponse response,TradeListQuery tradeListQuery) throws Exception {
+		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId = 1;
 		List<BizOrderExportVO> bizOrderExportVOList = tradeService.exportOrderList(sellerId, tradeListQuery);
@@ -103,6 +106,7 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/pay/list", method = RequestMethod.GET)
 	public String payList(Model model, PayListQuery payListQuery) throws Exception {
+		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId =10000000;
 		PageVO<PayOrderDO> pageVo  = tradeService.getPayOrderList(sellerId,payListQuery);
@@ -117,6 +121,7 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/pay/export", method = RequestMethod.GET)
 	public void payListExport(HttpServletRequest request,HttpServletResponse response,PayListQuery payListQuery) throws Exception {
+		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId =10000000;
 		List<PayOrderDO> payOrderDOList = tradeService.exportPayOrderList(sellerId,payListQuery);
