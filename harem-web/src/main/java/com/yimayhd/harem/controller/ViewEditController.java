@@ -1,6 +1,12 @@
 package com.yimayhd.harem.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.taobao.tair.DataEntry;
+import com.taobao.tair.Result;
+import com.taobao.tair.ResultCode;
+import com.taobao.tair.TairManager;
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,8 @@ public class ViewEditController extends BaseController {
 
     @Autowired
     private CategoryService categoryServiceRef;
+    @Autowired
+    private TairManager tairManager;
 
     /**
      * 富文本编辑页面
@@ -45,6 +53,24 @@ public class ViewEditController extends BaseController {
     public
     String toCalendarEdit(Model model) throws Exception {
 
+        return "/demo/calendar";
+    }
+
+    /**
+     * tair测试
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/testTair", method = RequestMethod.GET)
+    public
+    String testTair(Model model) throws Exception {
+        int nameSpase = 299;
+        HotelDO hotelDO = new HotelDO();
+        hotelDO.setName("czf123");
+        ResultCode a = tairManager.put(nameSpase, "czf100209", hotelDO);
+        System.out.println(JSON.toJSONString(a));
+        Result<DataEntry> b = tairManager.get(nameSpase, "czf100209");
+        System.out.println(JSON.toJSONString(b));
         return "/demo/calendar";
     }
 }

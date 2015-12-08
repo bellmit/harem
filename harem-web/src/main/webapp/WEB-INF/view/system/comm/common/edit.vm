@@ -45,7 +45,7 @@
                         <tr>
                             <td><span class="spColor">*</span>$keyCategoryProperty.text</td>
                             #foreach($categoryValue in $keyCategoryProperty.categoryValueDOs)
-
+                                <span><input type="checkbox" name="roomFacilityList" value="$!{categoryValue.id}" #if($!hotel.roomFacility == $!categoryValue.id) checked #end>$!{categoryValue.text}</span>
                             #end
                             <td><input type="text" name="index" value="$!commodity.index" disabled></td>
                         </tr>

@@ -57,13 +57,13 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!order.bizOrderId</td>
-                        <td>流水号--$!order.payOrderId</td>
+                        <td>$!order.payOrderId</td>
                         <td>$!order.mallInfo.dt</td>
                         <td>$!order.mallInfo.jn</td>
                         <td>$!order.mallInfo.dc</td>
                         <td>$!order.buyerNick</td>
                         <td>$!order.mallInfo.pn</td>
-                        <td>支付方式--#PAY_STATUS($!order.payStatus)</td>
+                        <td>#PAY_CHANNEL($!order.payChannel)</td>
                         <td>$!utilNum.moneyTransform($!order.actualTotalFee)</td>
                         <td>$!order.usePoint</td>
                         <td>$!order.givePoint</td>

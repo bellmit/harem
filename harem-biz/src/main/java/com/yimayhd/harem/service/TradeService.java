@@ -1,13 +1,13 @@
 package com.yimayhd.harem.service;
 
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.BizOrderExportVO;
 import com.yimayhd.harem.model.BizOrderVO;
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -26,7 +26,7 @@ public interface TradeService {
      * @param tradeListQuery
      * @return
      */
-    List<BizOrderDO> exportOrderList(long sellerId,TradeListQuery tradeListQuery)throws Exception;
+    List<BizOrderExportVO> exportOrderList(long sellerId,TradeListQuery tradeListQuery)throws Exception;
 
     /**
      * 支付列表

@@ -2,6 +2,7 @@ package com.yimayhd.harem.service.impl;
 
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.BizOrderExportVO;
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
 import com.yimayhd.harem.model.BizOrderVO;
@@ -23,6 +24,7 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,8 @@ import java.util.Map;
  */
 public class TradeServiceImpl implements TradeService {
     private static final int ORDER_IS_MAIN = 1;//主订单
+    private static final int EXPORT_PAGE_NUMBER = 1;//导出数据时的页码
+    private static final int EXPORT_PAGE_SIZE = 100000;//导出数据的条数上限
     @Autowired
     private QueryPayOrderService QueryPayOrderServiceRef;
     @Autowired
@@ -50,6 +54,7 @@ public class TradeServiceImpl implements TradeService {
         PageVO<BizOrderVO> pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),0);
         //查询条件对接
         OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
+        orderQueryDTO.setSellerId(sellerId);
         if(!StringUtils.isBlank(tradeListQuery.getPhone())){
             //根据手机号查询用户
             BaseResult<UserDO> baseResult = userServiceRef.getUserDOByMobile(tradeListQuery.getPhone());
@@ -82,7 +87,7 @@ public class TradeServiceImpl implements TradeService {
         BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrderForSeller(orderQueryDTO);
 
         List<BizOrderVO> bizOrderVOList = new ArrayList<BizOrderVO>();
-        if(null != batchQueryResult && batchQueryResult.isSuccess()) {
+        if(null != batchQueryResult && batchQueryResult.isSuccess() && CollectionUtils.isNotEmpty(batchQueryResult.getBizOrderDOList())) {
             //查会员
             List<Long> userIdList = new ArrayList<Long>();
             for (BizOrderDO bizOrderDO : batchQueryResult.getBizOrderDOList()){
@@ -97,7 +102,7 @@ public class TradeServiceImpl implements TradeService {
                 BizOrderVO bizOrderVO = BizOrderVO.getBizOrderVO(bizOrderDO);
                 //获取部门工号，中短号等信息
                 bizOrderVO.setMallInfo(BizOrderUtil.getIMallInfo(bizOrderDO));
-                //TODO 给order加上买家信息对象
+                //给order加上买家信息对象
                 //bizOrderVO.setBuyer(userMap.get(bizOrderDO.getBuyerId()));
                 bizOrderVOList.add(bizOrderVO);
             }
@@ -107,17 +112,18 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public List<BizOrderDO> exportOrderList(long sellerId, TradeListQuery tradeListQuery) throws Exception {
+    public List<BizOrderExportVO> exportOrderList(long sellerId, TradeListQuery tradeListQuery) throws Exception {
         //返回结果
-        List<BizOrderDO> bizOrderDOList = null;
+        List<BizOrderExportVO> bizOrderExportVOList = null;
         //查询条件对接
         OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
+        orderQueryDTO.setSellerId(sellerId);
         if(!StringUtils.isBlank(tradeListQuery.getPhone())){
             //根据手机号查询用户
             BaseResult<UserDO> baseResult = userServiceRef.getUserDOByMobile(tradeListQuery.getPhone());
             if(null != baseResult || baseResult.isSuccess()){
                 //用户不存在的话直接返回空记录
-                return bizOrderDOList;
+                return bizOrderExportVOList;
             }
             orderQueryDTO.setBuyerId(baseResult.getValue().getId());
         }
@@ -135,24 +141,24 @@ public class TradeServiceImpl implements TradeService {
         }
         orderQueryDTO.setNeedExtFeature(true);
         orderQueryDTO.setIsMain(ORDER_IS_MAIN);
-        orderQueryDTO.setPageNo(1);
-        orderQueryDTO.setPageSize(10000);
-
-
-
+        orderQueryDTO.setPageNo(EXPORT_PAGE_NUMBER);
+        orderQueryDTO.setPageSize(EXPORT_PAGE_SIZE);
         //调用接口
         BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrderForSeller(orderQueryDTO);
 
-        if(null != batchQueryResult && batchQueryResult.isSuccess()) {
-            bizOrderDOList = batchQueryResult.getBizOrderDOList();
+        if(null != batchQueryResult && batchQueryResult.isSuccess() && CollectionUtils.isNotEmpty(batchQueryResult.getBizOrderDOList())) {
+            for (BizOrderDO bizOrderDO : batchQueryResult.getBizOrderDOList()){
+                bizOrderExportVOList.add(BizOrderExportVO.getBizOrderExportVO(bizOrderDO));
+            }
         }
-        return bizOrderDOList;
+        return bizOrderExportVOList;
     }
 
     @Override
     public PageVO<PayOrderDO> getPayOrderList(long sellerId,PayListQuery payListQuery)throws Exception{
         PageVO<PayOrderDO> pageVO = new PageVO<PayOrderDO>(payListQuery.getPageNumber(),payListQuery.getPageSize(),0);
         PayOrderQuery payOrderQuery = new PayOrderQuery();
+        payOrderQuery.setSellerId(sellerId);
         if(null != payListQuery.getBizOrderId()) {
             payOrderQuery.setBizOrderId(payListQuery.getBizOrderId());
         }
@@ -177,13 +183,14 @@ public class TradeServiceImpl implements TradeService {
     public List<PayOrderDO> exportPayOrderList(long sellerId,PayListQuery payListQuery) throws Exception {
         List<PayOrderDO> payOrderDOList = new ArrayList<PayOrderDO>();
         PayOrderQuery payOrderQuery = new PayOrderQuery();
+        payOrderQuery.setSellerId(sellerId);
         if(null != payListQuery.getBizOrderId()) {
             payOrderQuery.setBizOrderId(payListQuery.getBizOrderId());
         }
 
         //导出10000条
-        payOrderQuery.setPageSize(10000);
-        payOrderQuery.setPageNo(1);
+        payOrderQuery.setPageSize(EXPORT_PAGE_SIZE);
+        payOrderQuery.setPageNo(EXPORT_PAGE_NUMBER);
         if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setStartDate(DateUtil.formatMaxTimeForDate(payListQuery.getBeginDate()));
         }

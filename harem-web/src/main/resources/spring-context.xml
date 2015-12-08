@@ -19,8 +19,10 @@
     <import resource="spring-consumer.xml"/>
     <!--加载数据源和事务配置-->
     <import resource="spring-mybatis.xml"/>
-    <!--tfs上传文件-->
+    <!--tfs-->
     <import resource="tfs.xml"/>
+    <!--tair-->
+    <import resource="application-tair.xml"/>
     <!--service注入-->
     <import resource="spring-service.xml"/>
 

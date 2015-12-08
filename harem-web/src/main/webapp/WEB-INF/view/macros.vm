@@ -79,7 +79,7 @@
     #end
 #end
 #*支付方式*#
-#macro(PAY_STATUS $type)
+#macro(PAY_CHANNEL $type)
     #if($type == '1')
     支付宝条码
     #elseif($type == '2')

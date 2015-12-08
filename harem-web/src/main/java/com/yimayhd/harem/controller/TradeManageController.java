@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.BizOrderExportVO;
 import com.yimayhd.harem.model.BizOrderVO;
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
@@ -10,6 +11,7 @@ import com.yimayhd.harem.util.excel.JxlFor2003;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.user.session.manager.SessionUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.mina.util.SessionUtil;
@@ -60,16 +62,23 @@ public class TradeManageController extends BaseController {
 	public void orderListExport(HttpServletRequest request,HttpServletResponse response,TradeListQuery tradeListQuery) throws Exception {
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId = 1;
-		List<BizOrderDO> bizOrderDOList = tradeService.exportOrderList(sellerId, tradeListQuery);
-		if(null != bizOrderDOList && bizOrderDOList.size() > 0) {
+		List<BizOrderExportVO> bizOrderExportVOList = tradeService.exportOrderList(sellerId, tradeListQuery);
+		if(CollectionUtils.isNotEmpty(bizOrderExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("bizOrderId", "交易号"));
 			headList.add(new BasicNameValuePair("payOrderId", "流水号"));
-			headList.add(new BasicNameValuePair("payStatus", "支付方式"));
+			headList.add(new BasicNameValuePair("dt", "部门"));
+			headList.add(new BasicNameValuePair("jn", "工号"));
+			headList.add(new BasicNameValuePair("dc", "终端编号"));
+			headList.add(new BasicNameValuePair("buyerNick", "会员名"));
+			headList.add(new BasicNameValuePair("payChannelName", "支付方式"));
+			headList.add(new BasicNameValuePair("pn", "手机号"));
 			headList.add(new BasicNameValuePair("actualTotalFee", "付款金额"));
-			headList.add(new BasicNameValuePair("totalAmount", "交易金额"));
+			headList.add(new BasicNameValuePair("usePoint", "使用积分"));
+			headList.add(new BasicNameValuePair("givePoint", "赠送积分"));
 			headList.add(new BasicNameValuePair("gmtCreated", "交易时间"));
-			JxlFor2003.exportExcel(response, "orderList.xls", bizOrderDOList, headList);
+			headList.add(new BasicNameValuePair("stt", "小票时间"));
+			JxlFor2003.exportExcel(response, "orderList.xls", bizOrderExportVOList, headList);
 		}
 	}
 
