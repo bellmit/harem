@@ -6,6 +6,7 @@ import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
 import com.yimayhd.harem.model.HaMenuDO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.service.HaMenuService;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
@@ -51,7 +52,7 @@ public class LoginController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
-    public String toLogin(User user) throws Exception {
+    public String toLogin() throws Exception {
         return "/login";
     }
 
@@ -65,11 +66,11 @@ public class LoginController extends BaseController {
             return JsonResult.buildFailResult(1, "验证码错误!", null);
         }*/
 
-        BaseResult<Long> result = userServiceRef.login(loginoutVO.getUsername(), loginoutVO.getPassword());
+        BaseResult<UserDO> result = userServiceRef.login(loginoutVO.getUsername(), loginoutVO.getPassword());
         int errorCode = result.getErrorCode();
         if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
             LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
-            SessionUtils.setUserId(result.getValue().toString());
+            SessionUtils.setUserId(String.valueOf(result.getValue().getId()));
             return JsonResult.buildSuccessResult(result.getResultMsg(), null);
         }
 
@@ -100,8 +101,10 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String loginTest(Model model) throws Exception {
-        //TODO 登陆人ID
-        List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(10);
+        //TODO
+        SessionUtils.setUserId("10");
+        long userId = Long.parseLong(SessionUtils.getUserId()) ;
+        List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(userId);
         model.addAttribute("menuList", haMenuDOList);
         return "/system/layout/layout";
     }
