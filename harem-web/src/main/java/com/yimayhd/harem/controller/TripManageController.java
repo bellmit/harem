@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.service.ShowcaseService;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
+import com.yimayhd.resourcecenter.model.enums.RelatedType;
+import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
+import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
@@ -26,8 +30,7 @@ public class TripManageController {
 
 	@Autowired RegionClientService regionClientServiceRef;
 	
-	@Autowired ShowcaseClientServer showcaseClientServerConsumer;
-	
+	@Autowired ShowcaseService showcaseService;
 	
 	@RequestMapping("/trip/departure/toAdd")
 	public String add(Model model){
@@ -125,7 +128,18 @@ public class TripManageController {
 	* @throws
 	 */
 	@RequestMapping("/recommended/list")
-	public String recommendedList(Model model,int destinationId,int showCaseId[]){
+	public String recommendedList(Model model,int type){
+		model.addAttribute("recommendedList", showcaseService.getListShowCaseResult(type));
+		if(type==RelatedType.recommended_buy.getType()){//必买推荐
+			return "/system/trip/add_destination/list_buy_recommended";
+		}else if(type==RelatedType.recommended_scenic.getType()){//必去景点
+			return "/system/trip/add_destination/list_scenic";
+		} else if(type==RelatedType.recommended_hotel.getType()){//酒店
+			return "/system/trip/add_destination/list_hotel";
+		} else if (type==RelatedType.recommended_live.getType()){//直播
+			return "/system/trip/add_destination/list_live";
+		}
+		
 		
 		return "/success";
 	}
