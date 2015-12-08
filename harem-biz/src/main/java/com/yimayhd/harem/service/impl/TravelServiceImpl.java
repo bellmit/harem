@@ -34,7 +34,7 @@ public abstract class TravelServiceImpl {
 			if (tagResult != null && tagResult.isSuccess()) {
 				tags = tagResult.getValue();
 			} else {
-				throw new BaseException("获取线路标签出错");
+				throw new BaseException("获取线路标签出错：tagResult={0}", tagResult);
 			}
 			if (tags == null) {
 				tags = new ArrayList<ComTagDO>();
@@ -44,7 +44,7 @@ public abstract class TravelServiceImpl {
 				travel = clazz.newInstance();
 				travel.init(lineResult, tags);
 			} catch (Exception e) {
-				throw new BaseException("解析线路信息失败", e);
+				throw new BaseException(e, "解析线路信息失败：lineResult={0}", lineResult);
 			}
 			return travel;
 			/*
