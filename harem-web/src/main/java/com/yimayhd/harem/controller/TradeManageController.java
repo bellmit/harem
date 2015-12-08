@@ -73,11 +73,11 @@ public class TradeManageController extends BaseController {
 			headList.add(new BasicNameValuePair("buyerNick", "会员名"));
 			headList.add(new BasicNameValuePair("payChannelName", "支付方式"));
 			headList.add(new BasicNameValuePair("pn", "手机号"));
-			headList.add(new BasicNameValuePair("actualTotalFee", "付款金额"));
+			headList.add(new BasicNameValuePair("actualTotalFee", "付款金额(单位：分)"));
 			headList.add(new BasicNameValuePair("usePoint", "使用积分"));
 			headList.add(new BasicNameValuePair("givePoint", "赠送积分"));
 			headList.add(new BasicNameValuePair("gmtCreated", "交易时间"));
-			headList.add(new BasicNameValuePair("stt", "小票时间"));
+			headList.add(new BasicNameValuePair("sttDate", "小票时间"));
 			JxlFor2003.exportExcel(response, "orderList.xls", bizOrderExportVOList, headList);
 		}
 	}
@@ -126,7 +126,7 @@ public class TradeManageController extends BaseController {
 			headList.add(new BasicNameValuePair("id", "商户订单号"));
 			headList.add(new BasicNameValuePair("subject", "商品信息"));
 			headList.add(new BasicNameValuePair("buyerAccount", "对方账号"));
-			headList.add(new BasicNameValuePair("totalAmount", "交易金额"));
+			headList.add(new BasicNameValuePair("totalAmount", "交易金额(单位：分)"));
 			headList.add(new BasicNameValuePair("payStatus", "状态"));
 			JxlFor2003.exportExcel(response, "payList.xls", payOrderDOList, headList);
 		}

@@ -147,6 +147,7 @@ public class TradeServiceImpl implements TradeService {
         BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrderForSeller(orderQueryDTO);
 
         if(null != batchQueryResult && batchQueryResult.isSuccess() && CollectionUtils.isNotEmpty(batchQueryResult.getBizOrderDOList())) {
+            bizOrderExportVOList = new ArrayList<BizOrderExportVO>();
             for (BizOrderDO bizOrderDO : batchQueryResult.getBizOrderDOList()){
                 bizOrderExportVOList.add(BizOrderExportVO.getBizOrderExportVO(bizOrderDO));
             }

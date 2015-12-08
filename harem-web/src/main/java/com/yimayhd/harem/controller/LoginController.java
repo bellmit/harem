@@ -100,9 +100,7 @@ public class LoginController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String loginTest(Model model) throws Exception {
-        //TODO
-        SessionUtils.setUserId("10");
+    public String toMain(Model model) throws Exception {
         long userId = Long.parseLong(SessionUtils.getUserId()) ;
         List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(userId);
         model.addAttribute("menuList", haMenuDOList);

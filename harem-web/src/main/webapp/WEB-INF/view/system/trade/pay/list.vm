@@ -47,7 +47,7 @@
                         <td>$!pay.id</td>
                         <td>$!pay.subject</td>
                         <td>$!pay.buyerAccount</td>
-                        <td>$!pay.totalAmount</td>
+                        <td>$!utilNum.moneyTransform($!pay.totalAmount)</td>
                         <td>$!pay.payStatus</td>
                         <td>$!utilDate.dateToString($!pay.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                     </tr>
