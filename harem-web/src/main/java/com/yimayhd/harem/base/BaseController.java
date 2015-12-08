@@ -41,6 +41,8 @@ public class BaseController {
 					ResponseStatus.DATA_PARSE_ERROR.MESSAGE + e.getLocalizedMessage());
 		} else if (e instanceof NoticeException) {
 			return new ResponseVo(ResponseStatus.FORBIDDEN.VALUE, e.getMessage());
+		} else if (e instanceof BaseException) {
+			return new ResponseVo(ResponseStatus.FORBIDDEN.VALUE, e.getMessage());
 		}
 		return new ResponseVo(ResponseStatus.ERROR.VALUE, ResponseStatus.ERROR.MESSAGE + e.getLocalizedMessage());
 	}

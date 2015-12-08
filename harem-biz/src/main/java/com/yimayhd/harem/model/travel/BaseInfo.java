@@ -53,7 +53,6 @@ public class BaseInfo {
 		this.highlights = line.getDescription();
 		this.recommond = line.getRecommend();
 		this.extraInfos = new ArrayList<ExtraInfo>();
-		this.extraInfos = new ArrayList<ExtraInfo>();
 		if (StringUtils.isNotBlank(line.getNeedKnow())) {
 			NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
 			List<TextItem> textItems = needKnow.getFrontNeedKnow();

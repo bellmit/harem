@@ -34,8 +34,9 @@
     			<tr >
     				<td>*产品标签：</td>
                     <td>
-						<input type="checkbox" class="productTag" rId="1" rName="亲子夏令营" id="tag1" #if($!{product.baseInfo.containsTag('1')}) checked #end/><label for="tag1">亲子夏令营</label>
-						<input type="checkbox" class="productTag" rId="2" rName="蜜月之旅" id="tag2" #if($!{product.baseInfo.containsTag('2')}) checked #end/><label for="tag2">蜜月之旅</label>
+						#foreach($tag in $tags)
+						<input type="checkbox" class="productTag" rId="${tag.id}" rName="${tag.name}" id="tag${tag.id}" #if($!{product.baseInfo.containsTag($tag.id)}) checked #end/><label for="tag${tag.id}">${tag.name}</label>
+						#end
     				</td>
                 </tr>
     			<tr >
