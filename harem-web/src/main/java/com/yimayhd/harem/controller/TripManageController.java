@@ -20,7 +20,7 @@ import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 /** 
 * @ClassName: DepartureManageController 
-* @Description: (出发地、目的地管理) 
+* @Description: (出发地、目的地管理，目的地关联相应的 推荐信息，如 必买 必去 酒店 直播) 
 * @author create by yushengwei @ 2015年12月4日 上午11:03:29 
 */
 

@@ -4,7 +4,7 @@
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">出发地名称</button>
+                        <button class="btn btn-default" type="button">最美当地名称</button>
                     </span>
                 <input type="text" class="form-control" name="name" value="$!themeListQuery.name">
             </div>
