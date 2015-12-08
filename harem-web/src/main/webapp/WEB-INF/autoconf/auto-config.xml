@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+	<group name="default">
+		<property name="actionUploadFilePath" defaultValue="http://192.168.1.126:8080/filegw/file/upload"
+			description="#" />
+		<property name="actionUploadFilesPath"
+			defaultValue="http://192.168.1.126:8080/filegw/file/uploads"
+			description="#" />
+		<property name="app.name" defaultValue="harem" description="#" />
+		<property name="harem.staticResourcesPath" defaultValue=""
+			description="#" />
+		<property name="harem.actionDefaultFontPath" defaultValue="http://localhost:8080"
+			description="#" />
+	</group>
+	<group name="jdbc">
+		<property name="jdbc.driverClassName" defaultValue="com.mysql.jdbc.Driver"
+			description="#" />
+		<property name="jdbc.password" defaultValue="123456"
+			description="#" />
+		<property name="jdbc.url"
+			defaultValue="jdbc:mysql://192.168.1.202:3306/seller_console?useUnicode"
+			description="#" />
+		<property name="jdbc.user" defaultValue="root" description="#" />
+	</group>
+	<group name="dubbo">
+		<property name="consumer.dubbo.item.check" defaultValue="false"
+			description="#" />
+		<property name="consumer.dubbo.item.version" defaultValue="1.0.0.test"
+			description="#" />
+		<property name="consumer.dubbo.member.check" defaultValue="false"
+			description="#" />
+		<property name="consumer.dubbo.member.version" defaultValue="1.0.0.test"
+			description="#" />
+		<property name="consumer.dubbo.paycore.check" defaultValue="false"
+			description="#" />
+		<property name="consumer.dubbo.paycore.version" defaultValue="1.0.0.test"
+			description="#" />
+		<property name="consumer.dubbo.trade.check" defaultValue="false"
+			description="#" />
+		<property name="consumer.dubbo.trade.version" defaultValue="1.0.0.test"
+			description="#" />
+		<property name="dubbo.import.consumer.user.check"
+			defaultValue="false" description="#" />
+		<property name="dubbo.import.user.version" defaultValue="1.0.0.test"
+			description="#" />
+		<property name="consumer.resources.dubbo.check" defaultValue="false"
+			description="#" />
+		<property name="consumer.resource.dubbo.version"
+			defaultValue="1.0.0.test" description="#" />
+		<property name="consumer.dubbo.timeout" defaultValue="4000"
+			description="#" />
+		<property name="dubbo.port" defaultValue="-1" description="#" />
+		<property name="dubbo.registry.url" defaultValue="192.168.1.202:2181"
+			description="#" />
+		<property name="dubbo.retries" defaultValue="0" description="#" />
+	</group>
+	<group name="tfs">
+		<property name="harem.tfsRootPath" defaultValue="//192.168.1.209:7500/v1/tfs/"
+			description="#" />
+		<property name="tfs.groupName" defaultValue="group_1"
+			description="#" />
+		<property name="tfs.namespace" defaultValue="201"
+			description="#" />
+		<property name="tfs.nsip" defaultValue="192.168.1.209:9999"
+			description="#" />
+		<property name="tfs.uniqueServerList" defaultValue="192.168.1.209:5198"
+			description="#" />
+	</group>
+	<group name="log">
+		<property name="harem.logger.dir" defaultValue="/home/admin/logs/harem"></property>
+	</group>
+	<script>
+		<generate template="config.properties.vm" destfile="config.properties"
+			charset="UTF-8" />
+		<generate template="logback.xml" destfile="/logback.xml"
+			charset="UTF-8" />
+	</script>
+</config>

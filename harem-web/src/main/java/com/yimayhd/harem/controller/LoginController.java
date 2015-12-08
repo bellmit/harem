@@ -1,18 +1,10 @@
 package com.yimayhd.harem.controller;
 
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
-import com.yimayhd.harem.model.HaMenuDO;
-import com.yimayhd.harem.model.User;
-import com.yimayhd.harem.service.HaMenuService;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.result.BaseResult;
-import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
-import com.yimayhd.user.session.manager.JsonResult;
-import com.yimayhd.user.session.manager.SessionUtils;
-import net.pocrd.entity.AbstractReturnCode;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.List;
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
+import com.yimayhd.harem.model.HaMenuDO;
+import com.yimayhd.harem.service.HaMenuService;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.UserService;
+import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
+import com.yimayhd.user.session.manager.JsonResult;
+import com.yimayhd.user.session.manager.SessionUtils;
+
+import net.pocrd.entity.AbstractReturnCode;
 
 /**
  * Created by Administrator on 2015/10/23.

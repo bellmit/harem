@@ -416,6 +416,11 @@
 				<version>${comment.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.yiholiday.fhtd</groupId>
+				<artifactId>fhtd</artifactId>
+				<version>${fhtd.version}</version>
+			</dependency>
 		</dependencies>
 
 
