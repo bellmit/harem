@@ -65,16 +65,18 @@ public class LoginController extends BaseController {
             return JsonResult.buildFailResult(1, "验证码错误!", null);
         }*/
 
-        BaseResult<Long> result = userServiceRef.login(loginoutVO.getUsername(), loginoutVO.getPassword());
-        int errorCode = result.getErrorCode();
-        if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
-            LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
-            SessionUtils.setUserId(result.getValue().toString());
-            return JsonResult.buildSuccessResult(result.getResultMsg(), null);
-        }
-
-        LOGGER.warn("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
-        return JsonResult.buildFailResult(Integer.valueOf(errorCode), result.getResultMsg(), null);
+        //FIXME 
+//        BaseResult<Long> result = userServiceRef.login(loginoutVO.getUsername(), loginoutVO.getPassword());
+//        int errorCode = result.getErrorCode();
+//        if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
+//            LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
+//            SessionUtils.setUserId(result.getValue().toString());
+//            return JsonResult.buildSuccessResult(result.getResultMsg(), null);
+//        }
+//
+//        LOGGER.warn("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
+//        return JsonResult.buildFailResult(Integer.valueOf(errorCode), result.getResultMsg(), null);
+        return null ;
     }
 
 
