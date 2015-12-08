@@ -93,8 +93,10 @@
                 	$("#myTabList").prepend(tabList);
                 	$("#myTabContent").prepend(paneTab);
             	}else {
-                	activeLi.before(tabList);
-                	activeIframeWrap.before(paneTab);
+                	/*activeLi.after(tabList);
+                	activeIframeWrap.after(paneTab);*/
+                    $("#myTabList").append(tabList);
+                    $("#myTabContent").append(paneTab);
             	}
             
         	}else{
@@ -103,8 +105,10 @@
                 	$("#myTabList").prepend(tabList);
                 	$("#myTabContent").prepend(paneTab);
             	}else {
-                	activeLi.after(tabList);
-                	activeIframeWrap.after(paneTab);
+                	/*activeLi.after(tabList);
+                	activeIframeWrap.after(paneTab);*/
+                    $("#myTabList").append(tabList);
+                    $("#myTabContent").append(paneTab);
             	}
         	}
 			
@@ -131,7 +135,9 @@
 
         $('#'+tabId+' .tabIframe').attr('src',url);        
         $('#'+tabId+' .tabIframe').load(function(){
-            $(this).height($(this).contents().height());
+            //$(this).height($(this).contents().height());
+            var availHei = (top.window.screen.availHeight - 210);
+            $(this).attr("style","min-height:"+availHei+"px;");
             $(".js_tabClick.active").click();
         });
 

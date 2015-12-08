@@ -8,29 +8,33 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">XX后台管理系统</a>
+            <a class="navbar-brand" href="#">商家后台管理系统</a>
         </div>
         <div class="navbar-collapse collapse zui-navbar-collapse" role="navigation">
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <li><a href="#">退出</a></li>
+                #*<li>
                     <a href="#">消息<span class="label label-badge label-success">12</span></a>
                 </li>
-                <li><a href="#">提醒<span class="label label-badge label-success">12</span></a></li>
-                <li class="dropdown">
+                <li><a href="#">提醒<span class="label label-badge label-success">12</span></a></li>*#
+                #*<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
                         <img alt="" src="$utilWebconfig.getStaticResourcesPath()/resources/img/avatar1_small.jpg" width="20px"height="20px"/>
-                        <span class="user-name">管理员</span>
+                        <span class="user-name">$!nickName</span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">个人资料</a></li>
+                        *##*<li><a href="#">个人资料</a></li>
                         <li><a href="#">修改密码</a></li>
-                        <li role="separator" class="divider"></li>
+                        <li role="separator" class="divider"></li>*##*
                         <li><a href="#">退出</a></li>
                     </ul>
-                </li>
+                </li>*#
             </ul>
         </div>
     </div>
     <!-- /.container-fluid -->
 </nav><!--header结束-->
+<script>
+
+</script>

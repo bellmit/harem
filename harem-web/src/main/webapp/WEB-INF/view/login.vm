@@ -16,13 +16,13 @@
             <div class="row">
                 <p class="ico_03 left"></p><p class="right"><input type="password" name="loginPassword" id="loginPassword" maxlength="20" placeholder="密码" class="input inp_w1"  oncontextmenu="return false" onpaste="return false" /></p>
             </div>
-            <div class="clear"></div>
+            #*<div class="clear"></div>
             <div class="row">
                 <p class="ico_04 left"></p><p class="right">
                 <input type="text" name="loginVerify" id="loginVerify" placeholder="验证码" class="input inp_w2" maxlength="5"  oncontextmenu="return false" onpaste="return false" />
-                <img src="/chkcode/gen" onclick="refresh(this)"/>#*<b class="ico_05" onclick="refresh(this.previousSbiling)"></b>*#
+                <img src="/chkcode/gen" onclick="refresh(this)"/>*##*<b class="ico_05" onclick="refresh(this.previousSbiling)"></b>*##*
             </p>
-            </div>
+            </div>*#
 
             <div class="clear"></div>
             <input type="button" name="loginSubmit" id="loginSubmit" value="登 录" class="btn" />

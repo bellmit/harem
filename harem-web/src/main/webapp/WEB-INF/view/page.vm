@@ -74,8 +74,11 @@
             $(".pageSize").change(function () {
                 pageFormSubmit(1, $(this).val());
             });
-            var bHei = $("form").height();
-            top.$(".tabIframe").attr("style","height:"+bHei+"px");
+            //var bHei = $("form").height();
+            var availHei = (top.window.screen.availHeight - 210);
+            //top.$(".tabIframe").attr("style","height:"+bHei+"px");
+            //top.$(".tabIframe").attr("style","min-height:500px;");
+            top.$(".tabIframe").attr("style","min-height:"+availHei+"px;");
         });
         function pageFormSubmit(no, size) {
             var pageNo = $("<input type='hidden' name='pageNumber'/>");
