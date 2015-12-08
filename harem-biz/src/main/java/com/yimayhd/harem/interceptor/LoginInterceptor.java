@@ -1,23 +1,17 @@
 package com.yimayhd.harem.interceptor;
 
-import com.yimayhd.harem.model.HaMenuDO;
-import com.yimayhd.harem.model.Menu;
-import com.yimayhd.harem.service.HaMenuService;
-
-import net.pocrd.responseEntity.KeyValuePair;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import com.yimayhd.harem.service.HaMenuService;
 
 /**
  * Created by Administrator on 2015/10/26.

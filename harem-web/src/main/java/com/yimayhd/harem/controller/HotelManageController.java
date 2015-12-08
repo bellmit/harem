@@ -52,8 +52,6 @@ public class HotelManageController extends BaseController {
         model.addAttribute("pageVo", pageVo);
         model.addAttribute("hotelListQuery", hotelListQuery);
         model.addAttribute("hotelDOList", hotelDOList);
-
-
         return "/system/hotel/list";
     }
 
