@@ -74,6 +74,8 @@
             $(".pageSize").change(function () {
                 pageFormSubmit(1, $(this).val());
             });
+            var bHei = $("form").height();
+            top.$(".tabIframe").attr("style","height:"+bHei+"px");
         });
         function pageFormSubmit(no, size) {
             var pageNo = $("<input type='hidden' name='pageNumber'/>");

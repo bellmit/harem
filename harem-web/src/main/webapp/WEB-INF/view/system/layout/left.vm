@@ -132,7 +132,7 @@
 
         $('#'+tabId+' .tabIframe').attr('src',url);        
         $('#'+tabId+' .tabIframe').load(function(){
-            $(this).height($(this).contents().height()+200);
+            $(this).height($(this).contents().height());
             $(".js_tabClick.active").click();
         });
 
