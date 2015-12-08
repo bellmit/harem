@@ -2,7 +2,6 @@
 
 <div class="menu" data-toggle="menu" style="width: 200px;z-index: 100;background: #fff;">
     <ul class="nav nav-primary">
-        <li><a href="#" id="tubiao" onclick="tabsAdd('tubiao','http://localhost:8080/trade/userManage/userList',2,'图表')"><i class="icon-th"></i> 图表</a></li>
         #foreach($menu in $menuList)
         <li>
             #if($menu.haMenuDOList.size() == 0)
