@@ -95,7 +95,7 @@
             	}else {
                 	/*activeLi.after(tabList);
                 	activeIframeWrap.after(paneTab);*/
-                    $("#myTabList").append(tabList);
+                    $("#myTabList .dropdown").before(tabList);
                     $("#myTabContent").append(paneTab);
             	}
             
@@ -107,7 +107,7 @@
             	}else {
                 	/*activeLi.after(tabList);
                 	activeIframeWrap.after(paneTab);*/
-                    $("#myTabList").append(tabList);
+                    $("#myTabList .dropdown").before(tabList);
                     $("#myTabContent").append(paneTab);
             	}
         	}
