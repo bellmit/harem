@@ -78,11 +78,9 @@ public class ScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(ScenicDO scenicDO) throws Exception {
-		if (scenicDO.getId() == 0) {
-			scenicSpotService.modify(scenicDO);
-		} else {
-			scenicSpotService.modify(scenicDO);
-		}
+		
+		
+		
 		return "/success";
 	}
 

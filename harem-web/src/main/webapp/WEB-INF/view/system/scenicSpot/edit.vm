@@ -40,7 +40,7 @@
                             <select class="selCity inpControl" name="locationCityName" id="citySelect">
                                 <option>请选择城市</option>
                             </select>
-                            <input type="text" class="inpCtlBlock" name="locationText" id="locationTownName" placeholder="请输入100个字以内">
+                            <input type="text" class="inpCtlBlock" name="locationText" id="locationText" placeholder="请输入100个字以内">
                         </div>
                     </td>
                 </tr>
@@ -49,10 +49,10 @@
                     <td>
                         <select class="form-control {required:true}" id="grade" name="level">
                             <option>请选择</option>
-                            <option value="1">5星 豪华型</option>
-                            <option value="2">4星 高档型</option>
-                            <option value="3">3星 舒适型</option>
-                            <option value="4">2星及以下 经济型</option>
+                            <option value="1">五星级</option>
+                            <option value="2">四星级</option>
+                            <option value="3">三星级</option>
+                            <option value="4">连锁酒店</option>
                         </select>
                     </td>
                 </tr>
@@ -71,11 +71,11 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>景区简介</td>
-                    <td><textarea name="oneword" id="grogInfo" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                    <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
                 </tr>
 				 <tr>
                     <td><span class="spColor">*</span>特色描述</td>
-                    <td><textarea name="description" id="grogInfo" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                    <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
                 </tr>
 				<tr>
                     <td><span class="spColor">*</span>入园须知</td>
@@ -144,6 +144,7 @@
                         <input type="hidden" name="userId" value="$!hotel.userId" disabled>
                     </td>
                 </tr>
+                
                 </tbody>
             </table>
         </div>

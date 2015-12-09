@@ -52,7 +52,7 @@
                 <button type="reset" class="btn btn-primary">重置</button>
             </div>
         </div>
-        <button type="button" class="btn btn-primary scenicBtn">添加景区</button>
+        <button type="button" class="btn btn-primary scenicAddBtn">添加景区</button>
         <button type="button" class="btn btn-primary scenicBatchBtn" btnType="1">批量启用</button>
         <button type="button" class="btn btn-primary scenicBatchBtn" btnType="2">批量禁用</button>
         <div class="tableGroup whole">
@@ -85,7 +85,7 @@
                         </td>
                         <td>
                         <button type="button" class="btn btn-primary scenicDetail" scenicId="$scenic.id">查看</button>
-                        <button type="button" class="btn btn-primary scenicBtn"  scenicId="$scenic.id" status="$scenic.status">#if($scenic.status == 1) 停用 #elseif($scenic.status == 2) 启用 #end </button>
+                        <button type="button" class="btn btn-primary "  scenicId="$scenic.id" status="$scenic.status">#if($scenic.status == 1) 停用 #elseif($scenic.status == 2) 启用 #end </button>
                         </td>
                     </tr>
                     #end
@@ -186,8 +186,7 @@
             })
         });
         //新建
-        $('.scenicBtn').click(function(){
-		
+        $('.scenicAddBtn').click(function(){
             var url = actionDefaultPath + '/B2C/scenicSpotManage/toAdd';
             window.openwin(url);
         });

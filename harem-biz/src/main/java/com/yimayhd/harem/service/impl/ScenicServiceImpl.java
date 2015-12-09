@@ -34,14 +34,14 @@ public class ScenicServiceImpl implements ScenicService {
 		}
 		return new PageVO<ScenicDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
+	
+	
+	
 
 	@Override
 	public ScenicDO getById(long id) throws Exception {
-		ScenicDO scenicDO = new ScenicDO();
-		scenicDO.setId(id);
-		scenicDO.setName("景点" + id);
-		scenicDO.setStatus(1);
-		return scenicDO;
+		
+		return null;
 	}
 
 	@Override
