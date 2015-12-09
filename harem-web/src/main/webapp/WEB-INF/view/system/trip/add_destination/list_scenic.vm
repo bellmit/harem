@@ -6,36 +6,40 @@
 	<form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/themeManage/list" method="GET" role="form">
 
         <div class="tableGroup whole">
-			<button type="button" class="btn btn-info selectHotelBtn">选择景点</button>
-            <input type="hidden" name="hotelId" value="">
-			
 			
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>#</th>
+                       <th><input type="checkbox" name="checkAll" id="checkAll" value="" /> 全选</th>
 						<th>图片</th>
                         <th>景点名称</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    #foreach($region in $regionHotelList)
-                    <tr>
-                        <td>$!velocityCount</td>
-						<td>$!region.id</td>
-                        <td>$!region.name</td>
-						<td>$!region.price</td>
-                        <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">删除</button>
-                        </td>
+                    #foreach($scenic in $scenicDOList.itemList)
+                    <tr class="subCheckedTR">
+                        <td><input class="subChecked" type="checkbox" value="$!scenic.id"></td>
+						<td><img src="$!scenic.url"></td>
+                        <td>$!scenic.name</td>
+						<td>#*<button type="button" class="btn btn-primary scenicDetail" scenicId="$scenic.id">查看</button>*#</td>
                     </tr>
                     #end
                 </tbody>
             </table>
         </div>
-    #*分页*#
+    #*分页
     #parse("/page.vm")
     #pageStyle("themeListForm")
+	*#
+	<div class="clubBotBtn">
+            <div class="btn-group">
+                <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn">取消</button>
+            </div>
+   </div>
     </form>
 
 <script>

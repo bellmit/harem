@@ -18,14 +18,16 @@
 						<th>操作</th>
                     </tr>
                 </thead>
+				
                 <tbody>
-                    #foreach($region in $recommendedList.showcaseDO)
+                    #foreach($region in $recommendedList)
                     <tr>
-                         <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!region.id" /></td>
-						<td>$!region.id</td>
-                        <td>$!region.name</td>
-						<td>$!region.price</td>
-                        <button type="button" class="btn btn-primary themeDetail" themeId="$region.id">删除</button>
+                        <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!region.showcaseDO.id" /></td>
+						<td>$!region.showcaseDO.name</td>
+                        <td>$!region.showcaseDO.title</td>
+                        <td><img src="$!region.showcaseDO.imgUrl" width="100" height="100"></img></td>
+						<td>$!region.showcaseDO.operationContent</td>
+                       <td> <button type="button" class="btn btn-primary themeDetail" themeId="$!region.showcaseDO.id">删除</button>
                         </td>
                     </tr>
                     #end
@@ -33,8 +35,18 @@
             </table>
         </div>
     #*分页*#
-    #parse("/page.vm")
-    #pageStyle("themeListForm")
+   #* #parse("/page.vm")
+    #pageStyle("themeListForm")*#
+	
+	<div class="clubBotBtn">
+            <div class="btn-group">
+                <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn">取消</button>
+            </div>
+   </div>
+		
     </form>
 
 <script>

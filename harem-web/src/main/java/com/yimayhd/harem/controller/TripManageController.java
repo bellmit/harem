@@ -10,8 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.service.HotelService;
+import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.ShowcaseService;
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.RelatedType;
@@ -31,6 +39,10 @@ public class TripManageController {
 	@Autowired RegionClientService regionClientServiceRef;
 	
 	@Autowired ShowcaseService showcaseService;
+	
+	@Autowired HotelService hotelService;
+	
+	 @Autowired ScenicService scenicSpotService;
 	
 	@RequestMapping("/trip/departure/toAdd")
 	public String add(Model model){
@@ -82,9 +94,6 @@ public class TripManageController {
 	 */
 	@RequestMapping("/trip/list")
 	public String list(Model model,int type){
-		if(type<0 || type>4){
-			return "/error";
-		}
 		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
 		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
 			//TODO:这里可能要根据省市区排序，即相同的省下，罗列出所有的市出来
@@ -127,19 +136,26 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/recommended/list")
-	public String recommendedList(Model model,int type){
-		//model.addAttribute("recommendedList", showcaseService.getListShowCaseResult(type));
-		List<ShowCaseResult> list = showcaseService.getListShowCaseResult(type);
-		model.addAttribute("recommendedList",list );
-		if(type==RelatedType.recommended_buy.getType()){//必买推荐
-			return "/system/trip/add_destination/list_buy_recommended";
-		}else if(type==RelatedType.recommended_scenic.getType()){//必去景点
-			return "/system/trip/add_destination/list_scenic";
-		} else if(type==RelatedType.recommended_hotel.getType()){//酒店
-			return "/system/trip/add_destination/list_hotel";
-		} else if (type==RelatedType.recommended_live.getType()){//直播
-			return "/system/trip/add_destination/list_live";
+	@RequestMapping("/trip/list/recommended")
+	public String recommendedList(Model model,int type,HotelListQuery hotelListQuery,ScenicPageQuery scenicPageQuery){
+		try {
+			List<ShowCaseResult> list = showcaseService.getListShowCaseResult(type);
+			model.addAttribute("recommendedList", list);
+			if (type == RelatedType.recommended_buy.getType()) {//必买推荐
+				return "/system/trip/add_destination/list_buy_recommended";
+			} else if (type == RelatedType.recommended_scenic.getType()) {//必去景点 ?
+					PageVO<ScenicDO>  scenicDOList = scenicSpotService.getList(scenicPageQuery);
+			    	model.addAttribute("scenicDOList", scenicDOList);
+				return "/system/trip/add_destination/list_scenic";
+			} else if (type == RelatedType.recommended_hotel.getType()) {//酒店 ?
+				List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
+				model.addAttribute("hotelDOList", hotelDOList);
+				return "/system/trip/add_destination/list_hotel";
+			} else if (type == RelatedType.recommended_live.getType()) {//直播 ?
+				return "/system/trip/add_destination/list_live";
+			} 
+		} catch (Exception e) {
+			
 		}
 		return "/error";
 	}
