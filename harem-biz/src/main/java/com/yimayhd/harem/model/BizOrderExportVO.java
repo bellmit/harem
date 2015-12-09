@@ -85,7 +85,7 @@ public class BizOrderExportVO implements Serializable{
         BeanUtils.copyProperties(bizOrderDO, bizOrderExportVO);
         IMallInfo iMallInfo = BizOrderUtil.getIMallInfo(bizOrderDO);
         if(null != iMallInfo) {
-            BeanUtils.copyProperties(BizOrderUtil.getIMallInfo(bizOrderDO), bizOrderExportVO);
+            BeanUtils.copyProperties(iMallInfo, bizOrderExportVO);
             //电话去+86
             bizOrderExportVO.setPn(PhoneUtil.phoneFormat(bizOrderExportVO.getPn()));
             bizOrderExportVO.setSttDate(new Date(bizOrderExportVO.getStt()));

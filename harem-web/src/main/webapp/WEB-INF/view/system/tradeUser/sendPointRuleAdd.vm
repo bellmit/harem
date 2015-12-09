@@ -19,17 +19,27 @@
                 <input type="text" name="validityDays" value="">天
             </li>
             <li>
-                <button type="buttion" class="btn btn-primary sendPontAddBtn">新增并生效</button>
+                <button type="button" class="btn btn-primary sendPontAddBtn">新增并生效</button>
             </li>
         </ul>
     </form>
 </div>
 <script>
-    $('.sendPontAddBtn').click(function(){
-        if(confirm("确定新增并立即生效吗？")){
-            $('#sendPontAddForm').attr('action',actionDefaultPath + '/trade/PointManage/sendPointRule/add');
-            $('#sendPontAddForm').submit();
-        }
-    });
+    var openConfirm = function(){
+        layer.open({content: '确定新增并立即生效吗？'
+            ,btn: ['确定', '取消']
+            ,yes: function(index, layero){
+                $('#sendPontAddForm').submit();
+                layer.close(index);
+            }
+        });
+    }
+    $(function(){
+        $('#sendPontAddForm').attr('action',actionDefaultPath + '/trade/PointManage/sendPointRule/add');
+        $('.sendPontAddBtn').click(function(){
+            openConfirm();
+        });
+    })
+
 
 </script>

@@ -13,7 +13,7 @@ public class PhoneUtil {
         if(null == phone){
             return phone;
         }
-        if(-1 != phone.indexOf("+865")){
+        if(-1 != phone.indexOf("+86")){
             return phone.substring(3);
         }
         return phone;

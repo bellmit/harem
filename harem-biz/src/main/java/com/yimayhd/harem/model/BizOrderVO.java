@@ -34,7 +34,9 @@ public class BizOrderVO extends BizOrderDO {
         //获取部门工号，中短号等信息
         bizOrderVO.setMallInfo(BizOrderUtil.getIMallInfo(bizOrderDO));
         //电话去+86
-        bizOrderVO.getMallInfo().setPn(PhoneUtil.phoneFormat(bizOrderVO.getMallInfo().getPn()));
+        if(null != bizOrderVO.getMallInfo()){
+            bizOrderVO.getMallInfo().setPn(PhoneUtil.phoneFormat(bizOrderVO.getMallInfo().getPn()));
+        }
         bizOrderVO.setUsePoint(BizOrderUtil.getUsePointNum(bizOrderDO));
         bizOrderVO.setGivePoint(BizOrderUtil.getLong(bizOrderDO, BizOrderFeatureKey.GIVE_POINT));
         bizOrderVO.payChannel = BizOrderUtil.getInt(bizOrderDO, BizOrderFeatureKey.PAY_CHANNEL);

@@ -965,7 +965,7 @@ public class DateUtil {
 
 	public static Date formatMaxTimeForDate(String dataStr) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
-		return format.parse(dataStr + DAY_BEGIN);
+		return format.parse(dataStr + DAY_END);
 	}
 
 	/**
@@ -989,7 +989,7 @@ public class DateUtil {
 
 	public static Date formatMinTimeForDate(String dataStr) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
-		return format.parse(dataStr + DAY_END);
+		return format.parse(dataStr + DAY_BEGIN);
 	}
 
 	/**

@@ -1,15 +1,13 @@
 package com.yimayhd.harem.service.impl;
 
-import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.BizOrderExportVO;
+import com.yimayhd.harem.model.BizOrderVO;
 import com.yimayhd.harem.model.PayOrderExportVO;
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
-import com.yimayhd.harem.model.BizOrderVO;
 import com.yimayhd.harem.service.TradeService;
 import com.yimayhd.harem.util.DateUtil;
-import com.yimayhd.harem.util.excel.JxlFor2003;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.pay.client.model.query.PayOrderQuery;
 import com.yimayhd.pay.client.model.result.PayPageResultDTO;
@@ -27,10 +25,8 @@ import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,9 +50,7 @@ public class TradeServiceImpl implements TradeService {
         //返回结果
         PageVO<BizOrderVO> pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),0);
         List<BizOrderVO> bizOrderVOList = new ArrayList<BizOrderVO>();
-        //查询条件对接
-        OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
-        orderQueryDTO.setSellerId(sellerId);
+
 
         if(null != tradeListQuery.getBizOrderId()&& tradeListQuery.getBizOrderId() > 0){
             //按交易id查询
@@ -67,8 +61,6 @@ public class TradeServiceImpl implements TradeService {
                 BizOrderDO bizOrderDO = singleQueryResult.getBizOrderDO();
                 if(null != bizOrderDO){
                     BizOrderVO bizOrderVO = BizOrderVO.getBizOrderVO(bizOrderDO);
-                    //获取部门工号，中短号等信息
-                    bizOrderVO.setMallInfo(BizOrderUtil.getIMallInfo(bizOrderDO));
                     //给order加上买家信息对象
                     bizOrderVOList.add(bizOrderVO);
                     pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),0,bizOrderVOList);
@@ -79,10 +71,13 @@ public class TradeServiceImpl implements TradeService {
 
         }else{
 
+            //查询条件对接
+            OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
+            orderQueryDTO.setSellerId(sellerId);
             if(!StringUtils.isBlank(tradeListQuery.getPhone())){
                 //根据手机号查询用户
                 BaseResult<UserDO> baseResult = userServiceRef.getUserDOByMobile(tradeListQuery.getPhone());
-                if(null != baseResult || baseResult.isSuccess()){
+                if(null == baseResult || !baseResult.isSuccess()){
                     //用户不存在的话直接返回空记录
                     return pageVO;
                 }
@@ -137,43 +132,59 @@ public class TradeServiceImpl implements TradeService {
     public List<BizOrderExportVO> exportOrderList(long sellerId, TradeListQuery tradeListQuery) throws Exception {
         //返回结果
         List<BizOrderExportVO> bizOrderExportVOList = null;
-        //查询条件对接
-        OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
-        orderQueryDTO.setSellerId(sellerId);
-        if(!StringUtils.isBlank(tradeListQuery.getPhone())){
-            //根据手机号查询用户
-            BaseResult<UserDO> baseResult = userServiceRef.getUserDOByMobile(tradeListQuery.getPhone());
-            if(null != baseResult || baseResult.isSuccess()){
-                //用户不存在的话直接返回空记录
+        if(null != tradeListQuery.getBizOrderId()&& tradeListQuery.getBizOrderId() > 0){
+            //按交易id查询
+            SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(tradeListQuery.getBizOrderId(),new OrderQueryOption());
+            //返回数组
+            List<BizOrderDO> bizOrderDOList = new ArrayList<BizOrderDO>();
+            if(null != singleQueryResult && singleQueryResult.isSuccess()) {
+                BizOrderDO bizOrderDO = singleQueryResult.getBizOrderDO();
+                if(null != bizOrderDO){
+                    bizOrderExportVOList = new ArrayList<BizOrderExportVO>();
+                    BizOrderExportVO bizOrderExportVO = BizOrderExportVO.getBizOrderExportVO(bizOrderDO);
+                    //给order加上买家信息对象
+                    bizOrderExportVOList.add(bizOrderExportVO);
+                    return bizOrderExportVOList;
+                }
+
+            }
+
+        }else{
+            //查询条件对接
+            OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
+            orderQueryDTO.setSellerId(sellerId);
+            if(!StringUtils.isBlank(tradeListQuery.getPhone())){
+                //根据手机号查询用户
+                BaseResult<UserDO> baseResult = userServiceRef.getUserDOByMobile(tradeListQuery.getPhone());
+                if(null == baseResult || !baseResult.isSuccess()){
+                    //用户不存在的话直接返回空记录
+                    return bizOrderExportVOList;
+                }
+                orderQueryDTO.setBuyerId(baseResult.getValue().getId());
+            }
+            orderQueryDTO.setOrderBizTypes(new int[]{OrderBizType.MEMBER_RECHARGE.getBizType(), OrderBizType.BUSINESS_OUT.getBizType()});
+            if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
+                orderQueryDTO.setStartDate(DateUtil.formatMinTimeForDate(tradeListQuery.getBeginDate()));
+            }
+            if(!StringUtils.isBlank(tradeListQuery.getEndDate())) {
+                orderQueryDTO.setEndDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getEndDate()));
+            }
+            orderQueryDTO.setNeedExtFeature(true);
+            orderQueryDTO.setIsMain(ORDER_IS_MAIN);
+            orderQueryDTO.setPageNo(EXPORT_PAGE_NUMBER);
+            orderQueryDTO.setPageSize(EXPORT_PAGE_SIZE);
+            //调用接口
+            BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrderForSeller(orderQueryDTO);
+
+            if(null != batchQueryResult && batchQueryResult.isSuccess() && CollectionUtils.isNotEmpty(batchQueryResult.getBizOrderDOList())) {
+                bizOrderExportVOList = new ArrayList<BizOrderExportVO>();
+                for (BizOrderDO bizOrderDO : batchQueryResult.getBizOrderDOList()){
+                    bizOrderExportVOList.add(BizOrderExportVO.getBizOrderExportVO(bizOrderDO));
+                }
                 return bizOrderExportVOList;
             }
-            orderQueryDTO.setBuyerId(baseResult.getValue().getId());
         }
 
-        orderQueryDTO.setOrderBizTypes(new int[]{OrderBizType.MEMBER_RECHARGE.getBizType(), OrderBizType.BUSINESS_OUT.getBizType()});
-        if(null == tradeListQuery.getBizOrderId()) {
-            List<Long> bizOrderIds = new ArrayList<Long>();
-            bizOrderIds.add(tradeListQuery.getBizOrderId());
-        }
-        if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
-            orderQueryDTO.setStartDate(DateUtil.formatMinTimeForDate(tradeListQuery.getBeginDate()));
-        }
-        if(!StringUtils.isBlank(tradeListQuery.getEndDate())) {
-            orderQueryDTO.setEndDate(DateUtil.formatMaxTimeForDate(tradeListQuery.getEndDate()));
-        }
-        orderQueryDTO.setNeedExtFeature(true);
-        orderQueryDTO.setIsMain(ORDER_IS_MAIN);
-        orderQueryDTO.setPageNo(EXPORT_PAGE_NUMBER);
-        orderQueryDTO.setPageSize(EXPORT_PAGE_SIZE);
-        //调用接口
-        BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrderForSeller(orderQueryDTO);
-
-        if(null != batchQueryResult && batchQueryResult.isSuccess() && CollectionUtils.isNotEmpty(batchQueryResult.getBizOrderDOList())) {
-            bizOrderExportVOList = new ArrayList<BizOrderExportVO>();
-            for (BizOrderDO bizOrderDO : batchQueryResult.getBizOrderDOList()){
-                bizOrderExportVOList.add(BizOrderExportVO.getBizOrderExportVO(bizOrderDO));
-            }
-        }
         return bizOrderExportVOList;
     }
 

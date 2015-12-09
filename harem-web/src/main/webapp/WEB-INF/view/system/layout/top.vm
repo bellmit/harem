@@ -12,7 +12,7 @@
         </div>
         <div class="navbar-collapse collapse zui-navbar-collapse" role="navigation">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">退出</a></li>
+                <li><a href="#" class="logout">退出</a></li>
                 #*<li>
                     <a href="#">消息<span class="label label-badge label-success">12</span></a>
                 </li>
@@ -36,5 +36,11 @@
     <!-- /.container-fluid -->
 </nav><!--header结束-->
 <script>
-
+    $(function(){
+        $('.logout').click(function(){
+            $.get(actionDefaultPath + '/logout',function(data){
+                window.location.href = actionDefaultPath + '/toLogin';
+            });
+        });
+    })
 </script>
