@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--加载外部配置-->
+    <context:property-placeholder location="classpath:*.properties" file-encoding="utf-8"
+                                  ignore-unresolvable="true"/>
+
+
+    <!--程序中获取配置文件信息-->
+<!--     <util:properties id="haremProperties" location="classpath:config.properties"/>
+ -->    <!--dubbo-->
+    <import resource="spring-dubbo-test.xml"/>
+    <import resource="spring-consumer-test.xml"/>
+<!--     加载数据源和事务配置
+    <import resource="spring-mybatis.xml"/>
+    tfs
+    <import resource="tfs.xml"/>
+    tair
+    <import resource="application-tair.xml"/>
+    service注入
+    <import resource="spring-service.xml"/>
+
+
+    <import resource="classpath:application-session.xml"></import>
+    <import resource="application-import.xml"></import>
+
+
+    spring注解定时任务
+    <task:annotation-driven/>
+ 
+    <aop:aspectj-autoproxy expose-proxy="true"/> -->
+</beans>
