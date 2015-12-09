@@ -14,13 +14,13 @@ import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
-public abstract class TravelServiceImpl {
+public abstract class TravelServiceImpl<T extends BaseTravel> {
 	@Autowired
 	protected ItemQueryService itemQueryServiceRef;
 	@Autowired
 	protected ComCenterService comCenterServiceRef;
 
-	public <T extends BaseTravel> T getById(long id, Class<T> clazz) throws Exception {
+	public T getById(long id, Class<T> clazz) throws Exception {
 		// TODO YEBIN 通过ID获取跟团游对象
 		if (id == 0) {
 			return null;
@@ -41,8 +41,7 @@ public abstract class TravelServiceImpl {
 			}
 			T travel = null;
 			try {
-				travel = clazz.newInstance();
-				travel.init(lineResult, tags);
+				travel = createTravelInstance(lineResult, tags);
 			} catch (Exception e) {
 				throw new BaseException(e, "解析线路信息失败：lineResult={0}", lineResult);
 			}
@@ -59,7 +58,9 @@ public abstract class TravelServiceImpl {
 			 * GroupTravel.class);
 			 */
 		} else {
-			throw new BaseException("获取线路出错");
+			throw new BaseException("获取线路出错"); 
 		}
 	}
+
+	protected abstract T createTravelInstance(LineResult lineResult, List<ComTagDO> comTagDOs) throws Exception;
 }
