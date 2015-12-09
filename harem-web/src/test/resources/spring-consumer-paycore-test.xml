@@ -8,8 +8,8 @@
         <property name="interface" value="com.yimayhd.pay.client.service.QueryPayOrderService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.paycore.check}"/>
-        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
     </bean>
 </beans>

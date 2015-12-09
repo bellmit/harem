@@ -8,70 +8,70 @@
         <property name="interface" value="com.yimayhd.resourcecenter.service.BoothClientServer"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>
     </bean>
     	
 	<bean id="operationClientServerConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.resourcecenter.service.OperationClientServer"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>
     </bean>
 	
 	<bean id="showcaseClientServerConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.resourcecenter.service.ShowcaseClientServer"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>
     </bean>    
 	
 	<bean id="appVersionClientServiceConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.resourcecenter.service.AppVersionClientService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>
     </bean>
     
     <bean id="comCenterServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.commentcenter.client.service.ComCenterService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>
     </bean>
         
     <bean id="resourcePublishServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
     	<property name="interface" value="com.yimayhd.ic.client.service.item.ResourcePublishService"/>
     	<property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${dubbo.import.consumer.user.check}"/>
-        <property name="version" value="${dubbo.import.user.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>   	
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>   	
     </bean>
     
      <bean id="regionClientServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.resourcecenter.service.RegionClientService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.resources.dubbo.check}"/>
-        <property name="version" value="${consumer.resource.dubbo.version}"/>
-        <property name="retries" value="${dubbo.retries}"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>
     </bean>
     
 </beans>
