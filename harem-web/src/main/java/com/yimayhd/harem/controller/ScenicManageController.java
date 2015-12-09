@@ -36,17 +36,10 @@ public class ScenicManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ScenicPageQuery scenicPageQuery) throws Exception {
-		/*
-		 * ScenicSpotVO scenicSpotVO = new ScenicSpotVO();
-		 * scenicSpotVO.setScenicSpotListQuery(scenicSpotListQuery);
-		 * List<ScenicDO> scenicDOList =
-		 * scenicSpotService.getList(scenicSpotVO); PageVO pageVo = new
-		 * PageVO(1,10,300); model.addAttribute("pageVo", pageVo);
-		 * model.addAttribute("scenicSpotListQuery", scenicSpotListQuery);
-		 * model.addAttribute("scenicDOList", scenicDOList);
-		 */
-
+	public String list(Model model, ScenicPageQuery scenicPageQuery,Integer pageNumber) throws Exception {
+		if(pageNumber!=null){
+			scenicPageQuery.setPageNo(pageNumber);
+		}
 		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicPageQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("scenicPageQuery", scenicPageQuery);
