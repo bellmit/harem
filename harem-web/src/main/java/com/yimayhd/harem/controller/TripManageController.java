@@ -107,6 +107,12 @@ public class TripManageController {
 		return "/system/error";
 	}
 	
+	@RequestMapping("/trip/toAdd")
+	public String list(Model model){
+		//TODO:include 5个vm页面进去
+		return "/system/trip/edit";
+	}
+	
 	
 	/**
 	* @Title: selectDepartureList 
