@@ -1,5 +1,7 @@
 package com.yimayhd.harem.controller;
 
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,9 @@ import com.yimayhd.harem.service.ShowcaseService;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.RelatedType;
-import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
-import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
-import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 /** 
 * @ClassName: DepartureManageController 
 * @Description: (出发地、目的地管理，目的地关联相应的 推荐信息，如 必买 必去 酒店 直播) 
@@ -92,7 +92,7 @@ public class TripManageController {
 			if(RegionType.DEPART_REGION.getType() == type ){
 				return "/system/departure/list";
 			}else if (RegionType.DESC_REGION.getType() == type){
-				return "/system/destination/beautiful_local_list";
+				return "/system/trip/beautiful_local_list";
 			}
 		}
 		return "/system/error";
@@ -127,9 +127,11 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/recommended/list")
+	@RequestMapping("/trip/recommended/list")
 	public String recommendedList(Model model,int type){
-		model.addAttribute("recommendedList", showcaseService.getListShowCaseResult(type));
+		//model.addAttribute("recommendedList", showcaseService.getListShowCaseResult(type));
+		List<ShowCaseResult> list = showcaseService.getListShowCaseResult(type);
+		model.addAttribute("recommendedList",list );
 		if(type==RelatedType.recommended_buy.getType()){//必买推荐
 			return "/system/trip/add_destination/list_buy_recommended";
 		}else if(type==RelatedType.recommended_scenic.getType()){//必去景点
@@ -139,9 +141,7 @@ public class TripManageController {
 		} else if (type==RelatedType.recommended_live.getType()){//直播
 			return "/system/trip/add_destination/list_live";
 		}
-		
-		
-		return "/success";
+		return "/error";
 	}
 	
 	
@@ -191,17 +191,17 @@ public class TripManageController {
 	 */
 	@RequestMapping("/trip/hotel")
 	public String hotel(Model model){
-		return "/system/destination/add_destination/best_hotel";
+		return "/system/trip/add_destination/best_hotel";
 	}
 	
 	@RequestMapping("/trip/scenic")
 	public String scenic(Model model){
-		return "/system/destination/add_destination/best_scenic";
+		return "/system/trip/add_destination/best_scenic";
 	}
 		
 	@RequestMapping("/trip/live")
 	public String live(Model model){
-		return "/system/destination/add_destination/best_live";
+		return "/system/trip/add_destination/best_live";
 	}		
 		
 		
