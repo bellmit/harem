@@ -15,10 +15,22 @@
 		<dependency>
 			<groupId>com.yimayhd.snscenter</groupId>
 			<artifactId>snscenter-client</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j-over-slf4j</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.yimayhd</groupId>
 			<artifactId>harem-biz</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-log4j12</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -83,7 +95,7 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
@@ -98,7 +110,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>

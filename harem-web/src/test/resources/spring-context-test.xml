@@ -5,11 +5,14 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd" default-autowire="byName">
+<!-- 
+	<context:annotation-config/>
+	<context:component-scan base-package="dubbo.*"/> -->
+	
     <!--加载外部配置-->
-    <context:property-placeholder location="classpath:*.properties" file-encoding="utf-8"
-                                  ignore-unresolvable="true"/>
+<!--     <context:property-placeholder location="classpath:*.properties" file-encoding="utf-8"
+                                  ignore-unresolvable="true"/> -->
 
 
     <!--程序中获取配置文件信息-->
