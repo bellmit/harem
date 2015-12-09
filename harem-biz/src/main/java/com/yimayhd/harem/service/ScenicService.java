@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.ScenicSpotListQuery;
-import com.yimayhd.harem.model.vo.ScenicSpotVO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.result.ICPageResult;
 
 /**
  * 景区资源管理
@@ -16,7 +17,7 @@ public interface ScenicService {
 	 * 
 	 * @return 景区资源列表
 	 */
-	List<ScenicDO> getList(ScenicSpotVO scenicSpotVO) throws Exception;
+	ICPageResult<ScenicDO> getList(ScenicPageQuery scenicPageQuery) throws Exception;
 
 	/**
 	 * 获取景区资源详情
@@ -60,11 +61,6 @@ public interface ScenicService {
 	 */
 	void setScenicStatus(long id, int scenicStatus) throws Exception;
 
-	/**
-	 * 获取景区资源列表(可带查询条件)
-	 * 
-	 * @return 景区资源列表
-	 */
-	PageVO<ScenicDO> getListByPage(ScenicSpotListQuery query) throws Exception;
+
 
 }

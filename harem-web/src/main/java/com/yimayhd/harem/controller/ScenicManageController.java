@@ -1,7 +1,6 @@
 package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.model.query.ScenicSpotListQuery;
-import com.yimayhd.harem.model.vo.ScenicSpotVO;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.result.ICPageResult;
 
 /**
  * 景区管理（资源）
@@ -36,14 +35,19 @@ public class ScenicManageController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public
-    String list(Model model,ScenicSpotListQuery scenicSpotListQuery) throws Exception {
-    	ScenicSpotVO scenicSpotVO = new ScenicSpotVO();
+    String list(Model model,ScenicPageQuery scenicPageQuery) throws Exception {
+    /*	ScenicSpotVO scenicSpotVO = new ScenicSpotVO();
     	scenicSpotVO.setScenicSpotListQuery(scenicSpotListQuery);
         List<ScenicDO> scenicDOList = scenicSpotService.getList(scenicSpotVO);
         PageVO pageVo = new PageVO(1,10,300);
         model.addAttribute("pageVo", pageVo);
         model.addAttribute("scenicSpotListQuery", scenicSpotListQuery);
-        model.addAttribute("scenicDOList", scenicDOList);
+        model.addAttribute("scenicDOList", scenicDOList);*/
+    	
+    	ICPageResult<ScenicDO> list = scenicSpotService.getList(scenicPageQuery);
+    	PageVO pageVo = new PageVO<>(list.getPageNo(), list.getPageSize(), list.getTotalCount(), list.getList());
+    	model.addAttribute("pageVo", pageVo);
+    	model.addAttribute("scenicPageQuery", scenicPageQuery);
         return "/system/scenicSpot/list";
     }
 
