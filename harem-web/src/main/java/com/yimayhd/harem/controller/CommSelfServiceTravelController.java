@@ -42,6 +42,18 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	}
 
 	/**
+	 * 创建跟团游
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String create() throws Exception {
+		initBaseInfo();
+		return "/system/comm/travel/selfServiceTravel/detail";
+	}
+
+	/**
 	 * 批量录入
 	 * 
 	 * @return
@@ -72,6 +84,17 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	@RequestMapping(value = "/addFlight")
 	public String addFlight() throws Exception {
 		return "/system/comm/travel/selfServiceTravel/addFlight";
+	}
+
+	/**
+	 * 填写航班信息
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/setFlightInfo")
+	public String setFlightInfo() throws Exception {
+		return "/system/comm/travel/selfServiceTravel/setFlightInfo";
 	}
 
 	/**
