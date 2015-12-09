@@ -4,11 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
         >
     
-    <!-- <import resource="spring-consumer-item-test.xml"/>
-     -->
+    <import resource="spring-consumer-item-test.xml"/>
     <import resource="spring-consumer-resource-test.xml"/>
-    <!-- <import resource="spring-consumer-user-test.xml"/>
+    <import resource="spring-consumer-user-test.xml"/>
     <import resource="spring-consumer-paycore-test.xml"/>
     <import resource="spring-consumer-trade-test.xml"/>
-    <import resource="spring-consumer-member-test.xml"/> -->
+    <import resource="spring-consumer-member-test.xml"/>
 </beans>
