@@ -69,7 +69,18 @@
     停用
     #end
 #end
-
+#*景点级别 1-五星级 2-四星级 3-三星级 4-连锁酒店*#
+#macro(SCENIC_LEVEL $type)
+    #if($type == '1')
+    五星级
+    #elseif($type == '2')
+    四星级
+    #elseif($type == '3')
+    三星级
+    #elseif($type == '4')
+   连锁酒店
+    #end
+#end
 #*商品状态*#
 #macro(COMMODITY_STATUS $type)
     #if($type == '1')
