@@ -55,30 +55,21 @@
  
     var tabIdArray = new Array();
     var isMore = false;
+	var num = 0;
     function tabsAdd(id,url,openType,tabName){
         
-        var tabLi = $("#myTabList li");
-        var activeLi = $("#myTabList>li.active");
-        var activeIframeWrap = $("#myTabContent>div.active");
-        //暂时去掉
-        //var tabId = id + num ;
-        var tabId = 'tab' + id;
-        var tabId2 = tabId + "title";
-        var elVal = tabName;
-                
-        //判断tab页是否重复         
-       	//有这个元素的情况下
-        if (!($.inArray(tabId, tabIdArray) == -1)) {
-        	
+		if (openType==2) {
+ 			
+			num ++;
+			var tabLi = $("#myTabList li");
+        	var activeLi = $("#myTabList>li.active");
+        	var activeIframeWrap = $("#myTabContent>div.active");
+        	//暂时去掉
+        	//var tabId = id + num ;
+        	var tabId = 'tab' + num;
         	var tabId2 = tabId + "title";
-        	$(".js_tabClick").removeClass("active");
-        	$(".tab-pane").hide();
-        	$('#'+tabId2+'').addClass("active");     	
-            $('#'+tabId+'').show();
-         	
-        } else {
-		
-        	tabIdArray.push(tabId);
+        	var elVal = tabName;			
+
         	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
         	var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
         
@@ -86,35 +77,22 @@
 			//activeIframeWrap.removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("in");
-        
-        	if(openType==1){
-        		
-            	if(tabLi.length==1){
-                	$("#myTabList").prepend(tabList);
-                	$("#myTabContent").prepend(paneTab);
-            	}else {
-                	/*activeLi.after(tabList);
-                	activeIframeWrap.after(paneTab);*/
-                    $("#myTabList .dropdown").before(tabList);
-                    $("#myTabContent").append(paneTab);
-            	}
-            
-        	}else{
-        				
-            	if(tabLi.length==1){
-                	$("#myTabList").prepend(tabList);
-                	$("#myTabContent").prepend(paneTab);
-            	}else {
-                	/*activeLi.after(tabList);
-                	activeIframeWrap.after(paneTab);*/
-                    $("#myTabList .dropdown").before(tabList);
-                    $("#myTabContent").append(paneTab);
-            	}
-        	}
 			
-        	if(tabLi.length >= 6){
+			if(tabLi.length==1){
+                
+				$("#myTabList").prepend(tabList);
+                $("#myTabContent").prepend(paneTab);
+            
+			} else {
+                /*activeLi.after(tabList);
+                activeIframeWrap.after(paneTab);*/
+                $("#myTabList .dropdown").before(tabList);
+                $("#myTabContent").append(paneTab);
+            }
+				
+        	if(tabLi.length >= 9){
 
-                var tabMore = tabLi.slice(4,5)[0];
+                var tabMore = tabLi.slice(7,8)[0];
                 tabMore.remove();
                 tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
  				//tabIdArray.shift();
@@ -128,7 +106,83 @@
         	}
 
        		iframeShow(tabId, url);
-       }
+			
+		} else {
+		
+        	var tabLi = $("#myTabList li");
+            var activeLi = $("#myTabList>li.active");
+            var activeIframeWrap = $("#myTabContent>div.active");
+            //暂时去掉
+            //var tabId = id + num ;
+            var tabId = 'tab' + id;
+            var tabId2 = tabId + "title";
+            var elVal = tabName;
+                    
+            //判断tab页是否重复         
+           	//有这个元素的情况下
+            if (!($.inArray(tabId, tabIdArray) == -1)) {
+            	
+            	var tabId2 = tabId + "title";
+            	$(".js_tabClick").removeClass("active");
+            	$(".tab-pane").hide();
+            	$('#'+tabId2+'').addClass("active");     	
+                $('#'+tabId+'').show();
+             	
+            } else {
+    		
+            	tabIdArray.push(tabId);
+            	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
+            	var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
+            
+            	tabLi.removeClass("active");
+    			//activeIframeWrap.removeClass("active");
+            	$("#myTabContent>.tab-pane").removeClass("active");
+            	$("#myTabContent>.tab-pane").removeClass("in");
+            
+            	if(openType==1){
+            		
+                	if(tabLi.length==1){
+                    	$("#myTabList").prepend(tabList);
+                    	$("#myTabContent").prepend(paneTab);
+                	}else {
+                    	/*activeLi.after(tabList);
+                    	activeIframeWrap.after(paneTab);*/
+                        $("#myTabList .dropdown").before(tabList);
+                        $("#myTabContent").append(paneTab);
+                	}
+                
+            	} else if (openType == 3) {
+            				
+                	if(tabLi.length==1){
+                    	$("#myTabList").prepend(tabList);
+                    	$("#myTabContent").prepend(paneTab);
+                	}else {
+                    	/*activeLi.after(tabList);
+                    	activeIframeWrap.after(paneTab);*/
+                        $("#myTabList .dropdown").before(tabList);
+                        $("#myTabContent").append(paneTab);
+                	}
+            	}
+    			
+            	if(tabLi.length >= 9){
+    
+                    var tabMore = tabLi.slice(7,8)[0];
+                    tabMore.remove();
+                    tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
+     				//tabIdArray.shift();
+    
+                   //var tabMore = tabLi.slice(3,4)[0];
+                   //var tabId = $(tabMore).attr("dataId");               
+                   //tabMore.remove();
+                   //tabIdArray.shift();
+                   //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
+                	//$(tabMore).attr("tabindex","-1");
+            	}
+    
+           		iframeShow(tabId, url);
+           }
+	   
+	   }
     }
     
     function iframeShow(tabId, url) {
