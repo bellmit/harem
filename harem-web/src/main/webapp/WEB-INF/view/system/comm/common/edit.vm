@@ -4,12 +4,9 @@
     <form name="commodityForm" id="commodityForm" action="" method="post" commodityId="$!commodity.id">
         category_id
         item_type
-
-
         sub_title
         one_word
         pic_urls
-
         <div class="">
                 <table class="table">
                     <tbody>
@@ -35,17 +32,18 @@
                         <td><span class="spColor">*</span>排序</td>
                         <td><input type="text" name="index" value="$!commodity.index" disabled></td>
                     </tr>
-                    TEXT("文字", 1),
-                    DATE("日期", 2),
-                    HOTEL("酒店", 3),
-                    SPOTS("景点", 4),
-                    PERSON_TYPE("人员", 5);
+
                     #*解析关键属性*#
                     #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
                         <tr>
                             <td><span class="spColor">*</span>$keyCategoryProperty.text</td>
                             #foreach($categoryValue in $keyCategoryProperty.categoryValueDOs)
                                 <span><input type="checkbox" name="roomFacilityList" value="$!{categoryValue.id}" #if($!hotel.roomFacility == $!categoryValue.id) checked #end>$!{categoryValue.text}</span>
+
+                                #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                #if($!categoryValue.type == 1)
+                                    <span><input type="checkbox" name="$!keyCategoryProperty." value="$!{categoryValue.id}" #if($!hotel.roomFacility == $!categoryValue.id) checked #end>$!{categoryValue.text}</span>
+                                #end
                             #end
                             <td><input type="text" name="index" value="$!commodity.index" disabled></td>
                         </tr>

@@ -2,11 +2,14 @@ package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.model.BizOrderExportVO;
 import com.yimayhd.harem.model.BizOrderVO;
+import com.yimayhd.harem.model.PayOrderExportVO;
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
 import com.yimayhd.harem.service.TradeService;
+import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.excel.JxlFor2003;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -14,7 +17,6 @@ import com.yimayhd.user.session.manager.SessionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.mina.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +38,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/trade/tradeManage")
 public class TradeManageController extends BaseController {
+	private final static int MONTH = -2;
+	private final static int DAY = 62;
 	@Autowired
 	private TradeService tradeService;
 
@@ -49,6 +54,14 @@ public class TradeManageController extends BaseController {
 		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId = 1;
+		//初始化和未填日期的时候，默认最近两个月
+		if(StringUtils.isBlank(tradeListQuery.getEndDate())){
+			tradeListQuery.setEndDate(DateUtil.dateToString(new Date(), "yyyy-MM-dd"));
+		}
+		if(StringUtils.isBlank(tradeListQuery.getBeginDate())) {
+			tradeListQuery.setBeginDate(DateUtil.getMonthAgo(new Date(), MONTH));
+		}
+
 		PageVO<BizOrderVO> pageVo = tradeService.getOrderList(sellerId,tradeListQuery);
 		List<BizOrderVO> bizOrderVOList = pageVo.getItemList();
 		model.addAttribute("pageVo", pageVo);
@@ -65,23 +78,33 @@ public class TradeManageController extends BaseController {
 		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId = 1;
+		//初始化和未填日期的时候，默认最近两个月
+		if(StringUtils.isBlank(tradeListQuery.getEndDate())){
+			tradeListQuery.setEndDate(DateUtil.dateToString(new Date(), "yyyy-MM-dd"));
+		}
+		if(StringUtils.isBlank(tradeListQuery.getBeginDate())){
+			tradeListQuery.setBeginDate(DateUtil.getMonthAgo(new Date(), MONTH));
+		}
+		if(DAY < DateUtil.daySubtraction(tradeListQuery.getBeginDate(),tradeListQuery.getEndDate())){
+			throw new NoticeException("导出日期不能超过两个月");
+		}
 		List<BizOrderExportVO> bizOrderExportVOList = tradeService.exportOrderList(sellerId, tradeListQuery);
 		if(CollectionUtils.isNotEmpty(bizOrderExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("bizOrderId", "交易号"));
-			headList.add(new BasicNameValuePair("payOrderId", "流水号"));
+			headList.add(new BasicNameValuePair("no", "单号"));
 			headList.add(new BasicNameValuePair("dt", "部门"));
 			headList.add(new BasicNameValuePair("jn", "工号"));
 			headList.add(new BasicNameValuePair("dc", "终端编号"));
 			headList.add(new BasicNameValuePair("buyerNick", "会员名"));
 			headList.add(new BasicNameValuePair("payChannelName", "支付方式"));
 			headList.add(new BasicNameValuePair("pn", "手机号"));
-			headList.add(new BasicNameValuePair("actualTotalFee", "付款金额(单位：分)"));
+			headList.add(new BasicNameValuePair("actualTotalFeeY", "付款金额(单位：分)"));
 			headList.add(new BasicNameValuePair("usePoint", "使用积分"));
 			headList.add(new BasicNameValuePair("givePoint", "赠送积分"));
 			headList.add(new BasicNameValuePair("gmtCreated", "交易时间"));
 			headList.add(new BasicNameValuePair("sttDate", "小票时间"));
-			JxlFor2003.exportExcel(response, "orderList.xls", bizOrderExportVOList, headList);
+			JxlFor2003.exportExcel(response, "交易记录.xls", bizOrderExportVOList, headList);
 		}
 	}
 
@@ -109,6 +132,14 @@ public class TradeManageController extends BaseController {
 		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId =10000000;
+		//初始化和未填日期的时候，默认最近两个月
+		if(StringUtils.isBlank(payListQuery.getEndDate())){
+			payListQuery.setEndDate(DateUtil.dateToString(new Date(), "yyyy-MM-dd"));
+		}
+		if(StringUtils.isBlank(payListQuery.getBeginDate())){
+			payListQuery.setBeginDate(DateUtil.getMonthAgo(new Date(), MONTH));
+		}
+
 		PageVO<PayOrderDO> pageVo  = tradeService.getPayOrderList(sellerId,payListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("payListQuery", payListQuery);
@@ -124,16 +155,27 @@ public class TradeManageController extends BaseController {
 		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId =10000000;
-		List<PayOrderDO> payOrderDOList = tradeService.exportPayOrderList(sellerId,payListQuery);
-		if(payOrderDOList.size() > 0) {
+		//初始化和未填日期的时候，默认最近两个月
+		if(StringUtils.isBlank(payListQuery.getEndDate())){
+			payListQuery.setEndDate(DateUtil.dateToString(new Date(), "yyyy-MM-dd"));
+		}
+		if(StringUtils.isBlank(payListQuery.getBeginDate())){
+			payListQuery.setBeginDate(DateUtil.getMonthAgo(new Date(), MONTH));
+		}
+		if(DAY < DateUtil.daySubtraction(payListQuery.getBeginDate(),payListQuery.getEndDate())){
+			throw new NoticeException("导出日期不能超过两个月");
+		}
+		List<PayOrderExportVO> payOrderExportVOList = tradeService.exportPayOrderList(sellerId,payListQuery);
+		if(CollectionUtils.isNotEmpty(payOrderExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("tradeNo", "交易号"));
 			headList.add(new BasicNameValuePair("id", "商户订单号"));
 			headList.add(new BasicNameValuePair("subject", "商品信息"));
 			headList.add(new BasicNameValuePair("buyerAccount", "对方账号"));
-			headList.add(new BasicNameValuePair("totalAmount", "交易金额(单位：分)"));
-			headList.add(new BasicNameValuePair("payStatus", "状态"));
-			JxlFor2003.exportExcel(response, "payList.xls", payOrderDOList, headList);
+			headList.add(new BasicNameValuePair("totalAmountY", "交易金额(单位：分)"));
+			headList.add(new BasicNameValuePair("payStatusName", "状态"));
+			headList.add(new BasicNameValuePair("gmtPayment", "支付时间"));
+			JxlFor2003.exportExcel(response, "支付历史.xls", payOrderExportVOList, headList);
 		}
 	}
 

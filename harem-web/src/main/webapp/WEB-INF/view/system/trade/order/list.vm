@@ -14,13 +14,14 @@
                     </span>
                     <input type="text" class="form-control" name="phone" value="$!tradeListQuery.phone">
                 </div>
+
                 <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">交易时间</button>
-                    </span>
-                    <input type="text" class='form-control form-date startDate dateInp' readonly name="beginDate" value="$!tradeListQuery.beginDate">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">交易时间</button>
+                        </span>
+                    <input type="text" class='form-control form-date dateInp startDate' readonly name="beginDate" value="$!tradeListQuery.beginDate">
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                    <input type="text" class='form-control form-date dateInp endDate' readonly name="endDate" value="$!tradeListQuery.endDate">
+                    <input type="text" class='form-control form-date endDate dateInp' readonly name="endDate" value="$!tradeListQuery.endDate">
                 </div>
 
                 <div class="btn-group">
@@ -37,7 +38,7 @@
                 <tr>
                     <th>序号</th>
                     <th>交易号</th>
-                    <th>流水号</th>
+                    <th>单号</th>
                     <th>部门</th>
                     <th>工号</th>
                     #*<th>终端编号</th>*#
@@ -58,7 +59,7 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!order.bizOrderId</td>
-                        <td>$!order.payOrderId</td>
+                        <td>$!order.mallInfo.no</td>
                         <td>$!order.mallInfo.dt</td>
                         <td>$!order.mallInfo.jn</td>
                         #*<td>$!order.mallInfo.dc</td>*#
@@ -119,9 +120,7 @@
         }
     })
 
-    if($(".endDate").val() != ""){
-        $(this).rules("add", { compareDate: ".startDate", messages: { compareDate: "结束日期必须大于开始日期!"} });
-    }
+
 
 
 
@@ -156,8 +155,15 @@
             }
         });
         $('.exportBtn').click(function(){
+            if($('.startDate').val() && $('.endDate').val()){
+                if($('.startDate').val() > $('.endDate').val()){
+                    $('.endDate').parent().parent().append('<label id="phone-error" class="error" for="phone">结束日期必须大于开始日期!</label>');
+                    return false;
+                }
+
+            }
             if($("#tradeListForm").valid()){
-                if($("#tradeListForm").attr('listSize') >= 0){
+                if($("#tradeListForm").attr('listSize') > 0){
                     window.location = actionDefaultPath + '/trade/tradeManage/order/export?' + $("#tradeListForm").serialize();
                 }else{
                     layer.msg('没有可导出的记录',{icon:5,time:2000});

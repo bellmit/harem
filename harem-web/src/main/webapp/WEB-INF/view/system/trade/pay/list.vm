@@ -36,7 +36,7 @@
                     <th>对方账号</th>
                     <th>交易金额</th>
                     <th>状态</th>
-                    <th>创建时间</th>
+                    <th>支付时间</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,12 +44,12 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!pay.id</td>
-                        <td>$!pay.id</td>
+                        <td>$!pay.bizOrderId</td>
                         <td>$!pay.subject</td>
                         <td>$!pay.buyerAccount</td>
                         <td>$!utilNum.moneyTransform($!pay.totalAmount)</td>
                         <td>$!pay.payStatus</td>
-                        <td>$!utilDate.dateToString($!pay.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td>$!utilDate.dateToString($!pay.gmtPayment,"yyyy-MM-dd HH:mm:ss")</td>
                     </tr>
                     #end
                 </tbody>
@@ -120,7 +120,7 @@
         });
         $('.exportBtn').click(function(){
             if($("#payListForm").valid()){
-                if($("#payListForm").attr('listSize') >= 0){
+                if($("#payListForm").attr('listSize') > 0){
                     window.location = actionDefaultPath + '/trade/tradeManage/pay/export?'+ $("#payListForm").serialize();
                 }else{
                     layer.msg('没有可导出的记录',{icon:5,time:2000});

@@ -1017,4 +1017,52 @@ public class DateUtil {
 		c.setTimeInMillis(date.getTime());
 		return STAR_WEEK[c.get(Calendar.DAY_OF_WEEK) - 1];
 	}
+
+	/**
+	 * 日期加天
+	 * @param date 增加天数
+	 * @param addDay
+	 * @return
+	 */
+	public static String getDayAgo(Date date,int addDay)throws Exception{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, addDay);
+		return dateToString(calendar.getTime(), "yyyy-MM-dd");
+	}
+
+	/**
+	 * 日期加月
+	 * @param date
+	 * @param addMonth 增加月数
+	 * @return
+	 */
+	public static String getMonthAgo(Date date,int addMonth)throws Exception{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH,addMonth);
+		return dateToString(calendar.getTime(), "yyyy-MM-dd");
+	}
+
+	/**
+	 * 计算日期差
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 * @throws Exception
+	 */
+	public static long daySubtraction(String beginDate,String endDate)throws Exception{
+		Date begin = DateUtil.formatMinTimeForDate(beginDate);
+		Date end = DateUtil.formatMaxTimeForDate(endDate);
+		return (end.getTime() - begin.getTime())/(24*60*60*1000);
+	}
+	public static void main(String[] args) {
+		System.out.println(dateToString(new Date(), "yyyy-MM-dd"));
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendar2 = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -2);
+		System.out.println(calendar.getTime());
+		System.out.println(calendar2.getTime());
+		System.out.println(calendar.compareTo(calendar2));
+	}
 }

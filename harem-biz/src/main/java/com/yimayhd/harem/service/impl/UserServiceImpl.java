@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.MerchantService;
 
@@ -14,6 +15,7 @@ import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.UserService;
 import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.user.client.domain.UserDO;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -92,8 +94,14 @@ public class UserServiceImpl implements UserService {
 		}
 		MemResult<List<UserDO>> memResult = merchantServiceRef.findPageUsersByMerchant(merchantPageQueryVO);
 		List<UserDO> userDOList = null;
-		if(memResult.isSuccess()){
+		if(null != memResult && memResult.isSuccess()){
 			userDOList = memResult.getValue();
+			if(CollectionUtils.isNotEmpty(userDOList)){
+				for (UserDO userDO :userDOList){
+					//用户电话
+					userDO.setMobileNo(PhoneUtil.phoneFormat(userDO.getMobileNo()));
+				}
+			}
 		}
 		return userDOList;
 	}

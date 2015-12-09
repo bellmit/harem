@@ -3,12 +3,16 @@ package com.yimayhd.harem.controller;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.exception.NoticeException;
+import com.yimayhd.harem.model.IMallRefundRecordExportVO;
 import com.yimayhd.harem.model.query.RefundListQuery;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.harem.service.RefundService;
+import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.excel.JxlFor2003;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import com.yimayhd.user.session.manager.SessionUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +36,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/trade/refundManage")
 public class RefundManageController extends BaseController {
+	private final static int MONTH = -2;
+	private final static int DAY = 62;
 
 	@Autowired
 	private RefundService refundService;
@@ -46,6 +53,13 @@ public class RefundManageController extends BaseController {
 		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId = 1;
+		//初始化和未填日期的时候，默认最近两个月
+		if(StringUtils.isBlank(refundListQuery.getEndDate())){
+			refundListQuery.setEndDate(DateUtil.dateToString(new Date(), "yyyy-MM-dd"));
+		}
+		if(StringUtils.isBlank(refundListQuery.getBeginDate())){
+			refundListQuery.setBeginDate(DateUtil.getMonthAgo(new Date(), MONTH));
+		}
 		PageVO<IMallRefundRecordDO> pageVO = refundService.getList(sellerId,refundListQuery);
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("refundListQuery", refundListQuery);
@@ -62,19 +76,28 @@ public class RefundManageController extends BaseController {
 		//TODO
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		//long sellerId = 1;
-		List<IMallRefundRecordDO> iMallRefundRecordDOList = refundService.exportRefundList(sellerId,refundListQuery);
-		if(null != iMallRefundRecordDOList && iMallRefundRecordDOList.size() > 0) {
-
+		//初始化和未填日期的时候，默认最近两个月
+		if(StringUtils.isBlank(refundListQuery.getEndDate())){
+			refundListQuery.setEndDate(DateUtil.dateToString(new Date(), "yyyy-MM-dd"));
+		}
+		if(StringUtils.isBlank(refundListQuery.getBeginDate())){
+			refundListQuery.setBeginDate(DateUtil.getMonthAgo(new Date(), MONTH));
+		}
+		if(DAY < DateUtil.daySubtraction(refundListQuery.getBeginDate(),refundListQuery.getEndDate())){
+			throw new NoticeException("导出日期不能超过两个月");
+		}
+		List<IMallRefundRecordExportVO> iMallRefundRecordExportVOList = refundService.exportRefundList(sellerId,refundListQuery);
+		if(CollectionUtils.isNotEmpty(iMallRefundRecordExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("tradeId", "交易编号"));
 			headList.add(new BasicNameValuePair("department", "部门"));
 			headList.add(new BasicNameValuePair("jobNumber", "工号"));
 			headList.add(new BasicNameValuePair("terminalNumber", "终端编号"));
-			headList.add(new BasicNameValuePair("refundPayment", "实际退款金额(单位：分)"));
-			headList.add(new BasicNameValuePair("payment", "付款金额(单位：分)"));
+			headList.add(new BasicNameValuePair("refundPaymentY", "实际退款金额"));
+			headList.add(new BasicNameValuePair("paymentY", "付款金额"));
 			headList.add(new BasicNameValuePair("refundTime", "退款时间"));
 			headList.add(new BasicNameValuePair("receiptTime", "小票时间"));
-			JxlFor2003.exportExcel(response, "refundList.xls", iMallRefundRecordDOList, headList);
+			JxlFor2003.exportExcel(response, "退款列表.xls", iMallRefundRecordExportVOList, headList);
 			return null;
 		}else{
 			return "/error";

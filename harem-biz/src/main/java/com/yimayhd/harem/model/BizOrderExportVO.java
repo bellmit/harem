@@ -1,13 +1,14 @@
 package com.yimayhd.harem.model;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
-import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -74,15 +75,19 @@ public class BizOrderExportVO implements Serializable{
     private String dc;//终端
     private String pn;//电话
     private long stt;//世界戳
-    private String no;//
+    private String no;//单号
     private Date sttDate;//世界戳
+
+    private double actualTotalFeeY;//交易金额元
 
     public static BizOrderExportVO getBizOrderExportVO(BizOrderDO bizOrderDO) throws Exception{
         BizOrderExportVO bizOrderExportVO = new BizOrderExportVO();
-        BeanUtils.copyProperties(bizOrderExportVO, bizOrderDO);
+        BeanUtils.copyProperties(bizOrderDO, bizOrderExportVO);
         IMallInfo iMallInfo = BizOrderUtil.getIMallInfo(bizOrderDO);
         if(null != iMallInfo) {
-            BeanUtils.copyProperties(bizOrderExportVO, BizOrderUtil.getIMallInfo(bizOrderDO));
+            BeanUtils.copyProperties(BizOrderUtil.getIMallInfo(bizOrderDO), bizOrderExportVO);
+            //电话去+86
+            bizOrderExportVO.setPn(PhoneUtil.phoneFormat(bizOrderExportVO.getPn()));
             bizOrderExportVO.setSttDate(new Date(bizOrderExportVO.getStt()));
         }
         bizOrderExportVO.setUsePoint(BizOrderUtil.getUsePointNum(bizOrderDO));
@@ -90,6 +95,8 @@ public class BizOrderExportVO implements Serializable{
         bizOrderExportVO.payChannel = BizOrderUtil.getInt(bizOrderDO, BizOrderFeatureKey.PAY_CHANNEL);
         TcPayChannel tcPayChannel = TcPayChannel.getPayChannel(bizOrderExportVO.getPayChannel());
         bizOrderExportVO.setPayChannelName(null == tcPayChannel ? "其他" : tcPayChannel.getDesc());
+        //分转元
+        bizOrderExportVO.setActualTotalFeeY(bizOrderExportVO.getActualTotalFee() / 100);
         return bizOrderExportVO;
     }
 
@@ -547,5 +554,13 @@ public class BizOrderExportVO implements Serializable{
 
     public void setSttDate(Date sttDate) {
         this.sttDate = sttDate;
+    }
+
+    public double getActualTotalFeeY() {
+        return actualTotalFeeY;
+    }
+
+    public void setActualTotalFeeY(double actualTotalFeeY) {
+        this.actualTotalFeeY = actualTotalFeeY;
     }
 }

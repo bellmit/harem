@@ -85,6 +85,9 @@ public class UserController extends BaseController {
 	public String getTradeMemberList(Model model,HttpServletRequest request,TradeMemberQuery tradeMemberQuery) throws Exception {
 		//获取当前用户ID
 		//TODO
+		System.out.println("***********************************************************");
+		System.out.println(tradeMemberQuery.getNickName());
+		System.out.println("***********************************************************");
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		List<UserDO>  userDOList= userService.getMemberByUserId(sellerId,tradeMemberQuery);
 		model.addAttribute("tradeMemberQuery", tradeMemberQuery);

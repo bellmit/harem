@@ -1,7 +1,7 @@
 package com.yimayhd.harem.service;
 
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.Refund;
+import com.yimayhd.harem.model.IMallRefundRecordExportVO;
 import com.yimayhd.harem.model.query.RefundListQuery;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 
@@ -27,6 +27,6 @@ public interface RefundService {
      * @param refundListQuery
      * @return
      */
-    List<IMallRefundRecordDO> exportRefundList(long sellerId,RefundListQuery refundListQuery)throws Exception;
+    List<IMallRefundRecordExportVO> exportRefundList(long sellerId,RefundListQuery refundListQuery)throws Exception;
 
 }

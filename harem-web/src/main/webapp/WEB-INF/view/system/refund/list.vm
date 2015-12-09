@@ -8,7 +8,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">交易号</button>
                     </span>
-                <input type="text" class="form-control" name="tradeId" value="$!refundListQuery.refundNO">
+                <input type="text" class="form-control" name="tradeId" value="$!refundListQuery.tradeId">
             </div>
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -55,7 +55,7 @@
                         <td>$!utilNum.moneyTransform($!refund.payment)</td>
                         <td>$!utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>$!utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td><a class="orderLink" orderId="$!refund.bizOrderId" href="javascript:void(0);">订单详情</a></td>
+                        <td><a class="orderLink" orderId="$!refund.tradeId" href="javascript:void(0);">订单详情</a></td>
                     </tr>
                     #end
                 </tbody>
@@ -122,7 +122,7 @@
         });
         $('.exportBtn').click(function(){
             if($("#refundListForm").valid()){
-                if($("#refundListForm").attr('listSize') >= 0){
+                if($("#refundListForm").attr('listSize') > 0){
                     window.location = actionDefaultPath + '/trade/refundManage/refund/export?' + $("#refundListForm").serialize();
                 }else{
                     layer.msg('没有可导出的记录',{icon:5,time:2000});

@@ -1,7 +1,7 @@
 package com.yimayhd.harem.service.impl;
 
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.Refund;
+import com.yimayhd.harem.model.IMallRefundRecordExportVO;
 import com.yimayhd.harem.model.query.RefundListQuery;
 import com.yimayhd.harem.service.RefundService;
 import com.yimayhd.harem.util.DateUtil;
@@ -9,12 +9,11 @@ import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import com.yimayhd.tradecenter.client.model.query.IMallRefundRecordQuery;
 import com.yimayhd.tradecenter.client.model.result.TCPageResult;
 import com.yimayhd.tradecenter.client.service.imall.IMallHaremService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ public class RefundServiceImpl implements RefundService {
             tcRefundRecordQuery.setTradeId(refundListQuery.getTradeId());
         }
         if(!StringUtils.isEmpty(refundListQuery.getBeginDate())) {
-            tcRefundRecordQuery.setGmtCreatedStart(DateUtil.formatMaxTimeForDate(refundListQuery.getBeginDate()));
+            tcRefundRecordQuery.setGmtCreatedStart(DateUtil.formatMinTimeForDate(refundListQuery.getBeginDate()));
         }
         if(!StringUtils.isEmpty(refundListQuery.getEndDate())) {
             tcRefundRecordQuery.setGmtCreatedEnd(DateUtil.formatMaxTimeForDate(refundListQuery.getEndDate()));
@@ -42,7 +41,7 @@ public class RefundServiceImpl implements RefundService {
 
         TCPageResult<IMallRefundRecordDO> tcPageResult = iMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
         //返回结果
-        PageVO<IMallRefundRecordDO> pageVO = null;
+        PageVO<IMallRefundRecordDO> pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(),0);;
         if(null != tcPageResult && tcPageResult.isSuccess()) {
             pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(), (int) tcPageResult.getTotalCount(), tcPageResult.getList());
         }
@@ -50,9 +49,9 @@ public class RefundServiceImpl implements RefundService {
     }
 
     @Override
-    public List<IMallRefundRecordDO> exportRefundList(long sellerId, RefundListQuery refundListQuery) throws Exception {
+    public List<IMallRefundRecordExportVO> exportRefundList(long sellerId, RefundListQuery refundListQuery) throws Exception {
         //返回结果
-        List<IMallRefundRecordDO> iMallRefundRecordDOList = null;
+        List<IMallRefundRecordExportVO> iMallRefundRecordExportVOList = null;
         //查询条件
         IMallRefundRecordQuery tcRefundRecordQuery = new IMallRefundRecordQuery();
         tcRefundRecordQuery.setSellerId(sellerId);
@@ -60,7 +59,7 @@ public class RefundServiceImpl implements RefundService {
             tcRefundRecordQuery.setTradeId(refundListQuery.getTradeId());
         }
         if(!StringUtils.isEmpty(refundListQuery.getBeginDate())) {
-            tcRefundRecordQuery.setGmtCreatedStart(DateUtil.formatMaxTimeForDate(refundListQuery.getBeginDate()));
+            tcRefundRecordQuery.setGmtCreatedStart(DateUtil.formatMinTimeForDate(refundListQuery.getBeginDate()));
         }
         if(!StringUtils.isEmpty(refundListQuery.getEndDate())) {
             tcRefundRecordQuery.setGmtCreatedEnd(DateUtil.formatMaxTimeForDate(refundListQuery.getEndDate()));
@@ -68,9 +67,12 @@ public class RefundServiceImpl implements RefundService {
         tcRefundRecordQuery.setCurrentPage(1);
         tcRefundRecordQuery.setPageSize(10000);
         TCPageResult<IMallRefundRecordDO> tcPageResult = iMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
-        if(null != tcPageResult && tcPageResult.isSuccess()) {
-            iMallRefundRecordDOList = tcPageResult.getList();
+        if(null != tcPageResult && tcPageResult.isSuccess() && CollectionUtils.isNotEmpty(tcPageResult.getList())) {
+            iMallRefundRecordExportVOList = new ArrayList<IMallRefundRecordExportVO>();
+            for (IMallRefundRecordDO iMallRefundRecordDO : tcPageResult.getList()){
+                iMallRefundRecordExportVOList.add(IMallRefundRecordExportVO.getIMallRefundRecordExportVO(iMallRefundRecordDO));
+            }
         }
-        return iMallRefundRecordDOList;
+        return iMallRefundRecordExportVOList;
     }
 }

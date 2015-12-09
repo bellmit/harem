@@ -3,6 +3,7 @@ package com.yimayhd.harem.service;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.BizOrderExportVO;
 import com.yimayhd.harem.model.BizOrderVO;
+import com.yimayhd.harem.model.PayOrderExportVO;
 import com.yimayhd.harem.model.query.PayListQuery;
 import com.yimayhd.harem.model.query.TradeListQuery;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
@@ -42,7 +43,7 @@ public interface TradeService {
      * @param payListQuery
      * @return
      */
-    List<PayOrderDO> exportPayOrderList(long sellerId,PayListQuery payListQuery)throws Exception;
+    List<PayOrderExportVO> exportPayOrderList(long sellerId,PayListQuery payListQuery)throws Exception;
 
     /**
      * 根据交易id获取详情

@@ -1,20 +1,8 @@
 package com.yimayhd.harem.controller;
 
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
 import com.yimayhd.harem.model.HaMenuDO;
 import com.yimayhd.harem.service.HaMenuService;
@@ -24,8 +12,19 @@ import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
 import com.yimayhd.user.session.manager.JsonResult;
 import com.yimayhd.user.session.manager.SessionUtils;
-
 import net.pocrd.entity.AbstractReturnCode;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -78,6 +77,18 @@ public class LoginController extends BaseController {
 
         LOGGER.warn("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
         return JsonResult.buildFailResult(Integer.valueOf(errorCode), result.getResultMsg(), null);
+    }
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseVo login() {
+        String userIdStr = SessionUtils.getUserId();
+        if(StringUtils.isBlank(userIdStr)){
+            //没有去到userId，直接返回成功
+            return new ResponseVo();
+        }
+        long userId = Long.parseLong(userIdStr) ;
+        SessionUtils.removeUserId();
+        return new ResponseVo();
     }
 
 

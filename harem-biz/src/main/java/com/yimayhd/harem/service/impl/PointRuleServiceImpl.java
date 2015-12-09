@@ -42,7 +42,7 @@ public class PointRuleServiceImpl implements PointRuleService {
         iMallPointRuleQuery.setPageSize(baseQuery.getPageSize());
         iMallPointRuleQuery.setCurrentPage(baseQuery.getPageNumber());
         TCPageResult<IMallPointRuleResult> tcPageResult =  iMallHaremServiceRef.queryRuleRecords(iMallPointRuleQuery);
-        PageVO<IMallPointRuleResult> pageVO = null;
+        PageVO<IMallPointRuleResult> pageVO = new PageVO<IMallPointRuleResult>(baseQuery.getPageNumber(),baseQuery.getPageSize(),0);
         if(null != tcPageResult && tcPageResult.isSuccess()) {
             pageVO = new PageVO<IMallPointRuleResult>(baseQuery.getPageNumber(),baseQuery.getPageSize(),tcPageResult.getTotalCount(),tcPageResult.getList());
         }

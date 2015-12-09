@@ -48,6 +48,7 @@ public class PointManageController extends BaseController {
 		IMallPointRuleResult iMallPointRuleResult = pointRuleService.getSendPointRuleNow(sellerId);
 		PageVO<IMallPointRuleResult> pageVO = pointRuleService.getSendPointRuleHistory(sellerId,baseQuery);
 		model.addAttribute("sendPointRule", iMallPointRuleResult);
+		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("sendPointRuleList", pageVO.getItemList());
 		return "/system/tradeUser/sendPointRule";
 	}

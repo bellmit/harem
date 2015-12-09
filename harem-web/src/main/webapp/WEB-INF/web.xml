@@ -37,12 +37,12 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-   <!--  <filter>
+     <filter>
         <filter-name>sessionFilter</filter-name>
         <filter-class>com.yimayhd.user.session.manager.SessionFilter</filter-class>
         <init-param>
             <param-name>excludePaths</param-name>
-            <param-value>/login,/chkcode/gen,/toLogin</param-value>
+            <param-value>/login,/chkcode/gen,/toLogin,/logout</param-value>
         </init-param>
         <init-param>
             <param-name>staticSuffix</param-name>
@@ -59,7 +59,7 @@
     </filter-mapping>
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener> -->
+    </listener>
 
     <!-- springMvc编码拦截器，springMvc内置的编码拦截器 -->
     <filter>

@@ -30,7 +30,7 @@ $(function () {
         }
     });
 
-    $("#loginPassword").keydown(function (event) {    loginVerify
+    $("#loginPassword").keydown(function (event) {    //loginVerify
         if (event.which == "13") {//回车键，用.ajax提交表单
             $("#loginVerify").focus();
         }
