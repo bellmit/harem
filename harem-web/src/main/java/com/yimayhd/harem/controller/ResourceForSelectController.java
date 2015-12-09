@@ -13,7 +13,6 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
-import com.yimayhd.harem.model.query.ScenicSpotListQuery;
 import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RestaurantService;
@@ -22,6 +21,7 @@ import com.yimayhd.harem.service.UserService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 
 /**
  * 资源选择理
@@ -35,7 +35,7 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private RestaurantService restaurantService;
 	@Autowired
-	private ScenicService scenicSpotService;
+	private ScenicService scenicService;
 	@Autowired
 	private HotelService hotelService;
 	@Autowired
@@ -74,8 +74,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryScenicForSelect")
-	public @ResponseBody Map<String, Object> queryScenicForSelect(ScenicSpotListQuery query) throws Exception {
-		PageVO<ScenicDO> pageVo = scenicSpotService.getListByPage(query);
+	public @ResponseBody Map<String, Object> queryScenicForSelect(ScenicPageQuery query) throws Exception {
+		PageVO<ScenicDO> pageVo = scenicService.getList(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);

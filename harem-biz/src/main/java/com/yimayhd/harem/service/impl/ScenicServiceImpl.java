@@ -3,12 +3,10 @@ package com.yimayhd.harem.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.query.ScenicSpotListQuery;
-import com.yimayhd.harem.model.vo.ScenicSpotVO;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -20,14 +18,21 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
  */
 public class ScenicServiceImpl implements ScenicService {
 
-
 	@Autowired
 	private ItemQueryService itemQueryService;
 
 	@Override
-	public ICPageResult<ScenicDO> getList(ScenicPageQuery scenicPageQuery) throws Exception {
-
-		return itemQueryService.pageQueryScenic(scenicPageQuery);
+	public PageVO<ScenicDO> getList(ScenicPageQuery query) throws Exception {
+		int totalCount = 0;
+		List<ScenicDO> itemList = new ArrayList<ScenicDO>();
+		ICPageResult<ScenicDO> pageResult = itemQueryService.pageQueryScenic(query);
+		if (pageResult != null && pageResult.isSuccess()) {
+			totalCount = pageResult.getTotalCount();
+			if (CollectionUtils.isNotEmpty(pageResult.getList())) {
+				itemList.addAll(pageResult.getList());
+			}
+		}
+		return new PageVO<ScenicDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
 
 	@Override
@@ -60,14 +65,5 @@ public class ScenicServiceImpl implements ScenicService {
 	public void setScenicStatus(long id, int scenicStatus) throws Exception {
 
 	}
-
-
-
-
-
-
-
-
-
 
 }

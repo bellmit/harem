@@ -3,21 +3,15 @@ package com.yimayhd.harem.service;
 import java.util.List;
 
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.query.ScenicSpotListQuery;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
-
-/**
- * 景区资源管理
- */
 public interface ScenicService {
 	/**
 	 * 获取景区资源列表(可带查询条件)
 	 * 
 	 * @return 景区资源列表
 	 */
-	ICPageResult<ScenicDO> getList(ScenicPageQuery scenicPageQuery) throws Exception;
+	PageVO<ScenicDO> getList(ScenicPageQuery scenicPageQuery) throws Exception;
 
 	/**
 	 * 获取景区资源详情
@@ -60,7 +54,5 @@ public interface ScenicService {
 	 * @throws Exception
 	 */
 	void setScenicStatus(long id, int scenicStatus) throws Exception;
-
-
 
 }
