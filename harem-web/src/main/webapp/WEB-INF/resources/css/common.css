@@ -5,9 +5,16 @@ ul li,ol li{list-style: none;}
 table{width: 100%;}
 table th,table td{min-width: 60px;padding: 8px 0 !important;}
 
+
+
 .error{color: #ff0000;}
 .spColor{color: #ff0000;}
 
+.dropdown-menu{max-width: 250px;}
+.dropdown-menu table{width: auto;}
+.dropdown-menu table th,table td{min-width: 0;padding: auto !important;}
+
+.layui-layer-dialog .layui-layer-content {color: #666;}
 
 .dateInp{background: #fff !important;}
 .dateInpCenter{padding: 0 10px !important;background: #f1f1f1 !important;}

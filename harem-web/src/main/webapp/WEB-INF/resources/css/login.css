@@ -113,3 +113,5 @@ form {
 .ico_checkOk{background: url(../img/check_ok.png) no-repeat; width: 20px; height: 20px; border:0 none;display: inline-block;vertical-align: middle;}
 .ico_checkUn{background: url(../img/check_un.png) no-repeat; width: 20px; height: 20px; border:0 none;display: inline-block;vertical-align: middle;}
 .txtRemember{line-height: 20px;vertical-align: middle;}
+
+.layui-layer-dialog .layui-layer-content {color: #666;}

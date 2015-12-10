@@ -191,7 +191,8 @@
         $('#'+tabId+' .tabIframe').load(function(){
             //$(this).height($(this).contents().height());
             var availHei = (top.window.screen.availHeight - 210);
-            $(this).attr("style","min-height:"+availHei+"px;");
+            var availWid = (top.window.screen.availWidth - 600);
+            $(this).attr("style","min-height:"+availHei+"px;min-width:"+availWid+"px;");
             $(".js_tabClick.active").click();
         });
 
