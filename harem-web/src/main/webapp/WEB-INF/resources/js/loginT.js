@@ -32,7 +32,8 @@ $(function () {
 
     $("#loginPassword").keydown(function (event) {    //loginVerify
         if (event.which == "13") {//回车键，用.ajax提交表单
-            $("#loginVerify").focus();
+            //$("#loginVerify").focus();
+            $("#loginSubmit").trigger("click");
         }
     });
 
@@ -53,7 +54,11 @@ $(function () {
 
         $.post(actionDefaultPath + '/login',{ username: strTxtName, password: strTxtPass ,verifyCode: strTxtVerify},function(data){
             if (data && data.status == 0) {//注意是True,不是true
-                location.href = actionDefaultPath + '/main';
+                if(top.$(".navbar").length == 0){
+                    location.href = actionDefaultPath + '/main';
+                }else{
+                    top.freshFrame();
+                }
             } else {
                 layer.alert(data.message);
             }

@@ -2,6 +2,7 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/css/login.css" rel="stylesheet" />
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.css" rel="stylesheet" />
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/md5.min.js"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/common.js"></script>
 <div class="page-container">
 
     <form action="" method="post" id="loginForm">
