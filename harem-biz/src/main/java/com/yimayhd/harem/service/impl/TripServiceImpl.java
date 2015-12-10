@@ -29,7 +29,7 @@ public class TripServiceImpl implements TripService {
 		trip.setCityCode("asdda111");
 		trip.setCityLevel(1);
 		trip.setCityName("大声道");
-		trip.setDepartureURL("http://www.baidu.com");
+		trip.setCoverURL("http://www.baidu.com");
 		trip.setId(1);
 		trip.setJiuDian(new int[]{5,6,7});
 		trip.setLogoURL("http://www.baidu.com");
@@ -52,7 +52,7 @@ public class TripServiceImpl implements TripService {
 			trip.setCityCode("asdda111"+i);
 			trip.setCityLevel(1);
 			trip.setCityName("大声道"+i);
-			trip.setDepartureURL("http://www.baidu.com");
+			trip.setCoverURL("http://www.baidu.com");
 			trip.setId(1);
 			trip.setJiuDian(new int[]{5,6,7});
 			trip.setLogoURL("http://www.baidu.com");

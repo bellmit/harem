@@ -34,7 +34,7 @@ import com.yimayhd.resourcecenter.service.RegionClientService;
 */
 
 @Controller
-@RequestMapping("/B2C")
+@RequestMapping("/B2C/trip")
 public class TripManageController {
 
 	@Autowired RegionClientService regionClientServiceRef;
@@ -55,7 +55,7 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/departure/toAdd")
+	@RequestMapping("/departure/toAdd")
 	public String toAdd(Model model){
 		return "/system/trip/edit";
 	}
@@ -69,7 +69,7 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/departure/add")
+	@RequestMapping("/departure/add")
 	public String toAdd(Model model,RegionDO regionDO){
 		return "/success";
 	}
@@ -85,7 +85,7 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/list/recommended")
+	@RequestMapping("/list/recommended")
 	public String recommendedList(Model model,HttpServletRequest request,HotelListQuery hotelListQuery,ScenicPageQuery scenicPageQuery){
 		int type=StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
 		try {
@@ -120,7 +120,7 @@ public class TripManageController {
 	* @return ResponseVo 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/del")
+	@RequestMapping("/del")
 	@ResponseBody
 	public ResponseVo del(Model model,String code){
 		if(StringUtils.isNotEmpty(code)){
@@ -140,7 +140,7 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/list")
+	@RequestMapping("/list")
 	public String list(Model model,int type){
 		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
 		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
@@ -164,7 +164,7 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/selectRegion")
+	@RequestMapping("/selectRegion")
 	@ResponseBody
 	public String selectDepartureList(Model model){
 		//TODO:去掉已经创建过的,返回list中可以创建的出发地
@@ -180,7 +180,7 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/relevance/recommended")
+	@RequestMapping("/relevance/recommended")
 	public String specialRecommended(Model model,int destinationId,int showCaseId[]){
 		if(destinationId <=0 || destinationId>Integer.MAX_VALUE || showCaseId.length<=0 ){
 			return "/error";
@@ -201,7 +201,7 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/relevance")
+	@RequestMapping("/relevance")
 	public String relevance(Model model,int type,int destinationId,int CityCode){
 		return "/success";
 	}
@@ -215,17 +215,17 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/trip/hotel")
+	@RequestMapping("/hotel")
 	public String hotel(Model model){
 		return "/system/trip/add_destination/best_hotel";
 	}
 	
-	@RequestMapping("/trip/scenic")
+	@RequestMapping("/scenic")
 	public String scenic(Model model){
 		return "/system/trip/add_destination/best_scenic";
 	}
 		
-	@RequestMapping("/trip/live")
+	@RequestMapping("/live")
 	public String live(Model model){
 		return "/system/trip/add_destination/best_live";
 	}		

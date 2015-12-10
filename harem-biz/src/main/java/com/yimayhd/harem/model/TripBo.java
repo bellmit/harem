@@ -19,7 +19,7 @@ public class TripBo implements Serializable {
 	public int cityLevel; /** 级别 省市区 */
 	public int[] tag; /** 标签 */
 	public String logoURL; /** 封面图 */
-	public String departureURL; /** 目的地图 */
+	public String coverURL; /** 目的地图 */
 	public List<TripDetail> TripDetail; /** 概况 */
 	public int type;/** 1出发地，2目的地*/
 	//---以下关联id，以数组方式存放-----------------------------------------------
@@ -132,14 +132,14 @@ public class TripBo implements Serializable {
 
 
 
-	public String getDepartureURL() {
-		return departureURL;
+	public String getCoverURL() {
+		return coverURL;
 	}
 
 
 
-	public void setDepartureURL(String departureURL) {
-		this.departureURL = departureURL;
+	public void setCoverURL(String coverURL) {
+		this.coverURL = coverURL;
 	}
 
 

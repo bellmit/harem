@@ -9,12 +9,12 @@
                 <tbody>
                 <tr>
                     <td><span class="spColor">*</span>目的地名称</td>
-                    <td><input type="text" class="inpControl" name="name" placeholder="请输入20个字以内"></td>
+                    <td><input type="text" class="inpControl" name="cityName" placeholder="请输入20个字以内"></td>
                 </tr>
 				
 				<tr>
                     <td><span class="spColor">*</span>级别（省/市）</td>
-                    <td><input type="text" class="inpControl" name="level" reayOnly="true" ></td>
+                    <td><input type="text" class="inpControl" name="cityLevel" reayOnly="true" ></td>
                 </tr>
 				
                 <tr>
@@ -357,19 +357,18 @@
         });
 
         $('#btnSubmit').click(function(){
-            if($("#hotelForm").valid()) {
-                $(this).prop('disabled', true);
+            //if($("#hotelForm").valid()) {}
+             $(this).prop('disabled', true);
                 var actionUrl;
                 var hotelId = $('#hotelForm').attr('hotelId');
                 if (hotelId) {
-                    actionUrl = actionDefaultPath + '/B2C/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+                    actionUrl = actionDefaultPath + '/B2C/trip/edit/' + $('#hotelForm').attr('hotelId');
                 } else {
-                    actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
+                    actionUrl = actionDefaultPath + '/B2C/trip/add';
                 }
                 $('#hotelForm').attr('action', actionUrl);
                 $('#hotelForm').submit();
                 alert("提交成功")
-            }
         });
     });
 </script>
