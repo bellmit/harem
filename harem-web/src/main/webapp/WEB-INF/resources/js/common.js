@@ -9,13 +9,16 @@ function openwin(url) {
 }
 
 /************父页面刷新子页面************/
-function freshFrame(){
+function freshFrame(callback){
     top.$(".tab-pane").each(function(){
         if($(this).css("display") == "block"){
             //console.log($(this));
             var th = $(this)[0]
             var srcFrame = $(th).find(".tabIframe").attr("src");
             $(th).find(".tabIframe").attr("src",srcFrame);
+            if(callback){
+                callback();
+            }
         }
     })
 }
