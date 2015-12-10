@@ -6,7 +6,8 @@ import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
-import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.BeanUtils;
+//import org.apache.commons.beanutils.BeanUtils;
 
 
 public class BizOrderVO extends BizOrderDO {
@@ -30,7 +31,8 @@ public class BizOrderVO extends BizOrderDO {
 
     public static BizOrderVO getBizOrderVO(BizOrderDO bizOrderDO) throws Exception{
         BizOrderVO bizOrderVO = new BizOrderVO();
-        BeanUtils.copyProperties(bizOrderVO, bizOrderDO);
+        //BeanUtils.copyProperties(bizOrderVO, bizOrderDO);
+        BeanUtils.copyProperties(bizOrderDO, bizOrderVO);
         //获取部门工号，中短号等信息
         bizOrderVO.setMallInfo(BizOrderUtil.getIMallInfo(bizOrderDO));
         //电话去+86

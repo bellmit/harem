@@ -12,6 +12,7 @@ public class TradeListQuery extends BaseQuery {
     private String terminalName;//终端编号*/
     private String beginDate;//交易开始时间
     private String endDate;//交易结束时间
+    private int payStatus;//交易状态
 
     public Long getBizOrderId() {
         return bizOrderId;
@@ -43,5 +44,13 @@ public class TradeListQuery extends BaseQuery {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public int getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(int payStatus) {
+        this.payStatus = payStatus;
     }
 }

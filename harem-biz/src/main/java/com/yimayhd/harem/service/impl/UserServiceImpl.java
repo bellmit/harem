@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.yimayhd.harem.util.PhoneUtil;
+import com.yimayhd.membercenter.client.result.MemPageResult;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.MerchantService;
 
@@ -77,8 +78,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDO> getMemberByUserId(long sellerId,TradeMemberQuery tradeMemberQuery) throws Exception {
+	public PageVO<UserDO>  getMemberByUserId(long sellerId,TradeMemberQuery tradeMemberQuery) throws Exception {
 		//查询条件转换
+		PageVO<UserDO> pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(),tradeMemberQuery.getPageSize(),0);
 		MerchantPageQueryVO merchantPageQueryVO = new MerchantPageQueryVO();
 		merchantPageQueryVO.setMerchantUserId(sellerId);
 		merchantPageQueryVO.setPageNo(tradeMemberQuery.getPageNumber());
@@ -92,18 +94,20 @@ public class UserServiceImpl implements UserService {
 		if(!StringUtils.isBlank(tradeMemberQuery.getTel())){
 			merchantPageQueryVO.setMobile(tradeMemberQuery.getTel());
 		}
-		MemResult<List<UserDO>> memResult = merchantServiceRef.findPageUsersByMerchant(merchantPageQueryVO);
+		MemPageResult<UserDO> memResult = merchantServiceRef.findPageUsersByMerchant(merchantPageQueryVO);
 		List<UserDO> userDOList = null;
 		if(null != memResult && memResult.isSuccess()){
-			userDOList = memResult.getValue();
+			userDOList = memResult.getList();
 			if(CollectionUtils.isNotEmpty(userDOList)){
 				for (UserDO userDO :userDOList){
 					//用户电话
 					userDO.setMobileNo(PhoneUtil.phoneFormat(userDO.getMobileNo()));
 				}
+				//TODO 总条数
+				pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(),tradeMemberQuery.getPageSize(),memResult.getTotalCount(),userDOList);
 			}
 		}
-		return userDOList;
+		return pageVO;
 	}
 
 	@Override

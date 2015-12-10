@@ -272,16 +272,12 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--<plugin>
 				<groupId>com.alibaba.citrus.tool</groupId>
 				<artifactId>autoconfig-maven-plugin</artifactId>
 				<version>1.2</version>
 				<configuration>
-					<!-- 要进行AutoConfig的目标文件，默认为${project.artifact.file}。 <dest>${project.artifact.file}</dest> -->
-					<!-- 配置后，是否展开目标文件，默认为false，不展开。 <exploding>true</exploding> -->
-					<!-- 展开到指定目录，默认为${project.build.directory}/${project.build.finalName}。 
-						<explodedDirectory> ${project.build.directory}/${project.build.finalName} 
-						</explodedDirectory> -->
+
 				</configuration>
 				<executions>
 					<execution>
@@ -291,7 +287,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 		</plugins>
 	</build>
 

@@ -50,7 +50,7 @@ public interface UserService {
 	 * @return 会员列表
 	 * @throws Exception
 	 */
-	List<UserDO> getMemberByUserId(long sellerId,TradeMemberQuery tradeMemberQuery) throws Exception;
+	PageVO<UserDO> getMemberByUserId(long sellerId,TradeMemberQuery tradeMemberQuery) throws Exception;
 
 	User getById(long id) throws Exception;
 }

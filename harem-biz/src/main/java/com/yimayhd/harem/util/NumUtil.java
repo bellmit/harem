@@ -1,5 +1,7 @@
 package com.yimayhd.harem.util;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Administrator on 2015/10/27.
  */
@@ -10,11 +12,10 @@ public class NumUtil {
      * @param money
      * @return
      */
-    public static double moneyTransform(long money){
+    public static String moneyTransform(long money){
         double dn = money;
-        return dn/100;
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        return decimalFormat.format(dn/100);
     }
-
-
 
 }

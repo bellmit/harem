@@ -6,6 +6,7 @@ import com.yimayhd.tradecenter.client.model.domain.imall.IMallInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.PayStatus;
 import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import org.springframework.beans.BeanUtils;
@@ -79,6 +80,7 @@ public class BizOrderExportVO implements Serializable{
     private Date sttDate;//世界戳
 
     private double actualTotalFeeY;//交易金额元
+    private String payStatusName;//支付方式名称
 
     public static BizOrderExportVO getBizOrderExportVO(BizOrderDO bizOrderDO) throws Exception{
         BizOrderExportVO bizOrderExportVO = new BizOrderExportVO();
@@ -95,6 +97,9 @@ public class BizOrderExportVO implements Serializable{
         bizOrderExportVO.payChannel = BizOrderUtil.getInt(bizOrderDO, BizOrderFeatureKey.PAY_CHANNEL);
         TcPayChannel tcPayChannel = TcPayChannel.getPayChannel(bizOrderExportVO.getPayChannel());
         bizOrderExportVO.setPayChannelName(null == tcPayChannel ? "其他" : tcPayChannel.getDesc());
+
+        PayStatus payStatus = PayStatus.getByStatus(bizOrderExportVO.getPayStatus());
+        bizOrderExportVO.setPayStatusName(null == payStatus ? "其他" : payStatus.getDes());
         //分转元
         bizOrderExportVO.setActualTotalFeeY(bizOrderExportVO.getActualTotalFee() / 100);
         return bizOrderExportVO;
@@ -562,5 +567,13 @@ public class BizOrderExportVO implements Serializable{
 
     public void setActualTotalFeeY(double actualTotalFeeY) {
         this.actualTotalFeeY = actualTotalFeeY;
+    }
+
+    public String getPayStatusName() {
+        return payStatusName;
+    }
+
+    public void setPayStatusName(String payStatusName) {
+        this.payStatusName = payStatusName;
     }
 }

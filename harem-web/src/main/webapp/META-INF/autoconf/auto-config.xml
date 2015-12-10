@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+
+	<group name="jdbc">
+		<property name="jdbc.driverClassName" defaultValue="com.mysql.jdbc.Driver" description="#数据库驱动" />
+		<property name="jdbc.url" defaultValue="jdbc:mysql://192.168.1.202:3306/seller_console?useUnicode=true&amp;characterEncoding=UTF-8" description="#" />
+		<property name="jdbc.user" defaultValue="root" description="#" />
+		<property name="jdbc.password" defaultValue="123456" description="#" />
+	</group>
+	<group name="tfs">
+		<property name="tfs.nsip" defaultValue="192.168.1.209:9999" description="#" />
+		<property name="tfs.uniqueServerList" defaultValue="192.168.1.209:5198" description="#" />
+		<property name="tfs.groupName" defaultValue="group_1" description="#" />
+		<property name="tfs.namespace" defaultValue="201" description="#" />
+		<property name="harem.tfsRootPath" defaultValue="//192.168.1.209:7500/v1/tfs/" description="#tfs默认访问地址" />
+	</group>
+	<group name="tair">
+		<property name="tair.configServer.main" defaultValue="192.168.1.209:5198" description="#" />
+		<property name="tair.configServer.slave" defaultValue="192.168.1.209:5198" description="#" />
+		<property name="tair.groupName.per" defaultValue="group_1" description="#" />
+		<property name="tair.harem.namespace" defaultValue="299" description="#" />
+		<property name="tair.timeout" defaultValue="5000" description="#" />
+		<property name="tair.config.port" defaultValue="5198" description="#" />
+		<property name="tair.config.server" defaultValue="192.168.1.209" description="#" />
+	</group>
+
+	<group name="default">
+		<property name="harem.staticResourcesPath" defaultValue="http://localhost:8080/" description="#静态文件地址" />
+		<property name="harem.actionDefaultFontPath" defaultValue="http://localhost:8080/" description="#请求地址默认前缀" />
+		<property name="actionUploadFilePath" defaultValue="http://192.168.1.126:8080/filegw/file/upload" description="#上传附件地址(单个)" />
+		<property name="actionUploadFilesPath" defaultValue="http://192.168.1.126:8080/filegw/file/uploads" description="#上传附件地址(多个)" />
+	</group>
+
+	<group name="dubbo">
+		<property name="app.name" defaultValue="harem" description="#" />
+		<property name="dubbo.port" defaultValue="-1" description="#" />
+		<property name="dubbo.registry.url " defaultValue="192.168.1.202:2181" description="#" />
+		<property name="dubbo.retries" defaultValue="0" description="#" />
+		<property name="consumer.dubbo.timeout" defaultValue="4000" description="#" />
+
+		<property name="consumer.dubbo.item.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.item.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="dubbo.import.user.version" defaultValue="1.0.0.test" description="#" />
+		<property name="dubbo.import.consumer.user.check" defaultValue="false" description="#" />
+
+		<property name="consumer.resources.dubbo.check" defaultValue="false" description="#" />
+		<property name="consumer.resource.dubbo.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.member.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.member.version" defaultValue="1.0.0.test" description="#" />
+
+
+		<property name="consumer.dubbo.paycore.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.paycore.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.trade.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.trade.version" defaultValue="1.0.0.test" description="#" />
+
+	</group>
+	<script>
+		<generate template="config.properties.vm" destfile="WEB-INF/config.properties"	charset="UTF-8" />
+	</script>
+</config>

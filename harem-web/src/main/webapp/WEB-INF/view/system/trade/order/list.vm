@@ -14,10 +14,22 @@
                     </span>
                     <input type="text" class="form-control" name="phone" value="$!tradeListQuery.phone">
                 </div>
-
                 <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">状态：</button>
+                    </span>
+                    <select class="form-control" name="payStatus">
+                        <option value="0" #if($!tradeListQuery.payStatus == 0) selected #end>全部</option>
+                        <option value="1" #if($!tradeListQuery.payStatus == 1) selected #end>未付款</option>
+                        <option value="4" #if($!tradeListQuery.payStatus == 4) selected #end>退款后交易关闭</option>
+                        <option value="6" #if($!tradeListQuery.payStatus == 6) selected #end>交易成功</option>
+                        <option value="8" #if($!tradeListQuery.payStatus == 8) selected #end>未付款关闭</option>
+                        <option value="9" #if($!tradeListQuery.payStatus == 9) selected #end>待商户确认</option>
+                    </select>
+                </div>
+            <div class="input-group inpSingle">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">交易时间</button>
+                            <button class="btn btn-default" type="button">交易状态</button>
                         </span>
                     <input type="text" class='form-control form-date dateInp startDate' readonly name="beginDate" value="$!tradeListQuery.beginDate">
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
@@ -45,6 +57,7 @@
                     <th>会员名</th>
                     <th>手机号</th>
                     <th>支付方式</th>
+                    <th>交易状态</th>
                     <th>付款金额</th>
                     <th>使用积分</th>
                     <th>赠送积分</th>
@@ -66,6 +79,7 @@
                         <td>$!order.buyerNick</td>
                         <td>$!order.mallInfo.pn</td>
                         <td>#PAY_CHANNEL($!order.payChannel)</td>
+                        <td>#PAY_STATUS($!order.payStatus)</td>
                         <td>$!utilNum.moneyTransform($!order.actualTotalFee)</td>
                         <td>$!order.usePoint</td>
                         <td>$!order.givePoint</td>

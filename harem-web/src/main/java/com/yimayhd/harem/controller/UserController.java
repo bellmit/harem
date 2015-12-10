@@ -1,6 +1,7 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.HaMenuDO;
 import com.yimayhd.harem.model.User;
@@ -83,15 +84,12 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "/trade/userManage/memberList", method = RequestMethod.GET)
 	public String getTradeMemberList(Model model,HttpServletRequest request,TradeMemberQuery tradeMemberQuery) throws Exception {
-		//获取当前用户ID
-		//TODO
-		System.out.println("***********************************************************");
-		System.out.println(tradeMemberQuery.getNickName());
-		System.out.println("***********************************************************");
+
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
-		List<UserDO>  userDOList= userService.getMemberByUserId(sellerId,tradeMemberQuery);
+		PageVO<UserDO> pageVO= userService.getMemberByUserId(sellerId,tradeMemberQuery);
 		model.addAttribute("tradeMemberQuery", tradeMemberQuery);
-		model.addAttribute("userList", userDOList);
+		model.addAttribute("userList", pageVO.getItemList());
+		model.addAttribute("pageVo", pageVO);
 		return "/system/tradeUser/list";
 	}
 }

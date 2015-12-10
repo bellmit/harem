@@ -54,7 +54,9 @@ public class TradeServiceImpl implements TradeService {
 
         if(null != tradeListQuery.getBizOrderId()&& tradeListQuery.getBizOrderId() > 0){
             //按交易id查询
-            SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(tradeListQuery.getBizOrderId(),new OrderQueryOption());
+            OrderQueryOption orderQueryOption =  new OrderQueryOption();
+            orderQueryOption.setAll();
+            SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(tradeListQuery.getBizOrderId(),orderQueryOption);
             //返回数组
             List<BizOrderDO> bizOrderDOList = new ArrayList<BizOrderDO>();
             if(null != singleQueryResult && singleQueryResult.isSuccess()) {
@@ -83,7 +85,10 @@ public class TradeServiceImpl implements TradeService {
                 }
                 orderQueryDTO.setBuyerId(baseResult.getValue().getId());
             }
-
+            //订单状态
+            if(0 != tradeListQuery.getPayStatus()){
+                orderQueryDTO.setPayStatuses(new int[]{tradeListQuery.getPayStatus()});
+            }
             orderQueryDTO.setOrderBizTypes(new int[]{OrderBizType.MEMBER_RECHARGE.getBizType(), OrderBizType.BUSINESS_OUT.getBizType()});
 
             if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
@@ -161,6 +166,10 @@ public class TradeServiceImpl implements TradeService {
                     return bizOrderExportVOList;
                 }
                 orderQueryDTO.setBuyerId(baseResult.getValue().getId());
+            }
+            //订单状态
+            if(0 != tradeListQuery.getPayStatus()){
+                orderQueryDTO.setPayStatuses(new int[]{tradeListQuery.getPayStatus()});
             }
             orderQueryDTO.setOrderBizTypes(new int[]{OrderBizType.MEMBER_RECHARGE.getBizType(), OrderBizType.BUSINESS_OUT.getBizType()});
             if(!StringUtils.isBlank(tradeListQuery.getBeginDate())) {
