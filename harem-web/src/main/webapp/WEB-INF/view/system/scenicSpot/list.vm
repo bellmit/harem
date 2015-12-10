@@ -85,7 +85,11 @@
                         </td>
                         <td>
                         <button type="button" class="btn btn-primary scenicDetail" scenicId="$scenic.id">查看</button>
-                        <button type="button" class="btn btn-primary "  scenicId="$scenic.id" status="$scenic.status">#if($scenic.status == 1) 停用 #elseif($scenic.status == 2) 启用 #end </button>
+                        #if($scenic.status == 1)
+                        	<button type="button" class="btn btn-primary updateScenicStatus"  scenicId="$scenic.id" status="2">停用   </button>
+                        #elseif($scenic.status == 2) 
+                        	<button type="button" class="btn btn-primary updateScenicStatus"  scenicId="$scenic.id" status="1">启用  </button>
+                        #end
                         </td>
                     </tr>
                     #end
@@ -126,10 +130,9 @@
                 window.openwin(url);
         });
 
-        $('.scenicBtn').each(function(){
-            $(this).click(function(){
+        $('.updateScenicStatus').click(function(){
                 $(this).prop('disabled',true);
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/hotelManage/setHotelStatus/' + $(this).attr('scenicId') ,{'scenicStatus':$(this).attr('status')} ,function(data){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/scenicSpotManage/updateStatus/' + $(this).attr('scenicId') ,{'scenicStatus':$(this).attr('status')} ,function(data){
                     if(data.status == 200){
                         layer.alert('操作成功', {
                             icon: 1,
@@ -142,12 +145,12 @@
                             icon: 2,
                             time: 2000
                         }, function(){
-                            $(this).prop('disabled',false);
+                            window.location.href = window.location.href;
                         });
 
                     }
                 })
-            });
+           
         });
 
         //全选
@@ -160,14 +163,18 @@
         });
         //批量
         $('.scenicBatchBtn').click(function(){
-            $(this).prop('disabled',true);
             var arr = new Array();
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
-            console.log(arr);
-
-            $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/hotelManage/setHotelStatusList',{hotelIdList:arr,hotelStatus:$(this).attr('btnType')},function(data){
+           
+            if(arr==null||arr==""){
+            	  layer.alert('请选择', {
+                        icon: 2,
+                        time: 2000
+                    })
+            }else{
+            	 $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/scenicSpotManage/batchupdateStatus',{scenicIdList:arr,scenicStatus:$(this).attr('btnType')},function(data){
                 if(data&&data.status == 200){
                     layer.alert('操作成功', {
                         icon: 1,
@@ -183,7 +190,10 @@
                         $(this).prop('disabled',false);
                     });
                 }
-            })
+           	 })
+            	
+            }
+           
         });
         //新建
         $('.scenicAddBtn').click(function(){

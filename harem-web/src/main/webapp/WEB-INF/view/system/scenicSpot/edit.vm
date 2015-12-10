@@ -80,41 +80,22 @@
 				<tr>
                     <td><span class="spColor">*</span>入园须知</td>
                     <td>
-                    	<button type="button" class="btn btn-default add-extra-info-item">增加条目</button>
+                    	<button type="button" class="btn btn-default addNeedKnow">增加条目</button>
         	<table class="table">
 				<thead >
-            		<tr >
+            		<tr>
         				<th>标题（10个字以内）</th>
         				<th>内容（500字以内）</th>
         				<th></th>
                     </tr>
                 </thead>
-				<tbody class="extra-info-list">
-            		<tr class="extra-info-item">
+				<tbody class="extra-info-list needKnowTable">
+            		<tr class="needKnow">
         				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
         				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button type="button"  class="btn btn-link extra-info-item-delete">删除</button></td>
+						<td><button type="button"  class="btn btn-link"  onclick="delneedKnowTR(this)">删除</button></td>
                     </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
+					
                 </tbody>
             </table>
                     
@@ -160,7 +141,32 @@
 </div>
 </form>
 
+<script type="text/html" id="needKnowTemp">
+<tr class="needKnow">
+       <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+       <td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+		<td><button type="button"  class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
+</tr>
+</script>
+
+
+
 <script>
+
+var conTr =$(".needKnow").length;
+$(".addNeedKnow").unbind("click").click(function () {
+	
+	var addhtml="";
+	var html1 = $("#needKnowTemp").html();
+	var i = conTr++;
+	addhtml = addhtml + html1.replace('$index', i).replace('$index1', i);
+	alert(addhtml);
+	$(".needKnowTable").prev().append(addhtml);
+});	
+
+ function delneedKnowTR(obj){
+	 $(obj).parent().parent().remove(); 
+ } 
     var mapCallback = function(data){
         if(data){
             $("#locationX").val(data['pointX']);
@@ -169,26 +175,11 @@
     }
 
     $(function(){
-    	$(".add-extra-info-item").click(function(){
-			var content = $(".extra-info-list");
-			var item = $("<tr class='extra-info-item'/>");
-			item.append($("<td><input type='text' class='form-control extra-info-item-title' placeholder='费用包含'></td>"));
-			item.append($("<td><textarea class='form-control extra-info-item-text' rows='3'></textarea></td>"));
-			var delete_btn = $("<button class='btn btn-link extra-info-item-delete'>删除</button>");
-			delete_btn.click(function(){
-    			$(this).parent().parent().remove();
-    		});
-			item.append($("<td/>").append(delete_btn));
-			content.append(item);
-		});
+    	
       $(".extra-info-item-delete").click(function(){
 			$(this).parent().parent().remove();
 		});
-		$(".extra-info-item-delete").click(function(){
-			$(this).parent().parent().remove();
-		});
-    
-    
+
         $('.locationXYSelectBtn').click(function(){
             openBaiduMap(115.727899,37.723961,mapCallback);
         });

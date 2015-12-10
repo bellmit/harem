@@ -90,14 +90,10 @@ public class ScenicManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/setScenicStatus/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setScenicStatus(@PathVariable("id") long id, int scenicStatus) throws Exception {
-		ScenicDO scenicDO = new ScenicDO();
-		scenicDO.setId(id);
-		scenicDO.setStatus(scenicStatus);
-		scenicSpotService.modify(scenicDO);
-		System.out.println(0);
+	public ResponseVo updateStatus(@PathVariable("id") int id, int scenicStatus) throws Exception {
+		scenicSpotService.updateStatus(id,scenicStatus);
 		return new ResponseVo();
 	}
 
@@ -107,11 +103,11 @@ public class ScenicManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/setScenicStatusList", method = RequestMethod.POST)
+	@RequestMapping(value = "/batchupdateStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setHotelStatusList(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList,
+	public ResponseVo batchupdateStatus(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList,
 			int scenicStatus) throws Exception {
-		scenicSpotService.setScenicStatusList(scenicIdList, scenicStatus);
+		scenicSpotService.batchupdateStatus(scenicIdList,scenicStatus);
 		return new ResponseVo();
 	}
 
