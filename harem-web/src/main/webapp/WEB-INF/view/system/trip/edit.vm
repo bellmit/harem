@@ -8,22 +8,43 @@
 #r-result{height:400px;width:230px;float:right;}
 </style>
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
-        <a href="#scenicInfo" data-toggle="tab">目的地基础信息</a>
+        <a href="#mddInfo" data-toggle="tab">目的地基础信息</a>
     </li>
 	<li>
-        <a href="#scenicDetailDiv" data-toggle="tab">必买推荐</a>
+        <a href="#bimaituijian" data-toggle="tab">必买推荐</a>
     </li>
     <li>
-        <a href="#scenicImgs" data-toggle="tab">必去景点</a>
+        <a href="#biqujingdian" data-toggle="tab">必去景点</a>
     </li>
 	<li>
-        <a href="#scenicImgs" data-toggle="tab">精选酒店</a>
+        <a href="#jingxuanjiudian" data-toggle="tab">精选酒店</a>
     </li>
 	<li>
-        <a href="#scenicImgs" data-toggle="tab">精选直播</a>
+        <a href="#jingxuanzhibo" data-toggle="tab">精选直播</a>
     </li>
 </ul>
+
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane" id="mddInfo">
+		
+            #parse("/system/trip/add_destination/destination_base_info.vm")
+    </div>
+    	
+    <div class="tab-pane" id="bimaituijian">
+            #parse("/system/trip/add_destination/list_buy_recommended.vm")
+    </div>
+    	
+    <div class="tab-pane" id="biqujingdian">
+            #parse("/system/trip/add_destination/list_scenic.vm")
+    </div>
+    	
+    <div class="tab-pane" id="jingxuanjiudian">
+            #parse("/system/trip/add_destination/list_hotel.vm")
+    </div>
+    	
+    <div class="tab-pane" id="jingxuanzhibo">
+            #parse("/system/trip/add_destination/list_live.vm")
+    </div>
+</div>	

@@ -2,6 +2,8 @@ package com.yimayhd.harem.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ import com.yimayhd.harem.service.ShowcaseService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.RelatedType;
@@ -42,16 +43,26 @@ public class TripManageController {
 	
 	@Autowired HotelService hotelService;
 	
-	 @Autowired ScenicService scenicSpotService;
+	@Autowired ScenicService scenicSpotService;
 	
+	
+	/**
+	* @Title: toAdd 
+	* @Description:(新增目的地) 
+	* @author create by yushengwei @ 2015年12月10日 下午3:46:59 
+	* @param @param model
+	* @param @return 
+	* @return String 返回类型 
+	* @throws
+	 */
 	@RequestMapping("/trip/departure/toAdd")
-	public String add(Model model){
-		return "/system/departure/edit";
+	public String toAdd(Model model){
+		return "/system/trip/edit";
 	}
 	
 	/**
 	* @Title: add 
-	* @Description:(新增出发地) 
+	* @Description:(新增出发地/目的地) 
 	* @author create by yushengwei @ 2015年12月8日 下午3:10:08 
 	* @param @param model
 	* @param @return 
@@ -61,6 +72,42 @@ public class TripManageController {
 	@RequestMapping("/trip/departure/add")
 	public String toAdd(Model model,RegionDO regionDO){
 		return "/success";
+	}
+	
+	/**
+	* @Title: recommendedList 
+	* @Description:(获取买必推荐列表) 
+	* @author create by yushengwei @ 2015年12月8日 上午9:42:05 
+	* @param @param model
+	* @param @param destinationId
+	* @param @param showCaseId
+	* @param @return 
+	* @return String 返回类型 
+	* @throws
+	 */
+	@RequestMapping("/trip/list/recommended")
+	public String recommendedList(Model model,HttpServletRequest request,HotelListQuery hotelListQuery,ScenicPageQuery scenicPageQuery){
+		int type=StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
+		try {
+			List<ShowCaseResult> list = showcaseService.getListShowCaseResult(type);
+			model.addAttribute("recommendedList", list);
+			if (type == RelatedType.recommended_buy.getType()) {//必买推荐
+				return "/system/trip/add_destination/list_buy_recommended";
+			} else if (type == RelatedType.recommended_scenic.getType()) {//必去景点 ?
+				PageVO<ScenicDO>  scenicDOList = scenicSpotService.getList(scenicPageQuery);
+			    model.addAttribute("scenicDOList", scenicDOList);
+				return "/system/trip/add_destination/list_scenic";
+			} else if (type == RelatedType.recommended_hotel.getType()) {//酒店 ?
+				List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
+				model.addAttribute("hotelDOList", hotelDOList);
+				return "/system/trip/add_destination/list_hotel";
+			} else if (type == RelatedType.recommended_live.getType()) {//直播 ?
+				return "/system/trip/add_destination/list_live";
+			} 
+		} catch (Exception e) {
+			
+		}
+		return "/error";
 	}
 	
 	/**
@@ -78,8 +125,9 @@ public class TripManageController {
 	public ResponseVo del(Model model,String code){
 		if(StringUtils.isNotEmpty(code)){
 			//TODO:删除接口
+			return new ResponseVo("success");
 		}
-		return null;
+		return new ResponseVo("error");
 	}
 		
 	/**
@@ -107,13 +155,6 @@ public class TripManageController {
 		return "/system/error";
 	}
 	
-	@RequestMapping("/trip/toAdd")
-	public String list(Model model){
-		//TODO:include 5个vm页面进去
-		return "/system/trip/edit";
-	}
-	
-	
 	/**
 	* @Title: selectDepartureList 
 	* @Description:(获取省市区列表) 
@@ -129,43 +170,6 @@ public class TripManageController {
 		//TODO:去掉已经创建过的,返回list中可以创建的出发地
 		return null;
 	}
-	
-	
-	/**
-	* @Title: recommendedList 
-	* @Description:(获取买必推荐列表) 
-	* @author create by yushengwei @ 2015年12月8日 上午9:42:05 
-	* @param @param model
-	* @param @param destinationId
-	* @param @param showCaseId
-	* @param @return 
-	* @return String 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/trip/list/recommended")
-	public String recommendedList(Model model,int type,HotelListQuery hotelListQuery,ScenicPageQuery scenicPageQuery){
-		try {
-			List<ShowCaseResult> list = showcaseService.getListShowCaseResult(type);
-			model.addAttribute("recommendedList", list);
-			if (type == RelatedType.recommended_buy.getType()) {//必买推荐
-				return "/system/trip/add_destination/list_buy_recommended";
-			} else if (type == RelatedType.recommended_scenic.getType()) {//必去景点 ?
-					PageVO<ScenicDO>  scenicDOList = scenicSpotService.getList(scenicPageQuery);
-			    	model.addAttribute("scenicDOList", scenicDOList);
-				return "/system/trip/add_destination/list_scenic";
-			} else if (type == RelatedType.recommended_hotel.getType()) {//酒店 ?
-				List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-				model.addAttribute("hotelDOList", hotelDOList);
-				return "/system/trip/add_destination/list_hotel";
-			} else if (type == RelatedType.recommended_live.getType()) {//直播 ?
-				return "/system/trip/add_destination/list_live";
-			} 
-		} catch (Exception e) {
-			
-		}
-		return "/error";
-	}
-	
 	
 	/**
 	* @Title: specialRecommended 
