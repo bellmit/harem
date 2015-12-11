@@ -23,7 +23,7 @@ public class TestMapper {
 		RoleListQuery roleListQuery = new RoleListQuery();
 		roleListQuery.setPageNumber(0);
 		roleListQuery.setPageSize(5);
-		roleListQuery.setRoleName("name");
+		//roleListQuery.setRoleName("name");
 		System.out.println(JSON.toJSONString(haRoleMapper.getListNew(roleListQuery)));
 	}
 	
