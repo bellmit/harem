@@ -101,6 +101,7 @@ var pageUtils = {
         });
         input_group.append(select);
         input_group.append($("<span class='input-group-addon'>条</span>"));
+        input_group.append($("<span class='input-group-addon'></span>").text("共查询到 "+pageVo.totalCount+" 条记录"));
         pager.append(li.append(input_group));
         content.append(root);
     },
