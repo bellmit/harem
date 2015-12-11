@@ -4,7 +4,7 @@
     #set($pageVoNo = $pageVo.thisPageNumber)
     #set($before=0)
     #set($after=0)
-    <ul class="pager pager-pills" style="width: 100%;">
+    <ul class="pager" style="width: 100%;">
         #if($pageVo.hasPreviousPage)
             <li class="previous">
                 <a href="javascript:void(0);" class="LinkeToPage" pageNo="$pageVo.previousPageNumber" id="prePage">«
@@ -62,6 +62,7 @@
                     <option value="50">50</option>
                 </select>
                 <span class="input-group-addon">条</span>
+				<span class="input-group-addon">共查询到 ${pageVo.totalCount} 条记录</span>
             </div>
         </li>
     </ul>
