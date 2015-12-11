@@ -16,7 +16,7 @@
 
 
     <!--程序中获取配置文件信息-->
-    <util:properties id="haremProperties" location="classpath:config.properties"/>
+    <util:properties id="haremProperties" location="classpath:WEB-INF/config.properties"/>
      <!--dubbo-->
     <import resource="spring-dubbo-test.xml"/>
     <import resource="spring-consumer-test.xml"/>
@@ -25,7 +25,7 @@
     tfs
     <import resource="tfs.xml"/>
     tair
-    <import resource="application-tair.xml"/>
+    <import resource="spring-tair.xml"/>
     service注入
     <import resource="spring-service.xml"/>
 

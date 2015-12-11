@@ -47,7 +47,7 @@
     <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
         <!-- 模板存放的路径 -->
         <property name="resourceLoaderPath" value="/WEB-INF/view" />
-        <property name="configLocation" value="classpath:velocity.properties" />
+        <property name="configLocation" value="/WEB-INF/velocity.properties" />
     </bean>
 
     <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
