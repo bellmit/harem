@@ -20,6 +20,8 @@ import java.util.List;
  * Created by czf on 2015/10/27.
  */
 public class RefundServiceImpl implements RefundService {
+    private static final int EXPORT_PAGE_NUMBER = 1;//导出数据时的页码
+    private static final int EXPORT_PAGE_SIZE = 100000;//导出数据的条数上限
     @Autowired
     private IMallHaremService iMallHaremServiceRef;
     @Override
@@ -64,8 +66,8 @@ public class RefundServiceImpl implements RefundService {
         if(!StringUtils.isEmpty(refundListQuery.getEndDate())) {
             tcRefundRecordQuery.setGmtCreatedEnd(DateUtil.formatMaxTimeForDate(refundListQuery.getEndDate()));
         }
-        tcRefundRecordQuery.setCurrentPage(1);
-        tcRefundRecordQuery.setPageSize(10000);
+        tcRefundRecordQuery.setCurrentPage(EXPORT_PAGE_NUMBER);
+        tcRefundRecordQuery.setPageSize(EXPORT_PAGE_SIZE);
         TCPageResult<IMallRefundRecordDO> tcPageResult = iMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
         if(null != tcPageResult && tcPageResult.isSuccess() && CollectionUtils.isNotEmpty(tcPageResult.getList())) {
             iMallRefundRecordExportVOList = new ArrayList<IMallRefundRecordExportVO>();

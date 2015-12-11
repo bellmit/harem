@@ -92,7 +92,6 @@ public class RefundManageController extends BaseController {
 			headList.add(new BasicNameValuePair("tradeId", "交易编号"));
 			headList.add(new BasicNameValuePair("department", "部门"));
 			headList.add(new BasicNameValuePair("jobNumber", "工号"));
-			headList.add(new BasicNameValuePair("terminalNumber", "终端编号"));
 			headList.add(new BasicNameValuePair("refundPaymentY", "实际退款金额"));
 			headList.add(new BasicNameValuePair("paymentY", "付款金额"));
 			headList.add(new BasicNameValuePair("refundTime", "退款时间"));

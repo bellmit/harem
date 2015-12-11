@@ -169,8 +169,8 @@ public class TradeManageController extends BaseController {
 		List<PayOrderExportVO> payOrderExportVOList = tradeService.exportPayOrderList(sellerId,payListQuery);
 		if(CollectionUtils.isNotEmpty(payOrderExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
-			headList.add(new BasicNameValuePair("tradeNo", "交易号"));
-			headList.add(new BasicNameValuePair("id", "商户订单号"));
+			headList.add(new BasicNameValuePair("tradeNo", "支付编号"));
+			headList.add(new BasicNameValuePair("id", "交易号"));
 			headList.add(new BasicNameValuePair("subject", "商品信息"));
 			headList.add(new BasicNameValuePair("buyerAccount", "对方账号"));
 			headList.add(new BasicNameValuePair("totalAmountY", "交易金额(单位：分)"));

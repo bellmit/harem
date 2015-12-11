@@ -130,9 +130,9 @@
     #elseif($type == '2')
     已支付
     #elseif($type == '3')
-    已取消
+    全额退款
     #elseif($type == '4')
-    已退款
+    部分退款
     #else
     其他
     #end

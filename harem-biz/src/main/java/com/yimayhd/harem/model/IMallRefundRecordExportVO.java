@@ -14,12 +14,12 @@ public class IMallRefundRecordExportVO implements Serializable {
 
     private Long id;
     private long sellerId;
-    private long tradeId;
+    private String tradeId;
     private String serialNumber;
     private long departId;
     private String department;
     private int jobNumber;
-    private long terminalNumber;
+    private String terminalNumber;
     private long payment;
     private long refundPayment;
     private Date refundTime;
@@ -70,11 +70,11 @@ public class IMallRefundRecordExportVO implements Serializable {
         this.sellerId = sellerId;
     }
 
-    public long getTradeId() {
+    public String getTradeId() {
         return tradeId;
     }
 
-    public void setTradeId(long tradeId) {
+    public void setTradeId(String tradeId) {
         this.tradeId = tradeId;
     }
 
@@ -110,11 +110,11 @@ public class IMallRefundRecordExportVO implements Serializable {
         this.jobNumber = jobNumber;
     }
 
-    public long getTerminalNumber() {
+    public String getTerminalNumber() {
         return terminalNumber;
     }
 
-    public void setTerminalNumber(long terminalNumber) {
+    public void setTerminalNumber(String terminalNumber) {
         this.terminalNumber = terminalNumber;
     }
 
