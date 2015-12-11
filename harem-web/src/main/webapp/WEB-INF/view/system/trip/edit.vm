@@ -28,7 +28,6 @@
 
 <div class="tab-content grogInfoWrap"  style="">
     <div class="tab-pane" id="mddInfo">
-		
             #parse("/system/trip/add_destination/destination_base_info.vm")
     </div>
     	

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.Destination;
+import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.ScenicService;
@@ -46,6 +48,22 @@ public class TripManageController {
 	@Autowired ScenicService scenicSpotService;
 	
 	
+	
+	/**
+	* @Title: originToAdd 
+	* @Description:(出发地新增) 
+	* @author create by yushengwei @ 2015年12月09日 上午10:32:45 
+	* @param @param model
+	* @param @return 
+	* @return String 返回类型 
+	* @throws
+	 */
+	@RequestMapping("/origin/toAdd")
+	public String originToAdd(Model model){
+		return "/system/trip/origin_edit";
+	}
+	
+	
 	/**
 	* @Title: toAdd 
 	* @Description:(新增目的地) 
@@ -57,6 +75,7 @@ public class TripManageController {
 	 */
 	@RequestMapping("/departure/toAdd")
 	public String toAdd(Model model){
+		//TODO:edit页面的推荐关联需要走后台的 /list/recommended ，传type，到时候分开写，不放在tab切换里面。
 		return "/system/trip/edit";
 	}
 	
@@ -69,8 +88,10 @@ public class TripManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/departure/add")
-	public String toAdd(Model model,RegionDO regionDO){
+	@RequestMapping("/add")
+	public String toAdd(Model model,Destination destination){
+		String name = destination.getCityName();
+		System.out.println("name="+name);
 		return "/success";
 	}
 	
@@ -143,16 +164,16 @@ public class TripManageController {
 	@RequestMapping("/list")
 	public String list(Model model,int type){
 		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
-		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
-			//TODO:这里可能要根据省市区排序，即相同的省下，罗列出所有的市出来
-			model.addAttribute("regionList",res.getList());
-			if(RegionType.DEPART_REGION.getType() == type ){
-				return "/system/departure/list";
-			}else if (RegionType.DESC_REGION.getType() == type){
-				return "/system/trip/beautiful_local_list";
-			}
+		if(null == res || !res.isSuccess() || CollectionUtils.isEmpty(res.getList())){
+			return "/error";
 		}
-		return "/system/error";
+		model.addAttribute("regionList",res.getList());
+		if(RegionType.DEPART_REGION.getType() == type ){//出发地
+			return "/system/trip/origin_list";
+		}else if (RegionType.DESC_REGION.getType() == type){//目的地
+			return "/system/trip/beautiful_local_list";
+		}
+		return "/error";
 	}
 	
 	/**
