@@ -19,7 +19,7 @@
                 <li><a href="#">提醒<span class="label label-badge label-success">12</span></a></li>*#
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-                        <img alt="" src="$utilWebconfig.getStaticResourcesPath()/resources/img/avatar1_small.jpg" width="20px"height="20px"/>
+                        #*<img alt="" src="$utilWebconfig.getStaticResourcesPath()/resources/img/avatar1_small.jpg" width="20px"height="20px"/>*#
                         <span class="user-name">$!userNickName</span>
                         <span class="caret"></span>
                     </a>

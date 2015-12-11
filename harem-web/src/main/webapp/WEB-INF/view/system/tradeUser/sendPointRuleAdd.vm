@@ -25,10 +25,36 @@
     </form>
 </div>
 <script>
+    $("#sendPontAddForm").validate({
+        rules:{
+            paymentY:{
+                numTwoPoint:true,
+                max:10000
+            },
+            validityDays:{
+                number:true,
+                max:10000
+            }
+        },
+        messages:{
+            paymentY:{
+                max:"积分有效期不能大于10000天"
+            },
+            validityDays:{
+                number:"请输入数字",
+                max:"积分有效期不能大于10000天"
+            }
+        },
+        //错误信息显示位置
+        errorPlacement: function(error, element) {
+            element.parent().append(error);
+        }
+    })
     var openConfirm = function(){
-        layer.open({content: '确定新增并立即生效吗？'
-            ,btn: ['确定', '取消']
-            ,yes: function(index, layero){
+        layer.open({
+            content: '确定新增并立即生效吗？',
+            btn: ['确定', '取消'],
+            yes: function(index, layero){
                 $('#sendPontAddForm').submit();
                 layer.close(index);
             }
@@ -37,7 +63,9 @@
     $(function(){
         $('#sendPontAddForm').attr('action',actionDefaultPath + '/trade/PointManage/sendPointRule/add');
         $('.sendPontAddBtn').click(function(){
-            openConfirm();
+            if($("#sendPontAddForm").valid()){
+                openConfirm();
+            }
         });
     })
 

@@ -3,13 +3,14 @@
 <div class="menu" data-toggle="menu" style="width: 200px;z-index: 100;background: #fff;">
     <ul class="nav nav-primary">
         #foreach($menu in $menuList)
-        <li>
+
+        <li #if($velocityCount == 1) class="show" #end>
             #if($menu.haMenuDOList.size() == 0)
                 <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menu.url}" href="javascript:void(0);">$!menu.name</a></li>
             #else
-                <a href="#"><i class="icon-th"></i> $!menu.name</a>
+                <a href="#"><i class="icon-th"></i> $!menu.name </a>
 
-                <ul class="nav">
+                <ul class="nav" #if($velocityCount == 1) style="display: block;" #end>
                     #foreach($!menuSub in $!menu.haMenuDOList)
                         <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menuSub.url}" href="javascript:void(0);">$!menuSub.name</a></li>
                     #end
@@ -68,10 +69,11 @@
         	//var tabId = id + num ;
         	var tabId = 'tab' + num;
         	var tabId2 = tabId + "title";
-        	var elVal = tabName;			
+        	var elVal = tabName;
+            var parentTabId = $(".tab-pane.active").attr("id") || '';
 
         	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
-        	var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
+        	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
         
         	tabLi.removeClass("active");
 			//activeIframeWrap.removeClass("active");
@@ -131,8 +133,10 @@
             } else {
     		
             	tabIdArray.push(tabId);
+                var parentTabId = $(".tab-pane.active").attr("id") || '';
+
             	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
-            	var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
+            	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
             
             	tabLi.removeClass("active");
     			//activeIframeWrap.removeClass("active");
