@@ -46,7 +46,7 @@ public class SystemManageController extends BaseController {
 		RoleListQuery roleListQuery = new RoleListQuery();
 		roleListQuery.setPageNumber(0);
 		roleListQuery.setPageSize(5);
-		roleListQuery.setRoleName("name");
+		//roleListQuery.setRoleName("name");
 		System.out.println();
 		System.out.println();
 		System.out.println();
