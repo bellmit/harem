@@ -54,7 +54,7 @@
                         <td>$!utilNum.moneyTransform($!refund.refundPayment)</td>
                         <td>$!utilNum.moneyTransform($!refund.payment)</td>
                         <td>$!utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td>$!utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td>$!utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm")</td>
                         <td><a class="orderLink" orderId="$!refund.tradeId" href="javascript:void(0);">订单详情</a></td>
                     </tr>
                     #end

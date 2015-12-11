@@ -16,7 +16,7 @@
                 </div>
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">状态：</button>
+                        <button class="btn btn-default" type="button">交易状态：</button>
                     </span>
                     <select class="form-control" name="payStatus">
                         <option value="0" #if($!tradeListQuery.payStatus == 0) selected #end>全部</option>
@@ -29,7 +29,7 @@
                 </div>
             <div class="input-group inpSingle">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">交易状态</button>
+                            <button class="btn btn-default" type="button">交易时间</button>
                         </span>
                     <input type="text" class='form-control form-date dateInp startDate' readonly name="beginDate" value="$!tradeListQuery.beginDate">
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
@@ -84,7 +84,7 @@
                         <td>$!order.usePoint</td>
                         <td>$!order.givePoint</td>
                         <td>$!utilDate.dateToString($!order.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td>$!utilDate.longToString($!order.mallInfo.stt)</td>
+                        <td>$!utilDate.longToString($!order.mallInfo.stt,"yyyy-MM-dd HH:mm")</td>
                         <td><a class="orderLink" orderId="$!order.bizOrderId" href="javascript:void(0);">订单详情</a></td>
                     </tr>
                     #end

@@ -884,10 +884,10 @@ public class DateUtil {
 	 * @param time
 	 * @return
 	 */
-	public static String longToString(long time) {
+	public static String longToString(long time,String format) {
 		if (time >= 0) {
 			Date date = new Date(time);
-			return dateToString(date, DATE_TIME_FORMAT);
+			return dateToString(date, format);
 		}
 		return null;
 	}

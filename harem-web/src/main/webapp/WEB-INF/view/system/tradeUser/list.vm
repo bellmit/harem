@@ -46,7 +46,7 @@
                     #foreach($user in $userList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>$!user.nickName</td>
+                        <td>$!user.nickname</td>
                         <td>$!user.name</td>
                         <td>#GENDER($!user.gender)</td>
                         <td>$!user.mobileNo</td>

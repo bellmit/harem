@@ -27,12 +27,12 @@
 #end
 #*性别*#
 #macro(GENDER $type)
-    #if($type == '0')
-    未知
-    #elseif($type == '1')
+    #if($type == '2')
     男
-    #elseif($type == '2')
+    #elseif($type == '3')
     女
+    #else
+    未知
     #end
 #end
 #*俱乐部-动态状态*#
