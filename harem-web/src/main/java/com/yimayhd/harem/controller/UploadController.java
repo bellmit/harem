@@ -1,13 +1,16 @@
 package com.yimayhd.harem.controller;
 
-import com.taobao.common.tfs.TfsManager;
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.util.WebResourceConfigUtil;
-import com.yimayhd.harem.util.excel.JxlFor2003;
-import com.yimayhd.harem.util.excel.TestPerson;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.http.message.BasicNameValuePair;
-import org.bouncycastle.asn1.x509.sigi.PersonalData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import com.taobao.common.tfs.TfsManager;
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.util.WebResourceConfigUtil;
+import com.yimayhd.harem.util.excel.JxlFor2003;
+import com.yimayhd.harem.util.excel.TestPerson;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -27,15 +33,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/upload")
 public class UploadController extends BaseController {
-    private TfsManager tfsManager;
-
-    public TfsManager getTfsManager() {
-        return tfsManager;
-    }
-    @Autowired
-    public void setTfsManager(TfsManager tfsManager) {
-        this.tfsManager = tfsManager;
-    }
+	@Autowired
+	private TfsManager tfsManager;
 
     /**
      * 上传页面

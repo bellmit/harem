@@ -15,6 +15,9 @@
     <li>
       <a href="#priceInfo" data-toggle="tab">价格信息</a>
     </li>
+	<li>
+      <a href="#importantThings" data-toggle="tab">重要事项</a>
+    </li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane baseInfo in active" id="baseInfo">
@@ -25,6 +28,9 @@
     </div>
     <div class="tab-pane priceInfo" id="priceInfo">
         #parse("/system/comm/travel/priceInfo.vm")
+    </div>
+	<div class="tab-pane bigEditor" id="importantThings">
+        #parse("/bigEditor.vm")
     </div>
   </div>
   <div class="groupTravelBot">
