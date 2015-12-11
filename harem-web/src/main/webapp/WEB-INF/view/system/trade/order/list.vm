@@ -72,7 +72,7 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!order.bizOrderId</td>
-                        <td>$!order.mallInfo.no</td>
+                        <td>$!order.mallInfo.number</td>
                         <td>$!order.mallInfo.dt</td>
                         <td>$!order.mallInfo.jn</td>
                         #*<td>$!order.mallInfo.dc</td>*#

@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -72,6 +74,9 @@ public class LoginController extends BaseController {
         if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
             LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
             SessionUtils.setUserId(String.valueOf(result.getValue().getId()));
+            HttpSession httpSession = request.getSession();
+            Object userIdObject = httpSession.getAttribute("userId");
+            httpSession.setAttribute("userNickName", result.getValue().getNickname());
             return JsonResult.buildSuccessResult(result.getResultMsg(), null);
         }
 
@@ -80,8 +85,9 @@ public class LoginController extends BaseController {
     }
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseVo login() {
+    public ResponseVo login(HttpServletRequest request,Model model) {
         String userIdStr = SessionUtils.getUserId();
+
         if(StringUtils.isBlank(userIdStr)){
             //没有去到userId，直接返回成功
             return new ResponseVo();
@@ -115,8 +121,11 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String toMain(Model model) throws Exception {
         long userId = Long.parseLong(SessionUtils.getUserId()) ;
+        HttpSession httpSession = request.getSession();
+        String userNickName = (String) httpSession.getAttribute("userNickName");
         List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(userId);
         model.addAttribute("menuList", haMenuDOList);
+        model.addAttribute("userNickName", userNickName);
         return "/system/layout/layout";
     }
 

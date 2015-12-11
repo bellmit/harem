@@ -76,7 +76,7 @@ public class BizOrderExportVO implements Serializable{
     private String dc;//终端
     private String pn;//电话
     private long stt;//世界戳
-    private String no;//单号
+    private String number;//单号
     private Date sttDate;//世界戳
 
     private double actualTotalFeeY;//交易金额元
@@ -545,12 +545,12 @@ public class BizOrderExportVO implements Serializable{
         this.stt = stt;
     }
 
-    public String getNo() {
-        return no;
+    public String getNumber() {
+        return number;
     }
 
-    public void setNo(String no) {
-        this.no = no;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public Date getSttDate() {

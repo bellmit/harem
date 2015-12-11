@@ -92,7 +92,7 @@ public class TradeManageController extends BaseController {
 		if(CollectionUtils.isNotEmpty(bizOrderExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("bizOrderId", "交易号"));
-			headList.add(new BasicNameValuePair("no", "单号"));
+			headList.add(new BasicNameValuePair("number", "单号"));
 			headList.add(new BasicNameValuePair("dt", "部门"));
 			headList.add(new BasicNameValuePair("jn", "工号"));
 			headList.add(new BasicNameValuePair("dc", "终端编号"));
