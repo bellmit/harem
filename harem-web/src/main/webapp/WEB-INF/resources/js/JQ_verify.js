@@ -83,3 +83,7 @@ jQuery.validator.addMethod("compareDate",function(value, element, param) {
     var date2 = new Date(Date.parse(value.replace("-", "/")));
     return date1 < date2;
 });
+
+jQuery.validator.addMethod("numTwoPoint", function(value, element) {
+    return this.optional(element) || /^\d+(\.\d{1,2})?$/.test(value);
+}, "请输入数字，小数位不能超过三位");

@@ -25,13 +25,15 @@
                     $(this).prev().addClass("active");
                     $(this).remove();
                 }
-            })
+            });
+            top.freshPrevFrame();
             top.$("#"+tabId).prev().addClass("active");
             top.$("#"+tabId).prev().show();
             top.$("#"+tabId).remove();
         },2000)
     })
     $('.closeBtn').click(function(){
+        top.freshPrevFrame();
         window.close();
     });
 
