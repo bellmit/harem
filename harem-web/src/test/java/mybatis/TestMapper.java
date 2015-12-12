@@ -11,7 +11,7 @@ import com.yimayhd.harem.mapper.HaRoleMapper;
 import com.yimayhd.harem.model.query.RoleListQuery;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-context-test.xml"})
+@ContextConfiguration(locations = {"classpath:spring-mybatis-test.xml"})
 public class TestMapper {
 
 	@Autowired
@@ -32,6 +32,13 @@ public class TestMapper {
 		System.out.println();
 		System.out.println();
 		System.out.println();
+		
+	}
+	
+	@Test
+	public void roleDetail() {
+		
+		System.out.println(JSON.toJSONString(haRoleMapper.roleDetailById(1L)));
 		
 	}
 	

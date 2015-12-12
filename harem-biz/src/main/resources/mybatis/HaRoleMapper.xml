@@ -14,10 +14,17 @@
 		<result column="status" property="status" jdbcType="INTEGER" />
 
 	</resultMap>
+	<resultMap id="roleDetail" type="com.yimayhd.harem.model.HaRoleDetail">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="menuName" jdbcType="VARCHAR" />
+		<result column="url" property="menuUrl" jdbcType="VARCHAR" />
+		<result column="ha_role_id" property="roleId" javaType="java.lang.Long" jdbcType="BIGINT" />
+		<result column="is_own" property="isOwn" jdbcType="BOOLEAN" />
+	</resultMap>
+
 	<sql id="Base_Column_List">
 		id,name,gmt_created,gmt_modified,status
 	</sql>
-
 
 	<select id="getListNew" resultMap="BaseResultMap"
 		parameterType="com.yimayhd.harem.model.query.RoleListQuery">
@@ -45,10 +52,28 @@
 		</where>
 	</select>
 
+	<select id="roleDetailById" parameterType="long"
+		resultMap="roleDetail">
+		<![CDATA[select a.id as id,
+				a. name as name,
+				a.url as url,
+				b.ha_role_id as ha_role_id,
+				case when b.ha_role_id <> ${roleId} 
+					then 0
+           		else 1 end as is_own
+		from ha_menu a
+		left join ha_role_menu b
+		on a.id = b.ha_menu_id
+		where
+		a.parent_id <> 0		
+ 		]]>
+	</select>
+
 	<!--insert的时候要去掉ID，创建时间，更新时间和状态 -->
 	<insert id="add" parameterType="com.yimayhd.harem.model.HaRoleDO"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into ha_role (id,name,gmt_created,gmt_modified,status)
+		insert into ha_role
+		(id,name,gmt_created,gmt_modified,status)
 		values (
 
 		#{id,jdbcType=BIGINT},
@@ -131,6 +156,7 @@
 	</update>
 
 	<update id="delete" parameterType="long">
-		update ha_role t set t.status = 0 where t.id = #{value}
+		update ha_role t set t.status
+		= 0 where t.id = #{value}
 	</update>
 </mapper>
