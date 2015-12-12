@@ -28,21 +28,22 @@
     $("#sendPontAddForm").validate({
         rules:{
             paymentY:{
-                numTwoPoint:true,
-                max:10000
+                number:true,
+                range:[1,10000]
             },
             validityDays:{
                 number:true,
-                max:10000
+                range:[1,10000]
             }
         },
         messages:{
             paymentY:{
-                max:"积分有效期不能大于10000天"
+                number:"请输入数字",
+                range:"积分有效期必须介于1至10000之间"
             },
             validityDays:{
                 number:"请输入数字",
-                max:"积分有效期不能大于10000天"
+                range:"积分有效期必须介于1至10000之间"
             }
         },
         //错误信息显示位置

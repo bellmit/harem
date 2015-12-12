@@ -86,4 +86,4 @@ jQuery.validator.addMethod("compareDate",function(value, element, param) {
 
 jQuery.validator.addMethod("numTwoPoint", function(value, element) {
     return this.optional(element) || /^\d+(\.\d{1,2})?$/.test(value);
-}, "请输入数字，小数位不能超过三位");
+}, "请输入正确的数字，如是小数，小数位不能超过两位");
