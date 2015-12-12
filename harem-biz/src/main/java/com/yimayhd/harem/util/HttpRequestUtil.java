@@ -131,7 +131,7 @@ public class  HttpRequestUtil{
 
 
 
-    public String sendPostData(String url ,Object xmlObj) throws Exception {
+    /*public String sendPostData(String url ,Object xmlObj) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(30000).setConnectTimeout(10000).build();
         XStream xStreamForRequestPostData = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
@@ -156,5 +156,5 @@ public class  HttpRequestUtil{
         }
 
         return result;
-    }
+    }*/
 }

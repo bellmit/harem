@@ -4,6 +4,9 @@ jdbc.url=${jdbc.url}
 jdbc.user=${jdbc.user}
 jdbc.password=${jdbc.password}
 
+#日志输出文件路径
+harem.logger.dir  = ${harem.logger.dir}
+
 #tfs配置
 tfs.nsip=${tfs.nsip}
 tfs.uniqueServerList=${tfs.uniqueServerList}

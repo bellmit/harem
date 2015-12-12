@@ -11,7 +11,7 @@
     <context:property-placeholder location="WEB-INF/config.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
     <context:property-placeholder location="WEB-INF/velocity.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
     <context:property-placeholder location="WEB-INF/redis.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
-    <context:property-placeholder location="WEB-INF/log4j.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
+    <!--<context:property-placeholder location="WEB-INF/log4j.properties" file-encoding="utf-8" ignore-unresolvable="true"/>-->
 
 
     <!--程序中获取配置文件信息-->
@@ -34,7 +34,7 @@
 
 
     <!-- spring注解定时任务 -->
-    <task:annotation-driven/>
+    <!--<task:annotation-driven/>-->
     <!---->
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

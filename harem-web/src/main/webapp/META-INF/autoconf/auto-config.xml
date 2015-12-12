@@ -7,6 +7,9 @@
 		<property name="jdbc.user" defaultValue="root" description="#" />
 		<property name="jdbc.password" defaultValue="123456" description="#" />
 	</group>
+	<group name="log">
+		<property name="harem.logger.dir" defaultValue="/home/admin/logs/harem" description="日志目录"/>
+	</group>
 	<group name="tfs">
 		<property name="tfs.nsip" defaultValue="192.168.1.209:9999" description="#" />
 		<property name="tfs.uniqueServerList" defaultValue="192.168.1.209:5198" description="#" />
@@ -15,13 +18,11 @@
 		<property name="harem.tfsRootPath" defaultValue="//192.168.1.209:7500/v1/tfs/" description="#tfs默认访问地址" />
 	</group>
 	<group name="tair">
-		<property name="tair.configServer.main" defaultValue="192.168.1.209:5198" description="#" />
-		<property name="tair.configServer.slave" defaultValue="192.168.1.209:5198" description="#" />
-		<property name="tair.groupName.per" defaultValue="group_1" description="#" />
-		<property name="tair.harem.namespace" defaultValue="299" description="#" />
-		<property name="tair.timeout" defaultValue="5000" description="#" />
-		<property name="tair.config.port" defaultValue="5198" description="#" />
-		<property name="tair.config.server" defaultValue="192.168.1.209" description="#" />
+		<property name="tair.configServer.main" defaultValue="192.168.1.209:5198" description="#tair服务器的地址" />
+		<property name="tair.configServer.slave" defaultValue="192.168.1.209:5198" description="#tair服务器的地址" />
+		<property name="tair.groupName.per" defaultValue="group_1" description="#持久化tair的namespace" />
+		<property name="tair.harem.namespace" defaultValue="299" description="#tair命名空间" />
+		<property name="tair.timeout" defaultValue="5000" description="#tair超时" />
 	</group>
 
 	<group name="default">
@@ -76,5 +77,6 @@
 	<script>
 		<generate template="config.properties.vm" destfile="WEB-INF/config.properties"	charset="UTF-8" />
 		<generate template="redis.properties.vm" destfile="WEB-INF/redis.properties"	charset="UTF-8" />
+		<generate template="logback.xml" destfile="WEB-INF/logback.xml" charset="UTF-8"/>
 	</script>
 </config>

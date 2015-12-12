@@ -21,10 +21,8 @@
                     <select class="form-control" name="payStatus">
                         <option value="0" #if($!tradeListQuery.payStatus == 0) selected #end>全部</option>
                         <option value="1" #if($!tradeListQuery.payStatus == 1) selected #end>未付款</option>
-                        <option value="4" #if($!tradeListQuery.payStatus == 4) selected #end>退款后交易关闭</option>
                         <option value="6" #if($!tradeListQuery.payStatus == 6) selected #end>交易成功</option>
                         <option value="8" #if($!tradeListQuery.payStatus == 8) selected #end>未付款关闭</option>
-                        <option value="9" #if($!tradeListQuery.payStatus == 9) selected #end>待商户确认</option>
                     </select>
                 </div>
             <div class="input-group inpSingle">
