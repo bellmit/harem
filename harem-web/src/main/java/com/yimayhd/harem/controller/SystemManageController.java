@@ -34,8 +34,9 @@ public class SystemManageController extends BaseController {
 	public String roleListRedirect(Model model) throws Exception {
 
 		RoleListQuery roleListQuery = new RoleListQuery();
-		List<HaRoleDO> roleList = systemManageService.getListNew(roleListQuery);		
-		PageVO<Order> pageVo = new PageVO<Order>(roleListQuery.getPageNumber(), roleListQuery.getPageSize(), 56);
+		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);
+
+		List<HaRoleDO> roleList = pageVo.getItemList();		
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("roleList", roleList);
 		
@@ -45,11 +46,10 @@ public class SystemManageController extends BaseController {
 	@RequestMapping(value = "/roleListPOST", method = RequestMethod.POST)
 	public String roleListPost(Model model, RoleListQuery roleListQuery) throws Exception {
 				
-		List<HaRoleDO> roleList = systemManageService.getListNew(roleListQuery);		
-		PageVO<Order> pageVo = new PageVO<Order>(roleListQuery.getPageNumber(), roleListQuery.getPageSize(), 56);
+		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);		
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("roleListQuery", roleListQuery);
-		model.addAttribute("roleList", roleList);
+		model.addAttribute("roleList", pageVo.getItemList());
 		return "/system/systemManage/roleList";
 	}
 	

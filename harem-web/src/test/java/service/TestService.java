@@ -24,7 +24,12 @@ public class TestService {
 		roleListQuery.setPageNumber(0);
 		roleListQuery.setPageSize(5);
 		roleListQuery.setRoleName("name");
-		System.out.println(JSON.toJSONString(systemManageService.getListNew(roleListQuery)));
+		try {
+			System.out.println(JSON.toJSONString(systemManageService.getListNew(roleListQuery)));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 	}
 	
