@@ -65,7 +65,7 @@ public class TradeServiceImpl implements TradeService {
                     BizOrderVO bizOrderVO = BizOrderVO.getBizOrderVO(bizOrderDO);
                     //给order加上买家信息对象
                     bizOrderVOList.add(bizOrderVO);
-                    pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),0,bizOrderVOList);
+                    pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),1,bizOrderVOList);
                     return pageVO;
                 }
 
