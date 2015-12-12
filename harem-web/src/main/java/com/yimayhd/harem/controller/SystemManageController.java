@@ -35,7 +35,7 @@ public class SystemManageController extends BaseController {
 
 		RoleListQuery roleListQuery = new RoleListQuery();
 		List<HaRoleDO> roleList = systemManageService.getListNew(roleListQuery);		
-		PageVO<Order> pageVo = new PageVO<Order>(roleListQuery.getPageNumber(), roleListQuery.getPageSize(), 14800);
+		PageVO<Order> pageVo = new PageVO<Order>(roleListQuery.getPageNumber(), roleListQuery.getPageSize(), 56);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("roleList", roleList);
 		

@@ -27,8 +27,8 @@
                     </span>
                    <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2">
 			            <option value="">全部</option>
-			            <option value="cat">启用</option>
-			            <option value="dog">停用</option>
+			            <option value="1">正常</option>
+			            <option value="0">删除</option>
           			</select>
                 </div>
                 <div class="input-group inpSingle">
@@ -45,19 +45,11 @@
                 </div>
                
         </div>
-          <div class="tableGroup whole">
-          		<div class="btn-group">
-                    <button type="button" class="btn">批量导出</button>
-                </div>
- 				<div class="btn-group">
-                    <button type="button" class="btn">批量发货</button>
-                </div>
-           </div>
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <thead>
                   <tr>
-                    <td colspan="8" align="center">111</td>
+                    <td colspan="8" align="center"><h2>角色列表</h2></td>
                   </tr>
                 <tr>
 					<th>角色编号</th>
@@ -75,7 +67,11 @@
 					   <td>$!role.name</td>
 					   <td>$!role.gmtCreated</td>
 					   <td>$!role.gmtModified</td>
-					   <td>$!role.status</td>
+					   #if($!role.status == 1)
+							<td>正常</td>
+					   #else
+							<td>删除</td>
+					   #end
 					   <td>
 							<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>
 	                 		<button type="button" class="btn btn-lg btn-primary addRefund detail">退款</button>

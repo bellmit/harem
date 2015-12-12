@@ -21,9 +21,9 @@ public class TestMapper {
 	public void test() {
 		
 		RoleListQuery roleListQuery = new RoleListQuery();
-		roleListQuery.setPageNumber(0);
+		roleListQuery.setPageNumber(1);
 		roleListQuery.setPageSize(5);
-		roleListQuery.setRoleName("name");
+		//roleListQuery.setRoleName("name");
 		//roleListQuery.setCreateBeginTime("2015-01-01 10:10:23");
 		System.out.println();
 		System.out.println();
