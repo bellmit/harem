@@ -42,4 +42,23 @@ public class TestMapper {
 		
 	}
 	
+	@Test
+	public void testTotalCount() {
+		
+		RoleListQuery roleListQuery = new RoleListQuery();
+		roleListQuery.setPageNumber(1);
+		roleListQuery.setPageSize(5);
+		//roleListQuery.setRoleName("name");
+		//roleListQuery.setCreateBeginTime("2015-01-01 10:10:23");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println(JSON.toJSONString(haRoleMapper.totalCount(roleListQuery)));
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		
+	}
+
+	
 }

@@ -18,13 +18,38 @@
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="name" property="menuName" jdbcType="VARCHAR" />
 		<result column="url" property="menuUrl" jdbcType="VARCHAR" />
-		<result column="ha_role_id" property="roleId" javaType="java.lang.Long" jdbcType="BIGINT" />
+		<result column="ha_role_id" property="roleId" javaType="java.lang.Long"
+			jdbcType="BIGINT" />
 		<result column="is_own" property="isOwn" jdbcType="BOOLEAN" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 		id,name,gmt_created,gmt_modified,status
 	</sql>
+
+	<select id="totalCount" resultType="long"
+		parameterType="com.yimayhd.harem.model.query.RoleListQuery">
+		select count(1)
+		from ha_role
+		<where>
+			1 = 1
+			<if test="roleId != null">
+				and id = #{roleId}
+			</if>
+			<if test="roleName != null and roleName != ''">
+				and name like CONCAT('%', #{roleName}, '%')
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="createBeginTime != null and createBeginTime !=''">
+				and gmt_created > #{createBeginTime}
+			</if>
+			<if test="createEndTime != null and createEndTime != ''">
+				and #{createEndTime} > gmt_created
+			</if>
+		</where>
+	</select>
 
 	<select id="getListNew" resultMap="BaseResultMap"
 		parameterType="com.yimayhd.harem.model.query.RoleListQuery">
@@ -52,8 +77,7 @@
 		</where>
 	</select>
 
-	<select id="roleDetailById" parameterType="long"
-		resultMap="roleDetail">
+	<select id="roleDetailById" parameterType="long" resultMap="roleDetail">
 		<![CDATA[select a.id as id,
 				a. name as name,
 				a.url as url,

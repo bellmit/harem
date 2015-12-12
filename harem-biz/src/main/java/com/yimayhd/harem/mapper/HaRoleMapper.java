@@ -19,4 +19,6 @@ public interface HaRoleMapper extends BaseMapper<HaRoleDO>{
 
 	public List<HaRoleDetail> roleDetailById(@Param(value="roleId") Long roleId);
 	
+	public long totalCount(RoleListQuery roleListQuery);
+	
 }
