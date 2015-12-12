@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <config>
 
 	<group name="jdbc">
@@ -35,7 +34,7 @@
 	<group name="dubbo">
 		<property name="app.name" defaultValue="harem" description="#" />
 		<property name="dubbo.port" defaultValue="-1" description="#" />
-		<property name="dubbo.registry.url " defaultValue="192.168.1.202:2181" description="#" />
+		<property name="dubbo.registry.url" defaultValue="192.168.1.202:2181" description="#" />
 		<property name="dubbo.retries" defaultValue="0" description="#" />
 		<property name="consumer.dubbo.timeout" defaultValue="4000" description="#" />
 
@@ -59,7 +58,23 @@
 		<property name="consumer.dubbo.trade.version" defaultValue="1.0.0.test" description="#" />
 
 	</group>
+
+	<group name="session">
+		<property name="jedis.host" defaultValue="192.168.1.207" description="redis的ip"/>
+		<property name="jedis.port" defaultValue="6380" description="redis端口"/>
+		<property name="jedis.password" defaultValue="yimay2015" description="redis密码"/>
+		<property name="jedis.timeout" defaultValue="2000" description="jedis超时时间，单位s"/>
+		<property name="jedis.pool.maxIdle" defaultValue="8" description=""/>
+		<property name="jedis.pool.maxTotal" defaultValue="20" description="redis 最大连接数"/>
+		<property name="jedis.sentinel" defaultValue="192.168.1.207:26379" description="哨兵地址"/>
+		<property name="verify.code.expire" defaultValue="120" description=""/>
+		<property name="session.time.out" defaultValue="180" description="会话有效期，单位秒"/>
+		<property name="jedis.usePool" defaultValue="true" description="是否使用jedis连接池"/>
+		<property name="jedis.master" defaultValue="mymaster" description=""/>
+
+	</group>
 	<script>
 		<generate template="config.properties.vm" destfile="WEB-INF/config.properties"	charset="UTF-8" />
+		<generate template="redis.properties.vm" destfile="WEB-INF/redis.properties"	charset="UTF-8" />
 	</script>
 </config>
