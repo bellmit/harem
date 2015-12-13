@@ -27,7 +27,7 @@
 		id,name,gmt_created,gmt_modified,status
 	</sql>
 
-	<select id="totalCount" resultType="long"
+	<select id="totalCount" resultType="java.lang.Long"
 		parameterType="com.yimayhd.harem.model.query.RoleListQuery">
 		select count(1)
 		from ha_role
@@ -77,14 +77,25 @@
 		</where>
 	</select>
 
-	<select id="roleDetailById" parameterType="long" resultMap="roleDetail">
+	<select id="roleDetailById" parameterType="com.yimayhd.harem.model.query.RoleListQuery" resultMap="roleDetail">
 		<![CDATA[select a.id as id,
-				a. name as name,
+				a.name as name,
 				a.url as url,
 				b.ha_role_id as ha_role_id,
 				case when b.ha_role_id <> ${roleId} 
 					then 0
            		else 1 end as is_own
+		from ha_menu a
+		left join ha_role_menu b
+		on a.id = b.ha_menu_id
+		where
+		a.parent_id <> 0
+		limit ${pageNumber}, ${pageSize}		
+ 		]]>
+	</select>
+	
+	<select id="roleDetailCount" resultType="java.lang.Long">
+		<![CDATA[select count(1)
 		from ha_menu a
 		left join ha_role_menu b
 		on a.id = b.ha_menu_id

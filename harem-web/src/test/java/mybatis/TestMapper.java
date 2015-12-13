@@ -38,7 +38,18 @@ public class TestMapper {
 	@Test
 	public void roleDetail() {
 		
-		System.out.println(JSON.toJSONString(haRoleMapper.roleDetailById(1L)));
+		RoleListQuery roleListQuery = new RoleListQuery();
+		roleListQuery.setRoleId(1L);
+		roleListQuery.setPageNumber(1);
+		roleListQuery.setPageSize(5);
+		System.out.println(JSON.toJSONString(haRoleMapper.roleDetailById(roleListQuery)));
+		
+	}
+	
+	@Test
+	public void roleDetailById() {
+		
+		System.out.println(JSON.toJSONString(haRoleMapper.roleDetailCount()));
 		
 	}
 	
