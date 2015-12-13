@@ -73,6 +73,7 @@
 			<if test="createEndTime != null and createEndTime != ''">
 				and #{createEndTime} > gmt_created
 			</if>
+			order by id asc
 			limit #{pageNumber}, #{pageSize}
 		</where>
 	</select>
@@ -89,7 +90,8 @@
 		left join ha_role_menu b
 		on a.id = b.ha_menu_id
 		where
-		a.parent_id <> 0
+		a.parent_id <> 0 
+		order by a.id asc
 		limit ${pageNumber}, ${pageSize}		
  		]]>
 	</select>

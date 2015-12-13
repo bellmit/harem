@@ -71,15 +71,15 @@
 							<td>正常</td>
 							<td>
 							<!--<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>-->
-								<button type="button" class="btn btn-primary roleEdit">编辑</button>
-								<button type="button" class="btn btn-primary roleStatus" roleStatus="$!role.status">删除</button>
+								<button type="button" class="btn btn-primary roleEdit" roleId="$!role.id" roleName="$!role.name">编辑</button>
+								<button type="button" class="btn btn-primary roleStatus" roleId="$!role.id" roleStatus="$!role.status">删除</button>
 							</td>
 					   #else
 							<td>删除</td>
 							<td>
 							<!--<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>-->
-								<button type="button" class="btn btn-primary roleEdit">编辑</button>
-								<button type="button" class="btn btn-primary roleStatus" roleStatus="$!role.status">启用</button>
+								<button type="button" class="btn btn-primary roleEdit" roleId="$!role.id" roleName="$!role.name">编辑</button>
+								<button type="button" class="btn btn-primary roleStatus" roleId="$!role.id" roleStatus="$!role.status">启用</button>
 							</td>
 					   #end
 	                </tr>
@@ -158,7 +158,9 @@
     $(function(){
  
 		$(".roleEdit").click(function() {
-      		alert("roleEdit!!!!!!!");
+      		var roleId = $(this).attr("roleId");
+			var roleName = $(this).attr("roleName");
+			window.parent.tabsAdd("roleList"+roleId, "/systemManage/roleDetail/"+roleId, 3, "角色:"+roleName+" 的详情");
       	});
       	$(".roleStatus").click(function() {
       		alert($(this).attr("roleStatus"));

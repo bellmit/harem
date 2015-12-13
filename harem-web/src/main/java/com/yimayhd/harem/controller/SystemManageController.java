@@ -7,13 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.HaRoleDO;
-import com.yimayhd.harem.model.Order;
+import com.yimayhd.harem.model.HaRoleDetail;
 import com.yimayhd.harem.model.query.RoleListQuery;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.harem.service.SystemManageService;
@@ -51,6 +52,20 @@ public class SystemManageController extends BaseController {
 		model.addAttribute("roleListQuery", roleListQuery);
 		model.addAttribute("roleList", pageVo.getItemList());
 		return "/system/systemManage/roleList";
+	}
+	
+	@RequestMapping(value = "/roleDetail/{roleId}", method = RequestMethod.GET)
+	public String roleDetail(Model model, @PathVariable(value = "roleId") long roleId, RoleListQuery roleListQuery) throws Exception {
+		
+		roleListQuery.setRoleId(roleId);
+		PageVO<HaRoleDetail> pageVo = systemManageService.roleDetailById(roleListQuery);
+		
+		model.addAttribute("roleId", roleId);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("roleListQuery", roleListQuery);
+		model.addAttribute("roleDetailList", pageVo.getItemList());
+		
+		return "/system/systemManage/roleDetail";
 	}
 	
 }
