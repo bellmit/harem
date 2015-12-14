@@ -20,9 +20,9 @@
                     </span>
                     <select class="form-control" name="payStatus">
                         <option value="0" #if($!tradeListQuery.payStatus == 0) selected #end>全部</option>
-                        <option value="1" #if($!tradeListQuery.payStatus == 1) selected #end>未付款</option>
+                        <option value="1" #if($!tradeListQuery.payStatus == 1) selected #end>交易创建</option>
                         <option value="6" #if($!tradeListQuery.payStatus == 6) selected #end>交易成功</option>
-                        <option value="8" #if($!tradeListQuery.payStatus == 8) selected #end>未付款关闭</option>
+                        <option value="8" #if($!tradeListQuery.payStatus == 8) selected #end>交易关闭</option>
                     </select>
                 </div>
             <div class="input-group inpSingle">
@@ -77,7 +77,7 @@
                         <td>$!order.buyerNick</td>
                         <td>$!order.mallInfo.pn</td>
                         <td>#PAY_CHANNEL($!order.payChannel)</td>
-                        <td>#PAY_STATUS($!order.payStatus)</td>
+                        <td>#TRADE_PAY_STATUS($!order.payStatus)</td>
                         <td>$!utilNum.moneyTransform($!order.actualTotalFee)</td>
                         <td>$!order.usePoint</td>
                         <td>$!order.givePoint</td>

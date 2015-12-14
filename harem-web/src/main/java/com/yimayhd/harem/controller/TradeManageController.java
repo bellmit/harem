@@ -95,7 +95,6 @@ public class TradeManageController extends BaseController {
 			headList.add(new BasicNameValuePair("number", "单号"));
 			headList.add(new BasicNameValuePair("dt", "部门"));
 			headList.add(new BasicNameValuePair("jn", "工号"));
-			headList.add(new BasicNameValuePair("dc", "终端编号"));
 			headList.add(new BasicNameValuePair("buyerNick", "会员名"));
 			headList.add(new BasicNameValuePair("payChannelName", "支付方式"));
 			headList.add(new BasicNameValuePair("payStatusName", "交易状态"));

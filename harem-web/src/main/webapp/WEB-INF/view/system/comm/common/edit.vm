@@ -1,14 +1,13 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
 <div class="example whole">
     <form name="commodityForm" id="commodityForm" action="" method="post" commodityId="$!commodity.id">
-        category_id
-        item_type
-        sub_title
-        one_word
-        pic_urls
         <div class="">
                 <table class="table">
+                    <input type="hidden" name="categoryId" value="$!category.id">
+                    <input type="hidden" name="itemType" value="">
                     <tbody>
                     <tr>
                         <td><span class="spColor">*</span>分类</td>
@@ -25,35 +24,125 @@
                     <tr>
                         <td><span class="spColor">*</span>商品简介</td>
                         <td>
-                            <input type="text" name="title" value="$!commodity.oneWord">
+                            <input type="text" name="subTitle" value="$!commodity.subTitle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品描述</td>
+                        <td>
+                            <input type="text" name="oneWord" value="$!commodity.oneWord">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>排序</td>
-                        <td><input type="text" name="index" value="$!commodity.index" disabled></td>
+                        <td><input type="text" name="index" value="$!commodity.index"></td>
                     </tr>
 
                     #*解析关键属性*#
                     #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
                         <tr>
-                            <td><span class="spColor">*</span>$keyCategoryProperty.text</td>
-                            #foreach($categoryValue in $keyCategoryProperty.categoryValueDOs)
-                                <span><input type="checkbox" name="roomFacilityList" value="$!{categoryValue.id}" #if($!hotel.roomFacility == $!categoryValue.id) checked #end>$!{categoryValue.text}</span>
+                            <td><span class="spColor">*</span>$!keyCategoryProperty.text</td>
+                            <td>
+                                #foreach($categoryValue in $keyCategoryProperty.categoryValueDOs)
+                                        #*属性可选值*#
+                                        #foreach($categoryValueDO in $!categoryValue.categoryValueDOs)
 
-                                #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
-                                #if($!categoryValue.type == 1)
-                                    <span><input type="checkbox" name="$!keyCategoryProperty." value="$!{categoryValue.id}" #if($!hotel.roomFacility == $!categoryValue.id) checked #end>$!{categoryValue.text}</span>
+                                            <select class="form-control" name="$!keyCategoryProperty.text">
+                                                <option value="0" >全部</option>
+                                                <option value="$!categoryValueDO.id" #if($!commodityListQuery.commStatus == 1) selected #end>$!categoryValueDO.text</option>
+                                            </select>
+
+                                        #end
+                                        #*支持自定义*#
+                                        #if($!categoryValue.canCustom == 1)
+                                        #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                            #if($!categoryValue.type == 1)
+                                                <span><input type="text" name="" value=""></span>
+                                            #elseif($!categoryValue.type == 2)
+                                                <input type="text" class='form-control form-date' placeholder='yyyy-MM-dd' readonly name="beginDate" value="">
+                                            #elseif($!categoryValue.type == 3)
+                                                3
+                                            #elseif($!categoryValue.type == 4)
+                                                4
+                                            #elseif($!categoryValue.type == 5)
+                                                5
+                                            #end
+                                        #end
                                 #end
-                            #end
-                            <td><input type="text" name="index" value="$!commodity.index" disabled></td>
+                                <input type="text" name="index" value="$!commodity.index" disabled>
+                            </td>
                         </tr>
                     #end
                     #*解析普通属性*#
-                    #foreach($nonKeyCategoryProperty in $category.nonKeyCategoryPropertyDOs)
-                    #end
-                    #*解析sku属性(销售属性)*#
-                    #foreach($sellCategoryProperty in $category.sellCategoryPropertyDOs)
-                    #end
+                        #foreach($nonKeyCategoryProperty in $category.nonKeyCategoryPropertyDOs)
+                        <tr>
+                            <td><span class="spColor">*</span>$!nonKeyCategoryProperty.text</td>
+                            <td>
+                                #foreach($categoryValue in $nonKeyCategoryProperty.categoryValueDOs)
+                                #*属性可选值*#
+                                    #foreach($categoryValueDO in $!categoryValue.categoryValueDOs)
+
+                                        <select class="form-control" name="$!nonKeyCategoryProperty.text">
+                                            <option value="0" >全部</option>
+                                            <option value="$!categoryValueDO.id" #if($!commodityListQuery.commStatus == 1) selected #end>$!categoryValueDO.text</option>
+                                        </select>
+
+                                    #end
+                                #*支持自定义*#
+                                    #if($!categoryValue.canCustom == 1)
+                                    #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                        #if($!categoryValue.type == 1)
+                                            <span><input type="text" name="" value=""></span>
+                                        #elseif($!categoryValue.type == 2)
+                                            <input type="text" class='form-control form-date' placeholder='yyyy-MM-dd' readonly name="beginDate" value="">
+                                        #elseif($!categoryValue.type == 3)
+                                            3
+                                        #elseif($!categoryValue.type == 4)
+                                            4
+                                        #elseif($!categoryValue.type == 5)
+                                            5
+                                        #end
+                                    #end
+                                #end
+                                <input type="text" name="index" value="$!commodity.index" disabled>
+                            </td>
+                        </tr>
+                        #end
+                    #*解析销售属性*#
+                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyDOs)
+                        <tr>
+                            <td><span class="spColor">*</span>$!sellCategoryProperty.text</td>
+                            <td>
+                                #foreach($categoryValue in $sellCategoryProperty.categoryValueDOs)
+                                #*属性可选值*#
+                                    #foreach($categoryValueDO in $!categoryValue.categoryValueDOs)
+
+                                        <select class="form-control" name="$!sellCategoryProperty.text">
+                                            <option value="0" >全部</option>
+                                            <option value="$!categoryValueDO.id" #if($!commodityListQuery.commStatus == 1) selected #end>$!categoryValueDO.text</option>
+                                        </select>
+
+                                    #end
+                                #*支持自定义*#
+                                    #if($!categoryValue.canCustom == 1)
+                                    #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                        #if($!categoryValue.type == 1)
+                                            <span><input type="text" name="" value=""></span>
+                                        #elseif($!categoryValue.type == 2)
+                                            <input type="text" class='form-control form-date' placeholder='yyyy-MM-dd' readonly name="beginDate" value="">
+                                        #elseif($!categoryValue.type == 3)
+                                            3
+                                        #elseif($!categoryValue.type == 4)
+                                            4
+                                        #elseif($!categoryValue.type == 5)
+                                            5
+                                        #end
+                                    #end
+                                #end
+                                <input type="text" name="index" value="$!commodity.index" disabled>
+                            </td>
+                        </tr>
+                        #end
                     </tbody>
                 </table>
             </div>

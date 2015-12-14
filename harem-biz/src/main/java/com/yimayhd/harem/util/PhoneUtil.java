@@ -18,4 +18,13 @@ public class PhoneUtil {
         }
         return phone;
     }
+    //手机号5-8位加星号
+    public static String mask(String mobile){
+        if(mobile==null ||  ! (mobile.trim().length()>0 )){
+            return mobile;
+        }
+        String prefix=mobile.substring(0,4);
+        String suffix =mobile.substring(mobile.length()-3,mobile.length());
+        return prefix+"****"+ suffix;
+    }
 }

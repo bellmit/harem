@@ -1,12 +1,12 @@
 package com.yimayhd.harem.model;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.harem.model.enums.PayStatus;
 import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
-import com.yimayhd.tradecenter.client.model.enums.PayStatus;
 import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import org.springframework.beans.BeanUtils;

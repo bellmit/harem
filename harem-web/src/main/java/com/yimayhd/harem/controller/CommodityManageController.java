@@ -57,7 +57,7 @@ public class CommodityManageController extends BaseController {
         CategoryDO categoryDO = categoryService.getCategoryById(categoryId);
         String redirectUrl = "";
         //TODO 对应的商品类型现在还没有，之后会提供
-        int itemType = 1;
+        int itemType = 10;
         switch(itemType){
             case ITEM_TYPE_HOTEL:
                 redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;//TODO 之后会把品类id或对应的属性传过去
@@ -68,7 +68,7 @@ public class CommodityManageController extends BaseController {
             default:
                 //普通商品，伴手礼应该也走普通商品
                 model.addAttribute("category",categoryDO);
-                return "/B2C/commodityManage/common/toAdd?categoryId=" + categoryId;
+                return "/system/comm/common/edit";
         }
         return "redirect:" + redirectUrl;
     }

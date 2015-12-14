@@ -62,7 +62,7 @@
                     <option value="50">50</option>
                 </select>
                 <span class="input-group-addon">条</span>
-				<span class="input-group-addon">共查询到 ${pageVo.totalCount} 条记录</span>
+				<span class="input-group-addon">共 ${pageVo.totalCount} 条</span>
             </div>
         </li>
     </ul>

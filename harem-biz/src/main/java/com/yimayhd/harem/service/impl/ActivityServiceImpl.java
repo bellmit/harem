@@ -103,6 +103,7 @@ public class ActivityServiceImpl implements ActivityService {
                 "    <meta http-equiv=\"x-ua-compatible\" content=\"IE=edge,chrome=1\">\n" +
                 "    <meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no\">\n" +
                 "    <title></title>\n" +
+                "    <style>img{width: 100%;}</style>" +
                 "</head>\n" +
                 "<body>";
         String encodeHtmlFoot = "</body>\n" +

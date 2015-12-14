@@ -35,7 +35,7 @@
                     <th>交易编号</th>
                     <th>部门</th>
                     <th>工号</th>
-                    <th>终端编号</th>
+                    #*<th>终端编号</th>*#
                     <th>实际退款金额</th>
                     <th>付款金额</th>
                     <th>退款时间</th>
@@ -50,7 +50,7 @@
                         <td>$!refund.tradeId</td>
                         <td>$!refund.department</td>
                         <td>$!refund.jobNumber</td>
-                        <td>$!refund.terminalNumber</td>
+                        #*<td>$!refund.terminalNumber</td>*#
                         <td>$!utilNum.moneyTransform($!refund.refundPayment)</td>
                         <td>$!utilNum.moneyTransform($!refund.payment)</td>
                         <td>$!utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>

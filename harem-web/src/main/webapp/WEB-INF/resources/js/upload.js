@@ -24,7 +24,7 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
     if(type==1){
         xhr.open("POST", uploadFile, true);
     }else{
-        xhr.open("POST",  uploadFiles + "/upload/files", true);
+        xhr.open("POST",  uploadFiles, true);
     }
     // 发送表单数据
     xhr.send(formData);
