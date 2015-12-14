@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
 <style type="text/css">
 .demo{width:850px;margin:20px auto;display:none;}
 #l-map{height:400px;width:600px;float:left;border:1px solid #bcbcbc;}
@@ -9,7 +10,7 @@
 </style>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-
+<form id="saveScenicSpot">
 <ul id="myTab" class="nav nav-tabs">
     <li class="active">
         <a href="#scenicInfo" data-toggle="tab">景区信息</a>
@@ -28,54 +29,59 @@
                 <tbody>
                 <tr>
                     <td><span class="spColor">*</span>景区名称</td>
-                    <td><input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内"></td>
+                    <td>
+                     #if($!{VO.scenic.id})
+                    	<input type="hidden" name="scenic.id" value="$!{VO.scenic.id}">
+                    #end
+                    <input type="text" class="inpCtlBlock" name="scenic.name" id="name" placeholder="请输入20个字以内" value="$!{VO.scenic.name}"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>区域</td>
                     <td>
                         <div class="selectList">
-                            <select class="selCity inpControl" name="locationProvinceName" id="provinceSelect">
+                            <select class="selCity inpControl" name="scenic.locationProvinceName" id="provinceSelect">
                                 <option>请选择省份</option>
                             </select>
-                            <select class="selCity inpControl" name="locationCityName" id="citySelect">
+                            <select class="selCity inpControl" name="scenic.locationCityName" id="citySelect">
                                 <option>请选择城市</option>
                             </select>
-                            <input type="text" class="inpCtlBlock" name="locationText" id="locationText" placeholder="请输入100个字以内">
+                            <input type="text" class="inpCtlBlock" name="scenic.locationText" id="locationText" placeholder="请输入100个字以内" value="$!{VO.scenic.locationText}">
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>等级</td>
                     <td>
-                        <select class="form-control {required:true}" id="grade" name="level">
+                        <select class="form-control {required:true}" id="level" name="scenic.level">
                             <option>请选择</option>
-                            <option value="1">五星级</option>
-                            <option value="2">四星级</option>
-                            <option value="3">三星级</option>
-                            <option value="4">连锁酒店</option>
+                           <option value="1"  #if($!{VO.scenic.level} == 1) selected #end>五星级</option>
+                            <option value="2" #if($!{VO.scenic.level} == 2) selected #end>四星级</option>
+                            <option value="3" #if($!{VO.scenic.level} == 3) selected #end>三星级</option>
+                            <option value="4" #if($!{VO.scenic.level} == 4) selected #end>连锁酒店</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>地址经纬度</td>
-                    <td><span>经度</span><input type="text" name="locationX" id="locationX" class="inpControl getAddress">
-						<span>维度</span><input type="text" name="locationY" id="locationY" class="inpControl getAddress"><button class="btn btn-primary locationXYSelectBtn" >查找经纬度</button><code>点击查找经纬度可自动获取</code></td>
+                    <td><span>经度</span><input type="text" name="scenic.locationX" id="locationX" class="inpControl getAddress" value="$!{VO.scenic.locationX}">
+						<span>维度</span><input type="text" name="scenic.locationY" id="locationY" class="inpControl getAddress" value="$!{VO.scenic.locationY}">
+						<button type="button" class="btn btn-primary locationXYSelectBtn" >查找经纬度</button><code>点击查找经纬度可自动获取</code></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>景区电话</td>
-                    <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+                    <td><input type="text" class="inpCtlBlock" name="scenic.phoneNum" id="phoneNum" placeholder="请输入数字" value="$!{VO.scenic.phoneNum}"></td>
                 </tr>
 				  <tr>
                     <td><span class="spColor">*</span>营业时间</td>
-                    <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字"></td>
+                    <td><input type="text" class="inpCtlBlock" name="scenic.openTime" id="openTime" placeholder="请输入数字" value="$!{VO.scenic.openTime}"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>景区简介</td>
-                    <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                    <td><textarea name="scenic.oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内" >$!{VO.scenic.oneword}</textarea></td>
                 </tr>
 				 <tr>
                     <td><span class="spColor">*</span>特色描述</td>
-                    <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内" ></textarea></td>
+                    <td><textarea name="scenic.description" id="description" rows="3" class="form-control" placeholder="请输入500字以内" >$!{VO.scenic.description}</textarea></td>
                 </tr>
 				<tr>
                     <td><span class="spColor">*</span>入园须知</td>
@@ -90,12 +96,22 @@
                     </tr>
                 </thead>
 				<tbody class="extra-info-list needKnowTable">
-            		<tr class="needKnow">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+				
+				 #if(!${VO.needKnow.frontNeedKnow})
+				 	<tr class="needKnow">
+        				<td><input type="text" name="needKnow.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+        				<td><textarea class="form-control extra-info-item-text"  name="needKnow.frontNeedKnow[1].content" rows="3"></textarea></td>
 						<td><button type="button"  class="btn btn-link"  onclick="delneedKnowTR(this)">删除</button></td>
                     </tr>
-					
+				 #end
+            		
+					#foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
+                  	 <tr class="needKnow">
+        				<td><input type="text" name="needKnow.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}"></td>
+        				<td><textarea class="form-control extra-info-item-text"  name="needKnow.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea></td>
+						<td><button type="button"  class="btn btn-link"  onclick="delneedKnowTR(this)">删除</button></td>
+                    </tr>
+                   #end
                 </tbody>
             </table>
                     
@@ -103,17 +119,17 @@
                 </tr>
 				<tr>
                     <td><span class="spColor">*</span>退改规定</td>
-                    <td><textarea name="refundRule" id="refundRule" rows="3" class="form-control" placeholder="请输入500字以内"></textarea></td>
+                    <td><textarea name="scenic.refundRule" id="refundRule" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.refundRule}</textarea></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>基础价格</td>
-                    <td><input type="text" name="price" id="price" class="inpControl" >起</td>
+                    <td><input type="text" name="scenic.price" id="price" class="inpControl" value="$!{VO.scenic.price}" >起</td>
                 </tr>
 				 <tr>
                     <td>景区联系人</td>
                     <td>
-						<span>姓名</span><input type="text" name="contactPerson"  class="inpControl">
-						<span>电话</span><input type="text" name="contactPhone"  class="inpControl">
+						<span>姓名</span><input type="text" name="scenic.contactPerson"  class="inpControl" value="$!{VO.scenic.contactPerson}">
+						<span>电话</span><input type="text" name="scenic.contactPhone"  class="inpControl" value="$!{VO.scenic.contactPhone}">
 					</td>
                 </tr>
                 <tr>
@@ -121,7 +137,7 @@
                     <td>
                         <button type="button" class="btn btn-info selectUserBtn">选择旅游咖</button>
                         <img src="#if($hotel.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!hotel.manageUserLogoUrl  #end" alt="头像" class="img-circle grogUserLogo"><span>Tracy</span>
-                        <textarea name="recommend" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内"></textarea>
+                        <textarea name="scenic.recommend" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内"></textarea>
                         <input type="hidden" name="userId" value="$!hotel.userId" disabled>
                     </td>
                 </tr>
@@ -131,20 +147,22 @@
         </div>
     </div>
     <div class="tab-pane" id="scenicDetailDiv">
-		<textarea id="scenicDetail" name="scenicDetail" cols="20" rows="60" class="ckeditor"  >
-                  
-       </textarea>
+				<textarea id="activityDetailWeb" name="needKnow.extraInfoUrl" cols="20" rows="60" class="ckeditor"  >
+                 
+                </textarea>
     </div>
     <div class="tab-pane" id="scenicImgs">
 
     </div>
 </div>
+
+ <button type="submit" class="btn btn-info" onClick="CKupdate();" >保存</button>
 </form>
 
 <script type="text/html" id="needKnowTemp">
 <tr class="needKnow">
-       <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-       <td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
+       <td><input type="text" name="needKnow.frontNeedKnow[$index].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>
+       <td><textarea  name="needKnow.frontNeedKnow[$index1].content" class="form-control extra-info-item-text" rows="3"></textarea></td>
 		<td><button type="button"  class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
 </tr>
 </script>
@@ -152,15 +170,19 @@
 
 
 <script>
+function CKupdate(){
+ for ( instance in CKEDITOR.instances )
+  CKEDITOR.instances[instance].updateElement();
+}
 
-var conTr =$(".needKnow").length;
+
+var conTr =$(".needKnow").length+1;
 $(".addNeedKnow").unbind("click").click(function () {
 	
 	var addhtml="";
 	var html1 = $("#needKnowTemp").html();
 	var i = conTr++;
 	addhtml = addhtml + html1.replace('$index', i).replace('$index1', i);
-	alert(addhtml);
 	$(".needKnowTable").prev().append(addhtml);
 });	
 
@@ -206,108 +228,49 @@ $(".addNeedKnow").unbind("click").click(function () {
             });
         })
 
+		/*提交**/
+	$("#saveScenicSpot").validate(
+			{
+				rules:{
+					'scenic.name' : {
+						required : true
+					}
+				},
+				errorPlacement : function(error, element) { // 指定错误信息位置
 
-        $("#editScenicForm").validate({
-            //添加景区验证规则
-            rules: {
-                grogshopName: {    //酒店名称
-                    required: true,
-                    maxlength: 20,
-                    minlength: 2
-                },
-                grogshopAddress: {   //选择地址
-                    required: true
-                },
-                grogBasePrice: {   //基础价格
-                    required: true,
-                    digits: true
-                },
-                grogshopTele: {   //酒店电话
-                    required: true,
-                    number: true
-                },
-                grogDescr: {    //特色描述
-                    required: true,
-                    maxlength: 80
-                },
-                grogInfo: {    //酒店简介
-                    required: true,
-                    maxlength: 500
-                },
-                grogLinkmanName: {   //酒店联系人姓名
-                    required: true
-                },
-                grogLinkmanPhone: {   //酒店联系人电话
-                    required: true
-                },
-                grogArrivalDate: {    //最晚到店时间
-                    required: true,
-                    maxlength: 50
-                }
-            },
-            //添加酒店验证错误，提示信息
-            messages: {
-                grogshopName: {     //酒店名称
-                    required: "请填写酒店名称",
-                    maxlength: "请输入不多于20字",
-                    minlength: "请至少输入2个字"
-                },
-                grogshopAddress: {    //选择地址
-                    required: "请输入您的详细地址"
-                },
-                grogBasePrice: {     //基础价格
-                    required: "请填写基础价格",
-                    digits: "请输入正整数"
-                },
-                grogshopTele: {   //酒店电话
-                    required: "请填写酒店电话",
-                    number: "请输入数字"
-                },
-                grogDescr: {    //特色描述
-                    required: "请输入特色描述",
-                    maxlength: "请输入不多于80字"
-                },
-                grogInfo: {    //酒店简介
-                    required: "请输入酒店简介",
-                    maxlength: "请输入不多于500字"
-                },
-                grogLinkmanName: {   //酒店联系人姓名
-                    required: "请输入联系人"
-                },
-                grogLinkmanPhone: {   //酒店联系人电话
-                    required: "请输入联系人电话"
-                },
-                grogArrivalDate: {    //最晚到店时间
-                    required: "请输入最晚到店时间",
-                    maxlength: "请输入不多于50字以内"
-                }
-            }
-        });
+					if (element.is(':radio') || element.is(':checkbox')
+							|| element.is(':input')) { // 如果是radio或checkbox
+						var eid = element.attr('name'); // 获取元素的name属性
+						error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
+					} else {
+						error.insertAfter(element);
+					}
+				},
+				submitHandler : function(form) {
+					var options = {
+						url : "save",
+						type : "post",
+						dataType : "json",
+						success : function(data) {
+							
+							if (data.success) {
+								
+							} else {
+								alert("111");
 
-        $('#btnSubmit').click(function(){
-            $(this).prop('disabled',true);
-            var actionUrl;
-            var hotelId = $('#hotelForm').attr('hotelId');
-            if(hotelId){
-                actionUrl = '/hotelManage/edit';
-            }else{
-                actionUrl = '/hotelManage/add';
-            }
-            layer.alert(actionUrl);
-            $('#hotelForm').attr('action',actionUrl);
-            $.post(actionUrl,$('#scenicForm').serialize(),function(data){
-                if(data.status == 200){
-                    var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                    msg.show();
-                    setTimeout(function(){
-                        window.close();
-                    },1050);
-                }else{
-                    var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                    msg.show();
-                    $(this).prop('disabled',false);
-                }
-            });
-        });
+							}
+						},
+						error : function(XMLHttpRequest, textStatus,
+								errorThrown) {
+							alert("123")
+						}
+					};
+					
+					$(form).ajaxSubmit(options);
+				},
+				invalidHandler : function(form, validator) { // 不通过回调
+					return false;
+				}
+			});
     });
 </script>
