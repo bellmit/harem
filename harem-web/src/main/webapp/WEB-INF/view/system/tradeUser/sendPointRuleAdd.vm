@@ -12,7 +12,7 @@
         <ul class="listDetail">
             <li>
                 <label>积分赠送规则：</label>
-                消费<input type="text" name="paymentY" value="">RMB=1积分
+                消费<input type="text" name="paymentY" value="">元=1积分
             </li>
             <li>
                 <label>积分有效期：</label>
