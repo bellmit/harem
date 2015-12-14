@@ -2,8 +2,8 @@
     <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/PointManage/sendPointRule/list" method="GET" role="form">
         <div class="inputGroup whole">
             <p style="font-size: 16px;font-weight: bold;">当前规则：<button style="margin-left: 165px;" type="button" class="btn btn-primary sendPointRuleAdd" id="sendPointRuleAdd">新增规则</button></p>
-            <span>积分发放规则：$!utilNum.moneyTransform($!sendPointRule.payment)元RMB=1积分</span><br>
-            <span>积分使用规则：1积分=1RMB</span><br>
+            <span>积分发放规则：$!utilNum.moneyTrans($!sendPointRule.payment)元 = 1积分</span><br>
+            <span>积分使用规则：1积分 = 1元</span><br>
             <span>积分有效期：$!{sendPointRule.validityDays}天</span>
         </div>
         <div class="tableGroup whole">
@@ -22,7 +22,7 @@
                     #foreach($sendPointRule in $sendPointRuleList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>$!utilNum.moneyTransform($!sendPointRule.payment)元RMB = 1积分</td>
+                        <td>$!utilNum.moneyTransform($!sendPointRule.payment)元 = 1积分</td>
                         <td>$!sendPointRule.validityDays</td>
                         #*<td>$!user.vendorName</td>*#
                         <td>$!utilDate.dateToString($!sendPointRule.beginTime,"yyyy-MM-dd HH:mm:ss")</td>

@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 public class NumUtil {
 
     /**
-     * 金额转换（分转换为元）
+     * 金额转换（分转换为元:#0.00）
      * @param money
      * @return
      */
@@ -16,6 +16,14 @@ public class NumUtil {
         double dn = money;
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         return decimalFormat.format(dn/100);
+    }
+    /**
+     * 金额转换（分转换为元#0）
+     * @param money
+     * @return
+     */
+    public static long moneyTrans(long money){
+        return money/100;
     }
 
 }
