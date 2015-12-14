@@ -32,8 +32,8 @@ public class TestMapper {
 		haRoleMenuDO.setId(2);
 		haRoleMenuDO.setStatus(1);
 */		//haRoleMenuMapper.addOrUpdate(haRoleMenuDO);
-		List<HaRoleMenuDO> haRoleMenuDOList = haRoleMenuMapper.getHaRoleMenuById(2L);
-		System.out.println(JSON.toJSONString(haRoleMenuDOList));
+		//List<HaRoleMenuDO> haRoleMenuDOList = haRoleMenuMapper.getHaRoleMenuById(2L);
+		//System.out.println(JSON.toJSONString(haRoleMenuDOList));
 /*		haRoleMenuDO.setHaMenuId(2);
 		haRoleMenuMapper.addRoleMenu(haRoleMenuDO);
 */		
