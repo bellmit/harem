@@ -27,11 +27,12 @@ import com.yimayhd.harem.service.SystemManageService;
 @RequestMapping("/systemManage")
 public class SystemManageController extends BaseController {
 
-	private static final Logger logger = LoggerFactory.getLogger(SystemManageController.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(SystemManageController.class);
 
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	SystemManageService systemManageService;
 
@@ -41,30 +42,95 @@ public class SystemManageController extends BaseController {
 		RoleListQuery roleListQuery = new RoleListQuery();
 
 		if (roleListQuery.getPageNumber() != null) {
-			
+
 			int pageNumber = roleListQuery.getPageNumber();
 			int pageSize = roleListQuery.getPageSize();
 			int pageBegin = (pageNumber - 1) * pageSize;
 			roleListQuery.setPageBegin(pageBegin);
-			
+
 		}
-		
+
 		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);
-		List<HaRoleDO> roleList = pageVo.getItemList();		
+		List<HaRoleDO> roleList = pageVo.getItemList();
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("roleList", roleList);
-		
+
 		return "/system/systemManage/roleList";
 	}
-	
+
 	@RequestMapping(value = "/roleList/updateStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo updateRoleStatus(@PathVariable("id") int id, @RequestParam(value = "roleStatus", required = true) Integer roleStatus) throws Exception {
-		
+	public ResponseVo updateRoleStatus(
+			@PathVariable("id") int id,
+			@RequestParam(value = "roleStatus", required = true) Integer roleStatus)
+			throws Exception {
+
 		HaRoleDO haRoleDO = new HaRoleDO();
 		haRoleDO.setId(id);
 		haRoleDO.setStatus(roleStatus);
 		boolean result = systemManageService.updateRoleStatus(haRoleDO);
+
+		ResponseVo responseVo = new ResponseVo();
+		if (!result) {
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+
+		return responseVo;
+	}
+
+	@RequestMapping(value = "/roleListPOST", method = RequestMethod.POST)
+	public String roleListPost(Model model, RoleListQuery roleListQuery)
+			throws Exception {
+
+		if (roleListQuery.getPageNumber() != null) {
+
+			int pageNumber = roleListQuery.getPageNumber();
+			int pageSize = roleListQuery.getPageSize();
+			int pageBegin = (pageNumber - 1) * pageSize;
+			roleListQuery.setPageBegin(pageBegin);
+
+		}
+
+		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("roleListQuery", roleListQuery);
+		model.addAttribute("roleList", pageVo.getItemList());
+		return "/system/systemManage/roleList";
+	}
+
+	@RequestMapping(value = "/roleDetail/{roleId}", method = RequestMethod.GET)
+	public String roleDetail(Model model,
+			@PathVariable(value = "roleId") long roleId,
+			RoleListQuery roleListQuery) throws Exception {
+
+		if (roleListQuery.getPageNumber() != null) {
+
+			int pageNumber = roleListQuery.getPageNumber();
+			int pageSize = roleListQuery.getPageSize();
+			int pageBegin = (pageNumber - 1) * pageSize;
+			roleListQuery.setPageBegin(pageBegin);
+
+		}
+
+		roleListQuery.setRoleId(roleId);
+		PageVO<HaRoleDetail> pageVo = systemManageService
+				.roleDetailById(roleListQuery);
+
+		model.addAttribute("roleId", roleId);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("roleListQuery", roleListQuery);
+		model.addAttribute("roleDetailList", pageVo.getItemList());
+
+		return "/system/systemManage/roleDetail";
+	}
+
+	@RequestMapping(value = "/roleDetail/updateStatus/{menuId}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateRoleDetailStatus(@PathVariable("menuId") int menuId, 
+					@RequestParam(value = "roleStatus", required = true) Integer roleStatus,
+					@RequestParam(value = "roleId", required = true) Integer roleId) throws Exception {
+		
+		boolean result = systemManageService.addOrUpdateRoleDetaiStatus(menuId, roleStatus, roleId);
 		
 		ResponseVo responseVo = new ResponseVo();
 		if (!result) {
@@ -73,47 +139,4 @@ public class SystemManageController extends BaseController {
 		
 		return responseVo;
 	}
-	
-	@RequestMapping(value = "/roleListPOST", method = RequestMethod.POST)
-	public String roleListPost(Model model, RoleListQuery roleListQuery) throws Exception {
-				
-		if (roleListQuery.getPageNumber() != null) {
-			
-			int pageNumber = roleListQuery.getPageNumber();
-			int pageSize = roleListQuery.getPageSize();
-			int pageBegin = (pageNumber - 1) * pageSize;
-			roleListQuery.setPageBegin(pageBegin);
-			
-		}
-
-		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);		
-		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("roleListQuery", roleListQuery);
-		model.addAttribute("roleList", pageVo.getItemList());
-		return "/system/systemManage/roleList";
-	}
-	
-	@RequestMapping(value = "/roleDetail/{roleId}", method = RequestMethod.GET)
-	public String roleDetail(Model model, @PathVariable(value = "roleId") long roleId, RoleListQuery roleListQuery) throws Exception {
-		
-		if (roleListQuery.getPageNumber() != null) {
-			
-			int pageNumber = roleListQuery.getPageNumber();
-			int pageSize = roleListQuery.getPageSize();
-			int pageBegin = (pageNumber - 1) * pageSize;
-			roleListQuery.setPageBegin(pageBegin);
-			
-		}
-
-		roleListQuery.setRoleId(roleId);
-		PageVO<HaRoleDetail> pageVo = systemManageService.roleDetailById(roleListQuery);
-		
-		model.addAttribute("roleId", roleId);
-		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("roleListQuery", roleListQuery);
-		model.addAttribute("roleDetailList", pageVo.getItemList());
-		
-		return "/system/systemManage/roleDetail";
-	}
-	
 }

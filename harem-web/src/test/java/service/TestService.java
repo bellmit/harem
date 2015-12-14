@@ -33,4 +33,11 @@ public class TestService {
 	
 	}
 	
+	@Test
+	public void test2() {
+		
+		systemManageService.addOrUpdateRoleDetaiStatus(5, 0, 2);
+		
+	}
+	
 }

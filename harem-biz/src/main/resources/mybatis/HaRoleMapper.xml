@@ -79,11 +79,11 @@
 	</select>
 
 	<select id="roleDetailById" parameterType="com.yimayhd.harem.model.query.RoleListQuery" resultMap="roleDetail">
-		<![CDATA[select a.id as id,
+		<![CDATA[select distinct(a.id) as id,
 				a.name as name,
 				a.url as url,
 				b.ha_role_id as ha_role_id,
-				case when b.ha_role_id <> ${roleId} 
+				case when b.ha_role_id <> ${roleId} or b.status = 0
 					then 0
            		else 1 end as is_own
 		from ha_menu a

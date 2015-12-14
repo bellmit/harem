@@ -13,4 +13,6 @@ public interface SystemManageService {
 	
 	public boolean updateRoleStatus(HaRoleDO haRoleDO);
 	
+	public boolean addOrUpdateRoleDetaiStatus(long menuId, int roleStatus, long roleId);
+	
 }

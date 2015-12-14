@@ -22,7 +22,7 @@
     </sql>
 
     <!--insert的时候要去掉ID，创建时间，更新时间和状态-->
-    <insert id="add" parameterType="com.yimayhd.harem.model.HaRoleMenuDO"  useGeneratedKeys="true" keyProperty="id">
+    <insert id="addRoleMenu" parameterType="com.yimayhd.harem.model.HaRoleMenuDO"  useGeneratedKeys="true" keyProperty="id">
         insert into ha_role_menu  (id,ha_menu_id,ha_role_id,gmt_created,gmt_modified,status)
         values (
         
@@ -32,7 +32,7 @@
         
           #{haRoleId,jdbcType=BIGINT},
         
-          #{gmtCreated,jdbcType=TIMESTAMP},
+          now(),
         
           #{gmtModified,jdbcType=TIMESTAMP},
         
@@ -41,11 +41,11 @@
         )
     </insert>
 
-    <select id="getById" resultMap="BaseResultMap" parameterType="long">
+    <select id="getHaRoleMenuById" resultMap="BaseResultMap" parameterType="long">
         select <include refid="Base_Column_List"/>
         from ha_role_menu t
         where
-        t.id = #{id}
+        t.ha_menu_id = #{_parameter}
     </select>
 
     <sql id="search_clause">
