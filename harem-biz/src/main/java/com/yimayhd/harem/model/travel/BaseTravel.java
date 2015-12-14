@@ -5,7 +5,6 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
 /**
@@ -29,10 +28,7 @@ public abstract class BaseTravel {
 			this.baseInfo.setTripImage(route.getPicture());
 		}
 		parseTripInfo(lineResult);
-		ItemDO item = lineResult.getItemDO();
-		if (item != null) {
-			this.priceInfo = new PriceInfo(item);
-		}
+		this.priceInfo = new PriceInfo(lineResult);
 	}
 
 	protected abstract void parseTripInfo(LineResult lineResult);

@@ -12,6 +12,7 @@ import java.util.List;
 public class PackageInfo {
 	private Date startDate; // 开始时间
 	private Date endDate;// 结束时间
+	private long type; // 套餐值类型
 	private String name;// 套餐名
 	private String from;// 出发地
 	private List<PackageMonth> months;
@@ -54,5 +55,13 @@ public class PackageInfo {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public long getType() {
+		return type;
+	}
+
+	public void setType(long type) {
+		this.type = type;
 	}
 }
