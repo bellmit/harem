@@ -7,8 +7,10 @@ package com.yimayhd.harem.model.travel;
  *
  */
 public class PackageBlock {
+	private String name;
+	private long type;
 	private long price;
-	private long stock;
+	private int stock;
 	private long discount;
 
 	public long getPrice() {
@@ -19,11 +21,11 @@ public class PackageBlock {
 		this.price = price;
 	}
 
-	public long getStock() {
+	public int getStock() {
 		return stock;
 	}
 
-	public void setStock(long stock) {
+	public void setStock(int stock) {
 		this.stock = stock;
 	}
 
@@ -33,5 +35,21 @@ public class PackageBlock {
 
 	public void setDiscount(long discount) {
 		this.discount = discount;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getType() {
+		return type;
+	}
+
+	public void setType(long type) {
+		this.type = type;
 	}
 }
