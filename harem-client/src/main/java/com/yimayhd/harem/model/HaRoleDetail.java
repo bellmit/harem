@@ -12,6 +12,9 @@ public class HaRoleDetail extends BaseModel {
 	
 	private Long roleId;
 	
+	// Key 
+	private Long roleMenuId;
+	
 	private Boolean isOwn;
 
 	public String getMenuName() {
@@ -36,6 +39,14 @@ public class HaRoleDetail extends BaseModel {
 
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
+	}
+
+	public Long getRoleMenuId() {
+		return roleMenuId;
+	}
+
+	public void setRoleMenuId(Long roleMenuId) {
+		this.roleMenuId = roleMenuId;
 	}
 
 	public Boolean getIsOwn() {

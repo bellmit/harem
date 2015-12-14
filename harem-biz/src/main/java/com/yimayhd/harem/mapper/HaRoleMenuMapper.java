@@ -13,6 +13,6 @@ public interface HaRoleMenuMapper extends BaseMapper<HaRoleMenuDO> {
 
 	public boolean addRoleMenu(HaRoleMenuDO haRoleMenuDO);
 	
-	public List<HaRoleMenuDO> getHaRoleMenuById(long id);
+	public HaRoleMenuDO getHaRoleMenuById(long id);
 	
 }

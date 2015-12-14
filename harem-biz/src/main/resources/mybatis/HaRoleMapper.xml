@@ -20,6 +20,7 @@
 		<result column="url" property="menuUrl" jdbcType="VARCHAR" />
 		<result column="ha_role_id" property="roleId" javaType="java.lang.Long"
 			jdbcType="BIGINT" />
+		<result column="ha_role_menu_id" property="roleMenuId" jdbcType="BIGINT"/>
 		<result column="is_own" property="isOwn" jdbcType="BOOLEAN" />
 	</resultMap>
 
@@ -78,24 +79,37 @@
 		</where>
 	</select>
 
-	<select id="roleDetailById" parameterType="com.yimayhd.harem.model.query.RoleListQuery" resultMap="roleDetail">
-		<![CDATA[select distinct(a.id) as id,
-				a.name as name,
-				a.url as url,
-				b.ha_role_id as ha_role_id,
-				case when b.ha_role_id <> ${roleId} or b.status = 0
-					then 0
-           		else 1 end as is_own
-		from ha_menu a
-		left join ha_role_menu b
-		on a.id = b.ha_menu_id
-		where
-		a.parent_id <> 0 
-		order by a.id asc
-		limit ${pageBegin}, ${pageSize}		
+	<select id="roleDetailById" parameterType="com.yimayhd.harem.model.query.RoleListQuery"
+		resultMap="roleDetail">
+		<![CDATA[select a.id as id,
+           				a.name as name,
+           				a.url as url,
+           				b.ha_role_id as ha_role_id,
+           				c.id as ha_role_menu_id,           
+           				case when b.ha_role_id = ${roleId}
+                           then 1
+                   		else 0 end as is_own
+				  from ha_menu a
+				  left join (
+				  		select id,
+           						ha_menu_id,
+           						ha_role_id,
+           						gmt_created,
+           						gmt_modified,
+           						status
+						from ha_role_menu 
+						where ha_role_id = ${roleId}
+						and status = 1
+				  ) b
+					on a.id = b.ha_menu_id
+				  left join ha_role_menu c
+				  	on a.id = c.ha_menu_id
+					where a.parent_id <> 0
+					order by a.id asc 
+					limit ${pageBegin}, ${pageSize} 
  		]]>
 	</select>
-	
+
 	<select id="roleDetailCount" resultType="java.lang.Long">
 		<![CDATA[select count(1)
 		from ha_menu a

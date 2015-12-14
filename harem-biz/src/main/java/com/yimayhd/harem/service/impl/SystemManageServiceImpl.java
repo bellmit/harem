@@ -50,47 +50,33 @@ public class SystemManageServiceImpl implements SystemManageService {
 	}
 
 	@Override
-	public boolean addOrUpdateRoleDetaiStatus(long menuId, int roleStatus, long roleId) {
+	public boolean addOrUpdateRoleDetaiStatus(long roleMenuId, int roleStatus, long roleId) {
 		
-		List<HaRoleMenuDO> roleMenuList = haRoleMenuMapper.getHaRoleMenuById(menuId);
+		HaRoleMenuDO roleMenuDO = haRoleMenuMapper.getHaRoleMenuById(roleMenuId);
+		boolean result = false;
 		
-		Iterator<HaRoleMenuDO> it = roleMenuList.iterator();
-		boolean hasRole = false;
-		HaRoleMenuDO haRoleMenuDo = null;
-		
-		while(it.hasNext()) {
+		// 停用
+		if (roleStatus == 0) {
 			
-			HaRoleMenuDO haRMDo = it.next();
-			if(haRMDo.getHaRoleId() == roleId) {
-				hasRole = true;
-				haRoleMenuDo = haRMDo;
-				haRoleMenuDo.setStatus(roleStatus);
-				break;
-			}
-		}
-		
-		if (hasRole) {
-			
+			roleMenuDO.setStatus(roleStatus);
 			try {
-				haRoleMenuMapper.modify(haRoleMenuDo);
-				return true;
+				haRoleMenuMapper.modify(roleMenuDO);
+				result = true;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				result = false;
 				e.printStackTrace();
-				return false;
 			}
 			
-		} else {
+		} else if (roleStatus == 1) { // 启用
 			
-			HaRoleMenuDO haRoleMenuDO = new HaRoleMenuDO();
-			haRoleMenuDO.setHaMenuId(menuId);
-			haRoleMenuDO.setHaRoleId(roleId);
-			haRoleMenuDO.setStatus(roleStatus);
-			boolean result = haRoleMenuMapper.addRoleMenu(haRoleMenuDO);
+			roleMenuDO.setStatus(roleStatus);
+			roleMenuDO.setId(0);
+			roleMenuDO.setHaRoleId(roleId);
+			result = haRoleMenuMapper.addRoleMenu(roleMenuDO);
 			
-			return result;
 		}
 		
+		return result;
 	}
 
 }

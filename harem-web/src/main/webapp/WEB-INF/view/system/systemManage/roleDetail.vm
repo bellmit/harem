@@ -30,14 +30,14 @@
 							<td>是</td>
 							<td>
 							<!--<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>-->
-								<button type="button" class="btn btn-primary roleDetailEdit" roleId="$!roleDetail.roleId" menuId="$!roleDetail.id" roleStatus="0">移除</button>
+								<button type="button" class="btn btn-primary roleDetailEdit" roleId="$!roleId" roleMenuId="$!roleDetail.roleMenuId" roleStatus="0">移除</button>
 								<!--<button type="button" class="btn btn-primary roleStatus" roleStatus="$!role.status">删除</button>-->
 							</td>
 					   #else
 							<td>否</td>
 							<td>
 							<!--<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>-->
-								<button type="button" class="btn btn-primary roleDetailEdit" roleId="$!roleDetail.roleId" menuId="$!roleDetail.id" roleStatus="1">添加</button>
+								<button type="button" class="btn btn-primary roleDetailEdit" roleId="$!roleId" roleMenuId="$!roleDetail.roleMenuId" roleStatus="1">添加</button>
 								<!-- <button type="button" class="btn btn-primary roleStatus" roleStatus="$!role.status">启用</button> -->
 							</td>
 					   #end
@@ -58,10 +58,10 @@
 		$(".roleDetailEdit").click(function() {
       		
 			var roleId = $(this).attr("roleId");
-			var menuId = $(this).attr("menuId");
+			var roleMenuId = $(this).attr("roleMenuId");
 			var roleStatus = $(this).attr("roleStatus");
 			
-			$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/systemManage/roleDetail/updateStatus/'+menuId,
+			$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/systemManage/roleDetail/updateStatus/'+roleMenuId,
 					{'roleStatus': roleStatus,
 					 'roleId': roleId},
 					function(data) {

@@ -45,7 +45,7 @@
         select <include refid="Base_Column_List"/>
         from ha_role_menu t
         where
-        t.ha_menu_id = #{_parameter}
+        t.id = #{_parameter}
     </select>
 
     <sql id="search_clause">

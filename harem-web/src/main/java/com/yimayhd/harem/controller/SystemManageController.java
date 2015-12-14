@@ -124,13 +124,13 @@ public class SystemManageController extends BaseController {
 		return "/system/systemManage/roleDetail";
 	}
 
-	@RequestMapping(value = "/roleDetail/updateStatus/{menuId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/roleDetail/updateStatus/{roleMenuId}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo updateRoleDetailStatus(@PathVariable("menuId") int menuId, 
+	public ResponseVo updateRoleDetailStatus(@PathVariable("roleMenuId") int roleMenuId, 
 					@RequestParam(value = "roleStatus", required = true) Integer roleStatus,
 					@RequestParam(value = "roleId", required = true) Integer roleId) throws Exception {
 		
-		boolean result = systemManageService.addOrUpdateRoleDetaiStatus(menuId, roleStatus, roleId);
+		boolean result = systemManageService.addOrUpdateRoleDetaiStatus(roleMenuId, roleStatus, roleId);
 		
 		ResponseVo responseVo = new ResponseVo();
 		if (!result) {
