@@ -22,4 +22,6 @@ public interface HaRoleMapper extends BaseMapper<HaRoleDO>{
 	public Long totalCount(RoleListQuery roleListQuery);
 		
 	public Long roleDetailCount();
+	
+	public boolean updateRoleStatus(HaRoleDO haRoleDO);
 }

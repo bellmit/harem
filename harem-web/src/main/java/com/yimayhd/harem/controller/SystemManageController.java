@@ -10,9 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.HaRoleDO;
 import com.yimayhd.harem.model.HaRoleDetail;
 import com.yimayhd.harem.model.query.RoleListQuery;
@@ -51,6 +55,23 @@ public class SystemManageController extends BaseController {
 		model.addAttribute("roleList", roleList);
 		
 		return "/system/systemManage/roleList";
+	}
+	
+	@RequestMapping(value = "/roleList/updateStatus/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateRoleStatus(@PathVariable("id") int id, @RequestParam(value = "roleStatus", required = true) Integer roleStatus) throws Exception {
+		
+		HaRoleDO haRoleDO = new HaRoleDO();
+		haRoleDO.setId(id);
+		haRoleDO.setStatus(roleStatus);
+		boolean result = systemManageService.updateRoleStatus(haRoleDO);
+		
+		ResponseVo responseVo = new ResponseVo();
+		if (!result) {
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+		
+		return responseVo;
 	}
 	
 	@RequestMapping(value = "/roleListPOST", method = RequestMethod.POST)

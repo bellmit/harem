@@ -168,7 +168,7 @@
 		<include refid="search_clause" />
 	</select>
 
-	<update id="modify" parameterType="com.yimayhd.harem.model.HaRoleDO">
+	<update id="updateRoleStatus" parameterType="com.yimayhd.harem.model.HaRoleDO">
 		update ha_role t
 		<set>
 			<if test="name != null">

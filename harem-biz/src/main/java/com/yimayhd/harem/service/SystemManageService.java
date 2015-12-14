@@ -10,4 +10,7 @@ public interface SystemManageService {
 	public PageVO<HaRoleDO> getListNew(RoleListQuery roleListQuery) throws Exception;
 	
 	public PageVO<HaRoleDetail> roleDetailById(RoleListQuery roleListQuery) throws Exception;
+	
+	public boolean updateRoleStatus(HaRoleDO haRoleDO);
+	
 }

@@ -37,4 +37,10 @@ public class SystemManageServiceImpl implements SystemManageService {
 		return pageVo;
 	}
 
+	@Override
+	public boolean updateRoleStatus(HaRoleDO haRoleDO) {
+		
+		return haRoleMapper.updateRoleStatus(haRoleDO);
+	}
+
 }

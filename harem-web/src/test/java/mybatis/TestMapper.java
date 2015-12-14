@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.mapper.HaRoleMapper;
+import com.yimayhd.harem.model.HaRoleDO;
 import com.yimayhd.harem.model.query.RoleListQuery;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -71,5 +72,13 @@ public class TestMapper {
 		
 	}
 
-	
+	@Test
+	public void updateRoleStatus() {
+		
+		HaRoleDO haRoleDO = new HaRoleDO();
+		haRoleDO.setId(1);
+		haRoleDO.setStatus(1);
+		haRoleMapper.updateRoleStatus(haRoleDO);
+		
+	}
 }
