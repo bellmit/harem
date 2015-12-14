@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.result.ICResult;
 
 /**
  * 景区管理（资源）
@@ -87,15 +88,25 @@ public class ScenicManageController extends BaseController {
 	}
 
 	/**
-	 * 编辑景区（资源）
+	 * 保存景区（资源）
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(ScenicAddNewDTO addNewDTO) throws Exception {
-		scenicSpotService.save(addNewDTO);
-		return "/success";
+	@ResponseBody
+	public ResponseVo save(ScenicAddNewDTO addNewDTO) throws Exception {
+		ResponseVo responseVo = new ResponseVo();
+		ICResult<ScenicDO> result =scenicSpotService.save(addNewDTO);
+		if(result.isSuccess()){
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		}else{
+			responseVo.setMessage(result.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+		
+		return responseVo;
 	}
 
 	/**

@@ -7,7 +7,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.service.ScenicService;
@@ -100,19 +99,19 @@ public class ScenicServiceImpl implements ScenicService {
 
 
 	@Override
-	public int save(ScenicAddNewDTO addNewDTO) throws Exception {
-		
+	public ICResult<ScenicDO> save(ScenicAddNewDTO addNewDTO) throws Exception {
+		ICResult<ScenicDO> addScenicNew=null;
 		String extraInfoUrl = tfsManager.saveFile((addNewDTO.getNeedKnow().getExtraInfoUrl()).getBytes("utf-8"), null, "html");
 		addNewDTO.getNeedKnow().setExtraInfoUrl(extraInfoUrl);
-		ScenicDO scenic = addNewDTO.getScenic();
 		if(0==addNewDTO.getScenic().getId()){
-			resourcePublishServiceRef.addScenicNew(addNewDTO);
+			addScenicNew = resourcePublishServiceRef.addScenicNew(addNewDTO);
 		}else{
-			
+			addScenicNew =resourcePublishServiceRef.updateScenicNew(addNewDTO);
 		}
 		
+	        return addScenicNew;
 	
-		return 0;
+		
 	}
 
 	

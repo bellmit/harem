@@ -248,21 +248,19 @@ $(".addNeedKnow").unbind("click").click(function () {
 				},
 				submitHandler : function(form) {
 					var options = {
-						url : "save",
+						url : actionDefaultPath + "/B2C/scenicSpotManage/save",
 						type : "post",
 						dataType : "json",
 						success : function(data) {
-							
-							if (data.success) {
-								
-							} else {
-								alert("111");
-
-							}
-						},
-						error : function(XMLHttpRequest, textStatus,
-								errorThrown) {
-							alert("123")
+							if(data.status==200){
+							 layer.alert('操作成功');
+							 $("#clubCategorySubmit").attr("disabled",false);
+							 location.href= actionDefaultPath + "/B2C/scenicSpotManage/list";
+                 		   }else{
+	                   		$("#clubCategorySubmit").attr("disabled",false);
+	                        layer.alert('操作失败');
+	                         location.href= actionDefaultPath + "/B2C/scenicSpotManage/list";
+                 		   }
 						}
 					};
 					

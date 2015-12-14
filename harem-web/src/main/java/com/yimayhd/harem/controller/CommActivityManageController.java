@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 
 /**
@@ -14,8 +13,8 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
  * @author xuzj
  */
 @Controller
-@RequestMapping("/B2C/comm/activityProductManage")
-public class ActivityProductManageController extends BaseController {
+@RequestMapping("/B2C/comm/activityManage")
+public class CommActivityManageController extends BaseController {
 	
 
 
@@ -28,7 +27,7 @@ public class ActivityProductManageController extends BaseController {
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() throws Exception {
 		
-		return "/system/comm/activityProduct/edit";
+		return "/system/comm/activity/edit";
 	}
 
 	

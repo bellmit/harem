@@ -6,6 +6,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.result.ICResult;
 public interface ScenicService {
 	/**
 	 * 获取景区资源列表(可带查询条件)
@@ -41,7 +42,7 @@ public interface ScenicService {
 	 */
 	boolean batchupdateStatus(ArrayList<Integer> scenicIdList, int scenicStatus)throws Exception;
 
-	int save(ScenicAddNewDTO addNewDTO) throws Exception;
+	ICResult<ScenicDO> save(ScenicAddNewDTO addNewDTO) throws Exception;
 	
 
 }

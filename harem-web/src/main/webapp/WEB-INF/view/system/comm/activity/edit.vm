@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+
+
+<div class="tab-content grogInfoWrap"  style="">
+<form id="saveScenic">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+		
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>分类</td>
+                    <td>活动</td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>活动商品名称</td>
+                    <td>
+                       <input type="text" class="inpCtlBlock" name="" id="" placeholder="不得超过30个字">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>排序</td>
+                    <td>
+						<input type="text" class="inpCtlBlock" name="" id="" placeholder="请输入整数">
+					</td>
+                </tr>
+                </tbody>
+                
+            </table>
+			<table class="table">
+				<tbody>
+					<tr>
+							<td>商品名称</td>
+							<td>包含项目（100字内）</td>
+							<td>入园限制（100字内）</td>
+							<td>入园规则</td>
+							<td>单价</td>
+							<td>会员优惠额度</td>
+							<td>会员限购</td>
+					<tr>
+						<tr>
+							<td></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+						<tr>
+				</tbody>
+			</table>
+        </div>
+    </div>
+    <button  type="submit" class="btn btn-primary">保存</button>
+	</form>
+</div>
+
+
+
+
+
+<script>
+   $(function(){
+		/*提交**/
+		$("#saveScenic").validate(
+			{
+				rules:{
+					'name' : {
+						required : true
+					}
+					
+				},
+				errorPlacement : function(error, element) { // 指定错误信息位置
+
+					if (element.is(':radio') || element.is(':checkbox')
+							|| element.is(':input')) { // 如果是radio或checkbox
+						var eid = element.attr('name'); // 获取元素的name属性
+						error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
+					} else {
+						error.insertAfter(element);
+					}
+				},
+				submitHandler : function(form) {
+
+					var options = {
+						url : "edit",
+						type : "post",
+						dataType : "json",
+						success : function(data) {
+							
+							if (data.success) {
+								$.success('操作成功',function(){
+									layer.alert("123")
+								});
+							} else {
+								layer.alert(data.msg, {
+									icon : 5
+								});
+
+							}
+						},
+						error : function(XMLHttpRequest, textStatus,
+								errorThrown) {
+							layer.alert('服务忙，请稍后再试', {
+								icon : 5
+							});
+						}
+					};
+					
+					$(form).ajaxSubmit(options);
+				},
+				invalidHandler : function(form, validator) { // 不通过回调
+					return false;
+				}
+			});
+		
+		
+});
+
+
+
+
+</script>
