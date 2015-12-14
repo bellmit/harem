@@ -35,8 +35,17 @@ public class SystemManageController extends BaseController {
 	public String roleListRedirect(Model model) throws Exception {
 
 		RoleListQuery roleListQuery = new RoleListQuery();
-		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);
 
+		if (roleListQuery.getPageNumber() != null) {
+			
+			int pageNumber = roleListQuery.getPageNumber();
+			int pageSize = roleListQuery.getPageSize();
+			int pageBegin = (pageNumber - 1) * pageSize;
+			roleListQuery.setPageBegin(pageBegin);
+			
+		}
+		
+		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);
 		List<HaRoleDO> roleList = pageVo.getItemList();		
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("roleList", roleList);
@@ -47,6 +56,15 @@ public class SystemManageController extends BaseController {
 	@RequestMapping(value = "/roleListPOST", method = RequestMethod.POST)
 	public String roleListPost(Model model, RoleListQuery roleListQuery) throws Exception {
 				
+		if (roleListQuery.getPageNumber() != null) {
+			
+			int pageNumber = roleListQuery.getPageNumber();
+			int pageSize = roleListQuery.getPageSize();
+			int pageBegin = (pageNumber - 1) * pageSize;
+			roleListQuery.setPageBegin(pageBegin);
+			
+		}
+
 		PageVO<HaRoleDO> pageVo = systemManageService.getListNew(roleListQuery);		
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("roleListQuery", roleListQuery);
@@ -57,6 +75,15 @@ public class SystemManageController extends BaseController {
 	@RequestMapping(value = "/roleDetail/{roleId}", method = RequestMethod.GET)
 	public String roleDetail(Model model, @PathVariable(value = "roleId") long roleId, RoleListQuery roleListQuery) throws Exception {
 		
+		if (roleListQuery.getPageNumber() != null) {
+			
+			int pageNumber = roleListQuery.getPageNumber();
+			int pageSize = roleListQuery.getPageSize();
+			int pageBegin = (pageNumber - 1) * pageSize;
+			roleListQuery.setPageBegin(pageBegin);
+			
+		}
+
 		roleListQuery.setRoleId(roleId);
 		PageVO<HaRoleDetail> pageVo = systemManageService.roleDetailById(roleListQuery);
 		

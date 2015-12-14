@@ -15,6 +15,8 @@ public class RoleListQuery extends BaseQuery {
 	private String createEndTime;
 	
 	private Integer status;
+	
+	private Integer pageBegin;
 
 	public Long getRoleId() {
 		return roleId;
@@ -54,5 +56,13 @@ public class RoleListQuery extends BaseQuery {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Integer getPageBegin() {
+		return pageBegin;
+	}
+
+	public void setPageBegin(Integer pageBegin) {
+		this.pageBegin = pageBegin;
 	}
 }
