@@ -16,6 +16,8 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
+import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 
 /**
@@ -56,6 +58,20 @@ public class ScenicManageController extends BaseController {
 	public String toAdd() throws Exception {
 		return "/system/scenicSpot/edit";
 	}
+	
+	
+	/**
+	 * 查看景区（资源）
+	 * 
+	 * @return 景区（资源）详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String toView(Model model, @PathVariable(value = "id") long id) throws Exception {
+		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
+		model.addAttribute("VO", scenicDO);
+		return "/system/scenicSpot/view";
+	}
 
 	/**
 	 * 编辑景区（资源）
@@ -65,8 +81,8 @@ public class ScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-		ScenicDO scenicDO = scenicSpotService.getById(id);
-		model.addAttribute("scenicDO", scenicDO);
+		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
+		model.addAttribute("VO", scenicDO);
 		return "/system/scenicSpot/edit";
 	}
 
@@ -76,11 +92,9 @@ public class ScenicManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String edit(ScenicDO scenicDO) throws Exception {
-		
-		
-		
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public String save(ScenicAddNewDTO addNewDTO) throws Exception {
+		scenicSpotService.save(addNewDTO);
 		return "/success";
 	}
 

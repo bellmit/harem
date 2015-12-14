@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 public interface ScenicService {
 	/**
@@ -18,7 +19,7 @@ public interface ScenicService {
 	 * 
 	 * @return 景区资源详情
 	 */
-	ScenicDO getById(long id) throws Exception;
+	ScenicAddNewDTO getById(long id) throws Exception;
 
 
 	/**
@@ -38,6 +39,9 @@ public interface ScenicService {
 	 * @param scenicStatus
 	 * @throws Exception
 	 */
-	boolean batchupdateStatus(ArrayList<Integer> scenicIdList, int scenicStatus);
+	boolean batchupdateStatus(ArrayList<Integer> scenicIdList, int scenicStatus)throws Exception;
+
+	int save(ScenicAddNewDTO addNewDTO) throws Exception;
+	
 
 }
