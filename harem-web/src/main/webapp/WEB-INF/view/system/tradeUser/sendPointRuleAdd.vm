@@ -28,20 +28,24 @@
     $("#sendPontAddForm").validate({
         rules:{
             paymentY:{
+                required:true,
                 number:true,
                 range:[1,10000]
             },
             validityDays:{
+                required:true,
                 number:true,
                 range:[1,10000]
             }
         },
         messages:{
             paymentY:{
+                required:"请填写",
                 number:"请输入数字",
                 range:"输入的数字必须介于1至10000之间"
             },
             validityDays:{
+                required:"请填写",
                 number:"请输入数字",
                 range:"输入的数字必须介于1至10000之间"
             }
