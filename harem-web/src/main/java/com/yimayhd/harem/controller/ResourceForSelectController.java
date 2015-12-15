@@ -3,6 +3,7 @@ package com.yimayhd.harem.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,13 +69,17 @@ public class ResourceForSelectController extends BaseController {
 	}
 
 	/**
-	 * 选择酒店
+	 * 选择景区
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryScenicForSelect")
 	public @ResponseBody Map<String, Object> queryScenicForSelect(ScenicPageQuery query) throws Exception {
+		String pageNumberStr = get("pageNumber");
+		if (StringUtils.isNotBlank(pageNumberStr) && StringUtils.isNumeric(pageNumberStr)) {
+			query.setPageNo(Integer.parseInt(pageNumberStr));
+		}
 		PageVO<ScenicDO> pageVo = scenicService.getList(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
@@ -89,8 +94,19 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectScenic")
-	public String selectScnicSpot() throws Exception {
+	public String selectScenic() throws Exception {
 		return "/system/resource/forSelect/selectScenic";
+	}
+
+	/**
+	 * 选择景区
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectOneScenic")
+	public String selectOneScenic() throws Exception {
+		return "/system/resource/forSelect/selectOneScenic";
 	}
 
 	/**
