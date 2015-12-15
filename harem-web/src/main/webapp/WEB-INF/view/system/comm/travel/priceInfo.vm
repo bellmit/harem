@@ -26,6 +26,7 @@
             </ul>
 			<div id="tc_page" class="tab-content">
 				#foreach($tc in ${product.priceInfo.tcs})
+				#set($tcId = $velocityCount)
 				<div class="tab-pane in #if(${velocityCount}==1) active #end" id="tc_${velocityCount}">
 					<input type="hidden" id="tc_${velocityCount}_startTime" value="$!{tc.startTime}">
 					<input type="hidden" id="tc_${velocityCount}_endTime" value="$!{tc.endTime}">
@@ -34,7 +35,6 @@
 							<tr>
 								<td>
 									<div>套餐名称：*<input type="text" id="tc_${velocityCount}_name" class="form-control" placeholder="请输入套餐名称" value="$!{tc.name}"></div>
-									<div>出发地：<input type="text" id="tc_${velocityCount}_from" class="form-control" placeholder="出发地" value="$!{tc.from}"></div>
 								</td>
 							</tr>
 							<tr>
@@ -56,41 +56,36 @@
 											<table class="table">
 												<tbody>
 													#foreach($day in ${month.days})
-													#set($dayDate = $utilDate.dateToString($day.date,"yyyy-MM-dd"))
-													<tr>
+														#set($dayDate = $utilDate.dateToString($day.date,"yyyy-MM-dd"))
+    													#if((${velocityCount} - 1) % 2 == 0)
+    														#set($tr = "open")
+    													#end
+    													#if((${velocityCount} - 1) % 2 == 1)
+    														#set($tr = "close")
+    													#end
+    													#if($tr == "open")
+    												<tr>
+    													#end
 														<td class="tc-${velocityCount}-month-${month.date.getTime()}-day" rId="${day.date.getTime()}" rDate="$!{dayDate}">
 														<div>$utilDate.dateToString($day.date,"dd")  $utilDate.formatWeekOnly($day.date)</div>
+														#foreach($block in ${day.blocks})
 															<div class="input-group">
-																<span class="input-group-addon">￥成人价：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-11" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_11" placeholder="请输入成人价" value="$!{day.adult.price}">
+																<span class="input-group-addon" block-name="${block.name}">${block.name}：</span>
+																<input type="text" class="form-control tc-${$tcId}-item-block-${block.type}-1" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_block_${block.type}_1" placeholder="请输入成人价" value="$!{block.price}">
 																<span class="input-group-addon">库存：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-12" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_12" placeholder="请输入库存" value="$!{day.adult.stock}">
+																<input type="text" class="form-control tc-${tcId}-item-block-${block.type}-2" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_block_${block.type}_2" placeholder="请输入库存" value="$!{block.stock}">
 																<span class="input-group-addon">会员优惠：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-13" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_13" placeholder="请输入会员优惠" value="$!{day.adult.discount}">
+																<input type="text" class="form-control tc-${tcId}-item-block-${block.type}-3" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_block_${block.type}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
 															</div>
-															<div class="input-group">
-																<span class="input-group-addon">￥儿童价（0-2）：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-21" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_21" placeholder="请输入儿童价" value="$!{day.children02.price}">
-																<span class="input-group-addon">库存：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-22" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_22" placeholder="请输入库存" value="$!{day.children02.stock}">
-																<span class="input-group-addon">会员优惠：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-23" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_23" placeholder="请输入会员优惠" value="$!{day.children02.discount}">
-															</div>
-															<div class="input-group">
-																<span class="input-group-addon">￥儿童价（2-12）：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-31" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_31" placeholder="请输入儿童价" value="$!{day.children212.price}">
-																<span class="input-group-addon">库存：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-32" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_32" placeholder="请输入库存" value="$!{day.children212.stock}">
-																<span class="input-group-addon">会员优惠：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-33" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_33" placeholder="请输入会员优惠" value="$!{day.children212.discount}">
-															</div>
-															<div class="input-group">
-																<span class="input-group-addon">￥单房差：</span>
-																<input type="text" class="form-control tc-${velocityCount}-item-41" id="tc_${velocityCount}_month_${month.date.getTime()}_day_${day.date.getTime()}_41" placeholder="请输入单房差" value="$!{day.srd}">
-															</div>
+														#end
 														</td>
-													</tr>
+    													#if($tr == "close")
+    												</tr>
+    													#end
 													#end
+    												#if($tr == "open")
+    												</tr>
+    												#end
 												</tbody>
 											</table>
 										</div>
@@ -193,8 +188,6 @@
 		var td = $("<td/>");
 		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></div>")
 		td.append(tcName);
-		var tcFrom = $("<div>出发地：<input type='text' id='tc_"+id+"_from' class='form-control' placeholder='出发地'></div>")
-		td.append(tcFrom);
 		table.append($("<tr/>").append(td));
 		var dateJson = CalendarUtils.getMonthTree(startDate,endDate);
 		var dateTab = createDateTab(id,dateJson);
@@ -340,7 +333,6 @@
 				startDate:$("#tc_"+tcId+"_startTime").val(),
 				endDate:$("#tc_"+tcId+"_endTime").val(),
 				name:$("#tc_"+tcId+"_name").val(),
-				from:$("#tc_"+tcId+"_from").val(),
 				months:months
 			});
 		});

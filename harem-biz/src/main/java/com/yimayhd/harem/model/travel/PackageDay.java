@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class PackageDay {
 	private Date date;// 日期
-	private List<PackageBlock> packageBlocks;// 内容块
+	private List<PackageBlock> blocks;// 内容块
 
 	public Date getDate() {
 		return date;
@@ -21,12 +21,12 @@ public class PackageDay {
 		this.date = date;
 	}
 
-	public List<PackageBlock> getPackageBlocks() {
-		return packageBlocks;
+	public List<PackageBlock> getBlocks() {
+		return blocks;
 	}
 
-	public void setPackageBlocks(List<PackageBlock> packageBlocks) {
-		this.packageBlocks = packageBlocks;
+	public void setBlocks(List<PackageBlock> blocks) {
+		this.blocks = blocks;
 	}
 
 }

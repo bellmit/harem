@@ -31,8 +31,8 @@ public class PriceInfo {
 	public PriceInfo(LineResult lineResult) {
 		List<ItemSkuDO> itemSkuList = lineResult.getItemSkuDOList();
 		if (StringUtils.isNotBlank(lineResult.getItemDO().getFeature())) {
-			ItemFeature feature = JSON.parseObject(lineResult.getItemDO().getFeature(), ItemFeature.class);
-			this.limit = feature.getStartBookTimeLimit();
+			ItemFeature feature = new ItemFeature(lineResult.getItemDO().getFeature());
+			this.limit = feature.getStartBookTimeLimit() / (3600 * 24);
 		}
 		this.tcs = new ArrayList<PackageInfo>();
 		if (CollectionUtils.isNotEmpty(itemSkuList)) {
@@ -113,10 +113,10 @@ public class PriceInfo {
 						pds.add(packageDay);
 					}
 					// 块
-					List<PackageBlock> pbs = packageDay.getPackageBlocks();
+					List<PackageBlock> pbs = packageDay.getBlocks();
 					if (pbs == null) {
 						pbs = new ArrayList<PackageBlock>();
-						packageDay.setPackageBlocks(pbs);
+						packageDay.setBlocks(pbs);
 					}
 					PackageBlock pb = new PackageBlock();
 					pb.setType(dType);
