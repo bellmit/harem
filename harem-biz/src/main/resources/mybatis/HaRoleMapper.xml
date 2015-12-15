@@ -81,32 +81,42 @@
 
 	<select id="roleDetailById" parameterType="com.yimayhd.harem.model.query.RoleListQuery"
 		resultMap="roleDetail">
-		<![CDATA[select a.id as id,
-           				a.name as name,
-           				a.url as url,
-           				b.ha_role_id as ha_role_id,
-           				c.id as ha_role_menu_id,           
-           				case when b.ha_role_id = ${roleId}
-                           then 1
-                   		else 0 end as is_own
-				  from ha_menu a
-				  left join (
-				  		select id,
-           						ha_menu_id,
-           						ha_role_id,
-           						gmt_created,
-           						gmt_modified,
-           						status
-						from ha_role_menu 
-						where ha_role_id = ${roleId}
-						and status = 1
-				  ) b
-					on a.id = b.ha_menu_id
-				  left join ha_role_menu c
-				  	on a.id = c.ha_menu_id
-					where a.parent_id <> 0
-					order by a.id asc 
-					limit ${pageBegin}, ${pageSize} 
+ 		<![CDATA[select a.id as id,
+                           a.name as name,
+                           a.url as url,
+                           b.ha_role_id as ha_role_id,
+                           b.id as ha_role_menu_id,           
+                           case when b.ha_role_id = ${roleId}
+                                   then 1
+                                else 0 end as is_own
+                  from ha_menu a
+                  left join (
+                        select d.id as id ,
+                               d.ha_menu_id as ha_menu_id ,
+                               count(distinct d.ha_menu_id) as count,
+                                    c.ha_role_id as ha_role_id,
+                                    c.gmt_created as gmt_created,
+                                    c.gmt_modified as gmt_modified,
+                                    c.status as status
+                         from  ha_role_menu d
+                         left join                    
+                          (select id,
+                                   ha_menu_id,
+                                   ha_role_id,
+                                   gmt_created,
+                                   gmt_modified,
+                                   status
+                        from ha_role_menu 
+                        where ha_role_id = ${roleId}
+                        and status = 1) c
+                        on d.id = c.id
+                        group by d.ha_menu_id
+                        order by d.id
+                  ) b
+                    on a.id = b.ha_menu_id
+                    where a.parent_id <> 0
+                    order by a.id asc 
+                    limit ${pageBegin}, ${pageSize} 
  		]]>
 	</select>
 
