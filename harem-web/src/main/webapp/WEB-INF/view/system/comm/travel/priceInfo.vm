@@ -71,11 +71,11 @@
 														#foreach($block in ${day.blocks})
 															<div class="input-group">
 																<span class="input-group-addon" block-name="${block.name}">${block.name}：</span>
-																<input type="text" class="form-control tc-${$tcId}-item-block-${block.type}-1" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_block_${block.type}_1" placeholder="请输入成人价" value="$!{block.price}">
+																<input type="text" class="form-control tc-${$tcId}-item-${block.type}1" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}1" placeholder="请输入成人价" value="$!{block.price}">
 																<span class="input-group-addon">库存：</span>
-																<input type="text" class="form-control tc-${tcId}-item-block-${block.type}-2" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_block_${block.type}_2" placeholder="请输入库存" value="$!{block.stock}">
+																<input type="text" class="form-control tc-${tcId}-item-${block.type}2" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}2" placeholder="请输入库存" value="$!{block.stock}">
 																<span class="input-group-addon">会员优惠：</span>
-																<input type="text" class="form-control tc-${tcId}-item-block-${block.type}-3" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_block_${block.type}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
+																<input type="text" class="form-control tc-${tcId}-item-${block.type}3" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}3" placeholder="请输入会员优惠" value="$!{block.discount}">
 															</div>
 														#end
 														</td>
@@ -231,34 +231,16 @@
 				var day_id = "tc_"+id+"_month_"+i+"_day_"+list[j];
 				var div_date = $("<div>"+d+"</div>");
 				td.append(div_date);
-				var group_1 = $("<div class='input-group'/>")
-				group_1.append("<span class='input-group-addon'>￥成人价：</span>");
-				group_1.append("<input type='text' class='form-control tc-"+id+"-item-11' id='"+day_id+"_11' placeholder='请输入成人价'>"); 
-				group_1.append("<span class='input-group-addon'>库存：</span>");
-				group_1.append("<input type='text' class='form-control tc-"+id+"-item-12' id='"+day_id+"_12' placeholder='请输入库存'>"); 
-				group_1.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_1.append("<input type='text' class='form-control tc-"+id+"-item-13' id='"+day_id+"_13' placeholder='请输入会员优惠'>"); 
-				td.append(group_1);
-				var group_2 = $("<div class='input-group'/>")
-				group_2.append("<span class='input-group-addon'>￥儿童价（0-2）：</span>");
-				group_2.append("<input type='text' class='form-control tc-"+id+"-item-21' id='"+day_id+"_21' placeholder='请输入儿童价'>"); 
-				group_2.append("<span class='input-group-addon'>库存：</span>");
-				group_2.append("<input type='text' class='form-control tc-"+id+"-item-22' id='"+day_id+"_22' placeholder='请输入库存'>"); 
-				group_2.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_2.append("<input type='text' class='form-control tc-"+id+"-item-23' id='"+day_id+"_23' placeholder='请输入会员优惠'>"); 
-				td.append(group_2);
-				var group_3 = $("<div class='input-group'/>")
-				group_3.append("<span class='input-group-addon'>￥儿童价（2-12）：</span>");
-				group_3.append("<input type='text' class='form-control tc-"+id+"-item-31' id='"+day_id+"_31' placeholder='请输入儿童价'>"); 
-				group_3.append("<span class='input-group-addon'>库存：</span>");
-				group_3.append("<input type='text' class='form-control tc-"+id+"-item-32' id='"+day_id+"_32' placeholder='请输入库存'>"); 
-				group_3.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_3.append("<input type='text' class='form-control tc-"+id+"-item-33' id='"+day_id+"_33' placeholder='请输入会员优惠'>"); 
-				td.append(group_3);
-				var group_4 = $("<div class='input-group'/>")
-				group_4.append("<span class='input-group-addon'>￥单房差：</span>");
-				group_4.append("<input type='text' class='form-control tc-"+id+"-item-41' id='"+day_id+"_41' placeholder='请输入单房差'>"); 
-				td.append(group_4);
+				#foreach($linePropertyType in $linePropertyTypes)
+				var group_${linePropertyType.type} = $("<div class='input-group'/>")
+				group_${linePropertyType.type}.append("<span class='input-group-addon' block-name='${linePropertyType.name}'>${linePropertyType.name}：</span>");
+				group_${linePropertyType.type}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.type}1' id='"+day_id+"_${linePropertyType.type}1' placeholder='请输入成人价'>"); 
+				group_${linePropertyType.type}.append("<span class='input-group-addon'>库存：</span>");
+				group_${linePropertyType.type}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.type}2' id='"+day_id+"_${linePropertyType.type}2' placeholder='请输入库存'>"); 
+				group_${linePropertyType.type}.append("<span class='input-group-addon'>会员优惠：</span>");
+				group_${linePropertyType.type}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.type}3' id='"+day_id+"_${linePropertyType.type}3' placeholder='请输入会员优惠'>"); 
+				td.append(group_${linePropertyType.type});
+				#end
 				tr.append(td);
 			}
 			content.append(tcTab.append(table));

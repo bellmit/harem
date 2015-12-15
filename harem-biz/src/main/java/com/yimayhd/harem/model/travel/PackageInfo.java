@@ -11,7 +11,6 @@ import java.util.List;
 public class PackageInfo {
 	private long type; // 套餐值类型
 	private String name;// 套餐名
-	private String from;// 出发地
 	private List<PackageMonth> months;
 
 	public String getName() {
@@ -20,14 +19,6 @@ public class PackageInfo {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getFrom() {
-		return from;
-	}
-
-	public void setFrom(String from) {
-		this.from = from;
 	}
 
 	public List<PackageMonth> getMonths() {

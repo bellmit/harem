@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 
@@ -29,7 +30,7 @@ public class BaseInfo {
 	private int publisherType;// 发布者类型
 	private long publisherId;// 发布者Id
 	private String highlights;// 亮点
-	private String recommond;// 代言
+	private MasterRecommend recommond;// 代言
 	private List<ExtraInfo> extraInfos;// 报名须知
 
 	public BaseInfo() {
@@ -51,7 +52,7 @@ public class BaseInfo {
 		this.publisherType = line.getOwnerType();
 		this.publisherId = line.getOwnerId();
 		this.highlights = line.getDescription();
-		this.recommond = line.getRecommend();
+		this.recommond = JSON.parseObject(line.getRecommend(), MasterRecommend.class);
 		this.extraInfos = new ArrayList<ExtraInfo>();
 		if (StringUtils.isNotBlank(line.getNeedKnow())) {
 			NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
@@ -146,14 +147,6 @@ public class BaseInfo {
 		this.highlights = highlights;
 	}
 
-	public String getRecommond() {
-		return recommond;
-	}
-
-	public void setRecommond(String recommond) {
-		this.recommond = recommond;
-	}
-
 	public List<ExtraInfo> getExtraInfos() {
 		return extraInfos;
 	}
@@ -184,6 +177,14 @@ public class BaseInfo {
 
 	public void setPublisherId(long publisherId) {
 		this.publisherId = publisherId;
+	}
+
+	public MasterRecommend getRecommond() {
+		return recommond;
+	}
+
+	public void setRecommond(MasterRecommend recommond) {
+		this.recommond = recommond;
 	}
 
 }

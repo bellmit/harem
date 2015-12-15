@@ -12,7 +12,15 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.model.travel.IdNamePair;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
+import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
+import com.yimayhd.ic.client.model.enums.CategoryType;
 import com.yimayhd.ic.client.model.enums.LineOwnerType;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.ic.client.service.item.CategoryService;
+import com.yimayhd.resourcecenter.model.enums.RegionType;
+import com.yimayhd.resourcecenter.service.RegionClientService;
 
 /**
  * 线路基本Controller
@@ -23,6 +31,10 @@ import com.yimayhd.ic.client.model.enums.LineOwnerType;
 public abstract class BaseTravelController extends BaseController {
 	@Resource
 	protected ComCenterService comCenterServiceRef;
+	@Resource
+	protected RegionClientService regionClientServiceRef;
+	@Resource
+	protected CategoryService categoryServiceRef;
 
 	protected void initBaseInfo() {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
@@ -38,5 +50,18 @@ public abstract class BaseTravelController extends BaseController {
 			}
 		}
 		put("tags", tags);
+		put("linePropertyTypes", LinePropertyType.values());
+		put("departRegions", regionClientServiceRef.getRegionDOListByType(RegionType.DEPART_REGION.getType()));
+		put("descRegions", regionClientServiceRef.getRegionDOListByType(RegionType.DESC_REGION.getType()));
+		CategoryResult categoryResult = categoryServiceRef.getCategory(CategoryType.LINE.getValue());
+		if (categoryResult != null && categoryResult.isSuccess()) {
+			List<CategoryPropertyValueDO> propertyDOs = categoryResult.getCategroyDO().getKeyCategoryPropertyDOs();
+			for (CategoryPropertyValueDO categoryPropertyValueDO : propertyDOs) {
+				CategoryPropertyDO categoryPropertyDO = categoryPropertyValueDO.getCategoryPropertyDO();
+				if(categoryPropertyDO.getType() == LinePropertyType.PERSON.getType()) {
+					categoryPropertyDO.getCategoryValueDOs();
+				}
+			}
+		}
 	}
 }

@@ -58,15 +58,17 @@
     				<td>出发地：</td>
                     <td>
     					<select class="form-control from">
+							#foreach($departRegion in $departRegions)
                             <option value="北京_1" #if($!{product.baseInfo.fromId}=='1') selected #end>北京</option>
-							<option value="南京_2" #if($!{product.baseInfo.fromId}=='2') selected #end>南京</option>
-                         </select>
+							#end
+						</select>
     				</td>
                 </tr>
     			<tr >
     				<td>*目的地：</td>
                     <td>
     					<select class="form-control to">
+							
                             <option value="大理_3" #if($!{product.baseInfo.toId}=='3') selected #end>大理</option>
 							<option value="丽江_4" #if($!{product.baseInfo.toId}=='4') selected #end>丽江</option>
                          </select>
@@ -82,7 +84,7 @@
     			<tr >
     				<td>我为自己代言：</td>
                     <td>
-    					<textarea class="form-control recommond" rows="3">$!{product.baseInfo.recommond}</textarea>
+    					<textarea class="form-control recommond" rows="3">$!{product.baseInfo.recommond.description}</textarea>
     				</td>
                 </tr>
             </table>
