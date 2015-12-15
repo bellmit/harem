@@ -10,7 +10,7 @@
         <tr>
           <td>
           	<textarea class="form-control" id="auditLogging" rows="2"></textarea></td>
-          <td><button class="btn btn-lg btn-primary liveBan" type="button" liveId="$live.id">违规</button></td>
+          <td><button class="btn btn-primary liveBan" type="button" liveId="$live.id">违规</button></td>
         </tr>
        
       </tbody>

@@ -9,8 +9,13 @@
 	                <tbody>
 		                <tr>
 		                    <td><span class="spColor">*</span>出发地名称</td>
-		                    <td><input type="text" class="inpControl" name="cityName" placeholder="请输入20个字以内"></td>
-		                    <td><input type="hiddent" class="inpControl" name="type" placeholder="1"></td>
+		                    <td>
+		                    	#* <input type="text" class="inpControl" name="cityName" id="cityNameId" placeholder="请输入20个字以内"> *#
+								<select id="sid" name="sid">  
+								</select>
+							</td>	  
+		                    <td><input type="hiddent" class="inpControl" name="type" value="1" placeholder="1"></td>
+		                    <td><input type="hiddent" class="inpControl" name="cityLevel"  id="cityLevelId" value="" placeholder="1"></td>
 		                </tr>
 	                </tbody>
 	            </table>
@@ -21,12 +26,40 @@
 </form>
 
 <script>
+
  	$('#btnSubmit').click(function(){
     	//if($("#hotelForm").valid()) {}
+    	//设置选中的城市的级别
+    	if($('select option:selected')){
+    	var valu = $('select option:selected').attr('cl');
+    	console.log("valu="+valu);
+    	$("#cityLevelId").val(valu);
+    	}
+    	
         $(this).prop('disabled', true);
-        	var actionUrl = actionDefaultPath + '/B2C/trip/add';
-            $('#hotelForm').attr('action', actionUrl);
-            $('#hotelForm').submit();
-           // alert("提交成功")
+        var actionUrl = actionDefaultPath + '/B2C/trip/add';
+        $('#hotelForm').attr('action', actionUrl);
+        $('#hotelForm').submit();
+        // alert("提交成功")
         });
+        
+        
+	$("#sid").focus( function(){
+    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"3"} ,function(data){
+	    	if(data.status == 200){
+	    	console.log(data.data);
+	    	var html="";
+	    		$.each(data.data, function(n,val){ 
+                   console.log("data:"+val.id+"  _"+val.name);
+                   html+="<option cl="+val.level+" value="+val.id+">"+val.name+"</option>"
+                });
+            $("#sid").html(html);
+	        }else{
+	            var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+	            msg.show();
+	            $(this).prop('disabled',false);
+	        }                                      
+    	})
+    });
+    
 </script>

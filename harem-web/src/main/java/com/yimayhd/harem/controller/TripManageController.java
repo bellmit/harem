@@ -9,11 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.Destination;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.query.HotelListQuery;
@@ -37,7 +40,7 @@ import com.yimayhd.resourcecenter.service.RegionClientService;
 
 @Controller
 @RequestMapping("/B2C/trip")
-public class TripManageController {
+public class TripManageController extends BaseController {
 
 	@Autowired RegionClientService regionClientServiceRef;
 	
@@ -89,7 +92,7 @@ public class TripManageController {
 	* @throws
 	 */
 	@RequestMapping("/add")
-	public String toAdd(Model model,Destination destination){
+	public String toAdd(Model model,@ModelAttribute("destination") Destination destination){
 		String name = destination.getCityName();
 		System.out.println("name="+name);
 		return "/success";
@@ -187,9 +190,14 @@ public class TripManageController {
 	 */
 	@RequestMapping("/selectRegion")
 	@ResponseBody
-	public String selectDepartureList(Model model){
+	public ResponseVo selectDepartureList(Model model,int type){
 		//TODO:去掉已经创建过的,返回list中可以创建的出发地
-		return null;
+		// 1-酒店区域 2-景区区域 3-线路出发地 4-线路目的地
+		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
+		if(null !=res && CollectionUtils.isNotEmpty(res.getList())){
+			return new ResponseVo(res.getList());
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 	
 	/**

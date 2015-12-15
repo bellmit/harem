@@ -2,8 +2,8 @@
 *{ margin:0;padding:0;}
 ul li,ol li{list-style: none;}
 
-table{width: 100%;}
-table th,table td{min-width: 40px;padding: 8px 0 !important;text-align: center;}
+table{width: 100%;text-align: justify;}
+table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;text-align: center;}
 
 
 
@@ -98,3 +98,9 @@ table th,table td{min-width: 40px;padding: 8px 0 !important;text-align: center;}
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     margin-right: 10px;
 }
+
+.categoryWrap{text-align: center;width: 90%;margin: 20px auto;background: #f1f1f1;padding: 20px;}
+.categoryWrap select{margin-bottom: 5px;}
+.categoryWrap select:nth-last-child(1){margin-bottom: 15px;}
+.categoryWrap .selectBtn{width: 100%;}
+.categoryWrap .selectBtn .btn{width: 50%;}

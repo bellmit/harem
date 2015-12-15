@@ -94,7 +94,7 @@
               </table>
             </div>
             <div class="tab-pane" id="tab2">
-              <div><button class="btn btn-lg btn-primary save" type="button">上传图片</button><button class="btn btn-lg cancel" type="button">批量管理</button></div>
+              <div><button class="btn btn-primary save" type="button">上传图片</button><button class="btn cancel" type="button">批量管理</button></div>
               <div>共100张</div>
 			  <div>
 				<table class="table">
@@ -199,7 +199,7 @@
               </table>
               </div>
 			</div>
-            <div><button class="btn btn-lg btn-primary save" type="button">保存</button><button class="btn btn-lg cancel" type="button">取消</button></div>
+            <div><button class="btn btn-primary save" type="button">保存</button><button class="btn cancel" type="button">取消</button></div>
         </div>
      </form>
 </div>
