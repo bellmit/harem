@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
@@ -23,7 +26,7 @@ import com.yimayhd.ic.client.service.item.ResourcePublishService;
  * Created by Administrator on 2015/11/18.
  */
 public class ScenicServiceImpl implements ScenicService {
-
+	private static final Logger log = LoggerFactory.getLogger(ScenicServiceImpl.class);
 	@Autowired
 	private ItemQueryService itemQueryService;
 	@Autowired
@@ -42,6 +45,8 @@ public class ScenicServiceImpl implements ScenicService {
 			if (CollectionUtils.isNotEmpty(pageResult.getList())) {
 				itemList.addAll(pageResult.getList());
 			}
+		}else {
+			log.error("itemQueryService.pageQueryScenic return value is null !returnValue :" + JSON.toJSONString(pageResult));
 		}
 		return new PageVO<ScenicDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
@@ -60,6 +65,8 @@ public class ScenicServiceImpl implements ScenicService {
 			dto.setNeedKnow(needKnow);
 			dto.setScenic(scenicDO);
 			return dto;
+		}else{
+			log.error("itemQueryService.getScenic return value is null !returnValue :" + JSON.toJSONString(scenic));
 		}
 		return null;
 	}
@@ -75,6 +82,9 @@ public class ScenicServiceImpl implements ScenicService {
 		scenic.setStatus(scenicStatus);
 		scenicDOList.add(scenic);
 		ICResult<ScenicDO> result = resourcePublishServiceRef.updateScenic(scenicDOList);
+		if(!result.isSuccess()){
+			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :" + JSON.toJSONString(result));
+		}
 		return result.isSuccess();
 	}
 
@@ -90,9 +100,13 @@ public class ScenicServiceImpl implements ScenicService {
 				scenicDOList.add(scenic);
 			}
 			ICResult<ScenicDO> result = resourcePublishServiceRef.updateScenic(scenicDOList);
-			return result.isSuccess();
+			if(!result.isSuccess()){
+				log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :" + JSON.toJSONString(result));
+				
+			}
 		}
 		return false;
+	
 	}
 
 
@@ -107,6 +121,10 @@ public class ScenicServiceImpl implements ScenicService {
 			addScenicNew = resourcePublishServiceRef.addScenicNew(addNewDTO);
 		}else{
 			addScenicNew =resourcePublishServiceRef.updateScenicNew(addNewDTO);
+		}
+		if(!addScenicNew.isSuccess()){
+			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :" + JSON.toJSONString(addScenicNew));
+			throw new NoticeException(addScenicNew.getResultMsg());
 		}
 		
 	        return addScenicNew;
