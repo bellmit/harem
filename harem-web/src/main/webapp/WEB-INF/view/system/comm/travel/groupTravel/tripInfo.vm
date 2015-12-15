@@ -272,7 +272,6 @@
 		var currentRId;
 		var currentSId;
 		var currentHId;
-		var icon = ["飞机","火车","巴士","轮船"];
 	    // 选择交通
 		$(".select-traffic").click(selectTraffic);
 		function selectTraffic(){
@@ -282,7 +281,7 @@
 				var content = $("#"+currentTId);
 				content.empty();
 				var from = $("<span class='label label-info' id='"+currentTId+"_from' rName='"+tra.from+"'>"+tra.from+"</span>");
-				var way = $("<span class='label label-info' id='"+currentTId+"_way' rId='"+tra.way+"'>"+icon[tra.way]+"</span>");
+				var way = $("<span class='label label-info' id='"+currentTId+"_way' rId='"+tra.way+"'>"+"交通方式-"+tra.way+"</span>");
 				var to = $("<span class='label label-info' id='"+currentTId+"_to' rName='"+tra.to+"'>"+tra.to+"</span>");
 				content.append(from).append(way).append(to);
 				// console.log(JSON.stringify(tra));

@@ -44,8 +44,9 @@
             priceInfo:getPriceInfo()
         };
         console.log(JSON.stringify(result));
-        $.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save",{json:JSON.stringify(result)},function(data){
+		alert(JSON.stringify(result));
+        /*$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save",{json:JSON.stringify(result)},function(data){
             alert(JSON.stringify(data));
-        },"json");
+        },"json");*/
     });
   </script>

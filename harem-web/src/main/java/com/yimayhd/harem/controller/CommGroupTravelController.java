@@ -33,10 +33,11 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String detail(@PathVariable(value = "id") long id) throws Exception {
+	@RequestMapping(value = "/{categoryId}/detail/{id}", method = RequestMethod.GET)
+	public String detail(@PathVariable(value = "categoryId") long categoryId, @PathVariable(value = "id") long id)
+			throws Exception {
 		if (id > 0) {
-			initBaseInfo();
+			initBaseInfo(categoryId);
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
 		}
@@ -49,9 +50,9 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create() throws Exception {
-		initBaseInfo();
+	@RequestMapping(value = "/{categoryId}/create", method = RequestMethod.GET)
+	public String create(@PathVariable(value = "categoryId") long categoryId) throws Exception {
+		initBaseInfo(categoryId);
 		return "/system/comm/travel/groupTravel/detail";
 	}
 
