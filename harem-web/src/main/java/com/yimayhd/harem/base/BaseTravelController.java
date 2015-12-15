@@ -6,12 +6,15 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.model.travel.IdNamePair;
+import com.yimayhd.harem.service.RegionService;
+import com.yimayhd.harem.service.impl.RegionServiceImpl;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
@@ -19,6 +22,7 @@ import com.yimayhd.ic.client.model.enums.CategoryType;
 import com.yimayhd.ic.client.model.enums.LineOwnerType;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
+import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 
@@ -31,12 +35,12 @@ import com.yimayhd.resourcecenter.service.RegionClientService;
 public abstract class BaseTravelController extends BaseController {
 	@Resource
 	protected ComCenterService comCenterServiceRef;
-	@Resource
-	protected RegionClientService regionClientServiceRef;
+	@Autowired
+	protected RegionService regionService;
 	@Resource
 	protected CategoryService categoryServiceRef;
 
-	protected void initBaseInfo() {
+	protected void initBaseInfo() throws BaseException {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
 		put("PT_MASTER", LineOwnerType.MASTER.getType());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
@@ -51,17 +55,12 @@ public abstract class BaseTravelController extends BaseController {
 		}
 		put("tags", tags);
 		put("linePropertyTypes", LinePropertyType.values());
-		put("departRegions", regionClientServiceRef.getRegionDOListByType(RegionType.DEPART_REGION.getType()));
-		put("descRegions", regionClientServiceRef.getRegionDOListByType(RegionType.DESC_REGION.getType()));
+		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
+		put("descRegions",  regionService.getRegions(RegionType.DESC_REGION));
 		CategoryResult categoryResult = categoryServiceRef.getCategory(CategoryType.LINE.getValue());
 		if (categoryResult != null && categoryResult.isSuccess()) {
 			List<CategoryPropertyValueDO> propertyDOs = categoryResult.getCategroyDO().getKeyCategoryPropertyDOs();
-			for (CategoryPropertyValueDO categoryPropertyValueDO : propertyDOs) {
-				CategoryPropertyDO categoryPropertyDO = categoryPropertyValueDO.getCategoryPropertyDO();
-				if(categoryPropertyDO.getType() == LinePropertyType.PERSON.getType()) {
-					categoryPropertyDO.getCategoryValueDOs();
-				}
-			}
+			
 		}
 	}
 }

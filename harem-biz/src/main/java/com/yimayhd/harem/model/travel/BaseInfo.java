@@ -47,8 +47,20 @@ public class BaseInfo {
 				tags.add(new IdNamePair(comTagDO.getId(), comTagDO.getName()));
 			}
 		}
-		this.fromId = line.getStartProvinceId();
-		this.toId = line.getDestProvinceId();
+		if (line.getStartProvinceId() > 0) {
+			this.fromId = line.getStartProvinceId();
+		} else if (line.getStartCityId() > 0) {
+			this.fromId = line.getStartCityId();
+		} else if (line.getStartTownId() > 0) {
+			this.fromId = line.getStartTownId();
+		}
+		if (line.getDestProvinceId() > 0) {
+			this.toId = line.getDestProvinceId();
+		} else if (line.getDestCityId() > 0) {
+			this.toId = line.getDestCityId();
+		} else if (line.getDestTownId() > 0) {
+			this.toId = line.getDestTownId();
+		}
 		this.publisherType = line.getOwnerType();
 		this.publisherId = line.getOwnerId();
 		this.highlights = line.getDescription();
@@ -71,12 +83,12 @@ public class BaseInfo {
 	 * @param id
 	 * @return
 	 */
-	public boolean containsTag(String id) {
-		if (StringUtils.isBlank(id) || tags == null || tags.size() <= 0) {
+	public boolean containsTag(long id) {
+		if (id <= 0 || tags == null || tags.size() <= 0) {
 			return false;
 		}
 		for (IdNamePair tag : tags) {
-			if (id.equals(tag.getId())) {
+			if (id == tag.getId()) {
 				return true;
 			}
 		}
