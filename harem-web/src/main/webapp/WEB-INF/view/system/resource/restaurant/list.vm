@@ -40,9 +40,9 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">创建日期</button>
                 </span>
-                <input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="createBeginDate" value="$utilDate.date2StringByDay($query.createBeginDate)">
-                <span class="input-group-addon fix-border fix-padding">至</span>
-                <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="createEndDate" value="$utilDate.date2StringByDay($query.createEndDate)">
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="createBeginDate" value="$utilDate.date2StringByDay($query.createBeginDate)">
+                <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="createEndDate" value="$utilDate.date2StringByDay($query.createEndDate)">
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">查询</button>

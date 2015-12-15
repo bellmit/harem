@@ -7,9 +7,9 @@
 	<div>
 		<div>可选出发日：</div>
 		<div>
-			<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly id="startTime" value="$!{product.priceInfo.startTime}">
-            <span class="input-group-addon fix-border fix-padding">至</span>
-            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly id="endTime" value="$!{product.priceInfo.endTime}">
+			<input type="text" class='form-control form-date dateInp' placeholder='' readonly id="startTime" value="$!{product.priceInfo.startTime}">
+            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+            <input type="text" class='form-control form-date dateInp' placeholder='' readonly id="endTime" value="$!{product.priceInfo.endTime}">
 			<button class="btn btn-primary setTime" #if($product) style="display:none;" #end>确定</button>
         </div>
     </div>
