@@ -17,7 +17,8 @@ public class HotelListQuery extends BaseQuery {
 	private String hotelNameOrTel;// 酒店联系电话
 	private String BeginDate;// 开始创建时间
 	private String endDate;// 结束创建时间
-
+	private Integer pageBegin;
+	
 	public int getHotelStatus() {
 		return hotelStatus;
 	}
@@ -72,5 +73,13 @@ public class HotelListQuery extends BaseQuery {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getPageBegin() {
+		return pageBegin;
+	}
+
+	public void setPageBegin(Integer pageBegin) {
+		this.pageBegin = pageBegin;
 	}
 }

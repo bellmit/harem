@@ -1,5 +1,18 @@
 package com.yimayhd.harem.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -8,18 +21,14 @@ import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.FacilityIconService;
+import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.yimayhd.ic.client.model.query.HotelPageQuery;
+import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 /**
  * 酒店管理（资源）
@@ -31,6 +40,10 @@ public class HotelManageController extends BaseController {
     private final static int ROOMFACILITY_TYPE = 1;
     private final static int ROOMSERVICELIST_TYPE = 2;
     private final static int HOTELFACILITYLIST_TYPE = 3;
+    
+    @Autowired
+    private ItemQueryService itemQueryService;
+    
     @Autowired
     private HotelService hotelService;
     @Autowired
@@ -39,6 +52,10 @@ public class HotelManageController extends BaseController {
     private FacilityIconService facilityIconService;
     @Autowired
     private CommodityService commodityService;
+    
+    @Autowired
+    private HotelRPCService hotelRPCService;
+    
     /**
      * 酒店（资源）列表
      * @return 酒店（资源）列表
@@ -53,6 +70,18 @@ public class HotelManageController extends BaseController {
         model.addAttribute("hotelListQuery", hotelListQuery);
         model.addAttribute("hotelDOList", hotelDOList);
         return "/system/hotel/list";
+    }
+    
+    @RequestMapping(value = "/list2", method = RequestMethod.GET)
+    public
+    String list2(Model model,HotelListQuery hotelListQuery) throws Exception {
+    	
+    	PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
+    	List<HotelDO> hotelDOList = pageVo.getItemList();
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("hotelListQuery", hotelListQuery);
+        model.addAttribute("hotelDOList", hotelDOList);
+        return "/system/hotel/list2";
     }
 
     /**

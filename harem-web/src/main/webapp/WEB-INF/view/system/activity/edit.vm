@@ -152,9 +152,9 @@
                             <td><span class="spColor">*</span>报名时间</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="enrollBeginDate" value="$!utilDate.dateToString($!activity.enrollBeginDate,"yyyy-MM-dd HH:mm:ss")"></div>
-                                    <span class="input-group-addon fix-border fix-padding">至</span>
-                                    <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="enrollEndDate" value="$!utilDate.dateToString($!activity.enrollEndDate,"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="enrollBeginDate" value="$!utilDate.dateToString($!activity.enrollBeginDate,"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="enrollEndDate" value="$!utilDate.dateToString($!activity.enrollEndDate,"yyyy-MM-dd HH:mm:ss")"></div>
                                 </div>
                             </td>
                         </tr>
