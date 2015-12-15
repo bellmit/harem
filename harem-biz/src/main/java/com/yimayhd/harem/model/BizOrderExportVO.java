@@ -89,7 +89,7 @@ public class BizOrderExportVO implements Serializable{
         if(null != iMallInfo) {
             BeanUtils.copyProperties(iMallInfo, bizOrderExportVO);
             //电话去+86
-            bizOrderExportVO.setPn(PhoneUtil.phoneFormat(bizOrderExportVO.getPn()));
+            bizOrderExportVO.setPn(PhoneUtil.mask(PhoneUtil.phoneFormat(bizOrderExportVO.getPn())));
             bizOrderExportVO.setSttDate(new Date(bizOrderExportVO.getStt()));
         }
         bizOrderExportVO.setUsePoint(BizOrderUtil.getUsePointNum(bizOrderDO));
