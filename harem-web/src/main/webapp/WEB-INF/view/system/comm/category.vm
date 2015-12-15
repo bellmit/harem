@@ -1,20 +1,22 @@
-<div class="inputGroup whole">
 
-    <div class="input-group inpSingle selectCategoryList">
+<div class="categoryWrap">
+    <div class="selectCategoryList">
+        <p>请选择分类：</p>
         <select class="form-control selectCategory" name="">
-            <option value="0" >请选择</option>
+            <option value="" >请选择</option>
             #foreach($category in $!categoryList)
                 <option value="$!category.id" leaf="$!category.leaf">$!category.name</option>
             #end
         </select>
     </div>
+    <div class="btn-group selectBtn">
+        <form name="commodityForm" id="commodityForm" action="" method="get">
+            <input type="hidden" class="selectCategoryId" name="categoryId" value="">
+            <button type="button" class="btn btn-primary submitBtn">选择</button>
+        </form>
+    </div>
 </div>
-<div class="btn-group selectBtn">
-    <form name="commodityForm" id="commodityForm" action="" method="get">
-        <input type="hidden" class="selectCategoryId" name="categoryId" value="">
-        <button type="button" class="btn btn-primary submitBtn">选择</button>
-    </form>
-</div>
+
 <script>
     $(function(){
         $(document).delegate('.selectCategory','change',function(){
@@ -28,8 +30,8 @@
             if(id && '0' != id && 'true' != leaf){
                 $.get(actionDefaultPath + '/B2C/commodityManage/subCategory/' + id,function(data){
                     if(data && data.status == 200){
-                        var selectCategoryStart = '<div class="input-group inpSingle"><select class="form-control selectCategory" name="commStatus"><option value="0" >请选择</option>';
-                        var selectCategoryEnd= '</select></div>';
+                        var selectCategoryStart = '<select class="form-control selectCategory" name="commStatus"><option value="0" >请选择</option>';
+                        var selectCategoryEnd= '</select>';
                         for(var key in data.data){
                             selectCategoryStart += '<option value="' + data.data[key].id + '" leaf="' + data.data[key].leaf + '" >' + data.data[key].name + '</option>'
                         }
