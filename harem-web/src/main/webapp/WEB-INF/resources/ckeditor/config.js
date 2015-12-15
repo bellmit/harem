@@ -8,8 +8,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
     //图片上传路径
-    config.filebrowserUploadUrl='http://192.168.1.126:8080/filegw/file/upload';
-    //config.filebrowserUploadUrl='/upload/ckeditorFile';
+    //config.filebrowserUploadUrl='http://192.168.1.126:8080/filegw/file/upload';
+    config.filebrowserUploadUrl='/upload/ckeditorFile';
     config.toolbar = 'Full';
 
     //表情符使用的是项目中的图片，隐藏掉此功能

@@ -2,6 +2,8 @@ package com.yimayhd.harem.util;
 
 import com.yimayhd.harem.config.ResourceConfig;
 
+import java.util.Date;
+
 /**
  * 暴露给view用的
  * Created by Administrator on 2015/11/3.
@@ -31,5 +33,8 @@ public class WebResourceConfigUtil {
 
     public static String getActionUploadFilesPath(){
         return ResourceConfig.getInstance().getValueByKey(ACTION_UPLOAD_FILES_PATH_KEY);
+    }
+    public static String getResourceVersion(){
+        return "20151215";
     }
 }
