@@ -1,9 +1,11 @@
 package com.yimayhd.harem.model.travel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -127,7 +129,6 @@ public class PriceInfo {
 					pbs.add(pb);
 				}
 			}
-			// 计算参数;
 		}
 	}
 
@@ -147,4 +148,31 @@ public class PriceInfo {
 		this.limit = limit;
 	}
 
+	public String getStartTime() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if (CollectionUtils.isNotEmpty(tcs)) {
+			List<PackageMonth> months = tcs.get(0).getMonths();
+			if (CollectionUtils.isNotEmpty(months)) {
+				List<PackageDay> days = months.get(0).getDays();
+				if (CollectionUtils.isNotEmpty(days)) {
+					return sdf.format(days.get(0).getDate());
+				}
+			}
+		}
+		return "";
+	}
+
+	public String getEndTime() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if (CollectionUtils.isNotEmpty(tcs)) {
+			List<PackageMonth> months = tcs.get(0).getMonths();
+			if (CollectionUtils.isNotEmpty(months)) {
+				List<PackageDay> days = months.get(months.size() - 1).getDays();
+				if (CollectionUtils.isNotEmpty(days)) {
+					return sdf.format(days.get(days.size() - 1).getDate());
+				}
+			}
+		}
+		return "";
+	}
 }

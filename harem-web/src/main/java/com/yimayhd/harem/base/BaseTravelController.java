@@ -36,7 +36,7 @@ public abstract class BaseTravelController extends BaseController {
 	@Resource
 	protected CategoryService categoryServiceRef;
 
-	protected void initBaseInfo(long categoryId) throws BaseException {
+	protected void initBaseInfo() throws BaseException {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
 		put("PT_MASTER", LineOwnerType.MASTER.getType());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
@@ -52,6 +52,10 @@ public abstract class BaseTravelController extends BaseController {
 		put("tags", tags);
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
+	}
+	
+	protected void initLinePropertyTypes(long categoryId) {
+		put("categoryId", categoryId);
 		List<IdNamePair> linePropertyTypes = new ArrayList<IdNamePair>();
 		CategoryResult categoryResult = categoryServiceRef.getCategory(categoryId);
 		if (categoryResult != null && categoryResult.isSuccess() && categoryResult.getCategroyDO() != null) {

@@ -7,13 +7,13 @@
 	<div>
 		<div>可选出发日：</div>
 		<div>
-			<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly id="startTime">
+			<input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly id="startTime" value="$!{product.priceInfo.startTime}">
             <span class="input-group-addon fix-border fix-padding">至</span>
-            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly id="endTime">
-			<button class="btn btn-primary setTime">确定</button>
+            <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly id="endTime" value="$!{product.priceInfo.endTime}">
+			<button class="btn btn-primary setTime" #if($product) style="display:none;" #end>确定</button>
         </div>
     </div>
-	<div class="tc-main" #if($null.isNull($product)) style="display:none;" #end>
+	<div class="tc-main" #if(!$product) style="display:none;" #end>
 		<div>套餐设置：<button class="btn btn-primary addTC">添加新套餐</button></div>
 		<div>
 			<ul id="tc_tab" class="nav nav-tabs">
@@ -71,11 +71,11 @@
 														#foreach($block in ${day.blocks})
 															<div class="input-group">
 																<span class="input-group-addon" block-name="${block.name}">${block.name}：</span>
-																<input type="text" class="form-control tc-${$tcId}-item-${block.type}1" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}1" placeholder="请输入成人价" value="$!{block.price}">
+																<input type="text" class="form-control tc-${$tcId}-item-${block.type}_1" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}_1" placeholder="请输入成人价" value="$!{block.price}">
 																<span class="input-group-addon">库存：</span>
-																<input type="text" class="form-control tc-${tcId}-item-${block.type}2" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}2" placeholder="请输入库存" value="$!{block.stock}">
+																<input type="text" class="form-control tc-${tcId}-item-${block.type}_2" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}_2" placeholder="请输入库存" value="$!{block.stock}">
 																<span class="input-group-addon">会员优惠：</span>
-																<input type="text" class="form-control tc-${tcId}-item-${block.type}3" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}3" placeholder="请输入会员优惠" value="$!{block.discount}">
+																<input type="text" class="form-control tc-${tcId}-item-${block.type}_3" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
 															</div>
 														#end
 														</td>
@@ -143,10 +143,38 @@
 		6:"周六"
 	};
 	$(".tc-del").click(removeTc);
+	// 确认
 	$(".setTime").click(function(){
-		
+		// check
+		var startTime = $("#startTime").val()||"";
+		if(startTime == "") {
+			alert("请输入开始时间！");
+			return;
+		}
+		var endTime = $("#endTime").val()||"";
+		if(endTime == "") {
+			alert("请输入结束时间！");
+			return;
+		}
+		if(Date.parse(startTime) > Date.parse(endTime)){
+			alert("开始时间不可大于结束时间！");
+			return;
+		}
+		// time disable
+		$("#startTime").addClass("disabled");
+		$("#endTime").addClass("disabled");
+		$(this).hide();
+		$(".tc-main").show();
 	});
-		
+	// 重置
+	function resetTime(){
+		// time avalible
+		$("#tc_tab").empty();
+		$("#tc_page").empty();
+		$(".tc-main").hide();
+		$(".setTime").show();
+	}
+	$(".form-date").change(resetTime);
 	function removeTc() {
 		var id = $(this).attr("tc-id");
 		var prev = $("#tc_"+id+"_tab").prev();
@@ -237,11 +265,11 @@
 				#foreach($linePropertyType in $linePropertyTypes)
 				var group_${linePropertyType.id} = $("<div class='input-group'/>")
 				group_${linePropertyType.id}.append("<span class='input-group-addon' block-name='${linePropertyType.name}'>${linePropertyType.name}：</span>");
-				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}1' id='"+day_id+"_${linePropertyType.id}1' placeholder='请输入成人价'>"); 
+				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}_1' id='"+day_id+"_${linePropertyType.id}_1' placeholder='请输入成人价'>"); 
 				group_${linePropertyType.id}.append("<span class='input-group-addon'>库存：</span>");
-				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}2' id='"+day_id+"_${linePropertyType.id}2' placeholder='请输入库存'>"); 
+				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}_2' id='"+day_id+"_${linePropertyType.id}_2' placeholder='请输入库存'>"); 
 				group_${linePropertyType.id}.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}3' id='"+day_id+"_${linePropertyType.id}3' placeholder='请输入会员优惠'>"); 
+				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}_3' id='"+day_id+"_${linePropertyType.id}_3' placeholder='请输入会员优惠'>"); 
 				td.append(group_${linePropertyType.id});
 				#end
 				tr.append(td);
@@ -257,7 +285,7 @@
 		var currentTcId = tId;
 		openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/batchInsert','批量录入 ',function() {
 			var data = win.getData();
-			$(".tc-"+currentTcId+"-item-11").val(data.adult.price);
+			/*$(".tc-"+currentTcId+"-item-11").val(data.adult.price);
 			$(".tc-"+currentTcId+"-item-12").val(data.adult.stock);
 			$(".tc-"+currentTcId+"-item-13").val(data.adult.discount);
 			$(".tc-"+currentTcId+"-item-21").val(data.children02.price);
@@ -266,7 +294,7 @@
 			$(".tc-"+currentTcId+"-item-31").val(data.children212.price);
 			$(".tc-"+currentTcId+"-item-32").val(data.children212.stock);
 			$(".tc-"+currentTcId+"-item-33").val(data.children212.discount);
-			$(".tc-"+currentTcId+"-item-41").val(data.srd);
+			$(".tc-"+currentTcId+"-item-41").val(data.srd);*/
 			// console.log(JSON.stringify(data));
 			// 一般设定yes回调，必须进行手工关闭
 			return true;

@@ -32,9 +32,10 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String detail(@PathVariable(value = "id") long id) throws Exception {
+	public String detail(@PathVariable(value = "id") long id, long categoryId) throws Exception {
+		initBaseInfo();
+		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			initBaseInfo();
 			SelfServiceTravel product = selfServiceTravelService.getById(id);
 			put("product", product);
 		}
@@ -47,21 +48,10 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create() throws Exception {
-		initBaseInfo();
-		return "/system/comm/travel/selfServiceTravel/detail";
-	}
-
-	/**
-	 * 批量录入
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value = "/batchInsert")
-	public String batchInsert() throws Exception {
-		return "/system/comm/travel/batchInsert";
+	public String batchInsert(long categoryId) throws Exception {
+		initLinePropertyTypes(categoryId);
+		return "/system/comm/travel/selfServiceTravel/detail";
 	}
 
 	/**

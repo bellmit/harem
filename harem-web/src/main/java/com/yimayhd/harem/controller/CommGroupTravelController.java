@@ -33,11 +33,12 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/{categoryId}/detail/{id}", method = RequestMethod.GET)
-	public String detail(@PathVariable(value = "categoryId") long categoryId, @PathVariable(value = "id") long id)
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	public String detail(long categoryId, @PathVariable(value = "id") long id)
 			throws Exception {
+		initBaseInfo();
+		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			initBaseInfo(categoryId);
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
 		}
@@ -50,9 +51,10 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/{categoryId}/create", method = RequestMethod.GET)
-	public String create(@PathVariable(value = "categoryId") long categoryId) throws Exception {
-		initBaseInfo(categoryId);
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String create(long categoryId) throws Exception {
+		initBaseInfo();
+		initLinePropertyTypes(categoryId);
 		return "/system/comm/travel/groupTravel/detail";
 	}
 
@@ -63,7 +65,8 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/batchInsert")
-	public String batchInsert() throws Exception {
+	public String batchInsert( long categoryId) throws Exception {
+		initLinePropertyTypes(categoryId);
 		return "/system/comm/travel/batchInsert";
 	}
 
