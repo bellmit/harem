@@ -112,8 +112,8 @@
 	                 	<td>6</td>
 	                 	<td>5</td>
 	                 	<td>
-	                 		<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>
-	                 		<button type="button" class="btn btn-lg btn-primary addRefund detail">详情</button>
+	                 		<button type="button" class="btn btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>
+	                 		<button type="button" class="btn btn-primary addRefund detail">详情</button>
 	                 	</td>
 	                 </tr>
 	                 #end
