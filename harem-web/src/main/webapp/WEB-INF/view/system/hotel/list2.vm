@@ -82,7 +82,11 @@
                         </td>
                         <td>
                         <button type="button" class="btn btn-primary hotelDetail" hotelId="$hotel.id">查看</button>
-                        <button type="button" class="btn btn-primary hotelBtn"  hotelId="$hotel.id" status="$hotel.status">#if($hotel.status == 1) 停用 #elseif($hotel.status == 2) 启用 #end </button>
+						#if($hotel.status == 1)
+                        <button type="button" class="btn btn-primary hotelBtn"  hotelId="$hotel.id" status="2">停用</button>
+						#elseif($hotel.status == 2)
+						<button type="button" class="btn btn-primary hotelBtn"  hotelId="$hotel.id" status="1">启用</button>
+						#end 
                         </td>
                     </tr>
                     #end

@@ -11,6 +11,8 @@ import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 public class HotelRPCServiceImpl implements HotelRPCService {
@@ -18,6 +20,9 @@ public class HotelRPCServiceImpl implements HotelRPCService {
     @Autowired
     private ItemQueryService itemQueryService;
 	
+    @Autowired
+    private HotelService hotelService;
+    
 	@Override
 	public PageVO<HotelDO> pageQueryHotel(HotelListQuery hotelListQuery) {
 		
@@ -68,6 +73,12 @@ public class HotelRPCServiceImpl implements HotelRPCService {
     	PageVO<HotelDO> pageVo = new PageVO<HotelDO>(hotelPageQuery.getPageNo(), hotelPageQuery.getPageSize(), icPageResult.getTotalCount(), hotelDOList);
 		
 		return pageVo;
+	}
+
+	@Override
+	public ICResult<Boolean> updateHotelStatus(HotelDO hotelDO) {
+		// TODO Auto-generated method stub
+		return hotelService.updateHotelStatus(hotelDO);
 	}
 
 	

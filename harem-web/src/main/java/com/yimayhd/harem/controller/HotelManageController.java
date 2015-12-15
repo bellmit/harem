@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.query.HotelListQuery;
@@ -26,8 +27,7 @@ import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.query.HotelPageQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 /**
@@ -180,8 +180,19 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo setHotelStatus(@PathVariable("id") long id,int hotelStatus) throws Exception {
-        hotelService.setHotelStatus(id,hotelStatus);
-        return new ResponseVo();
+        
+        HotelDO hotelDO = new HotelDO();
+        hotelDO.setId(id);
+        hotelDO.setStatus(hotelStatus);
+        
+        ICResult<Boolean> icResult =  hotelRPCService.updateHotelStatus(hotelDO);
+        
+        ResponseVo responseVo = new ResponseVo();        
+        if (!icResult.getModule()) {
+        	responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+        }
+        
+        return responseVo;
     }
     /**
      * 酒店状态变更(批量)
