@@ -120,7 +120,7 @@
         });
         $('.hotelDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/'+ $(this).attr('hotelId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/edit/'+ $(this).attr('hotelId');
                 //TODO
                 window.openwin(url);
             });

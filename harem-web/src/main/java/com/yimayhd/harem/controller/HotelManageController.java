@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -64,46 +65,15 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public
     String list(Model model,HotelListQuery hotelListQuery) throws Exception {
-        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-        PageVO pageVo = new PageVO(1,10,300);
-        model.addAttribute("pageVo", pageVo);
-        model.addAttribute("hotelListQuery", hotelListQuery);
-        model.addAttribute("hotelDOList", hotelDOList);
-        return "/system/hotel/list";
-    }
-    
-    @RequestMapping(value = "/list2", method = RequestMethod.GET)
-    public
-    String list2(Model model,HotelListQuery hotelListQuery) throws Exception {
     	
     	PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
     	List<HotelDO> hotelDOList = pageVo.getItemList();
         model.addAttribute("pageVo", pageVo);
         model.addAttribute("hotelListQuery", hotelListQuery);
         model.addAttribute("hotelDOList", hotelDOList);
-        return "/system/hotel/list2";
+        return "/system/hotel/list";
     }
-
-    /**
-     * 选择酒店列表
-     * @param model
-     * @param hotelListQuery
-     * @param multiSelect 是否多选（1：单选；2：多选）
-     * @return 酒店（资源）列表
-     * @throws Exception
-     */
-    @RequestMapping(value = "/selectList", method = RequestMethod.GET)
-    public
-    String selectList(Model model,HotelListQuery hotelListQuery,int multiSelect) throws Exception {
-        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-        PageVO pageVo = new PageVO(1,10,300);
-        model.addAttribute("pageVo", pageVo);
-        model.addAttribute("hotelListQuery", hotelListQuery);
-        model.addAttribute("hotelDOList", hotelDOList);
-        model.addAttribute("multiSelect",multiSelect);
-        return "/system/hotel/selectList";
-    }
-
+    
     /**
      * 新增酒店（资源）
      * @return 酒店（资源）详情
@@ -122,43 +92,6 @@ public class HotelManageController extends BaseController {
         model.addAttribute("hotelFacilityList",hotelFacilityList);
         return "/system/hotel/edit";
     }
-    /**
-     * 编辑酒店（资源）
-     * @return 酒店（资源）详情
-     * @throws Exception
-     */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public
-    String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-        HotelVO hotelVO = hotelService.getById(id);
-        List<Region> provinceList= regionService.getProvince();
-        List<Region> cityList= regionService.getRegionByParentId(hotelVO.getLocationProvinceId());
-        List<FacilityIconDO> roomFacilityList = facilityIconService.getListByType(ROOMFACILITY_TYPE);
-        List<FacilityIconDO> roomServiceList = facilityIconService.getListByType(ROOMSERVICELIST_TYPE);
-        List<FacilityIconDO> hotelFacilityList = facilityIconService.getListByType(HOTELFACILITYLIST_TYPE);
-        model.addAttribute("provinceList", provinceList);
-        model.addAttribute("cityList", cityList);
-        model.addAttribute("hotel",hotelVO);
-        model.addAttribute("pictureList",hotelVO.getPictureList());
-        model.addAttribute("roomFacilityList",roomFacilityList);
-        model.addAttribute("roomServiceList",roomServiceList);
-        model.addAttribute("hotelFacilityList",hotelFacilityList);
-
-        return "/system/hotel/edit";
-    }
-
-    /**
-     * 编辑酒店（资源）
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public
-    String edit(HotelVO hotelVO,@PathVariable("id") long id) throws Exception {
-        hotelVO.setId(id);
-        hotelService.modify(hotelVO);
-        return "/success";
-    }
 
     /**
      * 新增酒店（资源）
@@ -168,7 +101,8 @@ public class HotelManageController extends BaseController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public
     String add(HotelVO hotelVO) throws Exception {
-        hotelService.add(hotelVO);
+        
+    	hotelRPCService.addHotel(hotelVO);
         return "/success";
     }
 
@@ -194,6 +128,90 @@ public class HotelManageController extends BaseController {
         
         return responseVo;
     }
+
+    /**
+     * 编辑酒店（资源）
+     * @return 酒店（资源）详情
+     * @throws Exception
+     */
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public
+    String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
+        
+    	HotelVO hotelVO = hotelRPCService.getHotel(id);
+    	
+    	System.out.println(" "  + JSON.toJSONString(hotelVO));
+    	
+        List<Region> provinceList= regionService.getProvince();
+        List<Region> cityList= regionService.getRegionByParentId(hotelVO.getLocationProvinceId());
+        List<FacilityIconDO> roomFacilityList = facilityIconService.getListByType(ROOMFACILITY_TYPE);
+        List<FacilityIconDO> roomServiceList = facilityIconService.getListByType(ROOMSERVICELIST_TYPE);
+        List<FacilityIconDO> hotelFacilityList = facilityIconService.getListByType(HOTELFACILITYLIST_TYPE);
+        model.addAttribute("provinceList", provinceList);
+        model.addAttribute("cityList", cityList);
+        model.addAttribute("hotel",hotelVO);
+        model.addAttribute("pictureList",hotelVO.getPictureList());
+        model.addAttribute("roomFacilityList",roomFacilityList);
+        model.addAttribute("roomServiceList",roomServiceList);
+        model.addAttribute("hotelFacilityList",hotelFacilityList);
+
+        return "/system/hotel/edit";
+    }              
+    
+    /**
+     * ------------------------------未添加的----------------------------------------------------
+     */
+
+    /**
+     * 酒店（资源）列表
+     * @return 酒店（资源）列表
+     * @throws Exception
+     */
+/*    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public
+    String list(Model model,HotelListQuery hotelListQuery) throws Exception {
+        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
+        PageVO pageVo = new PageVO(1,10,300);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("hotelListQuery", hotelListQuery);
+        model.addAttribute("hotelDOList", hotelDOList);
+        return "/system/hotel/list";
+    }
+*/    
+    /**
+     * 选择酒店列表
+     * @param model
+     * @param hotelListQuery
+     * @param multiSelect 是否多选（1：单选；2：多选）
+     * @return 酒店（资源）列表
+     * @throws Exception
+     */
+    @RequestMapping(value = "/selectList", method = RequestMethod.GET)
+    public
+    String selectList(Model model,HotelListQuery hotelListQuery,int multiSelect) throws Exception {
+        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
+        PageVO pageVo = new PageVO(1,10,300);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("hotelListQuery", hotelListQuery);
+        model.addAttribute("hotelDOList", hotelDOList);
+        model.addAttribute("multiSelect",multiSelect);
+        return "/system/hotel/selectList";
+    }
+        
+
+    /**
+     * 编辑酒店（资源）
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public
+    String edit(HotelVO hotelVO,@PathVariable("id") long id) throws Exception {
+        hotelVO.setId(id);
+        hotelService.modify(hotelVO);
+        return "/success";
+    }
+
     /**
      * 酒店状态变更(批量)
      * @return
