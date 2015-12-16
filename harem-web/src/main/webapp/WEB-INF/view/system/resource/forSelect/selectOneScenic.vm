@@ -29,12 +29,14 @@
     		if($(".item-radio:checked").length > 0) {
 				var rId = $(".item-radio:checked").attr("rId");
 				var rName = $(".item-radio:checked").attr("rName");
+				var rData = $(".item-radio:checked").attr("rData");
 				var btn = $("<button class='btn btn-info resources'></button>");
 				// check
 				btn.attr("id","result_item");
 				btn.attr("rId",rId);
 				btn.attr("rName",rName);
-				btn.text(rName+""+rId);
+				btn.attr("rData",rData);
+				btn.text(rName);
 				$(".checked-resource").append(btn);
 			}
 		});
@@ -53,7 +55,7 @@
 		for(i in itemList) {
 			var item = itemList[i];
 			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
-			tr.append($("<td><input type='radio' class='item-radio' name='item' id='radio_"+item.id+"' rId='"+item.id+"' rName='"+item.name+"'/>"+item.id+"</td>"));
+			tr.append($("<td><input type='radio' class='item-radio' name='item' id='radio_"+item.id+"' rId='"+item.id+"' rName='"+item.name+"' rData='"+JSON.stringify(item)+"'/></td>"));
 			tr.append($("<td>"+item.name+"</td>"));
 			tr.append($("<td>"+item.status+"</td>"));
 			tbody.append(tr);
@@ -69,12 +71,10 @@
 		});
 	}
 	// 获得最终结果
-	function getItems() {
+	function getItem() {
 		if($("#result_item").length > 0) {
-			var rId = $("#result_item").attr("rId");
-			var rName = $("#result_item").attr("rName");
-			alert(JSON.stringfiy({id:rId,name:rName}));
-			return {id:rId,name:rName};
+			var rData = $("#result_item").attr("rData");
+			return JSON.parse(rData);
 		} else {
 			return null;
 		}
