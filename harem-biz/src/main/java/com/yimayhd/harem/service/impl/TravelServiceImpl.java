@@ -3,7 +3,7 @@ package com.yimayhd.harem.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -12,12 +12,15 @@ import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 public abstract class TravelServiceImpl<T extends BaseTravel> {
-	@Autowired
+	@Resource
 	protected ItemQueryService itemQueryServiceRef;
-	@Autowired
+	@Resource
+	protected ItemPublishService itemPublishServiceRef;
+	@Resource
 	protected ComCenterService comCenterServiceRef;
 
 	public T getById(long id, Class<T> clazz) throws Exception {
@@ -58,9 +61,14 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 			 * GroupTravel.class);
 			 */
 		} else {
-			throw new BaseException("获取线路出错"); 
+			throw new BaseException("获取线路出错");
 		}
 	}
 
 	protected abstract T createTravelInstance(LineResult lineResult, List<ComTagDO> comTagDOs) throws Exception;
+
+	protected void publish(BaseTravel travel) {
+		itemPublishServiceRef.publishLine(travel.toLinePublishDTO());
+	
+	}
 }

@@ -18,6 +18,7 @@ import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
+import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
 /**
@@ -92,6 +93,12 @@ public class GroupTravel extends BaseTravel {
 
 	public void setTripInfo(List<TripDay> tripInfo) {
 		this.tripInfo = tripInfo;
+	}
+
+	@Override
+	public void setRouteInfo(LinePublishDTO dto) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
