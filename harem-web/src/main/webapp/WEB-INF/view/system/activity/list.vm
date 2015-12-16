@@ -1,28 +1,27 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<h1>活动列表</h1>
     <form class="form-signin" id="activityListForm" name="activityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/activityManage/list" method="GET" role="form">
-        <div class="inputGroup whole">
+        <div class="inputGroup">
             <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">创建时间</button>
-                    </span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">创建时间</button>
+                </span>
                 <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!activityListQuery.beginDate">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
                 <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!activityListQuery.endDate">
             </div>
             <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">活动时间</button>
-                    </span>
-                <input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityBeginDate" value="$!activityListQuery.activityBeginDate">
-                <span class="input-group-addon fix-border fix-padding">至</span>
-                <input type="text" class='form-control form-date' placeholder='结束日期：yyyy-MM-dd' readonly name="activityEndDate" value="$!activityListQuery.activityEndDate">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">活动时间</button>
+                </span>
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="activityBeginDate" value="$!activityListQuery.activityBeginDate">
+                <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="activityEndDate" value="$!activityListQuery.activityEndDate">
             </div>
             <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">活动名称</button>
-                    </span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">活动名称</button>
+                </span>
                 <input type="text" class="form-control" name="name" value="$!activityListQuery.name">
             </div>
 
@@ -64,10 +63,11 @@
             </div>
         </div>
 
-        <div class="tableGroup whole">
-            <button type="button" class="btn btn-primary activityAdd">新建</button>
-         <table class="table table-hover">
-			
+        <div class="tableGroup">
+            <div class="btnBottomMargin">
+                <button type="button" class="btn btn-primary activityAdd" id="activityAdd">新建活动</button>
+            </div>
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th><input type="checkbox" name="checkAll" id="checkAll" value="" /></th>
@@ -107,19 +107,11 @@
                 </tbody>
             </table>
         </div>
-		
-		
-		
-		
     #*分页*#
     #parse("/page.vm")
     #pageStyle("activityListForm")
     </form>
 <script>
-
-
-
-
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -134,18 +126,14 @@
             });
     $(function(){
 		
-	$("#checkAll").click(function() {
-		
-         $('input[name="subBox"]').attr("checked",this.checked); 
-     });
-    
-	
-	
-	
-	
+        $("#checkAll").click(function() {
+             $('input[name="subBox"]').attr("checked",this.checked);
+        });
+
         $('.activityAdd').click(function(){
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/activityManage/toAdd';
-            window.openwin(url);
+            top.tabsAdd("activityAdd",url,2,$(this).text())
+            //window.openwin(url);
         });
 
         $('.activityDetail').each(function(){
@@ -153,7 +141,6 @@
                 var url =  actionDefaultPath+ '/B2C/activityManage/'+ $(this).attr('activityId');
                 window.openwin(url);
             });
-
         });
 
         $('.activityBtn').each(function(){

@@ -3,7 +3,7 @@
 ul li,ol li{list-style: none;}
 
 table{width: 100%;}
-table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;text-align: justify;}
+table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;text-align: center;}
 
 
 
@@ -59,6 +59,7 @@ table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;tex
 .tabsWrap .tab-content .tab-pane{}
 .tabsWrap .tab-content .tab-pane iframe{width: 100%;}
 
+.btnBottomMargin{margin-bottom: 10px;}
 
 .inpControl{
     display: inline-block;
