@@ -1,12 +1,12 @@
 <div>
-	#foreach($linePropertyType in $linePropertyTypes)
-	<div class="input-group block" block-key="block_${linePropertyType.id}" block-type="${linePropertyType.id}">
-		<span class="input-group-addon" block-name="${linePropertyType.name}">${linePropertyType.name}：</span>
-		<input type="text" class="form-control item-${linePropertyType.id}-1" block-type="${linePropertyType.id}" id="item_${linePropertyType.id}_1" placeholder="请输入价格">
+	#foreach($persionPropertyValue in $persionPropertyValues)
+	<div class="input-group block" v-id="$!{persionPropertyValue.id}">
+		<span class="input-group-addon" block-name="$!{persionPropertyValue.text}">$!{persionPropertyValue.text}：</span>
+		<input type="text" class="form-control item-$!{persionPropertyValue.id}-1" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_1" placeholder="请输入价格">
 		<span class="input-group-addon">库存：</span>
-		<input type="text" class="form-control item-${linePropertyType.id}-2" block-type="${linePropertyType.id}" id="item_${linePropertyType.id}_2" placeholder="请输入库存">
+		<input type="text" class="form-control item-$!{persionPropertyValue.id}-2" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_2" placeholder="请输入库存">
 		<span class="input-group-addon">会员优惠：</span>
-		<input type="text" class="form-control item-${linePropertyType.id}-3" block-type="${linePropertyType.id}" id="item_${linePropertyType.id}_3" placeholder="请输入会员优惠">
+		<input type="text" class="form-control item-$!{persionPropertyValue.id}-3" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_3" placeholder="请输入会员优惠">
 	</div>
 	#end
 </div>
@@ -14,12 +14,12 @@
 	function getData() {
 		var blocks = [];
 		$(".block").each(function(){
-			var type = $(this).attr("block-type");
+			var VId = $(this).attr("v-id");
 			blocks.push({
-				type:type,
-				price:$(".item-"+type+"-1").val() || 0,
-				stock:$(".item-"+type+"-2").val() || 0,
-				discount:$(".item-"+type+"-3").val() || 0
+				id:VId,
+				price:$(".item-"+VId+"-1").val() || 0,
+				stock:$(".item-"+VId+"-2").val() || 0,
+				discount:$(".item-"+VId+"-3").val() || 0
 			});
 		});
 		return blocks;

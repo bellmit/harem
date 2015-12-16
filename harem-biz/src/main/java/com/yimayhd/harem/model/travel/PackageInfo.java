@@ -13,9 +13,9 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 public class PackageInfo {
 	private long id;
 	private String name;
-	private long PId; // TODO 未对接
-	private int PType; // TODO 未对接
-	private String PTxt; // TODO 未对接
+	private long PId;
+	private int PType;
+	private String PTxt;
 	private List<PackageMonth> months;
 
 	public PackageInfo() {

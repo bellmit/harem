@@ -53,27 +53,31 @@ public abstract class BaseTravelController extends BaseController {
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 	}
-	
+
 	protected void initLinePropertyTypes(long categoryId) {
 		put("categoryId", categoryId);
-		List<IdNamePair> linePropertyTypes = new ArrayList<IdNamePair>();
+		List<CategoryValueDO> persionPropertyValues = new ArrayList<CategoryValueDO>();
 		CategoryResult categoryResult = categoryServiceRef.getCategory(categoryId);
 		if (categoryResult != null && categoryResult.isSuccess() && categoryResult.getCategroyDO() != null) {
 			List<CategoryPropertyValueDO> propertyDOs = categoryResult.getCategroyDO().getSellCategoryPropertyDOs();
 			if (CollectionUtils.isNotEmpty(propertyDOs)) {
 				for (CategoryPropertyValueDO propertyDO : propertyDOs) {
 					if (propertyDO.getId() == LinePropertyType.PERSON.getType()) {
+						put("persionProperty", propertyDO.getCategoryPropertyDO());
 						List<CategoryValueDO> categoryValueDOs = propertyDO.getCategoryValueDOs();
 						if (CollectionUtils.isNotEmpty(categoryValueDOs)) {
 							for (CategoryValueDO categoryValueDO : categoryValueDOs) {
-								linePropertyTypes
-										.add(new IdNamePair(categoryValueDO.getId(), categoryValueDO.getText()));
+								persionPropertyValues.add(categoryValueDO);
 							}
 						}
+					} else if (propertyDO.getId() == LinePropertyType.TRAVEL_PACKAGE.getType()) {
+						put("packageProperty", propertyDO.getCategoryPropertyDO());
+					} else if (propertyDO.getId() == LinePropertyType.DEPART_DATE.getType()) {
+						put("dateProperty", propertyDO.getCategoryPropertyDO());
 					}
 				}
 			}
 		}
-		put("linePropertyTypes", linePropertyTypes);
+		put("persionPropertyValues", persionPropertyValues);
 	}
 }

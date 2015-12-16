@@ -3,6 +3,8 @@ package com.yimayhd.harem.model.travel;
 import java.util.Date;
 import java.util.List;
 
+import com.sun.tools.classfile.Opcode.Set;
+
 /**
  * 套餐-月
  * 
@@ -10,14 +12,14 @@ import java.util.List;
  *
  */
 public class PackageMonth {
-	private Date date;// 日期
+	private long time;// 日期
 	private List<PackageDay> days;// 日期列表
 
 	public PackageMonth() {
 	}
 
-	public PackageMonth(long date) {
-		this.date = new Date(date);
+	public PackageMonth(long time) {
+		this.time = time;
 	}
 
 	public List<PackageDay> getDays() {
@@ -28,12 +30,16 @@ public class PackageMonth {
 		this.days = days;
 	}
 
-	public Date getDate() {
-		return date;
+	public long getTime() {
+		return time;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setTime(long time) {
+		this.time = time;
+	}
+
+	public Date getDate() {
+		return new Date(this.time);
 	}
 
 }

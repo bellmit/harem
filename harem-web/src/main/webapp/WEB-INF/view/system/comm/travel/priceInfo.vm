@@ -18,7 +18,7 @@
 		<div>
 			<ul id="tc_tab" class="nav nav-tabs">
 				#foreach($tc in $!{product.priceInfo.tcs})
-				<li class="tab-page tc-tab #if(${velocityCount}==1) active #end" rId="${velocityCount}" id="tc_${velocityCount}_tab">
+				<li class="tab-page tc-tab #if(${velocityCount}==1) active #end" rId="${velocityCount}">
 					<a href="#tc_${velocityCount}" data-toggle="tab" id="tc_tab_${velocityCount}_a">套餐${velocityCount}</a>
 					<i class="icon icon-remove tc-del" tc-id="${velocityCount}"></i>
 				</li>
@@ -28,22 +28,20 @@
 				#foreach($tc in ${product.priceInfo.tcs})
 				#set($tcId = $velocityCount)
 				<div class="tab-pane in #if(${velocityCount}==1) active #end" id="tc_${velocityCount}">
-					<input type="hidden" id="tc_${velocityCount}_startTime" value="$!{tc.startTime}">
-					<input type="hidden" id="tc_${velocityCount}_endTime" value="$!{tc.endTime}">
 					<table class="table">
 						<tbody>
 							<tr>
 								<td>
-									<div>套餐名称：*<input type="text" id="tc_${velocityCount}_name" class="form-control" placeholder="请输入套餐名称" value="$!{tc.name}"></div>
+									<div>套餐名称：*<input type="text" id="tc_${velocityCount}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}" p-id="$!{tc.PId}" p-type="$!{tc.PType}" p-txt="$!{tc.PTxt}"></div>
+							
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<ul class="nav nav-tabs">
 										#foreach($month in ${tc.months})
-										#set($monthDate = $utilDate.dateToString($month.date,"yyyy-MM-dd"))
-										<li class="tab-page tc-${velocityCount}-month #if(${velocityCount}==1) active #end" rId="${month.date.getTime()}" id="tc_${velocityCount}_month_${month.date.getTime()}_tab" rDate="$!{monthDate}">
-											<a href="#tc_${velocityCount}_month_${month.date.getTime()}" data-toggle="tab">$utilDate.dateToString($month.date,"yyyy-MM")</a>
+										<li class="tab-page tc-${velocityCount}-month #if(${velocityCount}==1) active #end" rId="${month.time}" id="tc_${velocityCount}_month_${month.time}_tab" rTime="${month.time}">
+											<a href="#tc_${velocityCount}_month_${month.time}" data-toggle="tab">$utilDate.dateToString($month.date,"yyyy-MM")</a>
 										</li>
 										#end
 										<li>
@@ -52,11 +50,10 @@
 									</ul>
 									<div class="tab-content">
 										#foreach($month in ${tc.months})
-										<div class="tab-pane in #if(${velocityCount}==1) active #end" id="tc_${velocityCount}_month_${month.date.getTime()}">
+										<div class="tab-pane in #if(${velocityCount}==1) active #end" id="tc_${velocityCount}_month_${month.time}" rTime="$!{month.time}">
 											<table class="table">
 												<tbody>
 													#foreach($day in ${month.days})
-														#set($dayDate = $utilDate.dateToString($day.date,"yyyy-MM-dd"))
     													#if((${velocityCount} - 1) % 2 == 0)
     														#set($tr = "open")
     													#end
@@ -66,16 +63,16 @@
     													#if($tr == "open")
     												<tr>
     													#end
-														<td class="tc-${velocityCount}-month-${month.date.getTime()}-day" rId="${day.date.getTime()}" rDate="$!{dayDate}">
+														<td class="tc-${velocityCount}-month-${month.time}-day" rId="${day.time}" rTime="$!{day.time}" p-id="$!{day.PId}" p-type="$!{day.PType}" p-txt="$!{day.PTxt}">
 														<div>$utilDate.dateToString($day.date,"dd")  $utilDate.formatWeekOnly($day.date)</div>
 														#foreach($block in ${day.blocks})
 															<div class="input-group">
-																<span class="input-group-addon" block-name="${block.name}">${block.name}：</span>
-																<input type="text" class="form-control tc-${tcId}-item-${block.type}-1" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}_1" placeholder="请输入成人价" value="$!{block.price}">
+																<span class="input-group-addon">$!{block.name}：</span>
+																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-1" v-id="$!{block.id}" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$!{block.price}">
 																<span class="input-group-addon">库存：</span>
-																<input type="text" class="form-control tc-${tcId}-item-${block.type}-2" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}_2" placeholder="请输入库存" value="$!{block.stock}">
+																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-2" v-id="$!{block.id}" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
 																<span class="input-group-addon">会员优惠：</span>
-																<input type="text" class="form-control tc-${tcId}-item-${block.type}-3" block-type="${block.type}" id="tc_${tcId}_month_${month.date.getTime()}_day_${day.date.getTime()}_${block.type}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
+																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-3" v-id="$!{block.id}" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
 															</div>
 														#end
 														</td>
@@ -213,12 +210,10 @@
 		return tcTab.append(tabA).append(remove);
 	}
 	function createTcContent(id,startDate,endDate) {
-		var pane = $("<div class='tab-pane in' id='tc_"+id+"'/>")
-		pane.append($("<input type='hidden' id='tc_"+id+"_startTime' value='"+CalendarUtils.getFormat(startDate,"yyyy-MM-dd")+"'>"));
-		pane.append($("<input type='hidden' id='tc_"+id+"_endTime' value='"+CalendarUtils.getFormat(endDate,"yyyy-MM-dd")+"'>"));
+		var pane = $("<div class='tab-pane in' id='tc_"+id+"'/>");
 		var table = $("<table class='table'/>");
 		var td = $("<td/>");
-		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></div>")
+		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称' p-id='$!{packageProperty.id}' p-type='$!{packageProperty.type}' p-txt='$!{packageProperty.txt}'></div>")
 		td.append(tcName);
 		table.append($("<tr/>").append(td));
 		var dateJson = CalendarUtils.getMonthTree(startDate,endDate);
@@ -230,8 +225,7 @@
 	function createDateTab(id,dateJson) {
 		var tab = $("<ul class='nav nav-tabs'/>");
 		for(var i in dateJson) {
-			var date = new Date(parseInt(i));
-			var tcTab = $("<li class='tab-page tc-"+id+"-month' rId='"+i+"' id='tc_"+id+"_month_"+i+"_tab' rDate='"+CalendarUtils.getFormat(date,"yyyy-MM-dd")+"'/>");
+			var tcTab = $("<li class='tab-page tc-"+id+"-month' rId='"+i+"' id='tc_"+id+"_month_"+i+"_tab' rTime='"+i+"'/>");
 			var month = CalendarUtils.getFormat(new Date(parseInt(i)),"yyyy年MM月");
 			var tabA = $("<a href='#tc_"+id+"_month_"+i+"' data-toggle='tab'>"+month+"</a>");
 			tab.append(tcTab.append(tabA));
@@ -257,19 +251,20 @@
 				var time = new Date(list[j]);
 				var d =  CalendarUtils.getFormat(time ,"dd日 " + WEEK[time.getDay()]);
 				// 扩展点
-				var td = $("<td class='tc-"+id+"-month-"+i+"-day' rId='"+list[j]+"' rDate='"+CalendarUtils.getFormat(time ,"yyyy-MM-dd")+"'></td>");
+				var td = $("<td class='tc-"+id+"-month-"+i+"-day' rId='"+list[j]+"' rTime='"+list[j]+"'></td>");
 				var day_id = "tc_"+id+"_month_"+i+"_day_"+list[j];
 				var div_date = $("<div>"+d+"</div>");
+				var class_id = "tc-"+id+"-item";
 				td.append(div_date);
-				#foreach($linePropertyType in $linePropertyTypes)
-				var group_${linePropertyType.id} = $("<div class='input-group'/>")
-				group_${linePropertyType.id}.append("<span class='input-group-addon' block-name='${linePropertyType.name}'>${linePropertyType.name}：</span>");
-				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}-1' id='"+day_id+"_${linePropertyType.id}_1' placeholder='请输入成人价'>"); 
-				group_${linePropertyType.id}.append("<span class='input-group-addon'>库存：</span>");
-				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}-2' id='"+day_id+"_${linePropertyType.id}_2' placeholder='请输入库存'>"); 
-				group_${linePropertyType.id}.append("<span class='input-group-addon'>会员优惠：</span>");
-				group_${linePropertyType.id}.append("<input type='text' class='form-control tc-"+id+"-item-${linePropertyType.id}-3' id='"+day_id+"_${linePropertyType.id}_3' placeholder='请输入会员优惠'>"); 
-				td.append(group_${linePropertyType.id});
+				#foreach($persionPropertyValue in $persionPropertyValues)
+				var group_$!{persionPropertyValue.id} = $("<div class='input-group block' v-id='$!{persionPropertyValue.id}' v-name='$!{persionPropertyValue.text}' p-id='$!{persionProperty.id}' p-type='$!{persionProperty.type}' p-txt='$!{persionProperty.text}' />")
+				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon' block-name='$!{persionPropertyValue.text}'>$!{persionPropertyValue.text}：</span>");
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价'>"); 
+				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>库存：</span>");
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存'>"); 
+				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>会员优惠：</span>");
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-3' id='"+day_id+"_$!{persionPropertyValue.id}_3' placeholder='请输入会员优惠'>"); 
+				td.append(group_$!{persionPropertyValue.id});
 				#end
 				tr.append(td);
 			}
@@ -279,16 +274,16 @@
 	}
 	
 	var currentTcId;
-    // 选择交通
+    // 批量插入
 	function batchInsert(){
 		var currentTcId = $(this).attr("tc-id");
 		openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
 			var data = win.getData();
 			for(var i in data) {
 				var block = data[i];
-    			$(".tc-"+currentTcId+"-item-"+block.type+"-1").val(block.price);
-    			$(".tc-"+currentTcId+"-item-"+block.type+"-2").val(block.stock);
-    			$(".tc-"+currentTcId+"-item-"+block.type+"-3").val(block.discount);
+    			$(".tc-"+currentTcId+"-item-"+block.id+"-1").val(block.price);
+    			$(".tc-"+currentTcId+"-item-"+block.id+"-2").val(block.stock);
+    			$(".tc-"+currentTcId+"-item-"+block.id+"-3").val(block.discount);
 			}
 			// console.log(JSON.stringify(data));
 			// 一般设定yes回调，必须进行手工关闭
@@ -304,46 +299,48 @@
 			var months = [];
 			$(".tc-"+tcId+"-month").each(function(){
 				var mId = $(this).attr("rId");
-				var mDate = $(this).attr("rDate");
+				var mTime = $(this).attr("rTime");
 				var days = [];
 				$(".tc-"+tcId+"-month-"+mId+"-day").each(function(){
 					var dId = $(this).attr("rId");
-					var dDate = $(this).attr("rDate");
+					var dTime = $(this).attr("rTime");
 					var day_id = "tc_"+tcId+"_month_"+mId+"_day_"+dId;
-					var adult = {
-						price:$("#"+day_id+"_11").val(),
-						stock:$("#"+day_id+"_12").val(),
-						discount:$("#"+day_id+"_13").val()
-					};
-					var children_0_2 = {
-						price:$("#"+day_id+"_21").val(),
-						stock:$("#"+day_id+"_22").val(),
-						discount:$("#"+day_id+"_23").val()
-					};
-					var children_2_12 = {
-						price:$("#"+day_id+"_31").val(),
-						stock:$("#"+day_id+"_32").val(),
-						discount:$("#"+day_id+"_33").val()
-					};
-					var srd = $("#"+day_id+"_41").val();
+					var blocks = [];
+					#foreach($persionPropertyValue in $persionPropertyValues)
+					var key_$!{persionPropertyValue.id} = "tc_"+tcId+"_month_"+mId+"_day_"+dId+"_$!{persionPropertyValue.id}";
+					blocks.push({
+						id: $!{persionPropertyValue.id},
+                    	name: "$!{persionPropertyValue.text}",
+                    	PId: $!{persionProperty.id},
+                    	PType: $!{persionProperty.type},
+                    	PTxt: "$!{persionProperty.text}",
+                    	price: $("#"+key_$!{persionPropertyValue.id}+"_1").val(), 
+                    	stock: $("#"+key_$!{persionPropertyValue.id}+"_2").val(),
+                    	discount: $("#"+key_$!{persionPropertyValue.id}+"_3").val()
+					});
+					#end
 					days.push({
-						date:dDate,
-						adult:adult,
-						children02:children_0_2,
-						children212:children_2_12,
-						srd:srd
+    					PId:$(this).attr("p-id"),
+        				PType:$(this).attr("p-type"),
+        				PTxt:$(this).attr("p-txt"),
+						blocks:blocks
 					});
 				});
-				months.push({date:mDate,days:days});
+				months.push({
+					date:mTime,
+					days:days});
 			});
 			tcs.push({
-				id:tcId,
-				startDate:$("#tc_"+tcId+"_startTime").val(),
-				endDate:$("#tc_"+tcId+"_endTime").val(),
+				id:$("#tc_"+tcId+"_name").attr("tc-id"),
 				name:$("#tc_"+tcId+"_name").val(),
+				PId:$("#tc_"+tcId+"_name").attr("p-id"),
+				PType:$("#tc_"+tcId+"_name").attr("p-type"),
+				PTxt:$("#tc_"+tcId+"_name").attr("p-txt"),
 				months:months
 			});
 		});
-		return {tcs:tcs,limit:$(".day-limit").val()};
+		alert(JSON.stringify({tcs:tcs,limit:$(".day-limit").val()}));
+		/*return {tcs:tcs,limit:$(".day-limit").val()};*/
 	}
 </script>
+<button onclick="getPriceInfo()">test<button>
