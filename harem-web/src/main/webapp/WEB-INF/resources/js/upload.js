@@ -16,10 +16,10 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
     };
     //xhr.addEventListener("load", uploadComplete, false);
     xhr.addEventListener("error", function(a,b,data){
-        layer.message('提交出错',{icon:2});
+        layer.msg('提交出错',{icon:2});
     }, false);
     xhr.addEventListener("abort", function(a,b,data){
-        layer.message('提交出错',{icon:2});
+        layer.msg('提交出错',{icon:2});
     }, false);
     if(type==1){
         xhr.open("POST", uploadFile, true);
