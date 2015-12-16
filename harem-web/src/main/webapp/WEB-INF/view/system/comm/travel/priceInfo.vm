@@ -18,21 +18,22 @@
 		<div>
 			<ul id="tc_tab" class="nav nav-tabs">
 				#foreach($tc in $!{product.priceInfo.tcs})
-				<li class="tab-page tc-tab #if(${velocityCount}==1) active #end" rId="${velocityCount}">
-					<a href="#tc_${velocityCount}" data-toggle="tab" id="tc_tab_${velocityCount}_a">套餐${velocityCount}</a>
-					<i class="icon icon-remove tc-del" tc-id="${velocityCount}"></i>
+				#set($tcId = $velocityCount)
+				<li class="tab-page tc-tab #if($!{tcId}==1) active #end" tc-id="$!{tcId}" tc-key="$!{tc.id}">
+					<a href="#tc_$!{tcId}" data-toggle="tab" id="tc_tab_$!{tcId}_a">套餐$!{tcId}</a>
+					<i class="icon icon-remove tc-del" tc-id="$!{tcId}"></i>
 				</li>
 				#end
             </ul>
 			<div id="tc_page" class="tab-content">
 				#foreach($tc in ${product.priceInfo.tcs})
 				#set($tcId = $velocityCount)
-				<div class="tab-pane in #if(${velocityCount}==1) active #end" id="tc_${velocityCount}">
+				<div class="tab-pane in #if($tcId==1) active #end" id="tc_$!{tcId}">
 					<table class="table">
 						<tbody>
 							<tr>
 								<td>
-									<div>套餐名称：*<input type="text" id="tc_${velocityCount}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}" p-id="$!{tc.PId}" p-type="$!{tc.PType}" p-txt="$!{tc.PTxt}"></div>
+									<div>套餐名称：*<input type="text" id="tc_$!{tcId}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}" p-id="$!{tc.PId}" p-type="$!{tc.PType}" p-txt="$!{tc.PTxt}"></div>
 							
 								</td>
 							</tr>
@@ -40,30 +41,31 @@
 								<td>
 									<ul class="nav nav-tabs">
 										#foreach($month in ${tc.months})
-										<li class="tab-page tc-${velocityCount}-month #if(${velocityCount}==1) active #end" rId="${month.time}" id="tc_${velocityCount}_month_${month.time}_tab" rTime="${month.time}">
-											<a href="#tc_${velocityCount}_month_${month.time}" data-toggle="tab">$utilDate.dateToString($month.date,"yyyy-MM")</a>
+										<li class="tab-page tc-$!{tcId}-month #if($!{tcId}==1) active #end" rId="${month.time}" id="tc_$!{tcId}_month_${month.time}_tab" rTime="${month.time}">
+											<a href="#tc_$!{tcId}_month_${month.time}" data-toggle="tab">$utilDate.dateToString($month.date,"yyyy-MM")</a>
 										</li>
 										#end
 										<li>
-											<button class="btn btn-primary batch-insert" tc-id="${velocityCount}">批量录入</button>
+											<button class="btn btn-primary batch-insert" tc-id="$!{tcId}">批量录入</button>
 										</li>
 									</ul>
 									<div class="tab-content">
 										#foreach($month in ${tc.months})
-										<div class="tab-pane in #if(${velocityCount}==1) active #end" id="tc_${velocityCount}_month_${month.time}" rTime="$!{month.time}">
+										<div class="tab-pane in #if($!{tcId}==1) active #end" id="tc_$!{tcId}_month_${month.time}" rTime="$!{month.time}">
 											<table class="table">
 												<tbody>
 													#foreach($day in ${month.days})
-    													#if((${velocityCount} - 1) % 2 == 0)
+														#set($dayId = $velocityCount)
+    													#if((${dayId} - 1) % 2 == 0)
     														#set($tr = "open")
     													#end
-    													#if((${velocityCount} - 1) % 2 == 1)
+    													#if((${dayId} - 1) % 2 == 1)
     														#set($tr = "close")
     													#end
     													#if($tr == "open")
     												<tr>
     													#end
-														<td class="tc-${velocityCount}-month-${month.time}-day" rId="${day.time}" rTime="$!{day.time}" p-id="$!{day.PId}" p-type="$!{day.PType}" p-txt="$!{day.PTxt}">
+														<td class="tc-$!{tcId}-month-${month.time}-day" rId="${day.time}" rTime="$!{day.time}" p-id="$!{day.PId}" p-type="$!{day.PType}" p-txt="$!{day.PTxt}">
 														<div>$utilDate.dateToString($day.date,"dd")  $utilDate.formatWeekOnly($day.date)</div>
 														#foreach($block in ${day.blocks})
 															<div class="input-group">
@@ -295,7 +297,7 @@
 	function getPriceInfo() {
 		var tcs = [];
 		$(".tc-tab").each(function(){
-			var tcId = $(this).attr("rId");
+			var tcId = $(this).attr("tc-id");
 			var months = [];
 			$(".tc-"+tcId+"-month").each(function(){
 				var mId = $(this).attr("rId");
@@ -339,8 +341,6 @@
 				months:months
 			});
 		});
-		alert(JSON.stringify({tcs:tcs,limit:$(".day-limit").val()}));
-		/*return {tcs:tcs,limit:$(".day-limit").val()};*/
+		return {tcs:tcs,limit:$(".day-limit").val()};
 	}
 </script>
-<button onclick="getPriceInfo()">test<button>
