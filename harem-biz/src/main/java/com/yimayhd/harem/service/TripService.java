@@ -2,7 +2,14 @@ package com.yimayhd.harem.service;
 
 import java.util.List;
 
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
+import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 
 /** 
 * @ClassName: TripAService 
@@ -19,21 +26,21 @@ public interface TripService {
 	* @return boolean 返回类型 
 	* @throws
 	 */
-	int saveTrip(TripBo tripBo);
+	long saveTrip(TripBo tripBo);
 	
 	/**
 	* @Title: delTrip 
 	* @Description:(删除出发地目的地) 
 	* @author create by yushengwei @ 2015年12月10日 下午8:41:58 
-	* @param @param tripBo
+	* @param @param long id
 	* @param @return 
 	* @return boolean 返回类型 
 	* @throws
 	 */
-	boolean delTrip(TripBo tripBo);
+	boolean delTrip(long id);
 	
 	/**
-	* @Title: getTripBo 
+	* @Title: RegionDO 
 	* @Description:(根据id查询TripBo) 
 	* @author create by yushengwei @ 2015年12月10日 下午8:43:57 
 	* @param @param id
@@ -41,7 +48,7 @@ public interface TripService {
 	* @return TripBo 返回类型 
 	* @throws
 	 */
-	TripBo getTripBo(int id);
+	RegionDO getTripBo(int id);
 	
 	/**
 	* @Title: getTripBo 
@@ -51,7 +58,7 @@ public interface TripService {
 	* @return List<TripBo> 返回类型 
 	* @throws
 	 */
-	List<TripBo> getTripBo();
+	List<RegionDO> getTripBo();
 	
 	/**
 	* @Title: editTripBo 
@@ -76,5 +83,49 @@ public interface TripService {
 	* @throws
 	 */
 	boolean relevanceRecommended(int type,int destinationId,int showCaseId[]);
-
+	
+	/**
+	* @Title: selectRegion 
+	* @Description:(获取地区列表，用户用户创建出发地目的地的时候选择对应的城市名称) 
+	* @author create by yushengwei @ 2015年12月16日 上午10:07:23 
+	* @param @param type
+	* @param @return 
+	* @return List<RegionDO> 返回类型 
+	* @throws
+	 */
+	List<RegionDO> selectRegion(int type);
+	
+	/**
+	* @Title: selectScenicDO 
+	* @Description:(获取景区列表) 
+	* @author create by yushengwei @ 2015年12月16日 上午10:28:57 
+	* @param @param scenicPageQuery
+	* @param @return
+	* @param @throws Exception 
+	* @return PageVO<ScenicDO> 返回类型 
+	* @throws
+	 */
+	PageVO<ScenicDO> selectScenicDO(ScenicPageQuery scenicPageQuery) throws Exception;
+	
+	/**
+	* @Title: getListShowCaseResult 
+	* @Description:(获取showcase列表) 
+	* @author create by yushengwei @ 2015年12月16日 上午10:33:32 
+	* @param @param type
+	* @param @return 
+	* @return List<ShowCaseResult> 返回类型 
+	* @throws
+	 */
+	List<ShowCaseResult> getListShowCaseResult(int type);
+	
+	/**
+	* @Title: selecthotelDO 
+	* @Description:(获取酒店列表) 
+	* @author create by yushengwei @ 2015年12月16日 上午10:46:21 
+	* @param @param hotelListQuery
+	* @param @return 
+	* @return List<HotelDO> 返回类型 
+	* @throws
+	 */
+	List<HotelDO> selecthotelDO(HotelListQuery hotelListQuery)throws Exception;
 }

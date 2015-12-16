@@ -14,24 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
-import com.yimayhd.harem.model.Destination;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.query.HotelListQuery;
-import com.yimayhd.harem.service.HotelService;
-import com.yimayhd.harem.service.ScenicService;
-import com.yimayhd.harem.service.ShowcaseService;
+import com.yimayhd.harem.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.RelatedType;
-import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
-import com.yimayhd.resourcecenter.service.RegionClientService;
 /** 
 * @ClassName: DepartureManageController 
 * @Description: (出发地、目的地管理，目的地关联相应的 推荐信息，如 必买 必去 酒店 直播) 
@@ -42,15 +35,7 @@ import com.yimayhd.resourcecenter.service.RegionClientService;
 @RequestMapping("/B2C/trip")
 public class TripManageController extends BaseController {
 
-	@Autowired RegionClientService regionClientServiceRef;
-	
-	@Autowired ShowcaseService showcaseService;
-	
-	@Autowired HotelService hotelService;
-	
-	@Autowired ScenicService scenicSpotService;
-	
-	
+	@Autowired TripService tripService;
 	
 	/**
 	* @Title: originToAdd 
@@ -92,10 +77,22 @@ public class TripManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/add")
-	public String toAdd(Model model,@ModelAttribute("destination") Destination destination){
-		String name = destination.getCityName();
-		System.out.println("name="+name);
-		return "/success";
+	public String toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
+		//TODO:数据校验
+		if(null != tripBo && StringUtils.isNotEmpty(tripBo.getCityCode())){
+			long ids= tripService.saveTrip(tripBo);
+			if(0==ids){
+				return "/error";
+			}
+			if(RegionType.DEPART_REGION.getType()==tripBo.getType()){//线路出发地
+				return "/success";
+			}else if(RegionType.DESC_REGION.getType()==tripBo.getType()){//线路目的地
+				model.addAttribute("id", ids);
+				return "/departure/toAdd";
+			}
+		}
+		return "error";
+		
 	}
 	
 	/**
@@ -113,19 +110,19 @@ public class TripManageController extends BaseController {
 	public String recommendedList(Model model,HttpServletRequest request,HotelListQuery hotelListQuery,ScenicPageQuery scenicPageQuery){
 		int type=StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
 		try {
-			List<ShowCaseResult> list = showcaseService.getListShowCaseResult(type);
-			model.addAttribute("recommendedList", list);
 			if (type == RelatedType.recommended_buy.getType()) {//必买推荐
+				List<ShowCaseResult> list = tripService.getListShowCaseResult(type);
+				model.addAttribute("recommendedList", list);
 				return "/system/trip/add_destination/list_buy_recommended";
 			} else if (type == RelatedType.recommended_scenic.getType()) {//必去景点 ?
-				PageVO<ScenicDO>  scenicDOList = scenicSpotService.getList(scenicPageQuery);
-			    model.addAttribute("scenicDOList", scenicDOList);
+			    model.addAttribute("scenicDOList", tripService.selectScenicDO(scenicPageQuery));
 				return "/system/trip/add_destination/list_scenic";
 			} else if (type == RelatedType.recommended_hotel.getType()) {//酒店 ?
-				List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
+				List<HotelDO> hotelDOList = tripService.selecthotelDO(hotelListQuery);
 				model.addAttribute("hotelDOList", hotelDOList);
 				return "/system/trip/add_destination/list_hotel";
 			} else if (type == RelatedType.recommended_live.getType()) {//直播 ?
+				
 				return "/system/trip/add_destination/list_live";
 			} 
 		} catch (Exception e) {
@@ -166,15 +163,14 @@ public class TripManageController extends BaseController {
 	 */
 	@RequestMapping("/list")
 	public String list(Model model,int type){
-		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
-		if(null == res || !res.isSuccess() || CollectionUtils.isEmpty(res.getList())){
-			return "/error";
-		}
-		model.addAttribute("regionList",res.getList());
-		if(RegionType.DEPART_REGION.getType() == type ){//出发地
-			return "/system/trip/origin_list";
-		}else if (RegionType.DESC_REGION.getType() == type){//目的地
-			return "/system/trip/beautiful_local_list";
+		List<RegionDO> list = tripService.selectRegion(type);
+		if(CollectionUtils.isNotEmpty(list)){
+			model.addAttribute("regionList",list);
+			if(RegionType.DEPART_REGION.getType() == type ){//出发地
+				return "/system/trip/origin_list";
+			}else if (RegionType.DESC_REGION.getType() == type){//目的地
+				return "/system/trip/beautiful_local_list";
+			}	
 		}
 		return "/error";
 	}
@@ -193,9 +189,9 @@ public class TripManageController extends BaseController {
 	public ResponseVo selectDepartureList(Model model,int type){
 		//TODO:去掉已经创建过的,返回list中可以创建的出发地
 		// 1-酒店区域 2-景区区域 3-线路出发地 4-线路目的地
-		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
-		if(null !=res && CollectionUtils.isNotEmpty(res.getList())){
-			return new ResponseVo(res.getList());
+		List<RegionDO> list = tripService.selectRegion(type);
+		if(CollectionUtils.isNotEmpty(list)){
+			return new ResponseVo(list);			
 		}
 		return new ResponseVo(ResponseStatus.ERROR);
 	}

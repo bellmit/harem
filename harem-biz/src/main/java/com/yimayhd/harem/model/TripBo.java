@@ -3,23 +3,33 @@ package com.yimayhd.harem.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.yimayhd.harem.model.TripBo.TripDetail;
+
 
 /** 
 * @ClassName: TripBo 
 * @Description: (出发地，目的地 bo对象) 
 * @author create by yushengwei @ 2015年12月10日 下午8:01:53 
 */
-public class TripBo extends Destination implements Serializable {
+public class TripBo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	
+	public int id; /** id */
+	public String cityName; /**目的地名称 */
+	public String cityCode; /** */
+	public int cityLevel; /** 级别 省市区 */
+	public int[] tag; /** 标签 */
+	public String logoURL; /** 封面图 */
+	public String coverURL; /** 目的地图 */
+	public List<TripDetail> TripDetail; /** 概况 */
+	public int type;/** 1出发地，2目的地*/
 	//---以下关联id，以数组方式存放-----------------------------------------------
 	public int[] biMai;/** 必买推荐 */
 	public int[] biQu;/** 必去景点*/
 	public int[] jiuDian;/** 精选酒店*/
 	public int[] zhiBo;/** 精选直播*/
-	public int[] xianLu;/** 羡慕*/
+	public int[] xianLu;/** 线路*/
 	
 	
 	
@@ -62,7 +72,109 @@ public class TripBo extends Destination implements Serializable {
 
 	
 
+	public int getId() {
+		return id;
+	}
 
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public String getCityName() {
+		return cityName;
+	}
+
+
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+
+
+	public String getCityCode() {
+		return cityCode;
+	}
+
+
+
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
+	}
+
+
+
+	public int getCityLevel() {
+		return cityLevel;
+	}
+
+
+
+	public void setCityLevel(int cityLevel) {
+		this.cityLevel = cityLevel;
+	}
+
+
+
+	public String getLogoURL() {
+		return logoURL;
+	}
+
+
+
+	public void setLogoURL(String logoURL) {
+		this.logoURL = logoURL;
+	}
+
+
+
+	public String getCoverURL() {
+		return coverURL;
+	}
+
+
+
+	public void setCoverURL(String coverURL) {
+		this.coverURL = coverURL;
+	}
+
+
+
+	public List<TripDetail> getTripDetail() {
+		return TripDetail;
+	}
+
+
+
+	public void setTripDetail(List<TripDetail> tripDetail) {
+		TripDetail = tripDetail;
+	}
+
+
+
+	public int[] getTag() {
+		return tag;
+	}
+
+
+
+	public void setTag(int[] tag) {
+		this.tag = tag;
+	}
+	
+	public int getType() {
+		return type;
+	}
+
+
+
+	public void setType(int type) {
+		this.type = type;
+	}
 
 	public int[] getBiMai() {
 		return biMai;
