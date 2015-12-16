@@ -22,8 +22,8 @@ public class TripBo implements Serializable {
 	public int[] tag; /** 标签 */
 	public String logoURL; /** 封面图 */
 	public String coverURL; /** 目的地图 */
-	public List<TripDetail> TripDetail; /** 概况 */
 	public int type;/** 1出发地，2目的地*/
+	public List<TripDetail> TripDetail; /** 概况 */
 	//---以下关联id，以数组方式存放-----------------------------------------------
 	public int[] biMai;/** 必买推荐 */
 	public int[] biQu;/** 必去景点*/

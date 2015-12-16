@@ -9,14 +9,17 @@
                 <tbody>
                 <tr>
                     <td><span class="spColor">*</span>目的地名称</td>
-                    <td><input type="text" class="inpControl" name="cityName" placeholder="请输入20个字以内"></td>
+                    #*<input type="text" class="inpControl" name="cityName" placeholder="请输入20个字以内"> 
+                    <input type="hiddent" class="inpControl" name="cityLevel" value="">*#
+                    <td><select id="cityId" ></select></td>
                 </tr>
 				
+				#*
 				<tr>
                     <td><span class="spColor">*</span>级别（省/市）</td>
                     <td><input type="text" class="inpControl" name="cityLevel" reayOnly="true" ></td>
                 </tr>
-				
+				*#
                 <tr>
                     <td><span class="spColor">*</span>标签</td>
                     <td>
@@ -74,14 +77,38 @@
         				<th></th>
                     </tr>
                 </thead>
-				<tbody class="extra-info-list needKnowTable">
-            		<tr class="needKnow">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="简介"></td>
-        				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-						<td><button type="button"  class="btn btn-link"  onclick="delneedKnowTR(this)">删除</button></td>
-                    </tr>
-					
-                </tbody>
+				 <tbody class="extra-info-list needKnowTable">
+
+                                    #if(!${VO.needKnow.frontNeedKnow})
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="needKnow.frontNeedKnow[1].title"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含old"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="needKnow.frontNeedKnow[1].content" rows="3"></textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+
+                                    #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含"
+                                                   value="$!{frontNeedKnow.title}"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                                      rows="3">$!{frontNeedKnow.content}</textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+                                </tbody>
             </table>
                     
                     </td>
@@ -98,11 +125,15 @@
 </form>
 
 <script type="text/html" id="needKnowTemp">
-<tr class="needKnow">
-       <td><input type="text" class="form-control extra-info-item-title" placeholder="简介"></td>
-       <td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
-		<td><button type="button"  class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
-</tr>
+    <tr class="needKnow">
+        <td><input type="text" name="needKnow.frontNeedKnow[$index].title" class="form-control extra-info-item-title"
+                   placeholder="费用包含"></td>
+        <td><textarea name="needKnow.frontNeedKnow[$index1].content" class="form-control extra-info-item-text"
+                      rows="3"></textarea></td>
+        <td>
+            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+        </td>
+    </tr>
 </script>
 
 <script>
@@ -128,21 +159,22 @@
 	 })
 		
      var LOGOUploadCallBack = function(data){
-            if(data && data.status == 200){
-    		    console.log(data.data);
-                $('#LOGOReturnInput').val(data.data);
-                $('#LOGOReturnInputImg').attr('src',tfsRootPath + data.data);
-    
-            }else{
-                layer.msg('图片上传失败，请重试', {icon: 2});
-            }
+        if(data && data.status == 200){
+		    console.log(data.data);
+            $('#LOGOReturnInput').val(data.data);
+            $('#LOGOReturnInputImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
      }
 	
+	//概况的
 	var conTr =$(".needKnow").length;
 	$(".addNeedKnow").unbind("click").click(function () {
     	var addhtml="";
     	var html1 = $("#needKnowTemp").html();
-    	var i = conTr++;
+    	var i = ++conTr;
     	addhtml = addhtml + html1.replace('$index', i).replace('$index1', i);
     	$(".needKnowTable").prev().append(addhtml);
 	});	
@@ -151,14 +183,67 @@
 		$(obj).parent().parent().remove(); 
  	}
  	
+ 	//保存的
  	$('#btnSubmit').click(function(){
     	//if($("#hotelForm").valid()) {}
         $(this).prop('disabled', true);
         	var actionUrl = actionDefaultPath + '/B2C/trip/add';
             $('#hotelForm').attr('action', actionUrl);
-            alert(actionUrl);
-            $('#hotelForm').submit();
+            //alert(actionUrl);
+            //$('#hotelForm').submit();
+         var obj={};
+         obj.tripBo={};
+         obj.tripDetail=[];
+           
+           var cityId=$('select option:selected').attr("value");
+           var cityLevel=$('select option:selected').attr("level");
+           var tag="";
+           var coverURL=$("#FMReturnInput").val();
+           var destinationLogoURL=$("#LOGOReturnInput").val();
+          
+           obj.tripBo.cityid=cityId;
+           obj.tripBo.cityLevel=cityLevel;
+           obj.tripBo.tag="1";
+           obj.tripBo.coverURL=coverURL;
+           obj.tripBo.destinationLogoURL=destinationLogoURL;
+           
+           
+           
+           
+           
+            var parts={};
+            var parts1={};
+            parts1.id="1";
+            parts1.title="1-1-title";
+            parts1.content="1-1-content";
+            
+            parts.id="2";
+            parts.title="2-1-title";
+            parts.content="2-1-content";
+            
+            obj.tripDetail.push(parts);
+            obj.tripDetail.push(parts1);
+            console.log("obj="+obj);
+            console.log(JSON.stringify(obj));
         });
+        
+    	$("#cityId").focus( function(){
+    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"3"} ,function(data){
+	    	if(data.status == 200){
+	    	var html="";
+	    		$.each(data.data, function(n,val){ 
+                   console.log("data:"+val.id+"  _"+val.name);
+                   html+="<option level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id+">"+val.name+"</option>"
+                });
+            $("#cityId").html(html);
+	        }else{
+	            var msg = new $.zui.Messager('获取城市列表失败', {placement: 'center',type:'warning',time:'1000'});
+	            msg.show();
+	            $(this).prop('disabled',false);
+	        }                                      
+    	})
+    });
+    
         
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </script>

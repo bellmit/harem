@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.query.HotelListQuery;
@@ -32,6 +33,8 @@ public class TripServiceImpl implements TripService {
 	@Autowired HotelService hotelService;
 	
 	@Autowired ScenicService scenicSpotService;
+	
+	/*@Autowired ComCenterService ComCenterServiceRef;*/
 	
 	
 	public long saveTrip(TripBo tripBo) {
