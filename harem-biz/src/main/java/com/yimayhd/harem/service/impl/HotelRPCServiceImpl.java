@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
@@ -79,6 +80,68 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	public ICResult<Boolean> updateHotelStatus(HotelDO hotelDO) {
 		// TODO Auto-generated method stub
 		return hotelService.updateHotelStatus(hotelDO);
+	}
+
+	@Override
+	public ICResult<Boolean> addHotel(HotelVO hotelVO) {
+		
+		ICResult<Boolean> result = new ICResult<Boolean>();
+		HotelDO hotelDO = null;
+		ICResult<HotelDO> icResult = new ICResult<HotelDO>();
+		
+		//数据转换
+		try {
+			hotelDO = HotelVO.getHotelDO(hotelVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (hotelDO != null) {
+			icResult = hotelService.addHotel(hotelDO);
+		}
+		
+		result.setModule(icResult.isSuccess());
+		
+		return result;
+	}
+
+	@Override
+	public ICResult<Boolean> updateHotel(HotelVO hotelVO) {
+		
+		ICResult<Boolean> result = new ICResult<Boolean>();
+		HotelDO hotelDO = null;
+		ICResult<Boolean> icResult = new ICResult<Boolean>();
+		
+		//数据转换
+		try {
+			hotelDO = HotelVO.getHotelDO(hotelVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (hotelDO != null) {
+			icResult = hotelService.updateHotel(hotelDO);
+		}
+		
+		result.setModule(icResult.isSuccess());		
+		return result;
+	}
+
+	@Override
+	public HotelVO getHotel(long id) {
+		
+		HotelVO hotelVO = null;
+		ICResult<HotelDO> icResult = itemQueryService.getHotel(id);
+		HotelDO hotelDO = icResult.getModule();
+		
+		try {
+			hotelVO = HotelVO.getHotelVO(hotelDO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return hotelVO;
 	}
 
 	

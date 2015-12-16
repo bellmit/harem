@@ -1,7 +1,7 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <form class="form-signin" id="commodityListForm" name="commodityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/commodityManage/list" method="GET" role="form">
-    <div class="inputGroup whole">
+    <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">分类：</button>
@@ -49,9 +49,11 @@
             <button type="reset" class="btn btn-primary">重置</button>
         </div>
     </div>
-    <button type="button" class="btn btn-primary addCommodityBtn">添加商品</button>
-    <button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量启用</button>
-    <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2">批量禁用</button>
+    <div class="btnBottomMargin">
+        <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">添加商品</button>
+        <button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量启用</button>
+        <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2">批量禁用</button>
+    </div>
     <div class="tableGroup whole">
         <table class="table table-hover">
             <thead>
@@ -124,7 +126,7 @@
         });
         $('.commodityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/'+ $(this).attr('commodityId') + '?itemType=' + $(this).attr('itemType');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/edit/'+ $(this).attr('commodityId') + '?itemType=' + $(this).attr('itemType');
                 //TODO
                 window.openwin(url);
             });
@@ -136,20 +138,19 @@
                 $(this).prop('disabled',true);
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/commodityManage/setCommStatus/' + $(this).attr('commodityId') ,{'commStatus':$(this).attr('status')} ,function(data){
                     if(data.status == 200){
-                        layer.alert('操作成功', {
+                        layer.msg('操作成功', {
                             icon: 1,
                             time: 1500
-                        }, function(){
-                            window.location.href = window.location.href;
                         });
+                        setTimeout(function () {
+                            window.location.href = window.location.href;
+                        },1500);
                     }else{
-                        layer.alert('操作失败', {
+                        layer.msg('操作失败', {
                             icon: 2,
                             time: 2000
-                        }, function(){
-                            $(this).prop('disabled',false);
                         });
-
+                        $(this).prop('disabled',false);
                     }
                 })
             });
@@ -170,36 +171,36 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
-            if(arr.length == 0){
-                layer.alert('请选择需要修改的记录', {
+            if(arr.length < 1){
+                layer.msg('请选择需要修改的记录', {
                     icon: 2,
                     time: 2000
-                }, function(){
-                    $(this).prop('disabled',false);
                 });
+                $(this).prop('disabled',false);
+                return false;
             }
             $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/commodityManage/setCommStatusList',{commIdList:arr,commStatus:$(this).attr('btnType')},function(data){
                 if(data&&data.status == 200){
-                    layer.alert('操作成功', {
+                    layer.msg('操作成功', {
                         icon: 1,
                         time: 1500
-                    }, function(){
-                        window.location.href = window.location.href;
                     });
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1500);
                 }else{
-                    layer.alert('操作失败', {
+                    layer.msg('操作失败', {
                         icon: 2,
                         time: 2000
-                    }, function(){
-                        $(this).prop('disabled',false);
                     });
+                    $(this).prop('disabled',false);
                 }
             })
         });
         //新建
         $('.addCommodityBtn').click(function(){
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/toAdd';
-            window.openwin(url);
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/toCategory';
+            top.tabsAdd("addCommodityBtn",url,2,$(this).text())
         });
     });
 </script>

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.service.ScenicService;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.harem.service.CommScenicService;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 
 /**
  * 发布景区（商品）
@@ -18,8 +18,8 @@ import com.yimayhd.ic.client.model.domain.ScenicDO;
 @Controller
 @RequestMapping("/B2C/comm/scenicManage")
 public class CommScenicManageController extends BaseController {
-	 @Autowired
-	 private ScenicService scenicService;
+	@Autowired
+	private CommScenicService commScenicService;
 	 
 
     /**
@@ -41,8 +41,8 @@ public class CommScenicManageController extends BaseController {
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public
-    String edit(ScenicDO scenicDO) throws Exception {
-     
+    String edit(ItemDO itemDo) throws Exception {
+    	/*commScenicService.save(itemDo);*/
         return "/success";
     }
 

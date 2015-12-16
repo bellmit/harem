@@ -22,11 +22,13 @@
 	<bean class="com.yimayhd.harem.service.impl.LiveServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ThemeServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ShowcaseServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.TripServiceImpl"></bean>
 	<!-- 资源管理 -->
 	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
+	
 	
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
@@ -51,4 +53,5 @@
 	<bean class="com.yimayhd.harem.service.impl.SystemManageServiceImpl"/>
 	
 	<bean class="com.yimayhd.harem.service.impl.HotelRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.CommScenicServiceImpl"/>
 </beans>
