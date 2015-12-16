@@ -15,9 +15,12 @@
         <div class="createHotrlTable">
             <table class="table">
                 <tbody>
-                <tr>
+               <tr>
                     <td><span class="spColor">*</span>酒店名称</td>
-                    <td><input type="text" class="inpControl" name="name" placeholder="请输入20个字以内"></td>
+					#if($!{hotel.id})
+						<input type="hidden" name="id" value="$!{hotel.id}">
+					#end
+                    <td><input type="text" class="inpControl" name="name" placeholder="请输入20个字以内" value="$!{hotel.name}"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>选择地址</td>
@@ -59,26 +62,7 @@
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
                     <td>
-                        <div class="phoneNumListTd">
-                            #if(!$!hotel.phoneNumList)
-                                <div>
-                                    <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" placeholder="请输入酒店电话">
-                                    <button class="btn btn-primary delPhoneNum">删除</button>
-                                </div>
-								<div>
-                                    <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" placeholder="请输入酒店电话">
-                                    <button class="btn btn-primary delPhoneNum">删除</button>
-                                </div>
-                            #else
-                                #foreach($phoneNum in $!hotel.phoneNumList)
-                                <div>
-                                    <input type="text" class="inpControl" name="phoneNumList" value="$phoneNum" id="phoneNum" placeholder="请输入酒店电话">
-                                    <button class="btn btn-primary delPhoneNum">删除</button>
-                                </div>
-                                #end
-                            #end
-                        </div>
-                        <button class="btn btn-primary addPhoneNum">添加</button>
+                        <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" value="$!hotel.phoneNum" placeholder="请输入酒店电话">
                     </td>
                 </tr>
                 <tr>

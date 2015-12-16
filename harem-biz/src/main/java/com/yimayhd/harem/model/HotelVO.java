@@ -32,7 +32,7 @@ public class HotelVO extends HotelDO implements Serializable {
         BeanUtils.copyProperties(hotelDO, hotelVO);
         //个性化转换
         hotelVO.setMasterRecommend(JSON.parseObject(hotelDO.getRecommend(), MasterRecommend.class));
-        hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
+        //hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
         hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
         hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));
         FacilityIconServiceImpl facilityIconService = new FacilityIconServiceImpl();
