@@ -21,4 +21,13 @@
         <property name="version" value="${dubbo.import.user.version}"/>
         <property name="check" value="${dubbo.import.consumer.user.check}"/>
     </bean>
+    
+   	<bean id="hotelServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.ic.client.service.item.HotelService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="version" value="${dubbo.import.user.version}"/>
+        <property name="check" value="${dubbo.import.consumer.user.check}"/>
+    </bean>
 </beans>
