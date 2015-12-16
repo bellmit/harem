@@ -1,5 +1,6 @@
 package com.yimayhd.harem.model.travel;
 
+import java.util.Date;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
@@ -71,6 +72,10 @@ public class PackageDay {
 
 	public long getTime() {
 		return time;
+	}
+
+	public Date getDate() {
+		return new Date(this.time);
 	}
 
 	public void setTime(long time) {

@@ -71,7 +71,8 @@ public class PriceInfo {
 						}
 					}
 					if (packageInfo == null) {
-						this.tcs.add(new PackageInfo(tcPair));
+						packageInfo = new PackageInfo(tcPair);
+						this.tcs.add(packageInfo);
 					}
 					// 组装月
 					List<PackageMonth> pms = packageInfo.getMonths();
@@ -87,7 +88,8 @@ public class PriceInfo {
 						}
 					}
 					if (packageMonth == null) {
-						pms.add(new PackageMonth(mTime));
+						packageMonth = new PackageMonth(mTime);
+						pms.add(packageMonth);
 					}
 					// 组装天
 					List<PackageDay> pds = packageMonth.getDays();
@@ -103,7 +105,8 @@ public class PriceInfo {
 						}
 					}
 					if (packageDay == null) {
-						pds.add(new PackageDay(dayPair, dTime));
+						packageDay = new PackageDay(dayPair, dTime);
+						pds.add(packageDay);
 					}
 					// 块
 					List<PackageBlock> pbs = packageDay.getBlocks();
