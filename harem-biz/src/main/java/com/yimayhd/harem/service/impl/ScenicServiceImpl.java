@@ -115,8 +115,6 @@ public class ScenicServiceImpl implements ScenicService {
 	@Override
 	public ICResult<ScenicDO> save(ScenicAddNewDTO addNewDTO) throws Exception {
 		ICResult<ScenicDO> addScenicNew=null;
-		String extraInfoUrl = tfsManager.saveFile((addNewDTO.getNeedKnow().getExtraInfoUrl()).getBytes("utf-8"), null, "html");
-		addNewDTO.getNeedKnow().setExtraInfoUrl(extraInfoUrl);
 		if(0==addNewDTO.getScenic().getId()){
 			addScenicNew = resourcePublishServiceRef.addScenicNew(addNewDTO);
 		}else{
