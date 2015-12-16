@@ -54,4 +54,5 @@
 	
 	<bean class="com.yimayhd.harem.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CommScenicServiceImpl"/>
+	<bean class="com.yimayhd.harem.service.impl.CommActivityServiceImpl"/>
 </beans>
