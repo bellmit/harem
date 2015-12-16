@@ -2,6 +2,8 @@ package com.yimayhd.harem.model.travel;
 
 import java.util.List;
 
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+
 /**
  * 套餐
  * 
@@ -9,9 +11,23 @@ import java.util.List;
  *
  */
 public class PackageInfo {
-	private long type; // 套餐值类型
-	private String name;// 套餐名
+	private long id;
+	private String name;
+	private long PId; // TODO 未对接
+	private int PType; // TODO 未对接
+	private String PTxt; // TODO 未对接
 	private List<PackageMonth> months;
+
+	public PackageInfo() {
+	}
+
+	public PackageInfo(ItemSkuPVPair itemSkuPVPair) {
+		this.id = itemSkuPVPair.getVId();
+		this.name = itemSkuPVPair.getVTxt();
+		this.PId = itemSkuPVPair.getPId();
+		this.PType = itemSkuPVPair.getPType();
+		this.PTxt = itemSkuPVPair.getPTxt();
+	}
 
 	public String getName() {
 		return name;
@@ -29,11 +45,50 @@ public class PackageInfo {
 		this.months = months;
 	}
 
-	public long getType() {
-		return type;
+	public long getId() {
+		return id;
 	}
 
-	public void setType(long type) {
-		this.type = type;
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getPId() {
+		return PId;
+	}
+
+	public void setPId(long pId) {
+		PId = pId;
+	}
+
+	public int getPType() {
+		return PType;
+	}
+
+	public void setPType(int pType) {
+		PType = pType;
+	}
+
+	public String getPTxt() {
+		return PTxt;
+	}
+
+	public void setPTxt(String pTxt) {
+		PTxt = pTxt;
+	}
+
+	/**
+	 * 生成ItemSkuPVPair
+	 * 
+	 * @return
+	 */
+	public ItemSkuPVPair toItemSkuPVPair() {
+		ItemSkuPVPair SKU = new ItemSkuPVPair();
+		SKU.setPId(this.PId);
+		SKU.setPType(this.PType);
+		SKU.setPTxt(this.PTxt);
+		SKU.setVId(this.id);
+		SKU.setVTxt(this.name);
+		return SKU;
 	}
 }

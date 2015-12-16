@@ -9,7 +9,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
@@ -41,19 +40,18 @@ public class PriceInfo {
 		if (CollectionUtils.isNotEmpty(itemSkuList)) {
 			for (ItemSkuDO sku : itemSkuList) {
 				if (StringUtils.isNotBlank(sku.getProperty())) {
-					List<ItemSkuPVPair> pairs = JSON.parseArray(sku.getProperty(), ItemSkuPVPair.class);
-					long pType = 0;
-					String pName = "";
+					List<ItemSkuPVPair> pairs = sku.getItemSkuPVPairList();
+					ItemSkuPVPair tcPair = null;
+					ItemSkuPVPair dayPair = null;
+					ItemSkuPVPair personPair = null;
 					long dTime = 0;
 					long mTime = 0;
-					long dType = 0;
-					String dName = "";
 					for (ItemSkuPVPair itemSkuPVPair : pairs) {
 						if (itemSkuPVPair.getPId() == LinePropertyType.TRAVEL_PACKAGE.getType()) {
-							pType = itemSkuPVPair.getVId();
-							pName = itemSkuPVPair.getVTxt();
+							tcPair = itemSkuPVPair;
 						}
 						if (itemSkuPVPair.getPId() == LinePropertyType.DEPART_DATE.getType()) {
+							dayPair = itemSkuPVPair;
 							dTime = Long.parseLong(itemSkuPVPair.getVTxt());
 							Calendar c = Calendar.getInstance();
 							c.setTimeInMillis(dTime);
@@ -61,23 +59,19 @@ public class PriceInfo {
 							mTime = c.getTimeInMillis();
 						}
 						if (itemSkuPVPair.getPId() == LinePropertyType.PERSON.getType()) {
-							dType = itemSkuPVPair.getVId();
-							dName = itemSkuPVPair.getVTxt();
+							personPair = itemSkuPVPair;
 						}
 					}
 					// 组装套餐
 					PackageInfo packageInfo = null;
 					for (PackageInfo piItem : this.tcs) {
-						if (piItem.getType() == pType) {
+						if (tcPair.getVId() > 0 && tcPair.getVId() == piItem.getId()) {
 							packageInfo = piItem;
 							break;
 						}
 					}
 					if (packageInfo == null) {
-						packageInfo = new PackageInfo();
-						packageInfo.setType(pType);
-						packageInfo.setName(pName);
-						this.tcs.add(packageInfo);
+						this.tcs.add(new PackageInfo(tcPair));
 					}
 					// 组装月
 					List<PackageMonth> pms = packageInfo.getMonths();
@@ -93,9 +87,7 @@ public class PriceInfo {
 						}
 					}
 					if (packageMonth == null) {
-						packageMonth = new PackageMonth();
-						packageMonth.setDate(new Date(mTime));
-						pms.add(packageMonth);
+						pms.add(new PackageMonth(mTime));
 					}
 					// 组装天
 					List<PackageDay> pds = packageMonth.getDays();
@@ -105,15 +97,13 @@ public class PriceInfo {
 					}
 					PackageDay packageDay = null;
 					for (PackageDay pdItem : pds) {
-						if (pdItem.getDate().getTime() == dTime) {
+						if (pdItem.getTime() == dTime) {
 							packageDay = pdItem;
 							break;
 						}
 					}
 					if (packageDay == null) {
-						packageDay = new PackageDay();
-						packageDay.setDate(new Date(dTime));
-						pds.add(packageDay);
+						pds.add(new PackageDay(dayPair, dTime));
 					}
 					// 块
 					List<PackageBlock> pbs = packageDay.getBlocks();
@@ -121,12 +111,8 @@ public class PriceInfo {
 						pbs = new ArrayList<PackageBlock>();
 						packageDay.setBlocks(pbs);
 					}
-					PackageBlock pb = new PackageBlock();
-					pb.setType(dType);
-					pb.setName(dName);
-					pb.setPrice(sku.getPrice());
-					pb.setStock(sku.getStockNum());
-					pbs.add(pb);
+					// TODO discount
+					pbs.add(new PackageBlock(personPair, sku.getPrice(), sku.getStockNum(), 0));
 				}
 			}
 		}
@@ -155,7 +141,7 @@ public class PriceInfo {
 			if (CollectionUtils.isNotEmpty(months)) {
 				List<PackageDay> days = months.get(0).getDays();
 				if (CollectionUtils.isNotEmpty(days)) {
-					return sdf.format(days.get(0).getDate());
+					return sdf.format(new Date(days.get(0).getTime()));
 				}
 			}
 		}
@@ -169,7 +155,7 @@ public class PriceInfo {
 			if (CollectionUtils.isNotEmpty(months)) {
 				List<PackageDay> days = months.get(months.size() - 1).getDays();
 				if (CollectionUtils.isNotEmpty(days)) {
-					return sdf.format(days.get(days.size() - 1).getDate());
+					return sdf.format(new Date(days.get(days.size() - 1).getTime()));
 				}
 			}
 		}
@@ -179,13 +165,42 @@ public class PriceInfo {
 	public ItemDO toItemDO() {
 		ItemDO itemDO = new ItemDO();
 		itemDO.setId(this.itemId);
-		ItemFeature feature = new ItemFeature(null);
-		feature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.limit);
-		itemDO.setFeature(JSON.toJSONString(feature));
+		ItemFeature itemFeature = new ItemFeature(null);
+		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.limit);
+		itemDO.setItemFeature(itemFeature);
 		return itemDO;
 	}
 
 	public List<ItemSkuDO> toItemSkuDOList() {
-		return null;
+		List<ItemSkuDO> itemSkuDOs = new ArrayList<ItemSkuDO>();
+		if (CollectionUtils.isNotEmpty(this.tcs)) {
+			for (PackageInfo packageInfo : this.tcs) {
+				ItemSkuPVPair itemSkuPVPair1 = packageInfo.toItemSkuPVPair();
+				if (CollectionUtils.isNotEmpty(packageInfo.getMonths())) {
+					for (PackageMonth packageMonth : packageInfo.getMonths()) {
+						if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
+							for (PackageDay packageDay : packageMonth.getDays()) {
+								ItemSkuPVPair itemSkuPVPair2 = packageDay.toItemSkuPVPair();
+								if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
+									for (PackageBlock packageBlock : packageDay.getBlocks()) {
+										ItemSkuPVPair itemSkuPVPair3 = packageBlock.toItemSkuPVPair();
+										List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>();
+										itemSkuPVPairs.add(itemSkuPVPair1);
+										itemSkuPVPairs.add(itemSkuPVPair2);
+										itemSkuPVPairs.add(itemSkuPVPair3);
+										ItemSkuDO itemSkuDO = new ItemSkuDO();
+										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
+										itemSkuDO.setPrice(packageBlock.getPrice());
+										itemSkuDO.setStockNum(packageBlock.getStock());
+										itemSkuDOs.add(itemSkuDO);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return itemSkuDOs;
 	}
 }

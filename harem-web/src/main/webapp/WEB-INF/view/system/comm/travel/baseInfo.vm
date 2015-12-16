@@ -143,6 +143,8 @@
     </div>
 	<script type="text/javascript">
 		$(function(){
+			document.doamin="test.yimayholiday.com";
+			alert(document.doamin);
             //上传图片
             $(document).delegate("#productImageFile",'change',function(){
                 fileUpload('#productImageFile',1,function(data){
