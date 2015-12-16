@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
+import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
-import com.yimayhd.ic.client.model.result.item.LineResult;
 
 /**
  * 价格信息
@@ -27,14 +26,15 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
 public class PriceInfo {
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
+	private long itemId;
 
 	public PriceInfo() {
 	}
 
-	public PriceInfo(LineResult lineResult) {
-		List<ItemSkuDO> itemSkuList = lineResult.getItemSkuDOList();
-		if (StringUtils.isNotBlank(lineResult.getItemDO().getFeature())) {
-			ItemFeature feature = new ItemFeature(lineResult.getItemDO().getFeature());
+	public PriceInfo(ItemDO itemDO, List<ItemSkuDO> itemSkuList) {
+		this.itemId = itemDO.getId();
+		if (itemDO != null && StringUtils.isNotBlank(itemDO.getFeature())) {
+			ItemFeature feature = new ItemFeature(itemDO.getFeature());
 			this.limit = feature.getStartBookTimeLimit() / (3600 * 24);
 		}
 		this.tcs = new ArrayList<PackageInfo>();
@@ -174,5 +174,18 @@ public class PriceInfo {
 			}
 		}
 		return "";
+	}
+
+	public ItemDO toItemDO() {
+		ItemDO itemDO = new ItemDO();
+		itemDO.setId(this.itemId);
+		ItemFeature feature = new ItemFeature(null);
+		feature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.limit);
+		itemDO.setFeature(JSON.toJSONString(feature));
+		return itemDO;
+	}
+
+	public List<ItemSkuDO> toItemSkuDOList() {
+		return null;
 	}
 }

@@ -1,10 +1,12 @@
 package com.yimayhd.harem.model.travel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
+import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
 /**
@@ -28,7 +30,7 @@ public abstract class BaseTravel {
 			this.baseInfo.setTripImage(route.getPicture());
 		}
 		parseTripInfo(lineResult);
-		this.priceInfo = new PriceInfo(lineResult);
+		this.priceInfo = new PriceInfo(lineResult.getItemDO(), lineResult.getItemSkuDOList());
 	}
 
 	protected abstract void parseTripInfo(LineResult lineResult);
@@ -49,4 +51,33 @@ public abstract class BaseTravel {
 		this.priceInfo = priceInfo;
 	}
 
+	/**
+	 * 获得线路发布DTO
+	 * 
+	 * @return
+	 */
+	public LinePublishDTO toLinePublishDTO() {
+		LinePublishDTO dto = new LinePublishDTO();
+		if (baseInfo != null) {
+			// TODO 转化baseInfo
+			dto.setLineDO(baseInfo.toLineDO());
+			setRouteInfo(dto);
+		}
+		if (priceInfo != null) {
+			dto.setItemDO(priceInfo.toItemDO());
+			dto.setItemSkuDOList(priceInfo.toItemSkuDOList());
+		}
+		return dto;
+	}
+
+	/**
+	 * 获得商品标签
+	 * 
+	 * @return
+	 */
+	public List<Long> getTagIdList() {
+		return baseInfo != null ? baseInfo.getTags() : new ArrayList<Long>();
+	}
+
+	public abstract void setRouteInfo(LinePublishDTO dto);
 }

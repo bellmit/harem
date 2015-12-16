@@ -1,10 +1,11 @@
 package com.yimayhd.harem.model.travel.selfServiceTravel;
 
 import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
 /**
- * 跟团游
+ * 自由行
  * 
  * @author yebin
  *
@@ -26,4 +27,9 @@ public class SelfServiceTravel extends BaseTravel {
 		this.tripPackageInfo = tripPackageInfo;
 	}
 
+	@Override
+	public void setRouteInfo(LinePublishDTO dto) {
+		// TODO Auto-generated method stub
+
+	}
 }

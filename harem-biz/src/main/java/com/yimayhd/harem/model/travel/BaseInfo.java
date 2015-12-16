@@ -11,6 +11,7 @@ import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
+import com.yimayhd.resourcecenter.model.enums.RegionLevel;
 
 /**
  * 基本信息
@@ -24,14 +25,18 @@ public class BaseInfo {
 	private String name;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
-	private List<IdNamePair> tags;// 标签
+	private List<Long> tags;// 标签
+	private long fromLevel;
 	private long fromId;// 出发地
+	private String fromName;
+	private long toLevel;
 	private long toId;// 目的地
+	private String toName;
 	private int publisherType;// 发布者类型
 	private long publisherId;// 发布者Id
 	private String highlights;// 亮点
 	private MasterRecommend recommond;// 代言
-	private List<ExtraInfo> extraInfos;// 报名须知
+	private List<TextItem> extraInfos;// 报名须知
 
 	public BaseInfo() {
 	}
@@ -41,10 +46,10 @@ public class BaseInfo {
 		this.type = line.getType();
 		this.name = line.getName();
 		this.productImage = line.getCoverUrl();
-		tags = new ArrayList<IdNamePair>();
+		tags = new ArrayList<Long>();
 		if (comTagDOs != null) {
 			for (ComTagDO comTagDO : comTagDOs) {
-				tags.add(new IdNamePair(comTagDO.getId(), comTagDO.getName()));
+				tags.add(comTagDO.getId());
 			}
 		}
 		if (line.getStartProvinceId() > 0) {
@@ -65,15 +70,9 @@ public class BaseInfo {
 		this.publisherId = line.getOwnerId();
 		this.highlights = line.getDescription();
 		this.recommond = JSON.parseObject(line.getRecommend(), MasterRecommend.class);
-		this.extraInfos = new ArrayList<ExtraInfo>();
 		if (StringUtils.isNotBlank(line.getNeedKnow())) {
 			NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
-			List<TextItem> textItems = needKnow.getFrontNeedKnow();
-			if (textItems != null) {
-				for (TextItem textItem : textItems) {
-					this.extraInfos.add(new ExtraInfo(textItem.getTitle(), textItem.getContent()));
-				}
-			}
+			this.extraInfos = needKnow.getFrontNeedKnow();
 		}
 	}
 
@@ -87,12 +86,7 @@ public class BaseInfo {
 		if (id <= 0 || tags == null || tags.size() <= 0) {
 			return false;
 		}
-		for (IdNamePair tag : tags) {
-			if (id == tag.getId()) {
-				return true;
-			}
-		}
-		return false;
+		return tags.contains(id);
 	}
 
 	public long getId() {
@@ -135,11 +129,11 @@ public class BaseInfo {
 		this.tripImage = tripImage;
 	}
 
-	public List<IdNamePair> getTags() {
+	public List<Long> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<IdNamePair> tags) {
+	public void setTags(List<Long> tags) {
 		this.tags = tags;
 	}
 
@@ -157,14 +151,6 @@ public class BaseInfo {
 
 	public void setHighlights(String highlights) {
 		this.highlights = highlights;
-	}
-
-	public List<ExtraInfo> getExtraInfos() {
-		return extraInfos;
-	}
-
-	public void setExtraInfos(List<ExtraInfo> extraInfos) {
-		this.extraInfos = extraInfos;
 	}
 
 	public long getFromId() {
@@ -199,4 +185,73 @@ public class BaseInfo {
 		this.recommond = recommond;
 	}
 
+	public long getFromLevel() {
+		return fromLevel;
+	}
+
+	public void setFromLevel(long fromLevel) {
+		this.fromLevel = fromLevel;
+	}
+
+	public long getToLevel() {
+		return toLevel;
+	}
+
+	public void setToLevel(long toLevel) {
+		this.toLevel = toLevel;
+	}
+
+	public String getFromName() {
+		return fromName;
+	}
+
+	public void setFromName(String fromName) {
+		this.fromName = fromName;
+	}
+
+	public String getToName() {
+		return toName;
+	}
+
+	public void setToName(String toName) {
+		this.toName = toName;
+	}
+
+	public List<TextItem> getExtraInfos() {
+		return extraInfos;
+	}
+
+	public void setExtraInfos(List<TextItem> extraInfos) {
+		this.extraInfos = extraInfos;
+	}
+
+	public LineDO toLineDO() {
+		LineDO line = new LineDO();
+		line.setId(this.id);
+		line.setType(this.type);
+		line.setName(this.name);
+		line.setCoverUrl(this.productImage);
+		if (this.fromLevel == RegionLevel.PROVINCE.getLevel()) {
+			line.setStartProvinceId(this.fromId);
+		} else if (this.fromLevel == RegionLevel.CITY.getLevel()) {
+			line.setStartCityId(this.fromId);
+		} else if (this.fromLevel == RegionLevel.TOWN.getLevel()) {
+			line.setStartTownId(this.fromId);
+		}
+		if (this.toLevel == RegionLevel.PROVINCE.getLevel()) {
+			line.setDestProvinceId(this.toId);
+		} else if (this.toLevel == RegionLevel.CITY.getLevel()) {
+			line.setDestCityId(this.toId);
+		} else if (this.toLevel == RegionLevel.TOWN.getLevel()) {
+			line.setDestTownId(this.toId);
+		}
+		line.setOwnerType(this.publisherType);
+		line.setOwnerId(this.publisherId);
+		line.setDescription(this.highlights);
+		line.setRecommend(JSON.toJSONString(this.recommond));
+		NeedKnow needKnow = new NeedKnow();
+		needKnow.setFrontNeedKnow(this.extraInfos);
+		line.setNeedKnow(JSON.toJSONString(needKnow));
+		return line;
+	}
 }
