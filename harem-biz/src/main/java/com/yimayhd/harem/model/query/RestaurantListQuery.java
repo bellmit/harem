@@ -17,66 +17,53 @@ public class RestaurantListQuery extends BaseQuery {
 	 */
 	private static final long serialVersionUID = -872735064959961097L;
 	private String name;// 名称
-	private Integer state;// 状态
+	private Integer status;// 状态
 	private String provinceCode;// 省
 	private Region cityCode;// 市
-	private String contact;// 联系人
-	private Date createBeginDate;// 创建日期_开始时间
-	private Date createEndDate;// 创建日期_结束时间
-
+	private String personOrPhone;// 联系人
+	private Date beginTime;// 创建日期_开始时间
+	private Date endTime;// 创建日期_结束时间
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Integer getState() {
-		return state;
+	public Integer getStatus() {
+		return status;
 	}
-
-	public void setState(Integer state) {
-		this.state = state;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
-
 	public String getProvinceCode() {
 		return provinceCode;
 	}
-
 	public void setProvinceCode(String provinceCode) {
 		this.provinceCode = provinceCode;
 	}
-
 	public Region getCityCode() {
 		return cityCode;
 	}
-
 	public void setCityCode(Region cityCode) {
 		this.cityCode = cityCode;
 	}
-
-	public String getContact() {
-		return contact;
+	public String getPersonOrPhone() {
+		return personOrPhone;
+	}
+	public void setPersonOrPhone(String personOrPhone) {
+		this.personOrPhone = personOrPhone;
+	}
+	public Date getBeginTime() {
+		return beginTime;
+	}
+	public void setBeginTime(Date beginTime) {
+		this.beginTime = beginTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-
-	public Date getCreateBeginDate() {
-		return createBeginDate;
-	}
-
-	public void setCreateBeginDate(Date createBeginDate) {
-		this.createBeginDate = createBeginDate;
-	}
-
-	public Date getCreateEndDate() {
-		return createEndDate;
-	}
-
-	public void setCreateEndDate(Date createEndDate) {
-		this.createEndDate = createEndDate;
-	}
 }
