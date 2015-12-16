@@ -2,17 +2,12 @@ package com.yimayhd.harem.controller;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 
@@ -52,35 +47,7 @@ public class CommScenicManageController extends BaseController {
     }
 
     
-    /**
-     * 选择景区
-     * @return 景区
-     * @throws Exception
-     */
-    @RequestMapping("/scenicList")
-	public String supplierList(){
-    	return "/system/comm/scenic/scenicSpotList";
-    }
-    
-    /**
-     * 景区列表
-     * @return 景区
-     * @throws Exception
-     */
-    @RequestMapping("/scenicListTable")
-	public String supplierListTable(ModelMap model){
-    	List<ScenicDO> list = new ArrayList<ScenicDO>();
-    	for (int i = 0; i < 5; i++) {
-    		ScenicDO scenic = new ScenicDO();
-    		scenic.setName("景区"+i);
-    		scenic.setStatus(1);
-    		scenic.setId(i);
-    		list.add(scenic);
-		}
-    	model.addAttribute("scenicList", list);
-    	return "/system/comm/scenic/scenicSpotListTable";
-    }
-    
+  
     
     
 }

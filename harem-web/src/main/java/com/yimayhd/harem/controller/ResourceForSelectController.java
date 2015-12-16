@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -97,16 +98,37 @@ public class ResourceForSelectController extends BaseController {
 	public String selectScenic() throws Exception {
 		return "/system/resource/forSelect/selectScenic";
 	}
-
+	
+	
 	/**
 	 * 选择景区
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectOneScenic")
+	@RequestMapping(value = "/selectScenicOne")
 	public String selectOneScenic() throws Exception {
 		return "/system/resource/forSelect/selectOneScenic";
+	}
+	
+
+	/**
+	 * 选择景区
+	 * @return 
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectOneScenic")
+	public @ResponseBody Map<String, Object> selectOneScenic(Model model, ScenicPageQuery scenicPageQuery,Integer pageNumber) throws Exception {
+		if(pageNumber!=null){
+			scenicPageQuery.setPageNo(pageNumber);
+		}
+		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", scenicPageQuery);
+		return result;
 	}
 
 	/**

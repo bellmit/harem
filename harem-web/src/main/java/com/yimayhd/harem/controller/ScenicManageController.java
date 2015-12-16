@@ -49,6 +49,12 @@ public class ScenicManageController extends BaseController {
 		return "/system/scenicSpot/list";
 	}
 
+
+	
+	
+	
+
+	
 	/**
 	 * 新增景区（资源）
 	 * 
@@ -135,5 +141,8 @@ public class ScenicManageController extends BaseController {
 		scenicSpotService.batchupdateStatus(scenicIdList,scenicStatus);
 		return new ResponseVo();
 	}
+	
+	
+	
 
 }
