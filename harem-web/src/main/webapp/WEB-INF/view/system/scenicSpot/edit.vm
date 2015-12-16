@@ -233,7 +233,7 @@
 
         var addhtml = "";
         var html1 = $("#needKnowTemp").html();
-        var i = conTr++;
+        var i = ++conTr;
         addhtml = addhtml + html1.replace('$index', i).replace('$index1', i);
         $(".needKnowTable").prev().append(addhtml);
     });
