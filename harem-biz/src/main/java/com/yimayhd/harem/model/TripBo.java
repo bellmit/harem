@@ -3,7 +3,7 @@ package com.yimayhd.harem.model;
 import java.io.Serializable;
 import java.util.List;
 
-import com.yimayhd.harem.model.TripBo.TripDetail;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 
 
 /** 
@@ -16,6 +16,7 @@ public class TripBo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public int id; /** id */
+	
 	public String cityName; /**目的地名称 */
 	public String cityCode; /** */
 	public int cityLevel; /** 级别 省市区 */
@@ -23,7 +24,17 @@ public class TripBo implements Serializable {
 	public String logoURL; /** 封面图 */
 	public String coverURL; /** 目的地图 */
 	public int type;/** 1出发地，2目的地*/
-	public List<TripDetail> TripDetail; /** 概况 */
+	
+	//public List<NeedKnow> needKnowList; /** 概况 */
+	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
+	public NeedKnow gaikuang; /** 概况 */
+	
+	public NeedKnow minsu; /** 民俗 */
+	
+	public NeedKnow xiaofei; /** 消费 */
+	
+	public NeedKnow tieshi; /** 贴示 */
+	
 	//---以下关联id，以数组方式存放-----------------------------------------------
 	public int[] biMai;/** 必买推荐 */
 	public int[] biQu;/** 必去景点*/
@@ -31,47 +42,6 @@ public class TripBo implements Serializable {
 	public int[] zhiBo;/** 精选直播*/
 	public int[] xianLu;/** 线路*/
 	
-	
-	
-	public class TripDetail  implements Serializable {
-		
-		private static final long serialVersionUID = 1L;
-		
-		int id; /** id */
-		String title; /** 标题*/
-		String content; /** 内容 */
-		int sort; /** 排序 */
-		public int getId() {
-			return id;
-		}
-		public void setId(int id) {
-			this.id = id;
-		}
-		public String getTitle() {
-			return title;
-		}
-		public void setTitle(String title) {
-			this.title = title;
-		}
-		public String getContent() {
-			return content;
-		}
-		public void setContent(String content) {
-			this.content = content;
-		}
-		public int getSort() {
-			return sort;
-		}
-		public void setSort(int sort) {
-			this.sort = sort;
-		}
-		
-	}
-
-
-
-	
-
 	public int getId() {
 		return id;
 	}
@@ -81,7 +51,8 @@ public class TripBo implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
+	
 
 
 	public String getCityName() {
@@ -144,18 +115,6 @@ public class TripBo implements Serializable {
 
 
 
-	public List<TripDetail> getTripDetail() {
-		return TripDetail;
-	}
-
-
-
-	public void setTripDetail(List<TripDetail> tripDetail) {
-		TripDetail = tripDetail;
-	}
-
-
-
 	public int[] getTag() {
 		return tag;
 	}
@@ -175,6 +134,8 @@ public class TripBo implements Serializable {
 	public void setType(int type) {
 		this.type = type;
 	}
+	
+
 
 	public int[] getBiMai() {
 		return biMai;
@@ -234,4 +195,68 @@ public class TripBo implements Serializable {
 		this.xianLu = xianLu;
 	}
 
+
+
+	public NeedKnow getGaikuang() {
+		return gaikuang;
+	}
+
+
+
+	public void setGaikuang(NeedKnow gaikuang) {
+		this.gaikuang = gaikuang;
+	}
+
+
+
+	public NeedKnow getMinsu() {
+		return minsu;
+	}
+
+
+
+	public void setMinsu(NeedKnow minsu) {
+		this.minsu = minsu;
+	}
+
+
+
+	public NeedKnow getXiaofei() {
+		return xiaofei;
+	}
+
+
+
+	public void setXiaofei(NeedKnow xiaofei) {
+		this.xiaofei = xiaofei;
+	}
+
+
+
+	public NeedKnow getTieshi() {
+		return tieshi;
+	}
+
+
+
+	public void setTieshi(NeedKnow tieshi) {
+		this.tieshi = tieshi;
+	}
+
+
+
+	/*public List<NeedKnow> getNeedKnowList() {
+		return needKnowList;
+	}
+
+
+
+	public void setNeedKnowList(List<NeedKnow> needKnowList) {
+		this.needKnowList = needKnowList;
+	}
+	 */
+
+
+	
+	
 }

@@ -27,7 +27,7 @@
 </ul>
 
 <div class="tab-content grogInfoWrap"  style="">
-    <div class="tab-pane" id="mddInfo">
+    <div class="tab-pane active" id="mddInfo">
             #parse("/system/trip/add_destination/destination_base_info.vm")
     </div>
     	
