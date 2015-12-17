@@ -33,11 +33,12 @@
                 <tr>
                     <th>序号</th>
                     <th>交易编号</th>
+                    <th>单号</th>
                     <th>部门</th>
                     <th>工号</th>
                     #*<th>终端编号</th>*#
                     <th>实际退款金额</th>
-                    <th>付款金额</th>
+                    #*<th>付款金额</th>*#
                     <th>退款时间</th>
                     <th>小票时间</th>
                     <th>查看</th>
@@ -48,14 +49,15 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!refund.tradeId</td>
+                        <td>$!refund.number</td>
                         <td>$!refund.department</td>
                         <td>$!refund.jobNumber</td>
                         #*<td>$!refund.terminalNumber</td>*#
                         <td>$!utilNum.moneyTransform($!refund.refundPayment)</td>
-                        <td>$!utilNum.moneyTransform($!refund.payment)</td>
+                       #* <td>$!utilNum.moneyTransform($!refund.payment)</td>*#
                         <td>$!utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>$!utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm")</td>
-                        <td><a class="orderLink" orderId="$!refund.tradeId" href="javascript:void(0);">订单详情</a></td>
+                        <td><a class="refundLink" refundId="$!refund.id" href="javascript:void(0);">订单详情</a></td>
                     </tr>
                     #end
                 </tbody>
@@ -104,8 +106,8 @@
                 format: "yyyy-mm-dd"
             });
     $(function(){
-        $('.orderLink').click(function(){
-            top.tabsAdd('',actionDefaultPath + '/trade/tradeManage/order/' + $(this).attr('orderId'),2,$(this).text());
+        $('.refundLink').click(function(){
+            top.tabsAdd('',actionDefaultPath + '/trade/refundManage/order/' + $(this).attr('refundId'),2,$(this).text());
         });
 
         $('#btnSubmit').click(function(){

@@ -10,6 +10,7 @@ import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.harem.service.RefundService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.excel.JxlFor2003;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundDetailDO;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import com.yimayhd.user.session.manager.SessionUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -18,6 +19,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -66,6 +68,21 @@ public class RefundManageController extends BaseController {
 		model.addAttribute("refundList", null == pageVO ? null : pageVO.getItemList());
 		return "/system/refund/list";
 	}
+
+	/**
+	 * 交易详情(退款)
+	 *
+	 * @return 交易详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
+	public String getById(Model model,@PathVariable(value = "orderId") long refundId) throws Exception {
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		List<IMallRefundDetailDO> iMallRefundDetailDOList = refundService.getOrderByRecordId(sellerId,refundId);
+		model.addAttribute("refundDetailList",iMallRefundDetailDOList);
+		return "/system/refund/detail";
+	}
+
 	/**
 	 * 导出退款列表
 	 * @throws Exception
@@ -90,10 +107,10 @@ public class RefundManageController extends BaseController {
 		if(CollectionUtils.isNotEmpty(iMallRefundRecordExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("tradeId", "交易编号"));
+			headList.add(new BasicNameValuePair("number", "单号"));
 			headList.add(new BasicNameValuePair("department", "部门"));
 			headList.add(new BasicNameValuePair("jobNumber", "工号"));
 			headList.add(new BasicNameValuePair("refundPaymentY", "实际退款金额"));
-			headList.add(new BasicNameValuePair("paymentY", "付款金额"));
 			headList.add(new BasicNameValuePair("refundTime", "退款时间"));
 			headList.add(new BasicNameValuePair("receiptTime", "小票时间"));
 			JxlFor2003.exportExcel(response, "退款列表.xls", iMallRefundRecordExportVOList, headList);

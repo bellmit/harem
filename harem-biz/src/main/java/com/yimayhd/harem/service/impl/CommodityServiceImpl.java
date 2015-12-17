@@ -1,10 +1,19 @@
 package com.yimayhd.harem.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.exception.NoticeException;
+import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -15,8 +24,11 @@ import java.util.List;
  * Created by Administrator on 2015/11/24.
  */
 public class CommodityServiceImpl implements CommodityService {
+    private static final Logger log = LoggerFactory.getLogger(CommodityServiceImpl.class);
     @Autowired
     private ItemQueryService itemQueryServiceRef;
+    @Autowired
+    private ItemPublishService itemPublishServiceRef;
     @Override
     public List<ItemDO> getList() throws Exception {
         List<ItemDO> itemDOList = new ArrayList<ItemDO>();
@@ -56,7 +68,13 @@ public class CommodityServiceImpl implements CommodityService {
         itemOptionDTO.setNeedCategory(true);
         itemOptionDTO.setNeedSku(true);
         ItemResult itemResult = itemQueryServiceRef.getItem(id,itemOptionDTO);
-
+        if(null != itemResult){
+            log.error("itemQueryService.getItem return value is null ! id is : " + id);
+            return null;
+        }else if(itemResult.isSuccess()){
+            log.error("itemQueryService.getItem return value error ! returnValue : "+ JSON.toJSONString(itemResult));
+            throw new NoticeException(itemResult.getResultMsg());
+        }
         return itemResult;
     }
 
@@ -98,5 +116,20 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public void setCommStatus(long id, int status) throws Exception {
 
+    }
+
+    @Override
+    public void addCommonItem(ItemVO itemVO) throws Exception {
+        //参数类型匹配
+        CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
+        commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
+        commonItemPublishDTO.setItemDO(ItemVO.getItemDO(itemVO));
+        ItemPubResult itemPubResult = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
+        if(null == itemPubResult){
+            log.error("ItemPublishService.publishCommonItem result is null");
+        } else if(!itemPubResult.isSuccess()){
+            log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException(itemPubResult.getResultMsg());
+        }
     }
 }

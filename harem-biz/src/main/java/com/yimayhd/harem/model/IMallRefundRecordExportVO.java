@@ -26,6 +26,7 @@ public class IMallRefundRecordExportVO implements Serializable {
     private Date receiptTime;
     private Date gmtCreated;
     private Date gmtModified;
+    private String number;
     private double paymentY;//付款金额元
     private double refundPaymentY;//退款金额元
 
@@ -164,5 +165,13 @@ public class IMallRefundRecordExportVO implements Serializable {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }
