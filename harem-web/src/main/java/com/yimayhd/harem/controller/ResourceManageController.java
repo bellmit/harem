@@ -46,7 +46,7 @@ public class ResourceManageController extends BaseController {
 	
 	@RequestMapping(value = "/restaurant/list2", method = RequestMethod.GET)
 	public String restaurantList2(RestaurantListQuery restaurantListQuery) throws Exception {
-		PageVO<RestaurantDO> pageVo = restaurantService.getListByPage(restaurantListQuery);
+		PageVO<RestaurantDO> pageVo = restaurantRPCService.pageQueryHotel(restaurantListQuery);
 		System.out.println(JSON.toJSONString(pageVo));
 		put("pageVo", pageVo);
 		put("query", restaurantListQuery);
