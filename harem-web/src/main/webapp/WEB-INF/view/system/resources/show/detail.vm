@@ -10,7 +10,6 @@
             <div class="tab-pane active" id="tab1">
                 <div class="createClubTable">
                     <table class="table">
-                        <tbody>
                         <tr>
                             <td><span class="spColor">*</span>标题</td>
                             <td>

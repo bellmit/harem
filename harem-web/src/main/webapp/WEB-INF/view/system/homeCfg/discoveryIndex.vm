@@ -18,7 +18,6 @@
             <form id="itemForm" action="" method="post">
                 <div class="createClubTable">
                     <table class="table">
-                        <tbody>
                         <tr>
                             <td><span class="spColor">*</span>副标题</td>
                             <td>
@@ -27,17 +26,13 @@
                                 <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!discoveryCfg.itemList.boothDesc"><button type="button" class="btn btn-success selectItemBtn">选择伴手礼</button>
                             </td>
                         </tr>
-                        </tbody>
                     </table>
                     <table class="table itemTable">
-                    	<thead>
                     	<tr>
                             <td>商品名称</td>
                             <td>图片</td>
                             <td>操作</td>
                         </tr>
-                    	</thead>
-                    	<tbody>
 							#foreach($item in $discoveryCfg.itemList.cfgInfoList)
 								<tr >
 									<td>$item.itemTitle</td>
@@ -49,7 +44,6 @@
     								<td class='delItem'><a>删除</a></td>
 								</tr>
 							#end
-                    	</tbody>
                     </table>
                 </div>
                  <div class="clubBotBtn">
@@ -75,7 +69,6 @@
                                     <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!discoveryCfg.travelSpecialList.boothDesc"> <button type="button" class="btn btn-success selectTravelSpecialBtn">选择游记</button>
                                 </td>
                             </tr>
-                            </tbody>
                         </table>
                         <table class="table travelSpecialTable">
                         	<thead>
@@ -84,15 +77,12 @@
                                 <td>用户</td>
                                 <td>操作</td>
                             </tr>
-                        	</thead>
-                        	<tbody>
 								#foreach($travelSpecia in $discoveryCfg.travelSpecialList.cfgInfoList)
 									<tr>
 										<td><input type='hidden' name='itemIds' value='$!travelSpecia.itemId'>$!travelSpecia.itemTitle</td>
 										<td>$!travelSpecia.extName</td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
-                        	</tbody>
                         </table>
                     </div>
                      <div class="clubBotBtn">
@@ -109,7 +99,6 @@
             <form id="subjectForm" action="" method="post">
                     <div class="createClubTable">
                         <table class="table">
-                            <tbody>
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
@@ -118,16 +107,12 @@
                                     <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!discoveryCfg.subjectList.boothDesc"> <button type="button" class="btn btn-success selectSubjectBtn">选择直播</button>
                                 </td>
                             </tr>
-                            </tbody>
                         </table>
                         <table class="table subjectTable">
-                        	<thead>
                         		<tr>
                                 <td>直播名称</td>
                                 <td>操作</td>
                             </tr>
-                        	</thead>
-                        	<tbody>
 								
 								#foreach($subject in $discoveryCfg.subjectList.cfgInfoList)
 									<tr >
@@ -137,8 +122,6 @@
 										<td class='delItem'><a>删除</a></td>
 									</tr>
 								#end
-								
-                        	</tbody>
                         </table>
                     </div>
                      <div class="clubBotBtn">
@@ -187,7 +170,7 @@
                     		"<td class='delItem'><a>删除</a></td></tr>";
                     		_uploadImg("itemImg_"+resultValue[i].id);
                     	}
-                    	$(".itemTable").find("tbody").append(tr);
+                    	$(".itemTable").append(tr);
                     	
                     	 layer.close(index);
                     }
@@ -221,7 +204,7 @@
                     		"<td class='delItem'><a>删除</a></td></tr>";
                     		_uploadImg("travelSpecialImg_"+resultValue[i].id);
                     	}
-                    	$(".travelSpecialTable").find("tbody").append(tr);
+                    	$(".travelSpecialTable").append(tr);
                     	
                     	 layer.close(index);
                     }
@@ -251,7 +234,7 @@
                     		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> "+resultValue[i].name+"</td>"+
                     		"<td class='delItem'><a>删除</a></td></tr>";
                     	}
-                    	$(".subjectTable").find("tbody").append(tr);
+                    	$(".subjectTable").append(tr);
                     	
                     	 layer.close(index);
                     }

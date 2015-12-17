@@ -30,7 +30,6 @@
 				#set($tcId = $velocityCount)
 				<div class="tab-pane in #if($tcId==1) active #end" id="tc_$!{tcId}">
 					<table class="table">
-						<tbody>
 							<tr>
 								<td>
 									<div>套餐名称：*<input type="text" id="tc_$!{tcId}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}" p-id="$!{tc.PId}" p-type="$!{tc.PType}" p-txt="$!{tc.PTxt}"></div>
@@ -53,7 +52,6 @@
 										#foreach($month in ${tc.months})
 										<div class="tab-pane in #if($!{tcId}==1) active #end" id="tc_$!{tcId}_month_${month.time}" rTime="$!{month.time}">
 											<table class="table">
-												<tbody>
 													#foreach($day in ${month.days})
 														#set($dayId = $velocityCount)
     													#if((${dayId} - 1) % 2 == 0)
@@ -85,14 +83,12 @@
     												#if($tr == "open")
     												</tr>
     												#end
-												</tbody>
 											</table>
 										</div>
 										#end
 									</div>
 								</td>
 							</tr>
-						</tbody>
 					</table>
 				</div>
 				#end

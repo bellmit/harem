@@ -4,15 +4,12 @@
 
 		<div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
                 <tr>
                     <th><input class="allChecked" name="allChecked" type="checkbox">全选 </th>
                     <td>图片</td>
 					<th>酒店名称</th>
                     <th>操作</th>
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($hotel in $hotelDOList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!{hotel.id}" hotelName="$!{hotel.name}"></td>
@@ -20,7 +17,6 @@
                         <td>$!hotel.name</td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
      #*分页

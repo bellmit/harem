@@ -8,15 +8,12 @@
         <div class="tableGroup whole">
 			
             <table class="table table-hover">
-                <thead>
                     <tr>
                        <th><input type="checkbox" name="checkAll" id="checkAll" value="" /> 全选</th>
 						<th>图片</th>
                         <th>景点名称</th>
                         <th>操作</th>
                     </tr>
-                </thead>
-                <tbody>
                     #foreach($scenic in $scenicDOList.itemList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!scenic.id"></td>
@@ -25,7 +22,6 @@
 						<td>#*<button type="button" class="btn btn-primary scenicDetail" scenicId="$scenic.id">查看</button>*#</td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页

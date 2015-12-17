@@ -9,7 +9,6 @@
         <div class="tableGroup whole">
             <h3>规则历史</h3>
             <table class="table table-hover">
-                <thead>
                 <tr>
                     <th>序号</th>
                     <th>发放规则</th>
@@ -17,8 +16,6 @@
                     #*<th>操作人</th>*#
                     <th>生效时间</th>
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($sendPointRule in $sendPointRuleList)
                     <tr>
                         <td>$!velocityCount</td>
@@ -28,7 +25,6 @@
                         <td>$!utilDate.dateToString($!sendPointRule.beginTime,"yyyy-MM-dd HH:mm:ss")</td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页*#

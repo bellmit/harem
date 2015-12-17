@@ -8,7 +8,6 @@
         <div class="tableGroup whole">
 			
             <table class="table table-hover">
-                <thead>
                     <tr>
                        <th><input type="checkbox" name="checkAll" id="checkAll" value="" /> 全选</th>
                         <th>名称</th>
@@ -17,9 +16,6 @@
 						<th>内容</th>
 						<th>操作</th>
                     </tr>
-                </thead>
-				
-                <tbody>
                     #foreach($region in $recommendedList)
                     <tr>
                         <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!region.showcaseDO.id" /></td>
@@ -31,7 +27,6 @@
                         </td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页*#

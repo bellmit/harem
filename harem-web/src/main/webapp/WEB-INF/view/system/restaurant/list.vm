@@ -52,7 +52,6 @@
         <button type="button" class="btn btn-primary scenicBatchBtn" btnType="2">批量禁用</button>
         <div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
                 <tr>
                     <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
                     <th>餐厅名称</th>
@@ -63,8 +62,6 @@
                     <th>操作</th>
 
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($restaurant in $pageVo.itemList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!restaurant.id"></td>
@@ -89,7 +86,6 @@
                         </td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页*#

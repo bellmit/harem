@@ -4,8 +4,6 @@
 <div class="createClubTable whole">
     <form name="addClub" id="clubForm" action="" method="post" clubId="$!club.id">
         <table class="table">
-            <tbody>
-            
 			 <tr>
                 <td><span class="spColor">*内容（500字以内)</span>
                   <span  class="spColor"> <textarea ></textarea></span>
@@ -130,7 +128,6 @@
                     </div>
                 </td>
             </tr>#*TODO*#
-            </tbody>
         </table>
 		
         <div class="clubBotBtn">

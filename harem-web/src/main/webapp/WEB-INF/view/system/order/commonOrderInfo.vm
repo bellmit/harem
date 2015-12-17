@@ -18,7 +18,6 @@
 <div class="orderBaseInfo">
 	<div>订单基础信息</div>
 	<table class="table table-hover">
-        <tbody>
             <tr>
                 <td>订单编号：</td>
                 <td>$!order.orderNO</td>
@@ -43,22 +42,18 @@
                 <td></td>
                 <td></td>
             </tr>
-        </tbody>
     </table>
 </div>
 <!-- 联系人信息 -->
 <div class="contacts">
 	<div>联系人信息</div>
 	<table class="table table-hover">
-        <thead>
         <tr>
             <th>序号</th>
             <th>姓名</th>
             <th>手机号</th>
             <th>邮箱</th>
         </tr>
-        </thead>
-        <tbody>
             #foreach($contact in $order.contacts)
             <tr>
                 <td>$velocityCount</td>
@@ -67,7 +62,6 @@
                 <td>$!contact.email</td>
             </tr>
             #end
-        </tbody>
     </table>
 </div>
 <!-- 游客信息 -->
@@ -83,8 +77,6 @@
             <th>证件类型</th>
             <th>证件号</th>
         </tr>
-        </thead>
-        <tbody>
             #foreach($tourist in $order.tourists)
             <tr>
                 <td>$velocityCount</td>
@@ -95,6 +87,5 @@
                 <td>$!tourist.docNo</td>
             </tr>
             #end
-        </tbody>
     </table>
 </div>

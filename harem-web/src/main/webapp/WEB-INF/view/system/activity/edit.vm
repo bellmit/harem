@@ -105,7 +105,6 @@
             <div class="tab-pane active" id="tab1">
                 <div class="createClubTable">
                     <table class="table">
-                        <tbody>
                         <tr>
                             <td><span class="spColor">*</span>活动名称</td>
                             <td>
@@ -210,13 +209,11 @@
     		<td>报名须知</td>
 			<td><button type="button" class="btn btn-default add-extra-info-item">增加条目</button>
         	<table class="table">
-				<thead >
             		<tr >
         				<th>标题（10个字以内）</th>
         				<th>内容（500字以内）</th>
         				<th></th>
                     </tr>
-                </thead>
 				<tbody class="extra-info-list">
             		<tr class="extra-info-item">
         				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
@@ -243,7 +240,6 @@
         				<td><textarea class="form-control extra-info-item-text" rows="3"></textarea></td>
 						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
-                </tbody>
             </table>
             </td>
 		
@@ -277,15 +273,12 @@
                                 <td>优惠价</td>
                                 <td>操作</td>
                             </tr>
-                            </thead>
-                            <tbody>
                             <tr>
                                 <td><input type="text" name="" /></td>
                                 <td><input type="text" name="" /></td>
                                 <td><input type="text" name="" /></td>
                                 <td><a href="#" class="deleteActive">删除</a></td>
                             </tr>
-                            </tbody>
                         </table>
                     </label>
                     <label class="radio-inline radioActive">
@@ -309,8 +302,6 @@
                                 <td>优惠价</td>
                                 <td>操作</td>
                             </tr>
-                            </thead>
-                            <tbody>
                             <tr>
                                 <td>亲子</td>
                                 <td>0</td>
@@ -327,7 +318,6 @@
                                 <td>90</td>
                                 <td><a href="#" class="deleteActive">删除</a></td>
                             </tr>
-                            </tbody>
                         </table>
                     </label>
                     <label class="radio-inline radioActive">
@@ -354,8 +344,6 @@
                                 <td>优惠价</td>
                                 <td>操作</td>
                             </tr>
-                            </thead>
-                            <tbody>
                             <tr>
                                 <td>亲子</td>
                                 <td>0</td>
@@ -372,7 +360,6 @@
                                 <td>90</td>
                                 <td><a href="#" class="deleteActive">删除</a></td>
                             </tr>
-                            </tbody>
                         </table>
                     </label>
                 </div>

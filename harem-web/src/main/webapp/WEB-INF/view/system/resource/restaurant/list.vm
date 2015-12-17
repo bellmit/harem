@@ -62,7 +62,6 @@
 		  </div>
         <div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
                     <tr>
                         <th colspan="2"></th>
                         <th>餐厅名称</th>
@@ -71,8 +70,6 @@
                         <th>联系人</th>
                         <th>操作</th>
                     </tr>
-                </thead>
-                <tbody>
                   #foreach($item in $pageVo.itemList)
                     <tr>
                         <td><span>$!item.imageUrl</span></td>
@@ -88,7 +85,6 @@
 						</td>
                     </tr>
 				  #end
-                </tbody>
             </table>
         </div>
     #*分页*#

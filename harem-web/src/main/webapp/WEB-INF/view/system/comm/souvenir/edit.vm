@@ -4,7 +4,6 @@
     <form name="itemForm" id="itemForm" action="" method="post" itemId="$!item.id">
             <div class="">
                 <table class="table">
-                    <tbody>
                     <tr>
                         <td><span class="spColor">*</span>分类</td>
                         <td>
@@ -35,12 +34,10 @@
                         <td>*时间区间</td>
                         <td>用户可选入住时间为<input type="text" name="dateInterval" value="$!item.dateInterval" disabled></td>
                     </tr>
-                    </tbody>
                 </table>
             </div>
             <div class="">
                 <table class="table table-hover">
-                    <thead>
                     <tr>
                         <th>商品名称</th>
                         <th>说明</th>
@@ -50,8 +47,6 @@
                         <th>图片</th>
 
                     </tr>
-                    </thead>
-                    <tbody>
                         <tr class="subCheckedTR">
                             <td><input type="text" name="title" value="$!item.title"></td>
                             <td><input type="text" name="subTitle" value="$!item.subTitle"></td>
@@ -64,7 +59,6 @@
                                 <input class="picUrlVal" type="hidden" name="picUrls" value="$!item.picUrls">
                             </td>
                         </tr>
-                    </tbody>
                 </table>
             </div>
             <div class="clubBotBtn">
@@ -91,7 +85,6 @@
                             $!utilDate.dateToString($!item.gmtModified,"yyyy-MM-dd HH:mm:ss")
                         </td>
                     </tr>
-                    </tbody>
                 </table>
             #end
         </div>

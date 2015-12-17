@@ -5,7 +5,6 @@
 <div class="createClubTable whole">
     <form name="addClub" id="clubForm" action="" method="post" clubId="$!club.id">
         <table class="table">
-            <tbody>
             <tr>
                 <td><span class="spColor">*</span>俱乐部名称</td>
             
@@ -82,7 +81,6 @@
                     </div>
                 </td>
             </tr>
-            </tbody>
         </table>
         <div class="clubBotBtn">
             <div class="btn-group">

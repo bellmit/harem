@@ -95,13 +95,10 @@
     		<div>报名须知</div>
 			<div><button class="btn btn-default add-extra-info-item">增加条目</button></div>
         	<table class="extra-info">
-				<thead >
             		<tr >
         				<th>标题（10个字以内）</th>
         				<th>内容（500字以内）</th>
                     </tr>
-                </thead>
-				<tbody class="extra-info-list">
 					#if($!{product.baseInfo.extraInfos}&&$!{product.baseInfo.extraInfos.size()}>0)
 						#foreach($extraInfo in $!{product.baseInfo.extraInfos})
 					<tr class="extra-info-item">
@@ -137,7 +134,6 @@
 						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
                     </tr>
 					#end
-                </tbody>
             </table>
 		</div>
     </div>

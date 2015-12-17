@@ -13,7 +13,6 @@
         </div>
     </div>
     <table class="table">
-        <tbody>
             <tr>
                 <td>用户信息</td>
                 <td>
@@ -70,7 +69,6 @@
                 <td>IP地址</td>
                 <td>$!trend.ip</td>
             </tr>
-        </tbody>
     </table>
 </div>
 <script>

@@ -72,10 +72,6 @@
         </div>
         <div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
-                <tr>
-                    <td colspan="8" align="center">111</td>
-                </tr>
                 <tr>
                     <th>全选</th>
                     <th>商品</th>
@@ -86,8 +82,6 @@
                     <th>订单金额</th>
                     <th>操作</th>
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($order in $orderList)
 	                <tr>
 	                    <td colspan="8" align="left">订单编号：$!order.orderNO 下单时间：2015-02-15 15:04:05:05</td>
@@ -108,7 +102,6 @@
 	                 </tr>
 	                 #end
                   #end
-                </tbody>
             </table>
         </div>
         #*分页*#

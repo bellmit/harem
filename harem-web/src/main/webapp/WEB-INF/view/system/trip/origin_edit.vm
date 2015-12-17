@@ -6,7 +6,6 @@
 	    <div class="tab-pane active" id="grogshopInfo">
 	        <div class="createHotrlTable">
 	            <table class="table">
-	                <tbody>
 		                <tr>
 		                    <td><span class="spColor">*</span>出发地名称</td>
 		                    <td>
@@ -19,7 +18,6 @@
 		                    <td><input type="hiddent" class="inpControl" name="cityCode"  id="cityCodelId" value="" ></td>
 		                    <td><input type="hiddent" class="inpControl" name="id"  id="cityId" value="" ></td>
 		                </tr>
-	                </tbody>
 	            </table>
 	        </div>
 	    </div>
