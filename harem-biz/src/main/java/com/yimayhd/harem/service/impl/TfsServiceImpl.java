@@ -1,11 +1,18 @@
 package com.yimayhd.harem.service.impl;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.service.TfsService;
+import com.yimayhd.harem.util.HttpRequestUtil;
+import com.yimayhd.harem.util.WebResourceConfigUtil;
 
 /**
  * TFS服务扩展
@@ -36,6 +43,12 @@ public class TfsServiceImpl implements TfsService {
 		}
 		String tfsCode = tfsManager.saveFile(bytes, null, "html");
 		return tfsCode;
+	}
+
+	@Override
+	public String readHtml5(String code) throws Exception {
+		HttpRequestUtil httpRequestUtil = new HttpRequestUtil();
+		return httpRequestUtil.sendGet(WebResourceConfigUtil.getTfsRootPath() + code);
 	}
 
 }

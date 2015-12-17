@@ -9,4 +9,13 @@ public interface TfsService {
 	 * @return tfsCode
 	 */
 	String publishHtml5(String body);
+
+	/**
+	 * 读取Html5
+	 * 
+	 * @param code
+	 * @return
+	 * @throws Exception
+	 */
+	String readHtml5(String code) throws Exception;
 }
