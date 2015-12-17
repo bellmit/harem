@@ -211,6 +211,7 @@
                 </tr>
                 <input type="hidden" class="inpControl" name="type" value="4">
                 <input type="hidden" class="inpControl" id="cityIds" name="id" value="">
+                 <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
             </table>
         </div>
     </div>
@@ -302,6 +303,17 @@
             //alert(actionUrl);
             var cityId=$('select option:selected').attr("value");
             $("#cityIds").val(cityId);
+           
+           var cityCode=""; 
+            var level = $('select option:selected').attr("level");
+            if(level==1){
+            	cityCode=$('select option:selected').attr("provinceCode");
+            }else if(level==2){
+            	cityCode=$('select option:selected').attr("cityCode");
+            }
+             $("#cityCodeId").val(cityCode);
+           
+            
             $('#hotelForm').submit();
         });
         

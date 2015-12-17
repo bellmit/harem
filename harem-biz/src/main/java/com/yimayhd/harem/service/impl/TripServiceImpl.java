@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
@@ -53,9 +54,7 @@ public class TripServiceImpl implements TripService {
 			regionDO.setGmtModified(new Date());
 			regionDO.setStatus(RegionStatus.VALID.getStatus());
 			regionClientServiceRef.updateById(regionDO);
-			if(tripBo.getType()==1){//出发地
-				return regionDO.getId();
-			}else if(tripBo.getType()==2){//目的地
+			if(tripBo.getType()==4){//目的地
 				//保存相应的概况  民俗等信息 
 				List<NeedKnow> list = new ArrayList<NeedKnow>();
 				NeedKnow gaikuang = tripBo.getGaikuang();
@@ -70,30 +69,35 @@ public class TripServiceImpl implements TripService {
 				list.add(minsu);
 				list.add(tieshi);
 				list.add(xiaofei);
-				
+				encaSaveShowCase(list, StringUtils.isEmpty(tripBo.getCityCode())?"test---111":tripBo.getCityCode());
 			}
-			
+			return regionDO.getId();
 		}
 		return 0;
 	}
 	
 	
 	
-	public List<ShowcaseDO> changeNeedknowToShowCase(List<NeedKnow> list ){
-		return null;
-		
-	}
 	
 	
-	public void encaSaveShowCase(List<NeedKnow> list){
-		//.;
+	public void encaSaveShowCase(List<NeedKnow> list,String cityCode){
+		//XXX:根据设计，流程如下：先往rc_booth表插城市的NeedKnow，然后根据返回的id,继续往rc_showcase表中插具体的NeedKnow包含的TextItem信息.
 		for (int i = 1; i < list.size(); i++) {
 			if(null != list.get(i)){
 				NeedKnow nk = list.get(i);
 				if(null != nk){
-					 BoothDO bh= boothClientServerRef.getBoothDoByCode(nk.getExtraInfoUrl());
-					if(null != bh ){
-						showcaseClientServerRef.batchInsertShowcase(bh, null);
+					BoothDO boothDO = new BoothDO();
+					boothDO.setCode(nk.getExtraInfoUrl()+"_"+cityCode);
+					boothDO.setName(ColumnType.getByName(nk.getExtraInfoUrl()).getCode());
+					boothDO.setDesc(nk.getExtraInfoUrl()+"_"+cityCode);
+					boothDO.setStatus(10);
+					boothDO.setType(2);
+					boothDO.setGmtCreated(new Date());
+					RcResult<Long> res = boothClientServerRef.insert(boothDO);
+					if(null !=res && res.isSuccess() && null != res.getT() ){
+						boothDO.setId(res.getT());
+						 RcResult<Boolean>  resb = showcaseClientServerRef.batchInsertShowcase(boothDO, needKnowToShowCase(nk, cityCode, res.getT()));
+						 System.out.println("------"+resb);
 					}
 				}
 				//System.out.println(i+" _ "+list.get(i).getTitle()+" _ "+list.get(i).getContent());
@@ -101,6 +105,27 @@ public class TripServiceImpl implements TripService {
 		}
 	}
 
+	
+	public List<ShowcaseDO> needKnowToShowCase(NeedKnow needKnow,String cityCode,long boothId){
+		List<ShowcaseDO> listShowCase = new ArrayList<ShowcaseDO>();
+		ShowcaseDO sw = null;
+		List<TextItem> listItem = needKnow.getFrontNeedKnow();
+		for (int i=0;i<listItem.size();i++) {
+			if(null != listItem.get(i)){
+				sw = new ShowcaseDO();
+				sw.setGmtCreated(new Date());
+				sw.setTitle(listItem.get(i).getTitle());
+				sw.setBusinessCode(cityCode);
+				sw.setBoothId(boothId);
+				sw.setOperationContent(listItem.get(i).getContent());
+				listShowCase.add(sw);
+			}
+		}
+		return listShowCase;
+		
+	}
+	
+	
 	@Override
 	public boolean delTrip(long id) {
 		RcResult<Boolean> res = regionClientServiceRef.deleteById(id);
