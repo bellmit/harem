@@ -1,14 +1,15 @@
 package com.yimayhd.harem.tair;
 
+import java.io.Serializable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSON;
 import com.taobao.tair.DataEntry;
 import com.taobao.tair.Result;
 import com.taobao.tair.ResultCode;
 import com.taobao.tair.TairManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
 
 /**  
  * @author: wuzhengfei@pajk.cn  
@@ -17,10 +18,10 @@ import java.io.Serializable;
  */
 public class TcCacheManager {
 	private static final Logger log = LoggerFactory.getLogger(TcCacheManager.class);
-	
+
 	private TairManager tairManager ;
 	
-	private int namespace ;
+	private int namespace;
 	
 	public boolean addToTair(String key, Serializable serializable ){
 		int expireTime = 0 ;

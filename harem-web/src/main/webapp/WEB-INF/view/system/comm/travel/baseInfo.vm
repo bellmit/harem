@@ -86,7 +86,7 @@
     			<tr >
     				<td>我为自己代言：</td>
                     <td>
-    					<textarea class="form-control recommond" rows="3">$!{product.baseInfo.recommond.description}</textarea>
+    					<textarea class="form-control recommond" rows="3" rId="$!{product.baseInfo.recommond.id}">$!{product.baseInfo.recommond.description}</textarea>
     				</td>
                 </tr>
             </table>
@@ -192,12 +192,14 @@
 		});
 	
 		$("#selectTravelKa").click(function() {
-			openModal('$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList','选择旅游咖', function(resultValue) {
+			openModal('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneTravelKa','选择旅游咖', function(resultValue) {
 				var id = resultValue[0].id;
 				var name = resultValue[0].name;
+				var pic = resultValue[0].pic;
 				var span = $("<span class='label label-badge label-info travel-ka'>"+name+"</span>");
 				span.attr("rId",id);
 				span.attr("rName",name);
+				pan.attr("rPic",pic);
 				var content = $(".travel-ka-content");
 				content.empty();
 				content.append(span);
@@ -211,15 +213,12 @@
 			var tripImage = $(".tripImageUrlVal").val();
 			var tags = [];
 			$(".productTag:checked").each(function(){
-				var id = $(this).attr("rId");
-				var name = $(this).attr("rName");
-				tags.push({id:id,name:name});
+				tags.push($(this).attr("rId"));
 			});
 			var publisherType = $(".publisherType:checked").val();
 			var from_arr = $(".from").val().split("_");
 			var to_arr = $(".to").val().split("_");
 			var highlights = $(".highlights").val();
-			var recommond = $(".recommond").val();
 			var extra_infos = [];
 			$(".extra-info-item").each(function(){
 				var title = $(this).find(".extra-info-item-title").val();
@@ -238,15 +237,25 @@
 				from:{id:from_arr[1],name:from_arr[0]},
 				to:{id:to_arr[1],name:to_arr[0]},
 				highlights:highlights,
-				recommond:recommond,
 				extraInfos:extra_infos
+			};
+			var recommond = {
+    			id:$(".recommond").attr("rId"),
+        		description : $(".recommond").val()
 			};
 			if(publisherType==$!{PT_MASTER}) {
 				var travel_ka = $(".travel-ka");
 				result["publisherId"] = travel_ka.attr("rId");
+				recommond["userId"] = travel_ka.attr("rId");
+				recommond["name"] = travel_ka.attr("rName");
+				recommond["userPic"] = travel_ka.attr("rPic");
 			} else {
 				result["publisherId"] = 0;
+				recommond["userId"] = 0;
+				recommond["name"] = "怡美官方";
+				recommond["userPic"] = "怡美官方";
 			}
+			result["recommond"] = recommond;
 			return result;
 		}
     </script>

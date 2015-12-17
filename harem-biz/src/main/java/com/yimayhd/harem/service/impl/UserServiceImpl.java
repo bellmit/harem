@@ -4,21 +4,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.yimayhd.harem.util.PhoneUtil;
-import com.yimayhd.membercenter.client.result.MemPageResult;
-import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.membercenter.client.service.MerchantService;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
 import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.util.PhoneUtil;
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
+import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
+import com.yimayhd.membercenter.client.result.MemPageResult;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.MerchantService;
+import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.user.client.domain.UserDO;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author czf
@@ -27,6 +30,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private MerchantService merchantServiceRef;
+	@Autowired
+	private TravelKaService travelKaServiceRef;
 
 	private List<User> table = new ArrayList<User>();
 
@@ -39,7 +44,6 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 	}
-
 
 	@Override
 	public List<User> getClubMemberListByClubId(long clubId) throws Exception {
@@ -78,33 +82,34 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageVO<UserDO>  getMemberByUserId(long sellerId,TradeMemberQuery tradeMemberQuery) throws Exception {
-		//查询条件转换
-		PageVO<UserDO> pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(),tradeMemberQuery.getPageSize(),0);
+	public PageVO<UserDO> getMemberByUserId(long sellerId, TradeMemberQuery tradeMemberQuery) throws Exception {
+		// 查询条件转换
+		PageVO<UserDO> pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(), tradeMemberQuery.getPageSize(), 0);
 		MerchantPageQueryVO merchantPageQueryVO = new MerchantPageQueryVO();
 		merchantPageQueryVO.setMerchantUserId(sellerId);
 		merchantPageQueryVO.setPageNo(tradeMemberQuery.getPageNumber());
 		merchantPageQueryVO.setPageSize(tradeMemberQuery.getPageSize());
-		if(!StringUtils.isBlank(tradeMemberQuery.getNickName())){
+		if (!StringUtils.isBlank(tradeMemberQuery.getNickName())) {
 			merchantPageQueryVO.setNickName(tradeMemberQuery.getNickName());
 		}
-		if(!StringUtils.isBlank(tradeMemberQuery.getCityName())){
+		if (!StringUtils.isBlank(tradeMemberQuery.getCityName())) {
 			merchantPageQueryVO.setCity(tradeMemberQuery.getCityName());
 		}
-		if(!StringUtils.isBlank(tradeMemberQuery.getTel())){
+		if (!StringUtils.isBlank(tradeMemberQuery.getTel())) {
 			merchantPageQueryVO.setMobile(tradeMemberQuery.getTel());
 		}
 		MemPageResult<UserDO> memResult = merchantServiceRef.findPageUsersByMerchant(merchantPageQueryVO);
 		List<UserDO> userDOList = null;
-		if(null != memResult && memResult.isSuccess()){
+		if (null != memResult && memResult.isSuccess()) {
 			userDOList = memResult.getList();
-			if(CollectionUtils.isNotEmpty(userDOList)){
-				for (UserDO userDO :userDOList){
-					//用户电话
+			if (CollectionUtils.isNotEmpty(userDOList)) {
+				for (UserDO userDO : userDOList) {
+					// 用户电话
 					userDO.setMobileNo(PhoneUtil.phoneFormat(userDO.getMobileNo()));
 				}
-				//TODO 总条数
-				pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(),tradeMemberQuery.getPageSize(),memResult.getTotalCount(),userDOList);
+				// TODO 总条数
+				pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(), tradeMemberQuery.getPageSize(),
+						memResult.getTotalCount(), userDOList);
 			}
 		}
 		return pageVO;
@@ -174,6 +179,27 @@ public class UserServiceImpl implements UserService {
 		userData.setGmtCreated(new Date());
 		userData.setRemark("备注");
 		return userData;
+	}
+
+	@Override
+	public PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query) throws Exception {
+		MemPageResult<TravelKaVO> travelKaListPage = travelKaServiceRef.getTravelKaListManagerPage(query);
+		List<TravelKaVO> result = new ArrayList<TravelKaVO>();
+		int totalCount = 0;
+		if (travelKaListPage != null & travelKaListPage.isSuccess()) {
+			totalCount = travelKaListPage.getTotalCount();
+			result = travelKaListPage.getList();
+		}
+		return new PageVO<TravelKaVO>(query.getPageNo(), query.getPageSize(), totalCount, result);
+	}
+
+	@Override
+	public TravelKaVO getTravelKaById(long id) throws Exception {
+		MemResult<TravelKaVO> travelKaDetail = travelKaServiceRef.getTravelKaDetail(id);
+		if (travelKaDetail != null & travelKaDetail.isSuccess()) {
+			return travelKaDetail.getValue();
+		}
+		return null;
 	}
 
 }

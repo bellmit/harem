@@ -172,9 +172,9 @@
 			<div class="panel add-traffic">
 				<div class="panel-heading"><i class="icon icon-2x icon-plane"></i>添加交通</div>
 				<div class="panel-body traffic" id="day_${velocityCount}_traffic">
-    				<span class="label label-info" id="day_1_traffic_from" rname="$!{$tripDay.traffic.from}">$!{tripDay.traffic.from}</span>
-    				<span class="label label-info" id="day_1_traffic_way" rid="$!{tripDay.traffic.way}">$!{tripDay.traffic.wayName()}</span>
-    				<span class="label label-info" id="day_1_traffic_to" rname="$!{$tripDay.traffic.to}">$!{tripDay.traffic.to}</span>
+    				<span class="label label-info" id="day_1_traffic_from" rName="$!{tripDay.traffic.from}">$!{tripDay.traffic.from}</span>
+    				<span class="label label-info" id="day_1_traffic_way" rId="$!{tripDay.traffic.way}">$!{tripDay.traffic.wayName()}</span>
+    				<span class="label label-info" id="day_1_traffic_to" rName="$!{tripDay.traffic.to}">$!{tripDay.traffic.to}</span>
 				</div>
 				<div class="panel-body traffic">
 					<button class="btn btn-primary select-traffic" display-id="day_${velocityCount}_traffic">选择交通</button>
@@ -274,6 +274,12 @@
 		var currentHId;
 	    // 选择交通
 		$(".select-traffic").click(selectTraffic);
+		var ways = {
+			0:"未知"
+			#foreach($way in $ways)
+			,$!{way.key}:"$!{way.value}"
+			#end
+		};
 		function selectTraffic(){
 			var currentTId = $(this).attr("display-id");
 			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectTraffic','选择交通方式 ',function() {
@@ -281,7 +287,7 @@
 				var content = $("#"+currentTId);
 				content.empty();
 				var from = $("<span class='label label-info' id='"+currentTId+"_from' rName='"+tra.from+"'>"+tra.from+"</span>");
-				var way = $("<span class='label label-info' id='"+currentTId+"_way' rId='"+tra.way+"'>"+"交通方式-"+tra.way+"</span>");
+				var way = $("<span class='label label-info' id='"+currentTId+"_way' rId='"+tra.way+"'>"+ways[tra.way]+"</span>");
 				var to = $("<span class='label label-info' id='"+currentTId+"_to' rName='"+tra.to+"'>"+tra.to+"</span>");
 				content.append(from).append(way).append(to);
 				// console.log(JSON.stringify(tra));

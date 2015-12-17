@@ -34,13 +34,13 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String detail(long categoryId, @PathVariable(value = "id") long id)
-			throws Exception {
+	public String detail(long categoryId, @PathVariable(value = "id") long id) throws Exception {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
+			put("ways", TripTraffic.ways());
 		}
 		return "/system/comm/travel/groupTravel/detail";
 	}
@@ -65,7 +65,7 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/batchInsert")
-	public String batchInsert( long categoryId) throws Exception {
+	public String batchInsert(long categoryId) throws Exception {
 		initLinePropertyTypes(categoryId);
 		return "/system/comm/travel/batchInsert";
 	}

@@ -46,6 +46,7 @@
 	<bean class="com.yimayhd.harem.service.impl.DiscoveryCfgServiceImpl"></bean>
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
 		</bean> -->
+	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl" ></bean>
 	<!-- commodity -->
 	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.SelfServiceTravelServiceImpl"></bean>

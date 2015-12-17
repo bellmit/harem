@@ -24,6 +24,8 @@ import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
+import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
 
 /**
  * 资源选择理
@@ -98,8 +100,7 @@ public class ResourceForSelectController extends BaseController {
 	public String selectScenic() throws Exception {
 		return "/system/resource/forSelect/selectScenic";
 	}
-	
-	
+
 	/**
 	 * 选择景区
 	 * 
@@ -110,18 +111,19 @@ public class ResourceForSelectController extends BaseController {
 	public String selectOneScenic() throws Exception {
 		return "/system/resource/forSelect/selectOneScenic";
 	}
-	
 
 	/**
 	 * 选择景区
-	 * @return 
+	 * 
+	 * @return
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneScenic")
-	public @ResponseBody Map<String, Object> selectOneScenic(Model model, ScenicPageQuery scenicPageQuery,Integer pageNumber) throws Exception {
-		if(pageNumber!=null){
+	public @ResponseBody Map<String, Object> selectOneScenic(Model model, ScenicPageQuery scenicPageQuery,
+			Integer pageNumber) throws Exception {
+		if (pageNumber != null) {
 			scenicPageQuery.setPageNo(pageNumber);
 		}
 		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
@@ -182,4 +184,35 @@ public class ResourceForSelectController extends BaseController {
 	public String selectUser() throws Exception {
 		return "/system/resource/forSelect/selectUser";
 	}
+
+	/**
+	 * 选择景区
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryTravelKaForSelect")
+	public @ResponseBody Map<String, Object> queryTravelKaForSelect(TravelkaPageQuery query) throws Exception {
+		Integer pageNumber = getInteger("pageNumber");
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		}
+		PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", query);
+		return result;
+	}
+
+	/**
+	 * 选择景区
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectOneTravelKa")
+	public String selectOneTravelKa() throws Exception {
+		return "/system/resource/forSelect/selectOneTravelKa";
+	}
+
 }
