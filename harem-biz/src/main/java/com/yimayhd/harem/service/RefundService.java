@@ -3,6 +3,7 @@ package com.yimayhd.harem.service;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.IMallRefundRecordExportVO;
 import com.yimayhd.harem.model.query.RefundListQuery;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundDetailDO;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 
 import java.util.List;
@@ -28,5 +29,15 @@ public interface RefundService {
      * @return
      */
     List<IMallRefundRecordExportVO> exportRefundList(long sellerId,RefundListQuery refundListQuery)throws Exception;
+
+
+    /**
+     * 根据交易id获取详情(退款)
+     * @param recordId
+     * @param sellerId
+     * @return
+     * @throws Exception
+     */
+    List<IMallRefundDetailDO> getOrderByRecordId(long sellerId,long recordId)throws Exception;
 
 }

@@ -55,7 +55,7 @@
                         <td>$!utilNum.moneyTransform($!refund.payment)</td>
                         <td>$!utilDate.dateToString($!refund.refundTime,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>$!utilDate.dateToString($!refund.receiptTime,"yyyy-MM-dd HH:mm")</td>
-                        <td><a class="orderLink" orderId="$!refund.tradeId" href="javascript:void(0);">订单详情</a></td>
+                        <td><a class="refundLink" refundId="$!refund.id" href="javascript:void(0);">订单详情</a></td>
                     </tr>
                     #end
                 </tbody>
@@ -104,8 +104,8 @@
                 format: "yyyy-mm-dd"
             });
     $(function(){
-        $('.orderLink').click(function(){
-            top.tabsAdd('',actionDefaultPath + '/trade/tradeManage/order/' + $(this).attr('orderId'),2,$(this).text());
+        $('.refundLink').click(function(){
+            top.tabsAdd('',actionDefaultPath + '/trade/refundManage/order/' + $(this).attr('refundId'),2,$(this).text());
         });
 
         $('#btnSubmit').click(function(){

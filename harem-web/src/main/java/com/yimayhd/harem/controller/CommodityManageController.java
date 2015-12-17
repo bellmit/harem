@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.JsonResultUtil;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
@@ -92,8 +93,9 @@ public class CommodityManageController extends BaseController {
                 redirectUrl = "/B2C/scenicSpotManage/edit/" + itemId;
                 break;
             default:
-                redirectUrl = "/B2C/commodityManage/common/edit/" + itemId;
-                break;
+                ItemResult itemResult = commodityService.getCommodityById(itemId);
+                model.addAttribute("itemResult",itemResult);
+                return "/system/comm/common/edit";
         }
         return "redirect:" + redirectUrl;
     }
@@ -109,6 +111,17 @@ public class CommodityManageController extends BaseController {
         CategoryDO categoryDO = categoryService.getCategoryById(categoryId);
         model.addAttribute("category", categoryDO);
         return "";
+    }
+    /**
+     * 新增普通商品
+     * @return 新增普通商品页
+     * @throws Exception
+     */
+    @RequestMapping(value = "/common/add", method = RequestMethod.POST)
+    public
+    String addCommon(ItemVO itemVO) throws Exception {
+        commodityService.addCommonItem(itemVO);
+        return "/success";
     }
 
     /**

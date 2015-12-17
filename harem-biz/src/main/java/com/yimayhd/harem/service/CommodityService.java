@@ -1,5 +1,6 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 
@@ -62,5 +63,12 @@ public interface CommodityService {
      * @throws Exception
      */
     void setCommStatus(long id,int status)throws Exception;
+
+    /**
+     * 新增普通商品
+     * @param itemVO 普通商品表单对象
+     * @throws Exception
+     */
+    void addCommonItem(ItemVO itemVO)throws Exception;
 
 }

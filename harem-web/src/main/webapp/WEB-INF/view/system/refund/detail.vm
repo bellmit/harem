@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/resources/css/common.css"/>
+<div class="tableGroup whole">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+        </tr>
+        </thead>
+        <tbody>
+            #foreach($refundDetail in $refundDetailList)
+            <tr>
+                <td>$!velocityCount</td>
+                <td>$!refundDetail.goodsName</td>
+                <td>$!utilNum.moneyTransform($!refundDetail.goodsPrice)</td>
+                <td>$!refundDetail.goodsNum</td>
+            </tr>
+            #end
+        </tbody>
+    </table>
+</div>
+

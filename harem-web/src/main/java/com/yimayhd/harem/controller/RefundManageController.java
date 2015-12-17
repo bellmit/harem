@@ -10,6 +10,7 @@ import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.harem.service.RefundService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.excel.JxlFor2003;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundDetailDO;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import com.yimayhd.user.session.manager.SessionUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -18,6 +19,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -66,6 +68,21 @@ public class RefundManageController extends BaseController {
 		model.addAttribute("refundList", null == pageVO ? null : pageVO.getItemList());
 		return "/system/refund/list";
 	}
+
+	/**
+	 * 交易详情(退款)
+	 *
+	 * @return 交易详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
+	public String getById(Model model,@PathVariable(value = "orderId") long refundId) throws Exception {
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		List<IMallRefundDetailDO> iMallRefundDetailDOList = refundService.getOrderByRecordId(sellerId,refundId);
+		model.addAttribute("refundDetailList",iMallRefundDetailDOList);
+		return "/system/refund/detail";
+	}
+
 	/**
 	 * 导出退款列表
 	 * @throws Exception

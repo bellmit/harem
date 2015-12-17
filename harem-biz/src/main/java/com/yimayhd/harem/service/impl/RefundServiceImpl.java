@@ -1,15 +1,21 @@
 package com.yimayhd.harem.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.model.IMallRefundRecordExportVO;
 import com.yimayhd.harem.model.query.RefundListQuery;
 import com.yimayhd.harem.service.RefundService;
 import com.yimayhd.harem.util.DateUtil;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundDetailDO;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import com.yimayhd.tradecenter.client.model.query.IMallRefundRecordQuery;
 import com.yimayhd.tradecenter.client.model.result.TCPageResult;
+import com.yimayhd.tradecenter.client.model.result.TCResultDTO;
 import com.yimayhd.tradecenter.client.service.imall.IMallHaremService;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +26,7 @@ import java.util.List;
  * Created by czf on 2015/10/27.
  */
 public class RefundServiceImpl implements RefundService {
+    private static final Logger log = LoggerFactory.getLogger(RefundServiceImpl.class);
     private static final int EXPORT_PAGE_NUMBER = 1;//导出数据时的页码
     private static final int EXPORT_PAGE_SIZE = 100000;//导出数据的条数上限
     @Autowired
@@ -76,5 +83,19 @@ public class RefundServiceImpl implements RefundService {
             }
         }
         return iMallRefundRecordExportVOList;
+    }
+
+    @Override
+    public List<IMallRefundDetailDO> getOrderByRecordId(long sellerId,long recordId) throws Exception {
+        IMallRefundRecordQuery iMallRefundRecordQuery = new IMallRefundRecordQuery();
+        iMallRefundRecordQuery.setRecordId(recordId);
+        iMallRefundRecordQuery.setSellerId(sellerId);
+        TCResultDTO<List<IMallRefundDetailDO>> tcResultDTO = iMallHaremServiceRef.queryRefundDetail(iMallRefundRecordQuery);
+        if(tcResultDTO.isSuccess()){
+            return tcResultDTO.getT();
+        }else{
+            log.error("itemQueryService.getItem return value error ! returnValue : "+ JSON.toJSONString(tcResultDTO));
+            throw new NoticeException(tcResultDTO.getResultMsg());
+        }
     }
 }
