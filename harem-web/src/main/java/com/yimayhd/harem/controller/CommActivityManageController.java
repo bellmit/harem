@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,7 +29,7 @@ public class CommActivityManageController extends BaseController {
 	private CommActivityService commActivityService;
 	@Autowired
     private CategoryService categoryService;
-
+	
 	/**
 	 * 新增活动商品
 	 * 
@@ -36,8 +37,10 @@ public class CommActivityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
-	public String toAdd() throws Exception {
-		List<CategoryDO> categoryDOList = categoryService.getCategoryDOList();
+	public String toAdd(Model model) throws Exception {
+		//规格
+		List<CategoryDO> categoryDOList = categoryService.getCategoryDOList(36);
+		model.addAttribute("categoryDOList",categoryDOList);
 		return "/system/comm/activity/edit";
 	}
 
