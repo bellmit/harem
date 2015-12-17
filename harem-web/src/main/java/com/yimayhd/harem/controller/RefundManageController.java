@@ -107,10 +107,10 @@ public class RefundManageController extends BaseController {
 		if(CollectionUtils.isNotEmpty(iMallRefundRecordExportVOList)) {
 			List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("tradeId", "交易编号"));
+			headList.add(new BasicNameValuePair("number", "单号"));
 			headList.add(new BasicNameValuePair("department", "部门"));
 			headList.add(new BasicNameValuePair("jobNumber", "工号"));
 			headList.add(new BasicNameValuePair("refundPaymentY", "实际退款金额"));
-			headList.add(new BasicNameValuePair("paymentY", "付款金额"));
 			headList.add(new BasicNameValuePair("refundTime", "退款时间"));
 			headList.add(new BasicNameValuePair("receiptTime", "小票时间"));
 			JxlFor2003.exportExcel(response, "退款列表.xls", iMallRefundRecordExportVOList, headList);
