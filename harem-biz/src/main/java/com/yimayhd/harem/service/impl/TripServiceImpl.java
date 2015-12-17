@@ -39,12 +39,17 @@ public class TripServiceImpl implements TripService {
 	
 	public long saveTrip(TripBo tripBo) {
 		RcResult<RegionDO> res = regionClientServiceRef.selectById(tripBo.getId());
-		if(null != res && res.isSuccess()){
+		if(null != res && res.isSuccess() && null != res.getT()){
 			RegionDO regionDO = res.getT();
 			regionDO.setGmtModified(new Date());
 			regionDO.setStatus(RegionStatus.VALID.getStatus());
 			regionClientServiceRef.updateById(regionDO);
-			return regionDO.getId();
+			if(tripBo.getType()==1){
+				return regionDO.getId();
+			}else if(tripBo.getType()==2){
+				
+			}
+			
 		}
 		return 0;
 	}

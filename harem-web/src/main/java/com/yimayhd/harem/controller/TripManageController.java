@@ -20,6 +20,8 @@ import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
@@ -78,6 +80,15 @@ public class TripManageController extends BaseController {
 	 */
 	@RequestMapping("/add")
 	public String toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
+		NeedKnow gaikuang = tripBo.getGaikuang();
+		NeedKnow minsu = tripBo.getMinsu();
+		NeedKnow tieshi = tripBo.getTieshi();
+		NeedKnow xiaofei = tripBo.getXiaofei();
+		sf(gaikuang.getFrontNeedKnow());
+		sf(minsu.getFrontNeedKnow());
+		sf(tieshi.getFrontNeedKnow());
+		sf(xiaofei.getFrontNeedKnow());
+		
 		//TODO:数据校验
 		if(null != tripBo && StringUtils.isNotEmpty(tripBo.getCityCode())){
 			long ids= tripService.saveTrip(tripBo);
@@ -92,8 +103,15 @@ public class TripManageController extends BaseController {
 			}
 		}
 		return "error";
-		
 	}
+	
+	public void sf(List<TextItem> list ){
+		for (TextItem textItem : list) {
+			System.out.println(textItem.getTitle()+"  _  "+textItem.getContent());
+		}
+	}
+	
+	
 	
 	/**
 	* @Title: recommendedList 

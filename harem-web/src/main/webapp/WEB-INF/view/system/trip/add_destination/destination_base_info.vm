@@ -79,12 +79,12 @@
                 </thead>
 				 <tbody class="extra-info-list needKnowTable">
 
-                                    #if(!${VO.needKnow.frontNeedKnow})
+                                    #if(!${VO.gaikuang.frontNeedKnow})
                                     <tr class="needKnow">
-                                        <td><input type="text" name="needKnow.frontNeedKnow[1].title"
+                                        <td><input type="text" name="gaikuang.frontNeedKnow[1].title"
                                                    class="form-control extra-info-item-title" placeholder="费用包含old"></td>
                                         <td><textarea class="form-control extra-info-item-text"
-                                                      name="needKnow.frontNeedKnow[1].content" rows="3"></textarea></td>
+                                                      name="gaikuang.frontNeedKnow[1].content" rows="3"></textarea></td>
                                         <td>
                                             <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
                                                 删除
@@ -93,13 +93,13 @@
                                     </tr>
                                     #end
 
-                                    #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
+                                    #foreach($frontNeedKnow in $VO.gaikuang.frontNeedKnow)
                                     <tr class="needKnow">
-                                        <td><input type="text" name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                        <td><input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content"
                                                    class="form-control extra-info-item-title" placeholder="费用包含"
                                                    value="$!{frontNeedKnow.title}"></td>
                                         <td><textarea class="form-control extra-info-item-text"
-                                                      name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                                      name="gaikuang.frontNeedKnow[$!{velocityCount}].content"
                                                       rows="3">$!{frontNeedKnow.content}</textarea></td>
                                         <td>
                                             <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
@@ -113,8 +113,162 @@
                     
                     </td>
                 </tr>
-               
-               
+                
+                #*--------------------------------------------------------*# 
+                
+           <tr>
+                    <td><span class="spColor">*</span>民俗</td>
+                    <td>
+                    	<button type="button" class="btn btn-default addNeedKnow">增加条目</button>
+        	<table class="table">
+				<thead >
+            		<tr>
+        				<th>标题（10个字以内）</th>
+        				<th>内容（500字以内）</th>
+        				<th></th>
+                    </tr>
+                </thead>
+				 <tbody class="extra-info-list needKnowTable">
+
+                                    #if(!${VO.minsu.frontNeedKnow})
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="minsu.frontNeedKnow[1].title"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含old"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="minsu.frontNeedKnow[1].content" rows="3"></textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+
+                                    #foreach($frontNeedKnow in $VO.minsu.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含"
+                                                   value="$!{frontNeedKnow.title}"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="minsu.frontNeedKnow[$!{velocityCount}].content"
+                                                      rows="3">$!{frontNeedKnow.content}</textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+                                </tbody>
+            </table>
+                    
+                    </td>
+                </tr>
+                
+                #*--------------------------------------------------------*#
+                				<tr>
+                    <td><span class="spColor">*</span>消费</td>
+                    <td>
+                    	<button type="button" class="btn btn-default addNeedKnow">增加条目</button>
+        	<table class="table">
+				<thead >
+            		<tr>
+        				<th>标题（10个字以内）</th>
+        				<th>内容（500字以内）</th>
+        				<th></th>
+                    </tr>
+                </thead>
+				 <tbody class="extra-info-list needKnowTable">
+
+                                    #if(!${VO.xiaofei.frontNeedKnow})
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="xiaofei.frontNeedKnow[1].title"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含old"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="xiaofei.frontNeedKnow[1].content" rows="3"></textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+
+                                    #foreach($frontNeedKnow in $VO.xiaofei.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含"
+                                                   value="$!{frontNeedKnow.title}"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="xiaofei.frontNeedKnow[$!{velocityCount}].content"
+                                                      rows="3">$!{frontNeedKnow.content}</textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+                                </tbody>
+            </table>
+                    
+                    </td>
+                </tr>
+                
+                 #*--------------------------------------------------------*#
+                				<tr>
+                    <td><span class="spColor">*</span>贴示</td>
+                    <td>
+                    	<button type="button" class="btn btn-default addNeedKnow">增加条目</button>
+        	<table class="table">
+				<thead >
+            		<tr>
+        				<th>标题（10个字以内）</th>
+        				<th>内容（500字以内）</th>
+        				<th></th>
+                    </tr>
+                </thead>
+				 <tbody class="extra-info-list needKnowTable">
+
+                                    #if(!${VO.tieshi.frontNeedKnow})
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="tieshi.frontNeedKnow[1].title"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含old"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="tieshi.frontNeedKnow[1].content" rows="3"></textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+
+                                    #foreach($frontNeedKnow in $VO.tieshi.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含"
+                                                   value="$!{frontNeedKnow.title}"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="tieshi.frontNeedKnow[$!{velocityCount}].content"
+                                                      rows="3">$!{frontNeedKnow.content}</textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+                                </tbody>
+            </table>
+                    
+                    </td>
+                </tr>
+                
+                
+                
+               <input type="hiddent" class="inpControl" name="type" value="4">
+               <input type="hiddent" class="inpControl" id="cityIds" name="id" value="">
                 </tbody>
             </table>
         </div>
@@ -190,41 +344,9 @@
         	var actionUrl = actionDefaultPath + '/B2C/trip/add';
             $('#hotelForm').attr('action', actionUrl);
             //alert(actionUrl);
-            //$('#hotelForm').submit();
-         var obj={};
-         obj.tripBo={};
-         obj.tripDetail=[];
-           
-           var cityId=$('select option:selected').attr("value");
-           var cityLevel=$('select option:selected').attr("level");
-           var tag="";
-           var coverURL=$("#FMReturnInput").val();
-           var destinationLogoURL=$("#LOGOReturnInput").val();
-          
-           obj.tripBo.cityid=cityId;
-           obj.tripBo.cityLevel=cityLevel;
-           obj.tripBo.tag="1";
-           obj.tripBo.coverURL=coverURL;
-           obj.tripBo.destinationLogoURL=destinationLogoURL;
-           
-           
-           
-           
-           
-            var parts={};
-            var parts1={};
-            parts1.id="1";
-            parts1.title="1-1-title";
-            parts1.content="1-1-content";
-            
-            parts.id="2";
-            parts.title="2-1-title";
-            parts.content="2-1-content";
-            
-            obj.tripDetail.push(parts);
-            obj.tripDetail.push(parts1);
-            console.log("obj="+obj);
-            console.log(JSON.stringify(obj));
+            var cityId=$('select option:selected').attr("value");
+            $("#cityIds").val(cityId);
+            $('#hotelForm').submit();
         });
         
     	$("#cityId").focus( function(){
