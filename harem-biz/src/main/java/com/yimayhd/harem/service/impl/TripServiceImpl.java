@@ -22,6 +22,7 @@ import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.enums.ColumnType;
 import com.yimayhd.resourcecenter.model.enums.RegionStatus;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -76,6 +77,14 @@ public class TripServiceImpl implements TripService {
 		return 0;
 	}
 	
+	
+	
+	public List<ShowcaseDO> changeNeedknowToShowCase(List<NeedKnow> list ){
+		return null;
+		
+	}
+	
+	
 	public void encaSaveShowCase(List<NeedKnow> list){
 		//.;
 		for (int i = 1; i < list.size(); i++) {
@@ -83,7 +92,8 @@ public class TripServiceImpl implements TripService {
 				NeedKnow nk = list.get(i);
 				if(null != nk){
 					 BoothDO bh= boothClientServerRef.getBoothDoByCode(nk.getExtraInfoUrl());
-					if(null != bh){
+					if(null != bh ){
+						showcaseClientServerRef.batchInsertShowcase(bh, null);
 					}
 				}
 				//System.out.println(i+" _ "+list.get(i).getTitle()+" _ "+list.get(i).getContent());
