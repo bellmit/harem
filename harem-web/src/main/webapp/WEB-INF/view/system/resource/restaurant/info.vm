@@ -12,7 +12,6 @@
             <div class="tab-pane in active" id="tab1">
 			  <input type="hidden" name="id"/>	
               <table class="table table-bordered">
-                <tbody>
                   <tr>
                     <td>*餐厅名称</td>
                     <td><input type="text" name="name" id="name" class="form-control" placeholder="请输入20个字以内"></td>
@@ -90,7 +89,6 @@
                     <td>更新时间</td>
                     <td>2015-10-20 18：34：23</td>
                   </tr>
-                </tbody>
               </table>
             </div>
             <div class="tab-pane" id="tab2">
@@ -98,7 +96,6 @@
               <div>共100张</div>
 			  <div>
 				<table class="table">
-                <tbody>
                   <tr>
                     <td>
 						<div>
@@ -195,7 +192,6 @@
 						<div>图片名称</div>
 					</td>
                   </tr>
-                </tbody>
               </table>
               </div>
 			</div>

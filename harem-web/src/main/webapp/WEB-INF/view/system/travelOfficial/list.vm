@@ -42,7 +42,6 @@
 
         <div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
                 <tr>
                     <th>#</th>
                     <th>游记名称</th>
@@ -55,10 +54,7 @@
                     <th>点赞数</th>
                     <th>收藏数</th>
                     <th>操作</th>
-
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($travelOfficial in $travelOfficialList)
                     <tr>
                         <td>$!velocityCount</td>
@@ -78,7 +74,6 @@
                         </td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页*#

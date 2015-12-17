@@ -16,7 +16,6 @@
     			#end
     	</div>
         <table class="table table-hover">
-            <thead>
             <tr>
                 <th colspan="2">景点</th>
                 <th>单价</th>
@@ -24,8 +23,6 @@
                 <th>交易状态</th>
                 <th>优惠</th>
             </tr>
-            </thead>
-            <tbody>
                 #foreach($commodity in $order.commodityList)
                 <tr>
                     <td>$!commodity.imageUrl</td>
@@ -36,7 +33,6 @@
                     <td>$!commodity.discount</td>
                 </tr>
                 #end
-            </tbody>
         </table>
     </div>
 </div>

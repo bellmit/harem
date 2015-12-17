@@ -50,16 +50,14 @@
 	
 		$(".selectResourceTable").empty();
 		var table = $("<table class='table table-striped table-hover resourceTable'/>");
-		table.append("<thead><tr><th>选择旅游咖</th><th>名称</th><th>昵称</th></tr></thead>");
-        var tbody = $("<tbody/>");
-		table.append(tbody);
+		table.append("<tr><th>选择旅游咖</th><th>名称</th><th>昵称</th></tr>");
 		for(i in itemList) {
 			var item = itemList[i];
 			var tr = $("<tr id='resource_"+item.userId+"_"+item.name+"'></tr>");
 			tr.append($("<td><input type='radio' class='item-radio' name='item' id='radio_"+item.userId+"' rId='"+item.userId+"' rName='"+item.name+"' rData='"+JSON.stringify(item)+"'/></td>"));
 			tr.append($("<td>"+item.name+"</td>"));
 			tr.append($("<td>"+item.nickName+"</td>"));
-			tbody.append(tr);
+            table.append(tr);
 		}
 		$(".selectResourceTable").append(table);
 		// 初始化特效

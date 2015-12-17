@@ -18,7 +18,6 @@
             <form id="clubCategoryForm" action="" method="post">
                 <div class="createClubTable">
                     <table class="table">
-                        <tbody>
                         <tr>
                             <td><span class="spColor">*</span>副标题</td>
                             <td>
@@ -27,17 +26,13 @@
                                 <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.clubCategoryList.boothDesc"><button type="button" class="btn btn-success selectClubCategoryBtn">选择主题</button>
                             </td>
                         </tr>
-                        </tbody>
                     </table>
                     <table class="table clubCategoryTable">
-                    	<thead>
                     	<tr>
                             <td>主题</td>
                             <td>图片</td>
                             <td>操作</td>
                         </tr>
-                    	</thead>
-                    	<tbody>
 							#foreach($clubCategory in $peripheryCfg.clubCategoryList.cfgInfoList)
 								<tr >
 									<td><input type='text' name='itemTitle' readonly value='$clubCategory.itemTitle'></td>
@@ -49,7 +44,6 @@
     								<td class='delItem'><a>删除</a></td>
 								</tr>
 							#end
-                    	</tbody>
                     </table>
                 </div>
                  <div class="clubBotBtn">
@@ -66,7 +60,6 @@
                  <form id="cityForm" action="" method="post">
                     <div class="createClubTable">
                         <table class="table">
-                            <tbody>
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
@@ -75,22 +68,17 @@
                                     <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.cityList.boothDesc"> <button type="button" class="btn btn-success selectCityBtn">选择目的地</button>
                                 </td>
                             </tr>
-                            </tbody>
                         </table>
                         <table class="table cityTable">
-                        	<thead>
-                        		<tr>
+                            <tr>
                                 <td>目的地</td>
                                 <td>操作</td>
                             </tr>
-                        	</thead>
-                        	<tbody>
 								#foreach($city in $peripheryCfg.cityList.cfgInfoList)
 									<tr>
 										<td><input type='hidden' name='itemIds' value='$!city.itemId'>$!city.itemTitle</td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
-                        	</tbody>
                         </table>
                     </div>
                      <div class="clubBotBtn">
@@ -107,7 +95,6 @@
             <form id="activityForm" action="" method="post">
                     <div class="createClubTable">
                         <table class="table">
-                            <tbody>
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
@@ -116,17 +103,12 @@
                                     <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.activityList.boothDesc"> <button type="button" class="btn btn-success selectActivityBtn">选择活动</button>
                                 </td>
                             </tr>
-                            </tbody>
                         </table>
                         <table class="table activityTable">
-                        	<thead>
-                        		<tr>
+                            <tr>
                                 <td>活动名称</td>
                                 <td>操作</td>
                             </tr>
-                        	</thead>
-                        	<tbody>
-								
 								#foreach($activity in $peripheryCfg.activityList.cfgInfoList)
 									<tr >
 										<td><input type='hidden' name='itemIds' value='$!activity.itemId'>
@@ -135,8 +117,6 @@
 										<td class='delItem'><a>删除</a></td>
 									</tr>
 								#end
-								
-                        	</tbody>
                         </table>
                     </div>
                      <div class="clubBotBtn">
@@ -185,7 +165,7 @@
                     		"<td class='delItem'><a>删除</a></td></tr>";
                     		_uploadImg("clubCategoryImg_"+resultValue[i].id);
                     	}
-                    	$(".clubCategoryTable").find("tbody").append(tr);
+                    	$(".clubCategoryTable").append(tr);
                     	
                     	 layer.close(index);
                     }
@@ -210,13 +190,13 @@
                         return false;
                     }else{
                     console.log(resultValue);
-                    	var tbody = $(".userTable tbody");
+                    	var tbody = $(".userTable");
 						var tr = "";
                     	for(var i = 0;i<resultValue.length;i++){
                     		tr += "<tr ><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'><td>"+resultValue[i].name+"</td>"+
                     		"<td class='delItem'><a>删除</a></td></tr>";
                     	}
-                    	$(".cityTable").find("tbody").append(tr);
+                    	$(".cityTable").append(tr);
                     	
                     	 layer.close(index);
                     }
@@ -246,7 +226,7 @@
                     		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> "+resultValue[i].name+"</td>"+
                     		"<td class='delItem'><a>删除</a></td></tr>";
                     	}
-                    	$(".activityTable").find("tbody").append(tr);
+                    	$(".activityTable").append(tr);
                     	
                     	 layer.close(index);
                     }

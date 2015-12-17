@@ -52,7 +52,6 @@
         <button type="button" class="btn btn-primary hotelBatchBtn" btnType="2">批量禁用</button>
         <div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
                 <tr>
                     <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
                     <th>酒店名称</th>
@@ -61,10 +60,7 @@
                     <th>基础价格</th>
                     <th>联系人</th>
                     <th>操作</th>
-
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($hotel in $hotelDOList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!hotel.id"></td>
@@ -86,7 +82,6 @@
                         </td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页*#

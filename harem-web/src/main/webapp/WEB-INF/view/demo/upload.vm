@@ -96,7 +96,6 @@
                 $request.getContextPath();
                 $rc.contextPaht;
                 <label>上传图片</label>
-                1111
                 $request.getParameter('test')
                 <label>$utilNumber.moneyTransform(5000)</label>
                 utilNumber.getxxx($request)

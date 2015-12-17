@@ -4,14 +4,11 @@
 <div class="createClubTable whole">
     <form name="addClub" id="clubForm" action="" method="post" clubId="$!club.id">
         <table class="table">
-            <tbody>
             <tr>
                 <td><span class="spColor">*</span>游记标题</td>
                 <input type="hidden" class="form-control" name="id" value="$!club.id">
                 <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!club.name"></td>
             </tr>
-           
-               
             <tr>
                 <td><span class="spColor">*</span>发布时间</td>
                 <td><input type="text" class="form-control" placeholder="请输入数字" name="limitNum" value="$!club.limitNum"></td>
@@ -66,7 +63,6 @@
                     </div>
                 </td>
             </tr>
-            </tbody>
         </table>
 		
         <div class="clubBotBtn">

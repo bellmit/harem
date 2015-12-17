@@ -14,7 +14,6 @@
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
             <table class="table">
-                <tbody>
                <tr>
                     <td><span class="spColor">*</span>酒店名称</td>
 					#if($!{hotel.id})
@@ -138,7 +137,6 @@
                         <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!hotel.masterRecommend.description</textarea>
                     </td>
                 </tr>
-                </tbody>
             </table>
         </div>
     </div>

@@ -2,7 +2,6 @@
     <form class="form-signin" id="clubMemberListForm" name="clubMemberListForm" action="$!utilWebconfig.getActionDefaultFontPath()/clubManage/clubMember/$!clubId" method="GET" role="form">
         <div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
                 <tr>
                     <th>#</th>
                     <th>手机号</th>
@@ -11,8 +10,6 @@
                     <th>等级</th>
                     <th>加入时间</th>
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($user in $userList)
                     <tr>
                         <td>$!velocityCount</td>
@@ -24,7 +21,6 @@
                         <td>$utilDate.dateToString($!user.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页*#

@@ -6,7 +6,6 @@
             <div class="tab-pane active">
                 <div class="createClubTable">
                     <table class="table">
-                        <tbody>
                         <tr>
                             <td><span class="spColor">*</span>展位Code</td>
                             <td>
@@ -44,7 +43,6 @@
                             <td><span class="spColor">*</span>展位描述</td>
                             <td><input type="text" class="form-control" placeholder="请输入30字以内" name="addrDetail" value="$!booth.desc"></td>
                         </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>

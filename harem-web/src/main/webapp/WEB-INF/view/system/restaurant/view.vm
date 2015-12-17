@@ -26,7 +26,6 @@
     <div class="tab-pane active" id="scenicInfo">
         <div class="createHotrlTable">
             <table class="table">
-                <tbody>
                 <tr>
                     <td><span class="spColor">*</span>景区名称</td>
                     <td><input type="text" class="inpCtlBlock" name="scenic.name" id="name" placeholder="请输入20个字以内" value="$!{VO.scenic.name}"></td>
@@ -84,14 +83,11 @@
                     <td>
                     	<button type="button" class="btn btn-default addNeedKnow">增加条目</button>
         	<table class="table">
-				<thead >
             		<tr>
         				<th>标题（10个字以内）</th>
         				<th>内容（500字以内）</th>
         				<th></th>
                     </tr>
-                </thead>
-				<tbody class="extra-info-list needKnowTable">
                    #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
                   	 <tr class="needKnow">
         				<td><input type="text" name="" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}"></td>
@@ -99,9 +95,6 @@
 						<td><button type="button"  class="btn btn-link"  onclick="delneedKnowTR(this)">删除</button></td>
                     </tr>
                    #end
-             
-					
-                </tbody>
             </table>
                     
                     </td>
@@ -130,8 +123,6 @@
                         <input type="hidden" name="userId" value="$!hotel.userId" disabled>
                     </td>
                 </tr>
-                
-                </tbody>
             </table>
         </div>
     </div>

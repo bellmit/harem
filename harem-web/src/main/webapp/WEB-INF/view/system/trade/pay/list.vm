@@ -27,7 +27,6 @@
 
         <div class="tableGroup whole">
             <table class="table table-hover">
-                <thead>
                 <tr>
                     <th>序号</th>
                     <th>支付编号</th>
@@ -38,8 +37,6 @@
                     <th>状态</th>
                     <th>支付时间</th>
                 </tr>
-                </thead>
-                <tbody>
                     #foreach($pay in $payList)
                     <tr>
                         <td>$!velocityCount</td>
@@ -52,7 +49,6 @@
                         <td>$!utilDate.dateToString($!pay.gmtPayment,"yyyy-MM-dd HH:mm:ss")</td>
                     </tr>
                     #end
-                </tbody>
             </table>
         </div>
     #*分页*#

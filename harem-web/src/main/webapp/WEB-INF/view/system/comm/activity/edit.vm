@@ -9,7 +9,6 @@
         <div class="createHotrlTable">
 		
             <table class="table">
-                <tbody>
                 <tr>
                     <td>分类</td>
                     <td>活动</td>
@@ -26,11 +25,8 @@
 						<input type="text" class="inpCtlBlock" name="" id="" placeholder="请输入整数">
 					</td>
                 </tr>
-                </tbody>
-                
             </table>
 			<table class="table">
-				<tbody>
 					<tr>
 							<td>商品名称</td>
 							<td>包含项目（100字内）</td>
@@ -49,7 +45,6 @@
 							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
 							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
 						<tr>
-				</tbody>
 			</table>
         </div>
     </div>
