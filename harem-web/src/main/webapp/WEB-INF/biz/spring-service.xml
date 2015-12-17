@@ -28,8 +28,8 @@
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
-	
-	
+
+
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
 
@@ -47,13 +47,14 @@
 	<bean class="com.yimayhd.harem.service.impl.DiscoveryCfgServiceImpl"></bean>
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
 		</bean> -->
+	<!-- system -->
+	<bean class="com.yimayhd.harem.service.impl.SystemManageServiceImpl" />
+	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl" />
 	<!-- commodity -->
 	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.SelfServiceTravelServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.SystemManageServiceImpl"/>
-	
 	<bean class="com.yimayhd.harem.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RestaurantRPCServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.CommScenicServiceImpl"/>
-	<bean class="com.yimayhd.harem.service.impl.CommActivityServiceImpl"/>
+	<bean class="com.yimayhd.harem.service.impl.CommScenicServiceImpl" />
+	<bean class="com.yimayhd.harem.service.impl.CommActivityServiceImpl" />
 </beans>
