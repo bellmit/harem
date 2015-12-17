@@ -282,7 +282,7 @@
 		};
 		function selectTraffic(){
 			var currentTId = $(this).attr("display-id");
-			openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/selectTraffic','选择交通方式 ',function() {
+			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/selectTraffic','选择交通方式 ',function() {
 				var tra = win.getTraffic();
 				var content = $("#"+currentTId);
 				content.empty();
@@ -299,7 +299,7 @@
 		$(".select-restaurant").click(selectRestaurant);
 		function selectRestaurant(){
 			currentRId = $(this).attr("display-id");
-			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectRestaurant','选择餐厅',function() {
+			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectRestaurant','选择餐厅',function() {
 				var res = win.getItems();
 				var content = $("#"+currentRId);
                 for(var i in res) {
@@ -320,7 +320,7 @@
 		$(".select-scenic").click(selectScenic);
 		function selectScenic(){
 			currentSId = $(this).attr("display-id");
-			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenic','选择景区',function() {
+			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectScenic','选择景区',function() {
 				var sce = win.getItems(); 
 				var content = $("#"+currentSId);
 				content.empty();
@@ -340,7 +340,7 @@
 		// 选择酒店
 		function selectHotel(){
 			currentHId = $(this).attr("display-id");
-			openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
+			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
 				var hot = win.getItems(); 
 				var content = $("#"+currentHId);
 				content.empty();

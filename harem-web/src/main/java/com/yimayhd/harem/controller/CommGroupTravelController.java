@@ -40,7 +40,6 @@ public class CommGroupTravelController extends BaseTravelController {
 		if (id > 0) {
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
-			put("ways", TripTraffic.ways());
 		}
 		return "/system/comm/travel/groupTravel/detail";
 	}
