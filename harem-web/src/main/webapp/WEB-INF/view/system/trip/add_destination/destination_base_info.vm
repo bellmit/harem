@@ -52,7 +52,7 @@
 				<tr>
                     <td><span class="spColor">*</span>概况</td>
                     <td>
-                    	<button type="button" class="btn btn-default addNeedKnow" onclick="addItemCall(this)">增加条目</button>
+                    	<button type="button" class="btn btn-default addNeedKnow" id="gaikuang" onclick="addItemCall(this)">增加条目</button>
         	            <table class="table">
                             <tr>
                                 <th>标题（10个字以内）</th>
@@ -92,7 +92,7 @@
                 <tr>
                     <td><span class="spColor">*</span>民俗</td>
                     <td>
-                        <button type="button" class="btn btn-default addNeedKnow" onclick="addItemCall(this)">增加条目</button>
+                        <button type="button" class="btn btn-default addNeedKnow" id="minsu" onclick="addItemCall(this)">增加条目</button>
                         <table class="table">
                             <tr>
                                 <th>标题（10个字以内）</th>
@@ -132,7 +132,7 @@
                 <tr>
                     <td><span class="spColor">*</span>消费</td>
                     <td>
-                        <button type="button" class="btn btn-default addNeedKnow" onclick="addItemCall(this)">增加条目</button>
+                        <button type="button" class="btn btn-default addNeedKnow" id="xiaofei" onclick="addItemCall(this)">增加条目</button>
                         <table class="table">
                                 <tr>
                                     <th>标题（10个字以内）</th>
@@ -172,7 +172,7 @@
                 <tr>
                     <td><span class="spColor">*</span>贴示</td>
                     <td>
-                        <button type="button" class="btn btn-default addNeedKnow" onclick="addItemCall(this)">增加条目</button>
+                        <button type="button" class="btn btn-default addNeedKnow" id="tieshi" onclick="addItemCall(this)">增加条目</button>
                         <table class="table">
                             <tr>
                                 <th>标题（10个字以内）</th>
@@ -234,11 +234,17 @@
 
 <script>
     var addItemCall = function (obj) {
+    	var conTr =$(obj).next().find(".needKnow");
+    	console.log(conTr);
+    	var i = conTr.length;
+    	++i;
+    	var itemId = $(obj).attr("id");
         var itemList = '<tr class="needKnow"><td>'+
-                '<input type="text" name="needKnow.frontNeedKnow[$index].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>'+
-                '<td><textarea name="needKnow.frontNeedKnow[$index1].content" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
+                '<input type="text" name="'+itemId+'.frontNeedKnow['+i+'].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>'+
+                '<td><textarea name="'+itemId+'.frontNeedKnow['+i+'].content" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
                 '<td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td></tr>'
         $(obj).next().append(itemList);
+       
     };
 
  	//上传图片

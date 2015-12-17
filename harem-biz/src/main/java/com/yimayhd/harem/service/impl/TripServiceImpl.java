@@ -1,11 +1,12 @@
 package com.yimayhd.harem.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
@@ -16,24 +17,31 @@ import com.yimayhd.harem.service.ShowcaseService;
 import com.yimayhd.harem.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.model.enums.ColumnType;
 import com.yimayhd.resourcecenter.model.enums.RegionStatus;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
+import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 
 public class TripServiceImpl implements TripService {
 
 	@Autowired RegionClientService regionClientServiceRef;
 	
-	@Autowired ShowcaseService showcaseService;
+	@Autowired ShowcaseClientServer showcaseClientServerRef;
 	
 	@Autowired HotelService hotelService;
 	
 	@Autowired ScenicService scenicSpotService;
 	
+	@Autowired BoothClientServer boothClientServerRef;
 	/*@Autowired ComCenterService ComCenterServiceRef;*/
 	
 	
@@ -44,14 +52,43 @@ public class TripServiceImpl implements TripService {
 			regionDO.setGmtModified(new Date());
 			regionDO.setStatus(RegionStatus.VALID.getStatus());
 			regionClientServiceRef.updateById(regionDO);
-			if(tripBo.getType()==1){
+			if(tripBo.getType()==1){//出发地
 				return regionDO.getId();
-			}else if(tripBo.getType()==2){
+			}else if(tripBo.getType()==2){//目的地
+				//保存相应的概况  民俗等信息 
+				List<NeedKnow> list = new ArrayList<NeedKnow>();
+				NeedKnow gaikuang = tripBo.getGaikuang();
+				gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
+				NeedKnow minsu = tripBo.getMinsu();
+				minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.toString());
+				NeedKnow tieshi = tripBo.getTieshi();
+				tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.toString());
+				NeedKnow xiaofei = tripBo.getXiaofei();
+				xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.toString());
+				list.add(gaikuang);
+				list.add(minsu);
+				list.add(tieshi);
+				list.add(xiaofei);
 				
 			}
 			
 		}
 		return 0;
+	}
+	
+	public void encaSaveShowCase(List<NeedKnow> list){
+		//.;
+		for (int i = 1; i < list.size(); i++) {
+			if(null != list.get(i)){
+				NeedKnow nk = list.get(i);
+				if(null != nk){
+					 BoothDO bh= boothClientServerRef.getBoothDoByCode(nk.getExtraInfoUrl());
+					if(null != bh){
+					}
+				}
+				//System.out.println(i+" _ "+list.get(i).getTitle()+" _ "+list.get(i).getContent());
+			}
+		}
 	}
 
 	@Override
@@ -142,7 +179,7 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public List<ShowCaseResult> getListShowCaseResult(int type) {
-		List<ShowCaseResult> list = showcaseService.getListShowCaseResult(type);
+		List<ShowCaseResult> list =null;
 		return list;
 	}
 	

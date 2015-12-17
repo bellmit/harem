@@ -80,15 +80,6 @@ public class TripManageController extends BaseController {
 	 */
 	@RequestMapping("/add")
 	public String toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
-		NeedKnow gaikuang = tripBo.getGaikuang();
-		NeedKnow minsu = tripBo.getMinsu();
-		NeedKnow tieshi = tripBo.getTieshi();
-		NeedKnow xiaofei = tripBo.getXiaofei();
-		sf(gaikuang.getFrontNeedKnow());
-		sf(minsu.getFrontNeedKnow());
-		sf(tieshi.getFrontNeedKnow());
-		sf(xiaofei.getFrontNeedKnow());
-		
 		//TODO:数据校验
 		if(null != tripBo && StringUtils.isNotEmpty(tripBo.getCityCode())){
 			long ids= tripService.saveTrip(tripBo);
@@ -104,14 +95,6 @@ public class TripManageController extends BaseController {
 		}
 		return "error";
 	}
-	
-	public void sf(List<TextItem> list ){
-		for (TextItem textItem : list) {
-			System.out.println(textItem.getTitle()+"  _  "+textItem.getContent());
-		}
-	}
-	
-	
 	
 	/**
 	* @Title: recommendedList 
