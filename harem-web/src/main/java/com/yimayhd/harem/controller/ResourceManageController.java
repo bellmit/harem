@@ -5,14 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantRPCService;
 import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
+import com.yimayhd.ic.client.model.result.ICResult;
 
 /**
  * 资源管理
@@ -46,11 +51,31 @@ public class ResourceManageController extends BaseController {
 	
 	@RequestMapping(value = "/restaurant/list2", method = RequestMethod.GET)
 	public String restaurantList2(RestaurantListQuery restaurantListQuery) throws Exception {
-		PageVO<RestaurantDO> pageVo = restaurantRPCService.pageQueryHotel(restaurantListQuery);
+		PageVO<RestaurantDO> pageVo = restaurantRPCService.pageQueryRestaurant(restaurantListQuery);
 		System.out.println(JSON.toJSONString(pageVo));
 		put("pageVo", pageVo);
 		put("query", restaurantListQuery);
 		return "/system/restaurant/list";
+	}
+	
+	@RequestMapping(value = "/restaurant/updateStatus/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateRoleStatus(
+			@PathVariable("id") int id,
+			@RequestParam(value = "restaurantStatus", required = true) Integer restaurantStatus)
+			throws Exception {
+
+		RestaurantDO restaurantDO = new RestaurantDO();
+		restaurantDO.setId(id);
+		restaurantDO.setStatus(restaurantStatus);
+		ICResult<Boolean> icResult = restaurantRPCService.updateRestaurant(restaurantDO);
+
+		ResponseVo responseVo = new ResponseVo();
+		if (!icResult.getModule()) {
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+
+		return responseVo;
 	}
 
 	@RequestMapping(value = "/restaurant2/{id}", method = RequestMethod.GET)

@@ -8,19 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantRPCService;
-import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.ic.client.service.item.ResourcePublishService;
 
 public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 
     @Autowired
     private ItemQueryService itemQueryService;
+    
+    @Autowired
+    private ResourcePublishService resourcePublishService;
 
 	@Override
-	public PageVO<RestaurantDO> pageQueryHotel(
+	public PageVO<RestaurantDO> pageQueryRestaurant(
 			RestaurantListQuery restaurantListQuery) {
 		
 		RestaurantPageQuery restaurantPageQuery = new RestaurantPageQuery();
@@ -33,7 +37,7 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
     		restaurantPageQuery.setName(restaurantListQuery.getName());
     	}
     	// 状态
-    	if (restaurantListQuery.getStatus() != 0) {
+    	if (restaurantListQuery.getStatus() != null) {
     		restaurantPageQuery.setStatus(restaurantListQuery.getStatus());
     	}
     	// 联系人
@@ -55,6 +59,12 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
     	PageVO<RestaurantDO> pageVo = new PageVO<RestaurantDO>(restaurantPageQuery.getPageNo(), restaurantPageQuery.getPageSize(), icPageResult.getTotalCount(), restaurantDOList);
     	
     	return pageVo;
+	}
+
+	@Override
+	public ICResult<Boolean> updateRestaurant(RestaurantDO restaurantDO) {
+		
+		return resourcePublishService.updateRestaurant(restaurantDO);
 	}
 
 }

@@ -77,11 +77,11 @@
                         </td>
                         <td>
                         #if($restaurant.status == 1)
-                        	<button type="button" class="btn btn-primary toView" scenicId="$restaurant.id">查看</button>
-                        	<button type="button" class="btn btn-primary updateScenicStatus"  scenicId="$restaurant.id" status="2">停用   </button>
+                        	<button type="button" class="btn btn-primary toView" restaurantId="$restaurant.id">查看</button>
+                        	<button type="button" class="btn btn-primary updateRestaurantStatus"  restaurantId="$restaurant.id" status="2">停用   </button>
                         #elseif($restaurant.status == 2)
-                        	<button type="button" class="btn btn-primary toUpdate" scenicId="$restaurant.id">编辑</button>
-                        	<button type="button" class="btn btn-primary updateScenicStatus"  scenicId="$restaurant.id" status="1">启用  </button>
+                        	<button type="button" class="btn btn-primary toUpdate" restaurantId="$restaurant.id">编辑</button>
+                        	<button type="button" class="btn btn-primary updateRestaurantStatus"  restaurantId="$restaurant.id" status="1">启用  </button>
                         #end
                         </td>
                     </tr>
@@ -118,16 +118,16 @@
             $('#restaurantDOListForm').submit();
         });
         $('.toView').click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/scenicSpotManage/'+ $(this).attr('scenicId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/resourceManage/restaurant/updateStatus/'+ $(this).attr('restaurantId');
                 window.openwin(url);
         });
         $('.toUpdate').click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/scenicSpotManage/edit/'+ $(this).attr('scenicId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/scenicSpotManage/edit/'+ $(this).attr('restaurantId');
                 window.openwin(url);
         });
 
-        $('.updateScenicStatus').click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/scenicSpotManage/updateStatus/' + $(this).attr('scenicId') ,{'scenicStatus':$(this).attr('status')} ,function(data){
+        $('.updateRestaurantStatus').click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/resourceManage/restaurant/updateStatus/' + $(this).attr('restaurantId') ,{'restaurantStatus':$(this).attr('status')} ,function(data){
                     if(data.status == 200){
                         layer.alert('操作成功', {
                             icon: 1,
