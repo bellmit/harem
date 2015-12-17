@@ -3,8 +3,6 @@ package com.yimayhd.harem.model.travel;
 import java.util.Date;
 import java.util.List;
 
-import com.sun.tools.classfile.Opcode.Set;
-
 /**
  * 套餐-月
  * 
