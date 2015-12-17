@@ -1,5 +1,6 @@
 package com.yimayhd.harem.service.impl;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.KeyManagementException;
@@ -7,6 +8,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.taobao.common.tfs.TfsManager;
@@ -47,8 +49,18 @@ public class TfsServiceImpl implements TfsService {
 
 	@Override
 	public String readHtml5(String code) throws Exception {
-		HttpRequestUtil httpRequestUtil = new HttpRequestUtil();
-		return httpRequestUtil.sendGet(WebResourceConfigUtil.getTfsRootPath() + code);
+		String content = "";
+		String tfsFileName =code;
+    	BufferedOutputStream os = null;
+		try {
+			ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+			boolean result=tfsManager.fetchFile(tfsFileName,null,outputStream);
+			byte[] bytes = outputStream.toByteArray();
+			content = new String(bytes, "utf-8") ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return content;
 	}
 
 }

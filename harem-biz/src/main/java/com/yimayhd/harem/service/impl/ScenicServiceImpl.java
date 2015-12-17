@@ -13,6 +13,7 @@ import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.service.ScenicService;
+import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
@@ -32,7 +33,7 @@ public class ScenicServiceImpl implements ScenicService {
 	@Autowired
 	private ResourcePublishService resourcePublishServiceRef;
 	@Autowired
-    private TfsManager tfsManager;
+    private TfsService tfsService;
 
 	@Override
 	public PageVO<ScenicDO> getList(ScenicPageQuery query) throws Exception {
@@ -62,6 +63,7 @@ public class ScenicServiceImpl implements ScenicService {
 			ScenicAddNewDTO dto = new ScenicAddNewDTO();
 			ScenicDO scenicDO = scenic.getModule();
 			NeedKnow needKnow = JSON.parseObject(scenicDO.getNeedKnow(), NeedKnow.class);
+			needKnow.setExtraInfoUrl(tfsService.readHtml5(needKnow.getExtraInfoUrl()));
 			dto.setNeedKnow(needKnow);
 			dto.setScenic(scenicDO);
 			return dto;
@@ -115,6 +117,7 @@ public class ScenicServiceImpl implements ScenicService {
 	@Override
 	public ICResult<ScenicDO> save(ScenicAddNewDTO addNewDTO) throws Exception {
 		ICResult<ScenicDO> addScenicNew=null;
+		addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
 		if(0==addNewDTO.getScenic().getId()){
 			addScenicNew = resourcePublishServiceRef.addScenicNew(addNewDTO);
 		}else{
