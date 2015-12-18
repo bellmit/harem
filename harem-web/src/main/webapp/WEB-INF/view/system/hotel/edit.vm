@@ -26,14 +26,14 @@
                     <td>
                         <div class="selectList">
                             <input type="hidden" class="provinceSelectName" name="locationProvinceName" value="$!hotel.locationProvinceName">
-                            <select class="selCity inpControl provinceSelect" name="locationProvinceId">
+                            <select class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
                                 <option value="">请选择省份</option>
                                 #foreach($province in $provinceList)
                                     <option #if($province ==  $!hotel.locationProvinceId) selected #end value="$province.id">$province.name</option>
                                 #end
                             </select>
                             <input type="hidden" class="citySelectName" name="locationCityName" value="$!hotel.locationCityName">
-                            <select class="selCity inpControl citySelect" name="locationCityId">
+                            <select class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
                                 <option value="">请选择城市</option>
                                 #foreach($city in $cityList)
                                     <option #if($city == $!hotel.locationCityId) selected #end value="$province.id">$city.name</option>
@@ -288,7 +288,29 @@
             }
         });
 
+	var provinceFlag = false;
+	var cityFlag = false;
+	var areaFlag = false;
     $(function(){
+	
+		$('.provinceSelect').click(function() {
+			alert("provinceSelect ...");
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': $(this).attr("areaType"),
+					 'areaParentCode': null}, 
+					function(data) {
+						if (data[0].name) {
+							alert(JSON.stringify(data));
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+		});
         //地址选择
         $('.provinceSelect').change(function(){
             if($('.provinceSelect option:selected')){

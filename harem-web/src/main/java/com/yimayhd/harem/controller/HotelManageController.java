@@ -33,228 +33,252 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 /**
  * 酒店管理（资源）
+ * 
  * @author czf
  */
 @Controller
 @RequestMapping("/B2C/hotelManage")
 public class HotelManageController extends BaseController {
-    private final static int ROOMFACILITY_TYPE = 1;
-    private final static int ROOMSERVICELIST_TYPE = 2;
-    private final static int HOTELFACILITYLIST_TYPE = 3;
-    
-    @Autowired
-    private ItemQueryService itemQueryService;
-    
-    @Autowired
-    private HotelService hotelService;
-    @Autowired
-    private RegionService regionService;
-    @Autowired
-    private FacilityIconService facilityIconService;
-    @Autowired
-    private CommodityService commodityService;
-    
-    @Autowired
-    private HotelRPCService hotelRPCService;
-    
-    /**
-     * 酒店（资源）列表
-     * @return 酒店（资源）列表
-     * @throws Exception
-     */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public
-    String list(Model model,HotelListQuery hotelListQuery) throws Exception {
-    	
-    	PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
-    	List<HotelDO> hotelDOList = pageVo.getItemList();
-        model.addAttribute("pageVo", pageVo);
-        model.addAttribute("hotelListQuery", hotelListQuery);
-        model.addAttribute("hotelDOList", hotelDOList);
-        return "/system/hotel/list";
-    }
-    
-    /**
-     * 新增酒店（资源）
-     * @return 酒店（资源）详情
-     * @throws Exception
-     */
-    @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
-    public
-    String toAdd(Model model) throws Exception {
-        List<Region> provinceList= regionService.getProvince();
-        List<FacilityIconDO> roomFacilityList = facilityIconService.getListByType(ROOMFACILITY_TYPE);
-        List<FacilityIconDO> roomServiceList = facilityIconService.getListByType(ROOMSERVICELIST_TYPE);
-        List<FacilityIconDO> hotelFacilityList = facilityIconService.getListByType(HOTELFACILITYLIST_TYPE);
-        model.addAttribute("provinceList", provinceList);
-        model.addAttribute("roomFacilityList",roomFacilityList);
-        model.addAttribute("roomServiceList",roomServiceList);
-        model.addAttribute("hotelFacilityList",hotelFacilityList);
-        return "/system/hotel/edit";
-    }
+	private final static int ROOMFACILITY_TYPE = 1;
+	private final static int ROOMSERVICELIST_TYPE = 2;
+	private final static int HOTELFACILITYLIST_TYPE = 3;
 
-    /**
-     * 新增酒店（资源）
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public
-    String add(HotelVO hotelVO) throws Exception {
-        
-    	hotelRPCService.addHotel(hotelVO);
-        return "/success";
-    }
+	@Autowired
+	private ItemQueryService itemQueryService;
 
-    /**
-     * 酒店（资源）状态变更
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo setHotelStatus(@PathVariable("id") long id,int hotelStatus) throws Exception {
-        
-        HotelDO hotelDO = new HotelDO();
-        hotelDO.setId(id);
-        hotelDO.setStatus(hotelStatus);
-        
-        ICResult<Boolean> icResult =  hotelRPCService.updateHotelStatus(hotelDO);
-        
-        ResponseVo responseVo = new ResponseVo();        
-        if (!icResult.getModule()) {
-        	responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-        }
-        
-        return responseVo;
-    }
+	@Autowired
+	private HotelService hotelService;
+	@Autowired
+	private RegionService regionService;
+	@Autowired
+	private FacilityIconService facilityIconService;
+	@Autowired
+	private CommodityService commodityService;
 
-    /**
-     * 编辑酒店（资源）
-     * @return 酒店（资源）详情
-     * @throws Exception
-     */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public
-    String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-        
-    	HotelVO hotelVO = hotelRPCService.getHotel(id);
-    	
-    	System.out.println(" "  + JSON.toJSONString(hotelVO));
-    	
-        List<Region> provinceList= regionService.getProvince();
-        List<Region> cityList= regionService.getRegionByParentId(hotelVO.getLocationProvinceId());
-        List<FacilityIconDO> roomFacilityList = facilityIconService.getListByType(ROOMFACILITY_TYPE);
-        List<FacilityIconDO> roomServiceList = facilityIconService.getListByType(ROOMSERVICELIST_TYPE);
-        List<FacilityIconDO> hotelFacilityList = facilityIconService.getListByType(HOTELFACILITYLIST_TYPE);
-        model.addAttribute("provinceList", provinceList);
-        model.addAttribute("cityList", cityList);
-        model.addAttribute("hotel",hotelVO);
-        model.addAttribute("pictureList",hotelVO.getPictureList());
-        model.addAttribute("roomFacilityList",roomFacilityList);
-        model.addAttribute("roomServiceList",roomServiceList);
-        model.addAttribute("hotelFacilityList",hotelFacilityList);
+	@Autowired
+	private HotelRPCService hotelRPCService;
 
-        return "/system/hotel/edit";
-    }              
-    
-    /**
-     * ------------------------------未添加的----------------------------------------------------
-     */
+	/**
+	 * 酒店（资源）列表
+	 * 
+	 * @return 酒店（资源）列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String list(Model model, HotelListQuery hotelListQuery)
+			throws Exception {
 
-    /**
-     * 酒店（资源）列表
-     * @return 酒店（资源）列表
-     * @throws Exception
-     */
-/*    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public
-    String list(Model model,HotelListQuery hotelListQuery) throws Exception {
-        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-        PageVO pageVo = new PageVO(1,10,300);
-        model.addAttribute("pageVo", pageVo);
-        model.addAttribute("hotelListQuery", hotelListQuery);
-        model.addAttribute("hotelDOList", hotelDOList);
-        return "/system/hotel/list";
-    }
-*/    
-    /**
-     * 选择酒店列表
-     * @param model
-     * @param hotelListQuery
-     * @param multiSelect 是否多选（1：单选；2：多选）
-     * @return 酒店（资源）列表
-     * @throws Exception
-     */
-    @RequestMapping(value = "/selectList", method = RequestMethod.GET)
-    public
-    String selectList(Model model,HotelListQuery hotelListQuery,int multiSelect) throws Exception {
-        List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-        PageVO pageVo = new PageVO(1,10,300);
-        model.addAttribute("pageVo", pageVo);
-        model.addAttribute("hotelListQuery", hotelListQuery);
-        model.addAttribute("hotelDOList", hotelDOList);
-        model.addAttribute("multiSelect",multiSelect);
-        return "/system/hotel/selectList";
-    }
-        
+		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
+		List<HotelDO> hotelDOList = pageVo.getItemList();
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("hotelListQuery", hotelListQuery);
+		model.addAttribute("hotelDOList", hotelDOList);
+		return "/system/hotel/list";
+	}
 
-    /**
-     * 编辑酒店（资源）
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public
-    String edit(HotelVO hotelVO,@PathVariable("id") long id) throws Exception {
-        hotelVO.setId(id);
-        hotelService.modify(hotelVO);
-        return "/success";
-    }
+	/**
+	 * 新增酒店（资源）
+	 * 
+	 * @return 酒店（资源）详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
+	public String toAdd(Model model) throws Exception {
+		List<Region> provinceList = regionService.getProvince();
+		List<FacilityIconDO> roomFacilityList = facilityIconService
+				.getListByType(ROOMFACILITY_TYPE);
+		List<FacilityIconDO> roomServiceList = facilityIconService
+				.getListByType(ROOMSERVICELIST_TYPE);
+		List<FacilityIconDO> hotelFacilityList = facilityIconService
+				.getListByType(HOTELFACILITYLIST_TYPE);
+		model.addAttribute("provinceList", provinceList);
+		model.addAttribute("roomFacilityList", roomFacilityList);
+		model.addAttribute("roomServiceList", roomServiceList);
+		model.addAttribute("hotelFacilityList", hotelFacilityList);
+		return "/system/hotel/edit";
+	}
 
-    /**
-     * 酒店状态变更(批量)
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]")ArrayList<Long> hotelIdList,int hotelStatus) throws Exception {
-        hotelService.setHotelStatusList(hotelIdList, hotelStatus);
-        return new ResponseVo();
-    }
+	/**
+	 * 新增酒店（资源）
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String add(HotelVO hotelVO) throws Exception {
 
-    //TODO
-    /**
-     * 添加图片
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/picture/add/{hotelId}", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseVo addHotelPicture(@PathVariable("hotelId") long id,ArrayList<String> pictureList) throws Exception {
-        return new ResponseVo();
-    }
-    /**
-     * 删除图片
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/picture/delete/{hotelId}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo delHotelPicture(@PathVariable("hotelId") long id) throws Exception {
-        return new ResponseVo();
-    }
-    /**
-     * 置顶图片
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/picture/top/{hotelId}", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo topHotelPicture(@PathVariable("hotelId") long id) throws Exception {
-        return new ResponseVo();
-    }
+		hotelRPCService.addHotel(hotelVO);
+		return "/success";
+	}
 
+	/**
+	 * 酒店（资源）状态变更
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo setHotelStatus(@PathVariable("id") long id,
+			int hotelStatus) throws Exception {
+
+		HotelDO hotelDO = new HotelDO();
+		hotelDO.setId(id);
+		hotelDO.setStatus(hotelStatus);
+
+		ICResult<Boolean> icResult = hotelRPCService.updateHotelStatus(hotelDO);
+
+		ResponseVo responseVo = new ResponseVo();
+		if (!icResult.getModule()) {
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+
+		return responseVo;
+	}
+
+	/**
+	 * 编辑酒店（资源）
+	 * 
+	 * @return 酒店（资源）详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String toEdit(Model model, @PathVariable(value = "id") long id)
+			throws Exception {
+
+		HotelVO hotelVO = hotelRPCService.getHotel(id);
+
+		System.out.println(" " + JSON.toJSONString(hotelVO));
+
+		List<Region> provinceList = regionService.getProvince();
+		List<Region> cityList = regionService.getRegionByParentId(hotelVO
+				.getLocationProvinceId());
+		List<FacilityIconDO> roomFacilityList = facilityIconService
+				.getListByType(ROOMFACILITY_TYPE);
+		List<FacilityIconDO> roomServiceList = facilityIconService
+				.getListByType(ROOMSERVICELIST_TYPE);
+		List<FacilityIconDO> hotelFacilityList = facilityIconService
+				.getListByType(HOTELFACILITYLIST_TYPE);
+		model.addAttribute("provinceList", provinceList);
+		model.addAttribute("cityList", cityList);
+		model.addAttribute("hotel", hotelVO);
+		model.addAttribute("pictureList", hotelVO.getPictureList());
+		model.addAttribute("roomFacilityList", roomFacilityList);
+		model.addAttribute("roomServiceList", roomServiceList);
+		model.addAttribute("hotelFacilityList", hotelFacilityList);
+
+		return "/system/hotel/edit";
+	}
+
+	/**
+	 * ------------------------------未添加的--------------------------------------
+	 * --------------
+	 */
+
+	/**
+	 * 酒店（资源）列表
+	 * 
+	 * @return 酒店（资源）列表
+	 * @throws Exception
+	 */
+	/*
+	 * @RequestMapping(value = "/list", method = RequestMethod.GET) public
+	 * String list(Model model,HotelListQuery hotelListQuery) throws Exception {
+	 * List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery); PageVO
+	 * pageVo = new PageVO(1,10,300); model.addAttribute("pageVo", pageVo);
+	 * model.addAttribute("hotelListQuery", hotelListQuery);
+	 * model.addAttribute("hotelDOList", hotelDOList); return
+	 * "/system/hotel/list"; }
+	 */
+	/**
+	 * 选择酒店列表
+	 * 
+	 * @param model
+	 * @param hotelListQuery
+	 * @param multiSelect
+	 *            是否多选（1：单选；2：多选）
+	 * @return 酒店（资源）列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectList", method = RequestMethod.GET)
+	public String selectList(Model model, HotelListQuery hotelListQuery,
+			int multiSelect) throws Exception {
+		List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
+		PageVO pageVo = new PageVO(1, 10, 300);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("hotelListQuery", hotelListQuery);
+		model.addAttribute("hotelDOList", hotelDOList);
+		model.addAttribute("multiSelect", multiSelect);
+		return "/system/hotel/selectList";
+	}
+
+	/**
+	 * 编辑酒店（资源）
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String edit(HotelVO hotelVO, @PathVariable("id") long id)
+			throws Exception {
+		hotelVO.setId(id);
+		hotelService.modify(hotelVO);
+		return "/success";
+	}
+
+	/**
+	 * 酒店状态变更(批量)
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo setHotelStatusList(
+			@RequestParam("hotelIdList[]") ArrayList<Long> hotelIdList,
+			int hotelStatus) throws Exception {
+		hotelService.setHotelStatusList(hotelIdList, hotelStatus);
+		return new ResponseVo();
+	}
+
+	// TODO
+	/**
+	 * 添加图片
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/picture/add/{hotelId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseVo addHotelPicture(@PathVariable("hotelId") long id,
+			ArrayList<String> pictureList) throws Exception {
+		return new ResponseVo();
+	}
+
+	/**
+	 * 删除图片
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/picture/delete/{hotelId}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo delHotelPicture(@PathVariable("hotelId") long id)
+			throws Exception {
+		return new ResponseVo();
+	}
+
+	/**
+	 * 置顶图片
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/picture/top/{hotelId}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo topHotelPicture(@PathVariable("hotelId") long id)
+			throws Exception {
+		return new ResponseVo();
+	}
 
 }
