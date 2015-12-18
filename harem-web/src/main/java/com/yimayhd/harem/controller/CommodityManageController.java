@@ -10,7 +10,9 @@ import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.user.session.manager.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,7 +96,9 @@ public class CommodityManageController extends BaseController {
                 break;
             default:
                 ItemResult itemResult = commodityService.getCommodityById(itemId);
-                model.addAttribute("itemResult",itemResult);
+                ItemType.NORMAL.getValue();
+                model.addAttribute("itemResult", itemResult);
+                model.addAttribute("itemType",ItemType.NORMAL.getValue());
                 return "/system/comm/common/edit";
         }
         return "redirect:" + redirectUrl;
@@ -120,6 +124,10 @@ public class CommodityManageController extends BaseController {
     @RequestMapping(value = "/common/add", method = RequestMethod.POST)
     public
     String addCommon(ItemVO itemVO) throws Exception {
+        long sellerId = Long.parseLong(SessionUtils.getUserId());
+        //TODO
+        sellerId = 10000000;
+        itemVO.setSellerId(sellerId);
         commodityService.addCommonItem(itemVO);
         return "/success";
     }

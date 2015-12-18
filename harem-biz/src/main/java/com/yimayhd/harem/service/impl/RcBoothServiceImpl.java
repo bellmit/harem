@@ -26,7 +26,9 @@ public class RcBoothServiceImpl implements RcBoothService {
 
 	@Override
 	public RcResult<Boolean> save(BoothDO boothDO) {
-		return boothClientService.insert(boothDO);
+		//return boothClientService.insert(boothDO);
+		//TODO 报错注释
+		return null;
 	}
 
 	@Override

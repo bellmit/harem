@@ -3,6 +3,7 @@ package com.yimayhd.harem.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.exception.NoticeException;
+import com.yimayhd.harem.model.ItemSkuVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -122,8 +123,8 @@ public class CommodityServiceImpl implements CommodityService {
     public void addCommonItem(ItemVO itemVO) throws Exception {
         //参数类型匹配
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
-        commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
         commonItemPublishDTO.setItemDO(ItemVO.getItemDO(itemVO));
+        commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
         ItemPubResult itemPubResult = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
         if(null == itemPubResult){
             log.error("ItemPublishService.publishCommonItem result is null");
