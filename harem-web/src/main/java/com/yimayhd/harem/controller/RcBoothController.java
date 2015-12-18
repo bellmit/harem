@@ -105,8 +105,8 @@ public class RcBoothController{
 	public ResponseVo insertOrupdate(HttpServletRequest request,HttpServletResponse response,BoothDO boothDO){
 		
 		ResponseVo responseVo = new ResponseVo();
-		
-		if(boothDO.getId()!=null){   //id不为空时    修改
+		//TODO 报错注释
+		/*if(boothDO.getId()!=null){   //id不为空时    修改
 			RcResult<Boolean> updResult = boothClientServer.update(boothDO);
 			if(updResult.isSuccess()){
 				responseVo.setMessage("更改成功！");
@@ -124,7 +124,7 @@ public class RcBoothController{
 				responseVo.setMessage(addResult.getResultMsg());
 				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 			}
-		}
+		}*/
 		return responseVo;
 	}
 	/**
