@@ -14,7 +14,7 @@ import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 
 public class ShowcaseServiceImpl implements ShowcaseService {
 
-	@Autowired ShowcaseClientServer showcaseClientServerConsumer;
+	@Autowired ShowcaseClientServer showcaseClientServerRef;
 	
 	public List<ShowCaseResult> getListShowCaseResult(int type) {
 		ShowcaseQuery  showcaseQuery = new ShowcaseQuery ();
@@ -23,7 +23,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 			return null;
 		}
 		showcaseQuery.setTitle(relatedType.getDesc());
-		RCPageResult<ShowCaseResult>  res = showcaseClientServerConsumer.getShowcaseResult(showcaseQuery);
+		RCPageResult<ShowCaseResult>  res = showcaseClientServerRef.getShowcaseResult(showcaseQuery);
 		if(null != res && CollectionUtils.isNotEmpty(res.getList())){
 			return res.getList();
 		}

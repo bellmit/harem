@@ -16,7 +16,7 @@
                 <tr>
                     <td><span class="spColor">*</span>活动商品名称</td>
                     <td>
-                       <input type="text" class="inpCtlBlock" name="" id="" placeholder="不得超过30个字">
+                       <input type="text" class="inpCtlBlock" name="itemDO.title" id="" placeholder="不得超过30个字">
                     </td>
                 </tr>
                 <tr>
@@ -26,38 +26,89 @@
 					</td>
                 </tr>
             </table>
-			<table class="table">
+        <strong>提示</strong>多规格
+		        #foreach($category in $categoryDOList)
+		        	
+		    		<input type="checkbox" attrName="$!category.name" name="$!category.name" value="$!category.id" id="$!category.id" >$!category.name
+				 #end
+			<table class="extra-info-list table">
+				<thead>
 					<tr>
-							<td>商品名称</td>
-							<td>包含项目（100字内）</td>
-							<td>入园限制（100字内）</td>
-							<td>入园规则</td>
-							<td>单价</td>
-							<td>会员优惠额度</td>
-							<td>会员限购</td>
-					<tr>
-						<tr>
-							<td></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-						<tr>
+							<th>规格值</th>
+							<th>库存</th>
+							<th>单价</th>
+							<th>会员优惠额度</th>
+							<th>优惠限购</th>
+							<th>操作</th>
+					<tr>	
+				</thead>
+				<tbody class="extra-info-list itemSkuTbody">
+			
+				</tbody>
 			</table>
         </div>
     </div>
-    <button  type="submit" class="btn btn-primary">保存</button>
+   <button type="submit" class="btn btn-info">保存</button>
 	</form>
 </div>
 
-
+<script type="text/html" id="itemSkuTemp">
+    <tr class="itemSkuTr" id="$index">
+        <td>$name<input type="text" name="itemSkuDOList.itemSkuPVPairList[$index6].vId"
+             class="form-control">
+             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index7].vTxt"
+             class="form-control">
+             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index8].pId"
+             class="form-control">
+             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index9].pTxt"
+             class="form-control">
+             </td>
+        <td><input type="text" name="needKnow.frontNeedKnow[$index1].title"
+             class="form-control" placeholder="请输入整数"></td>
+        <td>
+         <td><input type="text" name="needKnow.frontNeedKnow[$index2].title"
+             class="form-control" placeholder="请输入整数"></td>
+        <td>
+         <td><input type="text" name="needKnow.frontNeedKnow[$index3].title"
+             class="form-control" placeholder="请输入整数"></td>
+        <td>
+         <td><input type="text" name="needKnow.frontNeedKnow[$index4].title"
+             class="form-control" placeholder="请输入整数"></td>
+        <td>
+        <td><input type="text" name="needKnow.frontNeedKnow[$index5].title"
+             class="form-control" placeholder="请输入整数"></td>
+        <td>
+            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+        </td>
+    </tr>
+</script>
 
 
 
 <script>
+
+ var conTr = $(".itemSkuTr").length + 1;
+
+
+   /**checkbox事件**/
+     $("input[type=checkbox]").unbind("click").click(function () {
+                if (this.checked) {//如果自己被选中
+                   var addhtml = "";
+                   var html1 = $("#itemSkuTemp").html();
+                   var i = conTr++;
+                   addhtml = addhtml + html1.replace('$name', $(this).attr("attrName")).
+                   replace('$index', $(this).attr("id")).replace('$index1', i).replace('$index2', i).replace('$index3', i).replace('$index4', i).replace('$index5', i);
+                   $(".itemSkuTbody").prev().append(addhtml);
+                }
+                else {//如果自己没有被选中
+					$("tr[id="+$(this).attr('id')+"]").remove();
+                }
+            })
+
+
    $(function(){
+   
+   
 		/*提交**/
 		$("#saveScenic").validate(
 			{

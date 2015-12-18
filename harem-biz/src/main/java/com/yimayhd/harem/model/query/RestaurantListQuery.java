@@ -21,8 +21,8 @@ public class RestaurantListQuery extends BaseQuery {
 	private String provinceCode;// 省
 	private Region cityCode;// 市
 	private String personOrPhone;// 联系人
-	private Date beginTime;// 创建日期_开始时间
-	private Date endTime;// 创建日期_结束时间
+	private String beginTime;// 创建日期_开始时间
+	private String endTime;// 创建日期_结束时间
 	public String getName() {
 		return name;
 	}
@@ -53,16 +53,16 @@ public class RestaurantListQuery extends BaseQuery {
 	public void setPersonOrPhone(String personOrPhone) {
 		this.personOrPhone = personOrPhone;
 	}
-	public Date getBeginTime() {
+	public String getBeginTime() {
 		return beginTime;
 	}
-	public void setBeginTime(Date beginTime) {
+	public void setBeginTime(String beginTime) {
 		this.beginTime = beginTime;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 

@@ -27,13 +27,19 @@ public class TripBo implements Serializable {
 	
 	//public List<NeedKnow> needKnowList; /** 概况 */
 	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
-	public NeedKnow gaikuang; /** 概况 */
+
+		public NeedKnow gaikuang; /** 概况 */
 	
-	public NeedKnow minsu; /** 民俗 */
+
+		public NeedKnow minsu; /** 民俗 */
 	
-	public NeedKnow xiaofei; /** 消费 */
+
+		public NeedKnow xiaofei; /** 消费 */
 	
-	public NeedKnow tieshi; /** 贴示 */
+
+		public NeedKnow tieshi; /** 贴示 */
+	
+	//public List<AffiliateDetail> affiliateDetail;
 	
 	//---以下关联id，以数组方式存放-----------------------------------------------
 	public int[] biMai;/** 必买推荐 */
@@ -195,6 +201,18 @@ public class TripBo implements Serializable {
 		this.xianLu = xianLu;
 	}
 
+
+
+	/*public List<AffiliateDetail> getAffiliateDetail() {
+		return affiliateDetail;
+	}
+
+
+
+	public void setAffiliateDetail(List<AffiliateDetail> affiliateDetail) {
+		this.affiliateDetail = affiliateDetail;
+	}
+*/
 
 
 	public NeedKnow getGaikuang() {
