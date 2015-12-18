@@ -68,7 +68,7 @@ public abstract class BaseTravel {
 		}
 		if (priceInfo != null) {
 			dto.setItemDO(this.getItemDO());
-			dto.setItemSkuDOList(priceInfo.toItemSkuDOList());
+			dto.setItemSkuDOList(priceInfo.toItemSkuDOList(this.baseInfo.getPublisherId()));
 		}
 		return dto;
 	}

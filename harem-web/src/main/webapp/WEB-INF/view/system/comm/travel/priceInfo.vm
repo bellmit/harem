@@ -32,7 +32,7 @@
 					<table class="table">
 							<tr>
 								<td>
-									<div>套餐名称：*<input type="text" id="tc_$!{tcId}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}" p-id="$!{tc.PId}" p-type="$!{tc.PType}" p-txt="$!{tc.PTxt}"></div>
+									<div>套餐名称：*<input type="text" id="tc_$!{tcId}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}"></div>
 							
 								</td>
 							</tr>
@@ -63,16 +63,16 @@
     													#if($tr == "open")
     												<tr>
     													#end
-														<td class="tc-$!{tcId}-month-${month.time}-day" rId="${day.time}" rTime="$!{day.time}" p-id="$!{day.PId}" p-type="$!{day.PType}" p-txt="$!{day.PTxt}">
+														<td class="tc-$!{tcId}-month-${month.time}-day" rId="${day.time}" rTime="$!{day.time}">
 														<div>$utilDate.dateToString($day.date,"dd")  $utilDate.formatWeekOnly($day.date)</div>
 														#foreach($block in ${day.blocks})
 															<div class="input-group">
 																<span class="input-group-addon">$!{block.name}：</span>
-																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-1" v-id="$!{block.id}" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$!{block.price}">
+																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$!{block.price}">
 																<span class="input-group-addon">库存：</span>
-																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-2" v-id="$!{block.id}" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
+																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
 																<span class="input-group-addon">会员优惠：</span>
-																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-3" v-id="$!{block.id}" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
+																<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
 															</div>
 														#end
 														</td>
@@ -211,7 +211,7 @@
 		var pane = $("<div class='tab-pane in' id='tc_"+id+"'/>");
 		var table = $("<table class='table'/>");
 		var td = $("<td/>");
-		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称' p-id='$!{packageProperty.id}' p-type='$!{packageProperty.type}' p-txt='$!{packageProperty.txt}'></div>")
+		var tcName = $("<div>套餐名称：*<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></div>")
 		td.append(tcName);
 		table.append($("<tr/>").append(td));
 		var dateJson = CalendarUtils.getMonthTree(startDate,endDate);
@@ -255,8 +255,8 @@
 				var class_id = "tc-"+id+"-item";
 				td.append(div_date);
 				#foreach($persionPropertyValue in $persionPropertyValues)
-				var group_$!{persionPropertyValue.id} = $("<div class='input-group block' v-id='$!{persionPropertyValue.id}' v-name='$!{persionPropertyValue.text}' p-id='$!{persionProperty.id}' p-type='$!{persionProperty.type}' p-txt='$!{persionProperty.text}' />")
-				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon' block-name='$!{persionPropertyValue.text}'>$!{persionPropertyValue.text}：</span>");
+				var group_$!{persionPropertyValue.id} = $("<div class='input-group block'/>")
+				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>$!{persionPropertyValue.text}：</span>");
 				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>库存：</span>");
 				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存'>"); 
@@ -318,9 +318,9 @@
 					});
 					#end
 					var day = {
-    					PId:$(this).attr("p-id"),
-        				PType:$(this).attr("p-type"),
-        				PTxt:$(this).attr("p-txt"),
+    					PId:$!{dateProperty.id},
+            			PType:$!{dateProperty.type},
+            			PTxt:"$!{dateProperty.text}",
 						blocks:blocks
 					};
 					// alert(JSON.stringify(day));
@@ -336,12 +336,12 @@
 			var tc = {
 				id:$("#tc_"+tcId+"_name").attr("tc-id"),
 				name:$("#tc_"+tcId+"_name").val(),
-				PId:$("#tc_"+tcId+"_name").attr("p-id"),
-				PType:$("#tc_"+tcId+"_name").attr("p-type"),
-				PTxt:$("#tc_"+tcId+"_name").attr("p-txt"),
+				PId:$!{packageProperty.id},
+				PType:$!{packageProperty.type},
+				PTxt:"$!{packageProperty.text}",
 				months:months
 			};
-			// alert(JSON.stringify(tc));
+			alert(JSON.stringify(tc));
 			tcs.push(tc);
 		});
 		var result = {tcs:tcs,limit:$(".day-limit").val()};

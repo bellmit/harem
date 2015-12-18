@@ -169,7 +169,7 @@ public class PriceInfo {
 		return "";
 	}
 
-	public List<ItemSkuDO> toItemSkuDOList() {
+	public List<ItemSkuDO> toItemSkuDOList(long sellerId) {
 		List<ItemSkuDO> itemSkuDOs = new ArrayList<ItemSkuDO>();
 		if (CollectionUtils.isNotEmpty(this.tcs)) {
 			for (PackageInfo packageInfo : this.tcs) {
@@ -187,6 +187,8 @@ public class PriceInfo {
 										itemSkuPVPairs.add(itemSkuPVPair2);
 										itemSkuPVPairs.add(itemSkuPVPair3);
 										ItemSkuDO itemSkuDO = new ItemSkuDO();
+										itemSkuDO.setTitle(itemSkuPVPair1.getVTxt()+","+itemSkuPVPair3.getVTxt());
+										itemSkuDO.setSellerId(sellerId);
 										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
 										itemSkuDO.setPrice(packageBlock.getPrice());
 										itemSkuDO.setStockNum(packageBlock.getStock());
