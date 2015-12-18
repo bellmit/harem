@@ -3,9 +3,9 @@ package com.yimayhd.harem.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.exception.NoticeException;
-import com.yimayhd.harem.model.ItemSkuVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.service.CommodityService;
+import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
@@ -30,6 +30,8 @@ public class CommodityServiceImpl implements CommodityService {
     private ItemQueryService itemQueryServiceRef;
     @Autowired
     private ItemPublishService itemPublishServiceRef;
+    @Autowired
+    private TfsService tfsService;
     @Override
     public List<ItemDO> getList() throws Exception {
         List<ItemDO> itemDOList = new ArrayList<ItemDO>();
@@ -123,11 +125,16 @@ public class CommodityServiceImpl implements CommodityService {
     public void addCommonItem(ItemVO itemVO) throws Exception {
         //参数类型匹配
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
-        commonItemPublishDTO.setItemDO(ItemVO.getItemDO(itemVO));
+        ItemDO itemDO = ItemVO.getItemDO(itemVO);
+        //详细描述存tfs（富文本编辑）
+        itemDO.setDescription(tfsService.publishHtml5(itemDO.getDescription()));
+        commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
+
         ItemPubResult itemPubResult = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
         if(null == itemPubResult){
-            log.error("ItemPublishService.publishCommonItem result is null");
+            log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException("返回结果错误");
         } else if(!itemPubResult.isSuccess()){
             log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
             throw new BaseException(itemPubResult.getResultMsg());

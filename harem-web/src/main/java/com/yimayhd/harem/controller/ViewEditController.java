@@ -6,6 +6,8 @@ import com.taobao.tair.Result;
 import com.taobao.tair.ResultCode;
 import com.taobao.tair.TairManager;
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -29,6 +32,8 @@ public class ViewEditController extends BaseController {
     private CategoryService categoryServiceRef;
     @Autowired
     private TairManager tairManager;
+    @Autowired
+    private TfsService tfsService;
 
     /**
      * 富文本编辑页面
@@ -73,4 +78,26 @@ public class ViewEditController extends BaseController {
         System.out.println(JSON.toJSONString(b));
         return "/demo/calendar";
     }
+    /**
+     * 服务端上传h5
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/testUploadImgOrUe", method = RequestMethod.GET)
+    public String toTestUploadImgOrUe() throws Exception {
+        return "/demo/testUploadImgOrUe";
+    }
+
+    /**
+     * 服务端
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/testUploadImgOrUe", method = RequestMethod.POST)
+    public ResponseVo testUploadImgOrUe(String description) throws Exception {
+        String addr = tfsService.publishHtml5(description);
+        return new ResponseVo(addr);
+    }
+
 }
