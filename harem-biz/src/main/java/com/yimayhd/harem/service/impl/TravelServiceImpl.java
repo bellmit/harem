@@ -1,10 +1,15 @@
 package com.yimayhd.harem.service.impl;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
@@ -18,6 +23,7 @@ import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 public abstract class TravelServiceImpl<T extends BaseTravel> {
+	private static final Logger log = LoggerFactory.getLogger(CommodityServiceImpl.class);
 	@Resource
 	protected ItemQueryService itemQueryServiceRef;
 	@Resource
@@ -48,7 +54,10 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 			try {
 				travel = createTravelInstance(lineResult, tags);
 			} catch (Exception e) {
-				throw new BaseException(e, "解析线路信息失败：lineResult={0}", lineResult);
+				log.error("解析线路信息失败", e);
+				log.debug(MessageFormat.format("lineResult={0}", JSON.toJSONString(lineResult)));
+				log.debug(MessageFormat.format("tags={0}", JSON.toJSONString(tags)));
+				throw new BaseException("解析线路信息失败：lineResult={0}", lineResult);
 			}
 			return travel;
 			/*

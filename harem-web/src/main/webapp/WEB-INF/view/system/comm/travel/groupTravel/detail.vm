@@ -39,6 +39,8 @@
   <script type="text/javascript">
     $(".save").click(function(){
         var result = {
+			categoryId:$!{categoryId},
+			options:$!{options},
             baseInfo:getBaseInfo(),
             tripInfo:getTripInfo(),
             priceInfo:getPriceInfo()

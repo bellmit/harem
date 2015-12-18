@@ -341,7 +341,7 @@
 				PTxt:$("#tc_"+tcId+"_name").attr("p-txt"),
 				months:months
 			};
-			alert(JSON.stringify(tc));
+			// alert(JSON.stringify(tc));
 			tcs.push(tc);
 		});
 		var result = {tcs:tcs,limit:$(".day-limit").val()};

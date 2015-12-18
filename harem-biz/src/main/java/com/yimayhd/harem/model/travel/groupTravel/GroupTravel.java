@@ -181,7 +181,7 @@ public class GroupTravel extends BaseTravel {
 		itemDO.setSubTitle("");
 		itemDO.setOneWord("");
 		itemDO.setDescription("");
-		itemDO.setPicUrls(this.baseInfo.getProductImage());
+		itemDO.setPicUrls(this.baseInfo.getTripImage());
 		itemDO.setDetailUrl("");
 		return itemDO;
 	}

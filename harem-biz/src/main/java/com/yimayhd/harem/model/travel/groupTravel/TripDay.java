@@ -2,6 +2,8 @@ package com.yimayhd.harem.model.travel.groupTravel;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTextItem;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
@@ -29,11 +31,21 @@ public class TripDay {
 			RouteItemDesc dinner, RouteItemDesc scenic, RouteItemDesc hotel) {
 		this.traffic = new TripTraffic(trafficInfo);
 		this.description = description;
-		this.restaurant1 = breakfast.textItems;
-		this.restaurant2 = lunch.textItems;
-		this.restaurant3 = dinner.textItems;
-		this.scenics = scenic.textItems;
-		this.hotels = hotel.textItems;
+		if (breakfast != null) {
+			this.restaurant1 = breakfast.textItems;
+		}
+		if (lunch != null) {
+			this.restaurant2 = lunch.textItems;
+		}
+		if (dinner != null) {
+			this.restaurant3 = dinner.textItems;
+		}
+		if (scenic != null) {
+			this.scenics = scenic.textItems;
+		}
+		if (hotel != null) {
+			this.hotels = hotel.textItems;
+		}
 	}
 
 	public String getDescription() {
@@ -58,6 +70,11 @@ public class TripDay {
 
 	public RouteItemDesc getRouteItemBreakfast() {
 		RouteItemDesc routeItemDesc = new RouteItemDesc();
+		if (CollectionUtils.isNotEmpty(this.restaurant1)) {
+			for (RouteTextItem routeTextItem : this.restaurant1) {
+				routeTextItem.type = RouteItemType.BREAKFAST.name();
+			}
+		}
 		routeItemDesc.textItems = this.restaurant1;
 		routeItemDesc.type = RouteItemType.BREAKFAST.name();
 		return routeItemDesc;
@@ -65,6 +82,11 @@ public class TripDay {
 
 	public RouteItemDesc getRouteItemLunch() {
 		RouteItemDesc routeItemDesc = new RouteItemDesc();
+		if (CollectionUtils.isNotEmpty(this.restaurant2)) {
+			for (RouteTextItem routeTextItem : this.restaurant2) {
+				routeTextItem.type = RouteItemType.LUNCH.name();
+			}
+		}
 		routeItemDesc.textItems = this.restaurant2;
 		routeItemDesc.type = RouteItemType.LUNCH.name();
 		return routeItemDesc;
@@ -72,6 +94,11 @@ public class TripDay {
 
 	public RouteItemDesc getRouteItemDinner() {
 		RouteItemDesc routeItemDesc = new RouteItemDesc();
+		if (CollectionUtils.isNotEmpty(this.restaurant3)) {
+			for (RouteTextItem routeTextItem : this.restaurant3) {
+				routeTextItem.type = RouteItemType.DINNER.name();
+			}
+		}
 		routeItemDesc.textItems = this.restaurant3;
 		routeItemDesc.type = RouteItemType.DINNER.name();
 		return routeItemDesc;
@@ -79,6 +106,11 @@ public class TripDay {
 
 	public RouteItemDesc getRouteItemScenic() {
 		RouteItemDesc routeItemDesc = new RouteItemDesc();
+		if (CollectionUtils.isNotEmpty(this.scenics)) {
+			for (RouteTextItem routeTextItem : this.scenics) {
+				routeTextItem.type = RouteItemType.SCENIC.name();
+			}
+		}
 		routeItemDesc.textItems = this.scenics;
 		routeItemDesc.type = RouteItemType.SCENIC.name();
 		return routeItemDesc;
@@ -86,6 +118,11 @@ public class TripDay {
 
 	public RouteItemDesc getRouteItemHotel() {
 		RouteItemDesc routeItemDesc = new RouteItemDesc();
+		if (CollectionUtils.isNotEmpty(this.hotels)) {
+			for (RouteTextItem routeTextItem : this.hotels) {
+				routeTextItem.type = RouteItemType.HOTEL.name();
+			}
+		}
 		routeItemDesc.textItems = this.hotels;
 		routeItemDesc.type = RouteItemType.HOTEL.name();
 		return routeItemDesc;
