@@ -9,4 +9,5 @@
     <import resource="spring-consumer-paycore.xml"/>
     <import resource="spring-consumer-trade.xml"/>
     <import resource="spring-consumer-member.xml"/>
+    <import resource="spring-consumer-sns.xml"/>
 </beans>
