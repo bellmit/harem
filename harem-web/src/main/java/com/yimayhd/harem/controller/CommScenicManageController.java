@@ -64,7 +64,7 @@ public class CommScenicManageController extends BaseController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public
     String edit(ItemDO itemDo) throws Exception {
-    	/*commScenicService.save(itemDo);*/
+    	commScenicService.save(itemDo);
         return "/success";
     }
 

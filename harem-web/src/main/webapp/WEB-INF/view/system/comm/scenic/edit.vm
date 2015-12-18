@@ -15,8 +15,8 @@
                 <tr>
                     <td><span class="spColor">*</span>景区</td>
                     <td>
-                       	<input type="text" class="inpControl" name="name" id="name" placeholder="请选择">
-                       	<input type="text" class="inpControl" name="outId" id="outId" placeholder="请选择">
+                       	<input type="text" class="inpControl" name="name" id="name" >
+                       	<input type="text" class="inpControl" name="outId" id="outId">
 						<button type="button" class="btn btn-primary selectScenic">选择景区</button>
                     </td>
                 </tr>
@@ -48,9 +48,10 @@
 							<td>会员限购</td>
 					<tr>
 						<tr>
-							<td><input type="text" class="title" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="subTitle" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+							<td><textarea name="scenic.description" id="description" rows="3" class="form-control"
+                                      placeholder="请输入500字以内"></textarea></td>
 							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
 							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
 							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
@@ -73,8 +74,8 @@
         $('.selectScenic').click(function(){
          	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenicOne','选择景区',function() {
 				var sce = win.getItems();
-				 $("#name").val(sce.name);
-				$("#outId").val(sce.id);
+				alert(sce);
+				
 				return true;
 			});
         })

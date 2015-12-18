@@ -1,9 +1,7 @@
 package com.yimayhd.harem.controller;
 
-import java.io.BufferedOutputStream;
 import java.util.ArrayList;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -34,8 +31,7 @@ import com.yimayhd.ic.client.model.result.ICResult;
 public class ScenicManageController extends BaseController {
 	@Autowired
 	private ScenicService scenicSpotService;
-	@Autowired
-	private TfsManager tfsManager;
+
 	/**
 	 * 景区（资源）列表
 	 * 

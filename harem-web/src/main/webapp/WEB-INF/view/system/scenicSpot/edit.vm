@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
@@ -27,6 +28,7 @@
 </style>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<div class="example whole">
 <form id="saveScenicSpot">
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
@@ -181,12 +183,42 @@
                     <tr>
                         <td>大咖推荐</td>
                         <td>
-                            <button type="button" class="btn btn-info selectUserBtn">选择旅游咖</button>
+                            <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
                             <img src="#if($hotel.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!hotel.manageUserLogoUrl  #end"
                                  alt="头像" class="img-circle grogUserLogo"><span>Tracy</span>
                             <textarea name="scenic.recommend" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内"></textarea>
                             <input type="hidden" name="userId" value="$!hotel.userId" disabled>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td><span class="spColor">*</span>列表页展示图</td>
+                        <td>
+                            <div class="fileImg">
+	                        <button type="button" class="btn btn-success">选择图片</button>
+	                        <input type="hidden" name="scenic.logoUrl" value="$!{VO.scenic.logoUrl}" id="logoUrlUploadFileReturnInput" >
+	                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+	                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+	                    </div>
+	                    <div class="logoView">
+	                        <img src="#if($VO.scenic.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg">
+	                    </div>
+                        </td>
+                    </tr>
+                    
+                    
+                     <tr>
+                        <td><span class="spColor">*</span>详情页展示图</td>
+                        <td>
+                            <div class="fileImg">
+	                        <button type="button" class="btn btn-success">选择图片</button>
+	                        <input type="hidden" name="scenic.coverUrl" value="$!{VO.scenic.coverUrl}" id="logoUrlUploadFileReturnInput1" >
+	                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
+	                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+	                    </div>
+	                    <div class="logoView">
+	                        <img src="#if($VO.scenic.coverUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg1">
+	                    </div>
                         </td>
                     </tr>
 
@@ -204,13 +236,13 @@
             <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
         </div>
         <div class="tab-pane" id="scenicImgs">
-
+				 #parse("/system/scenicSpot/picture.vm")
         </div>
     </div>
 
     <button type="submit" class="btn btn-info">保存</button>
 </form>
-
+</div>
 <script type="text/html" id="needKnowTemp">
     <tr class="needKnow">
         <td><input type="text" name="needKnow.frontNeedKnow[$index].title" class="form-control extra-info-item-title"
@@ -249,36 +281,82 @@
     }
 
     $(function () {
-		  
-        $(".extra-info-item-delete").click(function () {
-            $(this).parent().parent().remove();
+    	  /*弹出框**/
+        $('.selectUser').click(function(){
+        alert("123");
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
+				var sce = win.getItems();
+				alert(sce);
+				
+				return true;
+			});
+        })
+    
+    
+    	$(document).delegate('#logoUrlUploadFile','change',function(){
+            $.ajaxFileUpload
+            (
+                    {
+                 		url: '/upload/file', //用于文件上传的服务器端请求地址
+                        secureuri: false, //是否需要安全协议，一般设置为false
+                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
+                        dataType: 'json', //返回值类型 一般设置为json
+                        success: function (data,status)  //服务器成功响应处理函数
+                        {
+                            if(data && data.status==200){
+                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
+                                $('#logoUrlUploadFileReturnInput').val(data.data);
+                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+
+                            }else{
+                                layer.alert('上传失败');
+                            }
+                        },
+                        error: function (data)//服务器响应失败处理函数
+                        {
+                            layer.alert('服务器异常');
+                        }
+                    }
+            )
         });
+        
+        
+        $(document).delegate('#logoUrlUploadFile1','change',function(){
+            $.ajaxFileUpload
+            (
+                    {
+                 		url: '/upload/file', //用于文件上传的服务器端请求地址
+                        secureuri: false, //是否需要安全协议，一般设置为false
+                        fileElementId: 'logoUrlUploadFile1', //文件上传域的ID
+                        dataType: 'json', //返回值类型 一般设置为json
+                        success: function (data,status)  //服务器成功响应处理函数
+                        {
+                            if(data && data.status==200){
+                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
+                                $('#logoUrlUploadFileReturnInput1').val(data.data);
+                                $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
+
+                            }else{
+                                layer.alert('上传失败');
+                            }
+                        },
+                        error: function (data)//服务器响应失败处理函数
+                        {
+                            layer.alert('服务器异常');
+                        }
+                    }
+            )
+        });
+        
+        
+      
+    
+    
 
         $('.locationXYSelectBtn').click(function () {
             openBaiduMap(115.727899, 37.723961, mapCallback);
         });
-        $('.selectUserBtn').click(function () {
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
-                yes: function (index) {
-                    console.log(frames == window);
-                    layer.alert(top.resultValue.length)
-                    if (top.resultValue && top.resultValue.length == 0) {
-                        layer.alert("请选择用户");
-                        return false;
-                    } else {
-                        console.log(top.resultValue);
-                    }
-                }
-            });
-        })
+      
 
         /*提交**/
         $("#saveScenicSpot").validate({

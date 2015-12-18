@@ -127,6 +127,27 @@
                         <input type="hidden" name="userId" value="$!hotel.userId" disabled>
                     </td>
                 </tr>
+                
+                 <tr>
+                        <td><span class="spColor">*</span>列表页展示图</td>
+                        <td>
+                     
+	                    <div class="logoView">
+	                        <img src="#if($VO.scenic.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg">
+	                    </div>
+                        </td>
+                    </tr>
+                    
+                    
+                     <tr>
+                        <td><span class="spColor">*</span>详情页展示图</td>
+                        <td>
+                          
+	                    <div class="logoView">
+	                        <img src="#if($VO.scenic.coverUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg1">
+	                    </div>
+                        </td>
+                    </tr>
             </table>
         </div>
     </div>
@@ -213,49 +234,4 @@ $(".addNeedKnow").unbind("click").click(function () {
             });
         })
 
-		/*提交**/
-	$("#saveScenicSpot").validate(
-			{
-				rules:{
-					'scenic.name' : {
-						required : true
-					}
-				},
-				errorPlacement : function(error, element) { // 指定错误信息位置
-
-					if (element.is(':radio') || element.is(':checkbox')
-							|| element.is(':input')) { // 如果是radio或checkbox
-						var eid = element.attr('name'); // 获取元素的name属性
-						error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
-					} else {
-						error.insertAfter(element);
-					}
-				},
-				submitHandler : function(form) {
-					var options = {
-						url : "save",
-						type : "post",
-						dataType : "json",
-						success : function(data) {
-							
-							if (data.success) {
-								
-							} else {
-								alert("111");
-
-							}
-						},
-						error : function(XMLHttpRequest, textStatus,
-								errorThrown) {
-							alert("123")
-						}
-					};
-					
-					$(form).ajaxSubmit(options);
-				},
-				invalidHandler : function(form, validator) { // 不通过回调
-					return false;
-				}
-			});
-    });
-</script>
+	
