@@ -45,13 +45,13 @@ public class TravelOfficialManageController extends BaseController {
 	public String list(Model model, TravelOfficialListQuery travelOfficialListQuery) throws Exception {
 		TravelOfficialVO travelOfficialVO = new TravelOfficialVO();
 		travelOfficialVO.setTravelOfficialListQuery(travelOfficialListQuery);
-		List<TravelOfficial> travelOfficialList = travelOfficialService.getList(travelOfficialVO.getTravelOfficial());
+//		List<TravelOfficial> travelOfficialList = travelOfficialService.getList(travelOfficialVO.getTravelOfficial());
 		PageVO<TravelOfficial> pageVo = new PageVO<TravelOfficial>(travelOfficialListQuery.getPageNumber(),
 				travelOfficialListQuery.getPageSize(), 14800);
 		// pageVo.setCurrentPage(60);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("travelOfficialListQuery", travelOfficialListQuery);
-		model.addAttribute("travelOfficialList", travelOfficialList);
+//		model.addAttribute("travelOfficialList", travelOfficialList);
 		return "/system/travelOfficial/list";
 	}
 

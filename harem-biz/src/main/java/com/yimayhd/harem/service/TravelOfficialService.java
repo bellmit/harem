@@ -1,6 +1,8 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TravelOfficial;
+import com.yimayhd.harem.model.query.TravelOfficialListQuery;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ public interface TravelOfficialService {
          * 获取官方游记列表(可带查询条件)
          * @return 官方游记列表
          */
-        List<TravelOfficial> getList(TravelOfficial travelOfficial)throws Exception;
+        PageVO<TravelOfficial> getList(TravelOfficialListQuery travelOfficialListQuery)throws Exception;
         /**
          * 获取官方游记详情
          * @return 官方游记详情
