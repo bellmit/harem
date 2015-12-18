@@ -8,11 +8,9 @@ import com.yimayhd.harem.service.GroupTravelService;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
 public class GroupTravelServiceImpl extends TravelServiceImpl<GroupTravel> implements GroupTravelService {
-
 	@Override
-	public void saveOrUpdate(GroupTravel groupTravel) throws Exception {
-		// TODO Auto-generated method stub
-
+	public long publish(GroupTravel groupTravel) throws Exception {
+		return publishLine(groupTravel);
 	}
 
 	@Override

@@ -19,7 +19,7 @@
 			<ul id="tc_tab" class="nav nav-tabs">
 				#foreach($tc in $!{product.priceInfo.tcs})
 				#set($tcId = $velocityCount)
-				<li class="tab-page tc-tab #if($!{tcId}==1) active #end" tc-id="$!{tcId}" tc-key="$!{tc.id}">
+				<li class="tab-page tc-tab #if($!{tcId}==1) active #end" rId="$!{tcId}" id='tc_$!{tcId}_tab'>
 					<a href="#tc_$!{tcId}" data-toggle="tab" id="tc_tab_$!{tcId}_a">套餐$!{tcId}</a>
 					<i class="icon icon-remove tc-del" tc-id="$!{tcId}"></i>
 				</li>
@@ -28,7 +28,7 @@
 			<div id="tc_page" class="tab-content">
 				#foreach($tc in ${product.priceInfo.tcs})
 				#set($tcId = $velocityCount)
-				<div class="tab-pane in #if($tcId==1) active #end" id="tc_$!{tcId}">
+				<div class="tab-pane in #if($tcId==1) active #end" tc-id="tc_$!{tcId}">
 					<table class="table">
 							<tr>
 								<td>
@@ -293,7 +293,7 @@
 	function getPriceInfo() {
 		var tcs = [];
 		$(".tc-tab").each(function(){
-			var tcId = $(this).attr("tc-id");
+			var tcId = $(this).attr("rId");
 			var months = [];
 			$(".tc-"+tcId+"-month").each(function(){
 				var mId = $(this).attr("rId");
@@ -317,26 +317,35 @@
                     	discount: $("#"+key_$!{persionPropertyValue.id}+"_3").val()
 					});
 					#end
-					days.push({
+					var day = {
     					PId:$(this).attr("p-id"),
         				PType:$(this).attr("p-type"),
         				PTxt:$(this).attr("p-txt"),
 						blocks:blocks
-					});
+					};
+					// alert(JSON.stringify(day));
+					days.push(day);
 				});
-				months.push({
-					date:mTime,
-					days:days});
+				var month = {
+    				date:mTime,
+    				days:days
+				};
+				// alert(JSON.stringify(month));
+				months.push(month);
 			});
-			tcs.push({
+			var tc = {
 				id:$("#tc_"+tcId+"_name").attr("tc-id"),
 				name:$("#tc_"+tcId+"_name").val(),
 				PId:$("#tc_"+tcId+"_name").attr("p-id"),
 				PType:$("#tc_"+tcId+"_name").attr("p-type"),
 				PTxt:$("#tc_"+tcId+"_name").attr("p-txt"),
 				months:months
-			});
+			};
+			alert(JSON.stringify(tc));
+			tcs.push(tc);
 		});
-		return {tcs:tcs,limit:$(".day-limit").val()};
+		var result = {tcs:tcs,limit:$(".day-limit").val()};
+		// alert(JSON.stringify(result));
+		return result;
 	}
 </script>

@@ -3,11 +3,9 @@ package com.yimayhd.harem.model.travel.selfServiceTravel;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.harem.model.travel.IdNamePair;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.share_json.FlightDetail;
 import com.yimayhd.ic.client.model.domain.share_json.FlightInfo;
@@ -24,7 +22,7 @@ public class TripPackageInfo {
 	private int hasFlight;// 有无航班
 	private FlightInfoVO flightInfo;// 航班信息
 	private List<FlightVO> flights;// 航班列表
-	private List<IdNamePair> hotels;// 酒店
+	private List<HotelInfo> hotels;// 酒店
 
 	public TripPackageInfo() {
 	}
@@ -47,13 +45,7 @@ public class TripPackageInfo {
 			}
 		}
 		// 酒店
-		this.hotels = new ArrayList<IdNamePair>();
-		List<HotelInfo> hotelInfos = JSON.parseArray(line.getHotels(), HotelInfo.class);
-		if (CollectionUtils.isNotEmpty(hotelInfos)) {
-			for (HotelInfo hotelInfo : hotelInfos) {
-				this.hotels.add(new IdNamePair(hotelInfo.getId(), hotelInfo.getName()));
-			}
-		}
+		this.hotels = JSON.parseArray(line.getHotels(), HotelInfo.class);
 	}
 
 	public int getHasFlight() {
@@ -64,11 +56,11 @@ public class TripPackageInfo {
 		this.hasFlight = hasFlight;
 	}
 
-	public List<IdNamePair> getHotels() {
+	public List<HotelInfo> getHotels() {
 		return hotels;
 	}
 
-	public void setHotels(List<IdNamePair> hotels) {
+	public void setHotels(List<HotelInfo> hotels) {
 		this.hotels = hotels;
 	}
 

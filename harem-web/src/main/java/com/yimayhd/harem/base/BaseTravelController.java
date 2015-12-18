@@ -12,7 +12,6 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
-import com.yimayhd.harem.model.travel.IdNamePair;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
@@ -41,16 +40,9 @@ public abstract class BaseTravelController extends BaseController {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
 		put("PT_MASTER", LineOwnerType.MASTER.getType());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
-		List<IdNamePair> tags = new ArrayList<IdNamePair>();
 		if (tagResult != null && tagResult.isSuccess()) {
-			List<ComTagDO> values = tagResult.getValue();
-			if (CollectionUtils.isNotEmpty(values)) {
-				for (ComTagDO comTagDO : values) {
-					tags.add(new IdNamePair(comTagDO.getId(), comTagDO.getName()));
-				}
-			}
+			put("tags", tagResult.getValue());
 		}
-		put("tags", tags);
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 		put("ways", TripTraffic.ways());

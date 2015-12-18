@@ -13,6 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
@@ -97,8 +98,57 @@ public class GroupTravel extends BaseTravel {
 
 	@Override
 	public void setRouteInfo(LinePublishDTO dto) {
-		// TODO Auto-generated method stub
-
+		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
+		for (int i = 1; i <= this.tripInfo.size(); i++) {
+			TripDay tripDay = this.tripInfo.get(i - 1);
+			// 交通
+			RouteItemDO routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_TRAFFIC_INFO.getType());
+			RouteTrafficInfo routeTrafficInfo = tripDay.getRouteTrafficInfo();
+			routeItemDO.setValue(JSON.toJSONString(routeTrafficInfo));
+			routeItemDOList.add(routeItemDO);
+			// 描述
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.DESCRIPTION.getType());
+			routeItemDO.setValue(tripDay.getDescription());
+			routeItemDOList.add(routeItemDO);
+			// 早餐
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemBreakfast()));
+			routeItemDOList.add(routeItemDO);
+			// 午餐
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemLunch()));
+			routeItemDOList.add(routeItemDO);
+			// 晚餐
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemDinner()));
+			routeItemDOList.add(routeItemDO);
+			// 景区
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemScenic()));
+			routeItemDOList.add(routeItemDO);
+			// 酒店
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemHotel()));
+			routeItemDOList.add(routeItemDO);
+		}
+		dto.setRouteItemDOList(routeItemDOList);
+		RouteDO routeDO = new RouteDO();
+		routeDO.setPicture(this.baseInfo.getTripImage());
+		dto.setRouteDO(routeDO);
 	}
 
 }

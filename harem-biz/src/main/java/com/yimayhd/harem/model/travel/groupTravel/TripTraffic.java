@@ -79,4 +79,17 @@ public class TripTraffic {
 	public static List<Entry<Integer, String>> ways() {
 		return new ArrayList<Entry<Integer, String>>(WAYS.entrySet());
 	}
+
+	/**
+	 * 生成 toRouteTrafficInfo
+	 * 
+	 * @return
+	 */
+	public RouteTrafficInfo toRouteTrafficInfo() {
+		RouteTrafficInfo routeTrafficInfo = new RouteTrafficInfo();
+		routeTrafficInfo.startCity = this.from;
+		routeTrafficInfo.destCity = this.to;
+		routeTrafficInfo.type = RouteItemType.getByType(this.way).name();
+		return routeTrafficInfo;
+	}
 }

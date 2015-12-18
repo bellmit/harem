@@ -15,7 +15,7 @@ public interface GroupTravelService {
 	 * @param groupTravel
 	 * @return
 	 */
-	public void saveOrUpdate(GroupTravel groupTravel) throws Exception;
+	public long publish(GroupTravel groupTravel) throws Exception;
 
 	/**
 	 * 查询跟团游产品

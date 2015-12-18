@@ -23,6 +23,7 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
  *
  */
 public class PriceInfo {
+	private static final int LIMIT_UNIT = 3600 * 24;
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
 	private long itemId;
@@ -34,7 +35,7 @@ public class PriceInfo {
 		this.itemId = itemDO.getId();
 		if (itemDO != null && StringUtils.isNotBlank(itemDO.getFeature())) {
 			ItemFeature feature = new ItemFeature(itemDO.getFeature());
-			this.limit = feature.getStartBookTimeLimit() / (3600 * 24);
+			this.limit = feature.getStartBookTimeLimit() / LIMIT_UNIT;
 		}
 		this.tcs = new ArrayList<PackageInfo>();
 		if (CollectionUtils.isNotEmpty(itemSkuList)) {
@@ -169,7 +170,7 @@ public class PriceInfo {
 		ItemDO itemDO = new ItemDO();
 		itemDO.setId(this.itemId);
 		ItemFeature itemFeature = new ItemFeature(null);
-		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.limit);
+		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.limit * LIMIT_UNIT);
 		itemDO.setItemFeature(itemFeature);
 		return itemDO;
 	}

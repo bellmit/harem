@@ -423,6 +423,7 @@
 				day["hotels"] = hotel;
 				result.push(day);
 			});
+			alert(JSON.stringify(result));
 			return result;
 		}
     </script>

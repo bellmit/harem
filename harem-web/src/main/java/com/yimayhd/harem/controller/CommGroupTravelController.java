@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.base.BaseTravelController;
+import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.GroupTravelService;
@@ -76,10 +76,10 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody GroupTravel save(String json) throws Exception {
+	public @ResponseBody ResponseVo save(String json) throws Exception {
 		GroupTravel gt = (GroupTravel) JSONObject.parseObject(json, GroupTravel.class);
-		System.out.println(JSON.toJSONString(gt));
-		return gt;
+		long id = groupTravelService.publish(gt);
+		return new ResponseVo(id);
 	}
 
 	/**

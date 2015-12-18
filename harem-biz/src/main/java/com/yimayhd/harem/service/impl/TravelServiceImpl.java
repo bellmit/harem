@@ -11,6 +11,8 @@ import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
+import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
@@ -67,8 +69,13 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 
 	protected abstract T createTravelInstance(LineResult lineResult, List<ComTagDO> comTagDOs) throws Exception;
 
-	protected void publish(BaseTravel travel) {
-		itemPublishServiceRef.publishLine(travel.toLinePublishDTO());
-	
+	protected long publishLine(BaseTravel travel) throws BaseException {
+		LinePublishDTO linePublishDTO = travel.toLinePublishDTO();
+		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
+		if (publishLine != null && publishLine.isSuccess()) {
+			return publishLine.getLineId();
+		} else {
+			throw new BaseException(publishLine.getResultMsg());
+		}
 	}
 }
