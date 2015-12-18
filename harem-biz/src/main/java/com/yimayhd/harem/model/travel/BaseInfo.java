@@ -230,7 +230,10 @@ public class BaseInfo {
 		line.setId(this.id);
 		line.setType(this.type);
 		line.setName(this.name);
-		line.setCoverUrl(this.productImage);
+		// image
+		line.setCoverUrl(this.tripImage);
+		line.setLogoUrl(this.productImage);
+		line.setPictures(this.tripImage);
 		if (this.fromLevel == RegionLevel.PROVINCE.getLevel()) {
 			line.setStartProvinceId(this.fromId);
 		} else if (this.fromLevel == RegionLevel.CITY.getLevel()) {
@@ -238,6 +241,7 @@ public class BaseInfo {
 		} else if (this.fromLevel == RegionLevel.TOWN.getLevel()) {
 			line.setStartTownId(this.fromId);
 		}
+		line.setStartCityName(this.fromName);
 		if (this.toLevel == RegionLevel.PROVINCE.getLevel()) {
 			line.setDestProvinceId(this.toId);
 		} else if (this.toLevel == RegionLevel.CITY.getLevel()) {
@@ -245,6 +249,7 @@ public class BaseInfo {
 		} else if (this.toLevel == RegionLevel.TOWN.getLevel()) {
 			line.setDestTownId(this.toId);
 		}
+		line.setDestCityName(this.toName);
 		line.setOwnerType(this.publisherType);
 		line.setOwnerId(this.publisherId);
 		line.setDescription(this.highlights);
@@ -252,6 +257,11 @@ public class BaseInfo {
 		NeedKnow needKnow = new NeedKnow();
 		needKnow.setFrontNeedKnow(this.extraInfos);
 		line.setNeedKnow(JSON.toJSONString(needKnow));
+		// TODO 添加价格
+		line.setPrice(10000);
+		line.setMemberPrice(1000);
+		// TODO 客服电话
+		line.setPhoneNum("4000901666");
 		return line;
 	}
 }

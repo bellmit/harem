@@ -1,8 +1,8 @@
 package com.yimayhd.harem.service.impl;
 
-import java.io.BufferedOutputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,14 +54,18 @@ public class TfsServiceImpl implements TfsService {
 	public String readHtml5(String code) throws Exception {
 		String content = "";
 		String tfsFileName = code;
-		BufferedOutputStream os = null;
+		ByteArrayOutputStream os = null;
 		try {
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			boolean result = tfsManager.fetchFile(tfsFileName, null, outputStream);
-			byte[] bytes = outputStream.toByteArray();
-			content = new String(bytes, "utf-8");
+			os = new ByteArrayOutputStream();
+			boolean result = tfsManager.fetchFile(tfsFileName, null, os);
+			if (result) {
+				byte[] bytes = os.toByteArray();
+				content = new String(bytes, "utf-8");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(os);
 		}
 		return content;
 	}

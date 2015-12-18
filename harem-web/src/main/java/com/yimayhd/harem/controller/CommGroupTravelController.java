@@ -13,6 +13,7 @@ import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.GroupTravelService;
+import com.yimayhd.ic.client.model.enums.LineType;
 
 /**
  * 商品-跟团游
@@ -40,6 +41,7 @@ public class CommGroupTravelController extends BaseTravelController {
 		if (id > 0) {
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
+			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/groupTravel/detail";
 	}
@@ -54,6 +56,7 @@ public class CommGroupTravelController extends BaseTravelController {
 	public String create(long categoryId) throws Exception {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
+		put("lineType", LineType.REGULAR_LINE);
 		return "/system/comm/travel/groupTravel/detail";
 	}
 

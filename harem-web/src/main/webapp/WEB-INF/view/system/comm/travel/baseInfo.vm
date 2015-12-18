@@ -9,7 +9,7 @@
         	<table>
         		<tr >
     				<td>*产品类型：</td>
-    				<td>跟团游<input type="hidden" class="productType" value="0"/></td>
+    				<td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
                 </tr>
     			<tr >
     				<td>*产品名称：</td>
@@ -60,7 +60,7 @@
     					<select class="form-control from">
 							<option value="">请选择出发地</option>
 							#foreach($departRegion in $departRegions)
-                            <option value="${departRegion.name}_${departRegion.code}" #if($!{product.baseInfo.fromId} == ${departRegion.code}) selected #end>${departRegion.name}</option>
+                            <option value="$!{departRegion.level}_$!{departRegion.name}_$!{departRegion.code}" #if($!{product.baseInfo.fromId} == ${departRegion.code}) selected #end>${departRegion.name}</option>
 							#end
 						</select>
     				</td>
@@ -71,7 +71,7 @@
     					<select class="form-control to">
 							<option value="">请选择目的地</option>
                             #foreach($descRegion in $descRegions)
-                            <option value="${descRegion.name}_${descRegion.code}" #if($!{product.baseInfo.toId} == ${departRegion.code}) selected #end>${descRegion.name}</option>
+                            <option value="$!{descRegion.level}_${descRegion.name}_${descRegion.code}" #if($!{product.baseInfo.toId} == ${departRegion.code}) selected #end>${descRegion.name}</option>
 							#end
                          </select>
     				</td>
@@ -234,8 +234,12 @@
 				tripImage:tripImage,
 				tags:tags,
 				publisherType:publisherType,
-				from:{id:from_arr[1],name:from_arr[0]},
-				to:{id:to_arr[1],name:to_arr[0]},
+				fromLevel:from_arr[0],
+				fromId:from_arr[2],
+				fromName:from_arr[1],
+				toLevel:to_arr[0],
+				toId:to_arr[2],
+				toName:to_arr[1],
 				highlights:highlights,
 				extraInfos:extra_infos
 			};
