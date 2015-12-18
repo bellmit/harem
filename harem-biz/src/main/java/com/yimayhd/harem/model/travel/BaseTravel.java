@@ -6,6 +6,7 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
@@ -16,6 +17,8 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
  *
  */
 public abstract class BaseTravel {
+	protected int categoryId;
+	protected int options;
 	protected BaseInfo baseInfo;// 基础信息
 	protected PriceInfo priceInfo;// 价格信息
 
@@ -64,7 +67,7 @@ public abstract class BaseTravel {
 			setRouteInfo(dto);
 		}
 		if (priceInfo != null) {
-			dto.setItemDO(priceInfo.toItemDO());
+			dto.setItemDO(this.getItemDO());
 			dto.setItemSkuDOList(priceInfo.toItemSkuDOList());
 		}
 		return dto;
@@ -78,6 +81,8 @@ public abstract class BaseTravel {
 	public List<Long> getTagIdList() {
 		return baseInfo != null ? baseInfo.getTags() : new ArrayList<Long>();
 	}
+
+	public abstract ItemDO getItemDO();
 
 	public abstract void setRouteInfo(LinePublishDTO dto);
 }

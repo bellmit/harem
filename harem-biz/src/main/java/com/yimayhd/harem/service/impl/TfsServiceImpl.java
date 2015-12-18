@@ -1,20 +1,15 @@
 package com.yimayhd.harem.service.impl;
 
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.taobao.common.tfs.TfsManager;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.service.TfsService;
-import com.yimayhd.harem.util.HttpRequestUtil;
-import com.yimayhd.harem.util.WebResourceConfigUtil;
 
 /**
  * TFS服务扩展
@@ -27,7 +22,10 @@ public class TfsServiceImpl implements TfsService {
 	private TfsManager tfsManager;
 
 	@Override
-	public String publishHtml5(String body) {
+	public String publishHtml5(String body) throws BaseException {
+		if (StringUtils.isBlank(body)) {
+			return "";
+		}
 		// String encodeHtml = "<meta http-equiv=\"Content-Type\"
 		// content=\"text/html; charset=utf-8\" \n/>";
 		String encodeHtmlHead = "<!DOCTYPE html>\n" + "<html lang=\"en\">\n" + "<head>\n"
@@ -43,20 +41,25 @@ public class TfsServiceImpl implements TfsService {
 		} catch (UnsupportedEncodingException e) {
 			bytes = html5.getBytes();
 		}
-		String tfsCode = tfsManager.saveFile(bytes, null, "html");
+		String tfsCode = "";
+		try {
+			tfsCode = tfsManager.saveFile(bytes, null, "html");
+		} catch (Exception e) {
+			throw new BaseException(e, "Html5上传失败：html={0}", html5);
+		}
 		return tfsCode;
 	}
 
 	@Override
 	public String readHtml5(String code) throws Exception {
 		String content = "";
-		String tfsFileName =code;
-    	BufferedOutputStream os = null;
+		String tfsFileName = code;
+		BufferedOutputStream os = null;
 		try {
-			ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-			boolean result=tfsManager.fetchFile(tfsFileName,null,outputStream);
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			boolean result = tfsManager.fetchFile(tfsFileName, null, outputStream);
 			byte[] bytes = outputStream.toByteArray();
-			content = new String(bytes, "utf-8") ;
+			content = new String(bytes, "utf-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

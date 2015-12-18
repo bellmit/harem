@@ -13,7 +13,6 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 
 /**
@@ -134,6 +133,10 @@ public class PriceInfo {
 		return limit;
 	}
 
+	public int getLimitBySecond() {
+		return limit * LIMIT_UNIT;
+	}
+
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
@@ -164,15 +167,6 @@ public class PriceInfo {
 			}
 		}
 		return "";
-	}
-
-	public ItemDO toItemDO() {
-		ItemDO itemDO = new ItemDO();
-		itemDO.setId(this.itemId);
-		ItemFeature itemFeature = new ItemFeature(null);
-		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.limit * LIMIT_UNIT);
-		itemDO.setItemFeature(itemFeature);
-		return itemDO;
 	}
 
 	public List<ItemSkuDO> toItemSkuDOList() {
@@ -206,5 +200,13 @@ public class PriceInfo {
 			}
 		}
 		return itemSkuDOs;
+	}
+
+	public long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(long itemId) {
+		this.itemId = itemId;
 	}
 }

@@ -1,6 +1,7 @@
 package com.yimayhd.harem.model.travel.selfServiceTravel;
 
 import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
@@ -31,5 +32,11 @@ public class SelfServiceTravel extends BaseTravel {
 	public void setRouteInfo(LinePublishDTO dto) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public ItemDO getItemDO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

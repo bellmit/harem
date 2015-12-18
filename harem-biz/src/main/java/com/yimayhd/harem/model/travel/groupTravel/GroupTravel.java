@@ -15,8 +15,12 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
+import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
@@ -96,6 +100,14 @@ public class GroupTravel extends BaseTravel {
 		this.tripInfo = tripInfo;
 	}
 
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	@Override
 	public void setRouteInfo(LinePublishDTO dto) {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
@@ -149,6 +161,29 @@ public class GroupTravel extends BaseTravel {
 		RouteDO routeDO = new RouteDO();
 		routeDO.setPicture(this.baseInfo.getTripImage());
 		dto.setRouteDO(routeDO);
+	}
+
+	@Override
+	public ItemDO getItemDO() {
+		ItemDO itemDO = new ItemDO();
+		itemDO.setId(this.priceInfo.getItemId());
+		ItemFeature itemFeature = new ItemFeature(null);
+		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.priceInfo.getLimitBySecond());
+		itemDO.setItemFeature(itemFeature);
+		itemDO.setItemType(ItemType.LINE.getValue());
+		itemDO.setPayType(1);
+		itemDO.setSource(1);
+		itemDO.setVersion(1);
+		itemDO.setOptions(options);
+		itemDO.setCategoryId(categoryId);
+		itemDO.setTitle(this.baseInfo.getName());
+		itemDO.setStockNum(0);
+		itemDO.setSubTitle("");
+		itemDO.setOneWord("");
+		itemDO.setDescription("");
+		itemDO.setPicUrls(this.baseInfo.getProductImage());
+		itemDO.setDetailUrl("");
+		return itemDO;
 	}
 
 }

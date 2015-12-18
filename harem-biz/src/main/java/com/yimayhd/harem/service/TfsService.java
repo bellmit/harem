@@ -1,5 +1,7 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.harem.base.BaseException;
+
 public interface TfsService {
 	/**
 	 * 将富文本格式化为Html5页发布到tfs
@@ -7,8 +9,9 @@ public interface TfsService {
 	 * @param body
 	 *            富文本
 	 * @return tfsCode
+	 * @throws BaseException 
 	 */
-	String publishHtml5(String body);
+	String publishHtml5(String body) throws BaseException;
 
 	/**
 	 * 读取Html5

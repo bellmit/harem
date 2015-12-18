@@ -55,6 +55,7 @@ public abstract class BaseTravelController extends BaseController {
 		if (categoryResult != null && categoryResult.isSuccess() && categoryResult.getCategroyDO() != null) {
 			List<CategoryPropertyValueDO> propertyDOs = categoryResult.getCategroyDO().getSellCategoryPropertyDOs();
 			if (CollectionUtils.isNotEmpty(propertyDOs)) {
+				put("options", 1);
 				for (CategoryPropertyValueDO propertyDO : propertyDOs) {
 					if (propertyDO.getId() == LinePropertyType.PERSON.getType()) {
 						put("persionProperty", propertyDO.getCategoryPropertyDO());
@@ -70,6 +71,8 @@ public abstract class BaseTravelController extends BaseController {
 						put("dateProperty", propertyDO.getCategoryPropertyDO());
 					}
 				}
+			} else {
+				put("options", 0);
 			}
 		}
 		put("persionPropertyValues", persionPropertyValues);
