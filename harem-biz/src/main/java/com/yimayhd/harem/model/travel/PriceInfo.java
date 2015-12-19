@@ -25,6 +25,7 @@ public class PriceInfo {
 	private static final int LIMIT_UNIT = 3600 * 24;
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
+	private String importantInfosCode;
 	private long itemId;
 
 	public PriceInfo() {
@@ -35,6 +36,7 @@ public class PriceInfo {
 		if (itemDO != null && StringUtils.isNotBlank(itemDO.getFeature())) {
 			ItemFeature feature = new ItemFeature(itemDO.getFeature());
 			this.limit = feature.getStartBookTimeLimit() / LIMIT_UNIT;
+			this.importantInfosCode = feature.getAgreement();
 		}
 		this.tcs = new ArrayList<PackageInfo>();
 		if (CollectionUtils.isNotEmpty(itemSkuList)) {
@@ -187,7 +189,7 @@ public class PriceInfo {
 										itemSkuPVPairs.add(itemSkuPVPair2);
 										itemSkuPVPairs.add(itemSkuPVPair3);
 										ItemSkuDO itemSkuDO = new ItemSkuDO();
-										itemSkuDO.setTitle(itemSkuPVPair1.getVTxt()+","+itemSkuPVPair3.getVTxt());
+										itemSkuDO.setTitle(itemSkuPVPair1.getVTxt() + "," + itemSkuPVPair3.getVTxt());
 										itemSkuDO.setSellerId(sellerId);
 										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
 										itemSkuDO.setPrice(packageBlock.getPrice());
@@ -210,5 +212,13 @@ public class PriceInfo {
 
 	public void setItemId(long itemId) {
 		this.itemId = itemId;
+	}
+
+	public String getImportantInfosCode() {
+		return importantInfosCode;
+	}
+
+	public void setImportantInfosCode(String importantInfosCode) {
+		this.importantInfosCode = importantInfosCode;
 	}
 }
