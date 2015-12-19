@@ -90,7 +90,7 @@
 	// 获得最终结果
 	function getTravelKa() {
 		if($(".resources").length > 0) {
-			var rId = $(this).attr("rId");
+			var rId = $(".resources").attr("rId");
 			return resource_table[rId];
 		} else {
 			return null;
