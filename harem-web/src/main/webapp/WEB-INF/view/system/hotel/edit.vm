@@ -31,7 +31,7 @@
                             </select>
                             <input type="hidden" id="citySelectName" name="locationCityName" value="$!hotel.locationCityName">
                             <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
-								<option selected value="$!hotel.locationCityId">$!hotel.locationCityName;$!hotel.locationProvinceName;$!hotel.locationTownName</option>
+								<option selected value="$!hotel.locationCityId">$!hotel.locationCityName</option>
                             </select>
 							<input type="hidden" id="countySelectName" name="locationTownName" value="$!hotel.locationTownName">
                             <select id="countyId" class="selCity inpControl countySelect" name="locationTownId" areaType="COUNTY">
@@ -320,20 +320,30 @@
 	var areaFlag = false;
 	
     $(function(){
+	
+		var localProvinceName = '$!hotel.locationProvinceName'+'';
 		$.ajaxSetup({
 			async : false
 		});
+		
 		/*
+		$("#provinceId").empty();
 		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
 					{'areaType': 'PROVINCE',
 					 'areaParentCode': null}, 
 					function(data) {
-						if (data[0].name) {						
-							for (var i in data) {								
+						if (data[0].name) {
+							for (var i in data) {
 								var code = data[i].code;
 								var name = data[i].name;
-								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
-								$("#provinceId").append(optionHTML);								
+								
+								if (localProvinceName == name) {
+									var optionHTML = '<option selected value="'+ code +'">'+name+'</option>';
+									$("#provinceId").append(optionHTML);
+								} else {								
+									var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+									$("#provinceId").append(optionHTML);
+								}
 							}
 							provinceFlag = true;
 						} else {
@@ -345,7 +355,8 @@
 							});
 						}
 					});
-		*/			
+		*/
+		
 		$('.provinceSelect').click(function() {
 			
 			if (provinceFlag) {
@@ -381,16 +392,16 @@
             }
 			
 			//清空所有子元素
-			if (parseInt($("#cityId").children().length) > 1) {
+			//if (parseInt($("#cityId").children().length) > 1) {
 				$("#cityId").empty();
 				$("#cityId").append('<option value="">请选择城市</option>');
-			}
+			//}
 			
 			//清空所有子元素
-			if (parseInt($("#countyId").children().length) > 1) {
+			//if (parseInt($("#countyId").children().length) > 1) {
 				$("#countyId").empty();
-				$("#countyId").append('<option value="">请选择城市</option>');
-			}
+				$("#countyId").append('<option value="">请选择区县</option>');
+			//}
 			
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
 					{'areaType': 'CITY',
@@ -424,10 +435,10 @@
             }
 
 			//清空所有子元素
-			if (parseInt($("#countyId").children().length) > 1) {
+			//if (parseInt($("#countyId").children().length) > 1) {
 				$("#countyId").empty();
-				$("#countyId").append('<option value="">请选择城市</option>');
-			}
+				$("#countyId").append('<option value="">请选择区县</option>');
+			//}
 			
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
 					{'areaType': 'COUNTY',

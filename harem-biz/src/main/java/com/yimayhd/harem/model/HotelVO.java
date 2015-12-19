@@ -33,12 +33,12 @@ public class HotelVO extends HotelDO implements Serializable {
         //个性化转换
         hotelVO.setMasterRecommend(JSON.parseObject(hotelDO.getRecommend(), MasterRecommend.class));
         //hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
-        hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
-        hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));
-        FacilityIconServiceImpl facilityIconService = new FacilityIconServiceImpl();
-        hotelVO.setRoomFacilityList(BitUtil.convertFacility(hotelDO.getRoomFacility(),facilityIconService.getMapByType(1),0));
-        hotelVO.setRoomServiceList(BitUtil.convertFacility(hotelDO.getRoomService(), facilityIconService.getMapByType(2), 0));
-        hotelVO.setHotelFacilityList(BitUtil.convertFacility(hotelDO.getHotelFacility(), facilityIconService.getMapByType(3), 0));
+        //hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
+        //hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));
+        //FacilityIconServiceImpl facilityIconService = new FacilityIconServiceImpl();
+        //hotelVO.setRoomFacilityList(BitUtil.convertFacility(hotelDO.getRoomFacility(),facilityIconService.getMapByType(1),0));
+        //hotelVO.setRoomServiceList(BitUtil.convertFacility(hotelDO.getRoomService(), facilityIconService.getMapByType(2), 0));
+        //hotelVO.setHotelFacilityList(BitUtil.convertFacility(hotelDO.getHotelFacility(), facilityIconService.getMapByType(3), 0));
         return hotelVO;
     }
     public static HotelDO getHotelDO(HotelVO hotelVO) throws Exception {
