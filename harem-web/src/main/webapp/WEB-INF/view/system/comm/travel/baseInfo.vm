@@ -208,10 +208,10 @@
 		$("#selectOfficial").click(function() {
 			var content = $(".publisher-content");
 			content.empty();
-			var span = $("<span class='label label-badge label-info publisher'>"+${officialPublisher.name}+"</span>");
-			span.attr("rId", "$!{officialPublisher.userId}");
-			span.attr("rName", "$!{officialPublisher.name}");
-			span.attr("rPic", "$!{officialPublisher.userPic}");
+			var span = $("<span class='label label-badge label-info publisher'>"+"$!{officialPublisher.nickname}"+"</span>");
+			span.attr("rId", "$!{officialPublisher.id}");
+			span.attr("rName", "$!{officialPublisher.nickname}");
+			span.attr("rPic", "$!{officialPublisher.avatar}");
 			content.append(span);
 		});
 		$("#selectPublisher").click(function() {
@@ -220,8 +220,8 @@
 				if(ka) {
 					var content = $(".publisher-content");
 					content.empty();
-    				var id = ka.userId;
-    				var name = ka.name;
+    				var id = ka.id;
+    				var name = ka.nickname;
     				var pic = ka.avatar;
     				var span = $("<span class='label label-badge label-info publisher'>"+name+"</span>");
     				span.attr("rId",id);

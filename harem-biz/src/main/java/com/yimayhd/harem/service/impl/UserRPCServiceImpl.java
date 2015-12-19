@@ -1,13 +1,17 @@
 package com.yimayhd.harem.service.impl;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
@@ -29,6 +33,7 @@ import com.yimayhd.user.client.service.UserService;
  * @author czf
  */
 public class UserRPCServiceImpl implements UserRPCService {
+	private static Logger log = LoggerFactory.getLogger(UserRPCServiceImpl.class);
 
 	@Autowired
 	private MerchantService merchantServiceRef;
@@ -81,6 +86,10 @@ public class UserRPCServiceImpl implements UserRPCService {
 				pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(), tradeMemberQuery.getPageSize(),
 						memResult.getTotalCount(), userDOList);
 			}
+		} else {
+			log.error(MessageFormat.format("sellerId={0},query={1}", sellerId, JSON.toJSONString(tradeMemberQuery)));
+			log.error(MessageFormat.format("查询会员列表失败：code={0},msg={1}", memResult.getErrorCode(),
+					memResult.getErrorMsg()));
 		}
 		return pageVO;
 	}
@@ -93,15 +102,19 @@ public class UserRPCServiceImpl implements UserRPCService {
 		if (result != null && result.isSuccess()) {
 			totalCount = result.getTotalCount();
 			if (CollectionUtils.isNotEmpty(result.getList())) {
-				itemList.addAll(itemList);
+				itemList.addAll(result.getList());
 			}
+		} else {
+			log.error(MessageFormat.format("query={0}", JSON.toJSONString(query)));
+			log.error(MessageFormat.format("查询用户列表失败：code={0},msg={1}", result.getErrorCode(), result.getErrorMsg()));
 		}
 		return new PageVO<UserDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
 
 	@Override
 	public UserDO getUserById(long id) {
-		return userServiceRef.getUserDOById(id);
+		UserDO user = userServiceRef.getUserDOById(id);
+		return user;
 	}
 
 	@Override
@@ -112,6 +125,10 @@ public class UserRPCServiceImpl implements UserRPCService {
 		if (travelKaListPage != null & travelKaListPage.isSuccess()) {
 			totalCount = travelKaListPage.getTotalCount();
 			result = travelKaListPage.getList();
+		} else {
+			log.error(MessageFormat.format("query={0}", JSON.toJSONString(query)));
+			log.error(MessageFormat.format("查询旅游咖列表失败：code={0},msg={1}", travelKaListPage.getErrorCode(),
+					travelKaListPage.getErrorMsg()));
 		}
 		return new PageVO<TravelKaVO>(query.getPageNo(), query.getPageSize(), totalCount, result);
 	}
@@ -121,6 +138,10 @@ public class UserRPCServiceImpl implements UserRPCService {
 		MemResult<TravelKaVO> travelKaDetail = travelKaServiceRef.getTravelKaDetail(id);
 		if (travelKaDetail != null & travelKaDetail.isSuccess()) {
 			return travelKaDetail.getValue();
+		} else {
+			log.error(MessageFormat.format("id={0}", id));
+			log.error(MessageFormat.format("查询旅游咖信息失败：code={0},msg={1}", travelKaDetail.getErrorCode(),
+					travelKaDetail.getErrorMsg()));
 		}
 		return null;
 	}

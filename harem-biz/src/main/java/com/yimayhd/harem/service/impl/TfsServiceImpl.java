@@ -43,7 +43,7 @@ public class TfsServiceImpl implements TfsService {
 			bytes = html5.getBytes();
 		}
 		String tfsCode = "";
-		try {
+		try { 
 			tfsCode = tfsManager.saveFile(bytes, null, "html");
 		} catch (Exception e) {
 			throw new BaseException(e, "Html5上传失败：html={0}", html5);
