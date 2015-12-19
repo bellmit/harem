@@ -16,7 +16,7 @@
       <a href="#priceInfo" data-toggle="tab">价格信息</a>
     </li>
 	<li>
-      <a href="#importantThings" data-toggle="tab">重要事项</a>
+      <a href="#importantInfos" data-toggle="tab">重要事项</a>
     </li>
   </ul>
   <div class="tab-content">
@@ -29,8 +29,8 @@
     <div class="tab-pane priceInfo" id="priceInfo">
         #parse("/system/comm/travel/priceInfo.vm")
     </div>
-	<div class="tab-pane bigEditor" id="importantThings">
-        #parse("/bigEditor.vm")
+	<div class="tab-pane bigEditor" id="importantInfos">
+        #parse("/system/comm/travel/bigEditor.vm")
     </div>
   </div>
   <div class="groupTravelBot">
@@ -45,9 +45,13 @@
             tripInfo:getTripInfo(),
             priceInfo:getPriceInfo()
         };
-        //console.log(JSON.stringify(result));
-		//alert(JSON.stringify(result));
-        $.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save",{json:JSON.stringify(result)},function(data){
+		var params = {
+			json:JSON.stringify(result),
+			importantInfos:getImportantInfos()
+		};
+        //console.log(JSON.stringify(params));
+		//alert(JSON.stringify(params));
+        $.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save",params,function(data){
             alert(JSON.stringify(data));
         },"json");
     });

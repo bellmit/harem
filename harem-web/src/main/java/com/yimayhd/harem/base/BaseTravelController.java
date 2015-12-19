@@ -14,6 +14,7 @@ import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.RegionService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
@@ -29,12 +30,15 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
  *
  */
 public abstract class BaseTravelController extends BaseController {
+	private static final long DEFAULT_OFFICIAL_PUBLISHER_ID = 1000 * 10000;
 	@Resource
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
 	protected RegionService regionService;
 	@Resource
 	protected CategoryService categoryServiceRef;
+	@Autowired
+	protected UserRPCService userService;
 
 	protected void initBaseInfo() throws BaseException {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
@@ -46,6 +50,7 @@ public abstract class BaseTravelController extends BaseController {
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 		put("ways", TripTraffic.ways());
+		put("officialPublisher", userService.getUserById(DEFAULT_OFFICIAL_PUBLISHER_ID));
 	}
 
 	protected void initLinePropertyTypes(long categoryId) {
@@ -65,7 +70,8 @@ public abstract class BaseTravelController extends BaseController {
 								persionPropertyValues.add(categoryValueDO);
 							}
 						}
-					} else if (propertyDO.getCategoryPropertyDO().getId() == LinePropertyType.TRAVEL_PACKAGE.getType()) {
+					} else if (propertyDO.getCategoryPropertyDO().getId() == LinePropertyType.TRAVEL_PACKAGE
+							.getType()) {
 						put("packageProperty", propertyDO.getCategoryPropertyDO());
 					} else if (propertyDO.getCategoryPropertyDO().getId() == LinePropertyType.DEPART_DATE.getType()) {
 						put("dateProperty", propertyDO.getCategoryPropertyDO());

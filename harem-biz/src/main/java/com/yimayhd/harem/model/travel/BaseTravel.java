@@ -7,6 +7,9 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemFeature;
+import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
@@ -82,7 +85,33 @@ public abstract class BaseTravel {
 		return baseInfo != null ? baseInfo.getTags() : new ArrayList<Long>();
 	}
 
-	public abstract ItemDO getItemDO();
+	/**
+	 * 获取ItemDO
+	 * 
+	 * @return
+	 */
+	public ItemDO getItemDO() {
+		ItemDO itemDO = new ItemDO();
+		itemDO.setId(this.priceInfo.getItemId());
+		ItemFeature itemFeature = new ItemFeature(null);
+		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.priceInfo.getLimitBySecond());
+		itemFeature.put(ItemFeatureKey.AGREEMENT, this.priceInfo.getImportantInfosCode());
+		itemDO.setItemFeature(itemFeature);
+		itemDO.setItemType(ItemType.LINE.getValue());
+		itemDO.setPayType(1);
+		itemDO.setSource(1);
+		itemDO.setVersion(1);
+		itemDO.setOptions(options);
+		itemDO.setCategoryId(categoryId);
+		itemDO.setTitle(this.baseInfo.getName());
+		itemDO.setStockNum(0);
+		itemDO.setSubTitle("");
+		itemDO.setOneWord("");
+		itemDO.setDescription("");
+		itemDO.setPicUrls(this.baseInfo.getTripImage());
+		itemDO.setDetailUrl("");
+		return itemDO;
+	}
 
 	public abstract void setRouteInfo(LinePublishDTO dto);
 }

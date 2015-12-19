@@ -13,6 +13,7 @@ import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.GroupTravelService;
+import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.enums.LineType;
 
 /**
@@ -26,6 +27,8 @@ import com.yimayhd.ic.client.model.enums.LineType;
 public class CommGroupTravelController extends BaseTravelController {
 	@Autowired
 	private GroupTravelService groupTravelService;
+	@Autowired
+	private TfsService tfsService;
 
 	/**
 	 * 详细信息页
@@ -41,6 +44,7 @@ public class CommGroupTravelController extends BaseTravelController {
 		if (id > 0) {
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
+			put("importantInfos", tfsService.readHtml5(gt.getPriceInfo().getImportantInfosCode()));
 			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/groupTravel/detail";
@@ -79,8 +83,10 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody ResponseVo save(String json) throws Exception {
+	public @ResponseBody ResponseVo save(String json, String importantInfos) throws Exception {
 		GroupTravel gt = (GroupTravel) JSONObject.parseObject(json, GroupTravel.class);
+		String code = tfsService.publishHtml5(importantInfos);
+		gt.getPriceInfo().setImportantInfosCode(code);
 		long id = groupTravelService.publish(gt);
 		return new ResponseVo(id);
 	}

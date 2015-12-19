@@ -63,7 +63,7 @@
 	function showData(itemList) {
 		$(".selectResourceTable").empty();
 		var table = $("<table class='table table-striped table-hover resourceTable'/>");
-		table.append("<thead><tr><th>餐厅名称</th><th>状态</th></tr></thead>");
+		table.append("<thead><tr><th>名称</th><th>状态</th></tr></thead>");
         var tbody = $("<tbody/>");
 		table.append(tbody);
 		for(i in itemList) {
@@ -71,7 +71,7 @@
 			resource_table[item.id] = item;
 			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
 			tr.append($("<td>"+item.name+"</td>"));
-			tr.append($("<td>"+item.status+"</td>"));
+			tr.append($("<td>"+(item.status==1?'有效':'停用')+"</td>"));
 			tbody.append(tr);
 		}
 		$(".selectResourceTable").append(table);

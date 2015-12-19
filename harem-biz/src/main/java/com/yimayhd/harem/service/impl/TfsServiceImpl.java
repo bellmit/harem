@@ -34,7 +34,8 @@ public class TfsServiceImpl implements TfsService {
 				+ "    <meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no\">\n"
 				+ "    <title></title>\n" + "    <style>img{width: 100%;}</style>" + "</head>\n" + "<body>";
 		String encodeHtmlFoot = "</body>\n" + "</html>";
-		String html5 = encodeHtmlHead + body + encodeHtmlFoot;
+		// String html5 = encodeHtmlHead + body + encodeHtmlFoot;
+		String html5 = body;
 		byte[] bytes = null;
 		try {
 			bytes = html5.getBytes("utf-8");
@@ -42,7 +43,7 @@ public class TfsServiceImpl implements TfsService {
 			bytes = html5.getBytes();
 		}
 		String tfsCode = "";
-		try {
+		try { 
 			tfsCode = tfsManager.saveFile(bytes, null, "html");
 		} catch (Exception e) {
 			throw new BaseException(e, "Html5上传失败：html={0}", html5);
@@ -51,21 +52,22 @@ public class TfsServiceImpl implements TfsService {
 	}
 
 	@Override
-	public String readHtml5(String code) throws Exception {
+	public String readHtml5(String tfsFileName) throws Exception {
 		String content = "";
-		String tfsFileName = code;
-		ByteArrayOutputStream os = null;
-		try {
-			os = new ByteArrayOutputStream();
-			boolean result = tfsManager.fetchFile(tfsFileName, null, os);
-			if (result) {
-				byte[] bytes = os.toByteArray();
-				content = new String(bytes, "utf-8");
+		if (StringUtils.isNotBlank(tfsFileName)) {
+			ByteArrayOutputStream os = null;
+			try {
+				os = new ByteArrayOutputStream();
+				boolean result = tfsManager.fetchFile(tfsFileName, null, os);
+				if (result) {
+					byte[] bytes = os.toByteArray();
+					content = new String(bytes, "utf-8");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(os);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			IOUtils.closeQuietly(os);
 		}
 		return content;
 	}

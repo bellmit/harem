@@ -7,7 +7,7 @@ import com.yimayhd.harem.model.Activity;
 import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.model.vo.ActivityVO;
 import com.yimayhd.harem.service.ActivityService;
-import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 
 import org.springframework.beans.factory.annotation.Autowired;
