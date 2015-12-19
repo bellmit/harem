@@ -155,6 +155,17 @@ public class ResourceForSelectController extends BaseController {
 	}
 
 	/**
+	 * 选择一个用户
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selecOnetUser")
+	public String selecOnetUser() throws Exception {
+		return "/system/resource/forSelect/selecOnetUser";
+	}
+
+	/**
 	 * 选择用户
 	 * 
 	 * @return
@@ -194,9 +205,9 @@ public class ResourceForSelectController extends BaseController {
 	public String selectOneTravelKa() throws Exception {
 		return "/system/resource/forSelect/selectOneTravelKa";
 	}
-	
+
 	/**
-	 * 选择旅游咖
+	 * 选择一个旅游咖
 	 * 
 	 * @return
 	 * @throws Exception

@@ -42,15 +42,12 @@
     			<tr >
     				<td>*发布人：</td>
                     <td>
-    					<span><input type="radio" value="$!{PT_DEFAULT}" id="publisherType1" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} != $!{PT_MASTER}) checked #end><label for="publisherType1">怡美官方</label></span>
-    					<span><input type="radio" value="$!{PT_MASTER}" id="publisherType2" name="publisherType" class="publisherType" #if($!{product.baseInfo.publisherType} == $!{PT_MASTER}) checked #end><label for="publisherType2">旅游咖</label></span>
-    					<span class="travel-ka-panel" #if($!{product.baseInfo.publisherType} != $!{PT_MASTER}) style="display:none;" #end>
-    						<button class="btn btn-primary" id="selectTravelKa">请选择旅游咖</button>
-    						<span class="travel-ka-content">
-								#if($!{product.baseInfo.publisherType} == $!{PT_MASTER})
-									<span class='label label-badge label-info travel-ka' rId="$!{product.baseInfo.recommond.userId}" rName="$!{product.baseInfo.recommond.name}" rPic="$!{product.baseInfo.recommond.userPic}">$!{product.baseInfo.recommond.name}</span>
-								#end
-							</span>
+						<button class="btn btn-default" id="selectOfficial">官方发布</button>
+    					<button class="btn btn-primary" id="selectPublisher">请选择发布者</button>
+						<span class="publisher-content">
+							#if($!{product.baseInfo.recommond})
+                            <span class='label label-badge label-info publisher' rId="$!{product.baseInfo.recommond.userId}" rName="$!{product.baseInfo.recommond.name}" rPic="$!{product.baseInfo.recommond.userPic}">$!{product.baseInfo.recommond.name}</span>
+							#end
 						</span>
     				</td>
                 </tr>
@@ -208,20 +205,30 @@
 				$(".travel-ka-panel").hide();
 			}
 		});
-		$("#selectTravelKa").click(function() {
-			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneTravelKa','选择旅游咖 ',function() {
+		$("#selectOfficial").click(function() {
+			var content = $(".publisher-content");
+			content.empty();
+			var span = $("<span class='label label-badge label-info publisher'>"+${officialPublisher.name}+"</span>");
+			span.attr("rId", "$!{officialPublisher.userId}");
+			span.attr("rName", "$!{officialPublisher.name}");
+			span.attr("rPic", "$!{officialPublisher.userPic}");
+			content.append(span);
+		});
+		$("#selectPublisher").click(function() {
+			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneUser','选择发布人',function() {
 				var ka = win.getTravelKa();
-				if(ka == null) return;
-				var id = ka.id;
-				var name = ka.name;
-				var pic = ka.pic;
-				var span = $("<span class='label label-badge label-info travel-ka'>"+name+"</span>");
-				span.attr("rId",id);
-				span.attr("rName",name);
-				span.attr("rPic",pic);
-				var content = $(".travel-ka-content");
-				content.empty();
-				content.append(span);
+				if(ka) {
+					var content = $(".publisher-content");
+					content.empty();
+    				var id = ka.userId;
+    				var name = ka.name;
+    				var pic = ka.avatar;
+    				var span = $("<span class='label label-badge label-info publisher'>"+name+"</span>");
+    				span.attr("rId",id);
+    				span.attr("rName",name);
+    				span.attr("rPic",pic);
+    				content.append(span);
+				}
 				//console.log(JSON.stringify(ka));
 				//一般设定yes回调，必须进行手工关闭
 				return true;

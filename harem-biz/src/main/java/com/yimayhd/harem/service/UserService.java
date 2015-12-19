@@ -23,16 +23,7 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<User> getClubMemberListByClubId(long clubId) throws Exception;
-
-	/**
-	 * 获取用户列表
-	 * 
-	 * @param user
-	 * @return
-	 * @throws Exception
-	 */
-	List<User> getUserList(User user) throws Exception;
+	List<User> getClubMemberListByClubId(long clubId);
 
 	/**
 	 * 获取用户列表
@@ -41,8 +32,16 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	PageVO<User> getUserListByPage(UserListQuery query) throws Exception;
+	PageVO<User> getUserListByPage(UserListQuery query);
 
+	/**
+	 * 用过用户id查找用户
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	User getUserById(long id);
 	// 商贸部分
 
 	/**
@@ -55,8 +54,6 @@ public interface UserService {
 	 */
 	PageVO<UserDO> getMemberByUserId(long sellerId, TradeMemberQuery tradeMemberQuery) throws Exception;
 
-	User getById(long id) throws Exception;
-
 	/**
 	 * 获取旅游咖列表
 	 * 
@@ -64,7 +61,7 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query) throws Exception;
+	PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query);
 
 	/**
 	 * 获取旅游咖详细信息
@@ -73,5 +70,5 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	TravelKaVO getTravelKaById(long id) throws Exception;
+	TravelKaVO getTravelKaById(long id);
 }

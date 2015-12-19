@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl() {
 		for (long i = 0; i < 100; i++) {
 			try {
-				table.add(getById(i));
+				table.add(getUserById(i));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getClubMemberListByClubId(long clubId) throws Exception {
+	public List<User> getClubMemberListByClubId(long clubId) {
 		List<User> userList = new ArrayList<User>();
 		for (int i = 0; i < 2; i++) {
 			User user = new User();
@@ -55,28 +55,6 @@ public class UserServiceImpl implements UserService {
 			user.setUserName("李四" + i);
 			user.setGmtCreated(new Date());
 			userList.add(user);
-		}
-		return userList;
-	}
-
-	@Override
-	public List<User> getUserList(User user) throws Exception {
-		List<User> userList = new ArrayList<User>();
-		for (int i = 0; i < 5; i++) {
-			User userData = new User();
-			userData.setId((long) i);
-			userData.setUserName("Gost");
-			userData.setRealName("宋江");
-			userData.setGender(1);
-			userData.setCard("4101831900");
-			userData.setAge(18);
-			userData.setHomePlace("湖南老家");
-			userData.setProvinceId((long) 10010);
-			userData.setProvinceName("湖南");
-			userData.setCityName("郴州");
-			userData.setGmtCreated(new Date());
-			userData.setRemark("备注");
-			userList.add(userData);
 		}
 		return userList;
 	}
@@ -116,7 +94,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageVO<User> getUserListByPage(UserListQuery query) throws Exception {
+	public PageVO<User> getUserListByPage(UserListQuery query) {
 		int totalCount = count(query);
 		PageVO<User> page = new PageVO<User>(query.getPageNumber(), query.getPageSize(), totalCount);
 		List<User> itemList = find(query);
@@ -131,11 +109,11 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	protected Integer count(UserListQuery query) throws Exception {
+	protected Integer count(UserListQuery query) {
 		return query(table, query).size();
 	}
 
-	protected List<User> find(UserListQuery query) throws Exception {
+	protected List<User> find(UserListQuery query) {
 		int fromIndex = query.getPageSize() * (query.getPageNumber() - 1);
 		int toIndex = query.getPageSize() * query.getPageNumber();
 		List<User> result = query(table, query);
@@ -163,7 +141,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getById(long id) throws Exception {
+	public User getUserById(long id) {
 		User userData = new User();
 		userData.setId(id);
 		userData.setName("用户" + id);
@@ -182,7 +160,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query) throws Exception {
+	public PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query) {
 		MemPageResult<TravelKaVO> travelKaListPage = travelKaServiceRef.getTravelKaListManagerPage(query);
 		List<TravelKaVO> result = new ArrayList<TravelKaVO>();
 		int totalCount = 0;
@@ -194,7 +172,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public TravelKaVO getTravelKaById(long id) throws Exception {
+	public TravelKaVO getTravelKaById(long id) {
 		MemResult<TravelKaVO> travelKaDetail = travelKaServiceRef.getTravelKaDetail(id);
 		if (travelKaDetail != null & travelKaDetail.isSuccess()) {
 			return travelKaDetail.getValue();
