@@ -27,17 +27,17 @@
                         <div class="selectList">
                             <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!hotel.locationProvinceName">
                             <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
-                                <option value="&&&&&&00">请选择省份</option>
+                                <option selected value="$!hotel.locationProinceId">$!hotel.locationProvinceName</option>
                             </select>
                             <input type="hidden" id="citySelectName" name="locationCityName" value="$!hotel.locationCityName">
                             <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
-                                <option value="">请选择城市</option>
+								<option selected value="$!hotel.locationCityId">$!hotel.locationCityName;$!hotel.locationProvinceName;$!hotel.locationTownName</option>
                             </select>
-							<input type="hidden" id="countySelectName" name="locationCityName" value="$!hotel.locationCityName">
-                            <select id="countyId" class="selCity inpControl countySelect" name="locationCityId" areaType="COUNTY">
-                                <option value="">请选择区县</option>
+							<input type="hidden" id="countySelectName" name="locationTownName" value="$!hotel.locationTownName">
+                            <select id="countyId" class="selCity inpControl countySelect" name="locationTownId" areaType="COUNTY">
+                                <option selected value="$!hotel.locationTownId">$!hotel.locationTownName</option>
                             </select>			
-                            <input type="text" class="inpControl" name="locationTownName" id="locationTownName" placeholder="请输入街道门牌号">
+                            <input type="text" class="inpControl" name="locationText" id="locationText" placeholder="请输入街道门牌号" value="$!hotel.locationText">
                         </div>
                     </td>
                 </tr>
@@ -323,6 +323,7 @@
 		$.ajaxSetup({
 			async : false
 		});
+		/*
 		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
 					{'areaType': 'PROVINCE',
 					 'areaParentCode': null}, 
@@ -344,7 +345,7 @@
 							});
 						}
 					});
-					
+		*/			
 		$('.provinceSelect').click(function() {
 			
 			if (provinceFlag) {

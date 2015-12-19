@@ -159,8 +159,8 @@ public class HotelManageController extends BaseController {
 				.getListByType(ROOMSERVICELIST_TYPE);
 		List<FacilityIconDO> hotelFacilityList = facilityIconService
 				.getListByType(HOTELFACILITYLIST_TYPE);
-		model.addAttribute("provinceList", provinceList);
-		model.addAttribute("cityList", cityList);
+		//model.addAttribute("provinceList", provinceList);
+		//model.addAttribute("cityList", cityList);
 		model.addAttribute("hotel", hotelVO);
 		model.addAttribute("pictureList", hotelVO.getPictureList());
 		model.addAttribute("roomFacilityList", roomFacilityList);
