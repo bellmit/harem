@@ -75,18 +75,20 @@ public class ResourceForSelectController extends BaseController {
 	 * 选择景区
 	 * 
 	 * @return
+	 * 
+	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryScenicForSelect")
-	public @ResponseBody Map<String, Object> queryScenicForSelect(ScenicPageQuery query) throws Exception {
-		String pageNumberStr = get("pageNumber");
-		if (StringUtils.isNotBlank(pageNumberStr) && StringUtils.isNumeric(pageNumberStr)) {
-			query.setPageNo(Integer.parseInt(pageNumberStr));
+	public @ResponseBody Map<String, Object> queryScenicForSelect(Model model, ScenicPageQuery scenicPageQuery,
+			Integer pageNumber) throws Exception {
+		if (pageNumber != null) {
+			scenicPageQuery.setPageNo(pageNumber);
 		}
-		PageVO<ScenicDO> pageVo = scenicService.getList(query);
+		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
-		result.put("query", query);
+		result.put("query", scenicPageQuery);
 		return result;
 	}
 
@@ -107,30 +109,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectScenicOne")
+	@RequestMapping(value = "/selectOneScenic")
 	public String selectOneScenic() throws Exception {
 		return "/system/resource/forSelect/selectOneScenic";
-	}
-
-	/**
-	 * 选择景区
-	 * 
-	 * @return
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectOneScenic")
-	public @ResponseBody Map<String, Object> selectOneScenic(Model model, ScenicPageQuery scenicPageQuery,
-			Integer pageNumber) throws Exception {
-		if (pageNumber != null) {
-			scenicPageQuery.setPageNo(pageNumber);
-		}
-		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", scenicPageQuery);
-		return result;
 	}
 
 	/**
