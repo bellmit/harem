@@ -321,6 +321,7 @@
     					PId:$!{dateProperty.id},
             			PType:$!{dateProperty.type},
             			PTxt:"$!{dateProperty.text}",
+						time:dId,
 						blocks:blocks
 					};
 					// alert(JSON.stringify(day));
@@ -341,7 +342,7 @@
 				PTxt:"$!{packageProperty.text}",
 				months:months
 			};
-			alert(JSON.stringify(tc));
+			// alert(JSON.stringify(tc));
 			tcs.push(tc);
 		});
 		var result = {tcs:tcs,limit:$(".day-limit").val()};

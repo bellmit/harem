@@ -192,7 +192,7 @@
 					<div class="panel">
 						<div class="panel-heading">早餐</div>
 						<div class="panel-body" id="day_${velocityCount}_restaurant_1">
-						#foreach($restaurant in $tripDay.restaurant1)
+						#foreach($restaurant in ${tripDay.restaurant1})
 							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_1_item remove-self" id="day_${day}_restaurant_1_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
 						</div>
@@ -209,7 +209,7 @@
 					<div class="panel">
 						<div class="panel-heading">午餐</div>
 						<div class="panel-body" id="day_${velocityCount}_restaurant_2">
-						#foreach($restaurant in $tripDay.restaurant2)
+						#foreach($restaurant in ${tripDay.restaurant2})
 							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_2_item remove-self" id="day_${day}_restaurant_2_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
 						</div>
@@ -226,7 +226,7 @@
 					<div class="panel">
 						<div class="panel-heading">晚餐</div>
 						<div class="panel-body" id="day_${velocityCount}_restaurant_3">
-						#foreach($restaurant in $tripDay.restaurant3)
+						#foreach($restaurant in ${tripDay.restaurant3})
 							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_3_item remove-self" id="day_${day}_restaurant_3_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
 						</div>

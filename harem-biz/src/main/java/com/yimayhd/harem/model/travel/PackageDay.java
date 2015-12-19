@@ -12,10 +12,10 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
  *
  */
 public class PackageDay {
-	private long id; // TODO 未对接
-	private long PId; // TODO 未对接
-	private int PType; // TODO 未对接
-	private String PTxt; // TODO 未对接
+	private long id;
+	private long PId;
+	private int PType;
+	private String PTxt;
 	private long time;// 日期
 	private List<PackageBlock> blocks;// 内容块
 
