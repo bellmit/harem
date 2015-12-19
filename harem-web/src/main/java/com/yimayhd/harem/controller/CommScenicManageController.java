@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,7 +18,7 @@ import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.service.CommScenicService;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 
 /**
  * 发布景区（商品）
@@ -38,20 +39,11 @@ public class CommScenicManageController extends BaseController {
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public
-    String toAdd() throws Exception {
+    String toAdd(Model model) throws Exception {
     	
     	//主题
-    	BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
-    	/*List<IdNamePair> tags = new ArrayList<IdNamePair>();
-		if (tagResult != null && tagResult.isSuccess()) {
-			List<ComTagDO> values = tagResult.getValue();
-			if (CollectionUtils.isNotEmpty(values)) {
-				for (ComTagDO comTagDO : values) {
-					tags.add(new IdNamePair(comTagDO.getId(), comTagDO.getName()));
-				}
-			}
-		}*/
-    	
+    	BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.VIEWTAG.name());
+    	model.addAttribute("tagResult",tagResult.getValue());
     	return "/system/comm/scenic/edit";
     }
     
@@ -59,12 +51,13 @@ public class CommScenicManageController extends BaseController {
     /**
      * 编辑景区（商品）
      * @return
-     * @throws Exception
+     * @throws Exception,
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public
-    String edit(ItemDO itemDo) throws Exception {
-    	commScenicService.save(itemDo);
+    String save(ScenicPublishDTO scenicPublishDTO) throws Exception {
+    
+    	commScenicService.save(scenicPublishDTO);
         return "/success";
     }
 
