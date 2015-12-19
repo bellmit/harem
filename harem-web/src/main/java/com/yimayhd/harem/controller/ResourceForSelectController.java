@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
-import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.harem.service.ScenicService;
-import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.domain.UserDOPageQuery;
 
 /**
  * 资源选择理
@@ -42,7 +42,7 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private HotelService hotelService;
 	@Autowired
-	private UserService userService;
+	private UserRPCService userService;
 
 	/**
 	 * 选择景点
@@ -146,8 +146,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryUserForSelect")
-	public @ResponseBody Map<String, Object> queryUserForSelect(UserListQuery query) throws Exception {
-		PageVO<User> pageVo = userService.getUserListByPage(query);
+	public @ResponseBody Map<String, Object> queryUserForSelect(UserDOPageQuery query) throws Exception {
+		PageVO<UserDO> pageVo = userService.getUserListByPage(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
@@ -160,9 +160,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selecOnetUser")
-	public String selecOnetUser() throws Exception {
-		return "/system/resource/forSelect/selecOnetUser";
+	@RequestMapping(value = "/selectOneUser")
+	public String selectOneUser() throws Exception {
+		return "/system/resource/forSelect/selectOneUser";
 	}
 
 	/**

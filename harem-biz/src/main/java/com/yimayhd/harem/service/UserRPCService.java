@@ -5,15 +5,15 @@ import java.util.List;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
-import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.domain.UserDOPageQuery;
 
 /**
  * @author
  */
-public interface UserService {
+public interface UserRPCService {
 
 	/**
 	 * 根据俱乐部ID获取俱乐部成员列表
@@ -30,9 +30,8 @@ public interface UserService {
 	 * 
 	 * @param query
 	 * @return
-	 * @throws Exception
 	 */
-	PageVO<User> getUserListByPage(UserListQuery query);
+	PageVO<UserDO> getUserListByPage(UserDOPageQuery query);
 
 	/**
 	 * 用过用户id查找用户
@@ -41,9 +40,9 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	User getUserById(long id);
-	// 商贸部分
+	UserDO getUserById(long id);
 
+	// 商贸部分
 	/**
 	 * 根据商贸用户id获取会员列表
 	 *

@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
-import com.yimayhd.harem.model.query.UserListQuery;
-import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
@@ -22,28 +21,21 @@ import com.yimayhd.membercenter.client.service.MerchantService;
 import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.domain.UserDOPageQuery;
+import com.yimayhd.user.client.result.BasePageResult;
+import com.yimayhd.user.client.service.UserService;
 
 /**
  * @author czf
  */
-public class UserServiceImpl implements UserService {
+public class UserRPCServiceImpl implements UserRPCService {
 
 	@Autowired
 	private MerchantService merchantServiceRef;
 	@Autowired
 	private TravelKaService travelKaServiceRef;
-
-	private List<User> table = new ArrayList<User>();
-
-	public UserServiceImpl() {
-		for (long i = 0; i < 100; i++) {
-			try {
-				table.add(getUserById(i));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	@Autowired
+	private UserService userServiceRef;
 
 	@Override
 	public List<User> getClubMemberListByClubId(long clubId) {
@@ -94,69 +86,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PageVO<User> getUserListByPage(UserListQuery query) {
-		int totalCount = count(query);
-		PageVO<User> page = new PageVO<User>(query.getPageNumber(), query.getPageSize(), totalCount);
-		List<User> itemList = find(query);
-		page.setItemList(itemList);
-		return page;
-	}
-
-	/**
-	 * 查找总数
-	 * 
-	 * @param query
-	 * @return
-	 * @throws Exception
-	 */
-	protected Integer count(UserListQuery query) {
-		return query(table, query).size();
-	}
-
-	protected List<User> find(UserListQuery query) {
-		int fromIndex = query.getPageSize() * (query.getPageNumber() - 1);
-		int toIndex = query.getPageSize() * query.getPageNumber();
-		List<User> result = query(table, query);
-		if (result.size() > 0) {
-			if (toIndex > result.size()) {
-				toIndex = result.size();
-			}
-			result = result.subList(fromIndex, toIndex);
-		}
-		return result;
-	}
-
-	private List<User> query(List<User> users, UserListQuery query) {
-		List<User> result = new ArrayList<User>();
-		for (User user : users) {
-			if (StringUtils.isNotBlank(query.getName())) {
-				if (user.getName().indexOf(query.getName()) != -1) {
-					result.add(user);
-				}
-			} else {
-				result.add(user);
+	public PageVO<UserDO> getUserListByPage(UserDOPageQuery query) {
+		BasePageResult<UserDO> result = userServiceRef.findPageResultByCondition(query);
+		int totalCount = 0;
+		List<UserDO> itemList = new ArrayList<UserDO>();
+		if (result != null && result.isSuccess()) {
+			totalCount = result.getTotalCount();
+			if (CollectionUtils.isNotEmpty(result.getList())) {
+				itemList.addAll(itemList);
 			}
 		}
-		return result;
+		return new PageVO<UserDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
 
 	@Override
-	public User getUserById(long id) {
-		User userData = new User();
-		userData.setId(id);
-		userData.setName("用户" + id);
-		userData.setUserName("Gost" + id);
-		userData.setRealName("宋江" + id);
-		userData.setGender(1);
-		userData.setCard("4101831900");
-		userData.setAge(18);
-		userData.setHomePlace("湖南老家");
-		userData.setProvinceId((long) 10010);
-		userData.setProvinceName("湖南");
-		userData.setCityName("郴州");
-		userData.setGmtCreated(new Date());
-		userData.setRemark("备注");
-		return userData;
+	public UserDO getUserById(long id) {
+		return userServiceRef.getUserDOById(id);
 	}
 
 	@Override

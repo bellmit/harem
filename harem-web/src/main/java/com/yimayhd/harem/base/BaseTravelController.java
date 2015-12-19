@@ -14,7 +14,7 @@ import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.RegionService;
-import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
@@ -30,7 +30,7 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
  *
  */
 public abstract class BaseTravelController extends BaseController {
-	private static final long DEFAULT_OFFICIAL_PUBLISHER_ID = 0;
+	private static final long DEFAULT_OFFICIAL_PUBLISHER_ID = 1000 * 10000;
 	@Resource
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
@@ -38,7 +38,7 @@ public abstract class BaseTravelController extends BaseController {
 	@Resource
 	protected CategoryService categoryServiceRef;
 	@Autowired
-	protected UserService userService;
+	protected UserRPCService userService;
 
 	protected void initBaseInfo() throws BaseException {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());

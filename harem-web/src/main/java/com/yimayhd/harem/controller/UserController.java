@@ -14,7 +14,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
 import com.yimayhd.harem.model.query.UserListQuery;
-import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionUtils;
 
@@ -27,7 +27,7 @@ import com.yimayhd.user.session.manager.SessionUtils;
 public class UserController extends BaseController {
 
 	@Autowired
-	private UserService userService;
+	private UserRPCService userService;
 
 	/**
 	 * 用户列表

@@ -18,7 +18,7 @@ import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.model.vo.ClubVO;
 import com.yimayhd.harem.service.ClubService;
-import com.yimayhd.harem.service.UserService;
+import com.yimayhd.harem.service.UserRPCService;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -34,7 +34,7 @@ public class ClubManageController extends BaseController {
 	private ClubService clubService;
 
 	@Autowired
-	private UserService userService;
+	private UserRPCService userService;
 
 	/**
 	 * 俱乐部列表
