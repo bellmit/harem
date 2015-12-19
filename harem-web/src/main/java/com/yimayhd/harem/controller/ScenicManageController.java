@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICResult;
@@ -101,9 +103,11 @@ public class ScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo save(ScenicAddNewDTO addNewDTO) throws Exception {
+	public ResponseVo save(ScenicAddNewDTO addNewDTO,MasterRecommend recommend) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
 		ICResult<ScenicDO> result =scenicSpotService.save(addNewDTO);
+		String jsonString = JSON.toJSONString(recommend);  
+		addNewDTO.getScenic().setRecommend(jsonString);
 		if(result.isSuccess()){
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

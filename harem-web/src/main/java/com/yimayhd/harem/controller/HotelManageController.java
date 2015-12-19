@@ -70,6 +70,9 @@ public class HotelManageController extends BaseController {
 
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		List<HotelDO> hotelDOList = pageVo.getItemList();
+		
+		System.out.println(JSON.toJSONString(hotelDOList));
+		
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
 		model.addAttribute("hotelDOList", hotelDOList);
@@ -147,22 +150,16 @@ public class HotelManageController extends BaseController {
 			throws Exception {
 
 		HotelVO hotelVO = hotelRPCService.getHotel(id);
-
 		System.out.println(" " + JSON.toJSONString(hotelVO));
 
-		List<Region> provinceList = regionService.getProvince();
-		List<Region> cityList = regionService.getRegionByParentId(hotelVO
-				.getLocationProvinceId());
 		List<FacilityIconDO> roomFacilityList = facilityIconService
 				.getListByType(ROOMFACILITY_TYPE);
 		List<FacilityIconDO> roomServiceList = facilityIconService
 				.getListByType(ROOMSERVICELIST_TYPE);
 		List<FacilityIconDO> hotelFacilityList = facilityIconService
 				.getListByType(HOTELFACILITYLIST_TYPE);
-		//model.addAttribute("provinceList", provinceList);
-		//model.addAttribute("cityList", cityList);
 		model.addAttribute("hotel", hotelVO);
-		model.addAttribute("pictureList", hotelVO.getPictureList());
+		//model.addAttribute("pictureList", hotelVO.getPictureList());
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
