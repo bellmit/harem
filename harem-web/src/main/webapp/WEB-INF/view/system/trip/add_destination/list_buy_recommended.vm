@@ -18,12 +18,12 @@
                     </tr>
                     #foreach($region in $recommendedList)
                     <tr>
-                        <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!region.showcaseDO.id" /></td>
-						<td>$!region.showcaseDO.name</td>
-                        <td>$!region.showcaseDO.title</td>
-                        <td><img src="$!region.showcaseDO.imgUrl" width="100" height="100"></img></td>
-						<td>$!region.showcaseDO.operationContent</td>
-                       <td> <button type="button" class="btn btn-primary themeDetail" themeId="$!region.showcaseDO.id">删除</button>
+                        <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!region.id" /></td>
+						<td>$!region.title</td>
+                        <td>$!region.tag</td>
+                        <td><img src="$!region.imgUrl" width="100" height="100"></img></td>
+						<td>$!region.content</td>
+                       <td> <button type="button" class="btn btn-primary themeDetail" themeId="$!region.id">删除</button>
                         </td>
                     </tr>
                     #end
@@ -45,15 +45,13 @@
     </form>
 
 <script>
-
-    var selectUserCallBack = function(data){
-        if(data){
-            $('.userNameShow').text(data[0].name);
-        }
-    }
-	
-	 $('.selectHotelBtn').click(function(){
-            '$!utilWebconfig.getActionDefaultFontPath()',
-                    openModal(actionDefaultPath + '/B2C/hotelManage/list', "选择直播", selectUserCallBack)
-        })
+	$('#btnSubmit').click(function(){
+ 		openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneScenic','买必推荐',function() {
+			var sce = win.getItems();
+			$("#name").val(sce.name);
+			$("#outId").val(sce.id);
+			$("#picUrls").val(sce.logoUrl);
+			return true;
+		});
+	})
 </script>
