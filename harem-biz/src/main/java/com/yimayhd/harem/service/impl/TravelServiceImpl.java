@@ -87,6 +87,7 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 			tagRelationInfoDTO.setTagType(TagType.LINETAG);
 			tagRelationInfoDTO.setOutId(publishLine.getLineId());
 			tagRelationInfoDTO.setOrderTime(publishLine.getCreateTime());
+			tagRelationInfoDTO.setList(travel.getTagIdList());
 			BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 			if (addTagRelationInfo == null || !addTagRelationInfo.isSuccess()) {
 				if (addTagRelationInfo != null) {

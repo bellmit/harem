@@ -67,6 +67,7 @@ public class GroupTravel extends BaseTravel {
 						}
 					}
 				} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
+//
 					// RouteItemDetail detail =
 					// JSON.parseObject(routeItem.getValue(),
 					// RouteItemDetail.class);

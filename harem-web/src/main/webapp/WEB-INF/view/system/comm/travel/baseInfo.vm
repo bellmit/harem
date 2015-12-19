@@ -282,6 +282,7 @@
 					extra_infos.push({title:title,content:content});
 				}
 			});
+			var publisher = $(".publisher");
 			var result = {
 				type:type,
 				name:name,
@@ -289,6 +290,7 @@
 				tripImage:tripImage,
 				tags:tags,
 				publisherType:publisherType,
+				publisherId:publisher.attr("rId"),
 				fromLevel:from_arr[0],
 				fromId:from_arr[2],
 				fromName:from_arr[1],
@@ -299,25 +301,15 @@
 				memberPrice:$("#memberPrice").val(),
 				masters:masters,
 				highlights:highlights,
-				extraInfos:extra_infos
+				extraInfos:extra_infos,
+				recommond: {
+					id:$(".recommond").attr("rId"),
+        			description : $(".recommond").val(),
+					userId:publisher.attr("rId"),
+					name:publisher.attr("rName"),
+					userPic:publisher.attr("rPic")
+				}
 			};
-			var recommond = {
-    			id:$(".recommond").attr("rId"),
-        		description : $(".recommond").val()
-			};
-			if(publisherType==$!{PT_MASTER}) {
-				var travel_ka = $(".travel-ka");
-				result["publisherId"] = travel_ka.attr("rId");
-				recommond["userId"] = travel_ka.attr("rId");
-				recommond["name"] = travel_ka.attr("rName");
-				recommond["userPic"] = travel_ka.attr("rPic");
-			} else {
-				result["publisherId"] = 0;
-				recommond["userId"] = 0;
-				recommond["name"] = "怡美官方";
-				recommond["userPic"] = "怡美官方";
-			}
-			result["recommond"] = recommond;
 			return result;
 		}
     </script>
