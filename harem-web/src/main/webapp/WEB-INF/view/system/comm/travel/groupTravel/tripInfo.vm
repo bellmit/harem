@@ -245,7 +245,7 @@
 			<div class="panel add-scenic-spot">
 				<div class="panel-heading"><i class="icon icon-2x icon-pushpin"></i>添加景区</div>
 				<div class="panel-body scenic-spot" id="day_${velocityCount}_scenic">
-				#foreach($scenic in $tripDay.scenics)
+				#foreach($scenic in ${tripDay.scenics})
 					<button class="btn btn-info day_${day}_scenic_item remove-self" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
 				#end
 				</div>

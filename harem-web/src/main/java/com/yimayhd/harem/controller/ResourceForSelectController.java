@@ -3,7 +3,6 @@ package com.yimayhd.harem.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -167,7 +166,7 @@ public class ResourceForSelectController extends BaseController {
 	}
 
 	/**
-	 * 选择景区
+	 * 选择旅游咖
 	 * 
 	 * @return
 	 * @throws Exception
@@ -186,7 +185,7 @@ public class ResourceForSelectController extends BaseController {
 	}
 
 	/**
-	 * 选择景区
+	 * 选择旅游咖
 	 * 
 	 * @return
 	 * @throws Exception
@@ -194,6 +193,17 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/selectOneTravelKa")
 	public String selectOneTravelKa() throws Exception {
 		return "/system/resource/forSelect/selectOneTravelKa";
+	}
+	
+	/**
+	 * 选择旅游咖
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectTravelKa")
+	public String selectTravelKa() throws Exception {
+		return "/system/resource/forSelect/selectTravelKa";
 	}
 
 }
