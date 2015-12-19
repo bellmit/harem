@@ -12,6 +12,13 @@ public class TravelOfficialListQuery extends BaseQuery {
     private String regionName;
     private String userName;
 
+
+    private String travelName;  //  游记名称
+    private long startTime;   //发布开始时间
+    private long endTime;     //
+    private String nickName;
+    private String poiContent;
+
     public Integer getTravelStatus() {
         return travelStatus;
     }
@@ -50,5 +57,45 @@ public class TravelOfficialListQuery extends BaseQuery {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getTravelName() {
+        return travelName;
+    }
+
+    public void setTravelName(String travelName) {
+        this.travelName = travelName;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getPoiContent() {
+        return poiContent;
+    }
+
+    public void setPoiContent(String poiContent) {
+        this.poiContent = poiContent;
     }
 }

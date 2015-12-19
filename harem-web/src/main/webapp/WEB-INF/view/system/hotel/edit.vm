@@ -25,19 +25,13 @@
                     <td><span class="spColor">*</span>选择地址</td>
                     <td>
                         <div class="selectList">
-                            <input type="hidden" class="provinceSelectName" name="locationProvinceName" value="$!hotel.locationProvinceName">
-                            <select class="selCity inpControl provinceSelect" name="locationProvinceId">
-                                <option value="">请选择省份</option>
-                                #foreach($province in $provinceList)
-                                    <option #if($province ==  $!hotel.locationProvinceId) selected #end value="$province.id">$province.name</option>
-                                #end
+                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!hotel.locationProvinceName">
+                            <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
+                                <option value="&&&&&&00">请选择省份</option>
                             </select>
-                            <input type="hidden" class="citySelectName" name="locationCityName" value="$!hotel.locationCityName">
-                            <select class="selCity inpControl citySelect" name="locationCityId">
+                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!hotel.locationCityName">
+                            <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
                                 <option value="">请选择城市</option>
-                                #foreach($city in $cityList)
-                                    <option #if($city == $!hotel.locationCityId) selected #end value="$province.id">$city.name</option>
-                                #end
                             </select>
                             <input type="text" class="inpControl" name="locationTownName" id="locationTownName" placeholder="请输入100个字以内">
                         </div>
@@ -288,29 +282,100 @@
             }
         });
 
+	var provinceFlag = false;
+	var cityFlag = false;
+	var areaFlag = false;
+	
     $(function(){
+		$.ajaxSetup({
+			async : false
+		});
+		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': 'PROVINCE',
+					 'areaParentCode': null}, 
+					function(data) {
+						if (data[0].name) {						
+							for (var i in data) {								
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#provinceId").append(optionHTML);								
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+					
+		$('.provinceSelect').click(function() {
+			
+			if (provinceFlag) {
+				return;
+			}
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': $(this).attr("areaType"),
+					 'areaParentCode': null}, 
+					function(data) {
+						if (data[0].name) {
+							for (var i in data) {
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#provinceId").append(optionHTML);
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+		});
         //地址选择
-        $('.provinceSelect').change(function(){
-            if($('.provinceSelect option:selected')){
-                $('provinceSelectName').val($('.provinceSelect option:selected').text());
+        $('.provinceSelect').change(function(){            
+			
+			if($('.provinceSelect option:selected')){
+                $('#provinceSelectName').val($('.provinceSelect option:selected').attr("value"));
             }
-            $.get('/B2C/regionManage/regionList/' + $('.provinceSelect').val(),function(data){
-                $('.citySelect option').remove();
-                var optionList;
-                if(data && data.status == 200){
-                    $('.citySelect').append('<option>请选择城市</option>');
-                    for(var region in data.data){
-                        optionList += "<option value=" + data.data[region].id + ">" + data.data[region].name + "</option>";
-                    }
-                    $('.citySelect').append(optionList);
-                }else{
-                    layer.alert('市级地址加载失败', {
-                        icon: 2,
-                        time: 2000
-                    });
-                }
-
-            });
+			
+			//清空所有子元素
+			if (parseInt($("#cityId").children().length) > 1) {
+				$("#cityId").empty();
+				$("#cityId").append('<option value="">请选择城市</option>');
+			}
+			
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': 'CITY',
+					 'areaParentCode': $('.provinceSelect option:selected').attr("value")}, 
+					
+					function(data) {
+						if (data[0].name) {
+							
+							for (var i in data) {
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#cityId").append(optionHTML);
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+			
         });
         $('.citySelect').change(function(){
             if($('.citySelect option:selected').val()){

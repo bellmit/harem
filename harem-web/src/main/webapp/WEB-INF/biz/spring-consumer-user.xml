@@ -33,6 +33,11 @@
         <property name="check" value="${dubbo.import.consumer.user.check}"/>
     </bean>
     
+    <!-- 区域ID  专用   不要修改 userAddressServiceRef    
+    	网络抖动    远程调用异常    
+		dubbo  check = true
+		  一期完成后添加
+    -->
     <bean id="userAddressServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.user.client.service.UserAddressService"/>
         <property name="application" ref="dubboApplicationConfig"/>

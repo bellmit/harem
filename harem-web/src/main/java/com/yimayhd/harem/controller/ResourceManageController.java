@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.AreaService;
+import com.yimayhd.harem.base.AreaType;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -52,7 +54,10 @@ public class ResourceManageController extends BaseController {
 	@RequestMapping(value = "/restaurant/list2", method = RequestMethod.GET)
 	public String restaurantList2(RestaurantListQuery restaurantListQuery) throws Exception {
 		PageVO<RestaurantDO> pageVo = restaurantRPCService.pageQueryRestaurant(restaurantListQuery);
-		System.out.println(JSON.toJSONString(pageVo));
+		//System.out.println(JSON.toJSONString(pageVo));
+		System.out.println(JSON.toJSONString(AreaService.getInstance().getAreaByIDAndType(AreaType.CITY, "320000")));		
+		System.out.println(JSON.toJSONString(AreaService.getInstance().getAreaByIDAndType(AreaType.COUNTY, "320100")));
+		System.out.println(JSON.toJSONString(AreaService.getInstance().getAreaByIDAndType(AreaType.COUNTY, "320200")));
 		put("pageVo", pageVo);
 		put("query", restaurantListQuery);
 		return "/system/restaurant/list";
