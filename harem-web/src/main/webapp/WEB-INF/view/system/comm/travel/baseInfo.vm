@@ -89,7 +89,7 @@
 					</td>
                 </tr>
 				<tr >
-    				<td>*大咔推荐：</td>
+    				<td>*大咖推荐：</td>
                     <td>
     					<button class="btn btn-primary" id="selectMaster">请选择大咖</button>
 						<span class="masters-content">
