@@ -72,7 +72,7 @@
 		for(i in itemList) {
 			var item = itemList[i];
 			resource_table[item.id] = item;
-			var tr = $("<tr id='resource_"+item.userId+"_"+item.name+"'></tr>");
+			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
 			tr.append($("<td>"+item.name+"</td>"));
 			tr.append($("<td>"+item.nickName+"</td>"));
             tbody.append(tr);
