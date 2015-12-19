@@ -1,0 +1,487 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/json2.js" type="text/javascript"></script>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#grogshopInfo" data-toggle="tab">酒店信息</a>
+    </li>
+    <li>
+        <a href="#grogshopImgs" data-toggle="tab">图片集</a>
+    </li>
+</ul>
+<form name="addHotel" id="hotelForm" action="" method="post" hotelId="$!hotel.id">
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+            <table class="table">
+               <tr>
+                    <td><span class="spColor">*</span>酒店名称</td>
+					#if($!{hotel.id})
+						<input type="hidden" name="id" value="$!{hotel.id}">
+					#end
+                    <td><input type="text" class="inpControl" name="name" placeholder="请输入20个字以内" value="$!{hotel.name}"></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>选择地址</td>
+                    <td>
+                        <div class="selectList">
+                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!hotel.locationProvinceName">
+                            <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
+                                <option value="&&&&&&00">请选择省份</option>
+                            </select>
+                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!hotel.locationCityName">
+                            <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
+                                <option value="">请选择城市</option>
+                            </select>
+							<input type="hidden" id="countySelectName" name="locationCityName" value="$!hotel.locationCityName">
+                            <select id="countyId" class="selCity inpControl countySelect" name="locationCityId" areaType="COUNTY">
+                                <option value="">请选择区县</option>
+                            </select>			
+                            <input type="text" class="inpControl" name="locationTownName" id="locationTownName" placeholder="请输入街道门牌号">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>星级</td>
+                    <td>
+                        <select class="form-control" name="level">
+                            <option value="4" #if($!hotel.level == 4) selected #end>2星及以下 经济型</option>
+                            <option value="3" #if($!hotel.level == 3) selected #end>3星 舒适型</option>
+                            <option value="2" #if($!hotel.level == 2) selected #end>4星 高档型</option>
+                            <option value="1" #if($!hotel.level == 1) selected #end>5星 豪华型</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>地址经纬度</td>
+                    <td><span>经度</span><input type="text" name="locationX" class="inpControl getAddress"><span>纬度</span><input type="text" name="locationY" class="inpControl getAddress"><button class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店电话</td>
+                    <td>
+                        <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" value="$!hotel.phoneNum" placeholder="请输入酒店电话">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店简介</td>
+                    <td>
+                        <textarea name="oneword" id="grogDescr" rows="3" class="form-control" placeholder="请输入80字以内">$!hotel.oneword</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>特色描述</td>
+                    <td>
+                        <textarea name="description" rows="3" class="form-control" placeholder="请输入500字以内">$!hotel.description</textarea>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>基础价格<br/>(单位：元)</td>
+                    <td><input type="text" name="price" value="$!hotel.price" class="inpControl" >起</td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店联系人</td>
+                    <td><span>姓名：</span><input type="text" name="grogLinkmanName" value="$!hotel.contactPerson" class="inpControl" >
+                        <span>电话：</span><input type="text" name="grogLinkmanPhone" value="$!hotel.contactPhone" class="inpControl" >
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>房间设施</td>
+                    <td class="grogCheckSel">
+                        #foreach($roomFacility in $!roomFacilityList)
+                            <span><input type="checkbox" name="roomFacilityList" value="${roomFacility.id}" #if($!hotel.roomFacility == $roomFacility.id) checked #end>$roomFacility.name</span>
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>特色服务</td>
+                    <td  class="grogCheckSel">
+                        #foreach($roomService in $!roomServiceList)
+                            <span><input type="checkbox" name="roomServiceList" value="${roomService.id}"#if($!hotel.roomService == $roomService.id) checked #end>$roomService.name</span>
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店设施</td>
+                    <td  class="grogCheckSel">
+                        #foreach($hotelFacility in $!hotelFacilityList)
+                            <span><input type="checkbox" name="hotelFacilityList" value="${hotelFacility.id}" #if($!hotel.hotelFacility == $hotelFacility.id) checked #end>$hotelFacility.name</span>
+                        #end
+                    </td>
+                </tr>
+                <tr>$!hotel.openTimelist
+                    <td><span class="spColor">*</span>最晚到店时间</td>
+                    <td>
+                        #set($timeArr=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])
+                        #set($numArr=[0,1,2])
+                        #foreach($index in $numArr)
+                            <select class="selCity inpControl" name="openTimeList">
+                                <option value="">请选择</option>
+                                #foreach($item in $timeArr)
+                                    <option value="$item" #if($item == $!hotel.openTimeList.get($index)) selected #end>$item</option>
+                                #end
+                            </select>
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <td>大咖推荐</td>
+                    <td>
+                        <button type="button" class="btn btn-info selectUserBtn">选择旅游咖</button>
+                        <img class="masterRecommendImg" src="#if($!hotel.masterRecommend.user_pic) $utilWebconfig.getTfsRootPath()$!hotel.masterRecommend.user_pic #end" alt="头像" class="img-circle grogUserLogo"><span class="masterRecommendName">$!hotel.masterRecommend.name</span>
+                        <input type="hidden" class="masterRecommendUserPic" name="masterRecommend.user_pic" value="$!hotel.masterRecommend.user_pic" >
+                        <input type="hidden" class="masterRecommendUserId" name="masterRecommend.user_id" value="$!hotel.masterRecommend.user_id" >
+                        <input type="hidden" class="masterRecommendNameInp" name="masterRecommend.user_id" value="$!hotel.masterRecommend.name" >
+                        <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!hotel.masterRecommend.description</textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+    <div class="tab-pane" id="grogshopImgs">
+        #parse("/system/hotel/picture.vm")
+    </div>
+</div>
+</form>
+<script>
+    //表单验
+        $("#hotelForm").validate({
+            //添加酒店验证规则
+            rules: {
+                name: {    //酒店名称
+                    required: true,
+                    maxlength: 20,
+                    minlength: 2
+                },
+                locationProvinceId: {   //选择省级地址
+                    required: true
+                },
+                locationCityId: {   //选择市级地址
+                    required: true
+                },
+                locationTownName: {   //填写详细地址
+                    required: true
+                },
+                locationX: {   //地址经纬度_经度
+                    required: true,
+                    number: true
+                },
+                locationY: {   //地址经纬度_纬度
+                    required: true,
+                    number: true
+                },
+                phoneNumList: {   //酒店电话
+                    requiredAll: true,
+                    isTel: true
+                },
+                oneword: {   //酒店简介
+                    required: true,
+                    maxlength: 80
+                },
+                description: {   //特色描述
+                    required: true,
+                    maxlength: 500
+                },
+                price: {   //基础价格
+                    required: true,
+                    number: true
+                },
+                grogLinkmanName: {   //酒店联系人姓名
+                    required: true
+                },
+                grogLinkmanPhone: {   //酒店联系人电话
+                    required: true,
+                    number: true
+                },
+                roomFacilityList: {   //房间设施(多选)
+                    required: true
+                },
+                roomServiceList: {    //请选择特色服务(多选)
+                    required: true
+                },
+                hotelFacilityList: {   //酒店设施(多选)
+                    required: true
+                },
+                openTimeList: {   //最晚到店时间
+                    requiredAll: true
+                }
+            },
+            //添加酒店验证错误，提示信息
+            messages: {
+                name: {     //酒店名称
+                    required: "请填写酒店名称",
+                    maxlength: "请输入不多于20字",
+                    minlength: "请至少输入2个字"
+                },
+                locationProvinceId: {    //选择省份
+                    required: "请输入您的详细地址"
+                },
+                locationCityId: {    //选择地址
+                    required: "请输入您的详细地址"
+                },
+                locationTownName: {   //填写详细地址
+                    required: "请输入您的详细地址"
+                },
+                locationX: {   //地址经纬度_经度
+                    required: "请填写您的经度",
+                    number: "请输入数字"
+                },
+                locationY: {   //地址经纬度_纬度
+                    required: "请填写您的纬度",
+                    number: "请输入数字"
+                },
+                phoneNumList: {   //酒店电话
+                    requiredAll: "请输入全部的酒店电话（数字）",
+                    isTel: "请填写正确的电话号码"
+                },
+                oneword: {   //酒店简介
+                    required: "请输入酒店简介",
+                    maxlength: "请输入80字以内"
+                },
+                description: {   //特色描述
+                    required: "请填写特色描述",
+                    maxlength: "请输入500字以内"
+                },
+                price: {   //基础价格
+                    required: "请输入基础价格",
+                    number: "请输入数字"
+                },
+                grogLinkmanName: {   //酒店联系人姓名
+                    required: "请填写酒店联系人姓名"
+                },
+                grogLinkmanPhone: {   //酒店联系人电话
+                    required: "请填写酒店联系人电话",
+                    number: "请输入数字"
+                },
+                roomFacilityList: {   //房间设施(多选)
+                    required: "请选择房间设施"
+                },
+                roomServiceList: {    //特色服务(多选)
+                    required: "请选择特色服务"
+                },
+                hotelFacilityList: {   //酒店设施(多选)
+                    required: "请选择酒店设施"
+                },
+                openTimeList: {   //最晚到店时间
+                    requiredAll: "请选择三个最晚到店时间"
+                }
+            },
+            //错误信息显示位置
+            errorPlacement: function(error, element) {
+                if(element.is(":checkbox")){
+                    //error.appendTo (element.parent().parent().parent());
+                    element.parent().parent().append (error);
+                } else if(element.attr("name") == "phoneNumList") {
+					element.parent().parent().parent().append(error);
+				}else if(element.attr("name") == "openTimeList"){
+                    element.parent().append(error);
+                }else{
+                    if(element.next().length==0){
+                        element.parent().append(error);
+                    }else{
+                        element.next().before(error);
+                    }
+                }
+            }
+        });
+
+	var provinceFlag = false;
+	var cityFlag = false;
+	var areaFlag = false;
+	
+    $(function(){
+		$.ajaxSetup({
+			async : false
+		});
+		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': 'PROVINCE',
+					 'areaParentCode': null}, 
+					function(data) {
+						if (data[0].name) {						
+							for (var i in data) {								
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#provinceId").append(optionHTML);								
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+					
+		$('.provinceSelect').click(function() {
+			
+			if (provinceFlag) {
+				return;
+			}
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': $(this).attr("areaType"),
+					 'areaParentCode': null}, 
+					function(data) {
+						if (data[0].name) {
+							for (var i in data) {
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#provinceId").append(optionHTML);
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+		});
+        //地址选择
+        $('.provinceSelect').change(function(){            
+			
+			if($('.provinceSelect option:selected')){
+                $('#provinceSelectName').val($('.provinceSelect option:selected').attr("value"));
+            }
+			
+			//清空所有子元素
+			if (parseInt($("#cityId").children().length) > 1) {
+				$("#cityId").empty();
+				$("#cityId").append('<option value="">请选择城市</option>');
+			}
+			
+			//清空所有子元素
+			if (parseInt($("#countyId").children().length) > 1) {
+				$("#countyId").empty();
+				$("#countyId").append('<option value="">请选择城市</option>');
+			}
+			
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': 'CITY',
+					 'areaParentCode': $('.provinceSelect option:selected').attr("value")}, 
+					
+					function(data) {
+						if (data[0].name) {
+							
+							for (var i in data) {
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#cityId").append(optionHTML);
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+			
+        });
+        $('.citySelect').change(function(){
+            
+			if($('.citySelect option:selected')){
+                $('.citySelectName').val($('.citySelectId option:selected').attr('value'));
+            }
+
+			//清空所有子元素
+			if (parseInt($("#countyId").children().length) > 1) {
+				$("#countyId").empty();
+				$("#countyId").append('<option value="">请选择城市</option>');
+			}
+			
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': 'COUNTY',
+					 'areaParentCode': $('.citySelect option:selected').attr("value")}, 
+					
+					function(data) {
+						if (data[0].name) {
+							
+							for (var i in data) {
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#countyId").append(optionHTML);
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
+			
+        });
+	
+        $('.countySelect').change(function(){
+            
+			if($('.countySelect option:selected')){
+                $('.countySelectName').val($('.countySelectId option:selected').attr('value'));
+            }
+						
+        });	
+		
+        //添加和删除酒店电话
+        $(document).delegate(".delPhoneNum", "click", function(){
+            $(this).parent().remove();
+        });
+        $('.addPhoneNum').click(function(){
+            $('.phoneNumListTd').append('<div><input type="text" class="inpControl" name="phoneNumList" id="phoneNum" placeholder="请输入数字"> <button class="btn btn-primary delPhoneNum">删除</button> </div>');
+        });
+        //选择旅游咖
+        $('.selectUserBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
+                    console.log(frames == window);
+                    layer.alert(top.resultValue.length)
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择旅游咖");
+                        return false;
+                    }else{
+                        $('.masterRecommendImg').val('');
+                        $('.masterRecommendUserPic').val('');
+                        $('.masterRecommendUserId').val(resultValue[0].id);
+                        $('.masterRecommendName').text(resultValue[0].name);
+                        $('.masterRecommendNameInp').val(resultValue[0].name);
+                    }
+                }
+            });
+        });
+
+        $('#btnSubmit').click(function(){
+            if($("#hotelForm").valid()) {
+                $(this).prop('disabled', true);
+                var actionUrl;
+                var hotelId = $('#hotelForm').attr('hotelId');
+                if (hotelId) {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+                } else {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
+                }
+                $('#hotelForm').attr('action', actionUrl);
+                $('#hotelForm').submit();
+                alert("提交成功")
+            }
+        });
+    });
+</script>

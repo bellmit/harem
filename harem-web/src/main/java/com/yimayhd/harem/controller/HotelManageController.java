@@ -95,7 +95,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
-		return "/system/hotel/edit";
+		return "/system/hotel/add";
 	}
 
 	/**
