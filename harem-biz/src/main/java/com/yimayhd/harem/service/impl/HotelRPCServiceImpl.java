@@ -1,14 +1,18 @@
 package com.yimayhd.harem.service.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelRPCService;
+import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -142,6 +146,23 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		return hotelVO;
 	}
 
-	
+	@Override
+	public List<HotelFacilityVO> queryFacilities(int type) {
+		
+		ICPageResult<FacilityIconDO> icPageResult = itemQueryService.queryFacilities(type);
+		List<FacilityIconDO> list = icPageResult.getList();		
+		List<HotelFacilityVO> resultList = new ArrayList<HotelFacilityVO>();
+		Iterator<FacilityIconDO> it = list.iterator();
+		
+		while (it.hasNext()) {			
+			FacilityIconDO temp = it.next();
+			HotelFacilityVO vTemp = new HotelFacilityVO();
+			vTemp.setName(temp.getName());
+			vTemp.setNumber(temp.getNumber());
+			resultList.add(vTemp);
+		}
+		
+		return resultList;
+	}	
 	
 }
