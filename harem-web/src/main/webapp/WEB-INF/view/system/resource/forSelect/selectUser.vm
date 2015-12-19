@@ -25,7 +25,7 @@
     		checkable: true,
     		checksChanged: function(event) {
     			// 取消的删除
-				$(".resourceTable tr").each(function() {
+				$(".resourceTable tbody tr").each(function() {
     				var data_id = $(this).attr("id");
 					var str = data_id.split("_");
     				if(event.checks.checks.indexOf(data_id)==-1) {
@@ -35,6 +35,8 @@
     			// 新增的添加
     			$(event.checks.checks).each(function() {
     				var str = this.split("_");
+					var rId = str[1];
+					var rName = str[2];
     				if($("#r_"+str[1]).length <= 0) {
         				var btn = $("<button class='btn btn-info resources'></button>");
         				// check 
@@ -42,12 +44,13 @@
     						$("tr[data-id^='resource_"+$(this).attr("rId")+"_']").removeClass("active");
         					$(this).remove();
         				});
-        				btn.attr("id","r_"+str[1]);
-        				btn.attr("rId",str[1]);
-        				btn.attr("rName",str[2]);
-        				btn.text(str[2]);
+        				btn.attr("id","r_"+rId);
+        				btn.attr("rId",rId);
+        				btn.attr("rName",rName);
+						btn.attr("rData",$("#resource_"+rId+"_"+rName).attr("rData"));
+        				btn.text(rName);
         				$(".checked-resource").append(btn);
-    				} 
+    				}
     			});
     		}
     	});
@@ -60,13 +63,15 @@
 	function showData(itemList) {
 		$(".selectResourceTable").empty();
 		var table = $("<table class='table table-striped table-hover resourceTable'/>");
-		table.append("<tr><th>用户名称</th><th>状态</th></tr>");
+		table.append("<thead><tr><th>用户名称</th><th>状态</th></tr></thead>");
+        var tbody = $("<tbody/>");
+		table.append(tbody);
 		for(i in itemList) {
 			var item = itemList[i];
-			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
+			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"' rData='"+JSON.stringify(item)+"'></tr>");
 			tr.append($("<td>"+item.name+"</td>"));
 			tr.append($("<td>"+item.status+"</td>"));
-            table.append(tr);
+			tbody.append(tr);
 		}
 		$(".selectResourceTable").append(table);
 		// 初始化特效
@@ -82,9 +87,8 @@
 	function getItems() {
 		var result = [];
 		$(".resources").each(function(){
-			var rId = $(this).attr("rId");
-			var rName = $(this).attr("rName");
-			result.push({id:rId,name:rName});
+			var rData = $(this).attr("rData");
+			result.push(JSON.parse(rData));
 		});
 		return result;
 	}
