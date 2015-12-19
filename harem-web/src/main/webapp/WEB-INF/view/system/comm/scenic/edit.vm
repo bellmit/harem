@@ -15,26 +15,31 @@
                 <tr>
                     <td><span class="spColor">*</span>景区</td>
                     <td>
-                       	<input type="text" class="inpControl" name="name" id="name" >
-                       	<input type="text" class="inpControl" name="outId" id="outId">
+                       	<input type="text" class="inpControl" name="" id="name" value="">
+                       	<input type="text" class="inpControl" name="itemDO.outId" id="outId" value="">
+						<input type="text" class="inpControl" name="itemDO.picUrls" id="picUrls" value="">
 						<button type="button" class="btn btn-primary selectScenic">选择景区</button>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>主题</td>
                     <td>
-                      
+                      #foreach($tag in $tagResult)
+                      	 <input type="checkbox" name="" value="$!{tag.id}"><span>$!{tag.name}</span>
+                    	#end
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>排序</td>
                     <td>
-						<input type="text" class="inpCtlBlock" name="" id="" placeholder="请输入20个字以内">
+                    	
+							<input type="text" class="inpCtlBlock" name="scenicDO.orderNum" id="" placeholder="请输入20个字以内">
+						
 					</td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>时间区间</td>
-                    <td>用户可选入园时间为<input type="text" class="inpControl" name="" id="" placeholder="请输入数字">天内</td>
+                    <td>用户可选入园时间为<input type="text" class="inpControl" name="feature" id="" placeholder="请输入数字">天内</td>
                 </tr>
             </table>
 			<table class="table">
@@ -48,14 +53,15 @@
 							<td>会员限购</td>
 					<tr>
 						<tr>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><textarea name="scenic.description" id="description" rows="3" class="form-control"
+							<td><input type="text" class="inpCtlBlock" name="itemDO.title"  placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="itemDO.subTitle" placeholder="请输入数字"></td>
+							<td><textarea name="itemDO.oneWord" id="description" rows="3" class="form-control"
                                       placeholder="请输入500字以内"></textarea></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字"></td>
+                             
+							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="itemDO.price" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
 					<tr>
 			</table>
         </div>
@@ -72,10 +78,11 @@
    $(function(){
    /*弹出框**/
         $('.selectScenic').click(function(){
-         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenicOne','选择景区',function() {
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneScenic','选择景区',function() {
 				var sce = win.getItems();
-				alert(sce);
-				
+				$("#name").val(sce.name);
+				$("#outId").val(sce.id);
+				$("#picUrls").val(sce.logoUrl);
 				return true;
 			});
         })
@@ -86,7 +93,6 @@
 					'name' : {
 						required : true
 					}
-					
 				},
 				errorPlacement : function(error, element) { // 指定错误信息位置
 
@@ -101,28 +107,20 @@
 				submitHandler : function(form) {
 
 					var options = {
-						url : "edit",
+						url : actionDefaultPath + "/B2C/comm/scenicManage/save",
 						type : "post",
 						dataType : "json",
-						success : function(data) {
-							
-							if (data.success) {
-								$.success('操作成功',function(){
-									layer.alert("123")
-								});
-							} else {
-								layer.alert(data.msg, {
-									icon : 5
-								});
-
-							}
-						},
-						error : function(XMLHttpRequest, textStatus,
-								errorThrown) {
-							layer.alert('服务忙，请稍后再试', {
-								icon : 5
-							});
-						}
+						  success: function (data) {
+                        if (data.status == 200) {
+                            layer.alert('操作成功');
+                          
+                          
+                        } else {
+                          
+                            layer.alert('操作失败');
+                          
+                        }
+                    }
 					};
 					
 					$(form).ajaxSubmit(options);

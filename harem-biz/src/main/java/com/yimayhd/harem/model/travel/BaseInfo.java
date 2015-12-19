@@ -3,6 +3,7 @@ package com.yimayhd.harem.model.travel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +21,7 @@ import com.yimayhd.resourcecenter.model.enums.RegionLevel;
  * 
  */
 public class BaseInfo {
+	private static final long PRICE_UNIT = 100;
 	private long id;// ID
 	private int type;// 类型
 	private String name;// 产品名称
@@ -34,6 +36,9 @@ public class BaseInfo {
 	private String toName;
 	private int publisherType;// 发布者类型
 	private long publisherId;// 发布者Id
+	private List<String> masters;
+	private long price;
+	private long memberPrice;
 	private String highlights;// 亮点
 	private MasterRecommend recommond;// 代言
 	private List<TextItem> extraInfos;// 报名须知
@@ -68,12 +73,15 @@ public class BaseInfo {
 		}
 		this.publisherType = line.getOwnerType();
 		this.publisherId = line.getOwnerId();
+		this.price = line.getPrice() / PRICE_UNIT;
+		this.memberPrice = line.getMemberPrice() / PRICE_UNIT;
 		this.highlights = line.getDescription();
 		this.recommond = JSON.parseObject(line.getRecommend(), MasterRecommend.class);
 		if (StringUtils.isNotBlank(line.getNeedKnow())) {
 			NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
 			this.extraInfos = needKnow.getFrontNeedKnow();
 		}
+		this.masters = JSON.parseArray(line.getRcmdMasters(), String.class);
 	}
 
 	/**
@@ -252,16 +260,44 @@ public class BaseInfo {
 		line.setDestCityName(this.toName);
 		line.setOwnerType(this.publisherType);
 		line.setOwnerId(this.publisherId);
+		if (CollectionUtils.isNotEmpty(this.masters)) {
+			line.setRcmdMasters(JSON.toJSONString(this.masters));
+		} else {
+			line.setRcmdMasters("");
+		}
+		line.setPrice(this.price * PRICE_UNIT);
+		line.setMemberPrice(this.memberPrice * PRICE_UNIT);
 		line.setDescription(this.highlights);
 		line.setRecommend(JSON.toJSONString(this.recommond));
 		NeedKnow needKnow = new NeedKnow();
 		needKnow.setFrontNeedKnow(this.extraInfos);
 		line.setNeedKnow(JSON.toJSONString(needKnow));
-		// TODO 添加价格
-		line.setPrice(10000);
-		line.setMemberPrice(1000);
 		// TODO 客服电话
 		line.setPhoneNum("4000901666");
 		return line;
+	}
+
+	public long getPrice() {
+		return price;
+	}
+
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
+	public long getMemberPrice() {
+		return memberPrice;
+	}
+
+	public void setMemberPrice(long memberPrice) {
+		this.memberPrice = memberPrice;
+	}
+
+	public List<String> getMasters() {
+		return masters;
+	}
+
+	public void setMasters(List<String> masters) {
+		this.masters = masters;
 	}
 }

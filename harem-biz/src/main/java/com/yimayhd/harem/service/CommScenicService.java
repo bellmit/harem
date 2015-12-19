@@ -1,7 +1,7 @@
 package com.yimayhd.harem.service;
 
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 public interface CommScenicService {
 
 	/**
@@ -10,7 +10,7 @@ public interface CommScenicService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ICResult<Long> save(ItemDO itemDo) throws Exception;
+	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO) throws Exception;
 	
 	
 

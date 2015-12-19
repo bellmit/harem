@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
@@ -82,9 +83,21 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 		LinePublishDTO linePublishDTO = travel.toLinePublishDTO();
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
 		if (publishLine != null && publishLine.isSuccess()) {
+			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
+			tagRelationInfoDTO.setTagType(TagType.LINETAG);
+			tagRelationInfoDTO.setOutId(publishLine.getLineId());
+			tagRelationInfoDTO.setOrderTime(publishLine.getCreateTime());
+			BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
+			if (addTagRelationInfo == null || !addTagRelationInfo.isSuccess()) {
+				if (addTagRelationInfo != null) {
+					log.error("保存线路标签失败：" + addTagRelationInfo.getResultMsg());
+				}
+				throw new BaseException("保存线路标签失败");
+			}
 			return publishLine.getLineId();
 		} else {
-			throw new BaseException(publishLine.getResultMsg());
+			log.error("保存线路失败：" + publishLine.getResultMsg());
+			throw new BaseException("保存线路失败");
 		}
 	}
 }
