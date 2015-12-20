@@ -11,7 +11,6 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.resourcecenter.model.enums.RegionLevel;
 
 /**
@@ -41,7 +40,7 @@ public class BaseInfo {
 	private long memberPrice;
 	private String highlights;// 亮点
 	private MasterRecommend recommond;// 代言
-	private List<TextItem> extraInfos;// 报名须知
+	private NeedKnow needKnow;// 报名须知
 
 	public BaseInfo() {
 	}
@@ -78,8 +77,7 @@ public class BaseInfo {
 		this.highlights = line.getDescription();
 		this.recommond = JSON.parseObject(line.getRecommend(), MasterRecommend.class);
 		if (StringUtils.isNotBlank(line.getNeedKnow())) {
-			NeedKnow needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
-			this.extraInfos = needKnow.getFrontNeedKnow();
+			this.needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
 		}
 		this.masters = JSON.parseArray(line.getRcmdMasters(), String.class);
 	}
@@ -225,14 +223,6 @@ public class BaseInfo {
 		this.toName = toName;
 	}
 
-	public List<TextItem> getExtraInfos() {
-		return extraInfos;
-	}
-
-	public void setExtraInfos(List<TextItem> extraInfos) {
-		this.extraInfos = extraInfos;
-	}
-
 	public LineDO toLineDO() {
 		LineDO line = new LineDO();
 		line.setId(this.id);
@@ -269,9 +259,7 @@ public class BaseInfo {
 		line.setMemberPrice(this.memberPrice * PRICE_UNIT);
 		line.setDescription(this.highlights);
 		line.setRecommend(JSON.toJSONString(this.recommond));
-		NeedKnow needKnow = new NeedKnow();
-		needKnow.setFrontNeedKnow(this.extraInfos);
-		line.setNeedKnow(JSON.toJSONString(needKnow));
+		line.setNeedKnow(JSON.toJSONString(this.needKnow));
 		// TODO 客服电话
 		line.setPhoneNum("4000901666");
 		return line;
@@ -299,5 +287,13 @@ public class BaseInfo {
 
 	public void setMasters(List<String> masters) {
 		this.masters = masters;
+	}
+
+	public NeedKnow getNeedKnow() {
+		return needKnow;
+	}
+
+	public void setNeedKnow(NeedKnow needKnow) {
+		this.needKnow = needKnow;
 	}
 }

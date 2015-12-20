@@ -7,6 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.yimayhd.harem.model.travel.IdNamePair;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
+import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTextItem;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
@@ -23,8 +24,11 @@ public class TripDay {
 	private List<IdNamePair> restaurant1;// 早餐
 	private List<IdNamePair> restaurant2;// 午餐
 	private List<IdNamePair> restaurant3;// 晚餐
+	private RouteItemDetail restaurantDetail;
 	private List<IdNamePair> scenics;// 景区
+	private RouteItemDetail scenicDetail;
 	private List<IdNamePair> hotels;// 酒店
+	private RouteItemDetail hotelDetail;
 
 	public TripDay() {
 	}
@@ -208,6 +212,55 @@ public class TripDay {
 
 	public void setHotels(List<IdNamePair> hotels) {
 		this.hotels = hotels;
+	}
+
+	public long getRestaurantDetailId() {
+		if (CollectionUtils.isNotEmpty(restaurant1)) {
+			return restaurant1.get(0).getId();
+		} else if (CollectionUtils.isNotEmpty(restaurant2)) {
+			return restaurant2.get(0).getId();
+		} else if (CollectionUtils.isNotEmpty(restaurant3)) {
+			return restaurant3.get(0).getId();
+		}
+		return 0;
+	}
+
+	public long getScenicDetailId() {
+		if (CollectionUtils.isNotEmpty(scenics)) {
+			return scenics.get(0).getId();
+		}
+		return 0;
+	}
+
+	public long getHotelDetailId() {
+		if (CollectionUtils.isNotEmpty(hotels)) {
+			return hotels.get(0).getId();
+		}
+		return 0;
+	}
+
+	public RouteItemDetail getRestaurantDetail() {
+		return restaurantDetail;
+	}
+
+	public void setRestaurantDetail(RouteItemDetail restaurantDetail) {
+		this.restaurantDetail = restaurantDetail;
+	}
+
+	public RouteItemDetail getScenicDetail() {
+		return scenicDetail;
+	}
+
+	public void setScenicDetail(RouteItemDetail scenicDetail) {
+		this.scenicDetail = scenicDetail;
+	}
+
+	public RouteItemDetail getHotelDetail() {
+		return hotelDetail;
+	}
+
+	public void setHotelDetail(RouteItemDetail hotelDetail) {
+		this.hotelDetail = hotelDetail;
 	}
 
 }

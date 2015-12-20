@@ -19,10 +19,6 @@ public class PageVO<T> implements Serializable {
 
 	private Paginator paginator;
 
-	public PageVO(){
-
-	}
-
 	public PageVO(int pageNumber, int pageSize, int totalCount) {
 		this(pageNumber, pageSize, totalCount, new ArrayList<T>(0));
 	}
@@ -30,15 +26,18 @@ public class PageVO<T> implements Serializable {
 	/**
 	 *
 	 *
-	 * @param pageNumber 当前页码
-	 * @param pageSize 每页显示条数
-	 * @param totalCount 总记录条数
-	 * @param result 结果list
+	 * @param pageNumber
+	 *            当前页码
+	 * @param pageSize
+	 *            每页显示条数
+	 * @param totalCount
+	 *            总记录条数
+	 * @param result
+	 *            结果list
 	 */
 	public PageVO(int pageNumber, int pageSize, int totalCount, List<T> result) {
-		//TODO 调试不方便，暂时注释掉
-		/*if (pageSize <= 0)
-			throw new IllegalArgumentException("[pageSize] must great than zero");*/
+		if (pageSize <= 0)
+			throw new IllegalArgumentException("[pageSize] must great than zero");
 		this.paginator = new Paginator(pageNumber, pageSize, totalCount);
 		setItemList(result);
 	}
@@ -176,9 +175,8 @@ public class PageVO<T> implements Serializable {
 	}
 
 	public void setItemList(List<T> itemList) {
-		//TODO 调试不方便，暂时注释掉
-		/*if (itemList == null)
-			throw new IllegalArgumentException("'itemList' must be not null");*/
+		if (itemList == null)
+			throw new IllegalArgumentException("'itemList' must be not null");
 		this.result = itemList;
 	}
 
@@ -187,9 +185,8 @@ public class PageVO<T> implements Serializable {
 	}
 
 	public void setPaginator(Paginator paginator) {
-		//TODO 调试不方便，暂时注释掉
-		/*if (paginator == null)
-			throw new IllegalArgumentException("'paginator' must be not null");*/
+		if (paginator == null)
+			throw new IllegalArgumentException("'paginator' must be not null");
 		this.paginator = paginator;
 	}
 

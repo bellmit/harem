@@ -3,314 +3,314 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js"></script>
 -->
 <div>
-	<div >
-        <div>
-    		<div>线路明细</div>
-        	<table>
-        		<tr >
-    				<td>*产品类型：</td>
-    				<td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
-                </tr>
-    			<tr >
-    				<td>*产品名称：</td>
-    				<td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.name"></td>
-                </tr>
-    			<tr >
-    				<td>*产品封面图：</td>
-    				<td>
-                        <input id="productImageFile" type="file" accept="image/png,image/gif">
-                        <img class="productImageUrlImg" src="#if($!{product.baseInfo.productImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImage} #end">
-                        <input class="productImageUrlVal" type="hidden" value="$!product.baseInfo.productImage">
-					</td>
-                </tr>
-				<tr >
-    				<td>*行程封面图：</td>
-    				<td>
-                        <input id="tripImageFile" type="file" accept="image/png,image/gif">
-                        <img class="tripImageUrlImg" src="#if($!{product.baseInfo.tripImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.tripImage} #end">
-                        <input class="tripImageUrlVal" type="hidden" value="$!product.baseInfo.tripImage">
-					</td>
-                </tr>
-    			<tr >
-    				<td>*产品标签：</td>
-                    <td>
-						#foreach($tag in $tags)
-						<input type="checkbox" class="productTag" rId="${tag.id}" rName="${tag.name}" id="tag${tag.id}" #if($product.baseInfo.containsTag($tag.id)) checked #end/><label for="tag${tag.id}">${tag.name}</label>
-						#end
-    				</td>
-                </tr>
-    			<tr >
-    				<td>*发布人：</td>
-                    <td>
-						<button class="btn btn-default" id="selectOfficial">官方发布</button>
-    					<button class="btn btn-primary" id="selectPublisher">请选择发布者</button>
-						<span class="publisher-content">
-							#if($!{product.baseInfo.recommond})
-                            <span class='label label-badge label-info publisher' rId="$!{product.baseInfo.recommond.userId}" rName="$!{product.baseInfo.recommond.name}" rPic="$!{product.baseInfo.recommond.userPic}">$!{product.baseInfo.recommond.name}</span>
-							#end
-						</span>
-    				</td>
-                </tr>
-    			<tr >
-    				<td>出发地：</td>
-                    <td>
-    					<select class="form-control from">
-							<option value="">请选择出发地</option>
-							#foreach($departRegion in $departRegions)
-                            <option value="$!{departRegion.level}_$!{departRegion.name}_$!{departRegion.code}" #if($!{product.baseInfo.fromId} == ${departRegion.code}) selected #end>${departRegion.name}</option>
-							#end
-						</select>
-    				</td>
-                </tr>
-    			<tr >
-    				<td>*目的地：</td>
-                    <td>
-    					<select class="form-control to">
-							<option value="">请选择目的地</option>
-                            #foreach($descRegion in $descRegions)
-                            <option value="$!{descRegion.level}_${descRegion.name}_${descRegion.code}" #if($!{product.baseInfo.toId} == ${departRegion.code}) selected #end>${descRegion.name}</option>
-							#end
-                         </select>
-    				</td>
-    				</td>
-                </tr>
-				<tr >
-    				<td>*基础价格：</td>
-                    <td>
-    					<div class="input-group">
-							<span class="input-group-addon">会员价：</span>
-							<input type="text" class="form-control" id="memberPrice" placeholder="请输入会员价" value="$!{product.baseInfo.memberPrice}">
-							<span class="input-group-addon">非会员价：</span>
-							<input type="text" class="form-control" id = "price" placeholder="请输入非会员价" value="$!{product.baseInfo.price}">
-    					</div>
-					</td>
-                </tr>
-				<tr >
-    				<td>*大咖推荐：</td>
-                    <td>
-    					<button class="btn btn-primary" id="selectMaster">请选择大咖</button>
-						<span class="masters-content">
-							#foreach($master in ${product.baseInfo.masters})
-							<button class="btn btn-info masters" rName="$!{master}">$!{master}</button>
-							#end
-						</span>
-					</td>
-                </tr>
-    			<tr >
-    				<td>*线路设计亮点：</td>
-                    <td>
-    					<textarea class="form-control highlights" rows="3">$!{product.baseInfo.highlights}</textarea>
-    				</td>
-                </tr>
-    			<tr >
-    				<td>我为自己代言：</td>
-                    <td>
-    					<textarea class="form-control recommond" rows="3" rId="$!{product.baseInfo.recommond.id}">$!{product.baseInfo.recommond.description}</textarea>
-    				</td>
-                </tr>
-            </table>
-		</div>
-		<div>
-    		<div>报名须知</div>
-			<div><button class="btn btn-default add-extra-info-item">增加条目</button></div>
-        	<table class="extra-info">
-            		<tr >
-        				<th>标题（10个字以内）</th>
-        				<th>内容（500字以内）</th>
-                    </tr>
-					#if($!{product.baseInfo.extraInfos}&&$!{product.baseInfo.extraInfos.size()}>0)
-						#foreach($extraInfo in $!{product.baseInfo.extraInfos})
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{extraInfo.title}"></td>
-        				<td><textarea class="form-control extra-info-item-content" rows="3">$!{extraInfo.content}</textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-						#end
-					#else
-            		<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
-					<tr class="extra-info-item">
-        				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-						<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
-                    </tr>
+    <div>
+		<div>线路明细</div>
+    	<table>
+    		<tr >
+				<td>*产品类型：</td>
+				<td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
+            </tr>
+			<tr >
+				<td>*产品名称：</td>
+				<td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.name"/></td>
+            </tr>
+			<tr >
+				<td>*产品封面图：</td>
+				<td>
+                    <input id="productImageFile" type="file" accept="image/png,image/gif"/>
+                    <img class="productImageUrlImg" src="#if($!{product.baseInfo.productImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImage} #end"/>
+                    <input class="productImageUrlVal" type="hidden" value="$!product.baseInfo.productImage"/>
+				</td>
+            </tr>
+			<tr >
+				<td>*行程封面图：</td>
+				<td>
+                    <input id="tripImageFile" type="file" accept="image/png,image/gif"/>
+                    <img class="tripImageUrlImg" src="#if($!{product.baseInfo.tripImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.tripImage} #end"/>
+                    <input class="tripImageUrlVal" type="hidden" value="$!product.baseInfo.tripImage"/>
+				</td>
+            </tr>
+			<tr >
+				<td>*产品标签：</td>
+                <td>
+					#foreach($tag in $tags)
+					<input type="checkbox" class="productTag" rId="${tag.id}" rName="${tag.name}" id="tag${tag.id}" #if($product.baseInfo.containsTag($tag.id)) checked #end/><label for="tag${tag.id}">${tag.name}</label>
 					#end
-            </table>
-		</div>
-    </div>
-	<script type="text/javascript">
-		$(function(){
-            //上传图片
-            $(document).delegate("#productImageFile",'change',function(){
-                fileUpload('#productImageFile',1,function(data){
-                    if(data && data.status == 200){
-                        $('.productImageUrlVal').val(data.data);
-                        $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
-                    }else{
-                        layer.msg('图片上传失败，请重试', {icon: 2});
-                    }
-				});
-            });
-			$(document).delegate("#tripImageFile",'change',function(){
-                fileUpload('#tripImageFile',1,function(data){
-                    if(data && data.status == 200){
-                        $('.tripImageUrlVal').val(data.data);
-                        $('.tripImageUrlImg').attr('src',tfsRootPath + data.data);
-                    }else{
-                        layer.msg('图片上传失败，请重试', {icon: 2});
-                    }
-				});
-            });
-		});
-		$(".add-extra-info-item").click(function(){
-			var content = $(".extra-info-list");
-			var item = $("<tr class='extra-info-item'/>");
-			item.append($("<td><input type='text' class='form-control extra-info-item-title' placeholder='费用包含'></td>"));
-			item.append($("<td><textarea class='form-control extra-info-item-text' rows='3'></textarea></td>"));
-			var delete_btn = $("<button class='btn btn-link extra-info-item-delete'>删除</button>");
-			delete_btn.click(function(){
-    			$(this).parent().parent().remove();
-    		});
-			item.append($("<td/>").append(delete_btn));
-			content.append(item);
-		});
-		$(".extra-info-item-delete").click(function(){
+				</td>
+            </tr>
+			<tr >
+				<td>*发布人：</td>
+                <td>
+					<button class="btn btn-default" id="selectOfficial">官方发布</button>
+					<button class="btn btn-primary" id="selectPublisher">请选择发布者</button>
+					<span class="publisher-content">
+						#if($!{product.baseInfo.recommond})
+                        <span class='label label-badge label-info publisher' rId="$!{product.baseInfo.recommond.userId}" rName="$!{product.baseInfo.recommond.name}" rPic="$!{product.baseInfo.recommond.userPic}">$!{product.baseInfo.recommond.name}</span>
+						#end
+					</span>
+				</td>
+            </tr>
+			<tr >
+				<td>出发地：</td>
+                <td>
+					<select class="form-control from">
+						<option value="">请选择出发地</option>
+						#foreach($departRegion in $departRegions)
+                        <option value="$!{departRegion.level}_$!{departRegion.name}_$!{departRegion.code}" #if($!{product.baseInfo.fromId} == ${departRegion.code}) selected #end>${departRegion.name}</option>
+						#end
+					</select>
+				</td>
+            </tr>
+			<tr >
+				<td>*目的地：</td>
+                <td>
+					<select class="form-control to">
+						<option value="">请选择目的地</option>
+                        #foreach($descRegion in $descRegions)
+                        <option value="$!{descRegion.level}_${descRegion.name}_${descRegion.code}" #if($!{product.baseInfo.toId} == ${departRegion.code}) selected #end>${descRegion.name}</option>
+						#end
+                     </select>
+				</td>
+            </tr>
+			<tr >
+				<td>*基础价格：</td>
+                <td>
+					<div class="input-group">
+						<span class="input-group-addon">会员价：</span>
+						<input type="text" class="form-control" id="memberPrice" placeholder="请输入会员价" value="$!{product.baseInfo.memberPrice}"/>
+						<span class="input-group-addon">非会员价：</span>
+						<input type="text" class="form-control" id = "price" placeholder="请输入非会员价" value="$!{product.baseInfo.price}"/>
+					</div>
+				</td>
+            </tr>
+			<tr >
+				<td>*大咖推荐：</td>
+                <td>
+					<button class="btn btn-primary" id="selectMaster">请选择大咖</button>
+					<span class="masters-content">
+						#foreach($master in ${product.baseInfo.masters})
+						<button class="btn btn-info masters" rName="$!{master}">$!{master}</button>
+						#end
+					</span>
+				</td>
+            </tr>
+			<tr >
+				<td>*线路设计亮点：</td>
+                <td>
+					<textarea class="form-control highlights" rows="3">$!{product.baseInfo.highlights}</textarea>
+				</td>
+            </tr>
+			<tr >
+				<td>我为自己代言：</td>
+                <td>
+					<textarea class="form-control recommond" rows="3" rId="$!{product.baseInfo.recommond.id}">$!{product.baseInfo.recommond.description}</textarea>
+				</td>
+            </tr>
+        </table>
+	</div>
+	<div>
+		<div>报名须知</div>
+		<div><button class="btn btn-default add-extra-info-item">增加条目</button></div>
+    	<table class="extra-info">
+    		<tr >
+				<th>标题（10个字以内）</th>
+				<th>内容（500字以内）</th>
+            </tr>
+			#set($needKnow = ${product.baseInfo.needKnow})
+			#if(${needKnow}&&${needKnow.frontNeedKnow}&&${needKnow.frontNeedKnow.size()}>0)
+				#foreach($textItem in $!{needKnow.frontNeedKnow})
+			<tr class="extra-info-item">
+				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{textItem.title}"/></td>
+				<td><textarea class="form-control extra-info-item-content" rows="3">$!{textItem.content}</textarea></td>
+				<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+            </tr>
+				#end
+			#else
+    		<tr class="extra-info-item">
+				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
+				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
+				<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+            </tr>
+			<tr class="extra-info-item">
+				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
+				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
+				<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+            </tr>
+			<tr class="extra-info-item">
+				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
+				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
+				<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+            </tr>
+			<tr class="extra-info-item">
+				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
+				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
+				<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+            </tr>
+			<tr class="extra-info-item">
+				<td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
+				<td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
+				<td><button class="btn btn-link extra-info-item-delete">删除</button></td>
+            </tr>
+			#end
+        </table>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+        //上传图片
+        $(document).delegate("#productImageFile",'change',function(){
+            fileUpload('#productImageFile',1,function(data){
+                if(data && data.status == 200){
+                    $('.productImageUrlVal').val(data.data);
+                    $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.msg('图片上传失败，请重试', {icon: 2});
+                }
+			});
+        });
+		$(document).delegate("#tripImageFile",'change',function(){
+            fileUpload('#tripImageFile',1,function(data){
+                if(data && data.status == 200){
+                    $('.tripImageUrlVal').val(data.data);
+                    $('.tripImageUrlImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.msg('图片上传失败，请重试', {icon: 2});
+                }
+			});
+        });
+	});
+	$(".add-extra-info-item").click(function(){
+		var content = $(".extra-info-list");
+		var item = $("<tr class='extra-info-item'/>");
+		item.append($("<td><input type='text' class='form-control extra-info-item-title' placeholder='费用包含'></td>"));
+		item.append($("<td><textarea class='form-control extra-info-item-text' rows='3'></textarea></td>"));
+		var delete_btn = $("<button class='btn btn-link extra-info-item-delete'>删除</button>");
+		delete_btn.click(function(){
 			$(this).parent().parent().remove();
 		});
-		$(".extra-info-item-delete").click(function(){
-			$(this).parent().parent().remove();
+		item.append($("<td/>").append(delete_btn));
+		content.append(item);
+	});
+	$(".extra-info-item-delete").click(function(){
+		$(this).parent().parent().remove();
+	});
+	$(".extra-info-item-delete").click(function(){
+		$(this).parent().parent().remove();
+	});
+	$(".publisherType").click(function() {
+		if($(this).val()==2) {
+			$(".travel-ka-panel").show();
+		} else {
+			$(".travel-ka-panel").hide();
+		}
+	});
+	$("#selectOfficial").click(function() {
+		var content = $(".publisher-content");
+		content.empty();
+		var span = $("<span class='label label-badge label-info publisher'>"+"$!{officialPublisher.nickname}"+"</span>");
+		span.attr("rId", "$!{officialPublisher.id}");
+		span.attr("rName", "$!{officialPublisher.nickname}");
+		span.attr("rPic", "$!{officialPublisher.avatar}");
+		content.append(span);
+	});
+	$("#selectPublisher").click(function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneUser','选择发布人',function() {
+			var ka = win.getTravelKa();
+			if(ka) {
+				var content = $(".publisher-content");
+				content.empty();
+				var id = ka.id;
+				var name = ka.nickname;
+				var pic = ka.avatar;
+				var span = $("<span class='label label-badge label-info publisher'>"+name+"</span>");
+				span.attr("rId",id);
+				span.attr("rName",name);
+				span.attr("rPic",pic);
+				content.append(span);
+			}
+			//console.log(JSON.stringify(ka));
+			//一般设定yes回调，必须进行手工关闭
+			return true;
 		});
-		$(".publisherType").click(function() {
-			if($(this).val()==2) {
-				$(".travel-ka-panel").show();
-			} else {
-				$(".travel-ka-panel").hide();
+	});
+	$(".masters").click(function(){
+		$(this).remove();
+	});
+	$("#selectMaster").click(function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectTravelKa','选择旅游咖 ',function() {
+			var kas = win.getItems();
+			var content = $(".masters-content");
+			for(var i in kas) {
+				var ka = kas[i];
+				if($(".masters[rName='"+ka.name+"']").length > 0) continue;
+				var btn = $("<button class='btn btn-info masters'>"+ka.name+"</button>");
+				btn.click(function(){
+					$(this).remove();
+				});
+				btn.attr("rName",ka.name);
+				content.append("  ").append(btn);
+			}
+			//console.log(JSON.stringify(kas));
+			//一般设定yes回调，必须进行手工关闭
+			return true;
+		});
+	});
+	// 获取行程信息
+	function getBaseInfo() {
+		var type = $(".productType").val();
+		var name = $(".productName").val();
+		var productImage = $(".productImageUrlVal").val();
+		var tripImage = $(".tripImageUrlVal").val();
+		var tags = [];
+		$(".productTag:checked").each(function(){
+			tags.push($(this).attr("rId"));
+		});
+		var publisherType = $(".publisherType:checked").val();
+		var from_arr = $(".from").val().split("_");
+		var to_arr = $(".to").val().split("_");
+		var masters = [];
+		$(".masters").each(function(){
+			masters.push($(this).attr("rName"));
+		});
+		var highlights = $(".highlights").val();
+		var textItems = [];
+		$(".extra-info-item").each(function(){
+			var title = $(this).find(".extra-info-item-title").val();
+			var content = $(this).find(".extra-info-item-content").val();
+			if(title&&content) {
+				textItems.push({title:title,content:content});
 			}
 		});
-		$("#selectOfficial").click(function() {
-			var content = $(".publisher-content");
-			content.empty();
-			var span = $("<span class='label label-badge label-info publisher'>"+"$!{officialPublisher.nickname}"+"</span>");
-			span.attr("rId", "$!{officialPublisher.id}");
-			span.attr("rName", "$!{officialPublisher.nickname}");
-			span.attr("rPic", "$!{officialPublisher.avatar}");
-			content.append(span);
-		});
-		$("#selectPublisher").click(function() {
-			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneUser','选择发布人',function() {
-				var ka = win.getTravelKa();
-				if(ka) {
-					var content = $(".publisher-content");
-					content.empty();
-    				var id = ka.id;
-    				var name = ka.nickname;
-    				var pic = ka.avatar;
-    				var span = $("<span class='label label-badge label-info publisher'>"+name+"</span>");
-    				span.attr("rId",id);
-    				span.attr("rName",name);
-    				span.attr("rPic",pic);
-    				content.append(span);
-				}
-				//console.log(JSON.stringify(ka));
-				//一般设定yes回调，必须进行手工关闭
-				return true;
-			});
-		});
-		$(".masters").click(function(){
-			$(this).remove();
-		});
-		$("#selectMaster").click(function() {
-			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectTravelKa','选择旅游咖 ',function() {
-				var kas = win.getItems();
-				var content = $(".masters-content");
-				for(var i in kas) {
-					var ka = kas[i];
-					if($(".masters[rName='"+ka.name+"']").length > 0) continue;
-    				var btn = $("<button class='btn btn-info masters'>"+ka.name+"</button>");
-    				btn.click(function(){
-						$(this).remove();
-					});
-    				btn.attr("rName",ka.name);
-    				content.append("  ").append(btn);
-				}
-				//console.log(JSON.stringify(kas));
-				//一般设定yes回调，必须进行手工关闭
-				return true;
-			});
-		});
-		// 获取行程信息
-		function getBaseInfo() {
-			var type = $(".productType").val();
-			var name = $(".productName").val();
-			var productImage = $(".productImageUrlVal").val();
-			var tripImage = $(".tripImageUrlVal").val();
-			var tags = [];
-			$(".productTag:checked").each(function(){
-				tags.push($(this).attr("rId"));
-			});
-			var publisherType = $(".publisherType:checked").val();
-			var from_arr = $(".from").val().split("_");
-			var to_arr = $(".to").val().split("_");
-			var masters = [];
-			$(".masters").each(function(){
-				masters.push($(this).attr("rName"));
-			});
-			var highlights = $(".highlights").val();
-			var extra_infos = [];
-			$(".extra-info-item").each(function(){
-				var title = $(this).find(".extra-info-item-title").val();
-				var content = $(this).find(".extra-info-item-content").val();
-				if(title&&content) {
-					extra_infos.push({title:title,content:content});
-				}
-			});
-			var publisher = $(".publisher");
-			var result = {
-				type:type,
-				name:name,
-				productImage:productImage,
-				tripImage:tripImage,
-				tags:tags,
-				publisherType:publisherType,
-				publisherId:publisher.attr("rId"),
-				fromLevel:from_arr[0],
-				fromId:from_arr[2],
-				fromName:from_arr[1],
-				toLevel:to_arr[0],
-				toId:to_arr[2],
-				toName:to_arr[1],
-				price:$("#price").val(),
-				memberPrice:$("#memberPrice").val(),
-				masters:masters,
-				highlights:highlights,
-				extraInfos:extra_infos,
-				recommond: {
-					id:$(".recommond").attr("rId"),
-        			description : $(".recommond").val(),
-					userId:publisher.attr("rId"),
-					name:publisher.attr("rName"),
-					userPic:publisher.attr("rPic")
-				}
-			};
-			return result;
-		}
-    </script>
-</div>
+		var publisher = $(".publisher");
+		var result = {
+			type:type,
+			name:name,
+			productImage:productImage,
+			tripImage:tripImage,
+			tags:tags,
+			publisherType:publisherType,
+			publisherId:publisher.attr("rId"),
+			fromLevel:from_arr[0],
+			fromId:from_arr[2],
+			fromName:from_arr[1],
+			toLevel:to_arr[0],
+			toId:to_arr[2],
+			toName:to_arr[1],
+			price:$("#price").val(),
+			memberPrice:$("#memberPrice").val(),
+			masters:masters,
+			highlights:highlights,
+			needKnow:{
+				frontNeedKnow:textItems
+			},
+			recommond: {
+				id:$(".recommond").attr("rId"),
+    			description : $(".recommond").val(),
+				userId:publisher.attr("rId"),
+				name:publisher.attr("rName"),
+				userPic:publisher.attr("rPic")
+			}
+		};
+		return result;
+	}
+</script>

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.service.ScenicService;
@@ -33,7 +32,7 @@ public class ScenicServiceImpl implements ScenicService {
 	@Autowired
 	private ResourcePublishService resourcePublishServiceRef;
 	@Autowired
-    private TfsService tfsService;
+	private TfsService tfsService;
 
 	@Override
 	public PageVO<ScenicDO> getList(ScenicPageQuery query) throws Exception {
@@ -46,20 +45,18 @@ public class ScenicServiceImpl implements ScenicService {
 			if (CollectionUtils.isNotEmpty(pageResult.getList())) {
 				itemList.addAll(pageResult.getList());
 			}
-		}else {
-			log.error("itemQueryService.pageQueryScenic return value is null !returnValue :" + JSON.toJSONString(pageResult));
+		} else {
+			log.error("itemQueryService.pageQueryScenic return value is null !returnValue :"
+					+ JSON.toJSONString(pageResult));
 		}
 		return new PageVO<ScenicDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
-	
-	
-	
 
 	@Override
 	public ScenicAddNewDTO getById(long id) throws Exception {
-	
+
 		ICResult<ScenicDO> scenic = itemQueryService.getScenic(id);
-		if(scenic.isSuccess()){
+		if (scenic.isSuccess()) {
 			ScenicAddNewDTO dto = new ScenicAddNewDTO();
 			ScenicDO scenicDO = scenic.getModule();
 			NeedKnow needKnow = JSON.parseObject(scenicDO.getNeedKnow(), NeedKnow.class);
@@ -67,14 +64,11 @@ public class ScenicServiceImpl implements ScenicService {
 			dto.setNeedKnow(needKnow);
 			dto.setScenic(scenicDO);
 			return dto;
-		}else{
+		} else {
 			log.error("itemQueryService.getScenic return value is null !returnValue :" + JSON.toJSONString(scenic));
 		}
 		return null;
 	}
-
-
-
 
 	@Override
 	public boolean updateStatus(int id, int scenicStatus) throws Exception {
@@ -84,16 +78,16 @@ public class ScenicServiceImpl implements ScenicService {
 		scenic.setStatus(scenicStatus);
 		scenicDOList.add(scenic);
 		ICResult<ScenicDO> result = resourcePublishServiceRef.updateScenic(scenicDOList);
-		if(!result.isSuccess()){
-			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :" + JSON.toJSONString(result));
+		if (!result.isSuccess()) {
+			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :"
+					+ JSON.toJSONString(result));
 		}
 		return result.isSuccess();
 	}
 
-
 	@Override
 	public boolean batchupdateStatus(ArrayList<Integer> scenicIdList, int scenicStatus) {
-		if(!scenicIdList.isEmpty()){
+		if (!scenicIdList.isEmpty()) {
 			ArrayList<ScenicDO> scenicDOList = new ArrayList<ScenicDO>();
 			for (Integer id : scenicIdList) {
 				ScenicDO scenic = new ScenicDO();
@@ -102,37 +96,29 @@ public class ScenicServiceImpl implements ScenicService {
 				scenicDOList.add(scenic);
 			}
 			ICResult<ScenicDO> result = resourcePublishServiceRef.updateScenic(scenicDOList);
-			if(!result.isSuccess()){
-				log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :" + JSON.toJSONString(result));
-				
+			if (!result.isSuccess()) {
+				log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :"
+						+ JSON.toJSONString(result));
 			}
 		}
 		return false;
-	
+
 	}
-
-
-
 
 	@Override
 	public ICResult<ScenicDO> save(ScenicAddNewDTO addNewDTO) throws Exception {
-		ICResult<ScenicDO> addScenicNew=null;
+		ICResult<ScenicDO> addScenicNew = null;
 		addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
-		if(0==addNewDTO.getScenic().getId()){
+		if (0 == addNewDTO.getScenic().getId()) {
 			addScenicNew = resourcePublishServiceRef.addScenicNew(addNewDTO);
-		}else{
-			addScenicNew =resourcePublishServiceRef.updateScenicNew(addNewDTO);
+		} else {
+			addScenicNew = resourcePublishServiceRef.updateScenicNew(addNewDTO);
 		}
-		if(!addScenicNew.isSuccess()){
-			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :" + JSON.toJSONString(addScenicNew));
+		if (!addScenicNew.isSuccess()) {
+			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :"
+					+ JSON.toJSONString(addScenicNew));
 			throw new NoticeException(addScenicNew.getResultMsg());
 		}
-		
-	        return addScenicNew;
-	
-		
+		return addScenicNew;
 	}
-
-	
-
 }

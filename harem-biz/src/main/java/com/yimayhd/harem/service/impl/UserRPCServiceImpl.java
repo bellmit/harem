@@ -36,7 +36,7 @@ public class UserRPCServiceImpl implements UserRPCService {
 	private static Logger log = LoggerFactory.getLogger(UserRPCServiceImpl.class);
 
 	@Autowired
-	private MerchantService merchantServiceRef;
+	private MerchantService merchantServiceRef; 
 	@Autowired
 	private TravelKaService travelKaServiceRef;
 	@Autowired
@@ -88,8 +88,7 @@ public class UserRPCServiceImpl implements UserRPCService {
 			}
 		} else {
 			log.error(MessageFormat.format("sellerId={0},query={1}", sellerId, JSON.toJSONString(tradeMemberQuery)));
-			log.error(MessageFormat.format("查询会员列表失败：code={0},msg={1}", memResult.getErrorCode(),
-					memResult.getErrorMsg()));
+			log.error(MessageFormat.format("查询会员列表失败：result={0}", JSON.toJSONString(memResult)));
 		}
 		return pageVO;
 	}
@@ -106,7 +105,7 @@ public class UserRPCServiceImpl implements UserRPCService {
 			}
 		} else {
 			log.error(MessageFormat.format("query={0}", JSON.toJSONString(query)));
-			log.error(MessageFormat.format("查询用户列表失败：code={0},msg={1}", result.getErrorCode(), result.getErrorMsg()));
+			log.error(MessageFormat.format("查询用户列表失败：result={0}", JSON.toJSONString(result)));
 		}
 		return new PageVO<UserDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
@@ -127,8 +126,7 @@ public class UserRPCServiceImpl implements UserRPCService {
 			result = travelKaListPage.getList();
 		} else {
 			log.error(MessageFormat.format("query={0}", JSON.toJSONString(query)));
-			log.error(MessageFormat.format("查询旅游咖列表失败：code={0},msg={1}", travelKaListPage.getErrorCode(),
-					travelKaListPage.getErrorMsg()));
+			log.error(MessageFormat.format("查询旅游咖列表失败：result={0}", JSON.toJSONString(travelKaListPage)));
 		}
 		return new PageVO<TravelKaVO>(query.getPageNo(), query.getPageSize(), totalCount, result);
 	}
@@ -140,8 +138,7 @@ public class UserRPCServiceImpl implements UserRPCService {
 			return travelKaDetail.getValue();
 		} else {
 			log.error(MessageFormat.format("id={0}", id));
-			log.error(MessageFormat.format("查询旅游咖信息失败：code={0},msg={1}", travelKaDetail.getErrorCode(),
-					travelKaDetail.getErrorMsg()));
+			log.error(MessageFormat.format("查询旅游咖信息失败：result={0}", JSON.toJSONString(travelKaDetail)));
 		}
 		return null;
 	}
