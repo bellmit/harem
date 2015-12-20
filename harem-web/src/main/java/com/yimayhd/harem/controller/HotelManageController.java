@@ -18,8 +18,8 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
+import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
-import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.FacilityIconService;
@@ -71,8 +71,6 @@ public class HotelManageController extends BaseController {
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		List<HotelDO> hotelDOList = pageVo.getItemList();
 		
-		System.out.println(JSON.toJSONString(hotelDOList));
-		
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
 		model.addAttribute("hotelDOList", hotelDOList);
@@ -87,14 +85,22 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model) throws Exception {
-		List<Region> provinceList = regionService.getProvince();
-		List<FacilityIconDO> roomFacilityList = facilityIconService
+		//List<Region> provinceList = regionService.getProvince();
+/*		List<FacilityIconDO> roomFacilityList = facilityIconService
 				.getListByType(ROOMFACILITY_TYPE);
-		List<FacilityIconDO> roomServiceList = facilityIconService
-				.getListByType(ROOMSERVICELIST_TYPE);
-		List<FacilityIconDO> hotelFacilityList = facilityIconService
-				.getListByType(HOTELFACILITYLIST_TYPE);
-		model.addAttribute("provinceList", provinceList);
+*/		
+/*		List<FacilityIconDO> roomServiceList = facilityIconService
+				.getListByType(ROOMSERVICELIST_TYPE);*/
+/*		List<FacilityIconDO> hotelFacilityList = facilityIconService
+				.getListByType(HOTELFACILITYLIST_TYPE);*/
+		//model.addAttribute("provinceList", provinceList);		
+		//房间设施
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
+		//特色服务
+		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
+		//酒店设施
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
+		
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);

@@ -7,30 +7,33 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.yimayhd.resourcecenter.model.query.BoothQuery;
-import com.yimayhd.commentcenter.client.service.ComCenterService;
+
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.ScenicService;
-import com.yimayhd.harem.service.ShowcaseService;
 import com.yimayhd.harem.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
+import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.enums.ColumnType;
 import com.yimayhd.resourcecenter.model.enums.RegionStatus;
+import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
-import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
+import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 
 public class TripServiceImpl implements TripService {
@@ -44,8 +47,10 @@ public class TripServiceImpl implements TripService {
 	@Autowired ScenicService scenicSpotService;
 	
 	@Autowired BoothClientServer boothClientServerRef;
-	/*@Autowired ComCenterService ComCenterServiceRef;*/
 	
+	@Autowired ItemQueryService itemQueryServiceRef;
+	
+	@Autowired RegionIntroduceClientService RegionIntroduceClientServiceRef;	
 	
 	public long saveTrip(TripBo tripBo) {
 		RcResult<RegionDO> res = regionClientServiceRef.selectById(tripBo.getId());
@@ -69,49 +74,50 @@ public class TripServiceImpl implements TripService {
 				list.add(minsu);
 				list.add(tieshi);
 				list.add(xiaofei);
-				encaSaveShowCase(list, StringUtils.isEmpty(tripBo.getCityCode())?"test---111":tripBo.getCityCode());
+				encaSaveShowCase(list,tripBo.getCityCode());
 			}
 			return regionDO.getId();
 		}
-		return 0;
+		return 11;
 	}
-	
-	
-	
-	
 	
 	public void encaSaveShowCase(List<NeedKnow> list,String cityCode){
 		//XXX:根据设计，流程如下：先往rc_booth表插城市的NeedKnow，然后根据返回的id,继续往rc_showcase表中插具体的NeedKnow包含的TextItem信息.
-		for (int i = 1; i < list.size(); i++) {
-			if(null != list.get(i)){
-				NeedKnow nk = list.get(i);
-				if(null != nk){
-					BoothDO boothDO = new BoothDO();
-					boothDO.setCode(nk.getExtraInfoUrl()+"_"+cityCode);
-					boothDO.setName(ColumnType.getByName(nk.getExtraInfoUrl()).getCode());
-					boothDO.setDesc(nk.getExtraInfoUrl()+"_"+cityCode);
-					boothDO.setStatus(10);
-					boothDO.setType(2);
-					boothDO.setGmtCreated(new Date());
-					RcResult<Long> res = boothClientServerRef.insert(boothDO);
-					if(null !=res && res.isSuccess() && null != res.getT() ){
-						boothDO.setId(res.getT());
-						 RcResult<Boolean>  resb = showcaseClientServerRef.batchInsertShowcase(boothDO, needKnowToShowCase(nk, cityCode, res.getT()));
-						 System.out.println("------"+resb);
-					}
-				}
-				//System.out.println(i+" _ "+list.get(i).getTitle()+" _ "+list.get(i).getContent());
+		for (NeedKnow nk : list) {
+			if(null != nk && CollectionUtils.isNotEmpty(nk.getFrontNeedKnow())){
+				System.out.println(nk.getExtraInfoUrl());
+				BoothDO boothDO = new BoothDO();
+				boothDO.setCode(nk.getExtraInfoUrl()+"-"+cityCode);
+				boothDO.setName(ColumnType.getByName(nk.getExtraInfoUrl()).getCode());
+				boothDO.setDesc(nk.getExtraInfoUrl()+"-"+cityCode);
+				boothDO.setStatus(10);
+				boothDO.setType(2);
+				boothDO.setGmtCreated(new Date());
+				boothDO.setGmtModified(new Date());
+				List<ShowcaseDO> listShowcaseDO = needKnowToShowCase(nk, cityCode,0);
+				RcResult<Boolean>  resb = showcaseClientServerRef.batchInsertShowcase(listShowcaseDO,boothDO);
+				System.out.println(resb.isSuccess());
 			}
 		}
 	}
 
-	
+	/**
+	* @Title: needKnowToShowCase 
+	* @Description:(将needKnow转换成showcase) 
+	* @author create by yushengwei @ 2015年12月19日 下午3:05:35 
+	* @param @param needKnow
+	* @param @param cityCode
+	* @param @param boothId
+	* @param @return 
+	* @return List<ShowcaseDO> 返回类型 
+	* @throws
+	 */
 	public List<ShowcaseDO> needKnowToShowCase(NeedKnow needKnow,String cityCode,long boothId){
 		List<ShowcaseDO> listShowCase = new ArrayList<ShowcaseDO>();
 		ShowcaseDO sw = null;
 		List<TextItem> listItem = needKnow.getFrontNeedKnow();
 		for (int i=0;i<listItem.size();i++) {
-			if(null != listItem.get(i)){
+			if(null != listItem.get(i) && StringUtils.isNotEmpty(listItem.get(i).getTitle())){
 				sw = new ShowcaseDO();
 				sw.setGmtCreated(new Date());
 				sw.setTitle(listItem.get(i).getTitle());
@@ -193,9 +199,33 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public boolean relevanceRecommended(int type, int destinationId, int[] showCaseId) {
-		
-		return false;
+	public boolean relevanceRecommended(int type, String cityCode, int[] resourceId)throws Exception {
+		ColumnType columnType =  ColumnType.getByType(type);
+		if(null == columnType ){
+			throw new Exception("parameter[type] "+type+" ,Enum does not exist");
+		}
+		BoothDO boothDO = new BoothDO();
+		boothDO.setCode(columnType.toString()+"-"+cityCode);
+		boothDO.setName(columnType.getCode());
+		boothDO.setDesc(columnType.getCode()+"-"+cityCode);
+		boothDO.setStatus(10);
+		boothDO.setType(2);
+		boothDO.setGmtCreated(new Date());
+		boothDO.setGmtModified(new Date());
+		List<ShowcaseDO> list = new ArrayList<ShowcaseDO>();
+		ShowcaseDO sc = null;
+		for (int i=0;i<resourceId.length;i++) {
+			sc= new ShowcaseDO();
+			sc.setTitle("目的地_"+cityCode+"	关联	"+columnType.getCode()+" ["+resourceId[i]+"]");
+			sc.setStatus(10);//BoothStatusType.ON_SHELF.getValue()
+			sc.setGmtCreated(new Date());
+			sc.setGmtModified(new Date());
+			sc.setOperationContent(String.valueOf(resourceId[i]));
+			list.add(sc);
+		}
+		RcResult<Boolean>  resb = showcaseClientServerRef.batchInsertShowcase(list,boothDO);
+		System.out.println(resb.isSuccess());
+		return resb.isSuccess();
 	}
 
 	@Override
@@ -213,16 +243,52 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public List<ShowCaseResult> getListShowCaseResult(int type) {
-		List<ShowCaseResult> list =null;
+	public List<RegionIntroduceDO> getListShowCaseResult(int type) {
+		RegionIntroduceQuery regionIntroduceQuery = new RegionIntroduceQuery();
+		regionIntroduceQuery.setType(type);
+//		List<RegionIntroduceDO> list = RegionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
+		List<RegionIntroduceDO> list = new ArrayList<RegionIntroduceDO>();
+		RegionIntroduceDO e = new RegionIntroduceDO();
+		e.setCityCode(31231);
+		e.setContent("eqweqweqweqwe");
+		e.setId(1);
+		e.setTitle("eqwe");
+		e.setType(10);
+		
+		RegionIntroduceDO e1 = new RegionIntroduceDO();
+		e1.setCityCode(31231);
+		e1.setContent("eqweqweqweqwe");
+		e1.setId(1);
+		e1.setTitle("eqwe");
+		e1.setType(10);
+		
+		RegionIntroduceDO e2 = new RegionIntroduceDO();
+		e2.setCityCode(31231);
+		e2.setContent("eqweqweqweqwe");
+		e2.setId(1);
+		e2.setTitle("eqwe");
+		e2.setType(10);
+		list.add(e);
+		list.add(e1);
+		list.add(e2);
 		return list;
 	}
 	
 	
 	@Override
-	public List<HotelDO> selecthotelDO(HotelListQuery hotelListQuery) throws Exception {
-		return hotelService.getList(hotelListQuery);
+	public List<RegionIntroduceDO> getListDestinationShowCaseResult(int type, String cityCode) {
+		
+		return null;
 	}
 	
-	
+	public List<HotelDO> getListHotelDO(String cityCode){
+		HotelPageQuery hotelPageQuery = new HotelPageQuery();
+		hotelPageQuery.setRegionId(Long.valueOf(cityCode));
+		ICPageResult<HotelDO>  res = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
+		if(res !=null && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
+			return res.getList();
+		}
+		return null;
+		
+	}
 }

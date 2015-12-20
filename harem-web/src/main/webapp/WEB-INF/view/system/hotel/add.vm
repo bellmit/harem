@@ -88,25 +88,49 @@
                 <tr>
                     <td><span class="spColor">*</span>房间设施</td>
                     <td class="grogCheckSel">
-                        #foreach($roomFacility in $!roomFacilityList)
-                            <span><input type="checkbox" name="roomFacilityList" value="${roomFacility.id}" #if($!hotel.roomFacility == $roomFacility.id) checked #end>$roomFacility.name</span>
+                        #foreach($!roomFacility in $!roomFacilityList)
+							#if($!roomFacility.number == 1)
+								<span>房间设施</span><br/>
+							#end
+							#if($!roomFacility.number == 34)
+								<br/><span>浴室</span><br/>
+							#end
+							#if($!roomFacility.number == 44)
+								<br/><span>室外景观</span><br/>
+							#end
+							#if($!roomFacility.number == 55)
+								<br/><span>其他服务</span><br/>
+							#end							
+							<span><input type="checkbox" name="roomFacilityList" value="$!{roomFacility.id}" #if($!hotel.roomFacility == $!roomFacility.id) checked #end>$!roomFacility.name</span>
+							#if($!roomFacility.number % 10 == 0 
+								|| $!roomFacility.number == 33
+								|| $!roomFacility.number == 43
+								|| $!roomFacility.number == 54) 
+								<br/>
+							#end
                         #end
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>特色服务</td>
                     <td  class="grogCheckSel">
-                        #foreach($roomService in $!roomServiceList)
-                            <span><input type="checkbox" name="roomServiceList" value="${roomService.id}"#if($!hotel.roomService == $roomService.id) checked #end>$roomService.name</span>
+                        #foreach($!roomService in $!roomServiceList)
+                            <span><input type="checkbox" name="roomServiceList" value="$!{roomService.id}"#if($!hotel.roomService == $!roomService.id) checked #end>$!roomService.name</span>
+							#if($!roomService.number % 10 == 0)
+								<br/>
+							#end
                         #end
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店设施</td>
                     <td  class="grogCheckSel">
-                        #foreach($hotelFacility in $!hotelFacilityList)
-                            <span><input type="checkbox" name="hotelFacilityList" value="${hotelFacility.id}" #if($!hotel.hotelFacility == $hotelFacility.id) checked #end>$hotelFacility.name</span>
-                        #end
+                        #foreach($!hotelFacility in $!hotelFacilityList)
+                            <span><input type="checkbox" name="hotelFacilityList" value="$!{hotelFacility.id}" #if($!hotel.hotelFacility == $!hotelFacility.id) checked #end>$!hotelFacility.name</span>
+							#if($!hotelFacility.number % 10 == 0)
+								<br/>
+							#end
+						#end
                     </td>
                 </tr>
                 <tr>$!hotel.openTimelist

@@ -1,6 +1,9 @@
 package com.yimayhd.harem.service;
 
+import java.util.List;
+
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.ic.client.model.domain.HotelDO;
@@ -17,4 +20,6 @@ public interface HotelRPCService {
 	public ICResult<Boolean> updateHotel(HotelVO hotelVO);
 	
 	public HotelVO getHotel(long id);
+	
+	public List<HotelFacilityVO> queryFacilities(int type);
 }
