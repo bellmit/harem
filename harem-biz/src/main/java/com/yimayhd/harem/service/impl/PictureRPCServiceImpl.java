@@ -2,7 +2,6 @@ package com.yimayhd.harem.service.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -46,23 +45,12 @@ public class PictureRPCServiceImpl implements PictureRPCService {
 	@Override
 	public List<PicturesDO> queryTopPictureList(PictureOutType outType, long outId, int limit) {
 		PicturesPageQuery ppq = new PicturesPageQuery();
-		ppq.setIds(Arrays.asList(outId));
+		ppq.setOutId(outId);
 		ppq.setIsTop(true);
 		ppq.setOutType(outType.getValue());
 		ppq.setPageNo(1);
 		ppq.setPageSize(limit);
-		List<PicturesDO> result = new ArrayList<PicturesDO>();
-		ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(ppq);
-		if (icPageResult != null && icPageResult.isSuccess()) {
-			if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
-				result.addAll(icPageResult.getList());
-			}
-		} else {
-			log.error(MessageFormat.format("检索图片列表失败：outType={0},outId={1},limit={2}", outType, outId, limit));
-			log.error(MessageFormat.format("检索图片列表失败：result={0}", JSON.toJSONString(icPageResult)));
-			throw new BaseException("检索图片列表失败");
-		}
-		return result;
+		return pageQueryPictureList(ppq).getItemList();
 	}
 
 }

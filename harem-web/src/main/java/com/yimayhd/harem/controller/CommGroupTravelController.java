@@ -122,7 +122,7 @@ public class CommGroupTravelController extends BaseTravelController {
 				detail.id = restaurant.getId();
 				detail.type = RouteItemType.RESTAURANT.name();
 				detail.name = restaurant.getName();
-				detail.shortDesc = restaurant.getDescription();
+				detail.shortDesc = restaurant.getOneword();
 				detail.pics = new ArrayList<String>();
 				List<PicturesDO> pictures = pictureService.queryTopPictureList(PictureOutType.RESTAURANT, rId,
 						PICTURE_MAX_SIZE);
@@ -136,9 +136,9 @@ public class CommGroupTravelController extends BaseTravelController {
 				ScenicDO scenic = scenicService.getById(sId).getScenic();
 				RouteItemDetail detail = new RouteItemDetail();
 				detail.id = scenic.getId();
-				detail.type = RouteItemType.RESTAURANT.name();
+				detail.type = RouteItemType.SCENIC.name();
 				detail.name = scenic.getName();
-				detail.shortDesc = scenic.getDescription();
+				detail.shortDesc = scenic.getOneword();
 				detail.pics = new ArrayList<String>();
 				List<PicturesDO> pictures = pictureService.queryTopPictureList(PictureOutType.SCENIC, sId,
 						PICTURE_MAX_SIZE);
@@ -152,9 +152,9 @@ public class CommGroupTravelController extends BaseTravelController {
 				HotelVO hotel = hotelService.getHotel(hId);
 				RouteItemDetail detail = new RouteItemDetail();
 				detail.id = hotel.getId();
-				detail.type = RouteItemType.RESTAURANT.name();
+				detail.type = RouteItemType.HOTEL.name();
 				detail.name = hotel.getName();
-				detail.shortDesc = hotel.getDescription();
+				detail.shortDesc = hotel.getOneword();
 				detail.pics = new ArrayList<String>();
 				List<PicturesDO> pictures = pictureService.queryTopPictureList(PictureOutType.HOTEL, hId,
 						PICTURE_MAX_SIZE);

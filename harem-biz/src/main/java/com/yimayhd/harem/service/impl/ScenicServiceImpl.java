@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,11 @@ public class ScenicServiceImpl implements ScenicService {
 			ScenicAddNewDTO dto = new ScenicAddNewDTO();
 			ScenicDO scenicDO = scenic.getModule();
 			NeedKnow needKnow = JSON.parseObject(scenicDO.getNeedKnow(), NeedKnow.class);
-			needKnow.setExtraInfoUrl(tfsService.readHtml5(needKnow.getExtraInfoUrl()));
+			String extraInfoUrl = "";
+			if (needKnow != null && StringUtils.isNotBlank(needKnow.getExtraInfoUrl())) {
+				extraInfoUrl = tfsService.readHtml5(needKnow.getExtraInfoUrl());
+				needKnow.setExtraInfoUrl(extraInfoUrl);
+			}
 			dto.setNeedKnow(needKnow);
 			dto.setScenic(scenicDO);
 			return dto;
