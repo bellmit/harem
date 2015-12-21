@@ -5,7 +5,7 @@ ul li,ol li{list-style: none;}
 table{width: 100%;}
 table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;text-align: justify;}
 
-
+.bigEditor .edui-editor:nth-child(2){width: 100% !important;}
 
 .error{color: #ff0000;}
 .spColor{color: #ff0000;}
@@ -20,7 +20,6 @@ table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;tex
 .dateInpCenter{padding: 0 10px !important;background: #f1f1f1 !important;}
 
 .inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;margin-bottom: 10px;}
-.whole{}
 .inpSingle{margin-bottom: 10px;width: 32%;float: left;margin-right: 1%;}
 @media (min-width: 800px){
     .inpSingle{width: 32%;float: left;margin-right: 1%;}
