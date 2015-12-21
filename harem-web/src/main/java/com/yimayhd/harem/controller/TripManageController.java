@@ -20,13 +20,11 @@ import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
+import com.yimayhd.resourcecenter.model.enums.ColumnType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
-import com.yimayhd.resourcecenter.model.enums.RelatedType;
-import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 /** 
 * @ClassName: DepartureManageController 
 * @Description: (出发地、目的地管理，目的地关联相应的 推荐信息，如 必买 必去 酒店 直播) 
@@ -90,7 +88,7 @@ public class TripManageController extends BaseController {
 				return "/success";
 			}else if(RegionType.DESC_REGION.getType()==tripBo.getType()){//线路目的地
 				model.addAttribute("id", ids);
-				return "/departure/toAdd";
+				return "redirect:/departure/toAdd";
 			}
 		}
 		return "error";
@@ -107,22 +105,34 @@ public class TripManageController extends BaseController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/list/recommended")
-	public String recommendedList(Model model,HttpServletRequest request,HotelListQuery hotelListQuery,ScenicPageQuery scenicPageQuery){
+	@RequestMapping("/recommended/list")
+	public String recommendedList(Model model,HttpServletRequest request,ScenicPageQuery scenicPageQuery){
 		int type=StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
+		String cityCode=StringUtils.isEmpty(request.getParameter("cityCode"))?"530100":request.getParameter("cityCode");
 		try {
-			if (type == RelatedType.recommended_buy.getType()) {//必买推荐
-				List<ShowCaseResult> list = tripService.getListShowCaseResult(type);
+			if (type == ColumnType.NEED_BUY.getType()) {//必买推荐 10
+				List<RegionIntroduceDO> list = tripService.getListShowCaseResult(type);
 				model.addAttribute("recommendedList", list);
 				return "/system/trip/add_destination/list_buy_recommended";
-			} else if (type == RelatedType.recommended_scenic.getType()) {//必去景点 ?
+			
+			
+			
+			} else if (type == ColumnType.GREAT_SCENIC.getType()) {//必去景点 8
 			    model.addAttribute("scenicDOList", tripService.selectScenicDO(scenicPageQuery));
 				return "/system/trip/add_destination/list_scenic";
-			} else if (type == RelatedType.recommended_hotel.getType()) {//酒店 ?
-				List<HotelDO> hotelDOList = tripService.selecthotelDO(hotelListQuery);
+			
+			
+			
+			
+			} else if (type == ColumnType.GREAT_HOTEL.getType()) {//酒店 ? 7 
+				List<HotelDO> hotelDOList = tripService.getListHotelDO(cityCode);
 				model.addAttribute("hotelDOList", hotelDOList);
 				return "/system/trip/add_destination/list_hotel";
-			} else if (type == RelatedType.recommended_live.getType()) {//直播 ?
+			
+			
+			
+			
+			} else if (type == ColumnType.LIVE_HEADLINES.getType()) {//直播 ? 17
 				
 				return "/system/trip/add_destination/list_live";
 			} 
@@ -131,6 +141,31 @@ public class TripManageController extends BaseController {
 		}
 		return "/error";
 	}
+	
+	/**
+	* @Title: relevance 
+	* @Description:(目的地关联 线路，酒店，景区) 
+	* @author create by yushengwei @ 2015年12月8日 上午10:57:14 
+	* @param @param model
+	* @param @param destinationId
+	* @param @param lineCityCode
+	* @param @return 
+	* @return String 返回类型 
+	* @throws
+	 */
+	@RequestMapping("/recommended/relevance")
+	public String relevance(Model model,int type,String cityCode,int[] resourceId){
+		try {
+			if (StringUtils.isEmpty(cityCode) || null == resourceId || resourceId.length <= 0) {
+				model.addAttribute("errMsg", "参数不正确");
+				return "/error";
+			}
+			tripService.relevanceRecommended(type, cityCode, resourceId);
+		} catch (Exception e) {
+		}
+		return "/success";
+	}
+	
 	
 	/**
 	* @Title: del 
@@ -195,66 +230,7 @@ public class TripManageController extends BaseController {
 			return new ResponseVo(list);			
 		}
 		return new ResponseVo(ResponseStatus.ERROR);
-	}
-	
-	/**
-	* @Title: specialRecommended 
-	* @Description:(关联：目的地-买必推荐) 
-	* @author create by yushengwei @ 2015年12月7日 下午5:17:41 
-	* @param @param model
-	* @param @return 
-	* @return String 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/relevance/recommended")
-	public String specialRecommended(Model model,int destinationId,int showCaseId[]){
-		if(destinationId <=0 || destinationId>Integer.MAX_VALUE || showCaseId.length<=0 ){
-			return "/error";
-		}
-		//TODO:update showcase 表中的id中的business_code即可
-		return "/success";
-	}
-	
-	
-	/**
-	* @Title: relevance 
-	* @Description:(目的地关联 线路，酒店，景区) 
-	* @author create by yushengwei @ 2015年12月8日 上午10:57:14 
-	* @param @param model
-	* @param @param destinationId
-	* @param @param lineCityCode
-	* @param @return 
-	* @return String 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/relevance")
-	public String relevance(Model model,int type,int destinationId,int CityCode){
-		return "/success";
-	}
-	
-	/**
-	* @Title: hotel 
-	* @Description:(选择关联酒店) 
-	* @author create by yushengwei @ 2015年12月8日 下午4:54:24 
-	* @param @param model
-	* @param @return 
-	* @return String 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/hotel")
-	public String hotel(Model model){
-		return "/system/trip/add_destination/best_hotel";
-	}
-	
-	@RequestMapping("/scenic")
-	public String scenic(Model model){
-		return "/system/trip/add_destination/best_scenic";
-	}
-		
-	@RequestMapping("/live")
-	public String live(Model model){
-		return "/system/trip/add_destination/best_live";
-	}		
+	}	
 		
 		
 }

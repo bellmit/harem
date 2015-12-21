@@ -9,7 +9,7 @@ import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionDO;
-import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 
 /** 
 * @ClassName: TripAService 
@@ -82,7 +82,7 @@ public interface TripService {
 	* @return boolean 返回类型 
 	* @throws
 	 */
-	boolean relevanceRecommended(int type,int destinationId,int showCaseId[]);
+	boolean relevanceRecommended(int type,String cityCode,int resourceId[])throws Exception;
 	
 	/**
 	* @Title: selectRegion 
@@ -109,14 +109,26 @@ public interface TripService {
 	
 	/**
 	* @Title: getListShowCaseResult 
-	* @Description:(获取showcase列表) 
+	* @Description:(获取RegionIntroduceDO列表) 
 	* @author create by yushengwei @ 2015年12月16日 上午10:33:32 
 	* @param @param type
 	* @param @return 
 	* @return List<ShowCaseResult> 返回类型 
 	* @throws
 	 */
-	List<ShowCaseResult> getListShowCaseResult(int type);
+	List<RegionIntroduceDO> getListShowCaseResult(int type);
+	
+	/**
+	* @Title: getListShowCaseResult 
+	* @Description:(获取跟目的地关联的RegionIntroduceDO) 
+	* @author create by yushengwei @ 2015年12月19日 下午7:06:31 
+	* @param @param type
+	* @param @param cityCode
+	* @param @return 
+	* @return List<RegionIntroduceDO> 返回类型 
+	* @throws
+	 */
+	List<RegionIntroduceDO> getListDestinationShowCaseResult(int type,String cityCode);
 	
 	/**
 	* @Title: selecthotelDO 
@@ -127,5 +139,5 @@ public interface TripService {
 	* @return List<HotelDO> 返回类型 
 	* @throws
 	 */
-	List<HotelDO> selecthotelDO(HotelListQuery hotelListQuery)throws Exception;
+	List<HotelDO> getListHotelDO(String cityCode)throws Exception;
 }

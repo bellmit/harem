@@ -13,8 +13,8 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
-import com.yimayhd.harem.service.HotelService;
-import com.yimayhd.harem.service.RestaurantService;
+import com.yimayhd.harem.service.HotelRPCService;
+import com.yimayhd.harem.service.RestaurantRPCService;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
@@ -36,11 +36,11 @@ import com.yimayhd.user.client.domain.UserDOPageQuery;
 @RequestMapping("/B2C/resourceForSelect")
 public class ResourceForSelectController extends BaseController {
 	@Autowired
-	private RestaurantService restaurantService;
+	private RestaurantRPCService restaurantService;
 	@Autowired
 	private ScenicService scenicService;
 	@Autowired
-	private HotelService hotelService;
+	private HotelRPCService hotelService;
 	@Autowired
 	private UserRPCService userService;
 
@@ -51,8 +51,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryRestaurantForSelect")
-	public @ResponseBody Map<String, Object> queryRestaurantForSelect(RestaurantListQuery query) throws Exception {
-		PageVO<RestaurantDO> pageVo = restaurantService.getListByPage(query);
+	public @ResponseBody Map<String, Object> queryRestaurantForSelect(RestaurantListQuery query) {
+		PageVO<RestaurantDO> pageVo = restaurantService.pageQueryRestaurant(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
@@ -121,7 +121,7 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/queryHotelForSelect")
 	public @ResponseBody Map<String, Object> queryHotelForSelect(HotelListQuery query) throws Exception {
-		PageVO<HotelDO> pageVo = hotelService.getListByPage(query);
+		PageVO<HotelDO> pageVo = hotelService.pageQueryHotel(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);

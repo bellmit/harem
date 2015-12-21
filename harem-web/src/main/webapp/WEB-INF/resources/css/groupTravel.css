@@ -1,42 +1,25 @@
 /*商品管理-发布线路-基本信息*/
 .baseInfo{padding: 10px;}
+.baseInfoList{padding-bottom: 20px;}
 .baseInfoList label{font-weight: normal;}
 .baseInfoList .lineDetail{font-weight: bold;font-size: 16px;}
 .baseInfoList table{width: 100%;}
 .baseInfoList table tr{line-height: 30px;}
 .baseInfoList table td:nth-child(1){width: 100px;}
 .baseInfoList table .fileWrap{position: relative;}
-.baseInfoList table .fileWrap .btn{}
-.baseInfoList table .fileWrap .fileBtn{position: absolute;width: 80px;height: 32px;top: 52px;left: 0;font-size: 25px;opacity: 0;filter: alpha(opacity=0);}
-.baseInfoList table .marBot{margin-bottom: 10px;}
-.baseInfoList table .tagSel{border: 1px solid #353535;padding: 7px;margin-right: 10px;border-radius: 6px;background: rgba(238, 241, 232, 0.68);}
-.baseInfoList table .productTheme{margin-right: 3px;margin-left: 10px;}
-.baseInfoList table .productTheme:nth-child(1){margin-left: 0px;}
+.baseInfoList table .fileWrap .fileBtn{position: absolute;width: 80px;height: 32px;top: 8px;left: 0;font-size: 25px;opacity: 0;filter: alpha(opacity=0);}
+.baseInfoList table .img-circle{width: 100px;margin-left: 10px;}
 .baseInfoApply{}
 .baseInfoApply .applyNote{font-weight: bold;font-size: 16px;}
-.baseInfoApply .addItem{}
-.baseInfoApply .addItem .addItemBtn{margin-bottom: 10px;}
-.baseInfoApply .addItem table{width: 100%;border-collapse: collapse;border: 1px solid #d5d5d5;}
-.baseInfoApply .addItem table th{text-align: center;border: 1px solid #d5d5d5;background: #dedede;line-height: 35px;}
-.baseInfoApply .addItem table td{border: 1px solid #d5d5d5;padding: 10px;text-align: center;}
-.baseInfoApply .addItem table textarea{}
-
-
-
-
-
-
-
-
+.baseInfoApply table{width: 100%;border-collapse: collapse;border: 1px solid #d5d5d5;}
+.baseInfoApply table th{text-align: center;border: 1px solid #d5d5d5;background: #dedede;line-height: 35px;}
+.baseInfoApply table td{border: 1px solid #d5d5d5;padding: 10px !important;text-align: center;}
+.baseInfoApply table textarea{}
 
 
 
 /*商品管理-发布线路-行程信息*/
 .tripInfo{padding: 10px;}
-
-
-
-
 
 
 
@@ -58,8 +41,6 @@
 
 
 
-
-
-
 /*保存*/
-.groupTravelBot{text-align: center;}
+.groupTravelBot{text-align: center;margin: 20px auto;}
+.groupTravelBot .btn{width: 150px;}

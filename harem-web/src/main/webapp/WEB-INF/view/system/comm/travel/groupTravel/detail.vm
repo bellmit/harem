@@ -4,10 +4,16 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
-
+<!-- 富文本编辑 -->
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
 <ul class="nav nav-tabs">
     <li class="active">
       <a href="#baseInfo" data-toggle="tab">基本信息</a>
+    </li>
+	<li>
+      <a href="#extraInfos" data-toggle="tab">报名须知</a>
     </li>
     <li>
       <a href="#tripInfo" data-toggle="tab">行程信息</a>
@@ -23,6 +29,9 @@
     <div class="tab-pane baseInfo in active" id="baseInfo">
         #parse("/system/comm/travel/baseInfo.vm")
     </div>
+	<div class="tab-pane bigEditor" id="extraInfos">
+        <script id="extraInfos" type="text/plain" name="extraInfos" style="width: 100%; height:350px">$!{extraInfos}</script>
+    </div>
     <div class="tab-pane tripInfo" id="tripInfo">
         #parse("/system/comm/travel/groupTravel/tripInfo.vm")
     </div>
@@ -30,13 +39,26 @@
         #parse("/system/comm/travel/priceInfo.vm")
     </div>
 	<div class="tab-pane bigEditor" id="importantInfos">
-        #parse("/system/comm/travel/bigEditor.vm")
+        <script id="importantInfos" type="text/plain" name="importantInfos" style="width: 100%; height:350px">$!{product.importantInfos}</script>
     </div>
   </div>
   <div class="groupTravelBot">
-    <button class="btn btn-primary save">保存</button>
+    <button class="btn btn-primary save">保  存</button>
   </div>
   <script type="text/javascript">
+  	var important_infos_ue;
+	var extra_infos_ue;
+    $(function() {
+        window.UEDITOR_HOME_URL = "/resources/ueditor/";
+    	important_infos_ue = UE.getEditor('importantInfos');
+		extra_infos_ue = UE.getEditor('extraInfos');
+    });
+	function getExtraInfos() {
+		return extra_infos_ue.getAllHtml();
+	}
+	function getImportantInfos() {
+		return important_infos_ue.getAllHtml();
+	}
     $(".save").click(function(){
         var result = {
 			categoryId:$!{categoryId},
@@ -47,7 +69,8 @@
         };
 		var params = {
 			json:JSON.stringify(result),
-			importantInfos:getImportantInfos()
+			importantInfos:getImportantInfos(),
+			extraInfos:getExtraInfos()
 		};
         //console.log(JSON.stringify(params));
 		//alert(JSON.stringify(params));

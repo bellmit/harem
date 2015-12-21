@@ -66,11 +66,6 @@ public class GroupTravel extends BaseTravel {
 							hotelMap.put(routeItem.getDay(), desc);
 						}
 					}
-				} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
-					// RouteItemDetail detail =
-					// JSON.parseObject(routeItem.getValue(),
-					// RouteItemDetail.class);
-					// TODO 富文本
 				}
 			}
 		}
@@ -140,11 +135,23 @@ public class GroupTravel extends BaseTravel {
 			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
 			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemDinner()));
 			routeItemDOList.add(routeItemDO);
+			// 餐厅详情
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getRestaurantDetail()));
+			routeItemDOList.add(routeItemDO);
 			// 景区
 			routeItemDO = new RouteItemDO();
 			routeItemDO.setDay(i);
 			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
 			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemScenic()));
+			routeItemDOList.add(routeItemDO);
+			// 景区详情
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getScenicDetail()));
 			routeItemDOList.add(routeItemDO);
 			// 酒店
 			routeItemDO = new RouteItemDO();
@@ -152,12 +159,18 @@ public class GroupTravel extends BaseTravel {
 			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
 			routeItemDO.setValue(JSON.toJSONString(tripDay.getRouteItemHotel()));
 			routeItemDOList.add(routeItemDO);
+			// 酒店详情
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(i);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
+			routeItemDO.setValue(JSON.toJSONString(tripDay.getHotelDetail()));
+			routeItemDOList.add(routeItemDO);
+
 		}
 		dto.setRouteItemDOList(routeItemDOList);
 		RouteDO routeDO = new RouteDO();
 		routeDO.setPicture(this.baseInfo.getTripImage());
 		dto.setRouteDO(routeDO);
 	}
-	
 
 }

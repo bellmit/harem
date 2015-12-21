@@ -37,11 +37,11 @@ public class TfsServiceImpl implements TfsService {
 		// String html5 = encodeHtmlHead + body + encodeHtmlFoot;
 		String html5 = body;
 		byte[] bytes = null;
-		try {
+		/*try {
 			bytes = html5.getBytes("utf-8");
-		} catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {*/
 			bytes = html5.getBytes();
-		}
+		//}
 		String tfsCode = "";
 		try { 
 			tfsCode = tfsManager.saveFile(bytes, null, "html");

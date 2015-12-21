@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
 /**
  * @author
  */
-public class BaseException extends Exception {
+public class BaseException extends RuntimeException {
 	private static final long serialVersionUID = 715232087424762931L;
 
 	public BaseException(Object msg) {
