@@ -207,18 +207,6 @@ public class HotelManageController extends BaseController {
 		checkInit(roomServiceList, roomServiceArr);
 		checkInit(hotelFacilityList, hotelFacilityArr);
 		
-		System.out.println(JSON.toJSONString(roomFacilityList));
-		System.out.println(JSON.toJSONString(roomServiceList));
-		System.out.println(JSON.toJSONString(roomFacilityList));
-		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println(Long.toBinaryString(roomFacility));
-		System.out.println(Long.toBinaryString(hotelFacility));
-		System.out.println(Long.toBinaryString(roomService));
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		
-		
-		
 /*		List<FacilityIconDO> roomFacilityList = facilityIconService
 				.getListByType(ROOMFACILITY_TYPE);
 		List<FacilityIconDO> roomServiceList = facilityIconService
@@ -228,9 +216,9 @@ public class HotelManageController extends BaseController {
 */		
 		model.addAttribute("hotel", hotelVO);
 		//model.addAttribute("pictureList", hotelVO.getPictureList());
-		//model.addAttribute("roomFacilityList", roomFacilityList);
-		//model.addAttribute("roomServiceList", roomServiceList);
-		//model.addAttribute("hotelFacilityList", hotelFacilityList);
+		model.addAttribute("roomFacilityList", roomFacilityList);
+		model.addAttribute("roomServiceList", roomServiceList);
+		model.addAttribute("hotelFacilityList", hotelFacilityList);
 
 		return "/system/hotel/edit";
 	}

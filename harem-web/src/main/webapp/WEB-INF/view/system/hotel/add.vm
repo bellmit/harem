@@ -88,7 +88,10 @@
                 <tr>
                     <td><span class="spColor">*</span>房间设施</td>
                     <td class="grogCheckSel">
+						#set($indexNo = 0)
                         #foreach($!roomFacility in $!roomFacilityList)
+							#set($indexNo = $indexNo + 1)
+							#set($indexNoId = "roomFacility" + $indexNo)
 							#if($!roomFacility.number == 1)
 								<span>房间设施</span><br/>
 							#end
@@ -100,33 +103,40 @@
 							#end
 							#if($!roomFacility.number == 55)
 								<br/><span>其他服务</span><br/>
-							#end							
-							<span><input type="checkbox" name="roomFacilityList" value="$!{roomFacility.id}" #if($!hotel.roomFacility == $!roomFacility.id) checked #end>$!roomFacility.name</span>
+							#end
+                            <span><input type="checkbox" id="$!indexNoId" name="roomFacilityList" #if($!roomFacility.checked) checked value="1" #else vlaue="0" #end>$roomFacility.name</span>
 							#if($!roomFacility.number % 10 == 0 
 								|| $!roomFacility.number == 33
 								|| $!roomFacility.number == 43
 								|| $!roomFacility.number == 54) 
 								<br/>
 							#end
-                        #end
+
+						#end
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>特色服务</td>
                     <td  class="grogCheckSel">
+						#set($indexNo = 0)
                         #foreach($!roomService in $!roomServiceList)
-                            <span><input type="checkbox" name="roomServiceList" value="$!{roomService.id}"#if($!hotel.roomService == $!roomService.id) checked #end>$!roomService.name</span>
+							#set($indexNo = $indexNo + 1)
+							#set($indexNoId = "roomService" + $indexNo)
+                            <span><input type="checkbox" id="$!indexNoId" name="roomServiceList" #if($!roomService.checked) checked value="1" #else value="0" #end>$roomService.name</span>
 							#if($!roomService.number % 10 == 0)
 								<br/>
 							#end
-                        #end
+						#end
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店设施</td>
                     <td  class="grogCheckSel">
+						#set($indexNo = 0)
                         #foreach($!hotelFacility in $!hotelFacilityList)
-                            <span><input type="checkbox" name="hotelFacilityList" value="$!{hotelFacility.id}" #if($!hotel.hotelFacility == $!hotelFacility.id) checked #end>$!hotelFacility.name</span>
+							#set($indexNo = $indexNo + 1)
+							#set($indexNoId = "hotelFacility" + $indexNo)
+                            <span><input type="checkbox" id="$!indexNoId" name="hotelFacilityList" #if($!hotelFacility.checked) checked value="1" #else value="0" #end>$hotelFacility.name</span>
 							#if($!hotelFacility.number % 10 == 0)
 								<br/>
 							#end
