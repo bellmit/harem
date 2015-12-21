@@ -1,5 +1,6 @@
 package com.yimayhd.harem.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,8 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseTravelController;
+import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
 import com.yimayhd.harem.service.SelfServiceTravelService;
+import com.yimayhd.harem.service.TfsService;
+import com.yimayhd.ic.client.model.enums.LineType;
 
 /**
  * 商品-自由行
@@ -23,6 +27,8 @@ import com.yimayhd.harem.service.SelfServiceTravelService;
 public class CommSelfServiceTravelController extends BaseTravelController {
 	@Autowired
 	private SelfServiceTravelService selfServiceTravelService;
+	@Autowired
+	private TfsService tfsService;
 
 	/**
 	 * 详细信息页
@@ -36,8 +42,11 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			SelfServiceTravel product = selfServiceTravelService.getById(id);
-			put("product", product);
+			SelfServiceTravel sst = selfServiceTravelService.getById(id);
+			put("product", sst);
+			put("importantInfos", tfsService.readHtml5(sst.getPriceInfo().getImportantInfosCode()));
+			put("extraInfos", tfsService.readHtml5(sst.getBaseInfo().getNeedKnow().getExtraInfoUrl()));
+			put("lineType", LineType.getByType(sst.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/selfServiceTravel/detail";
 	}
@@ -94,10 +103,17 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody SelfServiceTravel save(String json) throws Exception {
-		SelfServiceTravel selfServiceTravel = JSON.parseObject(json, SelfServiceTravel.class);
-		System.out.println(JSON.toJSONString(selfServiceTravel));
-		selfServiceTravelService.saveOrUpdate(selfServiceTravel);
-		return selfServiceTravel;
+	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
+		SelfServiceTravel sst = JSON.parseObject(json, SelfServiceTravel.class);
+		if (StringUtils.isNotBlank(importantInfos)) {
+			String importantInfosCode = tfsService.publishHtml5(importantInfos);
+			sst.getPriceInfo().setImportantInfosCode(importantInfosCode);
+		}
+		if (StringUtils.isNotBlank(extraInfos)) {
+			String extraInfosCode = tfsService.publishHtml5(extraInfos);
+			sst.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
+		}
+		long id = selfServiceTravelService.publish(sst);
+		return new ResponseVo(id);
 	}
 }

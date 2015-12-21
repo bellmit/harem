@@ -11,9 +11,8 @@ public class SelfServiceTravelServiceImpl extends TravelServiceImpl<SelfServiceT
 		implements SelfServiceTravelService {
 
 	@Override
-	public void saveOrUpdate(SelfServiceTravel selfServiceTravel) throws Exception {
-		// TODO Auto-generated method stub
-
+	public long publish(SelfServiceTravel selfServiceTravel) throws Exception {
+		return publishLine(selfServiceTravel);
 	}
 
 	@Override

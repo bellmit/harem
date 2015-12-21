@@ -1,6 +1,5 @@
 package com.yimayhd.harem.model.travel.selfServiceTravel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,8 +19,8 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
  */
 public class TripPackageInfo {
 	private int hasFlight;// 有无航班
-	private FlightInfoVO flightInfo;// 航班信息
-	private List<FlightVO> flights;// 航班列表
+	private FlightInfo flightInfo;// 航班信息
+	private List<FlightDetail> flightDetails;// 航班列表
 	private List<HotelInfo> hotels;// 酒店
 
 	public TripPackageInfo() {
@@ -32,18 +31,9 @@ public class TripPackageInfo {
 		// 有无航班
 		this.hasFlight = StringUtils.isNotBlank(line.getFlightDetail()) ? 1 : 0;
 		// 航班信息
-		if (StringUtils.isNotBlank(line.getFlights())) {
-			FlightInfo flightInfo = JSON.parseObject(line.getFlights(), FlightInfo.class);
-			this.flightInfo = new FlightInfoVO(flightInfo);
-		}
+		this.flightInfo = JSON.parseObject(line.getFlights(), FlightInfo.class);
 		// 航班列表
-		this.flights = new ArrayList<FlightVO>();
-		if (StringUtils.isNotBlank(line.getFlightDetail())) {
-			List<FlightDetail> fligthDetails = JSON.parseArray(line.getFlightDetail(), FlightDetail.class);
-			for (FlightDetail flightDetail : fligthDetails) {
-				this.flights.add(new FlightVO(flightDetail));
-			}
-		}
+		this.flightDetails = JSON.parseArray(line.getFlightDetail(), FlightDetail.class);
 		// 酒店
 		this.hotels = JSON.parseArray(line.getHotels(), HotelInfo.class);
 	}
@@ -64,20 +54,20 @@ public class TripPackageInfo {
 		this.hotels = hotels;
 	}
 
-	public FlightInfoVO getFlightInfo() {
+	public FlightInfo getFlightInfo() {
 		return flightInfo;
 	}
 
-	public void setFlightInfo(FlightInfoVO flightInfo) {
+	public void setFlightInfo(FlightInfo flightInfo) {
 		this.flightInfo = flightInfo;
 	}
 
-	public List<FlightVO> getFlights() {
-		return flights;
+	public List<FlightDetail> getFlightDetails() {
+		return flightDetails;
 	}
 
-	public void setFlights(List<FlightVO> flights) {
-		this.flights = flights;
+	public void setFlightDetails(List<FlightDetail> flightDetails) {
+		this.flightDetails = flightDetails;
 	}
 
 }

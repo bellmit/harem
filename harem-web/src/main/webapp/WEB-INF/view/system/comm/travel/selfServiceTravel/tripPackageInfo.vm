@@ -15,7 +15,7 @@
 						<div class="flight-info">
 						#if($product.tripPackageInfo.flightInfo)
 							<div class="flight">
-								<div><input type="text" class="flight-info-data" value="$product.tripPackageInfo.flightInfo.toString()"/></div>
+								<div><input type="text" class="flight-info-data" value="${utilText.toJSONStringZ(${product.tripPackageInfo.flightInfo})}"/></div>
 								<button class="btn btn-primary remove-parent">删除</button>
 							</div>
 						#end
@@ -26,12 +26,12 @@
 							<input type="radio" value="1" id="has-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}==1) checked #end><label for="has-flight">有航班信息</label>
                         </div>
 						<div>
-							<button class='btn btn-primary add-flight'>添加航班信息</button>
+							<button class='btn btn-primary add-flight-details'>添加航班信息</button>
 						</div>
-						<div class="flights">
-						#foreach($flight in $product.tripPackageInfo.flights)
-							<div class="flight">
-								<div><input type="text" class="flight-date" value="$flight.toString()"/></div>
+						<div class="flight-details">
+						#foreach($flightDetail in $product.tripPackageInfo.flightDetails)
+							<div class="flight-detail">
+								<div><input type="text" class="flight-detail-date" value="${utilText.toJSONStringZ(${flightDetail})}"/></div>
 								<button class="btn btn-primary remove-parent">删除</button>
 							</div>
 						#end

@@ -71,7 +71,7 @@ public abstract class BaseTravel {
 		}
 		if (priceInfo != null) {
 			dto.setItemDO(this.getItemDO());
-			dto.setItemSkuDOList(priceInfo.toItemSkuDOList(this.baseInfo.getPublisherId()));
+			dto.setItemSkuDOList(priceInfo.toItemSkuDOList(this.getSellerId()));
 		}
 		return dto;
 	}
@@ -93,6 +93,7 @@ public abstract class BaseTravel {
 	public ItemDO getItemDO() {
 		ItemDO itemDO = new ItemDO();
 		itemDO.setId(this.priceInfo.getItemId());
+		itemDO.setSellerId(this.getSellerId());
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.priceInfo.getLimitBySecond());
 		itemFeature.put(ItemFeatureKey.AGREEMENT, this.priceInfo.getImportantInfosCode());
@@ -111,6 +112,14 @@ public abstract class BaseTravel {
 		itemDO.setPicUrls(this.baseInfo.getTripImage());
 		itemDO.setDetailUrl("");
 		return itemDO;
+	}
+	
+	protected long getSellerId() {
+		long sellerId = 0;
+		if(this.baseInfo!=null) {
+			sellerId = this.baseInfo.getPublisherId();
+		}
+		return sellerId;
 	}
 
 	public abstract void setRouteInfo(LinePublishDTO dto);
