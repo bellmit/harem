@@ -23,6 +23,7 @@
 	<bean class="com.yimayhd.harem.service.impl.LiveServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ThemeServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TripServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.RecommendedServiceImpl"></bean>
 	<!-- 资源管理 -->
 	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>

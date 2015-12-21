@@ -17,7 +17,6 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.TripBo;
-import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -198,7 +197,8 @@ public class TripManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(Model model,int type){
+	public String list(Model model){
+		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
 		List<RegionDO> list = tripService.selectRegion(type);
 		if(CollectionUtils.isNotEmpty(list)){
 			model.addAttribute("regionList",list);
@@ -230,7 +230,19 @@ public class TripManageController extends BaseController {
 			return new ResponseVo(list);			
 		}
 		return new ResponseVo(ResponseStatus.ERROR);
-	}	
+	}
+	
+	@RequestMapping("/edit")
+	@ResponseBody
+	public String edit(Model model, HttpServletRequest request){
+		int type=StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
+		String cityCode=StringUtils.isEmpty(request.getParameter("cityCode"))?"530100":request.getParameter("cityCode");
 		
+		return cityCode;
+	}	
+	
+	
+	
+	
 		
 }
