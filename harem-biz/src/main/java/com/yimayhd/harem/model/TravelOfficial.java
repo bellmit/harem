@@ -19,6 +19,8 @@ public class TravelOfficial extends BaseModel {
     private Integer praiseNum;//点赞数
     private Integer collectionNum;//收藏数
 
+    private String backImg; // 封面
+
     public String getTitle() {
         return title;
     }
@@ -89,5 +91,13 @@ public class TravelOfficial extends BaseModel {
 
     public void setBrowseNum(Integer browseNum) {
         this.browseNum = browseNum;
+    }
+
+    public String getBackImg() {
+        return backImg;
+    }
+
+    public void setBackImg(String backImg) {
+        this.backImg = backImg;
     }
 }

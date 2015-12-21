@@ -19,6 +19,10 @@ import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.model.vo.ClubVO;
 import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.harem.service.UserRPCService;
+import com.yimayhd.snscenter.client.domain.ClubInfoDO;
+import com.yimayhd.snscenter.client.domain.result.ClubDOList;
+import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
+import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -28,7 +32,7 @@ import com.yimayhd.harem.service.UserRPCService;
  * @author czf
  */
 @Controller
-@RequestMapping("/clubManage")
+@RequestMapping("/B2C/clubManage")
 public class ClubManageController extends BaseController {
 	@Autowired
 	private ClubService clubService;
@@ -43,17 +47,12 @@ public class ClubManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ClubListQuery query) throws Exception {
-		ClubVO clubVO = new ClubVO();
-		clubVO.setClubListQuery(query);
-		List<Club> clubList = clubService.getList(clubVO.getClub());
-		PageVO<Club> pageVo = new PageVO<Club>(query.getPageNumber(), query.getPageSize(), 14800);
-		// pageVo.setCurrentPage(60);
-
-		model.addAttribute("pageVo", pageVo);
+	public String list(Model model, ClubDOInfoDTO query) throws Exception {
+		query.setPageNo(query.getPageNo()==0?1:query.getPageNo());
+		query.setPageSize(query.getPageSize()==0?10:query.getPageSize());
+		ClubDOList clubList = clubService.getList(query);
 		model.addAttribute("clubListQuery", query);
 		model.addAttribute("clubList", clubList);
-
 		return "/system/club/list";
 	}
 
@@ -88,8 +87,12 @@ public class ClubManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(Club club) throws Exception {
-		clubService.add(club);
+	public String add(ClubInfoAddDTO clubInfoAddDTO) throws Exception {
+		clubInfoAddDTO.setCreateId(2701);
+		ClubInfoDO club = clubService.add(clubInfoAddDTO);
+		if(null == club ){
+			return "/error";
+		}
 		return "/success";
 	}
 

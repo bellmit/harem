@@ -1,6 +1,11 @@
 package com.yimayhd.harem.service;
 
 import com.yimayhd.harem.model.Club;
+import com.yimayhd.snscenter.client.domain.ClubInfoDO;
+import com.yimayhd.snscenter.client.domain.result.ClubDO;
+import com.yimayhd.snscenter.client.domain.result.ClubDOList;
+import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
+import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 
 import java.util.List;
 
@@ -12,7 +17,7 @@ public interface ClubService {
      * 获取俱乐部列表(可带查询条件)
      * @return 俱乐部列表
      */
-    List<Club> getList(Club club)throws Exception;
+	ClubDOList getList(ClubDOInfoDTO club)throws Exception;
     /**
      * 获取俱乐部详情
      * @return 俱乐部详情
@@ -25,7 +30,7 @@ public interface ClubService {
      * @return
      * @throws Exception
      */
-    Club add(Club club)throws Exception;
+    ClubInfoDO add(ClubInfoAddDTO clubInfoAddDTO)throws Exception;
 
     /**
      * 修改俱乐部

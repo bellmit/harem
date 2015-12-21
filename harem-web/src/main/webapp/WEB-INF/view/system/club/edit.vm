@@ -8,7 +8,7 @@
             <tr>
                 <td><span class="spColor">*</span>俱乐部名称</td>
             
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!club.name"></td>
+                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="clubName" value="$!club.clubName"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>俱乐部LOGO</td>
@@ -31,19 +31,21 @@
                         <button type="button" class="btn btn-success">选择图片</button>
 						
                         <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile" accept="image/png,image/gif">
-						<input type="hidden" name="picturePoster" value="$!club.picturePoster"  id="picturePosterUploadFileReturnInput">
+						<input type="hidden" name="backImg" value="$!club.backImg"  id="picturePosterUploadFileReturnInput">
 							
                         <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                     </div>
                     <div class="propagandaView">
-                        <img src="#if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end" id="picturePosterUploadFileReturnImg">
+                        <img src="#if($club.backImg) $utilWebconfig.getTfsRootPath()$!club.backImg  #end" id="picturePosterUploadFileReturnImg">
                     </div>
                 </td>
             </tr>
-            <tr>
+           #*
+           	 <tr>
                 <td><span class="spColor">*</span>成员限额</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字" name="limitNum" value="$!club.limitNum"></td>
+                <td><input type="text" class="form-control" placeholder="请输入数字" name="memberCount" value="$!club.memberCount"></td>
             </tr>
+           *#
             <tr>
                 <td><span class="spColor">*</span>部长</td>
                 <td>
@@ -61,23 +63,25 @@
             </tr>
             <tr>
                 <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
+                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="score" value="$!club.score"></td>
             </tr>
-            <tr>
-                <td><span class="spColor">*</span>状态</td>
-                <td class="radioSel">
-                    <div class="col-md-10">
-                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="1" #if($!club.joinStatus == 1) checked #end> 允许加入 </label>
-                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="0" #if($!club.joinStatus == 2) checked #end> 禁止加入 </label>
-                    </div>
-                </td>
-            </tr>
+            #*
+            	<tr>
+	                <td><span class="spColor">*</span>状态</td>
+	                <td class="radioSel">
+	                    <div class="col-md-10">
+	                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="1" #if($!club.joinStatus == 1) checked #end> 允许加入 </label>
+	                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="0" #if($!club.joinStatus == 2) checked #end> 禁止加入 </label>
+	                    </div>
+	                </td>
+            	</tr>
+            *#
             <tr>
                 <td><span class="spColor">*</span>前台显示</td>
                 <td class="radioSel">
                     <div class="col-md-10">
-                        <label class="radio-inline"> <input type="radio" name="showStatus" value="1" #if($!club.showStatus == 1) checked #end> 显示 </label>
-                        <label class="radio-inline"> <input type="radio" name="showStatus" value="0" #if($!club.showStatus == 2) checked #end> 隐藏 </label>
+                        <label class="radio-inline"> <input type="radio" name="state" value="1" #if($!club.showStatus == 1) checked #end> 显示 </label>
+                        <label class="radio-inline"> <input type="radio" name="state" value="0" #if($!club.showStatus == 2) checked #end> 隐藏 </label>
                     </div>
                 </td>
             </tr>
@@ -145,11 +149,11 @@
             var actionUrl;
             var clubId = $('#clubForm').attr('clubId');
             if(clubId){
-                actionUrl = '/clubManage/edit/'+clubId;
+                actionUrl = '/B2C/clubManage/edit/'+clubId;
             }else{
-                actionUrl = '/clubManage/add';
+                actionUrl = '/B2C/clubManage/add';
             }
-            layer.alert(actionUrl);
+            
             $('#clubForm').attr('action',actionUrl);
 			$('#clubForm').submit();
            #* 

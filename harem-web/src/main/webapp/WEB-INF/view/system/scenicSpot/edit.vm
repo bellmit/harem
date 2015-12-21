@@ -62,15 +62,18 @@
                             <div class="selectList">
                                 
                            
-                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{scenic.locationProvinceName}">
+                            <input type="hidden" id="provinceSelectName" name="scenic.locationProvinceName" value="$!{VO.scenic.locationProvinceName}">
                             <select id="provinceId" class="selCity inpControl provinceSelect" name="scenic.locationProvinceId" areaType="PROVINCE">
-                                <option value="&&&&&&00">请选择省份</option>
+                                <option value="$!{VO.scenic.locationProvinceId}">#if(! $VO.scenic.locationProvinceName)请选择省份#else$!{VO.scenic.locationProvinceName}#end</option>
                             </select>
-                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!{scenic.locationCityName}">
+                            <input type="hidden" id="citySelectName" name="scenic.locationCityName" value="$!{VO.scenic.locationCityName}">
                             <select id="cityId" class="selCity inpControl citySelect" name="scenic.locationCityId" areaType="CITY">
-                                <option value="">请选择城市</option>
+                                <option value="$!{VO.scenic.locationCityId}">#if(! $VO.scenic.locationCityName)请选择城市#else$!{VO.scenic.locationProvinceName}#end</option>
                             </select>
-                            
+                            <input type="hidden" id="countySelectName" name="scenic.locationTownName" value="$!{VO.scenic.locationTownName}">
+                            <select id="countyId" class="selCity inpControl countySelect" name="scenic.locationTownId" areaType="COUNTY">
+                                <option value="$!{VO.scenic.locationTownId}">#if(! $VO.scenic.locationTownName)请选择区县#else$!{VO.scenic.locationTownName}#end</option>
+                            </select>	
                                 <input type="text" class="inpCtlBlock" name="scenic.locationText" id="locationText"
                                        placeholder="请输入100个字以内" value="$!{VO.scenic.locationText}">
                            
@@ -133,16 +136,16 @@
                                 <tbody class="extra-info-list needKnowTable">
 
                                     #if(!${VO.needKnow.frontNeedKnow})
-                                    <tr class="needKnow">
-                                        <td><input type="text" name="needKnow.frontNeedKnow[1].title"
-                                                   class="form-control extra-info-item-title" placeholder="费用包含"></td>
-                                        <td><textarea class="form-control extra-info-item-text"
-                                                      name="needKnow.frontNeedKnow[1].content" rows="3"></textarea></td>
-                                        <td>
-                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
-                                                删除
-                                            </button>
-                                        </td>
+	                                    <tr class="needKnow">
+	                                        <td><input type="text" name="needKnow.frontNeedKnow[0].title"
+	                                                   class="form-control extra-info-item-title" placeholder="费用包含"></td>
+	                                        <td><textarea class="form-control extra-info-item-text"
+	                                                      name="needKnow.frontNeedKnow[0].content" rows="3"></textarea></td>
+	                                        <td>
+	                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+	                                                删除
+	                                            </button>
+	                                        </td>
                                     </tr>
                                     #end
 
@@ -187,18 +190,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>大咖推荐</td>
+                        <td>推荐理由</td>
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
-                            <img src="#if($hotel.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!hotel.manageUserLogoUrl  #end"
+                      		  <input type="text" name="title"  class="inpControl"
+                                   value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
+                            <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
                                  alt="头像" class="img-circle grogUserLogo" id="userImg">
                                  <span id="recommendNameT"></span>
                             <textarea name="description" id="recommend" rows="3" class="form-control"
-                                      placeholder="请输入300字以内"></textarea>
-                            <input type="text" id="recommendId" name="id" value="" >
-                            <input type="text" id="recommendUserId" name="userId" value="" >
-                            <input type="text" id="recommendUserPic" name="userPic" value="" >
-                            <input type="text" id="recommendName" name="name" value="" >
+                                      placeholder="请输入300字以内">$!{recommend.description}</textarea>
+                            <input type="hidden" id="recommendId" name="id" value="$!{recommend.id}" >
+                            <input type="hidden" id="recommendUserId" name="userId" value="$!{recommend.userId}" >
+                            <input type="hidden" id="recommendUserPic" name="userPic" value="$!{recommend.userPic}" >
+                            <input type="hidden" id="recommendName" name="name" value="$!{recommend.name}" >
                         </td>
                     </tr>
                      <tr>
@@ -310,7 +315,7 @@
         
         
         
-        	var provinceFlag = false;
+    var provinceFlag = false;
 	var cityFlag = false;
 	var areaFlag = false;
 	
@@ -371,13 +376,18 @@
         $('.provinceSelect').change(function(){            
 			
 			if($('.provinceSelect option:selected')){
-                $('#provinceSelectName').val($('.provinceSelect option:selected').attr("value"));
+                $('#provinceSelectName').val($('.provinceSelect option:selected').text());
             }
 			
 			//清空所有子元素
 			if (parseInt($("#cityId").children().length) > 1) {
 				$("#cityId").empty();
 				$("#cityId").append('<option value="">请选择城市</option>');
+			}
+				//清空所有子元素
+			if (parseInt($("#countyId").children().length) > 1) {
+				$("#countyId").empty();
+				$("#countyId").append('<option value="">请选择城市</option>');
 			}
 			
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
@@ -406,12 +416,48 @@
 			
         });
         $('.citySelect').change(function(){
-            if($('.citySelect option:selected').val()){
-                $('.citySelectName').val($('.citySelectId option:selected').text());
+            if($('.citySelect option:selected')){
+                $('#citySelectName').val($('.citySelect option:selected').text());
             }
+            
+            	//清空所有子元素
+			if (parseInt($("#countyId").children().length) > 1) {
+				$("#countyId").empty();
+				$("#countyId").append('<option value="">请选择城市</option>');
+			}
+			
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': 'COUNTY',
+					 'areaParentCode': $('.citySelect option:selected').attr("value")}, 
+					
+					function(data) {
+						if (data[0].name) {
+							
+							for (var i in data) {
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#countyId").append(optionHTML);
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});
         });
         
-        
+        $('.countySelect').change(function(){
+            
+			if($('.countySelect option:selected')){
+                $('#countySelectName').val($('.countySelect option:selected').text());
+            }
+						
+        });	
         
         
         

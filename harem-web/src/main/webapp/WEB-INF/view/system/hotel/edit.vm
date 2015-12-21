@@ -87,6 +87,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>房间设施</td>
+					<input id="roomFacilityStrId" type="hidden" name="roomFacilityStr" />
                     <td class="grogCheckSel">
 						#set($indexNo = 0)
                         #foreach($!roomFacility in $!roomFacilityList)
@@ -104,25 +105,25 @@
 							#if($!roomFacility.number == 55)
 								<br/><span>其他服务</span><br/>
 							#end
-                            <span><input type="checkbox" id="$!indexNoId" name="roomFacilityList" #if($!roomFacility.checked) checked value="1" #else vlaue="0" #end>$roomFacility.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl" #if($!roomFacility.checked) checked value="1" #else value="0" #end>$roomFacility.name</span>
 							#if($!roomFacility.number % 10 == 0 
 								|| $!roomFacility.number == 33
 								|| $!roomFacility.number == 43
 								|| $!roomFacility.number == 54) 
 								<br/>
 							#end
-
 						#end
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>特色服务</td>
+					<input id="roomServiceStrId" type="hidden" name="roomServiceStr"/>
                     <td  class="grogCheckSel">
 						#set($indexNo = 0)
                         #foreach($!roomService in $!roomServiceList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "roomService" + $indexNo)
-                            <span><input type="checkbox" id="$!indexNoId" name="roomServiceList" #if($!roomService.checked) checked value="1" #else value="0" #end>$roomService.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl" #if($!roomService.checked) checked value="1" #else value="0" #end>$roomService.name</span>
 							#if($!roomService.number % 10 == 0)
 								<br/>
 							#end
@@ -131,12 +132,13 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店设施</td>
+					<input id="hotelFacilityStrId" type="hidden" name="hotelFacilityStr"/>
                     <td  class="grogCheckSel">
 						#set($indexNo = 0)
                         #foreach($!hotelFacility in $!hotelFacilityList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "hotelFacility" + $indexNo)
-                            <span><input type="checkbox" id="$!indexNoId" name="hotelFacilityList" #if($!hotelFacility.checked) checked value="1" #else value="0" #end>$hotelFacility.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl" #if($!hotelFacility.checked) checked value="1" #else value="0" #end>$hotelFacility.name</span>
 							#if($!hotelFacility.number % 10 == 0)
 								<br/>
 							#end
@@ -209,6 +211,7 @@
 </form>
 <script>
     //表单验
+	/*
         $("#hotelForm").validate({
             //添加酒店验证规则
             rules: {
@@ -348,7 +351,7 @@
                 }
             }
         });
-
+*/
 	var provinceFlag = false;
 	var cityFlag = false;
 	var areaFlag = false;
@@ -358,6 +361,14 @@
 		var localProvinceName = '$!hotel.locationProvinceName'+'';
 		$.ajaxSetup({
 			async : false
+		});
+		
+		$(".facilityCl").click(function() {
+			if($(this).prop('checked')) {
+				$(this).val("1");
+			} else {
+				$(this).val("0");
+			}
 		});
 		
 		/*
@@ -599,7 +610,7 @@
         });
 
         $('#btnSubmit').click(function(){
-            if($("#hotelForm").valid()) {
+            /*if($("#hotelForm").valid()) {
                 $(this).prop('disabled', true);
                 var actionUrl;
                 var hotelId = $('#hotelForm').attr('hotelId');
@@ -611,7 +622,69 @@
                 $('#hotelForm').attr('action', actionUrl);
                 $('#hotelForm').submit();
                 alert("提交成功")
-            }
+            }*/
+			
+				// 房间设施 roomFacility
+				var facilityId = 1;
+				var roomFacilityStr = '';
+				while (true) {
+					
+					if ($("#roomFacility"+facilityId).length == 0) {
+						facilityId = 1;
+						break;
+					} else {
+						roomFacilityStr += $("#roomFacility"+facilityId).val();
+						facilityId ++;
+					}
+				
+				}
+				alert(roomFacilityStr);
+				$("#roomFacilityStrId").attr('value', '');
+				$("#roomFacilityStrId").attr('value', roomFacilityStr);
+				
+				// 特色服务 roomService
+				var roomServiceStr = '';
+				while (true) {
+				
+					if ($("#roomService"+facilityId).length == 0) {
+						facilityId = 1;
+						break;
+					} else {
+						roomServiceStr += $("#roomService"+facilityId).val();
+						facilityId ++;
+					}					
+				
+				}
+				alert(roomServiceStr);
+				$("#roomServiceStrId").val(roomServiceStr);
+				
+				// 酒店设施 roomFacility
+				var hotelFacilityStr = '';
+				while (true) {
+				
+					if ($("#hotelFacility"+facilityId).length == 0) {
+						facilityId = 1;
+						break;
+					} else {
+						hotelFacilityStr += $("#hotelFacility"+facilityId).val();
+						facilityId ++;
+					}					
+				
+				}
+				alert(hotelFacilityStr);
+				$("#hotelFacilityStrId").val(hotelFacilityStr);
+
+                var actionUrl;
+                var hotelId = $('#hotelForm').attr('hotelId');
+                if (hotelId) {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+                } else {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
+                }
+                $('#hotelForm').attr('action', actionUrl);
+                $('#hotelForm').submit();
+
+			
         });
     });
 </script>

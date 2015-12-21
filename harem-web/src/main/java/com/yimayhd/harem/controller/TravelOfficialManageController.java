@@ -12,6 +12,7 @@ import com.yimayhd.harem.model.vo.ActivityVO;
 import com.yimayhd.harem.model.vo.TravelOfficialVO;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.TravelOfficialService;
+import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,13 +46,10 @@ public class TravelOfficialManageController extends BaseController {
 	public String list(Model model, TravelOfficialListQuery travelOfficialListQuery) throws Exception {
 		TravelOfficialVO travelOfficialVO = new TravelOfficialVO();
 		travelOfficialVO.setTravelOfficialListQuery(travelOfficialListQuery);
-//		List<TravelOfficial> travelOfficialList = travelOfficialService.getList(travelOfficialVO.getTravelOfficial());
-		PageVO<TravelOfficial> pageVo = new PageVO<TravelOfficial>(travelOfficialListQuery.getPageNumber(),
-				travelOfficialListQuery.getPageSize(), 14800);
-		// pageVo.setCurrentPage(60);
+		PageVO<SnsTravelSpecialtyDO> pageVo = travelOfficialService.getList(travelOfficialListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("travelOfficialListQuery", travelOfficialListQuery);
-//		model.addAttribute("travelOfficialList", travelOfficialList);
+		model.addAttribute("travelOfficialList", pageVo.getItemList());
 		return "/system/travelOfficial/list";
 	}
 
@@ -76,6 +74,7 @@ public class TravelOfficialManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() throws Exception {
+		System.out.println("12313123");
 		return "/system/travelOfficial/edit";
 	}
 
