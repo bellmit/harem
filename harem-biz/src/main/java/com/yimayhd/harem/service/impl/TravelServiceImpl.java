@@ -55,10 +55,10 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 			try {
 				travel = createTravelInstance(lineResult, tags);
 			} catch (Exception e) {
+				log.error(MessageFormat.format("解析线路信息失败：lineResult={0}", JSON.toJSONString(lineResult)));
+				log.error(MessageFormat.format("解析线路信息失败：tags={0}", JSON.toJSONString(tags)));
 				log.error("解析线路信息失败", e);
-				log.debug(MessageFormat.format("lineResult={0}", JSON.toJSONString(lineResult)));
-				log.debug(MessageFormat.format("tags={0}", JSON.toJSONString(tags)));
-				throw new BaseException("解析线路信息失败：lineResult={0}", lineResult);
+				throw new BaseException("解析线路信息失败");
 			}
 			return travel;
 			/*
@@ -89,15 +89,20 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 			tagRelationInfoDTO.setOrderTime(publishLine.getCreateTime().getTime());
 			tagRelationInfoDTO.setList(travel.getTagIdList());
 			BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
-			if (addTagRelationInfo == null || !addTagRelationInfo.isSuccess()) {
-				if (addTagRelationInfo != null) {
-					log.error("保存线路标签失败：" + addTagRelationInfo.getResultMsg());
-				}
+			long lineId = 0;
+			if (addTagRelationInfo != null && addTagRelationInfo.isSuccess()) {
+				lineId = publishLine.getLineId();
+			} else {
+				log.error("保存线路标签失败：" + addTagRelationInfo.getResultMsg());
+				log.error(MessageFormat.format("保存线路标签失败：tagRelationInfo={0}", JSON.toJSONString(tagRelationInfoDTO)));
+				log.error(MessageFormat.format("保存线路标签失败：tagResult={0}", JSON.toJSONString(addTagRelationInfo)));
 				throw new BaseException("保存线路标签失败");
 			}
-			return publishLine.getLineId();
+			return lineId;
 		} else {
 			log.error("保存线路失败：" + publishLine.getResultMsg());
+			log.error(MessageFormat.format("保存线路失败：line={0}", JSON.toJSONString(linePublishDTO)));
+			log.error(MessageFormat.format("保存线路失败：lineResult={0}", JSON.toJSONString(publishLine)));
 			throw new BaseException("保存线路失败");
 		}
 	}

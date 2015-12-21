@@ -3,6 +3,7 @@ package com.yimayhd.harem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,6 +70,7 @@ public class CommGroupTravelController extends BaseTravelController {
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
 			put("importantInfos", tfsService.readHtml5(gt.getPriceInfo().getImportantInfosCode()));
+			put("extraInfos", tfsService.readHtml5(gt.getBaseInfo().getNeedKnow().getExtraInfoUrl()));
 			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/groupTravel/detail";
@@ -109,10 +111,14 @@ public class CommGroupTravelController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
 		GroupTravel gt = (GroupTravel) JSONObject.parseObject(json, GroupTravel.class);
-		String importantInfosCode = tfsService.publishHtml5(importantInfos);
-		gt.getPriceInfo().setImportantInfosCode(importantInfosCode);
-		String extraInfosCode = tfsService.publishHtml5(extraInfos);
-		gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
+		if (StringUtils.isNotBlank(importantInfos)) {
+			String importantInfosCode = tfsService.publishHtml5(importantInfos);
+			gt.getPriceInfo().setImportantInfosCode(importantInfosCode);
+		}
+		if (StringUtils.isNotBlank(importantInfos)) {
+			String extraInfosCode = tfsService.publishHtml5(extraInfos);
+			gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
+		}
 		// 详情
 		for (TripDay tripDay : gt.getTripInfo()) {
 			long rId = tripDay.getRestaurantDetailId();

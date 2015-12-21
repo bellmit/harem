@@ -10,12 +10,13 @@ import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
  */
 public interface SelfServiceTravelService {
 	/**
-	 * 保存或更新
+	 * 发布自由行
 	 * 
 	 * @param selfServiceTravel
+	 * @return
 	 * @throws Exception
 	 */
-	public void saveOrUpdate(SelfServiceTravel selfServiceTravel) throws Exception;
+	public long publish(SelfServiceTravel selfServiceTravel) throws Exception;
 
 	/**
 	 * 查询自由行产品

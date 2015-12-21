@@ -1,7 +1,14 @@
 package com.yimayhd.harem.model.travel.selfServiceTravel;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.share_json.FlightDetail;
+import com.yimayhd.ic.client.model.domain.share_json.FlightInfo;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
@@ -30,8 +37,25 @@ public class SelfServiceTravel extends BaseTravel {
 
 	@Override
 	public void setRouteInfo(LinePublishDTO dto) {
-		// TODO Auto-generated method stub
-
+		List<FlightDetail> flightDetails = this.tripPackageInfo.getFlightDetails();
+		if (CollectionUtils.isNotEmpty(flightDetails)) {
+			FlightDetail flightDetail = flightDetails.get(0);
+			FlightInfo flightInfo = new FlightInfo();
+			flightInfo.setForwardArriveCity(flightDetail.getForwardArriveCity());
+			flightInfo.setForwardArriveTime(flightDetail.getForwardArriveTime());
+			flightInfo.setForwardDate(flightDetail.getForwardDate());
+			flightInfo.setForwardDepartCity(flightDetail.getForwardDepartCity());
+			flightInfo.setForwardDepartTime(flightDetail.getForwardDepartTime());
+			flightInfo.setMemo("");
+			flightInfo.setReturnArriveCity(flightDetail.getReturnArriveCity());
+			flightInfo.setReturnArriveTime(flightDetail.getReturnArriveTime());
+			flightInfo.setReturnDate(flightDetail.getReturnDate());
+			flightInfo.setReturnDepartCity(flightDetail.getReturnDepartCity());
+			flightInfo.setReturnDepartTime(flightDetail.getReturnDepartTime());
+			dto.getLineDO().setFlights(JSON.toJSONString(flightInfo));
+		}
+		dto.getLineDO().setFlightDetail(JSON.toJSONString(flightDetails));
+		dto.getLineDO().setHotels(JSON.toJSONString(this.tripPackageInfo.getHotels()));
 	}
 
 	@Override
