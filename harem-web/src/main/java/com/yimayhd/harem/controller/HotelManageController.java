@@ -1,6 +1,7 @@
 package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,15 +86,7 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model) throws Exception {
-		//List<Region> provinceList = regionService.getProvince();
-/*		List<FacilityIconDO> roomFacilityList = facilityIconService
-				.getListByType(ROOMFACILITY_TYPE);
-*/		
-/*		List<FacilityIconDO> roomServiceList = facilityIconService
-				.getListByType(ROOMSERVICELIST_TYPE);*/
-/*		List<FacilityIconDO> hotelFacilityList = facilityIconService
-				.getListByType(HOTELFACILITYLIST_TYPE);*/
-		//model.addAttribute("provinceList", provinceList);		
+	
 		//房间设施
 		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
 		//特色服务
@@ -144,7 +137,28 @@ public class HotelManageController extends BaseController {
 
 		return responseVo;
 	}
-
+	
+	/**
+	 * 检查设施是否被选中
+	 */
+	private void checkInit(List<HotelFacilityVO> list, char[] arr) {
+		
+		for (int i = 0; i < list.size(); i ++) {
+			
+			if (i <= arr.length - 1) {
+				
+				char tempChar = arr[i];
+				boolean tempResult = (tempChar == '1');
+				list.get(i).setChecked(tempResult);
+				
+			} else {
+				continue;
+			}
+			
+		}		
+		
+	}
+	
 	/**
 	 * 编辑酒店（资源）
 	 * 
@@ -156,19 +170,67 @@ public class HotelManageController extends BaseController {
 			throws Exception {
 
 		HotelVO hotelVO = hotelRPCService.getHotel(id);
-		System.out.println(" " + JSON.toJSONString(hotelVO));
-
-		List<FacilityIconDO> roomFacilityList = facilityIconService
+		
+		long roomFacility = hotelVO.getRoomFacility();
+		long hotelFacility = hotelVO.getHotelFacility();
+		long roomService = hotelVO.getRoomService();
+		
+		/**
+		 * 处理酒店设施     开始
+		 */
+		String roomFacilityStr = Long.toBinaryString(roomFacility);
+		String hotelFacilityStr = Long.toBinaryString(hotelFacility);
+		String roomServiceStr = Long.toBinaryString(roomService);
+		
+		roomFacilityStr = new StringBuffer(roomFacilityStr).reverse().toString();
+		hotelFacilityStr = new StringBuffer(hotelFacilityStr).reverse().toString();
+		roomServiceStr = new StringBuffer(roomServiceStr).reverse().toString();
+		/**
+		 * 处理酒店设施     结束
+		 */
+		
+		char[] roomFacilityArr = roomFacilityStr.toCharArray();
+		char[] hotelFacilityArr = hotelFacilityStr.toCharArray();
+		char[] roomServiceArr = roomServiceStr.toCharArray();
+				
+		//房间设施
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
+		Collections.sort(roomFacilityList);
+		//特色服务
+		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
+		Collections.sort(roomServiceList);
+		//酒店设施
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
+		Collections.sort(hotelFacilityList);
+		
+		checkInit(roomFacilityList, roomFacilityArr);
+		checkInit(roomServiceList, roomServiceArr);
+		checkInit(hotelFacilityList, hotelFacilityArr);
+		
+		System.out.println(JSON.toJSONString(roomFacilityList));
+		System.out.println(JSON.toJSONString(roomServiceList));
+		System.out.println(JSON.toJSONString(roomFacilityList));
+		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println(Long.toBinaryString(roomFacility));
+		System.out.println(Long.toBinaryString(hotelFacility));
+		System.out.println(Long.toBinaryString(roomService));
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		
+		
+		
+/*		List<FacilityIconDO> roomFacilityList = facilityIconService
 				.getListByType(ROOMFACILITY_TYPE);
 		List<FacilityIconDO> roomServiceList = facilityIconService
 				.getListByType(ROOMSERVICELIST_TYPE);
 		List<FacilityIconDO> hotelFacilityList = facilityIconService
 				.getListByType(HOTELFACILITYLIST_TYPE);
+*/		
 		model.addAttribute("hotel", hotelVO);
 		//model.addAttribute("pictureList", hotelVO.getPictureList());
-		model.addAttribute("roomFacilityList", roomFacilityList);
-		model.addAttribute("roomServiceList", roomServiceList);
-		model.addAttribute("hotelFacilityList", hotelFacilityList);
+		//model.addAttribute("roomFacilityList", roomFacilityList);
+		//model.addAttribute("roomServiceList", roomServiceList);
+		//model.addAttribute("hotelFacilityList", hotelFacilityList);
 
 		return "/system/hotel/edit";
 	}
