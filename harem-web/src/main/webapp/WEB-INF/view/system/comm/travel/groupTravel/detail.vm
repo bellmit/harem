@@ -43,7 +43,7 @@
     </div>
   </div>
   <div class="groupTravelBot">
-    <button class="btn btn-primary save">保存</button>
+    <button class="btn btn-primary save">保  存</button>
   </div>
   <script type="text/javascript">
   	var important_infos_ue;
