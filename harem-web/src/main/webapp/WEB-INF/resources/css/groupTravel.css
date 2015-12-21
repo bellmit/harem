@@ -32,9 +32,18 @@
 
 /*商品管理-发布线路-价格信息*/
 .priceInfo{padding: 10px;}
-
-
-
+.priceInfo .tc-main .nav-tabs{border-bottom: none;}
+.priceInfo .tc-main .navCombo{background: #DCD9D9;}
+.priceInfo .tc-main .navCombo li{position: relative;}
+.priceInfo .tc-main .navCombo li.active a{background: #F7F6F6;}
+.priceInfo .tc-main .navCombo li .icon-remove{position: absolute;top: 10px;right: 10px;color: #666;}
+.priceInfo .tc-main .tabCombo>.active{padding: 10px;border: 1px solid #d5d5d5;background: #F7F6F6;}
+.priceInfo .tc-main .tabCombo table{border: none;border-color: transparent;border-collapse: separate;}
+.priceInfo .tc-main .tabCombo table td{border: none;border-color: transparent;padding: 5px !important;}
+.priceInfo .tc-main .tabCombo table .input-group-addon{padding: 5px;}
+.priceInfo .tc-main .tabCombo table .input-group.block{margin-bottom: 2px;}
+.priceInfo .tc-main .tabCombo table .batch-insert{margin: 3px 20px;}
+.priceInfo .tc-main .tabCombo table .pBot{margin-bottom: 5px;}
 
 
 

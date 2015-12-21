@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.taobao.tair.json.Json;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -19,6 +20,7 @@ import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICResult;
@@ -91,7 +93,9 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
+		MasterRecommend recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
 		model.addAttribute("VO", scenicDO);
+		model.addAttribute("recommend", recommend);
 		return "/system/scenicSpot/edit";
 	}
 
@@ -105,9 +109,9 @@ public class ScenicManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo save(ScenicAddNewDTO addNewDTO,MasterRecommend recommend) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		ICResult<ScenicDO> result =scenicSpotService.save(addNewDTO);
 		String jsonString = JSON.toJSONString(recommend);  
 		addNewDTO.getScenic().setRecommend(jsonString);
+		ICResult<ScenicDO> result =scenicSpotService.save(addNewDTO);
 		if(result.isSuccess()){
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

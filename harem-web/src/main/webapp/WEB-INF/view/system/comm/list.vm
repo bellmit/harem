@@ -124,7 +124,8 @@
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/edit/'+ $(this).attr('commodityId') + '?itemType=' + $(this).attr('itemType');
                 //TODO
-                window.openwin(url);
+                //window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
 
         });
