@@ -107,9 +107,13 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(HotelVO hotelVO) throws Exception {
+	public String add(HotelVO hotelVO, String roomFacilityStr, String roomServiceStr, String hotelFacilityStr) throws Exception {
 
 		hotelRPCService.addHotel(hotelVO);
+		System.out.println(roomFacilityStr);
+		System.out.println(roomServiceStr);
+		System.out.println(hotelFacilityStr);
+		
 		return "/success";
 	}
 
