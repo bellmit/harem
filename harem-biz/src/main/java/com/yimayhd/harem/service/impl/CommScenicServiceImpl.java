@@ -28,50 +28,47 @@ import com.yimayhd.ic.client.service.item.ItemPublishService;
  */
 public class CommScenicServiceImpl implements CommScenicService {
 	private static final Logger log = LoggerFactory.getLogger(CommScenicServiceImpl.class);
-
 	@Autowired
 	private ItemPublishService itemPublishService;
 	@Resource
 	protected ComCenterService comCenterServiceRef;
 
 	@Override
-	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO,Long[] check) throws Exception {
-		
-		   ItemDO itemDO = scenicPublishDTO.getItemDO();
-	       
-	        itemDO.setOutType(ResourceType.SCENIC.getType());
-	        scenicPublishDTO.getScenicDO().setId(scenicPublishDTO.getItemDO().getOutId());
-	        itemDO.setCredit(0);
-	        itemDO.setPoint(0);
-	        itemDO.setOriginalCredit(0);
-	        itemDO.setOriginalPoint(0);
-	        itemDO.setOriginalPrice(0);
-	       
+	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO, Long[] check) throws Exception {
+
+		ItemDO itemDO = scenicPublishDTO.getItemDO();
+
+		itemDO.setOutType(ResourceType.SCENIC.getType());
+		scenicPublishDTO.getScenicDO().setId(scenicPublishDTO.getItemDO().getOutId());
+		itemDO.setCredit(0);
+		itemDO.setPoint(0);
+		itemDO.setOriginalCredit(0);
+		itemDO.setOriginalPoint(0);
+		itemDO.setOriginalPrice(0);
+
 		ItemPubResult publicScenic = itemPublishService.publicScenic(scenicPublishDTO);
-		if(publicScenic!=null&&publicScenic.isSuccess()){
+		if (publicScenic != null && publicScenic.isSuccess()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 			tagRelationInfoDTO.setTagType(TagType.VIEWTAG);
 			tagRelationInfoDTO.setOutId(itemDO.getOutId());
-			tagRelationInfoDTO.setOrderTime(new Date().getTime());
+			tagRelationInfoDTO.setOrderTime(new Date());
 			tagRelationInfoDTO.setList(Arrays.asList(check));
 			BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 			if (addTagRelationInfo != null && addTagRelationInfo.isSuccess()) {
-				
+
 			} else {
 				log.error("保存景区主题失败：" + addTagRelationInfo.getResultMsg());
 				log.error(MessageFormat.format("保存景区主题失败：tagRelationInfo={0}", JSON.toJSONString(tagRelationInfoDTO)));
 				log.error(MessageFormat.format("保存景区主题失败：tagResult={0}", JSON.toJSONString(addTagRelationInfo)));
 				throw new BaseException("保存景区主题失败");
 			}
-		
-		}else{
+
+		} else {
 			log.error("保存线路失败：" + publicScenic.getResultMsg());
 			log.error(MessageFormat.format("保存景区失败：line={0}", JSON.toJSONString(publicScenic)));
 			throw new BaseException("保存景区失败");
 		}
 		return publicScenic;
 	}
-
-
 
 }

@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
+import com.yimayhd.harem.service.FlightRPCService;
 import com.yimayhd.harem.service.SelfServiceTravelService;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.enums.LineType;
@@ -25,6 +26,8 @@ import com.yimayhd.ic.client.model.enums.LineType;
 @Controller
 @RequestMapping("/B2C/comm/selfServiceTravel")
 public class CommSelfServiceTravelController extends BaseTravelController {
+	@Autowired
+	private FlightRPCService flightRPCService;
 	@Autowired
 	private SelfServiceTravelService selfServiceTravelService;
 	@Autowired
@@ -96,6 +99,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 */
 	@RequestMapping(value = "/addFlightDetail")
 	public String addFlightDetail() throws Exception {
+		put("flightCompanys", flightRPCService.findAllFlightCompany());
 		return "/system/comm/travel/selfServiceTravel/addFlightDetail";
 	}
 

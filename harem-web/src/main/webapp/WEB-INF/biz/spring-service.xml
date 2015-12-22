@@ -56,4 +56,5 @@
 	<bean class="com.yimayhd.harem.service.impl.RestaurantRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CommScenicServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.CommActivityServiceImpl" />
+	<bean class="com.yimayhd.harem.service.impl.FlightRPCServiceImpl"></bean>
 </beans>

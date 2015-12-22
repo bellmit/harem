@@ -110,19 +110,16 @@ public class OrderConverter {
 
 
     public MainOrder orderVOConverter(BizOrderDO bizOrderDO) {
-        if(bizOrderDO!=null){
-            if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
-                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-                for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
-                    subOrderList.add(new SubOrder(detailOrder));
-                }
-                return new MainOrder(bizOrderDO,subOrderList);
-            } else {
-                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-                subOrderList.add(new SubOrder(bizOrderDO));
-                return new MainOrder(bizOrderDO,subOrderList);
+        if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
+            List<SubOrder> subOrderList = new ArrayList<SubOrder>();
+            for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
+                subOrderList.add(new SubOrder(detailOrder));
             }
+            return new MainOrder(bizOrderDO,subOrderList);
+        } else {
+            List<SubOrder> subOrderList = new ArrayList<SubOrder>();
+            subOrderList.add(new SubOrder(bizOrderDO));
+            return new MainOrder(bizOrderDO,subOrderList);
         }
-        return null;
     }
 }
