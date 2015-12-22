@@ -10,7 +10,7 @@ public interface CommScenicService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO) throws Exception;
+	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO,Long[] check) throws Exception;
 	
 	
 

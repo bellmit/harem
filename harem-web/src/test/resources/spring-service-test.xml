@@ -52,4 +52,5 @@
 	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.SelfServiceTravelServiceImpl"></bean>
 	<bean id="systemManageService" class="com.yimayhd.harem.service.impl.SystemManageServiceImpl"/>
+	<bean class="com.yimayhd.harem.service.impl.FlightRPCServiceImpl"></bean>
 </beans>

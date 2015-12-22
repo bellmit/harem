@@ -27,8 +27,8 @@ import com.yimayhd.harem.service.FacilityIconService;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RegionService;
-import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
@@ -71,7 +71,7 @@ public class HotelManageController extends BaseController {
 
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		List<HotelDO> hotelDOList = pageVo.getItemList();
-		
+
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
 		model.addAttribute("hotelDOList", hotelDOList);
@@ -86,20 +86,40 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model) throws Exception {
-	
-		//房间设施
-		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
-		//特色服务
-		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
-		//酒店设施
-		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
-		
+
+		// 房间设施
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService
+				.queryFacilities(1);
+		// 特色服务
+		List<HotelFacilityVO> roomServiceList = hotelRPCService
+				.queryFacilities(2);
+		// 酒店设施
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService
+				.queryFacilities(3);
+
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
 		return "/system/hotel/add2";
 	}
 
+	public static void main(String[] args) {
+		
+/*		System.out.println(new StringBuilder("1111111111000000000000000000000001111100000000000000000000000000").reverse().toString());
+		System.out.println(new StringBuilder("11111111000000000").reverse().toString());
+		System.out.println(new StringBuilder("111111110000000").reverse().toString());
+		
+		System.out.println(Long.parseLong(new StringBuilder("1111111111000000000000000000000001111100000000000000000000000000").reverse().toString(), 2));
+*/	
+		HotelVO hotelVO = new HotelVO();
+		hotelVO.setHotelFacility(13L);
+		hotelVO.setRoomFacility(14L);
+		hotelVO.setRoomService(25L);
+		
+		//System.out.println(JSON.t);
+		
+	}
+	
 	/**
 	 * 新增酒店（资源）
 	 * 
@@ -107,13 +127,24 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(HotelVO hotelVO, String roomFacilityStr, String roomServiceStr, String hotelFacilityStr) throws Exception {
-
-		hotelRPCService.addHotel(hotelVO);
-		System.out.println(roomFacilityStr);
-		System.out.println(roomServiceStr);
-		System.out.println(hotelFacilityStr);
+	public String add(HotelVO hotelVO, String roomFacilityStr,
+			String roomServiceStr, String hotelFacilityStr,
+			MasterRecommend recommend,
+			String name2) throws Exception {
 		
+		long roomFacility = Long.parseLong(new StringBuilder(roomFacilityStr).reverse().toString(), 2);
+		long roomService = Long.parseLong(new StringBuilder(roomServiceStr).reverse().toString(), 2);
+		long hotelFacility = Long.parseLong(new StringBuilder(hotelFacilityStr).reverse().toString(), 2);
+		
+		recommend.setName(name2);
+		String jsonString = JSON.toJSONString(recommend);
+		hotelVO.setRecommend(jsonString);
+		hotelVO.setRoomFacility(roomFacility);
+		hotelVO.setRoomService(roomService);
+		hotelVO.setHotelFacility(hotelFacility);
+				
+		hotelRPCService.addHotel(hotelVO);
+
 		return "/success";
 	}
 
@@ -141,28 +172,28 @@ public class HotelManageController extends BaseController {
 
 		return responseVo;
 	}
-	
+
 	/**
 	 * 检查设施是否被选中
 	 */
 	private void checkInit(List<HotelFacilityVO> list, char[] arr) {
-		
-		for (int i = 0; i < list.size(); i ++) {
-			
+
+		for (int i = 0; i < list.size(); i++) {
+
 			if (i <= arr.length - 1) {
-				
+
 				char tempChar = arr[i];
 				boolean tempResult = (tempChar == '1');
 				list.get(i).setChecked(tempResult);
-				
+
 			} else {
 				continue;
 			}
-			
-		}		
-		
+
+		}
+
 	}
-	
+
 	/**
 	 * 编辑酒店（资源）
 	 * 
@@ -174,52 +205,59 @@ public class HotelManageController extends BaseController {
 			throws Exception {
 
 		HotelVO hotelVO = hotelRPCService.getHotel(id);
-		
+		MasterRecommend recommend = hotelVO.getMasterRecommend();
 		long roomFacility = hotelVO.getRoomFacility();
 		long hotelFacility = hotelVO.getHotelFacility();
 		long roomService = hotelVO.getRoomService();
-		
+
 		/**
-		 * 处理酒店设施     开始
+		 * 处理酒店设施 开始
 		 */
 		String roomFacilityStr = Long.toBinaryString(roomFacility);
 		String hotelFacilityStr = Long.toBinaryString(hotelFacility);
 		String roomServiceStr = Long.toBinaryString(roomService);
-		
-		roomFacilityStr = new StringBuffer(roomFacilityStr).reverse().toString();
-		hotelFacilityStr = new StringBuffer(hotelFacilityStr).reverse().toString();
+
+		roomFacilityStr = new StringBuffer(roomFacilityStr).reverse()
+				.toString();
+		hotelFacilityStr = new StringBuffer(hotelFacilityStr).reverse()
+				.toString();
 		roomServiceStr = new StringBuffer(roomServiceStr).reverse().toString();
 		/**
-		 * 处理酒店设施     结束
+		 * 处理酒店设施 结束
 		 */
-		
+
 		char[] roomFacilityArr = roomFacilityStr.toCharArray();
 		char[] hotelFacilityArr = hotelFacilityStr.toCharArray();
 		char[] roomServiceArr = roomServiceStr.toCharArray();
-				
-		//房间设施
-		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
+
+		// 房间设施
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService
+				.queryFacilities(1);
 		Collections.sort(roomFacilityList);
-		//特色服务
-		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
+		// 特色服务
+		List<HotelFacilityVO> roomServiceList = hotelRPCService
+				.queryFacilities(2);
 		Collections.sort(roomServiceList);
-		//酒店设施
-		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
+		// 酒店设施
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService
+				.queryFacilities(3);
 		Collections.sort(hotelFacilityList);
-		
+
 		checkInit(roomFacilityList, roomFacilityArr);
 		checkInit(roomServiceList, roomServiceArr);
 		checkInit(hotelFacilityList, hotelFacilityArr);
-		
-/*		List<FacilityIconDO> roomFacilityList = facilityIconService
-				.getListByType(ROOMFACILITY_TYPE);
-		List<FacilityIconDO> roomServiceList = facilityIconService
-				.getListByType(ROOMSERVICELIST_TYPE);
-		List<FacilityIconDO> hotelFacilityList = facilityIconService
-				.getListByType(HOTELFACILITYLIST_TYPE);
-*/		
+
+		/*
+		 * List<FacilityIconDO> roomFacilityList = facilityIconService
+		 * .getListByType(ROOMFACILITY_TYPE); List<FacilityIconDO>
+		 * roomServiceList = facilityIconService
+		 * .getListByType(ROOMSERVICELIST_TYPE); List<FacilityIconDO>
+		 * hotelFacilityList = facilityIconService
+		 * .getListByType(HOTELFACILITYLIST_TYPE);
+		 */
 		model.addAttribute("hotel", hotelVO);
-		//model.addAttribute("pictureList", hotelVO.getPictureList());
+		// model.addAttribute("pictureList", hotelVO.getPictureList());
+		model.addAttribute("recommend", recommend);
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);

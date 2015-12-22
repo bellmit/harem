@@ -123,4 +123,20 @@ public abstract class BaseTravel {
 	}
 
 	public abstract void setRouteInfo(LinePublishDTO dto);
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public int getOptions() {
+		return options;
+	}
+
+	public void setOptions(int options) {
+		this.options = options;
+	}
 }

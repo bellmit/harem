@@ -90,7 +90,12 @@
 		};
         //console.log(JSON.stringify(params));
 		//alert(JSON.stringify(params));
-        $.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save",params,function(data){
+		#if($categoryId == 6)
+        var url = "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save";
+        #elseif($categoryId == 7)
+		var url = "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/selfServiceTravel/save";
+        #end
+        $.post(url,params,function(data){
             alert(JSON.stringify(data));
         },"json");
     });

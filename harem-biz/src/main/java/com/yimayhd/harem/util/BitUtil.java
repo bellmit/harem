@@ -1,8 +1,12 @@
 package com.yimayhd.harem.util;
 
-import com.yimayhd.ic.client.model.domain.FacilityIconDO;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
+import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 
 /**
  * Created by Administrator on 2015/11/20.
@@ -44,5 +48,24 @@ public class BitUtil {
 
         return facilityBits;
     }
-
+     
+     public static void main(String[] args) {
+    	 
+/*         testDO.setHotelFacility(12l);
+         testDO.setRoomFacility(13l);
+         testDO.setRoomService(10l);
+*/    	 
+/*    	 System.out.println(BitUtil.longToBytes(12l).toString());
+    	 byte[] bytes = BitUtil.longToBytes(12l);
+    	 
+    	 for (int i = 0; i < bytes.length; i ++) {
+    		 
+    		 System.out.print(bytes[i]);
+    		 
+    	 }*/
+    	 
+    	 System.out.println(Long.parseLong(Long.toBinaryString(12L),2));
+    	 
+     }
+     
 }

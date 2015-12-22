@@ -24,7 +24,7 @@
                     <input type="hidden" name="source" value="1">
 
                     #*version 新增时为1*#
-                    <input type="hidden" name="version" value="1">
+                    <input type="hidden" name="version" value="$!commodity.version">
                     #*有没有sku*#
                     <input type="hidden" name="options" value="#if($!category.sellCategoryPropertyDOs) 1 #else 0 #end">
 
@@ -82,7 +82,9 @@
                         <td><span class="spColor">*</span>商品图片列表</td>
                         <td class="picUrlsTd">
                             <input id="batchUploadBtn" type="file" multiple="multiple" >
-                            #*<img class="picUrlsUrl" src="#if($!commodity.detailUrl)$utilWebconfig.getTfsRootPath()$!commodity.detailUrl #end">*#
+                            #foreach($pic in $!commodity.picUrlList)
+                                <img class="picUrlsUrl" src="$utilWebconfig.getTfsRootPath()$pic">
+                            #end
                         </td>
                         <input class="picUrlsVal" type="hidden" name="picUrls" value="$!commodity.picUrls">
                     </tr>
@@ -95,7 +97,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>排序111222</td>
+                        <td><span class="spColor">*</span>排序</td>
                         <td><input type="text" name="index" value="$!commodity.index" disabled></td>
                     </tr>
 
@@ -108,7 +110,15 @@
                                     <select class="form-control propertySelect">
                                         <option value="0" >请选择</option>
                                         #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text">$!categoryValueDO.text</option>
+
+                                            #if($commodity.itemPropertyList && $commodity.itemPropertyList.size() > 0)
+                                                #foreach($itemProperty in $commodity.itemPropertyList)
+                                                    #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($!categoryValueDO.id == $itemProperty.vId) selected
+                                                        #end>$!categoryValueDO.text</option>
+                                                    #end
+                                                #end
+                                            #end
                                         #end
                                     </select>
                                     #*支持自定义*#
@@ -160,13 +170,13 @@
                         </tr>
                         #end
                     #*解析销售属性(sku属性)*#
-                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyDOs)
-                        <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyDO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyDO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyDO.text">
-                            <td><span class="spColor">*</span>$!sellCategoryProperty.categoryPropertyDO.text</td>
+                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                        <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
+                            <td><span class="spColor">*</span>$!sellCategoryProperty.categoryPropertyVO.text</td>
                             <td>
-                                #foreach($categoryValue in $sellCategoryProperty.categoryPropertyDO.categoryValueDOs)
+                                #foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
                                 #*sku可选值*#
-                                        <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" name="" value="$!{categoryValue.id}" >$!categoryValue.text</span>
+                                        <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" name="" value="$!{categoryValue.id}" #if($!categoryValue.checked) checked #end>$!categoryValue.text</span>
                                 #end
                             </td>
                         </tr>
@@ -175,7 +185,33 @@
                 </table>
             </div>
             <div class="skuTable">
-                您需要选择所有的销售属性，才能组合成完整的规格信息。
+                #if($commodity.itemSkuVOList && $commodity.itemSkuVOList.size() > 0)
+                    <table>
+                        <caption>销售属性匹配表</caption>
+                        <thead>
+                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                            <th><span>$!sellCategoryProperty.categoryPropertyVO.text</span></th>
+                        #end
+
+                            <th><span>价格</span></th>
+                            <th><span>数量</span></th>
+                        </thead>
+                        #foreach($itemSkuVO in $commodity.itemSkuVOList)
+
+                            <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
+
+                                #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
+                                    #set($index = $velocityCount - 1)
+                                        <td rowspan="$commodity.skuTdRowNumList.get($index)"><span>$itemSkuPVPair.vTxt</span></td>
+                                #end
+                                <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
+                                <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
+                            </tr>
+                        #end
+                    </table>
+                #else
+                    您需要选择所有的销售属性，才能组合成完整的规格信息。
+                #end
             </div>
             <div class="">
                 <table class="table table-hover">
@@ -221,6 +257,21 @@
     </form>
 </div>
 <script>
+    //生成sku最终数组(初始化是check偶是false)
+    var skuPropertyAll;
+    #if($!commodity.itemSkuVOListAllStr)
+        skuPropertyAll = $!commodity.itemSkuVOListAllStr;
+    #else
+        skuPropertyAll = $!category.itemSkuVOListAllStr;
+    #end
+    //sku属性数组
+    var skuProperty = new Array();
+    //显示的sku数组
+    var skuPropertyShowAll = new Array();
+    //sku表格显示标志
+    var skuTableShowFlag = false;
+</script>
+<script>
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -233,6 +284,7 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
+
     var pictureUploadCallBack = function(data){
         if(data && data.status == 200){
             $('.detailUrlVal').val(data.data);
@@ -242,11 +294,89 @@
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
+
     var batchCallBack = function(dataVal){
         for(var key in dataVal.data){
              $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
         }
     }
+
+    //构建sku属性数组
+    var createSkuProperty = function(){
+        //生成sku属性选项数组
+        skuProperty = new Array();
+        $('.sellProperty').each(function(i){
+            var sku = {pId:$(this).attr('sellPropertyId'),pTxt:$(this).attr('sellPropertyText'),pType:$(this).attr('sellPropertyType'),pValue:new Array()};
+            $(this).find('.skuCheckbox:checked').each(function(){
+                sku.pValue.push({vId:$(this).attr('sellValueId'),vTxt:$(this).attr('sellValueText')});
+            });
+            skuProperty.push(sku);
+        });
+    }
+
+    //设置表格是否显示的flag
+    var setTableShowFlag = function(){
+        //TODO 判断是否生成sku表格
+        $('.sellProperty').each(function(){
+            skuTableShowFlag = true;
+            if($(this).find('.skuCheckbox:checked').length < 1){
+                //属性没有完全填写不显示表格
+                skuTableShowFlag = false;
+            }
+        });
+    }
+    //构建生成sku表格
+    var createTable = function(){
+        //TODO 先用filter取出显示的sku
+        skuPropertyShowAll = skuPropertyAll.filter(function(v){
+            if(v['checked']){
+                return v;
+            }
+        })
+        //计算生成sku表格时各属性td占用的行数
+        var tdRowSpanNumArr = new Array();//sku属性td占的行数
+        $('.sellProperty').each(function(){
+            tdRowSpanNumArr.push($(this).find('.skuCheckbox:checked').length)
+        });
+        var len = tdRowSpanNumArr.length;
+        for(var i = 0;i < len;i++){
+            if(i === len - 1){
+                tdRowSpanNumArr[i] = 1;
+            }else if(i === len - 2){
+                tdRowSpanNumArr[i] = tdRowSpanNumArr[i + 1];
+            }else{
+                tdRowSpanNumArr[i] = tdRowSpanNumArr[i + 1] * tdRowSpanNumArr[i + 2];
+            }
+        }
+        //生成sku表格
+        var tableStart = '<table>'
+                + '<caption>销售属性匹配表</caption>'
+                + '<thead>';
+        var titleTrBody = '<tr>';
+        for(var i = 0;i < skuProperty.length;i++){
+            titleTrBody += '<th><span>' +skuProperty[i]["pTxt"]+ '</span></th>';
+        }
+        titleTrBody += '<th><span>价格</span></th>';
+        titleTrBody += '<th><span>数量</span></th>'
+        titleTrBody += '</thead>';
+        titleTrBody += '</tr>';
+        var trBody = '';
+
+        for(var i = 0;i < skuPropertyShowAll.length;i++){
+            trBody += '<tr class="skuTbEdit" skuTrId="' + skuPropertyShowAll[i]['id'] + '">';
+            for(var j = 0;j < skuPropertyShowAll[i]['itemSkuPVPairList'].length; j++){
+                if(i % tdRowSpanNumArr[j] === 0){
+                    trBody += '<td rowspan="' + tdRowSpanNumArr[j] + '"><span>' + skuPropertyShowAll[i]['itemSkuPVPairList'][j]["vTxt"] + '</span></td>';
+                }
+            }
+            trBody += '<td><input class="price" type="text" value="' + skuPropertyShowAll[i]['priceY'] + '"></td>';
+            trBody += '<td><input class="stock" type="text" value="' + skuPropertyShowAll[i]['stockNum'] + '"></td>';
+            trBody += '</tr>';
+        }
+        var talbeEnd = '</table>';
+        return tableStart + titleTrBody + trBody + talbeEnd;
+    }
+
     $(function(){
         //上传图片detailUrl
         $(document).delegate("#fileDetailUrl",'change',function(){
@@ -256,14 +386,20 @@
         $(document).delegate("#batchUploadBtn",'change',function(){
             fileUpload('#batchUploadBtn',2,batchCallBack);
         })
-        //sku属性
-        var skuProperty = new Array();
-        //生成sku最终数组(初始化是check偶是false)
-        var skuPropertyAll = new Array();
-        //sku表格显示标志
-        //显示的sku数组
-        var skuPropertyShowAll = new Array();
-        var skuTableShowFlag = false;
+        $(document).delegate(".stock",'change',function(){
+            var index = $(this).parents('.skuTbEdit').index();
+            skuPropertyAll[index]['stockNum'] = $(this).val();
+            skuPropertyAll[index]['modifyStatus'] = true;
+        })
+        $(document).delegate(".price",'change',function(){
+            var index = $(this).parents('.skuTbEdit').index();
+            skuPropertyShowAll[index]['priceY'] = $(this).val();
+            skuPropertyShowAll[index]['modifyStatus'] = true;
+        })
+
+        //初始化时构建sku属性数组
+        createSkuProperty();
+
         /*var checkSkuAllSelect = function(){
 
             for(var name in skuProperty){
@@ -278,16 +414,8 @@
                 }
             }
         }*/
-        //生成sku选项数组
-        $('.sellProperty').each(function(i){
-            var sku = {pId:$(this).attr('sellPropertyId'),pTxt:$(this).attr('sellPropertyText'),pType:$(this).attr('sellPropertyType'),pValue:new Array()};
-            $(this).find('.skuCheckbox').each(function(){
-                sku.pValue.push({vId:$(this).attr('sellValueId'),vTxt:$(this).attr('sellValueText')});
-            });
-            skuProperty.push(sku);
-        });
         //生成sku最终数组(初始化是check偶是false)
-        for(var i = 0;i < skuProperty.length;i++){
+        /*for(var i = 0;i < skuProperty.length;i++){
             var tranArr = new Array();
             if(skuPropertyAll.length){
                 skuPropertyAll.map(function(vArr){
@@ -320,90 +448,40 @@
                 }
             }
             skuPropertyAll = $.extend([], tranArr);//JSON.parse(JSON.stringify(tranArr));//避免引用
-        }
-        //设置表格是否显示的flag
-        var setTableShowFlag = function(){
-            //TODO 判断是否生成sku表格
-            $('.sellProperty').each(function(){
-                skuTableShowFlag = true;
-                if($(this).find('.skuCheckbox:checked').length < 1){
-                    //属性没有完全填写不显示表格
-                    skuTableShowFlag = false;
-                }
-            });
-        }
-        //构建生成sku表格
-        var createTable = function(){
-            //TODO 先用filter取出显示的sku
-            skuPropertyShowAll = skuPropertyAll.filter(function(v){
-                var flag = true;
-                for(var i = 0;i <v.length;i++){
-                    if(!v[i]['check']){
-                        flag = false;
-                    }
-                }
-                if(flag){
-                    return v;
-                }
-            })
-            //计算生成sku表格时各属性td占用的行数
-            var tdRowSpanNumArr = new Array();//sku属性td占的行数
-            $('.sellProperty').each(function(){
-                tdRowSpanNumArr.push($(this).find('.skuCheckbox:checked').length)
-            });
-            var len = tdRowSpanNumArr.length;
-            for(var i = 0;i < len;i++){
-                if(i === len - 1){
-                    tdRowSpanNumArr[i] = 1;
-                }else if(i === len - 2){
-                    tdRowSpanNumArr[i] = tdRowSpanNumArr[i + 1];
-                }else{
-                    tdRowSpanNumArr[i] = tdRowSpanNumArr[i + 1] * tdRowSpanNumArr[i + 2];
-                }
-            }
-            //生成sku表格
-            var tableStart = '<table>'
-                    + '<caption>销售属性匹配表</caption>'
-            + '<thead>';
-            var titleTrBody = '<tr>';
-            for(var i = 0;i < skuProperty.length;i++){
-                titleTrBody += '<th><span>' +skuProperty[i]["pTxt"]+ '</span></th>';
-            }
-            titleTrBody += '<th><span>价格</span></th>';
-            titleTrBody += '<th><span>数量</span></th>'
-            titleTrBody += '</tr>';
-            var trBody = '';
+        }*/
 
-            for(var i = 0;i < skuPropertyShowAll.length;i++){
-                trBody += '<tr class="skuTbEdit">';
-                for(var j = 0;j < skuPropertyShowAll[i].length; j++){
-                    if(i % tdRowSpanNumArr[j] === 0){
-                        trBody += '<td rowspan="' + tdRowSpanNumArr[j] + '"><span>' + skuPropertyShowAll[i][j]["vTxt"] + '</span></td>';
-                    }
-                }
-                trBody += '<td><input class="price" type="text" value=""></td>';
-                trBody += '<td><input class="stock" type="text" value=""></td>';
-                trBody += '</tr>';
-            }
-            var talbeEnd = '</table>';
-            return tableStart + titleTrBody + trBody + talbeEnd;
-        }
+
         //选择sku
         $('.skuCheckbox').click(function(){
             //TODO 变更前保存编辑结果
 
+            //重新构建sellProperty数组
+            createSkuProperty();
             var pId = $(this).parents('tr').attr('sellPropertyId');
             var pTxt = $(this).parents('tr').attr('sellPropertyText');
             var vId = $(this).attr('sellValueId');
             var vTxt = $(this).attr('sellValueText');
             //选中状态
             var checkStatus = $(this).prop("checked");
+            //重新计算选中状态
             for(var i = 0;i < skuPropertyAll.length;i++){
-                for(var j = 0;j < skuPropertyAll[i].length;j++){
-                    if(pId === skuPropertyAll[i][j]["pId"] && vId === skuPropertyAll[i][j]["vId"]){
-                        skuPropertyAll[i][j]["check"] = checkStatus;
+                //sku组合checkStatus
+                var checkedStatus1 = true;
+                var itemSkuPVPairList = skuPropertyAll[i]['itemSkuPVPairList'];
+                for(var j = 0;j < itemSkuPVPairList.length;j++){
+                    //sku组合中的属性checkStatus
+                    var checkedStatus2 = false;
+                    for(var k = 0;k < skuProperty[j]['pValue'].length;k++){
+                        if(itemSkuPVPairList[j]['vId'] == skuProperty[j]['pValue'][k]['vId'] && itemSkuPVPairList[j]['vTxt'] == skuProperty[j]['pValue'][k]['vTxt']){
+                            checkedStatus2 = true;
+                            break;
+                        }
+                    }
+                    if(!checkedStatus2){
+                        checkedStatus1 = false;
                     }
                 }
+                skuPropertyAll[i]['checked'] = checkedStatus1;
             }
             //设置表格是否显示的flag
             setTableShowFlag();
@@ -442,16 +520,6 @@
                 });
                 $('#itemProperties').val(JSON.stringify(propertyArr));
 
-                //sku
-                var skuArr = new Array();
-                $('.skuTbEdit').each(function(i){
-                    var sku ={
-                        'stockNum':$(this).find('.stock').val(),
-                        'priceY':$(this).find('.price').val(),
-                        'itemSkuPVPairList':skuPropertyShowAll[i]
-                    }
-                    skuArr.push(sku);
-                });
                 //图片列表
                 var picUrls = '';
                 $('.picUrlsUrl').each(function(){
@@ -462,8 +530,14 @@
                     }
                 });
                 $('.picUrlsVal').val(picUrls);
-                $('#itemSkuVOStr').val(JSON.stringify(skuArr));
-                $('#commodityForm').attr('action',actionDefaultPath + '/B2C/commodityManage/common/add');
+                $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
+                var url = '';
+                if($('#commodityForm').attr('commodityId')){
+                    url = actionDefaultPath + '/B2C/commodityManage/common/edit/' + $('#commodityForm').attr('commodityId');
+                }else{
+                    url = actionDefaultPath + '/B2C/commodityManage/common/add';
+                }
+                $('#commodityForm').attr('action',url);
                 $('#commodityForm').submit();
             });
         });

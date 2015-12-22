@@ -6,13 +6,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
@@ -34,6 +38,8 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
 @RequestMapping("/B2C/trip")
 public class TripManageController extends BaseController {
 
+	private static final Logger logger = LoggerFactory.getLogger(TripManageController.class);
+	
 	@Autowired TripService tripService;
 	
 	/**
@@ -62,7 +68,6 @@ public class TripManageController extends BaseController {
 	 */
 	@RequestMapping("/departure/toAdd")
 	public String toAdd(Model model){
-		//TODO:edit页面的推荐关联需要走后台的 /list/recommended ，传type，到时候分开写，不放在tab切换里面。
 		return "/system/trip/edit";
 	}
 	
@@ -76,21 +81,26 @@ public class TripManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/add")
-	public String toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
-		//TODO:数据校验
-		if(null != tripBo && StringUtils.isNotEmpty(tripBo.getCityCode())){
-			long ids= tripService.saveTrip(tripBo);
-			if(0==ids){
-				return "/error";
-			}
-			if(RegionType.DEPART_REGION.getType()==tripBo.getType()){//线路出发地
-				return "/success";
-			}else if(RegionType.DESC_REGION.getType()==tripBo.getType()){//线路目的地
-				model.addAttribute("id", ids);
-				return "redirect:/departure/toAdd";
-			}
+	@ResponseBody
+	public ResponseVo toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
+		try {
+			if (null != tripBo && 0 != tripBo.getCityCode()) {
+				RegionDO regionDO = tripService.saveOrUpdateDetail(tripBo);
+				if (null == regionDO) {
+					return new ResponseVo(ResponseStatus.INVALID_DATA);
+				}
+				if (RegionType.DEPART_REGION.getType() == tripBo.getType()) {//线路出发地
+					return new ResponseVo(ResponseStatus.SUCCESS);
+				} else if (RegionType.DESC_REGION.getType() == tripBo.getType()) {//线路目的地
+					model.addAttribute("id", regionDO.getId());
+					model.addAttribute("cityCode", regionDO.getCityCode());
+					return new ResponseVo(model);
+				}
+			} 
+		} catch (Exception e) {
+			logger.error("trip+add,parameter[tripBo]="+JSON.toJSONString(tripBo)+" |error="+e.toString());
 		}
-		return "error";
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 	
 	/**
@@ -106,8 +116,8 @@ public class TripManageController extends BaseController {
 	 */
 	@RequestMapping("/recommended/list")
 	public String recommendedList(Model model,HttpServletRequest request,ScenicPageQuery scenicPageQuery){
-		int type=StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
-		String cityCode=StringUtils.isEmpty(request.getParameter("cityCode"))?"530100":request.getParameter("cityCode");
+		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
+		String cityCode=request.getParameter("cityCode");
 		try {
 			if (type == ColumnType.NEED_BUY.getType()) {//必买推荐 10
 				List<RegionIntroduceDO> list = tripService.getListShowCaseResult(type);
@@ -136,7 +146,7 @@ public class TripManageController extends BaseController {
 				return "/system/trip/add_destination/list_live";
 			} 
 		} catch (Exception e) {
-			
+			logger.error("trip+recommendedList,parameter[type]="+type+",cityCode="+cityCode+" |error="+e.toString());
 		}
 		return "/error";
 	}
@@ -161,6 +171,7 @@ public class TripManageController extends BaseController {
 			}
 			tripService.relevanceRecommended(type, cityCode, resourceId);
 		} catch (Exception e) {
+			logger.error("trip+relevance,parameter[type]="+type+",cityCode="+cityCode+",resourceId="+JSON.toJSONString(resourceId)+" |error="+e.toString());
 		}
 		return "/success";
 	}
@@ -181,9 +192,9 @@ public class TripManageController extends BaseController {
 	public ResponseVo del(Model model,String code){
 		if(StringUtils.isNotEmpty(code)){
 			//TODO:删除接口
-			return new ResponseVo("success");
+			return new ResponseVo(ResponseStatus.SUCCESS);
 		}
-		return new ResponseVo("error");
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 		
 	/**
@@ -202,9 +213,9 @@ public class TripManageController extends BaseController {
 		List<RegionDO> list = tripService.selectRegion(type);
 		if(CollectionUtils.isNotEmpty(list)){
 			model.addAttribute("regionList",list);
-			if(RegionType.DEPART_REGION.getType() == type ){//出发地
+			if(RegionType.DEPART_REGION.getType() == type ){//出发地 3
 				return "/system/trip/origin_list";
-			}else if (RegionType.DESC_REGION.getType() == type){//目的地
+			}else if (RegionType.DESC_REGION.getType() == type){//目的地 4
 				return "/system/trip/beautiful_local_list";
 			}	
 		}
@@ -232,15 +243,46 @@ public class TripManageController extends BaseController {
 		return new ResponseVo(ResponseStatus.ERROR);
 	}
 	
-	@RequestMapping("/edit")
+	
+	/**
+	* @Title: block 
+	* @Description:(停用某个目的地) 
+	* @author create by yushengwei @ 2015年12月22日 上午10:12:09 
+	* @param @param model
+	* @param @param id
+	* @param @param request
+	* @param @return 
+	* @return String 返回类型 
+	* @throws
+	 */
+	@RequestMapping("/block/{id}")
 	@ResponseBody
-	public String edit(Model model, HttpServletRequest request){
-		int type=StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
-		String cityCode=StringUtils.isEmpty(request.getParameter("cityCode"))?"530100":request.getParameter("cityCode");
+	public ResponseVo block(long id,int type,int cityCode, HttpServletRequest request){
+		TripBo tripBo = new TripBo();
+		tripBo.setCityCode(cityCode);
+		boolean flag = false;
+		try {
+			flag = tripService.blockOrUnBlock(id, cityCode, type);
+		} catch (Exception e) {
+			logger.error("trip+block,parameter[type]="+type+",cityCode="+cityCode+",id="+id+" |error="+e.toString());
+		}
+		return new ResponseVo(flag);
+	}
+	
+	@RequestMapping("/detail/{id}")
+	public String detail(Model model,@PathVariable(value = "cityCode")long cityCode, HttpServletRequest request){
+		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
 		
-		return cityCode;
+		return null;
 	}	
 	
+	@RequestMapping("/edit/{id}")
+	public String edit(Model model,@PathVariable(value = "id")long id, HttpServletRequest request){
+		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
+		String cityCode=request.getParameter("cityCode");
+		//tripService.editTripBo(tripBo);
+		return cityCode;
+	}
 	
 	
 	

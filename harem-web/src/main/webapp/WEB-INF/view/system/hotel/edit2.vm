@@ -109,8 +109,8 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店联系人</td>
-                    <td><span>姓名：</span><input type="text" name="contactPerson" value="$!hotel.contactPerson" class="inpControl" >
-                        <span>电话：</span><input type="text" name="contactPhone" value="$!hotel.contactPhone" class="inpControl" >
+                    <td><span>姓名：</span><input type="text" name="grogLinkmanName" value="$!hotel.contactPerson" class="inpControl" >
+                        <span>电话：</span><input type="text" name="grogLinkmanPhone" value="$!hotel.contactPhone" class="inpControl" >
                     </td>
                 </tr>
                 <tr>
@@ -189,20 +189,68 @@
                     </td>
                 </tr>
                     <tr>
+                        <td><span class="spColor">*</span>入园须知</td>
+                        <td>
+                            <button type="button" class="btn btn-default addNeedKnow">增加条目</button>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>标题（10个字以内）</th>
+                                    <th>内容（500字以内）</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="extra-info-list needKnowTable">
+
+                                    #if(!${VO.needKnow.frontNeedKnow})
+	                                    <tr class="needKnow">
+	                                        <td><input type="text" name="needKnow.frontNeedKnow[0].title"
+	                                                   class="form-control extra-info-item-title" placeholder="费用包含"></td>
+	                                        <td><textarea class="form-control extra-info-item-text"
+	                                                      name="needKnow.frontNeedKnow[0].content" rows="3"></textarea></td>
+	                                        <td>
+	                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+	                                                删除
+	                                            </button>
+	                                        </td>
+                                    </tr>
+                                    #end
+
+                                    #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含"
+                                                   value="$!{frontNeedKnow.title}"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                                      rows="3">$!{frontNeedKnow.content}</textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+				<tr>
                         <td>推荐理由</td>
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
-                      		  <input type="text" name="recommend.title"  class="inpControl"
+                      		  <input type="text" name="title"  class="inpControl"
                                    value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
                             <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
                                  alt="头像" class="img-circle grogUserLogo" id="userImg">
                                  <span id="recommendNameT"></span>
-                            <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
+                            <textarea name="description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
-                            <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
-                            <input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
-                            <input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}" >
-                            <input type="hidden" id="recommendName" name="name2" value="$!{recommend.name}" >
+                            <input type="hidden" id="recommendId" name="id" value="$!{recommend.id}" >
+                            <input type="hidden" id="recommendUserId" name="userId" value="$!{recommend.userId}" >
+                            <input type="hidden" id="recommendUserPic" name="userPic" value="$!{recommend.userPic}" >
+                            <input type="hidden" id="recommendName" name="name" value="$!{recommend.name}" >
                         </td>
                     </tr>
                      <tr>
@@ -224,12 +272,12 @@
                         <td>
                             <div class="fileImg">
 	                        <button type="button" class="btn btn-success">选择图片</button>
-	                        <input type="hidden" name="coverUrl" value="$!{hotel.coverUrl}" id="logoUrlUploadFileReturnInput1" >
+	                        <input type="hidden" name="scenic.coverUrl" value="$!{VO.scenic.coverUrl}" id="logoUrlUploadFileReturnInput1" >
 	                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
 	                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
 	                    </div>
 	                    <div class="logoView">
-	                        <img src="#if($hotel.coverUrl) $utilWebconfig.getTfsRootPath()$!{hotel.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg1">
+	                        <img src="#if($VO.scenic.coverUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg1">
 	                    </div>
                         </td>
                     </tr>
@@ -238,19 +286,10 @@
             </table>
         </div>
     </div>
-    <div class="tab-pane" id="scenicDetailDiv">
-         <script type="text/javascript">
-               $(function() {
-                    window.UEDITOR_HOME_URL = "/resources/ueditor/";
-                    var ue = UE.getEditor('editor');
-               });
-          </script>
-          <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
-    </div>	
+    <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
     <div class="tab-pane" id="grogshopImgs">
         #parse("/system/hotel/picture.vm")
     </div>
-	<button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
 </form>
 <script>
@@ -290,7 +329,6 @@
 		});
 		
 		$('.locationXYSelectBtn').click(function () {
-			//alert("HelloWorld!!!!!!!!!");
             openBaiduMap(115.727899, 37.723961, mapCallback);
         });
 
@@ -334,7 +372,7 @@
         $('.provinceSelect').change(function(){            
 			
 			if($('.provinceSelect option:selected')){
-                $('#provinceSelectName').val($('.provinceSelect option:selected').text());
+                $('#provinceSelectName').val($('.provinceSelect option:selected').attr("value"));
             }
 			
 			//清空所有子元素
@@ -377,7 +415,7 @@
         $('.citySelect').change(function(){
             
 			if($('.citySelect option:selected')){
-                $('#citySelectName').val($('.citySelect option:selected').text());
+                $('.citySelectName').val($('.citySelectId option:selected').attr('value'));
             }
 
 			//清空所有子元素
@@ -415,7 +453,7 @@
         $('.countySelect').change(function(){
             
 			if($('.countySelect option:selected')){
-                $('#countySelectName').val($('.countySelect option:selected').text());
+                $('.countySelectName').val($('.countySelectId option:selected').attr('value'));
             }
 						
         });	    
@@ -535,7 +573,8 @@
                     actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
                 }
                 $('#hotelForm').attr('action', actionUrl);
-                $('#hotelForm').submit();
+                //$('#hotelForm').submit();
+
 
         });
     });

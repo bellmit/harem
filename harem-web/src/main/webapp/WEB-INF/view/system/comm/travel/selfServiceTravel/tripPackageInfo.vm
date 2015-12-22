@@ -28,7 +28,7 @@
 									<span class="label label-badge label-info">飞机</span>
 									<span>${flightInfo.returnArriveCity}(${flightInfo.returnArriveDate})</span>
 								</div>
-								<input type="hidden" class="flight-info-data" value='${utilText.toJSONStringForHTML(${flightInfo})}'/>
+								<input type="hidden" class="flight-info-data" value='${utilText.toJSONString(${flightInfo})}'/>
 								<button class="btn btn-primary remove-parent">删除</button>
 							</div>
 						#end
@@ -56,7 +56,7 @@
     								<span class="label label-badge label-info">飞机</span>
     								<span>${flightDetail.returnArriveCity}($utilDate.longToString($flightDetail.returnArriveTime,"yyyy年MM月dd日 hh:mm"))</span>
     							</div>
-								<input type="hidden" class="flight-detail-date" value='${utilText.toJSONStringForHTML(${flightDetail})}'/>
+								<input type="hidden" class="flight-detail-data" value='${utilText.toJSONString(${flightDetail})}'/>
 								<button class="btn btn-primary remove-parent">删除</button>
 							</div>
 						#end
@@ -99,7 +99,7 @@
 		openModalForForm(actionDefaultPath + '/B2C/comm/selfServiceTravel/addFlightDetail','添加航班 ',function() {
 			var flightDetail = win.getFlightDetail();
 			// console.log(JSON.stringify(flightDetail));
-			var content = $(".flights");
+			var content = $(".flight-details");
 			// 数据绑定点：开始
 			var flight = $("<div class='flight'/>");
 			var forward = $("<div class='forward'/>");
@@ -115,7 +115,7 @@
 			back.append($("<span/>").text(flightDetail.returnArriveCity+"("+flightDetail.returnArriveDate+")"));
 			flight.append(back);
 			var data = $("<div class='data'/>");
-			var data_input = $("<input type='hidden' class='flight-info-data'/>");
+			var data_input = $("<input type='hidden' class='flight-detail-data'/>");
 			data_input.val(JSON.stringify(flightDetail));
 			data.append(data_input);
 			flight.append(data);
@@ -191,7 +191,7 @@
 			result["flightInfo"] = JSON.parse($(".flight-info-data").val());
 		} else {
 			var flights = [];
-			$(".flight-detail-date").each(function() {
+			$(".flight-detail-data").each(function() {
 				flights.push(JSON.parse($(this).val()));
 			});
 			result["flightDetails"] = flights;

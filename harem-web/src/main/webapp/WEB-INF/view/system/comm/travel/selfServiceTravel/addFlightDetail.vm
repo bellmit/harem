@@ -39,7 +39,14 @@
             </tr>
 			<tr>
 				<td>航班公司：</td>
-				<td><input type="text" class="form-control" placeholder="请输入航班公司" id="forwardCompanyName"></td>
+				<td>
+					<select class="form-control company" id="forwardCompany">
+                        <option value="">请选择航班公司</option>
+					#foreach($flightCompany in $flightCompanys)
+                        <option value='${utilText.toJSONString(${flightCompany})}'>${flightCompany.name}</option>
+					#end
+					</select>
+				</td>
             </tr>
 			<tr>
 				<td>航班号：</td>
@@ -87,7 +94,14 @@
             </tr>
 			<tr>
 				<td>航班公司：</td>
-				<td><input type="text" class="form-control" placeholder="请输入航班公司" id="returnCompanyName"></td>
+				<td>
+    				<select class="form-control company" id="returnCompany">
+                        <option value="">请选择航班公司</option>
+    				#foreach($flightCompany in $flightCompanys)
+                        <option value='${utilText.toJSONString(${flightCompany})}'>${flightCompany.name}</option>
+    				#end
+    				</select>
+                </td>
             </tr>
 			<tr>
 				<td>航班号：</td>
@@ -170,11 +184,22 @@
 		var result = {};
 		$(".form-control").each(function() {
 			var id = $(this).attr("id");
-			result[id] = $(this).val();
+			if($(this).hasClass("company")) {
+				var company = $(this).val();
+				if(company) {
+					company = JSON.parse(company);
+    				result[id+"Name"] = company.name;
+    				result[id+"Pic"] = company.logoUrl;
+				}
+			} else if($(this).hasClass("forward-plan-time") || $(this).hasClass("return-plan-time")) {
+				var plan_time = $(this).val();
+				if(plan_time) {
+					result[id] = new Date($(this).val()+":00").getTime();
+				}
+			} else {
+				result[id] = $(this).val();
+			}
 		});
-		
-    //	forwardCompanyPic;
-    //	returnCompanyPic;
 		return result;
 	}
 </script>

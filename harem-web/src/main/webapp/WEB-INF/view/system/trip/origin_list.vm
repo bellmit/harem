@@ -45,8 +45,8 @@
                         <td>$!region.name</td>
                         <td>#if($!region.level == 1) 省  #elseif($!region.level == 2)  市 #else 县  #end </td>
                         <td>
-                        <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">查看</button>
-						<button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">停用</button>
+                        <button type="button" class="btn btn-primary themeDetail" themeId="$region.id">查看</button>
+						<button type="button" class="btn btn-primary themeDetail" themeId="$region.id">停用</button>
                         </td>
                     </tr>
                     #end

@@ -29,6 +29,18 @@
             </div>
         </div>
 
+		 <div class="inputGroup whole">
+		 	<div class="btn-group">
+            	<button type="submit" class="btn btn-add">新增目的地</button>
+            </div>
+            <div class="btn-group">
+            	<button type="submit" class="btn btn-unblock">批量启用</button>
+            </div>
+           	<div class="btn-group">
+            	<button type="submit" class="btn btn-block">批量停用</button>
+            </div>	
+		 </div>
+		
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
@@ -45,8 +57,8 @@
                         <td>$!region.name</td>
                         <td>#if($!region.level == 1) 省  #elseif($!region.level == 2)  市 #else 县  #end </td>
                         <td>
-                        <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">查看</button>
-						<button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">停用</button>
+                        <button type="button" class="btn btn-primary themeDetail" themeId="$region.id">查看</button>
+						<button type="button" class="btn btn-primary themeDetail" themeId="$region.id">停用</button>
                         </td>
                     </tr>
                     #end
@@ -57,34 +69,25 @@
     #pageStyle("themeListForm")
     </form>
 <script>
-    $(".form-date").datetimepicker(
-            {
-                language:  "zh-CN",
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0,
-                format: "yyyy-mm-dd"
-            });
-    function openwin(url) {
-        var a = document.createElement("a");
-        a.setAttribute("href", url);
-        a.setAttribute("target", "_blank");
-        a.setAttribute("id", "camnpr");
-        document.body.appendChild(a);
-        a.click();
-    }
+  
     $(function(){
         $('.themeDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/themeManage/edit/'+ $(this).attr('themeId');
-                window.openwin(url);
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/trip/edit/'+ $(this).attr('themeId');
+                //window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
 
         });
 
     });
+    
+    
+ 	$('.btn-add').click(function(){
+    	 var url ='$!utilWebconfig.getActionDefaultFontPath()' +'/B2C/trip/departure/toAdd';
+      	// windown.location.href  = url;
+       top.tabsAdd("",url,2,$(this).text());
+    });
+    
+    
 </script>
