@@ -44,7 +44,7 @@ public class HotelVO extends HotelDO implements Serializable {
     public static HotelDO getHotelDO(HotelVO hotelVO) throws Exception {
         HotelDO hotelDO = hotelVO;
         //个性化转换
-        hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
+        //hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
         hotelDO.setPhoneNum(JSON.toJSONString(hotelVO.getPhoneNumList()));
         hotelDO.setPictures(JSON.toJSONString(hotelVO.getPictureList()));
         hotelDO.setOpenTime(JSON.toJSONString(hotelVO.getOpenTimeList()));
