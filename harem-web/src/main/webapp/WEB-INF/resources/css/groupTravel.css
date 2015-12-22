@@ -9,27 +9,26 @@
 .baseInfoList table .fileWrap{position: relative;}
 .baseInfoList table .fileWrap .fileBtn{position: absolute;width: 80px;height: 32px;top: 8px;left: 0;font-size: 25px;opacity: 0;filter: alpha(opacity=0);}
 .baseInfoList table .img-circle{width: 100px;margin-left: 10px;}
-.baseInfoApply{}
 .baseInfoApply .applyNote{font-weight: bold;font-size: 16px;}
 .baseInfoApply table{width: 100%;border-collapse: collapse;border: 1px solid #d5d5d5;}
 .baseInfoApply table th{text-align: center;border: 1px solid #d5d5d5;background: #dedede;line-height: 35px;}
 .baseInfoApply table td{border: 1px solid #d5d5d5;padding: 10px !important;text-align: center;}
-.baseInfoApply table textarea{}
-
-
-
 /*商品管理-发布线路-行程信息*/
-.tripInfo{padding: 10px;}
-
-
-
-
-
-
-
-
-
-
+.tripInfo{padding: 10px;position: relative;}
+.tripInfo .tripInfoNav{position: absolute;width: 150px;height: 600px;background: #9C9898;overflow: auto;text-align: center;padding: 10px;z-index: 100;}
+.tripInfo .tripInfoNav li{float: none;position: relative;}
+.tripInfo .tripInfoNav li .icon-trash{position: absolute;right: 10px;top: 9px;font-size: 18px;cursor: pointer;}
+.tripInfo .tripInfoNav li.day_tab{margin-bottom: 5px;}
+.tripInfo .tripInfoNav li.day_tab.active a{background: #FFFFFF;}
+.tripInfo .tripInfoNav li.day_tab a{background: #CAC4C4;border-radius: 5px;}
+.tripInfo .tripInfoNav li.day_tab a:hover{background: #EBE8E8;}
+.tripInfo .tripInfoNav li.day_btn{margin-top: 15px;}
+.tripInfo .tab-content{margin-left: 180px;}
+.tripInfo .tab-content .travelPanel i{margin-top: 5px;font-size: 20px;margin-right: 5px;}
+.tripInfo .tab-content .travelPanel .tripAddSp{display: inline-block;font-size: 18px;font-weight: bold;}
+.tripInfo .tab-content .travelPanelDe{line-height: 30px;}
+.tripInfo .tab-content .panel-body .label-info{margin-right: 5px;}
+.tripInfo .tab-content .panel-body .remove-self{margin-right: 5px;}
 /*商品管理-发布线路-价格信息*/
 .priceInfo{padding: 10px;}
 .priceInfo .tc-main .nav-tabs{border-bottom: none;}
@@ -44,12 +43,6 @@
 .priceInfo .tc-main .tabCombo table .input-group.block{margin-bottom: 2px;}
 .priceInfo .tc-main .tabCombo table .batch-insert{margin: 3px 20px;}
 .priceInfo .tc-main .tabCombo table .pBot{margin-bottom: 5px;}
-
-
-
-
-
-
 /*保存*/
 .groupTravelBot{text-align: center;margin: 20px auto;}
 .groupTravelBot .btn{width: 150px;}

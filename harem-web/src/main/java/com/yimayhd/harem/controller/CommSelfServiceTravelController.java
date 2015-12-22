@@ -80,9 +80,9 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/addFlight")
-	public String addFlight() throws Exception {
-		return "/system/comm/travel/selfServiceTravel/addFlight";
+	@RequestMapping(value = "/addFlightDetail")
+	public String addFlightDetail() throws Exception {
+		return "/system/comm/travel/selfServiceTravel/addFlightDetail";
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/save")
+	@RequestMapping(value = "/save") 
 	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
 		SelfServiceTravel sst = JSON.parseObject(json, SelfServiceTravel.class);
 		if (StringUtils.isNotBlank(importantInfos)) {

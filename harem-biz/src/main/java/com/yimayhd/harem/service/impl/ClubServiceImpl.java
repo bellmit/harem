@@ -2,34 +2,35 @@ package com.yimayhd.harem.service.impl;
 
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.service.ClubService;
+import com.yimayhd.snscenter.client.domain.ClubInfoDO;
+import com.yimayhd.snscenter.client.domain.result.ClubDO;
+import com.yimayhd.snscenter.client.domain.result.ClubDOList;
+import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
+import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
+import com.yimayhd.snscenter.client.result.BaseResult;
+import com.yimayhd.snscenter.client.service.SnsCenterService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Administrator on 2015/11/2.
  */
 public class ClubServiceImpl implements ClubService {
+	
+	@Autowired SnsCenterService snsCenterService;
+	
     @Override
-    public List<Club> getList(Club clubVO) throws Exception {
-        List<Club> clubList = new ArrayList<Club>();
-        int j = 10;
-        //是否有查询条件
-        for (int i = 0;i <= j;i++){
-            Club clubData = new Club();
-            clubData.setId((long) i);
-            clubData.setName("俱乐部" + i);//交易编号
-            clubData.setLogoUrl("/123");
-            clubData.setJoinStatus(1);
-            clubData.setShowStatus(i / 2 + 1);
-            clubData.setJoinNum(Long.valueOf(50 + i));
-            clubData.setLimitNum(Long.valueOf(100 + i));
-            clubData.setManageUserName("王武" + i);
-            clubData.setManageUserLogoUrl("/456");
-            clubData.setHasActivityNum(Long.valueOf(30*i));
-            clubList.add(clubData);
-        }
-        return clubList;
+    public ClubDOList getList(ClubDOInfoDTO clubVO) throws Exception {
+    	BasePageResult<ClubDOList> res = snsCenterService.getClubInfoListByQuery(clubVO);
+    	if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
+    		return (ClubDOList) res.getList();
+    	}
+		return null;
     }
 
     @Override
@@ -51,7 +52,11 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public Club add(Club club) throws Exception {
+    public ClubInfoDO add(ClubInfoAddDTO clubInfoAddDTO) throws Exception {
+    	BaseResult<ClubInfoDO>  res = snsCenterService.addClubInfo(clubInfoAddDTO);
+    	if(null !=res && res.isSuccess()){
+    		return res.getValue();
+    	}
         return null;
     }
 

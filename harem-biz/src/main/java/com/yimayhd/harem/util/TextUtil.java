@@ -9,7 +9,7 @@ public class TextUtil {
 	 * @param obj
 	 * @return
 	 */
-	public static final String toJSONString(Object obj) {
+	public static final String toJSONStringForHTML(Object obj) {
 		return JSON.toJSONString(obj);
 	}
 }

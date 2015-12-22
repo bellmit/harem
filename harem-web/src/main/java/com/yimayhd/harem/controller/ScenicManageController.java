@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.taobao.tair.json.Json;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -20,7 +19,6 @@ import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICResult;
