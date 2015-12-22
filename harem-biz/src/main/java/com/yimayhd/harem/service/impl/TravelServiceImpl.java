@@ -1,6 +1,5 @@
 package com.yimayhd.harem.service.impl;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +54,8 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 			try {
 				travel = createTravelInstance(lineResult, tags);
 			} catch (Exception e) {
-				log.error(MessageFormat.format("解析线路信息失败：lineResult={0}", JSON.toJSONString(lineResult)));
-				log.error(MessageFormat.format("解析线路信息失败：tags={0}", JSON.toJSONString(tags)));
+				log.error("解析线路信息失败：lineResult={}", JSON.toJSONString(lineResult));
+				log.error("解析线路信息失败：tags={}", JSON.toJSONString(tags));
 				log.error("解析线路信息失败", e);
 				throw new BaseException("解析线路信息失败");
 			}
@@ -94,15 +93,15 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 				lineId = publishLine.getLineId();
 			} else {
 				log.error("保存线路标签失败：" + addTagRelationInfo.getResultMsg());
-				log.error(MessageFormat.format("保存线路标签失败：tagRelationInfo={0}", JSON.toJSONString(tagRelationInfoDTO)));
-				log.error(MessageFormat.format("保存线路标签失败：tagResult={0}", JSON.toJSONString(addTagRelationInfo)));
+				log.error("保存线路标签失败：tagRelationInfo={}", JSON.toJSONString(tagRelationInfoDTO));
+				log.error("保存线路标签失败：tagResult={}", JSON.toJSONString(addTagRelationInfo));
 				throw new BaseException("保存线路标签失败");
 			}
 			return lineId;
 		} else {
 			log.error("保存线路失败：" + publishLine.getResultMsg());
-			log.error(MessageFormat.format("保存线路失败：line={0}", JSON.toJSONString(linePublishDTO)));
-			log.error(MessageFormat.format("保存线路失败：lineResult={0}", JSON.toJSONString(publishLine)));
+			log.error("保存线路失败：line={}", JSON.toJSONString(linePublishDTO));
+			log.error("保存线路失败：lineResult={}", JSON.toJSONString(publishLine));
 			throw new BaseException("保存线路失败");
 		}
 	}

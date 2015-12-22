@@ -69,7 +69,7 @@
                     <select class="form-control to">
                         <option value="">请选择目的地</option>
 						#foreach($descRegion in $descRegions)
-                            <option value="$!{descRegion.level}_${descRegion.name}_${descRegion.code}" #if($!{product.baseInfo.toId} == ${departRegion.code}) selected #end>${descRegion.name}</option>
+                            <option value="$!{descRegion.level}_${descRegion.name}_${descRegion.code}" #if($!{product.baseInfo.toId} == ${descRegion.code}) selected #end>${descRegion.name}</option>
 						#end
                     </select>
                 </td>

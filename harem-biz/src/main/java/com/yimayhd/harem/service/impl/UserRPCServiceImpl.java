@@ -88,9 +88,8 @@ public class UserRPCServiceImpl implements UserRPCService {
 						memResult.getTotalCount(), userDOList);
 			}
 		} else {
-			log.error(MessageFormat.format("检索会员信息失败：sellerId={0},query={1}", sellerId,
-					JSON.toJSONString(tradeMemberQuery)));
-			log.error(MessageFormat.format("检索会员信息失败：result={0}", JSON.toJSONString(memResult)));
+			log.error("检索会员信息失败：sellerId={},query={}", sellerId, JSON.toJSONString(tradeMemberQuery));
+			log.error("检索会员信息失败：result={}", JSON.toJSONString(memResult));
 			throw new BaseException("检索会员信息失败");
 		}
 		return pageVO;
@@ -107,8 +106,8 @@ public class UserRPCServiceImpl implements UserRPCService {
 				itemList.addAll(result.getList());
 			}
 		} else {
-			log.error(MessageFormat.format("查询用户列表失败：query={0}", JSON.toJSONString(query)));
-			log.error(MessageFormat.format("查询用户列表失败：result={0}", JSON.toJSONString(result)));
+			log.error("查询用户列表失败：query={}", JSON.toJSONString(query));
+			log.error("查询用户列表失败：result={}", JSON.toJSONString(result));
 			throw new BaseException("查询用户列表失败");
 		}
 		return new PageVO<UserDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
@@ -129,8 +128,8 @@ public class UserRPCServiceImpl implements UserRPCService {
 			totalCount = travelKaListPage.getTotalCount();
 			result = travelKaListPage.getList();
 		} else {
-			log.error(MessageFormat.format("查询旅游咖列表失败：query={0}", JSON.toJSONString(query)));
-			log.error(MessageFormat.format("查询旅游咖列表失败：result={0}", JSON.toJSONString(travelKaListPage)));
+			log.error("查询旅游咖列表失败：query={}", JSON.toJSONString(query));
+			log.error("查询旅游咖列表失败：result={}", JSON.toJSONString(travelKaListPage));
 			throw new BaseException("查询旅游咖列表失败");
 		}
 		return new PageVO<TravelKaVO>(query.getPageNo(), query.getPageSize(), totalCount, result);
@@ -142,8 +141,8 @@ public class UserRPCServiceImpl implements UserRPCService {
 		if (travelKaDetail != null & travelKaDetail.isSuccess()) {
 			return travelKaDetail.getValue();
 		} else {
-			log.error(MessageFormat.format("查询旅游咖列表失败：id={0}", id));
-			log.error(MessageFormat.format("查询旅游咖列表失败：result={0}", JSON.toJSONString(travelKaDetail)));
+			log.error("查询旅游咖列表失败：id={}", id);
+			log.error("查询旅游咖列表失败：result={}", JSON.toJSONString(travelKaDetail));
 			throw new BaseException("查询旅游咖列表失败");
 		}
 	}
