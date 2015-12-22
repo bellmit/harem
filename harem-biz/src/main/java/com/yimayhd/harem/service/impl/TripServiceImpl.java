@@ -8,9 +8,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
-import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TripService;
@@ -28,9 +28,12 @@ import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.enums.ColumnType;
 import com.yimayhd.resourcecenter.model.enums.RegionStatus;
+import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
@@ -52,36 +55,71 @@ public class TripServiceImpl implements TripService {
 	
 	@Autowired RegionIntroduceClientService RegionIntroduceClientServiceRef;	
 	
-	public long saveTrip(TripBo tripBo) {
-		RcResult<RegionDO> res = regionClientServiceRef.selectById(tripBo.getId());
-		if(null != res && res.isSuccess() && null != res.getT()){
-			RegionDO regionDO = res.getT();
+	public RegionDO saveOrUpdate(TripBo tripBo) throws Exception {
+		RegionDO regionDO = null;
+		if(0==tripBo.getId()){
+			regionDO = new RegionDO();
+			regionDO.setCityCode(tripBo.getCityCode());
+			regionDO.setType(tripBo.getType());
+			regionDO.setBgUrl(tripBo.getCoverURL());//封面logo
+			regionDO.setUrl(tripBo.getLogoURL());//logo
 			regionDO.setGmtModified(new Date());
 			regionDO.setStatus(RegionStatus.VALID.getStatus());
-			regionClientServiceRef.updateById(regionDO);
-			if(tripBo.getType()==4){//目的地
-				//保存相应的概况  民俗等信息 
-				List<NeedKnow> list = new ArrayList<NeedKnow>();
-				NeedKnow gaikuang = tripBo.getGaikuang();
-				gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
-				NeedKnow minsu = tripBo.getMinsu();
-				minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.toString());
-				NeedKnow tieshi = tripBo.getTieshi();
-				tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.toString());
-				NeedKnow xiaofei = tripBo.getXiaofei();
-				xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.toString());
-				list.add(gaikuang);
-				list.add(minsu);
-				list.add(tieshi);
-				list.add(xiaofei);
-				encaSaveShowCase(list,tripBo.getCityCode());
+			RcResult<RegionDO> res = regionClientServiceRef.insert(regionDO);
+			if(null != res && res.isSuccess() && null != res.getT()){
+				return  res.getT();
 			}
-			return regionDO.getId();
+			return null;
+		}else{
+			RcResult<RegionDO> res = regionClientServiceRef.selectById(tripBo.getId());
+			if(null == res || !res.isSuccess() || null == res.getT()){
+				throw new Exception("data [RegionDO] not available,id="+tripBo.getId());
+			}
+			regionDO= res.getT();
+			regionDO.setId(tripBo.getId());
+			regionDO = new RegionDO();
+			regionDO.setCityCode(tripBo.getCityCode());
+			regionDO.setType(tripBo.getType());
+			regionDO.setBgUrl(tripBo.getCoverURL());//封面logo
+			regionDO.setUrl(tripBo.getLogoURL());//logo
+			regionDO.setGmtModified(new Date());
+			regionDO.setStatus(RegionStatus.VALID.getStatus());
+			RcResult<Boolean> resb = regionClientServiceRef.updateById(regionDO);
+			if(null != resb && resb.isSuccess() && null != resb.getT()){
+				return  regionDO;
+			}
+			return null;
 		}
-		return 11;
 	}
 	
-	public void encaSaveShowCase(List<NeedKnow> list,String cityCode){
+	
+
+	@Override
+	public RegionDO saveOrUpdateDetail(TripBo tripBo) throws Exception {
+		RegionDO regionDO = saveOrUpdate(tripBo);
+		if(tripBo.getType()==RegionType.DESC_REGION.getType()){//目的地
+			//保存相应的概况  民俗等信息 
+			List<NeedKnow> list = new ArrayList<NeedKnow>();
+			NeedKnow gaikuang = tripBo.getGaikuang();
+			gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
+			NeedKnow minsu = tripBo.getMinsu();
+			minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.toString());
+			NeedKnow tieshi = tripBo.getTieshi();
+			tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.toString());
+			NeedKnow xiaofei = tripBo.getXiaofei();
+			xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.toString());
+			list.add(gaikuang);
+			list.add(minsu);
+			list.add(tieshi);
+			list.add(xiaofei);
+			saveShowCase(list,tripBo.getCityCode());
+		}
+		return regionDO;
+	}
+	
+	
+	
+	public void saveShowCase(List<NeedKnow> list,int cityCode){
 		//XXX:根据设计，流程如下：先往rc_booth表插城市的NeedKnow，然后根据返回的id,继续往rc_showcase表中插具体的NeedKnow包含的TextItem信息.
 		for (NeedKnow nk : list) {
 			if(null != nk && CollectionUtils.isNotEmpty(nk.getFrontNeedKnow())){
@@ -112,7 +150,7 @@ public class TripServiceImpl implements TripService {
 	* @return List<ShowcaseDO> 返回类型 
 	* @throws
 	 */
-	public List<ShowcaseDO> needKnowToShowCase(NeedKnow needKnow,String cityCode,long boothId){
+	public List<ShowcaseDO> needKnowToShowCase(NeedKnow needKnow,int cityCode,long boothId){
 		List<ShowcaseDO> listShowCase = new ArrayList<ShowcaseDO>();
 		ShowcaseDO sw = null;
 		List<TextItem> listItem = needKnow.getFrontNeedKnow();
@@ -121,14 +159,13 @@ public class TripServiceImpl implements TripService {
 				sw = new ShowcaseDO();
 				sw.setGmtCreated(new Date());
 				sw.setTitle(listItem.get(i).getTitle());
-				sw.setBusinessCode(cityCode);
+				sw.setBusinessCode(String.valueOf(cityCode));
 				sw.setBoothId(boothId);
 				sw.setOperationContent(listItem.get(i).getContent());
 				listShowCase.add(sw);
 			}
 		}
 		return listShowCase;
-		
 	}
 	
 	
@@ -142,52 +179,98 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public RegionDO getTripBo(int id) {
-		/*TripBo trip = new TripBo();
-		trip.setBiMai(new int[]{1,2,3});
-		trip.setBiQu(new int[]{3,4,5});
-		trip.setCityCode("asdda111");
-		trip.setCityLevel(1);
-		trip.setCityName("大声道");
-		trip.setCoverURL("http://www.baidu.com");
-		trip.setId(1);
-		trip.setJiuDian(new int[]{5,6,7});
-		trip.setLogoURL("http://www.baidu.com");
-		trip.setTag(new int[]{7});
-		List<TripBo.TripDetail> s = new ArrayList<TripDetail>();
-		trip.setTripDetail(s);
-		trip.setType(1);
-		trip.setXianLu(new int[]{19,19,29});
-		trip.setZhiBo(new int[]{39,94,39});*/
+	public TripBo getTripBo(int id) {
+		TripBo tripBo = new TripBo();
 		RcResult<RegionDO> res = regionClientServiceRef.selectById(id);
-		if(null != res && res.isSuccess()){
-			return res.getT();
+		if(null != res && res.isSuccess() && null != res.getT() ){
+			RegionDO regionDO = res.getT();
+			//组装其余信息
+			//-------------------------------------------------------------------
+			int  cityCode= regionDO.getCityCode();
+			tripBo.setCityCode(cityCode);
+			//tripBo.setCityLevel();
+			tripBo.setType(regionDO.getType());
+			tripBo.setLogoURL(regionDO.getUrl());
+			tripBo.setCoverURL(regionDO.getBgUrl());
+			tripBo.setStatus(regionDO.getStatus());
+			
+			NeedKnow gaikuang = new NeedKnow();
+			gaikuang.setExtraInfoUrl(ColumnType.SURVER.getCode());
+			gaikuang.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.SURVER.getCode()));
+			
+			NeedKnow minsu = new NeedKnow();
+			minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.getCode());
+			minsu.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.FOLKWAYS.getCode()));
+			
+			NeedKnow xiaofei = new NeedKnow();
+			xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.getCode());
+			xiaofei.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.CONSUMPTION.getCode()));
+			
+			NeedKnow tieshi = new NeedKnow();
+			tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.getCode());
+			tieshi.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.HIGHLIGHTS.getCode()));
+			
+			tripBo.setGaikuang(gaikuang);
+			tripBo.setTieshi(tieshi);
+			tripBo.setXianLu(null);
+			tripBo.setXiaofei(xiaofei);
+			tripBo.setMinsu(minsu);
+
+			return tripBo;
 		}
 		return null;
 	}
+	
+	public List<TextItem> getListShowcaseDO(int cityCode,String type){
+		//先查booth的
+		String code = type+"-"+cityCode;
+		BoothDO boothDO = boothClientServerRef.getBoothDoByCode(code);
+		if(null == boothDO){
+			return null;
+		}
+		ShowcaseQuery showcaseQuery = new ShowcaseQuery();
+		showcaseQuery.setBoothId(boothDO.getId());
+		 RCPageResult<ShowCaseResult> res = showcaseClientServerRef.getShowcaseResult(showcaseQuery);
+		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
+			 List<ShowCaseResult> list = res.getList();
+			 return getListTextItem(list);
+		 }
+		return null;
+	}
 
+	
+	public List<TextItem> getListTextItem(List<ShowCaseResult> list ){
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		List<ShowcaseDO> listShowcaseDO = new ArrayList<ShowcaseDO>();
+		for (ShowCaseResult showCaseResult : list) {
+			listShowcaseDO.add(showCaseResult.getShowcaseDO());
+		}
+		List<TextItem> listTextItem = showCaseToTextItem(listShowcaseDO);
+		return listTextItem;
+	}
+	
+	public List<TextItem> showCaseToTextItem(List<ShowcaseDO> list){
+		List<TextItem> listTextItem = new ArrayList<TextItem>();
+		if(CollectionUtils.isEmpty(list)){
+			return listTextItem;
+		}
+		TextItem textItem = null;
+		for (ShowcaseDO showcaseDO : list) {
+			textItem = new TextItem();
+			textItem.setContent(showcaseDO.getOperationContent());
+			textItem.setPic_url(showcaseDO.getSerialNo()==0?"0":String.valueOf(showcaseDO.getSerialNo()));
+			textItem.setTitle(showcaseDO.getTitle());
+			listTextItem.add(textItem);
+		}
+		return listTextItem;
+	}
+	
+	
+	
 	@Override
 	public List<RegionDO> getTripBo() {
-		/*List<TripBo> list = new ArrayList<TripBo>();
-		for (int i=0;i<100;i++) {
-			TripBo trip = new TripBo();
-			trip.setBiMai(new int[]{1,2,3});
-			trip.setBiQu(new int[]{3,4,5});
-			trip.setCityCode("asdda111"+i);
-			trip.setCityLevel(1);
-			trip.setCityName("大声道"+i);
-			trip.setCoverURL("http://www.baidu.com");
-			trip.setId(1);
-			trip.setJiuDian(new int[]{5,6,7});
-			trip.setLogoURL("http://www.baidu.com");
-			trip.setTag(new int[]{7});
-			List<TripBo.TripDetail> s = new ArrayList<TripDetail>();
-			trip.setTripDetail(s);
-			trip.setType(1);
-			trip.setXianLu(new int[]{19,19,29});
-			trip.setZhiBo(new int[]{39,94,39});
-			list.add(trip);
-		}*/
 		
 		return null;
 	}
@@ -291,4 +374,28 @@ public class TripServiceImpl implements TripService {
 		return null;
 		
 	}
+
+
+
+	@Override
+	public boolean blockOrUnBlock(long id, int cityCode, int type) throws Exception {
+		RcResult<RegionDO> res = regionClientServiceRef.selectById(id);
+		if(null == res || !res.isSuccess() || null == res.getT()){
+			throw new Exception("data [RegionDO] not available,id="+id);
+		}
+		TripBo tripBo = new TripBo();
+		tripBo.setId(id);
+		tripBo.setCityCode(cityCode);
+		if(type==BaseStatus.AVAILABLE.getType()){
+			tripBo.setStatus(BaseStatus.AVAILABLE.getType());
+		}else{
+			tripBo.setStatus(BaseStatus.DELETED.getType());
+		}
+		RegionDO db = saveOrUpdate(tripBo);
+		if(null == db){
+			return false;
+		}
+		return true;
+	}
+
 }
