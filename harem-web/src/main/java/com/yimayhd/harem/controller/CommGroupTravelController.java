@@ -73,7 +73,7 @@ public class CommGroupTravelController extends BaseTravelController {
 			put("extraInfos", tfsService.readHtml5(gt.getBaseInfo().getNeedKnow().getExtraInfoUrl()));
 			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
-		return "/system/comm/travel/groupTravel/detail";
+		return "/system/comm/travel/detail";
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class CommGroupTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		put("lineType", LineType.REGULAR_LINE);
-		return "/system/comm/travel/groupTravel/detail";
+		return "/system/comm/travel/detail";
 	}
 
 	/**

@@ -38,6 +38,7 @@ public class CommodityManageController extends BaseController {
 	private static final int CATEGORY_TYPE_HOTEL = 32;// 酒店
 	private static final int CATEGORY_TYPE_SCENIC = 34;// 景区
 	private static final int CATEGORY_TYPE_GROUP_TRAVEL = 6;// 跟团游
+	private static final int CATEGORY_TYPE_FLIGHT_HOTEL = 7;// 机加酒
 
 	@Autowired
 	private CommodityService commodityService;
@@ -80,6 +81,9 @@ public class CommodityManageController extends BaseController {
 			break;
 		case CATEGORY_TYPE_GROUP_TRAVEL:
 			redirectUrl = "/B2C/comm/groupTravel/create?categoryId=" + categoryId;
+			break;
+		case CATEGORY_TYPE_FLIGHT_HOTEL:
+			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
 			break;
 		default:
 			// 普通商品，伴手礼应该也走普通商品

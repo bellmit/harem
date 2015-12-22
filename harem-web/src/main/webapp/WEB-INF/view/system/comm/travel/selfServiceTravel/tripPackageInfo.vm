@@ -18,15 +18,15 @@
 							<div class="flight">
 								<div class="forward">
 									<span>去程：</span>
-									<span>${flightInfo.forwardDepartCity}($utilDate.longToString($flightInfo.forwardDepartTime,"yyyy年MM月dd日 hh:mm"))</span>
+									<span>${flightInfo.forwardDepartCity}(${flightInfo.forwardDepartDate})</span>
 									<span class="label label-badge label-info">飞机</span>
-									<span>${flightInfo.forwardArriveCity}($utilDate.longToString($flightInfo.forwardArriveTime,"yyyy年MM月dd日 hh:mm"))</span>
+									<span>${flightInfo.forwardArriveCity}(${flightInfo.forwardArriveDate})</span>
 								</div>
 								<div class="back">
 									<span>返程：</span>
-									<span>${flightInfo.returnDepartCity}($utilDate.longToString($flightInfo.returnDepartTime,"yyyy年MM月dd日 hh:mm"))</span>
+									<span>${flightInfo.returnDepartCity}(${flightInfo.returnDepartDate})</span>
 									<span class="label label-badge label-info">飞机</span>
-									<span>${flightInfo.returnArriveCity}($utilDate.longToString($flightInfo.returnArriveTime,"yyyy年MM月dd日 hh:mm"))</span>
+									<span>${flightInfo.returnArriveCity}(${flightInfo.returnArriveDate})</span>
 								</div>
 								<input type="hidden" class="flight-info-data" value='${utilText.toJSONStringForHTML(${flightInfo})}'/>
 								<button class="btn btn-primary remove-parent">删除</button>
