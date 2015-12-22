@@ -2,15 +2,20 @@ package com.yimayhd.harem.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
+import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.TfsService;
+import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.param.item.*;
+import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
+import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
@@ -36,34 +41,48 @@ public class CommodityServiceImpl implements CommodityService {
     @Autowired
     private TfsService tfsService;
     @Override
-    public List<ItemDO> getList() throws Exception {
-        List<ItemDO> itemDOList = new ArrayList<ItemDO>();
-        for (int i = 0; i < 10; i++) {
-            ItemDO itemDOData = new ItemDO();
-            itemDOData.setId(i);
-            itemDOData.setRootCategoryId(1);
-            itemDOData.setCategoryId(2);
-            //酒店id
-            //排序
-            //时间区间
-            if(i % 3 == 0){
-                itemDOData.setTitle("故宫门票");
-                itemDOData.setSubTitle("通票");
-                itemDOData.setPrice(10000);
-            }else{
-                itemDOData.setTitle("高级双床房");
-                itemDOData.setSubTitle("房间35m，双床，可住2人");
-                itemDOData.setPrice(9900);
-            }
-            //会员限购
-            itemDOData.setPicUrls("beautiful.png");
-            itemDOData.setGmtCreated(new Date());
-            itemDOData.setGmtModified(new Date());
-            itemDOData.setStatus(1);
-            itemDOData.setStockNum(i * 50);
-            itemDOList.add(itemDOData);
+    public PageVO<ItemDO> getList(CommodityListQuery commodityListQuery) throws Exception {
+        ItemQryDTO itemQryDTO = new ItemQryDTO();
+        //TODO 条件对接
+        itemQryDTO.setPageNo(commodityListQuery.getPageNumber());
+        itemQryDTO.setPageSize(commodityListQuery.getPageSize());
+
+        if(!StringUtils.isBlank(commodityListQuery.getCommName())) {
+            itemQryDTO.setName(commodityListQuery.getCommName());
         }
-        return itemDOList;
+        if(0 != commodityListQuery.getId()) {
+            itemQryDTO.setId(commodityListQuery.getId());
+        }
+        if(!StringUtils.isBlank(commodityListQuery.getBeginDate())) {
+            itemQryDTO.setBeginDate(commodityListQuery.getBeginDate() + DateUtil.DAY_BEGIN);
+        }
+        if(!StringUtils.isBlank(commodityListQuery.getEndDate())) {
+            itemQryDTO.setEndDate(commodityListQuery.getEndDate() + DateUtil.DAY_END);
+        }
+        List<Integer> status = new ArrayList<Integer>();
+        if(0 != commodityListQuery.getId()){
+            status.add(commodityListQuery.getCommStatus());
+        }else{
+            status.add(ItemStatus.create.getValue());
+            status.add(ItemStatus.valid.getValue());
+            status.add(ItemStatus.invalid.getValue());
+        }
+        //TODO
+        //分类 暂时没想好怎么做
+
+        //暂时用不着
+        //itemQryDTO.setSellerId();
+
+        ItemPageResult itemPageResult = itemQueryServiceRef.getItem(itemQryDTO);
+        if(null == itemPageResult){
+            log.error("CommodityServiceImpl.getList-ItemQueryService.getItem result is null and parame: " + JSON.toJSONString(itemQryDTO));
+            throw new BaseException("返回结果错误,新增失败 ");
+        } else if(!itemPageResult.isSuccess()){
+            log.error("CommodityServiceImpl.getList-ItemQueryService.getItem error:" + JSON.toJSONString(itemPageResult) + "and parame: " + JSON.toJSONString(itemQryDTO));
+            throw new BaseException(itemPageResult.getResultMsg());
+        }
+        PageVO<ItemDO> pageVO = new PageVO<ItemDO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemPageResult.getItemDOList());
+        return pageVO;
     }
 
     @Override
@@ -128,10 +147,62 @@ public class CommodityServiceImpl implements CommodityService {
 
     }
 
-    @Override
-    public void setCommStatus(long id, int status) throws Exception {
-
+    public void publish(long sellerId,long id)throws Exception{
+        ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+        itemPublishDTO.setSellerId(sellerId);
+        itemPublishDTO.setItemId(id);
+        ItemPubResult itemPubResult = itemPublishServiceRef.publish(itemPublishDTO);
+        if(null == itemPubResult){
+            log.error("ItemPublishService.publish result is null and parame: " + JSON.toJSONString(itemPublishDTO) + "and sellerId:" + sellerId + "and id:" + id);
+            throw new BaseException("返回结果错误,商品上架失败 ");
+        } else if(!itemPubResult.isSuccess()){
+            log.error("ItemPublishService.publish error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(itemPublishDTO) + "and sellerId:" + sellerId + "and id:" + id);
+            throw new BaseException(itemPubResult.getResultMsg());
+        }
     }
+
+    public void close(long sellerId,long id)throws Exception{
+        ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+        itemPublishDTO.setSellerId(sellerId);
+        itemPublishDTO.setItemId(id);
+        ItemCloseResult itemCloseResult = itemPublishServiceRef.close(itemPublishDTO);
+        if(null == itemCloseResult){
+            log.error("ItemPublishService.itemCloseResult result is null and parame: " + JSON.toJSONString(itemPublishDTO) + "and sellerId:" + sellerId + "and id:" + id);
+            throw new BaseException("返回结果错误,商品下架失败 ");
+        } else if(!itemCloseResult.isSuccess()){
+            log.error("ItemPublishService.itemCloseResult error:" + JSON.toJSONString(itemCloseResult) + "and parame: " + JSON.toJSONString(itemPublishDTO) + "and sellerId:" + sellerId + "and id:" + id);
+            throw new BaseException(itemCloseResult.getResultMsg());
+        }
+    }
+
+    public void batchPublish(long sellerId,List<Long> idList){
+        ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
+        itemBatchPublishDTO.setSellerId(sellerId);
+        itemBatchPublishDTO.setItemIdList(idList);
+        ItemPubResult itemPubResult = itemPublishServiceRef.batchPublish(itemBatchPublishDTO);
+        if(null == itemPubResult){
+            log.error("ItemPublishService.batchPublish result is null and parame: " + JSON.toJSONString(itemBatchPublishDTO) + "and sellerId:" + sellerId + "and idList:" + JSON.toJSONString(idList));
+            throw new BaseException("返回结果错误,商品上架失败 ");
+        } else if(!itemPubResult.isSuccess()){
+            log.error("ItemPublishService.batchPublish error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(itemBatchPublishDTO) + "and sellerId:" + sellerId + "and idList:" + JSON.toJSONString(idList));
+            throw new BaseException(itemPubResult.getResultMsg());
+        }
+    }
+
+    public void batchClose(long sellerId,List<Long> idList){
+        ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
+        itemBatchPublishDTO.setSellerId(sellerId);
+        itemBatchPublishDTO.setItemIdList(idList);
+        ItemCloseResult itemCloseResult = itemPublishServiceRef.batchClose(itemBatchPublishDTO);
+        if(null == itemCloseResult){
+            log.error("ItemPublishService.batchClose result is null and parame: " + JSON.toJSONString(itemBatchPublishDTO) + "and sellerId:" + sellerId + "and idList:" + JSON.toJSONString(idList));
+            throw new BaseException("返回结果错误,商品下架失败 ");
+        } else if(!itemCloseResult.isSuccess()){
+            log.error("ItemPublishService.batchClose error:" + JSON.toJSONString(itemCloseResult) + "and parame: " + JSON.toJSONString(itemBatchPublishDTO) + "and sellerId:" + sellerId + "and idList:" + JSON.toJSONString(idList));
+            throw new BaseException(itemCloseResult.getResultMsg());
+        }
+    }
+
 
     @Override
     public void addCommonItem(ItemVO itemVO) throws Exception {

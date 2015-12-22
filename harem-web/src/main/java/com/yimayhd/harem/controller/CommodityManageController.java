@@ -3,7 +3,9 @@ package com.yimayhd.harem.controller;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.JsonResultUtil;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
@@ -31,10 +33,14 @@ import java.util.List;
 @RequestMapping("/B2C/commodityManage")
 public class CommodityManageController extends BaseController {
 
-	private static final int CATEGORY_TYPE_HOTEL = 32;// 酒店
-	private static final int CATEGORY_TYPE_SCENIC = 34;// 景区
-	private static final int CATEGORY_TYPE_GROUP_TRAVEL = 6;// 跟团游
-	private static final int CATEGORY_TYPE_FLIGHT_HOTEL = 7;// 机加酒
+	private static final int CATEGORY_TYPE_NORMAL = 1;//普通商品交易
+	private static final int CATEGORY_TYPE_LINE = 2;//线路商品
+	private static final int CATEGORY_TYPE_HOTEL = 3;//酒店商品
+	private static final int CATEGORY_TYPE_SPOTS = 4;//景区门票
+	private static final int CATEGORY_TYPE_FLIGHT_HOTEL = 5;//机票+酒店
+	private static final int CATEGORY_TYPE_SPOTS_HOTEL = 6;//景点+酒店
+	private static final int CATEGORY_TYPE_ACTIVITY = 7;//活动商品
+	private static final int CATEGORY_TYPE_MEMBER_RECHARGE = 8;//会员充值
 
 	@Autowired
 	private CommodityService commodityService;
@@ -49,8 +55,9 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
-		List<ItemDO> itemDOList = commodityService.getList();
-		model.addAttribute("commodityList", itemDOList);
+		PageVO<ItemDO> pageVO= commodityService.getList(commodityListQuery);
+		model.addAttribute("pageVo", pageVO);
+		model.addAttribute("commodityList", pageVO.getItemList());
 		model.addAttribute("commodityListQuery", commodityListQuery);
 		return "/system/comm/list";
 	}
@@ -68,18 +75,22 @@ public class CommodityManageController extends BaseController {
 		// TODO 对应的商品类型现在还没有，之后会提供
 		switch (categoryId) {
 		case CATEGORY_TYPE_HOTEL:
-			redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;// TODO
-																			// //
-																			// 之后会把品类id或对应的属性传过去
+			redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;
 			break;
-		case CATEGORY_TYPE_SCENIC:
+		case CATEGORY_TYPE_SPOTS:
 			redirectUrl = "/B2C/scenicSpotManage/toAdd?categoryId=" + categoryId;
 			break;
-		case CATEGORY_TYPE_GROUP_TRAVEL:
+		case CATEGORY_TYPE_LINE:
 			redirectUrl = "/B2C/comm/groupTravel/create?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_FLIGHT_HOTEL:
 			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
+			break;
+		case CATEGORY_TYPE_SPOTS_HOTEL:
+			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
+			break;
+		case CATEGORY_TYPE_ACTIVITY:
+			redirectUrl = "/B2C/activityManage/toAdd?categoryId=" + categoryId;
 			break;
 		default:
 			// 普通商品，伴手礼应该也走普通商品
@@ -101,20 +112,36 @@ public class CommodityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{itemId}", method = RequestMethod.GET)
-	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType) throws Exception {
+	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType,int categoryId) throws Exception {
 		String redirectUrl = "";
-		if (itemType == ItemType.HOTEL.getValue()) {
-			redirectUrl = "/B2C/hotelManage/edit/" + itemId;
-		} else if (itemType == ItemType.SPOTS.getValue()) {
-			redirectUrl = "/B2C/scenicSpotManage/edit/" + itemId;
-		} else {
-			ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
-			ItemType.NORMAL.getValue();
-			model.addAttribute("itemResult", itemResultVO);
-			model.addAttribute("commodity", itemResultVO.getItemVO());
-			model.addAttribute("category", itemResultVO.getCategoryVO());
-			model.addAttribute("itemType",ItemType.NORMAL.getValue());
-			return "/system/comm/common/edit";
+		switch (itemType) {
+			case CATEGORY_TYPE_HOTEL:
+				redirectUrl = "/B2C/hotelManage/edit/" + itemId;;
+				break;
+			case CATEGORY_TYPE_SPOTS:
+				redirectUrl = "/B2C/scenicSpotManage/edit/" + itemId;
+				break;
+			case CATEGORY_TYPE_LINE:
+				redirectUrl = "/B2C/comm/groupTravel/detail/" + itemId;
+				break;
+			case CATEGORY_TYPE_FLIGHT_HOTEL:
+				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId;
+				break;
+			case CATEGORY_TYPE_SPOTS_HOTEL:
+				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId;
+				break;
+			case CATEGORY_TYPE_ACTIVITY:
+				redirectUrl = "/B2C/activityManage/edit/" + itemId;
+				break;
+			default:
+				// 普通商品，伴手礼应该也走普通商品
+				ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
+				ItemType.NORMAL.getValue();
+				model.addAttribute("itemResult", itemResultVO);
+				model.addAttribute("commodity", itemResultVO.getItemVO());
+				model.addAttribute("category", itemResultVO.getCategoryVO());
+				model.addAttribute("itemType",ItemType.NORMAL.getValue());
+				return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;
 
@@ -143,7 +170,7 @@ public class CommodityManageController extends BaseController {
 	public String addCommon(ItemVO itemVO) throws Exception {
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		// TODO
-		sellerId = 10000000;
+		sellerId = B2CConstant.SELLERID;
 		itemVO.setSellerId(sellerId);
 		commodityService.addCommonItem(itemVO);
 		return "/success";
@@ -182,36 +209,69 @@ public class CommodityManageController extends BaseController {
         itemVO.setId(itemId);
         long sellerId = Long.parseLong(SessionUtils.getUserId());
         //TODO
-        sellerId = 10000000;
+		sellerId = B2CConstant.SELLERID;
         itemVO.setSellerId(sellerId);
         commodityService.modifyCommonItem(itemVO);
         return "/success";
     }
 
 	/**
-	 * 商品状态变更
+	 * 商品上架
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/setCommStatus/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/publish/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setHotelStatus(@PathVariable("id") long id, int commStatus) throws Exception {
-		commodityService.setCommStatus(id, commStatus);
+	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		sellerId = B2CConstant.SELLERID;
+		commodityService.publish(sellerId, id);
+		return new ResponseVo();
+	}
+	/**
+	 * 商品下架
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo close(@PathVariable("id") long id) throws Exception {
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		sellerId = B2CConstant.SELLERID;
+		commodityService.publish(sellerId,id);
 		return new ResponseVo();
 	}
 
 	/**
-	 * 商品状态变更(批量)
+	 * 商品上架(批量)
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/setCommStatusList", method = RequestMethod.POST)
+	@RequestMapping(value = "/batchPublish", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setHotelStatusList(@RequestParam("commIdList[]") ArrayList<Long> commIdList, int commStatus)
+	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList, int commStatus)
 			throws Exception {
-		commodityService.setCommStatusList(commIdList, commStatus);
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		sellerId = B2CConstant.SELLERID;
+		commodityService.batchPublish(sellerId,commIdList);
+		return new ResponseVo();
+	}
+	/**
+	 * 商品下架(批量)
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/batchClose", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList, int commStatus)
+			throws Exception {
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		sellerId = B2CConstant.SELLERID;
+		commodityService.batchClose(sellerId,commIdList);
 		return new ResponseVo();
 	}
 
