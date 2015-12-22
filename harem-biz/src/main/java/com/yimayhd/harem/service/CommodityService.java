@@ -1,8 +1,8 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface CommodityService {
      * @return
      * @throws Exception
      */
-    ItemResult getCommodityById(long id)throws Exception;
+    ItemResultVO getCommodityById(long id)throws Exception;
 
     /**
      * 根据id获取酒店商品
@@ -70,5 +70,12 @@ public interface CommodityService {
      * @throws Exception
      */
     void addCommonItem(ItemVO itemVO)throws Exception;
+
+    /**
+     * 修改普通商品
+     * @param itemVO 普通商品表单对象
+     * @throws Exception
+     */
+    void modifyCommonItem(ItemVO itemVO)throws Exception;
 
 }

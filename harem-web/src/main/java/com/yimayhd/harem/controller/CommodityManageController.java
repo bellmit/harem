@@ -1,23 +1,11 @@
 package com.yimayhd.harem.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.JsonResultUtil;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.CategoryVO;
+import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.service.CategoryService;
@@ -27,6 +15,14 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.user.session.manager.SessionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/24.
@@ -67,7 +63,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model, int categoryId) throws Exception {
-		CategoryDO categoryDO = categoryService.getCategoryById(categoryId);
+		CategoryVO categoryVO = categoryService.getCategoryById(categoryId);
 		String redirectUrl = "";
 		// TODO 对应的商品类型现在还没有，之后会提供
 		switch (categoryId) {
@@ -87,7 +83,7 @@ public class CommodityManageController extends BaseController {
 			break;
 		default:
 			// 普通商品，伴手礼应该也走普通商品
-			model.addAttribute("category", categoryDO);
+			model.addAttribute("category", categoryVO);
 			return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;
@@ -112,10 +108,12 @@ public class CommodityManageController extends BaseController {
 		} else if (itemType == ItemType.SPOTS.getValue()) {
 			redirectUrl = "/B2C/scenicSpotManage/edit/" + itemId;
 		} else {
-			ItemResult itemResult = commodityService.getCommodityById(itemId);
+			ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
 			ItemType.NORMAL.getValue();
-			model.addAttribute("itemResult", itemResult);
-			model.addAttribute("itemType", ItemType.NORMAL.getValue());
+			model.addAttribute("itemResult", itemResultVO);
+			model.addAttribute("commodity", itemResultVO.getItemVO());
+			model.addAttribute("category", itemResultVO.getCategoryVO());
+			model.addAttribute("itemType",ItemType.NORMAL.getValue());
 			return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;
@@ -170,6 +168,25 @@ public class CommodityManageController extends BaseController {
 		model.addAttribute("itemSkuList", itemResult.getItemSkuDOList());
 		return "";
 	}
+
+    /**
+     * 修改普通商品
+     * @param itemVO
+     * @param itemId 商品ID
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
+    public
+    String editCommon(ItemVO itemVO,@PathVariable(value = "itemId") long itemId) throws Exception {
+        itemVO.setId(itemId);
+        long sellerId = Long.parseLong(SessionUtils.getUserId());
+        //TODO
+        sellerId = 10000000;
+        itemVO.setSellerId(sellerId);
+        commodityService.modifyCommonItem(itemVO);
+        return "/success";
+    }
 
 	/**
 	 * 商品状态变更

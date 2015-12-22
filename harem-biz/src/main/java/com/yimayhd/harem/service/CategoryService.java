@@ -1,5 +1,6 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 
 import java.util.List;
@@ -29,6 +30,6 @@ public interface CategoryService {
      * @return 品类
      * @throws Exception
      */
-    CategoryDO getCategoryById(long id)throws Exception;
+    CategoryVO getCategoryById(long id)throws Exception;
 
 }

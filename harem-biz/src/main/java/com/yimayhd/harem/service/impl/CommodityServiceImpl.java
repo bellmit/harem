@@ -3,6 +3,8 @@ package com.yimayhd.harem.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.exception.NoticeException;
+import com.yimayhd.harem.model.CategoryVO;
+import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.TfsService;
@@ -13,6 +15,7 @@ import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,21 +67,30 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public ItemResult getCommodityById(long id) throws Exception {
+    public ItemResultVO getCommodityById(long id) throws Exception {
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
         //TODO 暂时全部设置成true
         itemOptionDTO.setCreditFade(true);
         itemOptionDTO.setNeedCategory(true);
         itemOptionDTO.setNeedSku(true);
         ItemResult itemResult = itemQueryServiceRef.getItem(id,itemOptionDTO);
-        if(null != itemResult){
-            log.error("itemQueryService.getItem return value is null ! id is : " + id);
-            return null;
-        }else if(itemResult.isSuccess()){
-            log.error("itemQueryService.getItem return value error ! returnValue : "+ JSON.toJSONString(itemResult));
+        if(null == itemResult){
+            log.error("itemQueryService.getItem return value is null and parame: " + JSON.toJSONString(itemOptionDTO) + " and id is : " + id);
+            throw new BaseException("返回结果错误");
+        }else if(!itemResult.isSuccess()){
+            log.error("itemQueryService.getItem return value error ! returnValue : "+ JSON.toJSONString(itemResult) + " and parame:" + JSON.toJSONString(itemOptionDTO) + " and id is : " + id);
             throw new NoticeException(itemResult.getResultMsg());
         }
-        return itemResult;
+        ItemResultVO itemResultVO = new ItemResultVO();
+        //详细描述从tfs读出来（富文本编辑）
+        if(StringUtils.isNotBlank(itemResult.getItem().getDescription())){
+            itemResult.getItem().setDescription(tfsService.readHtml5(itemResult.getItem().getDescription()));
+
+        }
+        //TODO
+        itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
+        itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
+        return itemResultVO;
     }
 
     @Override
@@ -134,7 +146,27 @@ public class CommodityServiceImpl implements CommodityService {
         ItemPubResult itemPubResult = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
         if(null == itemPubResult){
             log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
-            throw new BaseException("返回结果错误");
+            throw new BaseException("返回结果错误,新增失败 ");
+        } else if(!itemPubResult.isSuccess()){
+            log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException(itemPubResult.getResultMsg());
+        }
+    }
+
+    @Override
+    public void modifyCommonItem(ItemVO itemVO) throws Exception {
+        //参数类型匹配
+        CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
+        commonItemPublishDTO = ItemVO.getCommonItemPublishDTO(itemVO);
+        ItemDO itemDO = ItemVO.getItemDO(itemVO);
+        //详细描述存tfs（富文本编辑）
+        commonItemPublishDTO.getItemDO().setDescription(tfsService.publishHtml5(itemDO.getDescription()));
+        commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
+
+        ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
+        if(null == itemPubResult){
+            log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException("返回结果错误,修改失败");
         } else if(!itemPubResult.isSuccess()){
             log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
             throw new BaseException(itemPubResult.getResultMsg());
