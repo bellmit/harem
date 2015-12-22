@@ -109,8 +109,8 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店联系人</td>
-                    <td><span>姓名：</span><input type="text" name="grogLinkmanName" value="$!hotel.contactPerson" class="inpControl" >
-                        <span>电话：</span><input type="text" name="grogLinkmanPhone" value="$!hotel.contactPhone" class="inpControl" >
+                    <td><span>姓名：</span><input type="text" name="contactPerson" value="$!hotel.contactPerson" class="inpControl" >
+                        <span>电话：</span><input type="text" name="contactPhone" value="$!hotel.contactPhone" class="inpControl" >
                     </td>
                 </tr>
                 <tr>
