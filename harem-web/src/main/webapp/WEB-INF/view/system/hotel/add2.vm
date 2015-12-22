@@ -231,9 +231,7 @@
         </div>
     </div>
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
-    <div class="tab-pane" id="grogshopImgs">
-        #parse("/system/hotel/picture.vm")
-    </div>
+
 </div>
 </form>
 <script>
@@ -269,37 +267,6 @@
 				$(this).val("0");
 			}
 		});
-		
-		/*
-		$("#provinceId").empty();
-		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
-					{'areaType': 'PROVINCE',
-					 'areaParentCode': null}, 
-					function(data) {
-						if (data[0].name) {
-							for (var i in data) {
-								var code = data[i].code;
-								var name = data[i].name;
-								
-								if (localProvinceName == name) {
-									var optionHTML = '<option selected value="'+ code +'">'+name+'</option>';
-									$("#provinceId").append(optionHTML);
-								} else {								
-									var optionHTML = '<option value="'+ code +'">'+name+'</option>';
-									$("#provinceId").append(optionHTML);
-								}
-							}
-							provinceFlag = true;
-						} else {
-							layer.alert('操作失败', {
-								icon: 2,
-								time: 2000
-							}, function() {
-								
-							});
-						}
-					});
-		*/
 		
 		$('.provinceSelect').click(function() {
 			
@@ -416,97 +383,7 @@
                 $('.countySelectName').val($('.countySelectId option:selected').attr('value'));
             }
 						
-        });	
-
-    	$(document).delegate('#logoUrlUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
-                                $('#logoUrlUploadFileReturnInput').val(data.data);
-                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });       
+        });	    
         
-        $(document).delegate('#logoUrlUploadFile1','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile1', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
-                                $('#logoUrlUploadFileReturnInput1').val(data.data);
-                                $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-
-		
-        //添加和删除酒店电话
-        $(document).delegate(".delPhoneNum", "click", function(){
-            $(this).parent().remove();
-        });
-        $('.addPhoneNum').click(function(){
-            $('.phoneNumListTd').append('<div><input type="text" class="inpControl" name="phoneNumList" id="phoneNum" placeholder="请输入数字"> <button class="btn btn-primary delPhoneNum">删除</button> </div>');
-        });
-        //选择旅游咖
-        $('.selectUserBtn').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
-                yes: function(index){
-                    console.log(frames == window);
-                    layer.alert(top.resultValue.length)
-                    if(top.resultValue&&top.resultValue.length==0){
-                        layer.alert("请选择旅游咖");
-                        return false;
-                    }else{
-                        $('.masterRecommendImg').val('');
-                        $('.masterRecommendUserPic').val('');
-                        $('.masterRecommendUserId').val(resultValue[0].id);
-                        $('.masterRecommendName').text(resultValue[0].name);
-                        $('.masterRecommendNameInp').val(resultValue[0].name);
-                    }
-                }
-            });
-        });
-
     });
 </script>
