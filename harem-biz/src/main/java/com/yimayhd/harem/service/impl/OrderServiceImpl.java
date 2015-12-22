@@ -94,6 +94,8 @@ public class OrderServiceImpl implements OrderService {
 				list = bizOrderDOList;
 			}
 		}
+
+
 		PageVO<BizOrderDO> orderPageVO = new PageVO<BizOrderDO>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
 				(int)batchQueryResult.getTotalCount(),list);
 		return orderPageVO;
