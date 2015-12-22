@@ -1,13 +1,24 @@
 package com.yimayhd.harem.service.impl;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
+import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.service.CommScenicService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.domain.item.ItemFeature;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
@@ -20,41 +31,44 @@ public class CommScenicServiceImpl implements CommScenicService {
 
 	@Autowired
 	private ItemPublishService itemPublishService;
-
+	@Resource
+	protected ComCenterService comCenterServiceRef;
 
 	@Override
-	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO) throws Exception {
+	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO,Long[] check) throws Exception {
 		
 		   ItemDO itemDO = scenicPublishDTO.getItemDO();
-	        ItemFeature itemFeature = new ItemFeature(null);
-	        //减库存方式
-	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,1);
-	        //未付款超时时间
-	        itemFeature.put(ItemFeatureKey.NOT_PAY_TIMEOUT,3 * 24 * 3600 * 1000L);
-	        //商品星级
-	        itemFeature.put(ItemFeatureKey.GRADE,5);
-	        //可预订时间，秒
-	        itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT,5);
-	        //需要提前多久预订，秒
-	        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,5);
-	        itemDO.setItemFeature(itemFeature);
-	        itemDO.setOutType(2);
-	        scenicPublishDTO.getScenicDO().setId(62);
-	        itemDO.setRootCategoryId(34);//根类目
-	        itemDO.setCategoryId(35);//景区分类id
-	        itemDO.setSellerId(10000000);//发布人
-	        itemDO.setItemType(2);
-	        itemDO.setSource(1);
+	       
+	        itemDO.setOutType(ResourceType.SCENIC.getType());
+	        scenicPublishDTO.getScenicDO().setId(scenicPublishDTO.getItemDO().getOutId());
 	        itemDO.setCredit(0);
 	        itemDO.setPoint(0);
 	        itemDO.setOriginalCredit(0);
 	        itemDO.setOriginalPoint(0);
 	        itemDO.setOriginalPrice(0);
-	        itemDO.setPayType(0);
-	        itemDO.setStatus(1);
-	        
-		
+	       
 		ItemPubResult publicScenic = itemPublishService.publicScenic(scenicPublishDTO);
+		if(publicScenic!=null&&publicScenic.isSuccess()){
+			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
+			tagRelationInfoDTO.setTagType(TagType.VIEWTAG);
+			tagRelationInfoDTO.setOutId(itemDO.getOutId());
+			tagRelationInfoDTO.setOrderTime(new Date().getTime());
+			tagRelationInfoDTO.setList(Arrays.asList(check));
+			BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
+			if (addTagRelationInfo != null && addTagRelationInfo.isSuccess()) {
+				
+			} else {
+				log.error("保存景区主题失败：" + addTagRelationInfo.getResultMsg());
+				log.error(MessageFormat.format("保存景区主题失败：tagRelationInfo={0}", JSON.toJSONString(tagRelationInfoDTO)));
+				log.error(MessageFormat.format("保存景区主题失败：tagResult={0}", JSON.toJSONString(addTagRelationInfo)));
+				throw new BaseException("保存景区主题失败");
+			}
+		
+		}else{
+			log.error("保存线路失败：" + publicScenic.getResultMsg());
+			log.error(MessageFormat.format("保存景区失败：line={0}", JSON.toJSONString(publicScenic)));
+			throw new BaseException("保存景区失败");
+		}
 		return publicScenic;
 	}
 

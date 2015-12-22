@@ -7,6 +7,20 @@
 <form id="saveScenic">
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
+     		 <input type="hidden" name="itemDO.categoryId" value="$!category.id">
+                    <input type="hidden" name="itemDO.rootCategoryId" value="$!category.parent.id">
+                    #*商品类型，此页面全是普通商品发布 新增的时候需要，修改的时候不更新此字段*#
+                    #*<input type="hidden" name="itemType" value="#if($!itemType)$!itemType#else#end">*#
+                    <input type="hidden" name="itemDO.itemType" value="1">
+
+                    #*pay_type 暂时设置为1*#
+                    <input type="hidden" name="itemDO.payType" value="1">
+                    #*source 来源暂时都为1*#
+                    <input type="hidden" name="itemDO.source" value="1">
+
+                    #*version 新增时为1*#
+                    <input type="hidden" name="itemDO.version" value="1">
+     		
             <table class="table">
                 <tr>
                     <td>分类</td>
@@ -25,7 +39,7 @@
                     <td><span class="spColor">*</span>主题</td>
                     <td>
                       #foreach($tag in $tagResult)
-                      	 <input type="checkbox" name="" value="$!{tag.id}"><span>$!{tag.name}</span>
+                      	 <input type="checkbox" name="check" value="$!{tag.id}"><span>$!{tag.name}</span>
                     	#end
                     </td>
                 </tr>
@@ -39,7 +53,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>时间区间</td>
-                    <td>用户可选入园时间为<input type="text" class="inpControl" name="feature" id="" placeholder="请输入数字">天内</td>
+                    <td>用户可选入园时间为<input type="text" class="inpControl" name="endTime" id="" placeholder="请输入数字">天内</td>
                 </tr>
             </table>
 			<table class="table">
@@ -58,7 +72,9 @@
 							<td><textarea name="itemDO.oneWord" id="description" rows="3" class="form-control"
                                       placeholder="请输入500字以内"></textarea></td>
                              
-							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
+							<td>提前<input type="text" class="inpCtlBlock" name="startDayTime" id="phoneNum" placeholder="请输入数字">天
+								<input type="text" class="inpCtlBlock" name="startHourTime" id="phoneNum" placeholder="请输入数字">点前预定
+							</td>
 							<td><input type="text" class="inpCtlBlock" name="itemDO.price" id="phoneNum" placeholder="请输入数字"></td>
 							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
 							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
