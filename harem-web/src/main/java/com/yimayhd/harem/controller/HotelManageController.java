@@ -112,8 +112,10 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(HotelVO hotelVO, String roomFacilityStr,
 			String roomServiceStr, String hotelFacilityStr,
-			MasterRecommend recommend) throws Exception {
+			MasterRecommend recommend,
+			String name2) throws Exception {
 
+		recommend.setName(name2);
 		String jsonString = JSON.toJSONString(recommend);
 		hotelVO.setRecommend(jsonString);
 		hotelRPCService.addHotel(hotelVO);
