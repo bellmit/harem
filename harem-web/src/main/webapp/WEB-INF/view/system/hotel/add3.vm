@@ -189,6 +189,54 @@
                     </td>
                 </tr>
                     <tr>
+                        <td><span class="spColor">*</span>入园须知</td>
+                        <td>
+                            <button type="button" class="btn btn-default addNeedKnow">增加条目</button>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>标题（10个字以内）</th>
+                                    <th>内容（500字以内）</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="extra-info-list needKnowTable">
+
+                                    #if(!${VO.needKnow.frontNeedKnow})
+	                                    <tr class="needKnow">
+	                                        <td><input type="text" name="needKnow.frontNeedKnow[0].title"
+	                                                   class="form-control extra-info-item-title" placeholder="费用包含"></td>
+	                                        <td><textarea class="form-control extra-info-item-text"
+	                                                      name="needKnow.frontNeedKnow[0].content" rows="3"></textarea></td>
+	                                        <td>
+	                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+	                                                删除
+	                                            </button>
+	                                        </td>
+                                    </tr>
+                                    #end
+
+                                    #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                                   class="form-control extra-info-item-title" placeholder="费用包含"
+                                                   value="$!{frontNeedKnow.title}"></td>
+                                        <td><textarea class="form-control extra-info-item-text"
+                                                      name="needKnow.frontNeedKnow[$!{velocityCount}].content"
+                                                      rows="3">$!{frontNeedKnow.content}</textarea></td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
+                                                删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    #end
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+				<tr>
                         <td>推荐理由</td>
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
@@ -257,6 +305,20 @@
         }
     }
 
+    var conTr = $(".needKnow").length + 1;
+    $(".addNeedKnow").unbind("click").click(function () {
+
+        var addhtml = "";
+        var html1 = $("#needKnowTemp").html();
+        var i = conTr++;
+        addhtml = addhtml + html1.replace('$index', i).replace('$index1', i);
+        $(".needKnowTable").prev().append(addhtml);
+    });
+
+    function delneedKnowTR(obj) {
+        $(obj).parent().parent().remove();
+    }
+	
 	var tfsPath = '$utilWebconfig.getTfsRootPath()';
 	
     $(function(){
@@ -281,7 +343,6 @@
 		});
 		
 		$('.locationXYSelectBtn').click(function () {
-			//alert("HelloWorld!!!!!!!!!");
             openBaiduMap(115.727899, 37.723961, mapCallback);
         });
 
@@ -526,7 +587,8 @@
                     actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
                 }
                 $('#hotelForm').attr('action', actionUrl);
-                $('#hotelForm').submit();
+                //$('#hotelForm').submit();
+
 
         });
     });

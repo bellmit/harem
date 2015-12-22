@@ -120,6 +120,8 @@ public class HotelManageController extends BaseController {
 		System.out.println(roomFacilityStr);
 		System.out.println(roomServiceStr);
 		System.out.println(hotelFacilityStr);
+		System.out.println(JSON.toJSONString(recommend));
+		System.out.println(JSON.toJSONString(hotelVO));
 
 		return "/success";
 	}
