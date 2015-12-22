@@ -19,14 +19,26 @@ import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 public interface TripService {
 	/**
 	* @Title: saveTrip 
-	* @Description:(保存出发地目的地) 
+	* @Description:(保存 修改 出发地 目的地) 
 	* @author create by yushengwei @ 2015年12月10日 下午8:41:35 
 	* @param @param tripBo
 	* @param @return 
 	* @return boolean 返回类型 
 	* @throws
 	 */
-	long saveTrip(TripBo tripBo);
+	RegionDO saveOrUpdate(TripBo tripBo) throws Exception;
+	
+	/**
+	* @Title: saveOrUpdateDetail 
+	* @Description:(保存目的地的的详细信息) 
+	* @author create by yushengwei @ 2015年12月22日 上午11:01:25 
+	* @param @param tripBo
+	* @param @return
+	* @param @throws Exception 
+	* @return TripBo 返回类型 
+	* @throws
+	 */
+	RegionDO saveOrUpdateDetail(TripBo tripBo) throws Exception;
 	
 	/**
 	* @Title: delTrip 
@@ -48,7 +60,7 @@ public interface TripService {
 	* @return TripBo 返回类型 
 	* @throws
 	 */
-	RegionDO getTripBo(int id);
+	TripBo getTripBo(int id);
 	
 	/**
 	* @Title: getTripBo 
@@ -140,4 +152,18 @@ public interface TripService {
 	* @throws
 	 */
 	List<HotelDO> getListHotelDO(String cityCode)throws Exception;
+	
+	/**
+	* @Title: blockOrUnBlock 
+	* @Description:(这里用一句话描述这个方法的作用) 
+	* @author create by yushengwei @ 2015年12月22日 上午11:36:05 
+	* @param @param id
+	* @param @param cityCode
+	* @param @param type
+	* @param @return 
+	* @return boolean 返回类型 
+	* @throws
+	 */
+	boolean blockOrUnBlock(long id,int cityCode,int type)throws Exception;
+	
 }

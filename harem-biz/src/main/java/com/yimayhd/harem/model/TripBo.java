@@ -15,16 +15,16 @@ public class TripBo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public int id; /** id */
+	public long id; /** id */
 	
 	public String cityName; /**目的地名称 */
-	public String cityCode; /** */
+	public int cityCode; /** */
 	public int cityLevel; /** 级别 省市区 */
 	public int[] tag; /** 标签 */
 	public String logoURL; /** 封面图 */
 	public String coverURL; /** 目的地图 */
 	public int type;/** 1出发地，2目的地*/
-	
+	public int status;
 	//public List<NeedKnow> needKnowList; /** 概况 */
 	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
 
@@ -48,21 +48,22 @@ public class TripBo implements Serializable {
 	public int[] zhiBo;/** 精选直播*/
 	public int[] xianLu;/** 线路*/
 	
-	public int getId() {
+
+
+	public String getCityName() {
+		return cityName;
+	}
+
+
+
+	public long getId() {
 		return id;
 	}
 
 
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-	
-	
-
-
-	public String getCityName() {
-		return cityName;
 	}
 
 
@@ -73,13 +74,13 @@ public class TripBo implements Serializable {
 
 
 
-	public String getCityCode() {
+	public int getCityCode() {
 		return cityCode;
 	}
 
 
 
-	public void setCityCode(String cityCode) {
+	public void setCityCode(int cityCode) {
 		this.cityCode = cityCode;
 	}
 
@@ -261,6 +262,19 @@ public class TripBo implements Serializable {
 		this.tieshi = tieshi;
 	}
 
+
+
+	public int getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
+	
 
 
 	/*public List<NeedKnow> getNeedKnowList() {

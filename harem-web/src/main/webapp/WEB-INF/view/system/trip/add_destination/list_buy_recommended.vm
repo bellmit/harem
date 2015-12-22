@@ -35,7 +35,7 @@
 	
 	<div class="clubBotBtn">
             <div class="btn-group">
-                <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
+                <button class="btn btn-success" type="button" id="btnSubmitBuy" >添加</button>
             </div>
             <div class="btn-group">
                 <button class="btn">取消</button>
@@ -45,7 +45,7 @@
     </form>
 
 <script>
-	$('#btnSubmit').click(function(){
+	$('#btnSubmitBuy').click(function(){
  		openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneScenic','买必推荐',function() {
 			var sce = win.getItems();
 			$("#name").val(sce.name);
