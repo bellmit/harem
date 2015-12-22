@@ -1,22 +1,18 @@
 package com.yimayhd.harem.controller;
 
-import java.util.List;
-
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.Order;
+import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.harem.service.OrderService;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.Order;
-import com.yimayhd.harem.model.query.OrderListQuery;
-import com.yimayhd.harem.model.vo.OrderVO;
-import com.yimayhd.harem.service.OrderService;
-
-//import com.yimayhd.service.MessageCodeService;
 
 /**
  * 订单管理
@@ -50,12 +46,11 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/routeOrderList", method = RequestMethod.GET)
 	public String routeOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		OrderVO orderVO = new OrderVO();
-		orderVO.setOrderListQuery(orderListQuery);
-		PageVO<Order> pageVo = new PageVO<Order>(orderListQuery.getPageNumber(), orderListQuery.getPageSize(), 14800);
+		orderListQuery.setOrderType(OrderBizType.LINE.getBizType());
+		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
-		model.addAttribute("orderList", orderListQuery);
 		return "/system/order/routeOrderList";
 	}
 
@@ -80,13 +75,11 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/scenicSpotOrderList", method = RequestMethod.GET)
 	public String scenicSpotOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		OrderVO orderVO = new OrderVO();
-		orderVO.setOrderListQuery(orderListQuery);
-		List<Order> activityOrderList = orderService.getOrderList(orderVO);
-		PageVO<Order> pageVo = new PageVO<Order>(orderListQuery.getPageNumber(), orderListQuery.getPageSize(), 14800);
+		orderListQuery.setOrderType(OrderBizType.SPOTS.getBizType());
+		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
-		model.addAttribute("orderList", activityOrderList);
 		return "/system/order/scenicSpotOrderList";
 	}
 
@@ -111,13 +104,11 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/goodsOrderList", method = RequestMethod.GET)
 	public String goodsOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		OrderVO orderVO = new OrderVO();
-		orderVO.setOrderListQuery(orderListQuery);
-		List<Order> activityOrderList = orderService.getOrderList(orderVO);
-		PageVO<Order> pageVo = new PageVO<Order>(orderListQuery.getPageNumber(), orderListQuery.getPageSize(), 14800);
+		orderListQuery.setOrderType(OrderBizType.NORMAL.getBizType());
+		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
-		model.addAttribute("orderList", activityOrderList);
 		return "/system/order/goodsOrderList";
 	}
 
@@ -142,13 +133,11 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/activityOrderList", method = RequestMethod.GET)
 	public String activityOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		OrderVO orderVO = new OrderVO();
-		orderVO.setOrderListQuery(orderListQuery);
-		List<Order> activityOrderList = orderService.getOrderList(orderVO);
-		PageVO<Order> pageVo = new PageVO<Order>(orderListQuery.getPageNumber(), orderListQuery.getPageSize(), 14800);
+		orderListQuery.setOrderType(OrderBizType.ACTIVITY.getBizType());
+		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
-		model.addAttribute("orderList", activityOrderList);
 		return "/system/order/activityOrderList";
 	}
 
@@ -173,13 +162,11 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/membershipCardOrderList", method = RequestMethod.GET)
 	public String membershipCardOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		OrderVO orderVO = new OrderVO();
-		orderVO.setOrderListQuery(orderListQuery);
-		List<Order> activityOrderList = orderService.getOrderList(orderVO);
-		PageVO<Order> pageVo = new PageVO<Order>(orderListQuery.getPageNumber(), orderListQuery.getPageSize(), 14800);
+		orderListQuery.setOrderType(OrderBizType.MEMBER_RECHARGE.getBizType());
+		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
-		model.addAttribute("orderList", activityOrderList);
 		return "/system/order/membershipCardOrderList";
 	}
 

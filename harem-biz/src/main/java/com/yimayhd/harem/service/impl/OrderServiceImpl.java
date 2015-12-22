@@ -1,115 +1,107 @@
 package com.yimayhd.harem.service.impl;
 
-import com.yimayhd.harem.model.Commodity;
-import com.yimayhd.harem.model.Contact;
-import com.yimayhd.harem.model.Coupon;
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.convert.OrderConverter;
 import com.yimayhd.harem.model.Order;
-import com.yimayhd.harem.model.Tourist;
+import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.harem.repo.OrderRepo;
+import com.yimayhd.harem.repo.UserRepo;
 import com.yimayhd.harem.service.OrderService;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.domain.UserDOPageQuery;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
  * 订单管理实现
  * 
- * @author yebin
+ * @author yebin, zhaozhaonan
  *
  */
 public class OrderServiceImpl implements OrderService {
+
+	@Autowired
+	private OrderRepo orderRepo;
+	@Autowired
+	private UserRepo userRepo;
+
 	@Override
-	public List<Order> getOrderList(Order order) throws Exception {
-		List<Order> orderList = new ArrayList<Order>();
-		int j = 10;
-		// 是否有查询条件
-		for (int i = 0; i < j; i++) {
-			Order orders = new Order();
-			orders.setId((long) i);
-			orders.setOrderNO("20151109" + i);
-			List<Commodity> commoditys = new ArrayList<Commodity>();
-			int b = 3;
-			for (int k = 0; k < b; k++) {
-				Commodity commodity = new Commodity();
-				commodity.setImageUrl("图片");
-				commodity.setDescription("圆明园门票");
-				commodity.setPrice(BigDecimal.valueOf(7199));
-				commodity.setAmount(12);
-				commodity.setTradeState(1);
-				commodity.setDiscount("-");
-				commoditys.add(commodity);
+	public PageVO<BizOrderDO> getOrderList(OrderListQuery orderListQuery) throws Exception {
+		long userId = 0;
+		List<BizOrderDO> list = null;
+		if (StringUtils.isNotEmpty(orderListQuery.getBuyerName()) || StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
+			UserDOPageQuery userDOPageQuery = new UserDOPageQuery();
+			userDOPageQuery.setPageNo(1);
+			userDOPageQuery.setPageSize(1);
+			if (StringUtils.isNotEmpty(orderListQuery.getBuyerName())){
+				userDOPageQuery.setNickname(orderListQuery.getBuyerName());
 			}
-			orders.setCommodityList(commoditys);
-			orderList.add(orders);
+			if (StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
+				userDOPageQuery.setMobile(orderListQuery.getBuyerPhone());
+			}
+			UserDO userDO = userRepo.findUserByCondition(userDOPageQuery);
+			if (userDO != null){
+				userId = userDO.getId();
+			}
 		}
-		return orderList;
+
+		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
+		BatchQueryResult batchQueryResult = orderRepo.queryOrders(orderQueryDTO);
+		if (batchQueryResult.isSuccess()){
+			//订单信息
+			List<BizOrderDO> bizOrderDOList = batchQueryResult.getBizOrderDOList();
+			if (!CollectionUtils.isEmpty(bizOrderDOList) && StringUtils.isNotEmpty(orderQueryDTO.getItemName())){
+				OrderQueryDTO orderQueryDTOMain = new OrderQueryDTO();
+				List<Long> bizOrderIds = new ArrayList<Long>();
+				List<BizOrderDO> bizOrderDOListMain = new ArrayList<BizOrderDO>();
+				for (BizOrderDO bizOrderDO : bizOrderDOList) {
+					if(bizOrderDO.getIsMain() == MainDetailStatus.NO.getType()){
+						bizOrderIds.add(bizOrderDO.getParentId());
+						orderQueryDTOMain.setBizOrderIds(bizOrderIds);
+						BatchQueryResult batchQueryResultMain = orderRepo.queryOrders(orderQueryDTO);
+
+						if (batchQueryResultMain.isSuccess() && !CollectionUtils.isEmpty(batchQueryResultMain.getBizOrderDOList())){
+							bizOrderDOListMain.addAll(batchQueryResultMain.getBizOrderDOList());
+						}
+					}
+				}
+
+				if (bizOrderDOListMain.size()>0){
+					for (BizOrderDO bizOrderDOMain : bizOrderDOListMain){
+						List<BizOrderDO> bizOrderDOTempList = new ArrayList<BizOrderDO>();
+						for (BizOrderDO bizOrderDO :bizOrderDOList){
+							if (bizOrderDO.getParentId() == bizOrderDOMain.getBizOrderId()){
+								bizOrderDOTempList.add(bizOrderDO);
+							}
+						}
+						bizOrderDOMain.setDetailOrderList(bizOrderDOTempList);
+					}
+				}
+				list = bizOrderDOListMain;
+			}else{
+				list = bizOrderDOList;
+			}
+		}
+		PageVO<BizOrderDO> orderPageVO = new PageVO<BizOrderDO>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+				(int)batchQueryResult.getTotalCount(),list);
+		return orderPageVO;
 	}
 
 	@Override
 	public Order getOrderById(long id) throws Exception {
-		Order order = new Order();
-		// 订单状态
-		order.setOrderState(1);
-		// 买家信息
-		order.setBuyerMobile("13529000000");
-		order.setBuyerNickname("Tracy");
-		order.setBuyerName("张三");
-		// 订单基础信息
-		order.setOrderNO("2015102710001");
-		order.setOrderTime(new Date());
-		order.setPaymentTime(new Date());
-		order.setPaymentMethod("微信/支付宝/银联");
-		order.setBuyerNote("张三的备注");
-		order.setInvoice("个人 / 公司抬头");
-		order.setCustomerServiceNote("客服的备注");
-		// 联系人
-		List<Contact> contacts = new ArrayList<Contact>();
-		Contact contact = new Contact();
-		contact.setName("张三");
-		contact.setMobile("13529000000");
-		contact.setEmail("tracy648@163.com");
-		contacts.add(contact);
-		order.setContacts(contacts);
-		// 游客
-		List<Tourist> tourists = new ArrayList<Tourist>();
-		Tourist tourist1 = new Tourist();
-		tourist1.setTouristType(1);
-		tourist1.setName("张三");
-		tourist1.setMobile("13529000000");
-		tourist1.setDocType(1);
-		tourist1.setDocNo("530112199106150000");
-		tourists.add(tourist1);
-		Tourist tourist2 = new Tourist();
-		tourist2.setTouristType(2);
-		tourist2.setName("张四");
-		tourist2.setMobile("13529000000");
-		tourist2.setDocType(1);
-		tourist2.setDocNo("530112199106150000");
-		tourists.add(tourist2);
-		order.setTourists(tourists);
-		// 订单商品信息
-		order.setOrderTotalPrice(BigDecimal.valueOf(12345));
-		List<Coupon> coupons = new ArrayList<Coupon>();
-		Coupon coupon = new Coupon();
-		coupon.setCount(1);
-		coupon.setPrice(BigDecimal.valueOf(20));
-		coupons.add(coupon);
-		order.setCoupons(coupons);
-		// 商品列表
-		List<Commodity> commodityList = new ArrayList<Commodity>();
-		for (int i = 0; i < 10; i++) {
-			Commodity commodity = new Commodity();
-			commodity.setImageUrl("图片");
-			commodity.setDescription("圆明园门票");
-			commodity.setPrice(BigDecimal.valueOf(7199));
-			commodity.setAmount(12);
-			commodity.setTradeState(1);
-			commodity.setDiscount("-");
-			commodityList.add(commodity);
-		}
-		order.setCommodityList(commodityList);
-		return order;
+//		SingleQueryResult singleQueryResult = orderRepo.queryOrderSingle(orderListQuery.getOrderNO());
+//		if (singleQueryResult.isSuccess()){
+//			singleQueryResult.getBizOrderDO();
+//		}
+		return null;
 	}
 
 }

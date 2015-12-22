@@ -2,7 +2,10 @@ package com.yimayhd.harem.service;
 
 import java.util.List;
 
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Order;
+import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 
 /**
  * 订单服务接口
@@ -27,5 +30,5 @@ public interface OrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Order> getOrderList(Order order) throws Exception;
+	PageVO<BizOrderDO> getOrderList(OrderListQuery orderListQuery) throws Exception;
 }

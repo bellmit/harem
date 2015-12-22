@@ -3,6 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
         >
+
+    <bean id="orderRepo" class="com.yimayhd.harem.repo.OrderRepo"/>
 	<!-- ===========================  trade =============================== -->
 	<bean id="iMallHaremServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.tradecenter.client.service.imall.IMallHaremService"/>
@@ -12,6 +14,7 @@
         <property name="check" value="${consumer.dubbo.trade.check}"/>
         <property name="version" value="${consumer.dubbo.trade.version}"/>
     </bean>
+
     <bean id="tcQueryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.tradecenter.client.service.trade.TcQueryService"/>
         <property name="application" ref="dubboApplicationConfig"/>
