@@ -3,11 +3,14 @@ package com.yimayhd.harem.convert;
 import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.enums.PayStatus;
 import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.harem.model.trade.MainOrder;
+import com.yimayhd.harem.model.trade.SubOrder;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.LogisticsStatus;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Array;
@@ -103,5 +106,20 @@ public class OrderConverter {
             orderList.add(order);
         }
         return orderList;
+    }
+
+
+    public MainOrder orderVOConverter(BizOrderDO bizOrderDO) {
+        if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
+            List<SubOrder> subOrderList = new ArrayList<SubOrder>();
+            for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
+                subOrderList.add(new SubOrder(detailOrder));
+            }
+            return new MainOrder(bizOrderDO,subOrderList);
+        } else {
+            List<SubOrder> subOrderList = new ArrayList<SubOrder>();
+            subOrderList.add(new SubOrder(bizOrderDO));
+            return new MainOrder(bizOrderDO,subOrderList);
+        }
     }
 }

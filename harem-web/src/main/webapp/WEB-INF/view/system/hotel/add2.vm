@@ -41,6 +41,7 @@
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
             <table class="table">
+				<tbody>
                <tr>
                     <td><span class="spColor">*</span>酒店名称</td>
 					#if($!{hotel.id})
@@ -81,7 +82,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>地址经纬度</td>
-                    <td><span>经度</span><input type="text" name="locationX" class="inpControl getAddress"><span>纬度</span><input type="text" name="locationY" class="inpControl getAddress"><button class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
+                    <td><span>经度</span><input type="text" id="locationX" name="locationX" class="inpControl getAddress"><span>纬度</span><input type="text" id="locationY" name="locationY" class="inpControl getAddress"><button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
@@ -187,18 +188,24 @@
                         #end
                     </td>
                 </tr>
-                <tr>
-                    <td>大咖推荐</td>
-                    <td>
-                        <button type="button" class="btn btn-info selectUserBtn">选择旅游咖</button>
-                        <img class="masterRecommendImg" src="#if($!hotel.masterRecommend.user_pic) $utilWebconfig.getTfsRootPath()$!hotel.masterRecommend.user_pic #end" alt="头像" class="img-circle grogUserLogo"><span class="masterRecommendName">$!hotel.masterRecommend.name</span>
-                        <input type="hidden" class="masterRecommendUserPic" name="masterRecommend.user_pic" value="$!hotel.masterRecommend.user_pic" >
-                        <input type="hidden" class="masterRecommendUserId" name="masterRecommend.user_id" value="$!hotel.masterRecommend.user_id" >
-                        <input type="hidden" class="masterRecommendNameInp" name="masterRecommend.user_id" value="$!hotel.masterRecommend.name" >
-                        <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!hotel.masterRecommend.description</textarea>
-                    </td>
-                </tr>
-				<tr>
+                    <tr>
+                        <td>推荐理由</td>
+                        <td>
+                            <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
+                      		  <input type="text" name="title"  class="inpControl"
+                                   value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
+                            <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
+                                 alt="头像" class="img-circle grogUserLogo" id="userImg">
+                                 <span id="recommendNameT"></span>
+                            <textarea name="description" id="recommend" rows="3" class="form-control"
+                                      placeholder="请输入300字以内">$!{recommend.description}</textarea>
+                            <input type="hidden" id="recommendId" name="id" value="$!{recommend.id}" >
+                            <input type="hidden" id="recommendUserId" name="userId" value="$!{recommend.userId}" >
+                            <input type="hidden" id="recommendUserPic" name="userPic" value="$!{recommend.userPic}" >
+                            <input type="hidden" id="recommendName" name="name" value="$!{recommend.name}" >
+                        </td>
+                    </tr>
+                     <tr>
                         <td><span class="spColor">*</span>列表页展示图</td>
                         <td>
                             <div class="fileImg">
@@ -211,7 +218,7 @@
 	                        <img src="#if($VO.scenic.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg">
 	                    </div>
                         </td>
-                    </tr>                                     
+                    </tr>                                        
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
                         <td>
@@ -226,12 +233,15 @@
 	                    </div>
                         </td>
                     </tr>
-
+				
+				</tbody>
             </table>
         </div>
     </div>
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
-
+    <div class="tab-pane" id="grogshopImgs">
+        #parse("/system/hotel/picture.vm")
+    </div>
 </div>
 </form>
 <script>
@@ -246,8 +256,24 @@
             $("#locationY").val(data['pointY']);
         }
     }
+
+	var tfsPath = '$utilWebconfig.getTfsRootPath()';
 	
     $(function(){
+	
+       $('.selectUser').click(function(){
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
+				var ka = win.getTravelKa();
+				if(ka == null) return;
+				$("#recommendName").val(ka.nickName);
+				$("#userImg").attr('src',tfsPath + ka.avatar);
+				$("#recommendId").val(ka.id);
+				$("#recommendUserId").val(ka.userId);
+				$("#recommendUserPic").val(ka.avatar);
+				$("#recommendNameT").html(ka.nickName);
+				return true;
+			});
+        })
 	
 		var localProvinceName = '$!hotel.locationProvinceName'+'';
 		$.ajaxSetup({
@@ -255,8 +281,8 @@
 		});
 		
 		$('.locationXYSelectBtn').click(function () {
-			alert("HelloWorld!!!!!!!!!");
-            //openBaiduMap(115.727899, 37.723961, mapCallback);
+			//alert("HelloWorld!!!!!!!!!");
+            openBaiduMap(115.727899, 37.723961, mapCallback);
         });
 
 		
@@ -384,6 +410,125 @@
             }
 						
         });	    
+
+    	$(document).delegate('#logoUrlUploadFile','change',function(){
+            $.ajaxFileUpload
+            (
+                    {
+                 		url: '/upload/file', //用于文件上传的服务器端请求地址
+                        secureuri: false, //是否需要安全协议，一般设置为false
+                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
+                        dataType: 'json', //返回值类型 一般设置为json
+                        success: function (data,status)  //服务器成功响应处理函数
+                        {
+                            if(data && data.status==200){
+                               
+                                $('#logoUrlUploadFileReturnInput').val(data.data);
+                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+
+                            }else{
+                                layer.alert('上传失败');
+                            }
+                        },
+                        error: function (data)//服务器响应失败处理函数
+                        {
+                            layer.alert('服务器异常');
+                        }
+                    }
+            )
+        });
         
+        
+        $(document).delegate('#logoUrlUploadFile1','change',function(){
+            $.ajaxFileUpload
+            (
+                    {
+                 		url: '/upload/file', //用于文件上传的服务器端请求地址
+                        secureuri: false, //是否需要安全协议，一般设置为false
+                        fileElementId: 'logoUrlUploadFile1', //文件上传域的ID
+                        dataType: 'json', //返回值类型 一般设置为json
+                        success: function (data,status)  //服务器成功响应处理函数
+                        {
+                            if(data && data.status==200){
+                             
+                                $('#logoUrlUploadFileReturnInput1').val(data.data);
+                                $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
+
+                            }else{
+                                layer.alert('上传失败');
+                            }
+                        },
+                        error: function (data)//服务器响应失败处理函数
+                        {
+                            layer.alert('服务器异常');
+                        }
+                    }
+            )
+        });
+		
+		
+		$('#btnSubmit').click(function(){
+
+                // 房间设施 roomFacility
+                var facilityId = 1;
+                var roomFacilityStr = '';
+                while (true) {
+
+                    if ($("#roomFacility"+facilityId).length == 0) {
+                        facilityId = 1;
+                        break;
+                    } else {
+                        roomFacilityStr += $("#roomFacility"+facilityId).val();
+                        facilityId ++;
+                    }
+
+                }
+
+                $("#roomFacilityStrId").attr('value', roomFacilityStr);
+
+                // 特色服务 roomService
+                var roomServiceStr = '';
+                while (true) {
+
+                    if ($("#roomService"+facilityId).length == 0) {
+                        facilityId = 1;
+                        break;
+                    } else {
+                        roomServiceStr += $("#roomService"+facilityId).val();
+                        facilityId ++;
+                    }                    
+
+                }
+
+                $("#roomServiceStrId").val(roomServiceStr);
+
+                // 酒店设施 roomFacility
+                var hotelFacilityStr = '';
+                while (true) {
+
+                    if ($("#hotelFacility"+facilityId).length == 0) {
+                        facilityId = 1;
+                        break;
+                    } else {
+                        hotelFacilityStr += $("#hotelFacility"+facilityId).val();
+                        facilityId ++;
+                    }                    
+
+                }
+
+                $("#hotelFacilityStrId").val(hotelFacilityStr);
+
+                var actionUrl;
+                var hotelId = $('#hotelForm').attr('hotelId');
+                if (hotelId) {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+                } else {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
+                }
+                $('#hotelForm').attr('action', actionUrl);
+                //$('#hotelForm').submit();
+
+
+        });
     });
 </script>
