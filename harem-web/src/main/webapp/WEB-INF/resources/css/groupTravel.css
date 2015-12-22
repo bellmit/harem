@@ -15,12 +15,12 @@
 .baseInfoApply table td{border: 1px solid #d5d5d5;padding: 10px !important;text-align: center;}
 /*商品管理-发布线路-行程信息*/
 .tripInfo{padding: 10px;position: relative;}
-.tripInfo .tripInfoNav{position: absolute;width: 150px;height: 600px;background: #CCC7C7;overflow: auto;text-align: center;padding: 10px;z-index: 100;}
+.tripInfo .tripInfoNav{position: absolute;width: 150px;height: 600px;background: #9C9898;overflow: auto;text-align: center;padding: 10px;z-index: 100;}
 .tripInfo .tripInfoNav li{float: none;position: relative;}
 .tripInfo .tripInfoNav li .icon-trash{position: absolute;right: 10px;top: 9px;font-size: 18px;cursor: pointer;}
 .tripInfo .tripInfoNav li.day_tab{margin-bottom: 5px;}
-.tripInfo .tripInfoNav li.day_tab.active a{background: #DDDADA;}
-.tripInfo .tripInfoNav li.day_tab a{background: #FBF8F8;border-radius: 5px;}
+.tripInfo .tripInfoNav li.day_tab.active a{background: #FFFFFF;}
+.tripInfo .tripInfoNav li.day_tab a{background: #CAC4C4;border-radius: 5px;}
 .tripInfo .tripInfoNav li.day_tab a:hover{background: #EBE8E8;}
 .tripInfo .tripInfoNav li.day_btn{margin-top: 15px;}
 .tripInfo .tab-content{margin-left: 180px;}
