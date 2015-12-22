@@ -41,17 +41,19 @@ public class SelfServiceTravel extends BaseTravel {
 		if (CollectionUtils.isNotEmpty(flightDetails)) {
 			FlightDetail flightDetail = flightDetails.get(0);
 			FlightInfo flightInfo = new FlightInfo();
+			flightInfo.setForwardArriveDate(flightDetail.getForwardArriveDate());
 			flightInfo.setForwardArriveCity(flightDetail.getForwardArriveCity());
-			flightInfo.setForwardArriveTime(flightDetail.getForwardArriveTime());
-			flightInfo.setForwardDate(flightDetail.getForwardDate());
+			// flightInfo.setForwardArriveTime(flightDetail.getForwardArriveTime());
+			flightInfo.setForwardDepartDate(flightDetail.getForwardDepartDate());
 			flightInfo.setForwardDepartCity(flightDetail.getForwardDepartCity());
-			flightInfo.setForwardDepartTime(flightDetail.getForwardDepartTime());
-			flightInfo.setMemo("");
+			// flightInfo.setForwardDepartTime(flightDetail.getForwardDepartTime());
+			flightInfo.setReturnArriveDate(flightDetail.getReturnArriveDate());
 			flightInfo.setReturnArriveCity(flightDetail.getReturnArriveCity());
-			flightInfo.setReturnArriveTime(flightDetail.getReturnArriveTime());
-			flightInfo.setReturnDate(flightDetail.getReturnDate());
+			// flightInfo.setReturnArriveTime(flightDetail.getReturnArriveTime());
+			flightInfo.setReturnDepartDate(flightDetail.getReturnDepartDate());
 			flightInfo.setReturnDepartCity(flightDetail.getReturnDepartCity());
-			flightInfo.setReturnDepartTime(flightDetail.getReturnDepartTime());
+			// flightInfo.setReturnDepartTime(flightDetail.getReturnDepartTime());
+			flightInfo.setMemo("");
 			dto.getLineDO().setFlights(JSON.toJSONString(flightInfo));
 		}
 		dto.getLineDO().setFlightDetail(JSON.toJSONString(flightDetails));

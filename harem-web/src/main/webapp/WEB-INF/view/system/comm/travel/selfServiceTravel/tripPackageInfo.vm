@@ -194,7 +194,7 @@
 			$(".flight-detail-date").each(function() {
 				flights.push(JSON.parse($(this).val()));
 			});
-			result["flights"] = flights;
+			result["flightDetails"] = flights;
 		}
 		// 酒店
 		var hotels = [];
