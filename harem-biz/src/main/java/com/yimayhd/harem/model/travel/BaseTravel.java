@@ -20,6 +20,8 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
  *
  */
 public abstract class BaseTravel {
+	private static final int LINE_ADULT_VID = 1;
+	private static final int LINE_SINGLE_ROOM_VID = 4;
 	protected int categoryId;
 	protected int options;
 	protected BaseInfo baseInfo;// 基础信息
@@ -97,6 +99,8 @@ public abstract class BaseTravel {
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.priceInfo.getLimitBySecond());
 		itemFeature.put(ItemFeatureKey.AGREEMENT, this.priceInfo.getImportantInfosCode());
+		itemFeature.put(ItemFeatureKey.LINE_ADULT_VID, LINE_ADULT_VID);
+		itemFeature.put(ItemFeatureKey.LINE_SINGLE_ROOM_VID, LINE_SINGLE_ROOM_VID);
 		itemDO.setItemFeature(itemFeature);
 		itemDO.setItemType(ItemType.LINE.getValue());
 		itemDO.setPayType(1);
@@ -113,10 +117,10 @@ public abstract class BaseTravel {
 		itemDO.setDetailUrl("");
 		return itemDO;
 	}
-	
+
 	protected long getSellerId() {
 		long sellerId = 0;
-		if(this.baseInfo!=null) {
+		if (this.baseInfo != null) {
 			sellerId = this.baseInfo.getPublisherId();
 		}
 		return sellerId;
