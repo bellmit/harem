@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
         >
 
-    <bean id="orderRepo" class="com.yimayhd.harem.repo.OrderRepo"/>
 	<!-- ===========================  trade =============================== -->
 	<bean id="iMallHaremServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.tradecenter.client.service.imall.IMallHaremService"/>

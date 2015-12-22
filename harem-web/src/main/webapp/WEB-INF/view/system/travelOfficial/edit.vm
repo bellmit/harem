@@ -1,48 +1,32 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <div class="createClubTable whole">
     <form name="addClub" id="clubForm" action="" method="post" clubId="$!club.id">
+
+
+
+        <!--tab1 -->
         <table class="table">
             <tr>
-                <td><span class="spColor">*</span>俱乐部名称</td>
+                <td><span class="spColor">*</span>游记标题</td>
                 <input type="hidden" class="form-control" name="id" value="$!club.id">
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!club.name"></td>
+                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!travelOfficial.title"></td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>俱乐部LOGO</td>
-                <td>
-                    <div class="fileImg">
-                        <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
-                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
-                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-                    </div>
-                    <div class="logoView">
-                        <img src="#if($club.logoUrl) $utilWebconfig.getTfsRootPath()$!club.logoUrl #end" class="img-circle" id="logoUrlUploadFileReturnImg">
-                    </div>
-                </td>
+                <td><span class="spColor">*</span>发布时间</td>
+                <td> <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value="$!travelOfficial.publishDate"></td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>俱乐部宣传图</td>
-                <td>
-                    <div class="fileImg">
-                        <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="picturePoster" value="$!club.picturePoster"  id="picturePosterUploadFileReturnInput">
-                        <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile">
-                        <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
-                    </div>
-                    <div class="propagandaView">
-                        <img src="#if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end" id="picturePosterUploadFileReturnImg">
-                    </div>
-                </td>
+                <td><span class="spColor">*</span>目的地</td>
+                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
             </tr>
+
             <tr>
-                <td><span class="spColor">*</span>成员限额</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字" name="limitNum" value="$!club.limitNum"></td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>部长</td>
+                <td><span class="spColor">*</span>作者信息</td>
                 <td>
                     <div class="userBtn">
                         <button type="button" class="btn btn-info">选择用户</button>
@@ -51,34 +35,154 @@
                     </div>
                     <div class="userView">
                         <img src=" #if($club.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!club.manageUserLogoUrl  #end">
-                        #*TODO*#
                         <span>Tracy</span>
                     </div>
                 </td>
             </tr>
+
             <tr>
-                <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>状态</td>
-                <td class="radioSel">
-                    <div class="col-md-10">
-                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="1" #if($!club.joinStatus == 1) checked #end> 允许加入 </label>
-                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="0" #if($!club.joinStatus == 2) checked #end> 禁止加入 </label>
+                <td><span class="spColor">*</span>游记封面</td>
+            ## <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!club.sequenceNum"></td>
+                <td>
+                    <div >
+                        <p><img src="$!travelOfficial.backImg"></p>
                     </div>
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>前台显示</td>
+                <td><span class="spColor">*</span>点赞数</td>
                 <td class="radioSel">
                     <div class="col-md-10">
-                        <label class="radio-inline"> <input type="radio" name="showStatus" value="1" #if($!club.showStatus == 1) checked #end> 显示 </label>
-                        <label class="radio-inline"> <input type="radio" name="showStatus" value="0" #if($!club.showStatus == 2) checked #end> 隐藏 </label>
+                        <input type="text" class="form-control"  name="name" value="">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>浏览量</td>
+                <td class="radioSel">
+                    <div class="col-md-10">
+                        <input type="text" class="form-control"  name="name" value="">
                     </div>
                 </td>
             </tr>
         </table>
+        <!--tab1 -->
+
+        <!--tab2 -->
+        <table class="table">
+            <tr>
+                <td><span class="spColor">*内容（500字以内)</span>
+                    <span  class="spColor"> <textarea ></textarea></span>
+                </td>
+
+                <td>
+                    <div class="fileImg">
+                        <button type="button" class="btn btn-success">选择图片</button>
+                        <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
+                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+                    ##<p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+                    </div>
+                    <div class="logoView">
+                        <img src="#if($club.logoUrl) $utilWebconfig.getTfsRootPath()$!club.logoUrl #end" class="img-circle" id="logoUrlUploadFileReturnImg">
+                    </div>
+                </td>
+
+                <td>
+                    <span class="spColor">*拍摄于</span>
+                    <span  class="spColor"> <textarea ></textarea></span>
+                </td>
+
+            </tr>
+            <tr>
+                <td> <span  class="spColor"> <textarea ></textarea></span></td>
+                <td>
+                    <div class="fileImg">
+                        <button type="button" class="btn btn-success">选择图片</button>
+                        <input type="hidden" name="picturePoster" value="$!club.picturePoster"  id="picturePosterUploadFileReturnInput">
+                        <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile">
+                    ##<p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                    </div>
+                    <div class="propagandaView">
+                        <img src="#if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end" id="picturePosterUploadFileReturnImg">
+                    </div>
+                </td>
+                <td>
+
+                    <span  class="spColor"> <textarea ></textarea></span>
+                </td>
+            </tr>
+
+
+            <div id="u48302" class="ax_default" data-label="游记详情">
+                <div id="u48302_state0" class="panel_state" data-label="基本信息" style="display: none; visibility: hidden; position: absolute;">
+                    <div id="u48302_state1" class="panel_state" data-label="详情" style="visibility: visible;">
+                        <div id="u48302_state1_content" class="panel_state_content">
+                            <div id="u48346" class="ax_default box_4">
+                                <div id="u48346_div" class=""></div>
+                                <div id="u48347" class="text" style="visibility: visible; top: 10px; transform-origin: 63px 10px 0px;">
+                                    <p>
+                                        <span>增加段</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="u48348" class="ax_default _表格">
+                                <div id="u48349" class="ax_default _单元格">
+                                    <img id="u48349_img" class="img " src="images/游记详情页-官方/u48349.png">
+                                    <div id="u48350" class="text" style="visibility: visible;">
+                                        <p>
+                                            <span>*内容（500字以内）</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="u48351" class="ax_default _单元格">
+                                    <img id="u48351_img" class="img " src="images/游记详情页-官方/u48351.png">
+                                    <div id="u48352" class="text" style="visibility: visible;">
+                                        <p>
+                                            <span>图片（0~4张）</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="u48353" class="ax_default _单元格">
+                                    <img id="u48353_img" class="img " src="images/游记详情页-官方/u48353.png">
+                                    <div id="u48354" class="text" style="visibility: visible;">
+                                        <p>
+                                            <span>拍摄于（30字内）</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="u48355" class="ax_default _单元格">
+                                    <div id="u48357" class="ax_default _单元格">
+                                        <div id="u48359" class="ax_default _单元格">
+                                            <div id="u48361" class="ax_default _单元格">
+                                                <div id="u48363" class="ax_default _单元格">
+                                                    <div id="u48365" class="ax_default _单元格">
+                                                    </div>
+                                                    <div id="u48367" class="ax_default _多行文本框">
+                                                        <textarea id="u48367_input" style="color: rgb(153, 153, 153); opacity: 1;"></textarea>
+                                                    </div>
+                                                    <div id="u48368" class="ax_default box_2">
+                                                        <div id="u48368_div" class=""></div>
+                                                        <div id="u48369" class="text" style="display: none; visibility: hidden">
+                                                        </div>
+                                                        <div id="u48370" class="ax_default box_2">
+                                                            <div id="u48372" class="ax_default box_2">
+                                                                <div id="u48374" class="ax_default box_2">
+                                                                    <div id="u48376" class="ax_default box_4">
+                                                                        <div id="u48378" class="ax_default _多行文本框">
+                                                                            <div id="u48379" class="ax_default box_4">
+                                                                                <div id="u48381" class="ax_default _多行文本框">
+                                                                                    <div id="u48382" class="ax_default _多行文本框">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+        </table>
+        <!--tab2 -->
+
+
+
+
         <div class="clubBotBtn">
             <div class="btn-group">
                 <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
@@ -87,9 +191,25 @@
                 <button class="btn">取消</button>
             </div>
         </div>
+
     </form>
 </div>
+
+
 <script>
+
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
 
 
     $(function(){

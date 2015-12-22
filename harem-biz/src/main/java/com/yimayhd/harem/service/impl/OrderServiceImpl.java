@@ -4,15 +4,16 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.convert.OrderConverter;
 import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.query.OrderListQuery;
-import com.yimayhd.harem.repo.OrderRepo;
-import com.yimayhd.harem.repo.UserRepo;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
+import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
+import com.yimayhd.user.client.result.BasePageResult;
+import com.yimayhd.user.client.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -29,9 +30,9 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
-	private OrderRepo orderRepo;
+	private TcQueryService tcQueryServiceRef;
 	@Autowired
-	private UserRepo userRepo;
+	private UserService userServiceRef;
 
 	@Override
 	public PageVO<BizOrderDO> getOrderList(OrderListQuery orderListQuery) throws Exception {
@@ -47,14 +48,18 @@ public class OrderServiceImpl implements OrderService {
 			if (StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
 				userDOPageQuery.setMobile(orderListQuery.getBuyerPhone());
 			}
-			UserDO userDO = userRepo.findUserByCondition(userDOPageQuery);
-			if (userDO != null){
-				userId = userDO.getId();
+			BasePageResult<UserDO> basePageResult = userServiceRef.findPageResultByCondition(userDOPageQuery);
+			if (basePageResult.isSuccess()){
+				if (!CollectionUtils.isEmpty(basePageResult.getList())){
+					UserDO userDO = basePageResult.getList().get(0);
+					userId = userDO.getId();
+				}
 			}
+
 		}
 
 		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
-		BatchQueryResult batchQueryResult = orderRepo.queryOrders(orderQueryDTO);
+		BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
 		if (batchQueryResult.isSuccess()){
 			//订单信息
 			List<BizOrderDO> bizOrderDOList = batchQueryResult.getBizOrderDOList();
@@ -66,8 +71,7 @@ public class OrderServiceImpl implements OrderService {
 					if(bizOrderDO.getIsMain() == MainDetailStatus.NO.getType()){
 						bizOrderIds.add(bizOrderDO.getParentId());
 						orderQueryDTOMain.setBizOrderIds(bizOrderIds);
-						BatchQueryResult batchQueryResultMain = orderRepo.queryOrders(orderQueryDTO);
-
+						BatchQueryResult batchQueryResultMain = tcQueryServiceRef.queryOrders(orderQueryDTO);
 						if (batchQueryResultMain.isSuccess() && !CollectionUtils.isEmpty(batchQueryResultMain.getBizOrderDOList())){
 							bizOrderDOListMain.addAll(batchQueryResultMain.getBizOrderDOList());
 						}

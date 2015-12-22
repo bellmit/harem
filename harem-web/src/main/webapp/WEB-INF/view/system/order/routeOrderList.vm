@@ -61,7 +61,7 @@
                     <input type='checkbox' class="" name="affiliatedAsk" value="$!orderListQuery.affiliatedAsk">含备注
                     <input type='checkbox' name="affiliatedAsk" value="$!orderListQuery.affiliatedAsk">需发票
                 </div>
-                -->
+            -->
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
@@ -90,7 +90,8 @@
                 #foreach($order in $orderList)
                     <tr>
                         <td colspan="8" align="left">
-                            订单编号：$!order.bizOrderId 下单时间：2015-02-15 15:04:05:05
+                            <input class="subChecked" type="checkbox" value="$!order.bizOrderId">
+                            订单编号：$!order.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.gmtCreated)
                         </td>
                     </tr>
                     #foreach($commodity in $order.commodityList)
