@@ -41,6 +41,7 @@
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
             <table class="table">
+				<tbody>
                <tr>
                     <td><span class="spColor">*</span>酒店名称</td>
 					#if($!{hotel.id})
@@ -198,7 +199,7 @@
                         <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!hotel.masterRecommend.description</textarea>
                     </td>
                 </tr>
-				<tr>
+                     <tr>
                         <td><span class="spColor">*</span>列表页展示图</td>
                         <td>
                             <div class="fileImg">
@@ -211,7 +212,7 @@
 	                        <img src="#if($VO.scenic.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg">
 	                    </div>
                         </td>
-                    </tr>                                     
+                    </tr>                                        
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
                         <td>
@@ -226,7 +227,8 @@
 	                    </div>
                         </td>
                     </tr>
-
+				
+				</tbody>
             </table>
         </div>
     </div>
@@ -248,6 +250,8 @@
             $("#locationY").val(data['pointY']);
         }
     }
+
+	var tfsPath = '$utilWebconfig.getTfsRootPath()';
 	
     $(function(){
 	
@@ -386,7 +390,63 @@
             }
 						
         });	    
+
+    	$(document).delegate('#logoUrlUploadFile','change',function(){
+            $.ajaxFileUpload
+            (
+                    {
+                 		url: '/upload/file', //用于文件上传的服务器端请求地址
+                        secureuri: false, //是否需要安全协议，一般设置为false
+                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
+                        dataType: 'json', //返回值类型 一般设置为json
+                        success: function (data,status)  //服务器成功响应处理函数
+                        {
+                            if(data && data.status==200){
+                               
+                                $('#logoUrlUploadFileReturnInput').val(data.data);
+                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+
+                            }else{
+                                layer.alert('上传失败');
+                            }
+                        },
+                        error: function (data)//服务器响应失败处理函数
+                        {
+                            layer.alert('服务器异常');
+                        }
+                    }
+            )
+        });
         
+        
+        $(document).delegate('#logoUrlUploadFile1','change',function(){
+            $.ajaxFileUpload
+            (
+                    {
+                 		url: '/upload/file', //用于文件上传的服务器端请求地址
+                        secureuri: false, //是否需要安全协议，一般设置为false
+                        fileElementId: 'logoUrlUploadFile1', //文件上传域的ID
+                        dataType: 'json', //返回值类型 一般设置为json
+                        success: function (data,status)  //服务器成功响应处理函数
+                        {
+                            if(data && data.status==200){
+                             
+                                $('#logoUrlUploadFileReturnInput1').val(data.data);
+                                $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
+
+                            }else{
+                                layer.alert('上传失败');
+                            }
+                        },
+                        error: function (data)//服务器响应失败处理函数
+                        {
+                            layer.alert('服务器异常');
+                        }
+                    }
+            )
+        });
+		
+		
 		$('#btnSubmit').click(function(){
 
                 // 房间设施 roomFacility
