@@ -35,8 +35,8 @@ public class PictureRPCServiceImpl implements PictureRPCService {
 				itemList.addAll(queryPicturesResult.getList());
 			}
 		} else {
-			log.error(MessageFormat.format("检索图片列表失败：query={0}", JSON.toJSONString(query)));
-			log.error(MessageFormat.format("检索图片列表失败：result={0}", JSON.toJSONString(queryPicturesResult)));
+			log.error("检索图片列表失败：query={}", JSON.toJSONString(query));
+			log.error("检索图片列表失败：result={}", JSON.toJSONString(queryPicturesResult));
 			throw new BaseException("检索图片列表失败");
 		}
 		return new PageVO<PicturesDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
