@@ -81,7 +81,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>地址经纬度</td>
-                    <td><span>经度</span><input type="text" name="locationX" class="inpControl getAddress"><span>纬度</span><input type="text" name="locationY" class="inpControl getAddress"><button class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
+                    <td><span>经度</span><input type="text" id="locationX" name="locationX" class="inpControl getAddress"><span>纬度</span><input type="text" id="locationY" name="locationY" class="inpControl getAddress"><button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
@@ -231,7 +231,9 @@
         </div>
     </div>
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
-
+    <div class="tab-pane" id="grogshopImgs">
+        #parse("/system/hotel/picture.vm")
+    </div>
 </div>
 </form>
 <script>
@@ -255,8 +257,8 @@
 		});
 		
 		$('.locationXYSelectBtn').click(function () {
-			alert("HelloWorld!!!!!!!!!");
-            //openBaiduMap(115.727899, 37.723961, mapCallback);
+			//alert("HelloWorld!!!!!!!!!");
+            openBaiduMap(115.727899, 37.723961, mapCallback);
         });
 
 		
@@ -385,5 +387,68 @@
 						
         });	    
         
+		$('#btnSubmit').click(function(){
+
+                // 房间设施 roomFacility
+                var facilityId = 1;
+                var roomFacilityStr = '';
+                while (true) {
+
+                    if ($("#roomFacility"+facilityId).length == 0) {
+                        facilityId = 1;
+                        break;
+                    } else {
+                        roomFacilityStr += $("#roomFacility"+facilityId).val();
+                        facilityId ++;
+                    }
+
+                }
+
+                $("#roomFacilityStrId").attr('value', roomFacilityStr);
+
+                // 特色服务 roomService
+                var roomServiceStr = '';
+                while (true) {
+
+                    if ($("#roomService"+facilityId).length == 0) {
+                        facilityId = 1;
+                        break;
+                    } else {
+                        roomServiceStr += $("#roomService"+facilityId).val();
+                        facilityId ++;
+                    }                    
+
+                }
+
+                $("#roomServiceStrId").val(roomServiceStr);
+
+                // 酒店设施 roomFacility
+                var hotelFacilityStr = '';
+                while (true) {
+
+                    if ($("#hotelFacility"+facilityId).length == 0) {
+                        facilityId = 1;
+                        break;
+                    } else {
+                        hotelFacilityStr += $("#hotelFacility"+facilityId).val();
+                        facilityId ++;
+                    }                    
+
+                }
+
+                $("#hotelFacilityStrId").val(hotelFacilityStr);
+
+                var actionUrl;
+                var hotelId = $('#hotelForm').attr('hotelId');
+                if (hotelId) {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+                } else {
+                    actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
+                }
+                $('#hotelForm').attr('action', actionUrl);
+                //$('#hotelForm').submit();
+
+
+        });
     });
 </script>
