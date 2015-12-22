@@ -1,19 +1,26 @@
 package com.yimayhd.harem.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryTreeResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Administrator on 2015/11/25.
  */
 public class CategoryServiceImpl implements CategoryService {
+    private static final Logger log = LoggerFactory.getLogger(CategoryServiceImpl.class);
     @Autowired
     private com.yimayhd.ic.client.service.item.CategoryService categoryServiceRef;
     @Override
@@ -52,8 +59,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDO getCategoryById(long id) throws Exception {
+    public CategoryVO getCategoryById(long id) throws Exception {
         CategoryResult categoryResult = categoryServiceRef.getCategory(id);
-        return categoryResult.getCategroyDO();
+        if(null == categoryResult){
+            log.error("categoryService.getCategory result is null and parame: " + JSON.toJSONString(categoryResult) + "and id:" + id);
+            throw new BaseException("返回结果错误,修改失败");
+        } else if(!categoryResult.isSuccess()){
+            log.error("categoryService.getCategory error:" + JSON.toJSONString(categoryResult) + "and id: " + id);
+            throw new BaseException(categoryResult.getResultMsg());
+        }
+        CategoryVO categoryVO = CategoryVO.getCategoryVO(categoryResult.getCategroyDO());
+        return categoryVO;
     }
 }
