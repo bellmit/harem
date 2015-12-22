@@ -58,9 +58,8 @@
     var isMore = false;
 	var num = 0;
     function tabsAdd(id,url,openType,tabName){
-        
+        //console.log(tabIdArray);
 		if (openType==2) {
- 			
 			num ++;
 			var tabLi = $("#myTabList li");
         	var activeLi = $("#myTabList>li.active");
@@ -71,7 +70,6 @@
         	var tabId2 = tabId + "title";
         	var elVal = tabName;
             var parentTabId = $(".tab-pane.active").attr("id") || '';
-
         	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
         	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
         
@@ -79,24 +77,21 @@
 			//activeIframeWrap.removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("in");
-			
 			if(tabLi.length==1){
-                
 				$("#myTabList").prepend(tabList);
                 $("#myTabContent").prepend(paneTab);
-            
 			} else {
                 /*activeLi.after(tabList);
                 activeIframeWrap.after(paneTab);*/
                 $("#myTabList .dropdown").before(tabList);
                 $("#myTabContent").append(paneTab);
             }
-				
         	if(tabLi.length >= 9){
-
                 var tabMore = tabLi.slice(7,8)[0];
                 tabMore.remove();
-                tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
+                if($.inArray(tabId, tabIdArray) != -1){
+                    tabIdArray.splice($.inArray(tabId, tabIdArray), 1);
+                }
  				//tabIdArray.shift();
 
                //var tabMore = tabLi.slice(3,4)[0];
@@ -106,11 +101,9 @@
                //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
             	//$(tabMore).attr("tabindex","-1");
         	}
-
        		iframeShow(tabId, url);
 			
 		} else {
-		
         	var tabLi = $("#myTabList li");
             var activeLi = $("#myTabList>li.active");
             var activeIframeWrap = $("#myTabContent>div.active");
@@ -122,8 +115,9 @@
                     
             //判断tab页是否重复         
            	//有这个元素的情况下
-            if (!($.inArray(tabId, tabIdArray) == -1)) {
-            	
+            console.log(tabIdArray);
+            if ($.inArray(tabId, tabIdArray) != -1) {
+                //console.log($.inArray(tabId, tabIdArray));
             	var tabId2 = tabId + "title";
             	$(".js_tabClick").removeClass("active");
             	$(".tab-pane").hide();
@@ -131,10 +125,8 @@
                 $('#'+tabId+'').show();
              	
             } else {
-    		
             	tabIdArray.push(tabId);
                 var parentTabId = $(".tab-pane.active").attr("id") || '';
-
             	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
             	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
             
@@ -144,7 +136,6 @@
             	$("#myTabContent>.tab-pane").removeClass("in");
             
             	if(openType==1){
-            		
                 	if(tabLi.length==1){
                     	$("#myTabList").prepend(tabList);
                     	$("#myTabContent").prepend(paneTab);
@@ -156,7 +147,6 @@
                 	}
                 
             	} else if (openType == 3) {
-            				
                 	if(tabLi.length==1){
                     	$("#myTabList").prepend(tabList);
                     	$("#myTabContent").prepend(paneTab);
@@ -169,10 +159,11 @@
             	}
     			
             	if(tabLi.length >= 9){
-    
                     var tabMore = tabLi.slice(7,8)[0];
                     tabMore.remove();
-                    tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
+                    if($.inArray(tabId, tabIdArray) != -1){
+                        tabIdArray.splice($.inArray(tabId, tabIdArray), 1);
+                    }
      				//tabIdArray.shift();
     
                    //var tabMore = tabLi.slice(3,4)[0];
@@ -182,15 +173,12 @@
                    //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
                 	//$(tabMore).attr("tabindex","-1");
             	}
-    
            		iframeShow(tabId, url);
            }
-	   
 	   }
     }
     
     function iframeShow(tabId, url) {
-
         $('#'+tabId+' .tabIframe').attr('src',url);        
         $('#'+tabId+' .tabIframe').load(function(){
             //$(this).height($(this).contents().height());
@@ -199,32 +187,27 @@
             $(this).attr("style","min-height:"+availHei+"px;min-width:"+availWid+"px;");
             $(".js_tabClick.active").click();
         });
-
     }    
 
     $(function(){
         $('.menuLi').click(function(){
             tabsAdd($(this).attr('id'),$(this).attr('menuLinkUrl'),1,$(this).text());
         });
-
         $(document).delegate(".tabClose","click",function(e){
+            //console.log(tabIdArray);
             e.stopPropagation();
             if($("#myTabList li").length == 11){
                 $("#myTabList>li.dropdown").hide();
             }
-            
             var prevNode = $(this).parent().parent().prev();
             var nextNode = $(this).parent().parent().next();
-            
             var prevId = $(prevNode).attr("dataId");
             var nextId = $(nextNode).attr("dataId");
-            
             var paneId = $(this).parent().parent().attr("dataId");
             $("#myTabContent").find("#"+paneId).remove();
             $(this).parent().parent().remove();
             $("#myTabList li").removeClass("active");
             if($(this).parent().parent().attr("tabindex")=="-1"){
-
                 $("#myTabList li:first").addClass("active");
                 var firstId = $("#myTabList li:first").attr("dataId");
                 //$('#'+firstId+'').show();
@@ -232,7 +215,6 @@
                     $("#myTabList .dropdown").hide();
                 }
                 $('#'+nextId+'').show();
-                
             }else{
                 if($(".dropdown").css("display")=="block"){
                     var firstDrop = $("#myTabList .dropdown-menu li:first");
@@ -244,9 +226,10 @@
 				$("#"+$(prevNode).attr("dataid")).addClass("active");
                 $('#'+prevId+'').show();
             }
-            
-			tabIdArray.splice($.inArray(paneId+'', tabIdArray), 1);
-
+            if($.inArray(paneId, tabIdArray) != -1){
+                tabIdArray.splice($.inArray(paneId, tabIdArray), 1);
+            }
+            //console.log(tabIdArray);
        });
 
         /*标签页点击切换*/
