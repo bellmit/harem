@@ -58,14 +58,9 @@
     var isMore = false;
 	var num = 0;
     function tabsAdd(id,url,openType,tabName){
-        //console.log(tabIdArray);
-		if (openType==2) {
+        var tabLi = $("#myTabList li");
+		if (openType == 2) {
 			num ++;
-			var tabLi = $("#myTabList li");
-        	var activeLi = $("#myTabList>li.active");
-        	var activeIframeWrap = $("#myTabContent>div.active");
-        	//暂时去掉
-        	//var tabId = id + num ;
         	var tabId = 'tab' + num;
         	var tabId2 = tabId + "title";
         	var elVal = tabName;
@@ -74,56 +69,41 @@
         	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
         
         	tabLi.removeClass("active");
-			//activeIframeWrap.removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("active");
         	$("#myTabContent>.tab-pane").removeClass("in");
-			if(tabLi.length==1){
-				$("#myTabList").prepend(tabList);
-                $("#myTabContent").prepend(paneTab);
-			} else {
-                /*activeLi.after(tabList);
-                activeIframeWrap.after(paneTab);*/
+			if(tabLi.length < 10){
                 $("#myTabList .dropdown").before(tabList);
                 $("#myTabContent").append(paneTab);
-            }
-        	if(tabLi.length >= 9){
-                var tabMore = tabLi.slice(7,8)[0];
+            } else{
+                $("#myTabList .dropdown").show();
+                var tabMore = tabLi.slice(0,1)[0];
+                $(tabMore).attr("tabindex","-1");
                 tabMore.remove();
-                if($.inArray(tabId, tabIdArray) != -1){
-                    tabIdArray.splice($.inArray(tabId, tabIdArray), 1);
-                }
+                $("#myTabList .dropdown-menu").prepend(tabMore);
+                $("#myTabList .dropdown").before(tabList);
+                $("#myTabContent").append(paneTab);
  				//tabIdArray.shift();
-
                //var tabMore = tabLi.slice(3,4)[0];
-               //var tabId = $(tabMore).attr("dataId");               
+               //var tabId = $(tabMore).attr("dataId");
                //tabMore.remove();
                //tabIdArray.shift();
                //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
             	//$(tabMore).attr("tabindex","-1");
         	}
        		iframeShow(tabId, url);
-			
 		} else {
-        	var tabLi = $("#myTabList li");
-            var activeLi = $("#myTabList>li.active");
-            var activeIframeWrap = $("#myTabContent>div.active");
-            //暂时去掉
-            //var tabId = id + num ;
             var tabId = 'tab' + id;
             var tabId2 = tabId + "title";
             var elVal = tabName;
                     
             //判断tab页是否重复         
            	//有这个元素的情况下
-            console.log(tabIdArray);
             if ($.inArray(tabId, tabIdArray) != -1) {
-                //console.log($.inArray(tabId, tabIdArray));
             	var tabId2 = tabId + "title";
             	$(".js_tabClick").removeClass("active");
             	$(".tab-pane").hide();
             	$('#'+tabId2+'').addClass("active");     	
                 $('#'+tabId+'').show();
-             	
             } else {
             	tabIdArray.push(tabId);
                 var parentTabId = $(".tab-pane.active").attr("id") || '';
@@ -131,51 +111,35 @@
             	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
             
             	tabLi.removeClass("active");
-    			//activeIframeWrap.removeClass("active");
             	$("#myTabContent>.tab-pane").removeClass("active");
             	$("#myTabContent>.tab-pane").removeClass("in");
-            
-            	if(openType==1){
-                	if(tabLi.length==1){
-                    	$("#myTabList").prepend(tabList);
-                    	$("#myTabContent").prepend(paneTab);
-                	}else {
-                    	/*activeLi.after(tabList);
-                    	activeIframeWrap.after(paneTab);*/
-                        $("#myTabList .dropdown").before(tabList);
-                        $("#myTabContent").append(paneTab);
-                	}
-                
-            	} else if (openType == 3) {
-                	if(tabLi.length==1){
-                    	$("#myTabList").prepend(tabList);
-                    	$("#myTabContent").prepend(paneTab);
-                	}else {
-                    	/*activeLi.after(tabList);
-                    	activeIframeWrap.after(paneTab);*/
-                        $("#myTabList .dropdown").before(tabList);
-                        $("#myTabContent").append(paneTab);
-                	}
-            	}
-    			
-            	if(tabLi.length >= 9){
-                    var tabMore = tabLi.slice(7,8)[0];
-                    tabMore.remove();
+
+                 if(tabLi.length < 10){
+                     $("#myTabList .dropdown").before(tabList);
+                     $("#myTabContent").append(paneTab);
+                } else{
+                     $("#myTabList .dropdown").show();
+                     var tabMore = tabLi.slice(0,1)[0];
+                     $(tabMore).attr("tabindex","-1");
+                     tabMore.remove();
+                     $("#myTabList .dropdown-menu").prepend(tabMore);
+                     $("#myTabList .dropdown").before(tabList);
+                     $("#myTabContent").append(paneTab);
                     if($.inArray(tabId, tabIdArray) != -1){
                         tabIdArray.splice($.inArray(tabId, tabIdArray), 1);
                     }
-     				//tabIdArray.shift();
-    
-                   //var tabMore = tabLi.slice(3,4)[0];
-                   //var tabId = $(tabMore).attr("dataId");               
-                   //tabMore.remove();
-                   //tabIdArray.shift();
-                   //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
-                	//$(tabMore).attr("tabindex","-1");
-            	}
+                    //tabIdArray.shift();
+
+                    //var tabMore = tabLi.slice(3,4)[0];
+                    //var tabId = $(tabMore).attr("dataId");
+                    //tabMore.remove();
+                    //tabIdArray.shift();
+                    //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
+                    //$(tabMore).attr("tabindex","-1");
+                }
            		iframeShow(tabId, url);
-           }
-	   }
+            }
+	    }
     }
     
     function iframeShow(tabId, url) {
@@ -194,9 +158,8 @@
             tabsAdd($(this).attr('id'),$(this).attr('menuLinkUrl'),1,$(this).text());
         });
         $(document).delegate(".tabClose","click",function(e){
-            //console.log(tabIdArray);
             e.stopPropagation();
-            if($("#myTabList li").length == 11){
+            if($("#myTabList li").length == 10){
                 $("#myTabList>li.dropdown").hide();
             }
             var prevNode = $(this).parent().parent().prev();
@@ -207,14 +170,18 @@
             $("#myTabContent").find("#"+paneId).remove();
             $(this).parent().parent().remove();
             $("#myTabList li").removeClass("active");
+            $("#myTabList li").removeClass("in");
             if($(this).parent().parent().attr("tabindex")=="-1"){
-                $("#myTabList li:first").addClass("active");
-                var firstId = $("#myTabList li:first").attr("dataId");
-                //$('#'+firstId+'').show();
-                if($("#myTabList .dropdown-menu li").length==0){
+                $("#myTabList>li.dropdown").prev().addClass("in");
+                $("#myTabList>li.dropdown").prev().addClass("active");
+                var lastId = $("#myTabList>li.dropdown").prev().attr("dataId");
+                $('#'+lastId+'').addClass("active");
+                $('#'+lastId+'').addClass("in");
+                $('#'+lastId+'').show();
+                /*if($("#myTabList .dropdown-menu li").length==0){
                     $("#myTabList .dropdown").hide();
-                }
-                $('#'+nextId+'').show();
+                }*/
+                //$('#'+nextId+'').show();
             }else{
                 if($(".dropdown").css("display")=="block"){
                     var firstDrop = $("#myTabList .dropdown-menu li:first");
@@ -222,9 +189,27 @@
                     $(firstDrop).removeAttr("tabindex");
                     $("#myTabList .dropdown").before(firstDrop);
                 }
-                $(prevNode).addClass("active");
-				$("#"+$(prevNode).attr("dataid")).addClass("active");
-                $('#'+prevId+'').show();
+                if($(nextNode).length == 0){
+                    $(prevNode).addClass("in");
+                    $(prevNode).addClass("active");
+                    $("#"+$(prevNode).attr("dataid")).addClass("in");
+                    $("#"+$(prevNode).attr("dataid")).addClass("active");
+                    $('#'+prevId+'').show();
+                }else{
+                    if($(nextNode).attr("class") != "dropdown"){
+                        $(nextNode).addClass("in");
+                        $(nextNode).addClass("active");
+                        $("#"+$(nextNode).attr("dataid")).addClass("in");
+                        $("#"+$(nextNode).attr("dataid")).addClass("active");
+                        $('#'+nextId+'').show();
+                    }else{
+                        $(prevNode).addClass("in");
+                        $(prevNode).addClass("active");
+                        $("#"+$(prevNode).attr("dataid")).addClass("in");
+                        $("#"+$(prevNode).attr("dataid")).addClass("active");
+                        $('#'+prevId+'').show();
+                    }
+                }
             }
             if($.inArray(paneId, tabIdArray) != -1){
                 tabIdArray.splice($.inArray(paneId, tabIdArray), 1);
@@ -234,20 +219,23 @@
 
         /*标签页点击切换*/
         $(document).delegate(".js_tabClick","click",function(){
+            if($(this).parent().attr("class") == "dropdown-menu"){
+                var th = $(this);
+                th.remove();
+                var tabMore = $("#myTabList li").slice(0,1)[0];
+                tabMore.remove();
+                $("#myTabList li.dropdown").removeClass("active");
+                $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
+                $("#myTabList .dropdown").before(th);
+            }
             var tab_id = $(this).attr("dataId");
-            $(".tab-pane").hide();
-            $('#'+tab_id+'').show();
+            $("#myTabContent .tab-pane").hide();
+            $("#myTabContent .tab-pane").removeClass("active");
+            $("#myTabContent .tab-pane").removeClass("in");
+            $('#'+tab_id).show();
+            $('#'+tab_id).addClass("in");
+            $('#'+tab_id).addClass("active");
         });
-        /*标签页查看更多点击*/
-        $(document).delegate(".dropdown-menu .js_tabClick","click",function(){
-            var th = $(this);
-            th.remove();
-            var tabMore = $("#myTabList li").slice(8,9)[0];
-            tabMore.remove();
-            $("#myTabList>li.dropdown").show();
-            $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
-            $("#myTabList").prepend(th);
-        })
     })
 
     /*
