@@ -40,8 +40,8 @@
     	<property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${dubbo.import.consumer.user.check}"/>
-        <property name="version" value="${dubbo.import.user.version}"/>
+        <property name="check" value="${consumer.resources.dubbo.check}"/>
+        <property name="version" value="${consumer.resource.dubbo.version}"/>
         <property name="retries" value="${dubbo.retries}"/>   	
     </bean>
     
