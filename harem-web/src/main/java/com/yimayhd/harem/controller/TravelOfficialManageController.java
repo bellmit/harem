@@ -75,7 +75,7 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() throws Exception {
 		System.out.println("12313123");
-		return "/system/travelOfficial/edit";
+		return "/system/travelOfficial/edit2";
 	}
 
 	/**
