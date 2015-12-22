@@ -48,7 +48,21 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 			put("extraInfos", tfsService.readHtml5(sst.getBaseInfo().getNeedKnow().getExtraInfoUrl()));
 			put("lineType", LineType.getByType(sst.getBaseInfo().getType()));
 		}
-		return "/system/comm/travel/selfServiceTravel/detail";
+		return "/system/comm/travel/detail";
+	}
+
+	/**
+	 * 创建跟团游
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String create(long categoryId) throws Exception {
+		initBaseInfo();
+		initLinePropertyTypes(categoryId);
+		put("lineType", LineType.FLIGHT_HOTEL);
+		return "/system/comm/travel/detail";
 	}
 
 	/**
@@ -102,7 +116,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/save") 
+	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
 		SelfServiceTravel sst = JSON.parseObject(json, SelfServiceTravel.class);
 		if (StringUtils.isNotBlank(importantInfos)) {
