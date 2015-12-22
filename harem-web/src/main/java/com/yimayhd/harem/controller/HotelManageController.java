@@ -123,10 +123,9 @@ public class HotelManageController extends BaseController {
 		
 		recommend.setName(name2);
 		String jsonString = JSON.toJSONString(recommend);
-		
 		String jsonNeedKnow = JSON.toJSONString(needKnow);
 		
-		//hotelVO.setNeedKnow(jsonNeedKnow);
+		hotelVO.setNeedKnow(jsonNeedKnow);
 		hotelVO.setRecommend(jsonString);
 		hotelVO.setRoomFacility(roomFacility);
 		hotelVO.setRoomService(roomService);
