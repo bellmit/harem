@@ -377,7 +377,7 @@
         $('.citySelect').change(function(){
             
 			if($('.citySelect option:selected')){
-                $('.citySelectName').val($('.citySelectId option:selected').text());
+                $('#citySelectName').val($('.citySelect option:selected').text());
             }
 
 			//清空所有子元素
@@ -415,7 +415,7 @@
         $('.countySelect').change(function(){
             
 			if($('.countySelect option:selected')){
-                $('.countySelectName').val($('.countySelectId option:selected').text());
+                $('#countySelectName').val($('.countySelect option:selected').text());
             }
 						
         });	    
