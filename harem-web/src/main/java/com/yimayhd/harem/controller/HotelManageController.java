@@ -103,6 +103,16 @@ public class HotelManageController extends BaseController {
 		return "/system/hotel/add2";
 	}
 
+	public static void main(String[] args) {
+		
+		System.out.println(new StringBuilder("1111111111000000000000000000000001111100000000000000000000000000").reverse().toString());
+		System.out.println(new StringBuilder("11111111000000000").reverse().toString());
+		System.out.println(new StringBuilder("111111110000000").reverse().toString());
+		
+		System.out.println(Long.parseLong(new StringBuilder("1111111111000000000000000000000001111100000000000000000000000000").reverse().toString(), 2));
+		
+	}
+	
 	/**
 	 * 新增酒店（资源）
 	 * 
@@ -118,7 +128,21 @@ public class HotelManageController extends BaseController {
 		recommend.setName(name2);
 		String jsonString = JSON.toJSONString(recommend);
 		hotelVO.setRecommend(jsonString);
+		
+		long roomFacility = Long.parseLong(new StringBuilder(roomFacilityStr).reverse().toString(), 2);
+		long roomService = Long.parseLong(new StringBuilder(roomServiceStr).reverse().toString(), 2);
+		long hotelFacility = Long.parseLong(new StringBuilder(hotelFacilityStr).reverse().toString(), 2);
+		
+		System.out.println(roomFacility);
+		System.out.println(roomService);
+		System.out.println(hotelFacility);		
+		
+		hotelVO.setRoomFacility(roomFacility);
+		hotelVO.setRoomService(roomService);
+		hotelVO.setHotelFacility(hotelFacility);
+		
 		hotelRPCService.addHotel(hotelVO);
+		
 		System.out.println(roomFacilityStr);
 		System.out.println(roomServiceStr);
 		System.out.println(hotelFacilityStr);
