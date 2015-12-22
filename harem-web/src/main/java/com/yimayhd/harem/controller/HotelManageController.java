@@ -29,6 +29,7 @@ import com.yimayhd.harem.service.HotelService;
 import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
@@ -100,24 +101,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
-		return "/system/hotel/add2";
-	}
-
-	public static void main(String[] args) {
-		
-/*		System.out.println(new StringBuilder("1111111111000000000000000000000001111100000000000000000000000000").reverse().toString());
-		System.out.println(new StringBuilder("11111111000000000").reverse().toString());
-		System.out.println(new StringBuilder("111111110000000").reverse().toString());
-		
-		System.out.println(Long.parseLong(new StringBuilder("1111111111000000000000000000000001111100000000000000000000000000").reverse().toString(), 2));
-*/	
-		HotelVO hotelVO = new HotelVO();
-		hotelVO.setHotelFacility(13L);
-		hotelVO.setRoomFacility(14L);
-		hotelVO.setRoomService(25L);
-		
-		//System.out.println(JSON.t);
-		
+		return "/system/hotel/add3";
 	}
 	
 	/**
@@ -130,6 +114,7 @@ public class HotelManageController extends BaseController {
 	public String add(HotelVO hotelVO, String roomFacilityStr,
 			String roomServiceStr, String hotelFacilityStr,
 			MasterRecommend recommend,
+			NeedKnow needKnow,
 			String name2) throws Exception {
 		
 		long roomFacility = Long.parseLong(new StringBuilder(roomFacilityStr).reverse().toString(), 2);
@@ -138,6 +123,10 @@ public class HotelManageController extends BaseController {
 		
 		recommend.setName(name2);
 		String jsonString = JSON.toJSONString(recommend);
+		
+		String jsonNeedKnow = JSON.toJSONString(needKnow);
+		
+		//hotelVO.setNeedKnow(jsonNeedKnow);
 		hotelVO.setRecommend(jsonString);
 		hotelVO.setRoomFacility(roomFacility);
 		hotelVO.setRoomService(roomService);
