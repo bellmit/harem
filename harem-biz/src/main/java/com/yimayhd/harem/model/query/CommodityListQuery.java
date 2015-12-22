@@ -12,7 +12,7 @@ public class CommodityListQuery extends BaseQuery {
 	private static final long serialVersionUID = -4699187319874706808L;
 	private long category_id;//商品分类
     private String commName;//商品名称
-    private String commCode;//商品编码
+    private long id;//商品编码
     private int commStatus;//状态
     private String BeginDate;//发布开始时间
     private String endDate;//发布结束时间
@@ -33,12 +33,12 @@ public class CommodityListQuery extends BaseQuery {
         this.commName = commName;
     }
 
-    public String getCommCode() {
-        return commCode;
+    public long getId() {
+        return id;
     }
 
-    public void setCommCode(String commCode) {
-        this.commCode = commCode;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getCommStatus() {

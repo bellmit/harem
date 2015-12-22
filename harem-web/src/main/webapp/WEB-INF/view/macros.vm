@@ -83,10 +83,12 @@
 #end
 #*商品状态*#
 #macro(COMMODITY_STATUS $type)
-    #if($type == '1')
-    启用
-    #elseif($type == '2')
-    停用
+    #if($type == '2')
+        启用
+    #elseif($type == '3')
+        停用
+    #else
+        未知
     #end
 #end
 #*支付方式*#
