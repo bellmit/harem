@@ -52,7 +52,7 @@
                     <th>是否允许加入状态</th>
                     <th>是否显示状态</th>
                     <th>成员数</th>
-                    <th>成员限额</th>
+                   
                     <th>部长名称</th>
                     <th>部长logo</th>
                     <th>累计活动</th>
@@ -62,18 +62,18 @@
                     #foreach($club in $clubList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>$!club.name</td>
-                        <td>$$utilWebconfig.getTfsRootPath()$!club.logoUrl</td>
-                        <td>#IS_SHOW_STATUS($!club.joinStatus)</td>
-                        <td>#IS_SHOW_STATUS($!club.showStatus)</td>
-                        <td>$!club.joinNum</td>
-                        <td>$!club.limitNum</td>
-                        <td>$!club.manageUserName</td>
-                        <td>$!club.manageUserLogoUrl</td>
-                        <td>$!club.hasActivityNum</td>
+                        <td>$!club.clubName</td>
+                        <td><img height="50" width="50" src="$utilWebconfig.getTfsRootPath()$!club.logoUrl" /> </td>
+                        <td>#IS_SHOW_STATUS($!club.state)</td>
+                        <td>#IS_SHOW_STATUS($!club.state)</td>
+                        <td>$!club.clubNum</td>
+                       
+                        <td>$!club.ncikName</td>
+                        <td><img height="50" width="50" src="$utilWebconfig.getTfsRootPath()$!club.userPhoto" /> </td>
+                        <td>$!club.activityCount</td>
                         <td>
                         <button type="button" class="btn btn-primary clubDetail" clubId="$club.id">详情</button>
-                        <button type="button" class="btn btn-primary clubBan"  clubId="$club.id" joinStatus="$club.joinStatus">#if($club.joinStatus == 1) 禁止 #elseif($club.joinStatus == 2) 允许 #end </button>
+                        <button type="button" class="btn btn-primary clubBan"  clubId="$club.id" joinStatus="$club.state">#if($club.state == 1) 上架 #elseif($club.state == 2) 下架 #end </button>
                         </td>
                     </tr>
                     #end

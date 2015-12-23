@@ -17,7 +17,7 @@ public interface ClubService {
      * 获取俱乐部列表(可带查询条件)
      * @return 俱乐部列表
      */
-	ClubDOList getList(ClubDOInfoDTO club)throws Exception;
+	List<ClubDO>  getList(ClubDOInfoDTO club)throws Exception;
     /**
      * 获取俱乐部详情
      * @return 俱乐部详情

@@ -25,10 +25,10 @@ public class ClubServiceImpl implements ClubService {
 	@Autowired SnsCenterService snsCenterService;
 	
     @Override
-    public ClubDOList getList(ClubDOInfoDTO clubVO) throws Exception {
-    	BasePageResult<ClubDOList> res = snsCenterService.getClubInfoListByQuery(clubVO);
+    public List<ClubDO> getList(ClubDOInfoDTO clubVO) throws Exception {
+    	BasePageResult<ClubDO> res = snsCenterService.getClubInfoListByQuery(clubVO);
     	if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
-    		return (ClubDOList) res.getList();
+    		return  res.getList();
     	}
 		return null;
     }
