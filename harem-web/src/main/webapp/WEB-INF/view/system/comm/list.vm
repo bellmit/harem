@@ -4,25 +4,27 @@
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">分类：</button>
+                    <button class="btn btn-default" type="button">商品类型：</button>
                 </span>
-            <select class="form-control" name="commStatus">
+            <select class="form-control" name="itemType">
                 <option value="0" >全部</option>
-                <option value="1" #if($!commodityListQuery.commStatus == 2) selected #end>启用</option>
-                <option value="2" #if($!commodityListQuery.commStatus == 3) selected #end>停用</option>
+                #foreach($itemType in $itemTypeList)
+                    <option value="$!itemType.value" #if($!commodityListQuery.itemType == $!itemType.value) selected #end>$!itemType.text</option>
+                #end
+
             </select>
         </div>
         <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商品名称</button>
                     </span>
-            <input type="text" class="form-control" name="id" value="$!commodityListQuery.id">
+            <input type="text" class="form-control" name="commName" value="$!commodityListQuery.commName">
         </div>
         <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商品编码</button>
                     </span>
-            <input type="text" class="form-control" name="commCode" value="$!commodityListQuery.commCode">
+            <input type="text" class="form-control" name="id" value="$!commodityListQuery.id">
         </div>
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -30,8 +32,8 @@
                 </span>
             <select class="form-control" name="commStatus">
                 <option value="0" >全部</option>
-                <option value="1" #if($!commodityListQuery.commStatus == 1) selected #end>启用</option>
-                <option value="2" #if($!commodityListQuery.commStatus == 2) selected #end>停用</option>
+                <option value="2" #if($!commodityListQuery.commStatus == 2) selected #end>启用</option>
+                <option value="3" #if($!commodityListQuery.commStatus == 3) selected #end>停用</option>
             </select>
         </div>
         <div class="input-group inpSingle">

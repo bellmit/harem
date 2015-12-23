@@ -76,7 +76,7 @@
                 </td>
 
                 <td>
-                    <div class="fileImg">
+                    <div class="fileImgWrap">
                         <button type="button" class="btn btn-success">选择图片</button>
                         <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
                         <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
@@ -96,7 +96,7 @@
             <tr>
                 <td> <span  class="spColor"> <textarea ></textarea></span></td>
                 <td>
-                    <div class="fileImg">
+                    <div class="fileImgWrap">
                         <button type="button" class="btn btn-success">选择图片</button>
                         <input type="hidden" name="picturePoster" value="$!club.picturePoster"  id="picturePosterUploadFileReturnInput">
                         <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile">

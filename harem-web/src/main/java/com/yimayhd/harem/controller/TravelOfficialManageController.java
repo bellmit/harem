@@ -3,6 +3,7 @@ package com.yimayhd.harem.controller;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.Activity;
 import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.TravelOfficial;
@@ -74,7 +75,6 @@ public class TravelOfficialManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() throws Exception {
-		System.out.println("12313123");
 		return "/system/travelOfficial/detail";
 	}
 
@@ -87,8 +87,11 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo add(TravelOfficial travelOfficial) throws Exception {
-		travelOfficialService.add(travelOfficial);
-		return new ResponseVo();
+		TravelOfficial db = travelOfficialService.add(travelOfficial);
+		if(null == db ){
+			return new ResponseVo(ResponseStatus.ERROR);	
+		}
+		return new ResponseVo(ResponseStatus.SUCCESS);
 	}
 
 	/**

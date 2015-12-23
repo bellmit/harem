@@ -13,7 +13,7 @@
             <tr>
                 <td><span class="spColor">*</span>俱乐部LOGO</td>
                 <td>
-                    <div class="fileImg">
+                    <div class="fileImgWrap">
                         <button type="button" class="btn btn-success">选择图片</button>
                         <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
                         <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
@@ -27,9 +27,8 @@
             <tr>
                 <td><span class="spColor">*</span>俱乐部宣传图</td>
                 <td>
-                    <div class="fileImg">
+                    <div class="fileImgWrap">
                         <button type="button" class="btn btn-success">选择图片</button>
-						
                         <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile" accept="image/png,image/gif">
 						<input type="hidden" name="backImg" value="$!club.backImg"  id="picturePosterUploadFileReturnInput">
 							
