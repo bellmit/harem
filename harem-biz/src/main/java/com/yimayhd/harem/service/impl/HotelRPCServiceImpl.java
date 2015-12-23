@@ -1,9 +1,11 @@
 package com.yimayhd.harem.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.yimayhd.harem.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -53,21 +55,16 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			hotelPageQuery.setStatus(hotelListQuery.getHotelStatus());			
 		}
 		
-		//区域
-		
-		//联系人
-		if (StringUtils.isEmpty(hotelListQuery.getHotelNameOrTel())) {			
-			hotelPageQuery.setPersonOrPhone(hotelListQuery.getHotelNameOrTel());			
-		}
-		
 		//开始时间
-		if (StringUtils.isEmpty(hotelListQuery.getBeginDate())) {			
-			hotelPageQuery.setStartTime(hotelListQuery.getBeginDate());			
+		if (!StringUtils.isBlank(hotelListQuery.getBeginDate())) {
+			Date startTime = DateUtil.parseDate(hotelListQuery.getBeginDate());
+			hotelPageQuery.setStartTime(startTime);
 		}
 		
 		//结束时间
-		if (StringUtils.isEmpty(hotelListQuery.getEndDate())) {			
-			hotelPageQuery.setEndTime(hotelListQuery.getEndDate());			
+		if (!StringUtils.isBlank(hotelListQuery.getEndDate())) {
+			Date endTime = DateUtil.parseDate(hotelListQuery.getEndDate());
+			hotelPageQuery.setEndTime(DateUtil.add23Hours(endTime));
 		}
 		
 		ICPageResult<HotelDO> icPageResult = itemQueryService.pageQueryHotel(hotelPageQuery);
