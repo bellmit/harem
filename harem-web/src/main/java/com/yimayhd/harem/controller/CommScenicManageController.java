@@ -54,7 +54,7 @@ public class CommScenicManageController extends BaseController {
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public
     String toAdd(Model model,long categoryId) throws Exception {
-    	CategoryVO categoryVO = categoryService.getCategoryById(categoryId);
+    	CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
     	//主题
     	BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.VIEWTAG.name());
     	model.addAttribute("itemType",ItemType.SPOTS.getValue());
