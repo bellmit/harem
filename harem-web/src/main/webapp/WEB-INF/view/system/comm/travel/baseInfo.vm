@@ -18,7 +18,7 @@
                 <td><span class="spColor">*</span>产品封面图：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
-                    <input id="productImageFile" class="fileBtn" type="file" accept="image/png,image/gif"/>
+                    <input id="productImageFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
                     <img class="productImageUrlImg img-circle" src="#if($!{product.baseInfo.productImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImage} #end"/>
                     <input class="productImageUrlVal" type="hidden" value="$!product.baseInfo.productImage"/>
                 </td>
@@ -27,7 +27,7 @@
                 <td><span class="spColor">*</span>行程封面图：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
-                    <input id="tripImageFile" class="fileBtn" type="file" accept="image/png,image/gif"/>
+                    <input id="tripImageFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
                     <img class="tripImageUrlImg img-circle" src="#if($!{product.baseInfo.tripImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.tripImage} #end"/>
                     <input class="tripImageUrlVal" type="hidden" value="$!product.baseInfo.tripImage"/>
                 </td>
