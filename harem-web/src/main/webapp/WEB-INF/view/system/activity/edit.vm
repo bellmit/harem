@@ -192,7 +192,7 @@
                         <button type="button" class="btn btn-success">选择图片</button>
                         <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
                         <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
-                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+                        <p>注：图片大小不超过2M<br />建议尺寸：300*300</p>
                     </div>
                     <div class="logoView">
                         <img src="#if($club.logoUrl) $utilWebconfig.getTfsRootPath()$!club.logoUrl #end" class="img-circle" id="logoUrlUploadFileReturnImg">
