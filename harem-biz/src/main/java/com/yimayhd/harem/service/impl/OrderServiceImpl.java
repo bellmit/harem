@@ -4,6 +4,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.convert.OrderConverter;
 import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.harem.model.trade.MainOrder;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
@@ -35,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 	private UserService userServiceRef;
 
 	@Override
-	public PageVO<BizOrderDO> getOrderList(OrderListQuery orderListQuery) throws Exception {
+	public PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception {
 		long userId = 0;
 		List<BizOrderDO> list = null;
 		if (StringUtils.isNotEmpty(orderListQuery.getBuyerName()) || StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
@@ -95,9 +96,14 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 
+		List<MainOrder> mainOrderList = new ArrayList<MainOrder>();
+		for (BizOrderDO bizOrderDO : list) {
+			MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
+			mainOrderList.add(mo);
+		}
 
-		PageVO<BizOrderDO> orderPageVO = new PageVO<BizOrderDO>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
-				(int)batchQueryResult.getTotalCount(),list);
+		PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+				(int)batchQueryResult.getTotalCount(),mainOrderList);
 		return orderPageVO;
 	}
 

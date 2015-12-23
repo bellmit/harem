@@ -5,6 +5,7 @@ import java.util.List;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.harem.model.trade.MainOrder;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 
 /**
@@ -25,10 +26,8 @@ public interface OrderService {
 
 	/**
 	 * 获取订单列表
-	 * 
-	 * @param order
 	 * @return
 	 * @throws Exception
 	 */
-	PageVO<BizOrderDO> getOrderList(OrderListQuery orderListQuery) throws Exception;
+	PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception;
 }
