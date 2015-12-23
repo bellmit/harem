@@ -77,7 +77,9 @@ public class CommodityServiceImpl implements CommodityService {
         }
         itemQryDTO.setStatus(status);
         //
-        itemQryDTO.setItemType(commodityListQuery.getItemType());
+        if (commodityListQuery.getItemType() != 0) {
+            itemQryDTO.setItemType(commodityListQuery.getItemType());
+        }
         //TODO
         //分类 暂时没想好怎么做
 
