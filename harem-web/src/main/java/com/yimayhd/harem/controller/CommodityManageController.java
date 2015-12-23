@@ -13,6 +13,7 @@ import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
@@ -71,9 +72,10 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model, int categoryId) throws Exception {
 		CategoryVO categoryVO = categoryService.getCategoryById(categoryId);
+		CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
+		int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
 		String redirectUrl = "";
-		// TODO 对应的商品类型现在还没有，之后会提供
-		switch (categoryId) {
+		switch (itemType) {
 		case CATEGORY_TYPE_HOTEL:
 			redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;
 			break;

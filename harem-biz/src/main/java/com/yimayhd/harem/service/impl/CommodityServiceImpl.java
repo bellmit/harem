@@ -13,6 +13,7 @@ import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.*;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -83,6 +84,12 @@ public class CommodityServiceImpl implements CommodityService {
         }
         PageVO<ItemDO> pageVO = new PageVO<ItemDO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemPageResult.getItemDOList());
         return pageVO;
+    }
+
+    @Override
+    public List<ItemType> getItemTypeList() throws Exception {
+        ItemType.values()
+        return null;
     }
 
     @Override
