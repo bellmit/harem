@@ -80,7 +80,7 @@ public class CommodityManageController extends BaseController {
 			redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_SPOTS:
-			redirectUrl = "/B2C/scenicSpotManage/toAdd?categoryId=" + categoryId;
+			redirectUrl = "/B2C/comm/scenicManage/toAdd?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_LINE:
 			redirectUrl = "/B2C/comm/groupTravel/create?categoryId=" + categoryId;
@@ -92,7 +92,7 @@ public class CommodityManageController extends BaseController {
 			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_ACTIVITY:
-			redirectUrl = "/B2C/activityManage/toAdd?categoryId=" + categoryId;
+			redirectUrl = "/B2C/comm/activityManage/toAdd?categoryId=" + categoryId;
 			break;
 		default:
 			// 普通商品，伴手礼应该也走普通商品
