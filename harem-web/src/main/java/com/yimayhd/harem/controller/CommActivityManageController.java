@@ -42,16 +42,16 @@ public class CommActivityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
-	public String toAdd(Model model) throws Exception {
-		//规格
-		CategoryVO categoryVO = categoryService.getCategoryVOById(37);
+	public String toAdd(Model model,int categoryId) throws Exception {
+		//规格37
+		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
 		model.addAttribute("category", categoryVO);
 		return "/system/comm/activity/edit";
 	}
 
 	
 	 /**
-     * 新增活动商品
+     * 新增活动商品	
      * @return
      * @throws Exception
      */
