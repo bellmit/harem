@@ -48,7 +48,6 @@
 	<bean class="com.yimayhd.harem.service.impl.SystemManageServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl" />
 	<!-- commodity -->
-
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
@@ -58,4 +57,6 @@
 	<bean class="com.yimayhd.harem.service.impl.CommScenicServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.CommActivityServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.FlightRPCServiceImpl"></bean>
+	<!-- comment -->
+	<bean class="com.yimayhd.harem.service.impl.TagRPCServiceImpl"></bean>
 </beans>

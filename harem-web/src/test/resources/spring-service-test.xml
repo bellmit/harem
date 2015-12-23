@@ -52,4 +52,6 @@
 	<bean class="com.yimayhd.harem.service.impl.SelfServiceTravelServiceImpl"></bean>
 	<bean id="systemManageService" class="com.yimayhd.harem.service.impl.SystemManageServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.FlightRPCServiceImpl"></bean>
+	<!-- comment -->
+	<bean class="com.yimayhd.harem.service.impl.TagRPCServiceImpl"></bean>
 </beans>
