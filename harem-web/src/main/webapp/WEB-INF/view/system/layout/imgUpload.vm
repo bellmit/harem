@@ -6,34 +6,6 @@
             <a href="" class="img"><img src="../../tmp/1.jpg"/></a>
             <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
         </li>
-        #*<li data-value="2">
-            <a href="" class="img"><img src="../../tmp/2.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>
-        <li data-value="3">
-            <a href="" class="img"><img src="../../tmp/3.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>
-        <li data-value="4">
-            <a href="" class="img"><img src="../../tmp/4.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>
-        <li data-value="5">
-            <a href="" class="img"><img src="../../tmp/5.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>
-        <li data-value="6">
-            <a href="" class="img"><img src="../../tmp/6.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>
-        <li>
-            <a href="" class="img"><img src="../../tmp/7.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>
-        <li>
-            <a href="" class="img"><img src="../../tmp/7.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>*#
     </ul>
     <input type="submit" name="submit" value="保存" id="save-btn" class="save-btn"/>
 </form>

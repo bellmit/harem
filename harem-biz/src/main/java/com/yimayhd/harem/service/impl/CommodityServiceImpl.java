@@ -15,10 +15,12 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.*;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +44,8 @@ public class CommodityServiceImpl implements CommodityService {
     private ItemPublishService itemPublishServiceRef;
     @Autowired
     private TfsService tfsService;
+    @Autowired
+    private HotelService hotelServiceRef;
     @Override
     public PageVO<ItemDO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
@@ -56,10 +60,12 @@ public class CommodityServiceImpl implements CommodityService {
             itemQryDTO.setId(commodityListQuery.getId());
         }
         if(!StringUtils.isBlank(commodityListQuery.getBeginDate())) {
-            itemQryDTO.setBeginDate(commodityListQuery.getBeginDate() + DateUtil.DAY_BEGIN);
+            Date beginTime = DateUtil.formatMinTimeForDate(commodityListQuery.getBeginDate());
+            itemQryDTO.setBeginDate(beginTime);
         }
         if(!StringUtils.isBlank(commodityListQuery.getEndDate())) {
-            itemQryDTO.setEndDate(commodityListQuery.getEndDate() + DateUtil.DAY_END);
+            Date endTime = DateUtil.formatMaxTimeForDate(commodityListQuery.getEndDate());
+            itemQryDTO.setEndDate(DateUtil.add23Hours(endTime));
         }
         List<Integer> status = new ArrayList<Integer>();
         if(0 != commodityListQuery.getCommStatus()){
@@ -71,7 +77,9 @@ public class CommodityServiceImpl implements CommodityService {
         }
         itemQryDTO.setStatus(status);
         //
-
+        if (commodityListQuery.getItemType() != 0) {
+            itemQryDTO.setItemType(commodityListQuery.getItemType());
+        }
         //TODO
         //分类 暂时没想好怎么做
 
@@ -107,8 +115,8 @@ public class CommodityServiceImpl implements CommodityService {
         }
         ItemResultVO itemResultVO = new ItemResultVO();
         //详细描述从tfs读出来（富文本编辑）
-        if(StringUtils.isNotBlank(itemResult.getItem().getDescription())){
-            itemResult.getItem().setDescription(tfsService.readHtml5(itemResult.getItem().getDescription()));
+        if(StringUtils.isNotBlank(itemResult.getItem().getDetailUrl())){
+            itemResult.getItem().setDetailUrl(tfsService.readHtml5(itemResult.getItem().getDetailUrl()));
 
         }
         //TODO
@@ -138,13 +146,36 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public ItemDO addCommHotel(ItemDO itemDO) throws Exception {
+    public ItemDO addCommHotel(ItemVO itemVO) throws Exception {
+        HotelPublishDTO hotelPublishDTO = new HotelPublishDTO();
+        ItemDO itemDO = ItemVO.getItemDO(itemVO);
+        hotelPublishDTO.setItemDO(itemDO);
+        hotelPublishDTO.setSort(itemVO.getSort());
+        ICResult<Long> result = hotelServiceRef.publishHotel(hotelPublishDTO);
+        if(null == result){
+            log.error("ItemPublishService.publish result is null and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException("返回结果错误,酒店商品新增失败 ");
+        } else if(!result.isSuccess()){
+            log.error("ItemPublishService.publish error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException(result.getResultMsg());
+        }
         return null;
     }
 
     @Override
-    public void modifyCommHotel(ItemDO itemDO) throws Exception {
-
+    public void modifyCommHotel(ItemVO itemVO) throws Exception {
+        HotelPublishDTO hotelPublishDTO = new HotelPublishDTO();
+        ItemDO itemDO = ItemVO.getItemDO(itemVO);
+        hotelPublishDTO.setItemDO(itemDO);
+        hotelPublishDTO.setSort(itemVO.getSort());
+        ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
+        if(null == result){
+            log.error("ItemPublishService.publish result is null and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException("返回结果错误,酒店商品修改失败 ");
+        } else if(!result.isSuccess()){
+            log.error("ItemPublishService.publish error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+            throw new BaseException(result.getResultMsg());
+        }
     }
 
     @Override
@@ -215,7 +246,9 @@ public class CommodityServiceImpl implements CommodityService {
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         //详细描述存tfs（富文本编辑）
-        itemDO.setDescription(tfsService.publishHtml5(itemDO.getDescription()));
+        if(StringUtils.isNotBlank(itemDO.getDetailUrl())){
+            itemDO.setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
+        }
         commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
 
@@ -232,11 +265,12 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
         //参数类型匹配
-        CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
-        commonItemPublishDTO = ItemVO.getCommonItemPublishDTO(itemVO);
+        CommonItemPublishDTO commonItemPublishDTO = ItemVO.getCommonItemPublishDTO(itemVO);
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         //详细描述存tfs（富文本编辑）
-        commonItemPublishDTO.getItemDO().setDescription(tfsService.publishHtml5(itemDO.getDescription()));
+        if(StringUtils.isNotBlank(itemDO.getDetailUrl())) {
+            commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
+        }
         commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
 
         ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);

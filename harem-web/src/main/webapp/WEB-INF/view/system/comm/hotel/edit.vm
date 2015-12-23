@@ -4,6 +4,19 @@
     <form name="commHotelForm" id="commHotelForm" action="" method="post" commHotelId="$!commHotel.id">
             <div class="">
                 <table class="table">
+                    <input type="hidden" name="categoryId" value="$!category.id">
+                    <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
+                #*商品类型，此页面全是酒店商品发布 新增的时候需要，修改的时候不更新此字段*#
+                    <input type="hidden" name="itemType" value="$!itemType">
+                #*pay_type 暂时设置为1*#
+                    <input type="hidden" name="payType" value="1">
+                #*source 来源暂时都为1*#
+                    <input type="hidden" name="source" value="1">
+
+                #*version 新增时为1*#
+                    <input type="hidden" name="version" value="#if($!commHotel.version)$!commHotel.version#else 1#end">
+                #*有没有sku*#
+                    <input type="hidden" name="options" value="0">
                     <tr>
                         <td><span class="spColor">*</span>分类</td>
                         <td>
@@ -15,17 +28,17 @@
                         <td>
                             <button type="button" class="btn btn-info selectHotelBtn">选择酒店</button>
                             <span class="hotelName">$!commHotel.subTitle</span>
-                            <input class="hotelNameInp" type="hidden" name="subTitle" value="$!commHotel.subTitle" disabled>
-                            <input class="hotelIdInp" type="hidden" name="outId" value="$!commHotel.outId" disabled>
+                            <input class="hotelNameInp" type="hidden" name="subTitle" value="$!commHotel.subTitle">
+                            <input class="hotelIdInp" type="hidden" name="outId" value="$!commHotel.outId">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>排序</td>
-                        <td><input type="text" name="index" value="$!commHotel.index" disabled></td>
+                        <td><input type="text" name="sort" value="$!commHotel.sort" >请输入数字，数字越大排序靠后</td>
                     </tr>
                     <tr>
                         <td>*时间区间</td>
-                        <td>用户可选入住时间为<input type="text" name="dateInterval" value="$!commHotel.dateInterval" disabled></td>
+                        <td>用户可选入住时间为<input type="text" name="startBookTimeLimit" value="$!commHotel.startBookTimeLimit">天内</td>
                     </tr>
                 </table>
             </div>
@@ -43,13 +56,15 @@
                         <tr class="subCheckedTR">
                             <td><input type="text" name="title" value="$!commHotel.title"></td>
                             <td><input type="text" name="oneWord" value="$!commHotel.oneWord"></td>
-                            <td><input type="text" name="price" value="$!commHotel.price"></td>
-                            <td><input type="text" name="huiyuanyouhuiedu" value="$!commHotel.huiyuanyouhuiedu" disabled></td>
-                            <td><input type="text" name="huiyuanxiangou" value="$!commHotel.huiyuanxiangou" disabled></td>
+                            <td><input type="text" name="priceY" value="$!commHotel.priceY"></td>
+                            <td><input type="text" name="" value=""></td>
+                            <td><input type="text" name="" value=""></td>
                             <td>
-                                <input id="fileID" type="file" accept="image/png,image/gif">
-                                <img class="picUrlImg" src="#if($!hotel.logoUrl)$utilWebconfig.getTfsRootPath()$!hotel.logoUrl #end">
-                                <input class="picUrlVal" type="hidden" name="picUrls" value="$!commHotel.picUrls">
+                                <input id="batchUploadBtn" type="file" multiple="multiple" >
+                                #foreach($pic in $!commHotel.picUrlList)
+                                    <img class="picUrlsUrl" src="$utilWebconfig.getTfsRootPath()$pic">
+                                #end
+                                <input class="picUrlsVal" type="hidden" name="picUrls" value="$!commHotel.picUrls">
                             </td>
                         </tr>
                 </table>
@@ -84,34 +99,56 @@
     </form>
 </div>
 <script>
-    var pictureUploadCallBack = function(data){
-        if(data && data.status == 200){
-            $('.picUrlVal').val(data.data);
-            $('.picUrlImg').attr('src',tfsRootPath + data.data);
 
+    var batchCallBack = function(dataVal){
+
+        if(data && data.status == 200){
+            for(var key in dataVal.data){
+                $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+            }
         }else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
-    var selectUserCallBack = function(data){
-        if(data){
-            $('.hotelName').text(data['name']);
-            $('.hotelNameInp').val(data['id']);
-            $('.hotelNameInp').val(data['name']);
-        }
-    }
+
     $(function(){
-        //上传图片
-        $(document).delegate("#fileID",'change',function(){
-            fileUpload('#fileID',1,pictureUploadCallBack);
+        /****************批量上传pic_urls*****************/
+        $(document).delegate("#batchUploadBtn",'change',function(){
+            fileUpload('#batchUploadBtn',2,batchCallBack);
         })
-        //选择酒店
-        $('.selectHotelBtn').click(function(){
-            openModal(actionDefaultPath + '/B2C/hotelManage/selectList?multiSelect=1','选择酒店',selectUserCallBack);
-        });
+
+        $(".selectHotelBtn").click(selectHotel);
+        // 选择酒店
+        function selectHotel(){
+            currentHId = $(this).attr("display-id");
+            openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
+                var hot = win.getItems();
+                if(hot && hot[0]){
+                    $('.hotelName').text(hot[0]['name']);
+                    $('.hotelIdInp').val(hot[0]['id']);
+                    $('.hotelNameInp').val(hot[0]['name']);
+                }else{
+
+                    //return false;
+                }
+                //console.log(JSON.stringify(hot));
+                //一般设定yes回调，必须进行手工关闭
+                return true;
+            });
+        }
         //提交
         $('#btnSubmit').click(function(){
             $(this).prop('disabled',true);
+            //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
             var actionUrl;
             var commHotelId = $('#commHotelForm').attr('commHotelId');
             if(commHotelId){

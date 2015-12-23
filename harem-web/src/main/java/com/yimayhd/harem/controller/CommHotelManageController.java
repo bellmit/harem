@@ -1,8 +1,14 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.model.CategoryVO;
+import com.yimayhd.harem.model.ItemResultVO;
+import com.yimayhd.harem.model.ItemVO;
+import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CommHotelManageController extends BaseController {
     @Autowired
     private CommodityService commodityService;
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * 新增酒店（商品）
@@ -27,7 +35,12 @@ public class CommHotelManageController extends BaseController {
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public
-    String toAdd() throws Exception {
+    String toAdd(Model model,long categoryId) throws Exception {
+        CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
+        CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
+        int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
+        model.addAttribute("category", categoryVO);
+        model.addAttribute("itemType",itemType);
         return "/system/comm/hotel/edit";
     }
     /**
@@ -38,8 +51,12 @@ public class CommHotelManageController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-        ItemDO itemDO = commodityService.getCommHotelById(id);
-        model.addAttribute("commHotel",itemDO);
+
+        ItemResultVO itemResultVO = commodityService.getCommodityById(id);
+        model.addAttribute("itemResult", itemResultVO);
+        model.addAttribute("commHotel", itemResultVO.getItemVO());
+        model.addAttribute("category", itemResultVO.getCategoryVO());
+        model.addAttribute("itemType",ItemType.HOTEL.getValue());
 
         return "/system/comm/hotel/edit";
     }
@@ -51,9 +68,9 @@ public class CommHotelManageController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public
-    String edit(ItemDO itemDO,@PathVariable("id") long id) throws Exception {
-        itemDO.setId(id);
-        commodityService.modifyCommHotel(itemDO);
+    String edit(ItemVO itemVO,@PathVariable("id") long id) throws Exception {
+        itemVO.setId(id);
+        commodityService.modifyCommHotel(itemVO);
         return "/success";
     }
 
@@ -64,8 +81,8 @@ public class CommHotelManageController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public
-    String add(ItemDO itemDO) throws Exception {
-        commodityService.addCommHotel(itemDO);
+    String add(ItemVO itemVO) throws Exception {
+        commodityService.addCommHotel(itemVO);
         return "/success";
     }
 }
