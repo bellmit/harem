@@ -13,6 +13,7 @@ import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,7 +58,9 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
 		PageVO<ItemDO> pageVO= commodityService.getList(commodityListQuery);
+		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
+		model.addAttribute("itemTypeList", itemTypeList);
 		model.addAttribute("commodityList", pageVO.getItemList());
 		model.addAttribute("commodityListQuery", commodityListQuery);
 		return "/system/comm/list";
@@ -71,14 +75,15 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model, int categoryId) throws Exception {
 		CategoryVO categoryVO = categoryService.getCategoryById(categoryId);
+		CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
+		int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
 		String redirectUrl = "";
-		// TODO 对应的商品类型现在还没有，之后会提供
-		switch (categoryId) {
+		switch (itemType) {
 		case CATEGORY_TYPE_HOTEL:
 			redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_SPOTS:
-			redirectUrl = "/B2C/scenicSpotManage/toAdd?categoryId=" + categoryId;
+			redirectUrl = "/B2C/comm/scenicManage/toAdd?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_LINE:
 			redirectUrl = "/B2C/comm/groupTravel/create?categoryId=" + categoryId;
@@ -90,7 +95,7 @@ public class CommodityManageController extends BaseController {
 			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_ACTIVITY:
-			redirectUrl = "/B2C/activityManage/toAdd?categoryId=" + categoryId;
+			redirectUrl = "/B2C/comm/activityManage/toAdd?categoryId=" + categoryId;
 			break;
 		default:
 			// 普通商品，伴手礼应该也走普通商品

@@ -74,7 +74,8 @@
 
                         <td>
                         <button type="button" class="btn btn-primary travelOfficialDetail" travelOfficialId="$travelOfficial.id">详情</button>
-                        <button type="button" class="btn btn-primary travelOfficialBan"  travelOfficialId="$travelOfficial.id" joinStatus="$travelOfficial.joinStatus">#if($travelOfficial.joinStatus == 1) 禁止 #elseif($travelOfficial.joinStatus == 2) 允许 #end </button>
+                        <button type="button" class="btn btn-primary travelOfficialLock"   travelOfficialId="$travelOfficial.id">下架</button>
+                        #*<button type="button" class="btn btn-primary travelOfficialBan"  travelOfficialId="$travelOfficial.id" joinStatus="$travelOfficial.joinStatus">#if($travelOfficial.joinStatus == 1) 禁止 #elseif($travelOfficial.joinStatus == 2) 允许 #end </button>*#
                         </td>
                     </tr>
                     #end

@@ -7,6 +7,7 @@ import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.enums.ItemType;
 
 /**
  * Created by Administrator on 2015/11/24.

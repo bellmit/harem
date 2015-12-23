@@ -13,6 +13,7 @@ import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.*;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +52,7 @@ public class CommodityServiceImpl implements CommodityService {
         if(!StringUtils.isBlank(commodityListQuery.getCommName())) {
             itemQryDTO.setName(commodityListQuery.getCommName());
         }
-        if(0 != commodityListQuery.getId()) {
+        if(null != commodityListQuery.getId()) {
             itemQryDTO.setId(commodityListQuery.getId());
         }
         if(!StringUtils.isBlank(commodityListQuery.getBeginDate())) {
@@ -60,13 +62,16 @@ public class CommodityServiceImpl implements CommodityService {
             itemQryDTO.setEndDate(commodityListQuery.getEndDate() + DateUtil.DAY_END);
         }
         List<Integer> status = new ArrayList<Integer>();
-        if(0 != commodityListQuery.getId()){
+        if(0 != commodityListQuery.getCommStatus()){
             status.add(commodityListQuery.getCommStatus());
         }else{
             status.add(ItemStatus.create.getValue());
             status.add(ItemStatus.valid.getValue());
             status.add(ItemStatus.invalid.getValue());
         }
+        itemQryDTO.setStatus(status);
+        //
+
         //TODO
         //分类 暂时没想好怎么做
 

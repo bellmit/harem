@@ -58,6 +58,9 @@
 		<property name="consumer.dubbo.trade.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.trade.version" defaultValue="1.0.0.test" description="#" />
 
+		<property name="consumer.dubbo.sns.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.sns.version" defaultValue="1.0.0.test" description="#" />
+
 	</group>
 
 	<group name="session">

@@ -208,12 +208,12 @@
                      <tr>
                         <td><span class="spColor">*</span>列表页展示图</td>
                         <td>
-                            <div class="fileImg">
-	                        <button type="button" class="btn btn-success">选择图片</button>
-	                        <input type="hidden" name="logoUrl" value="$!{hotel.logoUrl}" id="logoUrlUploadFileReturnInput" >
-	                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
-	                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-	                    </div>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="$!{hotel.logoUrl}" id="logoUrlUploadFileReturnInput" >
+                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+                                <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+                            </div>
 	                    <div class="logoView">
 	                        <img src="#if($!hotel.logoUrl) $utilWebconfig.getTfsRootPath()$!{hotel.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg">
 	                    </div>
@@ -222,12 +222,12 @@
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
                         <td>
-                            <div class="fileImg">
-	                        <button type="button" class="btn btn-success">选择图片</button>
-	                        <input type="hidden" name="coverUrl" value="$!{hotel.coverUrl}" id="logoUrlUploadFileReturnInput1" >
-	                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
-	                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-	                    </div>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="coverUrl" value="$!{hotel.coverUrl}" id="logoUrlUploadFileReturnInput1" >
+                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
+                                <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+                            </div>
 	                    <div class="logoView">
 	                        <img src="#if($hotel.coverUrl) $utilWebconfig.getTfsRootPath()$!{hotel.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg1">
 	                    </div>

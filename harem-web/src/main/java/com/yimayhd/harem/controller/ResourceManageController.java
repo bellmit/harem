@@ -19,6 +19,7 @@ import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantRPCService;
 import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.result.ICResult;
 
 /**
@@ -51,13 +52,39 @@ public class ResourceManageController extends BaseController {
 		return "/system/resource/restaurant/Info";
 	}
 	
+	/**
+	 * 新增餐厅（资源）
+	 * 
+	 * @return 餐厅（资源）详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/restaurant/toAdd", method = RequestMethod.GET)
+	public String toAdd() throws Exception {
+		return "/system/restaurant/edit";
+	}
+	
+	
+	@RequestMapping(value = "/restaurant/save", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo save(RestaurantDO restaurantDO, MasterRecommend recommend, String name2) throws Exception {
+		
+		ResponseVo responseVo = new ResponseVo();
+		recommend.setName(name2);
+		
+		restaurantDO.setRecommend(JSON.toJSONString(recommend));
+		ICResult<Boolean> icResult = restaurantRPCService.addRestaurant(restaurantDO);
+		boolean result = icResult.isSuccess();
+		if (!result) {
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+		
+		return responseVo;
+	}
+	
 	@RequestMapping(value = "/restaurant/list2", method = RequestMethod.GET)
 	public String restaurantList2(RestaurantListQuery restaurantListQuery) throws Exception {
 		PageVO<RestaurantDO> pageVo = restaurantRPCService.pageQueryRestaurant(restaurantListQuery);
 		//System.out.println(JSON.toJSONString(pageVo));
-		System.out.println(JSON.toJSONString(AreaService.getInstance().getAreaByIDAndType(AreaType.CITY, "320000")));		
-		System.out.println(JSON.toJSONString(AreaService.getInstance().getAreaByIDAndType(AreaType.COUNTY, "320100")));
-		System.out.println(JSON.toJSONString(AreaService.getInstance().getAreaByIDAndType(AreaType.COUNTY, "320200")));
 		put("pageVo", pageVo);
 		put("query", restaurantListQuery);
 		return "/system/restaurant/list";

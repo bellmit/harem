@@ -4,6 +4,7 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.query.OrderListQuery;
+import com.yimayhd.harem.model.trade.MainOrder;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
@@ -47,7 +48,7 @@ public class OrderManageController extends BaseController {
 	@RequestMapping(value = "/routeOrderList", method = RequestMethod.GET)
 	public String routeOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
 		orderListQuery.setOrderType(OrderBizType.LINE.getBizType());
-		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
+		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
@@ -76,7 +77,7 @@ public class OrderManageController extends BaseController {
 	@RequestMapping(value = "/scenicSpotOrderList", method = RequestMethod.GET)
 	public String scenicSpotOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
 		orderListQuery.setOrderType(OrderBizType.SPOTS.getBizType());
-		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
+		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
@@ -105,7 +106,7 @@ public class OrderManageController extends BaseController {
 	@RequestMapping(value = "/goodsOrderList", method = RequestMethod.GET)
 	public String goodsOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
 		orderListQuery.setOrderType(OrderBizType.NORMAL.getBizType());
-		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
+		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
@@ -134,7 +135,7 @@ public class OrderManageController extends BaseController {
 	@RequestMapping(value = "/activityOrderList", method = RequestMethod.GET)
 	public String activityOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
 		orderListQuery.setOrderType(OrderBizType.ACTIVITY.getBizType());
-		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
+		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
@@ -163,7 +164,7 @@ public class OrderManageController extends BaseController {
 	@RequestMapping(value = "/membershipCardOrderList", method = RequestMethod.GET)
 	public String membershipCardOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
 		orderListQuery.setOrderType(OrderBizType.MEMBER_RECHARGE.getBizType());
-		PageVO<BizOrderDO> pageVo = orderService.getOrderList(orderListQuery);
+		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);

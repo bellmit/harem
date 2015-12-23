@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class MainOrder {
     private BizOrderDO bizOrderDO;
+
     private List<SubOrder> subOrderList;
 
     public BizOrderDO getBizOrderDO() {

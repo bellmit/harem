@@ -25,7 +25,7 @@
 				<tr>
                     <td><span class="spColor">*</span>图片</td>
                     <td>
-                        <div class="fileImg">
+                        <div class="fileImgWrap">
                             <button type="button" class="btn btn-success">选择图片</button>
                             <input type="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
                             <input type="hidden" name="imgUrl" value=""  id="FMReturnInput">

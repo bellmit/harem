@@ -12,6 +12,7 @@ import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Array;
 import java.text.ParseException;
@@ -109,17 +110,26 @@ public class OrderConverter {
     }
 
 
-    public MainOrder orderVOConverter(BizOrderDO bizOrderDO) {
-        if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
-            List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-            for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
-                subOrderList.add(new SubOrder(detailOrder));
+    public static MainOrder orderVOConverter(BizOrderDO bizOrderDO) {
+        if(bizOrderDO!=null){
+            if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
+                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
+                if (!CollectionUtils.isEmpty(bizOrderDO.getDetailOrderList())){
+                    for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
+                        long departDate = BizOrderUtil.getLineDepartDate(detailOrder);
+                        subOrderList.add(new SubOrder(detailOrder,departDate));
+                    }
+                    return new MainOrder(bizOrderDO,subOrderList);
+                }else{
+                    subOrderList.add(new SubOrder(bizOrderDO));
+                    return new MainOrder(bizOrderDO,subOrderList);
+                }
+            } else {
+                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
+                subOrderList.add(new SubOrder(bizOrderDO));
+                return new MainOrder(bizOrderDO,subOrderList);
             }
-            return new MainOrder(bizOrderDO,subOrderList);
-        } else {
-            List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-            subOrderList.add(new SubOrder(bizOrderDO));
-            return new MainOrder(bizOrderDO,subOrderList);
         }
+        return null;
     }
 }

@@ -77,6 +77,7 @@
         </div>
         <div class="tableGroup whole">
             <table class="table table-hover">
+            <tbody>
                 <tr>
                     <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
                     <th>路线</th>
@@ -88,21 +89,71 @@
                     <th>操作</th>
                 </tr>
                 #foreach($order in $orderList)
+                    <tr></tr>
                     <tr>
+                        <td><input class="subChecked" type="checkbox" value="$!order.bizOrderId"></td>
                         <td colspan="8" align="left">
-                            <input class="subChecked" type="checkbox" value="$!order.bizOrderId">
-                            订单编号：$!order.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.gmtCreated)
+
+                            订单编号：$!order.bizOrderDO.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrderDO.gmtCreated)
                         </td>
                     </tr>
-                    #foreach($commodity in $order.commodityList)
+                    #foreach($subOrder in $order.subOrderList)
                         <tr>
-                            <td>路线图片</td>
-                            <td>$!commodity.name</td>
-                            <td>$!commodity.price</td>
-                            <td>$!commodity.number</td>
-                            <td>4</td>
-                            <td>6</td>
-                            <td>5</td>
+                            <td></td>
+                            <td>
+                                <div class="goods-item">
+                                    <div class="t-img">
+                                        <img class="" src="" title="" data-lazy-img="done" width="60" height="60">
+                                    </div>
+                                    <div class="t-msg">
+                                        <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
+                                        <div class="t-date">入园日期：$!subOrder.executeTime</div>
+                                        <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="order-price">
+                                    $!subOrder.bizOrderDO.itemPrice
+                                </div>
+                            </td>
+                            <td>
+                                <div class="order-number">
+                                    $!subOrder.bizOrderDO.buyAmount
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="txt">$!subOrder.bizOrderDO.buyerNick</div>
+                                    <div class="txt">1361831881381</div>
+                                    <div class="txt">会员</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="">
+                                    #if($subOrder.bizOrderDO.status == 1)
+                                        未付款
+                                    #elseif($subOrder.bizOrderDO.status == 2)
+                                        已付款
+                                    #elseif($subOrder.bizOrderDO.status == 4)
+                                        退款后交易关闭
+                                    #elseif($subOrder.bizOrderDO.status == 6)
+                                        交易成功
+                                    #elseif($subOrder.bizOrderDO.status == 8)
+                                        未付款关闭
+                                    #elseif($subOrder.bizOrderDO.status == 9)
+                                        待商户确认
+                                    #end
+
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    $!subOrder.bizOrderDO.itemPrice
+                                </div>
+                            </td>
+
+
                             <td>
                                 <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
                                         data-target="#refundModal" tradeNO="$!trade.tradNO">退款
@@ -112,6 +163,7 @@
                         </tr>
                     #end
                 #end
+            </tbody>
             </table>
         </div>
     #*分页*#
