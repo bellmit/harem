@@ -306,11 +306,10 @@ public class CommodityManageController extends BaseController {
 			throws Exception {
 		List<CategoryDO> categoryDOList = categoryService.getCategoryDOList(parentId);
 
-		for (int i = 0; i < categoryDOList.size(); i++) {
-			categoryDOList.get(i).setParent(null);
-			categoryDOList.get(i).setChildren(null);
+		for (CategoryDO aCategoryDOList : categoryDOList) {
+			aCategoryDOList.setParent(null);
+			aCategoryDOList.setChildren(null);
 		}
-		String aaa = JSON.toJSONString(categoryDOList);
 		JsonResultUtil.jsonResult(response, categoryDOList);
 	}
 }
