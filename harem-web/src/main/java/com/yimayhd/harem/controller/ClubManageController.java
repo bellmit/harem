@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.User;
-import com.yimayhd.harem.model.query.ClubListQuery;
-import com.yimayhd.harem.model.vo.ClubVO;
 import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
-import com.yimayhd.snscenter.client.domain.result.ClubDOList;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
 import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 
@@ -117,7 +115,7 @@ public class ClubManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo edit(Club club) throws Exception {
+	public ResponseVo edit(ClubDOInfoDTO club) throws Exception {
 		clubService.modify(club);
 		return new ResponseVo();
 	}
@@ -131,11 +129,14 @@ public class ClubManageController extends BaseController {
 	@RequestMapping(value = "/setJoinStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo setJoinStatus(@PathVariable(value = "id") long id, int joinStatus) throws Exception {
-		Club club = new Club();
+		ClubDOInfoDTO club = new ClubDOInfoDTO();
 		club.setId(id);
-		club.setJoinStatus(joinStatus);
-		clubService.modify(club);
-		return new ResponseVo();
+		club.setState(joinStatus);
+		boolean flag = clubService.modify(club);
+		if(flag){
+			return new ResponseVo(ResponseStatus.SUCCESS);
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 
 	/**

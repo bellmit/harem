@@ -37,6 +37,6 @@ public interface ClubService {
      * @param club
      * @throws Exception
      */
-    void modify(Club club)throws Exception;
+    boolean modify(ClubDOInfoDTO club)throws Exception;
 
 }

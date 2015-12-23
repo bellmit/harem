@@ -1,5 +1,6 @@
 package com.yimayhd.harem.service.impl;
 
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
@@ -61,7 +62,11 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public void modify(Club club) throws Exception {
-
+    public boolean modify(ClubDOInfoDTO club) throws Exception {
+        BaseResult<Boolean>  res = snsCenterService.updateClubStateById(club);
+        if(null != res && res.isSuccess()){
+            return res.getValue();
+        }
+        return false;
     }
 }
