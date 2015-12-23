@@ -192,7 +192,7 @@
         });
         //新建
         $('.scenicAddBtn').click(function(){
-            var url = actionDefaultPath + '/B2C/scenicSpotManage/toAdd';
+            var url = actionDefaultPath + '/B2C/resourceManage/restaurant/toAdd';
             window.openwin(url);
         });
     });
