@@ -2,17 +2,14 @@ package com.yimayhd.harem.model;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.yimayhd.harem.model.enums.ItemSkuStatus;
-import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
-import com.yimayhd.ic.client.model.domain.CategoryValueDO;
-import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.ognl.CollectionElementsAccessor;
 import org.springframework.beans.BeanUtils;
 
 import java.util.*;
@@ -34,18 +31,34 @@ public class ItemVO extends ItemDO {
 
     private List<String> picUrlList;
 
+    private int sort = 1;//商品排序字段(默认为1)
+
+    private Long startBookTimeLimit;//酒店可入住时间限制
+
     public static ItemDO getItemDO(ItemVO itemVO){
         ItemDO itemDO = new ItemDO();
         BeanUtils.copyProperties(itemVO, itemDO);
         //元转分
         itemDO.setPrice((long) (itemVO.getPriceY() * 100));
-        List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
-        for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
-            if(itemSkuVO.isChecked()) {
-                itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+        //酒店提前预定时间
+        if(null != itemVO.getStartBookTimeLimit()){
+            if(null != itemVO.getItemFeature()) {
+                itemVO.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+            }else{
+                ItemFeature itemFeature = new ItemFeature(null);
+                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+                itemVO.setItemFeature(itemFeature);
             }
         }
-        itemDO.setItemSkuDOList(itemSkuDOList);
+        if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+            List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
+            for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                if(itemSkuVO.isChecked()) {
+                    itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                }
+            }
+            itemDO.setItemSkuDOList(itemSkuDOList);
+        }
         itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }
@@ -54,32 +67,33 @@ public class ItemVO extends ItemDO {
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         commonItemPublishDTO.setItemDO(itemDO);
-        //新增sku数组
-        List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
-        //删除sku数组
-        List<ItemSkuDO> delItemSkuDOList = new ArrayList<ItemSkuDO>();
-        //修改sku数组
-        List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
-        for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
-            if(0 == itemSkuVO.getId()){
-                if(itemSkuVO.isChecked()){//没有id，有checked是新增
-                    addItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
-                }
-            }else{
-                if(!itemSkuVO.isChecked()){//有id，没有checked是删除
-                    delItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+        if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+            //新增sku数组
+            List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
+            //删除sku数组
+            List<ItemSkuDO> delItemSkuDOList = new ArrayList<ItemSkuDO>();
+            //修改sku数组
+            List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
+            for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                if(0 == itemSkuVO.getId()){
+                    if(itemSkuVO.isChecked()){//没有id，有checked是新增
+                        addItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                    }
                 }else{
-                    if(itemSkuVO.isModifyStatus()){//有id，有checked，有modifayStatus是修改
-                        updItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                    if(!itemSkuVO.isChecked()){//有id，没有checked是删除
+                        delItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                    }else{
+                        if(itemSkuVO.isModifyStatus()){//有id，有checked，有modifayStatus是修改
+                            updItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                        }
                     }
                 }
             }
+            commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
+            commonItemPublishDTO.setAddItemSkuDOList(addItemSkuDOList);
+            commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOList);
+            commonItemPublishDTO.setUpdItemSkuDOList(updItemSkuDOList);
         }
-        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
-        commonItemPublishDTO.setAddItemSkuDOList(addItemSkuDOList);
-        commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOList);
-        commonItemPublishDTO.setUpdItemSkuDOList(updItemSkuDOList);
-
         return commonItemPublishDTO;
 
     }
@@ -94,6 +108,10 @@ public class ItemVO extends ItemDO {
                 itemSkuVOList.add(ItemSkuVO.getItemSkuVO(itemSkuDO));
             }
             itemVO.setItemSkuVOList(itemSkuVOList);
+        }
+        //酒店提前预定时间
+        if(null != itemVO.getStartBookTimeLimit()){
+            itemVO.setStartBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
         }
         //picUrls转list
         if(StringUtils.isNotBlank(itemVO.getPicUrls())){
@@ -199,6 +217,9 @@ public class ItemVO extends ItemDO {
      * @return
      */
     public List<ItemSkuVO> getItemSkuVOListByStr(){
+        if(StringUtils.isBlank(this.itemSkuVOStr)){
+            return null;
+        }
         List<ItemSkuVO> itemSkuVOList = JSON.parseArray(this.itemSkuVOStr,ItemSkuVO.class);
         return itemSkuVOList;
     }
@@ -249,5 +270,21 @@ public class ItemVO extends ItemDO {
 
     public void setPicUrlList(List<String> picUrlList) {
         this.picUrlList = picUrlList;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+
+    public Long getStartBookTimeLimit() {
+        return startBookTimeLimit;
+    }
+
+    public void setStartBookTimeLimit(Long startBookTimeLimit) {
+        this.startBookTimeLimit = startBookTimeLimit;
     }
 }

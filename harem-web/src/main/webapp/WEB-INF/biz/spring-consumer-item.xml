@@ -19,8 +19,8 @@
 		<property name="application" ref="dubboApplicationConfig" />
 		<property name="registry" ref="dubboRegistryConfig" />
 		<property name="timeout" value="${consumer.dubbo.timeout}" />
-		<property name="version" value="${dubbo.import.user.version}" />
-		<property name="check" value="${dubbo.import.consumer.user.check}" />
+		<property name="check" value="${consumer.dubbo.item.check}" />
+		<property name="version" value="${consumer.dubbo.item.version}" />
 	</bean>
 	<bean id="itemPublishServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
 		<property name="interface"
@@ -38,8 +38,8 @@
 		<property name="application" ref="dubboApplicationConfig" />
 		<property name="registry" ref="dubboRegistryConfig" />
 		<property name="timeout" value="${consumer.dubbo.timeout}" />
-		<property name="version" value="${dubbo.import.user.version}" />
-		<property name="check" value="${dubbo.import.consumer.user.check}" />
+		<property name="check" value="${consumer.dubbo.item.check}" />
+		<property name="version" value="${consumer.dubbo.item.version}" />
 	</bean>
 
 </beans>

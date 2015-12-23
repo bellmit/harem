@@ -39,18 +39,18 @@ public interface CommodityService {
 
     /**
      * 新增酒店商品
-     * @param itemDO
+     * @param itemVO
      * @return
      * @throws Exception
      */
-    ItemDO addCommHotel(ItemDO itemDO)throws Exception;
+    ItemDO addCommHotel(ItemVO itemVO)throws Exception;
 
     /**
      * 修改酒店商品
-     * @param itemDO
+     * @param itemVO
      * @throws Exception
      */
-    void modifyCommHotel(ItemDO itemDO)throws Exception;
+    void modifyCommHotel(ItemVO itemVO)throws Exception;
 
 
     /**

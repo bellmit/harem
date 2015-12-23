@@ -24,7 +24,7 @@
                     <input type="hidden" name="source" value="1">
 
                     #*version 新增时为1*#
-                    <input type="hidden" name="version" value="$!commodity.version">
+                    <input type="hidden" name="version" value="1">
                     #*有没有sku*#
                     <input type="hidden" name="options" value="#if($!category.sellCategoryPropertyDOs) 1 #else 0 #end">
 
@@ -75,7 +75,7 @@
                                     var ue = UE.getEditor('editor');
                                 });
                             </script>
-                            <script id="editor" type="text/plain" name="description" style="width: 100%; height:350px">$!commodity.description</script>
+                            <script id="editor" type="text/plain" name="detailUrl" style="width: 100%; height:350px">$!commodity.detailUrl</script>
                         </td>
                     </tr>
                     <tr>
@@ -88,14 +88,7 @@
                         </td>
                         <input class="picUrlsVal" type="hidden" name="picUrls" value="$!commodity.picUrls">
                     </tr>
-                    <tr>
-                        <td><span class="spColor">*</span>商品详细图片</td>
-                        <td>
-                            <input id="fileDetailUrl" type="file" >
-                            <img class="detailUrlUrl" src="#if($!commodity.detailUrl)$utilWebconfig.getTfsRootPath()$!commodity.detailUrl #end">
-                            <input class="detailUrlVal" type="hidden" name="detailUrl" value="$!commodity.detailUrl">
-                        </td>
-                    </tr>
+
                     <tr>
                         <td><span class="spColor">*</span>排序</td>
                         <td><input type="text" name="index" value="$!commodity.index" disabled></td>

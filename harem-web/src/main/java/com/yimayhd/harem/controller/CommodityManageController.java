@@ -80,7 +80,7 @@ public class CommodityManageController extends BaseController {
 		String redirectUrl = "";
 		switch (itemType) {
 		case CATEGORY_TYPE_HOTEL:
-			redirectUrl = "/B2C/hotelManage/toAdd?categoryId=" + categoryId;
+			redirectUrl = "/B2C/comm/hotelManage/toAdd?categoryId=" + categoryId;
 			break;
 		case CATEGORY_TYPE_SPOTS:
 			redirectUrl = "/B2C/comm/scenicManage/toAdd?categoryId=" + categoryId;
@@ -100,6 +100,7 @@ public class CommodityManageController extends BaseController {
 		default:
 			// 普通商品，伴手礼应该也走普通商品
 			model.addAttribute("category", categoryVO);
+			model.addAttribute("itemType",ItemType.NORMAL.getValue());
 			return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;
@@ -121,10 +122,10 @@ public class CommodityManageController extends BaseController {
 		String redirectUrl = "";
 		switch (itemType) {
 			case CATEGORY_TYPE_HOTEL:
-				redirectUrl = "/B2C/hotelManage/edit/" + itemId;;
+				redirectUrl = "/B2C/comm/hotelManage/edit/" + itemId;;
 				break;
 			case CATEGORY_TYPE_SPOTS:
-				redirectUrl = "/B2C/scenicSpotManage/edit/" + itemId;
+				redirectUrl = "/B2C/comm/scenicSpotManage/edit/" + itemId;
 				break;
 			case CATEGORY_TYPE_LINE:
 				redirectUrl = "/B2C/comm/groupTravel/detail/" + itemId + "?categoryId=" + categoryId;
@@ -136,7 +137,7 @@ public class CommodityManageController extends BaseController {
 				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId + "?categoryId=" + categoryId;
 				break;
 			case CATEGORY_TYPE_ACTIVITY:
-				redirectUrl = "/B2C/activityManage/edit/" + itemId;
+				redirectUrl = "/B2C/comm/activityManage/edit/" + itemId;
 				break;
 			default:
 				// 普通商品，伴手礼应该也走普通商品
