@@ -24,11 +24,16 @@
 .tripInfo .tripInfoNav li.day_tab a:hover{background: #EBE8E8;}
 .tripInfo .tripInfoNav li.day_btn{margin-top: 15px;}
 .tripInfo .tab-content{margin-left: 180px;}
-.tripInfo .tab-content .travelPanel i{margin-top: 5px;font-size: 20px;margin-right: 5px;}
-.tripInfo .tab-content .travelPanel .tripAddSp{display: inline-block;font-size: 18px;font-weight: bold;}
-.tripInfo .tab-content .travelPanelDe{line-height: 30px;}
-.tripInfo .tab-content .panel-body .label-info{margin-right: 5px;}
-.tripInfo .tab-content .panel-body .remove-self{margin-right: 5px;}
+.tripInfo .travelPanel i{margin-top: 5px;font-size: 20px;margin-right: 5px;}
+.tripInfo .travelPanel .tripAddSp{display: inline-block;font-size: 18px;font-weight: bold;}
+.tripInfo .travelPanelDe{line-height: 30px;}
+.tripInfo .panel-body .label-info{margin-right: 5px;}
+.tripInfo .panel-body .remove-self{margin-right: 5px;}
+.tripInfo .panel-body .hotel_item{margin-right: 5px;}
+.tripInfo .panel-body table td{border-bottom: none;}
+.tripInfo .panel-body table td .flight{margin: 15px 0;}
+.tripInfo .panel-body table td .flight .flightSelList{margin: 0 0 10px;font-size: 12px;}
+.tripInfo .panel-body table td .flight .flightSelList .label-info{margin-left: 10px;}
 /*商品管理-发布线路-价格信息*/
 .priceInfo{padding: 10px;}
 .priceInfo .tc-main .nav-tabs{border-bottom: none;}
