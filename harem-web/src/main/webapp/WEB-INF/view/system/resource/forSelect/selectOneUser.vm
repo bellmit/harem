@@ -88,7 +88,7 @@
 		});
 	}
 	// 获得最终结果
-	function getTravelKa() {
+	function getItem() {
 		if($(".resources").length > 0) {
 			var rId = $(".resources").attr("rId");
 			return resource_table[rId];

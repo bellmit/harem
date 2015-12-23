@@ -13,7 +13,7 @@
             <tr>
                 <td><span class="spColor">*</span>俱乐部LOGO</td>
                 <td>
-                    <div class="fileImgWrap">
+                    <div class="fileImg">
                         <button type="button" class="btn btn-success">选择图片</button>
                         <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
                         <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
@@ -27,8 +27,9 @@
             <tr>
                 <td><span class="spColor">*</span>俱乐部宣传图</td>
                 <td>
-                    <div class="fileImgWrap">
+                    <div class="fileImg">
                         <button type="button" class="btn btn-success">选择图片</button>
+						
                         <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile" accept="image/png,image/gif">
 						<input type="hidden" name="backImg" value="$!club.backImg"  id="picturePosterUploadFileReturnInput">
 							
@@ -96,11 +97,7 @@
     </form>
 </div>
 <script>
-    var selectUserCallBack = function(data){
-        if(data){
-            $('.userNameShow').text(data[0].name);
-        }
-    }
+    
 	
 	var pictureUploadCallBack = function(data){
         if(data && data.status == 200){
@@ -124,11 +121,13 @@
         }
     }
 	
-    $(function(){
-        $('.selectUserBtn').click(function(){
-            '$!utilWebconfig.getActionDefaultFontPath()',
-                    openModal(actionDefaultPath + '/trade/userManage/selectUserList', "选择用户", selectUserCallBack)
-        })
+      $(function(){
+				$('.selectUserBtn').click(function(){
+                    openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser', "选择用户", function(){
+					var item = win.getItem();
+					console.log(item);
+				});
+			})
 
 		 //上传图片
         $(document).delegate("#picturePosterUploadFile",'change',function(){

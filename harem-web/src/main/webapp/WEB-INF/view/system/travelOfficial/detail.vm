@@ -14,22 +14,24 @@
             <tr>
                 <td><span class="spColor">*</span>游记标题</td>
               
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!travelOfficial.title"></td>
+                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="title" value="$!travelOfficial.title"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>发布时间</td>
-                <td> <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value="$!travelOfficial.publishDate"></td>
+                <td> <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="publishDate" value="$!travelOfficial.publishDate"></td>
             </tr>
-			<tr>
-                <td><span class="spColor">*</span>目的地</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!travelOfficial.sequenceNum"></td>
-            </tr>
+			#*
+				<tr>
+               		<td><span class="spColor">*</span>目的地</td>
+                	<td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!travelOfficial.sequenceNum"></td>
+            	</tr>
+			*#
 
             <tr>
                 <td><span class="spColor">*</span>作者信息</td>
                 <td>
                     <div class="userBtn">
-                        <button type="button" class="btn btn-info">选择用户</button>
+                        <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
                         <input type="hidden" name="manageUserName" value="$!travelOfficial.manageUserName">
                         <input type="hidden" name="manageUserLogoUrl" value="$!travelOfficial.manageUserLogoUrl">
                     </div>
@@ -42,7 +44,6 @@
 			
 			<tr>
                 <td><span class="spColor">*</span>游记封面</td>
-               ## <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!travelOfficial.sequenceNum"></td>
                 <td>
 					<div >
                         <p><img src="$!travelOfficial.backImg"></p>
@@ -53,7 +54,7 @@
                 <td><span class="spColor">*</span>点赞数</td>
                 <td class="radioSel">
                     <div class="col-md-10">
-                        <input type="text" class="form-control"  name="name" value="">
+                        <input type="text" class="form-control"  name="praiseNum" value="$!travelOfficial.praiseNum">
                     </div> 
                 </td>
             </tr>
@@ -61,7 +62,7 @@
                 <td><span class="spColor">*</span>浏览量</td>
                 <td class="radioSel">
                     <div class="col-md-10">
-                        <input type="text" class="form-control"  name="name" value="">
+                        <input type="text" class="form-control"  name="pv" value="$!travelOfficial.pv">
                     </div>
                 </td>
             </tr>
@@ -163,21 +164,23 @@
             }else{
                 actionUrl = '/B2C/travelOfficialManage/add';
             }
-            layer.alert(actionUrl);
             $('#clubForm').attr('action',actionUrl);
             $.post(actionUrl,$('#clubForm').serialize(),function(data){
                 if(data.status == 200){
-                    var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                    msg.show();
-                    setTimeout(function(){
-                        window.close();
-                    },1050);
+                   layer.alert('操作成功');
                 }else{
-                    var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                    msg.show();
+                 	layer.alert('操作失败');
                     $(this).prop('disabled',false);
                 }
             });
         });
     });
+    
+    //选择用户
+     $('.selectUserBtn').click(function(){
+            '$!utilWebconfig.getActionDefaultFontPath()',
+                    openModal(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser', "选择用户", selectUserCallBack)
+     });
+     
+     
 </script>

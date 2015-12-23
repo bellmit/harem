@@ -18,10 +18,21 @@ public class TravelOfficial extends BaseModel {
     private Date publishDate;//发布时间
     private Integer praiseNum;//点赞数
     private Integer collectionNum;//收藏数
-
+    private int pv;//浏览量
     private String backImg; // 封面
+    
+    
+    
+    
+    public int getPv() {
+		return pv;
+	}
 
-    public String getTitle() {
+	public void setPv(int pv) {
+		this.pv = pv;
+	}
+
+	public String getTitle() {
         return title;
     }
 

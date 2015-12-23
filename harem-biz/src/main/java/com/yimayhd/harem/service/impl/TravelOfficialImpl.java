@@ -100,9 +100,9 @@ public class TravelOfficialImpl implements TravelOfficialService{
     	//游记封面
     	
     	snsTravelSpecialtyDO.setTitle(travelOfficial.getTitle());
-    	snsTravelSpecialtyDO.setGmtCreated(new Date());
+    	snsTravelSpecialtyDO.setGmtCreated(travelOfficial.getPublishDate());
     	snsTravelSpecialtyDO.setGmtModified(new Date());
-    	snsTravelSpecialtyDO.setCreateId(travelOfficial.getUser().getId());
+    	snsTravelSpecialtyDO.setCreateId(23423);//travelOfficial.getUser().getId()
     	snsTravelSpecialtyDO.setBackImg(travelOfficial.getBackImg());
     	snsTravelSpecialtyDO.setImgContentJson(null);
     	BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.addTravelSpecialInfo(snsTravelSpecialtyDO);
