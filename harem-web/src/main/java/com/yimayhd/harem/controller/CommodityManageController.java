@@ -122,13 +122,13 @@ public class CommodityManageController extends BaseController {
 				redirectUrl = "/B2C/scenicSpotManage/edit/" + itemId;
 				break;
 			case CATEGORY_TYPE_LINE:
-				redirectUrl = "/B2C/comm/groupTravel/detail/" + itemId;
+				redirectUrl = "/B2C/comm/groupTravel/detail/" + itemId + "?categoryId=" + categoryId;
 				break;
 			case CATEGORY_TYPE_FLIGHT_HOTEL:
-				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId;
+				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId + "?categoryId=" + categoryId;
 				break;
 			case CATEGORY_TYPE_SPOTS_HOTEL:
-				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId;
+				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId + "?categoryId=" + categoryId;
 				break;
 			case CATEGORY_TYPE_ACTIVITY:
 				redirectUrl = "/B2C/activityManage/edit/" + itemId;
