@@ -130,12 +130,9 @@
                         <tr>
                             <td><span class="spColor">*</span>活动主题</td>
                             <td>
-                            	
-			                        <input type="checkbox" name="optionsRadios" value="option2">热门推荐
-			                  
-			                            <input type="checkbox" name="" class="checkboxLeft"/>亲子
-			                  
-			                            <input type="checkbox" name=""/>户外  
+                                <input type="checkbox" name="optionsRadios" value="option2">热门推荐
+                                <input type="checkbox" name="" class="checkboxLeft"/>亲子
+                                <input type="checkbox" name=""/>户外
                             </td>
                         </tr>
                         <tr>
@@ -143,7 +140,6 @@
                             <td>
                                 <div class="row">
                                     <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="startDate" value="$!utilDate.dateToString($!activity.startDate,"yyyy-MM-dd HH:mm:ss")"></div>
-                                   </div>
                                 </div>
                             </td>
                         </tr>
@@ -166,7 +162,6 @@
                                     #else
                                         <option>请选择省份</option>
                                     #end
-
                                 </select>
                                 <select class="form-control selCity" name="city" id="city" value="$!activity.city">
                                     #if($!activity.cityId)
@@ -247,19 +242,9 @@
 
         </tbody>
      </table>
-                 
-                    
                 </div>
-                
             </div>
-            
-            
-            
-            
-            
-            
-            
-            
+
             <div class="tab-pane activeMnyPane" id="tab2">
                 <p class="pNote">提示：活动单规格或多规格二选一</p>
                 <div class="col-md-10">
@@ -379,7 +364,7 @@
                     <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
                 </div>
                 <div class="btn-group">
-                    <button class="btn">取消</button>
+                    <button class="btn" onclick="tabTopClose()">取消</button>
                 </div>
             </div>
         </div>

@@ -3,11 +3,10 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 
 
-<div class="tab-content grogInfoWrap"  style="">
+<div class="tab-content grogInfoWrap">
 <form id="saveScenic">
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
-		
             <table class="table">
                 <tr>
                     <td>分类</td>
@@ -26,20 +25,19 @@
 					</td>
                 </tr>
             </table>
-        <strong>提示</strong>多规格
+        	<strong>提示</strong>多规格
 		        #foreach($category in $categoryDOList)
-		        	
 		    		<input type="checkbox" attrName="$!category.name" name="$!category.name" value="$!category.id" id="$!category.id" >$!category.name
 				 #end
 			<table class="extra-info-list table">
 				<thead>
 					<tr>
-							<th>规格值</th>
-							<th>库存</th>
-							<th>单价</th>
-							<th>会员优惠额度</th>
-							<th>优惠限购</th>
-							<th>操作</th>
+						<th>规格值</th>
+						<th>库存</th>
+						<th>单价</th>
+						<th>会员优惠额度</th>
+						<th>优惠限购</th>
+						<th>操作</th>
 					<tr>	
 				</thead>
 				<tbody class="extra-info-list itemSkuTbody">
@@ -54,61 +52,40 @@
 
 <script type="text/html" id="itemSkuTemp">
     <tr class="itemSkuTr" id="$index">
-        <td>$name<input type="text" name="itemSkuDOList.itemSkuPVPairList[$index6].vId"
-             class="form-control">
-             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index7].vTxt"
-             class="form-control">
-             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index8].pId"
-             class="form-control">
-             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index9].pTxt"
-             class="form-control">
-             </td>
-        <td><input type="text" name="needKnow.frontNeedKnow[$index1].title"
-             class="form-control" placeholder="请输入整数"></td>
         <td>
-         <td><input type="text" name="needKnow.frontNeedKnow[$index2].title"
-             class="form-control" placeholder="请输入整数"></td>
-        <td>
-         <td><input type="text" name="needKnow.frontNeedKnow[$index3].title"
-             class="form-control" placeholder="请输入整数"></td>
-        <td>
-         <td><input type="text" name="needKnow.frontNeedKnow[$index4].title"
-             class="form-control" placeholder="请输入整数"></td>
-        <td>
-        <td><input type="text" name="needKnow.frontNeedKnow[$index5].title"
-             class="form-control" placeholder="请输入整数"></td>
-        <td>
-            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-        </td>
+			$name<input type="text" name="itemSkuDOList.itemSkuPVPairList[$index6].vId" class="form-control">
+             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index7].vTxt" class="form-control">
+             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index8].pId" class="form-control">
+             <input type="text" name="itemSkuDOList.itemSkuPVPairList[$index9].pTxt" class="form-control">
+		</td>
+		<td><input type="text" name="needKnow.frontNeedKnow[$index1].title" class="form-control" placeholder="请输入整数"></td>
+		<td><input type="text" name="needKnow.frontNeedKnow[$index2].title" class="form-control" placeholder="请输入整数"></td>
+		<td><input type="text" name="needKnow.frontNeedKnow[$index3].title" class="form-control" placeholder="请输入整数"></td>
+		<td><input type="text" name="needKnow.frontNeedKnow[$index4].title" class="form-control" placeholder="请输入整数"></td>
+        <td><input type="text" name="needKnow.frontNeedKnow[$index5].title" class="form-control" placeholder="请输入整数"></td>
+        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
     </tr>
 </script>
 
-
-
 <script>
-
  var conTr = $(".itemSkuTr").length + 1;
 
-
-   /**checkbox事件**/
+     /**checkbox事件**/
      $("input[type=checkbox]").unbind("click").click(function () {
-                if (this.checked) {//如果自己被选中
-                   var addhtml = "";
-                   var html1 = $("#itemSkuTemp").html();
-                   var i = conTr++;
-                   addhtml = addhtml + html1.replace('$name', $(this).attr("attrName")).
-                   replace('$index', $(this).attr("id")).replace('$index1', i).replace('$index2', i).replace('$index3', i).replace('$index4', i).replace('$index5', i);
-                   $(".itemSkuTbody").prev().append(addhtml);
-                }
-                else {//如果自己没有被选中
-					$("tr[id="+$(this).attr('id')+"]").remove();
-                }
-            })
-
+		if (this.checked) {//如果自己被选中
+		   var addhtml = "";
+		   var html1 = $("#itemSkuTemp").html();
+		   var i = conTr++;
+		   addhtml = addhtml + html1.replace('$name', $(this).attr("attrName")).
+		   replace('$index', $(this).attr("id")).replace('$index1', i).replace('$index2', i).replace('$index3', i).replace('$index4', i).replace('$index5', i);
+		   $(".itemSkuTbody").prev().append(addhtml);
+		}
+		else {//如果自己没有被选中
+			$("tr[id="+$(this).attr('id')+"]").remove();
+		}
+	 });
 
    $(function(){
-   
-   
 		/*提交**/
 		$("#saveScenic").validate(
 			{
@@ -116,10 +93,8 @@
 					'name' : {
 						required : true
 					}
-					
 				},
 				errorPlacement : function(error, element) { // 指定错误信息位置
-
 					if (element.is(':radio') || element.is(':checkbox')
 							|| element.is(':input')) { // 如果是radio或checkbox
 						var eid = element.attr('name'); // 获取元素的name属性
@@ -129,16 +104,14 @@
 					}
 				},
 				submitHandler : function(form) {
-
 					var options = {
 						url : "edit",
 						type : "post",
 						dataType : "json",
 						success : function(data) {
-							
 							if (data.success) {
 								$.success('操作成功',function(){
-									layer.alert("123")
+									layer.alert("操作成功")
 								});
 							} else {
 								layer.alert(data.msg, {
@@ -161,8 +134,6 @@
 					return false;
 				}
 			});
-		
-		
 });
 
 

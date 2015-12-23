@@ -33,17 +33,17 @@
 <form id="restaurantForm">
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
-            <a href="#scenicInfo" data-toggle="tab">餐厅信息</a>
+            <a href="#restaurantInfo" data-toggle="tab">餐厅信息</a>
         </li>
         <li>
-            <a href="#scenicDetailDiv" data-toggle="tab">餐厅详情</a>
+            <a href="#restaurantDetailDiv" data-toggle="tab">餐厅详情</a>
         </li>
         <li>
-            <a href="#scenicImgs" data-toggle="tab">图片集</a>
+            <a href="#restaurantImgs" data-toggle="tab">图片集</a>
         </li>
     </ul>
     <div class="tab-content grogInfoWrap" style="">
-        <div class="tab-pane active" id="scenicInfo">
+        <div class="tab-pane active" id="restaurantInfo">
             <div class="createHotrlTable">
                 <table class="table">
                     <tbody>
@@ -131,7 +131,7 @@
                 </table>
             </div>
         </div>
-        <div class="tab-pane" id="scenicDetailDiv">
+        <div class="tab-pane" id="restaurantDetailDiv">
             <script type="text/javascript">
                 $(function() {
                     window.UEDITOR_HOME_URL = "/resources/ueditor/";
@@ -140,7 +140,7 @@
             </script>
             <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
         </div>
-        <div class="tab-pane" id="scenicImgs">
+        <div class="tab-pane" id="restaurantImgs">
 				 #parse("/system/scenicSpot/picture.vm")
         </div>
     </div>
@@ -163,7 +163,7 @@
     	  {"id":331,"userId":7606,"nickName":"测试","options":2,"avatar":"T1SRhTByYT1R17cSCrK"}
     	  **/
        $('.selectUser').click(function(){
-         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择景区',function() {
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var ka = win.getTravelKa();
 				if(ka == null) return;
 				$("#recommendName").val(ka.nickName);
@@ -413,14 +413,38 @@
                     success: function (data) {
                         if (data.status == 200) {
 							layer.alert('操作成功');
-                            $("#clubCategorySubmit").attr("disabled", false);
                             //location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list2";
-							setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
+							setTimeout(function(){
+            					var tabId = top.$(".tab-pane.active").attr("id");
+            					top.$("#myTabList li").each(function(){
+                					if($(this).attr("dataid") == tabId){
+                    					$(this).prev().addClass("active");
+                    					$(this).remove();
+                					}
+            					});
+            					top.freshPrevFrame();
+            					top.$("#"+tabId).prev().addClass("active");
+            					top.$("#"+tabId).prev().show();
+            					top.$("#"+tabId).remove();
+        					},2000);
+							//setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
                         } else {
                             $("#clubCategorySubmit").attr("disabled", false);
                             layer.alert('操作失败');
-							setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
-                            
+							//setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
+							setTimeout(function(){
+            					var tabId = top.$(".tab-pane.active").attr("id");
+            					top.$("#myTabList li").each(function(){
+                					if($(this).attr("dataid") == tabId){
+                    					$(this).prev().addClass("active");
+                    					$(this).remove();
+                					}
+            					});
+            					top.freshPrevFrame();
+            					top.$("#"+tabId).prev().addClass("active");
+            					top.$("#"+tabId).prev().show();
+            					top.$("#"+tabId).remove();
+        					},2000);                            
                         }
                     }
                 };
