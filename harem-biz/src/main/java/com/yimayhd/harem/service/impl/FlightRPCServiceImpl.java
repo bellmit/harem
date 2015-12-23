@@ -8,17 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.util.LogUtil;
 import com.yimayhd.ic.client.model.domain.FlightCompanyDO;
 import com.yimayhd.ic.client.model.query.FlightCompanyPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 public class FlightRPCServiceImpl implements com.yimayhd.harem.service.FlightRPCService {
-
-	private static final Logger log = LoggerFactory.getLogger(FlightRPCServiceImpl.class);
+	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
 
@@ -26,20 +24,15 @@ public class FlightRPCServiceImpl implements com.yimayhd.harem.service.FlightRPC
 
 	@Override
 	public PageVO<FlightCompanyDO> pageQueryFlightCompany(FlightCompanyPageQuery query) {
+		LogUtil.requestLog(log, "itemQueryServiceRef.queryFlightCompany", query);
 		ICPageResult<FlightCompanyDO> result = itemQueryServiceRef.queryFlightCompany(query);
+		LogUtil.icResultLog(log, "itemQueryServiceRef.queryFlightCompany", result);
 		List<FlightCompanyDO> itemList = new ArrayList<FlightCompanyDO>();
-		int totalCount = 0;
-		if (null != result && result.isSuccess()) {
-			totalCount = result.getTotalCount();
-			if (CollectionUtils.isNotEmpty(result.getList())) {
-				itemList.addAll(result.getList());
-			}
-			return new PageVO<FlightCompanyDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
-		} else {
-			log.error("检索航空公司失败：query={}", JSON.toJSONString(query));
-			log.error("检索航空公司失败：result={}", JSON.toJSONString(result));
-			throw new BaseException("检索航空公司失败");
+		int totalCount = result.getTotalCount();
+		if (CollectionUtils.isNotEmpty(result.getList())) {
+			itemList.addAll(result.getList());
 		}
+		return new PageVO<FlightCompanyDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
 
 	@Override
