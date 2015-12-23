@@ -41,12 +41,15 @@ public class ItemVO extends ItemDO {
         itemDO.setPrice((long) (itemVO.getPriceY() * 100));
         List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
         for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
-            itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+            if(itemSkuVO.isChecked()) {
+                itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+            }
         }
         itemDO.setItemSkuDOList(itemSkuDOList);
         itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }
+    //不能在getItemDO之后调用（修改用时）
     public static CommonItemPublishDTO getCommonItemPublishDTO(ItemVO itemVO){
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
