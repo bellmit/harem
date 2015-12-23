@@ -9,6 +9,7 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
  *
  */
 public class PackageBlock {
+	private long skuId;
 	private long id;
 	private String name;
 	private long PId;
@@ -21,7 +22,8 @@ public class PackageBlock {
 	public PackageBlock() {
 	}
 
-	public PackageBlock(ItemSkuPVPair itemSkuPVPair, long price, int stock, long discount) {
+	public PackageBlock(long skuId, ItemSkuPVPair itemSkuPVPair, long price, int stock, long discount) {
+		this.skuId = skuId;
 		this.id = itemSkuPVPair.getVId();
 		this.name = itemSkuPVPair.getVTxt();
 		this.PId = itemSkuPVPair.getPId();
@@ -109,6 +111,14 @@ public class PackageBlock {
 		SKU.setVId(this.id);
 		SKU.setVTxt(this.name);
 		return SKU;
+	}
+
+	public long getSkuId() {
+		return skuId;
+	}
+
+	public void setSkuId(long skuId) {
+		this.skuId = skuId;
 	}
 
 }
