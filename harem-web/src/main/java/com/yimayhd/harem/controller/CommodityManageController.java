@@ -74,7 +74,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model, int categoryId) throws Exception {
-		CategoryVO categoryVO = categoryService.getCategoryById(categoryId);
+		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
 		CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
 		int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
 		String redirectUrl = "";
@@ -160,7 +160,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/toAdd", method = RequestMethod.GET)
 	public String toAddCommon(Model model, long categoryId) throws Exception {
-		CategoryDO categoryDO = categoryService.getCategoryById(categoryId);
+		CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
 		model.addAttribute("category", categoryDO);
 		return "";
 	}
