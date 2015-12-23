@@ -412,13 +412,15 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.status == 200) {
-                            layer.alert('操作成功');
+							layer.alert('操作成功');
                             $("#clubCategorySubmit").attr("disabled", false);
-                            location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list2";
+                            //location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list2";
+							setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
                         } else {
                             $("#clubCategorySubmit").attr("disabled", false);
                             layer.alert('操作失败');
-                            location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list2";
+							setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
+                            
                         }
                     }
                 };
