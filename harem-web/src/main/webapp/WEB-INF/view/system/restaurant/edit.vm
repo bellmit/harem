@@ -413,14 +413,38 @@
                     success: function (data) {
                         if (data.status == 200) {
 							layer.alert('操作成功');
-                            $("#clubCategorySubmit").attr("disabled", false);
                             //location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list2";
-							setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
+							setTimeout(function(){
+            					var tabId = top.$(".tab-pane.active").attr("id");
+            					top.$("#myTabList li").each(function(){
+                					if($(this).attr("dataid") == tabId){
+                    					$(this).prev().addClass("active");
+                    					$(this).remove();
+                					}
+            					});
+            					top.freshPrevFrame();
+            					top.$("#"+tabId).prev().addClass("active");
+            					top.$("#"+tabId).prev().show();
+            					top.$("#"+tabId).remove();
+        					},2000);
+							//setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
                         } else {
                             $("#clubCategorySubmit").attr("disabled", false);
                             layer.alert('操作失败');
-							setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
-                            
+							//setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
+							setTimeout(function(){
+            					var tabId = top.$(".tab-pane.active").attr("id");
+            					top.$("#myTabList li").each(function(){
+                					if($(this).attr("dataid") == tabId){
+                    					$(this).prev().addClass("active");
+                    					$(this).remove();
+                					}
+            					});
+            					top.freshPrevFrame();
+            					top.$("#"+tabId).prev().addClass("active");
+            					top.$("#"+tabId).prev().show();
+            					top.$("#"+tabId).remove();
+        					},2000);                            
                         }
                     }
                 };

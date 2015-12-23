@@ -1,6 +1,6 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-    <form class="form-signin" id="restaurantDOListForm" name="restaurantDOListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceManage/restaurant/list2" method="GET" role="form">
+    <form class="form-signin" id="restaurantDOListForm" name="restaurantDOListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceManage/restaurant/list" method="GET" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
