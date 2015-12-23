@@ -47,7 +47,7 @@
                 <button type="reset" class="btn btn-primary">重置</button>
             </div>
         </div>
-        <button type="button" class="btn btn-primary scenicAddBtn">添加餐厅</button>
+        <button type="button" class="btn btn-primary restaurantAddBtn">添加餐厅</button>
         <button type="button" class="btn btn-primary scenicBatchBtn" btnType="1">批量启用</button>
         <button type="button" class="btn btn-primary scenicBatchBtn" btnType="2">批量禁用</button>
         <div class="tableGroup whole">
@@ -191,9 +191,10 @@
            
         });
         //新建
-        $('.scenicAddBtn').click(function(){
+        $('.restaurantAddBtn').click(function(){
             var url = actionDefaultPath + '/B2C/resourceManage/restaurant/toAdd';
-            window.openwin(url);
+			window.parent.tabsAdd("restaurantAdd", "/systemManage/roleDetail/"+roleId, 3, "角色:"+roleName+" 的详情");
+            //window.openwin(url);
         });
     });
 </script>
