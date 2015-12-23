@@ -363,6 +363,28 @@
 			async : false
 		});
 		
+		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+					{'areaType': 'PROVINCE',
+					 'areaParentCode': null}, 
+					function(data) {
+						if (data[0].name) {						
+							for (var i in data) {								
+								var code = data[i].code;
+								var name = data[i].name;
+								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+								$("#provinceId").append(optionHTML);								
+							}
+							provinceFlag = true;
+						} else {
+							layer.alert('操作失败', {
+								icon: 2,
+								time: 2000
+							}, function() {
+								
+							});
+						}
+					});		
+		
 		$('.locationXYSelectBtn').click(function () {
 			//alert("HelloWorld!!!!!!!!!");
             openBaiduMap(115.727899, 37.723961, mapCallback);

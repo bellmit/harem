@@ -157,7 +157,7 @@
             $("#locationY").val(data['pointY']);
         }
     }
- var tfsPath = '$utilWebconfig.getTfsRootPath()';
+ 	var tfsPath = '$utilWebconfig.getTfsRootPath()';
     $(function () {
     	  /*弹出框{"description":"大咖推荐","id":0,"name":"YOYO","user_id":1,"user_pic":"T1SRhTByYT1R17cSCrK"}
     	  {"id":331,"userId":7606,"nickName":"测试","options":2,"avatar":"T1SRhTByYT1R17cSCrK"}
