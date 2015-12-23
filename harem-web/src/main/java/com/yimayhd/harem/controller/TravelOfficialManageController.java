@@ -54,6 +54,8 @@ public class TravelOfficialManageController extends BaseController {
 		return "/system/travelOfficial/list";
 	}
 
+
+
 	/**
 	 * 根据官方游记ID获取官方游记详情
 	 * 
@@ -75,7 +77,7 @@ public class TravelOfficialManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() throws Exception {
-		return "/system/travelOfficial/detail";
+		return "/system/travelOfficial/base";
 	}
 
 	/**
@@ -87,6 +89,7 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo add(TravelOfficial travelOfficial) throws Exception {
+		//TravelJsonDO
 		TravelOfficial db = travelOfficialService.add(travelOfficial);
 		if(null == db ){
 			return new ResponseVo(ResponseStatus.ERROR);	

@@ -59,7 +59,7 @@
                             <td><input type="text" name="priceY" value="$!commHotel.priceY"></td>
                             <td><input type="text" name="" value=""></td>
                             <td><input type="text" name="" value=""></td>
-                            <td>
+                            <td class="picUrlsTd">
                                 <input id="batchUploadBtn" type="file" multiple="multiple" >
                                 #foreach($pic in $!commHotel.picUrlList)
                                     <img class="picUrlsUrl" src="$utilWebconfig.getTfsRootPath()$pic">
@@ -102,7 +102,7 @@
 
     var batchCallBack = function(dataVal){
 
-        if(data && data.status == 200){
+        if(dataVal && dataVal.status == 200){
             for(var key in dataVal.data){
                 $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
             }

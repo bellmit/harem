@@ -41,10 +41,12 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<CategoryDO> getCategoryDOList(long parentId) {
 		LogUtil.requestLog(log, "categoryServiceRef.getCategoryChildren", parentId);
-		CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryChildren();
-		LogUtil.icResultLog(log, "categoryServiceRef.getCategoryChildren", categoryQryResult);
-		// TODO
-		return categoryQryResult.getCategroyDOList();
+		CategoryResult categoryResult = categoryServiceRef.getCategory(parentId);
+		LogUtil.icResultLog(log, "categoryServiceRef.getCategoryChildren", categoryResult);
+		if (categoryResult == null || categoryResult.getCategroyDO() == null) {
+			return null;
+		}
+		return categoryResult.categroyDO.getChildren();
 		/*
 		 * List<CategoryDO> categoryDOList = new ArrayList<CategoryDO>(); for
 		 * (int i = 0; i < 4; i++) { CategoryDO categoryDOData = new

@@ -75,7 +75,7 @@
                     <td><input class="subChecked" type="checkbox" value="$!commodity.id"></td>
                     <td>$velocityCount</td>
                     <td>
-                        <p><img src="$!{utilWebconfig.getTfsRootPath()}$!commodity.detailUrl"></p>
+                        <p><img src="$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($commodity.picUrls)"></p>
                         <p>$!commodity.title</p>
                         <p>商品编码:$!commodity.id</p>
                     </td>

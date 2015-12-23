@@ -5,6 +5,11 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
     var formData = new FormData();
     // 遍历文件列表，插入到表单数据中
     for (var i = 0, file; file = oFiles[i]; i++) {
+        var fileSize = file.size / 1024
+        if(fileSize > 2000){
+            alert("图片不能大于2M");
+            return;
+        }
         // 文件名称，文件对象
         formData.append(file.name, file);
     }
