@@ -2,7 +2,7 @@
 <div id="img-manage">
 <form action="" name="saveimgform" id="saveimgform">
     <ul class="itemlist clearfix">
-        <li data-value="1">
+        <li data-value="1" istop="true">
             <a href="" class="img"><img src="../../tmp/1.jpg"/></a>
             <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
         </li>
@@ -39,31 +39,4 @@
 </form>
     <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/json.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
     <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/img-manage.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
-<script>
-    $(function(){
-        $("#img-manage").setimages({
-            settopClass : '.settop',
-            delClass : '.delimg',
-            itemClass : '.itemlist li',
-            formId : '#saveimgform',
-            inputId : 'imgids',
-            inputName : 'imgids',
-            topNum : 3,
-            delCallback : function($this){
-                var _parent = $this.closest("li");
-                _parent.remove();
-            },
-            settopCallback : function($this){
-                var _parent = $this.closest("li");
-                if(_parent.attr("istop")){
-                    _parent.removeAttr("istop");
-                        $this.html("置顶");
-                }else{
-                    _parent.attr("istop",true);
-                        $this.html("取消");
-                }
-            }
-        });
-    });
-</script>
 </div>

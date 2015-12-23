@@ -31,7 +31,7 @@
 		
 		var objArr = [],topFlag = {};
 		
-		$(opts.formId).append(input);
+		if($("#"+opts.imgids).length==0) $(opts.formId).append(input);
 		
 		var getObjIndex = function(index){
 			for(var i=0;i<objArr.length;i++){
@@ -123,3 +123,29 @@
 	}
 
 })(jQuery);
+
+$(function(){
+    $("#img-manage").setimages({
+        settopClass : '.settop',
+        delClass : '.delimg',
+        itemClass : '.itemlist li',
+        formId : '#saveimgform',
+        inputId : 'imgids',
+        inputName : 'imgids',
+        topNum : 3,
+        delCallback : function($this){
+            var _parent = $this.closest("li");
+            _parent.remove();
+        },
+        settopCallback : function($this){
+            var _parent = $this.closest("li");
+            if(_parent.attr("istop")){
+                _parent.removeAttr("istop");
+                    $this.html("置顶");
+            }else{
+                _parent.attr("istop",true);
+                    $this.html("取消");
+            }
+        }
+    });
+});
