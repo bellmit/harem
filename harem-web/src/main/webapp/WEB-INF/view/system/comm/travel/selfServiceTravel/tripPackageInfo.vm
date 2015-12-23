@@ -1,7 +1,7 @@
  <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
- <div>
+ <div class="tripInfo">
 	<div class='panel add-fight'>
-		<div class='panel-heading'><i class='icon icon-2x icon-home'></i>航班信息</div>
+		<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home '></i><span class="tripAddSp">航班信息</span></div>
 		<div class='panel-body'>
 			<table class="table">
 				<tr>
@@ -67,13 +67,13 @@
 		</div>
 	</div>
 	<div class='panel add-hotel'>
-		<div class='panel-heading'><i class='icon icon-2x icon-home'></i>添加酒店</div>
+		<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home'></i><span class="tripAddSp">添加酒店</span></div>
 		<div class='panel-body hotel' id='day_hotel'>
 		#foreach($hotel in $product.tripPackageInfo.hotels)
 			<button class="btn btn-info remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
 		#end
 		</div>
-		<button class='btn btn-primary select-hotel'>选择酒店</button>
+		<div class="panel-body"><button class='btn btn-primary select-hotel'>选择酒店</button></div>
 	</div>
 </div> 
 <script type="text/javascript">
@@ -102,17 +102,17 @@
 			var content = $(".flight-details");
 			// 数据绑定点：开始
 			var flight = $("<div class='flight'/>");
-			var forward = $("<div class='forward'/>");
+			var forward = $("<div class='forward flightSelList'/>");
 			forward.append($("<span>去程：</span>"));
-			forward.append($("<span/>").text(flightDetail.forwardDepartCity+"("+flightDetail.forwardDepartDate+")"));
+			forward.append($("<span/>").text(flightDetail.forwardDepartCity+"（"+flightDetail.forwardDepartDate+"）"));
 			forward.append($("<span class='label label-badge label-info'>飞机</span>"));
-			forward.append($("<span/>").text(flightDetail.forwardArriveCity+"("+flightDetail.forwardArriveDate+")"));
+			forward.append($("<span/>").text(flightDetail.forwardArriveCity+"（"+flightDetail.forwardArriveDate+"）"));
 			flight.append(forward);
-			var back = $("<div class='back'/>");
+			var back = $("<div class='back flightSelList'/>");
 			back.append($("<span>返程：</span>"));
-			back.append($("<span/>").text(flightDetail.returnDepartCity+"("+flightDetail.returnDepartDate+")"));
+			back.append($("<span/>").text(flightDetail.returnDepartCity+"（"+flightDetail.returnDepartDate+"）"));
 			back.append($("<span class='label label-badge label-info'>飞机</span>"));
-			back.append($("<span/>").text(flightDetail.returnArriveCity+"("+flightDetail.returnArriveDate+")"));
+			back.append($("<span/>").text(flightDetail.returnArriveCity+"（"+flightDetail.returnArriveDate+"）"));
 			flight.append(back);
 			var data = $("<div class='data'/>");
 			var data_input = $("<input type='hidden' class='flight-detail-data'/>");
@@ -137,13 +137,13 @@
 			content.empty();
 			// 数据绑定点：开始
 			var flight = $("<div class='flight'/>");
-			var forward = $("<div class='forward'/>");
+			var forward = $("<div class='forward flightSelList'/>");
 			forward.append($("<span>去程：</span>"));
 			forward.append($("<span/>").text(flightInfo.forwardDepartCity+"("+flightInfo.forwardDepartDate+")"));
 			forward.append($("<span class='label label-badge label-info'>飞机</span>"));
 			forward.append($("<span/>").text(flightInfo.forwardArriveCity+"("+flightInfo.forwardArriveDate+")"));
 			flight.append(forward);
-			var back = $("<div class='back'/>");
+			var back = $("<div class='back flightSelList'/>");
 			back.append($("<span>返程：</span>"));
 			back.append($("<span/>").text(flightInfo.returnDepartCity+"("+flightInfo.returnDepartDate+")"));
 			back.append($("<span class='label label-badge label-info'>飞机</span>"));

@@ -23,6 +23,11 @@
 <!--左侧栏结束-->
 <script>
 
+    /*点击取消关闭标签页*/
+    var tabTopClose = function(){
+        alert("点击取消");
+    }
+
    /* var myJsonLeft = {
         "employees": [
             { "firstName":"Bill" , "lastName":"Gates" },
