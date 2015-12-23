@@ -8,11 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantRPCService;
+import com.yimayhd.harem.util.LogUtil;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -21,9 +20,9 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ResourcePublishService;
 
 public class RestaurantRPCServiceImpl implements RestaurantRPCService {
-	private static Logger log = LoggerFactory.getLogger(RestaurantRPCServiceImpl.class);
+	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private ItemQueryService itemQueryService;
+	private ItemQueryService itemQueryServiceRef;
 
 	@Autowired
 	private ResourcePublishService resourcePublishService;
@@ -45,19 +44,13 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 		restaurantPageQuery.setStartTime(restaurantListQuery.getBeginTime());
 		// 结束时间
 		restaurantPageQuery.setEndTime(restaurantListQuery.getEndTime());
-
-		ICPageResult<RestaurantDO> icPageResult = itemQueryService.pageQueryRestaurant(restaurantPageQuery);
+		LogUtil.requestLog(log, "itemQueryServiceRef.pageQueryRestaurant", restaurantPageQuery);
+		ICPageResult<RestaurantDO> icPageResult = itemQueryServiceRef.pageQueryRestaurant(restaurantPageQuery);
+		LogUtil.icResultLog(log, "itemQueryServiceRef.pageQueryRestaurant", icPageResult);
 		int totalCount = icPageResult.getTotalCount();
 		List<RestaurantDO> restaurantDOList = new ArrayList<RestaurantDO>();
-		if (icPageResult != null && icPageResult.isSuccess()) {
-			if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
-				restaurantDOList.addAll(icPageResult.getList());
-			}
-		} else {
-			log.error("inQuery=" + JSON.toJSONString(restaurantListQuery));
-			log.error("outQuery=" + JSON.toJSONString(restaurantPageQuery));
-			log.error("查询餐厅列表失败：result=" + JSON.toJSONString(icPageResult));
-			throw new BaseException(icPageResult.getResultMsg());
+		if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
+			restaurantDOList.addAll(icPageResult.getList());
 		}
 		return new PageVO<RestaurantDO>(restaurantPageQuery.getPageNo(), restaurantPageQuery.getPageSize(), totalCount,
 				restaurantDOList);
@@ -72,14 +65,10 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 
 	@Override
 	public RestaurantDO getRestaurantBy(long id) {
-		ICResult<RestaurantDO> restaurant = itemQueryService.getRestaurant(id);
-		if (restaurant != null && restaurant.isSuccess()) {
-			return restaurant.getModule();
-		} else {
-			log.error("id=" + id);
-			log.error("查询餐厅详情失败：result=" + JSON.toJSONString(restaurant));
-			throw new BaseException(restaurant.getResultMsg());
-		}
+		LogUtil.requestLog(log, "itemQueryServiceRef.getRestaurant", id);
+		ICResult<RestaurantDO> restaurant = itemQueryServiceRef.getRestaurant(id);
+		LogUtil.icResultLog(log, "itemQueryServiceRef.getRestaurant", restaurant);
+		return restaurant.getModule();
 	}
 
 }
