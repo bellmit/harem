@@ -24,41 +24,32 @@
 <script>
 
     /*点击取消关闭标签页*/
-    var tabTopClose = function(){
-        alert("点击取消");
+    var tabTopClose = function(obj){
+        //console.log(obj);
+        top.$("#myTabContent>.tab-pane").each(function () {
+            if($(this).hasClass("active") == true){
+                if($(this).prev().length != 0){
+                    $(this).prev().addClass("in");
+                    $(this).prev().addClass("active");
+                    $(this).prev().show();
+                }
+                $(this).remove();
+            }
+        });
+        top.$("#myTabList li").each(function(){
+            if($(this).hasClass("active") == true){
+                if($(this).prev().length != 0){
+                    $(this).prev().addClass("in");
+                    $(this).prev().addClass("active");
+                    $(this).prev().show();
+                }
+                $(this).remove();
+            }
+        });
     }
 
-   /* var myJsonLeft = {
-        "employees": [
-            { "firstName":"Bill" , "lastName":"Gates" },
-            { "firstName":"George" , "lastName":"Bush" },
-            { "firstName":"Thomas" , "lastName":"Carter" }
-        ]
-    }
-    function returnJsonLeft(){
-        return myJsonLeft;
-    }*/
 
-    /*function openwin(url) {
-        var a = document.createElement("a");
-        a.setAttribute("href", url);
-        a.setAttribute("target", "_blank");
-        a.setAttribute("id", "camnpr");
-        document.body.appendChild(a);
-        a.click();
-    }
-    function iFrameJumpPage(url,id)
-     {
-         $("#nav a").removeClass("active");
-
-        $("#RightIFrame").attr("src",url);
-        $("#"+id).addClass('active');
-         $('#RightIFrame').load(function(){
-             $('#RightIFrame').height($('#RightIFrame').contents().height()+200);
-         });
-     }*/
     /*点击元素新建头部标签页,openType为当前点击元素的tab类型，tabName为当前点击元素的文本内容*/
- 
     var tabIdArray = new Array();
     var isMore = false;
 	var num = 0;
@@ -87,13 +78,6 @@
                 $("#myTabList .dropdown-menu").prepend(tabMore);
                 $("#myTabList .dropdown").before(tabList);
                 $("#myTabContent").append(paneTab);
- 				//tabIdArray.shift();
-               //var tabMore = tabLi.slice(3,4)[0];
-               //var tabId = $(tabMore).attr("dataId");
-               //tabMore.remove();
-               //tabIdArray.shift();
-               //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
-            	//$(tabMore).attr("tabindex","-1");
         	}
        		iframeShow(tabId, url);
 		} else {
@@ -133,14 +117,6 @@
                     if($.inArray(tabId, tabIdArray) != -1){
                         tabIdArray.splice($.inArray(tabId, tabIdArray), 1);
                     }
-                    //tabIdArray.shift();
-
-                    //var tabMore = tabLi.slice(3,4)[0];
-                    //var tabId = $(tabMore).attr("dataId");
-                    //tabMore.remove();
-                    //tabIdArray.shift();
-                    //tabIdArray.splice($.inArray(tabId+'', tabIdArray), 1);
-                    //$(tabMore).attr("tabindex","-1");
                 }
            		iframeShow(tabId, url);
             }
@@ -183,10 +159,6 @@
                 $('#'+lastId+'').addClass("active");
                 $('#'+lastId+'').addClass("in");
                 $('#'+lastId+'').show();
-                /*if($("#myTabList .dropdown-menu li").length==0){
-                    $("#myTabList .dropdown").hide();
-                }*/
-                //$('#'+nextId+'').show();
             }else{
                 if($(".dropdown").css("display")=="block"){
                     var firstDrop = $("#myTabList .dropdown-menu li:first");
@@ -219,7 +191,6 @@
             if($.inArray(paneId, tabIdArray) != -1){
                 tabIdArray.splice($.inArray(paneId, tabIdArray), 1);
             }
-            //console.log(tabIdArray);
        });
 
         /*标签页点击切换*/
