@@ -8,12 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
-import com.yimayhd.commentcenter.client.result.BaseResult;
-import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.harem.service.TagRPCService;
 import com.yimayhd.harem.util.LogUtil;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
@@ -28,7 +26,7 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 	@Resource
 	protected ItemPublishService itemPublishServiceRef;
 	@Resource
-	protected ComCenterService comCenterServiceRef;
+	protected TagRPCService tagService;
 
 	public T getById(long id, Class<T> clazz) throws Exception {
 		// TODO YEBIN 通过ID获取跟团游对象
@@ -39,10 +37,7 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 		LogUtil.requestLog(log, "itemQueryServiceRef.getLineResult", id);
 		lineResult = itemQueryServiceRef.getLineResult(id);
 		LogUtil.icResultLog(log, "itemQueryServiceRef.getLineResult", lineResult);
-		LogUtil.requestLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", id, TagType.LINETAG.name());
-		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.getTagInfoByOutIdAndType(id, TagType.LINETAG.name());
-		LogUtil.ccResultLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", tagResult);
-		List<ComTagDO> tags = tagResult.getValue();
+		List<ComTagDO> tags = tagService.findAllTag(id, TagType.LINETAG);
 		T travel = null;
 		try {
 			travel = createTravelInstance(lineResult, tags);
@@ -59,14 +54,8 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 		LogUtil.requestLog(log, "itemPublishServiceRef.publishLine", linePublishDTO);
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
 		LogUtil.icResultLog(log, "itemPublishServiceRef.publishLine", publishLine);
-		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
-		tagRelationInfoDTO.setTagType(TagType.LINETAG.getType());
-		tagRelationInfoDTO.setOutId(publishLine.getLineId());
-		tagRelationInfoDTO.setOrderTime(publishLine.getCreateTime());
-		tagRelationInfoDTO.setList(travel.getTagIdList());
-		LogUtil.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
-		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
-		LogUtil.ccResultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
+		tagService.addTagRelation(publishLine.getLineId(), TagType.LINETAG, travel.getTagIdList(),
+				publishLine.getCreateTime());
 		return publishLine.getLineId();
 	}
 }

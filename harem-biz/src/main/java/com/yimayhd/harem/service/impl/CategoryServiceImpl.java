@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private com.yimayhd.ic.client.service.item.CategoryService categoryServiceRef;
 
 	@Override
-	public List<CategoryDO> getCategoryDOList() throws Exception {
+	public List<CategoryDO> getCategoryDOList() {
 		LogUtil.requestLog(log, "categoryServiceRef.getCategoryList");
 		CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryList();
 		LogUtil.icResultLog(log, "categoryServiceRef.getCategoryList", categoryQryResult);
@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<CategoryDO> getCategoryDOList(long parentId) throws Exception {
+	public List<CategoryDO> getCategoryDOList(long parentId) {
 		LogUtil.requestLog(log, "categoryServiceRef.getCategoryChildren", parentId);
 		CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryChildren();
 		LogUtil.icResultLog(log, "categoryServiceRef.getCategoryChildren", categoryQryResult);
@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDO getCategoryDOById(long id) throws Exception {
+	public CategoryDO getCategoryDOById(long id) {
 		LogUtil.requestLog(log, "categoryServiceRef.getCategory", id);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
 		LogUtil.icResultLog(log, "categoryServiceRef.getCategory", categoryResult);
@@ -65,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryVO getCategoryVOById(long id) throws Exception {
+	public CategoryVO getCategoryVOById(long id) {
 		CategoryDO category = getCategoryDOById(id);
 		if (category != null) {
 			return CategoryVO.getCategoryVO(category);

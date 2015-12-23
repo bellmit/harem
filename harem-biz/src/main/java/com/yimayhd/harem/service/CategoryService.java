@@ -15,7 +15,7 @@ public interface CategoryService {
 	 * @return 品类根列表
 	 * @throws Exception
 	 */
-	List<CategoryDO> getCategoryDOList() throws Exception;
+	List<CategoryDO> getCategoryDOList();
 
 	/**
 	 * 根据父id获取子品类列表
@@ -25,7 +25,7 @@ public interface CategoryService {
 	 * @return 品类列表
 	 * @throws Exception
 	 */
-	List<CategoryDO> getCategoryDOList(long parentId) throws Exception;
+	List<CategoryDO> getCategoryDOList(long parentId);
 
 	/**
 	 * 根据品类id获取品类
@@ -35,7 +35,7 @@ public interface CategoryService {
 	 * @return 品类
 	 * @throws Exception
 	 */
-	CategoryVO getCategoryVOById(long id) throws Exception;
+	CategoryVO getCategoryVOById(long id);
 
 	/**
 	 * 根据品类id获取品类
@@ -45,6 +45,6 @@ public interface CategoryService {
 	 * @return 品类
 	 * @throws Exception
 	 */
-	CategoryDO getCategoryDOById(long id) throws Exception;
+	CategoryDO getCategoryDOById(long id);
 
 }
