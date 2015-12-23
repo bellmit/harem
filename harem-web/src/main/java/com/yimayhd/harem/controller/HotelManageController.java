@@ -234,23 +234,16 @@ public class HotelManageController extends BaseController {
 		checkInit(roomFacilityList, roomFacilityArr);
 		checkInit(roomServiceList, roomServiceArr);
 		checkInit(hotelFacilityList, hotelFacilityArr);
-
-		/*
-		 * List<FacilityIconDO> roomFacilityList = facilityIconService
-		 * .getListByType(ROOMFACILITY_TYPE); List<FacilityIconDO>
-		 * roomServiceList = facilityIconService
-		 * .getListByType(ROOMSERVICELIST_TYPE); List<FacilityIconDO>
-		 * hotelFacilityList = facilityIconService
-		 * .getListByType(HOTELFACILITYLIST_TYPE);
-		 */
+		
+		NeedKnow needKnow = JSON.parseObject(hotelVO.getNeedKnow(), NeedKnow.class);
 		model.addAttribute("hotel", hotelVO);
-		// model.addAttribute("pictureList", hotelVO.getPictureList());
 		model.addAttribute("recommend", recommend);
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
+		model.addAttribute("needKnow", needKnow);
 
-		return "/system/hotel/edit";
+		return "/system/hotel/edit3";
 	}
 
 	/**
