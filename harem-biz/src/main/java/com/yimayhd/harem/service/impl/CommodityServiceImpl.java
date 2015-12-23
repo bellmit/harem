@@ -88,7 +88,6 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public List<ItemType> getItemTypeList() throws Exception {
-        ItemType.values()
         return null;
     }
 
