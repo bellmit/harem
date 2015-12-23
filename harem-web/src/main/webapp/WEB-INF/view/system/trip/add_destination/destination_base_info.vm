@@ -24,7 +24,7 @@
 				<tr>
                     <td><span class="spColor">*</span>封面图</td>
                     <td>
-                        <div class="fileImg">
+                        <div class="fileImgWrap">
                             <button type="button" class="btn btn-success">选择图片</button>
                             <input type="file"  name="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
                             <input type="hidden" name="coverURL" value=""  id="FMReturnInput">
@@ -38,7 +38,7 @@
                 <tr>
                     <td><span class="spColor">*</span>目的地LOGO</td>
                     <td>
-                        <div class="fileImg">
+                        <div class="fileImgWrap">
                             <button type="button" class="btn btn-success">选择图片</button>
                             <input type="file"  name="file" class="fileInp" id="LOGOUploadFile" accept="image/png,image/gif">
                             <input type="hidden" name="logoURL" value=""  id="LOGOReturnInput">
