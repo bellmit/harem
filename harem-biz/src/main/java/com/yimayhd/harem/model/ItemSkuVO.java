@@ -14,9 +14,10 @@ import org.springframework.beans.BeanUtils;
 public class ItemSkuVO extends ItemSkuDO {
     private double priceY;
     private int status = ItemSkuStatus.ADD.getStatus();//默认为新增
+    
     private boolean checked = false;//此条sku是否已展示
     private boolean modifyStatus = false;//是否修改过
-
+    
     public static ItemSkuDO getItemSkuDO(ItemVO itemVO,ItemSkuVO itemSkuVO){
         ItemSkuDO itemSkuDO = new ItemSkuDO();
         BeanUtils.copyProperties(itemSkuVO, itemSkuDO);
