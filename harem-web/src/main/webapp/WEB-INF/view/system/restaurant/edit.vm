@@ -30,10 +30,10 @@
 <form id="saveScenicSpot">
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
-            <a href="#scenicInfo" data-toggle="tab">景区信息</a>
+            <a href="#scenicInfo" data-toggle="tab">餐厅信息</a>
         </li>
         <li>
-            <a href="#scenicDetailDiv" data-toggle="tab">景区详情</a>
+            <a href="#scenicDetailDiv" data-toggle="tab">餐厅详情</a>
         </li>
         <li>
             <a href="#scenicImgs" data-toggle="tab">图片集</a>
@@ -44,7 +44,7 @@
             <div class="createHotrlTable">
                 <table class="table">
                     <tr>
-                        <td><span class="spColor">*</span>景区名称</td>
+                        <td><span class="spColor">*</span>餐厅名称</td>
                         <td>
                             #if($!{VO.scenic.id})
                                 <input type="hidden" name="scenic.id" value="$!{VO.scenic.id}">
@@ -66,18 +66,6 @@
                                 <input type="text" class="inpCtlBlock" name="scenic.locationText" id="locationText"
                                        placeholder="请输入100个字以内" value="$!{VO.scenic.locationText}">
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>等级</td>
-                        <td>
-                            <select class="form-control {required:true}" id="level" name="scenic.level">
-                                <option>请选择</option>
-                                <option value="1"  #if($!{VO.scenic.level} == 1) selected #end>五星级</option>
-                                <option value="2" #if($!{VO.scenic.level} == 2) selected #end>四星级</option>
-                                <option value="3" #if($!{VO.scenic.level} == 3) selected #end>三星级</option>
-                                <option value="4" #if($!{VO.scenic.level} == 4) selected #end>连锁酒店</option>
-                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -108,60 +96,6 @@
                         <td><span class="spColor">*</span>特色描述</td>
                         <td><textarea name="scenic.description" id="description" rows="3" class="form-control"
                                       placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
-                    </tr>
-                    <tr>
-                        <td><span class="spColor">*</span>入园须知</td>
-                        <td>
-                            <button type="button" class="btn btn-default addNeedKnow">增加条目</button>
-                            <table class="table">
-                                <tr>
-                                    <th>标题（10个字以内）</th>
-                                    <th>内容（500字以内）</th>
-                                    <th></th>
-                                </tr>
-                                    #if(!${VO.needKnow.frontNeedKnow})
-                                    <tr class="needKnow">
-                                        <td><input type="text" name="needKnow.frontNeedKnow[1].title"
-                                                   class="form-control extra-info-item-title" placeholder="费用包含"></td>
-                                        <td><textarea class="form-control extra-info-item-text"
-                                                      name="needKnow.frontNeedKnow[1].content" rows="3"></textarea></td>
-                                        <td>
-                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
-                                                删除
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    #end
-
-                                    #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
-                                    <tr class="needKnow">
-                                        <td><input type="text" name="needKnow.frontNeedKnow[$!{velocityCount}].content"
-                                                   class="form-control extra-info-item-title" placeholder="费用包含"
-                                                   value="$!{frontNeedKnow.title}"></td>
-                                        <td><textarea class="form-control extra-info-item-text"
-                                                      name="needKnow.frontNeedKnow[$!{velocityCount}].content"
-                                                      rows="3">$!{frontNeedKnow.content}</textarea></td>
-                                        <td>
-                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">
-                                                删除
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    #end
-                            </table>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class="spColor">*</span>退改规定</td>
-                        <td><textarea name="scenic.refundRule" id="refundRule" rows="3" class="form-control"
-                                      placeholder="请输入500字以内">$!{VO.scenic.refundRule}</textarea></td>
-                    </tr>
-                    <tr>
-                        <td><span class="spColor">*</span>基础价格</td>
-                        <td><input type="text" name="scenic.price" id="price" class="inpControl"
-                                   value="$!{VO.scenic.price}">起
-                        </td>
                     </tr>
                     <tr>
                         <td>景区联系人</td>
