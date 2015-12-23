@@ -4,8 +4,8 @@
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
-	<!-- <context:component-scan
-		base-package="com.yimayhd.harem.service, com.yimayhd.harem.task" /> -->
+	<!-- <context:component-scan base-package="com.yimayhd.harem.service, com.yimayhd.harem.task" 
+		/> -->
 	<bean class="com.yimayhd.harem.service.impl.UserRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.PictureRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TradeServiceImpl"></bean>
@@ -29,9 +29,6 @@
 	<bean class="com.yimayhd.harem.service.impl.HotelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
-	
-	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
 
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
 		</bean> -->
@@ -47,10 +44,13 @@
 	<bean class="com.yimayhd.harem.service.impl.DiscoveryCfgServiceImpl"></bean>
 	<!-- <bean id="config" class="com.yimayhd.harem.config.ResourceConfig" init-method="init"> 
 		</bean> -->
-	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl" ></bean>
+	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl"></bean>
 	<!-- commodity -->
+	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.CategoryRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.GroupTravelServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.SelfServiceTravelServiceImpl"></bean>
-	<bean id="systemManageService" class="com.yimayhd.harem.service.impl.SystemManageServiceImpl"/>
+	<bean id="systemManageService" class="com.yimayhd.harem.service.impl.SystemManageServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.FlightRPCServiceImpl"></bean>
 </beans>

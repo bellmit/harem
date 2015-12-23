@@ -69,7 +69,7 @@ public class LogUtil {
 	}
 
 	/**
-	 * 请求的log
+	 * 请求的log（有参）
 	 * 
 	 * @param log
 	 * @param method
@@ -77,6 +77,16 @@ public class LogUtil {
 	 */
 	public static void requestLog(Logger log, String method, Object... param) {
 		log.info("Request {} Param: {}", method, JSON.toJSONString(param));
+	}
+
+	/**
+	 * 请求的log（无参）
+	 * 
+	 * @param log
+	 * @param method
+	 */
+	public static void requestLog(Logger log, String method) {
+		log.info("Request {}", method);
 	}
 
 	/**

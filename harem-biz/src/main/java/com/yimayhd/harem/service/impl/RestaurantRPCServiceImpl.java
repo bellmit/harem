@@ -1,13 +1,20 @@
 package com.yimayhd.harem.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.util.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantRPCService;
@@ -38,12 +45,16 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 		restaurantPageQuery.setName(restaurantListQuery.getName());
 		// 状态
 		restaurantPageQuery.setStatus(restaurantListQuery.getStatus());
-		// 联系人
-		restaurantPageQuery.setPersonOrPhone(restaurantListQuery.getPersonOrPhone());
-		// 创建时间
-		restaurantPageQuery.setStartTime(restaurantListQuery.getBeginTime());
-		// 结束时间
-		restaurantPageQuery.setEndTime(restaurantListQuery.getEndTime());
+//		// 创建时间
+		if (!StringUtils.isBlank(restaurantListQuery.getBeginTime())) {
+			Date startTime = DateUtil.parseDate(restaurantListQuery.getBeginTime());
+			restaurantPageQuery.setStartTime(startTime);
+		}
+//		// 结束时间
+		if (!StringUtils.isBlank(restaurantListQuery.getEndTime())) {
+			Date endTime = DateUtil.parseDate(restaurantListQuery.getEndTime());
+			restaurantPageQuery.setEndTime(DateUtil.add23Hours(endTime));
+		}
 		LogUtil.requestLog(log, "itemQueryServiceRef.pageQueryRestaurant", restaurantPageQuery);
 		ICPageResult<RestaurantDO> icPageResult = itemQueryServiceRef.pageQueryRestaurant(restaurantPageQuery);
 		LogUtil.icResultLog(log, "itemQueryServiceRef.pageQueryRestaurant", icPageResult);

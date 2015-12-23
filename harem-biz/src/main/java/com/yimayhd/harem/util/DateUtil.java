@@ -1044,6 +1044,13 @@ public class DateUtil {
 		return dateToString(calendar.getTime(), "yyyy-MM-dd");
 	}
 
+	public static Date add23Hours(Date date) {
+		if (date == null) {
+			return null;
+		}
+		return new Date(date.getTime() + 24L * 3600L * 1000L);
+	}
+
 	/**
 	 * 计算日期差
 	 * @param beginDate
