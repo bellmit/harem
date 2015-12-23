@@ -138,4 +138,13 @@ public class TravelOfficialImpl implements TravelOfficialService{
 
         return travelOfficialData;
     }
+
+    private SnsTravelSpecialtyDO convertSnsTravelSpecialtyDO(TravelOfficial travelOfficial){
+        SnsTravelSpecialtyDO snsTravelSpecialtyDO = new SnsTravelSpecialtyDO();
+        if(travelOfficial == null){
+            return null;
+        }
+        snsTravelSpecialtyDO.setTitle(travelOfficial.getTitle()== null ? null : travelOfficial.getTitle());
+        return snsTravelSpecialtyDO;
+    }
 }

@@ -10,6 +10,7 @@
                 <option value="0" >全部</option>
                 <option value="1" #if($!commodityListQuery.commStatus == 2) selected #end>启用</option>
                 <option value="2" #if($!commodityListQuery.commStatus == 3) selected #end>停用</option>
+
             </select>
         </div>
         <div class="input-group inpSingle">

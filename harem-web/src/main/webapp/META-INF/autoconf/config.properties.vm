@@ -63,3 +63,6 @@ consumer.dubbo.paycore.version = ${consumer.dubbo.paycore.version}
 
 consumer.dubbo.trade.check = ${consumer.dubbo.trade.check}
 consumer.dubbo.trade.version = ${consumer.dubbo.trade.version}
+
+consumer.dubbo.sns.check = ${consumer.dubbo.sns.check}
+consumer.dubbo.sns.version = ${consumer.dubbo.sns.version}

@@ -82,4 +82,18 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 		}
 	}
 
+	@Override
+	public ICResult<Boolean> addRestaurant(RestaurantDO restaurantDO) {
+		
+		ICResult<Boolean> restaurant = resourcePublishService.addRestaurant(restaurantDO);
+		
+		if (restaurant != null && restaurant.isSuccess()) {
+			return restaurant;
+		} else {
+			log.error("添加餐厅失败：restaurant=" + JSON.toJSONString(restaurantDO));
+			throw new BaseException(restaurant.getResultMsg());
+		}
+		
+	}
+
 }

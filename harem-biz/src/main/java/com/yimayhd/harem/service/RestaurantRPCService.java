@@ -15,4 +15,6 @@ public interface RestaurantRPCService {
 	public ICResult<Boolean> updateRestaurant(RestaurantDO restaurantDO);
 
 	public RestaurantDO getRestaurantBy(long id);
+	
+	public  ICResult<Boolean> addRestaurant(RestaurantDO restaurantDO);
 }

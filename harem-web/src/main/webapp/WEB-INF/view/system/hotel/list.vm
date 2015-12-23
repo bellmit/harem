@@ -182,7 +182,7 @@
         //新建
         $('.addHotelBtn').click(function(){
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/toAdd';
-            window.openwin(url);
+			window.parent.tabsAdd("addRestaurant", '/B2C/hotelManage/toAdd', 3, "添加酒店");
         });
     });
 </script>
