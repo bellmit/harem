@@ -82,7 +82,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>地址经纬度</td>
-                    <td><span>经度</span><input type="text" id="locationX" name="locationX" class="inpControl getAddress"><span>纬度</span><input type="text" id="locationY" name="locationY" class="inpControl getAddress"><button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
+                    <td><span>经度</span><input type="text" id="locationX" name="locationX" class="inpControl getAddress" value="$!hotel.locationX"><span>纬度</span><input type="text" id="locationY" name="locationY" class="inpControl getAddress" value="$!hotel.locationY"><button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
