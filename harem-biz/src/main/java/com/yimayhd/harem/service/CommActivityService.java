@@ -1,5 +1,6 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 public interface CommActivityService {
@@ -10,7 +11,7 @@ public interface CommActivityService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ItemPubResult save(CommonItemPublishDTO commonItemPublishDTO) throws Exception;
+	public ItemPubResult add(ItemVO itemVO) throws Exception;
 	
 	
 

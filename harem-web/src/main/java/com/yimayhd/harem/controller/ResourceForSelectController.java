@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.HotelRPCService;
@@ -51,12 +52,12 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryRestaurantForSelect")
-	public @ResponseBody Map<String, Object> queryRestaurantForSelect(RestaurantListQuery query) {
+	public @ResponseBody ResponseVo queryRestaurantForSelect(RestaurantListQuery query) {
 		PageVO<RestaurantDO> pageVo = restaurantService.pageQueryRestaurant(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
-		return result;
+		return new ResponseVo(result);
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryScenicForSelect")
-	public @ResponseBody Map<String, Object> queryScenicForSelect(Model model, ScenicPageQuery scenicPageQuery,
+	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicPageQuery scenicPageQuery,
 			Integer pageNumber) throws Exception {
 		if (pageNumber != null) {
 			scenicPageQuery.setPageNo(pageNumber);
@@ -88,7 +89,7 @@ public class ResourceForSelectController extends BaseController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", scenicPageQuery);
-		return result;
+		return new ResponseVo(result);
 	}
 
 	/**
@@ -120,12 +121,12 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryHotelForSelect")
-	public @ResponseBody Map<String, Object> queryHotelForSelect(HotelListQuery query) throws Exception {
+	public @ResponseBody ResponseVo queryHotelForSelect(HotelListQuery query) throws Exception {
 		PageVO<HotelDO> pageVo = hotelService.pageQueryHotel(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
-		return result;
+		return new ResponseVo(result);
 	}
 
 	/**
@@ -146,12 +147,12 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryUserForSelect")
-	public @ResponseBody Map<String, Object> queryUserForSelect(UserDOPageQuery query) throws Exception {
+	public @ResponseBody ResponseVo queryUserForSelect(UserDOPageQuery query) throws Exception {
 		PageVO<UserDO> pageVo = userService.getUserListByPage(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
-		return result;
+		return new ResponseVo(result);
 	}
 
 	/**
@@ -183,7 +184,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryTravelKaForSelect")
-	public @ResponseBody Map<String, Object> queryTravelKaForSelect(TravelkaPageQuery query) throws Exception {
+	public @ResponseBody ResponseVo queryTravelKaForSelect(TravelkaPageQuery query) throws Exception {
 		Integer pageNumber = getInteger("pageNumber");
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
@@ -192,7 +193,7 @@ public class ResourceForSelectController extends BaseController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
-		return result;
+		return new ResponseVo(result);
 	}
 
 	/**
