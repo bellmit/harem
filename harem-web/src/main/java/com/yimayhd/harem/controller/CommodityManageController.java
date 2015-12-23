@@ -118,7 +118,7 @@ public class CommodityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{itemId}", method = RequestMethod.GET)
-	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType,int categoryId) throws Exception {
+	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType,int categoryId,int outId) throws Exception {
 		String redirectUrl = "";
 		switch (itemType) {
 			case CATEGORY_TYPE_HOTEL:
@@ -128,13 +128,13 @@ public class CommodityManageController extends BaseController {
 				redirectUrl = "/B2C/comm/scenicSpotManage/edit/" + itemId;
 				break;
 			case CATEGORY_TYPE_LINE:
-				redirectUrl = "/B2C/comm/groupTravel/detail/" + itemId + "?categoryId=" + categoryId;
+				redirectUrl = "/B2C/comm/groupTravel/detail/" + outId + "?categoryId=" + categoryId;
 				break;
 			case CATEGORY_TYPE_FLIGHT_HOTEL:
-				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId + "?categoryId=" + categoryId;
+				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
 				break;
 			case CATEGORY_TYPE_SPOTS_HOTEL:
-				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + itemId + "?categoryId=" + categoryId;
+				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
 				break;
 			case CATEGORY_TYPE_ACTIVITY:
 				redirectUrl = "/B2C/comm/activityManage/edit/" + itemId;
