@@ -49,7 +49,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 		ItemPubResult publicScenic = itemPublishService.publicScenic(scenicPublishDTO);
 		if (publicScenic != null && publicScenic.isSuccess()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
-			tagRelationInfoDTO.setTagType(TagType.VIEWTAG);
+			tagRelationInfoDTO.setTagType(TagType.VIEWTAG.getType());
 			tagRelationInfoDTO.setOutId(itemDO.getOutId());
 			tagRelationInfoDTO.setOrderTime(new Date());
 			tagRelationInfoDTO.setList(Arrays.asList(check));

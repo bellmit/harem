@@ -83,7 +83,7 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
 		if (publishLine != null && publishLine.isSuccess()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
-			tagRelationInfoDTO.setTagType(TagType.LINETAG);
+			tagRelationInfoDTO.setTagType(TagType.LINETAG.getType());
 			tagRelationInfoDTO.setOutId(publishLine.getLineId());
 			tagRelationInfoDTO.setOrderTime(publishLine.getCreateTime());
 			tagRelationInfoDTO.setList(travel.getTagIdList());

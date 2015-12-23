@@ -1,15 +1,12 @@
 package com.yimayhd.harem.service;
 
+import java.util.List;
+
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
-import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/24.
