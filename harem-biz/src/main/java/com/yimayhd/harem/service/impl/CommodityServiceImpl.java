@@ -56,10 +56,12 @@ public class CommodityServiceImpl implements CommodityService {
             itemQryDTO.setId(commodityListQuery.getId());
         }
         if(!StringUtils.isBlank(commodityListQuery.getBeginDate())) {
-            itemQryDTO.setBeginDate(commodityListQuery.getBeginDate() + DateUtil.DAY_BEGIN);
+            Date beginTime = DateUtil.parseDate(commodityListQuery.getBeginDate());
+            itemQryDTO.setBeginDate(beginTime);
         }
         if(!StringUtils.isBlank(commodityListQuery.getEndDate())) {
-            itemQryDTO.setEndDate(commodityListQuery.getEndDate() + DateUtil.DAY_END);
+            Date endTime = DateUtil.parseDate(commodityListQuery.getEndDate());
+            itemQryDTO.setEndDate(DateUtil.add23Hours(endTime));
         }
         List<Integer> status = new ArrayList<Integer>();
         if(0 != commodityListQuery.getCommStatus()){
