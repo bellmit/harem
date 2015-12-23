@@ -20,12 +20,6 @@ public interface CommodityService {
      * @throws Exception
      */
     PageVO<ItemDO> getList(CommodityListQuery commodityListQuery)throws Exception;
-    /**
-     * 获取商品分类列表（itemType）
-     * @return
-     * @throws Exception
-     */
-    List<ItemType> getItemTypeList()throws Exception;
 
     /**
      * 根据id获取商品信息

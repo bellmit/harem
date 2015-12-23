@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -57,7 +58,9 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
 		PageVO<ItemDO> pageVO= commodityService.getList(commodityListQuery);
+		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
+		model.addAttribute("itemTypeList", itemTypeList);
 		model.addAttribute("commodityList", pageVO.getItemList());
 		model.addAttribute("commodityListQuery", commodityListQuery);
 		return "/system/comm/list";
