@@ -44,7 +44,7 @@ public class CommActivityManageController extends BaseController {
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model) throws Exception {
 		//规格
-		CategoryVO categoryVO = categoryService.getCategoryById(37);
+		CategoryVO categoryVO = categoryService.getCategoryVOById(37);
 		model.addAttribute("category", categoryVO);
 		return "/system/comm/activity/edit";
 	}
