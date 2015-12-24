@@ -26,7 +26,7 @@ public class FlightRPCServiceImpl implements com.yimayhd.harem.service.FlightRPC
 	public PageVO<FlightCompanyDO> pageQueryFlightCompany(FlightCompanyPageQuery query) {
 		LogUtil.requestLog(log, "itemQueryServiceRef.queryFlightCompany", query);
 		ICPageResult<FlightCompanyDO> result = itemQueryServiceRef.queryFlightCompany(query);
-		LogUtil.icResultLog(log, "itemQueryServiceRef.queryFlightCompany", result);
+		LogUtil.resultLog(log, "itemQueryServiceRef.queryFlightCompany", result);
 		List<FlightCompanyDO> itemList = new ArrayList<FlightCompanyDO>();
 		int totalCount = result.getTotalCount();
 		if (CollectionUtils.isNotEmpty(result.getList())) {

@@ -29,14 +29,14 @@ public class TagRPCServiceImpl implements TagRPCService {
 		tagRelationInfoDTO.setList(tagIdList);
 		LogUtil.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
 		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
-		LogUtil.ccResultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
+		LogUtil.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
 	}
 
 	@Override
 	public List<ComTagDO> findAllTag(long outId, TagType tagType) {
 		LogUtil.requestLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", outId, tagType.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.getTagInfoByOutIdAndType(outId, tagType.name());
-		LogUtil.ccResultLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", tagResult);
+		LogUtil.resultLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", tagResult);
 		return tagResult.getValue();
 	}
 
