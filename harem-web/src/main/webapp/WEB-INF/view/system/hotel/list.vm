@@ -6,7 +6,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">酒店名称</button>
                     </span>
-                <input type="text" class="form-control" name="hotelName" value="$!hotelListQuery.hotelName">
+                <input type="text" class="form-control" name="name" value="$!hotelListQuery.hotelName">
             </div>
             <div class="input-group inpSingle">
                 <span class="input-group-btn">

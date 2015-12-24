@@ -41,10 +41,10 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 @Controller
 @RequestMapping("/B2C/hotelManage")
 public class HotelManageController extends BaseController {
-	private final static int ROOMFACILITY_TYPE = 1;
+/*	private final static int ROOMFACILITY_TYPE = 1;
 	private final static int ROOMSERVICELIST_TYPE = 2;
 	private final static int HOTELFACILITYLIST_TYPE = 3;
-
+*/
 	@Autowired
 	private ItemQueryService itemQueryService;
 
