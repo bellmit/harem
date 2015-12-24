@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
  */
 public class PriceInfo {
 	private static final int LIMIT_UNIT = 3600 * 24;
+	private static final int MONEY_UNIT = 100;
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
 	private String importantInfosCode;
@@ -39,11 +41,12 @@ public class PriceInfo {
 			this.limit = feature.getStartBookTimeLimit() / LIMIT_UNIT;
 			this.importantInfosCode = feature.getAgreement();
 		}
-		Map<String, PackageInfo> piMap = new LinkedHashMap<String, PackageInfo>();
-		Map<Long, PackageDay> pdMap = new LinkedHashMap<Long, PackageDay>();
-		Map<Long, PackageBlock> pbMap = new LinkedHashMap<Long, PackageBlock>();
-		Map<String, Map<Long, Map<Long, ItemSkuDO>>> treeMap = new LinkedHashMap<String, Map<Long, Map<Long, ItemSkuDO>>>();
+		this.tcs = new ArrayList<PackageInfo>();
 		if (CollectionUtils.isNotEmpty(itemSkuList)) {
+			Map<String, ItemSkuPVPair> piMap = new LinkedHashMap<String, ItemSkuPVPair>();
+			Map<Long, ItemSkuPVPair> pdMap = new LinkedHashMap<Long, ItemSkuPVPair>();
+			Map<Long, ItemSkuPVPair> pbMap = new LinkedHashMap<Long, ItemSkuPVPair>();
+			Map<String, Map<Long, Map<Long, ItemSkuDO>>> treeMap = new LinkedHashMap<String, Map<Long, Map<Long, ItemSkuDO>>>();
 			for (ItemSkuDO sku : itemSkuList) {
 				ItemSkuPVPair tcPair = null;
 				ItemSkuPVPair dayPair = null;
@@ -53,30 +56,60 @@ public class PriceInfo {
 					for (ItemSkuPVPair itemSkuPVPair : pairs) {
 						if (itemSkuPVPair.getPId() == LinePropertyType.TRAVEL_PACKAGE.getType()) {
 							tcPair = itemSkuPVPair;
-							if (piMap.containsKey(tcPair.getVTxt())) {
-								piMap.put(tcPair.getVTxt(), new PackageInfo(tcPair));
+							if (!piMap.containsKey(tcPair.getVTxt())) {
+								piMap.put(tcPair.getVTxt(), tcPair);
 							}
 						}
 						if (itemSkuPVPair.getPId() == LinePropertyType.DEPART_DATE.getType()) {
 							dayPair = itemSkuPVPair;
 							if (!pdMap.containsKey(dayPair.getVTxt())) {
 								long time = Long.parseLong(dayPair.getVTxt());
-								pdMap.put(time, new PackageDay(dayPair, time));
+								pdMap.put(time, dayPair);
 							}
 						}
 						if (itemSkuPVPair.getPId() == LinePropertyType.PERSON.getType()) {
 							personPair = itemSkuPVPair;
 							if (!pbMap.containsKey(personPair.getVId())) {
-								pbMap.put(personPair.getVId(), new PackageBlock(sku.getId(), personPair, sku.getPrice(),
-										sku.getStockNum(), 0));
+								pbMap.put(personPair.getVId(), personPair);
 							}
 						}
 					}
+					Map<Long, Map<Long, ItemSkuDO>> tc = null;
+					if (treeMap.containsKey(tcPair.getVTxt())) {
+						tc = treeMap.get(tcPair.getVTxt());
+					} else {
+						tc = new LinkedHashMap<Long, Map<Long, ItemSkuDO>>();
+						treeMap.put(tcPair.getVTxt(), tc);
+					}
+					Map<Long, ItemSkuDO> day = null;
+					long time = Long.parseLong(dayPair.getVTxt());
+					if (tc.containsKey(time)) {
+						day = tc.get(time);
+					} else {
+						day = new LinkedHashMap<Long, ItemSkuDO>();
+						tc.put(time, day);
+					}
+					day.put(personPair.getVId(), sku);
 				}
-				// TODO 完成数据组装
+			}
+			// 完成数据组装
+			for (Entry<String, Map<Long, Map<Long, ItemSkuDO>>> pi : treeMap.entrySet()) {
+				ItemSkuPVPair tcPair = piMap.get(pi.getKey());
+				List<PackageDay> packageDays = new ArrayList<PackageDay>();
+				for (Entry<Long, Map<Long, ItemSkuDO>> pd : pi.getValue().entrySet()) {
+					ItemSkuPVPair dayPair = pdMap.get(pd.getKey());
+					List<PackageBlock> packageBlocks = new ArrayList<PackageBlock>();
+					for (Entry<Long, ItemSkuDO> pb : pd.getValue().entrySet()) {
+						ItemSkuPVPair personPair = pbMap.get(pb.getKey());
+						ItemSkuDO sku = pb.getValue();
+						packageBlocks.add(new PackageBlock(sku.getId(), personPair, sku.getPrice() / MONEY_UNIT,
+								sku.getStockNum(), sku.getDiscountFee() / MONEY_UNIT));
+					}
+					packageDays.add(new PackageDay(dayPair, pd.getKey(), packageBlocks));
+				}
+				tcs.add(new PackageInfo(tcPair, packageDays));
 			}
 		}
-		// this.tcs = new ArrayList<PackageInfo>(pMap.values());
 	}
 
 	public List<PackageInfo> getTcs() {
@@ -150,8 +183,9 @@ public class PriceInfo {
 										itemSkuDO.setCategoryId(categoryId);
 										itemSkuDO.setSellerId(sellerId);
 										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
-										itemSkuDO.setPrice(packageBlock.getPrice());
+										itemSkuDO.setPrice(packageBlock.getPrice() / MONEY_UNIT);
 										itemSkuDO.setStockNum(packageBlock.getStock());
+										itemSkuDO.setDiscountFee(packageBlock.getDiscount() / MONEY_UNIT);
 										itemSkuDOs.add(itemSkuDO);
 									}
 								}

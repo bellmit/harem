@@ -2,12 +2,14 @@ package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.query.OrderListQuery;
 import com.yimayhd.harem.model.trade.MainOrder;
+import com.yimayhd.harem.model.trade.OrderDetails;
 import com.yimayhd.harem.service.OrderService;
-import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/B2C/orderManage")
 public class OrderManageController extends BaseController {
+
+	private static final Logger LOG = LoggerFactory.getLogger(OrderManageController.class);
 	@Autowired
 	private OrderService orderService;
 
@@ -34,8 +38,10 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/routeOrder/{id}", method = RequestMethod.GET)
 	public String getRouteOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
-		Order order = orderService.getOrderById(id);
-		model.addAttribute("order", order);
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		if (orderDetails!=null){
+			model.addAttribute("order", orderDetails);
+		}
 		return "/system/order/routeOrderInfo";
 	}
 
@@ -63,8 +69,10 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/scenicSpotOrder/{id}", method = RequestMethod.GET)
 	public String getScenicSpotOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
-		Order order = orderService.getOrderById(id);
-		model.addAttribute("order", order);
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		if (orderDetails!=null){
+			model.addAttribute("order", orderDetails);
+		}
 		return "/system/order/scenicSpotOrderInfo";
 	}
 
@@ -92,8 +100,10 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/goodsOrder/{id}", method = RequestMethod.GET)
 	public String getGoodOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
-		Order order = orderService.getOrderById(id);
-		model.addAttribute("order", order);
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		if (orderDetails!=null){
+			model.addAttribute("order", orderDetails);
+		}
 		return "/system/order/goodsOrderInfo";
 	}
 
@@ -121,8 +131,10 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/activityOrder/{id}", method = RequestMethod.GET)
 	public String getActivityOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
-		Order order = orderService.getOrderById(id);
-		model.addAttribute("order", order);
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		if (orderDetails!=null){
+			model.addAttribute("order", orderDetails);
+		}
 		return "/system/order/activityOrderInfo";
 	}
 
@@ -150,8 +162,10 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/membershipCardOrder/{id}", method = RequestMethod.GET)
 	public String getMembershipCardOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
-		Order order = orderService.getOrderById(id);
-		model.addAttribute("order", order);
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		if (orderDetails!=null){
+			model.addAttribute("order", orderDetails);
+		}
 		return "/system/order/membershipCardOrderInfo";
 	}
 

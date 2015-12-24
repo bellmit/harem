@@ -36,7 +36,7 @@
         #parse("/system/comm/travel/baseInfo.vm")
     </div>
 	<div class="tab-pane bigEditor" id="extraInfos" style="width: 96%;margin: 15px auto;">
-        <script id="extraInfos" type="text/plain" name="extraInfos" style="width: 100%; height:350px">$!{extraInfos}</script>
+        <script id="extraInfos" type="text/plain" name="extraInfos" style="width: 100%; height:350px"></script>
     </div>
 	#if($categoryId == 6)
     <div class="tab-pane tripInfo" id="tripInfo">
@@ -51,7 +51,7 @@
         #parse("/system/comm/travel/priceInfo.vm")
     </div>
 	<div class="tab-pane bigEditor" id="importantInfos" style="width: 96%;margin: 15px auto;">
-        <script id="importantInfos" type="text/plain" name="importantInfos" style="width: 100%; height:350px">$!{product.importantInfos}</script>
+        <script id="importantInfos" type="text/plain" name="importantInfos" style="width: 100%; height:350px"></script>
     </div>
   </div>
   <div class="groupTravelBot">
@@ -96,7 +96,16 @@
 		var url = "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/selfServiceTravel/save";
         #end
         $.post(url,params,function(data){
-            alert(JSON.stringify(data));
+			if(data.status == 200) {
+				layer.alert('添加成功', {
+					icon : 1
+				});
+				top.tabTopClose(this)
+			} else {
+				layer.alert('添加失败', {
+					icon : 2
+				});
+			}
         },"json");
     });
   </script>

@@ -35,10 +35,11 @@ public abstract class BaseTravel {
 		if (line != null) {
 			this.baseInfo = new BaseInfo(line, comTagDOs);
 		}
-		RouteDO route = lineResult.getRouteDO();
-		if (route != null && this.baseInfo != null) {
-			this.baseInfo.setTripImage(route.getPicture());
-		}
+		/*
+		 * RouteDO route = lineResult.getRouteDO(); if (route != null &&
+		 * this.baseInfo != null) {
+		 * this.baseInfo.setTripImage(route.getPicture()); }
+		 */
 		parseTripInfo(lineResult);
 		this.priceInfo = new PriceInfo(lineResult.getItemDO(), lineResult.getItemSkuDOList());
 	}

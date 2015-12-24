@@ -1,6 +1,11 @@
 package com.yimayhd.harem.model.travel;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 
@@ -21,12 +26,30 @@ public class PackageInfo {
 	public PackageInfo() {
 	}
 
-	public PackageInfo(ItemSkuPVPair itemSkuPVPair) {
+	public PackageInfo(ItemSkuPVPair itemSkuPVPair, List<PackageDay> days) {
 		this.id = itemSkuPVPair.getVId();
 		this.name = itemSkuPVPair.getVTxt();
 		this.PId = itemSkuPVPair.getPId();
 		this.PType = itemSkuPVPair.getPType();
 		this.PTxt = itemSkuPVPair.getPTxt();
+		Map<Long, List<PackageDay>> monthMap = new LinkedHashMap<Long, List<PackageDay>>();
+		for (PackageDay packageDay : days) {
+			Calendar c = Calendar.getInstance();
+			c.setTimeInMillis(packageDay.getTime());
+			c.set(Calendar.DAY_OF_MONTH, 1);
+			long monthTime = c.getTimeInMillis();
+			if (monthMap.containsKey(monthTime)) {
+				monthMap.get(monthTime).add(packageDay);
+			} else {
+				List<PackageDay> packageDays = new ArrayList<PackageDay>();
+				packageDays.add(packageDay);
+				monthMap.put(monthTime, packageDays);
+			}
+		}
+		this.months = new ArrayList<PackageMonth>();
+		for (Entry<Long, List<PackageDay>> month : monthMap.entrySet()) {
+			this.months.add(new PackageMonth(month.getKey(), month.getValue()));
+		}
 	}
 
 	public String getName() {

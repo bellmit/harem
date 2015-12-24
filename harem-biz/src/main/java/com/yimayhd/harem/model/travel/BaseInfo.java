@@ -50,7 +50,8 @@ public class BaseInfo {
 		this.id = line.getId();
 		this.type = line.getType();
 		this.name = line.getName();
-		this.productImage = line.getCoverUrl();
+		this.productImage = line.getLogoUrl();
+		this.tripImage = line.getCoverUrl();
 		tags = new ArrayList<Long>();
 		if (comTagDOs != null) {
 			for (ComTagDO comTagDO : comTagDOs) {

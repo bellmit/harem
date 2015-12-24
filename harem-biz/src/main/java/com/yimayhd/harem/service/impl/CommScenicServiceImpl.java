@@ -18,6 +18,7 @@ import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.service.CommScenicService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
@@ -40,12 +41,12 @@ public class CommScenicServiceImpl implements CommScenicService {
 
 		itemDO.setOutType(ResourceType.SCENIC.getType());
 		scenicPublishDTO.getScenicDO().setId(scenicPublishDTO.getItemDO().getOutId());
+		scenicPublishDTO.getScenicDO().setItemStatus(ItemStatus.valid.getValue());
 		itemDO.setCredit(0);
 		itemDO.setPoint(0);
 		itemDO.setOriginalCredit(0);
 		itemDO.setOriginalPoint(0);
 		itemDO.setOriginalPrice(0);
-
 		ItemPubResult publicScenic = itemPublishService.publicScenic(scenicPublishDTO);
 		if (publicScenic != null && publicScenic.isSuccess()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
