@@ -47,6 +47,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 		itemDO.setOriginalCredit(0);
 		itemDO.setOriginalPoint(0);
 		itemDO.setOriginalPrice(0);
+		itemDO.setStockNum(9999);//默认库存
 		ItemPubResult publicScenic = itemPublishService.publicScenic(scenicPublishDTO);
 		if (publicScenic != null && publicScenic.isSuccess()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
