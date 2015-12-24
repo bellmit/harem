@@ -1,6 +1,20 @@
 package com.yimayhd.harem.controller;
 
-import com.alibaba.fastjson.JSON;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.JsonResultUtil;
 import com.yimayhd.harem.base.PageVO;
@@ -18,15 +32,6 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.user.session.manager.SessionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/24.
@@ -35,14 +40,14 @@ import java.util.List;
 @RequestMapping("/B2C/commodityManage")
 public class CommodityManageController extends BaseController {
 
-	private static final int CATEGORY_TYPE_NORMAL = 1;//普通商品交易
-	private static final int CATEGORY_TYPE_LINE = 2;//线路商品
-	private static final int CATEGORY_TYPE_HOTEL = 3;//酒店商品
-	private static final int CATEGORY_TYPE_SPOTS = 4;//景区门票
-	private static final int CATEGORY_TYPE_FLIGHT_HOTEL = 5;//机票+酒店
-	private static final int CATEGORY_TYPE_SPOTS_HOTEL = 6;//景点+酒店
-	private static final int CATEGORY_TYPE_ACTIVITY = 7;//活动商品
-	private static final int CATEGORY_TYPE_MEMBER_RECHARGE = 8;//会员充值
+	private static final int CATEGORY_TYPE_NORMAL = 1;// 普通商品交易
+	private static final int CATEGORY_TYPE_LINE = 2;// 线路商品
+	private static final int CATEGORY_TYPE_HOTEL = 3;// 酒店商品
+	private static final int CATEGORY_TYPE_SPOTS = 4;// 景区门票
+	private static final int CATEGORY_TYPE_FLIGHT_HOTEL = 5;// 机票+酒店
+	private static final int CATEGORY_TYPE_SPOTS_HOTEL = 6;// 景点+酒店
+	private static final int CATEGORY_TYPE_ACTIVITY = 7;// 活动商品
+	private static final int CATEGORY_TYPE_MEMBER_RECHARGE = 8;// 会员充值
 
 	@Autowired
 	private CommodityService commodityService;
@@ -57,7 +62,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
-		PageVO<ItemDO> pageVO= commodityService.getList(commodityListQuery);
+		PageVO<ItemDO> pageVO = commodityService.getList(commodityListQuery);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("itemTypeList", itemTypeList);
@@ -76,7 +81,7 @@ public class CommodityManageController extends BaseController {
 	public String toAdd(Model model, int categoryId) throws Exception {
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
 		CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
-		int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
+		int itemType = categoryFeature.getItemType();// 不可能有空值，就不判断空了
 		String redirectUrl = "";
 		switch (itemType) {
 		case CATEGORY_TYPE_HOTEL:
@@ -100,7 +105,7 @@ public class CommodityManageController extends BaseController {
 		default:
 			// 普通商品，伴手礼应该也走普通商品
 			model.addAttribute("category", categoryVO);
-			model.addAttribute("itemType",ItemType.NORMAL.getValue());
+			model.addAttribute("itemType", ItemType.NORMAL.getValue());
 			return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;
@@ -118,39 +123,32 @@ public class CommodityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{itemId}", method = RequestMethod.GET)
-	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType,int categoryId,int outId) throws Exception {
+	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType, int categoryId,
+			int outId) throws Exception {
 		String redirectUrl = "";
-		switch (itemType) {
-			case CATEGORY_TYPE_HOTEL:
-				redirectUrl = "/B2C/comm/hotelManage/edit/" + itemId;;
-				break;
-			case CATEGORY_TYPE_SPOTS:
-				redirectUrl = "/B2C/comm/scenicSpotManage/edit/" + itemId;
-				break;
-			case CATEGORY_TYPE_LINE:
-				redirectUrl = "/B2C/comm/groupTravel/detail/" + outId + "?categoryId=" + categoryId;
-				break;
-			case CATEGORY_TYPE_FLIGHT_HOTEL:
-				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
-				break;
-			case CATEGORY_TYPE_SPOTS_HOTEL:
-				redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
-				break;
-			case CATEGORY_TYPE_ACTIVITY:
-				redirectUrl = "/B2C/comm/activityManage/edit/" + itemId;
-				break;
-			default:
-				// 普通商品，伴手礼应该也走普通商品
-				ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
-				ItemType.NORMAL.getValue();
-				model.addAttribute("itemResult", itemResultVO);
-				model.addAttribute("commodity", itemResultVO.getItemVO());
-				model.addAttribute("category", itemResultVO.getCategoryVO());
-				model.addAttribute("itemType",ItemType.NORMAL.getValue());
-				return "/system/comm/common/edit";
+		if (itemType == ItemType.HOTEL.getValue()) {
+			redirectUrl = "/B2C/comm/hotelManage/edit/" + itemId;
+		} else if (itemType == ItemType.SPOTS.getValue()) {
+			redirectUrl = "/B2C/comm/scenicSpotManage/edit/" + itemId;
+		} else if (itemType == ItemType.LINE.getValue()) {
+			redirectUrl = "/B2C/comm/groupTravel/detail/" + outId + "?categoryId=" + categoryId;
+		} else if (itemType == ItemType.FLIGHT_HOTEL.getValue()) {
+			redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
+		} else if (itemType == ItemType.SPOTS_HOTEL.getValue()) {
+			redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
+		} else if (itemType == ItemType.ACTIVITY.getValue()) {
+			redirectUrl = "/B2C/comm/activityManage/edit/" + itemId;
+		} else {
+			// 普通商品，伴手礼应该也走普通商品
+			ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
+			ItemType.NORMAL.getValue();
+			model.addAttribute("itemResult", itemResultVO);
+			model.addAttribute("commodity", itemResultVO.getItemVO());
+			model.addAttribute("category", itemResultVO.getCategoryVO());
+			model.addAttribute("itemType", ItemType.NORMAL.getValue());
+			return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;
-
 	}
 
 	/**
@@ -202,24 +200,25 @@ public class CommodityManageController extends BaseController {
 		return "";
 	}
 
-    /**
-     * 修改普通商品
-     * @param itemVO
-     * @param itemId 商品ID
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
-    public
-    String editCommon(ItemVO itemVO,@PathVariable(value = "itemId") long itemId) throws Exception {
-        itemVO.setId(itemId);
-        long sellerId = Long.parseLong(SessionUtils.getUserId());
-        //TODO
+	/**
+	 * 修改普通商品
+	 * 
+	 * @param itemVO
+	 * @param itemId
+	 *            商品ID
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
+	public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
+		itemVO.setId(itemId);
+		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		// TODO
 		sellerId = B2CConstant.SELLERID;
-        itemVO.setSellerId(sellerId);
-        commodityService.modifyCommonItem(itemVO);
-        return "/success";
-    }
+		itemVO.setSellerId(sellerId);
+		commodityService.modifyCommonItem(itemVO);
+		return "/success";
+	}
 
 	/**
 	 * 商品上架
@@ -235,6 +234,7 @@ public class CommodityManageController extends BaseController {
 		commodityService.publish(sellerId, id);
 		return new ResponseVo();
 	}
+
 	/**
 	 * 商品下架
 	 *
@@ -246,7 +246,7 @@ public class CommodityManageController extends BaseController {
 	public ResponseVo close(@PathVariable("id") long id) throws Exception {
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		sellerId = B2CConstant.SELLERID;
-		commodityService.publish(sellerId,id);
+		commodityService.publish(sellerId, id);
 		return new ResponseVo();
 	}
 
@@ -262,9 +262,10 @@ public class CommodityManageController extends BaseController {
 			throws Exception {
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		sellerId = B2CConstant.SELLERID;
-		commodityService.batchPublish(sellerId,commIdList);
+		commodityService.batchPublish(sellerId, commIdList);
 		return new ResponseVo();
 	}
+
 	/**
 	 * 商品下架(批量)
 	 *
@@ -277,7 +278,7 @@ public class CommodityManageController extends BaseController {
 			throws Exception {
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		sellerId = B2CConstant.SELLERID;
-		commodityService.batchClose(sellerId,commIdList);
+		commodityService.batchClose(sellerId, commIdList);
 		return new ResponseVo();
 	}
 

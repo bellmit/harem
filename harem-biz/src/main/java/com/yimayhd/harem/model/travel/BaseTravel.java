@@ -11,7 +11,6 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
-import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
@@ -24,8 +23,8 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
 public abstract class BaseTravel {
 	private static final int LINE_ADULT_VID = 1;
 	private static final int LINE_SINGLE_ROOM_VID = 4;
-	protected int categoryId;
-	protected int options;
+	protected long categoryId;
+	protected long options;
 	protected List<Long> updatedSKU;
 	protected List<Long> deletedSKU;
 	protected BaseInfo baseInfo;// 基础信息
@@ -37,13 +36,19 @@ public abstract class BaseTravel {
 		if (line != null) {
 			this.baseInfo = new BaseInfo(line, comTagDOs);
 		}
+
 		/*
 		 * RouteDO route = lineResult.getRouteDO(); if (route != null &&
 		 * this.baseInfo != null) {
 		 * this.baseInfo.setTripImage(route.getPicture()); }
 		 */
 		parseTripInfo(lineResult);
-		this.priceInfo = new PriceInfo(lineResult.getItemDO(), lineResult.getItemSkuDOList());
+		ItemDO itemDO = lineResult.getItemDO();
+		if (itemDO != null) {
+			this.categoryId = itemDO.getCategoryId();
+			this.options = itemDO.getOptions();
+			this.priceInfo = new PriceInfo(lineResult.getItemDO(), lineResult.getItemSkuDOList());
+		}
 	}
 
 	protected abstract void parseTripInfo(LineResult lineResult);
@@ -108,12 +113,12 @@ public abstract class BaseTravel {
 		itemFeature.put(ItemFeatureKey.LINE_ADULT_VID, LINE_ADULT_VID);
 		itemFeature.put(ItemFeatureKey.LINE_SINGLE_ROOM_VID, LINE_SINGLE_ROOM_VID);
 		itemDO.setItemFeature(itemFeature);
-		itemDO.setItemType(ItemType.LINE.getValue());
+		itemDO.setItemType(getItemType());
 		itemDO.setPayType(1);
 		itemDO.setSource(1);
 		itemDO.setVersion(1);
-		itemDO.setOptions(options);
-		itemDO.setCategoryId(categoryId);
+		itemDO.setOptions(this.options);
+		itemDO.setCategoryId(this.categoryId);
 		itemDO.setTitle(this.baseInfo.getName());
 		itemDO.setStockNum(0);
 		itemDO.setSubTitle("");
@@ -139,19 +144,19 @@ public abstract class BaseTravel {
 
 	public abstract void setRouteInfo(LinePublishDTO dto);
 
-	public int getCategoryId() {
+	public long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public int getOptions() {
+	public long getOptions() {
 		return options;
 	}
 
-	public void setOptions(int options) {
+	public void setOptions(long options) {
 		this.options = options;
 	}
 
@@ -170,4 +175,6 @@ public abstract class BaseTravel {
 	public void setDeletedSKU(List<Long> deletedSKU) {
 		this.deletedSKU = deletedSKU;
 	}
+
+	protected abstract int getItemType();
 }
