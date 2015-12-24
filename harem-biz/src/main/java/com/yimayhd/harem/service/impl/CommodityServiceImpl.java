@@ -316,7 +316,7 @@ public class CommodityServiceImpl implements CommodityService {
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
 
 
-        //修改的时候要先取出来，在更新
+       /* //修改的时候要先取出来，在更新
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
         ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
         if(null == itemResult){
@@ -336,6 +336,19 @@ public class CommodityServiceImpl implements CommodityService {
             if(StringUtils.isNotBlank(itemDO.getDetailUrl())) {
                 commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
             }
+            //评分
+            if(null != itemVO.getGrade()){
+                ItemFeature itemFeature = null;
+                if (null != itemDB.getItemFeature()) {
+                    itemFeature = itemDB.getItemFeature();
+                    itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
+                } else {
+                    itemFeature = new ItemFeature(null);
+                    itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
+                    itemDO.setItemFeature(itemFeature);
+                }
+            }
+            //skuList
             commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
 
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
@@ -378,6 +391,6 @@ public class CommodityServiceImpl implements CommodityService {
                 log.error("ItemPublishService.publish error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
                 throw new BaseException(result.getResultMsg());
             }
-        }
+        }*/
     }
 }

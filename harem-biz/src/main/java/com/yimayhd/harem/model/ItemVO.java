@@ -83,8 +83,8 @@ public class ItemVO extends ItemDO {
             itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
         }*/
-        //评分（暂时普通商品用）
-        if(null != itemVO.getGrade()){
+        //评分（暂时普通商品用）,此代码有问题，需要删除
+        /*if(null != itemVO.getGrade()){
             ItemFeature itemFeature = null;
             if (null != itemVO.getItemFeature()) {
                 itemFeature = itemDO.getItemFeature();
@@ -94,7 +94,7 @@ public class ItemVO extends ItemDO {
                 itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
                 itemDO.setItemFeature(itemFeature);
             }
-        }
+        }*/
         itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }
