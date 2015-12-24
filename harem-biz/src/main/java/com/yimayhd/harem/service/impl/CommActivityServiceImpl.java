@@ -21,6 +21,7 @@ import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.tradecenter.client.model.enums.ReduceType;
 
 /**
  * Created by Administrator on 2015/11/18.
@@ -47,7 +48,9 @@ public class CommActivityServiceImpl implements CommActivityService {
 			itemDO.setStockNum(9999);
 	        commonItemPublishDTO.setItemDO(itemDO);
 	        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
-		
+	        ItemFeature itemFeature = itemDO.getItemFeature();
+	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.BEFORE_PAY);
+
 	        ItemPubResult itemPubResult =itemPublishService.publishCommonItem(commonItemPublishDTO);
 		 if(null == itemPubResult){
 	            log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
