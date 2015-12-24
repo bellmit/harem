@@ -2,8 +2,11 @@ package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.harem.base.AreaService;
-import com.yimayhd.harem.base.AreaType;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -33,20 +34,14 @@ import com.yimayhd.ic.client.model.result.ICResult;
 @Controller
 @RequestMapping("/B2C/resourceManage")
 public class ResourceManageController extends BaseController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ResourceManageController.class);
 	@Autowired
 	private RestaurantService restaurantService;
 	
 	@Autowired
 	private RestaurantRPCService restaurantRPCService;
 
-/*	@RequestMapping(value = "/restaurant/list", method = RequestMethod.GET)
-	public String restaurantList(RestaurantListQuery restaurantListQuery) throws Exception {
-		PageVO<RestaurantDO> pageVo = restaurantService.getListByPage(restaurantListQuery);
-		put("pageVo", pageVo);
-		put("query", restaurantListQuery);
-		return "/system/resource/restaurant/list";
-	}
-*/
 	@RequestMapping(value = "/restaurant/{id}", method = RequestMethod.GET)
 	public String restaurant(@PathVariable("id") Long id) throws Exception {
 		RestaurantDO restaurant = restaurantService.getById(id);
@@ -65,6 +60,23 @@ public class ResourceManageController extends BaseController {
 		return "/system/restaurant/edit";
 	}
 	
+	@RequestMapping(value = "/restaurant/edit/{id}", method = RequestMethod.GET)
+	public String toEdit(Model model, @PathVariable(value = "id") long id) {
+		
+		RestaurantDO restaurantDO = restaurantRPCService.getRestaurantBy(id);
+		
+		MasterRecommend recommend = null;
+		
+		try {
+			recommend = JSON.parseObject(restaurantDO.getRecommend(), MasterRecommend.class);
+		} catch (Exception e) {
+			logger.error("toEdit|recommend="+restaurantDO.getRecommend()+"|error="+e.toString());
+		}
+			
+		model.addAttribute("restaurant", restaurantDO);
+		model.addAttribute("recommend", recommend);
+		return "/system/restaurant/edit";
+	}
 	
 	@RequestMapping(value = "/restaurant/save", method = RequestMethod.POST)
 	@ResponseBody

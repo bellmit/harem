@@ -50,11 +50,11 @@
                     <tr>
                         <td><span class="spColor">*</span>餐厅名称</td>
                         <td>
-                            #if($!{VO.scenic.id})
-                                <input type="hidden" name="id" value="$!{VO.scenic.id}">
+                            #if($!{restaurant.id})
+                                <input type="hidden" name="id" value="$!{restaurant.id}">
                             #end
                             <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内"
-                                   value="$!{VO.scenic.name}"></td>
+                                   value="$!{restaurant.name}"></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>区域</td>
@@ -62,20 +62,20 @@
                             <div class="selectList">
                                 
                            
-                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{VO.scenic.locationProvinceName}">
+                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{restaurant.locationProvinceName}">
                             <select id="provinceId" class="selCity inpControl provinceSelect" name="scenic.locationProvinceId" areaType="PROVINCE">
-                                <option value="$!{VO.scenic.locationProvinceId}">#if(! $VO.scenic.locationProvinceName)请选择省份#else$!{VO.scenic.locationProvinceName}#end</option>
+                                <option value="$!{restaurant.locationProvinceId}">#if(! $restaurant.locationProvinceName)请选择省份#else$!{restaurant.locationProvinceName}#end</option>
                             </select>
-                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!{VO.scenic.locationCityName}">
+                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!{restaurant.locationCityName}">
                             <select id="cityId" class="selCity inpControl citySelect" name="scenic.locationCityId" areaType="CITY">
-                                <option value="$!{VO.scenic.locationCityId}">#if(! $VO.scenic.locationCityName)请选择城市#else$!{VO.scenic.locationProvinceName}#end</option>
+                                <option value="$!{restaurant.locationCityId}">#if(! $restaurant.locationCityName)请选择城市#else$!{restaurant.locationProvinceName}#end</option>
                             </select>
-                            <input type="hidden" id="countySelectName" name="locationTownName" value="$!{VO.scenic.locationTownName}">
+                            <input type="hidden" id="countySelectName" name="locationTownName" value="$!{restaurant.locationTownName}">
                             <select id="countyId" class="selCity inpControl countySelect" name="scenic.locationTownId" areaType="COUNTY">
-                                <option value="$!{VO.scenic.locationTownId}">#if(! $VO.scenic.locationTownName)请选择区县#else$!{VO.scenic.locationTownName}#end</option>
+                                <option value="$!{restaurant.locationTownId}">#if(! $restaurant.locationTownName)请选择区县#else$!{restaurant.locationTownName}#end</option>
                             </select>	
                                 <input type="text" class="inpControl" name="locationText" id="locationText"
-                                       placeholder="请输入100个字以内" value="$!{VO.scenic.locationText}">
+                                       placeholder="请输入100个字以内" value="$!{restaurant.locationText}">
                            
                             </div>
                         </td>
@@ -83,30 +83,30 @@
                     <tr>
                         <td><span class="spColor">*</span>地址经纬度</td>
                         <td><span>经度</span><input type="text" name="locationX" id="locationX"
-                                                  class="inpControl getAddress" value="$!{VO.scenic.locationX}">
+                                                  class="inpControl getAddress" value="$!{restaurant.locationX}">
                             <span>维度</span><input type="text" name="locationY" id="locationY"
-                                                  class="inpControl getAddress" value="$!{VO.scenic.locationY}">
+                                                  class="inpControl getAddress" value="$!{restaurant.locationY}">
                             <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                             <code>点击查找经纬度可自动获取</code></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>餐厅简介</td>
                         <td><textarea name="oneword" id="oneword" rows="3" class="form-control"
-                                      placeholder="请输入500字以内">$!{VO.scenic.oneword}</textarea></td>
+                                      placeholder="请输入500字以内">$!{restaurant.oneword}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
                         <td><textarea name="description" id="description" rows="3" class="form-control"
-                                      placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
+                                      placeholder="请输入500字以内">$!{restaurant.description}</textarea></td>
                     </tr>
 
                     <tr>
                         <td>餐厅联系人</td>
                         <td>
                             <span>姓名</span><input type="text" name="contactPerson" class="inpControl"
-                                                  value="$!{VO.scenic.contactPerson}">
+                                                  value="$!{restaurant.contactPerson}">
                             <span>电话</span><input type="text" name="contactPhone" class="inpControl"
-                                                  value="$!{VO.scenic.contactPhone}">
+                                                  value="$!{restaurant.contactPhone}">
                         </td>
                     </tr>
                     <tr>
@@ -141,7 +141,7 @@
             <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
         </div>
         <div class="tab-pane" id="restaurantImgs">
-				 #parse("/system/scenicSpot/picture.vm")
+				 #parse("/system/restaurant/picture.vm")
         </div>
     </div>
 
