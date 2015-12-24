@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
-
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 
@@ -12,30 +12,25 @@
             <tr>
                 <td><span class="spColor">*</span>游记标题</td>
               
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="title" value="$!travelOfficial.title"></td>
+                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="title" id="titleId" value="$!travelOfficial.title"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>发布时间</td>
-                <td> <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="publishDate" value="$!travelOfficial.publishDate"></td>
+                <td> <input type="text" class='form-control form-date dateInp' placeholder='' readonly id="publishDateId" name="publishDate" value="$!travelOfficial.publishDate"></td>
             </tr>
-			#*
-				<tr>
-               		<td><span class="spColor">*</span>目的地</td>
-                	<td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!travelOfficial.sequenceNum"></td>
-            	</tr>
-			*#
 
             <tr>
                 <td><span class="spColor">*</span>作者信息</td>
                 <td>
                     <div class="userBtn">
                         <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
-                        <input type="hidden" name="manageUserName" value="$!travelOfficial.manageUserName">
-                        <input type="hidden" name="manageUserLogoUrl" value="$!travelOfficial.manageUserLogoUrl">
+                        <input type="hidden" id="nickNameId"  name="nickName" value="$!travelOfficial.nickName">
+                        <input type="hidden" id="userPhotoId"  name="userPhoto" value="$!travelOfficial.userPhoto">
+                        <input type="hidden" id="createIdId"  name="createId" value="$!travelOfficial.createId">#* $!travelOfficial.createId *#
                     </div>
                     <div class="userView">
-                        <img src=" #if($club.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!travelOfficial.manageUserLogoUrl  #end">
-                        <span>Tracy</span>
+                        <img src=" #if($travelOfficial.userPhoto) $utilWebconfig.getTfsRootPath()$!travelOfficial.userPhoto  #end">
+                        <span id="shownickNameId">$!travelOfficial.nickName</span>
                     </div>
                 </td>
 			</tr>
@@ -43,9 +38,15 @@
 			<tr>
                 <td><span class="spColor">*</span>游记封面</td>
                 <td>
-					<div >
-                        <p><img src="$!travelOfficial.backImg"></p>
-					</div>
+                    <div class="fileImg">
+                        <button type="button" class="btn btn-success">选择图片</button>
+                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+                        <input type="hidden" name="logoUrl" value="$!travelOfficial.backImg" id="logoUrlUploadFileReturnInput" >
+                        <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+                    </div>
+                    <div class="logoView">
+                        <img name="backImg" src="#if($travelOfficial.backImg) $utilWebconfig.getTfsRootPath()$!travelOfficial.backImg #end" class="img-circle" id="logoUrlUploadFileReturnImg">
+                    </div>
                 </td>
             </tr>
 	        <tr>
@@ -72,8 +73,7 @@
 
 <script>
 
-    $(".form-date").datetimepicker(
-            {
+    $(".form-date").datetimepicker({
                 language:  "zh-CN",
                 weekStart: 1,
                 todayBtn:  1,
@@ -84,63 +84,8 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-
-
-    $(function(){
-        $(document).delegate('#logoUrlUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                        url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
-                                $('#logoUrlUploadFileReturnInput').val(data.data);
-                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-
-        $(document).delegate('#picturePosterUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                        url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'picturePosterUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                                var tfsPath = '$utilWebconfig.getTfsRootPath()';
-                                $('#picturePosterUploadFileReturnInput').val(data.data);
-                                $('#picturePosterUploadFileReturnImg').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-        $('#btnSubmit').click(function(){
+/**
+    $('#btnSubmit').click(function(){
             $(this).prop('disabled',true);
             var actionUrl;
             var clubId = $('#clubForm').attr('clubId');
@@ -158,14 +103,42 @@
                     $(this).prop('disabled',false);
                 }
             });
-        });
     });
-    
+*/
     //选择用户
      $('.selectUserBtn').click(function(){
             '$!utilWebconfig.getActionDefaultFontPath()',
-                    openModal(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser', "选择用户", selectUserCallBack)
-     });
-     
+                    openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser', "选择用户",function(){
+                        var item = win.getItem();
+                        console.log(item);
+                        console.log(win.getItem().nickname);
+                        if(null != item){
+                            $("#nickNameId").val(item.nickname);
+                            $("#shownickNameId").text(item.nickname);
+                            
+                            $("#userPhotoId").val(item.avatar);
+                            $("#createIdId").val(item.id);
+                       }
+                       return true;
+                    });
+     })
+
+    //上传图片
+    $(document).delegate("#logoUrlUploadFile",'change',function(){
+        fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack);
+    })
+
+    var LogoPicloadCallBack = function(data){
+        if(data && data.status == 200){
+            console.log(data.data);
+            $('#logoUrlUploadFileReturnInput').val(data.data);
+            $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+
+
      
 </script>

@@ -211,6 +211,10 @@ public class TripManageController extends BaseController {
 	public String list(Model model){
 		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
 		List<RegionDO> list = tripService.selectRegion(type);
+		//TODO:调用分页 
+		
+		
+		
 		if(CollectionUtils.isNotEmpty(list)){
 			model.addAttribute("regionList",list);
 			if(RegionType.DEPART_REGION.getType() == type ){//出发地 3

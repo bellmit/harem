@@ -93,18 +93,16 @@ public class TravelOfficialImpl implements TravelOfficialService{
     @Override
     public TravelOfficial add(TravelOfficial travelOfficial) throws Exception {
     	SnsTravelSpecialtyDO snsTravelSpecialtyDO = new SnsTravelSpecialtyDO();
-    	//标题
-    	//发布时间
-    	//目的地
-    	//创建者
-    	//游记封面
-    	
-    	snsTravelSpecialtyDO.setTitle(travelOfficial.getTitle());
-    	snsTravelSpecialtyDO.setGmtCreated(travelOfficial.getPublishDate());
+    	snsTravelSpecialtyDO.setCreateId(12323);
+    	snsTravelSpecialtyDO.setBackImg(travelOfficial.getBackImg());//游记封面
+    	snsTravelSpecialtyDO.setTitle(travelOfficial.getTitle());//标题
+    	snsTravelSpecialtyDO.setGmtCreated(travelOfficial.getPublishDate());//发布时间
     	snsTravelSpecialtyDO.setGmtModified(new Date());
-    	snsTravelSpecialtyDO.setCreateId(23423);//travelOfficial.getUser().getId()
+    	snsTravelSpecialtyDO.setCreateId(travelOfficial.getCreateId());//创建者
+        snsTravelSpecialtyDO.setUserPhoto(travelOfficial.getUserPhoto());
+        snsTravelSpecialtyDO.setNickName(travelOfficial.getNickName());
     	snsTravelSpecialtyDO.setBackImg(travelOfficial.getBackImg());
-    	snsTravelSpecialtyDO.setImgContentJson(null);
+    	snsTravelSpecialtyDO.setImgContentJson(travelOfficial.getImgContentJson());
     	BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.addTravelSpecialInfo(snsTravelSpecialtyDO);
     	if(null != res && res.isSuccess() && null != res.getValue()){
     		travelOfficial.setId(res.getValue().getId());
