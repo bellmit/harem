@@ -115,9 +115,10 @@
         });
         $('.hotelDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/edit/'+ $(this).attr('hotelId');
+                //var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/edit/'+ $(this).attr('hotelId');
                 //TODO
-                window.openwin(url);
+                //window.openwin(url);
+				window.parent.tabsAdd("restaurantDetail", '/B2C/hotelManage/edit/'+ $(this).attr('hotelId'), 3, "查看酒店");
             });
 
         });
