@@ -12,6 +12,8 @@ public interface CommActivityService {
 	 * @throws Exception
 	 */
 	public ItemPubResult add(ItemVO itemVO) throws Exception;
+
+	public void update(ItemVO itemVO);
 	
 	
 
