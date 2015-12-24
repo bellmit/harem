@@ -97,9 +97,7 @@
         #end
         $.post(url,params,function(data){
 			if(data.status == 200) {
-				layer.alert('添加成功', {
-					icon : 1
-				});
+				alert('添加成功');
 				top.tabTopClose(this)
 			} else {
 				layer.alert('添加失败', {
