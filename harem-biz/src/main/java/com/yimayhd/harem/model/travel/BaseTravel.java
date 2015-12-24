@@ -3,12 +3,14 @@ package com.yimayhd.harem.model.travel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
@@ -117,7 +119,12 @@ public abstract class BaseTravel {
 		itemDO.setSubTitle("");
 		itemDO.setOneWord("");
 		itemDO.setDescription("");
-		itemDO.setPicUrls(this.baseInfo.getTripImage());
+		if (StringUtils.isNotBlank(this.baseInfo.getProductImage())) {
+			itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, this.baseInfo.getProductImage());
+		}
+		if (StringUtils.isNotBlank(this.baseInfo.getTripImage())) {
+			itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, this.baseInfo.getTripImage());
+		}
 		itemDO.setDetailUrl("");
 		return itemDO;
 	}

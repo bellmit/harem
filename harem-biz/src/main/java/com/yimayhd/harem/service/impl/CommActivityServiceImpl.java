@@ -37,7 +37,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	        ItemDO itemDO = ItemVO.getItemDO(itemVO);
 	        itemDO.setSubTitle("");
 	        itemDO.setOneWord("");
-	        itemDO.setPicUrls("");
+	        itemDO.setPicUrls(PicUrlsUtil.);
 	    	itemDO.setCredit(0);
 			itemDO.setPoint(0);
 			itemDO.setOriginalCredit(0);
