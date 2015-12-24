@@ -1,14 +1,24 @@
-
-<div id="img-manage">
-<form action="" name="saveimgform" id="saveimgform">
-    <ul class="itemlist clearfix">
-        <li data-value="1" istop="true">
-            <a href="" class="img"><img src="../../tmp/1.jpg"/></a>
-            <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
-        </li>
-    </ul>
-    <input type="submit" name="submit" value="保存" id="save-btn" class="save-btn"/>
-</form>
-    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/json.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
-    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/img-manage.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
-</div>
+#macro(imgEdit $inputName)
+    <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/img_manage.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+    <div class="grogBatchWrap">
+        <div class="grogBatchUpload">
+            <input type="button" name="" value="批量上传" class="btn">
+            <input type="file" name="" multiple="multiple" id="batchUploadBtn" class="btn btnFile">
+        </div>
+    </div>
+    <div id="img-manage">
+    <div action="" name="saveimgform" id="saveimgform">
+        <ul class="itemlist clearfix">
+            <li data-value="1" istop="true">
+                <a href="" class="img"><img src="../../tmp/1.jpg" width="240"/></a>
+                <span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>
+            </li>
+        </ul>
+        #*提交表单的input框*#
+        <input type="hidden" id="imgids" name="imgids" value="" />
+    </div>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/json.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+        <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/img-manage.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    </div>
+#end

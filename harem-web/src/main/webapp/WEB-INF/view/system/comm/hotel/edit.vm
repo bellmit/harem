@@ -38,7 +38,7 @@
                     </tr>
                     <tr>
                         <td>*时间区间</td>
-                        <td>用户可选入住时间为<input type="text" name="startBookTimeLimit" value="$!commHotel.startBookTimeLimit">天内</td>
+                        <td>用户可选入住时间为<input type="text" name="endBookTimeLimit" value="$!commHotel.endBookTimeLimit">天内</td>
                     </tr>
                 </table>
             </div>
@@ -62,7 +62,7 @@
                             <td class="picUrlsTd">
                                 <input id="batchUploadBtn" type="file" multiple="multiple" >
                                 #foreach($pic in $!commHotel.picUrlList)
-                                    <img class="picUrlsUrl" src="$utilWebconfig.getTfsRootPath()$pic">
+                                    <img class="picUrlsUrl" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
                                 #end
                                 <input class="picUrlsVal" type="hidden" name="picUrls" value="$!commHotel.picUrls">
                             </td>

@@ -34,9 +34,9 @@ public class ItemVO extends ItemDO {
 
     private int sort = 1;//商品排序字段(默认为1)
 
-    private Long startBookTimeLimit;//酒店可入住时间限制
+    private Long endBookTimeLimit;//酒店可入住时间限制
 
-    public static ItemDO getItemDO(ItemVO itemVO){
+    public static ItemDO getItemDO(ItemVO itemVO)throws Exception{
         ItemDO itemDO = new ItemDO();
         BeanUtils.copyProperties(itemVO, itemDO);
         //元转分
@@ -51,11 +51,24 @@ public class ItemVO extends ItemDO {
             }
             itemDO.setItemSkuDOList(itemSkuDOList);
         }
+        //酒店提前预定时间
+        if (null != itemVO.getEndBookTimeLimit()) {
+            ItemFeature itemFeature = null;
+            if (null != itemVO.getItemFeature()) {
+                itemFeature = itemDO.getItemFeature();
+                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
+            } else {
+                itemFeature = new ItemFeature(null);
+                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
+                itemDO.setItemFeature(itemFeature);
+            }
+            itemDO.setFeature(JSON.toJSONString(itemFeature));
+        }
         itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }
     //不能在getItemDO之后调用（修改用时）
-    public static CommonItemPublishDTO getCommonItemPublishDTO(ItemVO itemVO){
+    public static CommonItemPublishDTO getCommonItemPublishDTO(ItemVO itemVO)throws Exception{
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         commonItemPublishDTO.setItemDO(itemDO);//更新的时候貌似没有用了
@@ -89,7 +102,7 @@ public class ItemVO extends ItemDO {
         return commonItemPublishDTO;
 
     }
-    public static ItemVO getItemVO(ItemDO itemDO,CategoryVO categoryVO){
+    public static ItemVO getItemVO(ItemDO itemDO,CategoryVO categoryVO)throws Exception{
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(itemDO, itemVO);
         //分转元
@@ -102,8 +115,8 @@ public class ItemVO extends ItemDO {
             itemVO.setItemSkuVOList(itemSkuVOList);
         }
         //酒店提前预定时间
-        if(null != itemVO.getStartBookTimeLimit()){
-            itemVO.setStartBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
+        if(null != itemVO.getItemFeature()){
+            itemVO.setEndBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
         }
         //picUrls转list
         if(StringUtils.isNotBlank(itemVO.getPicUrls())){
@@ -276,11 +289,11 @@ public class ItemVO extends ItemDO {
         this.sort = sort;
     }
 
-    public Long getStartBookTimeLimit() {
-        return startBookTimeLimit;
+    public Long getEndBookTimeLimit() {
+        return endBookTimeLimit;
     }
 
-    public void setStartBookTimeLimit(Long startBookTimeLimit) {
-        this.startBookTimeLimit = startBookTimeLimit;
+    public void setEndBookTimeLimit(Long endBookTimeLimit) {
+        this.endBookTimeLimit = endBookTimeLimit;
     }
 }

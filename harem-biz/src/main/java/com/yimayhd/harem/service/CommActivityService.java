@@ -7,13 +7,13 @@ public interface CommActivityService {
 
 	/**
 	 * 保存景区商品
-	 * @param itemDo
+	 * @param itemVO
 	 * @return
 	 * @throws Exception
 	 */
 	public ItemPubResult add(ItemVO itemVO) throws Exception;
 
-	public void update(ItemVO itemVO);
+	public void update(ItemVO itemVO)throws Exception;
 	
 	
 
