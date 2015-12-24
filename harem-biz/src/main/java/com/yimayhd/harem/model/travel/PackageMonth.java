@@ -16,8 +16,9 @@ public class PackageMonth {
 	public PackageMonth() {
 	}
 
-	public PackageMonth(long time) {
+	public PackageMonth(long time, List<PackageDay> days) {
 		this.time = time;
+		this.days = days;
 	}
 
 	public List<PackageDay> getDays() {

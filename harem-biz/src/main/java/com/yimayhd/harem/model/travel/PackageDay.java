@@ -22,12 +22,13 @@ public class PackageDay {
 	public PackageDay() {
 	}
 
-	public PackageDay(ItemSkuPVPair itemSkuPVPair, long time) {
+	public PackageDay(ItemSkuPVPair itemSkuPVPair, long time, List<PackageBlock> blocks) {
 		this.id = itemSkuPVPair.getVId();
 		this.time = time;
 		this.PId = itemSkuPVPair.getPId();
 		this.PType = itemSkuPVPair.getPType();
 		this.PTxt = itemSkuPVPair.getPTxt();
+		this.blocks = blocks;
 	}
 
 	public List<PackageBlock> getBlocks() {

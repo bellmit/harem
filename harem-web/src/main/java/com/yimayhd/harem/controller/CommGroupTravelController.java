@@ -69,8 +69,6 @@ public class CommGroupTravelController extends BaseTravelController {
 		if (id > 0) {
 			GroupTravel gt = groupTravelService.getById(id);
 			put("product", gt);
-			put("importantInfos", tfsService.readHtml5(gt.getPriceInfo().getImportantInfosCode()));
-			put("extraInfos", tfsService.readHtml5(gt.getBaseInfo().getNeedKnow().getExtraInfoUrl()));
 			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/detail";

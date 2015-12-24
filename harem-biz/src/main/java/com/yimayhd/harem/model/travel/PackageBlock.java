@@ -8,7 +8,7 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
  * @author yebin
  *
  */
-public class PackageBlock {
+public class PackageBlock {		
 	private long skuId;
 	private long id;
 	private String name;
