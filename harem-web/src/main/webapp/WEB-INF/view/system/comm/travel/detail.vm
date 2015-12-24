@@ -64,16 +64,6 @@
         window.UEDITOR_HOME_URL = "/resources/ueditor/";
     	important_infos_ue = UE.getEditor('importantInfos');
 		extra_infos_ue = UE.getEditor('extraInfos');
-		#if($!{product.priceInfo.importantInfosCode}) 
-		$.get(tfsRootPath+"$!{product.priceInfo.importantInfosCode}",function(data) {
-			important_infos_ue.setContent(data);
-		});
-		#end
-		#if($!{product.baseInfo.needKnow.extraInfoUrl})
-		$.get(tfsRootPath+"$!{product.baseInfo.needKnow.extraInfoUrl}",function(data) {
-			extra_infos_ue.setContent(data);
-		});
-		#end
     });
 	function getExtraInfos() {
 		return extra_infos_ue.getAllHtml();
