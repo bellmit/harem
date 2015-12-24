@@ -48,7 +48,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	        commonItemPublishDTO.setItemDO(itemDO);
 	        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 	        ItemFeature itemFeature = new ItemFeature(null);
-	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.BEFORE_PAY);
+	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.NONE.getBizType());
 	        itemDO.setItemFeature(itemFeature);
 	        ItemPubResult itemPubResult =itemPublishService.publishCommonItem(commonItemPublishDTO);
 		 if(null == itemPubResult){
