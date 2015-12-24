@@ -124,6 +124,8 @@ public class CommodityServiceImpl implements CommodityService {
         //TODO
         itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
         itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
+        //商品的排序字段
+        itemResultVO.getItemVO().setSort(itemResult.getSortNum());
         return itemResultVO;
     }
 
@@ -184,14 +186,14 @@ public class CommodityServiceImpl implements CommodityService {
             //组装
             ItemDO itemDO = ItemVO.getItemDO(itemVO);
             //酒店提前预定时间
-            if (null != itemVO.getStartBookTimeLimit()) {
+            if (null != itemVO.getEndBookTimeLimit()) {
                 ItemFeature itemFeature = null;
                 if (null != itemDB.getItemFeature()) {
                     itemFeature = itemDB.getItemFeature();
-                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
                 } else {
                     itemFeature = new ItemFeature(null);
-                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
                     itemDB.setItemFeature(itemFeature);
                 }
             }

@@ -58,7 +58,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	}
 
 	@Override
-	public void update(ItemVO itemVO) {
+	public void update(ItemVO itemVO)throws Exception{
 		 //修改的时候要先取出来，在更新
 		 ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
 		 ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
@@ -77,12 +77,12 @@ public class CommActivityServiceImpl implements CommActivityService {
 	            //组装
 	            ItemDO itemDO = ItemVO.getItemDO(itemVO);
 	            //酒店提前预定时间
-	            if (null != itemVO.getStartBookTimeLimit()) {
+	            if (null != itemVO.getEndBookTimeLimit()) {
 	                if (null != itemVO.getItemFeature()) {
-	                    itemDB.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+	                    itemDB.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
 	                } else {
 	                    ItemFeature itemFeature = new ItemFeature(null);
-	                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+	                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
 	                    itemDB.setItemFeature(itemFeature);
 	                }
 	            }
