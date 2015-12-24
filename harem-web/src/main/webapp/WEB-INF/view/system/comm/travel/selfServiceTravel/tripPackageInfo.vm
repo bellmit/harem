@@ -188,7 +188,9 @@
 		var flight_status = $("[name='has-flight']:checked").val();
 		result["hasFlight"] = flight_status;
 		if(flight_status == 0) {
-			result["flightInfo"] = JSON.parse($(".flight-info-data").val());
+			if($(".flight-info-data").val()) {
+				result["flightInfo"] = JSON.parse($(".flight-info-data").val());
+			}
 		} else {
 			var flights = [];
 			$(".flight-detail-data").each(function() {
