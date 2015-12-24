@@ -1,5 +1,6 @@
 package com.yimayhd.harem.model;
 
+import com.yimayhd.harem.util.NumUtil;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 import org.springframework.beans.BeanUtils;
 
@@ -34,8 +35,8 @@ public class IMallRefundRecordExportVO implements Serializable {
         IMallRefundRecordExportVO iMallRefundRecordExportVO = new IMallRefundRecordExportVO();
         BeanUtils.copyProperties(iMallRefundRecordDO,iMallRefundRecordExportVO);
         //分转元
-        iMallRefundRecordExportVO.setPaymentY(iMallRefundRecordExportVO.getPayment() / 100);
-        iMallRefundRecordExportVO.setRefundPaymentY(iMallRefundRecordExportVO.getRefundPayment() / 100);
+        iMallRefundRecordExportVO.setPaymentY(NumUtil.moneyTransformDouble(iMallRefundRecordExportVO.getPayment()));
+        iMallRefundRecordExportVO.setRefundPaymentY(NumUtil.moneyTransformDouble(iMallRefundRecordExportVO.getRefundPayment()));
         return iMallRefundRecordExportVO;
     }
 

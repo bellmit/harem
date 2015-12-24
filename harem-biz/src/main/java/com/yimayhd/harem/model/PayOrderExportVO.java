@@ -1,5 +1,6 @@
 package com.yimayhd.harem.model;
 
+import com.yimayhd.harem.util.NumUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOperationDO;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDetailDO;
@@ -57,7 +58,7 @@ public class PayOrderExportVO implements Serializable {
         PayOrderExportVO payOrderExportVO = new PayOrderExportVO();
         BeanUtils.copyProperties(payOrderDO, payOrderExportVO);
         //分转元
-        payOrderExportVO.setTotalAmountY(payOrderExportVO.getTotalAmount() / 100);
+        payOrderExportVO.setTotalAmountY(NumUtil.moneyTransformDouble(payOrderExportVO.getTotalAmount()));
         PayStatus payStatus = PayStatus.getByStatus(payOrderExportVO.getPayStatus());
         payOrderExportVO.setPayStatusName(null == payStatus ? "其他" : payStatus.getDesc());
         return payOrderExportVO;

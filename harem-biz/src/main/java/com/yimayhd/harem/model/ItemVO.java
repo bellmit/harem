@@ -2,6 +2,7 @@ package com.yimayhd.harem.model;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.yimayhd.harem.util.NumUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
@@ -40,16 +41,7 @@ public class ItemVO extends ItemDO {
         BeanUtils.copyProperties(itemVO, itemDO);
         //元转分
         itemDO.setPrice((long) (itemVO.getPriceY() * 100));
-        //酒店提前预定时间
-        if(null != itemVO.getStartBookTimeLimit()){
-            if(null != itemVO.getItemFeature()) {
-                itemVO.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
-            }else{
-                ItemFeature itemFeature = new ItemFeature(null);
-                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
-                itemVO.setItemFeature(itemFeature);
-            }
-        }
+
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
             List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
             for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
@@ -66,7 +58,7 @@ public class ItemVO extends ItemDO {
     public static CommonItemPublishDTO getCommonItemPublishDTO(ItemVO itemVO){
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
-        commonItemPublishDTO.setItemDO(itemDO);
+        commonItemPublishDTO.setItemDO(itemDO);//更新的时候貌似没有用了
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
             //新增sku数组
             List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
@@ -101,7 +93,7 @@ public class ItemVO extends ItemDO {
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(itemDO, itemVO);
         //分转元
-        itemVO.setPriceY(itemVO.getPrice() / 100);
+        itemVO.setPriceY(NumUtil.moneyTransformDouble(itemVO.getPrice()));
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuDOList())){
             List<ItemSkuVO> itemSkuVOList = new ArrayList<ItemSkuVO>();
             for (ItemSkuDO itemSkuDO : itemVO.getItemSkuDOList()){
@@ -151,7 +143,11 @@ public class ItemVO extends ItemDO {
                 }else if(i == len - 2){
                     skuTdRowNumList.set(i,tranSetList.get(i - 1).size());
                 }else{
-                    skuTdRowNumList.set(i,tranSetList.get(i - 1).size() + tranSetList.get(i - 2).size());
+                    int rowNum = 1;
+                    for (int j = i + 1; j < len; j++) {
+                        rowNum = rowNum * tranSetList.get(j).size();
+                    }
+                    skuTdRowNumList.set(i,rowNum);
                 }
             }
 
