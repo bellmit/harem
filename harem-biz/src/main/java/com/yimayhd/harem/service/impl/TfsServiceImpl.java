@@ -34,14 +34,14 @@ public class TfsServiceImpl implements TfsService {
 				+ "    <meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no\">\n"
 				+ "    <title></title>\n" + "    <style>img{width: 100%;}</style>" + "</head>\n" + "<body>";
 		String encodeHtmlFoot = "</body>\n" + "</html>";
-		/*String html5 = encodeHtmlHead + body + encodeHtmlFoot;
+		String html5 = encodeHtmlHead + body + encodeHtmlFoot;
 		byte[] bytes = null;
 		try {
 			bytes = html5.getBytes("utf-8");
 		} catch (UnsupportedEncodingException e) {
 			bytes = html5.getBytes();
-		}*/
-		byte[] bytes = body.getBytes();
+		}
+		//byte[] bytes = body.getBytes();
 		String tfsCode = "";
 		try {
 			tfsCode = tfsManager.saveFile(bytes, null, "html");
