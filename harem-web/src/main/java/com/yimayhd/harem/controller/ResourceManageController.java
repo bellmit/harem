@@ -1,5 +1,7 @@
 package com.yimayhd.harem.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,10 +105,39 @@ public class ResourceManageController extends BaseController {
 		ICResult<Boolean> icResult = restaurantRPCService.updateRestaurant(restaurantDO);
 
 		ResponseVo responseVo = new ResponseVo();
-		if (!icResult.getModule()) {
+		if (!icResult.isSuccess()) {
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 
+		return responseVo;
+	}
+	
+	/**
+	 * 动态状态变更(批量)
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/restaurant/batchUpdateStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo batchUpdateStatus(@RequestParam("restaurantIdList[]") ArrayList<Integer> restaurantIdList,
+			int restaurantStatus) throws Exception {
+		
+		ResponseVo responseVo = new ResponseVo();
+		for (Integer id : restaurantIdList) {
+			
+			RestaurantDO restaurantDO = new RestaurantDO();
+			restaurantDO.setId(id);
+			restaurantDO.setStatus(restaurantStatus);
+			ICResult<Boolean> icResult = restaurantRPCService.updateRestaurant(restaurantDO);
+
+			if (!icResult.isSuccess()) {
+				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+				return responseVo;				
+			}			
+			
+		}
+		
 		return responseVo;
 	}
 
