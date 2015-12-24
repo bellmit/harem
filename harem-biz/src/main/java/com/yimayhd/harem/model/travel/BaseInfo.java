@@ -81,7 +81,9 @@ public class BaseInfo {
 		if (StringUtils.isNotBlank(line.getNeedKnow())) {
 			this.needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
 		}
-		this.masters = JSON.parseArray(line.getRcmdMasters(), String.class);
+		if(StringUtils.isNotBlank(line.getRcmdMasters())) {
+			this.masters = JSON.parseArray(line.getRcmdMasters(), String.class);
+		}
 	}
 
 	/**
