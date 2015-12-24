@@ -48,8 +48,8 @@
             </div>
         </div>
         <button type="button" class="btn btn-primary restaurantAddBtn">添加餐厅</button>
-        <button type="button" class="btn btn-primary scenicBatchBtn" btnType="1">批量启用</button>
-        <button type="button" class="btn btn-primary scenicBatchBtn" btnType="2">批量禁用</button>
+        <button type="button" class="btn btn-primary restaurantBatchBtn" btnType="1">批量启用</button>
+        <button type="button" class="btn btn-primary restaurantBatchBtn" btnType="2">批量禁用</button>
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
@@ -157,7 +157,7 @@
             $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
         });
         //批量
-        $('.scenicBatchBtn').click(function(){
+        $('.restaurantBatchBtn').click(function(){
             var arr = new Array();
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
@@ -169,7 +169,7 @@
                         time: 2000
                     })
             }else{
-            	 $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/scenicSpotManage/batchupdateStatus',{scenicIdList:arr,scenicStatus:$(this).attr('btnType')},function(data){
+            	$.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/scenicSpotManage/batchupdateStatus',{scenicIdList:arr,scenicStatus:$(this).attr('btnType')},function(data){
                 if(data&&data.status == 200){
                     layer.alert('操作成功', {
                         icon: 1,
