@@ -74,11 +74,13 @@
 											#foreach($block in ${day.blocks})
 												<div class="input-group">
 													<span class="input-group-addon">$!{block.name}</span>
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$!{block.price}">
+													#set($price = $block.price / 100.0)  
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$price">
 													<span class="input-group-addon">库存</span>
 													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
 													<span class="input-group-addon">会员优惠</span>
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
+													#set($discount = $block.discount / 100.0)  
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$discount">
 												</div>
 											#end
 											</td>
