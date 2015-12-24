@@ -183,9 +183,9 @@ public class PriceInfo {
 										itemSkuDO.setCategoryId(categoryId);
 										itemSkuDO.setSellerId(sellerId);
 										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
-										itemSkuDO.setPrice(packageBlock.getPrice() / MONEY_UNIT);
+										itemSkuDO.setPrice(packageBlock.getPrice());
 										itemSkuDO.setStockNum(packageBlock.getStock());
-										itemSkuDO.setDiscountFee(packageBlock.getDiscount() / MONEY_UNIT);
+										itemSkuDO.setDiscountFee(packageBlock.getDiscount());
 										itemSkuDOs.add(itemSkuDO);
 									}
 								}

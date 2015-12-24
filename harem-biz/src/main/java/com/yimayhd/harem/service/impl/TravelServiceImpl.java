@@ -36,13 +36,14 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 		LineResult lineResult = null;
 		LogUtil.requestLog(log, "itemQueryServiceRef.getLineResult", id);
 		lineResult = itemQueryServiceRef.getLineResult(id);
-		LogUtil.icResultLog(log, "itemQueryServiceRef.getLineResult", lineResult);
+		LogUtil.resultLog(log, "itemQueryServiceRef.getLineResult", lineResult);
 		List<ComTagDO> tags = tagService.findAllTag(id, TagType.LINETAG);
 		T travel = null;
 		try {
 			travel = createTravelInstance(lineResult, tags);
 		} catch (Exception e) {
-			LogUtil.exceptionLog(log, "解析线路信息失败", true, e, "lineResult", lineResult, "tags", tags);
+			log.error("解析线路信息失败", e);
+			throw new BaseException("解析线路信息失败");
 		}
 		return travel;
 	}
@@ -53,7 +54,7 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 		LinePublishDTO linePublishDTO = travel.toLinePublishDTO();
 		LogUtil.requestLog(log, "itemPublishServiceRef.publishLine", linePublishDTO);
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
-		LogUtil.icResultLog(log, "itemPublishServiceRef.publishLine", publishLine);
+		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", publishLine);
 		tagService.addTagRelation(publishLine.getLineId(), TagType.LINETAG, travel.getTagIdList(),
 				publishLine.getCreateTime());
 		return publishLine.getLineId();

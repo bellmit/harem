@@ -49,7 +49,7 @@ public abstract class BaseTravelController extends BaseController {
 		put("PT_MASTER", LineOwnerType.MASTER.getType());
 		LogUtil.requestLog(log, "comCenterServiceRef.selectTagListByTagType", TagType.LINETAG.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
-		LogUtil.ccResultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
+		LogUtil.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
 		put("tags", tagResult.getValue());
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));

@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryDO> getCategoryDOList() {
 		LogUtil.requestLog(log, "categoryServiceRef.getCategoryList");
 		CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryList();
-		LogUtil.icResultLog(log, "categoryServiceRef.getCategoryList", categoryQryResult);
+		LogUtil.resultLog(log, "categoryServiceRef.getCategoryList", categoryQryResult);
 		// TODO
 		return categoryQryResult.getCategroyDOList();
 		/*
@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryDO> getCategoryDOList(long parentId) {
 		LogUtil.requestLog(log, "categoryServiceRef.getCategoryChildren", parentId);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(parentId);
-		LogUtil.icResultLog(log, "categoryServiceRef.getCategoryChildren", categoryResult);
+		LogUtil.resultLog(log, "categoryServiceRef.getCategoryChildren", categoryResult);
 		if (categoryResult == null || categoryResult.getCategroyDO() == null) {
 			return null;
 		}
@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public CategoryDO getCategoryDOById(long id) {
 		LogUtil.requestLog(log, "categoryServiceRef.getCategory", id);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
-		LogUtil.icResultLog(log, "categoryServiceRef.getCategory", categoryResult);
+		LogUtil.resultLog(log, "categoryServiceRef.getCategory", categoryResult);
 		return categoryResult.getCategroyDO();
 	}
 
