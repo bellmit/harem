@@ -215,13 +215,13 @@
 		content.append(span);
 	});
 	$("#selectPublisher").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneUser','选择发布人',function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneTravelKa','选择发布人',function() {
 			var ka = win.getTravelKa();
 			if(ka) {
 				var content = $(".publisher-content");
 				content.empty();
 				var id = ka.id;
-				var name = ka.nickname;
+				var name = ka.nickName || ka.name;
 				var pic = ka.avatar;
 				var span = $("<span class='label label-badge label-info publisher'>"+name+"</span>");
 				span.attr("rId",id);
@@ -243,8 +243,9 @@
 			var content = $(".masters-content");
 			for(var i in kas) {
 				var ka = kas[i];
+				var name = ka.nickName || ka.name;
 				if($(".masters[rName='"+ka.name+"']").length > 0) continue;
-				var btn = $("<button class='btn btn-info masters'>"+ka.name+"</button>");
+				var btn = $("<button class='btn btn-info masters'>"+name+"</button>");
 				btn.click(function(){
 					$(this).remove();
 				});
