@@ -7,7 +7,6 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.model.travel.BaseTravel;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.FlightDetail;
 import com.yimayhd.ic.client.model.domain.share_json.FlightInfo;
 import com.yimayhd.ic.client.model.domain.share_json.HotelInfo;
