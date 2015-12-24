@@ -75,7 +75,7 @@
                     <td><input class="subChecked" type="checkbox" value="$!commodity.id"></td>
                     <td>$velocityCount</td>
                     <td>
-                        <p><img src="$!{utilWebconfig.getTfsRootPath()}$!commodity.detailUrl"></p>
+                        <p><img src="$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($commodity.picUrls)"></p>
                         <p>$!commodity.title</p>
                         <p>商品编码:$!commodity.id</p>
                     </td>
@@ -86,7 +86,7 @@
                     <td>$!commodity.stockNum</td>
                     <td>$!utilDate.dateToString($!commodity.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>
-                        <button type="button" class="btn btn-primary commodityDetail" commodityId="$commodity.id" itemType="$commodity.itemType" categoryId="$!commodity.categoryId">查看</button>
+                        <button type="button" class="btn btn-primary commodityDetail" commodityId="$commodity.id" itemType="$commodity.itemType" categoryId="$!commodity.categoryId" outId="$!commodity.outId">查看</button>
                         <button type="button" class="btn btn-primary commodityBtn"  commodityId="$commodity.id" status="$commodity.status">#if($commodity.status == 2) 停用 #else 启用 #end </button>
                     </td>
                 </tr>
@@ -124,7 +124,7 @@
         });
         $('.commodityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/edit/'+ $(this).attr('commodityId') + '?itemType='+ $(this).attr('itemType') + '&categoryId=' + $(this).attr('categoryId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/edit/'+ $(this).attr('commodityId') + '?itemType='+ $(this).attr('itemType') + '&categoryId=' + $(this).attr('categoryId') + '&outId=' + $(this).attr('outId');
                 //TODO
                 //window.openwin(url);
                 top.tabsAdd("",url,2,$(this).text());

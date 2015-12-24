@@ -26,4 +26,15 @@ public class NumUtil {
         return money/100;
     }
 
+    /**
+     * 金额转换（分转换为元:#0.00）
+     * @param money
+     * @return
+     */
+    public static double moneyTransformDouble(long money){
+        double dn = money;
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        return Double.parseDouble(decimalFormat.format(dn / 100));
+    }
+
 }

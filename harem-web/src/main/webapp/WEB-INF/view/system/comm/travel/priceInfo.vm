@@ -26,6 +26,7 @@
         </div>
     </div>*#
 	<div class="tc-main" #if(!$product) style="display:none;margin: 10px 0 15px;" #end>
+		<input type="hidden" id="item_id" value="$!{product.priceInfo.itemId}"/>
 		<p>套餐设置：<button class="btn btn-primary addTC">添加新套餐</button></p>
 		<ul id="tc_tab" class="nav nav-tabs navCombo">
 			#foreach($tc in $!{product.priceInfo.tcs})
@@ -73,11 +74,11 @@
 											#foreach($block in ${day.blocks})
 												<div class="input-group">
 													<span class="input-group-addon">$!{block.name}</span>
-													<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$!{block.price}">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$!{block.price}">
 													<span class="input-group-addon">库存</span>
-													<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
 													<span class="input-group-addon">会员优惠</span>
-													<input type="text" class="form-control tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
 												</div>
 											#end
 											</td>
@@ -170,6 +171,11 @@
 		$(this).hide();
 		$(".tc-main").show();
 	});
+	var updatedSKU = [];
+	var deletedSKU = [];
+	$(".tc-item").change(function() {
+		updatedSKU.push($(this).attr("sku-id"));
+	});
 	// 重置
 	function resetTime(){
 		// time avalible
@@ -190,8 +196,10 @@
 		}
 		$("#tc_"+id+"_tab").remove();
 		$("#tc_"+id).remove();
+		$(".tc-"+id+"-item").each(function() {
+			deletedSKU.push($(this).attr("sku-id"));
+		});
 	}
-	
 	$(".addTC").click(function(){
 		curTcId = curTcId + 1;
 		var tcTab = createTcTab(curTcId);
@@ -266,11 +274,11 @@
 				#foreach($persionPropertyValue in $persionPropertyValues)
 				var group_$!{persionPropertyValue.id} = $("<div class='input-group block'/>")
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>$!{persionPropertyValue.text}</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>库存</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>会员优惠</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control "+class_id+"-$!{persionPropertyValue.id}-3' id='"+day_id+"_$!{persionPropertyValue.id}_3' placeholder='请输入会员优惠'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-3' id='"+day_id+"_$!{persionPropertyValue.id}_3' placeholder='请输入会员优惠'>"); 
 				td.append(group_$!{persionPropertyValue.id});
 				#end
 				tr.append(td);
@@ -316,6 +324,7 @@
 					#foreach($persionPropertyValue in $persionPropertyValues)
 					var key_$!{persionPropertyValue.id} = "tc_"+tcId+"_month_"+mId+"_day_"+dId+"_$!{persionPropertyValue.id}";
 					blocks.push({
+						skuId: $("#"+key_$!{persionPropertyValue.id}+"_1").attr("sku-id"),
 						id: $!{persionPropertyValue.id},
                     	name: "$!{persionPropertyValue.text}",
                     	PId: $!{persionProperty.id},
@@ -354,7 +363,13 @@
 			// alert(JSON.stringify(tc));
 			tcs.push(tc);
 		});
-		var result = {tcs:tcs,limit:$(".day-limit").val()};
+		var result = {
+			tcs:tcs,
+			updatedSKU:updatedSKU,
+			deletedSKU:deletedSKU,
+			limit:$(".day-limit").val()
+		};
+		result["itemId"] = $("#item_id").val();
 		// alert(JSON.stringify(result));
 		return result;
 	}

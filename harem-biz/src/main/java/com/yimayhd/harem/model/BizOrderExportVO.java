@@ -2,6 +2,7 @@ package com.yimayhd.harem.model;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.model.enums.PayStatus;
+import com.yimayhd.harem.util.NumUtil;
 import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -101,7 +102,7 @@ public class BizOrderExportVO implements Serializable{
         PayStatus payStatus = PayStatus.getByStatus(bizOrderExportVO.getPayStatus());
         bizOrderExportVO.setPayStatusName(null == payStatus ? "其他" : payStatus.getDes());
         //分转元
-        bizOrderExportVO.setActualTotalFeeY(bizOrderExportVO.getActualTotalFee() / 100);
+        bizOrderExportVO.setActualTotalFeeY(NumUtil.moneyTransformDouble(bizOrderExportVO.getActualTotalFee()));
         return bizOrderExportVO;
     }
 

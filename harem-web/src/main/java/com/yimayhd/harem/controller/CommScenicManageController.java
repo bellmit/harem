@@ -84,9 +84,9 @@ public class CommScenicManageController extends BaseController {
 	        //商品星级
 	        itemFeature.put(ItemFeatureKey.GRADE,5);
 	        //可预订时间，秒
-	        itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT,endTime* 24 * 3600 * 1000L);
-	        //需要提前多久预订，秒
-	        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,startDayTime*24 * 3600 * 1000L+startHourTime* 3600 * 1000L);
+	        itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT,endTime* 24 * 3600 );
+	        //需要提前多久预订，秒startDayTime*24 * 3600 * 1000L+startHourTime* 3600 * 1000L
+	        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,startDayTime*24+(24-startHourTime));
 	        scenicPublishDTO.getItemDO().setItemFeature(itemFeature);
 	        ItemPubResult result = commScenicService.save(scenicPublishDTO,check);
 	        if(result.isSuccess()){

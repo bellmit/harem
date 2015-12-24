@@ -11,6 +11,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.LineOwnerType;
 import com.yimayhd.resourcecenter.model.enums.RegionLevel;
 
 /**
@@ -248,7 +249,7 @@ public class BaseInfo {
 			line.setDestTownId(this.toId);
 		}
 		line.setDestCityName(this.toName);
-		line.setOwnerType(this.publisherType);
+		line.setOwnerType(LineOwnerType.DEFAULT.getType());
 		line.setOwnerId(this.publisherId);
 		if (CollectionUtils.isNotEmpty(this.masters)) {
 			line.setRcmdMasters(JSON.toJSONString(this.masters));

@@ -1,6 +1,7 @@
 package com.yimayhd.harem.model;
 
 import com.yimayhd.harem.model.enums.ItemSkuStatus;
+import com.yimayhd.harem.util.NumUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
@@ -51,7 +52,7 @@ public class ItemSkuVO extends ItemSkuDO {
         ItemSkuVO itemSkuVO = new ItemSkuVO();
         BeanUtils.copyProperties(itemSkuDO,itemSkuVO);
         //分转元
-        itemSkuVO.setPriceY(itemSkuVO.getPrice() / 100);
+        itemSkuVO.setPriceY(NumUtil.moneyTransformDouble(itemSkuVO.getPrice()));
         return itemSkuVO;
     }
 

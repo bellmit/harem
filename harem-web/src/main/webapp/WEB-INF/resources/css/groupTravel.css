@@ -7,7 +7,7 @@
 .baseInfoList table tr{line-height: 30px;}
 .baseInfoList table td:nth-child(1){width: 100px;}
 .baseInfoList table .fileWrap{position: relative;}
-.baseInfoList table .fileWrap .fileBtn{position: absolute;width: 80px;height: 32px;top: 8px;left: 0;font-size: 25px;opacity: 0;filter: alpha(opacity=0);}
+.baseInfoList table .fileWrap .fileBtn{position: absolute;width: 80px;height: 32px;top: 50%;left: 0;margin-top: -16px;font-size: 25px;opacity: 0;filter: alpha(opacity=0);}
 .baseInfoList table .img-circle{width: 100px;margin-left: 10px;}
 .baseInfoApply .applyNote{font-weight: bold;font-size: 16px;}
 .baseInfoApply table{width: 100%;border-collapse: collapse;border: 1px solid #d5d5d5;}

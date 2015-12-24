@@ -71,7 +71,7 @@ table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;tex
 
 .fileImgWrap{position: relative;float: left;padding-top: 20px;}
 .fileImgWrap .btn{width: 100px;}
-.fileImgWrap .fileInp{position: absolute;top: 19px;left: 0;font-size: 25px;width: 102px;height: 33px;opacity: 0;filter:alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;-webkit-opacity: 0;}
+.fileImgWrap .fileInp{position: absolute;top: 50%;margin-top:-34px;left: 0;font-size: 25px;width: 102px;height: 33px;opacity: 0;filter:alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;-webkit-opacity: 0;}
 .fileImgWrap p{font-size: 12px;margin-top: 8px;}
 
 

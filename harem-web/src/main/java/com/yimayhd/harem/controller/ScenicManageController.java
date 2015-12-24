@@ -2,6 +2,8 @@ package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,7 @@ import com.yimayhd.ic.client.model.result.ICResult;
 @Controller
 @RequestMapping("/B2C/scenicSpotManage")
 public class ScenicManageController extends BaseController {
+	private static final Logger logger = LoggerFactory.getLogger(ScenicManageController.class);
 	@Autowired
 	private ScenicService scenicSpotService;
 
@@ -91,7 +94,12 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
-		MasterRecommend recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
+		MasterRecommend recommend = null;
+		try {	
+			recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
+		} catch (Exception e) {
+			logger.error("toEdit|recommend="+scenicDO.getScenic().getRecommend()+"|error="+e.toString());
+		}
 		model.addAttribute("VO", scenicDO);
 		model.addAttribute("recommend", recommend);
 		return "/system/scenicSpot/edit";
@@ -107,8 +115,12 @@ public class ScenicManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo save(ScenicAddNewDTO addNewDTO,MasterRecommend recommend) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		String jsonString = JSON.toJSONString(recommend);  
-		addNewDTO.getScenic().setRecommend(jsonString);
+		try {	
+			String jsonString = JSON.toJSONString(recommend);  
+			addNewDTO.getScenic().setRecommend(jsonString);
+		} catch (Exception e) {
+			logger.error("ScenicAddNewDTO  save|error"+e);
+		}
 		ICResult<ScenicDO> result =scenicSpotService.save(addNewDTO);
 		if(result.isSuccess()){
 			responseVo.setMessage("添加成功！");

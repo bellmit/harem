@@ -24,6 +24,8 @@ public abstract class BaseTravel {
 	private static final int LINE_SINGLE_ROOM_VID = 4;
 	protected int categoryId;
 	protected int options;
+	protected List<Long> updatedSKU;
+	protected List<Long> deletedSKU;
 	protected BaseInfo baseInfo;// 基础信息
 	protected PriceInfo priceInfo;// 价格信息
 
@@ -73,7 +75,7 @@ public abstract class BaseTravel {
 		}
 		if (priceInfo != null) {
 			dto.setItemDO(this.getItemDO());
-			dto.setItemSkuDOList(priceInfo.toItemSkuDOList(this.getSellerId()));
+			dto.setItemSkuDOList(priceInfo.toItemSkuDOList(this.categoryId, this.getSellerId()));
 		}
 		return dto;
 	}
@@ -96,6 +98,7 @@ public abstract class BaseTravel {
 		ItemDO itemDO = new ItemDO();
 		itemDO.setId(this.priceInfo.getItemId());
 		itemDO.setSellerId(this.getSellerId());
+		itemDO.setCategoryId(this.categoryId);
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, this.priceInfo.getLimitBySecond());
 		itemFeature.put(ItemFeatureKey.AGREEMENT, this.priceInfo.getImportantInfosCode());
@@ -142,5 +145,21 @@ public abstract class BaseTravel {
 
 	public void setOptions(int options) {
 		this.options = options;
+	}
+
+	public List<Long> getUpdatedSKU() {
+		return updatedSKU;
+	}
+
+	public void setUpdatedSKU(List<Long> updatedSKU) {
+		this.updatedSKU = updatedSKU;
+	}
+
+	public List<Long> getDeletedSKU() {
+		return deletedSKU;
+	}
+
+	public void setDeletedSKU(List<Long> deletedSKU) {
+		this.deletedSKU = deletedSKU;
 	}
 }

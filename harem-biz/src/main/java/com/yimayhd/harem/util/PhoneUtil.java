@@ -23,8 +23,8 @@ public class PhoneUtil {
         if(mobile==null ||  ! (mobile.trim().length()>0 )){
             return mobile;
         }
-        String prefix=mobile.substring(0,4);
-        String suffix =mobile.substring(mobile.length()-3,mobile.length());
+        String prefix=mobile.substring(0,3);
+        String suffix =mobile.substring(mobile.length()-4,mobile.length());
         return prefix+"****"+ suffix;
     }
 }

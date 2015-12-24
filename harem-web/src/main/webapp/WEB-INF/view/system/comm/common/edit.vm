@@ -190,12 +190,14 @@
                             <th><span>数量</span></th>
                         </thead>
                         #foreach($itemSkuVO in $commodity.itemSkuVOList)
-
+                            #set($index = $velocityCount - 1)
                             <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
-
                                 #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
-                                    #set($index = $velocityCount - 1)
-                                        <td rowspan="$commodity.skuTdRowNumList.get($index)"><span>$itemSkuPVPair.vTxt</span></td>
+                                    #set($index2 = $velocityCount - 1)
+                                    #set($showFlag = $index % $commodity.skuTdRowNumList.get($index2) == 0)
+                                    #if($showFlag)
+                                        <td rowspan="$commodity.skuTdRowNumList.get($index2)"><span>$itemSkuPVPair.vTxt</span></td>
+                                    #end
                                 #end
                                 <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
                                 <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
