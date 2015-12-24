@@ -118,8 +118,9 @@
             $('#restaurantDOListForm').submit();
         });
         $('.toView').click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/resourceManage/restaurant/edit/'+ $(this).attr('restaurantId');
-                window.openwin(url);
+               // var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/resourceManage/restaurant/edit/'+ $(this).attr('restaurantId');
+                //window.openwin(url);
+				window.parent.tabsAdd("restaurantView", '/B2C/resourceManage/restaurant/edit/'+ $(this).attr('restaurantId'), 3, "添加餐厅");
         });
         $('.toUpdate').click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/scenicSpotManage/edit/'+ $(this).attr('restaurantId');
