@@ -45,7 +45,7 @@
                     <tr>
                         <td><span class="spColor">*</span>商品价格</td>
                         <td>
-                            <input type="text" name="price" value="$!commodity.price">
+                            <input type="text" name="priceY" value="$!commodity.priceY">
                         </td>
                     </tr>
                     <tr>
@@ -103,15 +103,7 @@
                                     <select class="form-control propertySelect">
                                         <option value="0" >请选择</option>
                                         #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-
-                                            #if($commodity.itemPropertyList && $commodity.itemPropertyList.size() > 0)
-                                                #foreach($itemProperty in $commodity.itemPropertyList)
-                                                    #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
-                                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($!categoryValueDO.id == $itemProperty.vId) selected
-                                                        #end>$!categoryValueDO.text</option>
-                                                    #end
-                                                #end
-                                            #end
+                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text">$!categoryValueDO.text</option>
                                         #end
                                     </select>
                                     #*支持自定义*#
