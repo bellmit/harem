@@ -91,7 +91,7 @@
                 #foreach($order in $orderList)
                     <tr></tr>
                     <tr>
-                        <td><input class="subChecked" type="checkbox" value="$!order.bizOrderId"></td>
+                        <td><input class="subChecked" type="checkbox" value="$!order.bizOrderDO.bizOrderId"></td>
                         <td colspan="8" align="left">
 
                             订单编号：$!order.bizOrderDO.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrderDO.gmtCreated)
@@ -107,7 +107,9 @@
                                     </div>
                                     <div class="t-msg">
                                         <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-                                        <div class="t-date">入园日期：$!subOrder.executeTime</div>
+                                        #if($!subOrder.executeTime != 0)
+                                            <div class="t-date">入园日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.executeTime)</div>
+                                        #end
                                         <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
                                     </div>
                                 </div>
@@ -126,7 +128,7 @@
                                 <div>
                                     <div class="txt">$!subOrder.bizOrderDO.buyerNick</div>
                                     <div class="txt">1361831881381</div>
-                                    <div class="txt">会员</div>
+##                                    <div class="txt">会员</div>
                                 </div>
                             </td>
                             <td>
@@ -158,7 +160,7 @@
                                 <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
                                         data-target="#refundModal" tradeNO="$!trade.tradNO">退款
                                 </button>
-                                <button type="button" class="btn btn-primary addRefund detail">详情</button>
+                                <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrderDO.bizOrderId">详情</button>
                             </td>
                         </tr>
                     #end
@@ -222,6 +224,11 @@
 
 </div>
 <script>
+    //全选
+    $('.allChecked').click(function(){
+        $('.subChecked').prop('checked',$(this).prop('checked'));
+    });
+
     $(".form-date").datetimepicker(
             {
                 language: "zh-CN",
@@ -234,14 +241,17 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
+
     function getOrder(id) {
         top.tabsAdd('', "/B2C/orderManage/routeOrder/" + id, 2, "线路订单详情");
     }
 
     $(function () {
-
         $(".detail").click(function () {
-            alert("detail!!!");
+            var orderId = $(this).attr("orderId");
+            window.parent.tabsAdd('', "/B2C/orderManage/routeOrder/"+orderId, 3, "订单详情");
         });
+
+
     });
 </script>

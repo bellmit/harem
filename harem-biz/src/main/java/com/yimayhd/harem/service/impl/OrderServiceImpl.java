@@ -2,20 +2,24 @@ package com.yimayhd.harem.service.impl;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.convert.OrderConverter;
-import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.query.OrderListQuery;
 import com.yimayhd.harem.model.trade.MainOrder;
+import com.yimayhd.harem.model.trade.OrderDetails;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
+import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
@@ -29,7 +33,7 @@ import java.util.List;
  *
  */
 public class OrderServiceImpl implements OrderService {
-
+	private static final Logger LOG = LoggerFactory.getLogger(OrderServiceImpl.class);
 	@Autowired
 	private TcQueryService tcQueryServiceRef;
 	@Autowired
@@ -58,7 +62,6 @@ public class OrderServiceImpl implements OrderService {
 			}
 
 		}
-
 		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
 		BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
 		if (batchQueryResult.isSuccess()){
@@ -95,25 +98,37 @@ public class OrderServiceImpl implements OrderService {
 				list = bizOrderDOList;
 			}
 		}
-
 		List<MainOrder> mainOrderList = new ArrayList<MainOrder>();
-		for (BizOrderDO bizOrderDO : list) {
-			MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
-			mainOrderList.add(mo);
+		if (!CollectionUtils.isEmpty(list)){
+			for (BizOrderDO bizOrderDO : list) {
+				MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
+				mainOrderList.add(mo);
+			}
 		}
-
 		PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
 				(int)batchQueryResult.getTotalCount(),mainOrderList);
 		return orderPageVO;
 	}
 
+
 	@Override
-	public Order getOrderById(long id) throws Exception {
-//		SingleQueryResult singleQueryResult = orderRepo.queryOrderSingle(orderListQuery.getOrderNO());
-//		if (singleQueryResult.isSuccess()){
-//			singleQueryResult.getBizOrderDO();
-//		}
-		return null;
+	public OrderDetails getOrderById(long id) throws Exception {
+		OrderQueryOption orderQueryOption = new OrderQueryOption();
+		orderQueryOption.setAll();
+		SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(id,orderQueryOption);
+		OrderDetails orderDetails = OrderConverter.orderDetailsVOConverter(singleQueryResult.getBizOrderDO());
+
+		if (orderDetails.getBizOrderDO()!=null){
+			long buyerId = orderDetails.getBizOrderDO().getBuyerId();
+			UserDO buyer = userServiceRef.getUserDOById(buyerId);
+			orderDetails.setBuyerName(buyer.getName());
+			orderDetails.setBuyerNiceName(buyer.getNickname());
+			orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+		}
+
+
+
+		return orderDetails;
 	}
 
 }
