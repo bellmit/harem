@@ -178,7 +178,7 @@
                         <td>
                             <div class="fileImgWrap">
                                 <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="scenic.coverUrl" value="$!{VO.scenic.coverUrl}" id="logoUrlUploadFileReturnInput1" >
+                                <input type="hidden" name="scenic.pictures" value="$!{VO.scenic.pictures}" id="logoUrlUploadFileReturnInput1" >
                                 <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
                                 <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
 	                        </div>
