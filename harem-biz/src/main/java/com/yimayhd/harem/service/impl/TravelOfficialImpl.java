@@ -103,7 +103,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
         snsTravelSpecialtyDO.setNickName(travelOfficial.getNickName());
     	snsTravelSpecialtyDO.setBackImg(travelOfficial.getBackImg());
     	snsTravelSpecialtyDO.setImgContentJson(travelOfficial.getImgContentJson());
-    	BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.addTravelSpecialInfo(snsTravelSpecialtyDO);
+    	BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.addTravelSpecialInfo(null);
     	if(null != res && res.isSuccess() && null != res.getValue()){
     		travelOfficial.setId(res.getValue().getId());
     		return travelOfficial;
