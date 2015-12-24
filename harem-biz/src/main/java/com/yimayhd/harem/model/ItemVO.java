@@ -14,6 +14,7 @@ import com.yimayhd.ic.client.util.PicUrlsUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+import com.yimayhd.ic.client.model.enums.ReduceType;
 
 import java.util.*;
 
@@ -44,12 +45,16 @@ public class ItemVO extends ItemDO {
     private String coverPics;//封面大图String
     private List<String> picList;//封面大图List
 
+    private Integer reduceType = ReduceType.NONE.getBizType();//减库存方式
+
+    //新增商品提交时调用
     public static ItemDO getItemDO(ItemVO itemVO)throws Exception{
         ItemDO itemDO = new ItemDO();
         BeanUtils.copyProperties(itemVO, itemDO);
         //元转分
         itemDO.setPrice((long) (itemVO.getPriceY() * 100));
 
+        //新增的时候设置skuDOList（注：修改时走setItemSkuDOListCommonItemPublishDTO）
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
             List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
             for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
@@ -59,51 +64,48 @@ public class ItemVO extends ItemDO {
             }
             itemDO.setItemSkuDOList(itemSkuDOList);
         }
-        //提前预定时间(暂时只有酒店用) 此代码有问题，需要删除
-        /*if (null != itemVO.getEndBookTimeLimit()) {
-            ItemFeature itemFeature = null;
-            if (null != itemVO.getItemFeature()) {
-                itemFeature = itemDO.getItemFeature();
-                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
-            } else {
-                itemFeature = new ItemFeature(null);
-                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
-                itemDO.setItemFeature(itemFeature);
-            }
-            itemDO.setFeature(JSON.toJSONString(itemFeature));
-        }*/
-        //picUrls转换， 此代码有问题，需要删除
-        /*if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
-            itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+
+        ItemFeature itemFeature = itemDO.getItemFeature();;
+        if (itemDO.getItemFeature() == null) {
+            itemFeature = new ItemFeature(null);
+            itemDO.setItemFeature(itemFeature);
+        }
+        //提前预定时间(暂时只有酒店用)
+        if (null != itemVO.getEndBookTimeLimit()) {
+            itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
+        }
+        //picUrls转换
+        if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+            itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
         }
         if(StringUtils.isNotBlank(itemVO.getBigListPic())){
-            itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
+            itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, itemVO.getBigListPic());
         }
         if(StringUtils.isNotBlank(itemVO.getCoverPics())){
             itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
-
-        }*/
-        //评分（暂时普通商品用）,此代码有问题，需要删除
-        /*if(null != itemVO.getGrade()){
-            ItemFeature itemFeature = null;
-            if (null != itemVO.getItemFeature()) {
-                itemFeature = itemDO.getItemFeature();
-                itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
-            } else {
-                itemFeature = new ItemFeature(null);
-                itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
-                itemDO.setItemFeature(itemFeature);
-            }
-        }*/
+        }
+        itemDO.setPicUrlsString(itemDO.getPicUrlsString());
+        //评分（暂时普通商品用）
+        if(null != itemVO.getGrade()){
+            itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
+        }
+        //减库存方式
+        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
+        //自定义属性
         itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }
-    //不能在getItemDO之后调用（修改用时）
-    public static CommonItemPublishDTO getCommonItemPublishDTO(ItemVO itemVO)throws Exception{
-        CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
-        ItemDO itemDO = ItemVO.getItemDO(itemVO);
-        commonItemPublishDTO.setItemDO(itemDO);//更新的时候貌似没有用了
+    /**
+     * 修改提交时设置skuDOlist
+     * @param commonItemPublishDTO
+     * @param itemVO
+     * @return
+     * @throws Exception
+     */
+    public static CommonItemPublishDTO setItemSkuDOListCommonItemPublishDTO(CommonItemPublishDTO commonItemPublishDTO,ItemVO itemVO)throws Exception{
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+            //insert操作时的数组
+            List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
             //新增sku数组
             List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
             //删除sku数组
@@ -111,6 +113,7 @@ public class ItemVO extends ItemDO {
             //修改sku数组
             List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
             for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
                 if(0 == itemSkuVO.getId()){
                     if(itemSkuVO.isChecked()){//没有id，有checked是新增
                         addItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
@@ -125,7 +128,7 @@ public class ItemVO extends ItemDO {
                     }
                 }
             }
-            commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
+            commonItemPublishDTO.setItemSkuDOList(itemSkuDOList);
             commonItemPublishDTO.setAddItemSkuDOList(addItemSkuDOList);
             commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOList);
             commonItemPublishDTO.setUpdItemSkuDOList(updItemSkuDOList);
@@ -151,6 +154,8 @@ public class ItemVO extends ItemDO {
             itemVO.setEndBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
             //评分（暂时普通商品用）
             itemVO.setGrade(itemVO.getItemFeature().getGrade());
+            //库存方式
+            itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
         }
         //picUrls转对应的list
         if(StringUtils.isNotBlank(itemVO.getPicUrlsString())){
@@ -360,5 +365,13 @@ public class ItemVO extends ItemDO {
 
     public void setPicList(List<String> picList) {
         this.picList = picList;
+    }
+
+    public Integer getReduceType() {
+        return reduceType;
+    }
+
+    public void setReduceType(Integer reduceType) {
+        this.reduceType = reduceType;
     }
 }

@@ -30,6 +30,7 @@ import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.user.session.manager.SessionUtils;
 
@@ -103,6 +104,8 @@ public class CommodityManageController extends BaseController {
 			redirectUrl = "/B2C/comm/activityManage/toAdd?categoryId=" + categoryId;
 			break;
 		default:
+			List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
+			model.addAttribute("reduceTypeList", reduceTypeList);
 			// 普通商品，伴手礼应该也走普通商品
 			model.addAttribute("category", categoryVO);
 			model.addAttribute("itemType", ItemType.NORMAL.getValue());
@@ -142,10 +145,12 @@ public class CommodityManageController extends BaseController {
 			// 普通商品，伴手礼应该也走普通商品
 			ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
 			ItemType.NORMAL.getValue();
+			List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
+			model.addAttribute("reduceTypeList", reduceTypeList);
 			model.addAttribute("itemResult", itemResultVO);
 			model.addAttribute("commodity", itemResultVO.getItemVO());
 			model.addAttribute("category", itemResultVO.getCategoryVO());
-			model.addAttribute("itemType", ItemType.NORMAL.getValue());
+			model.addAttribute("itemType",ItemType.NORMAL.getValue());
 			return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;

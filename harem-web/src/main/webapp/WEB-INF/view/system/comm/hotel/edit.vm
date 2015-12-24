@@ -33,6 +33,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><span class="spColor">*</span>商品库存</td>
+                        <td>
+                            <input type="text" name="stockNum" value="$!commHotel.stockNum">
+                        </td>
+                    </tr>
+                    <tr>
                         <td><span class="spColor">*</span>排序</td>
                         <td><input type="text" name="sort" value="$!commHotel.sort" >请输入数字，数字越大排序靠后</td>
                     </tr>
@@ -59,12 +65,10 @@
                             <td><input type="text" name="priceY" value="$!commHotel.priceY"></td>
                             <td><input type="text" name="" value=""></td>
                             <td><input type="text" name="" value=""></td>
-                            <td class="picUrlsTd">
-                                <input id="batchUploadBtn" type="file" multiple="multiple" >
-                                #foreach($pic in $!commHotel.picUrlList)
-                                    <img class="picUrlsUrl" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
-                                #end
-                                <input class="picUrlsVal" type="hidden" name="picUrls" value="$!commHotel.picUrls">
+                            <td class="smallListPicTd">
+                                <input id="smallListPicUploadBtn" type="file">
+                                <img class="smallListPicUrl" src="#if($!commHotel.smallListPic)$utilWebconfig.getTfsRootPath()$!commHotel.smallListPic #end">
+                                <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commHotel.smallListPic">
                             </td>
                         </tr>
                 </table>
@@ -100,12 +104,10 @@
 </div>
 <script>
 
-    var batchCallBack = function(dataVal){
-
+    var singleCallBack = function(dataVal){
         if(dataVal && dataVal.status == 200){
-            for(var key in dataVal.data){
-                $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
-            }
+            $('.smallListPicUrl').attr('src',tfsRootPath + dataVal.data);
+            $('.smallListPicVal').val(dataVal.data);
         }else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
@@ -113,8 +115,8 @@
 
     $(function(){
         /****************批量上传pic_urls*****************/
-        $(document).delegate("#batchUploadBtn",'change',function(){
-            fileUpload('#batchUploadBtn',2,batchCallBack);
+        $(document).delegate("#smallListPicUploadBtn",'change',function(){
+            fileUpload('#smallListPicUploadBtn',1,singleCallBack);
         })
 
         $(".selectHotelBtn").click(selectHotel);

@@ -316,7 +316,7 @@ public class CommodityServiceImpl implements CommodityService {
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
 
 
-       /* //修改的时候要先取出来，在更新
+        //修改的时候要先取出来，在更新
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
         ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
         if(null == itemResult){
@@ -329,12 +329,35 @@ public class CommodityServiceImpl implements CommodityService {
         ItemDO itemDB = itemResult.getItem();
         if(null != itemDB) {
             //参数类型匹配
-            CommonItemPublishDTO commonItemPublishDTO = ItemVO.getCommonItemPublishDTO(itemVO);
-            ItemDO itemDO = ItemVO.getItemDO(itemVO);
-            //组装
+            CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
+            //设置itemDB
+            commonItemPublishDTO.setItemDO(itemDB);
+            //设置sku
+            ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
+            //商品名称
+            itemDB.setTitle(itemVO.getTitle());
+            //商品说明
+            itemDB.setOneWord(itemVO.getOneWord());
+            //价格
+            itemDB.setPrice((long) (itemVO.getPriceY() * 100));
+            //商品图片
+            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getBigListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
+
+            }
+            itemDB.setPicUrlsString(itemDB.getPicUrlsString());
+            //自定义属性
+            itemDB.setItemProperties(itemVO.getItemProperties());
+            //TODO 排序
             //详细描述存tfs（富文本编辑）
-            if(StringUtils.isNotBlank(itemDO.getDetailUrl())) {
-                commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
+            if(StringUtils.isNotBlank(itemVO.getDetailUrl())) {
+                commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemVO.getDetailUrl()));
             }
             //评分
             if(null != itemVO.getGrade()){
@@ -345,11 +368,9 @@ public class CommodityServiceImpl implements CommodityService {
                 } else {
                     itemFeature = new ItemFeature(null);
                     itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
-                    itemDO.setItemFeature(itemFeature);
+                    itemDB.setItemFeature(itemFeature);
                 }
             }
-            //skuList
-            commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
 
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
             if(null == itemPubResult){
@@ -360,37 +381,6 @@ public class CommodityServiceImpl implements CommodityService {
                 throw new BaseException(itemPubResult.getResultMsg());
             }
 
-           -------------------------------------------
-            ItemDO itemDO = ItemVO.getItemDO(itemVO);
-
-            //商品名称
-            itemDB.setTitle(itemDO.getTitle());
-            //商品说明
-            itemDB.setOneWord(itemDO.getOneWord());
-            //商品价格
-            itemDB.setPrice(itemDO.getPrice());
-            //商品图片
-            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
-            }
-            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
-            }
-            if(StringUtils.isNotBlank(itemVO.getCoverPics())){
-                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
-
-            }
-            itemDB.setPicUrlsString(itemDO.getPicUrlsString());
-
-            hotelPublishDTO.setSort(itemVO.getSort());
-            ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
-            if (null == result) {
-                log.error("ItemPublishService.publish result is null and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
-                throw new BaseException("返回结果错误,酒店商品修改失败 ");
-            } else if (!result.isSuccess()) {
-                log.error("ItemPublishService.publish error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
-                throw new BaseException(result.getResultMsg());
-            }
-        }*/
+        }
     }
 }

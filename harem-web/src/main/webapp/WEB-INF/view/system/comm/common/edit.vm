@@ -55,6 +55,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <label class="col-md-2 control-label">减库存方式</label>
+                        <div class="col-md-10">
+                            #foreach($reduceType in $reduceTypeList)
+                            #end
+                            <label class='radio-inline'> <input type="radio" name="optionsRadios" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end>$!reduceType.des</label>
+                        </div>
+                    </tr>
+                    <tr>
                         <td><span class="spColor">*</span>商品简介</td>
                         <td>
                             <input type="text" name="subTitle" value="$!commodity.subTitle">
@@ -79,14 +87,27 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品图片列表</td>
+                        <td><span class="spColor">*</span>宣传图</td>
+                        <td class="bigListPicTd">
+                            <input id="bigListPicUrl" type="file">
+                            <img class="bigListPicUrl" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!commodity.bigListPic #end">
+                            <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commHotel.bigListPic">
+                        </td>
+                        <td class="smallListPicTd">
+                            <input id="smallListPicUrl" type="file">
+                            <img class="smallListPicUrl" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!commodity.smallListPic #end">
+                            <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commHotel.smallListPic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>详情竖图</td>
                         <td class="picUrlsTd">
                             <input id="batchUploadBtn" type="file" multiple="multiple" >
-                            #foreach($pic in $!commodity.picUrlList)
+                            #foreach($pic in $!commodity.picList)
                                 <img class="picUrlsUrl" src="$utilWebconfig.getTfsRootPath()$pic">
                             #end
                         </td>
-                        <input class="picUrlsVal" type="hidden" name="picUrls" value="$!commodity.picUrls">
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
                     </tr>
 
                     <tr>
@@ -272,16 +293,24 @@
                 format: "yyyy-mm-dd"
             });
 
-    var pictureUploadCallBack = function(data){
+    var bigListPicUploadCallBack = function(data){
         if(data && data.status == 200){
-            $('.detailUrlVal').val(data.data);
-            $('.detailUrlUrl').attr('src',tfsRootPath + data.data);
+            $('.bigListPicVal').val(data.data);
+            $('.bigListPicUrl').attr('src',tfsRootPath + data.data);
 
         }else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
+    var smallListPicUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.smallListPicVal').val(data.data);
+            $('.smallListPicUrl').attr('src',tfsRootPath + data.data);
 
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
     var batchCallBack = function(dataVal){
         for(var key in dataVal.data){
              $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
@@ -366,8 +395,12 @@
 
     $(function(){
         //上传图片detailUrl
-        $(document).delegate("#fileDetailUrl",'change',function(){
-            fileUpload('#fileDetailUrl',1,pictureUploadCallBack);
+        $(document).delegate("#bigListPicUrl",'change',function(){
+            fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
+        })
+        //上传图片detailUrl
+        $(document).delegate("#smallListPicUrl",'change',function(){
+            fileUpload('#smallListPicUrl',1,smallListPicUploadCallBack);
         })
         /****************批量上传pic_urls*****************/
         $(document).delegate("#batchUploadBtn",'change',function(){
