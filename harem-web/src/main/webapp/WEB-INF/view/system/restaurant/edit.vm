@@ -114,7 +114,7 @@
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
                       		  <input type="text" name="title"  class="inpControl"
-                                   value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
+                                   value="#if(! $!recommend.title)大咖推荐#else$!recommend.title#end">
                             <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
                                  alt="头像" class="img-circle grogUserLogo" id="userImg">
                                  <span id="recommendNameT"></span>
@@ -320,64 +320,7 @@
                 $('#countySelectName').val($('.countySelect option:selected').text());
             }
 						
-        });	       
-    
-		/*
-    	$(document).delegate('#logoUrlUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                               
-                                $('#logoUrlUploadFileReturnInput').val(data.data);
-                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-        
-        
-        $(document).delegate('#logoUrlUploadFile1','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile1', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                             
-                                $('#logoUrlUploadFileReturnInput1').val(data.data);
-                                $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-        */          
+        });	                 
 
         $('.locationXYSelectBtn').click(function () {
             openBaiduMap(115.727899, 37.723961, mapCallback);

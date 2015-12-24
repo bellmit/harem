@@ -118,7 +118,7 @@
             $('#restaurantDOListForm').submit();
         });
         $('.toView').click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/resourceManage/restaurant/updateStatus/'+ $(this).attr('restaurantId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/resourceManage/restaurant/edit/'+ $(this).attr('restaurantId');
                 window.openwin(url);
         });
         $('.toUpdate').click(function(){
