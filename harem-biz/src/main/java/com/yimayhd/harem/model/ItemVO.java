@@ -51,6 +51,19 @@ public class ItemVO extends ItemDO {
             }
             itemDO.setItemSkuDOList(itemSkuDOList);
         }
+        //酒店提前预定时间
+        if (null != itemVO.getStartBookTimeLimit()) {
+            ItemFeature itemFeature = null;
+            if (null != itemVO.getItemFeature()) {
+                itemFeature = itemDO.getItemFeature();
+                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+            } else {
+                itemFeature = new ItemFeature(null);
+                itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+                itemDO.setItemFeature(itemFeature);
+            }
+            itemDO.setFeature(JSON.toJSONString(itemFeature));
+        }
         itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }

@@ -201,7 +201,8 @@
             <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
         </div>
         <div class="tab-pane" id="scenicImgs">
-            #parse("/system/scenicSpot/picture.vm")
+            #parse("/system/layout/imgUpload.vm")
+            #imgEdit("picList")
         </div>
     </div>
     <button type="submit" class="btn btn-info">保存</button>

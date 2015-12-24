@@ -185,10 +185,12 @@ public class CommodityServiceImpl implements CommodityService {
             ItemDO itemDO = ItemVO.getItemDO(itemVO);
             //酒店提前预定时间
             if (null != itemVO.getStartBookTimeLimit()) {
-                if (null != itemVO.getItemFeature()) {
-                    itemDB.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+                ItemFeature itemFeature = null;
+                if (null != itemDB.getItemFeature()) {
+                    itemFeature = itemDB.getItemFeature();
+                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
                 } else {
-                    ItemFeature itemFeature = new ItemFeature(null);
+                    itemFeature = new ItemFeature(null);
                     itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
                     itemDB.setItemFeature(itemFeature);
                 }
