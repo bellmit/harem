@@ -44,6 +44,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 			itemDO.setOriginalCredit(0);
 			itemDO.setOriginalPoint(0);
 			itemDO.setOriginalPrice(0);
+			itemDO.setStockNum(9999);
 	        commonItemPublishDTO.setItemDO(itemDO);
 	        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 		
