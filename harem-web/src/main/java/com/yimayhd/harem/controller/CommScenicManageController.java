@@ -78,7 +78,7 @@ public class CommScenicManageController extends BaseController {
     	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
     	ItemFeature itemFeature = new ItemFeature(null);
 	        //减库存方式
-	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE);
+	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE.getBizType());
 	        //未付款超时时间
 	        //itemFeature.put(ItemFeatureKey.NOT_PAY_TIMEOUT,3 * 24 * 3600 * 1000L);
 	        //商品星级

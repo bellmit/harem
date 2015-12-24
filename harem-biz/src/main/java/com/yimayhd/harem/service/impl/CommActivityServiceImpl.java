@@ -45,12 +45,11 @@ public class CommActivityServiceImpl implements CommActivityService {
 			itemDO.setOriginalCredit(0);
 			itemDO.setOriginalPoint(0);
 			itemDO.setOriginalPrice(0);
-			itemDO.setStockNum(9999);
 	        commonItemPublishDTO.setItemDO(itemDO);
 	        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
-	        ItemFeature itemFeature = itemDO.getItemFeature();
-	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.BEFORE_PAY);
-
+	        ItemFeature itemFeature = new ItemFeature(null);
+	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.NONE.getBizType());
+	        itemDO.setItemFeature(itemFeature);
 	        ItemPubResult itemPubResult =itemPublishService.publishCommonItem(commonItemPublishDTO);
 		 if(null == itemPubResult){
 	            log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));

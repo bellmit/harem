@@ -48,6 +48,7 @@ public class ScenicManageController extends BaseController {
 		if(pageNumber!=null){
 			scenicPageQuery.setPageNo(pageNumber);
 		}
+		
 		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicPageQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("scenicPageQuery", scenicPageQuery);

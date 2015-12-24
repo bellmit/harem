@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	var checks = {};
 	$(".search").click(function() {
-		pageUtils.request(1, $(".pageSize").val(),{name:$("#itemName").val()});
+		pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
 	});
 	function initTable() { 
     	$('table.resourceTable').datatable({
