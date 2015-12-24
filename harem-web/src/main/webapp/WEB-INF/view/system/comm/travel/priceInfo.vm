@@ -39,7 +39,7 @@
 		<div id="tc_page" class="tab-content tabCombo">
 			#foreach($tc in ${product.priceInfo.tcs})
 			#set($tcId = $velocityCount)
-			<div class="tab-pane in #if($tcId==1) active #end" tc-id="tc_$!{tcId}">
+			<div class="tab-pane in #if($tcId==1) active #end" id="tc_$!{tcId}">
 				<table class="table">
 					<tr>
 						<td><span class="spColor">*</span>套餐名称：<input type="text" id="tc_$!{tcId}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}"></td>
