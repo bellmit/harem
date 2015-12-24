@@ -1,5 +1,7 @@
 package com.yimayhd.harem.service.impl;
 
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,6 @@ public class CommActivityServiceImpl implements CommActivityService {
 	        ItemDO itemDO = ItemVO.getItemDO(itemVO);
 	        itemDO.setSubTitle("");
 	        itemDO.setOneWord("");
-	        itemDO.setPicUrls(PicUrlsUtil.);
 	    	itemDO.setCredit(0);
 			itemDO.setPoint(0);
 			itemDO.setOriginalCredit(0);
@@ -93,7 +94,17 @@ public class CommActivityServiceImpl implements CommActivityService {
 	            //商品价格
 	            itemDB.setPrice(itemDO.getPrice());
 	            //商品图片
-	            itemDB.setPicUrls(itemDO.getPicUrls());
+	            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+					itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+				}
+				if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+					itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
+				}
+				if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+					itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
+
+				}
+
 	}
 	}
 

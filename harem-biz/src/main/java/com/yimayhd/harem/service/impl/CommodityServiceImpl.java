@@ -14,6 +14,7 @@ import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.*;
@@ -103,7 +104,7 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public ItemResultVO getCommodityById(long id) throws Exception {
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
-        //TODO 暂时全部设置成true
+        //全部设置成true
         itemOptionDTO.setCreditFade(true);
         itemOptionDTO.setNeedCategory(true);
         itemOptionDTO.setNeedSku(true);
@@ -121,7 +122,7 @@ public class CommodityServiceImpl implements CommodityService {
             itemResult.getItem().setDetailUrl(tfsService.readHtml5(itemResult.getItem().getDetailUrl()));
 
         }
-        //TODO
+
         itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
         itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
         //商品的排序字段
@@ -142,7 +143,6 @@ public class CommodityServiceImpl implements CommodityService {
         itemDOData.setSubTitle("房间35m，双床，可住2人");
         itemDOData.setPrice(9900);
         //会员限购
-        itemDOData.setPicUrls("");
         itemDOData.setGmtCreated(new Date());
         itemDOData.setGmtModified(new Date());
 
@@ -204,8 +204,17 @@ public class CommodityServiceImpl implements CommodityService {
             //商品价格
             itemDB.setPrice(itemDO.getPrice());
             //商品图片
-            itemDB.setPicUrls(itemDO.getPicUrls());
+            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
+            }
+            itemDB.setPicUrlsString(itemDO.getPicUrlsString());
 
             hotelPublishDTO.setSort(itemVO.getSort());
             ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
@@ -305,22 +314,70 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
-        //参数类型匹配
-        CommonItemPublishDTO commonItemPublishDTO = ItemVO.getCommonItemPublishDTO(itemVO);
-        ItemDO itemDO = ItemVO.getItemDO(itemVO);
-        //详细描述存tfs（富文本编辑）
-        if(StringUtils.isNotBlank(itemDO.getDetailUrl())) {
-            commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
-        }
-        commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
 
-        ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
-        if(null == itemPubResult){
-            log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
-            throw new BaseException("返回结果错误,修改失败");
-        } else if(!itemPubResult.isSuccess()){
-            log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
-            throw new BaseException(itemPubResult.getResultMsg());
+
+        //修改的时候要先取出来，在更新
+        ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
+        ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
+        if(null == itemResult){
+            log.error("itemQueryService.getItem return value is null and parame: " + JSON.toJSONString(itemOptionDTO) + " and id is : " + itemVO.getId());
+            throw new BaseException("查询商品，返回结果错误");
+        }else if(!itemResult.isSuccess()){
+            log.error("itemQueryService.getItem return value error ! returnValue : "+ JSON.toJSONString(itemResult) + " and parame:" + JSON.toJSONString(itemOptionDTO) + " and id is : " + itemVO.getId());
+            throw new NoticeException(itemResult.getResultMsg());
+        }
+        ItemDO itemDB = itemResult.getItem();
+        if(null != itemDB) {
+            //参数类型匹配
+            CommonItemPublishDTO commonItemPublishDTO = ItemVO.getCommonItemPublishDTO(itemVO);
+            ItemDO itemDO = ItemVO.getItemDO(itemVO);
+            //组装
+            //详细描述存tfs（富文本编辑）
+            if(StringUtils.isNotBlank(itemDO.getDetailUrl())) {
+                commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
+            }
+            commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
+
+            ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
+            if(null == itemPubResult){
+                log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+                throw new BaseException("返回结果错误,修改失败");
+            } else if(!itemPubResult.isSuccess()){
+                log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+                throw new BaseException(itemPubResult.getResultMsg());
+            }
+
+           -------------------------------------------
+            ItemDO itemDO = ItemVO.getItemDO(itemVO);
+
+            //商品名称
+            itemDB.setTitle(itemDO.getTitle());
+            //商品说明
+            itemDB.setOneWord(itemDO.getOneWord());
+            //商品价格
+            itemDB.setPrice(itemDO.getPrice());
+            //商品图片
+            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
+
+            }
+            itemDB.setPicUrlsString(itemDO.getPicUrlsString());
+
+            hotelPublishDTO.setSort(itemVO.getSort());
+            ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
+            if (null == result) {
+                log.error("ItemPublishService.publish result is null and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+                throw new BaseException("返回结果错误,酒店商品修改失败 ");
+            } else if (!result.isSuccess()) {
+                log.error("ItemPublishService.publish error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+                throw new BaseException(result.getResultMsg());
+            }
         }
     }
 }
