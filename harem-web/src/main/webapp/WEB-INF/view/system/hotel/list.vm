@@ -71,7 +71,7 @@
                         </td>
                         <td>#HOTEL_STATUS($!hotel.status)</td>
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>
-                        <td>￥ $utilNum.moneyTransform($!hotel.price)起</td>
+                        <td>￥$!hotel.price起</td>
                         <td>
                             $!hotel.contactPerson
                             $!hotel.contactPhone
