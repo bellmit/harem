@@ -19,7 +19,7 @@
 				<td><input type="text" class="form-control" placeholder="请输入出发城市" id="forwardDepartCity"></td>
             </tr>
 			<tr>
-				<td>*出发日期：</td>
+				<td>*到达日期：</td>
 				<td><input type="text" class='form-control' placeholder='请输入达到日期' id="forwardArriveDate"></td>
             </tr>
 			<tr>
