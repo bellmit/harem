@@ -89,7 +89,6 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo add(TravelOfficial travelOfficial) throws Exception {
-		//TravelJsonDO
 		TravelOfficial db = travelOfficialService.add(travelOfficial);
 		if(null == db ){
 			return new ResponseVo(ResponseStatus.ERROR);	

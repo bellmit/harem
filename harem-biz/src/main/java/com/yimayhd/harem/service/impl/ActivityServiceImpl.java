@@ -37,7 +37,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<SnsActivityDO> getList(ActivityInfoDTO dto) throws Exception {
-    	snsCenterService.getActivityPage(dto);
+    	//snsCenterService.getActivityPage(dto);
         return null;
     }
 
