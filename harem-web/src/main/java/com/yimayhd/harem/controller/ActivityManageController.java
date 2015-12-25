@@ -98,9 +98,9 @@ public class ActivityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo save(ActivityInfoDTO activityInfoDTO) throws Exception {
+	public ResponseVo save(ActivityInfoDTO activityInfoDTO,Long[] tagList) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		com.yimayhd.snscenter.client.result.BaseResult<SnsActivityDO> result = activityService.save(activityInfoDTO);
+		com.yimayhd.snscenter.client.result.BaseResult<SnsActivityDO> result = activityService.save(activityInfoDTO,tagList);
 		if(result.isSuccess()){
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

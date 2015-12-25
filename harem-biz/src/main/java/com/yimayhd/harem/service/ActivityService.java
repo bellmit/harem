@@ -25,7 +25,7 @@ public interface ActivityService {
      * @return 活动详情
      */
     Activity getById(long id)throws Exception;
-    BaseResult<SnsActivityDO> save(ActivityInfoDTO activityInfoDTO);
+    BaseResult<SnsActivityDO> save(ActivityInfoDTO activityInfoDTO,Long[] tagList);
 
 
 }
