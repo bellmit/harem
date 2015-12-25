@@ -48,6 +48,7 @@ public class ScenicManageController extends BaseController {
 		if(pageNumber!=null){
 			scenicPageQuery.setPageNo(pageNumber);
 		}
+		
 		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicPageQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("scenicPageQuery", scenicPageQuery);
@@ -81,7 +82,14 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String toView(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
+		MasterRecommend recommend = null;
+		try {	
+			recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
+		} catch (Exception e) {
+			logger.error("toEdit|recommend="+scenicDO.getScenic().getRecommend()+"|error="+e.toString());
+		}
 		model.addAttribute("VO", scenicDO);
+		model.addAttribute("recommend", recommend);
 		return "/system/scenicSpot/view";
 	}
 

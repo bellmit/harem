@@ -14,6 +14,7 @@ import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.*;
@@ -49,7 +50,7 @@ public class CommodityServiceImpl implements CommodityService {
     @Autowired
     private HotelService hotelServiceRef;
     @Override
-    public PageVO<ItemDO> getList(CommodityListQuery commodityListQuery) throws Exception {
+    public PageVO<ItemVO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
         //TODO 条件对接
         itemQryDTO.setPageNo(commodityListQuery.getPageNumber());
@@ -96,14 +97,20 @@ public class CommodityServiceImpl implements CommodityService {
             log.error("CommodityServiceImpl.getList-ItemQueryService.getItem error:" + JSON.toJSONString(itemPageResult) + "and parame: " + JSON.toJSONString(itemQryDTO));
             throw new BaseException(itemPageResult.getResultMsg());
         }
-        PageVO<ItemDO> pageVO = new PageVO<ItemDO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemPageResult.getItemDOList());
+        List<ItemDO> itemDOList = itemPageResult.getItemDOList();
+        List<ItemVO> itemVOList = new ArrayList<ItemVO>();
+        for(ItemDO itemDO:itemDOList){
+            itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
+        }
+
+        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
         return pageVO;
     }
 
     @Override
     public ItemResultVO getCommodityById(long id) throws Exception {
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
-        //TODO 暂时全部设置成true
+        //全部设置成true
         itemOptionDTO.setCreditFade(true);
         itemOptionDTO.setNeedCategory(true);
         itemOptionDTO.setNeedSku(true);
@@ -121,9 +128,11 @@ public class CommodityServiceImpl implements CommodityService {
             itemResult.getItem().setDetailUrl(tfsService.readHtml5(itemResult.getItem().getDetailUrl()));
 
         }
-        //TODO
+
         itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
         itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
+        //商品的排序字段
+        itemResultVO.getItemVO().setSort(itemResult.getSortNum());
         return itemResultVO;
     }
 
@@ -140,7 +149,6 @@ public class CommodityServiceImpl implements CommodityService {
         itemDOData.setSubTitle("房间35m，双床，可住2人");
         itemDOData.setPrice(9900);
         //会员限购
-        itemDOData.setPicUrls("");
         itemDOData.setGmtCreated(new Date());
         itemDOData.setGmtModified(new Date());
 
@@ -184,12 +192,14 @@ public class CommodityServiceImpl implements CommodityService {
             //组装
             ItemDO itemDO = ItemVO.getItemDO(itemVO);
             //酒店提前预定时间
-            if (null != itemVO.getStartBookTimeLimit()) {
-                if (null != itemVO.getItemFeature()) {
-                    itemDB.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+            if (null != itemVO.getEndBookTimeLimit()) {
+                ItemFeature itemFeature = null;
+                if (null != itemDB.getItemFeature()) {
+                    itemFeature = itemDB.getItemFeature();
+                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
                 } else {
-                    ItemFeature itemFeature = new ItemFeature(null);
-                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+                    itemFeature = new ItemFeature(null);
+                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
                     itemDB.setItemFeature(itemFeature);
                 }
             }
@@ -200,8 +210,16 @@ public class CommodityServiceImpl implements CommodityService {
             //商品价格
             itemDB.setPrice(itemDO.getPrice());
             //商品图片
-            itemDB.setPicUrls(itemDO.getPicUrls());
+            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
+            }
 
             hotelPublishDTO.setSort(itemVO.getSort());
             ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
@@ -301,22 +319,72 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
-        //参数类型匹配
-        CommonItemPublishDTO commonItemPublishDTO = ItemVO.getCommonItemPublishDTO(itemVO);
-        ItemDO itemDO = ItemVO.getItemDO(itemVO);
-        //详细描述存tfs（富文本编辑）
-        if(StringUtils.isNotBlank(itemDO.getDetailUrl())) {
-            commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
-        }
-        commonItemPublishDTO.setItemSkuDOList(itemVO.getItemSkuDOList());
 
-        ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
-        if(null == itemPubResult){
-            log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
-            throw new BaseException("返回结果错误,修改失败");
-        } else if(!itemPubResult.isSuccess()){
-            log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
-            throw new BaseException(itemPubResult.getResultMsg());
+
+        //修改的时候要先取出来，在更新
+        ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
+        ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
+        if(null == itemResult){
+            log.error("itemQueryService.getItem return value is null and parame: " + JSON.toJSONString(itemOptionDTO) + " and id is : " + itemVO.getId());
+            throw new BaseException("查询商品，返回结果错误");
+        }else if(!itemResult.isSuccess()){
+            log.error("itemQueryService.getItem return value error ! returnValue : "+ JSON.toJSONString(itemResult) + " and parame:" + JSON.toJSONString(itemOptionDTO) + " and id is : " + itemVO.getId());
+            throw new NoticeException(itemResult.getResultMsg());
+        }
+        ItemDO itemDB = itemResult.getItem();
+        if(null != itemDB) {
+            //参数类型匹配
+            CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
+            //设置itemDB
+            commonItemPublishDTO.setItemDO(itemDB);
+            //设置sku
+            ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
+            //商品名称
+            itemDB.setTitle(itemVO.getTitle());
+            //商品说明
+            itemDB.setOneWord(itemVO.getOneWord());
+            //价格
+            itemDB.setPrice((long) (itemVO.getPriceY() * 100));
+            //商品图片
+            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getBigListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
+
+            }
+            //自定义属性
+            itemDB.setItemProperties(itemVO.getItemProperties());
+            //TODO 排序
+            //详细描述存tfs（富文本编辑）
+            if(StringUtils.isNotBlank(itemVO.getDetailUrl())) {
+                commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemVO.getDetailUrl()));
+            }
+            //评分
+            if(null != itemVO.getGrade()){
+                ItemFeature itemFeature = null;
+                if (null != itemDB.getItemFeature()) {
+                    itemFeature = itemDB.getItemFeature();
+                    itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
+                } else {
+                    itemFeature = new ItemFeature(null);
+                    itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
+                    itemDB.setItemFeature(itemFeature);
+                }
+            }
+
+            ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
+            if(null == itemPubResult){
+                log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+                throw new BaseException("返回结果错误,修改失败");
+            } else if(!itemPubResult.isSuccess()){
+                log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
+                throw new BaseException(itemPubResult.getResultMsg());
+            }
+
         }
     }
 }

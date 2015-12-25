@@ -1,5 +1,7 @@
 package com.yimayhd.harem.service.impl;
 
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.tradecenter.client.model.enums.ReduceType;
 
 /**
  * Created by Administrator on 2015/11/18.
@@ -37,7 +40,6 @@ public class CommActivityServiceImpl implements CommActivityService {
 	        ItemDO itemDO = ItemVO.getItemDO(itemVO);
 	        itemDO.setSubTitle("");
 	        itemDO.setOneWord("");
-	        itemDO.setPicUrls("");
 	    	itemDO.setCredit(0);
 			itemDO.setPoint(0);
 			itemDO.setOriginalCredit(0);
@@ -45,7 +47,9 @@ public class CommActivityServiceImpl implements CommActivityService {
 			itemDO.setOriginalPrice(0);
 	        commonItemPublishDTO.setItemDO(itemDO);
 	        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
-		
+	        ItemFeature itemFeature = new ItemFeature(null);
+	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.NONE.getBizType());
+	        itemDO.setItemFeature(itemFeature);
 	        ItemPubResult itemPubResult =itemPublishService.publishCommonItem(commonItemPublishDTO);
 		 if(null == itemPubResult){
 	            log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
@@ -58,7 +62,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	}
 
 	@Override
-	public void update(ItemVO itemVO) {
+	public void update(ItemVO itemVO)throws Exception{
 		 //修改的时候要先取出来，在更新
 		 ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
 		 ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
@@ -77,12 +81,12 @@ public class CommActivityServiceImpl implements CommActivityService {
 	            //组装
 	            ItemDO itemDO = ItemVO.getItemDO(itemVO);
 	            //酒店提前预定时间
-	            if (null != itemVO.getStartBookTimeLimit()) {
+	            if (null != itemVO.getEndBookTimeLimit()) {
 	                if (null != itemVO.getItemFeature()) {
-	                    itemDB.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+	                    itemDB.getItemFeature().put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
 	                } else {
 	                    ItemFeature itemFeature = new ItemFeature(null);
-	                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getStartBookTimeLimit() * 24 * 3600);
+	                    itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
 	                    itemDB.setItemFeature(itemFeature);
 	                }
 	            }
@@ -93,7 +97,17 @@ public class CommActivityServiceImpl implements CommActivityService {
 	            //商品价格
 	            itemDB.setPrice(itemDO.getPrice());
 	            //商品图片
-	            itemDB.setPicUrls(itemDO.getPicUrls());
+	            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+					itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+				}
+				if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+					itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
+				}
+				if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+					itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
+
+				}
+
 	}
 	}
 

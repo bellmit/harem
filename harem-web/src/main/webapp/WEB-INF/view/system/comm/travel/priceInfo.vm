@@ -39,7 +39,7 @@
 		<div id="tc_page" class="tab-content tabCombo">
 			#foreach($tc in ${product.priceInfo.tcs})
 			#set($tcId = $velocityCount)
-			<div class="tab-pane in #if($tcId==1) active #end" tc-id="tc_$!{tcId}">
+			<div class="tab-pane in #if($tcId==1) active #end" id="tc_$!{tcId}">
 				<table class="table">
 					<tr>
 						<td><span class="spColor">*</span>套餐名称：<input type="text" id="tc_$!{tcId}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}"></td>
@@ -74,11 +74,13 @@
 											#foreach($block in ${day.blocks})
 												<div class="input-group">
 													<span class="input-group-addon">$!{block.name}</span>
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$!{block.price}">
+													#set($price = $block.price / 100.0)  
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$price">
 													<span class="input-group-addon">库存</span>
 													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
 													<span class="input-group-addon">会员优惠</span>
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$!{block.discount}">
+													#set($discount = $block.discount / 100.0)  
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$discount">
 												</div>
 											#end
 											</td>
@@ -330,9 +332,9 @@
                     	PId: $!{persionProperty.id},
                     	PType: $!{persionProperty.type},
                     	PTxt: "$!{persionProperty.text}",
-                    	price: $("#"+key_$!{persionPropertyValue.id}+"_1").val(), 
+                    	price: ($("#"+key_$!{persionPropertyValue.id}+"_1").val()||0)*100, 
                     	stock: $("#"+key_$!{persionPropertyValue.id}+"_2").val(),
-                    	discount: $("#"+key_$!{persionPropertyValue.id}+"_3").val()
+                    	discount: ($("#"+key_$!{persionPropertyValue.id}+"_3").val()||0)*100
 					});
 					#end
 					var day = {

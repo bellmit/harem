@@ -57,7 +57,7 @@
                     <div class="userView">
                         <img src=" #if($club.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!club.manageUserLogoUrl  #end">
                         #*TODO*#
-                        <span class="userNameShow">Tracy</span>
+                       <span id="shownickNameId">$!travelOfficial.nickName</span>
                     </div>
                 </td>
             </tr>
@@ -125,7 +125,15 @@
 				$('.selectUserBtn').click(function(){
                     openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser', "选择用户", function(){
 					var item = win.getItem();
-					console.log(item);
+				    if(null != item){
+                    	$("#nickNameId").val(item.nickname);
+                        $("#shownickNameId").text(item.nickname);
+                        
+                        $("#userPhotoId").val(item.avatar);
+                        $("#createIdId").val(item.id);
+                   }
+                   return true;
+                   
 				});
 			})
 

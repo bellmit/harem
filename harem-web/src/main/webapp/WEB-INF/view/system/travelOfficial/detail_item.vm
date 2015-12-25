@@ -11,6 +11,7 @@
                     <td>
                     	<button type="button" class="btn btn-default addNeedKnow" id="gaikuang" onclick="addItemCall(this)">增加条目</button>
         	            <table class="table bigTables">
+                            <input type="hidden" id="imgContentJsonId"  name="imgContentJson" value="$!travelOfficial.imgContentJson">
                             <tr>
                                 <th>内容（500个字以内）</th>
                                 <th>图片（最多6张）</th>
@@ -20,22 +21,23 @@
 
                             <tr class="needKnow">
                                 <td>
-                                    <textarea name="detail" class="form-control extra-info-item-title" placeholder=""></textarea>
+                                    <textarea name="detail" id="travelDesId_1" class="form-control extra-info-item-title" placeholder=""></textarea>
                                 </td>
                                 <td>
 			                        <div class="fileImgWrap">
 			                            <button type="button" class="btn btn-success">选择图片</button>
-			                            <input type="file"  name="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
-			                            <input type="hidden" name="coverURL" value=""  id="FMReturnInput">
+			                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_1" accept="image/png,image/gif">
+			                            <input type="hidden" name="coverURL" value=""  id="FMReturnInput_1">
 			                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
 			                        </div>
 			                        <div class="propagandaView">
 			                            <img src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
 			                        </div>
-                                    <textarea name="travelImg" class="form-control extra-info-item-title" placeholder=""></textarea>
+			                        <input type="hidden" name="travelBGImg" value=""  id="travelBGImg_1">
+                                   <span id="travelImgId_1" class="form-control extra-info-item-title" ></span>
                                 </td>
                                 <td>
-                                    <textarea class="form-control extra-info-item-text" name="travelDes" rows="3"></textarea>
+                                    <textarea class="form-control extra-info-item-text" name="travelDes" id="detailId_1" rows="3"></textarea>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
@@ -53,29 +55,36 @@
 </form>
 
 <script>
-	$(document).delegate("#FMUploadFile",'change',function(){
-	     fileUpload('#FMUploadFile',2,pictureUploadCallBack);
+	$(document).delegate(".fileInp",'change',function(){
+		 var id = $(this).attr("id");
+	     fileUpload("#"+id,2,pictureUploadCallBack);
 	 })
 		
- 	var pictureUploadCallBack = function(data){
+ 	var pictureUploadCallBack = function(data,id){
     if(data && data.status == 200){
-		console.log(data.data);
-        $('#FMReturnInput').val(data.data);
-        $('#FMReturnInputImg').attr('src',tfsRootPath + data.data);
+    var index = id.substr(-1);
+    
+    var imgHtml="";
+    var imgArr=[];
+    
+   		$.each(data.data, function(n, val) {
+   			imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='100' height='100' ></img>";
+   			imgArr.push(val);
+        	//alert("n="+n+"  val="+val);
+        });
+   		$("#travelImgId_"+index).html(imgHtml);
+   		$("#travelBGImg_"+index).val(imgArr);
+    	//$('#FMReturnInput_'+index).val();
+		/*console.log(data.data);
+        $('#FMReturnInput_'+index).val(imgArr);
+        $('#FMReturnInputImg_'+index).attr('src',tfsRootPath + data.data);*/
 			
         }else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
 
-
-
-
-
-
-
 //--------------------------------------------------------
-
     var addItemCall = function (obj) {
     
     	var conTr =$(obj).next().find(".needKnow");
@@ -83,10 +92,15 @@
     	var i = conTr.length;
     	++i;
     	var itemId = $(obj).attr("id");
-        var itemList = '<tr class="needKnow'+i+'"><td>'+
-                '<input type="text" name="" class="form-control extra-info-item-title" placeholder=""></td>'+
-                '<td><textarea name="" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
-				'<td><textarea name="" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
+        var itemList = '<tr class="needKnow">'+
+                '<td><input type="text" name="detail" id="travelDesId_'+i+'" class="form-control extra-info-item-title" placeholder=""></td>'+
+                '<td><div class="fileImgWrap"><button type="button" class="btn btn-success">选择图片</button>'+
+        		'<input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_'+i+'" accept="image/png,image/gif">'+
+				'<input type="hidden" name="coverURL" value=""  id="FMReturnInput_'+i+'">'+
+				'<p>注：图片大小不超过5M<br />建议尺寸：687*237</p>'+
+				'</div><div class="propagandaView"><img src="" id="FMReturnInputImg_'+i+'">'+
+				'</div><input id="travelBGImg_'+i+'" type="hidden" name="travelBGImg" value="" ><span  id="travelImgId_'+i+'" class="form-control extra-info-item-title" ></span></td>'+
+				'<td><textarea name="travelDes" id="detailId_'+i+'" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
                 '<td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td></tr>'
         $(obj).next().append(itemList);
        
@@ -98,13 +112,58 @@
  	
  	//保存的
  	$('#btnSubmit').click(function(){
-    	//if($("#hotelForm").valid()) {}
-        $(this).prop('disabled', true);
+
+       // $(this).prop('disabled', true);
         var count = $(".bigTables tr").length-1;
-        alert("count ="+count )	;
-        	
-        	
+        var parts=[];
+        
+        $("tr.needKnow").each(function(i){
+        	var index = i+1;
+            var travelJsonDO={};
+           	travelJsonDO.travelDes=$("#travelDesId_"+index).val();//来源
+            if($("#travelBGImg_"+index).val()!=""){
+				var imgs = $("#travelBGImg_"+index).val();//图片;
+				var ss=[];
+				ss = imgs.split(",");	            
+	            travelJsonDO.travelImg=ss;
+            } 
+            travelJsonDO.detail=$("#detailId_"+index).val();//内容       
+            parts.push(travelJsonDO);	
         });
+
+        var json = JSON.stringify(parts); //可以将json对象转换成json对符串
+        console.log(json);
+        $("#imgContentJsonId").val(json);
+
+        var actionUrl;
+        var clubId = $('#clubForm').attr('clubId');
+        if(clubId){
+            actionUrl = '/B2C/travelOfficialManage/edit';
+        }else{
+            actionUrl = '/B2C/travelOfficialManage/add';
+        }
+        var img= $("#logoUrlUploadFileReturnInput").val();
+       var params = {
+    		backImg:img,
+			title:$("#titleId").val(),
+			publishDate:$("#publishDateId").val(),
+			createId:$("#createIdId").val(),
+			userPhoto:$("#userPhotoId").val(),
+			nickName:$("#nickNameId").val(),
+			imgContentJson:$("#imgContentJsonId").val()
+		};
+       console.log(params);
+        $('#clubForm').attr('action',actionUrl);
+        $.post(actionUrl,params,function(data){
+            if(data.status == 200){
+                layer.alert('操作成功');
+            }else{
+                layer.alert('操作失败');
+                $(this).prop('disabled',false);
+            }
+        });
+
+    });
         
     	$("#cityId").focus( function(){
     	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"3"} ,function(data){

@@ -57,7 +57,7 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 		}
 		LogUtil.requestLog(log, "itemQueryServiceRef.pageQueryRestaurant", restaurantPageQuery);
 		ICPageResult<RestaurantDO> icPageResult = itemQueryServiceRef.pageQueryRestaurant(restaurantPageQuery);
-		LogUtil.icResultLog(log, "itemQueryServiceRef.pageQueryRestaurant", icPageResult);
+		LogUtil.resultLog(log, "itemQueryServiceRef.pageQueryRestaurant", icPageResult);
 		int totalCount = icPageResult.getTotalCount();
 		List<RestaurantDO> restaurantDOList = new ArrayList<RestaurantDO>();
 		if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
@@ -78,7 +78,7 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 	public RestaurantDO getRestaurantBy(long id) {
 		LogUtil.requestLog(log, "itemQueryServiceRef.getRestaurant", id);
 		ICResult<RestaurantDO> restaurant = itemQueryServiceRef.getRestaurant(id);
-		LogUtil.icResultLog(log, "itemQueryServiceRef.getRestaurant", restaurant);
+		LogUtil.resultLog(log, "itemQueryServiceRef.getRestaurant", restaurant);
 		return restaurant.getModule();
 	}
 

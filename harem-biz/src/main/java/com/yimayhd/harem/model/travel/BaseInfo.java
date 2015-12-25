@@ -21,7 +21,6 @@ import com.yimayhd.resourcecenter.model.enums.RegionLevel;
  * 
  */
 public class BaseInfo {
-	private static final long PRICE_UNIT = 100;
 	private long id;// ID
 	private int type;// 类型
 	private String name;// 产品名称
@@ -74,14 +73,16 @@ public class BaseInfo {
 		}
 		this.publisherType = line.getOwnerType();
 		this.publisherId = line.getOwnerId();
-		this.price = line.getPrice() / PRICE_UNIT;
-		this.memberPrice = line.getMemberPrice() / PRICE_UNIT;
+		this.price = line.getPrice();
+		this.memberPrice = line.getMemberPrice();
 		this.highlights = line.getDescription();
 		this.recommond = JSON.parseObject(line.getRecommend(), MasterRecommend.class);
 		if (StringUtils.isNotBlank(line.getNeedKnow())) {
 			this.needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
 		}
-		this.masters = JSON.parseArray(line.getRcmdMasters(), String.class);
+		if(StringUtils.isNotBlank(line.getRcmdMasters())) {
+			this.masters = JSON.parseArray(line.getRcmdMasters(), String.class);
+		}
 	}
 
 	/**
@@ -257,8 +258,8 @@ public class BaseInfo {
 		} else {
 			line.setRcmdMasters("");
 		}
-		line.setPrice(this.price * PRICE_UNIT);
-		line.setMemberPrice(this.memberPrice * PRICE_UNIT);
+		line.setPrice(this.price);
+		line.setMemberPrice(this.memberPrice);
 		line.setDescription(this.highlights);
 		line.setRecommend(JSON.toJSONString(this.recommond));
 		line.setNeedKnow(JSON.toJSONString(this.needKnow));

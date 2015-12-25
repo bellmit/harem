@@ -74,6 +74,7 @@ table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;tex
 .fileImgWrap .fileInp{position: absolute;top: 50%;margin-top:-34px;left: 0;font-size: 25px;width: 102px;height: 33px;opacity: 0;filter:alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;-webkit-opacity: 0;}
 .fileImgWrap p{font-size: 12px;margin-top: 8px;}
 
+.uploadImgFile{max-width: 250px;max-height: 250px;}
 
 /*图片上传*/
 #img-manage{width:1200px;margin:0 auto;}

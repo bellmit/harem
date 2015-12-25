@@ -73,10 +73,10 @@
                     <td>星级</td>
                     <td>
                         <select class="form-control" name="level">
-                            <option value="4" #if($!hotel.level == 4) selected #end>2星及以下 经济型</option>
+                            <option value="2" #if($!hotel.level == 2) selected #end>2星及以下 经济型</option>
                             <option value="3" #if($!hotel.level == 3) selected #end>3星 舒适型</option>
-                            <option value="2" #if($!hotel.level == 2) selected #end>4星 高档型</option>
-                            <option value="1" #if($!hotel.level == 1) selected #end>5星 豪华型</option>
+                            <option value="4" #if($!hotel.level == 4) selected #end>4星 高档型</option>
+                            <option value="5" #if($!hotel.level == 5) selected #end>5星 豪华型</option>
                         </select>
                     </td>
                 </tr>
@@ -87,25 +87,25 @@
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
                     <td>
-                        <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" value="$!hotel.phoneNum" placeholder="请输入酒店电话">
+                        <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" value="$!hotel.phoneNumListStr" placeholder="请输入酒店电话">
                     </td>
                 </tr>
-                <tr>
-                    <td><span class="spColor">*</span>酒店简介</td>
-                    <td>
-                        <textarea name="oneword" id="grogDescr" rows="3" class="form-control" placeholder="请输入80字以内">$!hotel.oneword</textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>特色描述</td>
-                    <td>
-                        <textarea name="description" rows="3" class="form-control" placeholder="请输入500字以内">$!hotel.description</textarea>
-                    </td>
+               <tr>
+                   <td><span class="spColor">*</span>酒店简介</td>
+                   <td>
+                       <textarea name="description" id="grogDescr" rows="3" class="form-control" placeholder="请输入500字以内">$!hotel.description</textarea>
+                   </td>
+               </tr>
+               <tr>
+                   <td><span class="spColor">*</span>特色描述</td>
+                   <td>
+                       <textarea name="oneword" rows="3" class="form-control" placeholder="请输入80字以内">$!hotel.oneword</textarea>
+                   </td>
 
-                </tr>
+               </tr>
                 <tr>
                     <td><span class="spColor">*</span>基础价格<br/>(单位：元)</td>
-                    <td><input type="text" name="price" value="$!hotel.price" class="inpControl" >起</td>
+                    <td><input type="text" name="priceY" value="$!utilNum.moneyTransform($!hotel.price)" class="inpControl" >起</td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店联系人</td>
@@ -516,61 +516,27 @@
 						
         });	    
 
-    	$(document).delegate('#logoUrlUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                               
-                                $('#logoUrlUploadFileReturnInput').val(data.data);
-                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
+		$(document).delegate('#logoUrlUploadFile','change',function(){
+            fileUpload('#logoUrlUploadFile',1,function(data){
+                if(data && data.status==200){
+                    $('#logoUrlUploadFileReturnInput').val(data.data);
+                    $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });        
         
-        
-        $(document).delegate('#logoUrlUploadFile1','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile1', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                             
-                                $('#logoUrlUploadFileReturnInput1').val(data.data);
-                                $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-		
+		$(document).delegate('#logoUrlUploadFile1','change',function(){
+            fileUpload('#logoUrlUploadFile1',1,function(data){
+                if(data && data.status==200){
+                    $('#logoUrlUploadFileReturnInput1').val(data.data);
+                    $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });				
 		
 		$('#btnSubmit').click(function(){
 

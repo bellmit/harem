@@ -54,10 +54,12 @@
 
 #*酒店（资源）状态*#
 #macro(HOTEL_STATUS $type)
-    #if($type == '1')
+    #if($type == '2')
     启用
-    #elseif($type == '2')
+    #elseif($type == '3')
     停用
+    #elseif($type == '1')
+    初始化
     #end
 #end
 

@@ -7,11 +7,14 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.ic.client.util.PicUrlsUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+import com.yimayhd.ic.client.model.enums.ReduceType;
 
 import java.util.*;
 
@@ -20,6 +23,7 @@ import java.util.*;
  */
 public class ItemVO extends ItemDO {
 
+    private static final long serialVersionUID = -1394982462767288880L;
     private String itemSkuVOStr;//sku列表 jsonString
 
     private double priceY;//价格（单位:元）
@@ -30,18 +34,27 @@ public class ItemVO extends ItemDO {
 
     private List<Integer> skuTdRowNumList;
 
-    private List<String> picUrlList;
-
     private int sort = 1;//商品排序字段(默认为1)
 
-    private Long startBookTimeLimit;//酒店可入住时间限制
+    private Long endBookTimeLimit;//酒店可入住时间限制(存feature中)
 
-    public static ItemDO getItemDO(ItemVO itemVO){
+    private Integer grade;//评分(存feature中)
+
+    private String smallListPic;//方形小列表图，主要用于订单
+    private String bigListPic;//扁长大列表图，主要用于伴手礼等商品列表
+    private String coverPics;//封面大图String
+    private List<String> picList;//封面大图List
+
+    private Integer reduceType = ReduceType.NONE.getBizType();//减库存方式
+
+    //新增商品提交时调用
+    public static ItemDO getItemDO(ItemVO itemVO)throws Exception{
         ItemDO itemDO = new ItemDO();
         BeanUtils.copyProperties(itemVO, itemDO);
         //元转分
         itemDO.setPrice((long) (itemVO.getPriceY() * 100));
 
+        //新增的时候设置skuDOList（注：修改时走setItemSkuDOListCommonItemPublishDTO）
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
             List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
             for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
@@ -51,15 +64,48 @@ public class ItemVO extends ItemDO {
             }
             itemDO.setItemSkuDOList(itemSkuDOList);
         }
+
+        ItemFeature itemFeature = itemDO.getItemFeature();;
+        if (itemDO.getItemFeature() == null) {
+            itemFeature = new ItemFeature(null);
+            itemDO.setItemFeature(itemFeature);
+        }
+        //提前预定时间(暂时只有酒店用)
+        if (null != itemVO.getEndBookTimeLimit()) {
+            itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
+        }
+        //picUrls转换
+        if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+            itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
+        }
+        if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+            itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, itemVO.getBigListPic());
+        }
+        if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+            itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
+        }
+        itemDO.setPicUrlsString(itemDO.getPicUrlsString());
+        //评分（暂时普通商品用）
+        if(null != itemVO.getGrade()){
+            itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
+        }
+        //减库存方式
+        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
+        //自定义属性
         itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }
-    //不能在getItemDO之后调用（修改用时）
-    public static CommonItemPublishDTO getCommonItemPublishDTO(ItemVO itemVO){
-        CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
-        ItemDO itemDO = ItemVO.getItemDO(itemVO);
-        commonItemPublishDTO.setItemDO(itemDO);//更新的时候貌似没有用了
+    /**
+     * 修改提交时设置skuDOlist
+     * @param commonItemPublishDTO
+     * @param itemVO
+     * @return
+     * @throws Exception
+     */
+    public static CommonItemPublishDTO setItemSkuDOListCommonItemPublishDTO(CommonItemPublishDTO commonItemPublishDTO,ItemVO itemVO)throws Exception{
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+            //insert操作时的数组
+            List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
             //新增sku数组
             List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
             //删除sku数组
@@ -67,6 +113,7 @@ public class ItemVO extends ItemDO {
             //修改sku数组
             List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
             for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
                 if(0 == itemSkuVO.getId()){
                     if(itemSkuVO.isChecked()){//没有id，有checked是新增
                         addItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
@@ -81,7 +128,7 @@ public class ItemVO extends ItemDO {
                     }
                 }
             }
-            commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
+            commonItemPublishDTO.setItemSkuDOList(itemSkuDOList);
             commonItemPublishDTO.setAddItemSkuDOList(addItemSkuDOList);
             commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOList);
             commonItemPublishDTO.setUpdItemSkuDOList(updItemSkuDOList);
@@ -89,7 +136,7 @@ public class ItemVO extends ItemDO {
         return commonItemPublishDTO;
 
     }
-    public static ItemVO getItemVO(ItemDO itemDO,CategoryVO categoryVO){
+    public static ItemVO getItemVO(ItemDO itemDO,CategoryVO categoryVO)throws Exception{
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(itemDO, itemVO);
         //分转元
@@ -101,16 +148,20 @@ public class ItemVO extends ItemDO {
             }
             itemVO.setItemSkuVOList(itemSkuVOList);
         }
-        //酒店提前预定时间
-        if(null != itemVO.getStartBookTimeLimit()){
-            itemVO.setStartBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
+
+        if(null != itemVO.getItemFeature()){
+            //提前预定时间(暂时酒店用)
+            itemVO.setEndBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
+            //评分（暂时普通商品用）
+            itemVO.setGrade(itemVO.getItemFeature().getGrade());
+            //库存方式
+            itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
         }
-        //picUrls转list
-        if(StringUtils.isNotBlank(itemVO.getPicUrls())){
-            String[] arr = itemVO.getPicUrls().split("\\|");
-            List<String> list = new ArrayList<String>();
-            Collections.addAll(list, arr);
-            itemVO.setPicUrlList(list);
+        //picUrls转对应的list
+        if(StringUtils.isNotBlank(itemVO.getPicUrlsString())){
+            itemVO.setSmallListPic(PicUrlsUtil.getSmallListPic(itemDO));
+            itemVO.setBigListPic(PicUrlsUtil.getBigListPic(itemDO));
+            itemVO.setPicList(PicUrlsUtil.getPicList(itemDO));
         }
         //个性化处理,构建sku表格所用结构
         List<Set<String>> tranSetList = new ArrayList<Set<String>>();
@@ -260,14 +311,6 @@ public class ItemVO extends ItemDO {
         this.itemSkuVOListAll = itemSkuVOListAll;
     }
 
-    public List<String> getPicUrlList() {
-        return picUrlList;
-    }
-
-    public void setPicUrlList(List<String> picUrlList) {
-        this.picUrlList = picUrlList;
-    }
-
     public int getSort() {
         return sort;
     }
@@ -276,11 +319,59 @@ public class ItemVO extends ItemDO {
         this.sort = sort;
     }
 
-    public Long getStartBookTimeLimit() {
-        return startBookTimeLimit;
+    public Long getEndBookTimeLimit() {
+        return endBookTimeLimit;
     }
 
-    public void setStartBookTimeLimit(Long startBookTimeLimit) {
-        this.startBookTimeLimit = startBookTimeLimit;
+    public void setEndBookTimeLimit(Long endBookTimeLimit) {
+        this.endBookTimeLimit = endBookTimeLimit;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
+    }
+
+    public String getSmallListPic() {
+        return smallListPic;
+    }
+
+    public void setSmallListPic(String smallListPic) {
+        this.smallListPic = smallListPic;
+    }
+
+    public String getBigListPic() {
+        return bigListPic;
+    }
+
+    public void setBigListPic(String bigListPic) {
+        this.bigListPic = bigListPic;
+    }
+
+    public String getCoverPics() {
+        return coverPics;
+    }
+
+    public void setCoverPics(String coverPics) {
+        this.coverPics = coverPics;
+    }
+
+    public List<String> getPicList() {
+        return picList;
+    }
+
+    public void setPicList(List<String> picList) {
+        this.picList = picList;
+    }
+
+    public Integer getReduceType() {
+        return reduceType;
+    }
+
+    public void setReduceType(Integer reduceType) {
+        this.reduceType = reduceType;
     }
 }

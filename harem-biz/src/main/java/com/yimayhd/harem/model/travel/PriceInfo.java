@@ -25,7 +25,6 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
  */
 public class PriceInfo {
 	private static final int LIMIT_UNIT = 3600 * 24;
-	private static final int MONEY_UNIT = 100;
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
 	private String importantInfosCode;
@@ -102,8 +101,9 @@ public class PriceInfo {
 					for (Entry<Long, ItemSkuDO> pb : pd.getValue().entrySet()) {
 						ItemSkuPVPair personPair = pbMap.get(pb.getKey());
 						ItemSkuDO sku = pb.getValue();
-						packageBlocks.add(new PackageBlock(sku.getId(), personPair, sku.getPrice() / MONEY_UNIT,
-								sku.getStockNum(), sku.getDiscountFee() / MONEY_UNIT));
+						// TODO discount暂不实现
+						packageBlocks
+								.add(new PackageBlock(sku.getId(), personPair, sku.getPrice(), sku.getStockNum(), 0));
 					}
 					packageDays.add(new PackageDay(dayPair, pd.getKey(), packageBlocks));
 				}
@@ -183,9 +183,8 @@ public class PriceInfo {
 										itemSkuDO.setCategoryId(categoryId);
 										itemSkuDO.setSellerId(sellerId);
 										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
-										itemSkuDO.setPrice(packageBlock.getPrice() / MONEY_UNIT);
+										itemSkuDO.setPrice(packageBlock.getPrice());
 										itemSkuDO.setStockNum(packageBlock.getStock());
-										itemSkuDO.setDiscountFee(packageBlock.getDiscount() / MONEY_UNIT);
 										itemSkuDOs.add(itemSkuDO);
 									}
 								}

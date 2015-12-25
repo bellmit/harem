@@ -6,10 +6,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.service.RegionService;
+import com.yimayhd.harem.util.LogUtil;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -19,6 +22,7 @@ import com.yimayhd.resourcecenter.service.RegionClientService;
  * Created by Administrator on 2015/11/13.
  */
 public class RegionServiceImpl implements RegionService {
+	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	private RegionClientService regionClientServiceRef;
@@ -51,16 +55,14 @@ public class RegionServiceImpl implements RegionService {
 	@Override
 	public List<Region> getRegions(RegionType regionType) throws BaseException {
 		List<Region> regions = new ArrayList<Region>();
+		LogUtil.requestLog(log, "regionClientServiceRef.getRegionDOListByType");
 		RCPageResult<RegionDO> pageResult = regionClientServiceRef.getRegionDOListByType(regionType.getType());
-		if (pageResult != null && pageResult.isSuccess()) {
-			List<RegionDO> regionDOs = pageResult.getList();
-			if (CollectionUtils.isNotEmpty(regionDOs)) {
-				for (RegionDO regionDO : regionDOs) {
-					regions.add(new Region(regionDO));
-				}
+		LogUtil.resultLog(log, "regionClientServiceRef.getRegionDOListByType", pageResult);
+		List<RegionDO> regionDOs = pageResult.getList();
+		if (CollectionUtils.isNotEmpty(regionDOs)) {
+			for (RegionDO regionDO : regionDOs) {
+				regions.add(new Region(regionDO));
 			}
-		} else {
-			throw new BaseException("获取地区信息失败：RegionType={0}", regionType);
 		}
 		return regions;
 	}

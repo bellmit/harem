@@ -47,8 +47,10 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 		if (id > 0) {
 			SelfServiceTravel sst = selfServiceTravelService.getById(id);
 			put("product", sst);
-			put("importantInfos", tfsService.readHtml5(sst.getPriceInfo().getImportantInfosCode()));
-			put("extraInfos", tfsService.readHtml5(sst.getBaseInfo().getNeedKnow().getExtraInfoUrl()));
+			String importantInfos = tfsService.readHtml5(sst.getPriceInfo().getImportantInfosCode());
+			put("importantInfos", importantInfos);
+			String extraInfos = tfsService.readHtml5(sst.getBaseInfo().getNeedKnow().getExtraInfoUrl());
+			put("extraInfos", extraInfos);
 			put("lineType", LineType.getByType(sst.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/detail";

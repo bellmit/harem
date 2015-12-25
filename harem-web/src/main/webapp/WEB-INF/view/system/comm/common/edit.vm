@@ -45,7 +45,7 @@
                     <tr>
                         <td><span class="spColor">*</span>商品价格</td>
                         <td>
-                            <input type="text" name="price" value="$!commodity.price">
+                            <input type="text" name="priceY" value="$!commodity.priceY">
                         </td>
                     </tr>
                     <tr>
@@ -53,6 +53,12 @@
                         <td>
                             <input type="text" name="stockNum" value="$!commodity.stockNum">
                         </td>
+                    </tr>
+                    <tr>
+                        <label class="col-md-2 control-label">减库存方式</label>
+                        #foreach($reduceType in $reduceTypeList)
+                            <label class='radio-inline'> <input type="radio" name="optionsRadios" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end>$!reduceType.des</label>
+                        #end
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品简介</td>
@@ -79,20 +85,35 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品图片列表</td>
+                        <td><span class="spColor">*</span>宣传图</td>
+                        <td class="bigListPicTd">
+                            <label>选择列表图</label>
+                            <input id="bigListPicUrl" type="file">
+                            <img class="bigListPicUrl uploadImgFile" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!commodity.bigListPic #end">
+                            <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commHotel.bigListPic">
+                        </td>
+                        <td class="smallListPicTd">
+                            <label>选择订单图</label>
+                            <input id="smallListPicUrl" type="file">
+                            <img class="smallListPicUrl uploadImgFile" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!commodity.smallListPic #end">
+                            <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commHotel.smallListPic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>详情竖图</td>
                         <td class="picUrlsTd">
                             <input id="batchUploadBtn" type="file" multiple="multiple" >
-                            #foreach($pic in $!commodity.picUrlList)
-                                <img class="picUrlsUrl" src="$utilWebconfig.getTfsRootPath()$pic">
+                            #foreach($pic in $!commodity.picList)
+                                <img class="picUrlsUrl uploadImgFile" src="$utilWebconfig.getTfsRootPath()$pic">
                             #end
                         </td>
-                        <input class="picUrlsVal" type="hidden" name="picUrls" value="$!commodity.picUrls">
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
                     </tr>
 
-                    <tr>
+                    #*<tr>
                         <td><span class="spColor">*</span>排序</td>
                         <td><input type="text" name="index" value="$!commodity.index" disabled></td>
-                    </tr>
+                    </tr>*#
 
                     #*解析关键属性*#
                     #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
@@ -103,15 +124,7 @@
                                     <select class="form-control propertySelect">
                                         <option value="0" >请选择</option>
                                         #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-
-                                            #if($commodity.itemPropertyList && $commodity.itemPropertyList.size() > 0)
-                                                #foreach($itemProperty in $commodity.itemPropertyList)
-                                                    #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
-                                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($!categoryValueDO.id == $itemProperty.vId) selected
-                                                        #end>$!categoryValueDO.text</option>
-                                                    #end
-                                                #end
-                                            #end
+                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text">$!categoryValueDO.text</option>
                                         #end
                                     </select>
                                     #*支持自定义*#
@@ -120,7 +133,7 @@
                                         #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
                                             <span><input class="propertyInput" type="text" value=""></span>
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                            <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="">
+                                            <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="">
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                             3
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
@@ -148,9 +161,9 @@
                                 #if($!keyCategoryProperty.canCustom == 1)
                                 #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                     #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                        <span><input type="text" value=""></span>
+                                        <span><input type="text" class="propertyInput" value=""></span>
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                        <input type="text" class='form-control form-date' placeholder='yyyy-MM-dd' readonly value="">
+                                        <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="">
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                         3
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
@@ -223,7 +236,7 @@
                     #*json string 提交*#
                     <input type="hidden" name="itemProperties" id="itemProperties" value="$!commodity.itemProperties">
                     <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!commodity.itemSkuVOStr">
-                    <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
+                    <button class="btn btn-success btnSubmit" type="button" >保存</button>
                 </div>
                 <div class="btn-group">
                     <button type="button"  class="btn closBtn">取消</button>
@@ -280,16 +293,24 @@
                 format: "yyyy-mm-dd"
             });
 
-    var pictureUploadCallBack = function(data){
+    var bigListPicUploadCallBack = function(data){
         if(data && data.status == 200){
-            $('.detailUrlVal').val(data.data);
-            $('.detailUrlUrl').attr('src',tfsRootPath + data.data);
+            $('.bigListPicVal').val(data.data);
+            $('.bigListPicUrl').attr('src',tfsRootPath + data.data);
 
         }else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
+    var smallListPicUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.smallListPicVal').val(data.data);
+            $('.smallListPicUrl').attr('src',tfsRootPath + data.data);
 
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
     var batchCallBack = function(dataVal){
         for(var key in dataVal.data){
              $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
@@ -374,8 +395,12 @@
 
     $(function(){
         //上传图片detailUrl
-        $(document).delegate("#fileDetailUrl",'change',function(){
-            fileUpload('#fileDetailUrl',1,pictureUploadCallBack);
+        $(document).delegate("#bigListPicUrl",'change',function(){
+            fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
+        })
+        //上传图片detailUrl
+        $(document).delegate("#smallListPicUrl",'change',function(){
+            fileUpload('#smallListPicUrl',1,smallListPicUploadCallBack);
         })
         /****************批量上传pic_urls*****************/
         $(document).delegate("#batchUploadBtn",'change',function(){
@@ -485,56 +510,54 @@
             }else{
                 $('.skuTable').html('您需要选择所有的销售属性，才能组合成完整的规格信息。');
             }
-
-
-            $('#btnSubmit').click(function(){
-                //property
-                var propertyArr = new Array();
-                $('.keyProperty').each(function(){
-                    //TODO 判断必填项
-                });
-                $('.property').each(function(){
-                    //
-                    var v = $(this).find('propertySelect');
-                    var vId = 0;
-                    var vTxt = '';
-                    if(v && $(v).val() !== '0'){
-                        vId = $(v).val();
-                        vTxt = $(v).find(':checked').text();
-                    }else{
-                        vTxt = $(this).find('propertyInput').val();
-                    }
-                    var property = {
-                        'pId':$(this).attr('pId'),
-                        'pTxt':$(this).attr('pTxt'),
-                        'pType':$(this).attr('pType'),
-                        'vId':vId,
-                        'vTxt':vTxt
-                    }
-                    propertyArr.push(property);
-                });
-                $('#itemProperties').val(JSON.stringify(propertyArr));
-
-                //图片列表
-                var picUrls = '';
-                $('.picUrlsUrl').each(function(){
-                    if(picUrls){
-                        picUrls += '|' + $(this).attr('imgUrl');
-                    }else{
-                        picUrls += $(this).attr('imgUrl');
-                    }
-                });
-                $('.picUrlsVal').val(picUrls);
-                $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
-                var url = '';
-                if($('#commodityForm').attr('commodityId')){
-                    url = actionDefaultPath + '/B2C/commodityManage/common/edit/' + $('#commodityForm').attr('commodityId');
-                }else{
-                    url = actionDefaultPath + '/B2C/commodityManage/common/add';
-                }
-                $('#commodityForm').attr('action',url);
-                $('#commodityForm').submit();
+        });
+        $('.btnSubmit').click(function(){
+            //property
+            var propertyArr = new Array();
+            $('.keyProperty').each(function(){
+                //TODO 判断必填项
             });
+            $('.property').each(function(){
+                //
+                var v = $(this).find('.propertySelect');
+                var vId = 0;
+                var vTxt = '';
+                if(v && $(v).val() != '0'){
+                    vId = $(v).val();
+                    vTxt = $(v).find(':checked').text();
+                }else{
+                    vTxt = $(this).find('.propertyInput').val();
+                }
+                var property = {
+                    'pId':$(this).attr('pId'),
+                    'pTxt':$(this).attr('pTxt'),
+                    'pType':$(this).attr('pType'),
+                    'vId':vId,
+                    'vTxt':vTxt
+                }
+                propertyArr.push(property);
+            });
+            $('#itemProperties').val(JSON.stringify(propertyArr));
+
+            //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
+            $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
+            var url = '';
+            if($('#commodityForm').attr('commodityId')){
+                url = actionDefaultPath + '/B2C/commodityManage/common/edit/' + $('#commodityForm').attr('commodityId');
+            }else{
+                url = actionDefaultPath + '/B2C/commodityManage/common/add';
+            }
+            $('#commodityForm').attr('action',url);
+            $('#commodityForm').submit();
         });
 
     });

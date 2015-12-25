@@ -50,80 +50,83 @@
                     <tr>
                         <td><span class="spColor">*</span>餐厅名称</td>
                         <td>
-                            #if($!{VO.scenic.id})
-                                <input type="hidden" name="id" value="$!{VO.scenic.id}">
+                            #if($!{restaurant.id})
+                                <input type="hidden" name="restaurant.id" value="$!{restaurant.id}">
                             #end
-                            <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内"
-                                   value="$!{VO.scenic.name}"></td>
+                            <input type="text" class="inpCtlBlock" name="restaurant.name" id="name" placeholder="请输入20个字以内" value="$!{restaurant.name}">
+						</td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>区域</td>
                         <td>
                             <div class="selectList">
-                                
-                           
-                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{VO.scenic.locationProvinceName}">
-                            <select id="provinceId" class="selCity inpControl provinceSelect" name="scenic.locationProvinceId" areaType="PROVINCE">
-                                <option value="$!{VO.scenic.locationProvinceId}">#if(! $VO.scenic.locationProvinceName)请选择省份#else$!{VO.scenic.locationProvinceName}#end</option>
+                            <input type="hidden" id="provinceSelectName" name="restaurant.locationProvinceName" value="$!{restaurant.locationProvinceName}">
+                            <select id="provinceId" class="selCity inpControl provinceSelect" name="restaurant.locationProvinceId" areaType="PROVINCE">
+                                <option value="$!{restaurant.locationProvinceId}">#if(! $restaurant.locationProvinceName)请选择省份#else$!{restaurant.locationProvinceName}#end</option>
                             </select>
-                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!{VO.scenic.locationCityName}">
-                            <select id="cityId" class="selCity inpControl citySelect" name="scenic.locationCityId" areaType="CITY">
-                                <option value="$!{VO.scenic.locationCityId}">#if(! $VO.scenic.locationCityName)请选择城市#else$!{VO.scenic.locationProvinceName}#end</option>
+                            <input type="hidden" id="citySelectName" name="restaurant.locationCityName" value="$!{restaurant.locationCityName}">
+                            <select id="cityId" class="selCity inpControl citySelect" name="restaurant.locationCityId" areaType="CITY">
+                                <option value="$!{restaurant.locationCityId}">#if(! $restaurant.locationCityName)请选择城市#else$!{restaurant.locationProvinceName}#end</option>
                             </select>
-                            <input type="hidden" id="countySelectName" name="locationTownName" value="$!{VO.scenic.locationTownName}">
-                            <select id="countyId" class="selCity inpControl countySelect" name="scenic.locationTownId" areaType="COUNTY">
-                                <option value="$!{VO.scenic.locationTownId}">#if(! $VO.scenic.locationTownName)请选择区县#else$!{VO.scenic.locationTownName}#end</option>
+                            <input type="hidden" id="countySelectName" name="restaurant.locationTownName" value="$!{restaurant.locationTownName}">
+                            <select id="countyId" name="restaurant.locationTownId" class="selCity inpControl countySelect" areaType="COUNTY">
+                                <option value="$!{restaurant.locationTownId}">#if(! $restaurant.locationTownName)请选择区县#else$!{restaurant.locationTownName}#end</option>
                             </select>	
-                                <input type="text" class="inpControl" name="locationText" id="locationText"
-                                       placeholder="请输入100个字以内" value="$!{VO.scenic.locationText}">
-                           
+                                <input type="text" class="inpControl" name="restaurant.locationText" id="locationText" placeholder="请输入100个字以内" value="$!{restaurant.locationText}">
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>地址经纬度</td>
-                        <td><span>经度</span><input type="text" name="locationX" id="locationX"
-                                                  class="inpControl getAddress" value="$!{VO.scenic.locationX}">
-                            <span>维度</span><input type="text" name="locationY" id="locationY"
-                                                  class="inpControl getAddress" value="$!{VO.scenic.locationY}">
+                        <td>
+							<span>经度</span>
+							<input type="text" name="restaurant.locationX" id="locationX" class="inpControl getAddress" value="$!{restaurant.locationX}">
+                            <span>维度</span>
+							<input type="text" name="restaurant.locationY" id="locationY" class="inpControl getAddress" value="$!{restaurant.locationY}">
                             <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                             <code>点击查找经纬度可自动获取</code></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>餐厅简介</td>
-                        <td><textarea name="oneword" id="oneword" rows="3" class="form-control"
-                                      placeholder="请输入500字以内">$!{VO.scenic.oneword}</textarea></td>
+                        <td><textarea name="restaurant.oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{restaurant.oneword}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
-                        <td><textarea name="description" id="description" rows="3" class="form-control"
-                                      placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
+                        <td><textarea name="restaurant.description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{restaurant.description}</textarea></td>
                     </tr>
 
                     <tr>
                         <td>餐厅联系人</td>
                         <td>
-                            <span>姓名</span><input type="text" name="contactPerson" class="inpControl"
-                                                  value="$!{VO.scenic.contactPerson}">
-                            <span>电话</span><input type="text" name="contactPhone" class="inpControl"
-                                                  value="$!{VO.scenic.contactPhone}">
+                            <span>姓名</span>
+							<input type="text" name="restaurant.contactPerson" class="inpControl" value="$!{restaurant.contactPerson}">
+                            <span>电话</span>
+							<input type="text" name="restaurant.contactPhone" class="inpControl" value="$!{restaurant.contactPhone}">
                         </td>
                     </tr>
                     <tr>
                         <td>推荐理由</td>
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
-                      		  <input type="text" name="title"  class="inpControl"
-                                   value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
+                      		  <input type="text" name="recommend.title"  class="inpControl"
+                                   value="#if(! $!recommend.title)大咖推荐#else$!recommend.title#end">
                             <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
                                  alt="头像" class="img-circle grogUserLogo" id="userImg">
                                  <span id="recommendNameT"></span>
-                            <textarea name="description" id="recommend" rows="3" class="form-control"
+                            <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
-                            <input type="hidden" id="recommendId" name="id" value="$!{recommend.id}" >
-                            <input type="hidden" id="recommendUserId" name="userId" value="$!{recommend.userId}" >
-                            <input type="hidden" id="recommendUserPic" name="userPic" value="$!{recommend.userPic}" >
-                            <input type="hidden" id="recommendName" name="name2" value="$!{recommend.name}" >
+							#if($!{recommend.id})
+                            <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
+							#end
+							#if($!{recommend.userId})
+							<input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
+							#end
+							#if($!{recommend.userPic})
+							<input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}" >
+                            #end
+							#if($!{recommend.name})
+							<input type="hidden" id="recommendName" name="recommend.name" value="$!{recommend.name}" >
+							#end
                         </td>
                     </tr>
 					
@@ -141,7 +144,7 @@
             <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
         </div>
         <div class="tab-pane" id="restaurantImgs">
-				 #parse("/system/scenicSpot/picture.vm")
+				 #parse("/system/restaurant/picture.vm")
         </div>
     </div>
 
@@ -320,64 +323,7 @@
                 $('#countySelectName').val($('.countySelect option:selected').text());
             }
 						
-        });	       
-    
-		/*
-    	$(document).delegate('#logoUrlUploadFile','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                               
-                                $('#logoUrlUploadFileReturnInput').val(data.data);
-                                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-        
-        
-        $(document).delegate('#logoUrlUploadFile1','change',function(){
-            $.ajaxFileUpload
-            (
-                    {
-                 		url: '/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'logoUrlUploadFile1', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
-                        success: function (data,status)  //服务器成功响应处理函数
-                        {
-                            if(data && data.status==200){
-                             
-                                $('#logoUrlUploadFileReturnInput1').val(data.data);
-                                $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
-
-                            }else{
-                                layer.alert('上传失败');
-                            }
-                        },
-                        error: function (data)//服务器响应失败处理函数
-                        {
-                            layer.alert('服务器异常');
-                        }
-                    }
-            )
-        });
-        */          
+        });	                 
 
         $('.locationXYSelectBtn').click(function () {
             openBaiduMap(115.727899, 37.723961, mapCallback);
@@ -407,55 +353,31 @@
             },
             submitHandler: function (form) {
                 var options = {
-                    url: actionDefaultPath + "/B2C/resourceManage/restaurant/save",
+                    url: actionDefaultPath + "/B2C/restaurantManage/save",
                     type: "post",
                     dataType: "json",
                     success: function (data) {
                         if (data.status == 200) {
-							layer.alert('操作成功');
-                            //location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list2";
-							setTimeout(function(){
-            					var tabId = top.$(".tab-pane.active").attr("id");
-            					top.$("#myTabList li").each(function(){
-                					if($(this).attr("dataid") == tabId){
-                    					$(this).prev().addClass("active");
-                    					$(this).remove();
-                					}
-            					});
-            					top.freshPrevFrame();
-            					top.$("#"+tabId).prev().addClass("active");
-            					top.$("#"+tabId).prev().show();
-            					top.$("#"+tabId).remove();
-        					},2000);
-							//setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
+							layer.alert('添加成功', {
+                                time: 0 //不自动关闭
+                                ,yes: function(index){
+                                    layer.close(index);
+            						top.tabTopClose(this);
+                                }
+                            });
                         } else {
                             $("#clubCategorySubmit").attr("disabled", false);
-                            layer.alert('操作失败');
-							//setTimeout('location.href = actionDefaultPath + "/B2C/resourceManage/restaurant/list"', 2000);
-							setTimeout(function(){
-            					var tabId = top.$(".tab-pane.active").attr("id");
-            					top.$("#myTabList li").each(function(){
-                					if($(this).attr("dataid") == tabId){
-                    					$(this).prev().addClass("active");
-                    					$(this).remove();
-                					}
-            					});
-            					top.freshPrevFrame();
-            					top.$("#"+tabId).prev().addClass("active");
-            					top.$("#"+tabId).prev().show();
-            					top.$("#"+tabId).remove();
-        					},2000);                            
+                           layer.alert('添加失败', {
+            					icon : 2
+            				});                   
                         }
                     }
                 };
-
                 $(form).ajaxSubmit(options);
             },
             invalidHandler: function (form, validator) { // 不通过回调
                 return false;
             }
-        });
-
-        
+        });        
     });
 </script>

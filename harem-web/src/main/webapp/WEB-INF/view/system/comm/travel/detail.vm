@@ -36,7 +36,17 @@
         #parse("/system/comm/travel/baseInfo.vm")
     </div>
 	<div class="tab-pane bigEditor" id="extraInfos" style="width: 96%;margin: 15px auto;">
-        <script id="extraInfos" type="text/plain" name="extraInfos" style="width: 100%; height:350px"></script>
+		<script type="text/javascript">
+			var extra_infos_ue;
+            $(function() {
+                window.UEDITOR_HOME_URL = "/resources/ueditor/";
+                extra_infos_ue = UE.getEditor('extraInfos_editor');
+            });
+            function getExtraInfos() {
+            	return extra_infos_ue.getContent();
+            }
+        </script>
+        <script id="extraInfos_editor" type="text/plain" name="extraInfos" style="width: 100%; height:350px">$!{extraInfos}</script>
     </div>
 	#if($categoryId == 6)
     <div class="tab-pane tripInfo" id="tripInfo">
@@ -51,26 +61,25 @@
         #parse("/system/comm/travel/priceInfo.vm")
     </div>
 	<div class="tab-pane bigEditor" id="importantInfos" style="width: 96%;margin: 15px auto;">
-        <script id="importantInfos" type="text/plain" name="importantInfos" style="width: 100%; height:350px"></script>
-    </div>
+		<script type="text/javascript">
+			var important_infos_ue;
+            $(function() {
+                window.UEDITOR_HOME_URL = "/resources/ueditor/";
+                important_infos_ue = UE.getEditor('importantInfos_editor');
+            });
+			function getImportantInfos() {
+        		return important_infos_ue.getContent();
+        	}
+        </script>
+        <script id="importantInfos_editor" type="text/plain" name="importantInfos" style="width: 100%; height:350px">$!{importantInfos}</script>
+	</div>
   </div>
+  #if(!${product.isReadonly()})
   <div class="groupTravelBot">
     <button class="btn btn-primary save">保  存</button>
   </div>
+  #end
   <script type="text/javascript">
-  	var important_infos_ue;
-	var extra_infos_ue;
-    $(function() {
-        window.UEDITOR_HOME_URL = "/resources/ueditor/";
-    	important_infos_ue = UE.getEditor('importantInfos');
-		extra_infos_ue = UE.getEditor('extraInfos');
-    });
-	function getExtraInfos() {
-		return extra_infos_ue.getAllHtml();
-	}
-	function getImportantInfos() {
-		return important_infos_ue.getAllHtml();
-	}
     $(".save").click(function(){
         var result = {
 			categoryId:$!{categoryId},
@@ -98,9 +107,12 @@
         $.post(url,params,function(data){
 			if(data.status == 200) {
 				layer.alert('添加成功', {
-					icon : 1
-				});
-				top.tabTopClose(this)
+                    time: 0 //不自动关闭
+                    ,yes: function(index){
+                        layer.close(index);
+						top.tabTopClose(this);
+                    }
+                });
 			} else {
 				layer.alert('添加失败', {
 					icon : 2

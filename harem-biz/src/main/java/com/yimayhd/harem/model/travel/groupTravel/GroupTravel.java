@@ -17,6 +17,7 @@ import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
@@ -91,14 +92,6 @@ public class GroupTravel extends BaseTravel {
 		this.tripInfo = tripInfo;
 	}
 
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
 	@Override
 	public void setRouteInfo(LinePublishDTO dto) {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
@@ -171,6 +164,11 @@ public class GroupTravel extends BaseTravel {
 		RouteDO routeDO = new RouteDO();
 		routeDO.setPicture(this.baseInfo.getTripImage());
 		dto.setRouteDO(routeDO);
+	}
+
+	@Override
+	protected int getItemType() {
+		return ItemType.LINE.getValue();
 	}
 
 }

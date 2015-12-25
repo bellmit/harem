@@ -30,6 +30,7 @@ import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.tradecenter.client.model.enums.ReduceType;
 import com.yimayhd.user.session.manager.SessionUtils;
 
 /**
@@ -77,8 +78,7 @@ public class CommScenicManageController extends BaseController {
     	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
     	ItemFeature itemFeature = new ItemFeature(null);
 	        //减库存方式
-    		
-	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,1);
+	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE.getBizType());
 	        //未付款超时时间
 	        //itemFeature.put(ItemFeatureKey.NOT_PAY_TIMEOUT,3 * 24 * 3600 * 1000L);
 	        //商品星级

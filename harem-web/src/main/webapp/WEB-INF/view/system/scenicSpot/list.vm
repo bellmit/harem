@@ -32,8 +32,8 @@
                     <option value="" >全部</option>
                     <option value="1" #if($!scenicPageQuery.level == 1) selected #end>五星级</option>
                     <option value="2" #if($!scenicPageQuery.level == 2) selected #end>四星级</option>
-                    <option value="1" #if($!scenicPageQuery.level == 3) selected #end>三星级</option>
-                    <option value="2" #if($!scenicPageQuery.level == 4) selected #end>连锁酒店</option>
+                    <option value="3" #if($!scenicPageQuery.level == 3) selected #end>三星级</option>
+                    <option value="4" #if($!scenicPageQuery.level == 4) selected #end>连锁酒店</option>
                 </select>
             </div>
 

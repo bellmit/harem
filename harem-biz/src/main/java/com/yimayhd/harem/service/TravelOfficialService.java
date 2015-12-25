@@ -35,5 +35,17 @@ public interface TravelOfficialService {
          * @param travelOfficial
          * @throws Exception
          */
-        void modify(TravelOfficial travelOfficial)throws Exception;
+        boolean modify(TravelOfficial travelOfficial)throws Exception;
+        
+        /**
+        * @Title: upOrDownStatus 
+        * @Description:(批量上下架) 
+        * @author create by yushengwei @ 2015年12月25日 下午6:52:09 
+        * @param @param ids
+        * @param @param status
+        * @param @return 
+        * @return boolean 返回类型 
+        * @throws
+         */
+        boolean batchUpOrDownStatus(List<Long> ids,int status) throws Exception;
 }
