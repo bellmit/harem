@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.yimayhd.harem.util.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -29,7 +31,8 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	
     @Autowired
     private HotelService hotelService;
-    
+
+	private static final Logger log = LoggerFactory.getLogger(HotelRPCServiceImpl.class);
 	@Override
 	public PageVO<HotelDO> pageQueryHotel(HotelListQuery hotelListQuery) {
 		
@@ -75,8 +78,13 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 
 	@Override
 	public ICResult<Boolean> updateHotelStatus(HotelDO hotelDO) {
-		// TODO Auto-generated method stub
-		return hotelService.updateHotelStatus(hotelDO);
+
+		try {
+			return hotelService.updateHotelStatus(hotelDO);
+		} catch (Exception e) {
+			log.error("hotelService.updateHotelStatus(hotelDO) exception, hotelDO:" + hotelDO,e);
+		}
+		return null;
 	}
 
 	@Override

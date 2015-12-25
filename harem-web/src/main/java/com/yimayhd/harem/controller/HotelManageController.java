@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -130,6 +131,7 @@ public class HotelManageController extends BaseController {
 		hotelVO.setRoomFacility(roomFacility);
 		hotelVO.setRoomService(roomService);
 		hotelVO.setHotelFacility(hotelFacility);
+		hotelVO.setStatus(BaseStatus.DELETED.getType());
 				
 		hotelRPCService.addHotel(hotelVO);
 
@@ -149,12 +151,12 @@ public class HotelManageController extends BaseController {
 
 		HotelDO hotelDO = new HotelDO();
 		hotelDO.setId(id);
-		hotelDO.setStatus(hotelStatus);
+		hotelDO.setItemStatus(hotelStatus);
 
 		ICResult<Boolean> icResult = hotelRPCService.updateHotelStatus(hotelDO);
 
 		ResponseVo responseVo = new ResponseVo();
-		if (!icResult.getModule()) {
+		if (icResult == null || !icResult.getModule()) {
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 
