@@ -1,14 +1,18 @@
 package com.yimayhd.harem.model.travel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -26,8 +30,6 @@ public abstract class BaseTravel {
 	private static final int LINE_SINGLE_ROOM_VID = 4;
 	protected long categoryId;
 	protected long options;
-	protected List<Long> updatedSKU;
-	protected List<Long> deletedSKU;
 	protected BaseInfo baseInfo;// 基础信息
 	protected PriceInfo priceInfo;// 价格信息
 	protected boolean readonly = false;
@@ -86,7 +88,51 @@ public abstract class BaseTravel {
 		}
 		if (priceInfo != null) {
 			dto.setItemDO(this.getItemDO());
-			dto.setItemSkuDOList(priceInfo.toItemSkuDOList(this.categoryId, this.getSellerId()));
+			List<ItemSkuDO> itemSkuDOList = priceInfo.toItemSkuDOList(this.categoryId, this.getSellerId());
+			Map<Long, ItemSkuDO> skuMap = new HashMap<Long, ItemSkuDO>();
+			for (ItemSkuDO itemSkuDO : itemSkuDOList) {
+				if (itemSkuDO.getId() > 0) {
+					skuMap.put(itemSkuDO.getId(), itemSkuDO);
+				}
+			}
+			dto.setItemSkuDOList(itemSkuDOList);
+			if (this.baseInfo.getId() > 0) {
+				List<ItemSkuDO> addSkuList = new ArrayList<ItemSkuDO>();
+				List<ItemSkuDO> updateSkuList = new ArrayList<ItemSkuDO>();
+				List<ItemSkuDO> deleteSkuList = new ArrayList<ItemSkuDO>();
+				// For update
+				if (CollectionUtils.isNotEmpty(itemSkuDOList)) {
+					for (ItemSkuDO itemSkuDO : deleteSkuList) {
+						if (itemSkuDO.getId() <= 0) {
+							addSkuList.add(itemSkuDO);
+						}
+					}
+					// 先删除后修改
+					List<Long> deletedSKU = this.priceInfo.getDeletedSKU();
+					List<Long> updatedSKU = this.priceInfo.getUpdatedSKU();
+					// 决定删除就不更新了
+					updatedSKU.removeAll(deletedSKU);
+					if (CollectionUtils.isNotEmpty(deletedSKU)) {
+						for (long skuId : deletedSKU) {
+							if (skuMap.containsKey(skuId)) {
+								ItemSkuDO itemSkuDO = skuMap.get(skuId);
+								deleteSkuList.add(itemSkuDO);
+							}
+						}
+					}
+					if (CollectionUtils.isNotEmpty(updatedSKU)) {
+						for (long skuId : updatedSKU) {
+							if (skuMap.containsKey(skuId)) {
+								ItemSkuDO itemSkuDO = skuMap.get(skuId);
+								updateSkuList.add(itemSkuDO);
+							}
+						}
+					}
+				}
+				dto.setAddItemSkuList(addSkuList);
+				dto.setUpdItemSkuList(updateSkuList);
+				dto.setDelItemSkuList(deleteSkuList);
+			}
 		}
 		return dto;
 	}
@@ -161,22 +207,6 @@ public abstract class BaseTravel {
 
 	public void setOptions(long options) {
 		this.options = options;
-	}
-
-	public List<Long> getUpdatedSKU() {
-		return updatedSKU;
-	}
-
-	public void setUpdatedSKU(List<Long> updatedSKU) {
-		this.updatedSKU = updatedSKU;
-	}
-
-	public List<Long> getDeletedSKU() {
-		return deletedSKU;
-	}
-
-	public void setDeletedSKU(List<Long> deletedSKU) {
-		this.deletedSKU = deletedSKU;
 	}
 
 	protected abstract int getItemType();

@@ -28,6 +28,8 @@ public class PriceInfo {
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
 	private String importantInfosCode;
+	private List<Long> updatedSKU;
+	private List<Long> deletedSKU;
 	private long itemId;
 
 	public PriceInfo() {
@@ -211,5 +213,21 @@ public class PriceInfo {
 
 	public void setImportantInfosCode(String importantInfosCode) {
 		this.importantInfosCode = importantInfosCode;
+	}
+
+	public List<Long> getUpdatedSKU() {
+		return updatedSKU;
+	}
+
+	public void setUpdatedSKU(List<Long> updatedSKU) {
+		this.updatedSKU = updatedSKU;
+	}
+
+	public List<Long> getDeletedSKU() {
+		return deletedSKU;
+	}
+
+	public void setDeletedSKU(List<Long> deletedSKU) {
+		this.deletedSKU = deletedSKU;
 	}
 }
