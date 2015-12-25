@@ -36,7 +36,9 @@ public class HotelVO extends HotelDO implements Serializable {
         HotelVO hotelVO = new HotelVO();
         BeanUtils.copyProperties(hotelDO, hotelVO);
         //个性化转换
-        hotelVO.setMasterRecommend(JSON.parseObject(hotelDO.getRecommend(), MasterRecommend.class));
+        if (StringUtils.isNotBlank(hotelDO.getRecommend())) {
+            hotelVO.setMasterRecommend(JSON.parseObject(hotelDO.getRecommend(), MasterRecommend.class));
+        }
         //分转元
         hotelVO.setPriceY(NumUtil.moneyTransformDouble(hotelDO.getPrice()));
         //电话号码处理
@@ -52,6 +54,7 @@ public class HotelVO extends HotelDO implements Serializable {
             }
             hotelVO.setPhoneNumListStr(phoneNumListStr);
         }
+        
         //hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
         //hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
         //hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));

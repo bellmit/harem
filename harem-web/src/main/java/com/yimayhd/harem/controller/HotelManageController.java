@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.yimayhd.harem.manager.HotelManager;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,24 +43,15 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 @Controller
 @RequestMapping("/B2C/hotelManage")
 public class HotelManageController extends BaseController {
-/*	private final static int ROOMFACILITY_TYPE = 1;
-	private final static int ROOMSERVICELIST_TYPE = 2;
-	private final static int HOTELFACILITYLIST_TYPE = 3;
-*/
-	@Autowired
-	private ItemQueryService itemQueryService;
 
 	@Autowired
 	private HotelService hotelService;
-	@Autowired
-	private RegionService regionService;
-	@Autowired
-	private FacilityIconService facilityIconService;
-	@Autowired
-	private CommodityService commodityService;
 
 	@Autowired
 	private HotelRPCService hotelRPCService;
+
+	@Autowired
+	private HotelManager hotelManager;
 
 	/**
 	 * 酒店（资源）列表
@@ -195,6 +187,9 @@ public class HotelManageController extends BaseController {
 			throws Exception {
 
 		HotelVO hotelVO = hotelRPCService.getHotel(id);
+		if (hotelVO == null) {
+
+		}
 		MasterRecommend recommend = hotelVO.getMasterRecommend();
 		long roomFacility = hotelVO.getRoomFacility();
 		long hotelFacility = hotelVO.getHotelFacility();
@@ -300,8 +295,11 @@ public class HotelManageController extends BaseController {
 	public String edit(HotelVO hotelVO, @PathVariable("id") long id)
 			throws Exception {
 		hotelVO.setId(id);
-		hotelService.modify(hotelVO);
-		return "/success";
+		boolean ret = hotelManager.modify(hotelVO);
+		if (ret) {
+			return "/success";
+		}
+		return "/";//TODO 曹张锋帮搞下
 	}
 
 	/**

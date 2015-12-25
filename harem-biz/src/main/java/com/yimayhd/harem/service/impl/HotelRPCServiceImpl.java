@@ -142,8 +142,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		try {
 			hotelVO = HotelVO.getHotelVO(hotelDO);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("hotelVO = HotelVO.getHotelVO(hotelDO); exception,"+hotelDO,e);
 		}
 		
 		return hotelVO;

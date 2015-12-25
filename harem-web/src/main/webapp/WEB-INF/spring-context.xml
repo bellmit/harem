@@ -31,6 +31,8 @@
     <import resource="classpath:application-session.xml"></import>
     <!--<import resource="application-import.xml"></import>-->
 
+    <import resource="biz/spring-manager.xml"/>
+    <import resource="biz/spring-repo.xml"/>
 
     <!-- spring注解定时任务 -->
     <!--<task:annotation-driven/>-->
