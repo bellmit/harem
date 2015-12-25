@@ -3,12 +3,15 @@ package com.yimayhd.harem.model;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.service.impl.FacilityIconServiceImpl;
 import com.yimayhd.harem.util.BitUtil;
+import com.yimayhd.harem.util.NumUtil;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,11 +22,13 @@ public class HotelVO extends HotelDO implements Serializable {
     private static final long serialVersionUID = 6419972389326909198L;
     private MasterRecommend masterRecommend;
     private List<String> phoneNumList;
+    private String phoneNumListStr;//以逗号分割的电话列表
     private List<Picture> pictureList;
     private List<String> openTimeList;
     private List<String> roomFacilityList;
     private List<String> roomServiceList;
     private List<String> hotelFacilityList;
+    private double priceY;//价格元
     public HotelVO(){
 
     }
@@ -32,6 +37,21 @@ public class HotelVO extends HotelDO implements Serializable {
         BeanUtils.copyProperties(hotelDO, hotelVO);
         //个性化转换
         hotelVO.setMasterRecommend(JSON.parseObject(hotelDO.getRecommend(), MasterRecommend.class));
+        //分转元
+        hotelVO.setPriceY(NumUtil.moneyTransformDouble(hotelDO.getPrice()));
+        //电话号码处理
+        if(StringUtils.isNotBlank(hotelDO.getPhoneNum())){
+            List<String> phoneListStr = JSON.parseArray(hotelDO.getPhoneNum(),String.class);
+            String phoneNumListStr = "";
+            for(String str : phoneListStr){
+                if("".equals(phoneNumListStr)){
+                    phoneNumListStr += str;
+                }else{
+                    phoneNumListStr += "," + str;
+                }
+            }
+            hotelVO.setPhoneNumListStr(phoneNumListStr);
+        }
         //hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
         //hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
         //hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));
@@ -45,12 +65,18 @@ public class HotelVO extends HotelDO implements Serializable {
         HotelDO hotelDO = hotelVO;
         //个性化转换
         //hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
-        hotelDO.setPhoneNum(JSON.toJSONString(hotelVO.getPhoneNumList()));
+        //电话处理
+        if(StringUtils.isNotBlank(hotelVO.getPhoneNumListStr())){
+            List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
+            hotelDO.setPhoneNum(JSON.toJSONString(phoneNumList));
+        }
         hotelDO.setPictures(JSON.toJSONString(hotelVO.getPictureList()));
         hotelDO.setOpenTime(JSON.toJSONString(hotelVO.getOpenTimeList()));
         //hotelDO.setRoomFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //hotelDO.setRoomService(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //hotelDO.setHotelFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
+        //元转分
+        hotelDO.setPrice((long) (hotelVO.getPriceY() * 100));
         return hotelDO;
     }
 
@@ -162,4 +188,19 @@ public class HotelVO extends HotelDO implements Serializable {
     }
 
 
+    public double getPriceY() {
+        return priceY;
+    }
+
+    public void setPriceY(double priceY) {
+        this.priceY = priceY;
+    }
+
+    public String getPhoneNumListStr() {
+        return phoneNumListStr;
+    }
+
+    public void setPhoneNumListStr(String phoneNumListStr) {
+        this.phoneNumListStr = phoneNumListStr;
+    }
 }

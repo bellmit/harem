@@ -87,7 +87,7 @@
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
                     <td>
-                        <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" value="$!hotel.phoneNum" placeholder="请输入酒店电话">
+                        <input type="text" class="inpControl" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNum" placeholder="请输入酒店电话,以逗号分割">
                     </td>
                 </tr>
                 <tr>
@@ -105,7 +105,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>基础价格<br/>(单位：元)</td>
-                    <td><input type="text" name="price" value="$!hotel.price" class="inpControl" >起</td>
+                    <td><input type="text" name="priceY" value="$!utilNum.moneyTransform($!hotel.price)" class="inpControl" >起</td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店联系人</td>
