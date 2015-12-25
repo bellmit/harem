@@ -109,6 +109,9 @@ public class CategoryVO extends CategoryDO {
     }
     //供vm页面用
     public String getItemSkuVOListAllStr(){
+        if (CollectionUtils.isEmpty(this.itemSkuVOListAll)) {
+            return null;
+        }
         return JSON.toJSONString(this.itemSkuVOListAll, SerializerFeature.DisableCircularReferenceDetect);
     }
     public List<CategoryPropertyValueVO> getSellCategoryPropertyVOs() {

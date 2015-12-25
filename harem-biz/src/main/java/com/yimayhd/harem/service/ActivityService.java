@@ -9,6 +9,8 @@ import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
+import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 
 /**
@@ -19,7 +21,7 @@ public interface ActivityService {
      * 获取活动列表(可带查询条件)
      * @return 活动列表
      */
-    List<SnsActivityDO> getList(ActivityInfoDTO query )throws Exception;
+    BasePageResult<SnsActivityDO> getList(ActivityQueryDTO activityQueryDTO)throws Exception;
     /**
      * 获取活动详情
      * @return 活动详情

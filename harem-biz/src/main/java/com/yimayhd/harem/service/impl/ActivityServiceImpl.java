@@ -4,6 +4,8 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +38,8 @@ public class ActivityServiceImpl implements ActivityService {
     private ComCenterService comCenterService;
 
     @Override
-    public List<SnsActivityDO> getList(ActivityInfoDTO dto) throws Exception {
-    	//snsCenterService.getActivityPage(dto);
-        return null;
+    public BasePageResult<SnsActivityDO> getList(ActivityQueryDTO activityQueryDTO) throws Exception {
+		return snsCenterService.getActivityPage(activityQueryDTO);
     }
 
 

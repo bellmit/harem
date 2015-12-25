@@ -2,10 +2,8 @@ package com.yimayhd.harem.model.query;
 
 import com.yimayhd.harem.base.BaseQuery;
 
-import java.util.Date;
 
 /**
- * Created by Administrator on 2015/10/27.
  */
 public class ActivityListQuery extends BaseQuery {
     /**
@@ -19,6 +17,9 @@ public class ActivityListQuery extends BaseQuery {
     private Integer satatus;//状态
     private Long productId;//俱乐部
     private Integer status;//是否显示状态
+	private String createStartTime;//活动创建时间开始时间
+	private String createEndTime;//活动创建时间结束时间
+
 	public String getTitle() {
 		return title;
 	}
@@ -56,6 +57,20 @@ public class ActivityListQuery extends BaseQuery {
 		this.status = status;
 	}
 
-  
+	public String getCreateStartTime() {
+		return createStartTime;
+	}
+
+	public void setCreateStartTime(String createStartTime) {
+		this.createStartTime = createStartTime;
+	}
+
+	public String getCreateEndTime() {
+		return createEndTime;
+	}
+
+	public void setCreateEndTime(String createEndTime) {
+		this.createEndTime = createEndTime;
+	}
 }
 
