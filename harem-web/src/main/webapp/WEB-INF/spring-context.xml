@@ -26,9 +26,14 @@
     <import resource="biz/spring-tair.xml"/>
     <!--service注入-->
     <import resource="biz/spring-service.xml"/>
+    
+    
+    
+    <import resource="biz/spring-session.xml"/>
 
 
-    <import resource="classpath:application-session.xml"></import>
+<!--     <import resource="classpath:application-session.xml"></import>
+     -->
     <!--<import resource="application-import.xml"></import>-->
 
 
