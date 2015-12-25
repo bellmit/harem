@@ -101,8 +101,9 @@ public class PriceInfo {
 					for (Entry<Long, ItemSkuDO> pb : pd.getValue().entrySet()) {
 						ItemSkuPVPair personPair = pbMap.get(pb.getKey());
 						ItemSkuDO sku = pb.getValue();
-						packageBlocks.add(new PackageBlock(sku.getId(), personPair, sku.getPrice(),
-								sku.getStockNum(), sku.getDiscountFee()));
+						// TODO discount暂不实现
+						packageBlocks
+								.add(new PackageBlock(sku.getId(), personPair, sku.getPrice(), sku.getStockNum(), 0));
 					}
 					packageDays.add(new PackageDay(dayPair, pd.getKey(), packageBlocks));
 				}
@@ -184,7 +185,6 @@ public class PriceInfo {
 										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
 										itemSkuDO.setPrice(packageBlock.getPrice());
 										itemSkuDO.setStockNum(packageBlock.getStock());
-										itemSkuDO.setDiscountFee(packageBlock.getDiscount());
 										itemSkuDOs.add(itemSkuDO);
 									}
 								}
