@@ -167,8 +167,8 @@
                                 <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
                                 <p>注：图片大小不超过2M<br />建议尺寸：300*300</p>
                             </div>
-	                    <div class="logoView">
-	                        <img src="#if($VO.scenic.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg">
+	                    <div class="logoView"> 
+	                        <img src="#if($VO.scenic.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.logoUrl} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg">
 	                    </div>
                         </td>
                      </tr>
@@ -183,7 +183,7 @@
                                 <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
 	                        </div>
 	                    <div class="logoView">
-	                        <img src="#if($VO.scenic.coverUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.coverUrl} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg1">
+	                        <img src="#if($VO.scenic.pictures) $utilWebconfig.getTfsRootPath()$!{VO.scenic.pictures} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg1">
 	                    </div>
                         </td>
                     </tr>
