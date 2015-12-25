@@ -215,28 +215,58 @@ public class TripDay {
 	}
 
 	public long getRestaurantDetailId() {
+		long id = 0;
 		if (CollectionUtils.isNotEmpty(restaurant1)) {
-			return restaurant1.get(0).getId();
-		} else if (CollectionUtils.isNotEmpty(restaurant2)) {
-			return restaurant2.get(0).getId();
-		} else if (CollectionUtils.isNotEmpty(restaurant3)) {
-			return restaurant3.get(0).getId();
+			for (IdNamePair idNamePair : restaurant1) {
+				if (idNamePair.getId() > 0) {
+					id = idNamePair.getId();
+					break;
+				}
+			}
 		}
-		return 0;
+		if (id > 0 && CollectionUtils.isNotEmpty(restaurant2)) {
+			for (IdNamePair idNamePair : restaurant2) {
+				if (idNamePair.getId() > 0) {
+					id = idNamePair.getId();
+					break;
+				}
+			}
+		}
+		if (id > 0 && CollectionUtils.isNotEmpty(restaurant3)) {
+			for (IdNamePair idNamePair : restaurant3) {
+				if (idNamePair.getId() > 0) {
+					id = idNamePair.getId();
+					break;
+				}
+			}
+		}
+		return id;
 	}
 
 	public long getScenicDetailId() {
+		long id = 0;
 		if (CollectionUtils.isNotEmpty(scenics)) {
-			return scenics.get(0).getId();
+			for (IdNamePair idNamePair : scenics) {
+				if (idNamePair.getId() > 0) {
+					id = idNamePair.getId();
+					break;
+				}
+			}
 		}
-		return 0;
+		return id;
 	}
 
 	public long getHotelDetailId() {
+		long id = 0;
 		if (CollectionUtils.isNotEmpty(hotels)) {
-			return hotels.get(0).getId();
+			for (IdNamePair idNamePair : hotels) {
+				if (idNamePair.getId() > 0) {
+					id = idNamePair.getId();
+					break;
+				}
+			}
 		}
-		return 0;
+		return id;
 	}
 
 	public RouteItemDetail getRestaurantDetail() {
@@ -262,5 +292,4 @@ public class TripDay {
 	public void setHotelDetail(RouteItemDetail hotelDetail) {
 		this.hotelDetail = hotelDetail;
 	}
-
 }
