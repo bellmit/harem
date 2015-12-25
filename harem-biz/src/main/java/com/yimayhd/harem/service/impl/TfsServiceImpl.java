@@ -18,6 +18,12 @@ import com.yimayhd.harem.service.TfsService;
  *
  */
 public class TfsServiceImpl implements TfsService {
+	private static final String prefix = "<!DOCTYPE html>\n" + "<html lang=\"en\">\n" + "<head>\n"
+			+ "    <meta charset=\"UTF-8\">\n"
+			+ "    <meta http-equiv=\"x-ua-compatible\" content=\"IE=edge,chrome=1\">\n"
+			+ "    <meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no\">\n"
+			+ "    <title></title>\n" + "    <style>img{width: 100%;}</style>" + "</head>\n" + "<body>";
+	private static final String suffix = "</body>\n" + "</html>";
 	@Autowired
 	private TfsManager tfsManager;
 
@@ -28,20 +34,14 @@ public class TfsServiceImpl implements TfsService {
 		}
 		// String encodeHtml = "<meta http-equiv=\"Content-Type\"
 		// content=\"text/html; charset=utf-8\" \n/>";
-		String encodeHtmlHead = "<!DOCTYPE html>\n" + "<html lang=\"en\">\n" + "<head>\n"
-				+ "    <meta charset=\"UTF-8\">\n"
-				+ "    <meta http-equiv=\"x-ua-compatible\" content=\"IE=edge,chrome=1\">\n"
-				+ "    <meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no\">\n"
-				+ "    <title></title>\n" + "    <style>img{width: 100%;}</style>" + "</head>\n" + "<body>";
-		String encodeHtmlFoot = "</body>\n" + "</html>";
-		String html5 = encodeHtmlHead + body + encodeHtmlFoot;
+		String html5 = prefix + body + suffix;
 		byte[] bytes = null;
 		try {
 			bytes = html5.getBytes("utf-8");
 		} catch (UnsupportedEncodingException e) {
 			bytes = html5.getBytes();
 		}
-		//byte[] bytes = body.getBytes();
+		// byte[] bytes = body.getBytes();
 		String tfsCode = "";
 		try {
 			tfsCode = tfsManager.saveFile(bytes, null, "html");
@@ -63,6 +63,7 @@ public class TfsServiceImpl implements TfsService {
 					byte[] bytes = os.toByteArray();
 					content = new String(bytes, "utf-8");
 				}
+				// content = content.replace("^" + prefix, "").replace(suffix + "$", "");
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
