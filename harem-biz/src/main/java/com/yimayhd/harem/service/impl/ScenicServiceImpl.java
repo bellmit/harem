@@ -3,6 +3,8 @@ package com.yimayhd.harem.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.model.ScenicVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -111,18 +113,59 @@ public class ScenicServiceImpl implements ScenicService {
 	}
 
 	@Override
-	public ICResult<ScenicDO> save(ScenicAddNewDTO addNewDTO) throws Exception {
+	public ICResult<ScenicDO> save(ScenicVO scenicVO) throws Exception {
+
 		ICResult<ScenicDO> addScenicNew = null;
-		addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
-		if (0 == addNewDTO.getScenic().getId()) {
+
+		if (0 == scenicVO.getId()) {
+			ScenicAddNewDTO addNewDTO = new ScenicAddNewDTO();
+
+			//masterRecommend
+			String jsonString = JSON.toJSONString(scenicVO.getMasterRecommend());
+			addNewDTO.getScenic().setRecommend(jsonString);
+			//scenicDO
+			ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
+			addNewDTO.setScenic(scenicDO);
+
+			//NeedKnowOb
+			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
+			//购买须知存tfs
+			if(org.apache.commons.lang.StringUtils.isNotBlank(addNewDTO.getNeedKnow().getExtraInfoUrl())) {
+				addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
+			}
 			addScenicNew = resourcePublishServiceRef.addScenicNew(addNewDTO);
+			if(null == addScenicNew){
+				log.error("ScenicServiceImpl.save-itemQueryService.addScenicNew result is null and parame: " + JSON.toJSONString(addNewDTO));
+				throw new BaseException("修改返回结果为空,修改失败");
+			} else if(!addScenicNew.isSuccess()){
+				log.error("ScenicServiceImpl.save-itemQueryService.addScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+				throw new BaseException(addScenicNew.getResultMsg());
+			}
 		} else {
+			ICResult<ScenicDO> icResult = itemQueryService.getScenic(scenicVO.getId());
+			if(null == icResult){
+				log.error("ScenicServiceImpl.save-itemQueryService.getScenic result is null and parame: " + scenicVO.getId());
+				throw new BaseException("查询结果为空,修改失败 ");
+			} else if(!icResult.isSuccess()){
+				log.error("ScenicServiceImpl.save-itemQueryService.getScenic error:" + JSON.toJSONString(icResult) + "and parame: " + scenicVO.getId());
+				throw new BaseException(icResult.getResultMsg());
+			}
+			ScenicDO scenicDB = icResult.getModule();
+			if(scenicDB == null){
+				log.error("ScenicServiceImpl.save-itemQueryService.getScenic result.getModule is null and parame: " + scenicVO.getId());
+			}
+			ScenicAddNewDTO addNewDTO = new ScenicAddNewDTO();
+			//scenicDO
+			addNewDTO.setScenic(scenicDB);
+			//TODO 修改项处理
 			addScenicNew = resourcePublishServiceRef.updateScenicNew(addNewDTO);
-		}
-		if (!addScenicNew.isSuccess()) {
-			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :"
-					+ JSON.toJSONString(addScenicNew));
-			throw new NoticeException(addScenicNew.getResultMsg());
+			if(null == addScenicNew){
+				log.error("ScenicServiceImpl.save-itemQueryService.updateScenicNew result is null and parame: " + JSON.toJSONString(addNewDTO));
+				throw new BaseException("修改返回结果为空,修改失败");
+			} else if(!addScenicNew.isSuccess()){
+				log.error("ScenicServiceImpl.save-itemQueryService.updateScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+				throw new BaseException(addScenicNew.getResultMsg());
+			}
 		}
 		return addScenicNew;
 	}

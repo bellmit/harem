@@ -13,29 +13,33 @@
             this.splice(index, 1);  
         }  
     };  
-	$.setimagesInputVal = function(options){
+	$.fn.setimagesInputVal = function(options){
+
 		var $this = $(this);
-		var init = {
-			itemClass : '.itemlist li',
-			inputId : 'imgids'
+		var _config = {
+			itemClass : '.itemlist li'
 		}
-		var opts = $.extend(init,options);
-		var objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
+		var opts = $.extend(_config,options);
+		var objArr = $this.val()==""?[]:JSON.parse($this.val());
+
 		$(opts.itemClass).each(function(i){
+			console.log(i);
 			var itemObj = {}
-			if($(this).attr("data-value")==0){
+			if($(this).attr("data-id")==0){
 				itemObj.id = 0;
 				itemObj.index = $(this).index();
-				itemObj.src = $(this).find("img").attr("src");
+				itemObj.name = $(this).attr("data-name");
+				itemObj.value = $(this).attr("data-value");
 				itemObj.istop = false;
 				itemObj.isdel = false;
 				itemObj.modify = false;
-				itemObj.istop = _istop?false:true;
+				itemObj.istop = false;
 				objArr.push(itemObj);
 			}
 		});
 		var jsonStr = objArr.length>0?JSON.stringify(objArr):"";
-		$("#"+opts.inputId).val(jsonStr);		
+		//console.log(jsonStr);
+		$this.val(jsonStr);
 	};
 	$.fn.setimages = function(options){
 		var $this = $(this);
@@ -61,8 +65,7 @@
 		}else{
 			objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
 		}
-		
-		
+
 		var getObjIndex = function(index){
 			for(var i=0;i<objArr.length;i++){
 				if(objArr[i].index==index){
@@ -88,8 +91,7 @@
 		var setItemInitVal = function(){
 			$(opts.itemClass).each(function(i){
 				var _istop = $(this).attr("istop")?true:false;
-				var _id = $(this).attr("data-value");
-				var _src = $(this).find("img").attr("src");
+				var _id = $(this).attr("data-id");
 				topFlag[i]=_istop;
 			});
 		}
@@ -102,7 +104,7 @@
 			var _index = _parent.index();
 			var _arrIndex = getObjIndex(_index);
 			var _istop = _parent.attr("istop")?true:false;
-			var _id = _parent.attr("data-value")?_parent.attr("data-value"):0;
+			var _id = _parent.attr("data-id")?_parent.attr("data-id"):0;
 			
 			if(!_istop && getTopNumber()>=opts.topNum){
 				alert("您只能置顶"+opts.topNum+"个图片");
@@ -110,17 +112,21 @@
 			}
 			
 			objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
-			
+
+			itemObj.id = _id;
+			itemObj.index = _index;
+			itemObj.name = _parent.attr("data-name");
+			itemObj.value = _parent.attr("data-value");
+			itemObj.isdel = false;
+			itemObj.modify = true;
+			itemObj.istop = _istop?false:true;
+
 			if(topFlag[_index]==_istop){
-				itemObj.id = _id;
-				itemObj.index = _index;
-				itemObj.src = _parent.find("img").attr("src");
-				itemObj.isdel = false;
-				itemObj.modify = true;
-				itemObj.istop = _istop?false:true;
 				objArr.push(itemObj);
-			}else{	
-				if(_arrIndex>-1) objArr.splice(_arrIndex,1);
+			}else if (_id==0 ){
+				objArr[_arrIndex] = itemObj;
+			}else{
+				objArr.splice(_arrIndex,1);
 			}
 			
 			setInputVal();
@@ -134,9 +140,10 @@
 			var _index = _parent.index();
 			var _arrIndex = getObjIndex(_index);
 			
-			itemObj.id = _parent.attr("data-value")?_parent.attr("data-value"):0;
+			itemObj.id = _parent.attr("data-id")?_parent.attr("data-id"):0;
 			itemObj.index = _index;
-			itemObj.src = _parent.find("img").attr("src");
+			itemObj.name =  _parent.attr("data-name");
+			itemObj.value = _parent.attr("data-value");
 			itemObj.modify = false;
 			itemObj.isdel = true;
 			
@@ -188,9 +195,10 @@ $(function(){
 	});
 	var batchCallBack = function(dataVal){
 		if(dataVal && dataVal.status == 200){
-			for(key in dataVal.data){
+
+			for(var key in dataVal.data){
 				if(dataVal.data.hasOwnProperty(key)){
-					var addImgs = '<li data-value="0" istop="false">'
+					var addImgs = '<li data-id="0" data-name="'+key+'" data-value="'+dataVal.data[key]+'">'
 						+'<a href="" class="img"><img src="' + tfsRootPath + dataVal.data[key] + '" width="240"/></a>'
 						+'<span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>'
 						+'</li>';
@@ -198,7 +206,8 @@ $(function(){
 					$(".itemlist").append(addImgs);
 				}
 			}
-			$.setimagesInputVal();
+
+			$("#imgids").setimagesInputVal();
 		}
 	}
 	/****************批量上传*****************/

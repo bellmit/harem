@@ -202,7 +202,7 @@
         </div>
         <div class="tab-pane" id="scenicImgs">
             #parse("/system/layout/imgUpload.vm")
-            #imgEdit("picList")
+            #imgEdit("picListStr")
         </div>
     </div>
     <button type="submit" class="btn btn-info">保存</button>

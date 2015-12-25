@@ -1,15 +1,5 @@
 package com.yimayhd.harem.service.impl;
 
-import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.List;
-
-import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
-import com.yimayhd.snscenter.client.result.BasePageResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -21,8 +11,15 @@ import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
+import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
 
 /**
  * Created by Administrator on 2015/11/2.

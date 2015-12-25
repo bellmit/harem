@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
 
+import com.yimayhd.harem.model.ScenicVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,15 +122,10 @@ public class ScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo save(ScenicAddNewDTO addNewDTO,MasterRecommend recommend) throws Exception {
+	public ResponseVo save(ScenicVO scenicVO) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		try {	
-			String jsonString = JSON.toJSONString(recommend);  
-			addNewDTO.getScenic().setRecommend(jsonString);
-		} catch (Exception e) {
-			logger.error("ScenicAddNewDTO  save|error"+e);
-		}
-		ICResult<ScenicDO> result =scenicSpotService.save(addNewDTO);
+
+		ICResult<ScenicDO> result =scenicSpotService.save(scenicVO);
 		if(result.isSuccess()){
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
