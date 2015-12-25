@@ -73,10 +73,10 @@
                     <td>星级</td>
                     <td>
                         <select class="form-control" name="level">
-                            <option value="4" #if($!hotel.level == 4) selected #end>2星及以下 经济型</option>
+                            <option value="2" #if($!hotel.level == 2) selected #end>2星及以下 经济型</option>
                             <option value="3" #if($!hotel.level == 3) selected #end>3星 舒适型</option>
-                            <option value="2" #if($!hotel.level == 2) selected #end>4星 高档型</option>
-                            <option value="1" #if($!hotel.level == 1) selected #end>5星 豪华型</option>
+                            <option value="4" #if($!hotel.level == 4) selected #end>4星 高档型</option>
+                            <option value="5" #if($!hotel.level == 5) selected #end>5星 豪华型</option>
                         </select>
                     </td>
                 </tr>
@@ -87,25 +87,25 @@
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
                     <td>
-                        <input type="text" class="inpControl" name="phoneNumList" id="phoneNum" value="$!hotel.phoneNum" placeholder="请输入酒店电话">
+                        <input type="text" class="inpControl" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNum" placeholder="请输入酒店电话,以逗号分割">
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店简介</td>
                     <td>
-                        <textarea name="oneword" id="grogDescr" rows="3" class="form-control" placeholder="请输入80字以内">$!hotel.oneword</textarea>
+                        <textarea name="description" id="grogDescr" rows="3" class="form-control" placeholder="请输入500字以内">$!hotel.description</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>特色描述</td>
                     <td>
-                        <textarea name="description" rows="3" class="form-control" placeholder="请输入500字以内">$!hotel.description</textarea>
+                        <textarea name="oneword" rows="3" class="form-control" placeholder="请输入80字以内">$!hotel.oneword</textarea>
                     </td>
 
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>基础价格<br/>(单位：元)</td>
-                    <td><input type="text" name="price" value="$!hotel.price" class="inpControl" >起</td>
+                    <td><input type="text" name="priceY" value="$!utilNum.moneyTransform($!hotel.price)" class="inpControl" >起</td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店联系人</td>

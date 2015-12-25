@@ -61,7 +61,7 @@
                             <td><span class="spColor">*</span>活动主题</td>
                             <td>
                                 #foreach($tag in $tagResult)
-                      		 		<input type="checkbox" name="check" value="$!{tag.id}"><span>$!{tag.name}</span>
+                      		 		<input type="checkbox" name="tagList" value="$!{tag.id}"><span>$!{tag.name}</span>
                     			#end
                             </td>
                         </tr>

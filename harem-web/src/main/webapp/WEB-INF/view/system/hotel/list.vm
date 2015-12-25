@@ -14,8 +14,9 @@
                 </span>
                 <select class="form-control" name="hotelStatus">
                     <option value="0" >全部</option>
-                    <option value="1" #if($!hotelListQuery.hotelStatus == 1) selected #end>启用</option>
-                    <option value="2" #if($!hotelListQuery.hotelStatus == 2) selected #end>停用</option>
+                    <option value="1" #if($!hotelListQuery.hotelStatus == 1) selected #end>初始化</option>
+                    <option value="2" #if($!hotelListQuery.hotelStatus == 2) selected #end>启用</option>
+                    <option value="3" #if($!hotelListQuery.hotelStatus == 3) selected #end>停用</option>
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -65,11 +66,11 @@
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!hotel.id"></td>
                         <td>
-                            <p><img src="$!hotel.logoUrl"></p>
+                            <p><img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!hotel.logoUrl"></p>
                             <p>$!hotel.name</p>
-                            <p>商品编码:$!hotel.code</p>
+                            <p>商品编码:$!hotel.id</p>
                         </td>
-                        <td>#HOTEL_STATUS($!hotel.status)</td>
+                        <td>#HOTEL_STATUS($!hotel.itemStatus)</td>
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>
                         <td>￥$!hotel.price起</td>
                         <td>
@@ -78,7 +79,7 @@
                         </td>
                         <td>
                         <button type="button" class="btn btn-primary hotelDetail" hotelId="$hotel.id">查看</button>
-                        <button type="button" class="btn btn-primary hotelBtn"  hotelId="$hotel.id" status="$hotel.status">#if($hotel.status == 1) 停用 #elseif($hotel.status == 2) 启用 #end </button>
+                        <button type="button" class="btn btn-primary hotelBtn"  hotelId="$hotel.id" #if($hotel.itemStatus == 2) status="3" #elseif($hotel.itemStatus != 2) status="2" #end >#if($hotel.itemStatus == 2) 停用 #elseif($hotel.itemStatus != 2) 启用 #end </button>
                         </td>
                     </tr>
                     #end

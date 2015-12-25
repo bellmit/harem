@@ -54,7 +54,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
-		PageVO<ItemDO> pageVO = commodityService.getList(commodityListQuery);
+		PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("itemTypeList", itemTypeList);
