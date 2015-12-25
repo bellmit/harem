@@ -14,8 +14,9 @@
                 </span>
                 <select class="form-control" name="hotelStatus">
                     <option value="0" >全部</option>
-                    <option value="1" #if($!hotelListQuery.hotelStatus == 1) selected #end>启用</option>
-                    <option value="2" #if($!hotelListQuery.hotelStatus == 2) selected #end>停用</option>
+                    <option value="1" #if($!hotelListQuery.hotelStatus == 1) selected #end>初始化</option>
+                    <option value="2" #if($!hotelListQuery.hotelStatus == 2) selected #end>启用</option>
+                    <option value="3" #if($!hotelListQuery.hotelStatus == 3) selected #end>停用</option>
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -69,7 +70,7 @@
                             <p>$!hotel.name</p>
                             <p>商品编码:$!hotel.code</p>
                         </td>
-                        <td>#HOTEL_STATUS($!hotel.status)</td>
+                        <td>#HOTEL_STATUS($!hotel.itemStatus)</td>
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>
                         <td>￥$!hotel.price起</td>
                         <td>
