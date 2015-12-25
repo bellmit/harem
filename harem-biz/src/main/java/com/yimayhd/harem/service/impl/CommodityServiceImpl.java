@@ -214,7 +214,6 @@ public class CommodityServiceImpl implements CommodityService {
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
             }
-            itemDB.setPicUrlsString(itemDO.getPicUrlsString());
 
             hotelPublishDTO.setSort(itemVO.getSort());
             ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
@@ -351,7 +350,6 @@ public class CommodityServiceImpl implements CommodityService {
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
             }
-            itemDB.setPicUrlsString(itemDB.getPicUrlsString());
             //自定义属性
             itemDB.setItemProperties(itemVO.getItemProperties());
             //TODO 排序

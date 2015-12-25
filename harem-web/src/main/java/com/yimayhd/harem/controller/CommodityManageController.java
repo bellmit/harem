@@ -41,15 +41,6 @@ import com.yimayhd.user.session.manager.SessionUtils;
 @RequestMapping("/B2C/commodityManage")
 public class CommodityManageController extends BaseController {
 
-	private static final int CATEGORY_TYPE_NORMAL = 1;// 普通商品交易
-	private static final int CATEGORY_TYPE_LINE = 2;// 线路商品
-	private static final int CATEGORY_TYPE_HOTEL = 3;// 酒店商品
-	private static final int CATEGORY_TYPE_SPOTS = 4;// 景区门票
-	private static final int CATEGORY_TYPE_FLIGHT_HOTEL = 5;// 机票+酒店
-	private static final int CATEGORY_TYPE_SPOTS_HOTEL = 6;// 景点+酒店
-	private static final int CATEGORY_TYPE_ACTIVITY = 7;// 活动商品
-	private static final int CATEGORY_TYPE_MEMBER_RECHARGE = 8;// 会员充值
-
 	@Autowired
 	private CommodityService commodityService;
 	@Autowired
@@ -83,30 +74,25 @@ public class CommodityManageController extends BaseController {
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
 		CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
 		int itemType = categoryFeature.getItemType();// 不可能有空值，就不判断空了
+
 		String redirectUrl = "";
-		switch (itemType) {
-		case CATEGORY_TYPE_HOTEL:
+		if (itemType == ItemType.HOTEL.getValue()) {
 			redirectUrl = "/B2C/comm/hotelManage/toAdd?categoryId=" + categoryId;
-			break;
-		case CATEGORY_TYPE_SPOTS:
+		} else if (itemType == ItemType.SPOTS.getValue()) {
 			redirectUrl = "/B2C/comm/scenicManage/toAdd?categoryId=" + categoryId;
-			break;
-		case CATEGORY_TYPE_LINE:
+		} else if (itemType == ItemType.LINE.getValue()) {
 			redirectUrl = "/B2C/comm/groupTravel/create?categoryId=" + categoryId;
-			break;
-		case CATEGORY_TYPE_FLIGHT_HOTEL:
+		} else if (itemType == ItemType.FLIGHT_HOTEL.getValue()) {
 			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
-			break;
-		case CATEGORY_TYPE_SPOTS_HOTEL:
+		} else if (itemType == ItemType.SPOTS_HOTEL.getValue()) {
 			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
-			break;
-		case CATEGORY_TYPE_ACTIVITY:
+		} else if (itemType == ItemType.ACTIVITY.getValue()) {
 			redirectUrl = "/B2C/comm/activityManage/toAdd?categoryId=" + categoryId;
-			break;
-		default:
-			List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
-			model.addAttribute("reduceTypeList", reduceTypeList);
+		} else {
 			// 普通商品，伴手礼应该也走普通商品
+			//库存选项
+			List<ReduceType> reduceTypeList = Arrays.asList(ReduceType.values());
+			model.addAttribute("reduceTypeList", reduceTypeList);
 			model.addAttribute("category", categoryVO);
 			model.addAttribute("itemType", ItemType.NORMAL.getValue());
 			return "/system/comm/common/edit";
@@ -145,6 +131,7 @@ public class CommodityManageController extends BaseController {
 			// 普通商品，伴手礼应该也走普通商品
 			ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
 			ItemType.NORMAL.getValue();
+			//库存选项
 			List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
 			model.addAttribute("reduceTypeList", reduceTypeList);
 			model.addAttribute("itemResult", itemResultVO);
@@ -251,7 +238,7 @@ public class CommodityManageController extends BaseController {
 	public ResponseVo close(@PathVariable("id") long id) throws Exception {
 		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		sellerId = B2CConstant.SELLERID;
-		commodityService.publish(sellerId, id);
+		commodityService.close(sellerId, id);
 		return new ResponseVo();
 	}
 
