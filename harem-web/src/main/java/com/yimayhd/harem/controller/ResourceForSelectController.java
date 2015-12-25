@@ -217,5 +217,5 @@ public class ResourceForSelectController extends BaseController {
 	public String selectTravelKa() throws Exception {
 		return "/system/resource/forSelect/selectTravelKa";
 	}
-
+	
 }

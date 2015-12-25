@@ -43,6 +43,13 @@
             </div>
         </div>
 
+ 		<div class="btnBottomMargin">
+            <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建俱乐部</button>
+            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量上架</button>
+            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2">批量下架</button>
+        </div>
+
+
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
@@ -128,4 +135,11 @@
             });
         });
     });
+    
+    //新建
+    $('.addCommodityBtn').click(function(){
+        var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/clubManage/toAdd';
+        top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+    });
+    
 </script>
