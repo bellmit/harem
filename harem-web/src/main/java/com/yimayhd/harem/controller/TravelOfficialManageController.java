@@ -1,19 +1,9 @@
 package com.yimayhd.harem.controller;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.constant.ResponseStatus;
-import com.yimayhd.harem.model.Activity;
-import com.yimayhd.harem.model.Order;
-import com.yimayhd.harem.model.TravelOfficial;
-import com.yimayhd.harem.model.query.ActivityListQuery;
-import com.yimayhd.harem.model.query.TravelOfficialListQuery;
-import com.yimayhd.harem.model.vo.ActivityVO;
-import com.yimayhd.harem.model.vo.TravelOfficialVO;
-import com.yimayhd.harem.service.ActivityService;
-import com.yimayhd.harem.service.TravelOfficialService;
-import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
+import com.yimayhd.harem.model.BatchSetUpParameter;
+import com.yimayhd.harem.model.TravelOfficial;
+import com.yimayhd.harem.model.query.TravelOfficialListQuery;
+import com.yimayhd.harem.model.vo.TravelOfficialVO;
+import com.yimayhd.harem.service.TravelOfficialService;
+import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -90,6 +89,7 @@ public class TravelOfficialManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo add(TravelOfficial travelOfficial) throws Exception {
 		TravelOfficial db = travelOfficialService.add(travelOfficial);
+		System.out.println(db);
 		if(null == db ){
 			return new ResponseVo(ResponseStatus.ERROR);	
 		}
@@ -129,14 +129,18 @@ public class TravelOfficialManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/setIsStatus/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/setJoinStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setJoinStatus(@PathVariable(value = "id") long id, int travelStatus) throws Exception {
-		TravelOfficial travelOfficial = new TravelOfficial();
-		travelOfficial.setId(id);
-		travelOfficial.setTravelStatus(travelStatus);
-		travelOfficialService.modify(travelOfficial);
-		return new ResponseVo();
+	public ResponseVo setJoinStatus(BatchSetUpParameter batchSetUpParameter,int travelStatus,HttpServletRequest request) throws Exception {
+		List<Long> ids = null;
+		if(null != batchSetUpParameter){
+			ids = batchSetUpParameter.getIds();
+		}
+		boolean flag = travelOfficialService.batchUpOrDownStatus(ids, travelStatus);
+		if(flag){
+			return new ResponseVo(ResponseStatus.SUCCESS);
+		}
+			return new ResponseVo(ResponseStatus.ERROR);
 	}
 
 }

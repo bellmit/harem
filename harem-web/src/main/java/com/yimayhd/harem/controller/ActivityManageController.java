@@ -1,9 +1,14 @@
 package com.yimayhd.harem.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.harem.util.DateUtil;
+import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,15 +56,60 @@ public class ActivityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ActivityInfoDTO query) throws Exception {
-		
-	/*getActivityPage	List<SnsActivityDO> activityList = activityService.getList(query);
-		PageVO pageVo = new PageVO(query.getPageNumber(), query.getPageSize(), 14800);
+	public String list(Model model, ActivityListQuery query) throws Exception {
+
+		ActivityQueryDTO activityInfoDTO = convertQuery(query);
+
+		List<SnsActivityDO> activityList = null;
+		int totalCount = 0;
+		BasePageResult<SnsActivityDO> ret = activityService.getList(activityInfoDTO);
+		if (ret != null) {
+			activityList = ret.getList();
+			totalCount = ret.getTotalCount();
+		}
+		PageVO pageVo = new PageVO(query.getPageNumber(), query.getPageSize(), totalCount);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("activityListQuery", query);
-		model.addAttribute("activityList", activityList);*/
-		activityService.getList(query);
+		model.addAttribute("activityList", activityList);
 		return "/system/activity/list";
+	}
+
+	private ActivityQueryDTO convertQuery(ActivityListQuery query) {
+		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
+		if (query == null) {
+			return activityQueryDTO;
+		}
+		if (query.getPageNumber() != null) {
+			activityQueryDTO.setPageNo(query.getPageNumber());
+		}
+		if (query.getPageSize() != null) {
+			activityQueryDTO.setPageSize(query.getPageSize());
+		}
+		activityQueryDTO.setTitle(query.getTitle());
+//		activityQueryDTO.set
+		if (query.getProductId() != null) {
+			activityQueryDTO.setClubId(query.getProductId());
+		}
+		if (StringUtils.isNotBlank(query.getActivityBeginDate())) {
+			Date startTime = DateUtil.parseDate(query.getActivityBeginDate());
+			activityQueryDTO.setActivityStartTime(startTime);
+		}
+		if (StringUtils.isNotBlank(query.getActivityEndDate())) {
+			Date endTime = DateUtil.parseDate(query.getActivityEndDate());
+			activityQueryDTO.setActivityEndTime(DateUtil.add23Hours(endTime));
+		}
+		if (StringUtils.isNotBlank(query.getCreateStartTime())) {
+			Date startTime = DateUtil.parseDate(query.getCreateStartTime());
+			activityQueryDTO.setStartTime(startTime);
+		}
+		if (StringUtils.isNotBlank(query.getCreateEndTime())) {
+			Date endTime = DateUtil.parseDate(query.getCreateEndTime());
+			activityQueryDTO.setEndTime(DateUtil.add23Hours(endTime));
+		}
+		if (query.getStatus() != null) {
+			activityQueryDTO.setState(query.getStatus());
+		}
+		return activityQueryDTO;
 	}
 
 	/**

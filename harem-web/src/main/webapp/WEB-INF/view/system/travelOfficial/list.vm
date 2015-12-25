@@ -74,8 +74,7 @@
 
                         <td>
                         <button type="button" class="btn btn-primary travelOfficialDetail" travelOfficialId="$travelOfficial.id">详情</button>
-                        <button type="button" class="btn btn-primary travelOfficialLock"   travelOfficialId="$travelOfficial.id">下架</button>
-                        #*<button type="button" class="btn btn-primary travelOfficialBan"  travelOfficialId="$travelOfficial.id" joinStatus="$travelOfficial.joinStatus">#if($travelOfficial.joinStatus == 1) 禁止 #elseif($travelOfficial.joinStatus == 2) 允许 #end </button>*#
+                        <button type="button" class="btn btn-primary travelOfficialBan"  travelOfficialId="$travelOfficial.id" joinStatus="$travelOfficial.status">#if($travelOfficial.status == 1) 下架 #elseif($travelOfficial.status == 2)上架  #end </button>
                         </td>
                     </tr>
                     #end
@@ -118,7 +117,7 @@
         $('.travelOfficialBan').each(function(){
             $(this).click(function(){
                 $(this).prop('disabled',true);
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/travelOfficialManage/setJoinStatus/' + $(this).attr('travelOfficialId') ,{'joinStatus':$(this).attr('joinStatus')} ,function(data){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/travelOfficialManage/setJoinStatus' ,{'ids':$(this).attr('travelOfficialId'),'travelStatus':$(this).attr('joinStatus')} ,function(data){
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();

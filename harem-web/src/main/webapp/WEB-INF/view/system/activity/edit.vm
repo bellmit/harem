@@ -55,7 +55,7 @@
                         </tr>
                          <tr>
                             <td>商品选择</td>
-                            <td><input type="text" class="form-control" name="productId" value="102587"></td>
+                            <td><input type="text" class="form-control" name="productId" value=""></td>
                         </tr>
                         <tr>
                             <td><span class="spColor">*</span>活动主题</td>

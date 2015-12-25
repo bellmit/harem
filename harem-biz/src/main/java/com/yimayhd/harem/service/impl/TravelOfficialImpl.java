@@ -2,6 +2,7 @@ package com.yimayhd.harem.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.support.spring.FastJsonJsonView;
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TravelOfficial;
 import com.yimayhd.harem.model.User;
@@ -16,6 +17,7 @@ import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,7 +140,16 @@ public class TravelOfficialImpl implements TravelOfficialService{
     
 
     @Override
-    public void modify(TravelOfficial travelOfficial) throws Exception {
+    public boolean modify(TravelOfficial travelOfficial) throws Exception {
+    	TravelSpecialDTO travelSpecialDTO = new TravelSpecialDTO();
+    	//travelSpecialDTO.setGmtModified(gmtModified);
+    	//travelSpecialDTO.set
+    	
+    	BaseResult<Boolean>  res = snsCenterService.updateTravelUpStateByIds(travelSpecialDTO);
+    	if(null != res && res.isSuccess() && res.getValue()){
+    		return true;
+    	}
+		return false;
 
     }
 
@@ -171,4 +182,23 @@ public class TravelOfficialImpl implements TravelOfficialService{
         snsTravelSpecialtyDO.setTitle(travelOfficial.getTitle()== null ? null : travelOfficial.getTitle());
         return snsTravelSpecialtyDO;
     }
+
+	@Override
+	public boolean batchUpOrDownStatus(List<Long> ids, int status) throws Exception{
+		if(CollectionUtils.isEmpty(ids)){
+			throw new Exception("batchUpOrDownStatus ,parameters [ids] cannot be empty");
+		}
+		TravelSpecialDTO travelSpecialDTO = new TravelSpecialDTO();
+		travelSpecialDTO.setList(ids);
+		if(status==BaseStatus.AVAILABLE.getType()){
+			travelSpecialDTO.setState(BaseStatus.DELETED.getType());
+		}else{
+			travelSpecialDTO.setState(BaseStatus.AVAILABLE.getType());
+		}
+		BaseResult<Boolean> res = snsCenterService.updateTravelUpStateByIds(travelSpecialDTO); 
+		if(null != res && res.isSuccess() && res.getValue() ){
+			return true;
+		}
+		return false;
+	}
 }

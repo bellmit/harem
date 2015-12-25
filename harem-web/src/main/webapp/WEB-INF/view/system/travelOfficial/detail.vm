@@ -98,6 +98,7 @@
             $.post(actionUrl,$('#clubForm').serialize(),function(data){
                 if(data.status == 200){
                    layer.alert('操作成功');
+                   
                 }else{
                  	layer.alert('操作失败');
                     $(this).prop('disabled',false);
