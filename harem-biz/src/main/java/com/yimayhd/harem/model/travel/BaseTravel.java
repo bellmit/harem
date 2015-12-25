@@ -11,6 +11,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
@@ -29,6 +30,7 @@ public abstract class BaseTravel {
 	protected List<Long> deletedSKU;
 	protected BaseInfo baseInfo;// 基础信息
 	protected PriceInfo priceInfo;// 价格信息
+	protected boolean readonly = false;
 
 	public void init(LineResult lineResult, List<ComTagDO> comTagDOs) throws Exception {
 		// TODO YEBIN DO对象解析
@@ -47,6 +49,7 @@ public abstract class BaseTravel {
 		if (itemDO != null) {
 			this.categoryId = itemDO.getCategoryId();
 			this.options = itemDO.getOptions();
+			this.readonly = itemDO.getStatus() == ItemStatus.valid.getValue();
 			this.priceInfo = new PriceInfo(lineResult.getItemDO(), lineResult.getItemSkuDOList());
 		}
 	}
@@ -177,4 +180,8 @@ public abstract class BaseTravel {
 	}
 
 	protected abstract int getItemType();
+
+	public boolean isReadonly() {
+		return readonly;
+	}
 }

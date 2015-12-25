@@ -74,9 +74,11 @@
         <script id="importantInfos_editor" type="text/plain" name="importantInfos" style="width: 100%; height:350px">$!{importantInfos}</script>
 	</div>
   </div>
+  #if(!${product.isReadonly()})
   <div class="groupTravelBot">
     <button class="btn btn-primary save">保  存</button>
   </div>
+  #end
   <script type="text/javascript">
     $(".save").click(function(){
         var result = {
