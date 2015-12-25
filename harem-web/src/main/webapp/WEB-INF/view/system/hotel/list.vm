@@ -66,9 +66,9 @@
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!hotel.id"></td>
                         <td>
-                            <p><img src="$!hotel.logoUrl"></p>
+                            <p><img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!hotel.logoUrl"></p>
                             <p>$!hotel.name</p>
-                            <p>商品编码:$!hotel.code</p>
+                            <p>商品编码:$!hotel.id</p>
                         </td>
                         <td>#HOTEL_STATUS($!hotel.itemStatus)</td>
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>

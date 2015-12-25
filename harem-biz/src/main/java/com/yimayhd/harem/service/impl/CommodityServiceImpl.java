@@ -50,7 +50,7 @@ public class CommodityServiceImpl implements CommodityService {
     @Autowired
     private HotelService hotelServiceRef;
     @Override
-    public PageVO<ItemDO> getList(CommodityListQuery commodityListQuery) throws Exception {
+    public PageVO<ItemVO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
         //TODO 条件对接
         itemQryDTO.setPageNo(commodityListQuery.getPageNumber());
@@ -97,7 +97,13 @@ public class CommodityServiceImpl implements CommodityService {
             log.error("CommodityServiceImpl.getList-ItemQueryService.getItem error:" + JSON.toJSONString(itemPageResult) + "and parame: " + JSON.toJSONString(itemQryDTO));
             throw new BaseException(itemPageResult.getResultMsg());
         }
-        PageVO<ItemDO> pageVO = new PageVO<ItemDO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemPageResult.getItemDOList());
+        List<ItemDO> itemDOList = itemPageResult.getItemDOList();
+        List<ItemVO> itemVOList = new ArrayList<ItemVO>();
+        for(ItemDO itemDO:itemDOList){
+            itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
+        }
+
+        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
         return pageVO;
     }
 
