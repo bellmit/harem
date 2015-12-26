@@ -428,7 +428,7 @@
             for(var j = 0; j < skuPropertyAll.length;j++){
                 if(skuPropertyAll[j]['checked']){
                     i += 1;
-                    if(i == index){
+                    if(i == index + 1){
                         skuPropertyAll[j]['stockNum'] = $(this).val();
                         skuPropertyAll[j]['modifyStatus'] = true;
                     }
@@ -442,9 +442,9 @@
             for(var j = 0; j < skuPropertyAll.length;j++){
                 if(skuPropertyAll[j]['checked']){
                     i += 1;
-                    if(i == index){
-                        skuPropertyShowAll[index]['priceY'] = $(this).val();
-                        skuPropertyShowAll[index]['modifyStatus'] = true;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['priceY'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
                     }
                 }
             }
