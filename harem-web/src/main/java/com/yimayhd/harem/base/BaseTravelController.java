@@ -14,6 +14,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.RegionService;
@@ -34,7 +35,6 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
  */
 public abstract class BaseTravelController extends BaseController {
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	private static final long DEFAULT_OFFICIAL_PUBLISHER_ID = 1000 * 10000;
 	@Resource
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
@@ -54,7 +54,7 @@ public abstract class BaseTravelController extends BaseController {
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 		put("ways", TripTraffic.ways());
-		put("officialPublisher", userService.getUserById(DEFAULT_OFFICIAL_PUBLISHER_ID));
+		put("officialPublisher", userService.getUserById(B2CConstant.SELLERID));
 	}
 
 	protected void initLinePropertyTypes(long categoryId) {

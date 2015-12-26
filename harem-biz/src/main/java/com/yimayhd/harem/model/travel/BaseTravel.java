@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
@@ -181,10 +182,11 @@ public abstract class BaseTravel {
 	}
 
 	protected long getSellerId() {
-		long sellerId = 0;
-		if (this.baseInfo != null) {
-			sellerId = this.baseInfo.getPublisherId();
-		}
+		long sellerId = B2CConstant.SELLERID;
+		/*
+		 * if (this.baseInfo != null) { sellerId =
+		 * this.baseInfo.getPublisherId(); }
+		 */
 		return sellerId;
 	}
 

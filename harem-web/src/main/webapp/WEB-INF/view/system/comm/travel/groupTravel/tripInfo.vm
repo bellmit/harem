@@ -5,7 +5,7 @@
 	<ul id="day_tab" class="nav nav-tabs tripInfoNav">
 		#foreach($tripDay in $product.tripInfo)
 		<li class='day_${velocityCount}_tab day_tab #if(${velocityCount}==1) active #end' day-id='${velocityCount}'>
-			<a href='#day_${velocityCount}_page' data-toggle='tab' class='day_tab_a'>Day</a>
+			<a href='#day_${velocityCount}_page' data-toggle='tab' class='day_tab_a'>Day</a><i class='icon icon-trash myTrash'></i>
 		</li>
 		#end
         <li class="day_btn">
@@ -18,6 +18,9 @@
         	});
 
 			$(document).delegate(".myTrash","click",function(){
+				var day = $(this).parent().attr("day-id");
+				// delete
+				setDeleted(day);
                 var tabConId = $(this).prev().attr("href");
                 $(".tripInfo .tab-content .tab-pane").removeClass("active");
                 $(".tripInfoNav .day_tab").removeClass("active");
@@ -204,7 +207,7 @@
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
 				<div class="panel-body trip-description-content" route-item-id="$!{tripDay.descriptionRouteItemId}">
-					<textarea class="form-control" rows="3" id="day_${velocityCount}_trip_description">$!{tripDay.description}</textarea>
+					<textarea class="form-control trip-description" rows="3" id="day_${velocityCount}_trip_description">$!{tripDay.description}</textarea>
 				</div>
 			</div>
 			<div class="panel add-restaurant">
@@ -290,6 +293,11 @@
     </div>
 	<script type="text/javascript">
 		function removeSelf() {
+			// update
+			var content = $(this).parent();
+			var route_item_id = content.attr("route-item-id");
+			var route_item_detail_id = content.attr("route-item-detail-id");
+			setUpdated(route_item_id,route_item_detail_id);
 			$(this).remove();
 		}
 		$(".remove-self").click(removeSelf);
@@ -316,10 +324,19 @@
 				var to = $("<span class='label label-info' id='"+currentTId+"_to' rName='"+tra.to+"'>"+tra.to+"</span>");
 				content.append(from).append(way).append(to);
 				// console.log(JSON.stringify(tra));
+				// update
+				var route_item_id = content.attr("route-item-id");
+				setUpdated(route_item_id,false);
 				// 一般设定yes回调，必须进行手工关闭
 				return true;
 			});
         }
+		$(".trip-description").change(function() {
+			var content = $(this).parent();
+			// update
+			var route_item_id = content.attr("route-item-id");
+			setUpdated(route_item_id,false);
+		});
 		// 选择餐厅
 		$(".select-restaurant").click(selectRestaurant);
 		function selectRestaurant(){
@@ -336,6 +353,10 @@
 					content.append(btn.text(res[i].name));
 				}
 				//console.log(JSON.stringify(res));
+				// update
+				var route_item_id = content.attr("route-item-id");
+				var route_item_detail_id = content.attr("route-item-detail-id");
+				setUpdated(route_item_id,route_item_detail_id);
 				//返回true成功关闭
 				return true;
 			});
@@ -357,6 +378,10 @@
 					content.append(btn.text(sce[i].name));
 				}
 				//console.log(JSON.stringify(tra));
+				// update
+				var route_item_id = content.attr("route-item-id");
+				var route_item_detail_id = content.attr("route-item-detail-id");
+				setUpdated(route_item_id,route_item_detail_id);
 				//一般设定yes回调，必须进行手工关闭
 				return true;
 			});
@@ -377,11 +402,28 @@
 					content.append(btn.text(hot[i].name));
 				}
 				//console.log(JSON.stringify(hot));
+				// update
+				var route_item_id = content.attr("route-item-id");
+				var route_item_detail_id = content.attr("route-item-detail-id");
+				setUpdated(route_item_id,route_item_detail_id);
 				//一般设定yes回调，必须进行手工关闭
 				return true;
 			});
         }
-		var updatedRouteItem=[];
+		var updatedRouteItems=[];
+		// 设置更新
+		function setUpdated(item_id,detail_id) {
+			// TODO 设置更新
+			if(item_id) {
+				updatedRouteItems.push(item_id);
+			}
+			if(detail_id) {
+				updatedRouteItems.push(detail_id);
+			}
+		}
+		function setDeleted(day) {
+			
+		}
 		var deletedRouteItem=[];
 		// 获取行程信息
 		function getTripInfo() {
