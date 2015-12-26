@@ -1,12 +1,6 @@
 package com.yimayhd.harem.service;
 
-import java.util.List;
-
 import com.yimayhd.harem.model.Activity;
-import com.yimayhd.harem.model.query.ActivityListQuery;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
-import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
 import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
@@ -29,5 +23,10 @@ public interface ActivityService {
     Activity getById(long id)throws Exception;
     BaseResult<SnsActivityDO> save(ActivityInfoDTO activityInfoDTO,Long[] tagList);
 
+    
+    /**
+     * 上下架
+     */
+    public BaseResult<Boolean> updateActivityStateByIList(Long[] id, int state);
 
 }

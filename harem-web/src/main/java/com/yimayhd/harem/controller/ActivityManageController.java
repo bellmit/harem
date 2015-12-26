@@ -1,5 +1,6 @@
 package com.yimayhd.harem.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
@@ -175,6 +177,21 @@ public class ActivityManageController extends BaseController {
 		System.out.println("toEdit111111");
 		return "/system/activity/edit";
 	}
+	
+	/**
+	 * enableStatus
+	 * 上下架
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateState/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateState(@PathVariable("id") long id,int state) throws Exception {
+		Long[] ids={id};
+		activityService.updateActivityStateByIList(ids, state);
+		return new ResponseVo();
+	}
+	
 
 
 

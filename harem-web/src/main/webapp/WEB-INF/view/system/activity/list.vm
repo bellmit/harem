@@ -96,8 +96,13 @@
                         <td></td>
 						<td></td>
                         <td>
-                        <button type="button" class="btn btn-primary activityDetail" activityId="$activity.id">查看</button>
-                        <button type="button" class="btn btn-primary activityBtn"  activityId="$activity.id" isStatus="$activity.isStatus">#if(1 == 1) 下架 #elseif($activity.isStatus == 2) 上架 #end </button>
+                        #if($activity.isStatus ==1)
+                        	<button type="button" class="btn btn-primary toView" scenicId="$activity.id">查看</button>
+                        	<button type="button" class="btn btn-primary updateState"  activityId="$activity.id"  state="2">下架   </button>
+                        #elseif($activity.isStatus == 2)
+                        	<button type="button" class="btn btn-primary toUpdate" activityId="$activity.id" >编辑</button>
+                        	<button type="button" class="btn btn-primary updateState"  activityId="$activity.id"  state="1">上架 </button>
+                        #end
                         </td>
                     </tr>
                     #end
@@ -121,6 +126,29 @@
                 format: "yyyy-mm-dd"
             });
     $(function(){
+		
+		 $('.updateState').click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/activityManage/updateState/' + $(this).attr('activityId'),{state:$(this).attr('state')}  ,function(data){
+                    if(data.status == 200){
+                          layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                            window.location.href = window.location.href;
+                        },1500);
+                    }else{
+                         layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                          $(this).prop('disabled',false);
+
+                    }
+                })
+           
+        });
+		
 		
         $("#checkAll").click(function() {
              $('input[name="subBox"]').attr("checked",this.checked);
