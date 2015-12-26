@@ -117,18 +117,8 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo save(ScenicVO scenicVO) throws Exception {
-		ResponseVo responseVo = new ResponseVo();
-
 		ICResult<ScenicDO> result =scenicSpotService.save(scenicVO);
-		if(result.isSuccess()){
-			responseVo.setMessage("添加成功！");
-			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-		}else{
-			responseVo.setMessage(result.getResultMsg());
-			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-		}
-		
-		return responseVo;
+		return new ResponseVo();
 	}
 
 	/**
