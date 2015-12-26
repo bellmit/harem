@@ -72,7 +72,7 @@
                         </td>
                         <td>#HOTEL_STATUS($!hotel.itemStatus)</td>
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>
-                        <td>￥$!hotel.price起</td>
+                        <td>￥$utilNum.moneyTransform($!hotel.price)起</td>
                         <td>
                             $!hotel.contactPerson
                             $!hotel.contactPhone

@@ -209,6 +209,8 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.setOneWord(itemDO.getOneWord());
             //商品价格
             itemDB.setPrice(itemDO.getPrice());
+            //商品库存
+            itemDB.setStockNum(itemDO.getStockNum());
             //商品图片
             if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
                 itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
@@ -350,10 +352,10 @@ public class CommodityServiceImpl implements CommodityService {
             //价格
             itemDB.setPrice((long) (itemVO.getPriceY() * 100));
             //商品图片
-            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
                 itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getBigListPic());
             }
-            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
                 itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
             }
             if(StringUtils.isNotBlank(itemVO.getCoverPics())){
