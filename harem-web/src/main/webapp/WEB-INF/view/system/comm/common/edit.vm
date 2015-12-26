@@ -55,10 +55,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <label class="col-md-2 control-label">减库存方式</label>
-                        #foreach($reduceType in $reduceTypeList)
-                            <label class='radio-inline'> <input type="radio" name="optionsRadios" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end>$!reduceType.des</label>
-                        #end
+                        <td><span class="spColor">*</span>减库存方式</td>
+                        <td>
+                            #foreach($reduceType in $reduceTypeList)
+                                <label class='radio-inline'> <input type="radio" name="reduceType" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end>$!reduceType.des</label>
+                            #end
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>评分</td>
+                        <td>
+                            <input type="text" name="grade" value="$!commodity.grade">
+                        </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品简介</td>

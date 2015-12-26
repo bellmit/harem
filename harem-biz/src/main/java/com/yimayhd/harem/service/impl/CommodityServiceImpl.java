@@ -363,6 +363,8 @@ public class CommodityServiceImpl implements CommodityService {
             if(StringUtils.isNotBlank(itemVO.getDetailUrl())) {
                 commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemVO.getDetailUrl()));
             }
+            //减库存方式
+            itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
             //评分
             if(null != itemVO.getGrade()){
                 ItemFeature itemFeature = null;
