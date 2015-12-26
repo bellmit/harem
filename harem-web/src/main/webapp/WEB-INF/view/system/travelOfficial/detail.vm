@@ -15,6 +15,12 @@
                 <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="title" id="titleId" value="$!travelOfficial.title"></td>
             </tr>
             <tr>
+                <td><span class="spColor">*</span>前言</td>
+              
+                <td><input type="text" class="form-control" placeholder="请输入300个字以内" name="preface" id="prefaceId" value="$!travelOfficial.preface"></td>
+            </tr>
+            
+            <tr>
                 <td><span class="spColor">*</span>发布时间</td>
                 <td> <input type="text" class='form-control form-date dateInp' placeholder='' readonly id="publishDateId" name="publishDate" value="$!travelOfficial.publishDate"></td>
             </tr>
@@ -117,7 +123,7 @@
                         console.log(win.getItem().nickname);
                         if(null != item){
                             $("#nickNameId").val(item.nickname);
-                            $("#shownickNameId").text(item.nickname);
+                            $("#shownickNameId").text(item.name);
                             
                             $("#userPhotoId").val(item.avatar);
                             $("#createIdId").val(item.id);

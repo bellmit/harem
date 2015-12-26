@@ -217,7 +217,7 @@
 </script>
 
 <script>
-    var conTr = $(".needKnow").length + 1;
+    var conTr = $(".needKnow").length;
     $(".addNeedKnow").unbind("click").click(function () {
         var addhtml = "";
         var html1 = $("#needKnowTemp").html();
