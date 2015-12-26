@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.yimayhd.harem.model.travel.IdNamePair;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTextItem;
-import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 
@@ -35,41 +35,51 @@ public class TripDay {
 	public TripDay() {
 	}
 
-	public TripDay(RouteTrafficInfo trafficInfo, String description, RouteItemDesc breakfast, RouteItemDesc lunch,
-			RouteItemDesc dinner, RouteItemDesc scenic, RouteItemDesc hotel, RouteItemDetail restaurantDetail,
-			RouteItemDetail scenicDetail, RouteItemDetail hotelDetail) {
-		this.traffic = new TripTraffic(trafficInfo);
-		this.description = description;
+	public TripDay(RouteItemDO trafficInfo, RouteItemDO description, RouteItemDO breakfast, RouteItemDO lunch,
+			RouteItemDO dinner, RouteItemDO scenic, RouteItemDO hotel, RouteItemDO restaurantDetail,
+			RouteItemDO scenicDetail, RouteItemDO hotelDetail) {
+		if (trafficInfo != null && trafficInfo.getRouteTrafficInfo() != null) {
+			this.traffic = new TripTraffic(trafficInfo.getRouteTrafficInfo());
+		}
+		this.description = description.getDescription();
 		this.restaurant1 = new ArrayList<IdNamePair>();
-		if (breakfast != null && CollectionUtils.isNotEmpty(breakfast.getTextItems())) {
-			for (RouteTextItem routeTextItem : breakfast.getTextItems()) {
+		List<RouteTextItem> breakfastTextItemList = breakfast.getRouteItemDesc().getTextItems();
+		if (CollectionUtils.isNotEmpty(breakfastTextItemList)) {
+			for (RouteTextItem routeTextItem : breakfastTextItemList) {
 				this.restaurant1.add(new IdNamePair(routeTextItem));
 			}
 		}
+		List<RouteTextItem> lunchTextItemList = lunch.getRouteItemDesc().getTextItems();
 		this.restaurant2 = new ArrayList<IdNamePair>();
-		if (lunch != null && CollectionUtils.isNotEmpty(lunch.getTextItems())) {
-			for (RouteTextItem routeTextItem : lunch.getTextItems()) {
+		if (CollectionUtils.isNotEmpty(lunchTextItemList)) {
+			for (RouteTextItem routeTextItem : lunchTextItemList) {
 				this.restaurant2.add(new IdNamePair(routeTextItem));
 			}
 		}
+		List<RouteTextItem> dinnerTextItemList = dinner.getRouteItemDesc().getTextItems();
 		this.restaurant3 = new ArrayList<IdNamePair>();
-		if (dinner != null && CollectionUtils.isNotEmpty(dinner.getTextItems())) {
-			for (RouteTextItem routeTextItem : dinner.getTextItems()) {
+		if (dinner != null && CollectionUtils.isNotEmpty(dinnerTextItemList)) {
+			for (RouteTextItem routeTextItem : dinnerTextItemList) {
 				this.restaurant3.add(new IdNamePair(routeTextItem));
 			}
 		}
+		List<RouteTextItem> scenicTextItemList = scenic.getRouteItemDesc().getTextItems();
 		this.scenics = new ArrayList<IdNamePair>();
-		if (scenic != null && CollectionUtils.isNotEmpty(scenic.getTextItems())) {
-			for (RouteTextItem routeTextItem : scenic.getTextItems()) {
+		if (scenic != null && CollectionUtils.isNotEmpty(scenicTextItemList)) {
+			for (RouteTextItem routeTextItem : scenicTextItemList) {
 				this.scenics.add(new IdNamePair(routeTextItem));
 			}
 		}
+		List<RouteTextItem> hotelTextItemList = hotel.getRouteItemDesc().getTextItems();
 		this.hotels = new ArrayList<IdNamePair>();
-		if (hotel != null && CollectionUtils.isNotEmpty(hotel.getTextItems())) {
-			for (RouteTextItem routeTextItem : hotel.getTextItems()) {
+		if (hotel != null && CollectionUtils.isNotEmpty(hotelTextItemList)) {
+			for (RouteTextItem routeTextItem : hotelTextItemList) {
 				this.hotels.add(new IdNamePair(routeTextItem));
 			}
 		}
+		this.restaurantDetail = restaurantDetail.getRouteItemDetail();
+		this.scenicDetail = scenicDetail.getRouteItemDetail();
+		this.hotelDetail = hotelDetail.getRouteItemDetail();
 	}
 
 	public String getDescription() {
@@ -89,26 +99,33 @@ public class TripDay {
 	}
 
 	public RouteItemDO getRouteItemTrafficInfo(int day) {
-		RouteItemDO routeItemDO = new RouteItemDO();
-		routeItemDO.setDay(day);
-		routeItemDO.setType(RouteItemBizType.ROUTE_TRAFFIC_INFO.getType());
-		routeItemDO.setRouteTrafficInfo(this.traffic.toRouteTrafficInfo());
+		RouteItemDO routeItemDO = null;
+		if (this.traffic != null) {
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(day);
+			routeItemDO.setType(RouteItemBizType.ROUTE_TRAFFIC_INFO.getType());
+			routeItemDO.setRouteTrafficInfo(this.traffic.toRouteTrafficInfo());
+		}
 		return routeItemDO;
 	}
 
 	public RouteItemDO getRouteItemDescription(int day) {
-		RouteItemDO routeItemDO = new RouteItemDO();
-		routeItemDO.setDay(day);
-		routeItemDO.setType(RouteItemBizType.DESCRIPTION.getType());
-		routeItemDO.setDescription(this.getDescription());
+		RouteItemDO routeItemDO = null;
+		if (StringUtils.isNotBlank(this.description)) {
+			routeItemDO = new RouteItemDO();
+			routeItemDO.setDay(day);
+			routeItemDO.setType(RouteItemBizType.DESCRIPTION.getType());
+			routeItemDO.setDescription(this.description);
+		}
 		return routeItemDO;
 	}
 
 	public RouteItemDO getRouteItemBreakfast(int day) {
-		RouteItemDO routeItemDO = new RouteItemDO();
-		RouteItemDesc routeItemDesc = new RouteItemDesc();
-		List<RouteTextItem> items = new ArrayList<RouteTextItem>();
+		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.restaurant1)) {
+			routeItemDO = new RouteItemDO();
+			RouteItemDesc routeItemDesc = new RouteItemDesc();
+			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.restaurant1) {
 				RouteTextItem item = new RouteTextItem();
 				item.setId(pair.getId());
@@ -116,20 +133,21 @@ public class TripDay {
 				item.setType(RouteItemType.BREAKFAST.name());
 				items.add(item);
 			}
+			routeItemDesc.setTextItems(items);
+			routeItemDesc.setType(RouteItemType.BREAKFAST.name());
+			routeItemDO.setDay(day);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setRouteItemDesc(routeItemDesc);
 		}
-		routeItemDesc.setTextItems(items);
-		routeItemDesc.setType(RouteItemType.BREAKFAST.name());
-		routeItemDO.setDay(day);
-		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
 	public RouteItemDO getRouteItemLunch(int day) {
-		RouteItemDO routeItemDO = new RouteItemDO();
-		RouteItemDesc routeItemDesc = new RouteItemDesc();
-		List<RouteTextItem> items = new ArrayList<RouteTextItem>();
+		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.restaurant2)) {
+			routeItemDO = new RouteItemDO();
+			RouteItemDesc routeItemDesc = new RouteItemDesc();
+			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.restaurant2) {
 				RouteTextItem item = new RouteTextItem();
 				item.setId(pair.getId());
@@ -137,20 +155,21 @@ public class TripDay {
 				item.setType(RouteItemType.LUNCH.name());
 				items.add(item);
 			}
+			routeItemDesc.setTextItems(items);
+			routeItemDesc.setType(RouteItemType.LUNCH.name());
+			routeItemDO.setDay(day);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setRouteItemDesc(routeItemDesc);
 		}
-		routeItemDesc.setTextItems(items);
-		routeItemDesc.setType(RouteItemType.LUNCH.name());
-		routeItemDO.setDay(day);
-		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
 	public RouteItemDO getRouteItemDinner(int day) {
-		RouteItemDO routeItemDO = new RouteItemDO();
-		RouteItemDesc routeItemDesc = new RouteItemDesc();
-		List<RouteTextItem> items = new ArrayList<RouteTextItem>();
+		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.restaurant3)) {
+			routeItemDO = new RouteItemDO();
+			RouteItemDesc routeItemDesc = new RouteItemDesc();
+			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.restaurant3) {
 				RouteTextItem item = new RouteTextItem();
 				item.setId(pair.getId());
@@ -158,20 +177,21 @@ public class TripDay {
 				item.setType(RouteItemType.DINNER.name());
 				items.add(item);
 			}
+			routeItemDesc.setTextItems(items);
+			routeItemDesc.setType(RouteItemType.DINNER.name());
+			routeItemDO.setDay(day);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setRouteItemDesc(routeItemDesc);
 		}
-		routeItemDesc.setTextItems(items);
-		routeItemDesc.setType(RouteItemType.DINNER.name());
-		routeItemDO.setDay(day);
-		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
 	public RouteItemDO getRouteItemScenic(int day) {
-		RouteItemDO routeItemDO = new RouteItemDO();
-		RouteItemDesc routeItemDesc = new RouteItemDesc();
-		List<RouteTextItem> items = new ArrayList<RouteTextItem>();
+		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.scenics)) {
+			routeItemDO = new RouteItemDO();
+			RouteItemDesc routeItemDesc = new RouteItemDesc();
+			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.scenics) {
 				RouteTextItem item = new RouteTextItem();
 				item.setId(pair.getId());
@@ -179,20 +199,21 @@ public class TripDay {
 				item.setType(RouteItemType.SCENIC.name());
 				items.add(item);
 			}
+			routeItemDesc.setTextItems(items);
+			routeItemDesc.setType(RouteItemType.SCENIC.name());
+			routeItemDO.setDay(day);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setRouteItemDesc(routeItemDesc);
 		}
-		routeItemDesc.setTextItems(items);
-		routeItemDesc.setType(RouteItemType.SCENIC.name());
-		routeItemDO.setDay(day);
-		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
 	public RouteItemDO getRouteItemHotel(int day) {
-		RouteItemDO routeItemDO = new RouteItemDO();
-		RouteItemDesc routeItemDesc = new RouteItemDesc();
-		List<RouteTextItem> items = new ArrayList<RouteTextItem>();
+		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.hotels)) {
+			routeItemDO = new RouteItemDO();
+			RouteItemDesc routeItemDesc = new RouteItemDesc();
+			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.hotels) {
 				RouteTextItem item = new RouteTextItem();
 				item.setId(pair.getId());
@@ -200,12 +221,12 @@ public class TripDay {
 				item.setType(RouteItemType.HOTEL.name());
 				items.add(item);
 			}
+			routeItemDesc.setTextItems(items);
+			routeItemDesc.setType(RouteItemType.HOTEL.name());
+			routeItemDO.setDay(day);
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
+			routeItemDO.setRouteItemDesc(routeItemDesc);
 		}
-		routeItemDesc.setTextItems(items);
-		routeItemDesc.setType(RouteItemType.HOTEL.name());
-		routeItemDO.setDay(day);
-		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
@@ -259,7 +280,7 @@ public class TripDay {
 				}
 			}
 		}
-		if (id > 0 && CollectionUtils.isNotEmpty(restaurant2)) {
+		if (id <= 0 && CollectionUtils.isNotEmpty(restaurant2)) {
 			for (IdNamePair idNamePair : restaurant2) {
 				if (idNamePair.getId() > 0) {
 					id = idNamePair.getId();
@@ -267,7 +288,7 @@ public class TripDay {
 				}
 			}
 		}
-		if (id > 0 && CollectionUtils.isNotEmpty(restaurant3)) {
+		if (id <= 0 && CollectionUtils.isNotEmpty(restaurant3)) {
 			for (IdNamePair idNamePair : restaurant3) {
 				if (idNamePair.getId() > 0) {
 					id = idNamePair.getId();
@@ -311,7 +332,6 @@ public class TripDay {
 			routeItemDO.setDay(day);
 			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
 			routeItemDO.setRouteItemDetail(this.restaurantDetail);
-			;
 		}
 		return routeItemDO;
 	}
