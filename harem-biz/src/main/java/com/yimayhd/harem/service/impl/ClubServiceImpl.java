@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.ClubAdd;
+import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
@@ -34,8 +36,11 @@ public class ClubServiceImpl implements ClubService {
 	@Autowired ComCenterService comCenterService;
 	
     @Override
-    public List<ClubDO> getList(ClubDOInfoDTO clubVO) throws Exception {
-    	BasePageResult<ClubDO> res = snsCenterService.getClubInfoListByQuery(clubVO);
+    public List<ClubDO> getList(ClubListQuery query) throws Exception {
+    	ClubDOInfoDTO clubDOInfoDTO = new ClubDOInfoDTO();
+    	clubDOInfoDTO.setPageNo(query.getPageNumber());
+    	clubDOInfoDTO.setPageSize(query.getPageSize());
+    	BasePageResult<ClubDO> res = snsCenterService.getClubInfoListByQuery(clubDOInfoDTO);
     	if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
     		return  res.getList();
     	}
@@ -87,10 +92,29 @@ public class ClubServiceImpl implements ClubService {
 
     @Override
     public boolean modify(ClubDOInfoDTO club) throws Exception {
-        BaseResult<Boolean>  res = snsCenterService.updateClubStateById(club);
+        BaseResult<Boolean>  res = null;
         if(null != res && res.isSuccess()){
             return res.getValue();
         }
         return false;
     }
+
+	@Override
+	public boolean batchUpOrDownStatus(List<Long> ids, int status) throws Exception {
+		if(CollectionUtils.isEmpty(ids)){
+			throw new Exception("Parameters [ids] cannot be empty");
+		}
+		ClubDOInfoDTO clubDOInfoDTO = new ClubDOInfoDTO();
+		clubDOInfoDTO.setIdList(ids);
+		if(status==BaseStatus.AVAILABLE.getType()){
+			clubDOInfoDTO.setState(BaseStatus.DELETED.getType());
+		}else{
+			clubDOInfoDTO.setState(BaseStatus.AVAILABLE.getType());
+		}
+		BaseResult<Boolean> res = snsCenterService.updateClubStateByIdList(clubDOInfoDTO);
+		if(null != res && res.isSuccess()){
+			return true;
+		}
+		return false;
+	}
 }

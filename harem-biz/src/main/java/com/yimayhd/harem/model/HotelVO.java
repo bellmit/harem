@@ -80,7 +80,6 @@ public class HotelVO extends HotelDO implements Serializable {
         long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
         long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
 
-        hotelVO.getMasterRecommend().setName(hotelVO.getName2());
         hotelVO.setNeedKnow(hotelVO.getNeedKnowOb());
         hotelVO.setRecommend(hotelVO.getMasterRecommend());
         hotelVO.setRoomFacility(roomFacility);

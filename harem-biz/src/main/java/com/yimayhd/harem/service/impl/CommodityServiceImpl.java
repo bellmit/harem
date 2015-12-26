@@ -341,8 +341,12 @@ public class CommodityServiceImpl implements CommodityService {
             ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
             //商品名称
             itemDB.setTitle(itemVO.getTitle());
-            //商品说明
+            //SubTitle
+            itemDB.setSubTitle(itemVO.getSubTitle());
+            //商品OneWord
             itemDB.setOneWord(itemVO.getOneWord());
+            //商品Description
+            itemDB.setDescription(itemVO.getDescription());
             //价格
             itemDB.setPrice((long) (itemVO.getPriceY() * 100));
             //商品图片
