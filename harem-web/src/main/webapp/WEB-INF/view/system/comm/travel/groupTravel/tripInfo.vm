@@ -38,6 +38,7 @@
                     $(this).parent().remove();
 					$(".tripInfoNav .day_tab:first").addClass("active");
                 }
+				show();
 			});
 
 		  	$(".addDay").click(function() {
