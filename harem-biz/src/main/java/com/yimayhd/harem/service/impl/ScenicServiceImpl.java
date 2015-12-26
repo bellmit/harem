@@ -195,5 +195,34 @@ public class ScenicServiceImpl implements ScenicService {
 		return addScenicNew;
 	}
 
+	@Override
+	public boolean batchEnableStatus(ArrayList<Integer> scenicIdList) {
+		ItemPubResult result = new ItemPubResult();
+		for (Integer id : scenicIdList) {
+			result = resourcePublishServiceRef.enableScenicItem(id);
+		}
+		
+		if(!result.isSuccess()){
+			log.error("disableScenicItem return value is null !returnValue :"
+					+ JSON.toJSONString(result));
+		}
+		return result.isSuccess();
+	}
+
+	@Override
+	public boolean batchDisableStatus(ArrayList<Integer> scenicIdList) {
+		ItemPubResult result = new ItemPubResult();
+		for (Integer id : scenicIdList) {
+			result = resourcePublishServiceRef.disableScenicItem(id);
+		}
+		
+		if(!result.isSuccess()){
+			log.error("disableScenicItem return value is null !returnValue :"
+					+ JSON.toJSONString(result));
+		}
+		return result.isSuccess();
+	}
+
+	
 	
 }
