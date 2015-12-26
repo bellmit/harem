@@ -54,6 +54,8 @@ public class ActivityServiceImpl implements ActivityService {
 	public BaseResult<SnsActivityDO> save(ActivityInfoDTO activityInfoDTO,Long[] tagList) {
 		activityInfoDTO.setContent(tfsService.publishHtml5(activityInfoDTO.getContent()));
 		activityInfoDTO.setMemberCount(10);
+		activityInfoDTO.setOriginalPrice(activityInfoDTO.getOriginalPrice()*100);
+		activityInfoDTO.setPreferentialPrice(activityInfoDTO.getPreferentialPrice()*100);
 		BaseResult<SnsActivityDO> result = snsCenterService.addActivityInfo(activityInfoDTO);
 		
 		//comCenterService.addTagRelationInfo(tagRelationInfoDTO)
