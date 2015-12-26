@@ -47,6 +47,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 			itemDO.setOriginalCredit(0);
 			itemDO.setOriginalPoint(0);
 			itemDO.setOriginalPrice(0);
+			itemDO.setDetailUrl("");
 	        commonItemPublishDTO.setItemDO(itemDO);
 	        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 	        ItemFeature itemFeature = new ItemFeature(null);
