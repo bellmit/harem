@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.model.travel.IdNamePair;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
@@ -37,7 +36,8 @@ public class TripDay {
 	}
 
 	public TripDay(RouteTrafficInfo trafficInfo, String description, RouteItemDesc breakfast, RouteItemDesc lunch,
-			RouteItemDesc dinner, RouteItemDesc scenic, RouteItemDesc hotel) {
+			RouteItemDesc dinner, RouteItemDesc scenic, RouteItemDesc hotel, RouteItemDetail restaurantDetail,
+			RouteItemDetail scenicDetail, RouteItemDetail hotelDetail) {
 		this.traffic = new TripTraffic(trafficInfo);
 		this.description = description;
 		this.restaurant1 = new ArrayList<IdNamePair>();
@@ -92,7 +92,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = new RouteItemDO();
 		routeItemDO.setDay(day);
 		routeItemDO.setType(RouteItemBizType.ROUTE_TRAFFIC_INFO.getType());
-		routeItemDO.setValue(JSON.toJSONString(this.traffic.toRouteTrafficInfo()));
+		routeItemDO.setRouteTrafficInfo(this.traffic.toRouteTrafficInfo());
 		return routeItemDO;
 	}
 
@@ -100,7 +100,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = new RouteItemDO();
 		routeItemDO.setDay(day);
 		routeItemDO.setType(RouteItemBizType.DESCRIPTION.getType());
-		routeItemDO.setValue(this.getDescription());
+		routeItemDO.setDescription(this.getDescription());
 		return routeItemDO;
 	}
 
@@ -121,7 +121,7 @@ public class TripDay {
 		routeItemDesc.setType(RouteItemType.BREAKFAST.name());
 		routeItemDO.setDay(day);
 		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setValue(JSON.toJSONString(routeItemDesc));
+		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
@@ -142,7 +142,7 @@ public class TripDay {
 		routeItemDesc.setType(RouteItemType.LUNCH.name());
 		routeItemDO.setDay(day);
 		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setValue(JSON.toJSONString(routeItemDesc));
+		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
@@ -163,7 +163,7 @@ public class TripDay {
 		routeItemDesc.setType(RouteItemType.DINNER.name());
 		routeItemDO.setDay(day);
 		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setValue(JSON.toJSONString(routeItemDesc));
+		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
@@ -184,7 +184,7 @@ public class TripDay {
 		routeItemDesc.setType(RouteItemType.SCENIC.name());
 		routeItemDO.setDay(day);
 		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setValue(JSON.toJSONString(routeItemDesc));
+		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
@@ -205,7 +205,7 @@ public class TripDay {
 		routeItemDesc.setType(RouteItemType.HOTEL.name());
 		routeItemDO.setDay(day);
 		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-		routeItemDO.setValue(JSON.toJSONString(routeItemDesc));
+		routeItemDO.setRouteItemDesc(routeItemDesc);
 		return routeItemDO;
 	}
 
@@ -310,7 +310,8 @@ public class TripDay {
 			routeItemDO = new RouteItemDO();
 			routeItemDO.setDay(day);
 			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
-			routeItemDO.setValue(JSON.toJSONString(this.description));
+			routeItemDO.setRouteItemDetail(this.restaurantDetail);
+			;
 		}
 		return routeItemDO;
 	}
@@ -324,8 +325,8 @@ public class TripDay {
 		if (this.scenicDetail != null) {
 			routeItemDO = new RouteItemDO();
 			routeItemDO.setDay(day);
-			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-			routeItemDO.setValue(JSON.toJSONString(this.scenicDetail));
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
+			routeItemDO.setRouteItemDetail(this.scenicDetail);
 		}
 		return routeItemDO;
 	}
@@ -339,8 +340,8 @@ public class TripDay {
 		if (this.hotelDetail != null) {
 			routeItemDO = new RouteItemDO();
 			routeItemDO.setDay(day);
-			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DESC.getType());
-			routeItemDO.setValue(JSON.toJSONString(this.hotelDetail));
+			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
+			routeItemDO.setRouteItemDetail(this.hotelDetail);
 		}
 		return routeItemDO;
 	}

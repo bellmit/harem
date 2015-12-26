@@ -70,9 +70,9 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 	 */
 	private LinePublishResult updateLine(BaseTravel travel) {
 		LinePublishDTO linePublishDTO = travel.toLinePublishDTOForUpdate();
-		LogUtil.requestLog(log, "itemPublishServiceRef.updatePublishLine", linePublishDTO);
+		LogUtil.requestLog(log, "itemPublishServiceRef.updatePublishLine");
 		LinePublishResult publishLine = itemPublishServiceRef.updatePublishLine(linePublishDTO);
-		LogUtil.requestLog(log, "itemPublishServiceRef.updatePublishLine", linePublishDTO);
+		LogUtil.resultLog(log, "itemPublishServiceRef.updatePublishLine", publishLine);
 		return publishLine;
 	}
 
@@ -84,9 +84,9 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 	 */
 	private LinePublishResult saveLine(BaseTravel travel) {
 		LinePublishDTO linePublishDTO = travel.toLinePublishDTOForSave();
-		LogUtil.requestLog(log, "itemPublishServiceRef.publishLine", linePublishDTO);
+		LogUtil.requestLog(log, "itemPublishServiceRef.publishLine");
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
-		LogUtil.requestLog(log, "itemPublishServiceRef.publishLine", linePublishDTO);
+		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", publishLine);
 		return publishLine;
 	}
 }
