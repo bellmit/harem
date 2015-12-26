@@ -127,48 +127,51 @@ public class CommGroupTravelController extends BaseTravelController {
 			if (rId > 0) {
 				RestaurantDO restaurant = restaurantRPCService.getRestaurantById(rId);
 				RouteItemDetail detail = new RouteItemDetail();
-				detail.id = restaurant.getId();
-				detail.type = RouteItemType.RESTAURANT.name();
-				detail.name = restaurant.getName();
-				detail.shortDesc = restaurant.getOneword();
-				detail.pics = new ArrayList<String>();
+				detail.setId(restaurant.getId());
+				detail.setType(RouteItemType.RESTAURANT.name());
+				detail.setName(restaurant.getName());
+				detail.setShortDesc(restaurant.getOneword());
+				List<String> pics = new ArrayList<String>();
 				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.RESTAURANT, rId,
 						PICTURE_MAX_SIZE);
 				for (PicturesDO pictureDO : pictures) {
-					detail.pics.add(pictureDO.getPath());
+					pics.add(pictureDO.getPath());
 				}
+				detail.setPics(pics);
 				tripDay.setRestaurantDetail(detail);
 			}
 			long sId = tripDay.getScenicDetailId();
 			if (sId > 0) {
 				ScenicDO scenic = scenicService.getById(sId).getScenic();
 				RouteItemDetail detail = new RouteItemDetail();
-				detail.id = scenic.getId();
-				detail.type = RouteItemType.SCENIC.name();
-				detail.name = scenic.getName();
-				detail.shortDesc = scenic.getOneword();
-				detail.pics = new ArrayList<String>();
+				detail.setId(scenic.getId());
+				detail.setType(RouteItemType.SCENIC.name());
+				detail.setName(scenic.getName());
+				detail.setShortDesc(scenic.getOneword());
+				List<String> pics = new ArrayList<String>();
 				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.SCENIC, sId,
 						PICTURE_MAX_SIZE);
 				for (PicturesDO pictureDO : pictures) {
-					detail.pics.add(pictureDO.getPath());
+					pics.add(pictureDO.getPath());
 				}
+				detail.setPics(pics);
 				tripDay.setScenicDetail(detail);
 			}
 			long hId = tripDay.getHotelDetailId();
 			if (hId > 0) {
 				HotelVO hotel = hotelRPCService.getHotel(hId);
 				RouteItemDetail detail = new RouteItemDetail();
-				detail.id = hotel.getId();
-				detail.type = RouteItemType.HOTEL.name();
-				detail.name = hotel.getName();
-				detail.shortDesc = hotel.getOneword();
-				detail.pics = new ArrayList<String>();
+				detail.setId(hotel.getId());
+				detail.setType(RouteItemType.HOTEL.name());
+				detail.setName(hotel.getName());
+				detail.setShortDesc(hotel.getOneword());
+				List<String> pics = new ArrayList<String>();
 				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.HOTEL, hId,
 						PICTURE_MAX_SIZE);
 				for (PicturesDO pictureDO : pictures) {
-					detail.pics.add(pictureDO.getPath());
+					pics.add(pictureDO.getPath());
 				}
+				detail.setPics(pics);
 				tripDay.setHotelDetail(detail);
 			}
 		}
