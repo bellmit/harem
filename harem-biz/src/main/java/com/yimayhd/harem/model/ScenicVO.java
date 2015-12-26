@@ -2,7 +2,7 @@ package com.yimayhd.harem.model;
 
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.resourcecenter.entity.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import org.springframework.beans.BeanUtils;
 
 /**

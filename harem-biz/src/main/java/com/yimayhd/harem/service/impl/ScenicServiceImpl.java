@@ -153,9 +153,9 @@ public class ScenicServiceImpl implements ScenicService {
 			//scenicDO
 			ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
 			addNewDTO.setScenic(scenicDO);
-
 			//NeedKnowOb
 			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
+			scenicDO.setRecommend(scenicVO.getMasterRecommend());
 			//购买须知存tfs
 			if(org.apache.commons.lang.StringUtils.isNotBlank(addNewDTO.getNeedKnow().getExtraInfoUrl())) {
 				addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
