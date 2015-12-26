@@ -2,7 +2,6 @@ package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
 
-import com.yimayhd.harem.model.ScenicVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
+import com.yimayhd.harem.model.ScenicVO;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
@@ -54,10 +53,6 @@ public class ScenicManageController extends BaseController {
 		model.addAttribute("scenicPageQuery", scenicPageQuery);
 		return "/system/scenicSpot/list";
 	}
-
-
-	
-	
 	
 
 	
