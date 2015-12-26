@@ -153,6 +153,7 @@ public class ScenicServiceImpl implements ScenicService {
 			//scenicDO
 			ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
 			addNewDTO.setScenic(scenicDO);
+			scenicDO.setMemberPrice(scenicDO.getPrice());
 			//NeedKnowOb
 			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
 			scenicDO.setRecommend(scenicVO.getMasterRecommend());
