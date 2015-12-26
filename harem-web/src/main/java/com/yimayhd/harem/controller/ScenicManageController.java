@@ -171,7 +171,7 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/batchEnableStatus", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo batchEnableStatus(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList) throws Exception {
-		
+		scenicSpotService.batchEnableStatus(scenicIdList);
 		return new ResponseVo();
 	}
 	
@@ -184,8 +184,8 @@ public class ScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/batchDisableStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchupdateStatus(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList) throws Exception {
-		
+	public ResponseVo batchDisableStatus(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList) throws Exception {
+		scenicSpotService.batchDisableStatus(scenicIdList);
 		return new ResponseVo();
 	}
 	

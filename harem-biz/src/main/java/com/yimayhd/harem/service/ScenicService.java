@@ -44,6 +44,10 @@ public interface ScenicService {
 	boolean disableScenicItem(int id)throws Exception;
 
 	ICResult<ScenicDO> save(ScenicVO scenicVO) throws Exception;
+
+	boolean batchEnableStatus(ArrayList<Integer> scenicIdList);
+
+	boolean batchDisableStatus(ArrayList<Integer> scenicIdList);
 	
 
 }
