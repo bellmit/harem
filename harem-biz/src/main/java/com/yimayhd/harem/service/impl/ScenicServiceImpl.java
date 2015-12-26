@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.ScenicVO;
+import com.yimayhd.harem.model.pictureVO;
+import com.yimayhd.ic.client.model.domain.PicturesDO;
+import com.yimayhd.ic.client.model.enums.PictureOutType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -160,11 +163,34 @@ public class ScenicServiceImpl implements ScenicService {
 			}
 			addScenicNew = resourcePublishServiceRef.addScenicNew(addNewDTO);
 			if(null == addScenicNew){
-				log.error("ScenicServiceImpl.save-itemQueryService.addScenicNew result is null and parame: " + JSON.toJSONString(addNewDTO));
+				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew result is null and parame: " + JSON.toJSONString(addNewDTO));
 				throw new BaseException("修改返回结果为空,修改失败");
 			} else if(!addScenicNew.isSuccess()){
-				log.error("ScenicServiceImpl.save-itemQueryService.addScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
 				throw new BaseException(addScenicNew.getResultMsg());
+			}
+			//图片集insert
+			if(org.apache.commons.lang.StringUtils.isNotBlank(scenicVO.getPicListStr())){
+				List<pictureVO> pictureVOList = JSON.parseArray(scenicVO.getPicListStr(),pictureVO.class);
+				List<PicturesDO> picList = new ArrayList<PicturesDO>();
+				for (pictureVO pictureVO:pictureVOList){
+					PicturesDO picturesDO = new PicturesDO();
+					picturesDO.setPath(pictureVO.getValue());
+					picturesDO.setName(pictureVO.getName());
+					picturesDO.setOutId(addScenicNew.getModule().getId());
+					picturesDO.setOutType(PictureOutType.SCENIC.getValue());
+					picturesDO.setOrderNum(pictureVO.getIndex());
+					picturesDO.setIsTop(pictureVO.isTop());
+					picList.add(picturesDO);
+				}
+				ICResult<Boolean> icResult =  resourcePublishServiceRef.addPictures(picList);
+				if(null == icResult){
+					log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew result is null and parame: " + JSON.toJSONString(picList));
+					throw new BaseException("景区资源保存成功，图片集保存返回结果为空，保存失败");
+				} else if(!icResult.isSuccess()){
+					log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(icResult) + "and parame: " + JSON.toJSONString(picList) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+					throw new BaseException("景区资源保存成功，图片集保存失败" + icResult.getResultMsg());
+				}
 			}
 		} else {
 			ICResult<ScenicDO> icResult = itemQueryService.getScenic(scenicVO.getId());
@@ -185,10 +211,10 @@ public class ScenicServiceImpl implements ScenicService {
 			//TODO 修改项处理
 			addScenicNew = resourcePublishServiceRef.updateScenicNew(addNewDTO);
 			if(null == addScenicNew){
-				log.error("ScenicServiceImpl.save-itemQueryService.updateScenicNew result is null and parame: " + JSON.toJSONString(addNewDTO));
+				log.error("ScenicServiceImpl.save-ResourcePublishService.updateScenicNew result is null and parame: " + JSON.toJSONString(addNewDTO));
 				throw new BaseException("修改返回结果为空,修改失败");
 			} else if(!addScenicNew.isSuccess()){
-				log.error("ScenicServiceImpl.save-itemQueryService.updateScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+				log.error("ScenicServiceImpl.save-ResourcePublishService.updateScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
 				throw new BaseException(addScenicNew.getResultMsg());
 			}
 		}

@@ -1,24 +1,28 @@
 package com.yimayhd.harem.model;
 
-import org.springframework.beans.BeanUtils;
-
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.resourcecenter.entity.MasterRecommend;
+import org.springframework.beans.BeanUtils;
 
 /**
  * Created by czf on 2015/12/25.
  */
 public class ScenicVO extends ScenicDO {
     private MasterRecommend masterRecommend;
-    private String picList;//图片集的str
+    private String picListStr;//图片集的str
+
     private NeedKnow needKnowOb;
 
     public static ScenicDO getScenicDO(ScenicVO scenicVO){
         ScenicDO scenicDO = new ScenicVO();
-        BeanUtils.copyProperties(scenicVO,scenicDO);
+        BeanUtils.copyProperties(scenicVO, scenicDO);
         //masterRecommend
         //NeedKnowOb 在serviceImpl中处理
+
+        //图片处理(因为有outId还是,只处理新增的)
+
+
         return scenicDO;
     }
     public static ScenicVO getScenicVO(ScenicDO scenicDO){
@@ -27,12 +31,12 @@ public class ScenicVO extends ScenicDO {
         return scenicVO;
     }
 
-    public String getPicList() {
-        return picList;
+    public String getPicListStr() {
+        return picListStr;
     }
 
-    public void setPicList(String picList) {
-        this.picList = picList;
+    public void setPicListStr(String picListStr) {
+        this.picListStr = picListStr;
     }
 
     public MasterRecommend getMasterRecommend() {
