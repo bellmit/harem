@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.service.CommActivityService;
@@ -38,6 +39,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	public ItemPubResult add(ItemVO itemVO) throws Exception {
 		 CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
 	        ItemDO itemDO = ItemVO.getItemDO(itemVO);
+	        itemDO.setSellerId(B2CConstant.SELLERID);
 	        itemDO.setSubTitle("");
 	        itemDO.setOneWord("");
 	    	itemDO.setCredit(0);
