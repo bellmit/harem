@@ -18,7 +18,7 @@ import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripDay;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
-import com.yimayhd.harem.service.GroupTravelService;
+import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.PictureRPCService;
 import com.yimayhd.harem.service.RestaurantRPCService;
@@ -43,7 +43,7 @@ import com.yimayhd.ic.client.model.enums.RouteItemType;
 public class CommGroupTravelController extends BaseTravelController {
 	private static final int PICTURE_MAX_SIZE = 6;
 	@Autowired
-	private GroupTravelService groupTravelService;
+	private CommTravelService travelService;
 	@Autowired
 	private TfsService tfsService;
 	@Autowired
@@ -67,7 +67,7 @@ public class CommGroupTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			GroupTravel gt = groupTravelService.getById(id);
+			GroupTravel gt = travelService.getById(id, GroupTravel.class);
 			put("product", gt);
 			String importantInfos = tfsService.readHtml5(gt.getPriceInfo().getImportantInfosCode());
 			put("importantInfos", importantInfos);
@@ -175,7 +175,7 @@ public class CommGroupTravelController extends BaseTravelController {
 				tripDay.setHotelDetail(detail);
 			}
 		}
-		long id = groupTravelService.publish(gt);
+		long id = travelService.publishLine(gt);
 		return new ResponseVo(id);
 	}
 

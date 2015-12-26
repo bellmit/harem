@@ -12,8 +12,8 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
+import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.harem.service.FlightRPCService;
-import com.yimayhd.harem.service.SelfServiceTravelService;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.enums.LineType;
 
@@ -27,9 +27,9 @@ import com.yimayhd.ic.client.model.enums.LineType;
 @RequestMapping("/B2C/comm/selfServiceTravel")
 public class CommSelfServiceTravelController extends BaseTravelController {
 	@Autowired
-	private FlightRPCService flightRPCService;
+	private CommTravelService travelService;
 	@Autowired
-	private SelfServiceTravelService selfServiceTravelService;
+	private FlightRPCService flightRPCService;
 	@Autowired
 	private TfsService tfsService;
 
@@ -45,7 +45,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			SelfServiceTravel sst = selfServiceTravelService.getById(id);
+			SelfServiceTravel sst = travelService.getById(id, SelfServiceTravel.class);
 			put("product", sst);
 			String importantInfos = tfsService.readHtml5(sst.getPriceInfo().getImportantInfosCode());
 			put("importantInfos", importantInfos);
@@ -133,7 +133,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 			String extraInfosCode = tfsService.publishHtml5(extraInfos);
 			sst.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
 		}
-		long id = selfServiceTravelService.publish(sst);
+		long id = travelService.publishLine(sst);
 		return new ResponseVo(id);
 	}
 }
