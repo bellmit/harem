@@ -63,6 +63,19 @@
     #end
 #end
 
+#*餐厅（资源）状态*#
+#macro(RESTAURANT_STATUS $type)
+    #if($type == '2')
+    启用
+    #elseif($type == '3')
+    停用
+    #elseif($type == '1')
+    初始化
+	#else
+    未知
+    #end
+#end
+
 #*景区状态*#
 #macro(ITEMSCENIC_STATUS $type)
     #if($type == '1')

@@ -56,7 +56,6 @@
                         <th>餐厅名称</th>
                         <th>状态</th>
                         <th>区域</th>
-                        <th>基础价格</th>
                         <th>联系人</th>
                         <th>操作</th>
                     </tr>
@@ -65,14 +64,13 @@
                     #foreach($restaurant in $pageVo.itemList)
                     <tr id="item_$!{velocityCount}" rId="$!restaurant.id">
                         <td>
-                            <p>$!restaurant.name</p>
-                            <p>商品编码:$!restaurant.id</p>
+                            <p>$!{restaurant.name}</p>
+                            <p>商品编码:$!{restaurant.id}</p>
                         </td>
-                        <td>#SCENIC_STATUS($!restaurant.status)</td>
+                        <td>#RESTAURANT_STATUS($!{restaurant.status})</td>
                         <td>$!{restaurant.locationProvinceName} $!{restaurant.locationCityName} $!{restaurant.locationTownName}</td>
-                        <td>￥$!{restaurant.price}起</td>
                         <td>
-                           #SCENIC_LEVEL($!restaurant.level)
+							${restaurant.contactPerson}：$!{restaurant.contactPhone}
                         </td>
                         <td>
                         	<button type="button" class="btn btn-primary toView" restaurantId="$restaurant.id">查看</button>
