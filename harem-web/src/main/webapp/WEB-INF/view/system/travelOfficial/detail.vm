@@ -49,6 +49,7 @@
                     </div>
                 </td>
             </tr>
+	        #*
 	        <tr>
                 <td><span class="spColor">*</span>点赞数</td>
                 <td class="radioSel">
@@ -65,6 +66,7 @@
                     </div>
                 </td>
             </tr>
+	        *#
         </table>
         <!--tab1 -->
 		
