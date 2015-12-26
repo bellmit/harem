@@ -268,20 +268,16 @@
 	                    </div>
                         </td>
                     </tr>                                        
-                     <tr>
-                        <td><span class="spColor">*</span>详情页展示图</td>
-                        <td>
-                            <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="coverUrl" value="$!{hotel.coverUrl}" id="logoUrlUploadFileReturnInput1" >
-                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
-                                <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-                            </div>
-	                    <div class="logoView">
-	                        <img src="#if($hotel.coverUrl) $utilWebconfig.getTfsRootPath()$!{hotel.coverUrl} #end" class="img-square" id="logoUrlUploadFileReturnImg1">
-	                    </div>
-                        </td>
-                    </tr>
+                   <tr>
+                       <td><span class="spColor">*</span>详情页展示图</td>
+                       <td class="hotelPicUrlsTd">
+                           <input id="hotelBatchUploadBtn" class="fileInp" type="file" multiple="multiple" >
+                           #foreach($pic in $!hotel.picList)
+                               <img class="hotelPicUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
+                           #end
+                       </td>
+                       <input class="hotelPicUrlsVal" type="hidden" name="picturesStr" value="$!commodity.picturesStr">
+                   </tr>
 				
 				</tbody>
             </table>
@@ -526,18 +522,16 @@
                     layer.alert('上传失败');
                 }
             });
-        });        
-        
-		$(document).delegate('#logoUrlUploadFile1','change',function(){
-            fileUpload('#logoUrlUploadFile1',1,function(data){
-                if(data && data.status==200){
-                    $('#logoUrlUploadFileReturnInput1').val(data.data);
-                    $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
-                }else{
-                    layer.alert('上传失败');
+        });
+
+        /****************批量上传pic_urls*****************/
+        $(document).delegate("#hotelBatchUploadBtn",'change',function(){
+            fileUpload('#hotelBatchUploadBtn',2,function(dataVal){
+                for(var key in dataVal.data){
+                    $('.hotelPicUrlsTd').append('<img class="hotelPicUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
                 }
             });
-        });		
+        })
 		
 		$('#btnSubmit').click(function(){
 
@@ -589,6 +583,17 @@
                 }
 
                 $("#hotelFacilityStrId").val(hotelFacilityStr);
+
+                //列表长图片
+                var picUrls = '';
+                $('.hotelPicUrlsUrl').each(function(){
+                    if(picUrls){
+                        picUrls += '|' + $(this).attr('imgUrl');
+                    }else{
+                        picUrls += $(this).attr('imgUrl');
+                    }
+                });
+                $('.hotelPicUrlsVal').val(picUrls);
 
                 var actionUrl;
                 var hotelId = $('#hotelForm').attr('hotelId');
