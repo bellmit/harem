@@ -1,10 +1,10 @@
 package com.yimayhd.harem.model;
 
-import com.alibaba.fastjson.JSON;
+import org.springframework.beans.BeanUtils;
+
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.resourcecenter.entity.MasterRecommend;
-import org.springframework.beans.BeanUtils;
 
 /**
  * Created by czf on 2015/12/25.
@@ -18,8 +18,6 @@ public class ScenicVO extends ScenicDO {
         ScenicDO scenicDO = new ScenicVO();
         BeanUtils.copyProperties(scenicVO,scenicDO);
         //masterRecommend
-        String jsonString = JSON.toJSONString(scenicVO.getMasterRecommend());
-        scenicDO.setRecommend(jsonString);
         //NeedKnowOb 在serviceImpl中处理
         return scenicDO;
     }

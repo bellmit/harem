@@ -31,17 +31,17 @@ public interface ScenicService {
 	 * @param scenicStatus
 	 * @throws Exception
 	 */
-	boolean updateStatus(int id, int scenicStatus) throws Exception;
+	boolean enableScenicItem(long id) throws Exception;
 	
 
 	/**
-	 * 批量修改景区状态
+	 * 修改景区状态
 	 * 
 	 * @param id
 	 * @param scenicStatus
 	 * @throws Exception
 	 */
-	boolean batchupdateStatus(ArrayList<Integer> scenicIdList, int scenicStatus)throws Exception;
+	boolean disableScenicItem(int id)throws Exception;
 
 	ICResult<ScenicDO> save(ScenicVO scenicVO) throws Exception;
 	

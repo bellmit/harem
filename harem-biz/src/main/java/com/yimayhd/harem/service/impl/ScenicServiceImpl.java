@@ -22,6 +22,7 @@ import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ResourcePublishService;
 
@@ -62,7 +63,7 @@ public class ScenicServiceImpl implements ScenicService {
 		if (scenic.isSuccess()) {
 			ScenicAddNewDTO dto = new ScenicAddNewDTO();
 			ScenicDO scenicDO = scenic.getModule();
-			NeedKnow needKnow = JSON.parseObject(scenicDO.getNeedKnow(), NeedKnow.class);
+			NeedKnow needKnow = scenicDO.getNeedKnow();
 			String extraInfoUrl = "";
 			if (needKnow != null && StringUtils.isNotBlank(needKnow.getExtraInfoUrl())) {
 				extraInfoUrl = tfsService.readHtml5(needKnow.getExtraInfoUrl());
@@ -77,7 +78,28 @@ public class ScenicServiceImpl implements ScenicService {
 		return null;
 	}
 
-	@Override
+	public boolean enableScenicItem(long id) throws Exception {
+		
+		ItemPubResult result = resourcePublishServiceRef.enableScenicItem(id);
+		if(!result.isSuccess()){
+			log.error("enableScenicItem return value is null !returnValue :"
+					+ JSON.toJSONString(result));
+		}
+		return result.isSuccess();
+		
+	}
+	
+	
+	public boolean disableScenicItem(int id) throws Exception {
+		ItemPubResult result = resourcePublishServiceRef.disableScenicItem(id);
+		if(!result.isSuccess()){
+			log.error("disableScenicItem return value is null !returnValue :"
+					+ JSON.toJSONString(result));
+		}
+		return result.isSuccess();
+	}
+	
+	/*@Override
 	public boolean updateStatus(int id, int scenicStatus) throws Exception {
 		ArrayList<ScenicDO> scenicDOList = new ArrayList<ScenicDO>();
 		ScenicDO scenic = new ScenicDO();
@@ -89,10 +111,13 @@ public class ScenicServiceImpl implements ScenicService {
 			log.error("resourcePublishServiceRef.updateScenic return value is null !returnValue :"
 					+ JSON.toJSONString(result));
 		}
+		
+		resourcePublishServiceRef.enableScenicItem(arg0)
+		
 		return result.isSuccess();
 	}
-
-	@Override
+*/
+/*	@Override
 	public boolean batchupdateStatus(ArrayList<Integer> scenicIdList, int scenicStatus) {
 		if (!scenicIdList.isEmpty()) {
 			ArrayList<ScenicDO> scenicDOList = new ArrayList<ScenicDO>();
@@ -111,7 +136,7 @@ public class ScenicServiceImpl implements ScenicService {
 		return false;
 
 	}
-
+*/
 	@Override
 	public ICResult<ScenicDO> save(ScenicVO scenicVO) throws Exception {
 
@@ -121,8 +146,8 @@ public class ScenicServiceImpl implements ScenicService {
 			ScenicAddNewDTO addNewDTO = new ScenicAddNewDTO();
 
 			//masterRecommend
-			String jsonString = JSON.toJSONString(scenicVO.getMasterRecommend());
-			addNewDTO.getScenic().setRecommend(jsonString);
+			//String jsonString = JSON.toJSONString(scenicVO.getMasterRecommend());
+			//addNewDTO.getScenic().setRecommend(jsonString);
 			//scenicDO
 			ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
 			addNewDTO.setScenic(scenicDO);
@@ -169,4 +194,6 @@ public class ScenicServiceImpl implements ScenicService {
 		}
 		return addScenicNew;
 	}
+
+	
 }
