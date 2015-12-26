@@ -99,7 +99,7 @@ public class CommTravelServiceImpl implements CommTravelService {
 	public PageVO<LineDO> pageQueryLine(LinePageQuery query) {
 		LogUtil.requestLog(log, "itemQueryServiceRef.pageQueryLine", query);
 		ICPageResult<LineDO> pageQueryLine = itemQueryServiceRef.pageQueryLine(query);
-		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", pageQueryLine);
+		LogUtil.resultLog(log, "itemQueryServiceRef.pageQueryLine", pageQueryLine);
 		int totalCount = pageQueryLine.getTotalCount();
 		List<LineDO> itemList = pageQueryLine.getList();
 		if (itemList == null) {
