@@ -11,7 +11,6 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.travel.BaseTravel;
-import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.service.TagRPCService;
 import com.yimayhd.harem.util.LogUtil;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
@@ -51,31 +50,43 @@ public abstract class TravelServiceImpl<T extends BaseTravel> {
 
 	protected abstract T createTravelInstance(LineResult lineResult, List<ComTagDO> comTagDOs) throws Exception;
 
-	protected long save(BaseTravel travel) throws BaseException {
-		LinePublishDTO linePublishDTO = travel.toLinePublishDTO();
+	protected long publishLine(BaseTravel travel) throws Exception {
+		LinePublishResult publishLine = null;
+		if (travel.getBaseInfo().getId() > 0) {
+			publishLine = this.updateLine(travel);
+		} else {
+			publishLine = this.saveLine(travel);
+		}
+		tagService.addTagRelation(publishLine.getLineId(), TagType.LINETAG, travel.getTagIdList(),
+				publishLine.getCreateTime());
+		return publishLine.getLineId();
+	}
+
+	/**
+	 * 更新
+	 * 
+	 * @param travel
+	 * @return
+	 */
+	private LinePublishResult updateLine(BaseTravel travel) {
+		LinePublishDTO linePublishDTO = travel.toLinePublishDTOForUpdate();
+		LogUtil.requestLog(log, "itemPublishServiceRef.updatePublishLine", linePublishDTO);
+		LinePublishResult publishLine = itemPublishServiceRef.updatePublishLine(linePublishDTO);
+		LogUtil.requestLog(log, "itemPublishServiceRef.updatePublishLine", linePublishDTO);
+		return publishLine;
+	}
+
+	/**
+	 * 保存
+	 * 
+	 * @param travel
+	 * @return
+	 */
+	private LinePublishResult saveLine(BaseTravel travel) {
+		LinePublishDTO linePublishDTO = travel.toLinePublishDTOForSave();
 		LogUtil.requestLog(log, "itemPublishServiceRef.publishLine", linePublishDTO);
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
-		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", publishLine);
-		tagService.addTagRelation(publishLine.getLineId(), TagType.LINETAG, travel.getTagIdList(),
-				publishLine.getCreateTime());
-		return publishLine.getLineId();
-	}
-
-	protected long update(BaseTravel travel) throws BaseException {
-		LinePublishDTO linePublishDTO = travel.toLinePublishDTO();
 		LogUtil.requestLog(log, "itemPublishServiceRef.publishLine", linePublishDTO);
-		LinePublishResult publishLine = itemPublishServiceRef.updatePublishLine(linePublishDTO);
-		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", publishLine);
-		tagService.addTagRelation(publishLine.getLineId(), TagType.LINETAG, travel.getTagIdList(),
-				publishLine.getCreateTime());
-		return publishLine.getLineId();
-	}
-
-	protected long publishLine(BaseTravel travel) throws Exception {
-		if (travel.getBaseInfo().getId() > 0) {
-			return update(travel);
-		} else {
-			return save(travel);
-		}
+		return publishLine;
 	}
 }

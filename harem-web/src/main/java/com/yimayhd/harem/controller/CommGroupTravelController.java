@@ -47,13 +47,13 @@ public class CommGroupTravelController extends BaseTravelController {
 	@Autowired
 	private TfsService tfsService;
 	@Autowired
-	private RestaurantRPCService restaurantService;
+	private RestaurantRPCService restaurantRPCService;
 	@Autowired
 	private ScenicService scenicService;
 	@Autowired
-	private HotelRPCService hotelService;
+	private HotelRPCService hotelRPCService;
 	@Autowired
-	private PictureRPCService pictureService;
+	private PictureRPCService pictureRPCService;
 
 	/**
 	 * 详细信息页
@@ -125,14 +125,14 @@ public class CommGroupTravelController extends BaseTravelController {
 		for (TripDay tripDay : gt.getTripInfo()) {
 			long rId = tripDay.getRestaurantDetailId();
 			if (rId > 0) {
-				RestaurantDO restaurant = restaurantService.getRestaurantBy(rId);
+				RestaurantDO restaurant = restaurantRPCService.getRestaurantById(rId);
 				RouteItemDetail detail = new RouteItemDetail();
 				detail.id = restaurant.getId();
 				detail.type = RouteItemType.RESTAURANT.name();
 				detail.name = restaurant.getName();
 				detail.shortDesc = restaurant.getOneword();
 				detail.pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureService.queryTopPictureList(PictureOutType.RESTAURANT, rId,
+				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.RESTAURANT, rId,
 						PICTURE_MAX_SIZE);
 				for (PicturesDO pictureDO : pictures) {
 					detail.pics.add(pictureDO.getPath());
@@ -148,7 +148,7 @@ public class CommGroupTravelController extends BaseTravelController {
 				detail.name = scenic.getName();
 				detail.shortDesc = scenic.getOneword();
 				detail.pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureService.queryTopPictureList(PictureOutType.SCENIC, sId,
+				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.SCENIC, sId,
 						PICTURE_MAX_SIZE);
 				for (PicturesDO pictureDO : pictures) {
 					detail.pics.add(pictureDO.getPath());
@@ -157,14 +157,14 @@ public class CommGroupTravelController extends BaseTravelController {
 			}
 			long hId = tripDay.getHotelDetailId();
 			if (hId > 0) {
-				HotelVO hotel = hotelService.getHotel(hId);
+				HotelVO hotel = hotelRPCService.getHotel(hId);
 				RouteItemDetail detail = new RouteItemDetail();
 				detail.id = hotel.getId();
 				detail.type = RouteItemType.HOTEL.name();
 				detail.name = hotel.getName();
 				detail.shortDesc = hotel.getOneword();
 				detail.pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureService.queryTopPictureList(PictureOutType.HOTEL, hId,
+				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.HOTEL, hId,
 						PICTURE_MAX_SIZE);
 				for (PicturesDO pictureDO : pictures) {
 					detail.pics.add(pictureDO.getPath());

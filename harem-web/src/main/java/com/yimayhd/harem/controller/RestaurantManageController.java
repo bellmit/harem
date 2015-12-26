@@ -2,8 +2,6 @@ package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
@@ -21,7 +18,6 @@ import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.RestaurantForm;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantRPCService;
-import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.result.ICResult;
@@ -35,16 +31,12 @@ import com.yimayhd.ic.client.model.result.ICResult;
 @Controller
 @RequestMapping("/B2C/restaurantManage")
 public class RestaurantManageController extends BaseController {
-	private static final Logger logger = LoggerFactory.getLogger(RestaurantManageController.class);
-	@Autowired
-	private RestaurantService restaurantService;
-
 	@Autowired
 	private RestaurantRPCService restaurantRPCService;
 
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
 	public String restaurant(@PathVariable("id") Long id) throws Exception {
-		RestaurantDO restaurant = restaurantService.getById(id);
+		RestaurantDO restaurant = restaurantRPCService.getRestaurantById(id);
 		put("restaurant", restaurant);
 		return "/system/restaurant/Info";
 	}
@@ -62,17 +54,8 @@ public class RestaurantManageController extends BaseController {
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) {
-
-		RestaurantDO restaurantDO = restaurantRPCService.getRestaurantBy(id);
-
-		MasterRecommend recommend = null;
-
-		try {
-			recommend = JSON.parseObject(restaurantDO.getRecommend(), MasterRecommend.class);
-		} catch (Exception e) {
-			logger.error("toEdit|recommend=" + restaurantDO.getRecommend() + "|error=" + e.toString());
-		}
-
+		RestaurantDO restaurantDO = restaurantRPCService.getRestaurantById(id);
+		MasterRecommend recommend = restaurantDO.getRecommend();
 		model.addAttribute("restaurant", restaurantDO);
 		model.addAttribute("recommend", recommend);
 		return "/system/restaurant/edit";
@@ -82,7 +65,7 @@ public class RestaurantManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo save(RestaurantForm form) throws Exception {
 		RestaurantDO restaurant = form.getRestaurant();
-		restaurant.setRecommend(JSON.toJSONString(form.getRecommend()));
+		restaurant.setRecommend(form.getRecommend());
 		ICResult<Boolean> icResult = restaurantRPCService.addRestaurant(restaurant);
 		ResponseVo responseVo = new ResponseVo();
 		boolean result = icResult.isSuccess();
