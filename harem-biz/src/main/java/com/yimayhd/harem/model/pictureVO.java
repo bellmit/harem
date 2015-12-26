@@ -4,7 +4,7 @@ package com.yimayhd.harem.model;
  * Created by czf on 2015/12/26.
  * 资源图片集用
  */
-public class pictureVO {
+public class PictureVO {
     private long id;//图片id
     private int index;//图片索引
     private String name;//图片原名称

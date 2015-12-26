@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.ScenicVO;
-import com.yimayhd.harem.model.pictureVO;
+import com.yimayhd.harem.model.PictureVO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import org.apache.commons.collections.CollectionUtils;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
@@ -171,9 +170,9 @@ public class ScenicServiceImpl implements ScenicService {
 			}
 			//图片集insert
 			if(org.apache.commons.lang.StringUtils.isNotBlank(scenicVO.getPicListStr())){
-				List<pictureVO> pictureVOList = JSON.parseArray(scenicVO.getPicListStr(),pictureVO.class);
+				List<PictureVO> pictureVOList = JSON.parseArray(scenicVO.getPicListStr(),PictureVO.class);
 				List<PicturesDO> picList = new ArrayList<PicturesDO>();
-				for (pictureVO pictureVO:pictureVOList){
+				for (PictureVO pictureVO:pictureVOList){
 					PicturesDO picturesDO = new PicturesDO();
 					picturesDO.setPath(pictureVO.getValue());
 					picturesDO.setName(pictureVO.getName());

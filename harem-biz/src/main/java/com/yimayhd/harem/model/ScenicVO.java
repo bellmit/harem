@@ -20,7 +20,7 @@ public class ScenicVO extends ScenicDO {
         //masterRecommend
         //NeedKnowOb 在serviceImpl中处理
 
-        //图片处理(因为有outId还是,只处理新增的)
+        //图片集处理(因为有outId还是,只处理新增的)
 
 
         return scenicDO;
