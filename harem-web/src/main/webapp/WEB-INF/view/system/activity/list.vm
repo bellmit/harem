@@ -6,9 +6,9 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">创建时间</button>
                 </span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!activityListQuery.beginDate">
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="createStartTime" value="$!activityListQuery.createStartTime">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!activityListQuery.endDate">
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="createEndTime" value="$!activityListQuery.createEndTime">
             </div>
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -22,14 +22,14 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">活动名称</button>
                 </span>
-                <input type="text" class="form-control" name="name" value="$!activityListQuery.name">
+                <input type="text" class="form-control" name="title" value="$!activityListQuery.title">
             </div>
 
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-                <select class="form-control" name="isStatus">
+                <select class="form-control" name="satatus">
                     <option value="0">全部</option>
                     <option value="1" #if($!activityListQuery.isStatus == 1) selected #end>上架</option>
                     <option value="2" #if($!activityListQuery.isStatus == 2) selected #end>下架</option>
@@ -41,7 +41,7 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">俱乐部：</button>
                 </span>
-                <select class="form-control" name="club">
+                <select class="form-control" name="productId">
                     <option value="0">全部</option>
                     <option value="1" #if($!activityListQuery.club == 1) selected #end>亲自俱乐部</option>
                 </select>
@@ -50,7 +50,7 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">前台显示：</button>
                 </span>
-                    <select class="form-control" name="isStatus">
+                    <select class="form-control" name="satatus">
                         <option value="1" #if($!activityListQuery.isStatus == 1) selected #end>显示</option>
                         <option value="2" #if($!activityListQuery.isStatus == 2) selected #end>隐藏</option>
                     </select>
