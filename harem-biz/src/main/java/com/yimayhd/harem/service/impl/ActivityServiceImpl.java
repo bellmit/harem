@@ -1,5 +1,11 @@
 package com.yimayhd.harem.service.impl;
 
+import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -15,11 +21,6 @@ import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Arrays;
 
 /**
  * Created by Administrator on 2015/11/2.
@@ -36,9 +37,11 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public BasePageResult<SnsActivityDO> getList(ActivityQueryDTO activityQueryDTO) throws Exception {
-		return snsCenterService.getActivityPage(activityQueryDTO);
+		//查询主题接口
+    	//com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> tagInfoByOutIdAndType= comCenterService.getTagInfoByOutIdAndType(1, "1");
+    	return snsCenterService.getActivityPage(activityQueryDTO);
     }
-
+   
 
 	@Override
 	public Activity getById(long id) throws Exception {
@@ -51,6 +54,8 @@ public class ActivityServiceImpl implements ActivityService {
 	public BaseResult<SnsActivityDO> save(ActivityInfoDTO activityInfoDTO,Long[] tagList) {
 		activityInfoDTO.setContent(tfsService.publishHtml5(activityInfoDTO.getContent()));
 		activityInfoDTO.setMemberCount(10);
+		activityInfoDTO.setOriginalPrice(activityInfoDTO.getOriginalPrice()*100);
+		activityInfoDTO.setPreferentialPrice(activityInfoDTO.getPreferentialPrice()*100);
 		BaseResult<SnsActivityDO> result = snsCenterService.addActivityInfo(activityInfoDTO);
 		
 		//comCenterService.addTagRelationInfo(tagRelationInfoDTO)
@@ -76,8 +81,18 @@ public class ActivityServiceImpl implements ActivityService {
 		
 	}
 
+
+	@Override
+	public BaseResult<Boolean> updateActivityStateByIList(Long[] ids, int state) {
+		ActivityQueryDTO dto = new ActivityQueryDTO();
+		dto.setActivityIdList(Arrays.asList(ids));
+		dto.setState(state);
+		BaseResult<Boolean> result = snsCenterService.updateActivityStateByIList(dto);
+		return result;
+	}
+
   
-  
+	
 
 
 	
