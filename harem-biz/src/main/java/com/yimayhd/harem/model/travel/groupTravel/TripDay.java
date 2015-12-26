@@ -43,43 +43,59 @@ public class TripDay {
 		}
 		this.description = description.getDescription();
 		this.restaurant1 = new ArrayList<IdNamePair>();
-		List<RouteTextItem> breakfastTextItemList = breakfast.getRouteItemDesc().getTextItems();
-		if (CollectionUtils.isNotEmpty(breakfastTextItemList)) {
-			for (RouteTextItem routeTextItem : breakfastTextItemList) {
-				this.restaurant1.add(new IdNamePair(routeTextItem));
+		if (breakfast != null) {
+			List<RouteTextItem> breakfastTextItemList = breakfast.getRouteItemDesc().getTextItems();
+			if (CollectionUtils.isNotEmpty(breakfastTextItemList)) {
+				for (RouteTextItem routeTextItem : breakfastTextItemList) {
+					this.restaurant1.add(new IdNamePair(routeTextItem));
+				}
 			}
 		}
-		List<RouteTextItem> lunchTextItemList = lunch.getRouteItemDesc().getTextItems();
-		this.restaurant2 = new ArrayList<IdNamePair>();
-		if (CollectionUtils.isNotEmpty(lunchTextItemList)) {
-			for (RouteTextItem routeTextItem : lunchTextItemList) {
-				this.restaurant2.add(new IdNamePair(routeTextItem));
+		if (lunch != null) {
+			List<RouteTextItem> lunchTextItemList = lunch.getRouteItemDesc().getTextItems();
+			this.restaurant2 = new ArrayList<IdNamePair>();
+			if (CollectionUtils.isNotEmpty(lunchTextItemList)) {
+				for (RouteTextItem routeTextItem : lunchTextItemList) {
+					this.restaurant2.add(new IdNamePair(routeTextItem));
+				}
 			}
 		}
-		List<RouteTextItem> dinnerTextItemList = dinner.getRouteItemDesc().getTextItems();
-		this.restaurant3 = new ArrayList<IdNamePair>();
-		if (dinner != null && CollectionUtils.isNotEmpty(dinnerTextItemList)) {
-			for (RouteTextItem routeTextItem : dinnerTextItemList) {
-				this.restaurant3.add(new IdNamePair(routeTextItem));
+		if (dinner != null) {
+			List<RouteTextItem> dinnerTextItemList = dinner.getRouteItemDesc().getTextItems();
+			this.restaurant3 = new ArrayList<IdNamePair>();
+			if (dinner != null && CollectionUtils.isNotEmpty(dinnerTextItemList)) {
+				for (RouteTextItem routeTextItem : dinnerTextItemList) {
+					this.restaurant3.add(new IdNamePair(routeTextItem));
+				}
 			}
 		}
-		List<RouteTextItem> scenicTextItemList = scenic.getRouteItemDesc().getTextItems();
-		this.scenics = new ArrayList<IdNamePair>();
-		if (scenic != null && CollectionUtils.isNotEmpty(scenicTextItemList)) {
-			for (RouteTextItem routeTextItem : scenicTextItemList) {
-				this.scenics.add(new IdNamePair(routeTextItem));
+		if (scenic != null) {
+			List<RouteTextItem> scenicTextItemList = scenic.getRouteItemDesc().getTextItems();
+			this.scenics = new ArrayList<IdNamePair>();
+			if (scenic != null && CollectionUtils.isNotEmpty(scenicTextItemList)) {
+				for (RouteTextItem routeTextItem : scenicTextItemList) {
+					this.scenics.add(new IdNamePair(routeTextItem));
+				}
 			}
 		}
-		List<RouteTextItem> hotelTextItemList = hotel.getRouteItemDesc().getTextItems();
-		this.hotels = new ArrayList<IdNamePair>();
-		if (hotel != null && CollectionUtils.isNotEmpty(hotelTextItemList)) {
-			for (RouteTextItem routeTextItem : hotelTextItemList) {
-				this.hotels.add(new IdNamePair(routeTextItem));
+		if (hotel != null) {
+			List<RouteTextItem> hotelTextItemList = hotel.getRouteItemDesc().getTextItems();
+			this.hotels = new ArrayList<IdNamePair>();
+			if (hotel != null && CollectionUtils.isNotEmpty(hotelTextItemList)) {
+				for (RouteTextItem routeTextItem : hotelTextItemList) {
+					this.hotels.add(new IdNamePair(routeTextItem));
+				}
 			}
 		}
-		this.restaurantDetail = restaurantDetail.getRouteItemDetail();
-		this.scenicDetail = scenicDetail.getRouteItemDetail();
-		this.hotelDetail = hotelDetail.getRouteItemDetail();
+		if (restaurantDetail != null) {
+			this.restaurantDetail = restaurantDetail.getRouteItemDetail();
+		}
+		if (scenicDetail != null) {
+			this.scenicDetail = scenicDetail.getRouteItemDetail();
+		}
+		if (hotelDetail != null) {
+			this.hotelDetail = hotelDetail.getRouteItemDetail();
+		}
 	}
 
 	public String getDescription() {
