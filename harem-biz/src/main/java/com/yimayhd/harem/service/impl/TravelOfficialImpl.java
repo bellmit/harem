@@ -145,7 +145,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
     	//travelSpecialDTO.setGmtModified(gmtModified);
     	//travelSpecialDTO.set
     	
-    	BaseResult<Boolean>  res = snsCenterService.updateTravelStateByIds(travelSpecialDTO);
+    	BaseResult<Boolean>  res = null;
     	if(null != res && res.isSuccess() && res.getValue()){
     		return true;
     	}

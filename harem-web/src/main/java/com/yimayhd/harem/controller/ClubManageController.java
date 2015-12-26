@@ -1,13 +1,11 @@
 package com.yimayhd.harem.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,15 +15,15 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
+import com.yimayhd.harem.model.BatchSetUpParameter;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.ClubAdd;
 import com.yimayhd.harem.model.User;
+import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.harem.service.UserRPCService;
-import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
-import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -50,9 +48,7 @@ public class ClubManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ClubDOInfoDTO query) throws Exception {
-		query.setPageNo(query.getPageNo()==0?1:query.getPageNo());
-		query.setPageSize(query.getPageSize()==0?10:query.getPageSize());
+	public String list(Model model, ClubListQuery query) throws Exception {
 		List<ClubDO>  clubList = clubService.getList(query);
 		model.addAttribute("clubListQuery", query);
 		model.addAttribute("clubList", clubList);
@@ -132,13 +128,14 @@ public class ClubManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/setJoinStatus/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/setJoinStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setJoinStatus(@PathVariable(value = "id") long id, int joinStatus) throws Exception {
-		ClubDOInfoDTO club = new ClubDOInfoDTO();
-		club.setId(id);
-		club.setState(joinStatus);
-		boolean flag = clubService.modify(club);
+	public ResponseVo setJoinStatus(BatchSetUpParameter batchSetUpParameter, int status) throws Exception {
+		List<Long> ids = null;
+		if(null != batchSetUpParameter){
+			ids = batchSetUpParameter.getIds();
+		}
+		boolean flag = clubService.batchUpOrDownStatus(ids, status);
 		if(flag){
 			return new ResponseVo(ResponseStatus.SUCCESS);
 		}
