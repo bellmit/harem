@@ -182,7 +182,7 @@ public abstract class BaseTravel {
 	}
 
 	protected long getSellerId() {
-		long sellerId = B2CConstant.SELLERID;
+		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		/*
 		 * if (this.baseInfo != null) { sellerId =
 		 * this.baseInfo.getPublisherId(); }

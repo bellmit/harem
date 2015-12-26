@@ -40,7 +40,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 
 		ItemDO itemDO = scenicPublishDTO.getItemDO();
 		 
-		itemDO.setSellerId(B2CConstant.SELLERID);
+		itemDO.setSellerId(B2CConstant.YIMAY_OFFICIAL_ID);
 		itemDO.setOutType(ResourceType.SCENIC.getType());
 		scenicPublishDTO.getScenicDO().setId(scenicPublishDTO.getItemDO().getOutId());
 		scenicPublishDTO.getScenicDO().setItemStatus(ItemStatus.valid.getValue());

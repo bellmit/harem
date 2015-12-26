@@ -54,7 +54,7 @@ public abstract class BaseTravelController extends BaseController {
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 		put("ways", TripTraffic.ways());
-		put("officialPublisher", userService.getUserById(B2CConstant.SELLERID));
+		put("officialPublisher", userService.getUserById(B2CConstant.YIMAY_OFFICIAL_ID));
 	}
 
 	protected void initLinePropertyTypes(long categoryId) {
