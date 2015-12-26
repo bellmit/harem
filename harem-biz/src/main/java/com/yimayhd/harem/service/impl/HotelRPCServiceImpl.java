@@ -165,6 +165,18 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		}
 		
 		return resultList;
+	}
+
+	@Override
+	public void setHotelStatusList(List<Long> idList, int hotelStatus) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setHotelStatus(long id, int hotelStatus) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 }

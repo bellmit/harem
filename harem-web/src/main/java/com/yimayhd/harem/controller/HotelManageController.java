@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.yimayhd.harem.manager.HotelManager;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,24 +14,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
+import com.yimayhd.harem.manager.HotelManager;
 import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
-import com.yimayhd.harem.service.CommodityService;
-import com.yimayhd.harem.service.FacilityIconService;
 import com.yimayhd.harem.service.HotelRPCService;
-import com.yimayhd.harem.service.HotelService;
-import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 /**
  * 酒店管理（资源）
@@ -43,9 +37,6 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 @Controller
 @RequestMapping("/B2C/hotelManage")
 public class HotelManageController extends BaseController {
-
-	@Autowired
-	private HotelService hotelService;
 
 	@Autowired
 	private HotelRPCService hotelRPCService;
@@ -60,8 +51,7 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, HotelListQuery hotelListQuery)
-			throws Exception {
+	public String list(Model model, HotelListQuery hotelListQuery) throws Exception {
 
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		List<HotelDO> hotelDOList = pageVo.getItemList();
@@ -82,21 +72,18 @@ public class HotelManageController extends BaseController {
 	public String toAdd(Model model) throws Exception {
 
 		// 房间设施
-		List<HotelFacilityVO> roomFacilityList = hotelRPCService
-				.queryFacilities(1);
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
 		// 特色服务
-		List<HotelFacilityVO> roomServiceList = hotelRPCService
-				.queryFacilities(2);
+		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
 		// 酒店设施
-		List<HotelFacilityVO> hotelFacilityList = hotelRPCService
-				.queryFacilities(3);
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
 
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
 		return "/system/hotel/add3";
 	}
-	
+
 	/**
 	 * 新增酒店（资源）
 	 * 
@@ -104,27 +91,21 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(HotelVO hotelVO, String roomFacilityStr,
-			String roomServiceStr, String hotelFacilityStr,
-			MasterRecommend recommend,
-			NeedKnow needKnow,
-			String name2) throws Exception {
-		
+	public String add(HotelVO hotelVO, String roomFacilityStr, String roomServiceStr, String hotelFacilityStr,
+			MasterRecommend recommend, NeedKnow needKnow, String name2) throws Exception {
+
 		long roomFacility = Long.parseLong(new StringBuilder(roomFacilityStr).reverse().toString(), 2);
 		long roomService = Long.parseLong(new StringBuilder(roomServiceStr).reverse().toString(), 2);
 		long hotelFacility = Long.parseLong(new StringBuilder(hotelFacilityStr).reverse().toString(), 2);
-		
+
 		recommend.setName(name2);
-		String jsonString = JSON.toJSONString(recommend);
-		String jsonNeedKnow = JSON.toJSONString(needKnow);
-		
-		hotelVO.setNeedKnow(jsonNeedKnow);
-		hotelVO.setRecommend(jsonString);
+		hotelVO.setNeedKnow(needKnow);
+		hotelVO.setRecommend(recommend);
 		hotelVO.setRoomFacility(roomFacility);
 		hotelVO.setRoomService(roomService);
 		hotelVO.setHotelFacility(hotelFacility);
 		hotelVO.setStatus(BaseStatus.DELETED.getType());
-				
+
 		hotelRPCService.addHotel(hotelVO);
 
 		return "/success";
@@ -138,8 +119,7 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setHotelStatus(@PathVariable("id") long id,
-			int hotelStatus) throws Exception {
+	public ResponseVo setHotelStatus(@PathVariable("id") long id, int hotelStatus) throws Exception {
 
 		HotelDO hotelDO = new HotelDO();
 		hotelDO.setId(id);
@@ -183,8 +163,7 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String toEdit(Model model, @PathVariable(value = "id") long id)
-			throws Exception {
+	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 
 		HotelVO hotelVO = hotelRPCService.getHotel(id);
 		if (hotelVO == null) {
@@ -202,10 +181,8 @@ public class HotelManageController extends BaseController {
 		String hotelFacilityStr = Long.toBinaryString(hotelFacility);
 		String roomServiceStr = Long.toBinaryString(roomService);
 
-		roomFacilityStr = new StringBuffer(roomFacilityStr).reverse()
-				.toString();
-		hotelFacilityStr = new StringBuffer(hotelFacilityStr).reverse()
-				.toString();
+		roomFacilityStr = new StringBuffer(roomFacilityStr).reverse().toString();
+		hotelFacilityStr = new StringBuffer(hotelFacilityStr).reverse().toString();
 		roomServiceStr = new StringBuffer(roomServiceStr).reverse().toString();
 		/**
 		 * 处理酒店设施 结束
@@ -216,23 +193,20 @@ public class HotelManageController extends BaseController {
 		char[] roomServiceArr = roomServiceStr.toCharArray();
 
 		// 房间设施
-		List<HotelFacilityVO> roomFacilityList = hotelRPCService
-				.queryFacilities(1);
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
 		Collections.sort(roomFacilityList);
 		// 特色服务
-		List<HotelFacilityVO> roomServiceList = hotelRPCService
-				.queryFacilities(2);
+		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
 		Collections.sort(roomServiceList);
 		// 酒店设施
-		List<HotelFacilityVO> hotelFacilityList = hotelRPCService
-				.queryFacilities(3);
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
 		Collections.sort(hotelFacilityList);
 
 		checkInit(roomFacilityList, roomFacilityArr);
 		checkInit(roomServiceList, roomServiceArr);
 		checkInit(hotelFacilityList, hotelFacilityArr);
-		
-		NeedKnow needKnow = JSON.parseObject(hotelVO.getNeedKnow(), NeedKnow.class);
+
+		NeedKnow needKnow = hotelVO.getNeedKnow();
 		model.addAttribute("hotel", hotelVO);
 		model.addAttribute("recommend", recommend);
 		model.addAttribute("roomFacilityList", roomFacilityList);
@@ -274,13 +248,11 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectList", method = RequestMethod.GET)
-	public String selectList(Model model, HotelListQuery hotelListQuery,
-			int multiSelect) throws Exception {
-		List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery);
-		PageVO pageVo = new PageVO(1, 10, 300);
+	public String selectList(Model model, HotelListQuery hotelListQuery, int multiSelect) throws Exception {
+		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
-		model.addAttribute("hotelDOList", hotelDOList);
+		model.addAttribute("hotelDOList", pageVo.getItemList());
 		model.addAttribute("multiSelect", multiSelect);
 		return "/system/hotel/selectList";
 	}
@@ -292,14 +264,13 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String edit(HotelVO hotelVO, @PathVariable("id") long id)
-			throws Exception {
+	public String edit(HotelVO hotelVO, @PathVariable("id") long id) throws Exception {
 		hotelVO.setId(id);
 		boolean ret = hotelManager.modify(hotelVO);
 		if (ret) {
 			return "/success";
 		}
-		return "/";//TODO 曹张锋帮搞下
+		return "/";// TODO 曹张锋帮搞下
 	}
 
 	/**
@@ -310,10 +281,9 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/setHotelStatusList", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setHotelStatusList(
-			@RequestParam("hotelIdList[]") ArrayList<Long> hotelIdList,
-			int hotelStatus) throws Exception {
-		hotelService.setHotelStatusList(hotelIdList, hotelStatus);
+	public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]") ArrayList<Long> hotelIdList, int hotelStatus)
+			throws Exception {
+		hotelRPCService.setHotelStatusList(hotelIdList, hotelStatus);
 		return new ResponseVo();
 	}
 
@@ -326,8 +296,8 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/picture/add/{hotelId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseVo addHotelPicture(@PathVariable("hotelId") long id,
-			ArrayList<String> pictureList) throws Exception {
+	public ResponseVo addHotelPicture(@PathVariable("hotelId") long id, ArrayList<String> pictureList)
+			throws Exception {
 		return new ResponseVo();
 	}
 
@@ -339,8 +309,7 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/picture/delete/{hotelId}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo delHotelPicture(@PathVariable("hotelId") long id)
-			throws Exception {
+	public ResponseVo delHotelPicture(@PathVariable("hotelId") long id) throws Exception {
 		return new ResponseVo();
 	}
 
@@ -352,8 +321,7 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/picture/top/{hotelId}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo topHotelPicture(@PathVariable("hotelId") long id)
-			throws Exception {
+	public ResponseVo topHotelPicture(@PathVariable("hotelId") long id) throws Exception {
 		return new ResponseVo();
 	}
 

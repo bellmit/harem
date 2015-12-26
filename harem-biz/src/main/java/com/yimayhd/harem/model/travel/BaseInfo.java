@@ -1,12 +1,9 @@
 package com.yimayhd.harem.model.travel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
@@ -76,13 +73,9 @@ public class BaseInfo {
 		this.price = line.getPrice();
 		this.memberPrice = line.getMemberPrice();
 		this.highlights = line.getDescription();
-		this.recommond = JSON.parseObject(line.getRecommend(), MasterRecommend.class);
-		if (StringUtils.isNotBlank(line.getNeedKnow())) {
-			this.needKnow = JSON.parseObject(line.getNeedKnow(), NeedKnow.class);
-		}
-		if(StringUtils.isNotBlank(line.getRcmdMasters())) {
-			this.masters = JSON.parseArray(line.getRcmdMasters(), String.class);
-		}
+		this.recommond = line.getRecommend();
+		this.needKnow = line.getNeedKnow();
+		this.masters = line.getRcmdMasters();
 	}
 
 	/**
@@ -234,7 +227,7 @@ public class BaseInfo {
 		// image
 		line.setCoverUrl(this.tripImage);
 		line.setLogoUrl(this.productImage);
-		line.setPictures(this.tripImage);
+		line.setPictures(Arrays.asList(this.tripImage));
 		if (this.fromLevel == RegionLevel.PROVINCE.getLevel()) {
 			line.setStartProvinceId(this.fromId);
 		} else if (this.fromLevel == RegionLevel.CITY.getLevel()) {
@@ -253,18 +246,13 @@ public class BaseInfo {
 		line.setDestCityName(this.toName);
 		line.setOwnerType(LineOwnerType.DEFAULT.getType());
 		line.setOwnerId(this.publisherId);
-		if (CollectionUtils.isNotEmpty(this.masters)) {
-			line.setRcmdMasters(JSON.toJSONString(this.masters));
-		} else {
-			line.setRcmdMasters("");
-		}
+		line.setRcmdMasters(this.masters);
 		line.setPrice(this.price);
 		line.setMemberPrice(this.memberPrice);
 		line.setDescription(this.highlights);
-		line.setRecommend(JSON.toJSONString(this.recommond));
-		line.setNeedKnow(JSON.toJSONString(this.needKnow));
-		// TODO 客服电话
-		line.setPhoneNum("4000901666");
+		line.setRecommend(this.recommond);
+		line.setNeedKnow(this.needKnow);
+		line.setPhoneNum(Arrays.asList("4000901666"));
 		return line;
 	}
 

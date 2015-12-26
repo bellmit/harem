@@ -7,6 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.ic.client.model.domain.item.HotelShortItem;
 import com.yimayhd.ic.client.model.domain.share_json.FlightDetail;
 import com.yimayhd.ic.client.model.domain.share_json.FlightInfo;
 import com.yimayhd.ic.client.model.domain.share_json.HotelInfo;
@@ -42,7 +43,7 @@ public class SelfServiceTravel extends BaseTravel {
 		if (this.tripPackageInfo.getHasFlight() != 1) {
 			FlightInfo flightInfo = this.tripPackageInfo.getFlightInfo();
 			if (flightInfo != null) {
-				dto.getLineDO().setFlights(JSON.toJSONString(flightInfo));
+				dto.getLineDO().setFlights(flightInfo);
 			}
 		} else {
 			List<FlightDetail> flightDetails = this.tripPackageInfo.getFlightDetails();
@@ -62,17 +63,17 @@ public class SelfServiceTravel extends BaseTravel {
 				flightInfo.setReturnDepartCity(flightDetail.getReturnDepartCity());
 				// flightInfo.setReturnDepartTime(flightDetail.getReturnDepartTime());
 				flightInfo.setMemo("");
-				dto.getLineDO().setFlights(JSON.toJSONString(flightInfo));
+				dto.getLineDO().setFlights(flightInfo);
 			} else {
 				flightDetails = new ArrayList<FlightDetail>();
 			}
-			dto.getLineDO().setFlightDetail(JSON.toJSONString(flightDetails));
+			dto.getLineDO().setFlightDetail(flightDetails);
 		}
-		List<HotelInfo> hotels = this.tripPackageInfo.getHotels();
+		List<HotelShortItem> hotels = this.tripPackageInfo.getHotels();
 		if (CollectionUtils.isEmpty(hotels)) {
-			hotels = new ArrayList<HotelInfo>();
+			hotels = new ArrayList<HotelShortItem>();
 		}
-		dto.getLineDO().setHotels(JSON.toJSONString(hotels));
+		dto.getLineDO().setHotels(hotels);
 	}
 
 	@Override

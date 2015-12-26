@@ -70,7 +70,7 @@
 		<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home'></i><span class="tripAddSp">添加酒店</span></div>
 		<div class='panel-body hotel' id='day_hotel'>
 		#foreach($hotel in $product.tripPackageInfo.hotels)
-			<button class="btn btn-info remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
+			<button class="btn btn-info remove-self" rNd="$!{hotel.id}" rName="$!{hotel.name}" rAddress="$!{hotel.address}">$!{hotel.name}</button>
 		#end
 		</div>
 		<div class="panel-body"><button class='btn btn-primary select-hotel'>选择酒店</button></div>
@@ -173,6 +173,7 @@
 				var btn = $("<button class='btn btn-info hotel_item'></button>");
 				btn.attr("rId", hot[i].id);
 				btn.attr("rName", hot[i].name);
+				btn.attr("rAddress", hot[i].address);
 				btn.click(function() {
 					$(this).remove();
 				});
@@ -203,7 +204,8 @@
 		$(".hotel_item").each(function(){
 			var rId = $(this).attr("rId");
 			var rName = $(this).attr("rName");
-			hotels.push({id:rId,name:rName});
+			var rAddress = $(this).attr("rAddress");
+			hotels.push({id:rId,name:rName,address:rAddress});
 		});
 		result["hotels"] = hotels;
 		return result;

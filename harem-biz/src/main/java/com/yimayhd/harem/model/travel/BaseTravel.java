@@ -79,60 +79,64 @@ public abstract class BaseTravel {
 	 * 
 	 * @return
 	 */
-	public LinePublishDTO toLinePublishDTO() {
+	public LinePublishDTO toLinePublishDTOForSave() {
 		LinePublishDTO dto = new LinePublishDTO();
-		if (baseInfo != null) {
-			// TODO 转化baseInfo
-			dto.setLineDO(baseInfo.toLineDO());
-			setRouteInfo(dto);
+		dto.setLineDO(baseInfo.toLineDO());
+		setRouteInfo(dto);
+		dto.setItemDO(this.getItemDO());
+		List<ItemSkuDO> itemSkuDOList = priceInfo.toItemSkuDOList(this.categoryId, this.getSellerId());
+		dto.setItemSkuDOList(itemSkuDOList);
+		return dto;
+	}
+
+	/**
+	 * 获得线路发布DTO
+	 * 
+	 * @return
+	 */
+	public LinePublishDTO toLinePublishDTOForUpdate() {
+		LinePublishDTO dto = this.toLinePublishDTOForSave();
+		List<ItemSkuDO> itemSkuDOList = dto.getItemSkuDOList();
+		Map<Long, ItemSkuDO> skuMap = new HashMap<Long, ItemSkuDO>();
+		for (ItemSkuDO itemSkuDO : itemSkuDOList) {
+			if (itemSkuDO.getId() > 0) {
+				skuMap.put(itemSkuDO.getId(), itemSkuDO);
+			}
 		}
-		if (priceInfo != null) {
-			dto.setItemDO(this.getItemDO());
-			List<ItemSkuDO> itemSkuDOList = priceInfo.toItemSkuDOList(this.categoryId, this.getSellerId());
-			Map<Long, ItemSkuDO> skuMap = new HashMap<Long, ItemSkuDO>();
-			for (ItemSkuDO itemSkuDO : itemSkuDOList) {
-				if (itemSkuDO.getId() > 0) {
-					skuMap.put(itemSkuDO.getId(), itemSkuDO);
+		if (this.baseInfo.getId() > 0) {
+			List<ItemSkuDO> addSkuList = new ArrayList<ItemSkuDO>();
+			List<ItemSkuDO> updateSkuList = new ArrayList<ItemSkuDO>();
+			List<ItemSkuDO> deleteSkuList = new ArrayList<ItemSkuDO>();
+			if (CollectionUtils.isNotEmpty(itemSkuDOList)) {
+				for (ItemSkuDO itemSkuDO : deleteSkuList) {
+					if (itemSkuDO.getId() <= 0) {
+						addSkuList.add(itemSkuDO);
+					}
 				}
-			}
-			dto.setItemSkuDOList(itemSkuDOList);
-			if (this.baseInfo.getId() > 0) {
-				List<ItemSkuDO> addSkuList = new ArrayList<ItemSkuDO>();
-				List<ItemSkuDO> updateSkuList = new ArrayList<ItemSkuDO>();
-				List<ItemSkuDO> deleteSkuList = new ArrayList<ItemSkuDO>();
-				// For update
-				if (CollectionUtils.isNotEmpty(itemSkuDOList)) {
-					for (ItemSkuDO itemSkuDO : deleteSkuList) {
-						if (itemSkuDO.getId() <= 0) {
-							addSkuList.add(itemSkuDO);
-						}
-					}
-					// 先删除后修改
-					List<Long> deletedSKU = this.priceInfo.getDeletedSKU();
-					List<Long> updatedSKU = this.priceInfo.getUpdatedSKU();
-					// 决定删除就不更新了
-					updatedSKU.removeAll(deletedSKU);
-					if (CollectionUtils.isNotEmpty(deletedSKU)) {
-						for (long skuId : deletedSKU) {
-							if (skuMap.containsKey(skuId)) {
-								ItemSkuDO itemSkuDO = skuMap.get(skuId);
-								deleteSkuList.add(itemSkuDO);
-							}
-						}
-					}
-					if (CollectionUtils.isNotEmpty(updatedSKU)) {
-						for (long skuId : updatedSKU) {
-							if (skuMap.containsKey(skuId)) {
-								ItemSkuDO itemSkuDO = skuMap.get(skuId);
-								updateSkuList.add(itemSkuDO);
-							}
+				List<Long> deletedSKU = this.priceInfo.getDeletedSKU();
+				List<Long> updatedSKU = this.priceInfo.getUpdatedSKU();
+				// 决定删除就不更新了
+				updatedSKU.removeAll(deletedSKU);
+				if (CollectionUtils.isNotEmpty(deletedSKU)) {
+					for (long skuId : deletedSKU) {
+						if (skuMap.containsKey(skuId)) {
+							ItemSkuDO itemSkuDO = skuMap.get(skuId);
+							deleteSkuList.add(itemSkuDO);
 						}
 					}
 				}
-				dto.setAddItemSkuList(addSkuList);
-				dto.setUpdItemSkuList(updateSkuList);
-				dto.setDelItemSkuList(deleteSkuList);
+				if (CollectionUtils.isNotEmpty(updatedSKU)) {
+					for (long skuId : updatedSKU) {
+						if (skuMap.containsKey(skuId)) {
+							ItemSkuDO itemSkuDO = skuMap.get(skuId);
+							updateSkuList.add(itemSkuDO);
+						}
+					}
+				}
 			}
+			dto.setAddItemSkuList(addSkuList);
+			dto.setUpdItemSkuList(updateSkuList);
+			dto.setDelItemSkuList(deleteSkuList);
 		}
 		return dto;
 	}
