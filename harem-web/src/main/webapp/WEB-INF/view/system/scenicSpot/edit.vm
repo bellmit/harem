@@ -132,7 +132,7 @@
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>基础价格</td>
-                        <td><input type="text" name="price" id="price" class="inpControl" value="$!{VO.scenic.price}">起
+                        <td><input type="text" name="priceY" id="price" class="inpControl" value="$!{VO.scenic.price}">起
                         </td>
                     </tr>
                     <tr>
