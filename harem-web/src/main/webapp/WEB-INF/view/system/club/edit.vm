@@ -7,11 +7,11 @@
         <table class="table">
             <tr>
                 <td><span class="spColor">*</span>俱乐部名称</td>
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="clubName" value="$!club.clubName"></td>
+                <td><input type="text" class="form-control" placeholder="请输入20个字以内" id="clubNameId" name="clubName" value="$!club.clubName"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>俱乐部描述</td>
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="clubDes" value="$!club.clubDes"></td>
+                <td><input type="text" class="form-control" placeholder="请输入20个字以内" id="clubDesId" name="clubDes" value="$!club.clubDes"></td>
             </tr>
 
             <tr>
@@ -19,7 +19,7 @@
                 <td>
                     <div class="fileImg">
                         <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+                        <input type="file" class="fileInp" id="logoUrlUploadFile">
                         <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
                         <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
                     </div>
@@ -34,7 +34,7 @@
                     <div class="fileImg">
                         <button type="button" class="btn btn-success">选择图片</button>
 						
-                        <input type="file"  name="file" class="fileInp" id="picturePosterUploadFile" accept="image/png,image/gif">
+                        <input type="file"   class="fileInp" id="picturePosterUploadFile" accept="image/png,image/gif">
 						<input type="hidden" name="backImg" value="$!club.backImg"  id="picturePosterUploadFileReturnInput">
 							
                         <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
@@ -50,7 +50,7 @@
                 <td>
                     <div class="userBtn">
                         <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
-                         <input type="hidden" id="nickNameId"  name="nickName" value="$!club.nickName">
+                        <input type="hidden" id="nickNameId"  name="nickName" value="$!club.nickName">
                         <input type="hidden" name="manageUserName" value="$!club.manageUserName">
                         <input type="hidden" name="manageUserLogoUrl" value="$!club.manageUserLogoUrl">
                         <input type="hidden" id="createIdId"  name="createId" value="$!club.createId">
@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="score" value="$!club.score"></td>
+                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" id="scoreId" name="score" value="$!club.score"></td>
             </tr>
             
             <tr>
@@ -103,7 +103,7 @@
 			   			$("#themeListId").html(imgHtml);
 			        });
                 }else{
-                 	layer.alert('操作失败');
+                 	layer.alert('获取主题失败');
                     $(this).prop('disabled',false);
                 }
     });
@@ -163,6 +163,25 @@
 
         $('#btnSubmit').click(function(){
             $(this).prop('disabled',true);
+            
+            var themeIds =[]; 
+			$('input[name="theme"]:checked').each(function(){ 
+				themeIds.push($(this).val()); 
+			}); 
+            
+           var clubParams = {
+			   
+			    clubName:$("#clubNameId").val(),
+				clubDes:$("#clubDesId").val(),
+				logoUrl:$("#logoUrlUploadFileReturnInput").val(),
+				backImg:$("#picturePosterUploadFileReturnInput").val(),
+				createId:$("#createIdId").val(),
+				score:$("#scoreId").val(),
+				themeIds:themeIds
+
+			};
+       	    console.log(clubParams);
+       
             var actionUrl;
             var clubId = $('#clubForm').attr('clubId');
             if(clubId){
@@ -171,19 +190,15 @@
                 actionUrl = '/B2C/clubManage/add';
             }
             
-            $('#clubForm').attr('action',actionUrl);
-			$('#clubForm').submit();
-           #* 
-			$.post(actionUrl,$('#clubForm').serialize(),function(data){
+			$.post(actionUrl,clubParams,function(data){
                 if(data.status == 200){
                  layer.alert('操作成功');
-                 window.location.href = window.location.href;
                 }else{
-                    layer.alert('操作成功');
+                    layer.alert('操作失败');
                     $(this).prop('disabled',false);
                 }
             });
-			*#
+			
         });
     });
 </script>

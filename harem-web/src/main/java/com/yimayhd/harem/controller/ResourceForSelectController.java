@@ -146,7 +146,7 @@ public class ResourceForSelectController extends BaseController {
 		PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		Map<String, Object> result = new HashMap<String, Object>();
-		model.addAttribute("itemTypeList", itemTypeList);
+		result.put("itemTypeList", itemTypeList);
 		result.put("pageVo", pageVO);
 		result.put("query", commodityListQuery);
 		return new ResponseVo(result);
