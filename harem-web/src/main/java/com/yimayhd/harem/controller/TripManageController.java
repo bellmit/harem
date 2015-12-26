@@ -37,39 +37,13 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
 @Controller
 @RequestMapping("/B2C/trip")
 public class TripManageController extends BaseController {
-
+	
+	//XXX:目的地 以及推荐相关的，入库设计的逻辑非常复杂，后期需要优化
+	
 	private static final Logger logger = LoggerFactory.getLogger(TripManageController.class);
 	
 	@Autowired TripService tripService;
 	
-	/**
-	* @Title: originToAdd 
-	* @Description:(出发地新增) 
-	* @author create by yushengwei @ 2015年12月09日 上午10:32:45 
-	* @param @param model
-	* @param @return 
-	* @return String 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/origin/toAdd")
-	public String originToAdd(Model model){
-		return "/system/trip/origin_edit";
-	}
-	
-	
-	/**
-	* @Title: toAdd 
-	* @Description:(新增目的地) 
-	* @author create by yushengwei @ 2015年12月10日 下午3:46:59 
-	* @param @param model
-	* @param @return 
-	* @return String 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/departure/toAdd")
-	public String toAdd(Model model){
-		return "/system/trip/edit";
-	}
 	
 	/**
 	* @Title: add 
@@ -81,72 +55,17 @@ public class TripManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/add")
-	@ResponseBody
-	public ResponseVo toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
+	public String toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
 		try {
 			if (null != tripBo && 0 != tripBo.getCityCode()) {
 				RegionDO regionDO = tripService.saveOrUpdateDetail(tripBo);
 				if (null == regionDO) {
-					return new ResponseVo(ResponseStatus.INVALID_DATA);
+					return "/error";
 				}
-				if (RegionType.DEPART_REGION.getType() == tripBo.getType()) {//线路出发地
-					return new ResponseVo(ResponseStatus.SUCCESS);
-				} else if (RegionType.DESC_REGION.getType() == tripBo.getType()) {//线路目的地
-					model.addAttribute("id", regionDO.getId());
-					model.addAttribute("cityCode", regionDO.getCityCode());
-					return new ResponseVo(model);
-				}
+				return "/success";
 			} 
 		} catch (Exception e) {
 			logger.error("trip+add,parameter[tripBo]="+JSON.toJSONString(tripBo)+" |error="+e.toString());
-		}
-		return new ResponseVo(ResponseStatus.ERROR);
-	}
-	
-	/**
-	* @Title: recommendedList 
-	* @Description:(获取买必推荐列表) 
-	* @author create by yushengwei @ 2015年12月8日 上午9:42:05 
-	* @param @param model
-	* @param @param destinationId
-	* @param @param showCaseId
-	* @param @return 
-	* @return String 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/recommended/list")
-	public String recommendedList(Model model,HttpServletRequest request,ScenicPageQuery scenicPageQuery){
-		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
-		String cityCode=request.getParameter("cityCode");
-		try {
-			if (type == ColumnType.NEED_BUY.getType()) {//必买推荐 10
-				List<RegionIntroduceDO> list = tripService.getListShowCaseResult(type);
-				model.addAttribute("recommendedList", list);
-				return "/system/trip/add_destination/list_buy_recommended";
-			
-			
-			
-			} else if (type == ColumnType.GREAT_SCENIC.getType()) {//必去景点 8
-			    model.addAttribute("scenicDOList", tripService.selectScenicDO(scenicPageQuery));
-				return "/system/trip/add_destination/list_scenic";
-			
-			
-			
-			
-			} else if (type == ColumnType.GREAT_HOTEL.getType()) {//酒店 ? 7 
-				List<HotelDO> hotelDOList = tripService.getListHotelDO(cityCode);
-				model.addAttribute("hotelDOList", hotelDOList);
-				return "/system/trip/add_destination/list_hotel";
-			
-			
-			
-			
-			} else if (type == ColumnType.LIVE_HEADLINES.getType()) {//直播 ? 17
-				
-				return "/system/trip/add_destination/list_live";
-			} 
-		} catch (Exception e) {
-			logger.error("trip+recommendedList,parameter[type]="+type+",cityCode="+cityCode+" |error="+e.toString());
 		}
 		return "/error";
 	}
@@ -163,9 +82,9 @@ public class TripManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/recommended/relevance")
-	public String relevance(Model model,int type,String cityCode,int[] resourceId){
+	public String relevance(Model model,int type,int cityCode,int[] resourceId){
 		try {
-			if (StringUtils.isEmpty(cityCode) || null == resourceId || resourceId.length <= 0) {
+			if ( null == resourceId || resourceId.length <= 0) {
 				model.addAttribute("errMsg", "参数不正确");
 				return "/error";
 			}
@@ -212,8 +131,6 @@ public class TripManageController extends BaseController {
 		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
 		List<RegionDO> list = tripService.selectRegion(type);
 		//TODO:调用分页 
-		
-		
 		
 		if(CollectionUtils.isNotEmpty(list)){
 			model.addAttribute("regionList",list);
@@ -284,11 +201,37 @@ public class TripManageController extends BaseController {
 	public String edit(Model model,@PathVariable(value = "id")long id, HttpServletRequest request){
 		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
 		String cityCode=request.getParameter("cityCode");
-		//tripService.editTripBo(tripBo);
 		return cityCode;
 	}
 	
+	/**
+	* @Title: originToAdd 
+	* @Description:(出发地新增) 
+	* @author create by yushengwei @ 2015年12月09日 上午10:32:45 
+	* @param @param model
+	* @param @return 
+	* @return String 返回类型 
+	* @throws
+	 */
+	@RequestMapping("/origin/toAdd")
+	public String originToAdd(Model model){
+		return "/system/trip/origin_edit";
+	}
 	
+	
+	/**
+	* @Title: toAdd 
+	* @Description:(新增目的地) 
+	* @author create by yushengwei @ 2015年12月10日 下午3:46:59 
+	* @param @param model
+	* @param @return 
+	* @return String 返回类型 
+	* @throws
+	 */
+	@RequestMapping("/departure/toAdd")
+	public String toAdd(Model model){
+		return "/system/trip/add_destination/destination_base_info";
+	}
 	
 		
 }

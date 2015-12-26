@@ -30,6 +30,9 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
+import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
+import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 
@@ -52,6 +55,8 @@ public class ResourceForSelectController extends BaseController {
 	private UserRPCService userService;
 	@Autowired
 	private CommodityService commodityService;
+	@Autowired
+	private RegionIntroduceClientService RegionIntroduceClientServiceRef;
 	/**
 	 * 选择景点
 	 * 
@@ -254,5 +259,28 @@ public class ResourceForSelectController extends BaseController {
 	public String selectTravelKa() throws Exception {
 		return "/system/resource/forSelect/selectTravelKa";
 	}
+	
+	@RequestMapping(value = "/selectMustBuy")
+	public String selectMustBuy() throws Exception {
+		return "/system/resource/forSelect/selectMustBuy";
+	}
+	
+	
+	@RequestMapping(value = "/listMustBuy")
+	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery regionIntroduceQuery) throws Exception {
+		List<RegionIntroduceDO> list = RegionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", 11);
+		result.put("query", 11);
+		return new ResponseVo(result);
+	}
+	
+	
+	@RequestMapping(value = "/selectLive")
+	public String selectLive() throws Exception {
+		return "/system/resource/forSelect/selectLive";
+	}
+	
+	
 	
 }

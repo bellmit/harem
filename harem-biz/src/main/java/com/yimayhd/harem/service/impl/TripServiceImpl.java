@@ -118,6 +118,13 @@ public class TripServiceImpl implements TripService {
 			list.add(tieshi);
 			list.add(xiaofei);
 			saveShowCase(list, tripBo.getCityCode());
+			
+			relevanceRecommended(ColumnType.NEED_BUY.getType(), tripBo.getCityCode(), tripBo.getBiMai());
+			relevanceRecommended(ColumnType.GREAT_SCENIC.getType(), tripBo.getCityCode(), tripBo.getBiQu());
+			relevanceRecommended(ColumnType.GREAT_HOTEL.getType(), tripBo.getCityCode(), tripBo.getJiuDian());
+			//relevanceRecommended(ColumnType.NEED_BUY.getType(), tripBo.getCityCode(), tripBo.getZhiBo());
+			
+			
 		}
 		return regionDO;
 	}
@@ -276,7 +283,7 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public boolean relevanceRecommended(int type, String cityCode, int[] resourceId) throws Exception {
+	public boolean relevanceRecommended(int type, int cityCode, int[] resourceId) throws Exception {
 		ColumnType columnType = ColumnType.getByType(type);
 		if (null == columnType) {
 			throw new Exception("parameter[type] " + type + " ,Enum does not exist");
@@ -324,7 +331,7 @@ public class TripServiceImpl implements TripService {
 		RegionIntroduceQuery regionIntroduceQuery = new RegionIntroduceQuery();
 		regionIntroduceQuery.setType(type);
 		// List<RegionIntroduceDO> list =
-		// RegionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
+		 RegionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
 		List<RegionIntroduceDO> list = new ArrayList<RegionIntroduceDO>();
 		RegionIntroduceDO e = new RegionIntroduceDO();
 		e.setCityCode(31231);
