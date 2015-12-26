@@ -33,9 +33,9 @@ public class TripTraffic {
 	}
 
 	public TripTraffic(RouteTrafficInfo trafficInfo) {
-		this.from = trafficInfo.startCity;
-		this.to = trafficInfo.destCity;
-		this.way = RouteItemType.getByName(trafficInfo.type).getType();
+		this.from = trafficInfo.getStartCity();
+		this.to = trafficInfo.getDestCity();
+		this.way = RouteItemType.getByName(trafficInfo.getType()).getType();
 	}
 
 	public String getFrom() {
@@ -87,9 +87,9 @@ public class TripTraffic {
 	 */
 	public RouteTrafficInfo toRouteTrafficInfo() {
 		RouteTrafficInfo routeTrafficInfo = new RouteTrafficInfo();
-		routeTrafficInfo.startCity = this.from;
-		routeTrafficInfo.destCity = this.to;
-		routeTrafficInfo.type = RouteItemType.getByType(this.way).name();
+		routeTrafficInfo.setStartCity(from);
+		routeTrafficInfo.setDestCity(to);
+		routeTrafficInfo.setType(RouteItemType.getByType(this.way).name());
 		return routeTrafficInfo;
 	}
 }

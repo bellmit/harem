@@ -1,17 +1,17 @@
 package com.yimayhd.harem.model;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.harem.util.NumUtil;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.util.NumUtil;
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 
 /**
  * Created by Administrator on 2015/11/20.

@@ -1,7 +1,6 @@
 package com.yimayhd.harem.model.travel;
 
 import com.yimayhd.ic.client.model.domain.share_json.RouteTextItem;
-import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 
 /**
  * 只包含ID和名称的数据对象
@@ -17,8 +16,8 @@ public class IdNamePair {
 	}
 
 	public IdNamePair(RouteTextItem routeTextItem) {
-		this.id = routeTextItem.id;
-		this.name = routeTextItem.name;
+		this.id = routeTextItem.getId();
+		this.name = routeTextItem.getName();
 	}
 
 	public long getId() {
