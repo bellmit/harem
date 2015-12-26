@@ -2,6 +2,7 @@ package com.yimayhd.harem.service;
 
 import java.util.List;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.harem.model.ThemeVo;
 import com.yimayhd.harem.model.query.ThemeVoQuery;
 
@@ -15,7 +16,7 @@ public interface ThemeService {
      * 获取主题列表(可带查询条件)
      * @return 主题列表
      */
-    List<ThemeVo> getList(ThemeVoQuery themeVoQuery )throws Exception;
+	List<ComTagDO> getList(ThemeVoQuery themeVoQuery )throws Exception;
     /**
      * 获取主题详情
      * @return 主题详情

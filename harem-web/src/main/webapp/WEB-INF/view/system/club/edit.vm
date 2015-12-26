@@ -7,9 +7,13 @@
         <table class="table">
             <tr>
                 <td><span class="spColor">*</span>俱乐部名称</td>
-            
                 <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="clubName" value="$!club.clubName"></td>
             </tr>
+            <tr>
+                <td><span class="spColor">*</span>俱乐部描述</td>
+                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="clubDes" value="$!club.clubDes"></td>
+            </tr>
+
             <tr>
                 <td><span class="spColor">*</span>俱乐部LOGO</td>
                 <td>
@@ -40,19 +44,16 @@
                     </div>
                 </td>
             </tr>
-           #*
-           	 <tr>
-                <td><span class="spColor">*</span>成员限额</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字" name="memberCount" value="$!club.memberCount"></td>
-            </tr>
-           *#
+          
             <tr>
                 <td><span class="spColor">*</span>部长</td>
                 <td>
                     <div class="userBtn">
                         <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
+                         <input type="hidden" id="nickNameId"  name="nickName" value="$!club.nickName">
                         <input type="hidden" name="manageUserName" value="$!club.manageUserName">
                         <input type="hidden" name="manageUserLogoUrl" value="$!club.manageUserLogoUrl">
+                        <input type="hidden" id="createIdId"  name="createId" value="$!club.createId">
                     </div>
                     <div class="userView">
                         <img src=" #if($club.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!club.manageUserLogoUrl  #end">
@@ -65,23 +66,12 @@
                 <td><span class="spColor">*</span>排序</td>
                 <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="score" value="$!club.score"></td>
             </tr>
-            #*
-            	<tr>
-	                <td><span class="spColor">*</span>状态</td>
-	                <td class="radioSel">
-	                    <div class="col-md-10">
-	                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="1" #if($!club.joinStatus == 1) checked #end> 允许加入 </label>
-	                        <label class="radio-inline"> <input type="radio" name="joinStatus" value="0" #if($!club.joinStatus == 2) checked #end> 禁止加入 </label>
-	                    </div>
-	                </td>
-            	</tr>
-            *#
+            
             <tr>
-                <td><span class="spColor">*</span>前台显示</td>
+                <td><span class="spColor">*</span>主题</td>
                 <td class="radioSel">
                     <div class="col-md-10">
-                        <label class="radio-inline"> <input type="radio" name="state" value="1" #if($!club.showStatus == 1) checked #end> 显示 </label>
-                        <label class="radio-inline"> <input type="radio" name="state" value="0" #if($!club.showStatus == 2) checked #end> 隐藏 </label>
+                       <span id = "themeListId"></span>
                     </div>
                 </td>
             </tr>
@@ -98,6 +88,26 @@
 </div>
 <script>
     
+    //查询theme themeListId
+	var themeURL="/B2C/themeManage/list/json";
+	var params = {
+    		type:3
+	};
+    $.post(themeURL,params,function(data){
+                if(data.status == 200){
+                var imgHtml="";
+                   $.each(data.data, function(n, val) {
+                   console.log(data.data);
+			   			imgHtml+=val.name+"<input name='theme' id='theme_"+n+"' type='checkbox' value='"+val.id+"' /><br>";
+			   			console.log(imgHtml);
+			   			$("#themeListId").html(imgHtml);
+			        });
+                }else{
+                 	layer.alert('操作失败');
+                    $(this).prop('disabled',false);
+                }
+    });
+	
 	
 	var pictureUploadCallBack = function(data){
         if(data && data.status == 200){
@@ -125,6 +135,7 @@
 				$('.selectUserBtn').click(function(){
                     openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser', "选择用户", function(){
 					var item = win.getItem();
+                        console.log(item);
 				    if(null != item){
                     	$("#nickNameId").val(item.nickname);
                         $("#shownickNameId").text(item.nickname);
@@ -165,14 +176,10 @@
            #* 
 			$.post(actionUrl,$('#clubForm').serialize(),function(data){
                 if(data.status == 200){
-                    var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                    msg.show();
-                    setTimeout(function(){
-                        window.close();
-                    },1050);
+                 layer.alert('操作成功');
+                 window.location.href = window.location.href;
                 }else{
-                    var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                    msg.show();
+                    layer.alert('操作成功');
                     $(this).prop('disabled',false);
                 }
             });

@@ -86,12 +86,13 @@ public class ClubManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(ClubInfoAddDTO clubInfoAddDTO) throws Exception {
+	@ResponseBody
+	public ResponseVo add(ClubInfoAddDTO clubInfoAddDTO) throws Exception {
 		ClubInfoDO club = clubService.add(clubInfoAddDTO);
 		if(null == club ){
-			return "/error";
+			return new ResponseVo(ResponseStatus.ERROR);
 		}
-		return "/success";
+			return new ResponseVo(ResponseStatus.SUCCESS);
 	}
 
 	/**
