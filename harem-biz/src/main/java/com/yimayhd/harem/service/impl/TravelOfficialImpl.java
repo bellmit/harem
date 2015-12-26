@@ -145,7 +145,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
     	//travelSpecialDTO.setGmtModified(gmtModified);
     	//travelSpecialDTO.set
     	
-    	BaseResult<Boolean>  res = snsCenterService.updateTravelUpStateByIds(travelSpecialDTO);
+    	BaseResult<Boolean>  res = snsCenterService.updateTravelStateByIds(travelSpecialDTO);
     	if(null != res && res.isSuccess() && res.getValue()){
     		return true;
     	}
@@ -195,7 +195,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
 		}else{
 			travelSpecialDTO.setState(BaseStatus.AVAILABLE.getType());
 		}
-		BaseResult<Boolean> res = snsCenterService.updateTravelUpStateByIds(travelSpecialDTO); 
+		BaseResult<Boolean> res = snsCenterService.updateTravelStateByIds(travelSpecialDTO);
 		if(null != res && res.isSuccess() && res.getValue() ){
 			return true;
 		}
