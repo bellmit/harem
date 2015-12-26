@@ -134,7 +134,11 @@
                                     </tr>
                                 </thead>
                                 <tbody class="extra-info-list needKnowTable">
-                                    
+								   <tr class="needKnow">
+								        <td><input type="text" name="activityJsonArray[0].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动"></td>
+								        <td><input type="text" name="activityJsonArray[0].activityDec" class="form-control extra-info-item-text" placeholder="包含费用"></td>
+								        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
+								    </tr>
 
                                    
                                 </tbody>
@@ -150,108 +154,7 @@
             </div>
 
             <div class="tab-pane activeMnyPane" id="tab2">
-                <p class="pNote">提示：活动单规格或多规格二选一</p>
-                <div class="col-md-10">
-                    <label class="radio-inline radioActive">
-                        <input type="radio" name="optionsRadios" value="option1" checked=""> 活动单规格：
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <td>库存</td>
-                                <td>原价</td>
-                                <td>优惠价</td>
-                                <td>操作</td>
-                            </tr>
-                            <tr>
-                                <td><input type="text" name="" /></td>
-                                <td><input type="text" name="" /></td>
-                                <td><input type="text" name="" /></td>
-                                <td><a href="#" class="deleteActive">删除</a></td>
-                            </tr>
-                        </table>
-                    </label>
-                    <label class="radio-inline radioActive">
-                        <input type="radio" name="optionsRadios" value="option2">活动多规格：亲子活动
-                        <label for="" class="checkActiveType">
-                            <input type="checkbox" name="" class="checkboxLeft"/>亲子
-                        </label>
-                        <label for="" class="checkActiveType">
-                            <input type="checkbox" name=""/>儿童
-                        </label>
-                        <label for="" class="checkActiveType">
-                            <input type="checkbox" name=""/>家庭
-                        </label>
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <td>类型</td>
-                                <td>排序</td>
-                                <td>库存</td>
-                                <td>原价</td>
-                                <td>优惠价</td>
-                                <td>操作</td>
-                            </tr>
-                            <tr>
-                                <td>亲子</td>
-                                <td>0</td>
-                                <td>5</td>
-                                <td>99</td>
-                                <td>90</td>
-                                <td><a href="#" class="deleteActive">删除</a></td>
-                            </tr>
-                            <tr>
-                                <td>亲子</td>
-                                <td>0</td>
-                                <td>5</td>
-                                <td>99</td>
-                                <td>90</td>
-                                <td><a href="#" class="deleteActive">删除</a></td>
-                            </tr>
-                        </table>
-                    </label>
-                    <label class="radio-inline radioActive">
-                        <input type="radio" name="optionsRadios" value="option2">活动多规格(共享库存)：亲子活动
-                        <label for="" class="checkActiveType">
-                            <input type="checkbox" name="" class="checkboxLeft"/>亲子
-                        </label>
-                        <label for="" class="checkActiveType">
-                            <input type="checkbox" name=""/>儿童
-                        </label>
-                        <label for="" class="checkActiveType">
-                            <input type="checkbox" name=""/>家庭
-                        </label>
-
-                        <span class="totalSp">总库存：</span>
-                        <input type="text" name="" id=""/>
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <td>类型</td>
-                                <td>排序</td>
-                                <td>库存</td>
-                                <td>原价</td>
-                                <td>优惠价</td>
-                                <td>操作</td>
-                            </tr>
-                            <tr>
-                                <td>亲子</td>
-                                <td>0</td>
-                                <td>5</td>
-                                <td>99</td>
-                                <td>90</td>
-                                <td><a href="#" class="deleteActive">删除</a></td>
-                            </tr>
-                            <tr>
-                                <td>亲子</td>
-                                <td>0</td>
-                                <td>5</td>
-                                <td>99</td>
-                                <td>90</td>
-                                <td><a href="#" class="deleteActive">删除</a></td>
-                            </tr>
-                        </table>
-                    </label>
-                </div>
+               
             </div>
             <div class="tab-pane" id="tab3">
              <script type="text/javascript">
@@ -282,7 +185,7 @@
     </tr>
 </script>
 <script>
-	var conTr = $(".needKnow").length + 1;
+	var conTr = $(".needKnow").length;
     $(".addNeedKnow").unbind("click").click(function () {
         var addhtml = "";
         var html1 = $("#needKnowTemp").html();

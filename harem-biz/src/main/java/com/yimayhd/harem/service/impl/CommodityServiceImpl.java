@@ -336,7 +336,7 @@ public class CommodityServiceImpl implements CommodityService {
             //参数类型匹配
             CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
             //设置itemDB
-            commonItemPublishDTO.setItemDO(itemDB);
+             commonItemPublishDTO.setItemDO(itemDB);
             //设置sku
             ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
             //商品名称
@@ -351,10 +351,10 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.setPrice((long) (itemVO.getPriceY() * 100));
             //商品图片
             if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getBigListPic());
             }
             if(StringUtils.isNotBlank(itemVO.getBigListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getBigListPic());
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
             }
             if(StringUtils.isNotBlank(itemVO.getCoverPics())){
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());

@@ -17,6 +17,11 @@
                 <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!travelOfficial.title"></td>
             </tr>
             <tr>
+                <td><span class="spColor">*</span>前言</td>
+              
+                <td><input type="text" class="form-control" placeholder="请输入300个字以内" name="preface" id="prefaceId" value="$!travelOfficial.preface"></td>
+            </tr>
+            <tr>
                 <td><span class="spColor">*</span>发布时间</td>
                 <td> <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value="$!travelOfficial.publishDate"></td>
             </tr>

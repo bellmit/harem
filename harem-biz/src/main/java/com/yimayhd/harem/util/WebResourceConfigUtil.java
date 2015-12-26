@@ -35,6 +35,6 @@ public class WebResourceConfigUtil {
         return ResourceConfig.getInstance().getValueByKey(ACTION_UPLOAD_FILES_PATH_KEY);
     }
     public static String getResourceVersion(){
-        return "20151215";
+        return "20151226";
     }
 }

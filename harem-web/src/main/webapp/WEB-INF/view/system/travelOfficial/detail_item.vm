@@ -145,6 +145,7 @@
         var img= $("#logoUrlUploadFileReturnInput").val();
        var params = {
     		backImg:img,
+    		preface:$("#prefaceId").val(),
 			title:$("#titleId").val(),
 			publishDate:$("#publishDateId").val(),
 			createId:$("#createIdId").val(),

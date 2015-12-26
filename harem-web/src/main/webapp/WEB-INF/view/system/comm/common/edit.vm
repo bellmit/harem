@@ -424,13 +424,31 @@
         })
         $(document).delegate(".stock",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
-            skuPropertyAll[index]['stockNum'] = $(this).val();
-            skuPropertyAll[index]['modifyStatus'] = true;
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['stockNum'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
         })
         $(document).delegate(".price",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
-            skuPropertyShowAll[index]['priceY'] = $(this).val();
-            skuPropertyShowAll[index]['modifyStatus'] = true;
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['priceY'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
         })
 
         //初始化时构建sku属性数组
