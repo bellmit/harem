@@ -21,15 +21,25 @@ import com.yimayhd.ic.client.model.enums.RouteItemType;
  *
  */
 public class TripDay {
+	private long trafficRouteItemId;
 	private TripTraffic traffic;// 交通方式
+	private long descriptionRouteItemId;
 	private String description;// 描述
+	private long breakfastRouteItemId;
 	private List<IdNamePair> restaurant1;// 早餐
+	private long lunchRouteItemId;
 	private List<IdNamePair> restaurant2;// 午餐
+	private long dinnerRouteItemId;
 	private List<IdNamePair> restaurant3;// 晚餐
-	private RouteItemDetail restaurantDetail;
+	private long scenicsRouteItemId;
 	private List<IdNamePair> scenics;// 景区
-	private RouteItemDetail scenicDetail;
+	private long hotelsRouteItemId;
 	private List<IdNamePair> hotels;// 酒店
+	private long restaurantDetailRouteItemId;
+	private RouteItemDetail restaurantDetail;
+	private long scenicDetailRouteItemId;
+	private RouteItemDetail scenicDetail;
+	private long hotelDetailRouteItemId;
 	private RouteItemDetail hotelDetail;
 
 	public TripDay() {
@@ -39,11 +49,16 @@ public class TripDay {
 			RouteItemDO dinner, RouteItemDO scenic, RouteItemDO hotel, RouteItemDO restaurantDetail,
 			RouteItemDO scenicDetail, RouteItemDO hotelDetail) {
 		if (trafficInfo != null && trafficInfo.getRouteTrafficInfo() != null) {
+			this.trafficRouteItemId = trafficInfo.getId();
 			this.traffic = new TripTraffic(trafficInfo.getRouteTrafficInfo());
 		}
-		this.description = description.getDescription();
+		if (description != null) {
+			this.descriptionRouteItemId = description.getId();
+			this.description = description.getDescription();
+		}
 		this.restaurant1 = new ArrayList<IdNamePair>();
 		if (breakfast != null) {
+			this.breakfastRouteItemId = breakfast.getId();
 			List<RouteTextItem> breakfastTextItemList = breakfast.getRouteItemDesc().getTextItems();
 			if (CollectionUtils.isNotEmpty(breakfastTextItemList)) {
 				for (RouteTextItem routeTextItem : breakfastTextItemList) {
@@ -51,36 +66,40 @@ public class TripDay {
 				}
 			}
 		}
+		this.restaurant2 = new ArrayList<IdNamePair>();
 		if (lunch != null) {
+			this.lunchRouteItemId = lunch.getId();
 			List<RouteTextItem> lunchTextItemList = lunch.getRouteItemDesc().getTextItems();
-			this.restaurant2 = new ArrayList<IdNamePair>();
 			if (CollectionUtils.isNotEmpty(lunchTextItemList)) {
 				for (RouteTextItem routeTextItem : lunchTextItemList) {
 					this.restaurant2.add(new IdNamePair(routeTextItem));
 				}
 			}
 		}
+		this.restaurant3 = new ArrayList<IdNamePair>();
 		if (dinner != null) {
+			this.dinnerRouteItemId = dinner.getId();
 			List<RouteTextItem> dinnerTextItemList = dinner.getRouteItemDesc().getTextItems();
-			this.restaurant3 = new ArrayList<IdNamePair>();
 			if (dinner != null && CollectionUtils.isNotEmpty(dinnerTextItemList)) {
 				for (RouteTextItem routeTextItem : dinnerTextItemList) {
 					this.restaurant3.add(new IdNamePair(routeTextItem));
 				}
 			}
 		}
+		this.scenics = new ArrayList<IdNamePair>();
 		if (scenic != null) {
+			this.scenicsRouteItemId = scenic.getId();
 			List<RouteTextItem> scenicTextItemList = scenic.getRouteItemDesc().getTextItems();
-			this.scenics = new ArrayList<IdNamePair>();
 			if (scenic != null && CollectionUtils.isNotEmpty(scenicTextItemList)) {
 				for (RouteTextItem routeTextItem : scenicTextItemList) {
 					this.scenics.add(new IdNamePair(routeTextItem));
 				}
 			}
 		}
+		this.hotels = new ArrayList<IdNamePair>();
 		if (hotel != null) {
+			this.hotelsRouteItemId = hotel.getId();
 			List<RouteTextItem> hotelTextItemList = hotel.getRouteItemDesc().getTextItems();
-			this.hotels = new ArrayList<IdNamePair>();
 			if (hotel != null && CollectionUtils.isNotEmpty(hotelTextItemList)) {
 				for (RouteTextItem routeTextItem : hotelTextItemList) {
 					this.hotels.add(new IdNamePair(routeTextItem));
@@ -88,12 +107,15 @@ public class TripDay {
 			}
 		}
 		if (restaurantDetail != null) {
+			this.restaurantDetailRouteItemId = restaurantDetail.getId();
 			this.restaurantDetail = restaurantDetail.getRouteItemDetail();
 		}
 		if (scenicDetail != null) {
+			this.scenicDetailRouteItemId = scenicDetail.getId();
 			this.scenicDetail = scenicDetail.getRouteItemDetail();
 		}
 		if (hotelDetail != null) {
+			this.hotelDetailRouteItemId = hotelDetail.getId();
 			this.hotelDetail = hotelDetail.getRouteItemDetail();
 		}
 	}
@@ -384,5 +406,97 @@ public class TripDay {
 
 	public void setHotelDetail(RouteItemDetail hotelDetail) {
 		this.hotelDetail = hotelDetail;
+	}
+
+	public long getTrafficRouteItemId() {
+		return trafficRouteItemId;
+	}
+
+	public void setTrafficRouteItemId(long trafficRouteItemId) {
+		this.trafficRouteItemId = trafficRouteItemId;
+	}
+
+	public long getDescriptionRouteItemId() {
+		return descriptionRouteItemId;
+	}
+
+	public void setDescriptionRouteItemId(long descriptionRouteItemId) {
+		this.descriptionRouteItemId = descriptionRouteItemId;
+	}
+
+	public long getBreakfastRouteItemId() {
+		return breakfastRouteItemId;
+	}
+
+	public void setBreakfastRouteItemId(long breakfastRouteItemId) {
+		this.breakfastRouteItemId = breakfastRouteItemId;
+	}
+
+	public long getLunchRouteItemId() {
+		return lunchRouteItemId;
+	}
+
+	public void setLunchRouteItemId(long lunchRouteItemId) {
+		this.lunchRouteItemId = lunchRouteItemId;
+	}
+
+	public long getDinnerRouteItemId() {
+		return dinnerRouteItemId;
+	}
+
+	public void setDinnerRouteItemId(long dinnerRouteItemId) {
+		this.dinnerRouteItemId = dinnerRouteItemId;
+	}
+
+	public long getScenicsRouteItemId() {
+		return scenicsRouteItemId;
+	}
+
+	public void setScenicsRouteItemId(long scenicsRouteItemId) {
+		this.scenicsRouteItemId = scenicsRouteItemId;
+	}
+
+	public long getHotelsRouteItemId() {
+		return hotelsRouteItemId;
+	}
+
+	public void setHotelsRouteItemId(long hotelsRouteItemId) {
+		this.hotelsRouteItemId = hotelsRouteItemId;
+	}
+
+	public long getRestaurantDetailRouteItemId() {
+		return restaurantDetailRouteItemId;
+	}
+
+	public void setRestaurantDetailRouteItemId(long restaurantDetailRouteItemId) {
+		this.restaurantDetailRouteItemId = restaurantDetailRouteItemId;
+	}
+
+	public long getScenicDetailRouteItemId() {
+		return scenicDetailRouteItemId;
+	}
+
+	public void setScenicDetailRouteItemId(long scenicDetailRouteItemId) {
+		this.scenicDetailRouteItemId = scenicDetailRouteItemId;
+	}
+
+	public long getHotelDetailRouteItemId() {
+		return hotelDetailRouteItemId;
+	}
+
+	public void setHotelDetailRouteItemId(long hotelDetailRouteItemId) {
+		this.hotelDetailRouteItemId = hotelDetailRouteItemId;
+	}
+
+	public RouteItemDetail getRestaurantDetail() {
+		return restaurantDetail;
+	}
+
+	public RouteItemDetail getScenicDetail() {
+		return scenicDetail;
+	}
+
+	public RouteItemDetail getHotelDetail() {
+		return hotelDetail;
 	}
 }

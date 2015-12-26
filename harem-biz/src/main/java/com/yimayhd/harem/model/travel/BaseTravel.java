@@ -1,9 +1,9 @@
 package com.yimayhd.harem.model.travel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -97,12 +97,6 @@ public abstract class BaseTravel {
 	public LinePublishDTO toLinePublishDTOForUpdate() {
 		LinePublishDTO dto = this.toLinePublishDTOForSave();
 		List<ItemSkuDO> itemSkuDOList = dto.getItemSkuDOList();
-		Map<Long, ItemSkuDO> skuMap = new HashMap<Long, ItemSkuDO>();
-		for (ItemSkuDO itemSkuDO : itemSkuDOList) {
-			if (itemSkuDO.getId() > 0) {
-				skuMap.put(itemSkuDO.getId(), itemSkuDO);
-			}
-		}
 		if (this.baseInfo.getId() > 0) {
 			List<ItemSkuDO> addSkuList = new ArrayList<ItemSkuDO>();
 			List<ItemSkuDO> updateSkuList = new ArrayList<ItemSkuDO>();
@@ -113,22 +107,21 @@ public abstract class BaseTravel {
 						addSkuList.add(itemSkuDO);
 					}
 				}
-				List<Long> deletedSKU = this.priceInfo.getDeletedSKU();
-				List<Long> updatedSKU = this.priceInfo.getUpdatedSKU();
+				// 去重
+				Set<Long> deletedSKU = new HashSet<Long>(this.priceInfo.getDeletedSKU());
+				Set<Long> updatedSKU = new HashSet<Long>(this.priceInfo.getUpdatedSKU());
 				// 决定删除就不更新了
 				updatedSKU.removeAll(deletedSKU);
 				if (CollectionUtils.isNotEmpty(deletedSKU)) {
-					for (long skuId : deletedSKU) {
-						if (skuMap.containsKey(skuId)) {
-							ItemSkuDO itemSkuDO = skuMap.get(skuId);
+					for (ItemSkuDO itemSkuDO : itemSkuDOList) {
+						if (deletedSKU.contains(itemSkuDO.getId())) {
 							deleteSkuList.add(itemSkuDO);
 						}
 					}
 				}
 				if (CollectionUtils.isNotEmpty(updatedSKU)) {
-					for (long skuId : updatedSKU) {
-						if (skuMap.containsKey(skuId)) {
-							ItemSkuDO itemSkuDO = skuMap.get(skuId);
+					for (ItemSkuDO itemSkuDO : itemSkuDOList) {
+						if (updatedSKU.contains(itemSkuDO.getId())) {
 							updateSkuList.add(itemSkuDO);
 						}
 					}

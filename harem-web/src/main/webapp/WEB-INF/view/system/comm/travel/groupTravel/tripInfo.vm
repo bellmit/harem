@@ -192,7 +192,7 @@
 		<div class="tab-pane in #if(${velocityCount}==1) active #end" id="day_${velocityCount}_page">
 			<div class="panel add-traffic">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-plane"></i><span class="tripAddSp">添加交通</span></div>
-				<div class="panel-body traffic" id="day_${velocityCount}_traffic">
+				<div class="panel-body traffic" id="day_${velocityCount}_traffic" route-item-id="$!{tripDay.trafficRouteItemId}">
     				<span class="label label-info" id="day_1_traffic_from" rName="$!{tripDay.traffic.from}">$!{tripDay.traffic.from}</span>
     				<span class="label label-info" id="day_1_traffic_way" rId="$!{tripDay.traffic.way}">$!{tripDay.traffic.wayName()}</span>
     				<span class="label label-info" id="day_1_traffic_to" rName="$!{tripDay.traffic.to}">$!{tripDay.traffic.to}</span>
@@ -203,7 +203,7 @@
 			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
-				<div class="panel-body trip-description-content">
+				<div class="panel-body trip-description-content" route-item-id="$!{tripDay.descriptionRouteItemId}">
 					<textarea class="form-control" rows="3" id="day_${velocityCount}_trip_description">$!{tripDay.description}</textarea>
 				</div>
 			</div>
@@ -212,7 +212,7 @@
 				<div class="panel-body restaurant">
 					<div class="panel">
 						<div class="panel-heading travelPanelDe">早餐</div>
-						<div class="panel-body" id="day_${velocityCount}_restaurant_1">
+						<div class="panel-body" id="day_${velocityCount}_restaurant_1" route-item-id="$!{tripDay.breakfastRouteItemId}" route-item-detail-id="$!{tripDay.restaurantDetailRouteItemId}">
 						#foreach($restaurant in ${tripDay.restaurant1})
 							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_1_item remove-self" id="day_${day}_restaurant_1_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
@@ -229,7 +229,7 @@
 					</div>
 					<div class="panel">
 						<div class="panel-heading travelPanelDe">午餐</div>
-						<div class="panel-body" id="day_${velocityCount}_restaurant_2">
+						<div class="panel-body" id="day_${velocityCount}_restaurant_2" route-item-id="$!{tripDay.lunchRouteItemId}" route-item-detail-id="$!{tripDay.restaurantDetailRouteItemId}">
 						#foreach($restaurant in ${tripDay.restaurant2})
 							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_2_item remove-self" id="day_${day}_restaurant_2_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
@@ -246,7 +246,7 @@
 					</div>
 					<div class="panel">
 						<div class="panel-heading travelPanelDe">晚餐</div>
-						<div class="panel-body" id="day_${velocityCount}_restaurant_3">
+						<div class="panel-body" id="day_${velocityCount}_restaurant_3" route-item-id="$!{tripDay.dinnerRouteItemId}" route-item-detail-id="$!{tripDay.restaurantDetailRouteItemId}">
 						#foreach($restaurant in ${tripDay.restaurant3})
 							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_3_item remove-self" id="day_${day}_restaurant_3_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
 						#end
@@ -265,7 +265,7 @@
 			</div>
 			<div class="panel add-scenic-spot">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-pushpin"></i><span class="tripAddSp">添加景区</span></div>
-				<div class="panel-body scenic-spot" id="day_${velocityCount}_scenic">
+				<div class="panel-body scenic-spot" id="day_${velocityCount}_scenic" route-item-id="$!{tripDay.scenicsRouteItemId}" route-item-detail-id="$!{tripDay.scenicDetailRouteItemId}">
 				#foreach($scenic in ${tripDay.scenics})
 					<button class="btn btn-info day_${day}_scenic_item remove-self" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
 				#end
@@ -276,7 +276,7 @@
 			</div>
 			<div class="panel add-hotel">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-home"></i><span class="tripAddSp">添加酒店</span></div>
-				<div class="panel-body hotel" id="day_${velocityCount}_hotel">
+				<div class="panel-body hotel" id="day_${velocityCount}_hotel" route-item-id="$!{tripDay.hotelsRouteItemId}" route-item-detail-id="$!{tripDay.hotelDetailRouteItemId}">
 				#foreach($hotel in $tripDay.hotels)
 					<button class="btn btn-info day_${day}_hotel_item remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
 				#end
@@ -381,7 +381,8 @@
 				return true;
 			});
         }
-		
+		var updatedRouteItem=[];
+		var deletedRouteItem=[];
 		// 获取行程信息
 		function getTripInfo() {
 			var result = [];
