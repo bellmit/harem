@@ -94,7 +94,7 @@ public interface TripService {
 	* @return boolean 返回类型 
 	* @throws
 	 */
-	boolean relevanceRecommended(int type,String cityCode,int resourceId[])throws Exception;
+	boolean relevanceRecommended(int type,int cityCode,int resourceId[])throws Exception;
 	
 	/**
 	* @Title: selectRegion 

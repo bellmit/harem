@@ -16,6 +16,7 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.service.CommScenicService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -38,7 +39,8 @@ public class CommScenicServiceImpl implements CommScenicService {
 	public ItemPubResult save(ScenicPublishDTO scenicPublishDTO, Long[] check) throws Exception {
 
 		ItemDO itemDO = scenicPublishDTO.getItemDO();
-
+		 
+		itemDO.setSellerId(B2CConstant.SELLERID);
 		itemDO.setOutType(ResourceType.SCENIC.getType());
 		scenicPublishDTO.getScenicDO().setId(scenicPublishDTO.getItemDO().getOutId());
 		scenicPublishDTO.getScenicDO().setItemStatus(ItemStatus.valid.getValue());
@@ -48,6 +50,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 		itemDO.setOriginalPoint(0);
 		itemDO.setOriginalPrice(0);
 		itemDO.setStockNum(9999);//默认库存
+		itemDO.setPrice(itemDO.getPrice()*100);
 		ItemPubResult publicScenic = itemPublishService.publishScenic(scenicPublishDTO);
 		if (publicScenic != null && publicScenic.isSuccess()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();

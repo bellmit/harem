@@ -1,5 +1,36 @@
-<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/ckeditor/ckeditor.js" type="text/javascript"></script>
+
+<style type="text/css">
+.demo{width:850px;margin:20px auto;display:none;}
+#l-map{height:400px;width:600px;float:left;border:1px solid #bcbcbc;}
+#r-result{height:400px;width:230px;float:right;}
+</style>
+
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#mddInfo" data-toggle="tab">目的地基础信息</a>
+    </li>
+	<li>
+        <a href="#bimaituijian" id="bimaituijianId" data-toggle="tab">必买推荐</a>
+    </li>
+    <li>
+        <a href="#tieShi" id="tieShiId" data-toggle="tab">贴士</a>
+    </li>
+    <li>
+        <a href="#biqujingdian" id="biqujingdianId" data-toggle="tab">必去景点</a>
+    </li>
+	<li>
+        <a href="#jingxuanjiudian" id="jingxuanjiudianId" data-toggle="tab">精选酒店</a>
+    </li>
+	<li>
+        <a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
+    </li>
+</ul>
+
 
 <form name="addHotel" id="hotelForm" action="" method="post" hotelId="">
 <div class="tab-content grogInfoWrap"  style="">
@@ -31,10 +62,12 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
+                            <img height="100" width="100" src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
                         </div>
                     </td>
                 </tr>
+                
+                
                 <tr>
                     <td><span class="spColor">*</span>目的地LOGO</td>
                     <td>
@@ -45,7 +78,7 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img src="" id="LOGOReturnInputImg">
+                            <img height="100" width="100"  src="" id="LOGOReturnInputImg">
                         </div>
                     </td>
                 </tr>
@@ -211,27 +244,21 @@
                 </tr>
                 <input type="hidden" class="inpControl" name="type" value="4">
                 <input type="hidden" class="inpControl" id="cityIds" name="id" value="">
-                 <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
+                <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
             </table>
         </div>
     </div>
+    
+    <input type="hidden" class="inpControl" id="biMaiId" name="biMai" value="">
+    <input type="hidden" class="inpControl" id="biQuId" name="biQu" value="">
+    <input type="hidden" class="inpControl" id="jiuDianId" name="jiuDian" value="">
+    <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo" value="">
+    <input type="hidden" class="inpControl" id="xianLuId" name="xianLu" value="">
+    
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
 </form>
 
-#*<script type="text/html" id="needKnowTemp">
-    <tr class="needKnow">
-        <td>
-            <input type="text" name="needKnow.frontNeedKnow[$index].title" class="form-control extra-info-item-title" placeholder="费用包含">
-        </td>
-        <td>
-            <textarea name="needKnow.frontNeedKnow[$index1].content" class="form-control extra-info-item-text" rows="3"></textarea>
-        </td>
-        <td>
-            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-        </td>
-    </tr>
-</script>*#
 
 <script>
     var addItemCall = function (obj) {
@@ -311,7 +338,8 @@
             }else if(level==2){
             	cityCode=$('select option:selected').attr("cityCode");
             }
-             $("#cityCodeId").val(cityCode);
+            $("#cityCodeId").val(cityCode);
+           	console.log($("hotelForm").serialize());
            
             
             $('#hotelForm').submit();
@@ -333,4 +361,56 @@
 	        }                                      
     	})
     });
+    
+//---------------------------------------------------------------------------------------------------------------------
+   
+$('#bimaituijianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectMustBuy','买必推荐',function() {
+			var ka = win.getItems();
+			console.log(ka);//biMai
+			$("#biMaiId").val(ka.id);
+			return true;
+		});
+});
+
+$('#biqujingdianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneScenic','选择景区',function() {
+		var ka = win.getItems();
+		console.log(ka);//biQu
+		if(ka == null) return;
+		$("#biQuId").val(ka.id);
+		return true;
+	});
+});
+
+
+
+$('#jingxuanjiudianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店',function() {
+			var ka = win.getItems();
+			console.log(ka);//jiuDian
+			$("#jiuDianId").val(ka.id);
+			return true;
+		});
+});
+
+$('#jingxuanzhiboId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLive','选择直播',function() {
+		var ka = win.getItems();
+		console.log(ka);//zhiBo
+		if(ka == null) return;
+		$("#zhiBoId").val(ka.id);
+		return true;
+	});
+});
+
+$('#tieShiId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLive','选择贴士',function() {
+		var ka = win.getItems();
+		console.log(ka);//zhiBo
+		if(ka == null) return;
+		$("#zhiBoId").val(ka.id);
+		return true;
+	});
+});
 </script>
