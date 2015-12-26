@@ -305,9 +305,9 @@
 </form>
 <script type="text/html" id="needKnowTemp">
     <tr class="needKnow">
-        <td><input type="text" name="frontNeedKnow[$index].title" class="form-control extra-info-item-title"
+        <td><input type="text" name="needKnowOb.frontNeedKnow[$index].title" class="form-control extra-info-item-title"
                    placeholder="费用包含"></td>
-        <td><textarea name="frontNeedKnow[$index1].content" class="form-control extra-info-item-text"
+        <td><textarea name="needKnowOb.frontNeedKnow[$index1].content" class="form-control extra-info-item-text"
                       rows="3"></textarea></td>
         <td>
             <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
