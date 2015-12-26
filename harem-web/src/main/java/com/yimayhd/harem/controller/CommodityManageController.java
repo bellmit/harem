@@ -189,7 +189,7 @@ public class CommodityManageController extends BaseController {
 		model.addAttribute("category", itemResult.getCategory());
 		model.addAttribute("commodity", itemResult.getItem());
 		model.addAttribute("itemSkuList", itemResult.getItemSkuDOList());
-		return "";
+		return "/success";
 	}
 
 	/**

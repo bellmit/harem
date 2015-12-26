@@ -55,7 +55,11 @@
                         </tr>
                          <tr>
                             <td>商品选择</td>
-                            <td><input type="text" class="form-control" name="productId" value=""></td>
+                            <td>
+                           		 <input type="text" class="form-control" name="productTitle" id="productTitle" value="">
+                            	<input type="hidden" class="form-control" name="productId" id="productId" value="">
+                            	<button type="button" class="btn btn-primary selectActivityComm">选择商品</button>
+                            </td>
                         </tr>
                         <tr>
                             <td><span class="spColor">*</span>活动主题</td>
@@ -311,6 +315,19 @@
                 format: "yyyy-mm-dd hh:ii"
             });
     $(function(){
+     	/*弹出框**/
+        $('.selectActivityComm').click(function(){
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneActivityComm','选择景区',function() {
+				var sce = win.getItems();
+				
+				$("#productTitle").val(sce.title);
+				$("#productId").val(sce.id);
+				
+				return true;
+			});
+        })
+     
+     
      
          $('.locationXYSelectBtn').click(function () {
             openBaiduMap(115.727899, 37.723961, mapCallback);

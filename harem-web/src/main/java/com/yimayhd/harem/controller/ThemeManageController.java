@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.ThemeVo;
-import com.yimayhd.harem.model.query.ActivityListQuery;
+import com.yimayhd.harem.model.query.ThemeVoQuery;
 import com.yimayhd.harem.service.ThemeService;
 
 /** 
@@ -41,15 +47,29 @@ public class ThemeManageController {
 	* @throws
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ActivityListQuery query){
+	public String list(Model model, ThemeVoQuery query){
 		try {
-			List<ThemeVo> list = themeService.getList(null);
+			List<ComTagDO> list = themeService.getList(query);
 			model.addAttribute("themeList", list);
 			return "/system/theme/list";
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
 			return "/error";
 		}
+	}
+	
+	@RequestMapping(value = "/list/json", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo jsonList(ThemeVoQuery query){
+			try {
+				List<ComTagDO> list = themeService.getList(query);
+				if (CollectionUtils.isNotEmpty(list)) {
+					return new ResponseVo(list);
+				} 
+			} catch (Exception e) {
+				LOGGER.error("jsonList error,query="+JSON.toJSONString(query),e);
+			}
+				return new ResponseVo(ResponseStatus.ERROR);
 	}
 	
 	

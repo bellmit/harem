@@ -1,12 +1,13 @@
 package com.yimayhd.harem.service;
 
-import java.util.ArrayList;
-
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.ScenicVO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICResult;
+
+import java.util.ArrayList;
 public interface ScenicService {
 	/**
 	 * 获取景区资源列表(可带查询条件)
@@ -30,19 +31,23 @@ public interface ScenicService {
 	 * @param scenicStatus
 	 * @throws Exception
 	 */
-	boolean updateStatus(int id, int scenicStatus) throws Exception;
+	boolean enableScenicItem(long id) throws Exception;
 	
 
 	/**
-	 * 批量修改景区状态
+	 * 修改景区状态
 	 * 
 	 * @param id
 	 * @param scenicStatus
 	 * @throws Exception
 	 */
-	boolean batchupdateStatus(ArrayList<Integer> scenicIdList, int scenicStatus)throws Exception;
+	boolean disableScenicItem(int id)throws Exception;
 
-	ICResult<ScenicDO> save(ScenicAddNewDTO addNewDTO) throws Exception;
+	ICResult<ScenicDO> save(ScenicVO scenicVO) throws Exception;
+
+	boolean batchEnableStatus(ArrayList<Integer> scenicIdList);
+
+	boolean batchDisableStatus(ArrayList<Integer> scenicIdList);
 	
 
 }

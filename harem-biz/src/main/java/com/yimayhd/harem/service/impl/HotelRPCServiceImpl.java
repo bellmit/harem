@@ -1,28 +1,33 @@
 package com.yimayhd.harem.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import com.yimayhd.harem.util.DateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
+import com.yimayhd.harem.model.PictureVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelRPCService;
+import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.PicturesDO;
+import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.ic.client.service.item.ResourcePublishService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class HotelRPCServiceImpl implements HotelRPCService {
 
@@ -32,9 +37,12 @@ public class HotelRPCServiceImpl implements HotelRPCService {
     @Autowired
     private HotelService hotelService;
 
+	@Autowired
+	private ResourcePublishService resourcePublishServiceRef;
+
 	private static final Logger log = LoggerFactory.getLogger(HotelRPCServiceImpl.class);
 	@Override
-	public PageVO<HotelDO> pageQueryHotel(HotelListQuery hotelListQuery) {
+	public PageVO<HotelDO> pageQueryHotel(HotelListQuery hotelListQuery)throws Exception {
 		
 		HotelPageQuery hotelPageQuery = new HotelPageQuery();
     	hotelPageQuery.setNeedCount(true);
@@ -88,25 +96,45 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	}
 
 	@Override
-	public ICResult<Boolean> addHotel(HotelVO hotelVO) {
-		
+	public ICResult<Boolean> addHotel(HotelVO hotelVO)throws Exception{
+
+
 		ICResult<Boolean> result = new ICResult<Boolean>();
-		HotelDO hotelDO = null;
-		ICResult<HotelDO> icResult = new ICResult<HotelDO>();
-		
-		//数据转换
-		try {
-			hotelDO = HotelVO.getHotelDO(hotelVO);
-		} catch (Exception e) {
-			e.printStackTrace();
+
+		HotelDO hotelDO = HotelVO.getHotelDO(hotelVO);
+
+		ICResult<HotelDO> icResult = hotelService.addHotel(hotelDO);
+		if(icResult == null){
+			log.error("HotelRPCServiceImpl.addHotel-hotelService.addHotel result is null and parame: " + JSON.toJSONString(hotelDO));
+			throw new BaseException("返回结果为空，酒店资源新增失败");
+		}else if(!icResult.isSuccess()){
+			log.error("HotelRPCServiceImpl.addHotel-hotelService.addHotel error:" + JSON.toJSONString(icResult) + "and parame: " + JSON.toJSONString(hotelDO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+			throw new BaseException("返回结果错误，图片集保存失败，" + icResult.getResultMsg());
 		}
-		
-		if (hotelDO != null) {
-			icResult = hotelService.addHotel(hotelDO);
+		//图片集insert
+		if(org.apache.commons.lang.StringUtils.isNotBlank(hotelVO.getPicListStr())){
+			List<PictureVO> pictureVOList = JSON.parseArray(hotelVO.getPicListStr(),PictureVO.class);
+			List<PicturesDO> picList = new ArrayList<PicturesDO>();
+			for (PictureVO pictureVO:pictureVOList){
+				PicturesDO picturesDO = new PicturesDO();
+				picturesDO.setPath(pictureVO.getValue());
+				picturesDO.setName(pictureVO.getName());
+				picturesDO.setOutId(icResult.getModule().getId());
+				picturesDO.setOutType(PictureOutType.HOTEL.getValue());
+				picturesDO.setOrderNum(pictureVO.getIndex());
+				picturesDO.setIsTop(pictureVO.isTop());
+				picList.add(picturesDO);
+			}
+			ICResult<Boolean> icResultPic =  resourcePublishServiceRef.addPictures(picList);
+			if(null == icResultPic){
+				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew result is null and parame: " + JSON.toJSONString(picList));
+				throw new BaseException("景区资源保存成功，图片集保存返回结果为空，保存失败");
+			} else if(!icResultPic.isSuccess()){
+				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(icResultPic) + "and parame: " + JSON.toJSONString(picList) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+				throw new BaseException("景区资源保存成功，图片集保存失败" + icResultPic.getResultMsg());
+			}
 		}
-		
 		result.setModule(icResult.isSuccess());
-		
 		return result;
 	}
 
@@ -165,6 +193,18 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		}
 		
 		return resultList;
+	}
+
+	@Override
+	public void setHotelStatusList(List<Long> idList, int hotelStatus) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setHotelStatus(long id, int hotelStatus) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 }

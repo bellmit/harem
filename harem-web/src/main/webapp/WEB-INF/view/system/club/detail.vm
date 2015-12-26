@@ -6,6 +6,10 @@
                 <td>俱乐部名称</td>
                 <td><input type="text" disabled class="form-control" value="$!club.name"></td>
             </tr>
+             <tr>
+                <td>俱乐部描述</td>
+                <td><textarea disabled class="form-control" value="$!club.clubDes" /></td>
+            </tr>
             <tr>
                 <td>俱乐部LOGO</td>
                 <td>
@@ -22,10 +26,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>成员限额</td>
-                <td><input type="text" disabled class="form-control" value="$!club.limitNum"></td>
-            </tr>
+          
             <tr>
                 <td>部长</td>
                 <td>

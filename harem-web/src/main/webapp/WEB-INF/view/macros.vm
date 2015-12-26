@@ -64,11 +64,13 @@
 #end
 
 #*景区状态*#
-#macro(SCENIC_STATUS $type)
+#macro(ITEMSCENIC_STATUS $type)
     #if($type == '1')
-    启用
+     初始化
     #elseif($type == '2')
-    停用
+    启用
+    #elseif($type == '3')
+   停用
     #end
 #end
 #*景点级别 1-五星级 2-四星级 3-三星级 4-连锁酒店*#

@@ -135,7 +135,6 @@ public class ActivityManageController extends BaseController {
 	public String toAdd(Model model) throws Exception {
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.ACTIVETYTAG.name());
 		com.yimayhd.snscenter.client.result.BaseResult<List<ClubInfoDO>> clubList = snsCenterService.selectAllClubList(null);
-
 		model.addAttribute("clubList",clubList.getValue());
 		model.addAttribute("tagResult",tagResult.getValue());
 		return "/system/activity/edit";

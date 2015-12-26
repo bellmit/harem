@@ -43,6 +43,13 @@
             </div>
         </div>
 
+ 		<div class="btnBottomMargin">
+            <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建俱乐部</button>
+            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量上架</button>
+            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2">批量下架</button>
+        </div>
+
+
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
@@ -73,7 +80,7 @@
                         <td>$!club.activityCount</td>
                         <td>
                         <button type="button" class="btn btn-primary clubDetail" clubId="$club.id">详情</button>
-                        <button type="button" class="btn btn-primary clubBan"  clubId="$club.id" joinStatus="$club.state">#if($club.state == 1) 上架 #elseif($club.state == 2) 下架 #end </button>
+                        <button type="button" class="btn btn-primary clubBan"  clubId="$club.id" joinStatus="$club.state">#if($club.state == 1) 下架 #elseif($club.state == 2) 上架 #end </button>
                         </td>
                     </tr>
                     #end
@@ -113,10 +120,11 @@
 
         });
 
+//上下架
         $('.clubBan').each(function(){
             $(this).click(function(){
                 $(this).prop('disabled',true);
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/clubManage/setJoinStatus/' + $(this).attr('clubId') ,{'joinStatus':$(this).attr('joinStatus')} ,function(data){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/clubManage/setJoinStatus' ,{'ids':+ $(this).attr('clubId'),'status':$(this).attr('joinStatus')} ,function(data){
                     if(data.status == 200){
                         layer.alert('操作成功');
                         window.location.href = window.location.href;
@@ -128,4 +136,11 @@
             });
         });
     });
+    
+    //新建
+    $('.addCommodityBtn').click(function(){
+        var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/clubManage/toAdd';
+        top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+    });
+    
 </script>

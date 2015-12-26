@@ -6,36 +6,48 @@
 		}  
 		return -1;  
 	};
-
+	Array.prototype.getFlag = function(flag) {              
+		for (var i = 0; i < this.length; i++) {  
+			if (this[i].flag == flag) return i;  
+		}  
+		return -1;  
+	};
     Array.prototype.remove = function(val) {  
         var index = this.indexOf(val);  
         if (index > -1) {  
             this.splice(index, 1);  
         }  
-    };  
-	$.setimagesInputVal = function(options){
+    };
+	
+	$.fn.setimagesInputVal = function(options){
 		var $this = $(this);
-		var init = {
-			itemClass : '.itemlist li',
-			inputId : 'imgids'
+		var _config = {
+			itemClass : '.itemlist li'
 		}
-		var opts = $.extend(init,options);
-		var objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
+		var opts = $.extend(_config,options);
+		var objArr = $this.val()==""?[]:JSON.parse($this.val());
 		$(opts.itemClass).each(function(i){
 			var itemObj = {}
-			if($(this).attr("data-value")==0){
-				itemObj.id = 0;
-				itemObj.index = $(this).index();
-				itemObj.src = $(this).find("img").attr("src");
+			var dataid = $(this).attr("data-id")?$(this).attr("data-id"):0;
+			var flag = $(this).attr("data-flag");
+			var name = $(this).attr("data-name");
+			var value = $(this).attr("data-value");
+			var index = objArr.getFlag(flag);
+			if(dataid == 0 && index==-1){
+				itemObj.id = dataid;
+				itemObj.name = name;
+				itemObj.value = value;
+				itemObj.flag = flag;
 				itemObj.istop = false;
 				itemObj.isdel = false;
 				itemObj.modify = false;
-				itemObj.istop = _istop?false:true;
+				itemObj.istop = false;
 				objArr.push(itemObj);
 			}
 		});
 		var jsonStr = objArr.length>0?JSON.stringify(objArr):"";
-		$("#"+opts.inputId).val(jsonStr);		
+		console.log(jsonStr);
+		$this.val(jsonStr);
 	};
 	$.fn.setimages = function(options){
 		var $this = $(this);
@@ -53,23 +65,12 @@
 		var opts = $.extend(init,options);
 		var input = '<input type="hidden" name="'+opts.inputName+'" id="'+opts.inputId+'" value="" />';
 		
-		var objArr,topFlag = {};
+		var topFlag = {},objArr=[];
 		
 		if($("#"+opts.inputId).length == 0 ){
-			objArr = [];
 			$(opts.formId).append(input);
 		}else{
-			objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
-		}
-		
-		
-		var getObjIndex = function(index){
-			for(var i=0;i<objArr.length;i++){
-				if(objArr[i].index==index){
-					return i;
-				}
-			}
-			return -1;
+			$("#"+opts.inputId).val('');
 		}
 		
 		var getTopNumber = function(){
@@ -83,44 +84,55 @@
 		var setInputVal = function(){
 			var jsonStr = objArr.length>0?JSON.stringify(objArr):"";
 			$("#"+opts.inputId).val(jsonStr);
+			console.log(jsonStr);
 		}
 		
 		var setItemInitVal = function(){
 			$(opts.itemClass).each(function(i){
 				var _istop = $(this).attr("istop")?true:false;
-				var _id = $(this).attr("data-value");
-				var _src = $(this).find("img").attr("src");
-				topFlag[i]=_istop;
+				var _id = $(this).attr("data-id");
+				var _flag = new Date().getTime()+i;
+				$(this).attr("data-flag",_flag);
+				topFlag[_flag]=_istop;
 			});
 		}
 		
 		
 		var setTopEvent = function(){
-			
-			var itemObj = {}
+			objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
+			var itemObj = {};
 			var _parent = $(this).closest("li");
-			var _index = _parent.index();
-			var _arrIndex = getObjIndex(_index);
+			var _flag = _parent.attr("data-flag");
+			var _arrIndex = objArr.getFlag(_flag);
 			var _istop = _parent.attr("istop")?true:false;
-			var _id = _parent.attr("data-value")?_parent.attr("data-value"):0;
+			var _id = _parent.attr("data-id")?_parent.attr("data-id"):0;
 			
 			if(!_istop && getTopNumber()>=opts.topNum){
 				alert("您只能置顶"+opts.topNum+"个图片");
 				return false;
 			}
 			
-			objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
-			
-			if(topFlag[_index]==_istop){
-				itemObj.id = _id;
-				itemObj.index = _index;
-				itemObj.src = _parent.find("img").attr("src");
-				itemObj.isdel = false;
-				itemObj.modify = true;
-				itemObj.istop = _istop?false:true;
-				objArr.push(itemObj);
-			}else{	
-				if(_arrIndex>-1) objArr.splice(_arrIndex,1);
+			itemObj.id = _id;
+			itemObj.name = _parent.attr("data-name");
+			itemObj.value = _parent.attr("data-value");
+			itemObj.flag = _flag;
+			itemObj.istop = _istop?false:true;
+			itemObj.isdel = false;
+			itemObj.modify = true;
+			itemObj.istop = _istop?false:true;
+
+			if(_id == 0){
+				if(_arrIndex>-1){
+					objArr[_arrIndex] = itemObj;
+				}else{
+					objArr.push(itemObj);
+				}
+			}else{
+				if(topFlag[_flag]==_istop){
+					objArr.push(itemObj);
+				}else{
+					objArr.splice(_arrIndex,1);
+				}
 			}
 			
 			setInputVal();
@@ -129,18 +141,20 @@
 		}
 		
 		var delImgEvent = function(){
+			objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
 			var itemObj = {};
 			var _parent = $(this).closest("li");
-			var _index = _parent.index();
-			var _arrIndex = getObjIndex(_index);
-			
-			itemObj.id = _parent.attr("data-value")?_parent.attr("data-value"):0;
-			itemObj.index = _index;
-			itemObj.src = _parent.find("img").attr("src");
-			itemObj.modify = false;
+			var _flag = _parent.attr("data-flag");
+			var _arrIndex =  objArr.getFlag(_flag);
+
+			itemObj.id = _parent.attr("data-id")?_parent.attr("data-id"):0;
+			itemObj.name = _parent.attr("data-name");
+			itemObj.value = _parent.attr("data-value");
+			itemObj.flag = _flag;
+			itemObj.istop = false;
 			itemObj.isdel = true;
-			
-			objArr = $("#"+opts.inputId).val()==""?[]:JSON.parse($("#"+opts.inputId).val());
+			itemObj.modify = false;
+			itemObj.istop = _istop?false:true;
 			
 			if(_arrIndex==-1){
 				objArr.push(itemObj);
@@ -188,21 +202,24 @@ $(function(){
 	});
 	var batchCallBack = function(dataVal){
 		if(dataVal && dataVal.status == 200){
-			for(key in dataVal.data){
+
+			for(var key in dataVal.data){
 				if(dataVal.data.hasOwnProperty(key)){
-					var addImgs = '<li data-value="0" istop="false">'
-						+'<a href="" class="img"><img src="' + tfsRootPath + dataVal.data[key] + '" width="240"/></a>'
+					var addImgs = '<li data-id="0" data-flag="'+(+new Date())+'" data-name="'+key+'" data-value="'+dataVal.data[key]+'">'
+						+'<a href="" class="img"><img src="' + tfsRootPath + dataVal.data[key] + '" width="240" height="192"/></a>'
 						+'<span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>'
 						+'</li>';
 
 					$(".itemlist").append(addImgs);
 				}
 			}
-			$.setimagesInputVal();
+
+			$("#imgids").setimagesInputVal();
 		}
 	}
 	/****************批量上传*****************/
 	$(document).delegate("#batchUploadBtn",'change',function(){
 		fileUpload('#batchUploadBtn',2,batchCallBack);
-	})
+	});
+	
 });	

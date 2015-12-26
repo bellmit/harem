@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
+import com.yimayhd.harem.model.ScenicVO;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
@@ -48,16 +48,11 @@ public class ScenicManageController extends BaseController {
 		if(pageNumber!=null){
 			scenicPageQuery.setPageNo(pageNumber);
 		}
-		
 		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicPageQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("scenicPageQuery", scenicPageQuery);
 		return "/system/scenicSpot/list";
 	}
-
-
-	
-	
 	
 
 	
@@ -83,11 +78,11 @@ public class ScenicManageController extends BaseController {
 	public String toView(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
 		MasterRecommend recommend = null;
-		try {	
+	/*	try {
 			recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
 		} catch (Exception e) {
 			logger.error("toEdit|recommend="+scenicDO.getScenic().getRecommend()+"|error="+e.toString());
-		}
+		}*/
 		model.addAttribute("VO", scenicDO);
 		model.addAttribute("recommend", recommend);
 		return "/system/scenicSpot/view";
@@ -103,11 +98,11 @@ public class ScenicManageController extends BaseController {
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
 		MasterRecommend recommend = null;
-		try {	
+		/*try {	
 			recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
 		} catch (Exception e) {
 			logger.error("toEdit|recommend="+scenicDO.getScenic().getRecommend()+"|error="+e.toString());
-		}
+		}*/
 		model.addAttribute("VO", scenicDO);
 		model.addAttribute("recommend", recommend);
 		return "/system/scenicSpot/edit";
@@ -121,50 +116,61 @@ public class ScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo save(ScenicAddNewDTO addNewDTO,MasterRecommend recommend) throws Exception {
-		ResponseVo responseVo = new ResponseVo();
-		try {	
-			String jsonString = JSON.toJSONString(recommend);  
-			addNewDTO.getScenic().setRecommend(jsonString);
-		} catch (Exception e) {
-			logger.error("ScenicAddNewDTO  save|error"+e);
-		}
-		ICResult<ScenicDO> result =scenicSpotService.save(addNewDTO);
-		if(result.isSuccess()){
-			responseVo.setMessage("添加成功！");
-			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-		}else{
-			responseVo.setMessage(result.getResultMsg());
-			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-		}
-		
-		return responseVo;
+	public ResponseVo save(ScenicVO scenicVO) throws Exception {
+		ICResult<ScenicDO> result =scenicSpotService.save(scenicVO);
+		return new ResponseVo();
 	}
 
 	/**
-	 * 景区（资源）状态变更
+	 * enableStatus
+	 * 启用
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/enableStatus/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo enableStatus(@PathVariable("id") long id) throws Exception {
+		scenicSpotService.enableScenicItem(id);
+		return new ResponseVo();
+	}
+	
+	/**
+	 * 停用
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/disableStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo updateStatus(@PathVariable("id") int id, int scenicStatus) throws Exception {
-		scenicSpotService.updateStatus(id,scenicStatus);
+	public ResponseVo disableStatus(@PathVariable("id") int id) throws Exception {
+		scenicSpotService.disableScenicItem(id);
 		return new ResponseVo();
 	}
 
+	/**
+	 * 启用
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/batchEnableStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo batchEnableStatus(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList) throws Exception {
+		scenicSpotService.batchEnableStatus(scenicIdList);
+		return new ResponseVo();
+	}
+	
+	
 	/**
 	 * 动态状态变更(批量)
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/batchupdateStatus", method = RequestMethod.POST)
+	@RequestMapping(value = "/batchDisableStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchupdateStatus(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList,
-			int scenicStatus) throws Exception {
-		scenicSpotService.batchupdateStatus(scenicIdList,scenicStatus);
+	public ResponseVo batchDisableStatus(@RequestParam("scenicIdList[]") ArrayList<Integer> scenicIdList) throws Exception {
+		scenicSpotService.batchDisableStatus(scenicIdList);
 		return new ResponseVo();
 	}
 	

@@ -12,10 +12,12 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-                <select class="form-control" name="status">
+                <select class="form-control" name="itemStatus">
                     <option value="" >全部</option>
-                    <option value="1" #if($!scenicPageQuery.status == 1) selected #end>启用</option>
-                    <option value="2" #if($!scenicPageQuery.status == 2) selected #end>停用</option>
+                      <option value="1" #if($!scenicPageQuery.itemStatus == 1) selected #end>初始化</option>
+                     <option value="2" #if($!scenicPageQuery.itemStatus == 2) selected #end>启用</option>
+                    <option value="3" #if($!scenicPageQuery.itemStatus == 3) selected #end>停用</option>
+                   
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -54,8 +56,8 @@
         </div>
         <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary scenicAddBtn">添加景区</button>
-            <button type="button" class="btn btn-primary scenicBatchBtn" btnType="1">批量启用</button>
-            <button type="button" class="btn btn-primary scenicBatchBtn" btnType="2">批量禁用</button>
+            <button type="button" class="btn btn-primary batchEnableStatus" btnType="1">批量启用</button>
+            <button type="button" class="btn btn-primary batchDisableStatus" btnType="2">批量禁用</button>
         </div>
         <div class="tableGroup whole">
             <table class="table table-hover">
@@ -72,22 +74,23 @@
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!scenic.id"></td>
                         <td>
+                         	<p><img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{scenic.logoUrl}"></p>
                             <p>$!scenic.name</p>
                             <p>商品编码:$!scenic.id</p>
                         </td>
-                        <td>#SCENIC_STATUS($!scenic.status)</td>
+                        <td>#ITEMSCENIC_STATUS($!scenic.itemStatus)</td>
                         <td>$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}</td>
                         <td>￥$!{scenic.price}起</td>
                         <td>
                            #SCENIC_LEVEL($!scenic.level)
                         </td>
                         <td>
-                        #if($scenic.status == 1)
+                        #if($scenic.itemStatus !=2)
                         	<button type="button" class="btn btn-primary toView" scenicId="$scenic.id">查看</button>
-                        	<button type="button" class="btn btn-primary updateScenicStatus"  scenicId="$scenic.id" status="2">停用   </button>
-                        #elseif($scenic.status == 2)
+                        	<button type="button" class="btn btn-primary disableStatus"  scenicId="$scenic.id">启用   </button>
+                        #elseif($scenic.itemStatus == 2)
                         	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">编辑</button>
-                        	<button type="button" class="btn btn-primary updateScenicStatus"  scenicId="$scenic.id" status="1">启用  </button>
+                        	<button type="button" class="btn btn-primary enableStatus"  scenicId="$scenic.id">停用  </button>
                         #end
                         </td>
                     </tr>
@@ -134,8 +137,30 @@
                 //window.openwin(url);
         });
 
-        $('.updateScenicStatus').click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/scenicSpotManage/updateStatus/' + $(this).attr('scenicId') ,{'scenicStatus':$(this).attr('status')} ,function(data){
+        $('.enableStatus').click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/scenicSpotManage/enableStatus/' + $(this).attr('scenicId')  ,function(data){
+                    if(data.status == 200){
+                        layer.alert('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        }, function(){
+                            window.location.href = window.location.href;
+                        });
+                    }else{
+                        layer.alert('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        }, function(){
+                            window.location.href = window.location.href;
+                        });
+
+                    }
+                })
+           
+        });
+        
+             $('.disableStatus').click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/scenicSpotManage/disableStatus/' + $(this).attr('scenicId')  ,function(data){
                     if(data.status == 200){
                         layer.alert('操作成功', {
                             icon: 1,
@@ -165,7 +190,7 @@
             $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
         });
         //批量
-        $('.scenicBatchBtn').click(function(){
+        $('.batchEnableStatus').click(function(){
             var arr = new Array();
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
@@ -177,7 +202,41 @@
                         time: 2000
                     })
             }else{
-            	 $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/scenicSpotManage/batchupdateStatus',{scenicIdList:arr,scenicStatus:$(this).attr('btnType')},function(data){
+            	 $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/scenicSpotManage/batchEnableStatus',{scenicIdList:arr},function(data){
+                if(data&&data.status == 200){
+                    layer.alert('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    }, function(){
+                        window.location.href = window.location.href;
+                    });
+                }else{
+                    layer.alert('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    }, function(){
+                        $(this).prop('disabled',false);
+                    });
+                }
+           	 })
+            	
+            }
+           
+        });
+        
+         $('.batchDisableStatus').click(function(){
+            var arr = new Array();
+            $('.subChecked:checked').each(function(){
+                arr.push($(this).val());
+            });
+           
+            if(arr==null||arr==""){
+            	  layer.alert('请选择', {
+                        icon: 2,
+                        time: 2000
+                    })
+            }else{
+            	 $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/scenicSpotManage/batchDisableStatus',{scenicIdList:arr},function(data){
                 if(data&&data.status == 200){
                     layer.alert('操作成功', {
                         icon: 1,

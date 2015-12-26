@@ -157,6 +157,7 @@
         $.post(actionUrl,params,function(data){
             if(data.status == 200){
                 layer.alert('操作成功');
+                window.location.href = window.location.href;
             }else{
                 layer.alert('操作失败');
                 $(this).prop('disabled',false);

@@ -55,21 +55,37 @@
                         </td>
                     </tr>
                     <tr>
-                        <label class="col-md-2 control-label">减库存方式</label>
-                        #foreach($reduceType in $reduceTypeList)
-                            <label class='radio-inline'> <input type="radio" name="optionsRadios" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end>$!reduceType.des</label>
-                        #end
+                        <td><span class="spColor">*</span>减库存方式</td>
+                        <td>
+                            #foreach($reduceType in $reduceTypeList)
+                                <label class='radio-inline'> <input type="radio" name="reduceType" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end>$!reduceType.des</label>
+                            #end
+                        </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品简介</td>
+                        <td><span class="spColor">*</span>评分</td>
+                        <td>
+                            <input type="text" name="grade" value="$!commodity.grade">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>副标题</td>
                         <td>
                             <input type="text" name="subTitle" value="$!commodity.subTitle">
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品描述</td>
+                        <td><span class="spColor">*</span>二级副标题</td>
                         <td>
                             <input type="text" name="oneWord" value="$!commodity.oneWord">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品描述</td>
+                        <td>
+                            <textarea class="form-control extra-info-item-text"
+                                      name="description"
+                                      rows="3">$!commodity.description</textarea>
                         </td>
                     </tr>
                     <tr>
@@ -104,7 +120,7 @@
                         <td class="picUrlsTd">
                             <input id="batchUploadBtn" type="file" multiple="multiple" >
                             #foreach($pic in $!commodity.picList)
-                                <img class="picUrlsUrl uploadImgFile" src="$utilWebconfig.getTfsRootPath()$pic">
+                                <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
                             #end
                         </td>
                         <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">

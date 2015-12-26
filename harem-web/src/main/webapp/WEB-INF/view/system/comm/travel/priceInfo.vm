@@ -197,10 +197,10 @@
 			next.children("a").click();
 		}
 		$("#tc_"+id+"_tab").remove();
-		$("#tc_"+id).remove();
 		$(".tc-"+id+"-item").each(function() {
 			deletedSKU.push($(this).attr("sku-id"));
 		});
+		$("#tc_"+id).remove();
 	}
 	$(".addTC").click(function(){
 		curTcId = curTcId + 1;
@@ -371,7 +371,7 @@
 			deletedSKU:deletedSKU,
 			limit:$(".day-limit").val()
 		};
-		result["itemId"] = $("#item_id").val();
+		result["itemId"] = $("#item_id").val() || 0;
 		// alert(JSON.stringify(result));
 		return result;
 	}
