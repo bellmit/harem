@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,7 +102,7 @@ public class CommTravelServiceImpl implements CommTravelService {
 		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", pageQueryLine);
 		int totalCount = pageQueryLine.getTotalCount();
 		List<LineDO> itemList = pageQueryLine.getList();
-		if (CollectionUtils.isEmpty(itemList)) {
+		if (itemList == null) {
 			itemList = new ArrayList<LineDO>();
 		}
 		return new PageVO<LineDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
