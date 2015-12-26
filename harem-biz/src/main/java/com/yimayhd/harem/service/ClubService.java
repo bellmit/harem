@@ -1,6 +1,7 @@
 package com.yimayhd.harem.service;
 
 import com.yimayhd.harem.model.Club;
+import com.yimayhd.harem.model.ClubAdd;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDOList;
@@ -30,7 +31,7 @@ public interface ClubService {
      * @return
      * @throws Exception
      */
-    ClubInfoDO add(ClubInfoAddDTO clubInfoAddDTO)throws Exception;
+    ClubAdd add(ClubAdd clubAdd,List<Long> themeIds)throws Exception;
 
     /**
      * 修改俱乐部
