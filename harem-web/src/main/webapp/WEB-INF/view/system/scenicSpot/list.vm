@@ -12,10 +12,12 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-                <select class="form-control" name="status">
+                <select class="form-control" name="itemStatus">
                     <option value="" >全部</option>
-                    <option value="1" #if($!scenicPageQuery.status == 1) selected #end>启用</option>
-                    <option value="2" #if($!scenicPageQuery.status == 2) selected #end>停用</option>
+                      <option value="1" #if($!scenicPageQuery.itemStatus == 1) selected #end>初始化</option>
+                     <option value="2" #if($!scenicPageQuery.itemStatus == 2) selected #end>启用</option>
+                    <option value="3" #if($!scenicPageQuery.itemStatus == 3) selected #end>停用</option>
+                   
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -72,22 +74,23 @@
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!scenic.id"></td>
                         <td>
+                         	<p><img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{scenic.logoUrl}"></p>
                             <p>$!scenic.name</p>
                             <p>商品编码:$!scenic.id</p>
                         </td>
-                        <td>#SCENIC_STATUS($!scenic.status)</td>
+                        <td>#ITEMSCENIC_STATUS($!scenic.itemStatus)</td>
                         <td>$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}</td>
                         <td>￥$!{scenic.price}起</td>
                         <td>
                            #SCENIC_LEVEL($!scenic.level)
                         </td>
                         <td>
-                        #if($scenic.status == 1)
+                        #if($scenic.itemStatus !=2)
                         	<button type="button" class="btn btn-primary toView" scenicId="$scenic.id">查看</button>
-                        	<button type="button" class="btn btn-primary disableStatus"  scenicId="$scenic.id">停用   </button>
-                        #elseif($scenic.status == 2)
+                        	<button type="button" class="btn btn-primary disableStatus"  scenicId="$scenic.id">启用   </button>
+                        #elseif($scenic.itemStatus == 2)
                         	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">编辑</button>
-                        	<button type="button" class="btn btn-primary enableStatus"  scenicId="$scenic.id">启用  </button>
+                        	<button type="button" class="btn btn-primary enableStatus"  scenicId="$scenic.id">停用  </button>
                         #end
                         </td>
                     </tr>
