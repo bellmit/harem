@@ -1,6 +1,8 @@
 package com.yimayhd.harem.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.ItemVO;
+import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
+import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.RestaurantRPCService;
 import com.yimayhd.harem.service.ScenicService;
@@ -21,6 +26,7 @@ import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
@@ -44,7 +50,8 @@ public class ResourceForSelectController extends BaseController {
 	private HotelRPCService hotelService;
 	@Autowired
 	private UserRPCService userService;
-
+	@Autowired
+	private CommodityService commodityService;
 	/**
 	 * 选择景点
 	 * 
@@ -113,7 +120,36 @@ public class ResourceForSelectController extends BaseController {
 	public String selectOneScenic() throws Exception {
 		return "/system/resource/forSelect/selectOneScenic";
 	}
+	
+	/**
+	 * 选择活动商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectOneActivityComm")
+	public String selectOneActivityComm() throws Exception {
+		return "/system/resource/forSelect/selectOneActivityComm";
+	}
 
+	
+	/**
+	 * 选择活动商品
+	 * 
+	 * @return
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryActivityComm")
+	public @ResponseBody ResponseVo queryScenicForSelect(Model model,CommodityListQuery commodityListQuery) throws Exception {
+		PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
+		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVO);
+		result.put("query", commodityListQuery);
+		return new ResponseVo(result);
+	}
 	/**
 	 * 选择酒店
 	 * 
