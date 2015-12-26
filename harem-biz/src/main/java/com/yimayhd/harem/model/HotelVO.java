@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -24,12 +26,18 @@ public class HotelVO extends HotelDO implements Serializable {
     private String picturesStr;//列表长图
     private String phoneNumListStr;//以逗号分割的电话列表
     private List<PictureVO> pictureList;//图片集
-    private String pictureListStr;//图片集str
+    private String picListStr;//图片集的str
     private List<String> openTimeList;
     private List<String> roomFacilityList;
     private List<String> roomServiceList;
     private List<String> hotelFacilityList;
     private double priceY;//价格元
+
+    private String roomFacilityStr;
+    private String roomServiceStr;
+    private String hotelFacilityStr;
+    private NeedKnow needKnowOb;
+    private String name2;
     public HotelVO(){
 
     }
@@ -68,6 +76,17 @@ public class HotelVO extends HotelDO implements Serializable {
         HotelDO hotelDO = hotelVO;
         //个性化转换
         //hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
+        long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
+        long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
+        long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
+
+        hotelVO.getMasterRecommend().setName(hotelVO.getName2());
+        hotelVO.setNeedKnow(hotelVO.getNeedKnowOb());
+        hotelVO.setRecommend(hotelVO.getMasterRecommend());
+        hotelVO.setRoomFacility(roomFacility);
+        hotelVO.setRoomService(roomService);
+        hotelVO.setHotelFacility(hotelFacility);
+        hotelVO.setStatus(BaseStatus.DELETED.getType());
         //电话处理
         if(StringUtils.isNotBlank(hotelVO.getPhoneNumListStr())){
             List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
@@ -161,12 +180,12 @@ public class HotelVO extends HotelDO implements Serializable {
         this.phoneNumListStr = phoneNumListStr;
     }
 
-    public String getPictureListStr() {
-        return pictureListStr;
+    public String getPicListStr() {
+        return picListStr;
     }
 
-    public void setPictureListStr(String pictureListStr) {
-        this.pictureListStr = pictureListStr;
+    public void setPicListStr(String picListStr) {
+        this.picListStr = picListStr;
     }
 
     public String getPicturesStr() {
@@ -175,5 +194,45 @@ public class HotelVO extends HotelDO implements Serializable {
 
     public void setPicturesStr(String picturesStr) {
         this.picturesStr = picturesStr;
+    }
+
+    public String getRoomFacilityStr() {
+        return roomFacilityStr;
+    }
+
+    public void setRoomFacilityStr(String roomFacilityStr) {
+        this.roomFacilityStr = roomFacilityStr;
+    }
+
+    public String getRoomServiceStr() {
+        return roomServiceStr;
+    }
+
+    public void setRoomServiceStr(String roomServiceStr) {
+        this.roomServiceStr = roomServiceStr;
+    }
+
+    public String getHotelFacilityStr() {
+        return hotelFacilityStr;
+    }
+
+    public void setHotelFacilityStr(String hotelFacilityStr) {
+        this.hotelFacilityStr = hotelFacilityStr;
+    }
+
+    public String getName2() {
+        return name2;
+    }
+
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
+
+    public NeedKnow getNeedKnowOb() {
+        return needKnowOb;
+    }
+
+    public void setNeedKnowOb(NeedKnow needKnowOb) {
+        this.needKnowOb = needKnowOb;
     }
 }

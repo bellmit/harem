@@ -91,20 +91,9 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(HotelVO hotelVO, String roomFacilityStr, String roomServiceStr, String hotelFacilityStr,
-			MasterRecommend recommend, NeedKnow needKnow, String name2) throws Exception {
+	public String add(HotelVO hotelVO) throws Exception {
 
-		long roomFacility = Long.parseLong(new StringBuilder(roomFacilityStr).reverse().toString(), 2);
-		long roomService = Long.parseLong(new StringBuilder(roomServiceStr).reverse().toString(), 2);
-		long hotelFacility = Long.parseLong(new StringBuilder(hotelFacilityStr).reverse().toString(), 2);
 
-		recommend.setName(name2);
-		hotelVO.setNeedKnow(needKnow);
-		hotelVO.setRecommend(recommend);
-		hotelVO.setRoomFacility(roomFacility);
-		hotelVO.setRoomService(roomService);
-		hotelVO.setHotelFacility(hotelFacility);
-		hotelVO.setStatus(BaseStatus.DELETED.getType());
 
 		hotelRPCService.addHotel(hotelVO);
 
