@@ -1,6 +1,9 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.travel.BaseTravel;
+import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.query.LinePageQuery;
 
 /**
  * 自由行服务
@@ -26,4 +29,11 @@ public interface CommTravelService {
 	 * @throws Exception
 	 */
 	<T extends BaseTravel> T getById(long id, Class<T> clazz);
+
+	/**
+	 * 查询线路
+	 * 
+	 * @return
+	 */
+	PageVO<LineDO> pageQueryLine(LinePageQuery query);
 }

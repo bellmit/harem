@@ -1,20 +1,26 @@
 package com.yimayhd.harem.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.harem.service.TagRPCService;
 import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
+import com.yimayhd.ic.client.model.query.LinePageQuery;
+import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
@@ -88,5 +94,18 @@ public class CommTravelServiceImpl implements CommTravelService {
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
 		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", publishLine);
 		return publishLine;
+	}
+
+	@Override
+	public PageVO<LineDO> pageQueryLine(LinePageQuery query) {
+		LogUtil.requestLog(log, "itemQueryServiceRef.pageQueryLine", query);
+		ICPageResult<LineDO> pageQueryLine = itemQueryServiceRef.pageQueryLine(query);
+		LogUtil.resultLog(log, "itemPublishServiceRef.publishLine", pageQueryLine);
+		int totalCount = pageQueryLine.getTotalCount();
+		List<LineDO> itemList = pageQueryLine.getList();
+		if (CollectionUtils.isEmpty(itemList)) {
+			itemList = new ArrayList<LineDO>();
+		}
+		return new PageVO<LineDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
 }
