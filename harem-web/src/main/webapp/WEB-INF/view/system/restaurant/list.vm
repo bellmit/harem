@@ -22,7 +22,6 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">区域</button>
                     </span>
-               
             </div>
 			
             <div class="input-group inpSingle">
@@ -51,20 +50,20 @@
         <button type="button" class="btn btn-primary restaurantBatchBtn" btnType="1">批量启用</button>
         <button type="button" class="btn btn-primary restaurantBatchBtn" btnType="2">批量禁用</button>
         <div class="tableGroup whole">
-            <table class="table table-hover">
-                <tr>
-                    <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
-                    <th>餐厅名称</th>
-                    <th>状态</th>
-                    <th>区域</th>
-                    <th>基础价格</th>
-                    <th>联系人</th>
-                    <th>操作</th>
-
-                </tr>
+            <table class="datatable">
+				<thead >
+                    <tr>
+                        <th>餐厅名称</th>
+                        <th>状态</th>
+                        <th>区域</th>
+                        <th>基础价格</th>
+                        <th>联系人</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+				<tbody>
                     #foreach($restaurant in $pageVo.itemList)
-                    <tr class="subCheckedTR">
-                        <td><input class="subChecked" type="checkbox" value="$!restaurant.id"></td>
+                    <tr id="item_$!{velocityCount}" rId="$!restaurant.id">
                         <td>
                             <p>$!restaurant.name</p>
                             <p>商品编码:$!restaurant.id</p>
@@ -76,101 +75,78 @@
                            #SCENIC_LEVEL($!restaurant.level)
                         </td>
                         <td>
-                        #if($restaurant.status == 1)
                         	<button type="button" class="btn btn-primary toView" restaurantId="$restaurant.id">查看</button>
                         	<button type="button" class="btn btn-primary updateRestaurantStatus"  restaurantId="$restaurant.id" status="2">停用   </button>
-                        #elseif($restaurant.status == 2)
-                        	<button type="button" class="btn btn-primary toUpdate" restaurantId="$restaurant.id">编辑</button>
-                        	<button type="button" class="btn btn-primary updateRestaurantStatus"  restaurantId="$restaurant.id" status="1">启用  </button>
-                        #end
                         </td>
                     </tr>
-                    #end
+					#end
+				</tbody>
             </table>
         </div>
     #*分页*#
     #parse("/page.vm")
     #pageStyle("restaurantDOListForm")
     </form>
-<script>
-    $(".form-date").datetimepicker(
-            {
-                language:  "zh-CN",
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0,
-                format: "yyyy-mm-dd"
-            });
-    function openwin(url) {
-        var a = document.createElement("a");
-        a.setAttribute("href", url);
-        a.setAttribute("target", "_blank");
-        a.setAttribute("id", "camnpr");
-        document.body.appendChild(a);
-        a.click();
-    }
-    $(function(){
-        $('.submitBtn').click(function(){
-            $('#restaurantDOListForm').submit();
-        });
-        $('.toView').click(function(){
-               // var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/restaurantManage/edit/'+ $(this).attr('restaurantId');
-                //window.openwin(url);
-				window.parent.tabsAdd("restaurantView", '/B2C/restaurantManage/edit/'+ $(this).attr('restaurantId'), 3, "添加餐厅");
-        });
-        $('.toUpdate').click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/scenicSpotManage/edit/'+ $(this).attr('restaurantId');
-                window.openwin(url);
-        });
-
-        $('.updateRestaurantStatus').click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/restaurantManage/updateStatus/' + $(this).attr('restaurantId') ,{'restaurantStatus':$(this).attr('status')} ,function(data){
-                    if(data.status == 200){
-                        layer.alert('操作成功', {
-                            icon: 1,
-                            time: 1500
-                        }, function(){
-                            window.location.href = window.location.href;
-                        });
-                    }else{
-                        layer.alert('操作失败', {
-                            icon: 2,
-                            time: 2000
-                        }, function(){
-                            window.location.href = window.location.href;
-                        });
-
-                    }
-                })
-           
-        });
-
-        //全选
-        $('.allChecked').click(function(){
-            $('.subChecked').prop('checked',$(this).prop('checked'));
-        });
-        //单选
-        $('.subCheckedTR').click(function(){
-            $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
-        });
-        //批量
-        $('.restaurantBatchBtn').click(function(){
-            var arr = new Array();
-            $('.subChecked:checked').each(function(){
-                arr.push($(this).val());
-            });
-           
-            if(arr==null||arr==""){
-            	  layer.alert('请选择', {
-                        icon: 2,
-                        time: 2000
-                    })
+	<script>
+    $(".form-date").datetimepicker({
+        language:  "zh-CN",
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format: "yyyy-mm-dd"
+    });
+	$('table.datatable').datatable({
+		checkable: true
+		,checksChanged:function(event){
+			checkedList = event.checks.checks;
+		}
+	});
+    $('.submitBtn').click(function(){
+        $('#restaurantDOListForm').submit();
+    });
+    $('.toView').click(function(){
+		window.parent.tabsAdd("restaurantView", '/B2C/restaurantManage/edit/'+ $(this).attr('restaurantId'), 3, "添加餐厅");
+    });
+    $('.updateRestaurantStatus').click(function(){
+        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/restaurantManage/updateStatus/' + $(this).attr('restaurantId') ,{'restaurantStatus':$(this).attr('status')} ,function(data){
+            if(data.status == 200){
+                layer.alert('操作成功', {
+                    icon: 1,
+                    time: 1500
+                }, function(){
+                    window.location.href = window.location.href;
+                });
             }else{
-            	$.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/scenicSpotManage/batchupdateStatus',{scenicIdList:arr,scenicStatus:$(this).attr('btnType')},function(data){
+                layer.alert('操作失败', {
+                    icon: 2,
+                    time: 2000
+                }, function(){
+                    window.location.href = window.location.href;
+                });
+
+            }
+        })
+    });
+    //批量
+	var checkedList;
+    $('.restaurantBatchBtn').click(function(){
+		// 暂时禁用
+		layer.msg("该功能暂不启用");
+		return;
+		// END
+        var arr = new Array();
+		// TODO 遍历 checkedList
+        if(arr==null||arr==""){
+    	  	layer.alert('请选择', {
+                icon: 2,
+                time: 2000
+            });
+        } else {
+        	$.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/restaurantManage/batchupdateStatus',{scenicIdList:arr,scenicStatus:$(this).attr('btnType')},function(data){
                 if(data&&data.status == 200){
                     layer.alert('操作成功', {
                         icon: 1,
@@ -178,7 +154,7 @@
                     }, function(){
                         window.location.href = window.location.href;
                     });
-                }else{
+                } else {
                     layer.alert('操作失败', {
                         icon: 2,
                         time: 2000
@@ -186,16 +162,14 @@
                         $(this).prop('disabled',false);
                     });
                 }
-           	 })
-            	
-            }
-           
-        });
-        //新建
-        $('.restaurantAddBtn').click(function(){
-            var url = actionDefaultPath + '/B2C/restaurantManage/toAdd';
-			window.parent.tabsAdd("restaurantAdd", url, 2, "添加餐厅");
-            //window.openwin(url);
-        });
+           	 });
+        }
+       
+    });
+    //新建
+    $('.restaurantAddBtn').click(function(){
+        var url = actionDefaultPath + '/B2C/restaurantManage/toAdd';
+		window.parent.tabsAdd("restaurantAdd", url, 2, "添加餐厅");
+        //window.openwin(url);
     });
 </script>
