@@ -1,6 +1,7 @@
 package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
@@ -10,6 +11,7 @@ import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ResourceType;
+import com.yimayhd.user.session.manager.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,6 +76,9 @@ public class CommHotelManageController extends BaseController {
     public
     String edit(ItemVO itemVO,@PathVariable("id") long id) throws Exception {
         itemVO.setId(id);
+        long sellerId = Long.parseLong(SessionUtils.getUserId());
+        sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        itemVO.setSellerId(sellerId);
         commodityService.modifyCommHotel(itemVO);
         return "/success";
     }
@@ -86,6 +91,9 @@ public class CommHotelManageController extends BaseController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public
     String add(ItemVO itemVO) throws Exception {
+        long sellerId = Long.parseLong(SessionUtils.getUserId());
+        sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        itemVO.setSellerId(sellerId);
         commodityService.addCommHotel(itemVO);
         return "/success";
     }
