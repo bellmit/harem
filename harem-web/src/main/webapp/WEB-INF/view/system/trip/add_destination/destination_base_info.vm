@@ -17,18 +17,22 @@
 	<li>
         <a href="#bimaituijian" id="bimaituijianId" data-toggle="tab">必买推荐</a>
     </li>
-    <li>
-        <a href="#tieShi" id="tieShiId" data-toggle="tab">贴士</a>
-    </li>
+    #*
+    	<li>
+        	<a href="#tieShi" id="tieShiId" data-toggle="tab">贴士</a>
+    	</li>
+    *#
     <li>
         <a href="#biqujingdian" id="biqujingdianId" data-toggle="tab">必去景点</a>
     </li>
 	<li>
         <a href="#jingxuanjiudian" id="jingxuanjiudianId" data-toggle="tab">精选酒店</a>
     </li>
-	<li>
-        <a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
-    </li>
+	#*
+		<li>
+        	<a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
+    	</li>
+	*#
 </ul>
 
 
@@ -41,6 +45,7 @@
                     <td><span class="spColor">*</span>目的地名称</td>
                     <td><select id="cityId" ></select></td>
                 </tr>
+                #*
                 <tr>
                     <td><span class="spColor">*</span>标签</td>
                     <td>
@@ -52,6 +57,7 @@
                         </div>
                     </td>
                 </tr>
+                *#
 				<tr>
                     <td><span class="spColor">*</span>封面图</td>
                     <td>
@@ -95,7 +101,7 @@
                             #if(!${VO.gaikuang.frontNeedKnow})
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="gaikuang.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                    <input type="text" name="gaikuang.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[1].content" rows="3"></textarea>
@@ -109,7 +115,7 @@
                             #foreach($frontNeedKnow in $VO.gaikuang.frontNeedKnow)
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                    <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -135,7 +141,7 @@
                                 #if(!${VO.minsu.frontNeedKnow})
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="minsu.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                        <input type="text" name="minsu.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[1].content" rows="3"></textarea>
@@ -149,7 +155,7 @@
                                 #foreach($frontNeedKnow in $VO.minsu.frontNeedKnow)
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                        <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -175,7 +181,7 @@
                                 #if(!${VO.xiaofei.frontNeedKnow})
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="xiaofei.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                        <input type="text" name="xiaofei.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[1].content" rows="3"></textarea>
@@ -189,7 +195,7 @@
                                 #foreach($frontNeedKnow in $VO.xiaofei.frontNeedKnow)
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                        <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -215,7 +221,7 @@
                             #if(!${VO.tieshi.frontNeedKnow})
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="tieshi.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                    <input type="text" name="tieshi.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[1].content" rows="3"></textarea>
@@ -229,7 +235,7 @@
                             #foreach($frontNeedKnow in $VO.tieshi.frontNeedKnow)
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                    <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -268,7 +274,7 @@
     	++i;
     	var itemId = $(obj).attr("id");
         var itemList = '<tr class="needKnow"><td>'+
-                '<input type="text" name="'+itemId+'.frontNeedKnow['+i+'].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>'+
+                '<input type="text" name="'+itemId+'.frontNeedKnow['+i+'].title" class="form-control extra-info-item-title" ></td>'+
                 '<td><textarea name="'+itemId+'.frontNeedKnow['+i+'].content" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
                 '<td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td></tr>'
         $(obj).next().append(itemList);
@@ -346,7 +352,7 @@
         });
         
     	$("#cityId").focus( function(){
-    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"5"} ,function(data){
+    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
 	    	if(data.status == 200){
 	    	var html="";
 	    		$.each(data.data, function(n,val){ 
@@ -379,6 +385,7 @@ $('#biqujingdianId').click(function(){
 		console.log(ka);//biQu
 		if(ka == null) return;
 		$("#biQuId").val(ka.id);
+		console.log("id="+$("#biQuId").val());
 		return true;
 	});
 });
@@ -387,9 +394,11 @@ $('#biqujingdianId').click(function(){
 
 $('#jingxuanjiudianId').click(function(){
 	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店',function() {
-			var ka = win.getItems();
-			console.log(ka);//jiuDian
-			$("#jiuDianId").val(ka.id);
+			var jd = win.getItems();
+			console.log(jd);//jiuDian
+			if(jd == null) return;
+			$("#jiuDianId").val(jd.id);
+			console.log("id="+$("#jiuDianId").val());
 			return true;
 		});
 });
@@ -404,13 +413,5 @@ $('#jingxuanzhiboId').click(function(){
 	});
 });
 
-$('#tieShiId').click(function(){
-	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLive','选择贴士',function() {
-		var ka = win.getItems();
-		console.log(ka);//zhiBo
-		if(ka == null) return;
-		$("#zhiBoId").val(ka.id);
-		return true;
-	});
-});
+
 </script>

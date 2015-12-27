@@ -9,8 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.enums.BaseStatus;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
+import com.yimayhd.harem.model.TripBoQuery;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TripService;
@@ -29,7 +31,9 @@ import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.enums.ColumnType;
 import com.yimayhd.resourcecenter.model.enums.RegionStatus;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
+import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
@@ -38,6 +42,7 @@ import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.snscenter.client.domain.result.ClubDO;
 
 public class TripServiceImpl implements TripService {
 
@@ -60,7 +65,7 @@ public class TripServiceImpl implements TripService {
 	private ItemQueryService itemQueryServiceRef;
 
 	@Autowired
-	private RegionIntroduceClientService RegionIntroduceClientServiceRef;
+	private RegionIntroduceClientService regionIntroduceClientServiceRef;
 
 	public RegionDO saveOrUpdate(TripBo tripBo) throws Exception {
 		RegionDO regionDO = null;
@@ -139,7 +144,11 @@ public class TripServiceImpl implements TripService {
 				boothDO.setName(ColumnType.getByName(nk.getExtraInfoUrl()).getCode());
 				boothDO.setDesc(nk.getExtraInfoUrl() + "-" + cityCode);
 				boothDO.setStatus(10);
-				boothDO.setType(2);
+				ColumnType dbColumnType = ColumnType.getByName(nk.getExtraInfoUrl());
+				if(null == dbColumnType){
+					continue;
+				}
+				boothDO.setType(dbColumnType.getType());
 				boothDO.setGmtCreated(new Date());
 				boothDO.setGmtModified(new Date());
 				List<ShowcaseDO> listShowcaseDO = needKnowToShowCase(nk, cityCode, 0);
@@ -167,6 +176,7 @@ public class TripServiceImpl implements TripService {
 				sw.setBusinessCode(String.valueOf(cityCode));
 				sw.setBoothId(boothId);
 				sw.setOperationContent(listItem.get(i).getContent());
+				sw.setStatus(ShowcaseStauts.ONLINE.getStatus());//上架状态
 				listShowCase.add(sw);
 			}
 		}
@@ -313,12 +323,20 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public List<RegionDO> selectRegion(int type) {
-		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
+	public PageVO<RegionDO> selectRegion(TripBoQuery tripBoQuery) {
+		int totalCount = 0 ;
+		List<RegionDO> list = new ArrayList<RegionDO>();
+		RegionQuery regionQuery = new RegionQuery();
+		regionQuery.setPageNo(tripBoQuery.getPageNumber());
+		regionQuery.setPageSize(tripBoQuery.getPageSize());
+		regionQuery.setType(tripBoQuery.getType());
+		
+		RCPageResult<RegionDO> res = regionClientServiceRef.pageQuery(regionQuery);
 		if (null != res && CollectionUtils.isNotEmpty(res.getList())) {
-			return res.getList();
+			list = res.getList();
+			totalCount = res.getTotalCount();
 		}
-		return null;
+		return new PageVO<RegionDO>(tripBoQuery.getPageNumber(), tripBoQuery.getPageSize(), totalCount, list);
 	}
 
 	@Override
@@ -331,7 +349,7 @@ public class TripServiceImpl implements TripService {
 		RegionIntroduceQuery regionIntroduceQuery = new RegionIntroduceQuery();
 		regionIntroduceQuery.setType(type);
 		// List<RegionIntroduceDO> list =
-		 RegionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
+		regionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
 		List<RegionIntroduceDO> list = new ArrayList<RegionIntroduceDO>();
 		RegionIntroduceDO e = new RegionIntroduceDO();
 		e.setCityCode(31231);
@@ -360,9 +378,17 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public List<RegionIntroduceDO> getListDestinationShowCaseResult(int type, String cityCode) {
-
-		return null;
+	public PageVO<RegionIntroduceDO> getPageRegionIntroduceDO(RegionIntroduceQuery regionIntroduceQuery) {
+		List<RegionIntroduceDO> list = new ArrayList<RegionIntroduceDO>();
+		int totalCount = 0; 
+		RCPageResult<RegionIntroduceDO> res = regionIntroduceClientServiceRef.queryPageRegionIntroduceList(regionIntroduceQuery);
+		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList() )){
+			list=res.getList();
+			totalCount=res.getTotalCount();
+		}else{
+			throw new BaseException("get PageVo RegionIntroduceDO list failure");
+		}
+		return new PageVO<RegionIntroduceDO>(regionIntroduceQuery.getPageNo(), regionIntroduceQuery.getPageSize(), totalCount, list);
 	}
 
 	public List<HotelDO> getListHotelDO(String cityCode) {
@@ -395,6 +421,15 @@ public class TripServiceImpl implements TripService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<RegionDO> selectRegion(int type) {
+		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
+		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
+			return res.getList();
+		}
+		return null;
 	}
 
 }

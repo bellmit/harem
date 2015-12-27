@@ -13,12 +13,27 @@
             <tr>
                 <td><span class="spColor">*</span>所属类型 $!theme.outType</td>
                 <td>
-					<select class="form-control" name="type" >
-                        <option value="1"  #if($!theme.outType == 3) checked #end>
-								俱乐部主题
+					<select class="form-control" name="outType" >
+                        <option value="1"  #if($!theme.outType == 1) checked #end>
+								直播
                         </option>
                         <option value="2" #if($!theme.outType == 2) checked #end>
-								活动主题
+								活动
+                        </option>
+                         <option value="3" #if($!theme.outType == 3) checked #end>
+								俱乐部
+                        </option>
+                         <option value="4" #if($!theme.outType == 4) checked #end>
+								会员
+                        </option>
+                         <option value="5" #if($!theme.outType == 5) checked #end>
+								景区
+                        </option>
+                         <option value="6" #if($!theme.outType == 6) checked #end>
+								酒店
+                        </option>
+                         <option value="7" #if($!theme.outType == 7) checked #end>
+								线路
                         </option>
                      </select>
 				</td>
@@ -26,7 +41,7 @@
             
             <tr>
                 <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="sequenceNum" value="$!theme.score"></td>
+                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="score" value="$!theme.score"></td>
             </tr>
         </table>
         <div class="clubBotBtn">

@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import java.util.List;
 
+import com.yimayhd.harem.base.BaseQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,10 +49,21 @@ public class ClubManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ClubListQuery query) throws Exception {
-		List<ClubDO>  clubList = clubService.getList(query);
+	public String list(Model model, ClubDOInfoDTO query, Integer pageNumber,Integer pageSize) throws Exception {
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		} else {
+			query.setPageNo(BaseQuery.DEFAULT_PAGE);
+		}
+		if(pageSize!= null) {
+			query.setPageSize(pageSize);
+		} else{
+			query.setPageSize(BaseQuery.DEFAULT_SIZE);
+		}
+		PageVO<ClubDO> pageVo = clubService.pageQueryClub(query);
 		model.addAttribute("clubListQuery", query);
-		model.addAttribute("clubList", clubList);
+		model.addAttribute("clubList", pageVo.getItemList());
+		model.addAttribute("pageVo", pageVo);
 		return "/system/club/list";
 	}
 
@@ -87,13 +99,13 @@ public class ClubManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo add(ClubAdd clubAdd,@RequestParam("themeIds[]") List<Long> themeIds) throws Exception {
-		//String[] rr = request.getParameterValues("themeIds");
-		ClubAdd club = clubService.add(clubAdd,themeIds);
-		if(null == club ){
+	public ResponseVo add(ClubAdd clubAdd, @RequestParam("themeIds[]") List<Long> themeIds) throws Exception {
+		// String[] rr = request.getParameterValues("themeIds");
+		ClubAdd club = clubService.add(clubAdd, themeIds);
+		if (null == club) {
 			return new ResponseVo(ResponseStatus.ERROR);
 		}
-			return new ResponseVo(ResponseStatus.SUCCESS);
+		return new ResponseVo(ResponseStatus.SUCCESS);
 	}
 
 	/**
@@ -132,11 +144,11 @@ public class ClubManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo setJoinStatus(BatchSetUpParameter batchSetUpParameter, int status) throws Exception {
 		List<Long> ids = null;
-		if(null != batchSetUpParameter){
+		if (null != batchSetUpParameter) {
 			ids = batchSetUpParameter.getIds();
 		}
 		boolean flag = clubService.batchUpOrDownStatus(ids, status);
-		if(flag){
+		if (flag) {
 			return new ResponseVo(ResponseStatus.SUCCESS);
 		}
 		return new ResponseVo(ResponseStatus.ERROR);

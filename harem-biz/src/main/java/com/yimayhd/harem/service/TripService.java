@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
+import com.yimayhd.harem.model.TripBoQuery;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
+import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 
 /** 
 * @ClassName: TripAService 
@@ -105,7 +107,7 @@ public interface TripService {
 	* @return List<RegionDO> 返回类型 
 	* @throws
 	 */
-	List<RegionDO> selectRegion(int type);
+	PageVO<RegionDO> selectRegion(TripBoQuery tripBoQuery);
 	
 	/**
 	* @Title: selectScenicDO 
@@ -140,7 +142,7 @@ public interface TripService {
 	* @return List<RegionIntroduceDO> 返回类型 
 	* @throws
 	 */
-	List<RegionIntroduceDO> getListDestinationShowCaseResult(int type,String cityCode);
+	PageVO<RegionIntroduceDO> getPageRegionIntroduceDO(RegionIntroduceQuery regionIntroduceQuery);
 	
 	/**
 	* @Title: selecthotelDO 
@@ -166,4 +168,6 @@ public interface TripService {
 	 */
 	boolean blockOrUnBlock(long id,int cityCode,int type)throws Exception;
 	
+	
+	List<RegionDO> selectRegion(int type);
 }

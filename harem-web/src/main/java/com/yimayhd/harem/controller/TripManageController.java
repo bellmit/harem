@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.TripBo;
+import com.yimayhd.harem.model.TripBoQuery;
 import com.yimayhd.harem.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -127,19 +129,20 @@ public class TripManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(Model model){
-		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
-		List<RegionDO> list = tripService.selectRegion(type);
-		//TODO:调用分页 
-		
-		if(CollectionUtils.isNotEmpty(list)){
-			model.addAttribute("regionList",list);
-			if(RegionType.DEPART_REGION.getType() == type ){//出发地 3
-				return "/system/trip/origin_list";
-			}else if (RegionType.DESC_REGION.getType() == type){//目的地 4
-				return "/system/trip/beautiful_local_list";
-			}	
+	public String list(Model model, TripBoQuery query){
+		if(null == query || 0 == query.getType()){
+			query = new TripBoQuery();
+			query.setType(RegionType.DESC_REGION.getType());
 		}
+		PageVO<RegionDO> list = tripService.selectRegion(query);
+		model.addAttribute("pageVo",list);
+		model.addAttribute("regionList",list);
+		
+		if(RegionType.DEPART_REGION.getType() == query.getType() ){//出发地 3
+			return "/system/trip/origin_list";
+		}else if (RegionType.DESC_REGION.getType() == query.getType()){//目的地 4
+			return "/system/trip/beautiful_local_list";
+		}	
 		return "/error";
 	}
 	
@@ -157,7 +160,7 @@ public class TripManageController extends BaseController {
 	public ResponseVo selectDepartureList(Model model,int type){
 		//TODO:去掉已经创建过的,返回list中可以创建的出发地
 		// 1-酒店区域 2-景区区域 3-线路出发地 4-线路目的地
-		List<RegionDO> list = tripService.selectRegion(type);
+		List<RegionDO> list = tripService.selectRegion(RegionType.DESC_REGION.getType());
 		if(CollectionUtils.isNotEmpty(list)){
 			return new ResponseVo(list);			
 		}

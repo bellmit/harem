@@ -130,7 +130,7 @@ public class ItemVO extends ItemDO {
             }
             commonItemPublishDTO.setItemSkuDOList(itemSkuDOList);
             commonItemPublishDTO.setAddItemSkuDOList(addItemSkuDOList);
-            commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOList);
+ //           commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOList);
             commonItemPublishDTO.setUpdItemSkuDOList(updItemSkuDOList);
         }
         return commonItemPublishDTO;

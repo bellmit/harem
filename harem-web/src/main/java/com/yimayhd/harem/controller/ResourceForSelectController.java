@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.BaseQuery;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.ItemVO;
@@ -22,6 +23,7 @@ import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.RestaurantRPCService;
 import com.yimayhd.harem.service.ScenicService;
+import com.yimayhd.harem.service.TripService;
 import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
@@ -32,7 +34,9 @@ import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
+import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 
@@ -56,7 +60,7 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private CommodityService commodityService;
 	@Autowired
-	private RegionIntroduceClientService RegionIntroduceClientServiceRef;
+	private TripService tripService;
 
 	/**
 	 * 选择景点
@@ -269,13 +273,33 @@ public class ResourceForSelectController extends BaseController {
 	public String selectMustBuy() throws Exception {
 		return "/system/resource/forSelect/selectMustBuy";
 	}
-
+	
+	/**
+	* @Title: listMustBuy 
+	* @Description:(获取买必推荐列表) 
+	* @author create by yushengwei @ 2015年12月27日 下午4:23:41 
+	* @param @param regionIntroduceQuery
+	* @param @return
+	* @param @throws Exception 
+	* @return ResponseVo 返回类型 
+	* @throws
+	 */
 	@RequestMapping(value = "/listMustBuy")
-	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery regionIntroduceQuery) throws Exception {
-		List<RegionIntroduceDO> list = RegionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
+	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery query,Integer pageNumber,Integer pageSize) throws Exception {
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		} else {
+			query.setPageNo(BaseQuery.DEFAULT_PAGE);
+		}
+		if(pageSize!= null) {
+			query.setPageSize(pageSize);
+		} else{
+			query.setPageSize(BaseQuery.DEFAULT_SIZE);
+		}
+		PageVO<RegionIntroduceDO> pageVo = tripService.getPageRegionIntroduceDO(query);
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", 11);
-		result.put("query", 11);
+		result.put("pageVo", pageVo);
+		result.put("query", query);
 		return new ResponseVo(result);
 	}
 
