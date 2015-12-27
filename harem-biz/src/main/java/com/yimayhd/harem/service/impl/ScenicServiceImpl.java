@@ -206,8 +206,16 @@ public class ScenicServiceImpl implements ScenicService {
 				log.error("ScenicServiceImpl.save-itemQueryService.getScenic result.getModule is null and parame: " + scenicVO.getId());
 			}
 			ScenicAddNewDTO addNewDTO = new ScenicAddNewDTO();
-			//scenicDO
-			addNewDTO.setScenic(scenicDB);
+			ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
+			addNewDTO.setScenic(scenicDO);
+			scenicDO.setMemberPrice(scenicDO.getPrice());
+			//NeedKnowOb
+			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
+			scenicDO.setRecommend(scenicVO.getMasterRecommend());
+			//购买须知存tfs
+			if(org.apache.commons.lang.StringUtils.isNotBlank(addNewDTO.getNeedKnow().getExtraInfoUrl())) {
+				addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
+			}
 			//TODO 修改项处理
 			addScenicNew = resourcePublishServiceRef.updateScenicNew(addNewDTO);
 			if(null == addScenicNew){
