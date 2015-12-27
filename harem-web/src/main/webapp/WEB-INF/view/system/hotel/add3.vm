@@ -173,7 +173,7 @@
 						#end
                     </td>
                 </tr>
-                <tr>$!hotel.openTimelist
+               #* <tr>$!hotel.openTimelist
                     <td><span class="spColor">*</span>最晚到店时间</td>
                     <td>
                         #set($timeArr=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])
@@ -187,7 +187,13 @@
                             </select>
                         #end
                     </td>
-                </tr>
+                </tr>*#
+               <tr>$!hotel.openTimelist
+                   <td><span class="spColor">*</span>最晚到店时间</td>
+                   <td>
+                       <input type="text" name="openTime" value="$!hotel.openTime" class="inpControl" >
+                   </td>
+               </tr>
                 <tr>
                         <td><span class="spColor">*</span>入住须知</td>
                         <td>
@@ -241,17 +247,17 @@
                         <td>推荐理由</td>
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
-                      		  <input type="text" name="recommend.title"  class="inpControl"
+                      		  <input type="text" name="masterRecommend.title"  class="inpControl"
                                    value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
                             <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
                                  alt="头像" class="img-circle grogUserLogo" id="userImg">
                                  <span id="recommendNameT"></span>
-                            <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
+                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
                             <input type="hidden" id="recommendId" name="masterRecommend.id" value="$!{recommend.id}" >
                             <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="$!{recommend.userId}" >
                             <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{recommend.userPic}" >
-                            <input type="hidden" id="recommendName" name="masterRecommend.description" value="$!{recommend.description}" >
+                            <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{recommend.name}" >
                         </td>
                     </tr>
                      <tr>

@@ -94,7 +94,8 @@ public class HotelVO extends HotelDO implements Serializable {
         //图片集处理(因为有outId还是,只处理新增的)
         //列表长图片处理
         hotelDO.setPicturesString(hotelVO.getPicturesStr());
-        hotelDO.setOpenTime(JSON.toJSONString(hotelVO.getOpenTimeList()));
+
+        //hotelDO.setOpenTime(JSON.toJSONString(hotelVO.getOpenTimeList()));//TODO 暂时变更
         //hotelDO.setRoomFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //hotelDO.setRoomService(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //hotelDO.setHotelFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));

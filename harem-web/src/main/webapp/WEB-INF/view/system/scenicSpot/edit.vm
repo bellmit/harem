@@ -59,7 +59,7 @@
                         <td>等级</td>
                         <td>
                             <select class="form-control {required:true}" id="level" name="level">
-                                <option>请选择</option>
+                                <option value="0">请选择</option>
                                 <option value="1"  #if($!{VO.scenic.level} == 1) selected #end>五星级</option>
                                 <option value="2" #if($!{VO.scenic.level} == 2) selected #end>四星级</option>
                                 <option value="3" #if($!{VO.scenic.level} == 3) selected #end>三星级</option>
@@ -79,11 +79,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>景区电话</td>
+                        <td>景区电话</td>
                         <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字" value="$!{VO.scenic.phoneNum}"></td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>营业时间</td>
+                        <td>营业时间</td>
                         <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字" value="$!{VO.scenic.openTime}"></td>
                     </tr>
                     <tr>
@@ -152,8 +152,8 @@
                             <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
                             <span id="recommendNameT"></span>
                             <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{recommend.description}</textarea>
-                            <input type="hidden" id="recommendId" name="masterRecommend.id" value="$!{recommend.id}" >
-                            <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="$!{recommend.userId}" >
+                            <input type="hidden" id="recommendId" name="masterRecommend.id" value="#if(! $recommend.id)0#else$!recommend.id#end" >
+                            <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="#if(! $recommend.userId)0#else$!recommend.userId#end" >
                             <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{recommend.userPic}" >
                             <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{recommend.name}" >
                         </td>
@@ -424,14 +424,31 @@
         /*提交**/
         $("#saveScenicSpot").validate({
             rules: {
-                'scenic.name': {
+                'name': {
+                    required: true
+                },
+                 'locationProvinceId': {
+                    required: true
+                },'locationX': {
+                    required: true
+                },'locationy': {
+                    required: true
+                },'oneword': {
+                    required: true
+                },'description': {
+                    required: true
+                },'refundRule': {
+                    required: true
+                },'refundRule': {
+                    required: true
+                },'priceY': {
                     required: true
                 }
+               
+              
             },
             messages: {
-                'scenic.name': {
-                    required: "请填写"
-                }
+               
             },
             errorPlacement: function (error, element) { // 指定错误信息位置
 
@@ -450,13 +467,25 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.status == 200) {
-                            layer.alert('操作成功');
-                            $("#clubCategorySubmit").attr("disabled", false);
-                            location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                             layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                        	 $("#clubCategorySubmit").attr("disabled", false);
+                      	  location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                        },1500);
+                           
+                            
                         } else {
-                            $("#clubCategorySubmit").attr("disabled", false);
-                            layer.alert('操作失败');
-                            location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                            layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                         setTimeout(function () {
+                        $("#clubCategorySubmit").attr("disabled", false);
+                      	  location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                        },1500);
                         }
                     }
                 };
