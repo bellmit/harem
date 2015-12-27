@@ -57,6 +57,7 @@ public class ResourceForSelectController extends BaseController {
 	private CommodityService commodityService;
 	@Autowired
 	private RegionIntroduceClientService RegionIntroduceClientServiceRef;
+
 	/**
 	 * 选择景点
 	 * 
@@ -125,7 +126,7 @@ public class ResourceForSelectController extends BaseController {
 	public String selectOneScenic() throws Exception {
 		return "/system/resource/forSelect/selectOneScenic";
 	}
-	
+
 	/**
 	 * 选择活动商品
 	 * 
@@ -137,7 +138,6 @@ public class ResourceForSelectController extends BaseController {
 		return "/system/resource/forSelect/selectOneActivityComm";
 	}
 
-	
 	/**
 	 * 选择活动商品
 	 * 
@@ -147,7 +147,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryActivityComm")
-	public @ResponseBody ResponseVo queryScenicForSelect(Model model,CommodityListQuery commodityListQuery) throws Exception {
+	public @ResponseBody ResponseVo queryScenicForSelect(Model model, CommodityListQuery commodityListQuery)
+			throws Exception {
 		PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -156,6 +157,7 @@ public class ResourceForSelectController extends BaseController {
 		result.put("query", commodityListQuery);
 		return new ResponseVo(result);
 	}
+
 	/**
 	 * 选择酒店
 	 * 
@@ -189,7 +191,10 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryUserForSelect")
-	public @ResponseBody ResponseVo queryUserForSelect(UserDOPageQuery query) throws Exception {
+	public @ResponseBody ResponseVo queryUserForSelect(UserDOPageQuery query, Integer pageNumber) throws Exception {
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		}
 		PageVO<UserDO> pageVo = userService.getUserListByPage(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
@@ -259,13 +264,12 @@ public class ResourceForSelectController extends BaseController {
 	public String selectTravelKa() throws Exception {
 		return "/system/resource/forSelect/selectTravelKa";
 	}
-	
+
 	@RequestMapping(value = "/selectMustBuy")
 	public String selectMustBuy() throws Exception {
 		return "/system/resource/forSelect/selectMustBuy";
 	}
-	
-	
+
 	@RequestMapping(value = "/listMustBuy")
 	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery regionIntroduceQuery) throws Exception {
 		List<RegionIntroduceDO> list = RegionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
@@ -274,13 +278,10 @@ public class ResourceForSelectController extends BaseController {
 		result.put("query", 11);
 		return new ResponseVo(result);
 	}
-	
-	
+
 	@RequestMapping(value = "/selectLive")
 	public String selectLive() throws Exception {
 		return "/system/resource/forSelect/selectLive";
 	}
-	
-	
-	
+
 }
