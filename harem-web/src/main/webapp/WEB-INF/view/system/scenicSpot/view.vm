@@ -87,11 +87,13 @@
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>景区简介</td>
-                        <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.oneword}</textarea></td>
+                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
-                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
+                        <td>
+                        <textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.oneword}</textarea>
+                       </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>入园须知</td>
