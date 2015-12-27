@@ -8,3 +8,5 @@ target
 /harem-web/bin
 /run/
 /build.bat
+id_rsa
+id_rsa.pub

@@ -62,7 +62,7 @@
 		
  	var pictureUploadCallBack = function(data,id){
     if(data && data.status == 200){
-    var index = id.substr(-1);
+    var index = id.split('_')[id.split('_').length - 1];
     
     var imgHtml="";
     var imgArr=[];

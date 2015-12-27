@@ -9,6 +9,7 @@ import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,9 @@ public class CommHotelManageController extends BaseController {
         CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
         CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
         int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
+        //TODO 没有加到页面上
+        int outType = ResourceType.HOTEL.getType();
+        model.addAttribute("outType", outType);
         model.addAttribute("category", categoryVO);
         model.addAttribute("itemType",itemType);
         return "/system/comm/hotel/edit";
