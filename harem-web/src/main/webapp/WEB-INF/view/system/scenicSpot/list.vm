@@ -80,7 +80,9 @@
                         </td>
                         <td>#ITEMSCENIC_STATUS($!scenic.itemStatus)</td>
                         <td>$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}</td>
-                        <td>￥$!{scenic.price}起</td>
+                        <td>
+                        	#set($price=$scenic.price / 100.0) 
+                        		￥$price起</td>
                         <td>
                            #SCENIC_LEVEL($!scenic.level)
                         </td>
