@@ -134,7 +134,7 @@
                         <td><span class="spColor">*</span>基础价格</td>
                         <td>
                         #set($price=$VO.scenic.price / 100.0) 
-                        	<input type="text" name="priceY" id="price" class="inpControl" value="$price">起
+                        	<input type="text" name="priceY" id="price" class="inpControl" value="#if(! $price)#else$price#end">起
                         </td>
                     </tr>
                     <tr>
