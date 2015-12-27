@@ -75,9 +75,9 @@
 							<td>提前<input type="text" class="inpCtlBlock" name="startDayTime" id="phoneNum" placeholder="请输入数字">天
 								<input type="text" class="inpCtlBlock" name="startHourTime" id="phoneNum" placeholder="请输入数字">点前预定
 							</td>
-							<td><input type="text" class="inpCtlBlock" name="itemDO.price" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="priceF" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name=""  placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name=""  placeholder="请输入数字"></td>
 					<tr>
 			</table>
         </div>
@@ -121,16 +121,22 @@
 					}
 				},
 				submitHandler : function(form) {
-
+					
 					var options = {
 						url : actionDefaultPath + "/B2C/comm/scenicManage/save",
 						type : "post",
 						dataType : "json",
 						  success: function (data) {
-                        if (data.status == 200) {
-                            layer.alert('操作成功');
-                          
-                          
+						   if (data.status == 200) {
+                             layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                        	 $("#clubCategorySubmit").attr("disabled", false);
+                      	 location.href = actionDefaultPath + "/B2C/commodityManage/toCategory";
+                        },1500);
+                     
                         } else {
                           
                             layer.alert('操作失败');

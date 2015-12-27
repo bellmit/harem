@@ -73,9 +73,11 @@ public class CommScenicManageController extends BaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public
-    ResponseVo save(ScenicPublishDTO scenicPublishDTO,long endTime,long startDayTime , long startHourTime,Long[] check) throws Exception {
+    ResponseVo save(ScenicPublishDTO scenicPublishDTO,long endTime,long startDayTime , long startHourTime,Long[] check,double priceF) throws Exception {
     	ResponseVo responseVo = new ResponseVo(); 	
     	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
+    	
+    	scenicPublishDTO.getItemDO().setPrice((long) (priceF * 100));
     	ItemFeature itemFeature = new ItemFeature(null);
 	        //减库存方式
 	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE.getBizType());
