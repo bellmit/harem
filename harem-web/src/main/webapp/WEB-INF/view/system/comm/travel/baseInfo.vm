@@ -4,6 +4,7 @@
 -->
 <div class="baseInfo">
 	<div class="baseInfoList">
+		<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/>
         <p class="lineDetail">线路明细</p>
         <table>
             <tr>
@@ -126,7 +127,6 @@
             <tr class="extra-info-item">
                 <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{textItem.title}"/></td>
                 <td><textarea class="form-control extra-info-item-content" rows="3">$!{textItem.content}</textarea></td>
-                <td><button class="btn btn-primary itemDelete">删除</button></td>
             </tr>
 					#if($velocityCount >= 2)
 						#break
@@ -136,19 +136,16 @@
 			<tr class="extra-info-item">
                 <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{textItem.title}"/></td>
                 <td><textarea class="form-control extra-info-item-content" rows="3">$!{textItem.content}</textarea></td>
-                <td><button class="btn btn-primary itemDelete">删除</button></td>
             </tr>
 				#end
 			#else
                 <tr class="extra-info-item">
                     <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
                     <td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-                    <td><button class="btn btn-primary itemDelete">删除</button></td>
                 </tr>
                 <tr class="extra-info-item">
                     <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
                     <td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-                    <td><button class="btn btn-primary itemDelete">删除</button></td>
                 </tr>
 			#end
         </table>
@@ -191,9 +188,6 @@
 		});
 		item.append($("<td/>").append(delete_btn));
 		content.append(item);
-	});
-	$(".itemDelete").click(function(){
-		$(this).parent().parent().remove();
 	});
 	$(".itemDelete").click(function(){
 		$(this).parent().parent().remove();
@@ -285,6 +279,7 @@
 		});
 		var publisher = $(".publisher");
 		var result = {
+			id:$("#line-id").val()||0,
 			type:type,
 			name:name,
 			productImage:productImage,
@@ -307,6 +302,7 @@
 			},
 			recommond: {
 				id:$(".recommond").attr("rId"),
+				title:"推荐理由",
     			description : $(".recommond").val(),
 				userId:publisher.attr("rId"),
 				name:publisher.attr("rName"),

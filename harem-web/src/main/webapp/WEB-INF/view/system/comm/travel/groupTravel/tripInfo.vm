@@ -62,6 +62,26 @@
 				li.append($("<a href='#day_"+dayId+"_page' data-toggle='tab' class='day_tab_a'>Day</a><i class='icon icon-trash myTrash'></i>"));
 				return li;
 			}
+			// 添加餐厅
+			$(document).delegate(".add-restaurant-btn","click",function(){
+				var _currentRId = $(this).attr("display-id");
+				var content = $("#"+_currentRId);
+				var rName = $("#"+_currentRId+"_add").val();
+				if(rName) {
+					var btn = $("<button class='btn btn-default "+_currentRId+"_item'></button>");
+					btn.attr("rId", 0);
+					btn.attr("rName", rName);
+					btn.click(function() {
+						$(this).remove();
+					});
+					content.append(btn.text(rName));
+					$("#"+_currentRId+"_add").val("");
+				}
+				// update
+				var route_item_id = content.attr("route-item-id");
+				var route_item_detail_id = content.attr("route-item-detail-id");
+				setUpdated(route_item_id,route_item_detail_id);
+			});
 			// 创建一天的page
 			function createDayPage(dayId) {
 				var page = $("<div class='tab-pane' id='day_"+dayId+"_page'></div>");
@@ -91,22 +111,7 @@
 				input_panel1.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_1'></div>"));
 				var input_group1 = $("<div class='panel-body input-group'></div>");
 				var input_group1_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_1_add'>");
-				var input_group1_btn_add = $("<button class='btn btn-default' type='button' display-id='day_"+dayId+"_restaurant_1'>添加餐厅</button>");
-				input_group1_btn_add.click(function(){
-					var _currentRId = $(this).attr("display-id");
-					var content = $("#"+_currentRId);
-					var rName = $("#"+_currentRId+"_add").val();
-					if(rName) {
-    					var btn = $("<button class='btn btn-default "+_currentRId+"_item'></button>");
-    					btn.attr("rId", 0);
-    					btn.attr("rName", rName);
-    					btn.click(function() {
-    						$(this).remove();
-    					});
-    					content.append(btn.text(rName));
-						$("#"+_currentRId+"_add").val("");
-					}
-				});
+				var input_group1_btn_add = $("<button class='btn btn-default add-restaurant-btn' type='button' display-id='day_"+dayId+"_restaurant_1'>添加餐厅</button>");
 				var input_group1_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_1'>选择餐厅</button>");
 				input_group1_btn_select.click(selectRestaurant);
 				input_group1.append(input_group1_text);
@@ -119,22 +124,7 @@
 				input_panel2.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_2'></div>"));
 				var input_group2 = $("<div class='panel-body input-group'></div>");
 				var input_group2_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_2_add'>");
-				var input_group2_btn_add = $("<button class='btn btn-default' type='button' display-id='day_"+dayId+"_restaurant_2'>添加餐厅</button>");
-				input_group2_btn_add.click(function(){
-					var _currentRId = $(this).attr("display-id");
-					var content = $("#"+_currentRId);
-					var rName = $("#"+_currentRId+"_add").val();
-					if(rName) {
-    					var btn = $("<button class='btn btn-default "+_currentRId+"_item'></button>");
-    					btn.attr("rId", 0);
-    					btn.attr("rName", rName);
-    					btn.click(function() {
-    						$(this).remove();
-    					});
-    					content.append(btn.text(rName));
-						$("#"+_currentRId+"_add").val("");
-					}
-				});
+				var input_group2_btn_add = $("<button class='btn btn-default add-restaurant-btn' type='button' display-id='day_"+dayId+"_restaurant_2'>添加餐厅</button>");
 				var input_group2_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_2'>选择餐厅</button>");
 				input_group2_btn_select.click(selectRestaurant);
 				input_group2.append(input_group2_text);
@@ -147,22 +137,7 @@
 				input_panel3.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_3'></div>"));
 				var input_group3 = $("<div class='panel-body input-group'></div>");
 				var input_group3_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_3_add'>");
-				var input_group3_btn_add = $("<button class='btn btn-default' type='button' display-id='day_"+dayId+"_restaurant_3'>添加餐厅</button>");
-				input_group3_btn_add.click(function(){
-					var _currentRId = $(this).attr("display-id");
-					var content = $("#"+_currentRId);
-					var rName = $("#"+_currentRId+"_add").val();
-					if(rName) {
-    					var btn = $("<button class='btn btn-default "+_currentRId+"_item'></button>");
-    					btn.attr("rId", 0);
-    					btn.attr("rName", rName);
-    					btn.click(function() {
-    						$(this).remove();
-    					});
-    					content.append(btn.text(rName));
-						$("#"+_currentRId+"_add").val("");
-					}
-				});
+				var input_group3_btn_add = $("<button class='btn btn-default add-restaurant-btn' type='button' display-id='day_"+dayId+"_restaurant_3'>添加餐厅</button>");
 				var input_group3_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_3'>选择餐厅</button>");
 				input_group3_btn_select.click(selectRestaurant);
 				input_group3.append(input_group3_text);
@@ -207,8 +182,8 @@
 			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
-				<div class="panel-body trip-description-content" route-item-id="$!{tripDay.descriptionRouteItemId}">
-					<textarea class="form-control trip-description" rows="3" id="day_${velocityCount}_trip_description">$!{tripDay.description}</textarea>
+				<div class="panel-body trip-description-content">
+					<textarea class="form-control trip-description" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.descriptionRouteItemId}">$!{tripDay.description}</textarea>
 				</div>
 			</div>
 			<div class="panel add-restaurant">
@@ -224,7 +199,7 @@
 						<div class="panel-body input-group">
 							<input type="text" class="form-control" placeholder="请输入餐厅名称" id="day_${velocityCount}_restaurant_1_add"/>
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" display-id="day_${velocityCount}_restaurant_1">添加餐厅</button>
+								<button class="btn btn-default add-restaurant-btn" type="button" display-id="day_${velocityCount}_restaurant_1">添加餐厅</button>
 							</span>
 							<span class="input-group-btn">
 								<button class="btn btn-primary select-restaurant" type="button" display-id="day_${velocityCount}_restaurant_1">选择餐厅</button>
@@ -241,7 +216,7 @@
 						<div class="panel-body input-group">
 							<input type="text" class="form-control" placeholder="请输入餐厅名称" id="day_${velocityCount}_restaurant_2_add"/>
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" display-id="day_${velocityCount}_restaurant_2">添加餐厅</button>
+								<button class="btn btn-default add-restaurant-btn" type="button" display-id="day_${velocityCount}_restaurant_2">添加餐厅</button>
 							</span>
 							<span class="input-group-btn">
 								<button class="btn btn-primary select-restaurant" type="button" display-id="day_${velocityCount}_restaurant_2">选择餐厅</button>
@@ -258,7 +233,7 @@
 						<div class="panel-body input-group">
 							<input type="text" class="form-control" placeholder="请输入餐厅名称" id="day_${velocityCount}_restaurant_3_add"/>
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" display-id="day_${velocityCount}_restaurant_3">添加餐厅</button>
+								<button class="btn btn-default add-restaurant-btn" type="button" display-id="day_${velocityCount}_restaurant_3">添加餐厅</button>
 							</span>
 							<span class="input-group-btn">
 								<button class="btn btn-primary select-restaurant" type="button" display-id="day_${velocityCount}_restaurant_3">选择餐厅</button>
@@ -293,15 +268,15 @@
 		#end
     </div>
 	<script type="text/javascript">
-		function removeSelf() {
+		// 自删除按钮
+		$(document).delegate(".remove-self","click",function(){
 			// update
 			var content = $(this).parent();
 			var route_item_id = content.attr("route-item-id");
 			var route_item_detail_id = content.attr("route-item-detail-id");
 			setUpdated(route_item_id,route_item_detail_id);
 			$(this).remove();
-		}
-		$(".remove-self").click(removeSelf);
+		});
 		var currentTId;
 		var currentRId;
 		var currentSId;
@@ -333,9 +308,8 @@
 			});
         }
 		$(".trip-description").change(function() {
-			var content = $(this).parent();
 			// update
-			var route_item_id = content.attr("route-item-id");
+			var route_item_id = $(this).attr("route-item-id");
 			setUpdated(route_item_id,false);
 		});
 		// 选择餐厅
@@ -350,7 +324,6 @@
 					var btn = $("<button class='btn btn-info "+currentRId+"_item remove-self' id='"+currentRId+"_item_"+res[i].id+"'></button>");
 					btn.attr("rId", res[i].id);
 					btn.attr("rName", res[i].name);
-					btn.click(removeSelf);
 					content.append(btn.text(res[i].name));
 				}
 				//console.log(JSON.stringify(res));
@@ -375,7 +348,6 @@
 					var btn = $("<button class='btn btn-info "+currentSId+"_item remove-self'></button>");
 					btn.attr("rId", sce[i].id);
 					btn.attr("rName", sce[i].name);
-					btn.click(removeSelf);
 					content.append(btn.text(sce[i].name));
 				}
 				//console.log(JSON.stringify(tra));
@@ -399,7 +371,6 @@
 					var btn = $("<button class='btn btn-info "+currentHId+"_item remove-self'></button>");
 					btn.attr("rId", hot[i].id);
 					btn.attr("rName", hot[i].name);
-					btn.click(removeSelf);
 					content.append(btn.text(hot[i].name));
 				}
 				//console.log(JSON.stringify(hot));
@@ -412,6 +383,7 @@
 			});
         }
 		var updatedRouteItems=[];
+		var deletedRouteItems=[];
 		// 设置更新
 		function setUpdated(item_id,detail_id) {
 			// TODO 设置更新
@@ -421,11 +393,79 @@
 			if(detail_id) {
 				updatedRouteItems.push(detail_id);
 			}
+			// alert(updatedRouteItems);
 		}
+		// 设置删除
 		function setDeleted(day) {
+			var traffic_content = $("#day_"+day+"_traffic");
+			var route_item_id = traffic_content.attr("route-item-id");
+			if(route_item_id) {
+				deletedRouteItems.push(route_item_id);
+			}
 			
+			var description_content = $("#day_"+day+"_trip_description");
+			route_item_id = description_content.attr("route-item-id");
+			if(route_item_id) {
+				deletedRouteItems.push(route_item_id);
+			}
+			
+			var restaurant_1_content = $("#day_"+day+"_restaurant_1");
+			route_item_id = restaurant_1_content.attr("route-item-id");
+			var route_item_detail_id = restaurant_1_content.attr("route-item-detail-id");
+			if(route_item_id) {
+				deletedRouteItems.push(route_item_id);
+			}
+			if(route_item_detail_id) {
+				deletedRouteItems.push(route_item_detail_id);
+			}
+			
+			var restaurant_2_content = $("#day_"+day+"_restaurant_2");
+			route_item_id = restaurant_2_content.attr("route-item-id");
+			route_item_detail_id = restaurant_2_content.attr("route-item-detail-id");
+			if(route_item_id) {
+				deletedRouteItems.push(route_item_id);
+			}
+			if(route_item_detail_id) {
+				deletedRouteItems.push(route_item_detail_id);
+			}
+			
+			var restaurant_3_content = $("#day_"+day+"_restaurant_3");
+			route_item_id = restaurant_3_content.attr("route-item-id");
+			route_item_detail_id = restaurant_3_content.attr("route-item-detail-id");
+			if(route_item_id) {
+				deletedRouteItems.push(route_item_id);
+			}
+			if(route_item_detail_id) {
+				deletedRouteItems.push(route_item_detail_id);
+			}
+			
+			var scenic_content = $("#day_"+day+"_scenic");
+			route_item_id = scenic_content.attr("route-item-id");
+			route_item_detail_id = scenic_content.attr("route-item-detail-id");
+			if(route_item_id) {
+				deletedRouteItems.push(route_item_id);
+			}
+			if(route_item_detail_id) {
+				deletedRouteItems.push(route_item_detail_id);
+			}
+			
+			var hote_content = $("#day_"+day+"_hotel");
+			route_item_id = hote_content.attr("route-item-id");
+			route_item_detail_id = hote_content.attr("route-item-detail-id");
+			if(route_item_id) {
+				deletedRouteItems.push(route_item_id);
+			}
+			if(route_item_detail_id) {
+				deletedRouteItems.push(route_item_detail_id);
+			}
+			// alert(deletedRouteItems);
 		}
-		var deletedRouteItem=[];
+		function getUpdatedRouteItems() {
+			return updatedRouteItems;
+		}
+		function getDeletedRouteItems() {
+			return deletedRouteItems;
+		}
 		// 获取行程信息
 		function getTripInfo() {
 			var result = [];

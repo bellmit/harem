@@ -50,6 +50,7 @@
     </div>
 	#if($categoryId == 6)
     <div class="tab-pane tripInfo" id="tripInfo">
+		<input type="hidden" value="$!{product.routeId}" id="route-id"/>
         #parse("/system/comm/travel/groupTravel/tripInfo.vm")
     </div>
 	#elseif($categoryId == 7)
@@ -86,7 +87,10 @@
 			options:$!{options},
             baseInfo:getBaseInfo(),
 			#if($categoryId == 6)
+			routeId:$("#route-id").val() || 0,
             tripInfo:getTripInfo(),
+			updatedRouteItems:getUpdatedRouteItems(),
+			deletedRouteItems:getDeletedRouteItems(),
             #elseif($categoryId == 7)
 			tripPackageInfo:getTripPackageInfo(),
             #end

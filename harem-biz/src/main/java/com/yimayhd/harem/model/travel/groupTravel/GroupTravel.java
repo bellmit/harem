@@ -29,10 +29,17 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
  *
  */
 public class GroupTravel extends BaseTravel {
+	private long routeId;
 	private List<TripDay> tripInfo;// 行程信息
+	private List<Long> updatedRouteItems;
+	private List<Long> deletedRouteItems;
 
 	@Override
 	protected void parseTripInfo(LineResult lineResult) {
+		RouteDO routeDO = lineResult.getRouteDO();
+		if (routeDO != null) {
+			this.routeId = routeDO.getId();
+		}
 		List<TripDay> tripDays = new ArrayList<TripDay>();
 		Set<Integer> days = new HashSet<Integer>();
 		Map<Integer, RouteItemDO> desMap = new HashMap<Integer, RouteItemDO>();
@@ -166,8 +173,50 @@ public class GroupTravel extends BaseTravel {
 		}
 		dto.setRouteItemDOList(routeItemDOList);
 		RouteDO routeDO = new RouteDO();
+		routeDO.setId(this.routeId);
 		routeDO.setPicture(this.baseInfo.getTripImage());
 		dto.setRouteDO(routeDO);
+	}
+
+	@Override
+	public LinePublishDTO toLinePublishDTOForUpdate() {
+		LinePublishDTO dto = super.toLinePublishDTOForUpdate();
+		List<RouteItemDO> routeItemDOList = dto.getRouteItemDOList();
+		if (this.routeId > 0) {
+			// SKU
+			List<RouteItemDO> addRouteItemList = new ArrayList<RouteItemDO>();
+			List<RouteItemDO> updateRouteItemList = new ArrayList<RouteItemDO>();
+			List<Long> deleteRouteItemList = new ArrayList<Long>();
+			if (CollectionUtils.isNotEmpty(routeItemDOList)) {
+				for (RouteItemDO routeItemDO : routeItemDOList) {
+					if (routeItemDO.getId() <= 0) {
+						addRouteItemList.add(routeItemDO);
+					}
+				}
+				Set<Long> deletedRouteItemSet = new HashSet<Long>();
+				if (CollectionUtils.isNotEmpty(deletedRouteItems)) {
+					deletedRouteItemSet.addAll(deletedRouteItems);
+					// 去重
+					deleteRouteItemList.addAll(deletedRouteItemSet);
+				}
+				Set<Long> updatedRouteItemSet = new HashSet<Long>();
+				if (CollectionUtils.isNotEmpty(updatedRouteItems)) {
+					updatedRouteItemSet.addAll(updatedRouteItems);
+					// 决定删除就不更新了
+					updatedRouteItemSet.removeAll(deletedRouteItemSet);
+					for (RouteItemDO routeItemDO : routeItemDOList) {
+						if (routeItemDO.getId() > 0 && updatedRouteItemSet.contains(routeItemDO.getId())) {
+							updateRouteItemList.add(routeItemDO);
+						}
+					}
+				}
+			}
+			dto.setAddRouteItemList(addRouteItemList);
+			dto.setUpdrouteItemList(updateRouteItemList);
+			// TODO YEBIN 删除对接
+			// dto.setDelRouteItemList(delRouteItemList);
+		}
+		return dto;
 	}
 
 	@Override
@@ -175,4 +224,27 @@ public class GroupTravel extends BaseTravel {
 		return ItemType.LINE.getValue();
 	}
 
+	public long getRouteId() {
+		return routeId;
+	}
+
+	public void setRouteId(long routeId) {
+		this.routeId = routeId;
+	}
+
+	public List<Long> getUpdatedRouteItems() {
+		return updatedRouteItems;
+	}
+
+	public void setUpdatedRouteItems(List<Long> updatedRouteItems) {
+		this.updatedRouteItems = updatedRouteItems;
+	}
+
+	public List<Long> getDeletedRouteItems() {
+		return deletedRouteItems;
+	}
+
+	public void setDeletedRouteItems(List<Long> deletedRouteItems) {
+		this.deletedRouteItems = deletedRouteItems;
+	}
 }
