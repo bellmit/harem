@@ -241,17 +241,17 @@
                         <td>推荐理由</td>
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
-                      		  <input type="text" name="recommend.title"  class="inpControl"
+                      		  <input type="text" name="masterRecommend.title"  class="inpControl"
                                    value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
                             <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
                                  alt="头像" class="img-circle grogUserLogo" id="userImg">
                                  <span id="recommendNameT"></span>
-                            <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
+                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
                             <input type="hidden" id="recommendId" name="masterRecommend.id" value="$!{recommend.id}" >
                             <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="$!{recommend.userId}" >
                             <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{recommend.userPic}" >
-                            <input type="hidden" id="recommendName" name="masterRecommend.description" value="$!{recommend.description}" >
+                            <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{recommend.name}" >
                         </td>
                     </tr>
                      <tr>
