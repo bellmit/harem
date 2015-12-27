@@ -346,7 +346,7 @@
         });
         
     	$("#cityId").focus( function(){
-    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"3"} ,function(data){
+    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"5"} ,function(data){
 	    	if(data.status == 200){
 	    	var html="";
 	    		$.each(data.data, function(n,val){ 
