@@ -56,8 +56,8 @@
                          <tr>
                             <td>商品选择</td>
                             <td>
-                           		 <input type="text" class="form-control" name="productTitle" id="productTitle" value="">
-                            	<input type="hidden" class="form-control" name="productId" id="productId" value="">
+                           		 <input type="text" class="inpControl" name="productTitle" id="productTitle" value="">
+                            	<input type="hidden" class="inpControl" name="productId" id="productId" value="">
                             	<button type="button" class="btn btn-primary selectActivityComm">选择商品</button>
                             </td>
                         </tr>
@@ -136,7 +136,9 @@
                                 <tbody class="extra-info-list needKnowTable">
 								   <tr class="needKnow">
 								        <td><input type="text" name="activityJsonArray[0].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动"></td>
-								        <td><input type="text" name="activityJsonArray[0].activityDec" class="form-control extra-info-item-text" placeholder="包含费用"></td>
+								        <td>
+								        	<textarea name="activityJsonArray[0].activityDec" class="form-control extra-info-item-text" rows="3" placeholder="优惠活动"></textarea>
+								        </td>
 								        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
 								    </tr>
 
@@ -180,7 +182,9 @@
 <script type="text/html" id="needKnowTemp">
     <tr class="needKnow">
         <td><input type="text" name="activityJsonArray[$index].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动"></td>
-        <td><input type="text" name="activityJsonArray[$index1].activityDec" class="form-control extra-info-item-text" placeholder="包含费用"></td>
+        <td>
+        <textarea name="activityJsonArray[$index1].activityDec" class="form-control extra-info-item-text" rows="3"></textarea>
+       </td>
         <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
     </tr>
 </script>
@@ -253,14 +257,26 @@
        /*提交**/
         $("#saveActivity").validate({
             rules: {
-                'name': {
+                'title': {
                     required: true
-                }
+                },'preferentialPrice': {
+                    required: true
+                },'originalPrice': {
+                    required: true
+                },'productTitle': {
+                    required: true
+                },'snsPOI.longitude': {
+                    required: true
+                },'snsPOI.latitude': {
+                    required: true
+                },'activityDate': {
+                    required: true
+                },
+                
+                
             },
             messages: {
-                'scenic.name': {
-                    required: "请填写"
-                }
+               
             },
             errorPlacement: function (error, element) { // 指定错误信息位置
 
@@ -279,13 +295,21 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.status == 200) {
-                            layer.alert('操作成功');
-                            $("#clubCategorySubmit").attr("disabled", false);
-                            location.href = actionDefaultPath + "/B2C/activityManage/list";
+                             layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                        	 $("#clubCategorySubmit").attr("disabled", false);
+                      	   location.href = actionDefaultPath + "/B2C/activityManage/list";
+                        },1500); 
                         } else {
                             $("#clubCategorySubmit").attr("disabled", false);
-                            layer.alert('操作失败');
-                            location.href = actionDefaultPath + "/B2C/activityManage/list";
+                            layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                           
                         }
                     }
                 };
