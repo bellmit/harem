@@ -1,8 +1,6 @@
 package com.yimayhd.harem.model.trade;
 
-import com.yimayhd.harem.model.Contact;
-import com.yimayhd.harem.model.Tourist;
-import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 
 import java.util.List;
 
@@ -10,14 +8,11 @@ import java.util.List;
  * Created by zhaozhaonan on 2015/12/22.
  */
 public class OrderDetails {
-    private BizOrderDO bizOrderDO;
-
-    private List<SubOrder> subOrderList;
-
+    private MainOrder mainOrder;
     // 联系人
-    private List<Contact> contacts;
+    private ContactUser contacts;
     // 游客
-    private List<Tourist> tourists;
+    private List<ContactUser> tourists;
 
     private String buyerName;
 
@@ -25,42 +20,33 @@ public class OrderDetails {
 
     private String buyerPhoneNum;
 
+    private String buyerMemo;
 
-    public BizOrderDO getBizOrderDO() {
-        return bizOrderDO;
+    private long totalFee;
+
+    private long actualTotalFee;
+
+    public MainOrder getMainOrder() {
+        return mainOrder;
     }
 
-    public void setBizOrderDO(BizOrderDO bizOrderDO) {
-        this.bizOrderDO = bizOrderDO;
+    public void setMainOrder(MainOrder mainOrder) {
+        this.mainOrder = mainOrder;
     }
 
-    public List<SubOrder> getSubOrderList() {
-        return subOrderList;
-    }
-
-    public void setSubOrderList(List<SubOrder> subOrderList) {
-        this.subOrderList = subOrderList;
-    }
-
-
-    public OrderDetails(BizOrderDO bizOrderDO, List<SubOrder> subOrderList) {
-        this.bizOrderDO = bizOrderDO;
-        this.subOrderList = subOrderList;
-    }
-
-    public List<Contact> getContacts() {
+    public ContactUser getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(ContactUser contacts) {
         this.contacts = contacts;
     }
 
-    public List<Tourist> getTourists() {
+    public List<ContactUser> getTourists() {
         return tourists;
     }
 
-    public void setTourists(List<Tourist> tourists) {
+    public void setTourists(List<ContactUser> tourists) {
         this.tourists = tourists;
     }
 
@@ -86,5 +72,29 @@ public class OrderDetails {
 
     public void setBuyerPhoneNum(String buyerPhoneNum) {
         this.buyerPhoneNum = buyerPhoneNum;
+    }
+
+    public String getBuyerMemo() {
+        return buyerMemo;
+    }
+
+    public void setBuyerMemo(String buyerMemo) {
+        this.buyerMemo = buyerMemo;
+    }
+
+    public long getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(long totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    public long getActualTotalFee() {
+        return actualTotalFee;
+    }
+
+    public void setActualTotalFee(long actualTotalFee) {
+        this.actualTotalFee = actualTotalFee;
     }
 }

@@ -9,8 +9,9 @@ public class SubOrder {
     private BizOrderDO bizOrderDO;
     private long startTime;
     private long endTime;
-
     private long executeTime;
+
+    public SubOrder(){}
 
     public SubOrder(BizOrderDO bizOrderDO) {
         this.bizOrderDO = bizOrderDO;

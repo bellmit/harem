@@ -12,6 +12,8 @@ public class MainOrder {
 
     private List<SubOrder> subOrderList;
 
+    private int orderActionStates;
+
     public BizOrderDO getBizOrderDO() {
         return bizOrderDO;
     }
@@ -26,6 +28,14 @@ public class MainOrder {
 
     public void setSubOrderList(List<SubOrder> subOrderList) {
         this.subOrderList = subOrderList;
+    }
+
+    public int getOrderActionStates() {
+        return orderActionStates;
+    }
+
+    public void setOrderActionStates(int orderActionStates) {
+        this.orderActionStates = orderActionStates;
     }
 
     public MainOrder(BizOrderDO bizOrderDO, List<SubOrder> subOrderList) {

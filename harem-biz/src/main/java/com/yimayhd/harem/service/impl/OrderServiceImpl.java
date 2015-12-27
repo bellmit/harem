@@ -7,19 +7,19 @@ import com.yimayhd.harem.model.trade.MainOrder;
 import com.yimayhd.harem.model.trade.OrderDetails;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.service.UserService;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
@@ -33,7 +33,6 @@ import java.util.List;
  *
  */
 public class OrderServiceImpl implements OrderService {
-	private static final Logger LOG = LoggerFactory.getLogger(OrderServiceImpl.class);
 	@Autowired
 	private TcQueryService tcQueryServiceRef;
 	@Autowired
@@ -60,75 +59,112 @@ public class OrderServiceImpl implements OrderService {
 					userId = userDO.getId();
 				}
 			}
-
 		}
+
 		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
-		BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
-		if (batchQueryResult.isSuccess()){
-			//订单信息
-			List<BizOrderDO> bizOrderDOList = batchQueryResult.getBizOrderDOList();
-			if (!CollectionUtils.isEmpty(bizOrderDOList) && StringUtils.isNotEmpty(orderQueryDTO.getItemName())){
-				OrderQueryDTO orderQueryDTOMain = new OrderQueryDTO();
-				List<Long> bizOrderIds = new ArrayList<Long>();
-				List<BizOrderDO> bizOrderDOListMain = new ArrayList<BizOrderDO>();
-				for (BizOrderDO bizOrderDO : bizOrderDOList) {
-					if(bizOrderDO.getIsMain() == MainDetailStatus.NO.getType()){
-						bizOrderIds.add(bizOrderDO.getParentId());
-						orderQueryDTOMain.setBizOrderIds(bizOrderIds);
-						BatchQueryResult batchQueryResultMain = tcQueryServiceRef.queryOrders(orderQueryDTO);
-						if (batchQueryResultMain.isSuccess() && !CollectionUtils.isEmpty(batchQueryResultMain.getBizOrderDOList())){
-							bizOrderDOListMain.addAll(batchQueryResultMain.getBizOrderDOList());
-						}
-					}
-				}
-
-				if (bizOrderDOListMain.size()>0){
-					for (BizOrderDO bizOrderDOMain : bizOrderDOListMain){
-						List<BizOrderDO> bizOrderDOTempList = new ArrayList<BizOrderDO>();
-						for (BizOrderDO bizOrderDO :bizOrderDOList){
-							if (bizOrderDO.getParentId() == bizOrderDOMain.getBizOrderId()){
-								bizOrderDOTempList.add(bizOrderDO);
-							}
-						}
-						bizOrderDOMain.setDetailOrderList(bizOrderDOTempList);
-					}
-				}
-				list = bizOrderDOListMain;
-			}else{
-				list = bizOrderDOList;
-			}
-		}
 		List<MainOrder> mainOrderList = new ArrayList<MainOrder>();
-		if (!CollectionUtils.isEmpty(list)){
-			for (BizOrderDO bizOrderDO : list) {
-				MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
-				mainOrderList.add(mo);
-			}
-		}
-		PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
-				(int)batchQueryResult.getTotalCount(),mainOrderList);
-		return orderPageVO;
-	}
+		if (orderQueryDTO!=null){
+			BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
+			if (batchQueryResult.isSuccess()){
+				//订单信息
+				List<BizOrderDO> bizOrderDOList = batchQueryResult.getBizOrderDOList();
+				//如果使用名称查询，查询出的全部是子订单，需要把子订单放入父订单中。
+				if (!CollectionUtils.isEmpty(bizOrderDOList) && StringUtils.isNotEmpty(orderQueryDTO.getItemName())){
+					OrderQueryDTO orderQueryDTOMain = new OrderQueryDTO();
+					List<Long> bizOrderIds = new ArrayList<Long>();
+					List<BizOrderDO> bizOrderDOListMain = new ArrayList<BizOrderDO>();
+					for (BizOrderDO bizOrderDO : bizOrderDOList) {
+						//判断是否是主订单
+						if(bizOrderDO.getIsMain() == MainDetailStatus.NO.getType()){
+							bizOrderIds.add(bizOrderDO.getParentId());
+							orderQueryDTOMain.setBizOrderIds(bizOrderIds);
+						}else{
+							bizOrderDOListMain.add(bizOrderDO);
+						}
+					}
+					BatchQueryResult batchQueryResultMain = tcQueryServiceRef.queryOrders(orderQueryDTOMain);
+					if (batchQueryResultMain.isSuccess() && !CollectionUtils.isEmpty(batchQueryResultMain.getBizOrderDOList())){
+						bizOrderDOListMain.addAll(batchQueryResultMain.getBizOrderDOList());
+					}
 
+					if (bizOrderDOListMain.size()>0){
+						for (BizOrderDO bizOrderDOMain : bizOrderDOListMain){
+							List<BizOrderDO> bizOrderDOTempList = new ArrayList<BizOrderDO>();
+							for (BizOrderDO bizOrderDO : bizOrderDOList){
+								if (bizOrderDO.getParentId() == bizOrderDOMain.getBizOrderId()){
+									bizOrderDOTempList.add(bizOrderDO);
+								}
+							}
+							bizOrderDOMain.setDetailOrderList(bizOrderDOTempList);
+						}
+					}
+					list = bizOrderDOListMain;
+				}else{
+					list = bizOrderDOList;
+				}
+			}
+			if (!CollectionUtils.isEmpty(list)){
+				for (BizOrderDO bizOrderDO : list) {
+					MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
+//					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
+					mainOrderList.add(mo);
+				}
+			}
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+					(int)batchQueryResult.getTotalCount(),mainOrderList);
+			return orderPageVO;
+		}else{
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+					0,mainOrderList);
+			return orderPageVO;
+		}
+
+	}
 
 	@Override
 	public OrderDetails getOrderById(long id) throws Exception {
 		OrderQueryOption orderQueryOption = new OrderQueryOption();
 		orderQueryOption.setAll();
 		SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(id,orderQueryOption);
-		OrderDetails orderDetails = OrderConverter.orderDetailsVOConverter(singleQueryResult.getBizOrderDO());
+		if (singleQueryResult.isSuccess()){
+			OrderDetails orderDetails = new OrderDetails();
+			MainOrder mainOrder = OrderConverter.orderVOConverter(singleQueryResult.getBizOrderDO());
+//			mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,singleQueryResult.getBizOrderDO());
+			if (mainOrder!=null){
+				orderDetails.setMainOrder(mainOrder);
+			}
+			if (mainOrder.getBizOrderDO()!=null){
+				long buyerId = mainOrder.getBizOrderDO().getBuyerId();
+				UserDO buyer = userServiceRef.getUserDOById(buyerId);
+				orderDetails.setBuyerName(buyer.getName());
+				orderDetails.setBuyerNiceName(buyer.getNickname());
+				orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+			}
 
-		if (orderDetails.getBizOrderDO()!=null){
-			long buyerId = orderDetails.getBizOrderDO().getBuyerId();
-			UserDO buyer = userServiceRef.getUserDOById(buyerId);
-			orderDetails.setBuyerName(buyer.getName());
-			orderDetails.setBuyerNiceName(buyer.getNickname());
-			orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+			if (singleQueryResult.getPayOrderDO()!=null){
+				orderDetails.setTotalFee(singleQueryResult.getPayOrderDO().getTotalFee());
+				orderDetails.setActualTotalFee(singleQueryResult.getPayOrderDO().getActualTotalFee());
+			}
+
+			//参加人
+			List<ContactUser> contactUserList = BizOrderUtil.getCheckInUserList(mainOrder.getBizOrderDO());
+			if (!CollectionUtils.isEmpty(contactUserList)){
+				orderDetails.setTourists(contactUserList);
+			}
+			//联系人
+			ContactUser contactUser = BizOrderUtil.getContactUser(mainOrder.getBizOrderDO());
+			if (contactUser!=null){
+				orderDetails.setContacts(contactUser);
+			}
+			//卖家备忘录
+			String buyerMemo = BizOrderUtil.getBuyerMemo(mainOrder.getBizOrderDO());
+			orderDetails.setBuyerMemo(buyerMemo);
+			return orderDetails;
 		}
-
-
-
-		return orderDetails;
+		return null;
 	}
+
+
+
 
 }

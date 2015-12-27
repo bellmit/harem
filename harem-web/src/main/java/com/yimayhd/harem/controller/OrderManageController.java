@@ -7,7 +7,6 @@ import com.yimayhd.harem.model.trade.MainOrder;
 import com.yimayhd.harem.model.trade.OrderDetails;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
-import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,42 @@ public class OrderManageController extends BaseController {
 	@Autowired
 	private OrderService orderService;
 
+
+	/**
+	 * 退款
+	 */
+	@RequestMapping(value = "/refundOrder/{id}", method = RequestMethod.GET)
+	public String refundOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
+		return "/system/order/routeOrderInfo";
+	}
+
+	/**
+	 * 完成
+	 */
+	@RequestMapping(value = "/buyerConfirmGoods/{id}", method = RequestMethod.GET)
+	public String buyerConfirmGoods(Model model, @PathVariable(value = "id") long id) throws Exception {
+		return "/system/order/routeOrderInfo";
+	}
+
+	/**
+	 * 发货
+	 */
+	@RequestMapping(value = "/sellerSendGoods/{id}", method = RequestMethod.GET)
+	public String sellerSendGoods(Model model, @PathVariable(value = "id") long id) throws Exception {
+		return "/system/order/routeOrderInfo";
+	}
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * 根据ID获取路线订单详情
-	 * 
 	 * @return 路线订单详情
 	 * @throws Exception
 	 */
@@ -47,7 +79,6 @@ public class OrderManageController extends BaseController {
 
 	/**
 	 * 路线订单列表
-	 * 
 	 * @return 路线订单列表
 	 * @throws Exception
 	 */

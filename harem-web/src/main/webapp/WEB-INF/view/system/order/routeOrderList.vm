@@ -30,11 +30,11 @@
                     </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
                     <option value="">全部</option>
-                    <option value="NOT_PAY">待付款</option>
-                    <option value="NO_LG_ORDER">待发货</option>
-                    <option value="CONSIGNED">待收货</option>
-                    <option value="SUCCESS">已完成</option>
-                    <option value="NOT_PAY_CLOSE">交易关闭</option>
+                    <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>待付款</option>
+                    <option value="NO_LG_ORDER" #if($!orderListQuery.orderStat == 'NO_LG_ORDER') selected #end>待发货</option>
+                    <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>待收货</option>
+                    <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>已完成</option>
+                    <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>交易关闭</option>
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -53,7 +53,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">路线名称</button>
                     </span>
-                <input type="text" class="form-control" name="activityName" value="$!orderListQuery.itemName">
+                <input type="text" class="form-control" name="itemName" value="$!orderListQuery.itemName">
             </div>
             <!--
 				<div class="input-group inpSingle">
@@ -66,15 +66,15 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary" onclick="resetForm();">重置</button>
+                <button type="reset" class="btn btn-primary">重置</button>
             </div>
 
         </div>
-        <div class="btnBottomMargin">
+        #*<div class="btnBottomMargin">
             <button type="button" class="btn btn-primary" btnType="1">批量完成</button>
             <button type="button" class="btn btn-primary" btnType="2">批量确认</button>
             <button type="button" class="btn btn-primary" btnType="3">批量导出</button>
-        </div>
+        </div>*#
         <div class="tableGroup whole">
             <table class="table table-hover">
             <tbody>
@@ -84,7 +84,7 @@
                     <th>单价</th>
                     <th>数量</th>
                     <th>买家</th>
-                    <th>交易状态</th>
+                    <th>订单状态</th>
                     <th>订单金额</th>
                     <th>操作</th>
                 </tr>
@@ -97,73 +97,88 @@
                             订单编号：$!order.bizOrderDO.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrderDO.gmtCreated)
                         </td>
                     </tr>
+
                     #foreach($subOrder in $order.subOrderList)
-                        <tr>
-                            <td></td>
-                            <td>
-                                <div class="goods-item">
-                                    <div class="t-img">
-                                        <img class="" src="" title="" data-lazy-img="done" width="60" height="60">
-                                    </div>
-                                    <div class="t-msg">
-                                        <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-                                        #if($!subOrder.executeTime != 0)
-                                            <div class="t-date">入园日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.executeTime)</div>
-                                        #end
-                                        <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
-                                    </div>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div class="goods-item">
+                                <div class="t-img">
+                                    <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic">
                                 </div>
-                            </td>
-                            <td>
-                                <div class="order-price">
-                                    $!subOrder.bizOrderDO.itemPrice
-                                </div>
-                            </td>
-                            <td>
-                                <div class="order-number">
-                                    $!subOrder.bizOrderDO.buyAmount
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <div class="txt">$!subOrder.bizOrderDO.buyerNick</div>
-                                    <div class="txt">1361831881381</div>
-##                                    <div class="txt">会员</div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="">
-                                    #if($subOrder.bizOrderDO.status == 1)
-                                        未付款
-                                    #elseif($subOrder.bizOrderDO.status == 2)
-                                        已付款
-                                    #elseif($subOrder.bizOrderDO.status == 4)
-                                        退款后交易关闭
-                                    #elseif($subOrder.bizOrderDO.status == 6)
-                                        交易成功
-                                    #elseif($subOrder.bizOrderDO.status == 8)
-                                        未付款关闭
-                                    #elseif($subOrder.bizOrderDO.status == 9)
-                                        待商户确认
+                                <div class="t-msg">
+                                    <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
+                                    #if($!subOrder.executeTime != 0)
+                                        <div class="t-date">出发日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.executeTime)</div>
                                     #end
-
+                                    <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
                                 </div>
-                            </td>
-                            <td>
-                                <div>
-                                    $!subOrder.bizOrderDO.itemPrice
-                                </div>
-                            </td>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="order-price">
+                                $!subOrder.bizOrderDO.itemPrice
+                            </div>
+                        </td>
 
-
-                            <td>
+                        <td>
+                            <div class="order-number">
+                                $!subOrder.bizOrderDO.buyAmount
+                            </div>
+                        </td>
+                    #end
+                        <td>
+                            <div>
+                                <div class="txt">$!subOrder.bizOrderDO.buyerNick</div>
+                                <div class="txt">1361831881381</div>
+##                                    <div class="txt">会员</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                #if($order.bizOrderDO.payStatus == 1)
+                                    未付款
+                                #elseif($order.bizOrderDO.payStatus == 2)
+                                    已付款
+                                #elseif($order.bizOrderDO.logisticsStatus == 2)
+                                    已发货
+                                #elseif($order.bizOrderDO.payStatus == 6)
+                                    交易成功
+                                #elseif($order.bizOrderDO.payStatus == 8)
+                                    交易关闭
+                                #elseif($order.bizOrderDO.refundStatus != 4)
+                                    待处理
+                                #elseif($order.bizOrderDO.payStatus == 4)
+                                    已退款
+                                #end
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                $!subOrder.bizOrderDO.itemPrice
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrderDO.bizOrderId">详情</button>
+                            #if($order.bizOrderDO.payStatus == 2)
+                                <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
+                                        data-target="#refundModal" tradeNO="$!trade.tradNO">确认
+                                </button>
+                            #elseif($order.bizOrderDO.logisticsStatus == 2)
+                                <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
+                                        data-target="#refundModal" tradeNO="$!trade.tradNO">完成
+                                </button>
+                            #elseif($order.bizOrderDO.refundStatus != 4 && $order.bizOrderDO.payStatus == 2)
                                 <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
                                         data-target="#refundModal" tradeNO="$!trade.tradNO">退款
                                 </button>
-                                <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrderDO.bizOrderId">详情</button>
-                            </td>
-                        </tr>
-                    #end
+                            #end
+
+                            <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
+                                    data-target="#refundModal" tradeNO="$!trade.tradNO">退款
+                            </button>
+                        </td>
+                    </tr>
                 #end
             </tbody>
             </table>
@@ -202,22 +217,14 @@
                                     <input type="text" class="form-control availablePoint pointShow" placeholder="可返还积分"
                                            name="availablePoint" value="" readonly="">
                                 </li>
-
-
                             </ul>
-
-                            <button id="btnSubmit" class="btn btn-large btn-block btn-primary" type="button"
-                                    disabled="">提交
-                            </button>
                         </div>
                     </form>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary">确定</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -241,10 +248,6 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-
-    function getOrder(id) {
-        top.tabsAdd('', "/B2C/orderManage/routeOrder/" + id, 2, "线路订单详情");
-    }
 
     $(function () {
         $(".detail").click(function () {
