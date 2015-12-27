@@ -28,6 +28,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.Activity;
+import com.yimayhd.harem.model.ActivityVO;
 import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
@@ -149,9 +150,11 @@ public class ActivityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo save(ActivityInfoDTO activityInfoDTO,Long[] tagList) throws Exception {
+	public ResponseVo save(ActivityVO activityVO) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		com.yimayhd.snscenter.client.result.BaseResult<SnsActivityDO> result = activityService.save(activityInfoDTO,tagList);
+		
+		com.yimayhd.snscenter.client.result.BaseResult<SnsActivityDO> result =activityService.save(activityVO);
+		
 		if(result.isSuccess()){
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

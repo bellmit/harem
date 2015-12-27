@@ -1,8 +1,8 @@
 package com.yimayhd.harem.service;
 
 import com.yimayhd.harem.model.Activity;
+import com.yimayhd.harem.model.ActivityVO;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
-import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
 import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
@@ -21,7 +21,7 @@ public interface ActivityService {
      * @return 活动详情
      */
     Activity getById(long id)throws Exception;
-    BaseResult<SnsActivityDO> save(ActivityInfoDTO activityInfoDTO,Long[] tagList);
+    BaseResult<SnsActivityDO> save(ActivityVO activityVO);
 
     
     /**

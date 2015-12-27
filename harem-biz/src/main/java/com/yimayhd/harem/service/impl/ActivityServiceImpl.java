@@ -13,6 +13,7 @@ import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.model.Activity;
+import com.yimayhd.harem.model.ActivityVO;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
@@ -51,21 +52,23 @@ public class ActivityServiceImpl implements ActivityService {
 
 
 	@Override
-	public BaseResult<SnsActivityDO> save(ActivityInfoDTO activityInfoDTO,Long[] tagList) {
-		activityInfoDTO.setContent(tfsService.publishHtml5(activityInfoDTO.getContent()));
-		activityInfoDTO.setMemberCount(10);
-		activityInfoDTO.setOriginalPrice(activityInfoDTO.getOriginalPrice()*100);
-		activityInfoDTO.setPreferentialPrice(activityInfoDTO.getPreferentialPrice()*100);
-		BaseResult<SnsActivityDO> result = snsCenterService.addActivityInfo(activityInfoDTO);
+	public BaseResult<SnsActivityDO> save(ActivityVO activityVO) {
+		ActivityInfoDTO dto =ActivityVO.getActivityInfoDTO(activityVO);
+		dto.setOriginalPrice(dto.getOriginalPrice());
+		dto.setPreferentialPrice(dto.getPreferentialPrice());
+		if(org.apache.commons.lang.StringUtils.isNotBlank(dto.getContent())) {
+			dto.setContent(tfsService.publishHtml5(dto.getContent()));
+		}
+		dto.setMemberCount(10);
 		
-		//comCenterService.addTagRelationInfo(tagRelationInfoDTO)
+		BaseResult<SnsActivityDO> result = snsCenterService.addActivityInfo(dto);
 		if (!result.isSuccess()) {
-			log.error("snsCenterService.save return value is null !returnValue :"
+			log.error("Activity|snsCenterService.save return value is null !returnValue :"
 					+ JSON.toJSONString(result));
 			throw new NoticeException(result.getResultMsg());
 		}else{
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
-			tagRelationInfoDTO.setList(Arrays.asList(tagList));
+			tagRelationInfoDTO.setList(Arrays.asList(activityVO.getTagList()));
 			tagRelationInfoDTO.setOutId(result.getValue().getId());
 			tagRelationInfoDTO.setTagType(TagType.ACTIVETYTAG.getType());
 			tagRelationInfoDTO.setOrderTime(result.getValue().getActivityDate());
