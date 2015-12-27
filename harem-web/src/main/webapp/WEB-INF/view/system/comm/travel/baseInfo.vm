@@ -118,7 +118,6 @@
             <tr>
                 <th>标题（10个字以内）</th>
                 <th>内容（500字以内）</th>
-				<th></th>
             </tr>
 			#set($needKnow = ${product.baseInfo.needKnow})
 			#if(${needKnow}&&${needKnow.frontNeedKnow}&&${needKnow.frontNeedKnow.size()}>0)
@@ -126,7 +125,6 @@
             <tr class="extra-info-item">
                 <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{textItem.title}"/></td>
                 <td><textarea class="form-control extra-info-item-content" rows="3">$!{textItem.content}</textarea></td>
-                <td><button class="btn btn-primary itemDelete">删除</button></td>
             </tr>
 					#if($velocityCount >= 2)
 						#break
@@ -136,19 +134,16 @@
 			<tr class="extra-info-item">
                 <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{textItem.title}"/></td>
                 <td><textarea class="form-control extra-info-item-content" rows="3">$!{textItem.content}</textarea></td>
-                <td><button class="btn btn-primary itemDelete">删除</button></td>
             </tr>
 				#end
 			#else
                 <tr class="extra-info-item">
                     <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
                     <td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-                    <td><button class="btn btn-primary itemDelete">删除</button></td>
                 </tr>
                 <tr class="extra-info-item">
                     <td><input type="text" class="form-control extra-info-item-title" placeholder="费用包含"/></td>
                     <td><textarea class="form-control extra-info-item-content" rows="3"></textarea></td>
-                    <td><button class="btn btn-primary itemDelete">删除</button></td>
                 </tr>
 			#end
         </table>

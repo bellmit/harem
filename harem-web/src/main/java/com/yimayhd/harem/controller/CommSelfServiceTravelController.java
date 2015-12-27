@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
 import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.harem.service.FlightRPCService;
@@ -128,6 +129,8 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 		if (StringUtils.isNotBlank(importantInfos)) {
 			String importantInfosCode = tfsService.publishHtml5(importantInfos);
 			sst.getPriceInfo().setImportantInfosCode(importantInfosCode);
+		} else {
+			sst.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
 		}
 		if (StringUtils.isNotBlank(extraInfos)) {
 			String extraInfosCode = tfsService.publishHtml5(extraInfos);

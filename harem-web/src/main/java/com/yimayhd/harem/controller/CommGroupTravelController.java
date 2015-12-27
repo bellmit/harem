@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripDay;
@@ -116,6 +117,8 @@ public class CommGroupTravelController extends BaseTravelController {
 		if (StringUtils.isNotBlank(importantInfos)) {
 			String importantInfosCode = tfsService.publishHtml5(importantInfos);
 			gt.getPriceInfo().setImportantInfosCode(importantInfosCode);
+		} else {
+			gt.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
 		}
 		if (StringUtils.isNotBlank(importantInfos)) {
 			String extraInfosCode = tfsService.publishHtml5(extraInfos);
