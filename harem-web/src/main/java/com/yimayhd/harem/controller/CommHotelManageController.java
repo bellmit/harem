@@ -42,7 +42,6 @@ public class CommHotelManageController extends BaseController {
         CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
         CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
         int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
-        //TODO 没有加到页面上
         int outType = ResourceType.HOTEL.getType();
         model.addAttribute("outType", outType);
         model.addAttribute("category", categoryVO);

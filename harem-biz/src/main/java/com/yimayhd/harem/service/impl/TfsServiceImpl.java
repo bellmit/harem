@@ -48,7 +48,7 @@ public class TfsServiceImpl implements TfsService {
 		} catch (Exception e) {
 			throw new BaseException(e, "Html5上传失败：html={0}", body);
 		}
-		return tfsCode;
+		return tfsCode + ".html";
 	}
 
 	@Override

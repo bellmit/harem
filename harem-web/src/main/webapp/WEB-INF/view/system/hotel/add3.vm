@@ -490,8 +490,8 @@
 					 'areaParentCode': $('.citySelect option:selected').attr("value")}, 
 					
 					function(data) {
-						if (data[0].name) {
-							
+						if (data && data.status == 200) {
+							data = data.data;
 							for (var i in data) {
 								var code = data[i].code;
 								var name = data[i].name;

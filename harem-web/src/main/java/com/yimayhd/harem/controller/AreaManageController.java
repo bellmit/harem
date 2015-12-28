@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import java.util.List;
 
+import com.yimayhd.harem.base.ResponseVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,13 +19,13 @@ public class AreaManageController extends BaseController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
-	public List<AreaVO> getArea(
+	public ResponseVo getArea(
 			@RequestParam(value = "areaType", required = true) String areaType,
 			@RequestParam(value = "areaParentCode", required = false) String areaParentCode) {
 
 		List<AreaVO> list = AreaService.getInstance().getAreaByIDAndType(
 				areaType, areaParentCode);
-		return list;
+		return new ResponseVo(list);
 	}
 
 }
