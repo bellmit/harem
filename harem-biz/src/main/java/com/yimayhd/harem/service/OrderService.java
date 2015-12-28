@@ -28,4 +28,12 @@ public interface OrderService {
 	 * @throws Exception
 	 */
 	PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception;
+
+
+	boolean buyerConfirmGoods(long id);
+
+	boolean sellerSendGoods(long id);
+
+	boolean refundOrder(long id);
+
 }

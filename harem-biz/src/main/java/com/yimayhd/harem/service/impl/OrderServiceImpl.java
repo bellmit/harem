@@ -9,11 +9,18 @@ import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
+import com.yimayhd.tradecenter.client.model.param.order.BuyerConfirmGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
+import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
+import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
+import com.yimayhd.tradecenter.client.model.result.ResultSupport;
 import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
+import com.yimayhd.tradecenter.client.model.result.order.BuyerConfirmGoodsResult;
+import com.yimayhd.tradecenter.client.model.result.order.SellerSendGoodsResult;
 import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
+import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
@@ -35,6 +42,8 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private TcQueryService tcQueryServiceRef;
+	@Autowired
+	private TcTradeService tcTradeServiceRef;
 	@Autowired
 	private UserService userServiceRef;
 
@@ -165,6 +174,28 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 
+	@Override
+	public boolean buyerConfirmGoods(long id) {
+		BuyerConfirmGoodsDTO buyerConfirmGoodsDTO = new BuyerConfirmGoodsDTO();
+		buyerConfirmGoodsDTO.setBizOrderId(id);
+		BuyerConfirmGoodsResult buyerConfirmGoodsResult = tcTradeServiceRef.buyerConfirmGoods(buyerConfirmGoodsDTO);
+		return buyerConfirmGoodsResult.isSuccess();
+	}
 
 
+	@Override
+	public boolean sellerSendGoods(long id) {
+		SellerSendGoodsDTO sellerSendGoodsDTO = new SellerSendGoodsDTO();
+		sellerSendGoodsDTO.setBizOrderId(id);
+		SellerSendGoodsResult sellerSendGoodsResult = tcTradeServiceRef.sellerSendGoods(sellerSendGoodsDTO);
+		return sellerSendGoodsResult.isSuccess();
+	}
+
+	@Override
+	public boolean refundOrder(long id) {
+		RefundTradeDTO refundTradeDTO = new RefundTradeDTO();
+		refundTradeDTO.setBizOrderId(id);
+		ResultSupport resultSupport = tcTradeServiceRef.refundOrder(refundTradeDTO);
+		return resultSupport.isSuccess();
+	}
 }
