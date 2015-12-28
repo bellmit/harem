@@ -60,10 +60,11 @@
                         <td>
                             <select class="form-control {required:true}" id="level" name="level">
                                 <option value="0">请选择</option>
-                                <option value="1"  #if($!{VO.scenic.level} == 1) selected #end>五星级</option>
-                                <option value="2" #if($!{VO.scenic.level} == 2) selected #end>四星级</option>
-                                <option value="3" #if($!{VO.scenic.level} == 3) selected #end>三星级</option>
-                                <option value="4" #if($!{VO.scenic.level} == 4) selected #end>连锁酒店</option>
+                                <option value="5"  #if($!{VO.scenic.level} == 5) selected #end>AAAAA</option>
+                                <option value="4" #if($!{VO.scenic.level} == 4) selected #end>AAAA</option>
+                                <option value="3" #if($!{VO.scenic.level} == 3) selected #end>AAA</option>
+                                <option value="2" #if($!{VO.scenic.level} == 2) selected #end>AA</option>
+                                <option value="1" #if($!{VO.scenic.level} == 1) selected #end>A</option>
                             </select>
                         </td>
                     </tr>
