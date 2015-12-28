@@ -18,6 +18,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.ScenicVO;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
@@ -44,13 +45,10 @@ public class ScenicManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ScenicPageQuery scenicPageQuery,Integer pageNumber) throws Exception {
-		if(pageNumber!=null){
-			scenicPageQuery.setPageNo(pageNumber);
-		}
-		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicPageQuery);
+	public String list(Model model, ScenicListQuery scenicListQuery) throws Exception {
+		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("scenicPageQuery", scenicPageQuery);
+		model.addAttribute("scenicPageQuery", scenicListQuery);
 		return "/system/scenicSpot/list";
 	}
 	

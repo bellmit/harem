@@ -43,9 +43,9 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">创建时间</button>
                     </span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginTime" value="$!scenicPageQuery.beginTime">
+                <input type="text" class='form-control form-date dateInp' placeholder=''  data-date-format="yyyy-mm-dd" readonly name="startTime" value="$!scenicPageQuery.startTime">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endTime" value="$!scenicPageQuery.endTime">
+                <input type="text" class='form-control form-date dateInp' placeholder=''  data-date-format="yyyy-mm-dd" readonly name="endTime" value="$!scenicPageQuery.endTime">
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary submitBtn">查询</button>

@@ -2,6 +2,7 @@ package com.yimayhd.harem.service;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.ScenicVO;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -14,7 +15,7 @@ public interface ScenicService {
 	 * 
 	 * @return 景区资源列表
 	 */
-	PageVO<ScenicDO> getList(ScenicPageQuery scenicPageQuery) throws Exception;
+	PageVO<ScenicDO> getList(ScenicListQuery scenicListQuery) throws Exception;
 
 	/**
 	 * 获取景区资源详情

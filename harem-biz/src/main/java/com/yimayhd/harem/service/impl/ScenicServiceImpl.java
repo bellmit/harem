@@ -1,10 +1,13 @@
 package com.yimayhd.harem.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.ScenicVO;
+import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.harem.model.PictureVO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
@@ -18,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TfsService;
+import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
@@ -41,11 +45,42 @@ public class ScenicServiceImpl implements ScenicService {
 	private TfsService tfsService;
 
 	@Override
-	public PageVO<ScenicDO> getList(ScenicPageQuery query) throws Exception {
+	public PageVO<ScenicDO> getList(ScenicListQuery scenicListQuery) throws Exception {
 		int totalCount = 0;
+		ScenicPageQuery pageQuery = new ScenicPageQuery();
+		pageQuery.setNeedCount(true);
+		if(scenicListQuery.getPageNumber()!=null){
+			int pageNumber =scenicListQuery.getPageNumber();
+			int pageSize = scenicListQuery.getPageSize();
+			pageQuery.setPageNo(pageNumber);
+			pageQuery.setPageSize(pageSize);
+		}
+		//景区名称
+		if (!StringUtils.isBlank(scenicListQuery.getTags())) {
+			pageQuery.setTags(scenicListQuery.getTags());			
+		}
+		//景区状态
+		if (scenicListQuery.getStatus() != null) {			
+			pageQuery.setItemStatus(scenicListQuery.getStatus());
+		}
+		//开始时间
+		if (!StringUtils.isBlank(scenicListQuery.getStartTime())) {
+			Date startTime = DateUtil.parseDate(scenicListQuery.getStartTime());
+			pageQuery.setStartTime(startTime);
+		}
+				
+		//结束时间
+		if (!StringUtils.isBlank(scenicListQuery.getEndTime())) {
+			Date endTime = DateUtil.parseDate(scenicListQuery.getEndTime());
+			pageQuery.setEndTime(DateUtil.add23Hours(endTime));
+		}
+		//景区等级
+		if (scenicListQuery.getLevel() != null) {			
+			pageQuery.setLevel(scenicListQuery.getLevel() );
+		}
 		List<ScenicDO> itemList = new ArrayList<ScenicDO>();
-		query.setNeedCount(true);
-		ICPageResult<ScenicDO> pageResult = itemQueryService.pageQueryScenic(query);
+		
+		ICPageResult<ScenicDO> pageResult = itemQueryService.pageQueryScenic(pageQuery);
 		if (pageResult != null && pageResult.isSuccess()) {
 			totalCount = pageResult.getTotalCount();
 			if (CollectionUtils.isNotEmpty(pageResult.getList())) {
@@ -55,7 +90,7 @@ public class ScenicServiceImpl implements ScenicService {
 			log.error("itemQueryService.pageQueryScenic return value is null !returnValue :"
 					+ JSON.toJSONString(pageResult));
 		}
-		return new PageVO<ScenicDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
+		return new PageVO<ScenicDO>(pageQuery.getPageNo(), pageQuery.getPageSize(), totalCount, itemList);
 	}
 
 	@Override
