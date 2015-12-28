@@ -1,7 +1,6 @@
 package com.yimayhd.harem.model.travel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -108,16 +107,12 @@ public abstract class BaseTravel {
 						addSkuList.add(itemSkuDO);
 					}
 				}
-				Set<Long> deletedSKUSet = new HashSet<Long>();
-				if (CollectionUtils.isNotEmpty(this.priceInfo.getDeletedSKU())) {
-					// 去重
-					deletedSKUSet.addAll(this.priceInfo.getDeletedSKU());
+				Set<Long> deletedSKUSet = this.priceInfo.getDeletedSKU();
+				if (CollectionUtils.isNotEmpty(deletedSKUSet)) {
 					deleteSkuList.addAll(deletedSKUSet);
 				}
-				Set<Long> updatedSKUSet = new HashSet<Long>(this.priceInfo.getUpdatedSKU());
-				if (CollectionUtils.isNotEmpty(this.priceInfo.getDeletedSKU())) {
-					updatedSKUSet.addAll(this.priceInfo.getDeletedSKU());
-					// 决定删除就不更新了
+				Set<Long> updatedSKUSet = this.priceInfo.getUpdatedSKU();
+				if (CollectionUtils.isNotEmpty(updatedSKUSet)) {
 					updatedSKUSet.removeAll(deletedSKUSet);
 					for (ItemSkuDO itemSkuDO : itemSkuDOList) {
 						if (itemSkuDO.getId() > 0 && updatedSKUSet.contains(itemSkuDO.getId())) {
@@ -129,7 +124,7 @@ public abstract class BaseTravel {
 			dto.setAddItemSkuList(addSkuList);
 			dto.setUpdItemSkuList(updateSkuList);
 			// TODO YEBIN 删除对接
-			// dto.setDelItemSkuList(deleteSkuList);
+			dto.setDelItemSkuList(deleteSkuList);
 		}
 		return dto;
 	}

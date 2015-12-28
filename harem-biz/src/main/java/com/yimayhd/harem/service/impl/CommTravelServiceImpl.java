@@ -75,6 +75,8 @@ public class CommTravelServiceImpl implements CommTravelService {
 	 */
 	private LinePublishResult updateLine(BaseTravel travel) {
 		LinePublishDTO linePublishDTO = travel.toLinePublishDTOForUpdate();
+		// check
+		// merge
 		LogUtil.requestLog(log, "itemPublishServiceRef.updatePublishLine");
 		LinePublishResult publishLine = itemPublishServiceRef.updatePublishLine(linePublishDTO);
 		LogUtil.resultLog(log, "itemPublishServiceRef.updatePublishLine", publishLine);

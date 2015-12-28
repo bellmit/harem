@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,8 +29,8 @@ public class PriceInfo {
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
 	private String importantInfosCode;
-	private List<Long> updatedSKU;
-	private List<Long> deletedSKU;
+	private Set<Long> updatedSKU;
+	private Set<Long> deletedSKU;
 	private long itemId;
 
 	public PriceInfo() {
@@ -180,7 +181,7 @@ public class PriceInfo {
 										itemSkuPVPairs.add(itemSkuPVPair2);
 										itemSkuPVPairs.add(itemSkuPVPair3);
 										ItemSkuDO itemSkuDO = new ItemSkuDO();
-										itemSkuDO.setId(packageBlock.getId());
+										itemSkuDO.setId(packageBlock.getSkuId());
 										itemSkuDO.setTitle(itemSkuPVPair1.getVTxt() + "," + itemSkuPVPair3.getVTxt());
 										itemSkuDO.setCategoryId(categoryId);
 										itemSkuDO.setSellerId(sellerId);
@@ -215,19 +216,19 @@ public class PriceInfo {
 		this.importantInfosCode = importantInfosCode;
 	}
 
-	public List<Long> getUpdatedSKU() {
+	public Set<Long> getUpdatedSKU() {
 		return updatedSKU;
 	}
 
-	public void setUpdatedSKU(List<Long> updatedSKU) {
+	public void setUpdatedSKU(Set<Long> updatedSKU) {
 		this.updatedSKU = updatedSKU;
 	}
 
-	public List<Long> getDeletedSKU() {
+	public Set<Long> getDeletedSKU() {
 		return deletedSKU;
 	}
 
-	public void setDeletedSKU(List<Long> deletedSKU) {
+	public void setDeletedSKU(Set<Long> deletedSKU) {
 		this.deletedSKU = deletedSKU;
 	}
 }

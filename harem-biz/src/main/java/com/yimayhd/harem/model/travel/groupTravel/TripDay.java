@@ -140,6 +140,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (this.traffic != null) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.trafficRouteItemId);
 			routeItemDO.setDay(day);
 			routeItemDO.setType(RouteItemBizType.ROUTE_TRAFFIC_INFO.getType());
 			routeItemDO.setRouteTrafficInfo(this.traffic.toRouteTrafficInfo());
@@ -151,6 +152,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (StringUtils.isNotBlank(this.description)) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.descriptionRouteItemId);
 			routeItemDO.setDay(day);
 			routeItemDO.setType(RouteItemBizType.DESCRIPTION.getType());
 			routeItemDO.setDescription(this.description);
@@ -162,6 +164,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.restaurant1)) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.breakfastRouteItemId);
 			RouteItemDesc routeItemDesc = new RouteItemDesc();
 			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.restaurant1) {
@@ -184,6 +187,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.restaurant2)) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.lunchRouteItemId);
 			RouteItemDesc routeItemDesc = new RouteItemDesc();
 			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.restaurant2) {
@@ -206,6 +210,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.restaurant3)) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.dinnerRouteItemId);
 			RouteItemDesc routeItemDesc = new RouteItemDesc();
 			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.restaurant3) {
@@ -228,6 +233,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.scenics)) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.scenicsRouteItemId);
 			RouteItemDesc routeItemDesc = new RouteItemDesc();
 			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.scenics) {
@@ -250,6 +256,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (CollectionUtils.isNotEmpty(this.hotels)) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.hotelsRouteItemId);
 			RouteItemDesc routeItemDesc = new RouteItemDesc();
 			List<RouteTextItem> items = new ArrayList<RouteTextItem>();
 			for (IdNamePair pair : this.hotels) {
@@ -382,6 +389,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (this.scenicDetail != null) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.scenicDetailRouteItemId);
 			routeItemDO.setDay(day);
 			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
 			routeItemDO.setRouteItemDetail(this.scenicDetail);
@@ -397,6 +405,7 @@ public class TripDay {
 		RouteItemDO routeItemDO = null;
 		if (this.hotelDetail != null) {
 			routeItemDO = new RouteItemDO();
+			routeItemDO.setId(this.hotelDetailRouteItemId);
 			routeItemDO.setDay(day);
 			routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
 			routeItemDO.setRouteItemDetail(this.hotelDetail);

@@ -54,6 +54,12 @@
                 </td>
             </tr>
             <tr>
+                <td>我为自己代言：</td>
+                <td>
+                    <textarea class="form-control recommond" rows="3" rId="$!{product.baseInfo.recommond.id}">$!{product.baseInfo.recommond.description}</textarea>
+                </td>
+            </tr>
+            <tr>
                 <td>出发地：</td>
                 <td>
                     <select class="form-control from">
@@ -89,7 +95,7 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>推荐理由：</td>
+                <td>推荐人：</td>
                 <td>
                     <button class="btn btn-primary" id="selectMaster">请选择大咖</button>
 				<span class="masters-content">
@@ -103,12 +109,6 @@
                 <td><span class="spColor">*</span>线路设计亮点：</td>
                 <td>
                     <textarea class="form-control highlights" rows="3">$!{product.baseInfo.highlights}</textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>我为自己代言：</td>
-                <td>
-                    <textarea class="form-control recommond" rows="3" rId="$!{product.baseInfo.recommond.id}">$!{product.baseInfo.recommond.description}</textarea>
                 </td>
             </tr>
         </table>

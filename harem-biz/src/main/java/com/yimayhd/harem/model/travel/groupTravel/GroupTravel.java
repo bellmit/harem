@@ -31,8 +31,8 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
 public class GroupTravel extends BaseTravel {
 	private long routeId;
 	private List<TripDay> tripInfo;// 行程信息
-	private List<Long> updatedRouteItems;
-	private List<Long> deletedRouteItems;
+	private Set<Long> updatedRouteItems;
+	private Set<Long> deletedRouteItems;
 
 	@Override
 	protected void parseTripInfo(LineResult lineResult) {
@@ -193,19 +193,14 @@ public class GroupTravel extends BaseTravel {
 						addRouteItemList.add(routeItemDO);
 					}
 				}
-				Set<Long> deletedRouteItemSet = new HashSet<Long>();
 				if (CollectionUtils.isNotEmpty(deletedRouteItems)) {
-					deletedRouteItemSet.addAll(deletedRouteItems);
-					// 去重
-					deleteRouteItemList.addAll(deletedRouteItemSet);
+					deleteRouteItemList.addAll(deletedRouteItems);
 				}
-				Set<Long> updatedRouteItemSet = new HashSet<Long>();
 				if (CollectionUtils.isNotEmpty(updatedRouteItems)) {
-					updatedRouteItemSet.addAll(updatedRouteItems);
 					// 决定删除就不更新了
-					updatedRouteItemSet.removeAll(deletedRouteItemSet);
+					updatedRouteItems.removeAll(deletedRouteItems);
 					for (RouteItemDO routeItemDO : routeItemDOList) {
-						if (routeItemDO.getId() > 0 && updatedRouteItemSet.contains(routeItemDO.getId())) {
+						if (routeItemDO.getId() > 0 && updatedRouteItems.contains(routeItemDO.getId())) {
 							updateRouteItemList.add(routeItemDO);
 						}
 					}
@@ -213,8 +208,7 @@ public class GroupTravel extends BaseTravel {
 			}
 			dto.setAddRouteItemList(addRouteItemList);
 			dto.setUpdrouteItemList(updateRouteItemList);
-			// TODO YEBIN 删除对接
-			// dto.setDelRouteItemList(delRouteItemList);
+			dto.setDelRouteItemList(deleteRouteItemList);
 		}
 		return dto;
 	}
@@ -232,19 +226,19 @@ public class GroupTravel extends BaseTravel {
 		this.routeId = routeId;
 	}
 
-	public List<Long> getUpdatedRouteItems() {
+	public Set<Long> getUpdatedRouteItems() {
 		return updatedRouteItems;
 	}
 
-	public void setUpdatedRouteItems(List<Long> updatedRouteItems) {
+	public void setUpdatedRouteItems(Set<Long> updatedRouteItems) {
 		this.updatedRouteItems = updatedRouteItems;
 	}
 
-	public List<Long> getDeletedRouteItems() {
+	public Set<Long> getDeletedRouteItems() {
 		return deletedRouteItems;
 	}
 
-	public void setDeletedRouteItems(List<Long> deletedRouteItems) {
+	public void setDeletedRouteItems(Set<Long> deletedRouteItems) {
 		this.deletedRouteItems = deletedRouteItems;
 	}
 }
