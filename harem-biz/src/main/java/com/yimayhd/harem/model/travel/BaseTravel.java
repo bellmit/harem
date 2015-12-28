@@ -36,7 +36,6 @@ public abstract class BaseTravel {
 	protected boolean readonly = false;
 
 	public void init(LineResult lineResult, List<ComTagDO> comTagDOs) throws Exception {
-		// TODO YEBIN DO对象解析
 		LineDO line = lineResult.getLineDO();
 		if (line != null) {
 			this.baseInfo = new BaseInfo(line, comTagDOs);
@@ -99,30 +98,29 @@ public abstract class BaseTravel {
 		LinePublishDTO dto = this.toLinePublishDTOForSave();
 		List<ItemSkuDO> itemSkuDOList = dto.getItemSkuDOList();
 		if (this.baseInfo.getId() > 0) {
+			// SKU
 			List<ItemSkuDO> addSkuList = new ArrayList<ItemSkuDO>();
 			List<ItemSkuDO> updateSkuList = new ArrayList<ItemSkuDO>();
-			List<ItemSkuDO> deleteSkuList = new ArrayList<ItemSkuDO>();
+			List<Long> deleteSkuList = new ArrayList<Long>();
 			if (CollectionUtils.isNotEmpty(itemSkuDOList)) {
-				for (ItemSkuDO itemSkuDO : deleteSkuList) {
+				for (ItemSkuDO itemSkuDO : itemSkuDOList) {
 					if (itemSkuDO.getId() <= 0) {
 						addSkuList.add(itemSkuDO);
 					}
 				}
-				// 去重
-				Set<Long> deletedSKU = new HashSet<Long>(this.priceInfo.getDeletedSKU());
-				Set<Long> updatedSKU = new HashSet<Long>(this.priceInfo.getUpdatedSKU());
-				// 决定删除就不更新了
-				updatedSKU.removeAll(deletedSKU);
-				if (CollectionUtils.isNotEmpty(deletedSKU)) {
-					for (ItemSkuDO itemSkuDO : itemSkuDOList) {
-						if (deletedSKU.contains(itemSkuDO.getId())) {
-							deleteSkuList.add(itemSkuDO);
-						}
-					}
+				Set<Long> deletedSKUSet = new HashSet<Long>();
+				if (CollectionUtils.isNotEmpty(this.priceInfo.getDeletedSKU())) {
+					// 去重
+					deletedSKUSet.addAll(this.priceInfo.getDeletedSKU());
+					deleteSkuList.addAll(deletedSKUSet);
 				}
-				if (CollectionUtils.isNotEmpty(updatedSKU)) {
+				Set<Long> updatedSKUSet = new HashSet<Long>(this.priceInfo.getUpdatedSKU());
+				if (CollectionUtils.isNotEmpty(this.priceInfo.getDeletedSKU())) {
+					updatedSKUSet.addAll(this.priceInfo.getDeletedSKU());
+					// 决定删除就不更新了
+					updatedSKUSet.removeAll(deletedSKUSet);
 					for (ItemSkuDO itemSkuDO : itemSkuDOList) {
-						if (updatedSKU.contains(itemSkuDO.getId())) {
+						if (itemSkuDO.getId() > 0 && updatedSKUSet.contains(itemSkuDO.getId())) {
 							updateSkuList.add(itemSkuDO);
 						}
 					}
@@ -130,7 +128,8 @@ public abstract class BaseTravel {
 			}
 			dto.setAddItemSkuList(addSkuList);
 			dto.setUpdItemSkuList(updateSkuList);
-			dto.setDelItemSkuList(deleteSkuList);
+			// TODO YEBIN 删除对接
+			// dto.setDelItemSkuList(deleteSkuList);
 		}
 		return dto;
 	}

@@ -4,6 +4,7 @@
 -->
 <div class="baseInfo">
 	<div class="baseInfoList">
+		<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/>
         <p class="lineDetail">线路明细</p>
         <table>
             <tr>
@@ -190,9 +191,6 @@
 	$(".itemDelete").click(function(){
 		$(this).parent().parent().remove();
 	});
-	$(".itemDelete").click(function(){
-		$(this).parent().parent().remove();
-	});
 	$(".publisherType").click(function() {
 		if($(this).val()==2) {
 			$(".travel-ka-panel").show();
@@ -280,6 +278,7 @@
 		});
 		var publisher = $(".publisher");
 		var result = {
+			id:$("#line-id").val()||0,
 			type:type,
 			name:name,
 			productImage:productImage,
@@ -302,6 +301,7 @@
 			},
 			recommond: {
 				id:$(".recommond").attr("rId"),
+				title:"推荐理由",
     			description : $(".recommond").val(),
 				userId:publisher.attr("rId"),
 				name:publisher.attr("rName"),
