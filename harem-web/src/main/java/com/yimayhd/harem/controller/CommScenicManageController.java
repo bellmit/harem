@@ -21,12 +21,14 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.CategoryVO;
+import com.yimayhd.harem.model.CommScenicVO;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommScenicService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.CategoryType;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
@@ -73,10 +75,10 @@ public class CommScenicManageController extends BaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public
-    ResponseVo save(ScenicPublishDTO scenicPublishDTO,long endTime,long startDayTime , long startHourTime,Long[] check,double priceF) throws Exception {
+    ResponseVo save(CommScenicVO scenicVO) throws Exception {
     	ResponseVo responseVo = new ResponseVo(); 	
-    	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
-    	
+    /*	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
+    	scenicPublishDTO.getItemDO().addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, pic);
     	scenicPublishDTO.getItemDO().setPrice((long) (priceF * 100));
     	ItemFeature itemFeature = new ItemFeature(null);
 	        //减库存方式
@@ -89,15 +91,15 @@ public class CommScenicManageController extends BaseController {
 	        itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT,endTime* 24 * 3600 );
 	        //需要提前多久预订，秒startDayTime*24 * 3600 * 1000L+startHourTime* 3600 * 1000L
 	        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,startDayTime*24+(24-startHourTime));
-	        scenicPublishDTO.getItemDO().setItemFeature(itemFeature);
-	        ItemPubResult result = commScenicService.save(scenicPublishDTO,check);
-	        if(result.isSuccess()){
+	        scenicPublishDTO.getItemDO().setItemFeature(itemFeature);*/
+	       ItemPubResult result = commScenicService.save(scenicVO);
+	      /*  if(result.isSuccess()){
 				responseVo.setMessage("添加成功！");
 				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
 			}else{
 				responseVo.setMessage(result.getResultMsg());
 				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-			}
+			}*/
 	        
 	    	return responseVo;
     }

@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
 
 
 <div class="tab-content grogInfoWrap"  style="">
@@ -47,14 +48,21 @@
                     <td><span class="spColor">*</span>排序</td>
                     <td>
                     	
-							<input type="text" class="inpCtlBlock" name="scenicDO.orderNum" id="" placeholder="请输入20个字以内">
-						
+							<input type="text" class="inpCtlBlock" name="itemDO.orderNum" id="" placeholder="请输入20个字以内">
 					</td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>时间区间</td>
                     <td>用户可选入园时间为<input type="text" class="inpControl" name="endTime" id="" placeholder="请输入数字">天内</td>
                 </tr>
+                <tr>
+                <td><span class="spColor">*</span>商品图：</td>
+                <td class="fileImgWrap">
+                	<input id="productImageFile" type="file">
+                    <img class="productImageUrlImg bigListPicUrl" src="#if($!{product.baseInfo.productImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImage} #end"/>
+                    <input class="productImageUrlVal" type="hidden" name="pic" value=""/>
+                </td>
+            </tr>
             </table>
 			<table class="table">
 					<tr>
@@ -67,8 +75,11 @@
 							<td>会员限购</td>
 					<tr>
 						<tr>
-							<td><input type="text" class="inpCtlBlock" name="itemDO.title"  placeholder="请输入数字"></td>
-							<td><input type="text" class="inpCtlBlock" name="itemDO.subTitle" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="itemDO.title"  placeholder="请输入"></td>
+							<td>
+							<textarea name="itemDO.subTitle" id="description" rows="3" class="form-control"
+                                      placeholder="请输入500字以内"></textarea>
+							</td>
 							<td><textarea name="itemDO.oneWord" id="description" rows="3" class="form-control"
                                       placeholder="请输入500字以内"></textarea></td>
                              
@@ -92,6 +103,20 @@
 
 <script>
    $(function(){
+   
+    //上传图片
+        $(document).delegate("#productImageFile",'change',function(){
+            fileUpload('#productImageFile',1,function(data){
+                if(data && data.status == 200){
+                    $('.productImageUrlVal').val(data.data);
+                    $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.msg('图片上传失败，请重试', {icon: 2});
+                }
+			});
+        });
+   
+   
    /*弹出框**/
         $('.selectScenic').click(function(){
          	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneScenic','选择景区',function() {

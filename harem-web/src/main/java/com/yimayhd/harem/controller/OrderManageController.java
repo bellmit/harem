@@ -2,6 +2,8 @@ package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.query.OrderListQuery;
 import com.yimayhd.harem.model.trade.MainOrder;
 import com.yimayhd.harem.model.trade.OrderDetails;
@@ -15,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 订单管理
@@ -34,23 +39,32 @@ public class OrderManageController extends BaseController {
 	 * 退款
 	 */
 	@RequestMapping(value = "/refundOrder/{id}", method = RequestMethod.GET)
-	public String refundOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
+	public String refundOrderById(Model model, @PathVariable(value = "orderId") long id) throws Exception {
+		boolean result = orderService.refundOrder(id);
 		return "/system/order/routeOrderInfo";
 	}
 
 	/**
 	 * 完成
 	 */
-	@RequestMapping(value = "/buyerConfirmGoods/{id}", method = RequestMethod.GET)
-	public String buyerConfirmGoods(Model model, @PathVariable(value = "id") long id) throws Exception {
-		return "/system/order/routeOrderInfo";
+	@RequestMapping(value = "/buyerConfirmGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo buyerConfirmGoods(long orderId, HttpServletRequest request) throws Exception {
+		System.out.println(orderId);
+		boolean flag = orderService.buyerConfirmGoods(orderId);
+		if(flag){
+			return new ResponseVo(ResponseStatus.SUCCESS);
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
+
 
 	/**
 	 * 发货
 	 */
 	@RequestMapping(value = "/sellerSendGoods/{id}", method = RequestMethod.GET)
-	public String sellerSendGoods(Model model, @PathVariable(value = "id") long id) throws Exception {
+	public String sellerSendGoods(Model model, @PathVariable(value = "orderId") long id) throws Exception {
+		boolean result = orderService.sellerSendGoods(id);
 		return "/system/order/routeOrderInfo";
 	}
 

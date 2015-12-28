@@ -15,28 +15,28 @@
             #if($order.mainOrder.bizOrderDO.payStatus == 1)
                 <span>
                     未付款
-                    <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                            data-target="#refundModal" tradeNO="$!trade.tradNO">取消订单
+                    <button type="button" class="btn btn-primary cancel"
+                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">取消订单
                     </button>
                 </span>
             #elseif($order.mainOrder.bizOrderDO.payStatus == 2)
                 <span>
                     已付款
-                    <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                            data-target="#refundModal" tradeNO="$!trade.tradNO">确认
+                    <button type="button" class="btn btn-primary affirm"
+                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">确认
                     </button>
-                    <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                            data-target="#refundModal" tradeNO="$!trade.tradNO">退款
+                    <button type="button" class="btn btn-primary refund"
+                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
                     </button>
                 </span>
             #elseif($order.mainOrder.bizOrderDO.logisticsStatus == 2)
                 <span>
                 已发货
-                    <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                         data-target="#refundModal" tradeNO="$!trade.tradNO">完成
+                    <button type="button" class="btn btn-primary finish"
+                         data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
                     </button>
-                    <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                        data-target="#refundModal" tradeNO="$!trade.tradNO">退款
+                    <button type="button" class="btn btn-primary refund"
+                        data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
                     </button>
                 </span>
             #elseif($order.mainOrder.bizOrderDO.payStatus == 6)
@@ -50,13 +50,16 @@
             #elseif($order.mainOrder.bizOrderDO.refundStatus != 4)
                 <span>
                     待处理
-                    <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                            data-target="#refundModal" tradeNO="$!trade.tradNO">退款
+                    <button type="button" class="btn btn-primary refund"
+                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
                     </button>
                 </span>
             #elseif($order.mainOrder.bizOrderDO.payStatus == 4)
                 已退款
             #end
+            <button type="button" class="btn btn-primary finish"
+                    data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
+            </button>
             <span>
         </div>
     </div>
@@ -263,6 +266,30 @@
         </div>
     </div>
 
+
+
+
+    <script>
+        $(function () {
+            $(".finish").click(function(){
+//                url = '/B2C/orderManage/buyerConfirmGoods/';
+//                openConfirm();
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/buyerConfirmGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                        //TODO暂时先刷新页面
+                        setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1050);
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                })
+            });
+        });
+    </script>
 
 
 </div>
