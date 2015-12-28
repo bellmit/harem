@@ -51,6 +51,11 @@
 	<bean class="com.yimayhd.harem.service.impl.CommScenicServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.CommActivityServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.FlightRPCServiceImpl"></bean>
+
 	<!-- comment -->
 	<bean class="com.yimayhd.harem.service.impl.TagRPCServiceImpl"></bean>
+
+
+	<bean id="liveTopicService" class="com.yimayhd.harem.service.impl.LiveTopicServiceImpl"/>
+
 </beans>

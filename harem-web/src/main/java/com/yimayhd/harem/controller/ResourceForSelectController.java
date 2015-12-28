@@ -1,10 +1,16 @@
 package com.yimayhd.harem.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.yimayhd.harem.model.query.*;
+import com.yimayhd.harem.service.*;
+import com.yimayhd.harem.util.DateUtil;
+import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.query.LinePageQuery;
+import com.yimayhd.snscenter.client.domain.SnsActivityDO;
+import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,16 +22,6 @@ import com.yimayhd.harem.base.BaseQuery;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.ItemVO;
-import com.yimayhd.harem.model.query.CommodityListQuery;
-import com.yimayhd.harem.model.query.HotelListQuery;
-import com.yimayhd.harem.model.query.RestaurantListQuery;
-import com.yimayhd.harem.model.query.ScenicListQuery;
-import com.yimayhd.harem.service.CommodityService;
-import com.yimayhd.harem.service.HotelRPCService;
-import com.yimayhd.harem.service.RestaurantRPCService;
-import com.yimayhd.harem.service.ScenicService;
-import com.yimayhd.harem.service.TripService;
-import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
@@ -43,7 +39,7 @@ import com.yimayhd.user.client.domain.UserDOPageQuery;
 
 /**
  * 资源选择理
- * 
+ *
  * @author yebin
  *
  */
@@ -62,10 +58,14 @@ public class ResourceForSelectController extends BaseController {
 	private CommodityService commodityService;
 	@Autowired
 	private TripService tripService;
+	@Autowired
+	private CommTravelService commTravelService;
+	@Autowired
+	private ActivityService activityService;
 
 	/**
 	 * 选择景点
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -80,7 +80,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择餐厅
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -91,15 +91,15 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择景区
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryScenicForSelect")
 	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicListQuery scenicPageQuery) throws Exception {
-	
+
 		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
@@ -109,7 +109,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择景区
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -120,7 +120,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择景区
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -131,7 +131,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择活动商品
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -142,9 +142,9 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择活动商品
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -162,7 +162,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择酒店
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -177,7 +177,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择酒店
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -188,7 +188,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择用户
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -206,7 +206,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择一个用户
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -217,7 +217,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择用户
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -228,7 +228,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择旅游咖
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -247,7 +247,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择旅游咖
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -258,7 +258,7 @@ public class ResourceForSelectController extends BaseController {
 
 	/**
 	 * 选择一个旅游咖
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -271,16 +271,16 @@ public class ResourceForSelectController extends BaseController {
 	public String selectMustBuy() throws Exception {
 		return "/system/resource/forSelect/selectMustBuy";
 	}
-	
+
 	/**
-	* @Title: listMustBuy 
-	* @Description:(获取买必推荐列表) 
-	* @author create by yushengwei @ 2015年12月27日 下午4:23:41 
-	* @param @param regionIntroduceQuery
-	* @param @return
-	* @param @throws Exception 
-	* @return ResponseVo 返回类型 
-	* @throws
+	 * @Title: listMustBuy
+	 * @Description:(获取买必推荐列表)
+	 * @author create by yushengwei @ 2015年12月27日 下午4:23:41
+	 * @param @param regionIntroduceQuery
+	 * @param @return
+	 * @param @throws Exception
+	 * @return ResponseVo 返回类型
+	 * @throws
 	 */
 	@RequestMapping(value = "/listMustBuy")
 	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery query,Integer pageNumber,Integer pageSize) throws Exception {
@@ -305,5 +305,113 @@ public class ResourceForSelectController extends BaseController {
 	public String selectLive() throws Exception {
 		return "/system/resource/forSelect/selectLive";
 	}
+
+	/**
+	 * 选择单个旅游产品
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectOneTravelProduct")
+	public String selectOneTravelProduct() throws Exception {
+		return "/system/resource/forSelect/selectOneTravelProduct";
+	}
+
+
+	/**
+	 *
+	 * 查询旅游产品
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryTravelProductForSelect")
+	public @ResponseBody ResponseVo queryTravelProductForSelect(LinePageQuery query) throws Exception {
+		Integer pageNumber = getInteger("pageNumber");
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		}
+//		PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
+		PageVO<LineDO> pageVo = commTravelService.pageQueryLine(query);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", query);
+		return new ResponseVo(result);
+	}
+
+
+	/**
+	 * 选择单个活动
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectOneActivity")
+	public String selectOneActivity() throws Exception {
+		return "/system/resource/forSelect/selectOneActivity";
+	}
+
+	/**
+	 * 查询活动
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryActivityForSelect")
+	public @ResponseBody ResponseVo queryActivityForSelect(ActivityListQuery query) throws Exception {
+		Integer pageNumber = getInteger("pageNumber");
+		if (pageNumber != null) {
+			query.setPageNumber(pageNumber);
+		}
+		int totalCount = 0;
+		ActivityQueryDTO activityInfoDTO = convertQuery(query);
+		PageVO pageVo = null;
+		BasePageResult<SnsActivityDO> ret = activityService.getList(activityInfoDTO);
+		if(ret != null & ret.isSuccess()){
+			pageVo = new PageVO(activityInfoDTO.getPageNo(), query.getPageSize(), totalCount, ret.getList());
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", query);
+		return new ResponseVo(result);
+	}
+
+	private ActivityQueryDTO convertQuery(ActivityListQuery query) {
+		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
+		if (query == null) {
+			return activityQueryDTO;
+		}
+		if (query.getPageNumber() != null) {
+			activityQueryDTO.setPageNo(query.getPageNumber());
+		}
+		if (query.getPageSize() != null) {
+			activityQueryDTO.setPageSize(query.getPageSize());
+		}
+		activityQueryDTO.setTitle(query.getTitle());
+//		activityQueryDTO.set
+		if (query.getProductId() != null) {
+			activityQueryDTO.setClubId(query.getProductId());
+		}
+		if (StringUtils.isNotBlank(query.getActivityBeginDate())) {
+			Date startTime = DateUtil.parseDate(query.getActivityBeginDate());
+			activityQueryDTO.setActivityStartTime(startTime);
+		}
+		if (StringUtils.isNotBlank(query.getActivityEndDate())) {
+			Date endTime = DateUtil.parseDate(query.getActivityEndDate());
+			activityQueryDTO.setActivityEndTime(DateUtil.add23Hours(endTime));
+		}
+		if (StringUtils.isNotBlank(query.getCreateStartTime())) {
+			Date startTime = DateUtil.parseDate(query.getCreateStartTime());
+			activityQueryDTO.setStartTime(startTime);
+		}
+		if (StringUtils.isNotBlank(query.getCreateEndTime())) {
+			Date endTime = DateUtil.parseDate(query.getCreateEndTime());
+			activityQueryDTO.setEndTime(DateUtil.add23Hours(endTime));
+		}
+		if (query.getStatus() != null) {
+			activityQueryDTO.setState(query.getStatus());
+		}
+		return activityQueryDTO;
+	}
+
 
 }

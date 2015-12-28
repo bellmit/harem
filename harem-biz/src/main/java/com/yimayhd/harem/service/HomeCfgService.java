@@ -60,5 +60,11 @@ public interface HomeCfgService {
 	 * 获取游记信息
 	 */
 	public CfgResultVO getTravelSpecialList();
+
+	/**
+	 * 查询精彩推荐
+	 * @return
+	 */
+	public CfgResultVO getGreatRecommentList();
 	
 }

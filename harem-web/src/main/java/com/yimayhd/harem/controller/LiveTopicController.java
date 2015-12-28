@@ -2,6 +2,11 @@ package com.yimayhd.harem.controller;
 
 import java.util.List;
 
+import com.yimayhd.harem.constant.ResponseStatus;
+import com.yimayhd.harem.model.TravelOfficial;
+import com.yimayhd.harem.model.query.LiveTopicQuery;
+import com.yimayhd.harem.service.LiveTopicService;
+import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +34,7 @@ import com.yimayhd.harem.service.LiveService;
 @RequestMapping("/B2C/liveTopicManage")
 public class LiveTopicController {
 	 @Autowired
-	 private LiveService liveService;
+	 private LiveTopicService liveTopicService;
 	
 	 /**
      * 直播管理列表
@@ -37,13 +42,15 @@ public class LiveTopicController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model,LiveListQuery liveListQuery)  throws Exception {
-    	/*LiveVO liveVO = new LiveVO();
-    	liveVO.setLiveListQuery(liveListQuery);
-    	List<Live> liveList = liveService.getList(liveVO.getLive());
-    	model.addAttribute("liveList", liveList);*/
-    	/*model.addAttribute("pageVo", pageVo);
-    	 model.addAttribute("liveListQuery", liveListQuery);*/
+    public String list(Model model,LiveTopicQuery liveTopicQuery)  throws Exception {
+
+//        PageVO<SnsTravelSpecialtyDO> pageVo = travelOfficialService.getList(travelOfficialListQuery);
+
+
+//        model.addAttribute("pageVo", pageVo);
+//        model.addAttribute("liveTopicQuery", liveTopicQuery);
+//        model.addAttribute("travelOfficialList", pageVo.getItemList());
+
     	return "/system/liveTopic/list";
     }
     
@@ -56,42 +63,24 @@ public class LiveTopicController {
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public String toAdd(Model model,LiveListQuery liveListQuery)  throws Exception {
-    	/*LiveVO liveVO = new LiveVO();
-    	liveVO.setLiveListQuery(liveListQuery);
-    	List<Live> liveList = liveService.getList(liveVO.getLive());
-    	model.addAttribute("liveList", liveList);
-    	model.addAttribute("pageVo", pageVo);
-    	 model.addAttribute("liveListQuery", liveListQuery);*/
     	return "/system/liveTopic/add";
     }
-    
-    /**
-     * 根据直播ID获取直播详情
-     * @return 直播详情
-     * @throws Exception
-     *//*
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public
-    String getById(Model model,@PathVariable(value = "id") long id) throws Exception {
-        Live live = liveService.getById(id);
-        model.addAttribute("live",live);
-        return "/system/live/detail";
-    }
-    
-    
-    *//**
-     * 审核
-     * @return
-     * @throws Exception
-     *//*
-    @RequestMapping(value = "/setAudit/{id}", method = RequestMethod.POST)
+
+
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo setJoinStatus(@PathVariable(value = "id")long id,String audit) throws Exception {
-    
-        return new ResponseVo();
+    public ResponseVo add(TravelOfficial travelOfficial) throws Exception {
+//        TravelOfficial db = travelOfficialService.add(travelOfficial);
+//        if(null == db ){
+//            return new ResponseVo(ResponseStatus.ERROR);
+//        }
+//        return new ResponseVo(ResponseStatus.SUCCESS);
+        return null;
     }
     
-   */
+
+
    
 	
 }
