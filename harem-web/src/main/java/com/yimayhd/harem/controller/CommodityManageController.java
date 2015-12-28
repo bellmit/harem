@@ -118,7 +118,7 @@ public class CommodityManageController extends BaseController {
 		if (itemType == ItemType.HOTEL.getValue()) {
 			redirectUrl = "/B2C/comm/hotelManage/edit/" + itemId;
 		} else if (itemType == ItemType.SPOTS.getValue()) {
-			redirectUrl = "/B2C/comm/scenicSpotManage/edit/" + itemId;
+			redirectUrl = "/B2C/comm/scenicManage/edit/" + itemId;
 		} else if (itemType == ItemType.LINE.getValue()) {
 			redirectUrl = "/B2C/comm/groupTravel/detail/" + outId + "?categoryId=" + categoryId;
 		} else if (itemType == ItemType.FLIGHT_HOTEL.getValue()) {
