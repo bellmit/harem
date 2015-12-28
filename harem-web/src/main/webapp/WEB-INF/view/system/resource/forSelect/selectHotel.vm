@@ -86,11 +86,11 @@
 	// 获得最终结果
 	// 获得最终结果
 	function getItems() {
-		if($(".resources").length > 0) {
-			var rId = $(".resources").attr("rId");
-			return resource_table[rId];
-		} else {
-			return null;
-		}
+		var result = [];
+		$(".resources").each(function(){
+			var rId = $(this).attr("rId");
+			result.push(resource_table[rId]);
+		});
+		return result;
 	}
 </script>
