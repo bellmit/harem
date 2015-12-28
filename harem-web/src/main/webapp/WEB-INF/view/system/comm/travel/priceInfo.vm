@@ -165,7 +165,7 @@
 			layer.msg("请输入结束时间！", {icon: 2});
 			return;
 		}
-		if(Date.parse(startTime) > Date.parse(endTime)){
+		if(CalendarY.parse(startTime) > CalendarY.parse(endTime)){
 			layer.msg("开始时间不可大于结束时间！", {icon: 2});
 			return;
 		}
@@ -208,8 +208,8 @@
 		curTcId = curTcId + 1;
 		var tcTab = createTcTab(curTcId);
 		$("#tc_tab").append(tcTab);
-		var startDate = new Date($("#startTime").val());
-		var endDate = new Date($("#endTime").val());
+		var startDate = CalendarY.parse($("#startTime").val());
+		var endDate = CalendarY.parse($("#endTime").val());
 		var tcTabContent = createTcContent(curTcId,startDate,endDate);
 		$("#tc_page").append(tcTabContent);
 		$("#tc_"+curTcId).find(".tab-page a").eq(0).click();
@@ -235,7 +235,7 @@
 		var tcName = $("<span class='spColor'>*</span>套餐名称：<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></p>")
 		td.append(tcName);
 		table.append($("<tr/>").append(td));
-		var dateJson = CalendarUtils.getMonthTree(startDate,endDate);
+		var dateJson = CalendarY.getMonthTree(startDate,endDate);
 		var dateTab = createDateTab(id,dateJson);
 		var dateTabContent = createDateContent(id,dateJson);
 		pane.append(table.append($("<tr/>").append($("<td/>").append(dateTab).append(dateTabContent))));
@@ -245,7 +245,7 @@
 		var tab = $("<ul class='nav nav-tabs navCombo'/>");
 		for(var i in dateJson) {
 			var tcTab = $("<li class='tab-page tc-"+id+"-month' rId='"+i+"' id='tc_"+id+"_month_"+i+"_tab' rTime='"+i+"'/>");
-			var month = CalendarUtils.getFormat(new Date(parseInt(i)),"yyyy年MM月");
+			var month = CalendarY.format(CalendarY.parse(parseInt(i)),"YYYY年MM月");
 			var tabA = $("<a href='#tc_"+id+"_month_"+i+"' data-toggle='tab'>"+month+"</a>");
 			tab.append(tcTab.append(tabA));
 		}
@@ -267,8 +267,8 @@
 					tr = $("<tr/>");
 					table.append(tr);
 				}
-				var time = new Date(list[j]);
-				var d =  CalendarUtils.getFormat(time ,"dd日 " + WEEK[time.getDay()]);
+				var time = CalendarY.parse(list[j]);
+				var d =  CalendarY.format(time ,"DD日 " + WEEK[time.getDay()]);
 				// 扩展点
 				var td = $("<td class='tc-"+id+"-month-"+i+"-day' rId='"+list[j]+"' rTime='"+list[j]+"'></td>");
 				var day_id = "tc_"+id+"_month_"+i+"_day_"+list[j];
