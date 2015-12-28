@@ -6,6 +6,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.TripBoQuery;
 import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -119,7 +120,7 @@ public interface TripService {
 	* @return PageVO<ScenicDO> 返回类型 
 	* @throws
 	 */
-	PageVO<ScenicDO> selectScenicDO(ScenicPageQuery scenicPageQuery) throws Exception;
+	PageVO<ScenicDO> selectScenicDO(ScenicListQuery scenicPageQuery) throws Exception;
 	
 	/**
 	* @Title: getListShowCaseResult 

@@ -19,6 +19,7 @@ import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.model.query.CommodityListQuery;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.RestaurantRPCService;
@@ -97,11 +98,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryScenicForSelect")
-	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicPageQuery scenicPageQuery,
-			Integer pageNumber) throws Exception {
-		if (pageNumber != null) {
-			scenicPageQuery.setPageNo(pageNumber);
-		}
+	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicListQuery scenicPageQuery) throws Exception {
+	
 		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);

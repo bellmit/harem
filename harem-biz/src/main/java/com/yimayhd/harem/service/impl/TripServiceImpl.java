@@ -13,6 +13,7 @@ import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.TripBoQuery;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TripService;
@@ -340,7 +341,7 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public PageVO<ScenicDO> selectScenicDO(ScenicPageQuery scenicPageQuery) throws Exception {
+	public PageVO<ScenicDO> selectScenicDO(ScenicListQuery scenicPageQuery) throws Exception {
 		return scenicSpotService.getList(scenicPageQuery);
 	}
 
