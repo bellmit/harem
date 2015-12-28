@@ -4,13 +4,17 @@
     <form name="commHotelForm" id="commHotelForm" action="" method="post" commHotelId="$!commHotel.id">
             <div class="">
                 <table class="table">
+                #*只新增用*#
                     <input type="hidden" name="categoryId" value="$!category.id">
+                #*只新增用*#
                     <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
-                #*商品类型，此页面全是酒店商品发布 新增的时候需要，修改的时候不更新此字段*#
+                #*只新增用*#
                     <input type="hidden" name="itemType" value="$!itemType">
+                #*只新增用*#
+                    <input type="hidden" name="outType" value="$!outType">
                 #*pay_type 暂时设置为1*#
                     <input type="hidden" name="payType" value="1">
-                #*source 来源暂时都为1*#
+                #*只新增用 source 来源暂时都为1*#
                     <input type="hidden" name="source" value="1">
 
                 #*version 新增时为1*#
