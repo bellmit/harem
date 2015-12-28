@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.RelevanceRecommended;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.TripBoQuery;
 import com.yimayhd.harem.model.query.ScenicListQuery;
@@ -111,6 +112,7 @@ public class TripServiceImpl implements TripService {
 		if (tripBo.getType() == RegionType.DESC_REGION.getType()) {// 目的地
 			// 保存相应的概况 民俗等信息
 			List<NeedKnow> list = new ArrayList<NeedKnow>();
+			List<RelevanceRecommended> listRelevanceRecommended = new ArrayList<RelevanceRecommended>();
 			NeedKnow gaikuang = tripBo.getGaikuang();
 			gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
 			NeedKnow minsu = tripBo.getMinsu();
@@ -125,9 +127,39 @@ public class TripServiceImpl implements TripService {
 			list.add(xiaofei);
 			saveShowCase(list, tripBo.getCityCode());
 			
-			relevanceRecommended(ColumnType.NEED_BUY.getType(), tripBo.getCityCode(), tripBo.getBiMai());
-			relevanceRecommended(ColumnType.GREAT_SCENIC.getType(), tripBo.getCityCode(), tripBo.getBiQu());
-			relevanceRecommended(ColumnType.GREAT_HOTEL.getType(), tripBo.getCityCode(), tripBo.getJiuDian());
+			if(null != tripBo.getBiMai()){
+				RelevanceRecommended bimai = new RelevanceRecommended();
+				bimai.setName(ColumnType.NEED_BUY.toString());
+				bimai.setDescName(ColumnType.NEED_BUY.getCode());
+				bimai.setType(ColumnType.NEED_BUY.getType());
+				bimai.setCityCode(tripBo.getCityCode());
+				bimai.setResourceId(tripBo.getBiMai());
+				listRelevanceRecommended.add(bimai);
+			}
+			if(null !=  tripBo.getBiQu()){
+				RelevanceRecommended biqu = new RelevanceRecommended();
+				biqu.setName(ColumnType.NEED_BUY.toString());
+				biqu.setDescName(ColumnType.NEED_BUY.getCode());
+				biqu.setType(ColumnType.NEED_BUY.getType());
+				biqu.setCityCode(tripBo.getCityCode());
+				biqu.setResourceId(tripBo.getBiMai());
+				listRelevanceRecommended.add(biqu);
+			}
+			
+			if(null != tripBo.getJiuDian() ){
+				RelevanceRecommended jiudian = new RelevanceRecommended();
+				jiudian.setName(ColumnType.NEED_BUY.toString());
+				jiudian.setDescName(ColumnType.NEED_BUY.getCode());
+				jiudian.setType(ColumnType.NEED_BUY.getType());
+				jiudian.setCityCode(tripBo.getCityCode());
+				jiudian.setResourceId(tripBo.getBiMai());
+				listRelevanceRecommended.add(jiudian);
+			}
+			
+			relevanceRecommended(listRelevanceRecommended);
+			//relevanceRecommended(ColumnType.NEED_BUY.getType(), tripBo.getCityCode(), tripBo.getBiMai());
+			//relevanceRecommended(ColumnType.GREAT_SCENIC.getType(), tripBo.getCityCode(), tripBo.getBiQu());
+			//relevanceRecommended(ColumnType.GREAT_HOTEL.getType(), tripBo.getCityCode(), tripBo.getJiuDian());
 			//relevanceRecommended(ColumnType.NEED_BUY.getType(), tripBo.getCityCode(), tripBo.getZhiBo());
 			
 			
@@ -135,8 +167,17 @@ public class TripServiceImpl implements TripService {
 		return regionDO;
 	}
 
+	private int getBoothType(NeedKnow needKnow){
+		ColumnType dbColumnType = ColumnType.getByName(needKnow.getExtraInfoUrl());
+		if(null == dbColumnType){
+			return 0;
+		}
+		return dbColumnType.getType();
+	}
+	
 	public void saveShowCase(List<NeedKnow> list, int cityCode) {
 		// XXX:根据设计，流程如下：先往rc_booth表插城市的NeedKnow，然后根据返回的id,继续往rc_showcase表中插具体的NeedKnow包含的TextItem信息.
+		int boothType = 0;
 		for (NeedKnow nk : list) {
 			if (null != nk && CollectionUtils.isNotEmpty(nk.getFrontNeedKnow())) {
 				System.out.println(nk.getExtraInfoUrl());
@@ -144,12 +185,12 @@ public class TripServiceImpl implements TripService {
 				boothDO.setCode(nk.getExtraInfoUrl() + "-" + cityCode);
 				boothDO.setName(ColumnType.getByName(nk.getExtraInfoUrl()).getCode());
 				boothDO.setDesc(nk.getExtraInfoUrl() + "-" + cityCode);
-				boothDO.setStatus(10);
-				ColumnType dbColumnType = ColumnType.getByName(nk.getExtraInfoUrl());
-				if(null == dbColumnType){
+				boothDO.setStatus(10);//上架
+				boothType=getBoothType(nk);
+				if(0 == boothType ){
 					continue;
 				}
-				boothDO.setType(dbColumnType.getType());
+				boothDO.setType(boothType);
 				boothDO.setGmtCreated(new Date());
 				boothDO.setGmtModified(new Date());
 				List<ShowcaseDO> listShowcaseDO = needKnowToShowCase(nk, cityCode, 0);
@@ -304,7 +345,7 @@ public class TripServiceImpl implements TripService {
 		boothDO.setName(columnType.getCode());
 		boothDO.setDesc(columnType.getCode() + "-" + cityCode);
 		boothDO.setStatus(10);
-		boothDO.setType(2);
+		boothDO.setType(type);
 		boothDO.setGmtCreated(new Date());
 		boothDO.setGmtModified(new Date());
 		List<ShowcaseDO> list = new ArrayList<ShowcaseDO>();
@@ -431,6 +472,42 @@ public class TripServiceImpl implements TripService {
 			return res.getList();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean relevanceRecommended(List<RelevanceRecommended> list) throws Exception {
+		for (RelevanceRecommended rec : list) {
+			if(null == rec ){
+				continue;
+			}
+			/*ColumnType columnType = ColumnType.getByType(relevanceRecommended.getType());
+			if (null == columnType) {
+				throw new Exception("parameter[type] " + relevanceRecommended.getType() + " ,Enum does not exist");
+			}*/
+			BoothDO boothDO = new BoothDO();
+			boothDO.setCode(rec.getName()+ "-" + rec.getCityCode());
+			boothDO.setName(rec.getDescName());
+			boothDO.setDesc(rec.getDescName() + "-" + rec.getCityCode());
+			boothDO.setStatus(10);
+			boothDO.setType(rec.getType());
+			boothDO.setGmtCreated(new Date());
+			boothDO.setGmtModified(new Date());
+			List<ShowcaseDO> listShowcaseDO = new ArrayList<ShowcaseDO>();
+			ShowcaseDO sc = null;
+			for (int i = 0; i < rec.getResourceId().length; i++) {
+				sc = new ShowcaseDO();
+				sc.setTitle("目的地_" + rec.getCityCode() + "	关联	" + rec.getDescName() + " [" + rec.getResourceId()[i] + "]");
+				sc.setStatus(10);// BoothStatusType.ON_SHELF.getValue()
+				sc.setGmtCreated(new Date());
+				sc.setGmtModified(new Date());
+				sc.setOperationContent(String.valueOf(rec.getResourceId()[i]));
+				listShowcaseDO.add(sc);
+			}
+			RcResult<Boolean> resb = showcaseClientServerRef.batchInsertShowcase(listShowcaseDO,boothDO);
+			System.out.println(resb.isSuccess());
+			return resb.isSuccess();
+		}
+		return false;
 	}
 
 }

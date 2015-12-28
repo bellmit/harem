@@ -3,6 +3,7 @@ package com.yimayhd.harem.service;
 import java.util.List;
 
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.RelevanceRecommended;
 import com.yimayhd.harem.model.TripBo;
 import com.yimayhd.harem.model.TripBoQuery;
 import com.yimayhd.harem.model.query.HotelListQuery;
@@ -98,6 +99,8 @@ public interface TripService {
 	* @throws
 	 */
 	boolean relevanceRecommended(int type,int cityCode,int resourceId[])throws Exception;
+	
+	boolean relevanceRecommended(List<RelevanceRecommended> list )throws Exception;
 	
 	/**
 	* @Title: selectRegion 
