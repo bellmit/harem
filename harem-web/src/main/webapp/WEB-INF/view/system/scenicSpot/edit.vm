@@ -281,7 +281,8 @@
             {'areaType': 'PROVINCE',
              'areaParentCode': null},
             function(data) {
-                if (data[0].name) {
+                if (data&&data.status==200) {
+                	data = data.data;
                     for (var i in data) {
                         var code = data[i].code;
                         var name = data[i].name;
@@ -307,7 +308,8 @@
                 {'areaType': $(this).attr("areaType"),
                  'areaParentCode': null},
                 function(data) {
-                    if (data[0].name) {
+                     if (data&&data.status==200) {
+                		data = data.data;
                         for (var i in data) {
                             var code = data[i].code;
                             var name = data[i].name;
@@ -347,8 +349,8 @@
                  'areaParentCode': $('.provinceSelect option:selected').attr("value")},
 
                 function(data) {
-                    if (data[0].name) {
-
+                    if (data&&data.status==200) {
+                		data = data.data;
                         for (var i in data) {
                             var code = data[i].code;
                             var name = data[i].name;
@@ -382,8 +384,8 @@
                  'areaParentCode': $('.citySelect option:selected').attr("value")},
 
                 function(data) {
-                    if (data[0].name) {
-
+                     if (data&&data.status==200) {
+                		data = data.data;
                         for (var i in data) {
                             var code = data[i].code;
                             var name = data[i].name;
