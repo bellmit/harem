@@ -127,10 +127,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>退改规定</td>
-                        <td><textarea name="refundRule" id="refundRule" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.refundRule}</textarea></td>
-                    </tr>
-                    <tr>
                         <td><span class="spColor">*</span>基础价格</td>
                         <td>
                         #set($price=$VO.scenic.price / 100.0) 
