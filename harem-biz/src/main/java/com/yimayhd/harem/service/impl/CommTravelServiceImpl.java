@@ -51,7 +51,8 @@ public class CommTravelServiceImpl implements CommTravelService {
 		LinePublishResult publishLine = null;
 		long lineId = travel.getBaseInfo().getId();
 		if (lineId > 0) {
-			publishLine = lineRepo.updateLine(travel.toLinePublishDTOForUpdate());
+			LineResult lineResult = lineRepo.getLineById(lineId);
+			publishLine = lineRepo.updateLine(travel.toLinePublishDTOForUpdate(lineResult));
 		} else {
 			publishLine = lineRepo.saveLine(travel.toLinePublishDTOForSave());
 		}

@@ -115,6 +115,85 @@ public class GroupTravel extends BaseTravel {
 
 	@Override
 	public void setRouteInfo(LinePublishDTO dto) {
+		RouteDO routeVO = new RouteDO();
+		RouteDO routeDTO = this.modifyRouteDO(routeVO);
+		dto.setRouteDO(routeDTO);
+		List<RouteItemDO> routeItemDOList = this.getRouteItemDOList();
+		dto.setRouteItemDOList(routeItemDOList);
+	}
+
+	@Override
+	protected void modifyRouteInfo(LinePublishDTO dto, LineResult lineResult) {
+		// RouteDO
+		RouteDO routeDO = dto.getRouteDO();
+		RouteDO routeDTO = this.modifyRouteDO(routeDO);
+		dto.setRouteDO(routeDTO);
+		// RouteItemDO List
+		// SKU分离
+		List<RouteItemDO> routeItemVOs = this.getRouteItemDOList();
+		Map<Long, RouteItemDO> routeItemVOMap = new HashMap<Long, RouteItemDO>();
+		for (RouteItemDO routeItemVO : routeItemVOs) {
+			routeItemVOMap.put(routeItemVO.getId(), routeItemVO);
+		}
+		List<RouteItemDO> routeItemDOs = lineResult.getRouteItemDOList();
+		Map<Long, RouteItemDO> routeItemDOMap = new HashMap<Long, RouteItemDO>();
+		for (RouteItemDO routeItemDO : routeItemDOs) {
+			routeItemDOMap.put(routeItemDO.getId(), routeItemDO);
+		}
+		List<RouteItemDO> addRouteItemList = new ArrayList<RouteItemDO>();
+		List<RouteItemDO> updateRouteItemList = new ArrayList<RouteItemDO>();
+		List<Long> deleteRouteItemList = new ArrayList<Long>();
+		if (CollectionUtils.isNotEmpty(routeItemVOs)) {
+			// 新增
+			for (RouteItemDO routeItemDO : routeItemVOs) {
+				if (routeItemDO.getId() <= 0) {
+					addRouteItemList.add(routeItemDO);
+				}
+			}
+			// 删除
+			if (CollectionUtils.isNotEmpty(this.deletedRouteItems)) {
+				deleteRouteItemList.addAll(this.deletedRouteItems);
+			}
+			// 修改
+			if (CollectionUtils.isNotEmpty(this.updatedRouteItems)) {
+				updatedRouteItems.removeAll(this.deletedRouteItems);
+				for (Long routeItemId : updatedRouteItems) {
+					if (routeItemId > 0) {
+						RouteItemDO routeItemVO = routeItemVOMap.get(routeItemId);
+						RouteItemDO routeItemDO = routeItemDOMap.get(routeItemId);
+						if (routeItemVO != null && routeItemDO != null) {
+							// 更新
+							routeItemDO.setDay(routeItemVO.getDay());
+							routeItemDO.setName(routeItemVO.getName());
+							routeItemDO.setOrderNum(routeItemVO.getOrderNum());
+							routeItemDO.setType(routeItemVO.getType());
+							if (routeItemVO.getType() == RouteItemBizType.DESCRIPTION.getType()) {
+								routeItemDO.setDescription(routeItemVO.getDescription());
+							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
+								routeItemDO.setRouteTrafficInfo(routeItemVO.getRouteTrafficInfo());
+							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
+								routeItemDO.setRouteItemDesc(routeItemVO.getRouteItemDesc());
+							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
+								routeItemDO.setRouteItemDetail(routeItemVO.getRouteItemDetail());
+							}
+							routeItemDO.setStatus(routeItemVO.getStatus());
+						}
+					}
+				}
+			}
+		}
+		dto.setAddRouteItemList(addRouteItemList);
+		dto.setUpdrouteItemList(updateRouteItemList);
+		dto.setDelRouteItemList(deleteRouteItemList);
+	}
+
+	private RouteDO modifyRouteDO(RouteDO routeDO) {
+		routeDO.setId(this.routeId);
+		routeDO.setPicture(this.baseInfo.getTripImage());
+		return routeDO;
+	}
+
+	private List<RouteItemDO> getRouteItemDOList() {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
 		for (int i = 1; i <= this.tripInfo.size(); i++) {
 			TripDay tripDay = this.tripInfo.get(i - 1);
@@ -143,7 +222,6 @@ public class GroupTravel extends BaseTravel {
 			if (routeItemDinner != null) {
 				routeItemDOList.add(routeItemDinner);
 			}
-
 			// 景区
 			RouteItemDO routeItemScenic = tripDay.getRouteItemScenic(i);
 			if (routeItemScenic != null) {
@@ -169,48 +247,8 @@ public class GroupTravel extends BaseTravel {
 			if (routeItemHotelDetail != null) {
 				routeItemDOList.add(routeItemHotelDetail);
 			}
-
 		}
-		dto.setRouteItemDOList(routeItemDOList);
-		RouteDO routeDO = new RouteDO();
-		routeDO.setId(this.routeId);
-		routeDO.setPicture(this.baseInfo.getTripImage());
-		dto.setRouteDO(routeDO);
-	}
-
-	@Override
-	public LinePublishDTO toLinePublishDTOForUpdate() {
-		LinePublishDTO dto = super.toLinePublishDTOForUpdate();
-		List<RouteItemDO> routeItemDOList = dto.getRouteItemDOList();
-		if (this.routeId > 0) {
-			// SKU
-			List<RouteItemDO> addRouteItemList = new ArrayList<RouteItemDO>();
-			List<RouteItemDO> updateRouteItemList = new ArrayList<RouteItemDO>();
-			List<Long> deleteRouteItemList = new ArrayList<Long>();
-			if (CollectionUtils.isNotEmpty(routeItemDOList)) {
-				for (RouteItemDO routeItemDO : routeItemDOList) {
-					if (routeItemDO.getId() <= 0) {
-						addRouteItemList.add(routeItemDO);
-					}
-				}
-				if (CollectionUtils.isNotEmpty(deletedRouteItems)) {
-					deleteRouteItemList.addAll(deletedRouteItems);
-				}
-				if (CollectionUtils.isNotEmpty(updatedRouteItems)) {
-					// 决定删除就不更新了
-					updatedRouteItems.removeAll(deletedRouteItems);
-					for (RouteItemDO routeItemDO : routeItemDOList) {
-						if (routeItemDO.getId() > 0 && updatedRouteItems.contains(routeItemDO.getId())) {
-							updateRouteItemList.add(routeItemDO);
-						}
-					}
-				}
-			}
-			dto.setAddRouteItemList(addRouteItemList);
-			dto.setUpdrouteItemList(updateRouteItemList);
-			dto.setDelRouteItemList(deleteRouteItemList);
-		}
-		return dto;
+		return routeItemDOList;
 	}
 
 	@Override
