@@ -1,5 +1,6 @@
 package com.yimayhd.harem.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.user.session.manager.SessionUtils;
@@ -80,13 +82,23 @@ public class CommActivityManageController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-
-        ItemResultVO itemResultVO = commodityService.getCommodityById(id);
+    	
+      /*  ItemResultVO itemResultVO = commodityService.getCommodityById(id);
+        List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
+		model.addAttribute("reduceTypeList", reduceTypeList);
         model.addAttribute("itemResult", itemResultVO);
         model.addAttribute("commActivity", itemResultVO.getItemVO());
         model.addAttribute("category", itemResultVO.getCategoryVO());
-        model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
-
+        model.addAttribute("itemType",ItemType.ACTIVITY.getValue());*/
+    	
+    	ItemResultVO itemResultVO = commodityService.getCommodityById(id);
+    	List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
+    	model.addAttribute("reduceTypeList", reduceTypeList);
+    	model.addAttribute("itemResult", itemResultVO);
+    	model.addAttribute("commodity", itemResultVO.getItemVO());
+    	model.addAttribute("category", itemResultVO.getCategoryVO());
+    	model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
+       
         return "/system/comm/activity/edit";
     }
 

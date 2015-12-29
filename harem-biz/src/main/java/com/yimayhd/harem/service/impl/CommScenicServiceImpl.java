@@ -52,7 +52,9 @@ public class CommScenicServiceImpl implements CommScenicService {
 		//scenicPublishDTO.getScenicDO().setId(scenicPublishDTO.getItemDO().getOutId());
 		//scenicPublishDTO.getScenicDO().setItemStatus(ItemStatus.valid.getValue());
 		
-		itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getPic());
+		itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
+		itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, commScenic.getBigListPic());
+		itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
 		itemDO.setPrice((long) (commScenic.getPriceF() * 100));
 		ItemFeature itemFeature = new ItemFeature(null);
 		 //减库存方式
@@ -84,9 +86,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 			tagRelationInfoDTO.setOrderTime(new Date());
 			tagRelationInfoDTO.setList(Arrays.asList(commScenic.getCheck()));
 			BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
-			if (addTagRelationInfo != null && addTagRelationInfo.isSuccess()) {
-
-			} else {
+			if (!addTagRelationInfo.isSuccess()) {
 				log.error("保存景区主题失败：" + addTagRelationInfo.getResultMsg());
 				log.error(MessageFormat.format("保存景区主题失败：tagRelationInfo={0}", JSON.toJSONString(tagRelationInfoDTO)));
 				log.error(MessageFormat.format("保存景区主题失败：tagResult={0}", JSON.toJSONString(addTagRelationInfo)));
@@ -94,11 +94,15 @@ public class CommScenicServiceImpl implements CommScenicService {
 			}
 
 		} else {
-			log.error("保存线路失败：" + publicScenic.getResultMsg());
+			log.error("保存景区失败：" + publicScenic.getResultMsg());
 			log.error(MessageFormat.format("保存景区失败：line={0}", JSON.toJSONString(publicScenic)));
 			throw new BaseException("保存景区失败");
 		}
 		return publicScenic;
 	}
+	
+	
+	
+	
 
 }
