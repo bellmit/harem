@@ -19,12 +19,13 @@ import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class CommTravelServiceImpl implements CommTravelService {
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	@Resource
+	@Autowired
 	protected LineRepo lineRepo;
-	@Resource
+	@Autowired
 	protected TagRepo tagRepo;
 
 	@Override
