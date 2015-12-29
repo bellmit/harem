@@ -20,7 +20,7 @@ import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.ClubAdd;
 import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.service.ClubService;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
@@ -43,7 +43,7 @@ public class ClubServiceImpl implements ClubService {
 
 	@Override
 	public PageVO<ClubDO> pageQueryClub(ClubDOInfoDTO query) throws Exception {
-		LogUtil.requestLog(log, "snsCenterService.getClubInfoListByQuery", query);
+		RepoUtils.requestLog(log, "snsCenterService.getClubInfoListByQuery", query);
 		BasePageResult<ClubDO> res = snsCenterService.getClubInfoListByQuery(query);
 		int totalCount = 0;
 		List<ClubDO> itemList = new ArrayList<ClubDO>();

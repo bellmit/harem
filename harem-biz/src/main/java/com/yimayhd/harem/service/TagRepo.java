@@ -6,7 +6,7 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 
-public interface TagRPCService {
+public interface TagRepo {
 
 	/**
 	 * 增加Tag关系

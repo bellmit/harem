@@ -14,7 +14,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.RestaurantRPCService;
 import com.yimayhd.harem.util.DateUtil;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -51,9 +51,9 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 			Date endTime = DateUtil.parseDate(restaurantListQuery.getEndTime());
 			restaurantPageQuery.setEndTime(DateUtil.add23Hours(endTime));
 		}
-		LogUtil.requestLog(log, "itemQueryServiceRef.pageQueryRestaurant", restaurantPageQuery);
+		RepoUtils.requestLog(log, "itemQueryServiceRef.pageQueryRestaurant", restaurantPageQuery);
 		ICPageResult<RestaurantDO> icPageResult = itemQueryServiceRef.pageQueryRestaurant(restaurantPageQuery);
-		LogUtil.resultLog(log, "itemQueryServiceRef.pageQueryRestaurant", icPageResult);
+		RepoUtils.resultLog(log, "itemQueryServiceRef.pageQueryRestaurant", icPageResult);
 		int totalCount = icPageResult.getTotalCount();
 		List<RestaurantDO> restaurantDOList = new ArrayList<RestaurantDO>();
 		if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
@@ -72,17 +72,17 @@ public class RestaurantRPCServiceImpl implements RestaurantRPCService {
 
 	@Override
 	public RestaurantDO getRestaurantById(long id) {
-		LogUtil.requestLog(log, "itemQueryServiceRef.getRestaurant", id);
+		RepoUtils.requestLog(log, "itemQueryServiceRef.getRestaurant", id);
 		ICResult<RestaurantDO> restaurant = itemQueryServiceRef.getRestaurant(id);
-		LogUtil.resultLog(log, "itemQueryServiceRef.getRestaurant", restaurant);
+		RepoUtils.resultLog(log, "itemQueryServiceRef.getRestaurant", restaurant);
 		return restaurant.getModule();
 	}
 
 	@Override
 	public ICResult<Boolean> addRestaurant(RestaurantDO restaurantDO) {
-		LogUtil.requestLog(log, "resourcePublishService.addRestaurant");
+		RepoUtils.requestLog(log, "resourcePublishService.addRestaurant");
 		ICResult<Boolean> restaurant = resourcePublishService.addRestaurant(restaurantDO);
-		LogUtil.resultLog(log, "resourcePublishService.addRestaurant", restaurant);
+		RepoUtils.resultLog(log, "resourcePublishService.addRestaurant", restaurant);
 		return restaurant;
 	}
 

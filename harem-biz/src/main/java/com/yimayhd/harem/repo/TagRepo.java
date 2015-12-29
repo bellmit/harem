@@ -1,4 +1,4 @@
-package com.yimayhd.harem.service.impl;
+package com.yimayhd.harem.repo;
 
 import java.util.Date;
 import java.util.List;
@@ -12,31 +12,34 @@ import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
-import com.yimayhd.harem.service.TagRPCService;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 
-public class TagRPCServiceImpl implements TagRPCService {
+/**
+ * 标签Repo
+ * 
+ * @author yebin
+ *
+ */
+public class TagRepo {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private ComCenterService comCenterServiceRef;
 
-	@Override
 	public void addTagRelation(long outId, TagType tagType, List<Long> tagIdList, Date date) {
 		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 		tagRelationInfoDTO.setTagType(tagType.getType());
 		tagRelationInfoDTO.setOutId(outId);
 		tagRelationInfoDTO.setOrderTime(date);
 		tagRelationInfoDTO.setList(tagIdList);
-		LogUtil.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
+		RepoUtils.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
 		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
-		LogUtil.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
+		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
 	}
 
-	@Override
 	public List<ComTagDO> findAllTag(long outId, TagType tagType) {
-		LogUtil.requestLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", outId, tagType.name());
+		RepoUtils.requestLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", outId, tagType.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.getTagInfoByOutIdAndType(outId, tagType.name());
-		LogUtil.resultLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", tagResult);
+		RepoUtils.resultLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", tagResult);
 		return tagResult.getValue();
 	}
 

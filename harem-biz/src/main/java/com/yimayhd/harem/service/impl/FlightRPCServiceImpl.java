@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.FlightCompanyDO;
 import com.yimayhd.ic.client.model.query.FlightCompanyPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -24,9 +24,9 @@ public class FlightRPCServiceImpl implements com.yimayhd.harem.service.FlightRPC
 
 	@Override
 	public PageVO<FlightCompanyDO> pageQueryFlightCompany(FlightCompanyPageQuery query) {
-		LogUtil.requestLog(log, "itemQueryServiceRef.queryFlightCompany", query);
+		RepoUtils.requestLog(log, "itemQueryServiceRef.queryFlightCompany", query);
 		ICPageResult<FlightCompanyDO> result = itemQueryServiceRef.queryFlightCompany(query);
-		LogUtil.resultLog(log, "itemQueryServiceRef.queryFlightCompany", result);
+		RepoUtils.resultLog(log, "itemQueryServiceRef.queryFlightCompany", result);
 		List<FlightCompanyDO> itemList = new ArrayList<FlightCompanyDO>();
 		int totalCount = result.getTotalCount();
 		if (CollectionUtils.isNotEmpty(result.getList())) {

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.Region;
 import com.yimayhd.harem.service.RegionService;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -55,9 +55,9 @@ public class RegionServiceImpl implements RegionService {
 	@Override
 	public List<Region> getRegions(RegionType regionType) throws BaseException {
 		List<Region> regions = new ArrayList<Region>();
-		LogUtil.requestLog(log, "regionClientServiceRef.getRegionDOListByType");
+		RepoUtils.requestLog(log, "regionClientServiceRef.getRegionDOListByType");
 		RCPageResult<RegionDO> pageResult = regionClientServiceRef.getRegionDOListByType(regionType.getType());
-		LogUtil.resultLog(log, "regionClientServiceRef.getRegionDOListByType", pageResult);
+		RepoUtils.resultLog(log, "regionClientServiceRef.getRegionDOListByType", pageResult);
 		List<RegionDO> regionDOs = pageResult.getList();
 		if (CollectionUtils.isNotEmpty(regionDOs)) {
 			for (RegionDO regionDO : regionDOs) {

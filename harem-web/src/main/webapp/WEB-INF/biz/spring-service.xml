@@ -44,6 +44,7 @@
 	<!-- system -->
 	<bean class="com.yimayhd.harem.service.impl.SystemManageServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl" />
+	<bean id="liveTopicService" class="com.yimayhd.harem.service.impl.LiveTopicServiceImpl" />
 	<!-- commodity -->
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
@@ -52,10 +53,7 @@
 	<bean class="com.yimayhd.harem.service.impl.CommActivityServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.FlightRPCServiceImpl"></bean>
 
-	<!-- comment -->
-	<bean class="com.yimayhd.harem.service.impl.TagRPCServiceImpl"></bean>
-
-
-	<bean id="liveTopicService" class="com.yimayhd.harem.service.impl.LiveTopicServiceImpl"/>
-
+	<!-- repo -->
+	<bean class="com.yimayhd.harem.repo.TagRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.LineRepo"></bean>
 </beans>

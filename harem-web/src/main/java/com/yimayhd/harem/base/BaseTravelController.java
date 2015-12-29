@@ -19,7 +19,7 @@ import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.harem.service.UserRPCService;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
@@ -47,9 +47,9 @@ public abstract class BaseTravelController extends BaseController {
 	protected void initBaseInfo() throws BaseException {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
 		put("PT_MASTER", LineOwnerType.MASTER.getType());
-		LogUtil.requestLog(log, "comCenterServiceRef.selectTagListByTagType", TagType.LINETAG.name());
+		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType", TagType.LINETAG.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
-		LogUtil.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
+		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
 		put("tags", tagResult.getValue());
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));

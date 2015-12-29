@@ -8,7 +8,13 @@ import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.ic.client.model.result.ICErrorCode;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 
-public class LogUtil {
+/**
+ * Repo工具
+ * 
+ * @author yebin
+ *
+ */
+public class RepoUtils {
 	public static final int DEBUG = 1;
 	public static final int INFO = 2;
 	public static final int WARN = 3;
@@ -31,12 +37,15 @@ public class LogUtil {
 			log.error(RESULT_NULL, method);
 			throw new BaseException(prefix + "返回结果错误");
 		} else if (!result.isSuccess()) {
-			String code = "no code";
-			String msg = "no message";
+			String code = null;
+			String msg = null;
 			ICErrorCode errorCode = result.getErrorCode();
 			if (errorCode != null) {
 				code = errorCode.getErrorCode() + "";
 				msg = errorCode.getErrorMsg();
+			} else {
+				code = result.getResultCode() + "";
+				msg = result.getResultMsg();
 			}
 			log.error(RESULT_FAILURE, method, code, msg);
 			throw new BaseException(prefix + msg);
