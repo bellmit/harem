@@ -97,8 +97,8 @@ public class ItemVO extends ItemDO {
         }
         //减库存方式
         itemFeature.put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
-        //自定义属性
-        itemDO.setItemProperties(itemVO.getItemProperties());
+        //自定义属性(itemDO中会自动set，所以注释掉了)
+        //itemDO.setItemProperties(itemVO.getItemProperties());
         return itemDO;
     }
     /**
@@ -177,7 +177,9 @@ public class ItemVO extends ItemDO {
         List<Integer> skuTdRowNumList = new ArrayList<Integer>();
         //构建所有的属性组合
         List<ItemSkuVO> itemSkuVOListAll = new ArrayList<ItemSkuVO>();
-        //TODO 有自定义属性的时候有问题
+        //自定义属性和非自定义属性列表（非sku）
+        //List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
+        //TODO 有自定义属性的时候需要修改
         if(CollectionUtils.isNotEmpty(categoryVO.getSellCategoryPropertyVOs())){
             //构建属性列表
             for(CategoryPropertyValueVO categoryPropertyValueVO : categoryVO.getSellCategoryPropertyVOs()){
