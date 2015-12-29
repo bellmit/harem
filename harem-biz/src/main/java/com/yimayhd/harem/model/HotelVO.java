@@ -2,6 +2,7 @@ package com.yimayhd.harem.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
@@ -27,7 +28,7 @@ public class HotelVO extends HotelDO implements Serializable {
     private String phoneNumListStr;//以逗号分割的电话列表
     private List<PictureVO> pictureList;//图片集
     private String picListStr;//图片集的str
-    private List<String> openTimeList;
+    private List<String> openTimeList;//暂时没有用到
     private List<String> roomFacilityList;
     private List<String> roomServiceList;
     private List<String> hotelFacilityList;
@@ -38,6 +39,9 @@ public class HotelVO extends HotelDO implements Serializable {
     private String hotelFacilityStr;
     private NeedKnow needKnowOb;
     private String name2;
+
+
+    //private
     public HotelVO(){
 
     }

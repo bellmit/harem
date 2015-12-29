@@ -11,7 +11,7 @@
                 #*只新增用*#
                     <input type="hidden" name="itemType" value="$!itemType">
                 #*只新增用*#
-                    <input type="hidden" name="outType" value="$!outType">
+                    <input type="hidden" name="outType" value="#if($!commHotel)$!commHotel.outType#else 1#end">
                 #*pay_type 暂时设置为1*#
                     <input type="hidden" name="payType" value="1">
                 #*只新增用 source 来源暂时都为1*#
@@ -49,6 +49,22 @@
                     <tr>
                         <td>*时间区间</td>
                         <td>用户可选入住时间为<input type="text" name="endBookTimeLimit" value="$!commHotel.endBookTimeLimit">天内</td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>最晚到店时间</td>
+                        <td>
+                            #set($timeArr=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])
+                            #set($numArr=[0,1,2])
+                            #set($defaultArr=[12,18,21])
+                            #foreach($index in $numArr)
+                                <select class="inpControl" name="openTimeList[$index]">
+                                    <option value="">请选择</option>
+                                    #foreach($time in $timeArr)
+                                        <option value="$time"  #if(!$!commHotel.openTimeList.get($index) && $defaultArr.get($index) == $time) selected #end #if($time == $!commHotel.openTimeList.get($index)) selected #end>$time</option>
+                                    #end
+                                </select>
+                            #end
+                        </td>
                     </tr>
                 </table>
             </div>

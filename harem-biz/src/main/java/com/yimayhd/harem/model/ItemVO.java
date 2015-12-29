@@ -47,6 +47,8 @@ public class ItemVO extends ItemDO {
 
     private Integer reduceType = ReduceType.NONE.getBizType();//减库存方式
 
+    private List<String> openTimeList;//酒店的可最晚可到店时间
+
     //新增商品提交时调用
     public static ItemDO getItemDO(ItemVO itemVO)throws Exception{
         ItemDO itemDO = new ItemDO();
@@ -73,6 +75,10 @@ public class ItemVO extends ItemDO {
         //提前预定时间(暂时只有酒店用)
         if (null != itemVO.getEndBookTimeLimit()) {
             itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
+        }
+        //最晚到店时间列表(暂时只有酒店用)
+        if(CollectionUtils.isNotEmpty(itemVO.getOpenTimeList())){
+            itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,itemVO.getOpenTimeList());
         }
         //picUrls转换
         if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
@@ -109,7 +115,7 @@ public class ItemVO extends ItemDO {
             //新增sku数组
             List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
             //删除sku数组
-            List<ItemSkuDO> delItemSkuDOList = new ArrayList<ItemSkuDO>();
+            List<Long> delItemSkuDOIdList = new ArrayList<Long>();
             //修改sku数组
             List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
             for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
@@ -120,7 +126,7 @@ public class ItemVO extends ItemDO {
                     }
                 }else{
                     if(!itemSkuVO.isChecked()){//有id，没有checked是删除
-                        delItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                        delItemSkuDOIdList.add(itemSkuVO.getId());
                     }else{
                         if(itemSkuVO.isModifyStatus()){//有id，有checked，有modifayStatus是修改
                             updItemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
@@ -130,7 +136,7 @@ public class ItemVO extends ItemDO {
             }
             commonItemPublishDTO.setItemSkuDOList(itemSkuDOList);
             commonItemPublishDTO.setAddItemSkuDOList(addItemSkuDOList);
- //           commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOList);
+            commonItemPublishDTO.setDelItemSkuDOList(delItemSkuDOIdList);
             commonItemPublishDTO.setUpdItemSkuDOList(updItemSkuDOList);
         }
         return commonItemPublishDTO;
@@ -156,6 +162,8 @@ public class ItemVO extends ItemDO {
             itemVO.setGrade(itemVO.getItemFeature().getGrade());
             //库存方式
             itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
+            //最晚到店时间列表(暂时只有酒店用)
+            itemVO.setOpenTimeList(itemVO.getItemFeature().getLatestArriveTime());
         }
         //picUrls转对应的list
         if(StringUtils.isNotBlank(itemVO.getPicUrlsString())){
@@ -373,5 +381,13 @@ public class ItemVO extends ItemDO {
 
     public void setReduceType(Integer reduceType) {
         this.reduceType = reduceType;
+    }
+
+    public List<String> getOpenTimeList() {
+        return openTimeList;
+    }
+
+    public void setOpenTimeList(List<String> openTimeList) {
+        this.openTimeList = openTimeList;
     }
 }

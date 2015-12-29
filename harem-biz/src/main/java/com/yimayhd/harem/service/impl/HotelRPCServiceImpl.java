@@ -109,7 +109,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			throw new BaseException("返回结果为空，酒店资源新增失败");
 		}else if(!icResult.isSuccess()){
 			log.error("HotelRPCServiceImpl.addHotel-hotelService.addHotel error:" + JSON.toJSONString(icResult) + "and parame: " + JSON.toJSONString(hotelDO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
-			throw new BaseException("返回结果错误，图片集保存失败，" + icResult.getResultMsg());
+			throw new BaseException("返回结果错误，酒店资源新增失败，" + icResult.getResultMsg());
 		}
 		//图片集insert
 		if(org.apache.commons.lang.StringUtils.isNotBlank(hotelVO.getPicListStr())){
@@ -128,10 +128,10 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			ICResult<Boolean> icResultPic =  resourcePublishServiceRef.addPictures(picList);
 			if(null == icResultPic){
 				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew result is null and parame: " + JSON.toJSONString(picList));
-				throw new BaseException("景区资源保存成功，图片集保存返回结果为空，保存失败");
+				throw new BaseException("酒店资源保存成功，图片集保存返回结果为空，保存失败");
 			} else if(!icResultPic.isSuccess()){
 				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(icResultPic) + "and parame: " + JSON.toJSONString(picList) + "and hotelVO:" + JSON.toJSONString(hotelVO));
-				throw new BaseException("景区资源保存成功，图片集保存失败" + icResultPic.getResultMsg());
+				throw new BaseException("酒店资源保存成功，图片集保存失败" + icResultPic.getResultMsg());
 			}
 		}
 		result.setModule(icResult.isSuccess());

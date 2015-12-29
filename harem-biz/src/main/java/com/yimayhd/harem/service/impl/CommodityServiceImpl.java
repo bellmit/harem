@@ -26,6 +26,7 @@ import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -221,6 +222,10 @@ public class CommodityServiceImpl implements CommodityService {
             if(StringUtils.isNotBlank(itemVO.getCoverPics())){
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
+            }
+            //最晚到店时间列表(暂时只有酒店用)
+            if(CollectionUtils.isNotEmpty(itemVO.getOpenTimeList())){
+                itemDB.getItemFeature().put(ItemFeatureKey.LATEST_ARRIVE_TIME, itemVO.getOpenTimeList());
             }
 
             hotelPublishDTO.setSort(itemVO.getSort());
