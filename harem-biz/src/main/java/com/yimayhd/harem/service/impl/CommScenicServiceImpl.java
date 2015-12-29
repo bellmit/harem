@@ -76,6 +76,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 		itemDO.setOriginalPoint(0);
 		itemDO.setOriginalPrice(0);
 		itemDO.setStockNum(9999);//默认库存
+		itemDO.setDetailUrl("");
 		dto.setItemDO(itemDO);
 		dto.setScenicDO(scenicDO);
 		ItemPubResult publicScenic = itemPublishService.publishScenic(dto);
