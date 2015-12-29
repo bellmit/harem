@@ -1,20 +1,51 @@
 package com.yimayhd.harem.model;
 
+import java.util.List;
+
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 
 public class CommScenicVO extends ScenicPublishDTO{
 
-	private String pic;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String smallListPic;//方形小列表图，主要用于订单
+	private String bigListPic;//扁长大列表图，主要用于伴手礼等商品列表
+	private String coverPics;//封面大图String
+	private List<String> picList;//封面大图List
 	private long endTime;
 	private long startDayTime;
 	private long startHourTime;
 	private Long[] check;
 	private double priceF;
-	public String getPic() {
-		return pic;
+	
+	
+	
+	
+	public String getSmallListPic() {
+		return smallListPic;
 	}
-	public void setPic(String pic) {
-		this.pic = pic;
+	public void setSmallListPic(String smallListPic) {
+		this.smallListPic = smallListPic;
+	}
+	public String getBigListPic() {
+		return bigListPic;
+	}
+	public void setBigListPic(String bigListPic) {
+		this.bigListPic = bigListPic;
+	}
+	public String getCoverPics() {
+		return coverPics;
+	}
+	public void setCoverPics(String coverPics) {
+		this.coverPics = coverPics;
+	}
+	public List<String> getPicList() {
+		return picList;
+	}
+	public void setPicList(List<String> picList) {
+		this.picList = picList;
 	}
 	public long getEndTime() {
 		return endTime;
