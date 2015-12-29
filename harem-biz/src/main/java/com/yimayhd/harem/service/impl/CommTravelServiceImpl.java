@@ -2,8 +2,7 @@ package com.yimayhd.harem.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import com.yimayhd.harem.repo.TagRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,17 +13,17 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.harem.repo.LineRepo;
 import com.yimayhd.harem.service.CommTravelService;
-import com.yimayhd.harem.service.TagRepo;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class CommTravelServiceImpl implements CommTravelService {
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	@Resource
+	@Autowired
 	protected LineRepo lineRepo;
-	@Resource
+	@Autowired
 	protected TagRepo tagRepo;
 
 	@Override
