@@ -120,7 +120,7 @@ public class CommGroupTravelController extends BaseTravelController {
 		} else {
 			gt.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
 		}
-		if (StringUtils.isNotBlank(importantInfos)) {
+		if (StringUtils.isNotBlank(extraInfos)) {
 			String extraInfosCode = tfsService.publishHtml5(extraInfos);
 			gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
 		}

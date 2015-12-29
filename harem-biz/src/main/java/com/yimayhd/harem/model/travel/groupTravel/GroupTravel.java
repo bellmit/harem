@@ -125,7 +125,7 @@ public class GroupTravel extends BaseTravel {
 	@Override
 	protected void modifyRouteInfo(LinePublishDTO dto, LineResult lineResult) {
 		// RouteDO
-		RouteDO routeDO = dto.getRouteDO();
+		RouteDO routeDO = lineResult.getRouteDO();
 		RouteDO routeDTO = this.modifyRouteDO(routeDO);
 		dto.setRouteDO(routeDTO);
 		// RouteItemDO List
@@ -133,7 +133,9 @@ public class GroupTravel extends BaseTravel {
 		List<RouteItemDO> routeItemVOs = this.getRouteItemDOList();
 		Map<Long, RouteItemDO> routeItemVOMap = new HashMap<Long, RouteItemDO>();
 		for (RouteItemDO routeItemVO : routeItemVOs) {
-			routeItemVOMap.put(routeItemVO.getId(), routeItemVO);
+			if (routeItemVO.getId() > 0) {
+				routeItemVOMap.put(routeItemVO.getId(), routeItemVO);
+			}
 		}
 		List<RouteItemDO> routeItemDOs = lineResult.getRouteItemDOList();
 		Map<Long, RouteItemDO> routeItemDOMap = new HashMap<Long, RouteItemDO>();
@@ -147,6 +149,8 @@ public class GroupTravel extends BaseTravel {
 			// 新增
 			for (RouteItemDO routeItemDO : routeItemVOs) {
 				if (routeItemDO.getId() <= 0) {
+					// 新增的没有RouteId要补上
+					routeItemDO.setRouteId(routeDTO.getId());
 					addRouteItemList.add(routeItemDO);
 				}
 			}
@@ -157,7 +161,7 @@ public class GroupTravel extends BaseTravel {
 			// 修改
 			if (CollectionUtils.isNotEmpty(this.updatedRouteItems)) {
 				updatedRouteItems.removeAll(this.deletedRouteItems);
-				for (Long routeItemId : updatedRouteItems) {
+				for (long routeItemId : updatedRouteItems) {
 					if (routeItemId > 0) {
 						RouteItemDO routeItemVO = routeItemVOMap.get(routeItemId);
 						RouteItemDO routeItemDO = routeItemDOMap.get(routeItemId);
@@ -177,6 +181,7 @@ public class GroupTravel extends BaseTravel {
 								routeItemDO.setRouteItemDetail(routeItemVO.getRouteItemDetail());
 							}
 							routeItemDO.setStatus(routeItemVO.getStatus());
+							updateRouteItemList.add(routeItemDO);
 						}
 					}
 				}
@@ -187,12 +192,23 @@ public class GroupTravel extends BaseTravel {
 		dto.setDelRouteItemList(deleteRouteItemList);
 	}
 
+	/**
+	 * 编辑RouteDO
+	 * 
+	 * @param routeDO
+	 * @return
+	 */
 	private RouteDO modifyRouteDO(RouteDO routeDO) {
 		routeDO.setId(this.routeId);
 		routeDO.setPicture(this.baseInfo.getTripImage());
 		return routeDO;
 	}
 
+	/**
+	 * 获取RouteItemDOList
+	 * 
+	 * @return
+	 */
 	private List<RouteItemDO> getRouteItemDOList() {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
 		for (int i = 1; i <= this.tripInfo.size(); i++) {

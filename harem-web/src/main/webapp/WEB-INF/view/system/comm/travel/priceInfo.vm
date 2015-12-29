@@ -32,7 +32,7 @@
 			#foreach($tc in $!{product.priceInfo.tcs})
 			#set($tcId = $velocityCount)
 			<li class="tab-page tc-tab #if($!{tcId}==1) active #end" rId="$!{tcId}" id='tc_$!{tcId}_tab'>
-				<a href="#tc_$!{tcId}" data-toggle="tab" id="tc_tab_$!{tcId}_a">套餐$!{tcId}<i class="icon icon-remove tc-del" tc-id="$!{tcId}"></i></a>
+				<a href="#tc_$!{tcId}" data-toggle="tab" id="tc_tab_$!{tcId}_a">套餐$!{tcId}&nbsp;&nbsp;<i class="icon icon-remove tc-del" tc-id="$!{tcId}"></i></a>
 			</li>
 			#end
 		</ul>
@@ -130,18 +130,6 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-	$(".form-datetime").datetimepicker(
-			{
-				language:  "zh-CN",
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                forceParse: 0,
-                showMeridian: 1,
-                format: "yyyy-mm-dd hh:ii"
-            });
 	var WEEK = {
 		0:"周日",
 		1:"周一",
@@ -151,7 +139,21 @@
 		5:"周五",
 		6:"周六"
 	};
-	$(".tc-del").click(removeTc);
+	$(document).delegate(".tc-del","click",function(){
+		var id = $(this).attr("tc-id");
+		var prev = $("#tc_"+id+"_tab").prev();
+		var next = $("#tc_"+id+"_tab").next();
+		if(prev.length != 0) {
+			prev.children("a").click();
+		} else if(next.length != 0) {
+			next.children("a").click();
+		}
+		$("#tc_"+id+"_tab").remove();
+		$(".tc-"+id+"-item").each(function() {
+			deletedSKU.push($(this).attr("sku-id"));
+		});
+		$("#tc_"+id).remove();
+	});
 	// 确认
 	$(".setTime").click(function(){
 		// check
@@ -177,33 +179,21 @@
 	});
 	var updatedSKU = [];
 	var deletedSKU = [];
-	$(".tc-item").change(function() {
+	// 删除套餐
+	$(document).delegate(".tc-item","change",function(){
 		updatedSKU.push($(this).attr("sku-id"));
 	});
 	// 重置
-	function resetTime(){
+	$(".form-date").change(function (){
 		// time avalible
+		$(".tc-item").each(function() {
+			deletedSKU.push($(this).attr("sku-id"));
+		});
 		$("#tc_tab").empty();
 		$("#tc_page").empty();
 		$(".tc-main").hide();
 		$(".setTime").show();
-	}
-	$(".form-date").change(resetTime);
-	function removeTc() {
-		var id = $(this).attr("tc-id");
-		var prev = $("#tc_"+id+"_tab").prev();
-		var next = $("#tc_"+id+"_tab").next();
-		if(prev.length != 0) {
-			prev.children("a").click();
-		} else if(next.length != 0) {
-			next.children("a").click();
-		}
-		$("#tc_"+id+"_tab").remove();
-		$(".tc-"+id+"-item").each(function() {
-			deletedSKU.push($(this).attr("sku-id"));
-		});
-		$("#tc_"+id).remove();
-	}
+	});
 	$(".addTC").click(function(){
 		curTcId = curTcId + 1;
 		var tcTab = createTcTab(curTcId);
@@ -215,7 +205,6 @@
 		$("#tc_"+curTcId).find(".tab-page a").eq(0).click();
 		$("#tc_tab_"+curTcId+"_a").click();
 	})
-	$(".batch-insert").click(batchInsert);
 	// 初始化
 	var curTcId;
 	$(function() {
@@ -225,7 +214,6 @@
 		var tcTab = $("<li class='tab-page tc-tab' rId='"+id+"' id='tc_"+id+"_tab'/>");
 		var tabA = $("<a href='#tc_"+id+"' data-toggle='tab' id='tc_tab_"+id+"_a'>套餐"+id+"&nbsp;&nbsp;</a>");
 		var remove = $("<i class='icon icon-remove tc-del' tc-id='"+id+"'/>");
-		remove.click(removeTc);
 		return tcTab.append(tabA).append(remove);
 	}
 	function createTcContent(id,startDate,endDate) {
@@ -250,7 +238,6 @@
 			tab.append(tcTab.append(tabA));
 		}
 		var batch = $("<button class='btn btn-primary batch-insert' tc-id='"+id+"'>批量录入</button>");
-		batch.click(batchInsert);
 		//特效
 		tab.append($("<li>").append(batch));
 		return tab;
@@ -294,21 +281,27 @@
 	
 	var currentTcId;
     // 批量插入
-	function batchInsert(){
+	$(document).delegate(".batch-insert","click",function() {
 		var currentTcId = $(this).attr("tc-id");
 		openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
 			var data = win.getData();
 			for(var i in data) {
 				var block = data[i];
-    			$(".tc-"+currentTcId+"-item-"+block.id+"-1").val(block.price);
-    			$(".tc-"+currentTcId+"-item-"+block.id+"-2").val(block.stock);
-    			$(".tc-"+currentTcId+"-item-"+block.id+"-3").val(block.discount);
+				var price = $(".tc-"+currentTcId+"-item-"+block.id+"-1");
+    			price.val(block.price);
+				updatedSKU.push(price.attr("sku-id"));
+				var stock = $(".tc-"+currentTcId+"-item-"+block.id+"-2");
+    			stock.val(block.stock);
+				updatedSKU.push(stock.attr("sku-id"));
+				var discount = $(".tc-"+currentTcId+"-item-"+block.id+"-3");
+    			discount.val(block.discount);
+				updatedSKU.push(discount.attr("sku-id"));
 			}
 			// console.log(JSON.stringify(data));
 			// 一般设定yes回调，必须进行手工关闭
 			return true;
 		});
-    }
+    });
 	
 	// 获取价格信息
 	function getPriceInfo() {

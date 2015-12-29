@@ -115,7 +115,9 @@ public abstract class BaseTravel {
 		List<ItemSkuDO> itemSkuVOs = this.priceInfo.toItemSkuDOList(this.categoryId, this.getSellerId());
 		Map<Long, ItemSkuDO> skuVOMap = new HashMap<Long, ItemSkuDO>();
 		for (ItemSkuDO itemSkuDO : itemSkuVOs) {
-			skuVOMap.put(itemSkuDO.getId(), itemSkuDO);
+			if (itemSkuDO.getId() > 0) {
+				skuVOMap.put(itemSkuDO.getId(), itemSkuDO);
+			}
 		}
 		List<ItemSkuDO> addSkuList = new ArrayList<ItemSkuDO>();
 		List<ItemSkuDO> updateSkuList = new ArrayList<ItemSkuDO>();
@@ -124,6 +126,8 @@ public abstract class BaseTravel {
 			// 新增
 			for (ItemSkuDO itemSkuDO : itemSkuVOs) {
 				if (itemSkuDO.getId() <= 0) {
+					// 新增的没有ItemId要补上
+					itemSkuDO.setItemId(ItemDTO.getId());
 					addSkuList.add(itemSkuDO);
 				}
 			}
