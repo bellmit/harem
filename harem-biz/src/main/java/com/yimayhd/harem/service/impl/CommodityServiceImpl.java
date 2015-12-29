@@ -227,7 +227,6 @@ public class CommodityServiceImpl implements CommodityService {
             if(CollectionUtils.isNotEmpty(itemVO.getOpenTimeList())){
                 itemDB.getItemFeature().put(ItemFeatureKey.LATEST_ARRIVE_TIME, itemVO.getOpenTimeList());
             }
-
             hotelPublishDTO.setSort(itemVO.getSort());
             ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
             if (null == result) {
@@ -368,7 +367,7 @@ public class CommodityServiceImpl implements CommodityService {
 
             }
             //自定义属性
-            itemDB.setItemProperties(itemVO.getItemProperties());
+            itemDB.setItemPropertyList(itemVO.getItemPropertyList());
             //TODO 排序
             //详细描述存tfs（富文本编辑）
             if(StringUtils.isNotBlank(itemVO.getDetailUrl())) {
