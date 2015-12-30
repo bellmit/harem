@@ -127,6 +127,12 @@
             });
     $(function(){
 		
+		$('.toUpdate').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/activityManage/edit/'+ $(this).attr('activityId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+		});
 		 $('.updateState').click(function(){
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/activityManage/updateState/' + $(this).attr('activityId'),{state:$(this).attr('state')}  ,function(data){
                     if(data.status == 200){
