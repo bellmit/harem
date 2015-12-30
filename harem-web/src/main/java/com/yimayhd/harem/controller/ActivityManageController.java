@@ -186,13 +186,18 @@ public class ActivityManageController extends BaseController {
 		BaseResult<List<ComTagDO>> tagResultCheck =activityService.getTagInfoByOutIdAndType(id,TagType.ACTIVETYTAG.name() );
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.ACTIVETYTAG.name());
 		SnsActivityDO activityDO = activity.getValue();
+		
+		if(tagResult!=null){
+    		model.addAttribute("tagResult",tagResult.getValue());
+    	}
+    	if(tagResult!=null){
+    		model.addAttribute("tagResultCheck",tagResultCheck.getValue());
+    	}
 		ItemResultVO itemResultVO = commodityService.getCommodityById(activityDO.getProductId());
 		
 		List<ActivityJsonDO> list = JSON.parseArray(activityDO.getActiveJson(), ActivityJsonDO.class);
 		activityDO.setActivityJsonArray(list);
 		model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
-		model.addAttribute("tagResultCheck",tagResultCheck.getValue());
-		model.addAttribute("tagResult",tagResult.getValue());
 		model.addAttribute("clubList",clubList.getValue());
 		model.addAttribute("activity", activityDO);
 		model.addAttribute("itemName", itemResultVO.getItemVO().getTitle());

@@ -39,7 +39,10 @@
                     <td><span class="spColor">*</span>主题</td>
                     <td>
                       #foreach($tag in $tagResult)
-                      	 <input type="checkbox" name="check" value="$!{tag.id}"><span>$!{tag.name}</span>
+                      	 <input type="checkbox" name="check" value="$!{tag.id}"
+                      	 #foreach($tagCheck in $tagResultCheck)
+	                      		 		 #if($!tagCheck.id == $!tag.id) checked #end#end
+                      	 ><span>$!{tag.name}</span>
                     	#end
                     </td>
                 </tr>

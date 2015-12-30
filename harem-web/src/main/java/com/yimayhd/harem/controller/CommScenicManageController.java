@@ -84,7 +84,7 @@ public class CommScenicManageController extends BaseController {
     ResponseVo save(CommScenicVO scenicVO) throws Exception {
     	ResponseVo responseVo = new ResponseVo(); 	
    
-	       ItemPubResult result = commScenicService.save(scenicVO);
+	   ItemPubResult result = commScenicService.save(scenicVO);
 	    return responseVo;
     }
 
@@ -98,6 +98,16 @@ public class CommScenicManageController extends BaseController {
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
 
         ItemResultVO itemResultVO = commodityService.getCommodityById(id);
+      //主题
+    	BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.VIEWTAG.name());
+    	BaseResult<List<ComTagDO>> tagResultCheck =comCenterServiceRef.getTagInfoByOutIdAndType(itemResultVO.getItemVO().getOutId(),TagType.VIEWTAG.name() );
+    	if(tagResult!=null){
+    		model.addAttribute("tagResult",tagResult.getValue());
+    	}
+    	if(tagResult!=null){
+    		model.addAttribute("tagResultCheck",tagResultCheck.getValue());
+    	}
+    	
         model.addAttribute("itemResult", itemResultVO);
         model.addAttribute("commScenic", itemResultVO.getItemVO());
         model.addAttribute("category", itemResultVO.getCategoryVO());
