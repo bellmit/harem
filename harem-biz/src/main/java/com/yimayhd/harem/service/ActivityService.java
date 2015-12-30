@@ -1,6 +1,8 @@
 package com.yimayhd.harem.service;
 
-import com.yimayhd.harem.model.Activity;
+import java.util.List;
+
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.harem.model.ActivityVO;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
@@ -20,7 +22,7 @@ public interface ActivityService {
      * 获取活动详情
      * @return 活动详情
      */
-    Activity getById(long id)throws Exception;
+    BaseResult<SnsActivityDO> getById(long id)throws Exception;
     BaseResult<SnsActivityDO> save(ActivityVO activityVO);
 
     
@@ -28,5 +30,6 @@ public interface ActivityService {
      * 上下架
      */
     public BaseResult<Boolean> updateActivityStateByIList(Long[] id, int state);
+	public com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> getTagInfoByOutIdAndType(long outId,String outType);
 
 }

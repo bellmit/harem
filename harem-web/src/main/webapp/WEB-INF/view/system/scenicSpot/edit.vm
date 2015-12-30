@@ -474,7 +474,7 @@
                 }
             });
             $('.picUrlsVal').val(picUrls);
-            alert(picUrls);
+          
                 var options = {
                     url: actionDefaultPath + "/B2C/scenicSpotManage/save",
                     type: "post",
