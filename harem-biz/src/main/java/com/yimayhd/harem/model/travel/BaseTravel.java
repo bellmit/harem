@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -140,7 +141,7 @@ public abstract class BaseTravel {
 			Set<Long> updatedSKUSet = this.priceInfo.getUpdatedSKU();
 			if (CollectionUtils.isNotEmpty(updatedSKUSet)) {
 				updatedSKUSet.removeAll(deletedSKUSet);
-				for (Long skuId : updatedSKUSet) {
+				for (long skuId : updatedSKUSet) {
 					if (skuId > 0) {
 						ItemSkuDO skuVO = skuVOMap.get(skuId);
 						ItemSkuDO skuDO = skuDOMap.get(skuId);
@@ -153,6 +154,8 @@ public abstract class BaseTravel {
 							skuDO.setProperty(skuVO.getProperty());
 							updateSkuList.add(skuDO);
 						}
+					} else {
+						throw new BaseException("更新SKU时，检查数据一致性出错: ItemSkuId={0}", skuId);
 					}
 				}
 			}

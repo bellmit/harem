@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
@@ -182,6 +183,8 @@ public class GroupTravel extends BaseTravel {
 							}
 							routeItemDO.setStatus(routeItemVO.getStatus());
 							updateRouteItemList.add(routeItemDO);
+						} else {
+							throw new BaseException("更新RouteItem时，检查数据一致性出错: RouteItemId={0}", routeItemId);
 						}
 					}
 				}
