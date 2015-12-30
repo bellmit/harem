@@ -66,7 +66,7 @@ public class CommScenicServiceImpl implements CommScenicService {
         //可预订时间，秒
         itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT,commScenic.getEndTime()* 24 * 3600 );
         //需要提前多久预订，秒startDayTime*24 * 3600 * 1000L+startHourTime* 3600 * 1000L
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,commScenic.getStartDayTime()*24+(24-commScenic.getStartHourTime()));
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,(commScenic.getStartDayTime()*24+(24-commScenic.getStartHourTime())) * 3600);
         itemDO.setItemFeature(itemFeature);
 		itemDO.setSellerId(B2CConstant.YIMAY_OFFICIAL_ID);
 		itemDO.setOutType(ResourceType.SCENIC.getType());
