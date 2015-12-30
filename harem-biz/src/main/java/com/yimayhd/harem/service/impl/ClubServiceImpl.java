@@ -54,7 +54,7 @@ public class ClubServiceImpl implements ClubService {
 			}
 			log.info("Request {} success", "snsCenterService.getClubInfoListByQuery");
 		} else {
-			log.error("Request {} error: query={}", "snsCenterService.getClubInfoListByQuery",JSON.toJSONString(query));
+			log.error("Request {} error: query={} result:", "snsCenterService.getClubInfoListByQuery",JSON.toJSONString(query),JSON.toJSONString(res));
 			throw new BaseException("get page club list failure");
 		}
 		return new PageVO<ClubDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
@@ -131,5 +131,10 @@ public class ClubServiceImpl implements ClubService {
 			return true;
 		}
 		return false;
+	}
+	
+	public static void main(String[] args){
+		
+		System.out.println(String.format("Request {} error: query={} result:", "snsCenterService.getClubInfoListByQuery","**********","$$$$$$$$$$"));
 	}
 }

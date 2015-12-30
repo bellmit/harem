@@ -14,6 +14,8 @@ import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 
 /** 
 * @ClassName: TripAService 
@@ -174,4 +176,14 @@ public interface TripService {
 	
 	
 	List<RegionDO> selectRegion(int type);
+	
+	/**
+	* @Title: getPageSnsSubjectDO 
+	* @Description:(获取直播列表) 
+	* @author create by yushengwei @ 2015年12月29日 上午11:47:33 
+	* @param @return 
+	* @return PageVO<SnsSubjectDO> 返回类型 
+	* @throws
+	 */
+	PageVO<SnsSubjectDO> getPageSnsSubjectDO(SubjectInfoDTO subjectInfoDTO);
 }
