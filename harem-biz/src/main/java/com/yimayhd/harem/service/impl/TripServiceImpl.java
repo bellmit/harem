@@ -552,10 +552,10 @@ public class TripServiceImpl implements TripService {
 		}
 		String picContent = snsSubjectDO.getPicContent();
 		if(StringUtils.isNotEmpty(picContent)){
-			String[] pic = picContent.split("|");
+			String[] pic = picContent.split("\\|");
 			if(pic.length>0){
 				//格式|1.jpg|2.jpg|
-				return pic[1];
+				return pic[0];
 			}
 		}
 		return null;
