@@ -82,15 +82,7 @@ public class CommActivityManageController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-    	
-      /*  ItemResultVO itemResultVO = commodityService.getCommodityById(id);
-        List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
-		model.addAttribute("reduceTypeList", reduceTypeList);
-        model.addAttribute("itemResult", itemResultVO);
-        model.addAttribute("commActivity", itemResultVO.getItemVO());
-        model.addAttribute("category", itemResultVO.getCategoryVO());
-        model.addAttribute("itemType",ItemType.ACTIVITY.getValue());*/
-    	
+    
     	ItemResultVO itemResultVO = commodityService.getCommodityById(id);
     	List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
     	model.addAttribute("reduceTypeList", reduceTypeList);
