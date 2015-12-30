@@ -142,6 +142,28 @@ public class ItemVO extends ItemDO {
         return commonItemPublishDTO;
 
     }
+    /**
+     * 获得sku的总库存（暂时就用于活动商品）
+     * @param itemVO
+     * @return
+     * @throws Exception
+     */
+    public static int getCountStockNum(ItemVO itemVO)throws Exception{
+    	int stockNum =0;
+        if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+            for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                if(itemSkuVO.isChecked()){
+                	stockNum += itemSkuVO.getStockNum();
+                }
+            }
+         
+        }
+        return stockNum;
+
+    }
+    
+    
+    
     public static ItemVO getItemVO(ItemDO itemDO,CategoryVO categoryVO)throws Exception{
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(itemDO, itemVO);
