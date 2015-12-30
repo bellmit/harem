@@ -116,7 +116,7 @@
                     time: 0 //不自动关闭
                     ,yes: function(index){
                         layer.close(index);
-						// top.tabTopClose(this);
+						top.tabTopClose(this);
                     }
                 });
 			} else {
