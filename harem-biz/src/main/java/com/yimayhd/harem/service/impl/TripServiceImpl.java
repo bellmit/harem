@@ -555,7 +555,7 @@ public class TripServiceImpl implements TripService {
 			String[] pic = picContent.split("\\|");
 			if(pic.length>0){
 				//格式|1.jpg|2.jpg|
-				return pic[0];
+				return pic[1];
 			}
 		}
 		return null;
