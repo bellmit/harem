@@ -91,7 +91,6 @@ public class TripServiceImpl implements TripService {
 			}
 			regionDO = res.getT();
 			regionDO.setId(tripBo.getId());
-			regionDO = new RegionDO();
 			regionDO.setCityCode(tripBo.getCityCode());
 			regionDO.setType(tripBo.getType());
 			regionDO.setBgUrl(tripBo.getCoverURL());// 封面logo
