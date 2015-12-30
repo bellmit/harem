@@ -33,13 +33,19 @@ public class ThemeServiceImpl implements ThemeService {
 	public PageVO<ComTagDO> getPageTheme(ThemeVoQuery themeVoQuery) throws Exception {
 		int totalCount = 0;
 		List<ComTagDO> list = new ArrayList<ComTagDO>();
-		if(null != themeVoQuery && null != TagType.getByType(themeVoQuery.getType()) ){
+		if(null != themeVoQuery ){
 			TagInfoDTO tagInfoDTO = new TagInfoDTO();
 			tagInfoDTO.setPageNo(themeVoQuery.getPageNumber());
 			tagInfoDTO.setPageSize(themeVoQuery.getPageSize());
-			tagInfoDTO.setOutType(themeVoQuery.getType());
+			if(0 != themeVoQuery.getType() ){
+				TagType tt = TagType.getByType(themeVoQuery.getType());
+				if(null != tt ){
+					tagInfoDTO.setOutType(tt.getType());
+				}
+			}
+			
 			BasePageResult<ComTagDO> res = comCenterService.selectTagInfoPage(tagInfoDTO);
-			if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(null)){//res.getValue()
+			if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){//res.getValue()
 				totalCount=res.getTotalCount();
 				list = res.getList();
 			}
@@ -58,21 +64,17 @@ public class ThemeServiceImpl implements ThemeService {
 	
 	@Override
 	public ThemeVo getById(long id) throws Exception {
-		Random  s = new Random();
-		int type=s.nextInt(2);
-		ThemeVo t = new ThemeVo();
-		t.setGmtCreated(new Date());
-		t.setId(type);
-		t.setGmtModified(new Date());
-		t.setScore(type);
-		t.setStatus(1);
-		if(1==type){
-			t.setName("活动主题"+type);	
-		}else{
-			t.setName("俱乐部主题"+type);
+		BaseResult<ComTagDO> res = comCenterService.selectByPrimaryKey(id);
+		if(null != res && res.isSuccess() && null != res.getValue()){
+			ThemeVo themeVo = new ThemeVo();
+			themeVo.setId(id);
+			themeVo.setName(res.getValue().getName());
+			themeVo.setOutType(res.getValue().getOutType());
+			themeVo.setScore(res.getValue().getScore());
+			themeVo.setStatus(res.getValue().getStatus());
+			return themeVo;
 		}
-		t.setOutType(type+1);
-		return t;
+		return null;
 	}
 
 	@Override
@@ -80,12 +82,11 @@ public class ThemeServiceImpl implements ThemeService {
 		if(null == themeVo){
 			throw new Exception("parameters [themeVo] cannot be empty");
 		}
-		TagInfoAddDTO tagInfoAddDTO = null;
+		TagInfoAddDTO tagInfoAddDTO = new TagInfoAddDTO();
 		if(themeVo.getId() == 0 ){
-			tagInfoAddDTO = new TagInfoAddDTO();
 			tagInfoAddDTO.setName(themeVo.getName());
 			tagInfoAddDTO.setScore(themeVo.getScore());
-			tagInfoAddDTO.setOutType(themeVo.getType());
+			tagInfoAddDTO.setOutType(themeVo.getOutType());
 			BaseResult<ComTagDO> insertRes = comCenterService.addComTagInfo(tagInfoAddDTO);
 			if(null != insertRes && insertRes.isSuccess() ){
 				themeVo.setId(insertRes.getValue().getId());
@@ -97,9 +98,8 @@ public class ThemeServiceImpl implements ThemeService {
 				tagInfoAddDTO.setTagId(dbRes.getValue().getId());
 				tagInfoAddDTO.setName(themeVo.getName());
 				tagInfoAddDTO.setScore(themeVo.getScore());
-				tagInfoAddDTO.setOutType(themeVo.getType());
-				//BaseResult<ComTagDO> updateRes = comCenterService.updateComTagInfo(tagInfoAddDTO); 
-				BaseResult<ComTagDO> updateRes = null;
+				tagInfoAddDTO.setOutType(themeVo.getOutType());
+				BaseResult<ComTagDO> updateRes = comCenterService.updateComTagInfo(tagInfoAddDTO); 
 				if(null != updateRes && updateRes.isSuccess()){
 					themeVo.setId(updateRes.getValue().getId());
 					return themeVo;

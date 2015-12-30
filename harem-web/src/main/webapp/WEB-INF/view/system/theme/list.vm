@@ -61,7 +61,7 @@
                         <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
                         <td>$!utilDate.dateToString($!theme.gmtModified,"yyyy-MM-dd HH:mm:ss") </td>
                         <td>
-                        <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">修改</button>
+                        <button type="button" class="btn btn-primary themeEdit" themeId="$theme.id">修改</button>
                         </td>
                     </tr>
                     #end
@@ -93,10 +93,11 @@
         a.click();
     }
     $(function(){
-        $('.themeDetail').each(function(){
+        $('.themeEdit').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/themeManage/edit/'+ $(this).attr('themeId');
-                window.openwin(url);
+                //top.tabsAdd("",url,2,$(this).text());
+               window.openwin(url);
             });
 
         });

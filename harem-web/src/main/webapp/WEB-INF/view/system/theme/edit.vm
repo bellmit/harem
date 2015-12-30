@@ -3,11 +3,11 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
 <div class="createClubTable whole">
-    <form name="addTheme" id="themeForm" action="" method="post" themeId="$!theme.id">
+    <form name="addTheme" id="themeForm" action="" method="POST" themeId="$!theme.id">
         <table class="table">
             <tr>
                 <td><span class="spColor">*</span>主题名称</td>
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="name" value="$!theme.name"></td>
+                <td><input type="text" class="form-control" placeholder="请输入2-4个字以内" name="name" value="$!theme.name"></td>
             </tr>
             
             <tr>
@@ -66,9 +66,9 @@
             $(this).prop('disabled',true);
             var actionUrl;
             var themeId = $('#themeForm').attr('themeId');
-			alert("themeId="+themeId);
+			//alert("themeId="+themeId);
             if(themeId){
-                actionUrl = '/B2C/themeManage/edit/';
+                actionUrl = '/B2C/themeManage/edit/'+themeId;
             }else{
                 actionUrl = '/B2C/themeManage/add';
             }

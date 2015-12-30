@@ -8,8 +8,14 @@ import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
+import com.yimayhd.snscenter.client.service.SnsCenterService;
+import com.yimayhd.snscenter.errorcode.SnsCenterReturnCode;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +68,7 @@ public class ResourceForSelectController extends BaseController {
 	private CommTravelService commTravelService;
 	@Autowired
 	private ActivityService activityService;
-
+	
 	/**
 	 * 选择景点
 	 *
@@ -136,7 +142,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneActivityComm")
-	public String selectOneActivityComm() throws Exception {
+	public String selectOneActivityComm(Model model) throws Exception {
+		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
+		model.addAttribute("itemTypeList", itemTypeList);
 		return "/system/resource/forSelect/selectOneActivityComm";
 	}
 
@@ -304,6 +312,26 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/selectLive")
 	public String selectLive() throws Exception {
 		return "/system/resource/forSelect/selectLive";
+	}
+	
+	@RequestMapping(value = "/listLive")
+	public  @ResponseBody ResponseVo listLive(SubjectInfoDTO query,Integer pageNumber,Integer pageSize) throws Exception {
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		} else {
+			query.setPageNo(BaseQuery.DEFAULT_PAGE);
+		}
+		if(pageSize!= null) {
+			query.setPageSize(pageSize);
+		} else{
+			query.setPageSize(BaseQuery.DEFAULT_SIZE);
+		}
+		
+		PageVO<SnsSubjectDO> pageVo = tripService.getPageSnsSubjectDO(query);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", query);
+		return new ResponseVo(result);
 	}
 
 	/**

@@ -109,7 +109,7 @@ public class ThemeManageController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id){
 		try {
-			ThemeVo theme = themeService.getById(0);
+			ThemeVo theme = themeService.getById(id);
 			model.addAttribute("theme", theme);
 			return "/system/theme/edit";
 		} catch (Exception e) {
@@ -127,15 +127,18 @@ public class ThemeManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String edit(ThemeVo themeVo){
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String edit(ThemeVo themeVo, @PathVariable(value = "id") long id){
 		try {
-			themeService.modify(themeVo);
-			return "/success";
+			themeVo.setId(id);
+			ThemeVo dbThemeVo = themeService.saveOrUpdate(themeVo);
+			if(null != dbThemeVo ){
+				return "/success";	
+			}
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
-			return "/error";
 		}
+		return "/error";
 	}
 
 

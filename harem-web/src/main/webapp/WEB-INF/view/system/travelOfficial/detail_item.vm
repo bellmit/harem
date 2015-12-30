@@ -93,7 +93,7 @@
     	++i;
     	var itemId = $(obj).attr("id");
         var itemList = '<tr class="needKnow">'+
-                '<td><input type="text" name="detail" id="travelDesId_'+i+'" class="form-control extra-info-item-title" placeholder=""></td>'+
+                '<td><textarea type="text" name="detail" id="travelDesId_'+i+'" class="form-control extra-info-item-title" placeholder=""></textarea></td>'+
                 '<td><div class="fileImgWrap"><button type="button" class="btn btn-success">选择图片</button>'+
         		'<input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_'+i+'" accept="image/png,image/gif">'+
 				'<input type="hidden" name="coverURL" value=""  id="FMReturnInput_'+i+'">'+

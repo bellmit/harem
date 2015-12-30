@@ -25,6 +25,11 @@ public class TripBo implements Serializable {
 	public String coverURL; /** 目的地图 */
 	public int type;/** 1出发地，2目的地*/
 	public int status;
+	public String scenicSubhead;//景点副标题
+	public String hotelSubhead;//酒店副标题
+	public String liveSubhead;//直播副标题
+	
+	
 	//public List<NeedKnow> needKnowList; /** 概况 */
 	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
 
@@ -273,6 +278,42 @@ public class TripBo implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+
+
+	public String getScenicSubhead() {
+		return scenicSubhead;
+	}
+
+
+
+	public void setScenicSubhead(String scenicSubhead) {
+		this.scenicSubhead = scenicSubhead;
+	}
+
+
+
+	public String getHotelSubhead() {
+		return hotelSubhead;
+	}
+
+
+
+	public void setHotelSubhead(String hotelSubhead) {
+		this.hotelSubhead = hotelSubhead;
+	}
+
+
+
+	public String getLiveSubhead() {
+		return liveSubhead;
+	}
+
+
+
+	public void setLiveSubhead(String liveSubhead) {
+		this.liveSubhead = liveSubhead;
+	}
 	
 	
 
@@ -287,7 +328,8 @@ public class TripBo implements Serializable {
 		this.needKnowList = needKnowList;
 	}
 	 */
-
+	
+	
 
 	
 	
