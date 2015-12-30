@@ -73,20 +73,7 @@
                     </td>
                 </tr>
                 
-               <tr>
-                    <td><span class="spColor">*</span>景点副标题</td>
-                    <td><input type="text" id="scenicSubheadId" name="scenicSubhead" ></td>
-                </tr>
-                
-               <tr>
-                    <td><span class="spColor">*</span>酒店副标题</td>
-                    <td><input type="text" id="hotelSubheadId" name="hotelSubhead" ></td>
-                </tr>
-                
-                 <tr>
-                    <td><span class="spColor">*</span>直播副标题</td>
-                    <td><input type="text" id="liveSubheadId" name="liveSubhead" ></td>
-                </tr>
+              
                 
                 <tr>
                     <td><span class="spColor">*</span>目的地LOGO</td>
@@ -103,6 +90,20 @@
                     </td>
                 </tr>
                 
+                 <tr>
+                    <td><span class="spColor">*</span>景点副标题</td>
+                    <td><input type="text" id="scenicSubheadId" name="scenicSubhead" ></td>
+                </tr>
+                
+               <tr>
+                    <td><span class="spColor">*</span>酒店副标题</td>
+                    <td><input type="text" id="hotelSubheadId" name="hotelSubhead" ></td>
+                </tr>
+                
+                 <tr>
+                    <td><span class="spColor">*</span>直播副标题</td>
+                    <td><input type="text" id="liveSubheadId" name="liveSubhead" ></td>
+                </tr>
                 
                 
 				<tr>
