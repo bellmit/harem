@@ -19,6 +19,7 @@ public class ScenicVO extends ScenicDO {
     private String picListStr;//图片集的str
     private String picturesStr;//详情页展示图(对应pictures)
     private double priceY;//价格元
+    private String coverPics;//封面大图String
 
     private NeedKnow needKnowOb;
 
@@ -28,6 +29,11 @@ public class ScenicVO extends ScenicDO {
         //pictures
         if(StringUtils.isNotBlank(scenicVO.getPicturesStr())){
             scenicDO.setPictures(Arrays.asList(scenicVO.getPicturesStr().split("\\|")));
+        }
+        if(StringUtils.isNotBlank(scenicVO.getCoverPics())){
+        	List<String> pic = Arrays.asList(scenicVO.getCoverPics().split("\\|"));
+            scenicDO.setPictures(pic);
+            scenicDO.setCoverUrl(pic.get(0));
         }
         //NeedKnowOb 在serviceImpl中处理
         //图片集处理(因为有outId还是,只处理新增的)
@@ -81,6 +87,13 @@ public class ScenicVO extends ScenicDO {
 	public void setPriceY(double priceY) {
 		this.priceY = priceY;
 	}
+	public String getCoverPics() {
+		return coverPics;
+	}
+	public void setCoverPics(String coverPics) {
+		this.coverPics = coverPics;
+	}
     
+	
     
 }

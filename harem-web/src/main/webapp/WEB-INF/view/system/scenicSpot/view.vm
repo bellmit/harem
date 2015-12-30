@@ -177,18 +177,12 @@
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
                         <td>
-                       
-                         #foreach($pictures in $VO.scenic.pictures)
-                            <div class="fileImgWrap">
-                             
-                                <input type="hidden" name="pictures" value="$!{pictures}" id="logoUrlUploadFileReturnInput1" >
-                              
-	                        </div>
-	                    <div class="logoView">
-	                        <img src="#if($pictures) $utilWebconfig.getTfsRootPath()$!{pictures} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg1">
-	                    </div>
+                       	 #foreach($pictures in $VO.scenic.pictures)
+                                <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures">
+                            #end
+                        	
                         </td>
-                        #end
+                       
                        
                     </tr>
                     </tbody>

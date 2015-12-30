@@ -174,31 +174,13 @@
 
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
-                        <td>
-                        #if(! $VO.scenic.pictures)
-                        	 <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="pictures" value="" id="logoUrlUploadFileReturnInput1" >
-                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
-                                <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-	                        </div>
-	                    <div class="logoView">
-	                        <img src="#if($$VO.scenic.pictures) $utilWebconfig.getTfsRootPath()$!{$VO.scenic.pictures} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg1">
-	                    </div>
-                        #else
-                         #foreach($pictures in $VO.scenic.pictures)
-                            <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="pictures" value="$!{pictures}" id="logoUrlUploadFileReturnInput1" >
-                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
-                                <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-	                        </div>
-	                    <div class="logoView">
-	                        <img src="#if($pictures) $utilWebconfig.getTfsRootPath()$!{pictures} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg1">
-	                    </div>
+                        <td class="picUrlsTd">
+                            <input id="batchUploadBtn1" type="file" multiple="multiple" >
+                            #foreach($pictures in $VO.scenic.pictures)
+                               <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
+                            #end
                         </td>
-                        #end
-                        #end
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!VO.scenic.coverUrl">
                     </tr>
                     </tbody>
                 </table>
@@ -239,6 +221,11 @@
         $(".needKnowTable").prev().append(addhtml);
     });
 
+    function delPic(obj) {
+        $(obj).prev().remove();
+        $(obj).remove();
+    }
+    
     function delneedKnowTR(obj) {
         $(obj).parent().parent().remove();
     }
@@ -249,7 +236,17 @@
         }
     }
  var tfsPath = '$utilWebconfig.getTfsRootPath()';
+ 
+   var batchCallBack = function(dataVal){
+        for(var key in dataVal.data){
+             $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt=""><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>');
+        }
+    }
     $(function () {
+   			 $(document).delegate("#batchUploadBtn1",'change',function(){
+           		 fileUpload('#batchUploadBtn1',2,batchCallBack);
+      	 	 })
+    
     	  /*弹出框{"description":"大咖推荐","id":0,"name":"YOYO","user_id":1,"user_pic":"T1SRhTByYT1R17cSCrK"}
     	  {"id":331,"userId":7606,"nickName":"测试","options":2,"avatar":"T1SRhTByYT1R17cSCrK"}
     	  **/
@@ -419,16 +416,7 @@
             });
         });
 
-        $(document).delegate('#logoUrlUploadFile1','change',function(){
-            fileUpload('#logoUrlUploadFile1',1,function(data){
-                if(data && data.status==200){
-                    $('#logoUrlUploadFileReturnInput1').val(data.data);
-                    $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
-                }else{
-                    layer.alert('上传失败');
-                }
-            })
-        });
+       
 
 
         $('.locationXYSelectBtn').click(function () {
@@ -476,6 +464,17 @@
                 }
             },
             submitHandler: function (form) {
+             //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
+            alert(picUrls);
                 var options = {
                     url: actionDefaultPath + "/B2C/scenicSpotManage/save",
                     type: "post",

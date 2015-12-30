@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,8 +23,10 @@ import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.model.CommScenicVO;
+import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommScenicService;
+import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.CategoryType;
@@ -48,7 +51,8 @@ public class CommScenicManageController extends BaseController {
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
 	private CategoryService categoryService;
-
+	@Autowired
+	private CommodityService commodityService;
     /**
      * 新增景区
      * @return 景区
@@ -60,8 +64,10 @@ public class CommScenicManageController extends BaseController {
     	CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
     	//主题
     	BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.VIEWTAG.name());
+    	if(tagResult!=null){
+    		model.addAttribute("tagResult",tagResult.getValue());
+    	}
     	model.addAttribute("itemType",ItemType.SPOTS.getValue());
-    	model.addAttribute("tagResult",tagResult.getValue());
     	model.addAttribute("category", categoryVO);
     	return "/system/comm/scenic/edit";
     }
@@ -77,34 +83,28 @@ public class CommScenicManageController extends BaseController {
     public
     ResponseVo save(CommScenicVO scenicVO) throws Exception {
     	ResponseVo responseVo = new ResponseVo(); 	
-    /*	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
-    	scenicPublishDTO.getItemDO().addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, pic);
-    	scenicPublishDTO.getItemDO().setPrice((long) (priceF * 100));
-    	ItemFeature itemFeature = new ItemFeature(null);
-	        //减库存方式
-	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE.getBizType());
-	        //未付款超时时间
-	        //itemFeature.put(ItemFeatureKey.NOT_PAY_TIMEOUT,3 * 24 * 3600 * 1000L);
-	        //商品星级
-	        itemFeature.put(ItemFeatureKey.GRADE,5);
-	        //可预订时间，秒
-	        itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT,endTime* 24 * 3600 );
-	        //需要提前多久预订，秒startDayTime*24 * 3600 * 1000L+startHourTime* 3600 * 1000L
-	        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,startDayTime*24+(24-startHourTime));
-	        scenicPublishDTO.getItemDO().setItemFeature(itemFeature);*/
+   
 	       ItemPubResult result = commScenicService.save(scenicVO);
-	      /*  if(result.isSuccess()){
-				responseVo.setMessage("添加成功！");
-				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-			}else{
-				responseVo.setMessage(result.getResultMsg());
-				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-			}*/
-	        
-	    	return responseVo;
+	    return responseVo;
     }
 
-    
+    /**
+     * 编辑景区（商品）
+     * @return 景区（商品）详情
+     * @throws Exception
+     */
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public
+    String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
+
+        ItemResultVO itemResultVO = commodityService.getCommodityById(id);
+        model.addAttribute("itemResult", itemResultVO);
+        model.addAttribute("commScenic", itemResultVO.getItemVO());
+        model.addAttribute("category", itemResultVO.getCategoryVO());
+        model.addAttribute("itemType",ItemType.SPOTS.getValue());
+
+        return "/system/comm/scenic/edit";
+    }
   
     
     

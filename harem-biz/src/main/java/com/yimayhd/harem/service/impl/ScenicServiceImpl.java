@@ -106,6 +106,12 @@ public class ScenicServiceImpl implements ScenicService {
 				extraInfoUrl = tfsService.readHtml5(needKnow.getExtraInfoUrl());
 				needKnow.setExtraInfoUrl(extraInfoUrl);
 			}
+			List<String> pictures = scenicDO.getPictures();
+			if(pictures !=null && pictures.size()!=0){
+				scenicDO.setCoverUrl(StringUtils.join(pictures.toArray(),"|"));
+			}
+			
+			
 			dto.setNeedKnow(needKnow);
 			dto.setScenic(scenicDO);
 			return dto;
