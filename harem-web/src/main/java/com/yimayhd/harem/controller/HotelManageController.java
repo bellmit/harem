@@ -1,24 +1,12 @@
 package com.yimayhd.harem.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.yimayhd.harem.base.AreaService;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.manager.HotelManager;
+import com.yimayhd.harem.model.AreaVO;
 import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
@@ -26,8 +14,16 @@ import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.result.ICResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 酒店管理（资源）
@@ -77,11 +73,14 @@ public class HotelManageController extends BaseController {
 		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
 		// 酒店设施
 		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
+		//省
+		List<AreaVO> provinceList= AreaService.getInstance().getAreaByIDAndType("PROVINCE", null);
 
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
-		return "/system/hotel/add3";
+		model.addAttribute("provinceList", provinceList);
+		return "/system/hotel/edit";
 	}
 
 	/**
@@ -92,7 +91,6 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(HotelVO hotelVO) throws Exception {
-
 
 
 		hotelRPCService.addHotel(hotelVO);
@@ -158,7 +156,7 @@ public class HotelManageController extends BaseController {
 		if (hotelVO == null) {
 
 		}
-		MasterRecommend recommend = hotelVO.getMasterRecommend();
+		MasterRecommend recommend = hotelVO.getRecommend();
 		long roomFacility = hotelVO.getRoomFacility();
 		long hotelFacility = hotelVO.getHotelFacility();
 		long roomService = hotelVO.getRoomService();
@@ -196,14 +194,25 @@ public class HotelManageController extends BaseController {
 		checkInit(hotelFacilityList, hotelFacilityArr);
 
 		NeedKnow needKnow = hotelVO.getNeedKnow();
+
+		//省
+		List<AreaVO> provinceList= AreaService.getInstance().getAreaByIDAndType("PROVINCE", null);
+		//市
+		List<AreaVO> cityList= AreaService.getInstance().getAreaByIDAndType("CITY", String.valueOf(hotelVO.getLocationProvinceId()));
+		//区
+		List<AreaVO> townList= AreaService.getInstance().getAreaByIDAndType("COUNTY", String.valueOf(hotelVO.getLocationCityId()));
+
 		model.addAttribute("hotel", hotelVO);
 		model.addAttribute("recommend", recommend);
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
 		model.addAttribute("needKnow", needKnow);
+		model.addAttribute("provinceList", provinceList);
+		model.addAttribute("cityList", cityList);
+		model.addAttribute("townList", townList);
 
-		return "/system/hotel/edit3";
+		return "/system/hotel/edit";
 	}
 
 	/**
