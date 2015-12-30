@@ -8,7 +8,7 @@
                 <option value="$!itemType.value" #if($!commodityListQuery.itemType == $!itemType.value) selected #end>$!itemType.text</option>
                 #end
             </select>
-         <span class="input-group-addon">商品分类</span>
+         <span class="input-group-addon">商品名称</span>
          <input type="text" class="form-control" name="commName" id="itemName" value="$!commodityListQuery.commName">
 		<span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>
 	</div>
@@ -25,7 +25,7 @@
 <script type="text/javascript">
 	var checks = {};
 	$(".search").click(function() {
-		pageUtils.request(1, $(".pageSize").val(),{commName:$("#itemName").val(),itemType:0});
+		pageUtils.request(1, $(".pageSize").val(),{commName:$("#itemName").val(),itemType:$("#itemType").val()});
 	});
 	function initTable() { 
     	$('table.resourceTable').datatable({

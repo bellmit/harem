@@ -142,7 +142,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneActivityComm")
-	public String selectOneActivityComm() throws Exception {
+	public String selectOneActivityComm(Model model) throws Exception {
+		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
+		model.addAttribute("itemTypeList", itemTypeList);
 		return "/system/resource/forSelect/selectOneActivityComm";
 	}
 
