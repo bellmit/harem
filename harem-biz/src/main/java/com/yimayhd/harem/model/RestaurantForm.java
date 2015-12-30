@@ -12,6 +12,7 @@ import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 public class RestaurantForm {
 	private RestaurantDO restaurant;
 	private MasterRecommend recommend;
+	private String coverPics;
 
 	public RestaurantDO getRestaurant() {
 		return restaurant;
@@ -27,5 +28,13 @@ public class RestaurantForm {
 
 	public void setRecommend(MasterRecommend recommend) {
 		this.recommend = recommend;
+	}
+
+	public String getCoverPics() {
+		return coverPics;
+	}
+
+	public void setCoverPics(String coverPics) {
+		this.coverPics = coverPics;
 	}
 }

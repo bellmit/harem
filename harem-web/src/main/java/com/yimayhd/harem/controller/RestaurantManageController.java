@@ -1,7 +1,11 @@
 package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +62,11 @@ public class RestaurantManageController extends BaseController {
 		MasterRecommend recommend = restaurantDO.getRecommend();
 		model.addAttribute("restaurant", restaurantDO);
 		model.addAttribute("recommend", recommend);
+		List<String> pictures = restaurantDO.getPictures();
+		if (CollectionUtils.isNotEmpty(pictures)) {
+			String coverPics = StringUtils.join(restaurantDO.getPictures(), "|");
+			model.addAttribute("coverPics", coverPics);
+		}
 		return "/system/restaurant/edit";
 	}
 
@@ -66,13 +75,16 @@ public class RestaurantManageController extends BaseController {
 	public ResponseVo save(RestaurantForm form) throws Exception {
 		RestaurantDO restaurant = form.getRestaurant();
 		restaurant.setRecommend(form.getRecommend());
+		String coverPics = form.getCoverPics();
+		if (StringUtils.isNotBlank(coverPics)) {
+			restaurant.setPictures(Arrays.asList(StringUtils.split(coverPics)));
+		}
 		ICResult<Boolean> icResult = restaurantRPCService.addRestaurant(restaurant);
 		ResponseVo responseVo = new ResponseVo();
 		boolean result = icResult.isSuccess();
 		if (!result) {
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
-
 		return responseVo;
 	}
 
