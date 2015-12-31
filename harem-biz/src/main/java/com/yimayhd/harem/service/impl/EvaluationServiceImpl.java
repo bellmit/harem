@@ -119,7 +119,7 @@ public class EvaluationServiceImpl implements EvaluationService {
             if(userDOMap.size() == 0){
                 List<Long> userIds = new ArrayList<Long>();
                 for (ComCommentDO comCommentDO : commentDOBasePageResult.getList()){
-                    userIds.add(comCommentDO.getId());
+                    userIds.add(comCommentDO.getUserId());
                 }
                 // 查询用户 TODO
                 BaseResult<List<UserDO>> userListResult =  userServiceRef.getUserDOList(userIds);
