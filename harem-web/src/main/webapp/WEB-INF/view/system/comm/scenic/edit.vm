@@ -21,7 +21,10 @@
 
                     #*version 新增时为1*#
                     <input type="hidden" name="itemDO.version" value="#if($!commScenic.version)$!commScenic.version#else 1#end">
-     		
+     				 #if($!{commScenic.id})
+                          <input type="text" class="inpControl"  name="itemDO.id" value="$!commScenic.id">
+                     #end
+     			
             <table class="table">
                 <tr>
                     <td><span class="spColor">*</span>分类</td>
@@ -30,7 +33,7 @@
                 <tr>
                     <td><span class="spColor">*</span>景区</td>
                     <td>
-                       	<input type="text" class="inpControl"  id="name" value="$!commScenic.subTitle">
+                       	<input type="text" class="inpControl"  id="name" value="$!scenicName">
                        	<input type="hidden" class="inpControl" id="outId" name="itemDO.outId"  value="$!commScenic.outId">
 						<button type="button" class="btn btn-primary selectScenic">选择景区</button>
                     </td>
@@ -49,8 +52,7 @@
                 <tr>
                     <td><span class="spColor">*</span>排序</td>
                     <td>
-                    	
-							<input type="text" class="inpCtlBlock" name="itemDO.orderNum"  value="$!commScenic.sort" placeholder="请输入数字，数字越大排序靠后">
+                    	<input type="text" class="inpCtlBlock" name="scenicDO.orderNum"  value="$!commScenic.sort" placeholder="请输入数字，数字越大排序靠后">
 					</td>
                 </tr>
                 <tr>
@@ -102,10 +104,10 @@
 							<td><textarea name="itemDO.oneWord" id="description" rows="3" class="form-control"
                                       placeholder="请输入500字以内">$!commScenic.oneWord</textarea></td>
                              
-							<td>提前<input type="text" class="inpCtlBlock" name="startDayTime" value="$!commHotel.startDayTime" placeholder="请输入数字">天
-								<input type="text" class="inpCtlBlock" name="startHourTime" id="phoneNum" placeholder="请输入数字">点前预定
+							<td>提前<input type="text" class="inpCtlBlock" name="startDayTime" value="$!commScenic.startBookTimeDays" placeholder="请输入数字">天
+								<input type="text" class="inpCtlBlock" name="startHourTime"  value="$!commScenic.startBookTimeHours" placeholder="请输入数字">点前预定
 							</td>
-							<td><input type="text" class="inpCtlBlock" name="priceF" id="phoneNum" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name="priceF" value="$!commScenic.priceY" placeholder="请输入数字"></td>
 							<td><input type="text" class="inpCtlBlock" name=""  placeholder="请输入数字"></td>
 							<td><input type="text" class="inpCtlBlock" name=""  placeholder="请输入数字"></td>
 					<tr>
@@ -188,7 +190,16 @@
 					}
 				},
 				submitHandler : function(form) {
-					
+					  //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
 					var options = {
 						url : actionDefaultPath + "/B2C/comm/scenicManage/save",
 						type : "post",

@@ -27,12 +27,14 @@ import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommScenicService;
 import com.yimayhd.harem.service.CommodityService;
+import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.CategoryType;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.tradecenter.client.model.enums.ReduceType;
@@ -53,6 +55,8 @@ public class CommScenicManageController extends BaseController {
 	private CategoryService categoryService;
 	@Autowired
 	private CommodityService commodityService;
+	@Autowired
+	private ScenicService scenicSpotService;
     /**
      * 新增景区
      * @return 景区
@@ -98,7 +102,7 @@ public class CommScenicManageController extends BaseController {
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
 
         ItemResultVO itemResultVO = commodityService.getCommodityById(id);
-      //主题
+        //主题
     	BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.VIEWTAG.name());
     	BaseResult<List<ComTagDO>> tagResultCheck =comCenterServiceRef.getTagInfoByOutIdAndType(itemResultVO.getItemVO().getOutId(),TagType.VIEWTAG.name() );
     	if(tagResult!=null){
@@ -107,7 +111,10 @@ public class CommScenicManageController extends BaseController {
     	if(tagResult!=null){
     		model.addAttribute("tagResultCheck",tagResultCheck.getValue());
     	}
-    	
+    	ScenicAddNewDTO scenicDO = scenicSpotService.getById(itemResultVO.getItemVO().getOutId());
+    	if(null != scenicDO){
+			model.addAttribute("scenicName", scenicDO.getScenic().getName());
+		}
         model.addAttribute("itemResult", itemResultVO);
         model.addAttribute("commScenic", itemResultVO.getItemVO());
         model.addAttribute("category", itemResultVO.getCategoryVO());
