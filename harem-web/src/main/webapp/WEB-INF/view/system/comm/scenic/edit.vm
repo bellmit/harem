@@ -22,7 +22,7 @@
                     #*version 新增时为1*#
                     <input type="hidden" name="itemDO.version" value="#if($!commScenic.version)$!commScenic.version#else 1#end">
      				 #if($!{commScenic.id})
-                          <input type="text" class="inpControl"  name="itemDO.id" value="$!commScenic.id">
+                          <input type="hidden" class="inpControl"  name="itemDO.id" value="$!commScenic.id">
                      #end
      			
             <table class="table">
