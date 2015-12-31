@@ -1,9 +1,11 @@
 package com.yimayhd.harem.service;
 
+import java.util.List;
+
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.LiveTopic;
+import com.yimayhd.harem.model.LiveTagVO;
 
 /**
  * 直播标签
@@ -21,9 +23,45 @@ public interface LiveTagService {
 	PageVO<ComTagDO> pageQueryLiveTag(TagInfoDTO tagInfoDTO);
 
 	/**
-	 * 新增直播标签
+	 * 通过id查询
 	 * 
-	 * @param tag
+	 * @param id
+	 * @return
 	 */
-	void addLiveTag(LiveTopic tag);
+	ComTagDO getLveTagById(long id);
+
+	/**
+	 * 禁用
+	 * 
+	 * @param id
+	 */
+	void disableLiveTagById(long id);
+
+	/**
+	 * 启用
+	 * 
+	 * @param id
+	 */
+	void enableLiveTagById(long id);
+
+	/**
+	 * 批量禁用
+	 * 
+	 * @param idList
+	 */
+	void disableLiveTagByIdList(List<Long> idList);
+
+	/**
+	 * 批量启用
+	 * 
+	 * @param idList
+	 */
+	void enableLiveTagByIdList(List<Long> idList);
+
+	/**
+	 * 保存
+	 * 
+	 * @param liveTagVO
+	 */
+	void save(LiveTagVO liveTagVO);
 }

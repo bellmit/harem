@@ -35,6 +35,15 @@
     未知
     #end
 #end
+#*标签-状态*#
+#macro(TAG_STATUS $type)
+    #if($type == '1')
+    启用
+    #elseif($type == '2')
+    停用
+    #end
+#end
+
 #*俱乐部-动态状态(评论状态也用这个)*#
 #macro(TREND_STATUS $type)
     #if($type == '1')
