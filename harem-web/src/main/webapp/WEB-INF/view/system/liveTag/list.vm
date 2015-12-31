@@ -83,9 +83,8 @@
 	});
 	//新增
     $('.add-tag').click(function(){
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toAdd','添加标签',function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toAdd','添加标签',function(win,index) {
 			var tag = win.getTag();
-			alert(JSON.stringify(tag));
 			if(tag.name) {
 				save(tag);
 				return true;
@@ -94,6 +93,24 @@
 					icon : 2,
 					time : 1000
 				});
+				return false;
+			}
+		});
+    });
+	
+    //编辑
+    $('.item-edit').click(function(){
+		var id = $(this).attr("item-id");
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toEdit/'+id,'编辑标签 ',function() {
+			var tag = win.getTag();
+			if(tag.name) {
+				save(tag);
+				return true;
+			} else {
+				layer.msg('请选择标签', {
+    				icon : 2,
+    				time : 1000
+    			});
 				return false;
 			}
 		});
@@ -149,21 +166,6 @@
 			});
 		}
     });
-    //编辑
-    $('.item-edit').click(function(){
-		var id = $(this).attr("item-id");
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toEdit/'+id,'编辑标签 ',function() {
-			var tag = win.getTag();
-			if(tag.name) {
-				save(tag);
-			} else {
-				layer.alert('请输入标签名称', {
-					icon : 2
-				});
-			}
-			return true;
-		});
-    });
 	// 启用
 	$('.item-enable').click(function(){
 		var id = $(this).attr("item-id");
@@ -171,9 +173,10 @@
 			if(result.status == 200) {
 				window.location.reload();
 			} else {
-				layer.alert('启用失败', {
-					icon : 2
-				});
+				layer.msg('启用失败', {
+    				icon : 2,
+    				time : 1000
+    			});
 			}
 		},"json");
     });
@@ -184,9 +187,10 @@
 			if(result.status == 200) {
 				window.location.reload();
 			} else {
-				layer.alert('停用失败', {
-					icon : 2
-				});
+				layer.msg('停用失败', {
+    				icon : 2,
+    				time : 1000
+    			});
 			}
 		},"json");
     });

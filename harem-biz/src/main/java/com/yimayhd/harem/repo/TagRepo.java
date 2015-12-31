@@ -1,6 +1,7 @@
 package com.yimayhd.harem.repo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -73,7 +74,7 @@ public class TagRepo {
 
 	public void updateTagStateById(long id, int state) {
 		TagPageQuery query = new TagPageQuery();
-		query.setTagId(id);
+		query.setList(Arrays.asList(id));
 		query.setState(state);
 		RepoUtils.requestLog(log, "comCenterServiceRef.updateTagInfoStateByIdList", query);
 		BaseResult<ComTagDO> result = comCenterServiceRef.updateTagInfoStateByIdList(query);
