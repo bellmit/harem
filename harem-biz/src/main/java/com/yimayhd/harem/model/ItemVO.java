@@ -240,7 +240,7 @@ public class ItemVO extends ItemDO {
                 if(i == len - 1){
                     skuTdRowNumList.set(i,1);
                 }else if(i == len - 2){
-                    skuTdRowNumList.set(i,tranSetList.get(i - 1).size());
+                    skuTdRowNumList.set(i,tranSetList.get(i + 1).size());
                 }else{
                     int rowNum = 1;
                     for (int j = i + 1; j < len; j++) {
