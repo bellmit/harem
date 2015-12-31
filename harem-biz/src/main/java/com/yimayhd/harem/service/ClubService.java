@@ -3,6 +3,7 @@ package com.yimayhd.harem.service;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.ClubAdd;
+import com.yimayhd.harem.model.query.ClubInfo;
 import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
@@ -28,24 +29,17 @@ public interface ClubService {
 	 * 
 	 * @return 俱乐部详情
 	 */
-	Club getById(long id) throws Exception;
+	ClubInfo getClubInfoDOById(long id) throws Exception;
 
 	/**
-	 * 添加俱乐部
+	 * 添加修改俱乐部
 	 * 
 	 * @param club
 	 * @return
 	 * @throws Exception
 	 */
-	ClubAdd add(ClubAdd clubAdd, List<Long> themeIds) throws Exception;
+	ClubAdd saveOrUpdate(ClubAdd clubAdd, List<Long> themeIds) throws Exception;
 
-	/**
-	 * 修改俱乐部
-	 * 
-	 * @param club
-	 * @throws Exception
-	 */
-	boolean modify(ClubDOInfoDTO club) throws Exception;
 
 	/**
 	 * @Title: batchUpOrDownStatus @Description:(批量上下架) @author create by
