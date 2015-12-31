@@ -53,7 +53,7 @@ import com.yimayhd.user.client.domain.UserDOPageQuery;
 @RequestMapping("/B2C/resourceForSelect")
 public class ResourceForSelectController extends BaseController {
 	@Autowired
-	private RestaurantRPCService restaurantService;
+	private RestaurantService restaurantService;
 	@Autowired
 	private ScenicService scenicService;
 	@Autowired

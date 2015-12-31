@@ -22,7 +22,7 @@ import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.PictureRPCService;
-import com.yimayhd.harem.service.RestaurantRPCService;
+import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
@@ -48,7 +48,7 @@ public class CommGroupTravelController extends BaseTravelController {
 	@Autowired
 	private TfsService tfsService;
 	@Autowired
-	private RestaurantRPCService restaurantRPCService;
+	private RestaurantService restaurantRPCService;
 	@Autowired
 	private ScenicService scenicService;
 	@Autowired

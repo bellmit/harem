@@ -23,7 +23,7 @@
 	<bean class="com.yimayhd.harem.service.impl.TripServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RecommendedServiceImpl"></bean>
 	<!-- 资源管理 -->
-	<bean class="com.yimayhd.harem.service.impl.RestaurantRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
@@ -56,4 +56,5 @@
 	<!-- repo -->
 	<bean class="com.yimayhd.harem.repo.TagRepo"></bean>
 	<bean class="com.yimayhd.harem.repo.LineRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.RestaurantRepo"></bean>
 </beans>
