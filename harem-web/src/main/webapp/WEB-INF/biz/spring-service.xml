@@ -44,7 +44,7 @@
 	<!-- system -->
 	<bean class="com.yimayhd.harem.service.impl.SystemManageServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl" />
-	<bean id="liveTopicService" class="com.yimayhd.harem.service.impl.LiveTopicServiceImpl" />
+	<bean class="com.yimayhd.harem.service.impl.LiveTagServiceImpl" />
 	<!-- commodity -->
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
