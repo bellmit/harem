@@ -1,23 +1,19 @@
 package com.yimayhd.harem.model.enums;
 
-public enum OrderActionStatus {
-    NOTING(1,"无操作"),
-    AFFIRM(2,"确认"),
-    REFUND(3,"退款"),
-    FINISH(4,"完成"),
-    CONSIGN(5,"发货"),
-    CANCEL(6,"取消订单"),
-    AFFIRM_REFUND(7,"确认+退款"),
-    FINISH_REFUND(8,"完成+退款"),
-    CONSIGN_REFUND(9,"发货+退款"),
-    UPDATE_ADDRESS_CANCEL(10,"修改地址+取消订单"),
-    OVERTIME(11,"延长收货");
-
+public enum OrderShowStatus {
+    NOTING(1,"待付款"),
+    PAID(2,"待发货/已付款"),
+    SHIPPED(3,"待收货/已发货"),
+    FINISH(4,"已完成"),
+    TRADE_CLOSE(5,"交易关闭"),
+    PENDING(6,"待处理"),
+    REFUNDED(7,"已退款"),
+    WAITING_EVALUATION(8,"待评价");
 
     private int status;
     private String des;
 
-    private OrderActionStatus(int status, String des) {
+    private OrderShowStatus(int status, String des) {
         this.status = status;
         this.des = des;
     }
@@ -43,7 +39,7 @@ public enum OrderActionStatus {
     }
 
     public static String getDescByStatus(int status) {
-        for (OrderActionStatus payStatus : values()) {
+        for (OrderShowStatus payStatus : values()) {
             if (payStatus.isEquals(status)) {
                 return payStatus.getDes();
             }
@@ -51,8 +47,8 @@ public enum OrderActionStatus {
         return null;
     }
     
-    public static OrderActionStatus getByStatus(int status){
-    	for (OrderActionStatus payStatus : values()) {
+    public static OrderShowStatus getByStatus(int status){
+    	for (OrderShowStatus payStatus : values()) {
             if (payStatus.status == status ) {
                 return payStatus;
             }

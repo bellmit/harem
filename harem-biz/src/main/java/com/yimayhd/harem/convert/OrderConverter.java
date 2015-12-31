@@ -1,10 +1,9 @@
 package com.yimayhd.harem.convert;
 
-import com.yimayhd.harem.model.Order;
 import com.yimayhd.harem.model.enums.OrderActionStatus;
+import com.yimayhd.harem.model.enums.OrderShowStatus;
 import com.yimayhd.harem.model.query.OrderListQuery;
 import com.yimayhd.harem.model.trade.MainOrder;
-import com.yimayhd.harem.model.trade.OrderDetails;
 import com.yimayhd.harem.model.trade.SubOrder;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -116,79 +115,40 @@ public class OrderConverter {
         return orderQueryDTO;
     }
 
-    /**
-     * 此方法判断的我蛋疼。估计过段时间只有神才知道如何判断了。
-     */
     public static MainOrder mainOrderStatusConverter(MainOrder mainOrder,BizOrderDO bizOrderDO) {
         int payStatus = bizOrderDO.getPayStatus();
         int logisticsStatus = bizOrderDO.getLogisticsStatus();
         int refundStatus = bizOrderDO.getRefundStatus();
-        mainOrder.setOrderActionStates(OrderActionStatus.NOTING.getStatus());
-        if (bizOrderDO.getBizType() == OrderBizType.LINE.getBizType()){
-            if (payStatus == PayStatus.NOT_PAY.getStatus()){
-                mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
-            }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.RETURNED.getStatus() != logisticsStatus ){
-                mainOrder.setOrderActionStates(OrderActionStatus.AFFIRM_CANCEL.getStatus());
-            }else if (LogisticsStatus.CONSIGNED.getStatus() == payStatus){
-                mainOrder.setOrderActionStates(OrderActionStatus.FINISH_CANCEL.getStatus());
-            }else if (refundStatus>0){
-                if(RefundStatus.REFUND_SUCCESS.getStatus() != refundStatus){
-                    mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-                }
-            }
-        }else if (bizOrderDO.getBizType() == OrderBizType.SPOTS.getBizType()){
-            if (payStatus == PayStatus.NOT_PAY.getStatus()){
-                mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
-            }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.RETURNED.getStatus() != logisticsStatus ){
-                mainOrder.setOrderActionStates(OrderActionStatus.CONSIGN_CANCEL.getStatus());
-            }else if (refundStatus>0){
-                if(RefundStatus.REFUND_SUCCESS.getStatus() != refundStatus){
-                    mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-                }
-            }else if (PayStatus.REFUNDED.getStatus() != payStatus && PayStatus.NOT_PAY_CLOSE.getStatus() != payStatus){
-                mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-            }
-        }else if (bizOrderDO.getBizType() == OrderBizType.HOTEL.getBizType()){
-            if (payStatus == PayStatus.NOT_PAY.getStatus()){
-                mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
-            }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.RETURNED.getStatus() != logisticsStatus ){
-                mainOrder.setOrderActionStates(OrderActionStatus.AFFIRM_CANCEL.getStatus());
-            }else if (refundStatus>0){
-                if(RefundStatus.REFUND_SUCCESS.getStatus() != refundStatus){
-                    mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-                }
-            }else if (PayStatus.REFUNDED.getStatus() != payStatus && PayStatus.NOT_PAY_CLOSE.getStatus() != payStatus){
-                mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-            }
-        }else if (bizOrderDO.getBizType() == OrderBizType.NORMAL.getBizType()){
-            if (payStatus == PayStatus.NOT_PAY.getStatus()){
+
+        if (payStatus == PayStatus.NOT_PAY.getStatus()){
+            mainOrder.setOrderShowState(OrderShowStatus.NOTING.getStatus());//待付款
+            if(bizOrderDO.getBizType() == OrderBizType.NORMAL.getBizType()){
                 mainOrder.setOrderActionStates(OrderActionStatus.UPDATE_ADDRESS_CANCEL.getStatus());
-            }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.RETURNED.getStatus() != logisticsStatus ){
-                mainOrder.setOrderActionStates(OrderActionStatus.CONSIGN_CANCEL.getStatus());
-            }else if (LogisticsStatus.CONSIGNED.getStatus() == logisticsStatus){
-                mainOrder.setOrderActionStates(OrderActionStatus.OVERTIME.getStatus());
-            }else if (refundStatus>0){
-                if(RefundStatus.REFUND_SUCCESS.getStatus() != refundStatus){
-                    mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-                }
-            }else if (PayStatus.REFUNDED.getStatus() != payStatus && PayStatus.NOT_PAY_CLOSE.getStatus() != payStatus){
-                mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-            }
-        }else if (bizOrderDO.getBizType() == OrderBizType.ACTIVITY.getBizType()){
-            if (payStatus == PayStatus.NOT_PAY.getStatus()){
+            }else{
                 mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
-            }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.RETURNED.getStatus() != logisticsStatus ){
-                mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-            }else if (refundStatus>0){
-                if(RefundStatus.REFUND_SUCCESS.getStatus() != refundStatus){
-                    mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-                }
-            }else if (PayStatus.REFUNDED.getStatus() != payStatus && PayStatus.NOT_PAY_CLOSE.getStatus() != payStatus){
-                mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
             }
+        }else if (PayStatus.PAID.getStatus() == payStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.PAID.getStatus());//待发货|已付款
+            mainOrder.setOrderActionStates(OrderActionStatus.AFFIRM_REFUND.getStatus());
+        }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.CONSIGNED.getStatus() == logisticsStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.SHIPPED.getStatus());//待收货|已发货
+            if(bizOrderDO.getBizType() == OrderBizType.NORMAL.getBizType()){
+                mainOrder.setOrderActionStates(OrderActionStatus.OVERTIME.getStatus());
+            }else{
+                mainOrder.setOrderActionStates(OrderActionStatus.FINISH_REFUND.getStatus());
+            }
+        }else if (PayStatus.SUCCESS.getStatus() == payStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.FINISH.getStatus());//已完成
+            mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
+        }else if (RefundStatus.APPLY_REFUND.getStatus() == refundStatus || RefundStatus.REFUNDING.getStatus() == refundStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.PENDING.getStatus());//处理中
+            mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
+        }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
+            mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
         }
         return mainOrder;
     }
+
 
 
     public static MainOrder orderVOConverter(BizOrderDO bizOrderDO) {

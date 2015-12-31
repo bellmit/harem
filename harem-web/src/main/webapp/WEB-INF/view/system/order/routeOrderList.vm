@@ -129,26 +129,26 @@
                     #end
                         <td>
                             <div>
-                                <div class="txt">$!subOrder.bizOrderDO.buyerNick</div>
-                                <div class="txt">1361831881381</div>
+                                <div class="txt">$!order.user.nickname</div>
+                                <div class="txt">$!order.user.mobileNo</div>
 ##                                    <div class="txt">会员</div>
                             </div>
                         </td>
                         <td>
                             <div class="">
-                                #if($order.bizOrderDO.payStatus == 1)
+                                #if($order.orderShowState == 1)
                                     未付款
-                                #elseif($order.bizOrderDO.payStatus == 2)
+                                #elseif($order.orderShowState == 2)
                                     已付款
-                                #elseif($order.bizOrderDO.logisticsStatus == 2)
+                                #elseif($order.orderShowState == 3)
                                     已发货
-                                #elseif($order.bizOrderDO.payStatus == 6)
+                                #elseif($order.orderShowState == 4)
                                     交易成功
-                                #elseif($order.bizOrderDO.payStatus == 8)
+                                #elseif($order.orderShowState == 5)
                                     交易关闭
-                                #elseif($order.bizOrderDO.refundStatus != 4)
+                                #elseif($order.orderShowState == 6)
                                     待处理
-                                #elseif($order.bizOrderDO.payStatus == 4)
+                                #elseif($order.orderShowState == 7)
                                     已退款
                                 #end
                             </div>
@@ -160,25 +160,21 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrderDO.bizOrderId">详情</button>
-                            #if($order.bizOrderDO.payStatus == 2)
-                                <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                                        data-target="#refundModal" tradeNO="$!trade.tradNO">确认
+                            #if($order.orderShowState == 2)
+                                <button type="button" class="btn btn-primary affirm"
+                                        data-target="#affirmModal" orderId="$!order.bizOrderDO.bizOrderId">确认
                                 </button>
-                            #elseif($order.bizOrderDO.logisticsStatus == 2)
-                                <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                                        data-target="#refundModal" tradeNO="$!trade.tradNO">完成
+                            #elseif($order.orderShowState == 3)
+                                <button type="button" class="btn btn-primary finish"
+                                        data-target="#finishModal" orderId="$!order.bizOrderDO.bizOrderId">完成
                                 </button>
                             #elseif($order.bizOrderDO.refundStatus != 4 && $order.bizOrderDO.payStatus == 2)
-                                <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                                        data-target="#refundModal" tradeNO="$!trade.tradNO">退款
+                                <button type="button" class="btn btn-primary refund"
+                                        data-target="#refundModal" orderId="$!$!order.bizOrderDO.bizOrderId">退款
                                 </button>
                             #end
-
-                            <button type="button" class="btn btn-primary addRefund" data-toggle="modal"
-                                    data-target="#refundModal" tradeNO="$!trade.tradNO">退款
-                            </button>
                         </td>
-                    </tr>
+                </tr>
                 #end
             </tbody>
             </table>
@@ -255,6 +251,61 @@
             window.parent.tabsAdd('', "/B2C/orderManage/routeOrder/"+orderId, 3, "订单详情");
         });
 
+
+        $('.finish').each(function(){
+            $(this).click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/buyerConfirmGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+        });
+
+        $('.refund').each(function(){
+            $(this).click(function(){
+                $(this).prop('disabled',true);
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/refundOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+        });
+
+        $('.affirm').each(function(){
+            $(this).click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+        });
 
     });
 </script>

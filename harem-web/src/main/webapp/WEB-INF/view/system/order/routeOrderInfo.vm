@@ -12,54 +12,51 @@
     <div class="orderState">
         <div>
 		<span>订单状态：<span>
-            #if($order.mainOrder.bizOrderDO.payStatus == 1)
+            #if($order.mainOrder.orderShowState == 1)
                 <span>
                     未付款
                     <button type="button" class="btn btn-primary cancel"
-                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">取消订单
+                            data-target="#cancelModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">取消订单
                     </button>
                 </span>
-            #elseif($order.mainOrder.bizOrderDO.payStatus == 2)
+            #elseif($order.mainOrder.orderShowState == 2)
                 <span>
                     已付款
                     <button type="button" class="btn btn-primary affirm"
-                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">确认
+                            data-target="#affirmModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">确认
                     </button>
                     <button type="button" class="btn btn-primary refund"
                             data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
                     </button>
                 </span>
-            #elseif($order.mainOrder.bizOrderDO.logisticsStatus == 2)
+            #elseif($order.mainOrder.orderShowState == 3)
                 <span>
-                已发货
+                    已发货
                     <button type="button" class="btn btn-primary finish"
-                         data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
+                         data-target="#finishModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
                     </button>
                     <button type="button" class="btn btn-primary refund"
                         data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
                     </button>
                 </span>
-            #elseif($order.mainOrder.bizOrderDO.payStatus == 6)
+            #elseif($order.mainOrder.orderShowState == 4)
                 <span>
                     交易成功
                 </span>
-            #elseif($order.mainOrder.bizOrderDO.payStatus == 8)
+            #elseif($order.mainOrder.orderShowState == 5)
                 <span>
                     交易关闭
                 </span>
-            #elseif($order.mainOrder.bizOrderDO.refundStatus != 4)
+            #elseif($order.mainOrder.orderShowState == 6)
                 <span>
                     待处理
                     <button type="button" class="btn btn-primary refund"
                             data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
                     </button>
                 </span>
-            #elseif($order.mainOrder.bizOrderDO.payStatus == 4)
+            #elseif($order.mainOrder.orderShowState == 7)
                 已退款
             #end
-            <button type="button" class="btn btn-primary finish"
-                    data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
-            </button>
             <span>
         </div>
     </div>
@@ -248,10 +245,7 @@
                                     <input type="text" class="form-control availablePoint pointShow" placeholder="可返还积分"
                                            name="availablePoint" value="" readonly="">
                                 </li>
-
-
                             </ul>
-
                             <button id="btnSubmit" class="btn btn-large btn-block btn-primary" type="button"
                                     disabled="">提交
                             </button>
@@ -267,29 +261,60 @@
     </div>
 
 
-
-
     <script>
         $(function () {
             $(".finish").click(function(){
-//                url = '/B2C/orderManage/buyerConfirmGoods/';
-//                openConfirm();
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/buyerConfirmGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();
-                        //TODO暂时先刷新页面
-                        setTimeout(function(){
-                            window.location.href = window.location.href;
-                        },1050);
                     }else{
                         var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
                         msg.show();
                     }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
                 })
             });
+
+
+            $('.refund').each(function(){
+                $(this).click(function(){
+                    $(this).prop('disabled',true);
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/refundOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
+                        if(data.status == 200){
+                            var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                            msg.show();
+                        }else{
+                            var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                            msg.show();
+                        }
+                        //TODO暂时先刷新页面
+                        setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1050);
+                    })
+                });
+            });
+
+            $(".affirm").click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+
         });
     </script>
-
-
 </div>
