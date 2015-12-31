@@ -35,7 +35,7 @@
     未知
     #end
 #end
-#*俱乐部-动态状态*#
+#*俱乐部-动态状态(评论状态也用这个)*#
 #macro(TREND_STATUS $type)
     #if($type == '1')
     正常
@@ -193,6 +193,15 @@
     待处理
     #elseif($type == '7')
     已退款
+    #end
+#end
+#macro(COMMENT_STATUS $type)
+    #if($type == '1')
+    动态
+    #elseif($type == '2')
+    直播
+    #else
+    其他
     #end
 #end
 #*订单操作*#

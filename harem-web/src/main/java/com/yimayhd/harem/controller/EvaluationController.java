@@ -1,25 +1,16 @@
 package com.yimayhd.harem.controller;
 
-import java.util.List;
-
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.ComCommentVO;
+import com.yimayhd.harem.model.query.EvaluationListQuery;
+import com.yimayhd.harem.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.model.Club;
-import com.yimayhd.harem.model.Live;
-import com.yimayhd.harem.model.query.ClubListQuery;
-import com.yimayhd.harem.model.query.LiveListQuery;
-import com.yimayhd.harem.model.vo.LiveVO;
-import com.yimayhd.harem.service.ClubService;
-import com.yimayhd.harem.service.LiveService;
+import java.util.ArrayList;
 
 /**
  *评价管理
@@ -29,7 +20,7 @@ import com.yimayhd.harem.service.LiveService;
 @RequestMapping("/B2C/EvaluationManage")
 public class EvaluationController {
 	 @Autowired
-	 private LiveService liveService;
+	 private EvaluationService evaluationService;
 	
 	 /**
      *评价管理列表
@@ -37,42 +28,53 @@ public class EvaluationController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model,LiveListQuery liveListQuery)  throws Exception {
-    	/*LiveVO liveVO = new LiveVO();
-    	liveVO.setLiveListQuery(liveListQuery);
-    	List<Live> liveList = liveService.getList(liveVO.getLive());
-    	model.addAttribute("liveList", liveList);
-    	model.addAttribute("pageVo", pageVo);
-    	 model.addAttribute("liveListQuery", liveListQuery);*/
+    public String list(Model model,EvaluationListQuery evaluationListQuery)  throws Exception {
+        PageVO<ComCommentVO> pageVO = evaluationService.getList(evaluationListQuery);
+    	model.addAttribute("evaluationList", pageVO.getItemList());
+    	model.addAttribute("pageVo", pageVO);
+    	 model.addAttribute("evaluationListQuery", evaluationListQuery);
     	return "/system/evaluate/list";
     }
-    
+
     /**
-     * 根据直播ID获取直播详情
-     * @return 直播详情
-     * @throws Exception
-     *//*
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public
-    String getById(Model model,@PathVariable(value = "id") long id) throws Exception {
-        Live live = liveService.getById(id);
-        model.addAttribute("live",live);
-        return "/system/live/detail";
-    }
-    
-    
-    *//**
-     * 审核
+     * 评价违规
+     *
      * @return
      * @throws Exception
-     *//*
-    @RequestMapping(value = "/setAudit/{id}", method = RequestMethod.POST)
+     */
+    @RequestMapping(value = "/violation/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo setJoinStatus(@PathVariable(value = "id")long id,String audit) throws Exception {
-    
+    public ResponseVo publish(@PathVariable("id") long id) throws Exception {
+        //TODO
         return new ResponseVo();
     }
-    */
+
+    /**
+     * 评价恢复
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/regain/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseVo close(@PathVariable("id") long id) throws Exception {
+        //TODO
+        return new ResponseVo();
+    }
+
+    /**
+     * 评价违规(批量)
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/batchViolation", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseVo batchPublish(@RequestParam("evaluationIdList[]") ArrayList<Long> evaluationIdList)
+            throws Exception {
+        //TODO
+        return new ResponseVo();
+    }
    
    
 	

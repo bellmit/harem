@@ -77,6 +77,12 @@ public class ActivityManageController extends BaseController {
 			activityList = ret.getList();
 			totalCount = ret.getTotalCount();
 		}
+		/*List<SnsActivityDO> list = ret.getList();
+		for (SnsActivityDO snsActivityDO : list) {
+			BaseResult<List<ComTagDO>> tagResultCheck =activityService.getTagInfoByOutIdAndType(snsActivityDO.getId(),TagType.ACTIVETYTAG.name() );
+			
+		}*/
+		
 		PageVO pageVo = new PageVO(query.getPageNumber(), query.getPageSize(), totalCount);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("activityListQuery", query);
