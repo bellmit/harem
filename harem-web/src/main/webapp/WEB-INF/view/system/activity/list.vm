@@ -72,7 +72,6 @@
                     <th><input type="checkbox" name="checkAll" id="checkAll" value="" /></th>
                     <th>活动名称</th>
                     <th>所属俱乐部</th>
-                    <th>主题</th>
                     <th>活动状态</th>
                     <th>报名状态</th>
                     <th>报名数量</th>
@@ -84,11 +83,10 @@
                         <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!activity.id" /></td>
                         <td>$!activity.title</td>
                         <td>$!activity.clubName</td>
-                        <td>#ACTIVITY_STATUS($!activity.status)</td>
-                        <td></td>
-                        <td>$!activity.memberCountLimit</td>
+                         <td>#ACTIVITY_STATUS($!activity.isStatus)</td>
+                        <td>#ACTIVITY_ENROLL_STATUS($!activity.status)</td>
+                       
                         <td>$!activity.memberCount</td>
-                        
                         <td>
                         #set($originalPrice=$activity.originalPrice / 100.0)
                         #if(! $originalPrice)0#else$originalPrice#end
