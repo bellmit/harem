@@ -56,8 +56,15 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public List<ComTagDO> getListTheme(ThemeVoQuery themeVoQuery) throws Exception {
-		
+	public List<ComTagDO> getListTheme(int type) throws Exception {
+		TagType tagType = TagType.getByType(type);
+		if(tagType==null){
+			throw new Exception("There is no corresponding TagType，type="+type);
+		}
+		BaseResult<List<ComTagDO>> res = comCenterService.selectTagListByTagType(tagType.name());
+		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getValue())){
+			return res.getValue();
+		}
 		return null;
 	}
 

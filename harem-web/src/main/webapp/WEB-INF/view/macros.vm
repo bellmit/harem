@@ -13,16 +13,24 @@
     隐藏
     #end
 #end
-#*活动上下架状态*#
+#*活动状态*#
 #macro(ACTIVITY_STATUS $type)
     #if($type == '1')
     上架
     #elseif($type == '2')
     下架
+    #end
+#end
+#*活动报名架状态*#
+#macro(ACTIVITY_ENROLL_STATUS $type)
+    #if($type == '1')
+    未开始
+    #elseif($type == '2')
+    已满员
     #elseif($type == '3')
-    满员
+    报名中
     #elseif($type == '4')
-    活动结束
+    已结束
     #end
 #end
 #*性别*#

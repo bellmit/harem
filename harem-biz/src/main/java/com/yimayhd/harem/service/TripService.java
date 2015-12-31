@@ -66,7 +66,7 @@ public interface TripService {
 	* @return TripBo 返回类型 
 	* @throws
 	 */
-	TripBo getTripBo(int id);
+	TripBo getTripBo(long  id);
 	
 	/**
 	* @Title: getTripBo 

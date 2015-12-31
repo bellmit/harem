@@ -58,7 +58,7 @@
                     <div class="userView">
                         <img src=" #if($club.manageUserLogoUrl) $utilWebconfig.getTfsRootPath()$!club.manageUserLogoUrl  #end">
                         #*TODO*#
-                       <span id="shownickNameId">$!travelOfficial.nickName</span>
+                       <span id="shownickNameId">$!club.createUserName</span>
                     </div>
                 </td>
             </tr>
@@ -87,6 +87,11 @@
     </form>
 </div>
 <script>
+
+	var thlist=[];
+    thlist = '$thList';
+   // alert("thlist="+thlist);
+    console.log(thlist);
     
     //查询theme themeListId
 	var themeURL="/B2C/themeManage/list/json";
@@ -98,16 +103,41 @@
                 var imgHtml="";
                    $.each(data.data, function(n, val) {
                    console.log(data.data);
-			   			imgHtml+=val.name+"<input name='theme' id='theme_"+n+"' type='checkbox' value='"+val.id+"' /><br>";
-			   			console.log(imgHtml);
-			   			$("#themeListId").html(imgHtml);
-			        });
+			   	   imgHtml+=val.name+"<input class='checkeds' name='theme' id='theme_"+n+"' type='checkbox' value='"+val.id+"' ";
+                   if(thlist.length>0){
+                   		if(thlist.indexOf(val.id)>-1){
+                   		imgHtml+= "checked='true' ";
+                   		}
+                   }
+                   imgHtml+="/><br>";
+			   	   console.log(imgHtml);
+			   	   $("#themeListId").html(imgHtml);
+			    });
                 }else{
                  	layer.alert('获取主题失败');
                     $(this).prop('disabled',false);
                 }
     });
 	
+	//----------------------------------------------------------------------------------------
+	
+    Array.prototype.indexOf = function(val) {              
+		for (var i = 0; i < this.length; i++) {  
+			if (this[i] == val) return i;  
+		}  
+		return -1;  
+	};
+	
+	$(".checkeds").each(function(){
+		var value = $(this).val();
+		if(thlist.indexOf(value)>-1){
+			$(this).attr("checkeds",true);
+		}else{
+			$(this).attr("checkeds",false);
+		}
+	});
+    
+    console.log("thlist="+thlist);
 	
 	var pictureUploadCallBack = function(data){
         if(data && data.status == 200){
@@ -137,8 +167,8 @@
 					var item = win.getItem();
                         console.log(item);
 				    if(null != item){
-                    	$("#nickNameId").val(item.nickname);
-                        $("#shownickNameId").text(item.nickname);
+                    	$("#nickNameId").val(item.name);
+                        $("#shownickNameId").text(item.name);
                         
                         $("#userPhotoId").val(item.avatar);
                         $("#createIdId").val(item.id);

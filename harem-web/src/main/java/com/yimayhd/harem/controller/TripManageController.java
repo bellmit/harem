@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -193,18 +194,21 @@ public class TripManageController extends BaseController {
 		return new ResponseVo(flag);
 	}
 	
-	@RequestMapping("/detail/{id}")
+	@RequestMapping(value="/detail/{cityCode}",method=RequestMethod.GET)
 	public String detail(Model model,@PathVariable(value = "cityCode")long cityCode, HttpServletRequest request){
-		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
 		
 		return null;
 	}	
 	
-	@RequestMapping("/edit/{id}")
+	@RequestMapping(value="/edit/{id}",method=RequestMethod.GET)
 	public String edit(Model model,@PathVariable(value = "id")long id, HttpServletRequest request){
-		int type=StringUtils.isEmpty(request.getParameter("type"))?RegionType.DESC_REGION.getType():Integer.parseInt(request.getParameter("type"));
-		String cityCode=request.getParameter("cityCode");
-		return cityCode;
+		if(0==id){
+			return "/error";
+		}
+		TripBo tripBo = tripService.getTripBo(id);
+		model.addAttribute("tripId",id);
+		model.addAttribute("tripBo",tripBo);
+		return "/system/trip/add_destination/destination_base_info";
 	}
 	
 	/**

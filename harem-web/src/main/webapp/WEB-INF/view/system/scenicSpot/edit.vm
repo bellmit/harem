@@ -149,7 +149,7 @@
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
                             <input type="text" name="masterRecommend.title"  class="inpControl" value="#if(! $VO.scenic.recommend.title)大咖推荐#else$!VO.scenic.recommend.title#end">
                             <img src="#if($VO.scenic.recommend.userPic) $utilWebconfig.getTfsRootPath()$!VO.scenic.recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
-                            <span id="recommendNameT"></span>
+                            <span id="recommendNameT">#if(! $VO.scenic.recommend.name)#else$!VO.scenic.recommend.name#end</span>
                             <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{VO.scenic.recommend.description}</textarea>
                             <input type="hidden" id="recommendId" name="masterRecommend.id" value="#if(! $VO.scenic.recommend.id)0#else$!VO.scenic.recommend.id#end" >
                             <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="#if(! $VO.scenic.recommend.userId)0#else$!VO.scenic.recommend.userId#end" >
