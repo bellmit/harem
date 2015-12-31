@@ -1,4 +1,4 @@
-package com.yimayhd.harem.model.query;
+package com.yimayhd.gf.model.query;
 
 import com.yimayhd.harem.base.BaseQuery;
 

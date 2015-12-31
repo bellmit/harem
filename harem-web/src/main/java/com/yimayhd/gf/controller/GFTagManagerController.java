@@ -1,4 +1,4 @@
-package com.yimayhd.harem.controller;
+package com.yimayhd.gf.controller;
 
 import java.util.ArrayList;
 
@@ -19,11 +19,11 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.gf.biz.GFTagBiz;
+import com.yimayhd.gf.model.query.GFTagVoQuery;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
-import com.yimayhd.harem.gftag.biz.GFTagBiz;
-import com.yimayhd.harem.model.query.GFTagVoQuery;
 
 /**
  * @author : zhangchao

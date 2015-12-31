@@ -1,4 +1,4 @@
-package com.yimayhd.harem.gftag.biz;
+package com.yimayhd.gf.biz;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.errorcode.ComCenterReturnCodes;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.gf.model.query.GFTagVoQuery;
+import com.yimayhd.gf.repo.GFTagRepo;
 import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.model.query.GFTagVoQuery;
-import com.yimayhd.harem.repo.GFTagRepo;
 
 public class GFTagBiz {
 
