@@ -118,7 +118,7 @@
 
                                     #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
                                     <tr class="needKnow">
-                                        <td><input type="text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}"></td>
+                                        <td><input type="text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}"></td>
                                         <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea></td>
                                         <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
                                     </tr>

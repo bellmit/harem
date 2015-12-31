@@ -261,6 +261,17 @@ public class ScenicServiceImpl implements ScenicService {
 			addNewDTO.setScenic(scenicDO);
 			scenicDO.setMemberPrice(scenicDO.getPrice());
 			//NeedKnowOb
+			
+			List<TextItem> frontNeedKnow = scenicVO.getNeedKnowOb().getFrontNeedKnow();
+			List<TextItem> newFrontNeedKnow =new ArrayList<TextItem>();
+			if(frontNeedKnow!=null&&!frontNeedKnow.isEmpty()){
+				for (int i = 0; i < frontNeedKnow.size(); i++) {
+					if(StringUtils.isNotBlank(frontNeedKnow.get(i).getTitle())||StringUtils.isNotBlank(frontNeedKnow.get(i).getContent())){
+						newFrontNeedKnow.add(frontNeedKnow.get(i));
+					}
+				}
+				scenicVO.getNeedKnowOb().setFrontNeedKnow(newFrontNeedKnow);
+			}
 			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
 			scenicDO.setRecommend(scenicVO.getMasterRecommend());
 			//购买须知存tfs
