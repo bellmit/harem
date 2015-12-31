@@ -107,9 +107,9 @@
                 $(this).prop('disabled',true);
                 var url = '';
                 if($(this).attr('status') == 1){//状态1是正长状态，操作是改为违规
-                    url = actionDefaultPath + '/B2C/EvaluationManage/violation/' + $(this).attr('evaluationId');
+                    url = actionDefaultPath + '/B2C/evaluationManage/violation/' + $(this).attr('evaluationId');
                 }else{
-                    url = actionDefaultPath + '/B2C/EvaluationManage/regain/' + $(this).attr('evaluationId');
+                    url = actionDefaultPath + '/B2C/evaluationManage/regain/' + $(this).attr('evaluationId');
                 }
                 $.post(url ,function(data){
                     if(data.status == 200){
@@ -146,7 +146,7 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
-            $.post(actionDefaultPath +'/B2C/EvaluationManage/batchViolation',{evaluationIdList:arr},function(data){
+            $.post(actionDefaultPath +'/B2C/evaluationManage/batchViolation',{evaluationIdList:arr},function(data){
                 if(data&&data.status == 200){
                     layer.alert('操作成功', {
                         icon: 1,

@@ -1,59 +1,233 @@
 package com.yimayhd.harem.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.yimayhd.harem.model.Live;
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.BaseException;
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.SnsSubjectVO;
+import com.yimayhd.harem.model.query.LiveListQuery;
 import com.yimayhd.harem.service.LiveService;
+import com.yimayhd.harem.util.DateUtil;
+import com.yimayhd.harem.util.PhoneUtil;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
+import com.yimayhd.snscenter.client.service.SnsCenterService;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.domain.UserDOQuery;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.UserService;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/11/2.
  */
 public class LiveServiceImpl implements LiveService {
- 
+
+	private static final Logger log = LoggerFactory.getLogger(EvaluationServiceImpl.class);
+	@Autowired
+	private SnsCenterService snsCenterServiceRef;
+	@Autowired
+	private UserService userServiceRef;
 
 	@Override
-	public List<Live> getList(Live liveListQuery) throws Exception {
-		 List<Live> liveList = new ArrayList<Live>();
-	        int j = 10;
-	        //是否有查询条件
-	        for (int i = 0;i <= j;i++){
-	            Live liveData = new Live();
-	            liveData.setId((long) i);
-	            liveData.setCommertNum(22);
-	            liveData.setContent("内容");
-	            liveData.setGmtCreated(new Date());
-	            liveData.setIpAddress("127.1.1.0");
-	            liveData.setLikeNum(55);
-	            liveData.setName("测试");
-	            liveData.setLiveTag("标签");
-	            liveData.setPhone("1852120000");
-	            liveData.setLocation("xxxx");
-	            liveList.add(liveData);
-	        }
-	        return liveList;
-		
+	public PageVO<SnsSubjectVO> getList(LiveListQuery liveListQuery) throws Exception {
+		//返回结果
+		PageVO<SnsSubjectVO> snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),0);
+		//查询条件对接
+		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		//状态
+		subjectInfoDTO.setStatus(liveListQuery.getLiveStatus());
+		//内容
+		if(StringUtils.isNotBlank(liveListQuery.getContent())){
+			subjectInfoDTO.setTextContent(liveListQuery.getContent());
+		}
+		//开始结束时间
+		if(StringUtils.isNotBlank(liveListQuery.getBeginDate())){
+			subjectInfoDTO.setStartTime(DateUtil.formatMinTimeForDate(liveListQuery.getBeginDate()));
+		}
+		if(StringUtils.isNotBlank(liveListQuery.getEndDate())){
+			subjectInfoDTO.setEndTime(DateUtil.formatMaxTimeForDate(liveListQuery.getEndDate()));
+		}
+		//用户id列表
+		List<Long> userIdList = new ArrayList<Long>();
+		//用户列表map
+		Map<Long,UserDO> userDOMap = new HashMap<Long,UserDO>();
+		//电话
+		if(StringUtils.isNotBlank(liveListQuery.getTel())){
+			// 查询用户
+			BaseResult<UserDO> userResult =  userServiceRef.getUserDOByMobile(liveListQuery.getTel());
+			if(null == userResult){
+				log.error("LiveServiceImpl.getList-userService.getUserDOByMobile result is null and parame: " + liveListQuery.getTel());
+				throw new BaseException("查询用户失败");
+			} else if(!userResult.isSuccess()){
+				log.error("LiveServiceImpl.getList-userService.getUserDOByMobile error:" + JSON.toJSONString(userResult) + "and parame: " + liveListQuery.getTel());
+				throw new BaseException("查询用户失败," + userResult.getResultMsg());
+			}
+			if(userResult.getValue() != null && userResult.getValue().getId() != 0){
+				userIdList.add(userResult.getValue().getId());
+				//电话去+86并加密
+				userResult.getValue().setMobileNo(PhoneUtil.mask(PhoneUtil.phoneFormat(userResult.getValue().getMobileNo())));
+				userDOMap.put(userResult.getValue().getId(),userResult.getValue());
+			}else{
+				//没有查到用户，直接返回
+				return snsSubjectVOPageVO;
+			}
+
+		}else if(StringUtils.isNotBlank(liveListQuery.getNickName())){
+			// 查询用户
+			UserDOQuery userDOQuery = new UserDOQuery();
+			userDOQuery.setNickname(liveListQuery.getNickName());
+			com.yimayhd.user.client.result.BasePageResult<UserDO> userListResult =  userServiceRef.findByConditionNoPage(userDOQuery);
+			if(null == userListResult){
+				log.error("LiveServiceImpl.getList-userService.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userDOQuery));
+				throw new BaseException("查询用户列表失败");
+			} else if(!userListResult.isSuccess()){
+				log.error("LiveServiceImpl.getList-userService.findByConditionNoPage error:" + JSON.toJSONString(userListResult) + "and parame: " + JSON.toJSONString(userDOQuery));
+				throw new BaseException("查询用户列表失败," + userListResult.getResultMsg());
+			}
+			if(CollectionUtils.isNotEmpty(userListResult.getList())){
+				for (UserDO userDO : userListResult.getList()){
+					userIdList.add(userDO.getId());
+					//电话去+86并加密
+					userDO.setMobileNo(PhoneUtil.mask(PhoneUtil.phoneFormat(userDO.getMobileNo())));
+					userDOMap.put(userDO.getId(),userDO);
+				}
+			}else{
+				//没有查到用户，直接返回
+				return snsSubjectVOPageVO;
+			}
+		}
+		//昵称（用户id列表）
+		subjectInfoDTO.setUserList(userIdList);
+
+		BasePageResult<SnsSubjectDO> basePageResult = snsCenterServiceRef.getSubjectInfoPage(subjectInfoDTO);
+		if(null == basePageResult){
+			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and liveListQuery:" + JSON.toJSONString(liveListQuery));
+			throw new BaseException("查询返回结果为空");
+		} else if(!basePageResult.isSuccess()){
+			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage error:" + JSON.toJSONString(basePageResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and liveListQuery:" + JSON.toJSONString(liveListQuery));
+			throw new BaseException(basePageResult.getResultMsg());
+		}
+		if(CollectionUtils.isNotEmpty(basePageResult.getList())){
+			List<SnsSubjectVO> snsSubjectVOList = new ArrayList<SnsSubjectVO>();
+			//查询条件中没有查用户的情况下，要重新查询用户信息
+			if(userDOMap.size() == 0){
+				List<Long> userIds = new ArrayList<Long>();
+				for (SnsSubjectDO snsSubjectDO : basePageResult.getList()){
+					userIds.add(snsSubjectDO.getUserId());
+				}
+				// 查询用户
+				BaseResult<List<UserDO>> userListResult =  userServiceRef.getUserDOList(userIds);
+				if(null == userListResult){
+					log.error("LiveServiceImpl.getList-userService.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userIds));
+					throw new BaseException("查询用户列表失败");
+				} else if(!userListResult.isSuccess()){
+					log.error("LiveServiceImpl.getList-userService.findByConditionNoPage error:" + JSON.toJSONString(userListResult) + "and parame: " + JSON.toJSONString(userIds));
+					throw new BaseException("查询用户列表失败," + userListResult.getResultMsg());
+				}
+				if(CollectionUtils.isNotEmpty(userListResult.getValue())){
+					for (UserDO userDO : userListResult.getValue()){
+						//电话去+86并加密
+						userDO.setMobileNo(PhoneUtil.mask(PhoneUtil.phoneFormat(userDO.getMobileNo())));
+						userDOMap.put(userDO.getId(), userDO);
+					}
+				}
+			}
+			for (SnsSubjectDO snsSubjectDO : basePageResult.getList()){
+				//转换类型
+				SnsSubjectVO snsSubjectVO = SnsSubjectVO.getSnsSubjectVO(snsSubjectDO);
+				//设置user
+				snsSubjectVO.setUserDO(userDOMap.get(snsSubjectVO.getUserId()));
+				snsSubjectVOList.add(snsSubjectVO);
+			}
+			snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),basePageResult.getTotalCount(),snsSubjectVOList);
+		}
+		return snsSubjectVOPageVO;
 	}
 
 	@Override
-	public Live getById(long id) throws Exception {
-		   Live liveData = new Live();
-	        int i = 3;
-	        liveData.setId((long) i);
-            liveData.setCommertNum(22);
-            liveData.setContent("内容");
-            liveData.setGmtCreated(new Date());
-            liveData.setIpAddress("127.1.1.0");
-            liveData.setLikeNum(55);
-            liveData.setName("测试");
-            liveData.setLiveTag("标签");
-            liveData.setPhone("1852120000");
-            liveData.setLocation("xxxx");
-          
-	        return liveData;
-		
+	public SnsSubjectVO getById(long id) throws Exception {
+		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		subjectInfoDTO.setId(id);
+		com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> snsSubjectDOBaseResult= snsCenterServiceRef.getSubjectInfo(subjectInfoDTO);
+		if(null == snsSubjectDOBaseResult){
+			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException("查询返回结果为空");
+		} else if(!snsSubjectDOBaseResult.isSuccess()){
+			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage error:" + JSON.toJSONString(snsSubjectDOBaseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException(snsSubjectDOBaseResult.getResultMsg());
+		}
+		return SnsSubjectVO.getSnsSubjectVO(snsSubjectDOBaseResult.getValue());
 	}
 
-   
+	@Override
+	public SnsSubjectVO add(SnsSubjectVO snsSubjectVO) throws Exception {
+		return null;
+	}
+
+	@Override
+	public void modify(SnsSubjectVO snsSubjectVO) throws Exception {
+
+	}
+
+	@Override
+	public void regain(long id) throws Exception {
+		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		List<Long> subjectList = new ArrayList<Long>();
+		subjectList.add(id);
+		subjectInfoDTO.setSubjectList(subjectList);
+		//subjectInfoDTO.setId(id);
+		subjectInfoDTO.setStatus(BaseStatus.AVAILABLE.getType());
+		com.yimayhd.snscenter.client.result.BaseResult<Boolean> baseResult = snsCenterServiceRef.updateSubjectStatus(subjectInfoDTO);
+		if(null == baseResult){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException("查询返回结果为空");
+		} else if(!baseResult.isSuccess()){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException(baseResult.getResultMsg());
+		}
+	}
+
+	@Override
+	public void violation(long id) throws Exception {
+		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		List<Long> subjectList = new ArrayList<Long>();
+		subjectList.add(id);
+		subjectInfoDTO.setSubjectList(subjectList);
+		//subjectInfoDTO.setId(id);
+		subjectInfoDTO.setStatus(BaseStatus.DELETED.getType());
+		com.yimayhd.snscenter.client.result.BaseResult<Boolean> baseResult = snsCenterServiceRef.updateSubjectStatus(subjectInfoDTO);
+		if(null == baseResult){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException("查询返回结果为空");
+		} else if(!baseResult.isSuccess()){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException(baseResult.getResultMsg());
+		}
+	}
+
+	@Override
+	public void batchViolation(List<Long> idList) {
+		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		subjectInfoDTO.setSubjectList(idList);
+		subjectInfoDTO.setStatus(BaseStatus.DELETED.getType());
+		com.yimayhd.snscenter.client.result.BaseResult<Boolean> baseResult = snsCenterServiceRef.updateSubjectStatus(subjectInfoDTO);
+		if(null == baseResult){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and idList:" + JSON.toJSONString(idList));
+			throw new BaseException("查询返回结果为空");
+		} else if(!baseResult.isSuccess()){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and idList:" + JSON.toJSONString(idList));
+			throw new BaseException(baseResult.getResultMsg());
+		}
+	}
 }

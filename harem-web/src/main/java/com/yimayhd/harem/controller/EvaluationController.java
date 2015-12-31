@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author xzj
  */
 @Controller
-@RequestMapping("/B2C/EvaluationManage")
+@RequestMapping("/B2C/evaluationManage")
 public class EvaluationController {
 	 @Autowired
 	 private EvaluationService evaluationService;

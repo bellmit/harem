@@ -5,7 +5,7 @@
         >
 
     <!-- ============================== snscecenter ================================== -->
-    <bean id="snsCenterService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+    <bean id="snsCenterServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.snscenter.client.service.SnsCenterService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>

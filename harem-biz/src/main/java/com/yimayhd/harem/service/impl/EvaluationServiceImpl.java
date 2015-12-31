@@ -11,6 +11,7 @@ import com.yimayhd.harem.model.ComCommentVO;
 import com.yimayhd.harem.model.query.EvaluationListQuery;
 import com.yimayhd.harem.service.EvaluationService;
 import com.yimayhd.harem.util.DateUtil;
+import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOQuery;
 import com.yimayhd.user.client.result.BaseResult;
@@ -62,42 +63,44 @@ public class EvaluationServiceImpl implements EvaluationService {
             // 查询用户
             BaseResult<UserDO> userResult =  userServiceRef.getUserDOByMobile(evaluationListQuery.getTel());
             if(null == userResult){
-                log.error("EvaluationServiceImpl.getList-userServiceRef.getUserDOByMobile result is null and parame: " + evaluationListQuery.getTel());
+                log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile result is null and parame: " + evaluationListQuery.getTel());
                 throw new BaseException("查询用户失败");
             } else if(!userResult.isSuccess()){
-                log.error("EvaluationServiceImpl.getList-userServiceRef.getUserDOByMobile error:" + JSON.toJSONString(userResult) + "and parame: " + evaluationListQuery.getTel());
+                log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile error:" + JSON.toJSONString(userResult) + "and parame: " + evaluationListQuery.getTel());
                 throw new BaseException("查询用户失败," + userResult.getResultMsg());
             }
             if(userResult.getValue() != null && userResult.getValue().getId() != 0){
                 userIdList.add(userResult.getValue().getId());
+                //电话去+86并加密
+                userResult.getValue().setMobileNo(PhoneUtil.mask(PhoneUtil.phoneFormat(userResult.getValue().getMobileNo())));
                 userDOMap.put(userResult.getValue().getId(),userResult.getValue());
             }else{
                 //没有查到用户，直接返回
                 return comCommentVOPageVO;
             }
 
-        }else{
-            if(StringUtils.isNotBlank(evaluationListQuery.getNickName())){
-                // 查询用户
-                UserDOQuery userDOQuery = new UserDOQuery();
-                userDOQuery.setNickname(evaluationListQuery.getNickName());
-                com.yimayhd.user.client.result.BasePageResult<UserDO> userListResult =  userServiceRef.findByConditionNoPage(userDOQuery);
-                if(null == userListResult){
-                    log.error("EvaluationServiceImpl.getList-userServiceRef.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userDOQuery));
-                    throw new BaseException("查询用户列表失败");
-                } else if(!userListResult.isSuccess()){
-                    log.error("EvaluationServiceImpl.getList-userServiceRef.findByConditionNoPage error:" + JSON.toJSONString(userListResult) + "and parame: " + JSON.toJSONString(userDOQuery));
-                    throw new BaseException("查询用户列表失败," + userListResult.getResultMsg());
+        }else if(StringUtils.isNotBlank(evaluationListQuery.getNickName())){
+            // 查询用户
+            UserDOQuery userDOQuery = new UserDOQuery();
+            userDOQuery.setNickname(evaluationListQuery.getNickName());
+            com.yimayhd.user.client.result.BasePageResult<UserDO> userListResult =  userServiceRef.findByConditionNoPage(userDOQuery);
+            if(null == userListResult){
+                log.error("EvaluationServiceImpl.getList-userService.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userDOQuery));
+                throw new BaseException("查询用户列表失败");
+            } else if(!userListResult.isSuccess()){
+                log.error("EvaluationServiceImpl.getList-userService.findByConditionNoPage error:" + JSON.toJSONString(userListResult) + "and parame: " + JSON.toJSONString(userDOQuery));
+                throw new BaseException("查询用户列表失败," + userListResult.getResultMsg());
+            }
+            if(CollectionUtils.isNotEmpty(userListResult.getList())){
+                for (UserDO userDO : userListResult.getList()){
+                    userIdList.add(userDO.getId());
+                    //电话去+86并加密
+                    userDO.setMobileNo(PhoneUtil.mask(PhoneUtil.phoneFormat(userDO.getMobileNo())));
+                    userDOMap.put(userDO.getId(),userDO);
                 }
-                if(CollectionUtils.isNotEmpty(userListResult.getList())){
-                    for (UserDO userDO : userListResult.getList()){
-                        userIdList.add(userDO.getId());
-                        userDOMap.put(userDO.getId(),userDO);
-                    }
-                }else{
-                    //没有查到用户，直接返回
-                    return comCommentVOPageVO;
-                }
+            }else{
+                //没有查到用户，直接返回
+                return comCommentVOPageVO;
             }
         }
         //昵称（用户id列表）
@@ -107,10 +110,10 @@ public class EvaluationServiceImpl implements EvaluationService {
         commentDTO.setState(evaluationListQuery.getEvaluationStatus());
         BasePageResult<ComCommentDO> commentDOBasePageResult = comCenterServiceRef.getCommentInfoPage(commentDTO);
         if(null == commentDOBasePageResult){
-            log.error("EvaluationServiceImpl.getList-comCenterServiceRef.getCommentInfoPage result is null and parame: " + JSON.toJSONString(commentDTO));
+            log.error("EvaluationServiceImpl.getList-comCenterService.getCommentInfoPage result is null and parame: " + JSON.toJSONString(commentDTO) + " and liveListQuery:" + JSON.toJSONString(evaluationListQuery));
             throw new BaseException("查询返回结果为空");
         } else if(!commentDOBasePageResult.isSuccess()){
-            log.error("EvaluationServiceImpl.getList-comCenterServiceRef.getCommentInfoPage error:" + JSON.toJSONString(commentDOBasePageResult) + "and parame: " + JSON.toJSONString(commentDTO));
+            log.error("EvaluationServiceImpl.getList-comCenterService.getCommentInfoPage error:" + JSON.toJSONString(commentDOBasePageResult) + "and parame: " + JSON.toJSONString(commentDTO) + " and liveListQuery:" + JSON.toJSONString(evaluationListQuery));
             throw new BaseException(commentDOBasePageResult.getResultMsg());
         }
         if(CollectionUtils.isNotEmpty(commentDOBasePageResult.getList())){
@@ -124,15 +127,17 @@ public class EvaluationServiceImpl implements EvaluationService {
                 // 查询用户 TODO
                 BaseResult<List<UserDO>> userListResult =  userServiceRef.getUserDOList(userIds);
                 if(null == userListResult){
-                    log.error("EvaluationServiceImpl.getList-userServiceRef.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userIds));
+                    log.error("EvaluationServiceImpl.getList-userService.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userIds));
                     throw new BaseException("查询用户列表失败");
                 } else if(!userListResult.isSuccess()){
-                    log.error("EvaluationServiceImpl.getList-userServiceRef.findByConditionNoPage error:" + JSON.toJSONString(userListResult) + "and parame: " + JSON.toJSONString(userIds));
+                    log.error("EvaluationServiceImpl.getList-userService.findByConditionNoPage error:" + JSON.toJSONString(userListResult) + "and parame: " + JSON.toJSONString(userIds));
                     throw new BaseException("查询用户列表失败," + userListResult.getResultMsg());
                 }
                 if(CollectionUtils.isNotEmpty(userListResult.getValue())){
                     for (UserDO userDO : userListResult.getValue()){
-                        userDOMap.put(userDO.getId(),userDO);
+                        //电话去+86并加密
+                        userDO.setMobileNo(PhoneUtil.mask(PhoneUtil.phoneFormat(userDO.getMobileNo())));
+                        userDOMap.put(userDO.getId(), userDO);
                     }
                 }
             }
@@ -146,5 +151,20 @@ public class EvaluationServiceImpl implements EvaluationService {
             comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNumber(),evaluationListQuery.getPageSize(),commentDOBasePageResult.getTotalCount(),comCommentVOList);
         }
         return comCommentVOPageVO;
+    }
+
+    @Override
+    public void regain(long id) throws Exception {
+
+    }
+
+    @Override
+    public void violation(long id) throws Exception {
+
+    }
+
+    @Override
+    public void batchViolation(List<Long> idList) {
+
     }
 }
