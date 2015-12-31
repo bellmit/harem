@@ -52,7 +52,7 @@
                 <tr>
                     <td><span class="spColor">*</span>排序</td>
                     <td>
-                    	<input type="text" class="inpCtlBlock" name="scenicDO.orderNum"  value="$!commScenic.sort" placeholder="请输入数字，数字越大排序靠后">
+                    	<input type="text" class="inpCtlBlock" name="scenicDO.orderNum"  value="$!orderNum" placeholder="请输入数字，数字越大排序靠后">
 					</td>
                 </tr>
                 <tr>

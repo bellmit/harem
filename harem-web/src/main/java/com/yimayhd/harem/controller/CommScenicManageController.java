@@ -114,6 +114,7 @@ public class CommScenicManageController extends BaseController {
     	ScenicAddNewDTO scenicDO = scenicSpotService.getById(itemResultVO.getItemVO().getOutId());
     	if(null != scenicDO){
 			model.addAttribute("scenicName", scenicDO.getScenic().getName());
+			model.addAttribute("orderNum", scenicDO.getScenic().getOrderNum());
 		}
         model.addAttribute("itemResult", itemResultVO);
         model.addAttribute("commScenic", itemResultVO.getItemVO());

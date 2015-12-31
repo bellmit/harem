@@ -33,12 +33,15 @@ import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ItemUpdDTO;
+import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.model.result.item.ItemUpdResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.ic.client.service.item.ResourcePublishService;
 
 /**
  * Created by Administrator on 2015/11/18.
@@ -51,6 +54,8 @@ public class CommScenicServiceImpl implements CommScenicService {
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
+	@Autowired
+	private ResourcePublishService resourcePublishServiceRef;
 	@Override
 	public ItemPubResult save(CommScenicVO commScenic) throws Exception {
 		ScenicPublishDTO dto = new ScenicPublishDTO();
@@ -91,13 +96,13 @@ public class CommScenicServiceImpl implements CommScenicService {
 				   itemDB.setOutId(itemDO.getOutId());
 				   //商品图片
 		            if(StringUtils.isNotBlank(commScenic.getSmallListPic())){
-		            	itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
+		            	itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
 		            }
 		            if(StringUtils.isNotBlank(commScenic.getBigListPic())){
-		            	itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
+		            	itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, commScenic.getBigListPic());
 		            }
 		            if(StringUtils.isNotBlank(commScenic.getCoverPics())){
-		            	itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
+		            	itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
 		            }
 		            //商品名称
 					itemDB.setTitle(itemDO.getTitle());
@@ -117,13 +122,32 @@ public class CommScenicServiceImpl implements CommScenicService {
 					commonItemPublishDTO.setItemDO(itemDB);
 					ItemPubResult itemPubResult = itemPublishService.updatePublishCommonItem(commonItemPublishDTO);
 					//更新景区信息  
-					ScenicDO scenicDO= new ScenicDO();
-					scenicDO.setOrderNum(commScenic.getScenicDO().getOrderNum());
-					scenicDO.setId(commScenic.getItemDO().getOutId());
+					ICResult<ScenicDO> scenic = itemQueryServiceRef.getScenic(commScenic.getItemDO().getOutId());
+					if(null == scenic){
+			            log.error("CommScenicServiceImpl.update--itemQueryServiceRef.getScenic return value is null and parame: " + JSON.toJSONString(scenic) + " and id is : " + commScenic.getItemDO().getOutId());
+			            throw new BaseException("查询景区，返回结果错误");
+			        }else if(!scenic.isSuccess()){
+			            log.error("CommScenicServiceImpl.update--itemQueryServiceRef.getScenic return value error ! returnValue : "+ JSON.toJSONString(scenic) + " and parame: id is : " +  commScenic.getItemDO().getOutId());
+			            throw new NoticeException(itemResult.getResultMsg());
+			        }else{
+			        	
+			        	ScenicAddNewDTO addScenicNew = new ScenicAddNewDTO();
+			        	scenic.getModule().setOrderNum(commScenic.getScenicDO().getOrderNum());
+			        	addScenicNew.setScenic(scenic.getModule());
+			        	ICResult<ScenicDO> updateScenicNew = resourcePublishServiceRef.updateScenicNew(addScenicNew);
+			        	if(null == updateScenicNew){
+							log.error("ScenicServiceImpl.save-ResourcePublishService.updateScenicNew result is null and parame: " + JSON.toJSONString(addScenicNew));
+							throw new BaseException("修改景区返回结果为空,修改失败");
+						} else if(!updateScenicNew.isSuccess()){
+							log.error("ScenicServiceImpl.save-ResourcePublishService.updateScenicNew error:" + JSON.toJSONString(updateScenicNew) + "and parame: " + JSON.toJSONString(addScenicNew));
+							throw new BaseException(updateScenicNew.getResultMsg());
+						}
+			        
+			        }
 					if (itemPubResult != null && itemPubResult.isSuccess()) {
 						TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 						tagRelationInfoDTO.setTagType(TagType.VIEWTAG.getType());
-						tagRelationInfoDTO.setOutId(scenicDO.getId());
+						tagRelationInfoDTO.setOutId(commScenic.getItemDO().getOutId());
 						tagRelationInfoDTO.setOrderTime(new Date());
 						tagRelationInfoDTO.setList(Arrays.asList(commScenic.getCheck()));
 						BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
