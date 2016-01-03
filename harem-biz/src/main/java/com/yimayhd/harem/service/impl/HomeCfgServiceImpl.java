@@ -4,27 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yimayhd.harem.service.UserRPCService;
-import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.resourcecenter.model.enums.*;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 import com.yimayhd.user.client.domain.UserDO;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.model.vo.CfgBaseVO;
 import com.yimayhd.harem.model.vo.CfgResultInfo;
 import com.yimayhd.harem.model.vo.CfgResultVO;
+import com.yimayhd.harem.model.vo.ShowCaseVO;
 import com.yimayhd.harem.service.HomeCfgService;
+import com.yimayhd.harem.service.ServiceResult;
 import com.yimayhd.harem.util.Common;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.entity.CityInfo;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.LineInfo;
-import com.yimayhd.resourcecenter.model.resource.TravelKaItem;
 import com.yimayhd.resourcecenter.model.resource.TravelSpecialInfo;
 import com.yimayhd.resourcecenter.model.resource.UserInfo;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -35,6 +38,11 @@ import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 import org.springframework.util.StringUtils;
 
 public class HomeCfgServiceImpl implements HomeCfgService{
+	private static final Logger LOGGER = LoggerFactory.getLogger(HomeCfgServiceImpl.class);
+	
+	private static final String BOOT_HOME_ADVERTISE_CODE = "MAIN_PAGE";
+	private static final String BOOT_RECOMMEND_CODE = "GREAT_RECOMMENT";
+	private static final String BOOT_TRAVEKA_CODE = "TRAVE_MASTER";
 
 	/**
 	 * 会员专享boothid
@@ -50,7 +58,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	 * 金牌旅游咖boothid
 	 */
 	private static final long HOME_CONFIG_TRAVEL_KA_BOOTH_ID = 62;
-
+	
 	
 	/**
 	 * 目的地boothid
@@ -63,6 +71,8 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	private static final long HOME_CONFIG_TRAVEL_SPECIAL_BOOTH_ID = 64;
 	
 	private static final String img = "T1xthTB4YT1R4cSCrK.png";
+
+	private static final BoothClientServer showcaseCilentServer = null;
 	
 	@Autowired
 	private ShowcaseClientServer showCaseClientServer;
@@ -78,13 +88,10 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 
 	@Autowired
 	private SnsCenterService snsCenterService;
-
-
 	
 	@Override
 	public RcResult<Boolean> addVipList(CfgBaseVO cfgBaseVO) {
 		RcResult<Boolean> batchInsertShowcase = new RcResult<Boolean>();
-		
 		if(null == cfgBaseVO){
 			batchInsertShowcase.setErrorCode(ErrorCode.PARAM_ERROR);
 		}
@@ -291,7 +298,7 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 			
 			ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
 			homeResultInfo = new CfgResultInfo();
-			
+			homeResultInfo.setShowCaseId(showcaseDO.getId());
 			homeResultInfo.setItemId(showcaseDO.getOperationId());
 			homeResultInfo.setItemImg(showcaseDO.getImgUrl());
 			homeResultInfo.setItemTitle(showcaseDO.getTitle());
@@ -646,7 +653,174 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 		return null;
 	}
 	
+	@Override
+	public ServiceResult<Boolean> multiShowCaseOperate(List<ShowCaseVO> showcaseVOList,String boothCode) {
+		LOGGER.debug("showcaseVOList={},boothCode={}",JSONObject.toJSONString(showcaseVOList),boothCode);
+		//根据boothcode查询rc_booth
+		BoothDO boothResult = boothCilentServer.getBoothDoByCode(boothCode);
+		boolean result  = true;
+		long boothId = boothResult.getId();
+		
+		//FIXME 此处考虑批量操作
+		if(!CollectionUtils.isEmpty(showcaseVOList)){
+			List<ShowcaseDO> addList = new ArrayList<ShowcaseDO>();
+			List<ShowcaseDO> updateList = new ArrayList<ShowcaseDO>();
+			//拼接do对象
+			for(ShowCaseVO showCaseVO : showcaseVOList){
+				ShowcaseDO showcaseDO = new ShowcaseDO();
+				if(showCaseVO.getShowcaseId()!= null){
+					showcaseDO.setId(showCaseVO.getShowcaseId());
+				}
+				
+				showcaseDO.setTitle(showCaseVO.getTitle());
+				showcaseDO.setSummary(showCaseVO.getSummary());
+				showcaseDO.setBusinessCode(showCaseVO.getBusinessCode());
+				if(showCaseVO.getOperationId() != null){
+					showcaseDO.setOperationId(showCaseVO.getOperationId());
+				}
+				
+				showcaseDO.setBoothId(boothId);
+				showcaseDO.setImgUrl(showCaseVO.getImgUrl());
+				if(showCaseVO.getVersion() != null){
+					showcaseDO.setVersion(showCaseVO.getVersion());
+				}else{
+					showcaseDO.setVersion(0);
+				}
+				
+				//FIXME 对于错误的处理机制
+				if("add".equals(showCaseVO.getOperation())){//更新操作
+					showcaseDO.setStatus(ShowcaseStauts.ONLINE.getStatus());
+					addList.add(showcaseDO);
+//					RcResult<Boolean> insertResult = showCaseClientServer.insert(showcaseDO);
+//					LOGGER.debug("insertResult={}",JSONObject.toJSONString(insertResult));
+				}else if("del".equals(showCaseVO.getOperation())){
+					showcaseDO.setStatus(ShowcaseStauts.OFFLINE.getStatus());
+					updateList.add(showcaseDO);
+//					RcResult<Boolean> deleteResult = showCaseClientServer.update(showcaseDO);
+//					LOGGER.debug("deleteResult={}",JSONObject.toJSONString(deleteResult));
+				}else if(showcaseDO.getId() != null){
+					showcaseDO.setStatus(ShowcaseStauts.ONLINE.getStatus());
+					updateList.add(showcaseDO);
+//					RcResult<Boolean> updateResult = showCaseClientServer.update(showcaseDO);
+//					LOGGER.debug("updateResult={}",JSONObject.toJSON(updateResult));
+				}else{
+					showcaseDO.setStatus(ShowcaseStauts.ONLINE.getStatus());
+					showcaseDO.setVersion(0);
+					addList.add(showcaseDO);
+//					RcResult<Boolean> insertResult = showCaseClientServer.insert(showcaseDO);
+//					LOGGER.debug("insertResult={}",JSONObject.toJSON(insertResult));
+				}
+			}	
+			
+			if(!CollectionUtils.isEmpty(addList)){
+				ServiceResult<Boolean> addResult = this.addShowCaseBatch(addList);
+				LOGGER.debug("addResult={}",JSONObject.toJSONString(addResult));
+				if(addResult.isSuccess() == false){
+					return addResult;
+				}
+			}
+			
+			if (!CollectionUtils.isEmpty(updateList)) {
+				ServiceResult<Boolean> updateResult = this.updateShowCaseBatch(updateList);
+				LOGGER.debug("updateResult={}",JSONObject.toJSONString(updateResult));
+				if(updateResult.isSuccess() == false){
+					return updateResult;
+				}
+			}
+		}
+		
+		return new ServiceResult<Boolean>(true);
+	}
+		
+	@Override
+	public ServiceResult<Boolean> addAdvertise(List<ShowCaseVO> list) {
+		return multiShowCaseOperate(list,BOOT_HOME_ADVERTISE_CODE);
+	}
+
+	@Override
+	public ServiceResult<List<ShowcaseDO>> getShowCases(String boothCode) {
+		BoothDO boothResult = boothCilentServer.getBoothDoByCode(boothCode);
+		long boothId = boothResult.getId();
+		List<ShowcaseDO> showcaseList  = showCaseClientServer.getShowcaseByBoothId(boothId);
+		LOGGER.debug("showcaseList={}",JSONObject.toJSONString(showcaseList));
+		
+		ServiceResult<List<ShowcaseDO>> queryResult = new ServiceResult<List<ShowcaseDO>>(true);
+		queryResult.setValue(showcaseList);
+		return queryResult;
+	}
+
+	@Override
+	public ServiceResult<List<ShowcaseDO>> getAdvertiseShowcase() {
+		// TODO Auto-generated method stub
+		return getShowCases(BOOT_HOME_ADVERTISE_CODE);
+	}
+
+	@Override
+	public ServiceResult<Boolean> addRecommends(List<ShowCaseVO> list) {
+		
+		return multiShowCaseOperate(list,BOOT_RECOMMEND_CODE);
+	}
+
+	@Override
+	public ServiceResult<List<ShowcaseDO>> getRecommends() {
+		
+		return getShowCases(BOOT_RECOMMEND_CODE);
+	}
+
+	@Override
+	public ServiceResult<List<ShowcaseDO>> getTravelKa() {	
+		return getShowCases(BOOT_TRAVEKA_CODE);
+	}
+
+	@Override
+	public ServiceResult<Boolean> addTravelKaList(List<ShowCaseVO> list) {
+		return multiShowCaseOperate(list,BOOT_TRAVEKA_CODE);
+	}
+
 	
-	
+	@Override
+	public ServiceResult<Boolean> updateShowCaseBatch(List<ShowcaseDO> list) {
+		LOGGER.debug("list={}",list);
+		//FIXME 此处需要resourcecenter提供批量更新接口
+		RcResult<Boolean> finalResult = null;
+		if(!CollectionUtils.isEmpty(list)){
+			for(ShowcaseDO showcase : list){
+				 RcResult<Boolean> updateResult = 	showCaseClientServer.update(showcase);
+				 LOGGER.debug("updateResult={}",JSONObject.toJSONString(updateResult));
+				 if(updateResult.isSuccess() == false){
+					 finalResult = updateResult;
+					 break;
+				 }
+			}
+		}
+		
+		if(finalResult != null){
+			return new ServiceResult<Boolean>(false,finalResult.getResultMsg(),finalResult.getErrorCode() + "");
+		}
+		
+		return new ServiceResult<Boolean>(true); 
+	}
+
+	@Override
+	public ServiceResult<Boolean> addShowCaseBatch(List<ShowcaseDO> list) {
+		RcResult<Boolean> finalResult = null;
+		//FIXME 此处需要resourcecenter明确哪个是批量新增接口
+		if(!CollectionUtils.isEmpty(list)){
+			for(ShowcaseDO showcase : list){
+				 RcResult<Boolean> insertResult = 	showCaseClientServer.insert(showcase);
+				 LOGGER.debug("updateResult={}",JSONObject.toJSONString(insertResult));
+				 if(insertResult.isSuccess() == false){
+					 finalResult = insertResult;
+					 break;
+				 }
+			}
+		}
+		
+		if(finalResult != null){
+			return new ServiceResult<Boolean>(false,finalResult.getResultMsg(),finalResult.getErrorCode() + "");
+		}
+		
+		return new ServiceResult<Boolean>(true); 
+	}
 
 }

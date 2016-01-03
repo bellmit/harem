@@ -13,6 +13,8 @@ public class CfgResultInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3894408522360799520L;
+	
+	private long showCaseId;
 
 	private long itemId;
 	
@@ -93,5 +95,14 @@ public class CfgResultInfo implements Serializable{
 	public void setExtName(String extName) {
 		this.extName = extName;
 	}
+
+	public long getShowCaseId() {
+		return showCaseId;
+	}
+
+	public void setShowCaseId(long showCaseId) {
+		this.showCaseId = showCaseId;
+	}
+	
 	
 }

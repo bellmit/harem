@@ -24,36 +24,33 @@
         $('table.resourceTable').datatable({
             checkable: true,
             checksChanged: function(event) {
-                var oId = -1;
-                if($(".resources").length > 0) {
-                    oId = parseInt($(".resources").attr("rId"));
-                }
-                var nResources = [];
-                $(event.checks.checks).each(function() {
-                    var str = this.split("_");
-                    var rId = parseInt(str[1]);
-                    var rName = str[2];
-                    if(parseInt(str[1]) != oId) {
-                        nResources.push({rId:rId,rName:rName});
-                    }
-                });
-                $(".checked-resource").empty();
-                if(nResources.length > 0) {
-                    var rId = nResources[0].rId;
-                    var rName = nResources[0].rName;
-                    var btn = $("<button class='btn btn-info resources'></button>");
-                    // check
-                    btn.click(function(){
-                        $("tr[data-id^='resource_"+rId+"_']").removeClass("active");
-                        $(this).remove();
-                    });
-                    btn.attr("id","r_"+rId);
-                    btn.attr("rId",rId);
-                    btn.attr("rName",rName);
-                    btn.text(rName);
-                    $(".checked-resource").append(btn);
-                }
-                $("tr[data-id^='resource_"+oId+"_']").removeClass("active");
+               // 取消的删除
+				$(".resourceTable tbody tr").each(function() {
+    				var data_id = $(this).attr("id");
+					var str = data_id.split("_");
+    				if(event.checks.checks.indexOf(data_id)==-1) {
+    					$("#r_"+str[1]).remove();
+    				}
+    			});
+    			// 新增的添加
+    			$(event.checks.checks).each(function() {
+    				var str = this.split("_");
+					var rId = str[1];
+					var rName = str[2];
+    				if($("#r_"+str[1]).length <= 0) {
+        				var btn = $("<button class='btn btn-info resources'></button>");
+        				// check 
+    					btn.click(function(){
+    						$("tr[data-id^='resource_"+$(this).attr("rId")+"_']").removeClass("active");
+        					$(this).remove();
+        				});
+        				btn.attr("id","r_"+rId);
+        				btn.attr("rId",rId);
+        				btn.attr("rName",rName);
+        				btn.text(rName);
+        				$(".checked-resource").append(btn);
+    				} 
+    			});
             }
         });
     }
@@ -66,15 +63,15 @@
     function showData(itemList) {
         $(".selectResourceTable").empty();
         var table = $("<table class='table table-striped table-hover resourceTable'/>");
-        table.append("<thead><tr><th>昵称</th><th>名称</th></tr></thead>");
+        table.append("<thead><tr><th>名称</th><th>价格</th></tr></thead>");
         var tbody= $("<tbody/>");
         table.append(tbody);
         for(i in itemList) {
             var item = itemList[i];
             resource_table[item.id] = item;
             var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
-            tr.append($("<td>"+item.nickName+"</td>"));
             tr.append($("<td>"+item.name+"</td>"));
+            tr.append($("<td>"+item.price+"</td>"));
             tbody.append(tr);
         }
         $(".selectResourceTable").append(table);
@@ -88,12 +85,12 @@
         });
     }
     // 获得最终结果
-    function getTravelKa() {
-        if($(".resources").length > 0) {
-            var rId = $(".resources").attr("rId");
-            return resource_table[rId];
-        } else {
-            return null;
-        }
+    function getSelected() {
+        var result = [];
+		$(".resources").each(function(){
+			var rId = $(this).attr("rId");
+			result.push(resource_table[rId]);
+		});
+		return result;
     }
 </script>

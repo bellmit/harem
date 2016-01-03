@@ -29,6 +29,8 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
+import com.yimayhd.membercenter.client.result.MemPageResult;
+import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -62,6 +64,8 @@ public class ResourceForSelectController extends BaseController {
 	private CommTravelService commTravelService;
 	@Autowired
 	private ActivityService activityService;
+	@Autowired
+	private TravelKaService travelKaService;
 
 	/**
 	 * 选择景点
@@ -238,9 +242,10 @@ public class ResourceForSelectController extends BaseController {
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		}
-		PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
+		MemPageResult<TravelKaVO> memResult = travelKaService.getTravelKaListManagerPage(query);//userService.getTravelKaListByPage(query);
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
+		result.put("pageVo", memResult);
 		result.put("query", query);
 		return new ResponseVo(result);
 	}
@@ -312,9 +317,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectOneTravelProduct")
+	@RequestMapping(value = "/selectline")
 	public String selectOneTravelProduct() throws Exception {
-		return "/system/resource/forSelect/selectOneTravelProduct";
+		return "/system/resource/forSelect/selectline";
 	}
 
 
@@ -348,6 +353,18 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/selectOneActivity")
 	public String selectOneActivity() throws Exception {
 		return "/system/resource/forSelect/selectOneActivity";
+	}
+	
+
+	/**
+	 * 选择多活动
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectActivity")
+	public String selectActivity() throws Exception {
+		return "/system/resource/forSelect/selectActivity";
 	}
 
 	/**
