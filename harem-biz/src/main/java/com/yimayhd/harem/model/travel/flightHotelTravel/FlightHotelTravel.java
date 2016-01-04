@@ -1,4 +1,4 @@
-package com.yimayhd.harem.model.travel.selfServiceTravel;
+package com.yimayhd.harem.model.travel.flightHotelTravel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
  * @author yebin
  *
  */
-public class SelfServiceTravel extends BaseTravel {
+public class FlightHotelTravel extends BaseTravel {
 
 	private TripPackageInfo tripPackageInfo;// 套餐信息
 
