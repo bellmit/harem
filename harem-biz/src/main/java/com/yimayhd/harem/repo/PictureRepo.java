@@ -16,9 +16,10 @@ import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 public class PictureRepo {
-	protected Logger log = LoggerFactory.getLogger(getClass());
+	private static final int PICTURE_MAX_SIZE = 500;
+	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
-	protected ItemQueryService itemQueryServiceRef;
+	private ItemQueryService itemQueryServiceRef;
 
 	public PageVO<PicturesDO> pageQueryPictures(PicturesPageQuery query) {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.queryPictures", query);
@@ -40,5 +41,9 @@ public class PictureRepo {
 		ppq.setPageNo(1);
 		ppq.setPageSize(limit);
 		return pageQueryPictures(ppq).getItemList();
+	}
+
+	public List<PicturesDO> queryAllPictures(PictureOutType outType, long outId) {
+		return queryTopPictures(outType, outId, PICTURE_MAX_SIZE);
 	}
 }

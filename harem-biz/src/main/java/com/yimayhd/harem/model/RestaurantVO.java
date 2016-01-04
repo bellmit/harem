@@ -33,6 +33,7 @@ public class RestaurantVO {
 	private String contactPhone;
 	private String oneword;
 	private String coverPics;
+	private String picListStr;// 图片集的str
 
 	public long getId() {
 		return id;
@@ -192,5 +193,13 @@ public class RestaurantVO {
 			restaurantDTO.setPictures(Arrays.asList(coverPics.split("\\|")));
 		}
 		return restaurantDTO;
+	}
+
+	public String getPicListStr() {
+		return picListStr;
+	}
+
+	public void setPicListStr(String picListStr) {
+		this.picListStr = picListStr;
 	}
 }
