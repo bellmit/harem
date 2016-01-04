@@ -27,7 +27,6 @@
                         <th>副标题</th>
                         <th>图片（.jpg,png）</th>
                         <th>商品</th>
-                        <th>操作</th>
                     </tr>
 
                     <tr id="leftupTr">
@@ -223,8 +222,8 @@
 										<input type="hidden" name="showCaseId" id="showCaseId" value='$!recommend.id'/>
 										<input type="hidden" name="businessCode" id="businessCode" value='$!recommend.businessCode'/>
 										<input type="hidden" name="version" id="version" value='$!recommend.version'/>
-										<td><input type='hidden' name='itemId' id='itemId' value='$!recommend.operationContent'>$!recommend.title</td>
-										<td><button type="button" id="itemId" class="btn btn-primary activityDetail" itemType="$!recommend.buisinessCode" itemId="$!recommend.operationContent">详情</button></td>
+										<td><input type='hidden' name='itemId'  id='itemId' value='$!recommend.operationContent'>$!recommend.title</td>
+										<td><button type="button" id="itemId" class="btn btn-primary recommendDetail" itemType="$!recommend.buisinessCode" itemId="$!recommend.operationContent">详情</button></td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
 							 <div id="updateRecommendDataArea">
@@ -269,7 +268,7 @@
 										<img src='$!travelKa1.imgUrl' width=100px height=80px  id="imgUrl"></td>
 										<td><input type='text' readonly name='title' id="title" value='$!travelKa1.title'></td>
 										<td>
-										
+										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa1.buisinessCode" itemId="$!travelKa1.operationContent">详情</button>
                                      	<button type="button" class="btn btn-success selectTravelKaBtn1">选择大咖</button>
                                 		</td>
 									</tr>
@@ -282,6 +281,7 @@
 										<img src='$!travelKa2.imgUrl' width=100px height=80px  id="imgUrl"></td>
 										<td><input type='text' readonly name='title' id="title" value='$!travelKa2.title'></td>
 										<td>
+										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa2.buisinessCode" itemId="$!travelKa2.operationContent">详情</button>
                                      	<button type="button" class="btn btn-success selectTravelKaBtn2">选择大咖</button>
                                 		</td>
 									</tr>
@@ -295,6 +295,7 @@
 										<img src='$!travelKa3.imgUrl' width=100px height=80px  id="imgUrl"></td>
 										<td><input type='text' readonly name='title' id="title" value='$!travelKa3.title'></td>
 										<td>
+										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa3.buisinessCode" itemId="$!travelKa3.operationContent">详情</button>
                                      	<button type="button" class="btn btn-success selectTravelKaBtn3">选择大咖</button>
                                 		</td>
 									</tr>
@@ -328,6 +329,30 @@
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('activityId');
                 window.openwin(url);
+            });
+
+        });
+    	
+    	
+    	$('.travelKaDetail').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toTravelKaDetail?userId='+ $(this).attr('itemId');
+                window.openwin(url);
+            });
+
+        });
+    	
+    	$('.recommendDetail').each(function(){
+            $(this).click(function(){
+            	if($(this).attr('businessCode') == 'ACTIVITY'){
+            		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('itemId');
+                    window.openwin(url);
+            	}else{ //线路
+            		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toLineDetail?lineId='+ $(this).attr('itemId');
+                    window.openwin(url);
+            	}
+            	
+                
             });
 
         });
@@ -427,13 +452,14 @@
 		 		var resultValue = win.getSelected();
 		 		for(var i in resultValue){
 		 			
-		 			var newTr = "<tr><input type='hidden' name='businessCode' id='businessCode' value='REGULAR_LINE'/><input type='hidden' name='operation' id='operation' value='add' />" ;
+		 			var newTr = "<tr><input type='hidden' name='businessCode' id='businessCode' value='LINE'/><input type='hidden' name='operation' id='operation' value='add' />" ;
 		 			newTr += "<input type='hidden' name='itemId' id='itemId' value='" + resultValue[i].id + "'/>";
 		 			newTr += "<input type='hidden' name='imgUrl' id='imgUrl' value='" + resultValue[i].coverUrl + "'/>";
 		 			newTr += "<input type='hidden' name='title' id='title' value='" + resultValue[i].name + "'/>";
+		 			newTr += "<input type='hidden' name='type' id='type' value='" + resultValue[i].type + "'/>";
 		 			newTr += "<input type='hidden' name='version' id='title' value='0'/>";
 		 			newTr += "<td>" +  resultValue[i].name + "</td>";
-		 			newTr += "<td>" +  resultValue[i].price + "</td>";
+		 			newTr += "<td><button type='button' id='itemId' class='btn btn-primary recommendDetail' itemType=''" + resultValue[i].type + " itemId='" + resultValue[i].id + "'>详情</button></td>";
 		 			newTr += "<td class='delItem'><a>删除</a></td>" + "</tr>"
 		 			$("#recommendTable").append(newTr );
 		 		}
@@ -463,7 +489,7 @@
 		 			newTr += "<input type='hidden' name='title' id='title' value='" + resultValue[i].title + "'/>";
 		 			newTr += "<input type='hidden' name='version' id='title' value='0'/>";
 		 			newTr += "<td>" +  resultValue[i].title + "</td>";
-		 			newTr += "<td>" +  resultValue[i].originalPrice + "</td>";
+		 			newTr += "<td><button type='button' id='itemId' class='btn btn-primary recommendDetail' itemType='ACTIVITY' itemId='" + resultValue[i].id + "'>详情</button></td>";
 		 			newTr += "<td class='delItem'><a>删除</a></td>" + "</tr>"
 		 			$("#recommendTable").append(newTr );
 		 		}
@@ -479,6 +505,7 @@
                 var selectData = win.getSelected();
                  $('#leftupButton').parent().find("#activityName").text(selectData.title);
                  $('#leftupButton').parent().find("#activityId").val(selectData.id);
+                 $('#leftupButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
             });
 		 });
@@ -488,6 +515,7 @@
                 var selectData = win.getSelected();
                  $('#rightupOneButton').parent().find("#activityName").text(selectData.title);
                  $('#rightupOneButton').parent().find("#activityId").val(selectData.id);
+                 $('#rightupOneButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
             });
 		 });
@@ -497,6 +525,7 @@
                 var selectData = win.getSelected();
                  $('#rightupTwoButton').parent().find("#activityName").text(selectData.title);
                  $('#rightupTwoButton').parent().find("#activityId").val(selectData.id);
+                 $('#rightupTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
             });
 		 });
@@ -506,6 +535,7 @@
                 var selectData = win.getSelected();
                  $('#downOneButton').parent().find("#activityName").text(selectData.title);
                  $('#downOneButton').parent().find("#activityId").val(selectData.id);
+                 $('#downOneButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
             });
 		 });
@@ -515,6 +545,7 @@
                 var selectData = win.getSelected();
                  $('#downTwoButton').parent().find("#activityName").text(selectData.title);
                  $('#downTwoButton').parent().find("#activityId").val(selectData.id);
+                 $('#downTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
             });
 		 });
@@ -524,34 +555,38 @@
                 var selectData = win.getSelected();
                  $('#downThreeButton').parent().find("#activityName").text(selectData.title);
                  $('#downThreeButton').parent().find("#activityId").val(selectData.id);
+                 $('#downThreeButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
             });
 		 });
 		
         $('.selectTravelKaBtn1').click(function(){
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
-				var resultValue = win.getSelected();
-		 		$("#travelKaTr1").find("#operationContent").val(resultValue.id);
+				var resultValue = win.getTravelKa();
+		 		$("#travelKaTr1").find("#operationContent").val(resultValue.userId);
               	$("#travelKaTr1").find("#title").val(resultValue.nickName);
                	$("#travelKaTr1").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr1").find("#itemId").attr("itemId",resultValue.userId);
                 return true;
             });
         })
         $('.selectTravelKaBtn2').click(function(){
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
-				var resultValue = win.getSelected();
-		 		$("#travelKaTr2").find("#operationContent").val(resultValue.id);
+				var resultValue = win.getTravelKa();
+		 		$("#travelKaTr2").find("#operationContent").val(resultValue.userId);
                	$("#travelKaTr2").find("#title").val(resultValue.nickName);
                	$("#travelKaTr2").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr2").find("#itemId").attr("itemId",resultValue.userId);
                 return true;
             });
         })
         $('.selectTravelKaBtn3').click(function(){
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
-				var resultValue = win.getSelected();
-		 		$("#travelKaTr3").find("#operationContent").val(resultValue.id);
+				var resultValue = win.getTravelKa();
+		 		$("#travelKaTr3").find("#operationContent").val(resultValue.userId);
                	$("#travelKaTr3").find("#title").val(resultValue.nickName);
                	$("#travelKaTr3").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr3").find("#itemId").attr("itemId",resultValue.userId);
                 return true;
             });
         })
@@ -566,7 +601,8 @@
         		var title = $(this).parent().find("#title").val();
         		var businessCode = $(this).parent().find("#businessCode").val();
         		var version = $(this).parent().find("#version").val();
-        		var formdata = {operationContent:itemId,operation:operation,imgUrl:imgUrl,businessCode:businessCode,title:title,version:version};
+        		var lineType = $(this).parent().find("#type").val();
+        		var formdata = {operationContent:itemId,operation:operation,imgUrl:imgUrl,businessCode:businessCode,title:title,version:version,lineType:lineType};
         		advertiseList.push(formdata);
         	});
         	

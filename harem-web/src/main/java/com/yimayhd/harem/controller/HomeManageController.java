@@ -22,6 +22,7 @@ import com.yimayhd.harem.model.vo.ShowCaseVO;
 import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.harem.service.ServiceResult;
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
@@ -320,13 +321,27 @@ public class HomeManageController extends BaseController {
 					JSONObject.toJSONString(lineId));
 		}
 		
-		
 		return "/system/homeCfg/lineDetail";
 	}
 
 	@RequestMapping(value = "/toTravelKaDetail")
-	public String toTravelKaDetail(String travleKaId) {
-
+	public String toTravelKaDetail(Long userId,Model model) {
+		
+		ResponseVo responseVo = new ResponseVo();
+		ServiceResult<TravelKaVO> result = homecfgService.getTravelKaDetail(userId);
+		LOGGER.debug("result={}",JSONObject.toJSONString(result));
+		
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+			model.addAttribute("travleKaDetail",result.getValue());
+		} else {
+			responseVo.setMessage(result.getErrorMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+			LOGGER.error("toTravelKaDetail error,result={},userId={}", JSONObject.toJSONString(result),
+					JSONObject.toJSONString(userId));
+		}
+		
 		return "/system/homeCfg/travelKaDetail";
 	}
 
