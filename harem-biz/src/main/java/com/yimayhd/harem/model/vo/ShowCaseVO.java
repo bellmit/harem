@@ -33,7 +33,15 @@ public class ShowCaseVO implements Serializable {
 	
 	private Integer version;
 	
-	
+	private String operationContent;
+
+	public String getOperationContent() {
+		return operationContent;
+	}
+
+	public void setOperationContent(String operationContent) {
+		this.operationContent = operationContent;
+	}
 
 	public Integer getVersion() {
 		return version;

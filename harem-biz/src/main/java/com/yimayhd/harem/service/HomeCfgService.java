@@ -96,6 +96,13 @@ public interface HomeCfgService {
 	public ServiceResult<List<ShowcaseDO>> getAdvertiseShowcase();
 	
 	
+	public ServiceResult<List<ShowcaseDO>> getLineDetail(String id);
+	
+	public ServiceResult<List<ShowcaseDO>> getActivityDetail(String id);
+	
+	public ServiceResult<List<ShowcaseDO>> getTravelKaDetail(String id);
+	
+	
 	/**
 	 * 增加广告展位信息
 	 * @param list

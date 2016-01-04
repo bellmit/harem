@@ -675,8 +675,8 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				showcaseDO.setTitle(showCaseVO.getTitle());
 				showcaseDO.setSummary(showCaseVO.getSummary());
 				showcaseDO.setBusinessCode(showCaseVO.getBusinessCode());
-				if(showCaseVO.getOperationId() != null){
-					showcaseDO.setOperationId(showCaseVO.getOperationId());
+				if(showCaseVO.getOperationContent() != null){
+					showcaseDO.setOperationContent(showCaseVO.getOperationContent());
 				}
 				
 				showcaseDO.setBoothId(boothId);

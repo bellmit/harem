@@ -48,7 +48,7 @@
                         <td>
                             <span id="activityName"></span>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="leftupButton">选择商品</button>
-                            <input type="hidden" name="activityId" value="$!advertiseLeftup.operationId" id="activityId" />
+                            <input type="hidden" name="activityId" value="$!advertiseLeftup.operationContent" id="activityId" />
                         </td>
                     </tr>
 
@@ -72,7 +72,7 @@
                         <td>
                             <span id="activityName"></span>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="rightupOneButton">选择商品</button>
-                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupOne.operationId"/>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupOne.operationContent"/>
                         </td>
                     </tr>
                     <tr id="rightupTwoTr">
@@ -94,7 +94,7 @@
                         <td>
                             <span id="activityName"></span>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="rightupTwoButton">选择商品</button>
-                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupTwo.operationId"/>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupTwo.operationContent"/>
                         </td>
                     </tr>
                     <tr id="downOneTr">
@@ -116,7 +116,7 @@
                         <td>
                             <span id="activityName"></span>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downOneButton">选择商品</button>
-                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownOne.operationId"/>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownOne.operationContent"/>
                         </td>
                     </tr>
                     <tr id="downTwoTr">
@@ -138,7 +138,7 @@
                         <td>
                             <span id="activityName"></span>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downTwoButton">选择商品</button>
-                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownTwo.operationId"/>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownTwo.operationContent"/>
                         </td>
                     </tr>
                     <tr id="downThreeTr">
@@ -160,7 +160,7 @@
                         <td>
                             <span id="activityName"></span>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downThreeButton">选择商品</button>
-                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownThree.operationId"/>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownThree.operationContent"/>
                         </td>
                     </tr>
                 </table>
@@ -204,7 +204,7 @@
 										<input type="hidden" name="showCaseId" id="showCaseId" value='$!recommend.id'/>
 										<input type="hidden" name="businessCode" id="businessCode" value='$!recommend.businessCode'/>
 										<input type="hidden" name="version" id="version" value='$!recommend.version'/>
-										<td><input type='hidden' name='itemId' id='itemId' value='$!recommend.operationId'>$!recommend.title</td>
+										<td><input type='hidden' name='itemId' id='itemId' value='$!recommend.operationContent'>$!recommend.title</td>
 										<td></td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
@@ -243,7 +243,7 @@
 										<td>
 										<input type='hidden' name='showcaseId' id='showcaseId' value='$!travelKa1.id'>
 										<input type='hidden' name='businessCode' id='businessCode' value=''>
-										<input type='hidden' name='operationId' id='operationId' value='$!travelKa1.operationId'>
+										<input type='hidden' name='operationContent' id='operationContent' value='$!travelKa1.operationContent'>
 										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa1.imgUrl'/>
 										<input type="hidden" name="version" id="version" value='$!travelKa1.version'/>
 				
@@ -257,7 +257,7 @@
 									<tr id="travelKaTr2">
 										<td>
 										<input type='hidden' name='showcaseId' id='showcaseId' value='$!travelKa2.id'>
-										<input type='hidden' name='operationId' id='operationId' value='$!travelKa2.operationId'>
+										<input type='hidden' name='operationContent' id='operationContent' value='$!travelKa2.operationContent'>
 										<input type="hidden" name="version" id="version" value='$!travelKa2.version'/>
 										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa2.imgUrl'/>
 										<img src='$!travelKa2.imgUrl' width=100px height=80px  id="imgUrl"></td>
@@ -269,7 +269,7 @@
 									<tr id="travelKaTr3">
 										<td>
 										<input type='hidden' name='showcaseId' id='showcaseId' value='$!travelKa3.id'>
-										<input type='hidden' name='operationId' id='operationId' value='$!travelKa3.operationId'>
+										<input type='hidden' name='operationContent' id='operationContent' value='$!travelKa3.operationContent'>
 										<input type="hidden" name="version" id="version" value='$!travelKa3.version'/>
 										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa3.imgUrl'/>
 										
@@ -501,7 +501,7 @@
         $('.selectTravelKaBtn1').click(function(){
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var resultValue = win.getSelected();
-		 		$("#travelKaTr1").find("#operationId").val(resultValue.id);
+		 		$("#travelKaTr1").find("#operationContent").val(resultValue.id);
               	$("#travelKaTr1").find("#title").val(resultValue.nickName);
                	$("#travelKaTr1").find("#imgUrl").attr("src",resultValue.imgUrl);
                 return true;
@@ -510,7 +510,7 @@
         $('.selectTravelKaBtn2').click(function(){
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var resultValue = win.getSelected();
-		 		$("#travelKaTr2").find("#operationId").val(resultValue.id);
+		 		$("#travelKaTr2").find("#operationContent").val(resultValue.id);
                	$("#travelKaTr2").find("#title").val(resultValue.nickName);
                	$("#travelKaTr2").find("#imgUrl").attr("src",resultValue.imgUrl);
                 return true;
@@ -519,7 +519,7 @@
         $('.selectTravelKaBtn3').click(function(){
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var resultValue = win.getSelected();
-		 		$("#travelKaTr3").find("#operationId").val(resultValue.id);
+		 		$("#travelKaTr3").find("#operationContent").val(resultValue.id);
                	$("#travelKaTr3").find("#title").val(resultValue.nickName);
                	$("#travelKaTr3").find("#imgUrl").attr("src",resultValue.imgUrl);
                 return true;
@@ -536,7 +536,7 @@
         		var title = $(this).parent().find("#title").val();
         		var businessCode = $(this).parent().find("#businessCode").val();
         		var version = $(this).parent().find("#version").val();
-        		var formdata = {operationId:itemId,operation:operation,imgUrl:imgUrl,businessCode:businessCode,title:title,version:version};
+        		var formdata = {operationContent:itemId,operation:operation,imgUrl:imgUrl,businessCode:businessCode,title:title,version:version};
         		advertiseList.push(formdata);
         	});
         	
@@ -659,9 +659,9 @@
    		var title = $("#" + trId).find("#title").val();
 		var summary = $("#" + trId).find("#summary").val();
 		var imgUrl = $("#" + trId).find("#imgUrl").val();
-		var operationId = $("#" + trId).find("#activityId").val();
+		var operationContent = $("#" + trId).find("#activityId").val();
 		var version = $("#" + trId).find("#version").val();
-		var formData = {title:title,showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationId: operationId,serialNo:serialNo,businessCode:'ACTIVITY',version:version};
+		var formData = {title:title,showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,serialNo:serialNo,businessCode:'ACTIVITY',version:version};
 		
 		return formData;
    }
@@ -671,10 +671,10 @@
    		var title = $("#" + trId).find("#title").val();
 		var summary = $("#" + trId).find("#summary").val();
 		var imgUrl = $("#" + trId).find("#imgUrl").val();
-		var operationId = $("#" + trId).find("#operationId").val();
+		var operationContent = $("#" + trId).find("#operationContent").val();
 		var version = $("#" + trId).find("#version").val();
 		var businessCode = $("#" + trId).find("#businessCode").val();
-		var formData = {showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationId: operationId,version:version,businessCode:businessCode };
+		var formData = {showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,version:version,businessCode:businessCode };
 		
 		return formData;
    }
