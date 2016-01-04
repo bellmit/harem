@@ -1,26 +1,35 @@
 package com.yimayhd.harem.controller;
 
-import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.BaseQuery;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.model.RegionIntroduce;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.service.RecommendedService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 
+/**
+* @ClassName: RecommendedManageController 
+* @Description: (特色推荐) 
+* @author create by yushengwei @ 2016年1月4日 下午2:19:50
+ */
 @Controller
 @RequestMapping("/B2C/recommended")
 public class RecommendedManageController extends BaseController {
+	
+	protected Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired RecommendedService recommendedService;
 	
@@ -44,10 +53,22 @@ public class RecommendedManageController extends BaseController {
 	}
 
 	@RequestMapping("/list")
-	public String list(Model model,RegionIntroduceQuery regionIntroduceQuery){
+	public String list(Model model,RegionIntroduceQuery query,Integer pageNumber,Integer pageSize){
 		try {
-			List<RegionIntroduceDO> list = recommendedService.queryRegionIntroduceList(regionIntroduceQuery);
-			model.addAttribute("list", list);
+			if (pageNumber != null) {
+				query.setPageNo(pageNumber);
+			} else {
+				query.setPageNo(BaseQuery.DEFAULT_PAGE);
+			}
+			if(pageSize!= null) {
+				query.setPageSize(pageSize);
+			} else{
+				query.setPageSize(BaseQuery.DEFAULT_SIZE);
+			}
+			PageVO<RegionIntroduceDO> pageVo = recommendedService.pageVORegionIntroduceDO(query);
+			model.addAttribute("query", query);
+			model.addAttribute("list", pageVo.getItemList());
+			model.addAttribute("pageVo", pageVo);
 			return "/system/recommended/list";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,11 +83,26 @@ public class RecommendedManageController extends BaseController {
 		return new ResponseVo(flag);
 	}
 	
-	@RequestMapping("/edit/{id}")
-	public String edit(Model model, @PathVariable(value = "id") long id){
+	@RequestMapping(value="/edit/{id}",method=RequestMethod.GET)
+	public String toEdit(Model model, @PathVariable(value = "id") long id){
 		RegionIntroduceDO regionIntroduceDO = recommendedService.getRegionIntroduceDO(id);
 		model.addAttribute("regionIntroduceDO", regionIntroduceDO);
+		model.addAttribute("isEdit", true);
 		return "/system/recommended/edit";
+	}
+
+	@RequestMapping(value="/edit/{id}",method=RequestMethod.POST)
+	public @ResponseBody ResponseVo edit(Model model, @PathVariable(value = "id") long id,RegionIntroduceDO regionIntroduce){
+		try {
+			regionIntroduce.setId(id);
+			boolean flag = recommendedService.saveOrUpdate(regionIntroduce);
+			if(flag){
+				return new ResponseVo(ResponseStatus.SUCCESS);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 	
 }

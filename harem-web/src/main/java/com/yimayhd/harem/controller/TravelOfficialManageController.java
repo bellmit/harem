@@ -106,7 +106,7 @@ public class TravelOfficialManageController extends BaseController {
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		TravelOfficial travelOfficial = travelOfficialService.getById(id);
 		model.addAttribute("travelOfficial", travelOfficial);
-		return "/system/activity/base";
+		return "/system/travelOfficial/base";
 	}
 
 	/**

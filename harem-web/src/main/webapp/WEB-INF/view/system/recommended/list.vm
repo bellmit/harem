@@ -4,11 +4,13 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建</button>
-            <button type="button" class="btn btn-primary commodityBatchBtn batchUp" btnType="1">批量上架</button>
-            <button type="button" class="btn btn-primary commodityBatchBtn batchDown" btnType="2">批量下架</button>
-</div>
+            #*
+            	<button type="button" class="btn btn-primary commodityBatchBtn batchUp" btnType="1">批量上架</button>
+            	<button type="button" class="btn btn-primary commodityBatchBtn batchDown" btnType="2">批量下架</button>
+			*#
+			</div>
 	
-	<form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/themeManage/list" method="POST" role="form">
+	<form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/recommended/list" method="GET" role="form">
 
         <div class="tableGroup whole">
             <table class="table table-hover">
@@ -30,7 +32,7 @@
 						<td>$!data.cityCode</td>
 						<td>$!data.type</td>
                        <td>
-                       		<button type="button" class="btn btn-primary themeDelete" themeId="$data.id">删除</button>
+                       		#*<button type="button" class="btn btn-primary themeDelete" themeId="$data.id">删除</button>*#
                        		<button type="button" class="btn btn-primary themeDetail" themeId="$data.id">编辑</button>
                        </td>
                     </tr>

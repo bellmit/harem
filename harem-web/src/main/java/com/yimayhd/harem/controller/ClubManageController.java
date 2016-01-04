@@ -1,9 +1,9 @@
 package com.yimayhd.harem.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.yimayhd.harem.base.BaseQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,21 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.BaseQuery;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.BatchSetUpParameter;
-import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.ClubAdd;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.ClubInfo;
-import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
-import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -40,6 +38,9 @@ import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 @Controller
 @RequestMapping("/B2C/clubManage")
 public class ClubManageController extends BaseController {
+	
+	protected Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private ClubService clubService;
 
