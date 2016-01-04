@@ -90,9 +90,10 @@ public class ScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-		ScenicVO scenicDO = scenicSpotService.getById(id);
-	
-		model.addAttribute("VO", scenicDO);
+		ScenicVO scenicVO = scenicSpotService.getById(id);
+		
+		model.addAttribute("VO", scenicVO);
+		model.addAttribute("pictureList", scenicVO.getPictureList());
 		return "/system/scenicSpot/edit";
 	}
 

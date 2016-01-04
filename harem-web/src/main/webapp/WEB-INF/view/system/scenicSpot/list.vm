@@ -31,7 +31,7 @@
                         <button class="btn btn-default" type="button">等级</button>
                     </span>
      			 <select class="form-control" name="level">
-                    <option value="0" >全部</option>
+                    <option value="" >全部</option>
                     <option value="5" #if($!scenicPageQuery.level == 5) selected #end>AAAAA</option>
                     <option value="4" #if($!scenicPageQuery.level == 4) selected #end>AAAA</option>
                     <option value="3" #if($!scenicPageQuery.level == 3) selected #end>AAA</option>

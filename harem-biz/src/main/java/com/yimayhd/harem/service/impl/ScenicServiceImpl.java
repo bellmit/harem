@@ -80,7 +80,7 @@ public class ScenicServiceImpl implements ScenicService {
 			pageQuery.setEndTime(DateUtil.add23Hours(endTime));
 		}
 		//景区等级
-		if (scenicListQuery.getLevel() != null) {			
+		if (null!=scenicListQuery.getLevel()) {			
 			pageQuery.setLevel(scenicListQuery.getLevel() );
 		}
 		List<ScenicDO> itemList = new ArrayList<ScenicDO>();
