@@ -27,6 +27,8 @@ import com.yimayhd.harem.service.ServiceResult;
 import com.yimayhd.harem.util.Common;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
+import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
@@ -688,7 +690,20 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 				
 				showcaseDO.setTitle(showCaseVO.getTitle());
 				showcaseDO.setSummary(showCaseVO.getSummary());
-				showcaseDO.setBusinessCode(showCaseVO.getBusinessCode());
+				//FIXME 设置成枚举
+				if("LINE".equals(showCaseVO.getBusinessCode()) && showCaseVO.getLineType() != null){
+					int lineType = showCaseVO.getLineType();
+					if(lineType == BoothJumpType.REGULAR_LINE.getType()){
+						showcaseDO.setBusinessCode("REGULAR_LINE");
+					}else if(lineType == BoothJumpType.HOTEL.getType()){
+						showcaseDO.setBusinessCode("REGULAR_LINE");
+					}else if(lineType == BoothJumpType.SCENIC.getType()){
+						showcaseDO.setBusinessCode("SCENIC");
+					}
+				}else{
+					showcaseDO.setBusinessCode(showCaseVO.getBusinessCode());
+				}
+				
 				if(showCaseVO.getOperationContent() != null){
 					showcaseDO.setOperationContent(showCaseVO.getOperationContent());
 				}
@@ -876,9 +891,19 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public ServiceResult<List<ShowcaseDO>> getTravelKaDetail(String id) {
-		//travelKaService.getTravelKaListManagerPage(travelkaPageQuery)
-		return null;
+	public ServiceResult<TravelKaVO> getTravelKaDetail(Long id) {
+		ServiceResult<TravelKaVO> serviceResult = new ServiceResult<TravelKaVO> (false);
+		
+		MemResult<TravelKaVO> result = travelKaService.getTravelKaDetail(id);
+		if(result.isSuccess()){
+			serviceResult.setResult(true);
+			serviceResult.setValue(result.getValue());
+		}else{
+			serviceResult.setErrorMsg("getTravelKaDetail error");
+			LOGGER.error("getTravelKaDetail error,result={},id={}",result,id);
+		}
+		
+		return serviceResult;
 	}
 
 }

@@ -30,10 +30,20 @@ public class ShowCaseVO implements Serializable {
 	private String imgUrl;
 
 	private String serialNo;
-	
+
 	private Integer version;
-	
+
 	private String operationContent;
+
+	private Integer lineType;
+
+	public Integer getLineType() {
+		return lineType;
+	}
+
+	public void setLineType(Integer lineType) {
+		this.lineType = lineType;
+	}
 
 	public String getOperationContent() {
 		return operationContent;
