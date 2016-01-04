@@ -1,79 +1,89 @@
 <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <div class="clubDynamicPage whole">
-    <div class="dynamicTop">
-        <p>审核备注：（200字以内）</p>
-        <input type="hidden" name="id" value="$trend.id" id="trendId">
-        <textarea name="summary" id="" rows="2" class="form-control summary"></textarea>
-        <div class="btn-group">
-            #if($trend.trendStatus == 1)
-                <button type="button" class="btn btn-info setTrendStatusBtn" trendStatus="2">违规</button>
-            #elseif($trend.trendStatus == 2)
-                <button type="button" class="btn btn-info setTrendStatusBtn" trendStatus="1">恢复</button>
-            #end
-        </div>
-    </div>
     <table class="table">
             <tr>
-                <td>用户信息</td>
+                <td>直播内容：</td>
                 <td>
-                    <img src="images/11.jpg" alt="" class="img-circle imgCircle"/>
-                    <span>$!trend.user.name</span>
-                    <span>$!trend.user.tel</span>
-                </td>
-            </tr>
-            <tr>
-                <td>动态内容</td>
-                <td>$!trend.content</td>
-            </tr>
-            <tr>
-                <td>动态图片</td>
-                <td>
-                    <div id="layer-photos-demo">
-                        #foreach($pictureUrl in $!trend.pictureUrlList)
-                            <img  layer-src="http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK" src="$!utilWebconfig.getTfsRootPath()$pictureUrl" alt="图片" class="imgRectangular">
-                        #end
-                    </div>
+                     <textarea name="summary" id="" rows="2" class="form-control summary"></textarea>
                 </td>
             </tr>
             <tr>
                 <td>发布时间</td>
-                <td>$utilDate.dateToString($!trend.publishDate,"yyyy-MM-dd HH:mm:ss")</td>
+                <td><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value=""></td>
             </tr>
             <tr>
-                <td>状态</td>
-                <td>#TREND_STATUS($!trend.trendStatus)</td>
-            </tr>
-            <tr>
-                <td>审核记录</td>
+                <td>直播标签</td>
                 <td>
-                    #foreach($auditHistory in $!trend.auditHistoryList)
-                        #if($velocityCount == 1)
-                            $auditHistory
-                        #else
-                            -$auditHistory
-                        #end
-                    #end
+                   <input type="text" class="inpCtlBlock" name="phoneNum"  value="">
                 </td>
             </tr>
             <tr>
-                <td>评论数</td>
-                <td>$!trend.commentNum
-                    <button type="button" class="btn btn-info viewBtn">查看</button>
-                </td>
+                <td>直播地点</td>
+                <td> <input type="text" class="inpCtlBlock" name="phoneNum"  value=""></td>
             </tr>
             <tr>
-                <td>点赞数</td>
-                <td>$!trend.praiseNum</td>
+                <td>作者信息：</td>
+                <td></td>
             </tr>
             <tr>
-                <td>IP地址</td>
-                <td>$!trend.ip</td>
+                <td>直播图片：</td>
+                <td class="picUrlsTd">
+                            <input id="batchUploadBtn1" type="file" multiple="multiple" >
+                            #foreach($pictures in $VO.scenic.pictures)
+                               <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures">
+                            #end
+                        </td>
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!VO.scenic.coverUrl">
+                
             </tr>
+           
     </table>
 </div>
 <script>
 
+
+ $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
+            });
+
+var tfsPath = '$utilWebconfig.getTfsRootPath()';
+ 
+   var batchCallBack = function(dataVal){
+        for(var key in dataVal.data){
+             $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+        }
+    }
+    
+    
+    	$(document).delegate('#logoUrlUploadFile','change',function(){
+            fileUpload('#logoUrlUploadFile',1,function(data){
+                if(data && data.status==200){
+                    $('#logoUrlUploadFileReturnInput').val(data.data);
+                    $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });
+    
+
     $(function(){
+		 $(document).delegate("#batchUploadBtn1",'change',function(){
+           		 fileUpload('#batchUploadBtn1',2,batchCallBack);
+      	 	 })
+
 
         $('.setTrendStatusBtn').click(function(){
             $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/setTrendStatus',{trendStatus:$(this).attr('trendStatus'),id:$('#trendId').val(),summary:$('.summary').val()},function(data){

@@ -5,7 +5,6 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
-import com.yimayhd.harem.manager.HotelManager;
 import com.yimayhd.harem.model.AreaVO;
 import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
@@ -36,9 +35,6 @@ public class HotelManageController extends BaseController {
 
 	@Autowired
 	private HotelRPCService hotelRPCService;
-
-	@Autowired
-	private HotelManager hotelManager;
 
 	/**
 	 * 酒店（资源）列表
@@ -211,30 +207,11 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("provinceList", provinceList);
 		model.addAttribute("cityList", cityList);
 		model.addAttribute("townList", townList);
-
+		model.addAttribute("pictureList", hotelVO.getPictureList());
 		return "/system/hotel/edit";
 	}
 
-	/**
-	 * ------------------------------未添加的--------------------------------------
-	 * --------------
-	 */
-
-	/**
-	 * 酒店（资源）列表
-	 * 
-	 * @return 酒店（资源）列表
-	 * @throws Exception
-	 */
-	/*
-	 * @RequestMapping(value = "/list", method = RequestMethod.GET) public
-	 * String list(Model model,HotelListQuery hotelListQuery) throws Exception {
-	 * List<HotelDO> hotelDOList = hotelService.getList(hotelListQuery); PageVO
-	 * pageVo = new PageVO(1,10,300); model.addAttribute("pageVo", pageVo);
-	 * model.addAttribute("hotelListQuery", hotelListQuery);
-	 * model.addAttribute("hotelDOList", hotelDOList); return
-	 * "/system/hotel/list"; }
-	 */
+	
 	/**
 	 * 选择酒店列表
 	 * 
@@ -264,11 +241,8 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(HotelVO hotelVO, @PathVariable("id") long id) throws Exception {
 		hotelVO.setId(id);
-		boolean ret = hotelManager.modify(hotelVO);
-		if (ret) {
-			return "/success";
-		}
-		return "/";// TODO 曹张锋帮搞下
+		hotelRPCService.updateHotel(hotelVO);
+		return "/success";
 	}
 
 	/**
@@ -282,44 +256,6 @@ public class HotelManageController extends BaseController {
 	public ResponseVo setHotelStatusList(@RequestParam("hotelIdList[]") ArrayList<Long> hotelIdList, int hotelStatus)
 			throws Exception {
 		hotelRPCService.setHotelStatusList(hotelIdList, hotelStatus);
-		return new ResponseVo();
-	}
-
-	// TODO
-	/**
-	 * 添加图片
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/picture/add/{hotelId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseVo addHotelPicture(@PathVariable("hotelId") long id, ArrayList<String> pictureList)
-			throws Exception {
-		return new ResponseVo();
-	}
-
-	/**
-	 * 删除图片
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/picture/delete/{hotelId}", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseVo delHotelPicture(@PathVariable("hotelId") long id) throws Exception {
-		return new ResponseVo();
-	}
-
-	/**
-	 * 置顶图片
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/picture/top/{hotelId}", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseVo topHotelPicture(@PathVariable("hotelId") long id) throws Exception {
 		return new ResponseVo();
 	}
 
