@@ -16,7 +16,7 @@ import com.yimayhd.harem.model.query.TradeMemberQuery;
 import com.yimayhd.harem.model.query.UserListQuery;
 import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.session.manager.SessionUtils;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 用户信息
@@ -29,6 +29,8 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserRPCService userService;
 
+	@Autowired
+	private SessionManager sessionManager;
 	/**
 	 * 用户列表
 	 * 
@@ -85,7 +87,8 @@ public class UserController extends BaseController {
 	public String getTradeMemberList(Model model, HttpServletRequest request, TradeMemberQuery tradeMemberQuery)
 			throws Exception {
 
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		PageVO<UserDO> pageVO = userService.getMemberByUserId(sellerId, tradeMemberQuery);
 		model.addAttribute("tradeMemberQuery", tradeMemberQuery);
 		model.addAttribute("userList", pageVO.getItemList());

@@ -1,5 +1,22 @@
 package com.yimayhd.harem.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.exception.NoticeException;
@@ -13,22 +30,7 @@ import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.excel.JxlFor2003;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
-import com.yimayhd.user.session.manager.SessionUtils;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 交易管理
@@ -42,6 +44,8 @@ public class TradeManageController extends BaseController {
 	private final static int DAY = 62;
 	@Autowired
 	private TradeService tradeService;
+	@Autowired
+	private SessionManager sessionManager;
 
 	/**
 	 * 交易列表
@@ -52,7 +56,8 @@ public class TradeManageController extends BaseController {
 	@RequestMapping(value = "/order/list", method = RequestMethod.GET)
 	public String orderList(Model model, TradeListQuery tradeListQuery) throws Exception {
 		//TODO
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月
 		if(StringUtils.isBlank(tradeListQuery.getEndDate())){
@@ -76,7 +81,8 @@ public class TradeManageController extends BaseController {
 	@RequestMapping(value = "/order/export", method = RequestMethod.GET)
 	public void orderListExport(HttpServletRequest request,HttpServletResponse response,TradeListQuery tradeListQuery) throws Exception {
 		//TODO
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月
 		if(StringUtils.isBlank(tradeListQuery.getEndDate())){
@@ -130,7 +136,8 @@ public class TradeManageController extends BaseController {
 	@RequestMapping(value = "/pay/list", method = RequestMethod.GET)
 	public String payList(Model model, PayListQuery payListQuery) throws Exception {
 		//TODO
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		//long sellerId =10000000;
 		//初始化和未填日期的时候，默认最近两个月
 		if(StringUtils.isBlank(payListQuery.getEndDate())){
@@ -153,7 +160,8 @@ public class TradeManageController extends BaseController {
 	@RequestMapping(value = "/pay/export", method = RequestMethod.GET)
 	public void payListExport(HttpServletRequest request,HttpServletResponse response,PayListQuery payListQuery) throws Exception {
 		//TODO
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		//long sellerId =10000000;
 		//初始化和未填日期的时候，默认最近两个月
 		if(StringUtils.isBlank(payListQuery.getEndDate())){

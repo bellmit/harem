@@ -30,6 +30,10 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>com.yimayhd.user</groupId>
+			<artifactId>session-manager</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 		</dependency>
@@ -167,20 +171,6 @@
 		<dependency>
 			<groupId>com.taobao.common.tfs</groupId>
 			<artifactId>common-tfs</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -234,6 +224,13 @@
 			<groupId>com.yimayhd.tradecenter</groupId>
 			<artifactId>tradecenter-client</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.taobao.tair</groupId>
+			<artifactId>tair-client</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 

@@ -28,11 +28,10 @@ import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.user.session.manager.SessionUtils;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * Created by Administrator on 2015/11/24.
@@ -45,6 +44,8 @@ public class CommodityManageController extends BaseController {
 	private CommodityService commodityService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private SessionManager sessionManager;
 
 	/**
 	 * 商品列表
@@ -164,7 +165,8 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
 	public String addCommon(ItemVO itemVO) throws Exception {
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		// TODO
 		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
@@ -204,7 +206,8 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
 	public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
 		itemVO.setId(itemId);
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		// TODO
 		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
@@ -221,8 +224,11 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/publish/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
-		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = sessionManager.getUserId();
+//		sellerId = B2CConstant.SELLERID;
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		commodityService.publish(sellerId, id);
 		return new ResponseVo();
 	}
@@ -236,8 +242,8 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo close(@PathVariable("id") long id) throws Exception {
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
-		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+//		long sellerId = sessionManager.getUserId();
+		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		commodityService.close(sellerId, id);
 		return new ResponseVo();
 	}
@@ -252,8 +258,13 @@ public class CommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList, int commStatus)
 			throws Exception {
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
-		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = sessionManager.getUserId();
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+
+
+		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		commodityService.batchPublish(sellerId, commIdList);
 		return new ResponseVo();
 	}
@@ -268,8 +279,9 @@ public class CommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList, int commStatus)
 			throws Exception {
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
-		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = sessionManager.getUserId();
+		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		commodityService.batchClose(sellerId, commIdList);
 		return new ResponseVo();
 	}
