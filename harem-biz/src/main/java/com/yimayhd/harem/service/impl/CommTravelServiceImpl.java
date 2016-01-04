@@ -2,9 +2,9 @@ package com.yimayhd.harem.service.impl;
 
 import java.util.List;
 
-import com.yimayhd.harem.repo.TagRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -12,12 +12,12 @@ import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.harem.repo.LineRepo;
+import com.yimayhd.harem.repo.TagRepo;
 import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class CommTravelServiceImpl implements CommTravelService {
 	protected Logger log = LoggerFactory.getLogger(getClass());
@@ -45,8 +45,12 @@ public class CommTravelServiceImpl implements CommTravelService {
 		return travel;
 	}
 
-	@Override
-	public long publishLine(BaseTravel travel) {
+	public <T extends BaseTravel> void beforePublish(T travel) {
+
+	}
+
+	public <T extends BaseTravel> long publishLine(T travel) {
+		beforePublish(travel);
 		LinePublishResult publishLine = null;
 		long lineId = travel.getBaseInfo().getId();
 		if (lineId > 0) {

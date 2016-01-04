@@ -23,6 +23,7 @@ import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.model.CommScenicVO;
 import com.yimayhd.harem.model.ItemResultVO;
+import com.yimayhd.harem.model.ScenicVO;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommScenicService;
 import com.yimayhd.harem.service.CommodityService;
@@ -132,10 +133,10 @@ public class CommScenicManageController extends BaseController {
     	if(tagResult!=null){
     		model.addAttribute("tagResultCheck",tagResultCheck.getValue());
     	}
-    	ScenicAddNewDTO scenicDO = scenicSpotService.getById(itemResultVO.getItemVO().getOutId());
+    	ScenicVO scenicDO = scenicSpotService.getById(itemResultVO.getItemVO().getOutId());
     	if(null != scenicDO){
-			model.addAttribute("scenicName", scenicDO.getScenic().getName());
-			model.addAttribute("orderNum", scenicDO.getScenic().getOrderNum());
+			model.addAttribute("scenicName", scenicDO.getName());
+			model.addAttribute("orderNum", scenicDO.getOrderNum());
 		}
         model.addAttribute("itemResult", itemResultVO);
         model.addAttribute("commScenic", itemResultVO.getItemVO());

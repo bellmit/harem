@@ -19,7 +19,7 @@ public interface CommTravelService {
 	 * @return
 	 * @throws Exception
 	 */
-	long publishLine(BaseTravel travel);
+	<T extends BaseTravel> long publishLine(T travel);
 
 	/**
 	 * 查询线路

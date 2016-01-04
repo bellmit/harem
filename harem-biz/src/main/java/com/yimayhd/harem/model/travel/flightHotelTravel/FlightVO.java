@@ -1,4 +1,4 @@
-package com.yimayhd.harem.model.travel.selfServiceTravel;
+package com.yimayhd.harem.model.travel.flightHotelTravel;
 
 import java.util.Date;
 
