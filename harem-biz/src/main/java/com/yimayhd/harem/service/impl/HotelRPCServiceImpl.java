@@ -14,12 +14,15 @@ import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
+import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
+import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ResourcePublishService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class HotelRPCServiceImpl implements HotelRPCService {
+
+	private final static int PIC_PAGE_SIZE = 500;
+	private final static int PIC_PAGE_NO = 1;
+	private static final Logger log = LoggerFactory.getLogger(HotelRPCServiceImpl.class);
 
     @Autowired
     private ItemQueryService itemQueryServiceRef;
@@ -44,7 +51,6 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	@Autowired
 	private TfsService tfsService;
 
-	private static final Logger log = LoggerFactory.getLogger(HotelRPCServiceImpl.class);
 	@Override
 	public PageVO<HotelDO> pageQueryHotel(HotelListQuery hotelListQuery)throws Exception {
 		
@@ -129,16 +135,16 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 				picturesDO.setName(pictureVO.getName());
 				picturesDO.setOutId(icResult.getModule().getId());
 				picturesDO.setOutType(PictureOutType.HOTEL.getValue());
-				picturesDO.setOrderNum(pictureVO.getIndex());
+				//TODO picturesDO.setOrderNum(pictureVO.getIndex());
 				picturesDO.setIsTop(pictureVO.isTop());
 				picList.add(picturesDO);
 			}
 			ICResult<Boolean> icResultPic =  resourcePublishServiceRef.addPictures(picList);
 			if(null == icResultPic){
-				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew result is null and parame: " + JSON.toJSONString(picList));
+				log.error("ScenicServiceImpl.save-ResourcePublishService.addPictures result is null and parame: " + JSON.toJSONString(picList));
 				throw new BaseException("酒店资源保存成功，图片集保存返回结果为空，保存失败");
 			} else if(!icResultPic.isSuccess()){
-				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(icResultPic) + "and parame: " + JSON.toJSONString(picList) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+				log.error("ScenicServiceImpl.save-ResourcePublishService.addPictures error:" + JSON.toJSONString(icResultPic) + "and parame: " + JSON.toJSONString(picList) + "and hotelVO:" + JSON.toJSONString(hotelVO));
 				throw new BaseException("酒店资源保存成功，图片集保存失败" + icResultPic.getResultMsg());
 			}
 		}
@@ -148,6 +154,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 
 	@Override
 	public ICResult<Boolean> updateHotel(HotelVO hotelVO)throws Exception {
+		//获取酒店资源
 		ICResult<HotelDO> icResultDB = itemQueryServiceRef.getHotel(hotelVO.getId());
 		if(icResultDB == null){
 			log.error("HotelRPCServiceImpl.updateHotel-hotelService.getHotel result is null and parame: " + hotelVO.getId());
@@ -157,6 +164,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			throw new BaseException("返回结果错误，酒店资源修改失败，" + icResultDB.getResultMsg());
 		}
 		HotelDO hotelDB = icResultDB.getModule();
+
 		//数据转换
 		HotelDO hotelDO = HotelVO.getHotelDO(hotelVO);
 		//对接
@@ -203,36 +211,86 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		hotelDB.setLogoUrl(hotelDO.getLogoUrl());
 		//详情页展示图
 		hotelDB.setPicturesString(hotelVO.getPicturesStr());
-
-
 		ICResult<Boolean> icResultUpdate = hotelServiceRef.updateHotel(hotelDO);
-
-		//图片集合处理 TODO
-		/*if(icResultUpdate == null){
+		if(icResultUpdate == null){
 			log.error("HotelRPCServiceImpl.updateHotel-hotelService.updateHotel result is null and parame: " + JSON.toJSONString(hotelDB));
-			throw new BaseException("返回结果为空，酒店资源新增失败");
+			throw new BaseException("返回结果为空，酒店资源修改失败");
 		}else if(!icResultUpdate.isSuccess()){
 			log.error("HotelRPCServiceImpl.updateHotel-hotelService.updateHotel error:" + JSON.toJSONString(icResultUpdate) + "and parame: " + JSON.toJSONString(hotelDB) + "and hotelVO:" + JSON.toJSONString(hotelVO));
-			throw new BaseException("返回结果错误，酒店资源新增失败，" + icResultUpdate.getResultMsg());
-		}*/
-
-
+			throw new BaseException("返回结果错误，酒店资源修改失败，" + icResultUpdate.getResultMsg());
+		}
+		hotelVO.setPictureList(JSON.parseArray(hotelVO.getPicListStr(),PictureVO.class));
+		if(CollectionUtils.isNotEmpty(hotelVO.getPictureList())) {
+			//获取图片
+			PicturesPageQuery picturesPageQuery = new PicturesPageQuery();
+			picturesPageQuery.setOutId(hotelVO.getId());
+			picturesPageQuery.setPageNo(PIC_PAGE_NO);
+			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
+			ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
+			if (icPageResult == null) {
+				log.error("HotelRPCServiceImpl.updateHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
+				throw new BaseException("返回结果为空，获取酒店资源图片失败");
+			} else if (!icPageResult.isSuccess()) {
+				log.error("HotelRPCServiceImpl.updateHotel-itemQueryService.queryPictures error:" + JSON.toJSONString(icPageResult) + "and parame: " + JSON.toJSONString(picturesPageQuery) + "and id:" + hotelVO.getId());
+				throw new BaseException("返回结果错误，获取酒店资源图片失败，" + icPageResult.getResultMsg());
+			}
+			List<PicturesDO> picturesDOList = icPageResult.getList();
+			//图片集合处理
+			PictureUpdateDTO pictureUpdateDTO = new PictureUpdateDTO();
+			if(PictureVO.setPictureListPictureUpdateDTO(hotelVO.getId(),PictureOutType.HOTEL,pictureUpdateDTO, picturesDOList,hotelVO.getPictureList()) != null){
+				ICResult<Boolean> updatePictrueResult = resourcePublishServiceRef.updatePictures(pictureUpdateDTO);
+				if(null == updatePictrueResult){
+					log.error("ScenicServiceImpl.save-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
+					throw new BaseException("酒店资源保存成功，图片集保存返回结果为空，保存失败");
+				} else if(!updatePictrueResult.isSuccess()){
+					log.error("ScenicServiceImpl.save-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+					throw new BaseException("酒店资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
+				}
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public HotelVO getHotel(long id)throws Exception {
 		
-		HotelVO hotelVO = null;
 		ICResult<HotelDO> icResult = itemQueryServiceRef.getHotel(id);
-		HotelDO hotelDO = icResult.getModule();
-		
-		try {
-			hotelVO = HotelVO.getHotelVO(hotelDO);
-		} catch (Exception e) {
-			log.error("hotelVO = HotelVO.getHotelVO(hotelDO); exception,"+hotelDO,e);
+		if(icResult == null){
+			log.error("HotelRPCServiceImpl.getHotel-hotelService.getHotel result is null and parame: " + id);
+			throw new BaseException("返回结果为空，获取酒店资源失败");
+		}else if(!icResult.isSuccess()){
+			log.error("HotelRPCServiceImpl.getHotel-hotelService.getHotel error:" + JSON.toJSONString(icResult) + "and parame: " + id);
+			throw new BaseException("返回结果错误，获取酒店资源失败，" + icResult.getResultMsg());
 		}
-		
+		HotelDO hotelDO = icResult.getModule();
+		//获取图片
+		PicturesPageQuery picturesPageQuery = new PicturesPageQuery();
+		picturesPageQuery.setOutId(id);
+		picturesPageQuery.setPageNo(PIC_PAGE_NO);
+		picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
+		ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
+		if(icPageResult == null){
+			log.error("HotelRPCServiceImpl.getHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
+			throw new BaseException("返回结果为空，获取酒店资源图片失败");
+		}else if(!icPageResult.isSuccess()){
+			log.error("HotelRPCServiceImpl.getHotel-itemQueryService.queryPictures error:" + JSON.toJSONString(icPageResult) + "and parame: " + JSON.toJSONString(picturesPageQuery) + "and id:" + id);
+			throw new BaseException("返回结果错误，获取酒店资源图片失败，" + icPageResult.getResultMsg());
+		}
+		List<PicturesDO> picturesDOList = icPageResult.getList();
+		List<PictureVO> pictureVOList = new ArrayList<PictureVO>();
+		if(CollectionUtils.isNotEmpty(picturesDOList)){
+			for(PicturesDO picturesDO : picturesDOList){
+				PictureVO pictureVO = new PictureVO();
+				pictureVO.setId(picturesDO.getId());
+				pictureVO.setName(picturesDO.getName());
+				pictureVO.setValue(picturesDO.getPath());
+				pictureVO.setIsTop(picturesDO.isIsTop());
+				pictureVOList.add(pictureVO);
+
+			}
+		}
+		HotelVO hotelVO = HotelVO.getHotelVO(hotelDO);
+		hotelVO.setPictureList(pictureVOList);
 		return hotelVO;
 	}
 

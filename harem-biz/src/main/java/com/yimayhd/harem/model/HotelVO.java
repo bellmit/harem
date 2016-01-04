@@ -1,13 +1,14 @@
 package com.yimayhd.harem.model;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
+import com.yimayhd.ic.client.model.enums.PictureOutType;
+import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -40,7 +41,6 @@ public class HotelVO extends HotelDO implements Serializable {
 
     private String needKnowFrontNeedKnowStr;//须知json字符串
 
-    //private
     public HotelVO(){
 
     }

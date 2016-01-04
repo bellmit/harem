@@ -5,7 +5,6 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
-import com.yimayhd.harem.manager.HotelManager;
 import com.yimayhd.harem.model.AreaVO;
 import com.yimayhd.harem.model.HotelFacilityVO;
 import com.yimayhd.harem.model.HotelVO;
@@ -36,9 +35,6 @@ public class HotelManageController extends BaseController {
 
 	@Autowired
 	private HotelRPCService hotelRPCService;
-
-	@Autowired
-	private HotelManager hotelManager;
 
 	/**
 	 * 酒店（资源）列表
@@ -211,7 +207,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("provinceList", provinceList);
 		model.addAttribute("cityList", cityList);
 		model.addAttribute("townList", townList);
-
+		model.addAttribute("pictureList", hotelVO.getPictureList());
 		return "/system/hotel/edit";
 	}
 
@@ -264,11 +260,8 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(HotelVO hotelVO, @PathVariable("id") long id) throws Exception {
 		hotelVO.setId(id);
-		boolean ret = hotelManager.modify(hotelVO);
-		if (ret) {
-			return "/success";
-		}
-		return "/";// TODO 曹张锋帮搞下
+		hotelRPCService.updateHotel(hotelVO);
+		return "/success";
 	}
 
 	/**
