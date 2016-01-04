@@ -30,7 +30,6 @@ import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 发布景区（商品）
@@ -46,8 +45,6 @@ public class CommScenicManageController extends BaseController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@Autowired
-	private SessionManager sessionManager;
 
 	@Autowired
 	private CommodityService commodityService;
@@ -111,7 +108,7 @@ public class CommScenicManageController extends BaseController {
 //	    	return responseVo;
 //=======
    
-	   ItemPubResult result = commScenicService.save(scenicVO);
+    	ItemPubResult result = commScenicService.save(scenicVO);
 	    return responseVo;
 //>>>>>>> d470e5034a6f18ffe553138ad1c5fc8bb3f21c5d
     }
