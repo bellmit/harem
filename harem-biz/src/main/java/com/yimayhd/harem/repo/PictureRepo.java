@@ -16,7 +16,6 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 public class PictureRepo {
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	protected static final int PICTURE_MAX_SIZE = 6;
 	@Autowired
 	protected ItemQueryService itemQueryServiceRef;
 
@@ -28,7 +27,7 @@ public class PictureRepo {
 		List<PicturesDO> itemList = queryPicturesResult.getList();
 		return new PageVO<PicturesDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
-
+	
 	public List<PicturesDO> queryTopPictures(PictureOutType outType, long outId, int limit) {
 		PicturesPageQuery ppq = new PicturesPageQuery();
 		ppq.setOutId(outId);
@@ -37,9 +36,5 @@ public class PictureRepo {
 		ppq.setPageNo(1);
 		ppq.setPageSize(limit);
 		return pageQueryPictures(ppq).getItemList();
-	}
-	
-	public List<PicturesDO> queryTopPictures(PictureOutType outType, long outId) {
-		return queryTopPictures(outType, outId, PICTURE_MAX_SIZE);
 	}
 }

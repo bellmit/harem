@@ -18,9 +18,12 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.RestaurantVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
+import com.yimayhd.harem.service.PictureService;
 import com.yimayhd.harem.service.RestaurantService;
+import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.enums.PictureOutType;
 
 /**
  * 资源管理
@@ -33,6 +36,8 @@ import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 public class RestaurantManageController extends BaseController {
 	@Autowired
 	private RestaurantService restaurantService;
+	@Autowired
+	private PictureService pictureService;
 
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
 	public String restaurant(@PathVariable("id") Long id) throws Exception {
@@ -63,6 +68,8 @@ public class RestaurantManageController extends BaseController {
 			String coverPics = StringUtils.join(restaurantDO.getPictures(), "|");
 			model.addAttribute("coverPics", coverPics);
 		}
+		List<PicturesDO> picturesDOs = pictureService.queryAllPictures(PictureOutType.RESTAURANT, id);
+		model.addAttribute("pictureList", picturesDOs);
 		return "/system/restaurant/edit";
 	}
 

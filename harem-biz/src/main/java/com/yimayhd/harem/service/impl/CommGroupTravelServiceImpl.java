@@ -20,6 +20,12 @@ import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 
+/**
+ * 跟团游
+ * 
+ * @author yebin
+ *
+ */
 public class CommGroupTravelServiceImpl extends CommTravelServiceImpl {
 	@Autowired
 	private RestaurantRepo restaurantRepo;
@@ -44,7 +50,8 @@ public class CommGroupTravelServiceImpl extends CommTravelServiceImpl {
 				detail.setName(restaurant.getName());
 				detail.setShortDesc(restaurant.getOneword());
 				List<String> pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureRepo.queryTopPictures(PictureOutType.RESTAURANT, rId);
+				List<PicturesDO> pictures = pictureRepo.queryTopPictures(PictureOutType.RESTAURANT, rId,
+						PICTURE_TOP_SIZE);
 				for (PicturesDO pictureDO : pictures) {
 					pics.add(pictureDO.getPath());
 				}
@@ -60,7 +67,7 @@ public class CommGroupTravelServiceImpl extends CommTravelServiceImpl {
 				detail.setName(scenic.getName());
 				detail.setShortDesc(scenic.getOneword());
 				List<String> pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureRepo.queryTopPictures(PictureOutType.SCENIC, sId);
+				List<PicturesDO> pictures = pictureRepo.queryTopPictures(PictureOutType.SCENIC, sId, PICTURE_TOP_SIZE);
 				for (PicturesDO pictureDO : pictures) {
 					pics.add(pictureDO.getPath());
 				}
@@ -76,7 +83,7 @@ public class CommGroupTravelServiceImpl extends CommTravelServiceImpl {
 				detail.setName(hotel.getName());
 				detail.setShortDesc(hotel.getOneword());
 				List<String> pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureRepo.queryTopPictures(PictureOutType.HOTEL, hId);
+				List<PicturesDO> pictures = pictureRepo.queryTopPictures(PictureOutType.HOTEL, hId, PICTURE_TOP_SIZE);
 				for (PicturesDO pictureDO : pictures) {
 					pics.add(pictureDO.getPath());
 				}
