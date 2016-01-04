@@ -27,6 +27,7 @@
                         <th>副标题</th>
                         <th>图片（.jpg,png）</th>
                         <th>商品</th>
+                        <th>操作</th>
                     </tr>
 
                     <tr id="leftupTr">
@@ -49,6 +50,9 @@
                         	<span id="activityName">
                         		$!advertiseLeftup.title
                         	</span>
+                        </td>
+                        <td>
+                        	
                             <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseLeftup.operationContent">详情</button>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="leftupButton">选择商品</button>
                             <input type="hidden" name="activityId" value="$!advertiseLeftup.operationContent" id="activityId" />
@@ -71,11 +75,13 @@
                                 <img src="$!advertiseRightupOne.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
-                  		
-                        <td>
-                        <span id="activityName">
+                  		<td>
+                  		<span id="activityName">
                         		$!advertiseRightupOne.title
                         	</span>
+                  		</td>
+                        <td>
+                        
                              <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseRightupOne.operationContent">详情</button>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="rightupOneButton">选择商品</button>
                             <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupOne.operationContent"/>
@@ -98,9 +104,12 @@
                             </div>
                         </td>
                         <td>
-                        	<span id="activityName">
+                        <span id="activityName">
                         		$!advertiseRightupTwo.title
                         	</span>
+                        </td>
+                        <td>
+                        	
                              <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseRightupTwo.operationContent">详情</button>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="rightupTwoButton">选择商品</button>
                             <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupTwo.operationContent"/>
@@ -126,6 +135,9 @@
                         <span id="activityName">
                         		$!advertiseDownOne.title
                         	</span>
+                        </td>
+                        <td>
+                        
                              <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownOne.operationContent">详情</button>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downOneButton">选择商品</button>
                             <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownOne.operationContent"/>
@@ -147,11 +159,14 @@
                                 <img src="$!advertiseDownTwo.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
-                
-                        <td>
-                           	 <span id="activityName">
+                	
+                		<td>
+                		<span id="activityName">
                         		$!advertiseDownTwo.title
                         	</span>
+                		</td>
+                        <td>
+                           	 
                         	 <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownTwo.operationContent">详情</button>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downTwoButton">选择商品</button>
                             <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownTwo.operationContent"/>
@@ -174,13 +189,10 @@
                             </div>
                         </td>
                         <td>
-                        	 <span id="activityName">
-                        		$!advertiseLeftup.title
-                        	</span>
-                            <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownThree.operationContent">详情</button>
-                            <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downThreeButton">选择商品</button>
+                           	伴手礼列表
                             <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownThree.operationContent"/>
                         </td>
+                        <td></td>
                     </tr>
                 </table>
 
