@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,7 @@ public class TagRepo {
 		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagInfoPage", result);
 		int totalCount = result.getTotalCount();
 		List<ComTagDO> itemList = result.getList();
-		if (CollectionUtils.isEmpty(itemList)) {
+		if (itemList == null) {
 			itemList = new ArrayList<ComTagDO>();
 		}
 		return new PageVO<ComTagDO>(tagInfoDTO.getPageNo(), tagInfoDTO.getPageSize(), totalCount, itemList);

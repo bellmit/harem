@@ -20,6 +20,7 @@ import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
 public class CommTravelServiceImpl implements CommTravelService {
+	protected static final int PICTURE_TOP_SIZE = 6;
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	protected LineRepo lineRepo;
