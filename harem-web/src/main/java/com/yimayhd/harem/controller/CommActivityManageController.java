@@ -20,7 +20,6 @@ import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 活动商品
@@ -37,8 +36,7 @@ public class CommActivityManageController extends BaseController {
     private CategoryService categoryService;
 	@Autowired
     private CommodityService commodityService;
-	@Autowired
-	private SessionManager sessionManager;
+	
 	
 	/**
 	 * 新增活动商品
@@ -66,8 +64,8 @@ public class CommActivityManageController extends BaseController {
     String add(ItemVO itemVO) throws Exception {
     	
 //		itemVO.setSellerId(Long.parseLong(SessionUtils.getUserId()));
-		long sellerId = sessionManager.getUserId();
-		itemVO.setSellerId(sellerId);
+		//long sellerId = sessionManager.getUserId();
+		//itemVO.setSellerId(sellerId);
 		ItemPubResult result = commActivityService.add(itemVO);
         
         return "/success";
