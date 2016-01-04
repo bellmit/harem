@@ -35,7 +35,7 @@ public class TagRepo {
 	@Autowired
 	private ComCenterService comCenterServiceRef;
 
-	public void addTagRelation(long outId, TagType tagType, List<Long> tagIdList, Date date) {
+	public boolean addTagRelation(long outId, TagType tagType, List<Long> tagIdList, Date date) {
 		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 		tagRelationInfoDTO.setTagType(tagType.getType());
 		tagRelationInfoDTO.setOutId(outId);
@@ -44,6 +44,7 @@ public class TagRepo {
 		RepoUtils.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
 		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
+		return addTagRelationInfo.getValue();
 	}
 
 	public List<ComTagDO> findAllTag(long outId, TagType tagType) {
@@ -72,13 +73,14 @@ public class TagRepo {
 		return result.getValue();
 	}
 
-	public void updateTagStateById(long id, int state) {
+	public ComTagDO updateTagStateById(long id, int state) {
 		TagPageQuery query = new TagPageQuery();
 		query.setList(Arrays.asList(id));
 		query.setState(state);
 		RepoUtils.requestLog(log, "comCenterServiceRef.updateTagInfoStateByIdList", query);
 		BaseResult<ComTagDO> result = comCenterServiceRef.updateTagInfoStateByIdList(query);
 		RepoUtils.resultLog(log, "comCenterServiceRef.updateTagInfoStateByIdList", result);
+		return result.getValue();
 	}
 
 	public void updateTagStateByIdList(List<Long> ids, int state) {
@@ -90,15 +92,17 @@ public class TagRepo {
 		RepoUtils.resultLog(log, "comCenterServiceRef.updateTagInfoStateByIdList", result);
 	}
 
-	public void saveTag(TagInfoAddDTO tag) {
+	public ComTagDO saveTag(TagInfoAddDTO tag) {
 		RepoUtils.requestLog(log, "comCenterServiceRef.addComTagInfo", tag);
 		BaseResult<ComTagDO> result = comCenterServiceRef.addComTagInfo(tag);
 		RepoUtils.resultLog(log, "comCenterServiceRef.addComTagInfo", result);
+		return result.getValue();
 	}
 
-	public void updateTag(TagInfoAddDTO tag) {
+	public ComTagDO updateTag(TagInfoAddDTO tag) {
 		RepoUtils.requestLog(log, "comCenterServiceRef.updateComTagInfo", tag);
 		BaseResult<ComTagDO> result = comCenterServiceRef.updateComTagInfo(tag);
 		RepoUtils.resultLog(log, "comCenterServiceRef.updateComTagInfo", result);
+		return result.getValue();
 	}
 }

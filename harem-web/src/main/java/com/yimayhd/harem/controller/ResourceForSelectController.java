@@ -1,21 +1,13 @@
 package com.yimayhd.harem.controller;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.yimayhd.harem.model.query.*;
-import com.yimayhd.harem.service.*;
-import com.yimayhd.harem.util.DateUtil;
-import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.ic.client.model.query.LinePageQuery;
-import com.yimayhd.snscenter.client.domain.SnsActivityDO;
-import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
-import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
-import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
-import com.yimayhd.snscenter.client.result.BasePageResult;
-import com.yimayhd.snscenter.client.service.SnsCenterService;
-import com.yimayhd.snscenter.errorcode.SnsCenterReturnCode;
+import javax.annotation.Resource;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,20 +20,36 @@ import com.yimayhd.harem.base.BaseQuery;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.ItemVO;
+import com.yimayhd.harem.model.query.ActivityListQuery;
+import com.yimayhd.harem.model.query.CommodityListQuery;
+import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.model.query.RestaurantListQuery;
+import com.yimayhd.harem.model.query.ScenicListQuery;
+import com.yimayhd.harem.service.ActivityService;
+import com.yimayhd.harem.service.CommTravelService;
+import com.yimayhd.harem.service.CommodityService;
+import com.yimayhd.harem.service.HotelRPCService;
+import com.yimayhd.harem.service.RestaurantService;
+import com.yimayhd.harem.service.ScenicService;
+import com.yimayhd.harem.service.TripService;
+import com.yimayhd.harem.service.UserRPCService;
+import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
-import com.yimayhd.membercenter.client.result.MemPageResult;
 import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
-import com.yimayhd.resourcecenter.model.result.RCPageResult;
-import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
-import com.yimayhd.snscenter.client.domain.result.ClubDO;
+import com.yimayhd.snscenter.client.domain.SnsActivityDO;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 
@@ -66,8 +74,8 @@ public class ResourceForSelectController extends BaseController {
 	private CommodityService commodityService;
 	@Autowired
 	private TripService tripService;
-	@Autowired
-	private CommTravelService commTravelService;
+	@Resource
+	private CommTravelService travelService;
 	@Autowired
 	private ActivityService activityService;
 	@Autowired
@@ -362,7 +370,7 @@ public class ResourceForSelectController extends BaseController {
 			query.setPageNo(pageNumber);
 		}
 //		PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
-		PageVO<LineDO> pageVo = commTravelService.pageQueryLine(query);
+		PageVO<LineDO> pageVo = travelService.pageQueryLine(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);

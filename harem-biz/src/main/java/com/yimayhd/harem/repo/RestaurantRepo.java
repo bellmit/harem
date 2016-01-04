@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.util.RepoUtils;
@@ -14,8 +11,6 @@ import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
-import com.yimayhd.ic.client.service.item.ResourcePublishService;
 
 /**
  * 资源-餐厅Repo
@@ -23,12 +18,7 @@ import com.yimayhd.ic.client.service.item.ResourcePublishService;
  * @author yebin
  *
  */
-public class RestaurantRepo {
-	private Logger log = LoggerFactory.getLogger(getClass());
-	@Autowired
-	private ItemQueryService itemQueryServiceRef;
-	@Autowired
-	private ResourcePublishService resourcePublishService;
+public class RestaurantRepo extends ResourceRepo {
 
 	public PageVO<RestaurantDO> pageQueryRestaurant(RestaurantPageQuery query) {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.pageQueryRestaurant", query);
@@ -43,10 +33,11 @@ public class RestaurantRepo {
 
 	}
 
-	public void updateRestaurant(RestaurantDO restaurantDO) {
-		RepoUtils.requestLog(log, "resourcePublishService.updateRestaurant");
-		ICResult<Boolean> result = resourcePublishService.updateRestaurant(restaurantDO);
-		RepoUtils.resultLog(log, "resourcePublishService.updateRestaurant", result);
+	public boolean updateRestaurant(RestaurantDO restaurantDO) {
+		RepoUtils.requestLog(log, "resourcePublishServiceRef.updateRestaurant");
+		ICResult<Boolean> result = resourcePublishServiceRef.updateRestaurant(restaurantDO);
+		RepoUtils.resultLog(log, "resourcePublishServiceRef.updateRestaurant", result);
+		return result.getModule();
 	}
 
 	public RestaurantDO getRestaurantById(long id) {
@@ -56,9 +47,10 @@ public class RestaurantRepo {
 		return restaurant.getModule();
 	}
 
-	public void addRestaurant(RestaurantDO restaurantDO) {
-		RepoUtils.requestLog(log, "resourcePublishService.addRestaurant");
-		ICResult<Boolean> restaurant = resourcePublishService.addRestaurant(restaurantDO);
-		RepoUtils.resultLog(log, "resourcePublishService.addRestaurant", restaurant);
+	public boolean addRestaurant(RestaurantDO restaurantDO) {
+		RepoUtils.requestLog(log, "resourcePublishServiceRef.addRestaurant");
+		ICResult<Boolean> restaurant = resourcePublishServiceRef.addRestaurant(restaurantDO);
+		RepoUtils.resultLog(log, "resourcePublishServiceRef.addRestaurant", restaurant);
+		return restaurant.getModule();
 	}
 }
