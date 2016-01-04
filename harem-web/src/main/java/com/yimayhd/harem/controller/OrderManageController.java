@@ -38,10 +38,14 @@ public class OrderManageController extends BaseController {
 	/**
 	 * 退款
 	 */
-	@RequestMapping(value = "/refundOrder/{id}", method = RequestMethod.GET)
-	public String refundOrderById(Model model, @PathVariable(value = "orderId") long id) throws Exception {
-		boolean result = orderService.refundOrder(id);
-		return "/system/order/routeOrderInfo";
+	@RequestMapping(value = "/refundOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo refundOrderById(long orderId) throws Exception {
+		boolean flag = orderService.refundOrder(orderId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 
 	/**
@@ -50,28 +54,39 @@ public class OrderManageController extends BaseController {
 	@RequestMapping(value = "/buyerConfirmGoods", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo buyerConfirmGoods(long orderId, HttpServletRequest request) throws Exception {
-		System.out.println(orderId);
 		boolean flag = orderService.buyerConfirmGoods(orderId);
 		if(flag){
-			return new ResponseVo(ResponseStatus.SUCCESS);
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
+
+	/**
+	 * 发货
+	 */
+	@RequestMapping(value = "/sellerSendGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo sellerSendGoods(long orderId, HttpServletRequest request) throws Exception {
+		boolean flag = orderService.sellerSendGoods(orderId);
+		if(flag){
+			return new ResponseVo();
 		}
 		return new ResponseVo(ResponseStatus.ERROR);
 	}
 
 
 	/**
-	 * 发货
+	 * 关闭、取消订单
 	 */
-	@RequestMapping(value = "/sellerSendGoods/{id}", method = RequestMethod.GET)
-	public String sellerSendGoods(Model model, @PathVariable(value = "orderId") long id) throws Exception {
-		boolean result = orderService.sellerSendGoods(id);
-		return "/system/order/routeOrderInfo";
+	@RequestMapping(value = "/closeOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo closeOrder(long orderId, HttpServletRequest request) throws Exception {
+		boolean flag = orderService.closeOrder(orderId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
-
-
-
-
-
 
 
 

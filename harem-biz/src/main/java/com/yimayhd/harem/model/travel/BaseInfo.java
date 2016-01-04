@@ -220,8 +220,19 @@ public class BaseInfo {
 	}
 
 	public LineDO toLineDO() {
+		// 初始化
 		LineDO line = new LineDO();
 		line.setId(this.id);
+		return modifyLineDO(line);
+	}
+
+	/**
+	 * 修改LineDO
+	 * 
+	 * @param line
+	 * @return
+	 */
+	public LineDO modifyLineDO(LineDO line) {
 		line.setType(this.type);
 		line.setName(this.name);
 		// image

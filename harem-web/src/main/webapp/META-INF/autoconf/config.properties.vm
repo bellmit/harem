@@ -66,3 +66,6 @@ consumer.dubbo.trade.version = ${consumer.dubbo.trade.version}
 
 consumer.dubbo.sns.check = ${consumer.dubbo.sns.check}
 consumer.dubbo.sns.version = ${consumer.dubbo.sns.version}
+
+consumer.dubbo.comment.check = ${consumer.dubbo.comment.check}
+consumer.dubbo.comment.version = ${consumer.dubbo.comment.version}

@@ -51,10 +51,10 @@ public class CommActivityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model,int categoryId) throws Exception {
-		//规格37
+		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
 		model.addAttribute("category", categoryVO);
-		 model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
+		model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
 		return "/system/comm/activity/edit";
 	}
 
@@ -82,15 +82,7 @@ public class CommActivityManageController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-    	
-      /*  ItemResultVO itemResultVO = commodityService.getCommodityById(id);
-        List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
-		model.addAttribute("reduceTypeList", reduceTypeList);
-        model.addAttribute("itemResult", itemResultVO);
-        model.addAttribute("commActivity", itemResultVO.getItemVO());
-        model.addAttribute("category", itemResultVO.getCategoryVO());
-        model.addAttribute("itemType",ItemType.ACTIVITY.getValue());*/
-    	
+    
     	ItemResultVO itemResultVO = commodityService.getCommodityById(id);
     	List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
     	model.addAttribute("reduceTypeList", reduceTypeList);

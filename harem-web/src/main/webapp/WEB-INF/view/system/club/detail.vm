@@ -8,7 +8,7 @@
             </tr>
              <tr>
                 <td>俱乐部描述</td>
-                <td><textarea disabled class="form-control" value="$!club.clubDes" /></td>
+                <td><textarea  row='3'  class="form-control" value="$!club.clubDes" /></td>
             </tr>
             <tr>
                 <td>俱乐部LOGO</td>

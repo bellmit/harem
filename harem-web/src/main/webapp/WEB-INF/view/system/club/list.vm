@@ -79,6 +79,7 @@
                         <td>
                         <button type="button" class="btn btn-primary clubDetail" clubId="$club.id">详情</button>
                         <button type="button" class="btn btn-primary clubBan"  clubId="$club.id" joinStatus="$club.state">#if($club.state == 1) 下架 #elseif($club.state == 2) 上架 #end </button>
+                        <button type="button" class="btn btn-primary clubEdit" clubId="$club.id">编辑</button>
                         </td>
                     </tr>
                     #end
@@ -167,7 +168,11 @@
 	        })
     });
     
-			
+	//编辑
+	$('.clubEdit').click(function(){
+	 	var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/clubManage/edit/'+ $(this).attr('clubId');
+        window.openwin(url);
+    });	
 			
     
 </script>

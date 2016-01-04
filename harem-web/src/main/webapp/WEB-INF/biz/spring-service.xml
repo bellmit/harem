@@ -15,15 +15,15 @@
 	<bean class="com.yimayhd.harem.service.impl.ClubServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ActivityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.PointRuleServiceImpl"></bean>
-	<bean class="com.yimayhd.harem.service.impl.TrendServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TravelOfficialImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RegionServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.LiveServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ThemeServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.TripServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.RecommendedServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.EvaluationServiceImpl"></bean>
 	<!-- 资源管理 -->
-	<bean class="com.yimayhd.harem.service.impl.RestaurantRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.harem.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.ScenicServiceImpl"></bean>
@@ -44,7 +44,7 @@
 	<!-- system -->
 	<bean class="com.yimayhd.harem.service.impl.SystemManageServiceImpl" />
 	<bean class="com.yimayhd.harem.service.impl.TfsServiceImpl" />
-	<bean id="liveTopicService" class="com.yimayhd.harem.service.impl.LiveTopicServiceImpl" />
+	<bean class="com.yimayhd.harem.service.impl.LiveTagServiceImpl" />
 	<!-- commodity -->
 	<bean class="com.yimayhd.harem.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.harem.service.impl.CategoryServiceImpl"></bean>
@@ -56,4 +56,5 @@
 	<!-- repo -->
 	<bean class="com.yimayhd.harem.repo.TagRepo"></bean>
 	<bean class="com.yimayhd.harem.repo.LineRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.RestaurantRepo"></bean>
 </beans>

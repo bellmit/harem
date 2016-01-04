@@ -9,7 +9,7 @@ import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 /**
  * 订单服务接口
  * 
- * @author yebin
+ * @author zhaozhaonan
  *
  */
 public interface OrderService {
@@ -35,5 +35,7 @@ public interface OrderService {
 	boolean sellerSendGoods(long id);
 
 	boolean refundOrder(long id);
+
+	boolean closeOrder(long id);
 
 }

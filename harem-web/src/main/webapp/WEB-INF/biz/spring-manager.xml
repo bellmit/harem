@@ -4,4 +4,5 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="hotelManager" class="com.yimayhd.harem.manager.HotelManager"/>
+	<bean id="gfTagBiz" class="com.yimayhd.gf.biz.GFTagBiz"/>
 </beans>

@@ -7,9 +7,9 @@ public enum OrderActionStatus {
     FINISH(4,"完成"),
     CONSIGN(5,"发货"),
     CANCEL(6,"取消订单"),
-    AFFIRM_CANCEL(7,"确认+退款"),
-    FINISH_CANCEL(8,"完成+退款"),
-    CONSIGN_CANCEL(9,"发货+退款"),
+    AFFIRM_REFUND(7,"确认+退款"),
+    FINISH_REFUND(8,"完成+退款"),
+    CONSIGN_REFUND(9,"发货+退款"),
     UPDATE_ADDRESS_CANCEL(10,"修改地址+取消订单"),
     OVERTIME(11,"延长收货");
 

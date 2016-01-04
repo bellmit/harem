@@ -2,8 +2,7 @@ package com.yimayhd.harem.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import com.yimayhd.harem.repo.TagRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,6 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.harem.repo.LineRepo;
 import com.yimayhd.harem.service.CommTravelService;
-import com.yimayhd.harem.service.TagRepo;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
@@ -52,7 +50,8 @@ public class CommTravelServiceImpl implements CommTravelService {
 		LinePublishResult publishLine = null;
 		long lineId = travel.getBaseInfo().getId();
 		if (lineId > 0) {
-			publishLine = lineRepo.updateLine(travel.toLinePublishDTOForUpdate());
+			LineResult lineResult = lineRepo.getLineById(lineId);
+			publishLine = lineRepo.updateLine(travel.toLinePublishDTOForUpdate(lineResult));
 		} else {
 			publishLine = lineRepo.saveLine(travel.toLinePublishDTOForSave());
 		}

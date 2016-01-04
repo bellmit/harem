@@ -170,10 +170,11 @@
 			var content = $("#day_hotel");
 			content.empty();
             for(var i in hot) {
+				var _hot = hot[i];
 				var btn = $("<button class='btn btn-info hotel_item'></button>");
-				btn.attr("rId", hot[i].id);
-				btn.attr("rName", hot[i].name);
-				btn.attr("rAddress", hot[i].address);
+				btn.attr("rId", _hot.id);
+				btn.attr("rName", _hot.name);
+				btn.attr("rAddress", (_hot.locationProvinceName||"")+(_hot.locationCityName||"")+(_hot.locationTownName||"")+(_hot.locationText||""));
 				btn.click(function() {
 					$(this).remove();
 				});

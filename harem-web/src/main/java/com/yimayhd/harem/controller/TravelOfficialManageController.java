@@ -106,8 +106,7 @@ public class TravelOfficialManageController extends BaseController {
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		TravelOfficial travelOfficial = travelOfficialService.getById(id);
 		model.addAttribute("travelOfficial", travelOfficial);
-
-		return "/system/activity/edit";
+		return "/system/activity/base";
 	}
 
 	/**
@@ -116,7 +115,7 @@ public class TravelOfficialManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo edit(TravelOfficial travelOfficial) throws Exception {
 		travelOfficialService.modify(travelOfficial);

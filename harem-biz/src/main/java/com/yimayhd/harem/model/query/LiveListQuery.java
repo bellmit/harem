@@ -6,44 +6,69 @@ import com.yimayhd.harem.base.BaseQuery;
  * Created by Administrator on 2015/11/16.
  */
 public class LiveListQuery extends BaseQuery {
-    private Integer liveTag;//直播标签
-    private Integer status;//状态
-    private String phoneNum;//用户手机号
-    private String name;//用户昵称
-    private String content;//内容
-	
-	public Integer getLiveTag() {
-		return liveTag;
+	private static final long serialVersionUID = 6465843112323563661L;
+	private long tag;//直播标签
+	private int liveStatus;//状态
+	private String tel;//用户手机号
+	private String nickName;//用户昵称
+	private String content;//内容
+	private String beginDate;
+	private String endDate;
+
+	public long getTag() {
+		return tag;
 	}
-	public void setLiveTag(Integer liveTag) {
-		this.liveTag = liveTag;
+
+	public void setTag(long tag) {
+		this.tag = tag;
 	}
-	public Integer getStatus() {
-		return status;
+
+	public int getLiveStatus() {
+		return liveStatus;
 	}
-	public void setStatus(Integer status) {
-		this.status = status;
+
+	public void setLiveStatus(int liveStatus) {
+		this.liveStatus = liveStatus;
 	}
-	public String getPhoneNum() {
-		return phoneNum;
+
+	public String getTel() {
+		return tel;
 	}
-	public void setPhoneNum(String phoneNum) {
-		this.phoneNum = phoneNum;
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
-	public String getName() {
-		return name;
+
+	public String getNickName() {
+		return nickName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
-    
-    
-  
+
+	public String getBeginDate() {
+		return beginDate;
+	}
+
+	public void setBeginDate(String beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 }
 

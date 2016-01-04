@@ -37,7 +37,8 @@ public class ItemVO extends ItemDO {
     private int sort = 1;//商品排序字段(默认为1)
 
     private Long endBookTimeLimit;//酒店可入住时间限制(存feature中)
-
+    private Long startBookTimeDays;//景区规则提前几天
+    private Long startBookTimeHours;//景区规则提前几点
     private Integer grade;//评分(存feature中)
 
     private String smallListPic;//方形小列表图，主要用于订单
@@ -76,6 +77,8 @@ public class ItemVO extends ItemDO {
         if (null != itemVO.getEndBookTimeLimit()) {
             itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
         }
+      
+        
         //最晚到店时间列表(暂时只有酒店用)
         if(CollectionUtils.isNotEmpty(itemVO.getOpenTimeList())){
             itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,itemVO.getOpenTimeList());
@@ -142,6 +145,28 @@ public class ItemVO extends ItemDO {
         return commonItemPublishDTO;
 
     }
+    /**
+     * 获得sku的总库存（暂时就用于活动商品）
+     * @param itemVO
+     * @return
+     * @throws Exception
+     */
+    public static int getCountStockNum(ItemVO itemVO)throws Exception{
+    	int stockNum =0;
+        if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+            for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                if(itemSkuVO.isChecked()){
+                	stockNum += itemSkuVO.getStockNum();
+                }
+            }
+         
+        }
+        return stockNum;
+
+    }
+    
+    
+    
     public static ItemVO getItemVO(ItemDO itemDO,CategoryVO categoryVO)throws Exception{
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(itemDO, itemVO);
@@ -158,8 +183,21 @@ public class ItemVO extends ItemDO {
         if(null != itemVO.getItemFeature()){
             //提前预定时间(暂时酒店用)
             itemVO.setEndBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
+           
+            if(itemVO.getItemFeature().getStartBookTimeLimit()!=0){
+            	 //入园规则提前几天（暂时景区用）
+                long startBookTimeLimit = itemVO.getItemFeature().getStartBookTimeLimit() ;
+                //入园规则提前几点（暂时景区用）
+                long days = startBookTimeLimit / ( 60 * 60 * 24);  
+                //入园规则提前几点（暂时景区用）
+                long hours = (24  - (startBookTimeLimit % ( 60 * 60 * 24)) / ( 60 * 60));  
+                itemVO.setStartBookTimeDays(days);
+                itemVO.setStartBookTimeHours(hours);
+            }
+           
+         
             //评分（暂时普通商品用）
-            itemVO.setGrade(itemVO.getItemFeature().getGrade());
+        
             //库存方式
             itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
             //最晚到店时间列表(暂时只有酒店用)
@@ -202,7 +240,7 @@ public class ItemVO extends ItemDO {
                 if(i == len - 1){
                     skuTdRowNumList.set(i,1);
                 }else if(i == len - 2){
-                    skuTdRowNumList.set(i,tranSetList.get(i - 1).size());
+                    skuTdRowNumList.set(i,tranSetList.get(i + 1).size());
                 }else{
                     int rowNum = 1;
                     for (int j = i + 1; j < len; j++) {
@@ -392,4 +430,18 @@ public class ItemVO extends ItemDO {
     public void setOpenTimeList(List<String> openTimeList) {
         this.openTimeList = openTimeList;
     }
+	public Long getStartBookTimeDays() {
+		return startBookTimeDays;
+	}
+	public void setStartBookTimeDays(Long startBookTimeDays) {
+		this.startBookTimeDays = startBookTimeDays;
+	}
+	public Long getStartBookTimeHours() {
+		return startBookTimeHours;
+	}
+	public void setStartBookTimeHours(Long startBookTimeHours) {
+		this.startBookTimeHours = startBookTimeHours;
+	}
+    
+    
 }

@@ -27,6 +27,8 @@ import com.yimayhd.user.client.domain.UserDOPageQuery;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
@@ -36,10 +38,11 @@ import java.util.List;
 /**
  * 订单管理实现
  * 
- * @author yebin, zhaozhaonan
+ * @author zhaozhaonan
  *
  */
 public class OrderServiceImpl implements OrderService {
+	private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 	@Autowired
 	private TcQueryService tcQueryServiceRef;
 	@Autowired
@@ -115,7 +118,9 @@ public class OrderServiceImpl implements OrderService {
 			if (!CollectionUtils.isEmpty(list)){
 				for (BizOrderDO bizOrderDO : list) {
 					MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
-//					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
+					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
+					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId());
+					mo.setUser(user);
 					mainOrderList.add(mo);
 				}
 			}
@@ -134,68 +139,105 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDetails getOrderById(long id) throws Exception {
 		OrderQueryOption orderQueryOption = new OrderQueryOption();
 		orderQueryOption.setAll();
-		SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(id,orderQueryOption);
-		if (singleQueryResult.isSuccess()){
-			OrderDetails orderDetails = new OrderDetails();
-			MainOrder mainOrder = OrderConverter.orderVOConverter(singleQueryResult.getBizOrderDO());
-//			mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,singleQueryResult.getBizOrderDO());
-			if (mainOrder!=null){
-				orderDetails.setMainOrder(mainOrder);
-			}
-			if (mainOrder.getBizOrderDO()!=null){
-				long buyerId = mainOrder.getBizOrderDO().getBuyerId();
-				UserDO buyer = userServiceRef.getUserDOById(buyerId);
-				orderDetails.setBuyerName(buyer.getName());
-				orderDetails.setBuyerNiceName(buyer.getNickname());
-				orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
-			}
+		try {
+			SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(id,orderQueryOption);
+			if (singleQueryResult.isSuccess()){
+				OrderDetails orderDetails = new OrderDetails();
+				MainOrder mainOrder = OrderConverter.orderVOConverter(singleQueryResult.getBizOrderDO());
+				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,singleQueryResult.getBizOrderDO());
+				if (mainOrder!=null){
+					orderDetails.setMainOrder(mainOrder);
+				}
+				if (mainOrder.getBizOrderDO()!=null){
+					long buyerId = mainOrder.getBizOrderDO().getBuyerId();
+					UserDO buyer = userServiceRef.getUserDOById(buyerId);
+					orderDetails.setBuyerName(buyer.getName());
+					orderDetails.setBuyerNiceName(buyer.getNickname());
+					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+				}
 
-			if (singleQueryResult.getPayOrderDO()!=null){
-				orderDetails.setTotalFee(singleQueryResult.getPayOrderDO().getTotalFee());
-				orderDetails.setActualTotalFee(singleQueryResult.getPayOrderDO().getActualTotalFee());
-			}
+				if (singleQueryResult.getPayOrderDO()!=null){
+					orderDetails.setTotalFee(singleQueryResult.getPayOrderDO().getTotalFee());
+					orderDetails.setActualTotalFee(singleQueryResult.getPayOrderDO().getActualTotalFee());
+				}
 
-			//参加人
-			List<ContactUser> contactUserList = BizOrderUtil.getCheckInUserList(mainOrder.getBizOrderDO());
-			if (!CollectionUtils.isEmpty(contactUserList)){
-				orderDetails.setTourists(contactUserList);
+				//参加人
+				List<ContactUser> contactUserList = BizOrderUtil.getCheckInUserList(mainOrder.getBizOrderDO());
+				if (!CollectionUtils.isEmpty(contactUserList)){
+					orderDetails.setTourists(contactUserList);
+				}
+				//联系人
+				ContactUser contactUser = BizOrderUtil.getContactUser(mainOrder.getBizOrderDO());
+				if (contactUser!=null){
+					orderDetails.setContacts(contactUser);
+				}
+				//卖家备忘录
+				String buyerMemo = BizOrderUtil.getBuyerMemo(mainOrder.getBizOrderDO());
+				orderDetails.setBuyerMemo(buyerMemo);
+				return orderDetails;
 			}
-			//联系人
-			ContactUser contactUser = BizOrderUtil.getContactUser(mainOrder.getBizOrderDO());
-			if (contactUser!=null){
-				orderDetails.setContacts(contactUser);
-			}
-			//卖家备忘录
-			String buyerMemo = BizOrderUtil.getBuyerMemo(mainOrder.getBizOrderDO());
-			orderDetails.setBuyerMemo(buyerMemo);
-			return orderDetails;
+		}catch (Exception e){
+			log.error("public OrderDetails getOrderById(long id);" + e);
+			return null;
 		}
+
 		return null;
 	}
 
 
+	//完成
 	@Override
 	public boolean buyerConfirmGoods(long id) {
 		BuyerConfirmGoodsDTO buyerConfirmGoodsDTO = new BuyerConfirmGoodsDTO();
 		buyerConfirmGoodsDTO.setBizOrderId(id);
-		BuyerConfirmGoodsResult buyerConfirmGoodsResult = tcTradeServiceRef.buyerConfirmGoods(buyerConfirmGoodsDTO);
-		return buyerConfirmGoodsResult.isSuccess();
+		try {
+			BuyerConfirmGoodsResult buyerConfirmGoodsResult = tcTradeServiceRef.buyerConfirmGoods(buyerConfirmGoodsDTO);
+			return buyerConfirmGoodsResult.isSuccess();
+		}catch (Exception e){
+			log.error("tcTradeServiceRef.buyerConfirmGoods(buyerConfirmGoodsDTO);" + e);
+			return false;
+		}
 	}
 
 
+	//发货--确认/
 	@Override
 	public boolean sellerSendGoods(long id) {
 		SellerSendGoodsDTO sellerSendGoodsDTO = new SellerSendGoodsDTO();
 		sellerSendGoodsDTO.setBizOrderId(id);
-		SellerSendGoodsResult sellerSendGoodsResult = tcTradeServiceRef.sellerSendGoods(sellerSendGoodsDTO);
-		return sellerSendGoodsResult.isSuccess();
+		try {
+			SellerSendGoodsResult sellerSendGoodsResult = tcTradeServiceRef.sellerSendGoods(sellerSendGoodsDTO);
+			return sellerSendGoodsResult.isSuccess();
+		}catch (Exception e){
+			log.error("tcTradeServiceRef.sellerSendGoods(sellerSendGoodsDTO);" + e);
+			return false;
+		}
+
 	}
 
+	//退款
 	@Override
 	public boolean refundOrder(long id) {
 		RefundTradeDTO refundTradeDTO = new RefundTradeDTO();
 		refundTradeDTO.setBizOrderId(id);
-		ResultSupport resultSupport = tcTradeServiceRef.refundOrder(refundTradeDTO);
-		return resultSupport.isSuccess();
+		try {
+			ResultSupport resultSupport = tcTradeServiceRef.refundOrder(refundTradeDTO);
+			return resultSupport.isSuccess();
+		}catch (Exception e){
+			log.error("tcTradeServiceRef.refundOrder(refundTradeDTO);" + e);
+			return false;
+		}
+	}
+
+
+	@Override
+	public boolean closeOrder(long id) {
+		try {
+			ResultSupport resultSupport = tcTradeServiceRef.closeOrder(id);
+			return resultSupport.isSuccess();
+		}catch (Exception e){
+			log.error("tcTradeServiceRef.closeOrder(id);" + e);
+			return false;
+		}
 	}
 }

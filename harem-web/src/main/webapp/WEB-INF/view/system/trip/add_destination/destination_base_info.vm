@@ -28,11 +28,11 @@
 	<li>
         <a href="#jingxuanjiudian" id="jingxuanjiudianId" data-toggle="tab">精选酒店</a>
     </li>
-	#*
+	#*	*#
 		<li>
         	<a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
     	</li>
-	*#
+
 </ul>
 
 
@@ -68,11 +68,12 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img height="100" width="100" src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
+                            <img height="100" width="100" src="#if($tripBo.coverURL) $utilWebconfig.getTfsRootPath()$!tripBo.coverURL  #end " id="FMReturnInputImg"> #* #if($tripBo.picturePoster) $utilWebconfig.getTfsRootPath()$!tripBo.picturePoster  #end *#
                         </div>
                     </td>
                 </tr>
                 
+              
                 
                 <tr>
                     <td><span class="spColor">*</span>目的地LOGO</td>
@@ -84,10 +85,27 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img height="100" width="100"  src="" id="LOGOReturnInputImg">
+                            <img height="100" width="100"  src="#if($tripBo.logoURL) $utilWebconfig.getTfsRootPath()$!tripBo.logoURL  #end" id="LOGOReturnInputImg">
                         </div>
                     </td>
                 </tr>
+                
+                 <tr>
+                    <td><span class="spColor">*</span>景点副标题</td>
+                    <td><input type="text" id="scenicSubheadId" name="scenicSubhead" value="$!tripBo.scenicSubhead" ></td>
+                </tr>
+                
+               <tr>
+                    <td><span class="spColor">*</span>酒店副标题</td>
+                    <td><input type="text" id="hotelSubheadId" name="hotelSubhead" value="$!tripBo.hotelSubhead" ></td>
+                </tr>
+                
+                 <tr>
+                    <td><span class="spColor">*</span>直播副标题</td>
+                    <td><input type="text" id="liveSubheadId" name="liveSubhead" value="$!tripBo.liveSubhead"></td>
+                </tr>
+                
+                
 				<tr>
                     <td><span class="spColor">*</span>概况</td>
                     <td>
@@ -267,6 +285,23 @@
 
 
 <script>
+function setArrId(obj,textId){ 
+		var arrItems = [] ;
+		var arrZhiBo = [];
+		arrItems =  obj;
+		console.log(arrItems);//zhiBo
+		if(arrItems == null){
+			return;
+		}else{
+			 $.each(arrItems, function(n, val) {
+             	console.log("id="+val);
+             	arrZhiBo.push(val.id);
+             	console.log("arrZhiBo="+arrZhiBo);
+             	$("#"+textId).val(arrZhiBo);
+             });
+		}
+	}  
+	
     var addItemCall = function (obj) {
     	var conTr =$(obj).next().find(".needKnow");
     	console.log(conTr);
@@ -372,20 +407,14 @@
    
 $('#bimaituijianId').click(function(){
 	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectMustBuy','买必推荐',function() {
-			var ka = win.getItems();
-			console.log(ka);//biMai
-			$("#biMaiId").val(ka.id);
-			return true;
+		setArrId(win.getItems(),"biMaiId");
+		return true;
 		});
 });
 
 $('#biqujingdianId').click(function(){
-	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneScenic','选择景区',function() {
-		var ka = win.getItems();
-		console.log(ka);//biQu
-		if(ka == null) return;
-		$("#biQuId").val(ka.id);
-		console.log("id="+$("#biQuId").val());
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenic','选择景区',function() {
+		setArrId(win.getItems(),"biQuId");
 		return true;
 	});
 });
@@ -394,23 +423,17 @@ $('#biqujingdianId').click(function(){
 
 $('#jingxuanjiudianId').click(function(){
 	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店',function() {
-			var jd = win.getItems();
-			console.log(jd);//jiuDian
-			if(jd == null) return;
-			$("#jiuDianId").val(jd.id);
-			console.log("id="+$("#jiuDianId").val());
+			setArrId(win.getItems(),"jiuDianId");
 			return true;
 		});
 });
 
 $('#jingxuanzhiboId').click(function(){
 	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLive','选择直播',function() {
-		var ka = win.getItems();
-		console.log(ka);//zhiBo
-		if(ka == null) return;
-		$("#zhiBoId").val(ka.id);
+		setArrId(win.getItems(),"zhiBoId");
 		return true;
 	});
+	
 });
 
 

@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
@@ -23,7 +26,6 @@ import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
-import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
@@ -37,25 +39,28 @@ import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.result.DestinationResult;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.resourcecenter.model.result.DestinationResult.BoothShowResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
-import com.yimayhd.snscenter.client.domain.result.ClubDO;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
+import com.yimayhd.snscenter.client.result.BaseResult;
+import com.yimayhd.snscenter.client.service.SnsCenterService;
 
 public class TripServiceImpl implements TripService {
-
+	private static final Logger log = LoggerFactory.getLogger(TripServiceImpl.class);
 	@Autowired
 	private RegionClientService regionClientServiceRef;
 
 	@Autowired
 	private ShowcaseClientServer showcaseClientServerRef;
-
-	@Autowired
-	private HotelRPCService hotelRPCService;
 
 	@Autowired
 	private ScenicService scenicSpotService;
@@ -68,6 +73,9 @@ public class TripServiceImpl implements TripService {
 
 	@Autowired
 	private RegionIntroduceClientService regionIntroduceClientServiceRef;
+	
+	@Autowired
+	private SnsCenterService snsCenterService;
 
 	public RegionDO saveOrUpdate(TripBo tripBo) throws Exception {
 		RegionDO regionDO = null;
@@ -91,7 +99,6 @@ public class TripServiceImpl implements TripService {
 			}
 			regionDO = res.getT();
 			regionDO.setId(tripBo.getId());
-			regionDO = new RegionDO();
 			regionDO.setCityCode(tripBo.getCityCode());
 			regionDO.setType(tripBo.getType());
 			regionDO.setBgUrl(tripBo.getCoverURL());// 封面logo
@@ -112,7 +119,7 @@ public class TripServiceImpl implements TripService {
 		if (tripBo.getType() == RegionType.DESC_REGION.getType()) {// 目的地
 			// 保存相应的概况 民俗等信息
 			List<NeedKnow> list = new ArrayList<NeedKnow>();
-			List<RelevanceRecommended> listRelevanceRecommended = new ArrayList<RelevanceRecommended>();
+			
 			NeedKnow gaikuang = tripBo.getGaikuang();
 			gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
 			NeedKnow minsu = tripBo.getMinsu();
@@ -127,6 +134,8 @@ public class TripServiceImpl implements TripService {
 			list.add(xiaofei);
 			saveShowCase(list, tripBo.getCityCode());
 			
+			//保存精选 酒店 推荐之类
+			List<RelevanceRecommended> listRelevanceRecommended = new ArrayList<RelevanceRecommended>();
 			if(null != tripBo.getBiMai()){
 				RelevanceRecommended bimai = new RelevanceRecommended();
 				bimai.setName(ColumnType.NEED_BUY.toString());
@@ -138,31 +147,37 @@ public class TripServiceImpl implements TripService {
 			}
 			if(null !=  tripBo.getBiQu()){
 				RelevanceRecommended biqu = new RelevanceRecommended();
-				biqu.setName(ColumnType.NEED_BUY.toString());
-				biqu.setDescName(ColumnType.NEED_BUY.getCode());
-				biqu.setType(ColumnType.NEED_BUY.getType());
+				biqu.setName(ColumnType.GREAT_SCENIC.toString());
+				biqu.setDescName(ColumnType.GREAT_SCENIC.getCode());
+				biqu.setType(ColumnType.GREAT_SCENIC.getType());
 				biqu.setCityCode(tripBo.getCityCode());
-				biqu.setResourceId(tripBo.getBiMai());
+				biqu.setResourceId(tripBo.getBiQu());
+				biqu.setSubhead(tripBo.getScenicSubhead());
 				listRelevanceRecommended.add(biqu);
 			}
 			
 			if(null != tripBo.getJiuDian() ){
 				RelevanceRecommended jiudian = new RelevanceRecommended();
-				jiudian.setName(ColumnType.NEED_BUY.toString());
-				jiudian.setDescName(ColumnType.NEED_BUY.getCode());
-				jiudian.setType(ColumnType.NEED_BUY.getType());
+				jiudian.setName(ColumnType.GREAT_HOTEL.toString());
+				jiudian.setDescName(ColumnType.GREAT_HOTEL.getCode());
+				jiudian.setType(ColumnType.GREAT_HOTEL.getType());
 				jiudian.setCityCode(tripBo.getCityCode());
-				jiudian.setResourceId(tripBo.getBiMai());
+				jiudian.setResourceId(tripBo.getJiuDian());
+				jiudian.setSubhead(tripBo.getHotelSubhead());
 				listRelevanceRecommended.add(jiudian);
 			}
 			
+			if(null != tripBo.getZhiBo() ){
+				RelevanceRecommended zhibo = new RelevanceRecommended();
+				zhibo.setName(ColumnType.TOURIST_SHOW.toString());
+				zhibo.setDescName(ColumnType.TOURIST_SHOW.getCode());
+				zhibo.setType(ColumnType.TOURIST_SHOW.getType());
+				zhibo.setCityCode(tripBo.getCityCode());
+				zhibo.setResourceId(tripBo.getZhiBo());
+				zhibo.setSubhead(tripBo.getLiveSubhead());
+				listRelevanceRecommended.add(zhibo);
+			}
 			relevanceRecommended(listRelevanceRecommended);
-			//relevanceRecommended(ColumnType.NEED_BUY.getType(), tripBo.getCityCode(), tripBo.getBiMai());
-			//relevanceRecommended(ColumnType.GREAT_SCENIC.getType(), tripBo.getCityCode(), tripBo.getBiQu());
-			//relevanceRecommended(ColumnType.GREAT_HOTEL.getType(), tripBo.getCityCode(), tripBo.getJiuDian());
-			//relevanceRecommended(ColumnType.NEED_BUY.getType(), tripBo.getCityCode(), tripBo.getZhiBo());
-			
-			
 		}
 		return regionDO;
 	}
@@ -235,26 +250,112 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public TripBo getTripBo(int id) {
+	public TripBo getTripBo(long id) {
+		//XXX:此处代码需要后期整改优化，现为验证后台后台查询封装的目的地对象是否能在前台正确显示
 		TripBo tripBo = new TripBo();
-		RcResult<RegionDO> res = regionClientServiceRef.selectById(id);
-		if (null != res && res.isSuccess() && null != res.getT()) {
-			RegionDO regionDO = res.getT();
+		DestinationResult res = showcaseClientServerRef.getDestinationResultByRegionId(id);
+		
 			// 组装其余信息
 			// -------------------------------------------------------------------
-			int cityCode = regionDO.getCityCode();
-			tripBo.setCityCode(cityCode);
-			// tripBo.setCityLevel();
+			RegionDO regionDO = res.getRegionDO();
+			if(null == regionDO){
+				return null;
+			}
+			tripBo.setId(regionDO.getId());
+			tripBo.setCityCode(regionDO.getCityCode());
 			tripBo.setType(regionDO.getType());
 			tripBo.setLogoURL(regionDO.getUrl());
 			tripBo.setCoverURL(regionDO.getBgUrl());
 			tripBo.setStatus(regionDO.getStatus());
 
-			NeedKnow gaikuang = new NeedKnow();
-			gaikuang.setExtraInfoUrl(ColumnType.SURVER.getCode());
-			gaikuang.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.SURVER.getCode()));
+			//--------------------------------------------------------------------------
+			List<BoothShowResult> list = res.getBoothShowResultList();
+			if(CollectionUtils.isNotEmpty(list)){
+				BoothDO boothDO = null;
+				for (BoothShowResult boothShowResult : list) {
+					boothDO = boothShowResult.getBoothDO();
+					if(null != boothDO){
+						int type=boothDO.getType();
+						if(ColumnType.SURVER.getType() == type){
+							NeedKnow gaikuang = new NeedKnow();
+							List gaikuangList = boothShowResult.getShowcaseDOList();
+							gaikuang.setExtraInfoUrl(ColumnType.SURVER.getCode());
+							gaikuang.setFrontNeedKnow(showCaseToTextItem(gaikuangList));
+							tripBo.setGaikuang(gaikuang);
+						}
+						if(ColumnType.FOLKWAYS.getType() == type){
+							NeedKnow minsu = new NeedKnow();
+							List minsuList = boothShowResult.getShowcaseDOList();
+							minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.getCode());
+							minsu.setFrontNeedKnow(showCaseToTextItem(minsuList));
+							tripBo.setMinsu(minsu);
+							
+						}
+						if(ColumnType.CONSUMPTION.getType() == type){
+							NeedKnow xiaofei = new NeedKnow();
+							List xiaofeiList = boothShowResult.getShowcaseDOList();
+							xiaofei.setExtraInfoUrl(ColumnType.SURVER.getCode());
+							xiaofei.setFrontNeedKnow(showCaseToTextItem(xiaofeiList));
+							tripBo.setXiaofei(xiaofei);
+						}
+						if(ColumnType.HIGHLIGHTS.getType() == type){
+							NeedKnow tieshi = new NeedKnow();
+							List tieshiList = boothShowResult.getShowcaseDOList();
+							tieshi.setExtraInfoUrl(ColumnType.SURVER.getCode());
+							tieshi.setFrontNeedKnow(showCaseToTextItem(tieshiList));
+							tripBo.setTieshi(tieshi);
+						}
+						if(ColumnType.NEED_BUY.getType() == type){
+							NeedKnow maiTuiJian = new NeedKnow();
+							List maiTuiJianList = boothShowResult.getShowcaseDOList();
+							maiTuiJian.setExtraInfoUrl(ColumnType.NEED_BUY.getCode());
+							//maiTuiJian.setFrontNeedKnow(showCaseToTextItem(maiTuiJianList));
+						}
+						if(ColumnType.TIPS.getType() == type){
+							NeedKnow liangDian = new NeedKnow();
+							List liangDianList = boothShowResult.getShowcaseDOList();
+							liangDian.setExtraInfoUrl(ColumnType.TIPS.getCode());
+							//liangDian.setFrontNeedKnow(showCaseToTextItem(liangDianList));
+							tripBo.setGaikuang(liangDian);
+						}
 
-			NeedKnow minsu = new NeedKnow();
+						if(ColumnType.GREAT_SCENIC.getType() == type){
+							NeedKnow jingdian = new NeedKnow();
+							List jingdianList = boothShowResult.getShowcaseDOList();
+							jingdian.setExtraInfoUrl(ColumnType.GREAT_SCENIC.getCode());
+							jingdian.setFrontNeedKnow(showCaseToTextItem(jingdianList));
+							tripBo.setGaikuang(jingdian);
+							tripBo.setScenicSubhead(boothDO.getDesc());
+						}
+
+						if(ColumnType.GREAT_HOTEL.getType() == type){
+							NeedKnow jiudian = new NeedKnow();
+							List jiudianList = boothShowResult.getShowcaseDOList();
+							jiudian.setExtraInfoUrl(ColumnType.GREAT_HOTEL.getCode());
+							jiudian.setFrontNeedKnow(showCaseToTextItem(jiudianList));
+							tripBo.setGaikuang(jiudian);
+							tripBo.setHotelSubhead(boothDO.getDesc());
+						}
+
+						if(ColumnType.TOURIST_SHOW.getType() == type){
+							NeedKnow zhibo = new NeedKnow();
+							List liangDianList = boothShowResult.getShowcaseDOList();
+							zhibo.setExtraInfoUrl(ColumnType.TOURIST_SHOW.getCode());
+							zhibo.setFrontNeedKnow(showCaseToTextItem(liangDianList));
+							tripBo.setGaikuang(zhibo);
+							tripBo.setLiveSubhead(boothDO.getDesc());
+						}
+
+					}
+					
+				}
+			}
+			
+			
+			
+			
+
+			/*NeedKnow minsu = new NeedKnow();
 			minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.getCode());
 			minsu.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.FOLKWAYS.getCode()));
 
@@ -266,15 +367,13 @@ public class TripServiceImpl implements TripService {
 			tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.getCode());
 			tieshi.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.HIGHLIGHTS.getCode()));
 
-			tripBo.setGaikuang(gaikuang);
+			//tripBo.setGaikuang(gaikuang);
 			tripBo.setTieshi(tieshi);
 			tripBo.setXianLu(null);
 			tripBo.setXiaofei(xiaofei);
-			tripBo.setMinsu(minsu);
+			tripBo.setMinsu(minsu);*/
 
 			return tripBo;
-		}
-		return null;
 	}
 
 	public List<TextItem> getListShowcaseDO(int cityCode, String type) {
@@ -369,6 +468,7 @@ public class TripServiceImpl implements TripService {
 		int totalCount = 0 ;
 		List<RegionDO> list = new ArrayList<RegionDO>();
 		RegionQuery regionQuery = new RegionQuery();
+		regionQuery.setNeedCount(true);
 		regionQuery.setPageNo(tripBoQuery.getPageNumber());
 		regionQuery.setPageSize(tripBoQuery.getPageSize());
 		regionQuery.setType(tripBoQuery.getType());
@@ -476,26 +576,30 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public boolean relevanceRecommended(List<RelevanceRecommended> list) throws Exception {
+		boolean flag=false;
 		for (RelevanceRecommended rec : list) {
 			if(null == rec ){
 				continue;
 			}
-			/*ColumnType columnType = ColumnType.getByType(relevanceRecommended.getType());
-			if (null == columnType) {
-				throw new Exception("parameter[type] " + relevanceRecommended.getType() + " ,Enum does not exist");
-			}*/
+			System.out.println(rec.getName()+"---"+rec.getType());
 			BoothDO boothDO = new BoothDO();
 			boothDO.setCode(rec.getName()+ "-" + rec.getCityCode());
 			boothDO.setName(rec.getDescName());
-			boothDO.setDesc(rec.getDescName() + "-" + rec.getCityCode());
+			boothDO.setDesc(rec.getSubhead());
 			boothDO.setStatus(10);
 			boothDO.setType(rec.getType());
 			boothDO.setGmtCreated(new Date());
 			boothDO.setGmtModified(new Date());
 			List<ShowcaseDO> listShowcaseDO = new ArrayList<ShowcaseDO>();
 			ShowcaseDO sc = null;
+			sc = new ShowcaseDO();
+			
 			for (int i = 0; i < rec.getResourceId().length; i++) {
-				sc = new ShowcaseDO();
+				if(ColumnType.TOURIST_SHOW.getType()==rec.getType()){
+					SnsSubjectDO dbSnsSubjectDO = getSnsSubjectDOById(rec.getResourceId()[i]);
+					sc.setImgUrl(getSnsSubjectDOFirstImgURL(dbSnsSubjectDO));
+				}
+				
 				sc.setTitle("目的地_" + rec.getCityCode() + "	关联	" + rec.getDescName() + " [" + rec.getResourceId()[i] + "]");
 				sc.setStatus(10);// BoothStatusType.ON_SHELF.getValue()
 				sc.setGmtCreated(new Date());
@@ -503,11 +607,53 @@ public class TripServiceImpl implements TripService {
 				sc.setOperationContent(String.valueOf(rec.getResourceId()[i]));
 				listShowcaseDO.add(sc);
 			}
+			System.out.println(JSON.toJSON(listShowcaseDO));
+			System.out.println(JSON.toJSON(boothDO));
 			RcResult<Boolean> resb = showcaseClientServerRef.batchInsertShowcase(listShowcaseDO,boothDO);
 			System.out.println(resb.isSuccess());
-			return resb.isSuccess();
+			flag=resb.isSuccess();
+			if(!flag){
+				log.debug("showcase保存错误，具体数据："+JSON.toJSONString(listShowcaseDO)+","+JSON.toJSONString(boothDO));
+			}
 		}
-		return false;
+		return flag;
+	}
+	
+	//根据id查游记
+	public SnsSubjectDO getSnsSubjectDOById(long id){
+		BaseResult<SnsSubjectDO> res = snsCenterService.getSubjectInfoBySubjectId(id);
+		if(null != res && res.isSuccess() && null != res.getValue() ){
+			return res.getValue();
+		}
+		return null;
+	}
+	public String getSnsSubjectDOFirstImgURL(SnsSubjectDO snsSubjectDO){
+		if(null == snsSubjectDO){
+			return null;
+		}
+		String picContent = snsSubjectDO.getPicContent();
+		if(StringUtils.isNotEmpty(picContent)){
+			String[] pic = picContent.split("\\|");
+			if(pic.length>0){
+				//格式|1.jpg|2.jpg|
+				return pic[1];
+			}
+		}
+		return null;
+	}
+	
+	
+	@Override
+	public PageVO<SnsSubjectDO> getPageSnsSubjectDO(SubjectInfoDTO query) {
+		int totalCount = 0; 
+		List<SnsSubjectDO> list = new ArrayList<SnsSubjectDO>();
+		BasePageResult<SnsSubjectDO> res = snsCenterService.getSubjectInfoPage(query);
+		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
+			list = res.getList();
+			totalCount=res.getTotalCount();
+		}
+
+		return new PageVO<SnsSubjectDO>(query.getPageNo(), query.getPageSize(), totalCount, list);
 	}
 
 }

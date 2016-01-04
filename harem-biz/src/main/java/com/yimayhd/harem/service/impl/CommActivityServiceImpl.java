@@ -1,5 +1,7 @@
 package com.yimayhd.harem.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.service.CommActivityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
@@ -47,11 +50,16 @@ public class CommActivityServiceImpl implements CommActivityService {
 			itemDO.setOriginalPoint(0);
 			itemDO.setOriginalPrice(0);
 			itemDO.setDetailUrl("");
+			ItemFeature itemFeature = new ItemFeature(null);
+		    itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.NONE.getBizType());
+		    itemDO.setItemFeature(itemFeature);
+		    List<ItemSkuDO> itemSkuDOList = itemDO.getItemSkuDOList();
+		  
+	        itemDO.setStockNum(ItemVO.getCountStockNum(itemVO));
 	        commonItemPublishDTO.setItemDO(itemDO);
-	        commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
-	        ItemFeature itemFeature = new ItemFeature(null);
-	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, ReduceType.NONE.getBizType());
-	        itemDO.setItemFeature(itemFeature);
+	        commonItemPublishDTO.setItemSkuDOList(itemSkuDOList);
+	       
+	        
 	        ItemPubResult itemPubResult =itemPublishService.publishCommonItem(commonItemPublishDTO);
 		 if(null == itemPubResult){
 	            log.error("CommActivityServiceImpl.add --ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
@@ -96,6 +104,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
 	            }
+	            itemDB.setStockNum(ItemVO.getCountStockNum(itemVO));
 	            //自定义属性
 	            itemDB.setItemProperties(itemVO.getItemProperties());
 	            ItemPubResult itemPubResult = itemPublishService.updatePublishCommonItem(commonItemPublishDTO);

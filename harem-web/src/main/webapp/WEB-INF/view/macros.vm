@@ -13,16 +13,24 @@
     隐藏
     #end
 #end
-#*活动上下架状态*#
+#*活动状态*#
 #macro(ACTIVITY_STATUS $type)
     #if($type == '1')
     上架
     #elseif($type == '2')
     下架
+    #end
+#end
+#*活动报名架状态*#
+#macro(ACTIVITY_ENROLL_STATUS $type)
+    #if($type == '1')
+    未开始
+    #elseif($type == '2')
+    已满员
     #elseif($type == '3')
-    满员
+    报名中
     #elseif($type == '4')
-    活动结束
+    已结束
     #end
 #end
 #*性别*#
@@ -35,7 +43,18 @@
     未知
     #end
 #end
-#*俱乐部-动态状态*#
+
+#*标签-状态*#
+#macro(TAG_STATUS $type)
+    #if($type == '1')
+    启用
+    #elseif($type == '2')
+    停用
+    #end
+#end
+
+
+#*俱乐部-动态状态(评论状态、直播状态也用这个)*#
 #macro(TREND_STATUS $type)
     #if($type == '1')
     正常
@@ -88,14 +107,16 @@
 #end
 #*景点级别 1-五星级 2-四星级 3-三星级 4-连锁酒店*#
 #macro(SCENIC_LEVEL $type)
-    #if($type == '1')
-    五星级
-    #elseif($type == '2')
-    四星级
-    #elseif($type == '3')
-    三星级
+    #if($type == '5')
+    AAAAA
     #elseif($type == '4')
-   连锁酒店
+    AAAA
+    #elseif($type == '3')
+    AAA
+    #elseif($type == '2')
+   AA
+    #elseif($type == '1')
+   A
     #end
 #end
 #*商品状态*#
@@ -191,6 +212,15 @@
     待处理
     #elseif($type == '7')
     已退款
+    #end
+#end
+#macro(COMMENT_STATUS $type)
+    #if($type == '1')
+    动态
+    #elseif($type == '2')
+    直播
+    #else
+    其他
     #end
 #end
 #*订单操作*#

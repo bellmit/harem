@@ -47,21 +47,21 @@
                         <td><input type="text" name="index" value="$!commodity.index" ></td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>宣传图</td>
-                        <td class="bigListPicTd">
+                        <td><span class="spColor">*</span>选择订单图</td>
+                        #*<td class="bigListPicTd">
                             <label>选择列表图</label>
                             <input id="bigListPicUrl" type="file">
                             <img class="bigListPicUrl uploadImgFile" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!commodity.bigListPic #end">
                             <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commHotel.bigListPic">
-                        </td>
+                        </td>*#
                         <td class="smallListPicTd">
-                            <label>选择订单图</label>
+                           
                             <input id="smallListPicUrl" type="file">
                             <img class="smallListPicUrl uploadImgFile" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!commodity.smallListPic #end">
                             <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commHotel.smallListPic">
                         </td>
                     </tr>
-                   <tr>
+                  #* <tr>
                         <td><span class="spColor">*</span>详情竖图</td>
                         <td class="picUrlsTd">
                             <input id="batchUploadBtn" type="file" multiple="multiple" >
@@ -70,7 +70,7 @@
                             #end
                         </td>
                         <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
-                    </tr>
+                    </tr>*#
 
                     
 
@@ -252,7 +252,7 @@
                 format: "yyyy-mm-dd"
             });
 
-    var bigListPicUploadCallBack = function(data){
+   /** var bigListPicUploadCallBack = function(data){
         if(data && data.status == 200){
             $('.bigListPicVal').val(data.data);
             $('.bigListPicUrl').attr('src',tfsRootPath + data.data);
@@ -260,7 +260,7 @@
         }else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
-    }
+    }*/
     var smallListPicUploadCallBack = function(data){
         if(data && data.status == 200){
             $('.smallListPicVal').val(data.data);
@@ -354,17 +354,17 @@
 
     $(function(){
         //上传图片detailUrl
-        $(document).delegate("#bigListPicUrl",'change',function(){
+       /** $(document).delegate("#bigListPicUrl",'change',function(){
             fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
-        })
+        })*/
         //上传图片detailUrl
         $(document).delegate("#smallListPicUrl",'change',function(){
             fileUpload('#smallListPicUrl',1,smallListPicUploadCallBack);
         })
-        /****************批量上传pic_urls*****************/
+        /****************批量上传pic_urls
         $(document).delegate("#batchUploadBtn",'change',function(){
             fileUpload('#batchUploadBtn',2,batchCallBack);
-        })
+        })*****************/
         $(document).delegate(".stock",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
             var i = 0;

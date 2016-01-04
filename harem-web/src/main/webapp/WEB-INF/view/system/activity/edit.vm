@@ -38,7 +38,10 @@
                         <tr>
                             <td><span class="spColor">*</span>活动名称</td>
                             <td>
-                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="title" value="">
+                            	#if($activity.id)
+                           		<input type="text" class="inpControl" name="id" id="id" value="$!{activity.id}">
+                           		#end
+                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="title" value="$!{activity.title}">
                             </td>
                         </tr>
                         <tr>
@@ -47,7 +50,7 @@
                             
 	                                <select class="form-control" name="clubId">
 	                                  #foreach($club in $clubList)
-	                                    <option value="$!{club.id}">$!{club.clubName}</option>
+	                                    <option value="$!{club.id}" #if($!activity.clubId == $!club.id) selected #end>$!{club.clubName}</option>
 	                                   #end
 	                                </select>
                                
@@ -56,24 +59,31 @@
                          <tr>
                             <td>商品选择</td>
                             <td>
-                           		 <input type="text" class="inpControl" name="productTitle" id="productTitle" value="">
-                            	<input type="hidden" class="inpControl" name="productId" id="productId" value="">
+                            
+                           		 <input type="text" class="inpControl" name="productTitle" id="productTitle" value="$!{itemName}">
+                            	<input type="hidden" class="inpControl" name="productId" id="productId" value="$!{activity.productId}">
                             	<button type="button" class="btn btn-primary selectActivityComm">选择商品</button>
                             </td>
                         </tr>
                         <tr>
                             <td><span class="spColor">*</span>活动主题</td>
                             <td>
-                                #foreach($tag in $tagResult)
-                      		 		<input type="checkbox" name="tagList" value="$!{tag.id}"><span>$!{tag.name}</span>
-                    			#end
+                              #foreach($tag in $tagResult)
+                            	
+	                             
+	                      		 		<input type="checkbox" name="tagList" value="$!{tag.id}" 
+	                      		 		 #foreach($tagCheck in $tagResultCheck)
+	                      		 		
+	                      		 		 #if($!tagCheck.id == $!tag.id) checked #end#end><span>$!{tag.name}</span>
+	                    			
+	                    			#end
                             </td>
                         </tr>
                         <tr>
                             <td><span class="spColor">*</span>活动时间</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityDate" value="$!utilDate.dateToString($!activity.startDate,"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityDate" value="$!utilDate.dateToString($!activity.activityDate,"yyyy-MM-dd HH:mm:ss")"></div>
                                 </div>
                             </td>
                         </tr>
@@ -81,9 +91,9 @@
                             <td><span class="spColor">*</span>报名时间</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value="$!utilDate.dateToString($!activity.enrollBeginDate,"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value="$!utilDate.dateToString($!activity.startDate,"yyyy-MM-dd HH:mm:ss")"></div>
                                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!utilDate.dateToString($!activity.enrollEndDate,"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!utilDate.dateToString($!activity.endDate,"yyyy-MM-dd HH:mm:ss")"></div>
                                 </div>
                             </td>
                         </tr>
@@ -91,23 +101,25 @@
                             <td><span class="spColor">*</span>活动地区</td>
                             <td>
                                 <span>经度</span>
-	                            <input type="text" name="snsPOI.longitude" id="locationX" class="inpControl getAddress" value="">
+	                            <input type="text" name="snsPOI.longitude" id="locationX" class="inpControl getAddress" value="$!activity.snsPOI.longitude">
 	                            <span>维度</span>
-	                            <input type="text" name="snsPOI.latitude" id="locationY" class="inpControl getAddress" value="">
+	                            <input type="text" name="snsPOI.latitude" id="locationY" class="inpControl getAddress" value="$!activity.snsPOI.latitude">
 	                            <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
 	                            #*<code>点击查找经纬度可自动获取</code>*#
                             </td>
                         </tr>
                         <tr>
                             <td><span class="spColor">*</span>详细地址</td>
-                            <td><input type="text" class="form-control" placeholder="请输入30字以内" name="snsPOI.detail" value=""></td>
+                            <td><input type="text" class="form-control" placeholder="请输入30字以内" name="snsPOI.detail" value="$!activity.snsPOI.detail"></td>
                         </tr>
                          <tr>
                             <td>基础价格</td>
                             <td>
                             	<div class="row">
-                            		<div class="col-md-4"><input type="text" class="form-control" placeholder="会员" name="preferentialPriceY" value="$!activity.addrDetail"></div>
-                            		<div class="col-md-4"><input type="text" class="form-control" placeholder="非会员" name="originalPriceY" value="$!activity.addrDetail"></div>
+                            		#set($preferentialPrice=$activity.preferentialPrice / 100.0)
+                            		#set($originalPrice=$activity.originalPrice / 100.0) 
+                            		<div class="col-md-4"><input type="text" class="form-control" placeholder="会员" name="preferentialPriceY" value="#if(! $preferentialPrice)#else$preferentialPrice#end"></div>
+                            		<div class="col-md-4"><input type="text" class="form-control" placeholder="非会员" name="originalPriceY" value="#if(! $originalPrice)#else$originalPrice#end"></div>
                             	</div>
                             </td>
                         </tr>
@@ -116,8 +128,8 @@
                 <td class="fileImgWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input id="productImageFile" class="fileInp" type="file" accept="image/png,image/gif,image/jpeg"/>
-                    <img class="productImageUrlImg img-circle" src="#if($!{product.baseInfo.productImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImage} #end"/>
-                    <input class="productImageUrlVal" type="hidden" name="image" value="$!product.baseInfo.productImage"/>
+                    <img class="productImageUrlImg img-circle" src="#if($!{activity.image})$!{utilWebconfig.getTfsRootPath()}$!{activity.image} #end"/>
+                    <input class="productImageUrlVal" type="hidden" name="image" value="$!activity.image"/>
                 </td>
             </tr>
             <tr>
@@ -134,6 +146,10 @@
                                     </tr>
                                 </thead>
                                 <tbody class="extra-info-list needKnowTable">
+								  
+                                    
+                                   
+                                #if(!$activity.id)
 								   <tr class="needKnow">
 								        <td><input type="text" name="activityJsonArray[0].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动"></td>
 								        <td>
@@ -141,8 +157,20 @@
 								        </td>
 								        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
 								    </tr>
-
-                                   
+								  
+ 								#end
+ 								#if($activity.id)
+ 								#foreach($activityJsonArray in $activity.activityJsonArray)
+                                   <tr class="needKnow">
+								        <td>
+								        	<input type="text" name="activityJsonArray[$!{velocityCount}].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动" value="$!{activityJsonArray.activityTitle}"></td>
+								        <td>
+								        <textarea name="activityJsonArray[$!{velocityCount}].activityDec" class="form-control extra-info-item-text" rows="3">$!{activityJsonArray.activityDec}</textarea>
+								       </td>
+								        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
+								    </tr>
+                                #end
+                           		#end
                                 </tbody>
                             </table>
 				
@@ -189,8 +217,9 @@
     </tr>
 </script>
 <script>
-	var conTr = $(".needKnow").length;
+	
     $(".addNeedKnow").unbind("click").click(function () {
+    	var conTr = $(".needKnow").length+1;
         var addhtml = "";
         var html1 = $("#needKnowTemp").html();
         var i = conTr++;
@@ -222,9 +251,10 @@
                 format: "yyyy-mm-dd hh:ii"
             });
     $(function(){
+   
      	/*弹出框**/
         $('.selectActivityComm').click(function(){
-         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneActivityComm','选择景区',function() {
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneActivityComm','选择商品',function() {
 				var sce = win.getItems();
 				
 				$("#productTitle").val(sce.title);

@@ -60,11 +60,8 @@ public class LineRepo {
 		if (lineId <= 0) {
 			throw new BaseException("更新线路时线路ID不能为空");
 		}
-		LinePublishDTO vo = linePublishDTO;
-		LineResult lineResult = getLineById(lineId);
-		LinePublishDTO dto = mergeLine(vo, lineResult);
 		RepoUtils.requestLog(log, "itemPublishServiceRef.updatePublishLine");
-		LinePublishResult publishLine = itemPublishServiceRef.updatePublishLine(dto);
+		LinePublishResult publishLine = itemPublishServiceRef.updatePublishLine(linePublishDTO);
 		RepoUtils.resultLog(log, "itemPublishServiceRef.updatePublishLine", publishLine);
 		return publishLine;
 	}
@@ -98,17 +95,5 @@ public class LineRepo {
 			itemList = new ArrayList<LineDO>();
 		}
 		return new PageVO<LineDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
-	}
-
-	/**
-	 * 合并
-	 * 
-	 * @param vo
-	 * @param dto
-	 * @return
-	 */
-	private LinePublishDTO mergeLine(LinePublishDTO vo, LineResult lineResult) {
-
-		return vo;
 	}
 }

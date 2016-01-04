@@ -5,12 +5,10 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.domain.item.HotelShortItem;
 import com.yimayhd.ic.client.model.domain.share_json.FlightDetail;
 import com.yimayhd.ic.client.model.domain.share_json.FlightInfo;
-import com.yimayhd.ic.client.model.domain.share_json.HotelInfo;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
@@ -77,7 +75,13 @@ public class SelfServiceTravel extends BaseTravel {
 	}
 
 	@Override
+	protected void modifyRouteInfo(LinePublishDTO dto, LineResult lineResult) {
+		setRouteInfo(dto);
+	}
+
+	@Override
 	protected int getItemType() {
 		return ItemType.FLIGHT_HOTEL.getValue();
 	}
+
 }

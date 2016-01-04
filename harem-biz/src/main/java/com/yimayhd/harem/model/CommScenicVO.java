@@ -2,6 +2,7 @@ package com.yimayhd.harem.model;
 
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 
 public class CommScenicVO extends ScenicPublishDTO{
@@ -14,9 +15,9 @@ public class CommScenicVO extends ScenicPublishDTO{
 	private String bigListPic;//扁长大列表图，主要用于伴手礼等商品列表
 	private String coverPics;//封面大图String
 	private List<String> picList;//封面大图List
-	private long endTime;
-	private long startDayTime;
-	private long startHourTime;
+	private Long endTime;
+	private Long startDayTime;
+	private Long startHourTime;
 	private Long[] check;
 	private double priceF;
 	
@@ -47,22 +48,23 @@ public class CommScenicVO extends ScenicPublishDTO{
 	public void setPicList(List<String> picList) {
 		this.picList = picList;
 	}
-	public long getEndTime() {
+
+	public Long getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(long endTime) {
+	public void setEndTime(Long endTime) {
 		this.endTime = endTime;
 	}
-	public long getStartDayTime() {
+	public Long getStartDayTime() {
 		return startDayTime;
 	}
-	public void setStartDayTime(long startDayTime) {
+	public void setStartDayTime(Long startDayTime) {
 		this.startDayTime = startDayTime;
 	}
-	public long getStartHourTime() {
+	public Long getStartHourTime() {
 		return startHourTime;
 	}
-	public void setStartHourTime(long startHourTime) {
+	public void setStartHourTime(Long startHourTime) {
 		this.startHourTime = startHourTime;
 	}
 	public Long[] getCheck() {
@@ -77,6 +79,7 @@ public class CommScenicVO extends ScenicPublishDTO{
 	public void setPriceF(double priceF) {
 		this.priceF = priceF;
 	}
+	
 	
 	
 	

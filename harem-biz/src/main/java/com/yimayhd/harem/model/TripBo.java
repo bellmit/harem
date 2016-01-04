@@ -25,6 +25,11 @@ public class TripBo implements Serializable {
 	public String coverURL; /** 目的地图 */
 	public int type;/** 1出发地，2目的地*/
 	public int status;
+	public String scenicSubhead;//景点副标题
+	public String hotelSubhead;//酒店副标题
+	public String liveSubhead;//直播副标题
+	
+	
 	//public List<NeedKnow> needKnowList; /** 概况 */
 	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
 
@@ -47,7 +52,126 @@ public class TripBo implements Serializable {
 	public int[] jiuDian;/** 精选酒店*/
 	public int[] zhiBo;/** 精选直播*/
 	public int[] xianLu;/** 线路*/
+
+	public List<NeedKnow> biMaiList;
+	public List<NeedKnow> biQuList;
+	public List<NeedKnow> jiuDianList;
+	public List<NeedKnow> zhiBoList;
+	public List<NeedKnow> xianLuList;
 	
+	public List<NeedKnow> tieshiList;
+	public List<NeedKnow> xiaofeiList;
+	public List<NeedKnow> minsuList;
+	public List<NeedKnow> gaikuangList;
+
+	
+	
+	public List<NeedKnow> getBiMaiList() {
+		return biMaiList;
+	}
+
+
+
+	public void setBiMaiList(List<NeedKnow> biMaiList) {
+		this.biMaiList = biMaiList;
+	}
+
+
+
+	public List<NeedKnow> getBiQuList() {
+		return biQuList;
+	}
+
+
+
+	public void setBiQuList(List<NeedKnow> biQuList) {
+		this.biQuList = biQuList;
+	}
+
+
+
+	public List<NeedKnow> getJiuDianList() {
+		return jiuDianList;
+	}
+
+
+
+	public void setJiuDianList(List<NeedKnow> jiuDianList) {
+		this.jiuDianList = jiuDianList;
+	}
+
+
+
+	public List<NeedKnow> getZhiBoList() {
+		return zhiBoList;
+	}
+
+
+
+	public void setZhiBoList(List<NeedKnow> zhiBoList) {
+		this.zhiBoList = zhiBoList;
+	}
+
+
+
+	public List<NeedKnow> getXianLuList() {
+		return xianLuList;
+	}
+
+
+
+	public void setXianLuList(List<NeedKnow> xianLuList) {
+		this.xianLuList = xianLuList;
+	}
+
+
+
+	public List<NeedKnow> getTieshiList() {
+		return tieshiList;
+	}
+
+
+
+	public void setTieshiList(List<NeedKnow> tieshiList) {
+		this.tieshiList = tieshiList;
+	}
+
+
+
+	public List<NeedKnow> getXiaofeiList() {
+		return xiaofeiList;
+	}
+
+
+
+	public void setXiaofeiList(List<NeedKnow> xiaofeiList) {
+		this.xiaofeiList = xiaofeiList;
+	}
+
+
+
+	public List<NeedKnow> getMinsuList() {
+		return minsuList;
+	}
+
+
+
+	public void setMinsuList(List<NeedKnow> minsuList) {
+		this.minsuList = minsuList;
+	}
+
+
+
+	public List<NeedKnow> getGaikuangList() {
+		return gaikuangList;
+	}
+
+
+
+	public void setGaikuangList(List<NeedKnow> gaikuangList) {
+		this.gaikuangList = gaikuangList;
+	}
+
 
 
 	public String getCityName() {
@@ -273,6 +397,42 @@ public class TripBo implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+
+
+	public String getScenicSubhead() {
+		return scenicSubhead;
+	}
+
+
+
+	public void setScenicSubhead(String scenicSubhead) {
+		this.scenicSubhead = scenicSubhead;
+	}
+
+
+
+	public String getHotelSubhead() {
+		return hotelSubhead;
+	}
+
+
+
+	public void setHotelSubhead(String hotelSubhead) {
+		this.hotelSubhead = hotelSubhead;
+	}
+
+
+
+	public String getLiveSubhead() {
+		return liveSubhead;
+	}
+
+
+
+	public void setLiveSubhead(String liveSubhead) {
+		this.liveSubhead = liveSubhead;
+	}
 	
 	
 
@@ -287,7 +447,8 @@ public class TripBo implements Serializable {
 		this.needKnowList = needKnowList;
 	}
 	 */
-
+	
+	
 
 	
 	

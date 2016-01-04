@@ -174,13 +174,13 @@
     <div class="tab-content">
 		#foreach($tripDay in $product.tripInfo)
 		#set($day = ${velocityCount})
-		<div class="tab-pane in #if(${velocityCount}==1) active #end" id="day_${velocityCount}_page">
+		<div class="tab-pane in #if(${day}==1) active #end" id="day_${velocityCount}_page">
 			<div class="panel add-traffic">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-plane"></i><span class="tripAddSp">添加交通</span></div>
-				<div class="panel-body traffic" id="day_${velocityCount}_traffic" route-item-id="$!{tripDay.trafficRouteItemId}">
-    				<span class="label label-info" id="day_1_traffic_from" rname="$!{tripDay.traffic.from}">$!{tripDay.traffic.from}</span>
-    				<span class="label label-info" id="day_1_traffic_way" rid="$!{tripDay.traffic.way}">$!{tripDay.traffic.wayName()}</span>
-    				<span class="label label-info" id="day_1_traffic_to" rname="$!{tripDay.traffic.to}">$!{tripDay.traffic.to}</span>
+				<div class="panel-body traffic" id="day_${day}_traffic" route-item-id="$!{tripDay.trafficRouteItemId}">
+    				<span class="label label-info" id="day_${day}_traffic_from" rname="$!{tripDay.traffic.from}">$!{tripDay.traffic.from}</span>
+    				<span class="label label-info" id="day_${day}_traffic_way" rid="$!{tripDay.traffic.way}">$!{tripDay.traffic.wayName()}</span>
+    				<span class="label label-info" id="day_${day}_traffic_to" rname="$!{tripDay.traffic.to}">$!{tripDay.traffic.to}</span>
 				</div>
 				<div class="panel-body traffic">
 					<button class="btn btn-primary select-traffic" display-id="day_${velocityCount}_traffic">选择交通</button>

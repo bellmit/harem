@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -18,15 +19,20 @@ import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.ClubAdd;
+import com.yimayhd.harem.model.query.ClubInfo;
 import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.service.ClubService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
+import com.yimayhd.snscenter.client.domain.result.TagDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
+import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
+import com.yimayhd.user.client.domain.UserDO;
 
 /**
  * Created by Administrator on 2015/11/2.
@@ -40,6 +46,9 @@ public class ClubServiceImpl implements ClubService {
 
 	@Autowired
 	ComCenterService comCenterService;
+	
+	@Autowired
+	UserRPCService userRPCService;
 
 	@Override
 	public PageVO<ClubDO> pageQueryClub(ClubDOInfoDTO query) throws Exception {
@@ -54,36 +63,64 @@ public class ClubServiceImpl implements ClubService {
 			}
 			log.info("Request {} success", "snsCenterService.getClubInfoListByQuery");
 		} else {
-			log.error("Request {} error: query={}", "snsCenterService.getClubInfoListByQuery",JSON.toJSONString(query));
+			log.error("Request {} error: query={} result:", "snsCenterService.getClubInfoListByQuery",JSON.toJSONString(query),JSON.toJSONString(res));
 			throw new BaseException("get page club list failure");
 		}
 		return new PageVO<ClubDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
 
 	@Override
-	public Club getById(long id) throws Exception {
-		Club clubData = new Club();
-		int i = 3;
-		clubData.setId(id);
-		clubData.setName("俱乐部" + i);// 交易编号
-		clubData.setLogoUrl("/123");
-		clubData.setJoinStatus(1);
-		clubData.setShowStatus(i / 2 + 1);
-		clubData.setJoinNum(Long.valueOf(50 + i));
-		clubData.setLimitNum(Long.valueOf(100 + i));
-		clubData.setManageUserName("王武" + i);
-		clubData.setManageUserLogoUrl("/456");
-		clubData.setHasActivityNum(Long.valueOf(30 * i));
-
-		return clubData;
+	public ClubInfo getClubInfoDOById(long id) throws Exception {
+		BaseResult<ClubInfoDO> res = snsCenterService.getClubInfoByClubId(id);
+		if(null != res && res.isSuccess() && null != res.getValue() ){
+			ClubInfo clubInfo = new ClubInfo();
+			ClubInfoDO clubInfoDO =   res.getValue();
+			clubInfo.setBackImg(clubInfoDO.getBackImg());
+			clubInfo.setClubDes(clubInfoDO.getClubDes());
+			clubInfo.setClubName(clubInfoDO.getClubName());
+			clubInfo.setCreateId(clubInfoDO.getCreateId());
+			clubInfo.setCreateTime(clubInfoDO.getCreateTime());
+			clubInfo.setId(clubInfoDO.getId());
+			clubInfo.setLogoUrl(clubInfoDO.getLogoUrl());
+			clubInfo.setMemberCount(clubInfoDO.getMemberCount());
+			clubInfo.setModifyTime(clubInfoDO.getModifyTime());
+			clubInfo.setScore(clubInfoDO.getScore());
+			clubInfo.setState(clubInfoDO.getState());
+			clubInfo.setType(clubInfoDO.getType());
+			//set创建人name
+			UserDO ud = userRPCService.getUserById(clubInfo.getCreateId());
+			if(null != ud ){
+				clubInfo.setCreateUserName(ud.getName());
+			}
+			//set 关联的主题数据
+			com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>>  resa = comCenterService.getTagInfoByOutIdAndType(clubInfo.getId(),TagType.CLUBTAG.name());
+			if(null != resa && resa.isSuccess() && CollectionUtils.isNotEmpty(resa.getValue())){
+				List<Long> listId = new ArrayList<Long>();
+				List<ComTagDO> list = resa.getValue();
+				for (ComTagDO comTagDO : list) {
+					listId.add(comTagDO.getId());
+				}
+				clubInfo.setListThemeId(listId);
+			}
+			return clubInfo;
+		}else{
+			log.error("Request {} error: query={} result:", "snsCenterService.getClubInfoByClubId",id,JSON.toJSONString(res));
+		}
+		return null;
 	}
 
 	@Override
-	public ClubAdd add(ClubAdd clubAdd, List<Long> themeIds) throws Exception {
+	public ClubAdd saveOrUpdate(ClubAdd clubAdd, List<Long> themeIds) throws Exception {
 		if (null == clubAdd || CollectionUtils.isEmpty(themeIds)) {
 			throw new Exception("add error,Parameters [clubAdd or themeIds ] cannot be empty");
 		}
-		BaseResult<ClubInfoDO> res = snsCenterService.addClubInfo(clubAdd);
+		BaseResult<ClubInfoDO> res = null;
+		if(0 == clubAdd.getId()){
+			 res = snsCenterService.addClubInfo(clubAdd);	
+		}else{
+			res = snsCenterService.editClubInfo(clubAdd);
+		}
+		
 		if (null != res && res.isSuccess() && null != res.getValue()) {
 			clubAdd.setId(res.getValue().getId());
 			clubAdd.setCreateTime(res.getValue().getCreateTime());
@@ -91,10 +128,9 @@ public class ClubServiceImpl implements ClubService {
 			tagRelationInfoDTO.setList(themeIds);
 			tagRelationInfoDTO.setOutId(res.getValue().getId());
 			tagRelationInfoDTO.setTagType(TagType.CLUBTAG.getType());
-			tagRelationInfoDTO.setOrderTime(res.getValue().getCreateTime());
+			tagRelationInfoDTO.setOrderTime(res.getValue().getModifyTime());
 
-			com.yimayhd.commentcenter.client.result.BaseResult<Boolean> resTag = comCenterService
-					.addTagRelationInfo(tagRelationInfoDTO);
+			com.yimayhd.commentcenter.client.result.BaseResult<Boolean> resTag = comCenterService.addTagRelationInfo(tagRelationInfoDTO);
 			if (null != resTag && resTag.isSuccess()) {
 				return clubAdd;
 			} else {
@@ -103,15 +139,6 @@ public class ClubServiceImpl implements ClubService {
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public boolean modify(ClubDOInfoDTO club) throws Exception {
-		BaseResult<Boolean> res = null;
-		if (null != res && res.isSuccess()) {
-			return res.getValue();
-		}
-		return false;
 	}
 
 	@Override
@@ -131,5 +158,10 @@ public class ClubServiceImpl implements ClubService {
 			return true;
 		}
 		return false;
+	}
+	
+	public static void main(String[] args){
+		
+		System.out.println(String.format("Request {} error: query={} result:", "snsCenterService.getClubInfoListByQuery","**********","$$$$$$$$$$"));
 	}
 }

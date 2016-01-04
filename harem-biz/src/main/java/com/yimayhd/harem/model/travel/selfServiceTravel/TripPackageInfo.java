@@ -8,7 +8,6 @@ import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.HotelShortItem;
 import com.yimayhd.ic.client.model.domain.share_json.FlightDetail;
 import com.yimayhd.ic.client.model.domain.share_json.FlightInfo;
-import com.yimayhd.ic.client.model.domain.share_json.HotelInfo;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 
 /**
