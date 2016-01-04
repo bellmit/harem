@@ -178,7 +178,7 @@
                         	 <span id="activityName">
                         		$!advertiseLeftup.title
                         	</span>
-                             <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownThree.operationContent">详情</button>
+                            <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownThree.operationContent">详情</button>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downThreeButton">选择商品</button>
                             <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownThree.operationContent"/>
                         </td>
@@ -216,7 +216,6 @@
                         <table class="table lineTable" id="recommendTable">
                         		<tr>
                                 <td>商品名称</td>
-                                <td>价格</td>
                                 <td>操作</td>
                             </tr>
 								#foreach($recommend in $recommends)
@@ -225,7 +224,7 @@
 										<input type="hidden" name="businessCode" id="businessCode" value='$!recommend.businessCode'/>
 										<input type="hidden" name="version" id="version" value='$!recommend.version'/>
 										<td><input type='hidden' name='itemId' id='itemId' value='$!recommend.operationContent'>$!recommend.title</td>
-										<td></td>
+										<td><button type="button" id="itemId" class="btn btn-primary activityDetail" itemType="$!recommend.buisinessCode" itemId="$!recommend.operationContent">详情</button></td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
 							 <div id="updateRecommendDataArea">
@@ -478,7 +477,7 @@
 		  $('#leftupButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#leftupButton').parent().find("#activityDetail").text(selectData.title);
+                 $('#leftupButton').parent().find("#activityName").text(selectData.title);
                  $('#leftupButton').parent().find("#activityId").val(selectData.id);
                 return true;
             });

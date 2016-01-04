@@ -20,10 +20,13 @@ import com.yimayhd.harem.model.vo.CfgBaseVO;
 import com.yimayhd.harem.model.vo.CfgResultInfo;
 import com.yimayhd.harem.model.vo.CfgResultVO;
 import com.yimayhd.harem.model.vo.ShowCaseVO;
+import com.yimayhd.harem.repo.LineRepo;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.harem.service.ServiceResult;
 import com.yimayhd.harem.util.Common;
+import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
@@ -96,6 +99,9 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	
 	@Autowired
 	private ActivityService activityService;
+	
+	@Autowired
+	private LineRepo lineRepo;
 	
 	@Override
 	public RcResult<Boolean> addVipList(CfgBaseVO cfgBaseVO) {
@@ -831,9 +837,19 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 	}
 
 	@Override
-	public ServiceResult<List<ShowcaseDO>> getLineDetail(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ServiceResult<LineDO> getLineDetail(Long id) {
+		ServiceResult<LineDO> result = new ServiceResult<LineDO>(false);
+		
+		LineResult lineResult = lineRepo.getLineById(id);
+		if(lineResult.isSuccess()){
+			result.setResult(true);
+			result.setValue(lineResult.getLineDO());
+		}else{
+			result.setErrorMsg("getLineById error");
+			LOGGER.error("getLineById error,id={},lineResult={}",id,lineResult);
+		}
+		
+		return result;
 	}
 
 	@Override

@@ -249,10 +249,9 @@ public class ResourceForSelectController extends BaseController {
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		}
-		MemPageResult<TravelKaVO> memResult = travelKaService.getTravelKaListManagerPage(query);//userService.getTravelKaListByPage(query);
-		
+		PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", memResult);
+		result.put("pageVo", pageVo);
 		result.put("query", query);
 		return new ResponseVo(result);
 	}

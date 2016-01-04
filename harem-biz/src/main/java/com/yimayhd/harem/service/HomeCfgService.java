@@ -5,6 +5,7 @@ import java.util.List;
 import com.yimayhd.harem.model.vo.CfgBaseVO;
 import com.yimayhd.harem.model.vo.CfgResultVO;
 import com.yimayhd.harem.model.vo.ShowCaseVO;
+import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
@@ -97,7 +98,7 @@ public interface HomeCfgService {
 	public ServiceResult<List<ShowcaseDO>> getAdvertiseShowcase();
 	
 	
-	public ServiceResult<List<ShowcaseDO>> getLineDetail(String id);
+	public ServiceResult<LineDO> getLineDetail(Long id);
 	
 	public ServiceResult<SnsActivityDO> getActivityDetail(Long id);
 	

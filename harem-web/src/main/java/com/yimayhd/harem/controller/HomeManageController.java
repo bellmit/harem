@@ -21,6 +21,7 @@ import com.yimayhd.harem.model.vo.CfgBaseVO;
 import com.yimayhd.harem.model.vo.ShowCaseVO;
 import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.harem.service.ServiceResult;
+import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
@@ -303,8 +304,23 @@ public class HomeManageController extends BaseController {
 	}
 
 	@RequestMapping(value = "/toLineDetail")
-	public String toLineDetail(String lineId) {
-
+	public String toLineDetail(Long lineId,Model model) {
+		ResponseVo responseVo = new ResponseVo();
+		ServiceResult<LineDO> result = homecfgService.getLineDetail(lineId);
+		LOGGER.debug("result={}",JSONObject.toJSONString(result));
+		
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+			model.addAttribute("lineDetail",result.getValue());
+		} else {
+			responseVo.setMessage(result.getErrorMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+			LOGGER.error("addTravelKaList error,result={},activityId={}", JSONObject.toJSONString(result),
+					JSONObject.toJSONString(lineId));
+		}
+		
+		
 		return "/system/homeCfg/lineDetail";
 	}
 
