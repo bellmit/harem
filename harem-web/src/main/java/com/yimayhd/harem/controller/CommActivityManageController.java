@@ -1,7 +1,5 @@
 package com.yimayhd.harem.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,20 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommActivityService;
-import com.yimayhd.harem.service.CommScenicService;
 import com.yimayhd.harem.service.CommodityService;
-import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.user.session.manager.SessionUtils;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 活动商品
@@ -40,6 +33,8 @@ public class CommActivityManageController extends BaseController {
     private CategoryService categoryService;
 	@Autowired
     private CommodityService commodityService;
+	@Autowired
+	private SessionManager sessionManager;
 	
 	/**
 	 * 新增活动商品
@@ -66,7 +61,9 @@ public class CommActivityManageController extends BaseController {
     public
     String add(ItemVO itemVO) throws Exception {
     	
-		itemVO.setSellerId(Long.parseLong(SessionUtils.getUserId()));
+//		itemVO.setSellerId(Long.parseLong(SessionUtils.getUserId()));
+		long sellerId = sessionManager.getUserId();
+		itemVO.setSellerId(sellerId);
 		ItemPubResult result = commActivityService.add(itemVO);
         
         return "/success";

@@ -23,15 +23,13 @@ import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommScenicService;
-import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
-import com.yimayhd.ic.client.model.enums.CategoryType;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.tradecenter.client.model.enums.ReduceType;
-import com.yimayhd.user.session.manager.SessionUtils;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 发布景区（商品）
@@ -46,6 +44,10 @@ public class CommScenicManageController extends BaseController {
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
 	private CategoryService categoryService;
+	
+
+	@Autowired
+	private SessionManager sessionManager;
 
     /**
      * 新增景区
@@ -75,7 +77,9 @@ public class CommScenicManageController extends BaseController {
     public
     ResponseVo save(ScenicPublishDTO scenicPublishDTO,long endTime,long startDayTime , long startHourTime,Long[] check) throws Exception {
     	ResponseVo responseVo = new ResponseVo(); 	
-    	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
+//    	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
+    	long sellerId = sessionManager.getUserId();
+    	scenicPublishDTO.getItemDO().setSellerId(sellerId);
     	ItemFeature itemFeature = new ItemFeature(null);
 	        //减库存方式
 	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE.getBizType());
