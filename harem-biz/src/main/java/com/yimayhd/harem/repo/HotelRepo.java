@@ -3,7 +3,6 @@ package com.yimayhd.harem.repo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.harem.base.PageVO;
@@ -25,9 +24,9 @@ public class HotelRepo extends ResourceRepo {
 		ICPageResult<HotelDO> icPageResult = itemQueryServiceRef.pageQueryHotel(query);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.pageQueryHotel", icPageResult);
 		int totalCount = icPageResult.getTotalCount();
-		List<HotelDO> hotelDOList = new ArrayList<HotelDO>();
-		if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
-			hotelDOList.addAll(icPageResult.getList());
+		List<HotelDO> hotelDOList = icPageResult.getList();
+		if (hotelDOList == null) {
+			hotelDOList = new ArrayList<HotelDO>();
 		}
 		return new PageVO<HotelDO>(query.getPageNo(), query.getPageSize(), totalCount, hotelDOList);
 	}

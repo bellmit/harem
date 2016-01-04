@@ -1,5 +1,6 @@
 package com.yimayhd.harem.repo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -25,9 +26,12 @@ public class PictureRepo {
 		RepoUtils.resultLog(log, "itemQueryServiceRef.queryPictures", queryPicturesResult);
 		int totalCount = queryPicturesResult.getTotalCount();
 		List<PicturesDO> itemList = queryPicturesResult.getList();
+		if (itemList == null) {
+			itemList = new ArrayList<PicturesDO>();
+		}
 		return new PageVO<PicturesDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
-	
+
 	public List<PicturesDO> queryTopPictures(PictureOutType outType, long outId, int limit) {
 		PicturesPageQuery ppq = new PicturesPageQuery();
 		ppq.setOutId(outId);

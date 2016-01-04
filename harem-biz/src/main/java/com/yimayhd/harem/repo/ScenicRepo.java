@@ -3,8 +3,6 @@ package com.yimayhd.harem.repo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
@@ -26,9 +24,9 @@ public class ScenicRepo extends ResourceRepo {
 		ICPageResult<ScenicDO> icPageResult = itemQueryServiceRef.pageQueryScenic(query);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.pageQueryScenic", icPageResult);
 		int totalCount = icPageResult.getTotalCount();
-		List<ScenicDO> scenicDOList = new ArrayList<ScenicDO>();
-		if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
-			scenicDOList.addAll(icPageResult.getList());
+		List<ScenicDO> scenicDOList = icPageResult.getList();
+		if (scenicDOList == null) {
+			scenicDOList = new ArrayList<ScenicDO>();
 		}
 		return new PageVO<ScenicDO>(query.getPageNo(), query.getPageSize(), totalCount, scenicDOList);
 

@@ -3,8 +3,6 @@ package com.yimayhd.harem.repo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
@@ -25,9 +23,9 @@ public class RestaurantRepo extends ResourceRepo {
 		ICPageResult<RestaurantDO> icPageResult = itemQueryServiceRef.pageQueryRestaurant(query);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.pageQueryRestaurant", icPageResult);
 		int totalCount = icPageResult.getTotalCount();
-		List<RestaurantDO> restaurantDOList = new ArrayList<RestaurantDO>();
-		if (CollectionUtils.isNotEmpty(icPageResult.getList())) {
-			restaurantDOList.addAll(icPageResult.getList());
+		List<RestaurantDO> restaurantDOList = icPageResult.getList();
+		if (restaurantDOList == null) {
+			restaurantDOList = new ArrayList<RestaurantDO>();
 		}
 		return new PageVO<RestaurantDO>(query.getPageNo(), query.getPageSize(), totalCount, restaurantDOList);
 
