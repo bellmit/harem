@@ -7,6 +7,7 @@ import com.yimayhd.harem.model.vo.CfgResultVO;
 import com.yimayhd.harem.model.vo.ShowCaseVO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 
 /**
  * 首页配置信息
@@ -98,7 +99,7 @@ public interface HomeCfgService {
 	
 	public ServiceResult<List<ShowcaseDO>> getLineDetail(String id);
 	
-	public ServiceResult<List<ShowcaseDO>> getActivityDetail(String id);
+	public ServiceResult<SnsActivityDO> getActivityDetail(Long id);
 	
 	public ServiceResult<List<ShowcaseDO>> getTravelKaDetail(String id);
 	

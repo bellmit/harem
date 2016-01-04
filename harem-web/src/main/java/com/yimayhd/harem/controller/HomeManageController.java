@@ -23,6 +23,7 @@ import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.harem.service.ServiceResult;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 
 /**
  * @autuor : xusq
@@ -281,17 +282,34 @@ public class HomeManageController extends BaseController {
 		return responseVo;
 	}
 
-	public String toActivityDetail(String activityId) {
+	@RequestMapping(value = "/toActivityDetail")
+	public String toActivityDetail(Long activityId,Model model) {
+		ResponseVo responseVo = new ResponseVo();
+		ServiceResult<SnsActivityDO> result = homecfgService.getActivityDetail(activityId);
+		
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+			model.addAttribute("activityDetail",result.getValue());
+		} else {
+			responseVo.setMessage(result.getErrorMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+
+			LOGGER.error("addTravelKaList error,result={},activityId={}", JSONObject.toJSONString(result),
+					JSONObject.toJSONString(activityId));
+		}
 		
 		return "/system/homeCfg/activityDetail";
 	}
 
-	public String toLineDetail(String activityId) {
+	@RequestMapping(value = "/toLineDetail")
+	public String toLineDetail(String lineId) {
 
 		return "/system/homeCfg/lineDetail";
 	}
 
-	public String toTravelKaDetail(String activityId) {
+	@RequestMapping(value = "/toTravelKaDetail")
+	public String toTravelKaDetail(String travleKaId) {
 
 		return "/system/homeCfg/travelKaDetail";
 	}

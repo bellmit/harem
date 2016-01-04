@@ -20,9 +20,11 @@ import com.yimayhd.harem.model.vo.CfgBaseVO;
 import com.yimayhd.harem.model.vo.CfgResultInfo;
 import com.yimayhd.harem.model.vo.CfgResultVO;
 import com.yimayhd.harem.model.vo.ShowCaseVO;
+import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.HomeCfgService;
 import com.yimayhd.harem.service.ServiceResult;
 import com.yimayhd.harem.util.Common;
+import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.entity.CityInfo;
@@ -88,6 +90,12 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 
 	@Autowired
 	private SnsCenterService snsCenterService;
+	
+	@Autowired
+	private TravelKaService travelKaService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 	@Override
 	public RcResult<Boolean> addVipList(CfgBaseVO cfgBaseVO) {
@@ -751,7 +759,6 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 
 	@Override
 	public ServiceResult<List<ShowcaseDO>> getAdvertiseShowcase() {
-		// TODO Auto-generated method stub
 		return getShowCases(BOOT_HOME_ADVERTISE_CODE);
 	}
 
@@ -821,6 +828,41 @@ public class HomeCfgServiceImpl implements HomeCfgService{
 		}
 		
 		return new ServiceResult<Boolean>(true); 
+	}
+
+	@Override
+	public ServiceResult<List<ShowcaseDO>> getLineDetail(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResult<SnsActivityDO> getActivityDetail(Long id) {
+		ServiceResult<SnsActivityDO> serviceResult = new ServiceResult<SnsActivityDO> (false);
+		BaseResult<SnsActivityDO> result = null;
+		try {
+			result = activityService.getById(id);
+			LOGGER.debug("result={}",result);
+		} catch (Exception e) {
+			LOGGER.error("getById error,id={},result={}",e,result);
+			return serviceResult;
+		}
+		
+		if(result.isSuccess() == true){
+			serviceResult.setResult(true);
+			serviceResult.setValue(result.getValue());
+		}else{
+			serviceResult.setErrorMsg("getById error");
+			LOGGER.error("getById error,result={},id={}",result,id);
+		}
+		
+		return serviceResult;
+	}
+
+	@Override
+	public ServiceResult<List<ShowcaseDO>> getTravelKaDetail(String id) {
+		//travelKaService.getTravelKaListManagerPage(travelkaPageQuery)
+		return null;
 	}
 
 }
