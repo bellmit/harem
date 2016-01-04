@@ -22,7 +22,7 @@ public interface ScenicService {
 	 * 
 	 * @return 景区资源详情
 	 */
-	ScenicAddNewDTO getById(long id) throws Exception;
+	ScenicVO getById(long id) throws Exception;
 
 
 	/**

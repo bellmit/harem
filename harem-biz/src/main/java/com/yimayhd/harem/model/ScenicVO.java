@@ -20,6 +20,7 @@ public class ScenicVO extends ScenicDO {
     private String picturesStr;//详情页展示图(对应pictures)
     private double priceY;//价格元
     private String coverPics;//封面大图String
+    private List<PictureVO> pictureList;//图片集
 
     private NeedKnow needKnowOb;
 
@@ -93,7 +94,14 @@ public class ScenicVO extends ScenicDO {
 	public void setCoverPics(String coverPics) {
 		this.coverPics = coverPics;
 	}
+	public List<PictureVO> getPictureList() {
+		return pictureList;
+	}
+	public void setPictureList(List<PictureVO> pictureList) {
+		this.pictureList = pictureList;
+	}
     
+	
 	
     
 }
