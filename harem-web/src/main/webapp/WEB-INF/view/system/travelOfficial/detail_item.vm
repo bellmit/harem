@@ -62,7 +62,7 @@
 		
  	var pictureUploadCallBack = function(data,id){
     if(data && data.status == 200){
-    var index = id.substr(-1);
+    var index = id.split('_')[id.split('_').length - 1];
     
     var imgHtml="";
     var imgArr=[];
@@ -93,7 +93,7 @@
     	++i;
     	var itemId = $(obj).attr("id");
         var itemList = '<tr class="needKnow">'+
-                '<td><input type="text" name="detail" id="travelDesId_'+i+'" class="form-control extra-info-item-title" placeholder=""></td>'+
+                '<td><textarea type="text" name="detail" id="travelDesId_'+i+'" class="form-control extra-info-item-title" placeholder=""></textarea></td>'+
                 '<td><div class="fileImgWrap"><button type="button" class="btn btn-success">选择图片</button>'+
         		'<input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_'+i+'" accept="image/png,image/gif">'+
 				'<input type="hidden" name="coverURL" value=""  id="FMReturnInput_'+i+'">'+
@@ -145,6 +145,7 @@
         var img= $("#logoUrlUploadFileReturnInput").val();
        var params = {
     		backImg:img,
+    		preface:$("#prefaceId").val(),
 			title:$("#titleId").val(),
 			publishDate:$("#publishDateId").val(),
 			createId:$("#createIdId").val(),

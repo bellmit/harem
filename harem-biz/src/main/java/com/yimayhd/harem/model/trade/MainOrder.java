@@ -1,6 +1,7 @@
 package com.yimayhd.harem.model.trade;
 
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.user.client.domain.UserDO;
 
 import java.util.List;
 
@@ -11,6 +12,12 @@ public class MainOrder {
     private BizOrderDO bizOrderDO;
 
     private List<SubOrder> subOrderList;
+
+    private int orderActionStates;
+
+    private int orderShowState;
+
+    private UserDO user;
 
     public BizOrderDO getBizOrderDO() {
         return bizOrderDO;
@@ -26,6 +33,30 @@ public class MainOrder {
 
     public void setSubOrderList(List<SubOrder> subOrderList) {
         this.subOrderList = subOrderList;
+    }
+
+    public int getOrderActionStates() {
+        return orderActionStates;
+    }
+
+    public void setOrderActionStates(int orderActionStates) {
+        this.orderActionStates = orderActionStates;
+    }
+
+    public int getOrderShowState() {
+        return orderShowState;
+    }
+
+    public void setOrderShowState(int orderShowState) {
+        this.orderShowState = orderShowState;
+    }
+
+    public UserDO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDO user) {
+        this.user = user;
     }
 
     public MainOrder(BizOrderDO bizOrderDO, List<SubOrder> subOrderList) {

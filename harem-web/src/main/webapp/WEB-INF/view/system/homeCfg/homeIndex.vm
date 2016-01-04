@@ -1,67 +1,167 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<style>
+    .fileImgWrap .fileInp {margin-top: -7px;}
+</style>
 <div class="example whole">
     
         <ul id="myTab" class="nav nav-tabs">
             <li class="active">
-                <a href="#tab1" data-toggle="tab">会员专享</a>
+                <a href="#tab1" data-toggle="tab">主广告位</a>
             </li>
             <li class="">
-                <a href="#tab2" data-toggle="tab">大咖带你玩</a>
+                <a href="#tab2" data-toggle="tab">精彩推荐</a>
             </li>
             <li class="">
-                <a href="#tab3" data-toggle="tab">金牌旅游咖</a>
-            </li>
-            <li class="">
-                <a href="#tab4" data-toggle="tab">目的地</a>
-            </li>
-            <li class="">
-                <a href="#tab5" data-toggle="tab">品牌游记</a>
+                <a href="#tab3" data-toggle="tab">金牌旅游</a>
             </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
-            <form id="userForm" action="" method="post">
-                <div class="createClubTable">
-                    <table class="table">
-                        <tr>
-                            <td><span class="spColor">*</span>副标题</td>
-                            <td>
-								<input type="hidden" name="boothId" value="$!homeCfg.vipList.boothId">
-								<input type="hidden" name="boothCode" value="$!homeCfg.vipList.boothCode">
-                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!homeCfg.vipList.boothDesc"><button type="button" class="btn btn-success selectUserBtn">选择活动</button>
-                            </td>
-                        </tr>
-                    </table>
-                    <table class="table userTable">
-                    	<tr>
-                            <td>图片</td>
-                            <td>名称</td>
-                            <td>描述</td>
-                            <td>操作</td>
-                        </tr>
-							#foreach($vip in $homeCfg.vipList.cfgInfoList)
-								<tr >
-									<td>
-										<input type='hidden' name='itemIds' value='$!vip.itemId'> <img id='' src='$!vip.itemImg' width=100px height=80px alt='头像' >
-										<input type='file' name='file' class='fileInp' id='userImg_$!vip.itemId'>
-										<input type='hidden' id='url_userImg_$!vip.itemId' name='imgUrl' value='$!vip.itemImg'>
-									</td>
-                            		<td><input type='text' name='itemTitle' readonly value='$vip.itemTitle'></td>
-                            		<td><input type='text' name='description' value='$!vip.itemDesc'></td>
-    								<td class='delItem'><a>删除</a></td>
-								</tr>
-							#end
-                    </table>
+            <form id="adform" action="" method="post">
+                <table>
+                    <tr>
+                        <th>板块</th>
+                        <th>主标题</th>
+                        <th>副标题</th>
+                        <th>图片（.jpg,png）</th>
+                        <th>商品</th>
+                    </tr>
+
+                    <tr>
+                        <td>左上</td>
+                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="" id=""></td>
+                        <td>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="" id="" >
+                                <input type="file" name="file" class="fileInp" id="">
+                            </div>
+                            <div class="logoView">
+                                <img src="" class="img-circle" id="">
+                            </div>
+                        </td>
+                        <td>
+                            <span>昆大丽5晚6天</span>
+                            <button type="button" class="btn btn-primary">选择商品</button>
+                        </td>
+                    </tr>
+
+
+<!--
+                    <tr>
+                        <td>右上1</td>
+                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="" id=""></td>
+                        <td>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="" id="" >
+                                <input type="file" name="file" class="fileInp" id="">
+                            </div>
+                            <div class="logoView">
+                                <img src="" class="img-circle" id="">
+                            </div>
+                        </td>
+                        <td>
+                            <span>昆大丽5晚6天</span>
+                            <button type="button" class="btn btn-primary">选择商品</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>右上2</td>
+                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="" id=""></td>
+                        <td>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="" id="" >
+                                <input type="file" name="file" class="fileInp" id="">
+                            </div>
+                            <div class="logoView">
+                                <img src="" class="img-circle" id="">
+                            </div>
+                        </td>
+                        <td>
+                            <span>昆大丽5晚6天</span>
+                            <button type="button" class="btn btn-primary">选择商品</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>下1</td>
+                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="" id=""></td>
+                        <td>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="" id="" >
+                                <input type="file" name="file" class="fileInp" id="">
+                            </div>
+                            <div class="logoView">
+                                <img src="" class="img-circle" id="">
+                            </div>
+                        </td>
+                        <td>
+                            <span>昆大丽5晚6天</span>
+                            <button type="button" class="btn btn-primary">选择商品</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>下2</td>
+                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="" id=""></td>
+                        <td>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="" id="" >
+                                <input type="file" name="file" class="fileInp" id="">
+                            </div>
+                            <div class="logoView">
+                                <img src="" class="img-circle" id="">
+                            </div>
+                        </td>
+                        <td>
+                            <span>昆大丽5晚6天</span>
+                            <button type="button" class="btn btn-primary">选择商品</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>下3</td>
+                        <td><input type="text" name="" id=""></td>
+                        <td><input type="text" name="" id=""></td>
+                        <td>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="" id="" >
+                                <input type="file" name="file" class="fileInp" id="">
+                            </div>
+                            <div class="logoView">
+                                <img src="" class="img-circle" id="">
+                            </div>
+                        </td>
+                        <td>
+                            <span>伴手礼列表</span>
+                            <button type="button" class="btn btn-primary">选择伴手礼</button>
+                        </td>
+                    </tr>
+
+-->
+
+
+
+                </table>
+
+                <div class="clubBotBtn">
+                    <div class="btn-group">
+                        <button class="btn btn-success"  type="button"  id="advertisementSubmit">保存</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn">取消</button>
+                    </div>
                 </div>
-                 <div class="clubBotBtn">
-                <div class="btn-group">
-                    <button class="btn btn-success" type="button" id="vipSubmit" >保存</button>
-                </div>
-                <div class="btn-group">
-                    <button class="btn">取消</button>
-                </div>
-            </div>
+
             </form>
             </div>
             <div class="tab-pane" id="tab2">
@@ -69,11 +169,11 @@
                     <div class="createClubTable">
                         <table class="table">
                             <tr>
-                                <td><span class="spColor">*</span>副标题</td>
                                 <td>
 									<input type="hidden" name="boothId" value="$!homeCfg.lineList.boothId">
 									<input type="hidden" name="boothCode" value="$!homeCfg.lineList.boothCode">
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!homeCfg.lineList.boothDesc"> <button type="button" class="btn btn-success selectLineBtn">选择线路</button>
+                                     <button type="button" class="btn btn-success selectLineBtn">选择线路</button>
+                                     <button type="button" class="btn btn-success selectActivityBtn">选择活动</button>
                                 </td>
                             </tr>
                         </table>
@@ -81,14 +181,12 @@
                         		<tr>
                                 <td>商品名称</td>
                                 <td>价格</td>
-                                <td>用户</td>
                                 <td>操作</td>
                             </tr>
 								#foreach($line in $homeCfg.lineList.cfgInfoList)
 									<tr>
 										<td><input type='hidden' name='itemIds' value='$!line.itemId'>$!line.itemTitle</td>
 										<td>$!line.itemPrice</td>
-										<td><img src='$!line.extImg' width=100px height=80px alt='头像' > $!line.extName</td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
                         </table>
@@ -110,8 +208,6 @@
                             <tr>
                                 <td><span class="spColor">*</span>副标题</td>
                                 <td>
-									<input type="hidden" name="boothId" value="$!homeCfg.travelKaList.boothId">
-									<input type="hidden" name="boothCode" value="$!homeCfg.travelKaList.boothCode">
                                     <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!homeCfg.travelKaList.boothDesc"> <button type="button" class="btn btn-success selectTravelKaBtn">选择大咖</button>
                                 </td>
                             </tr>
@@ -125,9 +221,9 @@
 								
 								#foreach($travelKa in $homeCfg.travelKaList.cfgInfoList)
 									<tr >
-										<td><input type='hidden' name='itemIds' value='$!travelKa.itemId'><input type='hidden' name='imgUrl' value='$!travelKa.itemImg'><img src='$!travelKa.itemImg' width=100px height=80px alt='头像' ></td>
+										<td><input type='hidden' name='itemIds' class='itemIds' value='$!travelKa.itemId'><input type='hidden' name='imgUrl' value='$!travelKa.itemImg'><img src='$!travelKa.itemImg' width=100px height=80px alt='头像' ></td>
 										<td><input type='hidden' name='itemTitle' value='$!travelKa.itemTitle'>$!travelKa.itemTitle</td>
-										<td class='delItem'><a>删除</a></td>
+										<td class='delTravelItem'><a href="javascript:" data-value="$!travelKa.itemId">删除</a></td>
 									</tr>
 								#end
                         </table>
@@ -140,92 +236,8 @@
                         <button class="btn">取消</button>
                     </div>
                 </div>
-                </form>
-            </div>
-            <div class="tab-pane" id="tab4">
-           <form id="cityForm" action="" method="post">
-                    <div class="createClubTable">
-                        <table class="table">
-                            <tr>
-                                <td><span class="spColor">*</span>副标题</td>
-                                <td>
-									<input type="hidden" name="boothId" value="$!homeCfg.cityList.boothId">
-									<input type="hidden" name="boothCode" value="$!homeCfg.cityList.boothCode">
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!homeCfg.cityList.boothDesc"> <button type="button" class="btn btn-success selectCityBtn">选择目的地</button>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table cityTable">
-                            <tr>
-                                <td>图片</td>
-                                <td>目的地</td>
-                                <td>操作</td>
-                            </tr>
-								#foreach($city in $homeCfg.cityList.cfgInfoList)
-									<tr >
-										<td>
-											<input type='hidden' name='itemIds' value='$!city.itemId'> 
-											<img src='$!city.itemImg' width=100px height=80px alt='头像' >
-											<input type='file' name='file' class='fileInp' id='cityImg_$!city.itemId'>
-											<input type='hidden' id='url_cityImg_$!city.itemId' name='imgUrl' value='$!city.itemImg'>
-										</td>
-										<td><input type='text' name='itemTitle' readonly value='$!city.itemTitle'></td>
-										<td class='delItem'><a>删除</a></td></tr>
-								#end
-                        </table>
-                    </div>
-                     <div class="clubBotBtn">
-                    <div class="btn-group">
-                        <button class="btn btn-success"  type="button"  id="citySubmit" >保存</button>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn">取消</button>
-                    </div>
-                </div>
-                </form>
-            </div>
-            <div class="tab-pane" id="tab5">
-				<form id="travelSpecialForm" action="" method="post">
-                <div class="createClubTable">
-                            <table class="table">
-                                <tr>
-                                    <td><span class="spColor">*</span>副标题</td>
-                                    <td>
-										<input type="hidden" name="boothId" value="$!homeCfg.travelSpecialList.boothId">
-										<input type="hidden" name="boothCode" value="$!homeCfg.travelSpecialList.boothCode">
-                                        <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!homeCfg.travelSpecialList.boothDesc"> <button type="button" class="btn btn-success selectTravelSpecialBtn">选择游记</button>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table travelSpecialTable">
-                                <tr>
-                                    <td>游记图片</td>
-                                    <td>游记标题</td>
-                                    <td>用户</td>
-                                    <td>操作</td>
-                                </tr>
-									#foreach($travelSpecial in $homeCfg.travelSpecialList.cfgInfoList)
-									<tr >
-										<td>
-											<input type='hidden' name='itemIds' value='$!travelSpecial.itemId'> <img src='$!travelSpecial.itemImg' width=100px height=80px alt='头像' >
-											<input type='file' name='file' class='fileInp' id='travelSpecialImg_$!travelSpecial.itemId'>
-											<input type='hidden' id='url_travelSpecialImg_$!travelSpecial.itemId' name='imgUrl' value='$!travelSpecial.itemImg'>
-										</td>
-                                		<td>$!travelSpecial.itemTitle</td>
-                                		<td>$!travelSpecial.extName</td>
-                                		<td class='delItem'><a>删除</a></td>
-									</tr>
-									#end
-                            </table>
-                        </div>
-                         <div class="clubBotBtn">
-                        <div class="btn-group">
-                            <button class="btn btn-success"  type="button"  id="travelSpecialSubmit" >保存</button>
-                        </div>
-                        <div class="btn-group">
-                            <button class="btn">取消</button>
-                        </div>
-                    </div>
+                <input type="text" name = "addItemIds" id="addItemIds" />
+                <input type="text" name = "delItemIds" id="delItemIds" />
                 </form>
             </div>
         </div>
@@ -236,10 +248,17 @@
     
 	    $(document).on("click",".delItem a",function(){
 			 $(this).parents("tr:eq(0)").remove();
-		}); 
-    	
-        
-         //选择活动商品信息
+		});
+
+        $(document).on("click",".delTravelItem a",function(){
+            var ids = $("#delItemIds").val()==""?[]:$("#delItemIds").val().split(",");
+            var id = $(this).attr("data-value");
+            ids.push(id);
+            $("#delItemIds").val(ids.join(","));
+            $(this).parents("tr:eq(0)").remove();
+        });
+
+        //选择活动商品信息
         $('.selectUserBtn').click(function(){
             layer.open({
                 type: 2,
@@ -282,7 +301,7 @@
                 shadeClose: true,
                 maxmin: true,
                 area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceForSelect/selectOneTravelProduct',
                 yes: function(index){
                     if(top.resultValue&&top.resultValue.length==0){
                         layer.alert("请选择线路信息");
@@ -303,10 +322,9 @@
                 }
             });
 		});
-		
-		
-         //选择大咖信息
-        $('.selectTravelKaBtn').click(function(){
+
+        //选择活动
+        $('.selectActivityBtn').click(function(){
             layer.open({
                 type: 2,
                 btn: ['确定', '取消'],
@@ -315,7 +333,40 @@
                 shadeClose: true,
                 maxmin: true,
                 area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceForSelect/selectOneActivity',
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择线路信息");
+                        return false;
+                    }else{
+                        console.log(resultValue);
+                        var tr = "";
+                        for(var i = 0;i<resultValue.length;i++){
+                            tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'>"+resultValue[i].name+"</td>"+
+                                    "<td>188.00</td>"+
+                                    "<td><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' > "+resultValue[i].id+"</td>"+
+                                    "<td class='delItem'><a>删除</a></td></tr>";
+                        }
+                        $(".lineTable").append(tr);
+
+                        layer.close(index);
+                    }
+                }
+            });
+        });
+		
+		
+         //选择大咖信息
+        $('.selectTravelKaBtn11122').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceForSelect/selectOneTravelKa',
                 yes: function(index){
                     if(top.resultValue&&top.resultValue.length==0){
                         layer.alert("请选择旅游咖信息");
@@ -324,9 +375,10 @@
                     console.log(resultValue);
 						var tr = "";
                     	for(var i = 0;i<resultValue.length;i++){
-                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'><input type='hidden' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' ></td>"+
-                    		"<td><input type='hidden' name='itemTitle' value='"+resultValue[i].name+"'>"+resultValue[i].name+"</td>"+
-                    		"<td class='delItem'><a>删除</a></td></tr>";
+                   // 		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'><input type='hidden' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' ></td>"+
+                  //  		"<td><input type='hidden' name='itemTitle' value='"+resultValue[i].name+"'>"+resultValue[i].name+"</td>"+
+                   // 		"<td class='delItem'><a>删除</a></td></tr>";
+                            alert(resultValue[i].id);
                     	}
                     	$(".travelKaTable").append(tr);
                     	
@@ -335,6 +387,38 @@
                 }
             });
 		});
+
+
+
+
+        $('.selectTravelKaBtn').click(function(){
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
+
+                var ka = win.getTravelKa();
+
+                if(ka == null) return;
+                var tbody = $(".travelKaTable");
+                var str = "";
+                str += "<tr ><td><input type='hidden' name='itemIds' class='itemIds dataNew' value='"+ka.userId+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' ></td>"+
+                        "<td><input type='text' name='itemTitle' readonly value='"+ka.nickName+"'></td>"+
+                        "<td class='delItem'><a>删除</a></td></tr>"
+
+                var flag = true;
+                $(".travelKaTable .itemIds").each(function(){
+                    if($(this).val() == ka.userId){
+                        alert("该用户已存在！");
+                        flag = false;
+                    }
+                })
+                if(!flag)
+                return ;
+                $(".travelKaTable").append(str);
+                alert("123");
+                return true;
+
+
+            });
+        })
 		
 		 //选择目的地信息
         $('.selectCityBtn').click(function(){
@@ -454,6 +538,14 @@
 		
 		
         $('#travelKaSubmit').click(function(){
+            var ids = "";
+            $(".travelKaTable .dataNew").each(function(){
+                ids +=  $(this).val() + ","
+            })
+            if(ids == "")
+            return;
+            $("#addItemIds").val(ids);
+
             $(this).prop('disabled',true);
             $.ajax({
 				type:'post',
@@ -468,36 +560,15 @@
 					if(data.status==200){
 						 layer.alert('操作成功');
 						 $("#travelKaSubmit").attr("disabled",false);
-                    }else{
+                    }
+                    else{
                    		$("#travelKaSubmit").attr("disabled",false);
                         layer.alert('操作失败');
                     }
 				}
 			});
         });
-		
-        $('#citySubmit').click(function(){
-            $(this).prop('disabled',true);
-            $.ajax({
-				type:'post',
-				url:'addHomeCity',
-				data:$("#cityForm").serialize(),
-				error:function(){
-					$("#citySubmit").attr("disabled",false);
-					alert('服务器忙，请稍后再试！');
-				},
-				success:function(data){
-				
-					if(data.status==200){
-						 layer.alert('操作成功');
-						 $("#citySubmit").attr("disabled",false);
-                    }else{
-                   		$("#citySubmit").attr("disabled",false);
-                        layer.alert('操作失败');
-                    }
-				}
-			});
-        });
+
 		
         $('#travelSpecialSubmit').click(function(){
             $(this).prop('disabled',true);
@@ -520,6 +591,37 @@
                     }
 				}
 			});
+        });
+
+
+        $('#advertisementSubmit').click(function(){
+//            var ids = "";
+//            $(".travelKaTable .dataNew").each(function(){
+//                ids +=  $(this).val() + ","
+//            })
+//                $("#addItemIds").val(ids);
+
+
+            $(this).prop('disabled',true);
+            $.ajax({
+                type:'post',
+                url:'addHomeTravelKa',
+                data:$("#adForm").serialize(),
+                error:function(){
+                    $("#travelKaSubmit").attr("disabled",false);
+                    alert('服务器忙，请稍后再试！');
+                },
+                success:function(data){
+
+                    if(data.status==200){
+                        layer.alert('操作成功');
+                        $("#travelKaSubmit").attr("disabled",false);
+                    }else{
+                        $("#travelKaSubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+                }
+            });
         });
 		
 		initUploadImg();

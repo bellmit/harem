@@ -14,11 +14,12 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.RegionService;
 import com.yimayhd.harem.service.UserRPCService;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
@@ -34,7 +35,6 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
  */
 public abstract class BaseTravelController extends BaseController {
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	private static final long DEFAULT_OFFICIAL_PUBLISHER_ID = 1000 * 10000;
 	@Resource
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
@@ -47,14 +47,14 @@ public abstract class BaseTravelController extends BaseController {
 	protected void initBaseInfo() throws BaseException {
 		put("PT_DEFAULT", LineOwnerType.DEFAULT.getType());
 		put("PT_MASTER", LineOwnerType.MASTER.getType());
-		LogUtil.requestLog(log, "comCenterServiceRef.selectTagListByTagType", TagType.LINETAG.name());
+		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType", TagType.LINETAG.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
-		LogUtil.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
+		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
 		put("tags", tagResult.getValue());
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 		put("ways", TripTraffic.ways());
-		put("officialPublisher", userService.getUserById(DEFAULT_OFFICIAL_PUBLISHER_ID));
+		put("officialPublisher", userService.getUserById(B2CConstant.YIMAY_OFFICIAL_ID));
 	}
 
 	protected void initLinePropertyTypes(long categoryId) {

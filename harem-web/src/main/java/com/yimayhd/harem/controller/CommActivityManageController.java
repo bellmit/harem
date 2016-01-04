@@ -1,5 +1,8 @@
 package com.yimayhd.harem.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommActivityService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -44,10 +48,10 @@ public class CommActivityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model,int categoryId) throws Exception {
-		//规格37
+		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
 		model.addAttribute("category", categoryVO);
-		 model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
+		model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
 		return "/system/comm/activity/edit";
 	}
 
@@ -77,13 +81,15 @@ public class CommActivityManageController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-
-        ItemResultVO itemResultVO = commodityService.getCommodityById(id);
-        model.addAttribute("itemResult", itemResultVO);
-        model.addAttribute("commActivity", itemResultVO.getItemVO());
-        model.addAttribute("category", itemResultVO.getCategoryVO());
-        model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
-
+    
+    	ItemResultVO itemResultVO = commodityService.getCommodityById(id);
+    	List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
+    	model.addAttribute("reduceTypeList", reduceTypeList);
+    	model.addAttribute("itemResult", itemResultVO);
+    	model.addAttribute("commodity", itemResultVO.getItemVO());
+    	model.addAttribute("category", itemResultVO.getCategoryVO());
+    	model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
+       
         return "/system/comm/activity/edit";
     }
 

@@ -2,9 +2,11 @@ package com.yimayhd.harem.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -21,13 +23,12 @@ import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 public class HotelVO extends HotelDO implements Serializable {
 
     private static final long serialVersionUID = 6419972389326909198L;
-    private MasterRecommend masterRecommend;
     private List<String> phoneNumList;
     private String picturesStr;//列表长图
     private String phoneNumListStr;//以逗号分割的电话列表
     private List<PictureVO> pictureList;//图片集
     private String picListStr;//图片集的str
-    private List<String> openTimeList;
+    private List<String> openTimeList;//暂时没有用到
     private List<String> roomFacilityList;
     private List<String> roomServiceList;
     private List<String> hotelFacilityList;
@@ -36,8 +37,10 @@ public class HotelVO extends HotelDO implements Serializable {
     private String roomFacilityStr;
     private String roomServiceStr;
     private String hotelFacilityStr;
-    private NeedKnow needKnowOb;
-    private String name2;
+
+    private String needKnowFrontNeedKnowStr;//须知json字符串
+
+    //private
     public HotelVO(){
 
     }
@@ -45,8 +48,6 @@ public class HotelVO extends HotelDO implements Serializable {
         HotelVO hotelVO = new HotelVO();
         BeanUtils.copyProperties(hotelDO, hotelVO);
         //个性化转换
-        //MasterRecommend
-        hotelVO.setMasterRecommend(hotelDO.getRecommend());
         //分转元
         hotelVO.setPriceY(NumUtil.moneyTransformDouble(hotelDO.getPrice()));
         //电话号码处理
@@ -61,6 +62,14 @@ public class HotelVO extends HotelDO implements Serializable {
                 }
             }
             hotelVO.setPhoneNumListStr(phoneNumListStr);
+        }
+        //needKonw(extraInfoUrl是富文本编辑，service中处理)
+        if(hotelVO.getNeedKnow() == null){
+            hotelVO.setNeedKnow(new NeedKnow());
+        }
+        if(StringUtils.isNotBlank(hotelVO.getNeedKnowFrontNeedKnowStr())){
+            List<TextItem> frontNeedKnow = JSON.parseArray(hotelVO.getNeedKnowFrontNeedKnowStr(),TextItem.class);
+            hotelVO.getNeedKnow().setFrontNeedKnow(frontNeedKnow);
         }
         
         //hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
@@ -80,12 +89,17 @@ public class HotelVO extends HotelDO implements Serializable {
         long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
         long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
 
-        hotelVO.setNeedKnow(hotelVO.getNeedKnowOb());
-        hotelVO.setRecommend(hotelVO.getMasterRecommend());
+        //needKonw(extraInfoUrl是富文本编辑，service中处理)
+        if(hotelVO.getNeedKnow() == null){
+            hotelVO.setNeedKnow(new NeedKnow());
+        }
+        if(StringUtils.isNotBlank(hotelVO.getNeedKnowFrontNeedKnowStr())){
+            List<TextItem> frontNeedKnow = JSON.parseArray(hotelVO.getNeedKnowFrontNeedKnowStr(),TextItem.class);
+            hotelVO.getNeedKnow().setFrontNeedKnow(frontNeedKnow);
+        }
         hotelVO.setRoomFacility(roomFacility);
         hotelVO.setRoomService(roomService);
         hotelVO.setHotelFacility(hotelFacility);
-        hotelVO.setStatus(BaseStatus.DELETED.getType());
         //电话处理
         if(StringUtils.isNotBlank(hotelVO.getPhoneNumListStr())){
             List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
@@ -94,21 +108,14 @@ public class HotelVO extends HotelDO implements Serializable {
         //图片集处理(因为有outId还是,只处理新增的)
         //列表长图片处理
         hotelDO.setPicturesString(hotelVO.getPicturesStr());
-        hotelDO.setOpenTime(JSON.toJSONString(hotelVO.getOpenTimeList()));
+
+        //hotelDO.setOpenTime(JSON.toJSONString(hotelVO.getOpenTimeList()));//TODO 暂时变更
         //hotelDO.setRoomFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //hotelDO.setRoomService(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //hotelDO.setHotelFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //元转分
         hotelDO.setPrice((long) (hotelVO.getPriceY() * 100));
         return hotelDO;
-    }
-
-    public MasterRecommend getMasterRecommend() {
-        return masterRecommend;
-    }
-
-    public void setMasterRecommend(MasterRecommend masterRecommend) {
-        this.masterRecommend = masterRecommend;
     }
 
     public List<String> getPhoneNumList() {
@@ -219,19 +226,11 @@ public class HotelVO extends HotelDO implements Serializable {
         this.hotelFacilityStr = hotelFacilityStr;
     }
 
-    public String getName2() {
-        return name2;
+    public String getNeedKnowFrontNeedKnowStr() {
+        return needKnowFrontNeedKnowStr;
     }
 
-    public void setName2(String name2) {
-        this.name2 = name2;
-    }
-
-    public NeedKnow getNeedKnowOb() {
-        return needKnowOb;
-    }
-
-    public void setNeedKnowOb(NeedKnow needKnowOb) {
-        this.needKnowOb = needKnowOb;
+    public void setNeedKnowFrontNeedKnowStr(String needKnowFrontNeedKnowStr) {
+        this.needKnowFrontNeedKnowStr = needKnowFrontNeedKnowStr;
     }
 }

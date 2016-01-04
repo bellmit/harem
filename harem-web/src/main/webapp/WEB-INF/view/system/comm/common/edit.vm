@@ -136,20 +136,34 @@
                         <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
                             <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
                             <td>
+                                #*编辑的时候回填属性*#
+                                    #set($propertyEditPId = 100)
+                                    #set($propertyEditVId = 200)
+                                    #set($propertyEditVTxt = '')
+                                    #foreach($itemProperty in $commodity.itemPropertyList)
+                                        #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                            #set($propertyEditPId = $itemProperty.pId)
+                                            #set($propertyEditVId = $itemProperty.vId)
+                                            #if($itemProperty.vId == 0)
+                                                #set($propertyEditVTxt = $itemProperty.vTxt)
+                                            #end
+                                            #break
+                                        #end
+                                    #end
                                     #*属性可选值*#
                                     <select class="form-control propertySelect">
                                         <option value="0" >请选择</option>
                                         #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text">$!categoryValueDO.text</option>
+                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
                                         #end
                                     </select>
                                     #*支持自定义*#
                                     #if($!keyCategoryProperty.canCustom == 1)
                                     #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                         #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                            <span><input class="propertyInput" type="text" value=""></span>
+                                            <span><input class="propertyInput" type="text" value="$propertyEditVTxt"></span>
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                            <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="">
+                                            <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$propertyEditVTxt">
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                             3
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
@@ -166,20 +180,31 @@
                         <tr class="property nonKeyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
                             <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
                             <td>
+                                #*编辑的时候回填属性*#
+                                    #foreach($itemProperty in $commodity.itemPropertyList)
+                                        #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                            #set($propertyEditPId = $itemProperty.pId)
+                                            #set($propertyEditVId = $itemProperty.vId)
+                                            #if($itemProperty.vId == 0)
+                                                #set($propertyEditVTxt = $itemProperty.vTxt)
+                                            #end
+                                            #break
+                                        #end
+                                    #end
                             #*属性可选值*#
                                 <select class="form-control propertySelect">
                                     <option value="0" >请选择</option>
                                     #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text">$!categoryValueDO.text</option>
+                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
                                     #end
                                 </select>
                             #*支持自定义*#
                                 #if($!keyCategoryProperty.canCustom == 1)
                                 #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                     #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                        <span><input type="text" class="propertyInput" value=""></span>
+                                        <span><input type="text" class="propertyInput" value="$propertyEditVTxt"></span>
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                        <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="">
+                                        <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="$propertyEditVTxt">
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                         3
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
@@ -424,13 +449,31 @@
         })
         $(document).delegate(".stock",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
-            skuPropertyAll[index]['stockNum'] = $(this).val();
-            skuPropertyAll[index]['modifyStatus'] = true;
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['stockNum'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
         })
         $(document).delegate(".price",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
-            skuPropertyShowAll[index]['priceY'] = $(this).val();
-            skuPropertyShowAll[index]['modifyStatus'] = true;
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['priceY'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
         })
 
         //初始化时构建sku属性数组

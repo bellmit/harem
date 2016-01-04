@@ -6,9 +6,9 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">创建时间</button>
                 </span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!activityListQuery.beginDate">
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="createStartTime" value="$!activityListQuery.createStartTime">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!activityListQuery.endDate">
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="createEndTime" value="$!activityListQuery.createEndTime">
             </div>
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -22,14 +22,14 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">活动名称</button>
                 </span>
-                <input type="text" class="form-control" name="name" value="$!activityListQuery.name">
+                <input type="text" class="form-control" name="title" value="$!activityListQuery.title">
             </div>
 
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-                <select class="form-control" name="isStatus">
+                <select class="form-control" name="satatus">
                     <option value="0">全部</option>
                     <option value="1" #if($!activityListQuery.isStatus == 1) selected #end>上架</option>
                     <option value="2" #if($!activityListQuery.isStatus == 2) selected #end>下架</option>
@@ -41,7 +41,7 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">俱乐部：</button>
                 </span>
-                <select class="form-control" name="club">
+                <select class="form-control" name="productId">
                     <option value="0">全部</option>
                     <option value="1" #if($!activityListQuery.club == 1) selected #end>亲自俱乐部</option>
                 </select>
@@ -50,7 +50,7 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">前台显示：</button>
                 </span>
-                    <select class="form-control" name="isStatus">
+                    <select class="form-control" name="satatus">
                         <option value="1" #if($!activityListQuery.isStatus == 1) selected #end>显示</option>
                         <option value="2" #if($!activityListQuery.isStatus == 2) selected #end>隐藏</option>
                     </select>
@@ -72,14 +72,10 @@
                     <th><input type="checkbox" name="checkAll" id="checkAll" value="" /></th>
                     <th>活动名称</th>
                     <th>所属俱乐部</th>
-                    <th>主题</th>
                     <th>活动状态</th>
-                    <th>状态</th>
                     <th>报名状态</th>
                     <th>报名数量</th>
-                    <th>报名限额</th>
                     <th>价格</th>
-                    <th>访问量</th>
                     <th>操作</th>
                 </tr>
                     #foreach($activity in $activityList)
@@ -87,17 +83,22 @@
                         <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!activity.id" /></td>
                         <td>$!activity.title</td>
                         <td>$!activity.clubName</td>
-                        <td></td>
-                        <td>#ACTIVITY_STATUS($!activity.status)</td>
+                         <td>#ACTIVITY_STATUS($!activity.isStatus)</td>
+                        <td>#ACTIVITY_ENROLL_STATUS($!activity.status)</td>
+                       
                         <td>$!activity.memberCount</td>
-                        <td>$!activity.memberCountLimit</td>
-                        <td>$!activity.originalPrice</td>
-                        <td>88</td>
-                        <td></td>
-						<td></td>
                         <td>
-                        <button type="button" class="btn btn-primary activityDetail" activityId="$activity.id">查看</button>
-                        <button type="button" class="btn btn-primary activityBtn"  activityId="$activity.id" isStatus="$activity.isStatus">#if(1 == 1) 下架 #elseif($activity.isStatus == 2) 上架 #end </button>
+                        #set($originalPrice=$activity.originalPrice / 100.0)
+                        #if(! $originalPrice)0#else$originalPrice#end
+                        </td>
+                        <td>
+                        #if($activity.isStatus ==1)
+                        	<button type="button" class="btn btn-primary toView" scenicId="$activity.id">查看</button>
+                        	<button type="button" class="btn btn-primary updateState"  activityId="$activity.id"  state="2">下架   </button>
+                        #elseif($activity.isStatus == 2)
+                        	<button type="button" class="btn btn-primary toUpdate" activityId="$activity.id" >编辑</button>
+                        	<button type="button" class="btn btn-primary updateState"  activityId="$activity.id"  state="1">上架 </button>
+                        #end
                         </td>
                     </tr>
                     #end
@@ -121,6 +122,35 @@
                 format: "yyyy-mm-dd"
             });
     $(function(){
+		
+		$('.toUpdate').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/activityManage/edit/'+ $(this).attr('activityId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+		});
+		 $('.updateState').click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/activityManage/updateState/' + $(this).attr('activityId'),{state:$(this).attr('state')}  ,function(data){
+                    if(data.status == 200){
+                          layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                            window.location.href = window.location.href;
+                        },1500);
+                    }else{
+                         layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                          $(this).prop('disabled',false);
+
+                    }
+                })
+           
+        });
+		
 		
         $("#checkAll").click(function() {
              $('input[name="subBox"]').attr("checked",this.checked);

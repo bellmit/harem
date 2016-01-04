@@ -1,30 +1,44 @@
 package com.yimayhd.harem.model;
 
-import java.math.BigDecimal;
+import java.util.Arrays;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+
+import com.yimayhd.ic.client.model.domain.RestaurantDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 
 /**
- * 餐厅
+ * 餐厅表单对象
  * 
  * @author yebin
  *
  */
 public class RestaurantVO {
-	private Long id;
-	private String code;// 商品编码
-	private String imageUrl;// 餐厅图片
-	private String name;// 名称
-	private Integer status;// 状态
-	private Region province;// 省
-	private Region city;// 市
-	private BigDecimal basePrice;// 基础价格
-	private String contactName;// 联系人姓名
-	private String contactPhone;// 联系人电话
+	private long id;
+	private String name;
+	private String description;
+	private MasterRecommend recommend;
+	private String logoUrl;
+	private double locationX;
+	private double locationY;
+	private String locationText;
+	private long locationProvinceId;
+	private String locationProvinceName;
+	private long locationCityId;
+	private String locationCityName;
+	private long locationTownId;
+	private String locationTownName;
+	private String contactPerson;
+	private String contactPhone;
+	private String oneword;
+	private String coverPics;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -36,44 +50,108 @@ public class RestaurantVO {
 		this.name = name;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setStatus(Integer state) {
-		this.status = state;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public Region getProvince() {
-		return province;
+	public MasterRecommend getRecommend() {
+		return recommend;
 	}
 
-	public void setProvince(Region province) {
-		this.province = province;
+	public void setRecommend(MasterRecommend recommend) {
+		this.recommend = recommend;
 	}
 
-	public Region getCity() {
-		return city;
+	public String getLogoUrl() {
+		return logoUrl;
 	}
 
-	public void setCity(Region city) {
-		this.city = city;
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
 	}
 
-	public BigDecimal getBasePrice() {
-		return basePrice;
+	public double getLocationX() {
+		return locationX;
 	}
 
-	public void setBasePrice(BigDecimal basePrice) {
-		this.basePrice = basePrice;
+	public void setLocationX(double locationX) {
+		this.locationX = locationX;
 	}
 
-	public String getContactName() {
-		return contactName;
+	public double getLocationY() {
+		return locationY;
 	}
 
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
+	public void setLocationY(double locationY) {
+		this.locationY = locationY;
+	}
+
+	public String getLocationText() {
+		return locationText;
+	}
+
+	public void setLocationText(String locationText) {
+		this.locationText = locationText;
+	}
+
+	public long getLocationProvinceId() {
+		return locationProvinceId;
+	}
+
+	public void setLocationProvinceId(long locationProvinceId) {
+		this.locationProvinceId = locationProvinceId;
+	}
+
+	public String getLocationProvinceName() {
+		return locationProvinceName;
+	}
+
+	public void setLocationProvinceName(String locationProvinceName) {
+		this.locationProvinceName = locationProvinceName;
+	}
+
+	public long getLocationCityId() {
+		return locationCityId;
+	}
+
+	public void setLocationCityId(long locationCityId) {
+		this.locationCityId = locationCityId;
+	}
+
+	public String getLocationCityName() {
+		return locationCityName;
+	}
+
+	public void setLocationCityName(String locationCityName) {
+		this.locationCityName = locationCityName;
+	}
+
+	public long getLocationTownId() {
+		return locationTownId;
+	}
+
+	public void setLocationTownId(long locationTownId) {
+		this.locationTownId = locationTownId;
+	}
+
+	public String getLocationTownName() {
+		return locationTownName;
+	}
+
+	public void setLocationTownName(String locationTownName) {
+		this.locationTownName = locationTownName;
+	}
+
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
 	}
 
 	public String getContactPhone() {
@@ -84,20 +162,35 @@ public class RestaurantVO {
 		this.contactPhone = contactPhone;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getOneword() {
+		return oneword;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setOneword(String oneword) {
+		this.oneword = oneword;
 	}
 
-	public String getCode() {
-		return code;
+	public String getCoverPics() {
+		return coverPics;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setCoverPics(String coverPics) {
+		this.coverPics = coverPics;
 	}
 
+	public RestaurantDO toRestaurantDO() {
+		return toRestaurantDO(null);
+	}
+
+	public RestaurantDO toRestaurantDO(RestaurantDO restaurantDTO) {
+		if (restaurantDTO == null) {
+			restaurantDTO = new RestaurantDO();
+		}
+		BeanUtils.copyProperties(this, restaurantDTO);
+		String coverPics = this.getCoverPics();
+		if (StringUtils.isNotBlank(coverPics)) {
+			restaurantDTO.setPictures(Arrays.asList(coverPics.split("\\|")));
+		}
+		return restaurantDTO;
+	}
 }

@@ -22,7 +22,7 @@ public class TravelOfficial extends BaseModel {
     private Integer collectionNum;//收藏数
     private Integer pv;//浏览量
     private String backImg; // 封面
-
+    private String preface;//前言
     private String imgContentJson;//图文详情
 
     //用户的
@@ -30,7 +30,16 @@ public class TravelOfficial extends BaseModel {
     private String userPhoto;
     private String nickName;
 
-    public String getImgContentJson() {
+    
+    public String getPreface() {
+		return preface;
+	}
+
+	public void setPreface(String preface) {
+		this.preface = preface;
+	}
+
+	public String getImgContentJson() {
         return imgContentJson;
     }
 

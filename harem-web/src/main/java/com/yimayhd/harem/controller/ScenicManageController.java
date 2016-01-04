@@ -1,6 +1,9 @@
 package com.yimayhd.harem.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.rowset.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +21,7 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.ScenicVO;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
@@ -44,13 +48,10 @@ public class ScenicManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ScenicPageQuery scenicPageQuery,Integer pageNumber) throws Exception {
-		if(pageNumber!=null){
-			scenicPageQuery.setPageNo(pageNumber);
-		}
-		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicPageQuery);
+	public String list(Model model, ScenicListQuery scenicListQuery) throws Exception {
+		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("scenicPageQuery", scenicPageQuery);
+		model.addAttribute("scenicPageQuery", scenicListQuery);
 		return "/system/scenicSpot/list";
 	}
 	
@@ -77,14 +78,7 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String toView(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
-		MasterRecommend recommend = null;
-	/*	try {
-			recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
-		} catch (Exception e) {
-			logger.error("toEdit|recommend="+scenicDO.getScenic().getRecommend()+"|error="+e.toString());
-		}*/
 		model.addAttribute("VO", scenicDO);
-		model.addAttribute("recommend", recommend);
 		return "/system/scenicSpot/view";
 	}
 
@@ -97,14 +91,8 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddNewDTO scenicDO = scenicSpotService.getById(id);
-		MasterRecommend recommend = null;
-		/*try {	
-			recommend  = JSON.parseObject(scenicDO.getScenic().getRecommend(), MasterRecommend.class);;
-		} catch (Exception e) {
-			logger.error("toEdit|recommend="+scenicDO.getScenic().getRecommend()+"|error="+e.toString());
-		}*/
+	
 		model.addAttribute("VO", scenicDO);
-		model.addAttribute("recommend", recommend);
 		return "/system/scenicSpot/edit";
 	}
 

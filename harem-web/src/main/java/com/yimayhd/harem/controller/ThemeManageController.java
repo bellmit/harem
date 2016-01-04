@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.ThemeVo;
@@ -49,8 +50,9 @@ public class ThemeManageController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, ThemeVoQuery query){
 		try {
-			List<ComTagDO> list = themeService.getList(query);
-			model.addAttribute("themeList", list);
+			PageVO<ComTagDO> pageVo = themeService.getPageTheme(query);
+			model.addAttribute("themeList", pageVo.getItemList());
+			model.addAttribute("pageVo", pageVo);
 			return "/system/theme/list";
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
@@ -60,14 +62,14 @@ public class ThemeManageController {
 	
 	@RequestMapping(value = "/list/json", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo jsonList(ThemeVoQuery query){
+	public ResponseVo jsonList(int type){
 			try {
-				List<ComTagDO> list = themeService.getList(query);
+				List<ComTagDO> list = themeService.getListTheme(type);
 				if (CollectionUtils.isNotEmpty(list)) {
 					return new ResponseVo(list);
 				} 
 			} catch (Exception e) {
-				LOGGER.error("jsonList error,query="+JSON.toJSONString(query),e);
+				LOGGER.error("jsonList error,query="+type,e);
 			}
 				return new ResponseVo(ResponseStatus.ERROR);
 	}
@@ -107,7 +109,7 @@ public class ThemeManageController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id){
 		try {
-			ThemeVo theme = themeService.getById(0);
+			ThemeVo theme = themeService.getById(id);
 			model.addAttribute("theme", theme);
 			return "/system/theme/edit";
 		} catch (Exception e) {
@@ -125,15 +127,18 @@ public class ThemeManageController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String edit(ThemeVo themeVo){
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String edit(ThemeVo themeVo, @PathVariable(value = "id") long id){
 		try {
-			themeService.modify(themeVo);
-			return "/success";
+			themeVo.setId(id);
+			ThemeVo dbThemeVo = themeService.saveOrUpdate(themeVo);
+			if(null != dbThemeVo ){
+				return "/success";	
+			}
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
-			return "/error";
 		}
+		return "/error";
 	}
 
 
@@ -147,7 +152,7 @@ public class ThemeManageController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() {
-		return "/system/activity/edit";
+		return "/system/theme/edit";
 	}
 
 	/**
@@ -162,12 +167,14 @@ public class ThemeManageController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(ThemeVo themeVo){
 		try {
-			themeService.add(themeVo);
-			return "/success";
+			ThemeVo dbThemeVo = themeService.saveOrUpdate(themeVo);
+			if(null != dbThemeVo){
+				return "/success";
+			}
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
-			return "/error";
 		}
+			return "/error";
 	}
 	
 	

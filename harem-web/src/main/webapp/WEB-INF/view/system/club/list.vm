@@ -45,8 +45,8 @@
 
  		<div class="btnBottomMargin">
             <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建俱乐部</button>
-            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量上架</button>
-            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2">批量下架</button>
+            <button type="button" class="btn btn-primary commodityBatchBtn batchUp" btnType="1">批量上架</button>
+            <button type="button" class="btn btn-primary commodityBatchBtn batchDown" btnType="2">批量下架</button>
         </div>
 
 
@@ -56,8 +56,7 @@
                     <th>#</th>
                     <th>名称</th>
                     <th>logo</th>
-                    <th>是否允许加入状态</th>
-                    <th>是否显示状态</th>
+                    <th>状态</th>
                     <th>成员数</th>
                    
                     <th>部长名称</th>
@@ -68,11 +67,10 @@
                 </tr>
                     #foreach($club in $clubList)
                     <tr>
-                        <td>$!velocityCount</td>
+                        <td>$!velocityCount <input class="subChecked" type="checkbox" value="$!{club.id}"></td>
                         <td>$!club.clubName</td>
                         <td><img height="50" width="50" src="$utilWebconfig.getTfsRootPath()$!club.logoUrl" /> </td>
-                        <td>#IS_SHOW_STATUS($!club.state)</td>
-                        <td>#IS_SHOW_STATUS($!club.state)</td>
+                        <td>#ACTIVITY_STATUS($!club.state)</td>
                         <td>$!club.clubNum</td>
                        
                         <td>$!club.ncikName</td>
@@ -81,6 +79,7 @@
                         <td>
                         <button type="button" class="btn btn-primary clubDetail" clubId="$club.id">详情</button>
                         <button type="button" class="btn btn-primary clubBan"  clubId="$club.id" joinStatus="$club.state">#if($club.state == 1) 下架 #elseif($club.state == 2) 上架 #end </button>
+                        <button type="button" class="btn btn-primary clubEdit" clubId="$club.id">编辑</button>
                         </td>
                     </tr>
                     #end
@@ -142,5 +141,38 @@
         var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/clubManage/toAdd';
         top.tabsAdd("addCommodityBtn",url,2,$(this).text())
     });
+    
+    
+    //批量上下架
+        $('.batchUp').click(function(){
+        	var checkIds =[]; 
+			$('input[name="subChecked"]:checked').each(function(){ 
+				var ss=$(this).val();
+				console.log(ss);
+				checkIds.push(ss); 
+			}); 
+			console.log("checkIds="+checkIds);
+			console.log("type="+$(this).attr('btnType'));
+			if(checkIds.length == 0){
+				   layer.alert('请选择要操作的数据');
+				   return;  
+			}
+	        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/clubManage/setJoinStatus' ,{'ids':checkIds,'status':$(this).attr('btnType')} ,function(data){
+	                    if(data.status == 200){
+	                        layer.alert('操作成功');
+	                        window.location.href = window.location.href;
+	                    }else{
+	                        layer.alert('操作失败');
+	                        $(this).prop('disabled',false);
+	                    }
+	        })
+    });
+    
+	//编辑
+	$('.clubEdit').click(function(){
+	 	var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/clubManage/edit/'+ $(this).attr('clubId');
+        window.openwin(url);
+    });	
+			
     
 </script>

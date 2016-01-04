@@ -28,6 +28,10 @@ public class CfgBaseVO implements Serializable{
 	
 	private String[] description;
 
+	private String addItemIds;
+
+	private String  delItemIds;
+
 	public long[] getItemIds() {
 		return itemIds;
 	}
@@ -84,5 +88,19 @@ public class CfgBaseVO implements Serializable{
 		this.boothCode = boothCode;
 	}
 
-	
+	public String getAddItemIds() {
+		return addItemIds;
+	}
+
+	public void setAddItemIds(String addItemIds) {
+		this.addItemIds = addItemIds;
+	}
+
+	public String getDelItemIds() {
+		return delItemIds;
+	}
+
+	public void setDelItemIds(String delItemIds) {
+		this.delItemIds = delItemIds;
+	}
 }

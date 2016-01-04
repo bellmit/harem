@@ -11,12 +11,12 @@ import java.io.Serializable;
 public class BaseQuery implements Serializable {
 
 	private static final long serialVersionUID = 7184354135734117464L;
-	private static final int DEFAULT_SIZE = 10;
-	private static final int DEFAULT_PAGE = 1;
+	public static final int DEFAULT_SIZE = 10;
+	public static final int DEFAULT_PAGE = 1;
 	public static final int PAGING_YES = 1;
 	public static final int PAGING_NO = 0;
 
-	protected Integer pageNumber = DEFAULT_PAGE;
+	public Integer pageNumber = DEFAULT_PAGE;
 	protected Integer pageSize = DEFAULT_SIZE;
 
 	public Integer getPageNumber() {

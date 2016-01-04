@@ -1,10 +1,13 @@
 package com.yimayhd.harem.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.ScenicVO;
+import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.harem.model.PictureVO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
@@ -18,8 +21,10 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TfsService;
+import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -41,11 +46,42 @@ public class ScenicServiceImpl implements ScenicService {
 	private TfsService tfsService;
 
 	@Override
-	public PageVO<ScenicDO> getList(ScenicPageQuery query) throws Exception {
+	public PageVO<ScenicDO> getList(ScenicListQuery scenicListQuery) throws Exception {
 		int totalCount = 0;
+		ScenicPageQuery pageQuery = new ScenicPageQuery();
+		pageQuery.setNeedCount(true);
+		if(scenicListQuery.getPageNumber()!=null){
+			int pageNumber =scenicListQuery.getPageNumber();
+			int pageSize = scenicListQuery.getPageSize();
+			pageQuery.setPageNo(pageNumber);
+			pageQuery.setPageSize(pageSize);
+		}
+		//景区名称
+		if (!StringUtils.isBlank(scenicListQuery.getTags())) {
+			pageQuery.setTags(scenicListQuery.getTags());			
+		}
+		//景区状态
+		if (scenicListQuery.getItemStatus() != null) {			
+			pageQuery.setItemStatus(scenicListQuery.getItemStatus());
+		}
+		//开始时间
+		if (!StringUtils.isBlank(scenicListQuery.getStartTime())) {
+			Date startTime = DateUtil.parseDate(scenicListQuery.getStartTime());
+			pageQuery.setStartTime(startTime);
+		}
+				
+		//结束时间
+		if (!StringUtils.isBlank(scenicListQuery.getEndTime())) {
+			Date endTime = DateUtil.parseDate(scenicListQuery.getEndTime());
+			pageQuery.setEndTime(DateUtil.add23Hours(endTime));
+		}
+		//景区等级
+		if (scenicListQuery.getLevel() != null) {			
+			pageQuery.setLevel(scenicListQuery.getLevel() );
+		}
 		List<ScenicDO> itemList = new ArrayList<ScenicDO>();
-		query.setNeedCount(true);
-		ICPageResult<ScenicDO> pageResult = itemQueryService.pageQueryScenic(query);
+		
+		ICPageResult<ScenicDO> pageResult = itemQueryService.pageQueryScenic(pageQuery);
 		if (pageResult != null && pageResult.isSuccess()) {
 			totalCount = pageResult.getTotalCount();
 			if (CollectionUtils.isNotEmpty(pageResult.getList())) {
@@ -55,7 +91,7 @@ public class ScenicServiceImpl implements ScenicService {
 			log.error("itemQueryService.pageQueryScenic return value is null !returnValue :"
 					+ JSON.toJSONString(pageResult));
 		}
-		return new PageVO<ScenicDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
+		return new PageVO<ScenicDO>(pageQuery.getPageNo(), pageQuery.getPageSize(), totalCount, itemList);
 	}
 
 	@Override
@@ -71,6 +107,12 @@ public class ScenicServiceImpl implements ScenicService {
 				extraInfoUrl = tfsService.readHtml5(needKnow.getExtraInfoUrl());
 				needKnow.setExtraInfoUrl(extraInfoUrl);
 			}
+			List<String> pictures = scenicDO.getPictures();
+			if(pictures !=null && pictures.size()!=0){
+				scenicDO.setCoverUrl(StringUtils.join(pictures.toArray(),"|"));
+			}
+			
+			
 			dto.setNeedKnow(needKnow);
 			dto.setScenic(scenicDO);
 			return dto;
@@ -147,13 +189,22 @@ public class ScenicServiceImpl implements ScenicService {
 		if (0 == scenicVO.getId()) {
 			ScenicAddNewDTO addNewDTO = new ScenicAddNewDTO();
 
-			//masterRecommend
-			//String jsonString = JSON.toJSONString(scenicVO.getMasterRecommend());
-			//addNewDTO.getScenic().setRecommend(jsonString);
-			//scenicDO
 			ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
 			addNewDTO.setScenic(scenicDO);
+			scenicDO.setMemberPrice(scenicDO.getPrice());
 			//NeedKnowOb
+			List<TextItem> frontNeedKnow = scenicVO.getNeedKnowOb().getFrontNeedKnow();
+			List<TextItem> newFrontNeedKnow =new ArrayList<TextItem>();
+			if(frontNeedKnow!=null&&!frontNeedKnow.isEmpty()){
+				for (int i = 0; i < frontNeedKnow.size(); i++) {
+					if(StringUtils.isNotBlank(frontNeedKnow.get(i).getTitle())||StringUtils.isNotBlank(frontNeedKnow.get(i).getContent())){
+						newFrontNeedKnow.add(frontNeedKnow.get(i));
+					}
+				}
+				scenicVO.getNeedKnowOb().setFrontNeedKnow(newFrontNeedKnow);
+			}
+			
+			
 			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
 			scenicDO.setRecommend(scenicVO.getMasterRecommend());
 			//购买须知存tfs
@@ -168,6 +219,7 @@ public class ScenicServiceImpl implements ScenicService {
 				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
 				throw new BaseException(addScenicNew.getResultMsg());
 			}
+			
 			//图片集insert
 			if(org.apache.commons.lang.StringUtils.isNotBlank(scenicVO.getPicListStr())){
 				List<PictureVO> pictureVOList = JSON.parseArray(scenicVO.getPicListStr(),PictureVO.class);
@@ -205,8 +257,27 @@ public class ScenicServiceImpl implements ScenicService {
 				log.error("ScenicServiceImpl.save-itemQueryService.getScenic result.getModule is null and parame: " + scenicVO.getId());
 			}
 			ScenicAddNewDTO addNewDTO = new ScenicAddNewDTO();
-			//scenicDO
-			addNewDTO.setScenic(scenicDB);
+			ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
+			addNewDTO.setScenic(scenicDO);
+			scenicDO.setMemberPrice(scenicDO.getPrice());
+			//NeedKnowOb
+			
+			List<TextItem> frontNeedKnow = scenicVO.getNeedKnowOb().getFrontNeedKnow();
+			List<TextItem> newFrontNeedKnow =new ArrayList<TextItem>();
+			if(frontNeedKnow!=null&&!frontNeedKnow.isEmpty()){
+				for (int i = 0; i < frontNeedKnow.size(); i++) {
+					if(StringUtils.isNotBlank(frontNeedKnow.get(i).getTitle())||StringUtils.isNotBlank(frontNeedKnow.get(i).getContent())){
+						newFrontNeedKnow.add(frontNeedKnow.get(i));
+					}
+				}
+				scenicVO.getNeedKnowOb().setFrontNeedKnow(newFrontNeedKnow);
+			}
+			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
+			scenicDO.setRecommend(scenicVO.getMasterRecommend());
+			//购买须知存tfs
+			if(org.apache.commons.lang.StringUtils.isNotBlank(addNewDTO.getNeedKnow().getExtraInfoUrl())) {
+				addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
+			}
 			//TODO 修改项处理
 			addScenicNew = resourcePublishServiceRef.updateScenicNew(addNewDTO);
 			if(null == addScenicNew){

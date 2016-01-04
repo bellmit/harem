@@ -2,15 +2,14 @@
 <div>
 	<div class="input-group">
 		<span class="input-group-addon">商品分类</span>
-		 <select class="form-control" name="itemType">
+		 <select class="form-control" name="itemType" id="itemType">
                 <option value="0" >全部</option>
                 #foreach($itemType in $itemTypeList)
-                    <option value="$!itemType.value" #if($!commodityListQuery.itemType == $!itemType.value) selected #end>$!itemType.text</option>
+                <option value="$!itemType.value" #if($!commodityListQuery.itemType == $!itemType.value) selected #end>$!itemType.text</option>
                 #end
-
             </select>
-         <span class="input-group-addon">商品分类</span>
-          <input type="text" class="form-control" name="commName" value="$!commodityListQuery.commName">
+         <span class="input-group-addon">商品名称</span>
+         <input type="text" class="form-control" name="commName" id="itemName" value="$!commodityListQuery.commName">
 		<span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>
 	</div>
 	<div class="input-group selectResourceTable">
@@ -26,7 +25,7 @@
 <script type="text/javascript">
 	var checks = {};
 	$(".search").click(function() {
-		pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
+		pageUtils.request(1, $(".pageSize").val(),{commName:$("#itemName").val(),itemType:$("#itemType").val()});
 	});
 	function initTable() { 
     	$('table.resourceTable').datatable({
@@ -67,7 +66,8 @@
 	}
 	// 初始化分页条
 	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/queryActivityComm", function(query, pageVo){
-		$("#itemName").val(query.name);
+		$("#itemName").val(query.commName);
+		$("#itemType").val(query.itemType);
 		showData(pageVo.itemList);
 	});
 	var resource_table = {};

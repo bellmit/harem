@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.harem.model.travel.groupTravel.TripDay;
@@ -21,7 +22,7 @@ import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.harem.service.HotelRPCService;
 import com.yimayhd.harem.service.PictureRPCService;
-import com.yimayhd.harem.service.RestaurantRPCService;
+import com.yimayhd.harem.service.RestaurantService;
 import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
@@ -47,7 +48,7 @@ public class CommGroupTravelController extends BaseTravelController {
 	@Autowired
 	private TfsService tfsService;
 	@Autowired
-	private RestaurantRPCService restaurantRPCService;
+	private RestaurantService restaurantRPCService;
 	@Autowired
 	private ScenicService scenicService;
 	@Autowired
@@ -116,8 +117,10 @@ public class CommGroupTravelController extends BaseTravelController {
 		if (StringUtils.isNotBlank(importantInfos)) {
 			String importantInfosCode = tfsService.publishHtml5(importantInfos);
 			gt.getPriceInfo().setImportantInfosCode(importantInfosCode);
+		} else {
+			gt.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
 		}
-		if (StringUtils.isNotBlank(importantInfos)) {
+		if (StringUtils.isNotBlank(extraInfos)) {
 			String extraInfosCode = tfsService.publishHtml5(extraInfos);
 			gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
 		}

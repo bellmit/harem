@@ -84,6 +84,7 @@
 		});
 	}
 	// 获得最终结果
+	// 获得最终结果
 	function getItems() {
 		var result = [];
 		$(".resources").each(function(){

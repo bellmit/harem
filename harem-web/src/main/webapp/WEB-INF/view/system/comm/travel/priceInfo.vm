@@ -3,6 +3,10 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 -->
+<style type="text/css">
+	//禁用输入法
+	.tc-item{ime-mode:"Disabled"}
+</style>
 <div class="priceInfo">
     <div class="input-group">
 		<span class="input-group-btn">
@@ -32,7 +36,7 @@
 			#foreach($tc in $!{product.priceInfo.tcs})
 			#set($tcId = $velocityCount)
 			<li class="tab-page tc-tab #if($!{tcId}==1) active #end" rId="$!{tcId}" id='tc_$!{tcId}_tab'>
-				<a href="#tc_$!{tcId}" data-toggle="tab" id="tc_tab_$!{tcId}_a">套餐$!{tcId}<i class="icon icon-remove tc-del" tc-id="$!{tcId}"></i></a>
+				<a href="#tc_$!{tcId}" data-toggle="tab" id="tc_tab_$!{tcId}_a">套餐$!{tcId}&nbsp;&nbsp;<i class="icon icon-remove tc-del" tc-id="$!{tcId}"></i></a>
 			</li>
 			#end
 		</ul>
@@ -48,7 +52,8 @@
 						<td>
 							<ul class="nav nav-tabs navCombo">
 								#foreach($month in ${tc.months})
-								<li class="tab-page tc-$!{tcId}-month #if($!{tcId}==1) active #end" rId="${month.time}" id="tc_$!{tcId}_month_${month.time}_tab" rTime="${month.time}">
+								#set($monthId = $velocityCount)
+								<li class="tab-page tc-$!{tcId}-month #if($!{monthId}==1) active #end" rId="${month.time}" id="tc_$!{tcId}_month_${month.time}_tab" rTime="${month.time}">
 									<a href="#tc_$!{tcId}_month_${month.time}" data-toggle="tab">$utilDate.dateToString($month.date,"yyyy-MM")</a>
 								</li>
 								#end
@@ -56,7 +61,8 @@
 							</ul>
 							<div class="tab-content tabCombo">
 								#foreach($month in ${tc.months})
-								<div class="tab-pane in #if($!{tcId}==1) active #end" id="tc_$!{tcId}_month_${month.time}" rTime="$!{month.time}">
+								#set($monthId = $velocityCount)
+								<div class="tab-pane in #if($!{monthId}==1) active #end" id="tc_$!{tcId}_month_${month.time}" rTime="$!{month.time}">
 									<table class="table" border="0" cellspacing="0" cellpadding="20">
 										#foreach($day in ${month.days})
 											#set($dayId = $velocityCount)
@@ -75,12 +81,12 @@
 												<div class="input-group">
 													<span class="input-group-addon">$!{block.name}</span>
 													#set($price = $block.price / 100.0)  
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$price">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$price">
 													<span class="input-group-addon">库存</span>
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item int-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
 													<span class="input-group-addon">会员优惠</span>
 													#set($discount = $block.discount / 100.0)  
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$discount">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$discount">
 												</div>
 											#end
 											</td>
@@ -128,18 +134,6 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-	$(".form-datetime").datetimepicker(
-			{
-				language:  "zh-CN",
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                forceParse: 0,
-                showMeridian: 1,
-                format: "yyyy-mm-dd hh:ii"
-            });
 	var WEEK = {
 		0:"周日",
 		1:"周一",
@@ -149,7 +143,21 @@
 		5:"周五",
 		6:"周六"
 	};
-	$(".tc-del").click(removeTc);
+	$(document).delegate(".tc-del","click",function(){
+		var id = $(this).attr("tc-id");
+		var prev = $("#tc_"+id+"_tab").prev();
+		var next = $("#tc_"+id+"_tab").next();
+		if(prev.length != 0) {
+			prev.children("a").click();
+		} else if(next.length != 0) {
+			next.children("a").click();
+		}
+		$("#tc_"+id+"_tab").remove();
+		$(".tc-"+id+"-item").each(function() {
+			setDeletedSKU($(this).attr("sku-id"));
+		});
+		$("#tc_"+id).remove();
+	});
 	// 确认
 	$(".setTime").click(function(){
 		// check
@@ -163,7 +171,7 @@
 			layer.msg("请输入结束时间！", {icon: 2});
 			return;
 		}
-		if(Date.parse(startTime) > Date.parse(endTime)){
+		if(CalendarY.parse(startTime) > CalendarY.parse(endTime)){
 			layer.msg("开始时间不可大于结束时间！", {icon: 2});
 			return;
 		}
@@ -175,45 +183,42 @@
 	});
 	var updatedSKU = [];
 	var deletedSKU = [];
-	$(".tc-item").change(function() {
-		updatedSKU.push($(this).attr("sku-id"));
+	function setUpdatedSKU(id) {
+		if(id) {
+			updatedSKU.push(id);
+		}
+	}
+	function setDeletedSKU(id) {
+		if(id) {
+			deletedSKU.push(id);
+		}
+	}
+	// 删除套餐
+	$(document).delegate(".tc-item","change",function(){
+		setUpdatedSKU($(this).attr("sku-id"));
 	});
 	// 重置
-	function resetTime(){
+	$(".form-date").change(function (){
 		// time avalible
+		$(".tc-item").each(function() {
+			setDeletedSKU($(this).attr("sku-id"));
+		});
 		$("#tc_tab").empty();
 		$("#tc_page").empty();
 		$(".tc-main").hide();
 		$(".setTime").show();
-	}
-	$(".form-date").change(resetTime);
-	function removeTc() {
-		var id = $(this).attr("tc-id");
-		var prev = $("#tc_"+id+"_tab").prev();
-		var next = $("#tc_"+id+"_tab").next();
-		if(prev.length != 0) {
-			prev.children("a").click();
-		} else if(next.length != 0) {
-			next.children("a").click();
-		}
-		$("#tc_"+id+"_tab").remove();
-		$(".tc-"+id+"-item").each(function() {
-			deletedSKU.push($(this).attr("sku-id"));
-		});
-		$("#tc_"+id).remove();
-	}
+	});
 	$(".addTC").click(function(){
 		curTcId = curTcId + 1;
 		var tcTab = createTcTab(curTcId);
 		$("#tc_tab").append(tcTab);
-		var startDate = new Date($("#startTime").val());
-		var endDate = new Date($("#endTime").val());
+		var startDate = CalendarY.parse($("#startTime").val());
+		var endDate = CalendarY.parse($("#endTime").val());
 		var tcTabContent = createTcContent(curTcId,startDate,endDate);
 		$("#tc_page").append(tcTabContent);
 		$("#tc_"+curTcId).find(".tab-page a").eq(0).click();
 		$("#tc_tab_"+curTcId+"_a").click();
 	})
-	$(".batch-insert").click(batchInsert);
 	// 初始化
 	var curTcId;
 	$(function() {
@@ -223,7 +228,6 @@
 		var tcTab = $("<li class='tab-page tc-tab' rId='"+id+"' id='tc_"+id+"_tab'/>");
 		var tabA = $("<a href='#tc_"+id+"' data-toggle='tab' id='tc_tab_"+id+"_a'>套餐"+id+"&nbsp;&nbsp;</a>");
 		var remove = $("<i class='icon icon-remove tc-del' tc-id='"+id+"'/>");
-		remove.click(removeTc);
 		return tcTab.append(tabA).append(remove);
 	}
 	function createTcContent(id,startDate,endDate) {
@@ -233,7 +237,7 @@
 		var tcName = $("<span class='spColor'>*</span>套餐名称：<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></p>")
 		td.append(tcName);
 		table.append($("<tr/>").append(td));
-		var dateJson = CalendarUtils.getMonthTree(startDate,endDate);
+		var dateJson = CalendarY.getMonthTree(startDate,endDate);
 		var dateTab = createDateTab(id,dateJson);
 		var dateTabContent = createDateContent(id,dateJson);
 		pane.append(table.append($("<tr/>").append($("<td/>").append(dateTab).append(dateTabContent))));
@@ -243,12 +247,11 @@
 		var tab = $("<ul class='nav nav-tabs navCombo'/>");
 		for(var i in dateJson) {
 			var tcTab = $("<li class='tab-page tc-"+id+"-month' rId='"+i+"' id='tc_"+id+"_month_"+i+"_tab' rTime='"+i+"'/>");
-			var month = CalendarUtils.getFormat(new Date(parseInt(i)),"yyyy年MM月");
+			var month = CalendarY.format(CalendarY.parse(parseInt(i)),"YYYY年MM月");
 			var tabA = $("<a href='#tc_"+id+"_month_"+i+"' data-toggle='tab'>"+month+"</a>");
 			tab.append(tcTab.append(tabA));
 		}
 		var batch = $("<button class='btn btn-primary batch-insert' tc-id='"+id+"'>批量录入</button>");
-		batch.click(batchInsert);
 		//特效
 		tab.append($("<li>").append(batch));
 		return tab;
@@ -265,8 +268,8 @@
 					tr = $("<tr/>");
 					table.append(tr);
 				}
-				var time = new Date(list[j]);
-				var d =  CalendarUtils.getFormat(time ,"dd日 " + WEEK[time.getDay()]);
+				var time = CalendarY.parse(list[j]);
+				var d =  CalendarY.format(time ,"DD日 " + WEEK[time.getDay()]);
 				// 扩展点
 				var td = $("<td class='tc-"+id+"-month-"+i+"-day' rId='"+list[j]+"' rTime='"+list[j]+"'></td>");
 				var day_id = "tc_"+id+"_month_"+i+"_day_"+list[j];
@@ -276,11 +279,11 @@
 				#foreach($persionPropertyValue in $persionPropertyValues)
 				var group_$!{persionPropertyValue.id} = $("<div class='input-group block'/>")
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>$!{persionPropertyValue.text}</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价' value='0.0'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>库存</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' value='0.0'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>会员优惠</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-3' id='"+day_id+"_$!{persionPropertyValue.id}_3' placeholder='请输入会员优惠'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-3' id='"+day_id+"_$!{persionPropertyValue.id}_3' placeholder='请输入会员优惠' value='0.0'>"); 
 				td.append(group_$!{persionPropertyValue.id});
 				#end
 				tr.append(td);
@@ -292,21 +295,38 @@
 	
 	var currentTcId;
     // 批量插入
-	function batchInsert(){
+	$(document).delegate(".batch-insert","click",function() {
 		var currentTcId = $(this).attr("tc-id");
 		openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
 			var data = win.getData();
 			for(var i in data) {
 				var block = data[i];
-    			$(".tc-"+currentTcId+"-item-"+block.id+"-1").val(block.price);
-    			$(".tc-"+currentTcId+"-item-"+block.id+"-2").val(block.stock);
-    			$(".tc-"+currentTcId+"-item-"+block.id+"-3").val(block.discount);
+				var price = $(".tc-"+currentTcId+"-item-"+block.id+"-1");
+				if(block.price != "") {
+    				price.val(block.price);
+				}
+				var stock = $(".tc-"+currentTcId+"-item-"+block.id+"-2");
+				if(block.stock != "") {
+    				stock.val(block.stock);
+				}
+				var discount = $(".tc-"+currentTcId+"-item-"+block.id+"-3");
+				if(block.discount != "") {
+    				discount.val(block.discount);
+				}
+				// 设置更新
+				if(block.price != ""||
+				block.stock != ""||
+				block.discount != "") {
+    				price.each(function() {
+    					setUpdatedSKU($(this).attr("sku-id"));
+    				}); 
+				}
 			}
 			// console.log(JSON.stringify(data));
 			// 一般设定yes回调，必须进行手工关闭
 			return true;
 		});
-    }
+    });
 	
 	// 获取价格信息
 	function getPriceInfo() {

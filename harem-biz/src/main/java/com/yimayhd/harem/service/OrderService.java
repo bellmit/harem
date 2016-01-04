@@ -9,7 +9,7 @@ import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 /**
  * 订单服务接口
  * 
- * @author yebin
+ * @author zhaozhaonan
  *
  */
 public interface OrderService {
@@ -28,4 +28,14 @@ public interface OrderService {
 	 * @throws Exception
 	 */
 	PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception;
+
+
+	boolean buyerConfirmGoods(long id);
+
+	boolean sellerSendGoods(long id);
+
+	boolean refundOrder(long id);
+
+	boolean closeOrder(long id);
+
 }

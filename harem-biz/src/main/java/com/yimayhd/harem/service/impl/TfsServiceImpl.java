@@ -44,11 +44,11 @@ public class TfsServiceImpl implements TfsService {
 		// byte[] bytes = body.getBytes();
 		String tfsCode = "";
 		try {
-			tfsCode = tfsManager.saveFile(bytes, null, "html");
+			tfsCode = tfsManager.saveFile(bytes, null, ".html");
 		} catch (Exception e) {
 			throw new BaseException(e, "Html5上传失败：html={0}", body);
 		}
-		return tfsCode;
+		return tfsCode + ".html";
 	}
 
 	@Override

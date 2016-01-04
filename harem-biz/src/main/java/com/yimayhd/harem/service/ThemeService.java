@@ -3,6 +3,7 @@ package com.yimayhd.harem.service;
 import java.util.List;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.ThemeVo;
 import com.yimayhd.harem.model.query.ThemeVoQuery;
 
@@ -16,7 +17,20 @@ public interface ThemeService {
      * 获取主题列表(可带查询条件)
      * @return 主题列表
      */
-	List<ComTagDO> getList(ThemeVoQuery themeVoQuery )throws Exception;
+	PageVO<ComTagDO> getPageTheme(ThemeVoQuery themeVoQuery )throws Exception;
+	
+	/**
+	* @Title: getListTheme 
+	* @Description:(获取话题 list) 
+	* @author create by yushengwei @ 2015年12月27日 下午4:01:22 
+	* @param @param themeVoQuery
+	* @param @return
+	* @param @throws Exception 
+	* @return List<ComTagDO> 返回类型 
+	* @throws
+	 */
+	List<ComTagDO> getListTheme(int type )throws Exception;
+	
     /**
      * 获取主题详情
      * @return 主题详情
@@ -29,7 +43,7 @@ public interface ThemeService {
      * @return
      * @throws Exception
      */
-    ThemeVo add(ThemeVo themeVo)throws Exception;
+    ThemeVo saveOrUpdate(ThemeVo themeVo)throws Exception;
 
     /**
      * 修改主题

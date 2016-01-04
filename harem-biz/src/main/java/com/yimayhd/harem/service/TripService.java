@@ -3,13 +3,19 @@ package com.yimayhd.harem.service;
 import java.util.List;
 
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.model.RelevanceRecommended;
 import com.yimayhd.harem.model.TripBo;
+import com.yimayhd.harem.model.TripBoQuery;
 import com.yimayhd.harem.model.query.HotelListQuery;
+import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
+import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 
 /** 
 * @ClassName: TripAService 
@@ -60,7 +66,7 @@ public interface TripService {
 	* @return TripBo 返回类型 
 	* @throws
 	 */
-	TripBo getTripBo(int id);
+	TripBo getTripBo(long  id);
 	
 	/**
 	* @Title: getTripBo 
@@ -94,7 +100,9 @@ public interface TripService {
 	* @return boolean 返回类型 
 	* @throws
 	 */
-	boolean relevanceRecommended(int type,String cityCode,int resourceId[])throws Exception;
+	boolean relevanceRecommended(int type,int cityCode,int resourceId[])throws Exception;
+	
+	boolean relevanceRecommended(List<RelevanceRecommended> list )throws Exception;
 	
 	/**
 	* @Title: selectRegion 
@@ -105,7 +113,7 @@ public interface TripService {
 	* @return List<RegionDO> 返回类型 
 	* @throws
 	 */
-	List<RegionDO> selectRegion(int type);
+	PageVO<RegionDO> selectRegion(TripBoQuery tripBoQuery);
 	
 	/**
 	* @Title: selectScenicDO 
@@ -117,7 +125,7 @@ public interface TripService {
 	* @return PageVO<ScenicDO> 返回类型 
 	* @throws
 	 */
-	PageVO<ScenicDO> selectScenicDO(ScenicPageQuery scenicPageQuery) throws Exception;
+	PageVO<ScenicDO> selectScenicDO(ScenicListQuery scenicPageQuery) throws Exception;
 	
 	/**
 	* @Title: getListShowCaseResult 
@@ -140,7 +148,7 @@ public interface TripService {
 	* @return List<RegionIntroduceDO> 返回类型 
 	* @throws
 	 */
-	List<RegionIntroduceDO> getListDestinationShowCaseResult(int type,String cityCode);
+	PageVO<RegionIntroduceDO> getPageRegionIntroduceDO(RegionIntroduceQuery regionIntroduceQuery);
 	
 	/**
 	* @Title: selecthotelDO 
@@ -166,4 +174,16 @@ public interface TripService {
 	 */
 	boolean blockOrUnBlock(long id,int cityCode,int type)throws Exception;
 	
+	
+	List<RegionDO> selectRegion(int type);
+	
+	/**
+	* @Title: getPageSnsSubjectDO 
+	* @Description:(获取直播列表) 
+	* @author create by yushengwei @ 2015年12月29日 上午11:47:33 
+	* @param @return 
+	* @return PageVO<SnsSubjectDO> 返回类型 
+	* @throws
+	 */
+	PageVO<SnsSubjectDO> getPageSnsSubjectDO(SubjectInfoDTO subjectInfoDTO);
 }

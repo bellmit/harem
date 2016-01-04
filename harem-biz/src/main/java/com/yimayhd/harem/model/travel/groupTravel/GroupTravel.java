@@ -11,12 +11,12 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
-import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
@@ -30,43 +30,50 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
  *
  */
 public class GroupTravel extends BaseTravel {
+	private long routeId;
 	private List<TripDay> tripInfo;// 行程信息
+	private Set<Long> updatedRouteItems;
+	private Set<Long> deletedRouteItems;
 
 	@Override
 	protected void parseTripInfo(LineResult lineResult) {
+		RouteDO routeDO = lineResult.getRouteDO();
+		if (routeDO != null) {
+			this.routeId = routeDO.getId();
+		}
 		List<TripDay> tripDays = new ArrayList<TripDay>();
 		Set<Integer> days = new HashSet<Integer>();
-		Map<Integer, String> desMap = new HashMap<Integer, String>();
-		Map<Integer, RouteTrafficInfo> trafficMap = new HashMap<Integer, RouteTrafficInfo>();
-		Map<Integer, RouteItemDesc> breakfastMap = new HashMap<Integer, RouteItemDesc>();
-		Map<Integer, RouteItemDesc> lunchMap = new HashMap<Integer, RouteItemDesc>();
-		Map<Integer, RouteItemDesc> dinnerMap = new HashMap<Integer, RouteItemDesc>();
-		Map<Integer, RouteItemDesc> scenicMap = new HashMap<Integer, RouteItemDesc>();
-		Map<Integer, RouteItemDesc> hotelMap = new HashMap<Integer, RouteItemDesc>();
-		Map<Integer, RouteItemDetail> restaurantDetailMap = new HashMap<Integer, RouteItemDetail>();
-		Map<Integer, RouteItemDetail> scenicDetailMap = new HashMap<Integer, RouteItemDetail>();
-		Map<Integer, RouteItemDetail> hotelDetailMap = new HashMap<Integer, RouteItemDetail>();
+		Map<Integer, RouteItemDO> desMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> trafficMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> breakfastMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> lunchMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> dinnerMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> scenicMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> hotelMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> restaurantDetailMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> scenicDetailMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDO> hotelDetailMap = new HashMap<Integer, RouteItemDO>();
 		List<RouteItemDO> routeItems = lineResult.getRouteItemDOList();
 		if (CollectionUtils.isNotEmpty(routeItems)) {
 			for (RouteItemDO routeItem : routeItems) {
 				days.add(routeItem.getDay());
 				if (routeItem.getType() == RouteItemBizType.DESCRIPTION.getType()) {
-					desMap.put(routeItem.getDay(), routeItem.getDescription());
+					desMap.put(routeItem.getDay(), routeItem);
 				} else if (routeItem.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
-					trafficMap.put(routeItem.getDay(), routeItem.getRouteTrafficInfo());
+					trafficMap.put(routeItem.getDay(), routeItem);
 				} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
 					RouteItemDesc desc = routeItem.getRouteItemDesc();
 					if (desc != null) {
 						if (RouteItemType.BREAKFAST.name().equals(desc.getType())) {
-							breakfastMap.put(routeItem.getDay(), desc);
+							breakfastMap.put(routeItem.getDay(), routeItem);
 						} else if (RouteItemType.LUNCH.name().equals(desc.getType())) {
-							lunchMap.put(routeItem.getDay(), desc);
+							lunchMap.put(routeItem.getDay(), routeItem);
 						} else if (RouteItemType.DINNER.name().equals(desc.getType())) {
-							dinnerMap.put(routeItem.getDay(), desc);
+							dinnerMap.put(routeItem.getDay(), routeItem);
 						} else if (RouteItemType.SCENIC.name().equals(desc.getType())) {
-							scenicMap.put(routeItem.getDay(), desc);
+							scenicMap.put(routeItem.getDay(), routeItem);
 						} else if (RouteItemType.HOTEL.name().equals(desc.getType())) {
-							hotelMap.put(routeItem.getDay(), desc);
+							hotelMap.put(routeItem.getDay(), routeItem);
 						}
 					}
 				} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
@@ -74,11 +81,11 @@ public class GroupTravel extends BaseTravel {
 					RouteItemDetail detail = routeItem.getRouteItemDetail();
 					if (detail != null) {
 						if (RouteItemType.RESTAURANT.name().equals(detail.getType())) {
-							restaurantDetailMap.put(routeItem.getDay(), detail);
+							restaurantDetailMap.put(routeItem.getDay(), routeItem);
 						} else if (RouteItemType.SCENIC.name().equals(detail.getType())) {
-							scenicDetailMap.put(routeItem.getDay(), detail);
+							scenicDetailMap.put(routeItem.getDay(), routeItem);
 						} else if (RouteItemType.HOTEL.name().equals(detail.getType())) {
-							hotelDetailMap.put(routeItem.getDay(), detail);
+							hotelDetailMap.put(routeItem.getDay(), routeItem);
 						}
 					}
 				}
@@ -109,36 +116,158 @@ public class GroupTravel extends BaseTravel {
 
 	@Override
 	public void setRouteInfo(LinePublishDTO dto) {
+		RouteDO routeVO = new RouteDO();
+		RouteDO routeDTO = this.modifyRouteDO(routeVO);
+		dto.setRouteDO(routeDTO);
+		List<RouteItemDO> routeItemDOList = this.getRouteItemDOList();
+		dto.setRouteItemDOList(routeItemDOList);
+	}
+
+	@Override
+	protected void modifyRouteInfo(LinePublishDTO dto, LineResult lineResult) {
+		// RouteDO
+		RouteDO routeDO = lineResult.getRouteDO();
+		RouteDO routeDTO = this.modifyRouteDO(routeDO);
+		dto.setRouteDO(routeDTO);
+		// RouteItemDO List
+		// SKU分离
+		List<RouteItemDO> routeItemVOs = this.getRouteItemDOList();
+		Map<Long, RouteItemDO> routeItemVOMap = new HashMap<Long, RouteItemDO>();
+		for (RouteItemDO routeItemVO : routeItemVOs) {
+			if (routeItemVO.getId() > 0) {
+				routeItemVOMap.put(routeItemVO.getId(), routeItemVO);
+			}
+		}
+		List<RouteItemDO> routeItemDOs = lineResult.getRouteItemDOList();
+		Map<Long, RouteItemDO> routeItemDOMap = new HashMap<Long, RouteItemDO>();
+		for (RouteItemDO routeItemDO : routeItemDOs) {
+			routeItemDOMap.put(routeItemDO.getId(), routeItemDO);
+		}
+		List<RouteItemDO> addRouteItemList = new ArrayList<RouteItemDO>();
+		List<RouteItemDO> updateRouteItemList = new ArrayList<RouteItemDO>();
+		List<Long> deleteRouteItemList = new ArrayList<Long>();
+		if (CollectionUtils.isNotEmpty(routeItemVOs)) {
+			// 新增
+			for (RouteItemDO routeItemDO : routeItemVOs) {
+				if (routeItemDO.getId() <= 0) {
+					// 新增的没有RouteId要补上
+					routeItemDO.setRouteId(routeDTO.getId());
+					addRouteItemList.add(routeItemDO);
+				}
+			}
+			// 删除
+			if (CollectionUtils.isNotEmpty(this.deletedRouteItems)) {
+				deleteRouteItemList.addAll(this.deletedRouteItems);
+			}
+			// 修改
+			if (CollectionUtils.isNotEmpty(this.updatedRouteItems)) {
+				updatedRouteItems.removeAll(this.deletedRouteItems);
+				for (long routeItemId : updatedRouteItems) {
+					if (routeItemId > 0) {
+						RouteItemDO routeItemVO = routeItemVOMap.get(routeItemId);
+						RouteItemDO routeItemDO = routeItemDOMap.get(routeItemId);
+						if (routeItemVO != null && routeItemDO != null) {
+							// 更新
+							routeItemDO.setDay(routeItemVO.getDay());
+							routeItemDO.setName(routeItemVO.getName());
+							routeItemDO.setOrderNum(routeItemVO.getOrderNum());
+							routeItemDO.setType(routeItemVO.getType());
+							if (routeItemVO.getType() == RouteItemBizType.DESCRIPTION.getType()) {
+								routeItemDO.setDescription(routeItemVO.getDescription());
+							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
+								routeItemDO.setRouteTrafficInfo(routeItemVO.getRouteTrafficInfo());
+							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
+								routeItemDO.setRouteItemDesc(routeItemVO.getRouteItemDesc());
+							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
+								routeItemDO.setRouteItemDetail(routeItemVO.getRouteItemDetail());
+							}
+							routeItemDO.setStatus(routeItemVO.getStatus());
+							updateRouteItemList.add(routeItemDO);
+						} else {
+							throw new BaseException("更新RouteItem时，检查数据一致性出错: RouteItemId={0}", routeItemId);
+						}
+					}
+				}
+			}
+		}
+		dto.setAddRouteItemList(addRouteItemList);
+		dto.setUpdrouteItemList(updateRouteItemList);
+		dto.setDelRouteItemList(deleteRouteItemList);
+	}
+
+	/**
+	 * 编辑RouteDO
+	 * 
+	 * @param routeDO
+	 * @return
+	 */
+	private RouteDO modifyRouteDO(RouteDO routeDO) {
+		routeDO.setId(this.routeId);
+		routeDO.setPicture(this.baseInfo.getTripImage());
+		return routeDO;
+	}
+
+	/**
+	 * 获取RouteItemDOList
+	 * 
+	 * @return
+	 */
+	private List<RouteItemDO> getRouteItemDOList() {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
 		for (int i = 1; i <= this.tripInfo.size(); i++) {
 			TripDay tripDay = this.tripInfo.get(i - 1);
 			// 交通
-			// 交通
-			routeItemDOList.add(tripDay.getRouteItemTrafficInfo(i));
+			RouteItemDO routeItemTrafficInfo = tripDay.getRouteItemTrafficInfo(i);
+			if (routeItemTrafficInfo != null) {
+				routeItemDOList.add(routeItemTrafficInfo);
+			}
 			// 描述
-			routeItemDOList.add(tripDay.getRouteItemDescription(i));
+			RouteItemDO routeItemDescription = tripDay.getRouteItemDescription(i);
+			if (routeItemDescription != null) {
+				routeItemDOList.add(routeItemDescription);
+			}
 			// 早餐
-			routeItemDOList.add(tripDay.getRouteItemBreakfast(i));
+			RouteItemDO routeItemBreakfast = tripDay.getRouteItemBreakfast(i);
+			if (routeItemBreakfast != null) {
+				routeItemDOList.add(routeItemBreakfast);
+			}
 			// 午餐
-			routeItemDOList.add(tripDay.getRouteItemLunch(i));
+			RouteItemDO routeItemLunch = tripDay.getRouteItemLunch(i);
+			if (routeItemLunch != null) {
+				routeItemDOList.add(routeItemLunch);
+			}
 			// 晚餐
-			routeItemDOList.add(tripDay.getRouteItemDinner(i));
-			// 餐厅详情
-			routeItemDOList.add(tripDay.getRouteItemRestaurantDetail(i));
+			RouteItemDO routeItemDinner = tripDay.getRouteItemDinner(i);
+			if (routeItemDinner != null) {
+				routeItemDOList.add(routeItemDinner);
+			}
 			// 景区
-			routeItemDOList.add(tripDay.getRouteItemScenic(i));
-			// 景区详情
-			routeItemDOList.add(tripDay.getRouteItemScenicDetail(i));
+			RouteItemDO routeItemScenic = tripDay.getRouteItemScenic(i);
+			if (routeItemScenic != null) {
+				routeItemDOList.add(routeItemScenic);
+			}
 			// 酒店
-			routeItemDOList.add(tripDay.getRouteItemHotel(i));
+			RouteItemDO routeItemHotel = tripDay.getRouteItemHotel(i);
+			if (routeItemHotel != null) {
+				routeItemDOList.add(routeItemHotel);
+			}
+			// 餐厅详情
+			RouteItemDO routeItemRestaurantDetail = tripDay.getRouteItemRestaurantDetail(i);
+			if (routeItemRestaurantDetail != null) {
+				routeItemDOList.add(routeItemRestaurantDetail);
+			}
+			// 景区详情
+			RouteItemDO routeItemScenicDetail = tripDay.getRouteItemScenicDetail(i);
+			if (routeItemScenicDetail != null) {
+				routeItemDOList.add(routeItemScenicDetail);
+			}
 			// 酒店详情
-			routeItemDOList.add(tripDay.getRouteItemHotelDetail(i));
-
+			RouteItemDO routeItemHotelDetail = tripDay.getRouteItemHotelDetail(i);
+			if (routeItemHotelDetail != null) {
+				routeItemDOList.add(routeItemHotelDetail);
+			}
 		}
-		dto.setRouteItemDOList(routeItemDOList);
-		RouteDO routeDO = new RouteDO();
-		routeDO.setPicture(this.baseInfo.getTripImage());
-		dto.setRouteDO(routeDO);
+		return routeItemDOList;
 	}
 
 	@Override
@@ -146,4 +275,27 @@ public class GroupTravel extends BaseTravel {
 		return ItemType.LINE.getValue();
 	}
 
+	public long getRouteId() {
+		return routeId;
+	}
+
+	public void setRouteId(long routeId) {
+		this.routeId = routeId;
+	}
+
+	public Set<Long> getUpdatedRouteItems() {
+		return updatedRouteItems;
+	}
+
+	public void setUpdatedRouteItems(Set<Long> updatedRouteItems) {
+		this.updatedRouteItems = updatedRouteItems;
+	}
+
+	public Set<Long> getDeletedRouteItems() {
+		return deletedRouteItems;
+	}
+
+	public void setDeletedRouteItems(Set<Long> deletedRouteItems) {
+		this.deletedRouteItems = deletedRouteItems;
+	}
 }

@@ -1,5 +1,6 @@
 package com.yimayhd.harem.model;
 
+import com.yimayhd.harem.util.NumUtil;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
@@ -17,27 +18,35 @@ public class ScenicVO extends ScenicDO {
     private MasterRecommend masterRecommend;
     private String picListStr;//图片集的str
     private String picturesStr;//详情页展示图(对应pictures)
-
+    private double priceY;//价格元
+    private String coverPics;//封面大图String
 
     private NeedKnow needKnowOb;
 
     public static ScenicDO getScenicDO(ScenicVO scenicVO){
         ScenicDO scenicDO = new ScenicVO();
         BeanUtils.copyProperties(scenicVO, scenicDO);
-        //masterRecommend
         //pictures
         if(StringUtils.isNotBlank(scenicVO.getPicturesStr())){
             scenicDO.setPictures(Arrays.asList(scenicVO.getPicturesStr().split("\\|")));
         }
+        if(StringUtils.isNotBlank(scenicVO.getCoverPics())){
+        	List<String> pic = Arrays.asList(scenicVO.getCoverPics().split("\\|"));
+            scenicDO.setPictures(pic);
+            scenicDO.setCoverUrl(pic.get(0));
+        }
         //NeedKnowOb 在serviceImpl中处理
         //图片集处理(因为有outId还是,只处理新增的)
-
+        //元转分
+        scenicDO.setPrice((long) (scenicVO.getPriceY() * 100));
 
         return scenicDO;
     }
     public static ScenicVO getScenicVO(ScenicDO scenicDO){
         ScenicVO scenicVO = new ScenicVO();
         BeanUtils.copyProperties(scenicDO,scenicVO);
+        //分转元
+        scenicVO.setPriceY(NumUtil.moneyTransformDouble(scenicVO.getPrice()));
         return scenicVO;
     }
 
@@ -72,4 +81,19 @@ public class ScenicVO extends ScenicDO {
     public void setPicturesStr(String picturesStr) {
         this.picturesStr = picturesStr;
     }
+	public double getPriceY() {
+		return priceY;
+	}
+	public void setPriceY(double priceY) {
+		this.priceY = priceY;
+	}
+	public String getCoverPics() {
+		return coverPics;
+	}
+	public void setCoverPics(String coverPics) {
+		this.coverPics = coverPics;
+	}
+    
+	
+    
 }

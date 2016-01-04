@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
@@ -36,13 +37,10 @@
             <a href="#restaurantInfo" data-toggle="tab">餐厅信息</a>
         </li>
         <li>
-            <a href="#restaurantDetailDiv" data-toggle="tab">餐厅详情</a>
-        </li>
-        <li>
             <a href="#restaurantImgs" data-toggle="tab">图片集</a>
         </li>
     </ul>
-    <div class="tab-content grogInfoWrap" style="">
+    <div class="tab-content grogInfoWrap">
         <div class="tab-pane active" id="restaurantInfo">
             <div class="createHotrlTable">
                 <table class="table">
@@ -51,28 +49,28 @@
                         <td><span class="spColor">*</span>餐厅名称</td>
                         <td>
                             #if($!{restaurant.id})
-                                <input type="hidden" name="restaurant.id" value="$!{restaurant.id}">
+                                <input type="hidden" name="id" value="$!{restaurant.id}">
                             #end
-                            <input type="text" class="inpCtlBlock" name="restaurant.name" id="name" placeholder="请输入20个字以内" value="$!{restaurant.name}">
+                            <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内" value="$!{restaurant.name}">
 						</td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>区域</td>
                         <td>
                             <div class="selectList">
-                            <input type="hidden" id="provinceSelectName" name="restaurant.locationProvinceName" value="$!{restaurant.locationProvinceName}">
-                            <select id="provinceId" class="selCity inpControl provinceSelect" name="restaurant.locationProvinceId" areaType="PROVINCE">
+                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{restaurant.locationProvinceName}">
+                            <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
                                 <option value="$!{restaurant.locationProvinceId}">#if(! $restaurant.locationProvinceName)请选择省份#else$!{restaurant.locationProvinceName}#end</option>
                             </select>
-                            <input type="hidden" id="citySelectName" name="restaurant.locationCityName" value="$!{restaurant.locationCityName}">
-                            <select id="cityId" class="selCity inpControl citySelect" name="restaurant.locationCityId" areaType="CITY">
+                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!{restaurant.locationCityName}">
+                            <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
                                 <option value="$!{restaurant.locationCityId}">#if(! $restaurant.locationCityName)请选择城市#else$!{restaurant.locationProvinceName}#end</option>
                             </select>
-                            <input type="hidden" id="countySelectName" name="restaurant.locationTownName" value="$!{restaurant.locationTownName}">
-                            <select id="countyId" name="restaurant.locationTownId" class="selCity inpControl countySelect" areaType="COUNTY">
+                            <input type="hidden" id="countySelectName" name="locationTownName" value="$!{restaurant.locationTownName}">
+                            <select id="countyId" name="locationTownId" class="selCity inpControl countySelect" areaType="COUNTY">
                                 <option value="$!{restaurant.locationTownId}">#if(! $restaurant.locationTownName)请选择区县#else$!{restaurant.locationTownName}#end</option>
                             </select>	
-                                <input type="text" class="inpControl" name="restaurant.locationText" id="locationText" placeholder="请输入100个字以内" value="$!{restaurant.locationText}">
+                                <input type="text" class="inpControl" name="locationText" id="locationText" placeholder="请输入100个字以内" value="$!{restaurant.locationText}">
                             </div>
                         </td>
                     </tr>
@@ -80,28 +78,28 @@
                         <td><span class="spColor">*</span>地址经纬度</td>
                         <td>
 							<span>经度</span>
-							<input type="text" name="restaurant.locationX" id="locationX" class="inpControl getAddress" value="$!{restaurant.locationX}">
+							<input type="text" name="locationX" id="locationX" class="inpControl getAddress" value="$!{restaurant.locationX}">
                             <span>维度</span>
-							<input type="text" name="restaurant.locationY" id="locationY" class="inpControl getAddress" value="$!{restaurant.locationY}">
+							<input type="text" name="locationY" id="locationY" class="inpControl getAddress" value="$!{restaurant.locationY}">
                             <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                             <code>点击查找经纬度可自动获取</code></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>餐厅简介</td>
-                        <td><textarea name="restaurant.oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{restaurant.oneword}</textarea></td>
+                        <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{restaurant.oneword}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
-                        <td><textarea name="restaurant.description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{restaurant.description}</textarea></td>
+                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{restaurant.description}</textarea></td>
                     </tr>
 
                     <tr>
                         <td>餐厅联系人</td>
                         <td>
                             <span>姓名</span>
-							<input type="text" name="restaurant.contactPerson" class="inpControl" value="$!{restaurant.contactPerson}">
+							<input type="text" name="contactPerson" class="inpControl" value="$!{restaurant.contactPerson}">
                             <span>电话</span>
-							<input type="text" name="restaurant.contactPhone" class="inpControl" value="$!{restaurant.contactPhone}">
+							<input type="text" name="contactPhone" class="inpControl" value="$!{restaurant.contactPhone}">
                         </td>
                     </tr>
                     <tr>
@@ -110,41 +108,48 @@
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
                       		  <input type="text" name="recommend.title"  class="inpControl"
                                    value="#if(! $!recommend.title)大咖推荐#else$!recommend.title#end">
-                            <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end"
+                            <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic #end"
                                  alt="头像" class="img-circle grogUserLogo" id="userImg">
-                                 <span id="recommendNameT"></span>
+                                 <span id="recommendNameT">$!{recommend.name}</span>
                             <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
-							#if($!{recommend.id})
                             <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
-							#end
-							#if($!{recommend.userId})
 							<input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
-							#end
-							#if($!{recommend.userPic})
 							<input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}" >
-                            #end
-							#if($!{recommend.name})
-							<input type="hidden" id="recommendName" name="recommend.name" value="$!{recommend.name}" >
-							#end
+							<input type="hidden" id="recommendName" name="recommend.name" value="$!{recommend.name}">
+						
                         </td>
                     </tr>
-					
+					<tr>
+                        <td><span class="spColor">*</span>列表页展示图</td>
+                        <td>
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="logoUrl" value="$!{restaurant.logoUrl}" id="logoUrlUploadFileReturnInput" >
+                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+                                <p>注：图片大小不超过2M<br />建议尺寸：300*300</p>
+                            </div>
+	                    <div class="logoView"> 
+	                        <img src="#if($restaurant.logoUrl) $utilWebconfig.getTfsRootPath()$!{restaurant.logoUrl} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg">
+	                    </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><span class="spColor">*</span>详情页展示图</td>
+                        <td class="picUrlsTd">
+                            <input id="batchUploadBtn1" type="file" multiple="multiple" >
+                            #foreach($pictures in $restaurant.pictures)
+                               <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
+                            #end
+                        </td>
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!coverPics">
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="tab-pane" id="restaurantDetailDiv">
-            <script type="text/javascript">
-                $(function() {
-                    window.UEDITOR_HOME_URL = "/resources/ueditor/";
-                    var ue = UE.getEditor('editor');
-                });
-            </script>
-            <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
-        </div>
         <div class="tab-pane" id="restaurantImgs">
-				 #parse("/system/restaurant/picture.vm")
+			#parse("/system/restaurant/picture.vm")
         </div>
     </div>
 
@@ -153,7 +158,28 @@
 </div>
 
 <script>
-
+    $(document).delegate("#batchUploadBtn1",'change',function()	{
+    	fileUpload('#batchUploadBtn1',2,function(dataVal) {
+    		for(var key in dataVal.data) {
+    			$('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt=""><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>');
+    		}
+        });
+    })
+	
+	$(document).delegate('#logoUrlUploadFile','change',function(){
+        fileUpload('#logoUrlUploadFile',1,function(data){
+            if(data && data.status==200){
+                $('#logoUrlUploadFileReturnInput').val(data.data);
+                $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+            }else{
+                layer.alert('上传失败');
+            }
+        });
+    });
+	function delPic(obj) {
+        $(obj).prev().remove();
+        $(obj).remove();
+    }
     var mapCallback = function (data) {
         if (data) {
             $("#locationX").val(data['pointX']);
@@ -185,62 +211,60 @@
 	var cityFlag = false;
 	var areaFlag = false;
 	
- 
-		$.ajaxSetup({
+ 	$.ajaxSetup({
 			async : false
 		});
 		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
-					{'areaType': 'PROVINCE',
-					 'areaParentCode': null}, 
-					function(data) {
-						if (data[0].name) {						
-							for (var i in data) {								
-								var code = data[i].code;
-								var name = data[i].name;
-								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
-								$("#provinceId").append(optionHTML);								
-							}
-							provinceFlag = true;
-						} else {
-							layer.alert('操作失败', {
-								icon: 2,
-								time: 2000
-							}, function() {
-								
-							});
-						}
-					});
-					
-		$('.provinceSelect').click(function() {
-			
+            {'areaType': 'PROVINCE',
+             'areaParentCode': null},
+            function(data) {
+                if (data&&data.status==200) {
+                	data = data.data;
+                    for (var i in data) {
+                        var code = data[i].code;
+                        var name = data[i].name;
+                        var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+                        $("#provinceId").append(optionHTML);
+                    }
+                    provinceFlag = true;
+                } else {
+                    layer.alert('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    }, function() {
+
+                    });
+                }
+            });
+	$('.provinceSelect').click(function() {
 			if (provinceFlag) {
 				return;
 			}
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
-					{'areaType': $(this).attr("areaType"),
-					 'areaParentCode': null}, 
-					function(data) {
-						if (data[0].name) {
-							for (var i in data) {
-								var code = data[i].code;
-								var name = data[i].name;
-								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
-								$("#provinceId").append(optionHTML);
-							}
-							provinceFlag = true;
-						} else {
-							layer.alert('操作失败', {
-								icon: 2,
-								time: 2000
-							}, function() {
-								
-							});
-						}
-					});
+                {'areaType': $(this).attr("areaType"),
+                 'areaParentCode': null},
+                function(data) {
+                     if (data&&data.status==200) {
+                		data = data.data;
+                        for (var i in data) {
+                            var code = data[i].code;
+                            var name = data[i].name;
+                            var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+                            $("#provinceId").append(optionHTML);
+                        }
+                        provinceFlag = true;
+                    } else {
+                        layer.alert('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        }, function() {
+
+                        });
+                    }
+                });
 		});
         //地址选择
-        $('.provinceSelect').change(function(){            
-			
+        $('.provinceSelect').change(function(){
 			if($('.provinceSelect option:selected')){
                 $('#provinceSelectName').val($('.provinceSelect option:selected').text());
             }
@@ -250,80 +274,78 @@
 				$("#cityId").empty();
 				$("#cityId").append('<option value="">请选择城市</option>');
 			}
-				//清空所有子元素
+            //清空所有子元素
 			if (parseInt($("#countyId").children().length) > 1) {
 				$("#countyId").empty();
 				$("#countyId").append('<option value="">请选择城市</option>');
 			}
 			
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
-					{'areaType': 'CITY',
-					 'areaParentCode': $('.provinceSelect option:selected').attr("value")}, 
-					
-					function(data) {
-						if (data[0].name) {
-							
-							for (var i in data) {
-								var code = data[i].code;
-								var name = data[i].name;
-								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
-								$("#cityId").append(optionHTML);
-							}
-							provinceFlag = true;
-						} else {
-							layer.alert('操作失败', {
-								icon: 2,
-								time: 2000
-							}, function() {
-								
-							});
-						}
-					});
-			
+                {'areaType': 'CITY',
+                 'areaParentCode': $('.provinceSelect option:selected').attr("value")},
+
+                function(data) {
+                    if (data&&data.status==200) {
+                		data = data.data;
+                        for (var i in data) {
+                            var code = data[i].code;
+                            var name = data[i].name;
+                            var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+                            $("#cityId").append(optionHTML);
+                        }
+                        provinceFlag = true;
+                    } else {
+                        layer.alert('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        }, function() {
+
+                        });
+                    }
+                });
         });
         $('.citySelect').change(function(){
             if($('.citySelect option:selected')){
                 $('#citySelectName').val($('.citySelect option:selected').text());
             }
             
-            	//清空所有子元素
+            //清空所有子元素
 			if (parseInt($("#countyId").children().length) > 1) {
 				$("#countyId").empty();
 				$("#countyId").append('<option value="">请选择城市</option>');
 			}
 			
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
-					{'areaType': 'COUNTY',
-					 'areaParentCode': $('.citySelect option:selected').attr("value")}, 
-					
-					function(data) {
-						if (data[0].name) {
-							
-							for (var i in data) {
-								var code = data[i].code;
-								var name = data[i].name;
-								var optionHTML = '<option value="'+ code +'">'+name+'</option>';
-								$("#countyId").append(optionHTML);
-							}
-							provinceFlag = true;
-						} else {
-							layer.alert('操作失败', {
-								icon: 2,
-								time: 2000
-							}, function() {
-								
-							});
-						}
-					});
+                {'areaType': 'COUNTY',
+                 'areaParentCode': $('.citySelect option:selected').attr("value")},
+
+                function(data) {
+                     if (data&&data.status==200) {
+                		data = data.data;
+                        for (var i in data) {
+                            var code = data[i].code;
+                            var name = data[i].name;
+                            var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+                            $("#countyId").append(optionHTML);
+                        }
+                        provinceFlag = true;
+                    } else {
+                        layer.alert('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        }, function() {
+
+                        });
+                    }
+                });
         });
         
         $('.countySelect').change(function(){
-            
 			if($('.countySelect option:selected')){
                 $('#countySelectName').val($('.countySelect option:selected').text());
             }
 						
-        });	                 
+        });	      
 
         $('.locationXYSelectBtn').click(function () {
             openBaiduMap(115.727899, 37.723961, mapCallback);
@@ -332,13 +354,13 @@
       	        /*提交**/
         $("#restaurantForm").validate({
             rules: {
-                'name': {
+                'restaurant.name': {
                     required: true
                 }
             },
             messages: {
-                'scenic.name': {
-                    required: "请填写"
+                'restaurant.name': {
+                    required: "请填写餐厅名称"
                 }
             },
             errorPlacement: function (error, element) { // 指定错误信息位置
@@ -352,6 +374,16 @@
                 }
             },
             submitHandler: function (form) {
+				//图片列表
+                var picUrls = '';
+                $('.picUrlsUrl').each(function(){
+                    if(picUrls){
+                        picUrls += '|' + $(this).attr('imgUrl');
+                    }else{
+                        picUrls += $(this).attr('imgUrl');
+                    }
+                });
+                $('.picUrlsVal').val(picUrls);
                 var options = {
                     url: actionDefaultPath + "/B2C/restaurantManage/save",
                     type: "post",

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.service.CategoryService;
-import com.yimayhd.harem.util.LogUtil;
+import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
@@ -23,9 +23,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryDO> getCategoryDOList() {
-		LogUtil.requestLog(log, "categoryServiceRef.getCategoryList");
+		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryList");
 		CategoryQryResult categoryQryResult = categoryServiceRef.getCategoryList();
-		LogUtil.resultLog(log, "categoryServiceRef.getCategoryList", categoryQryResult);
+		RepoUtils.resultLog(log, "categoryServiceRef.getCategoryList", categoryQryResult);
 		// TODO
 		return categoryQryResult.getCategroyDOList();
 		/*
@@ -40,9 +40,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryDO> getCategoryDOList(long parentId) {
-		LogUtil.requestLog(log, "categoryServiceRef.getCategoryChildren", parentId);
+		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryChildren", parentId);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(parentId);
-		LogUtil.resultLog(log, "categoryServiceRef.getCategoryChildren", categoryResult);
+		RepoUtils.resultLog(log, "categoryServiceRef.getCategoryChildren", categoryResult);
 		if (categoryResult == null || categoryResult.getCategroyDO() == null) {
 			return null;
 		}
@@ -60,9 +60,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public CategoryDO getCategoryDOById(long id) {
-		LogUtil.requestLog(log, "categoryServiceRef.getCategory", id);
+		RepoUtils.requestLog(log, "categoryServiceRef.getCategory", id);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
-		LogUtil.resultLog(log, "categoryServiceRef.getCategory", categoryResult);
+		RepoUtils.resultLog(log, "categoryServiceRef.getCategory", categoryResult);
 		return categoryResult.getCategroyDO();
 	}
 

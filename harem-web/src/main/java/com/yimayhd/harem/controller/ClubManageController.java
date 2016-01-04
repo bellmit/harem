@@ -1,7 +1,9 @@
 package com.yimayhd.harem.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.yimayhd.harem.base.BaseQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +21,14 @@ import com.yimayhd.harem.model.BatchSetUpParameter;
 import com.yimayhd.harem.model.Club;
 import com.yimayhd.harem.model.ClubAdd;
 import com.yimayhd.harem.model.User;
+import com.yimayhd.harem.model.query.ClubInfo;
 import com.yimayhd.harem.model.query.ClubListQuery;
 import com.yimayhd.harem.service.ClubService;
 import com.yimayhd.harem.service.UserRPCService;
+import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
+import com.yimayhd.snscenter.client.dto.ClubInfoAddDTO;
 
 //import com.yimayhd.service.MessageCodeService;
 
@@ -48,10 +53,21 @@ public class ClubManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, ClubListQuery query) throws Exception {
-		List<ClubDO>  clubList = clubService.getList(query);
+	public String list(Model model, ClubDOInfoDTO query, Integer pageNumber,Integer pageSize) throws Exception {
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		} else {
+			query.setPageNo(BaseQuery.DEFAULT_PAGE);
+		}
+		if(pageSize!= null) {
+			query.setPageSize(pageSize);
+		} else{
+			query.setPageSize(BaseQuery.DEFAULT_SIZE);
+		}
+		PageVO<ClubDO> pageVo = clubService.pageQueryClub(query);
 		model.addAttribute("clubListQuery", query);
-		model.addAttribute("clubList", clubList);
+		model.addAttribute("clubList", pageVo.getItemList());
+		model.addAttribute("pageVo", pageVo);
 		return "/system/club/list";
 	}
 
@@ -63,7 +79,7 @@ public class ClubManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getById(Model model, @PathVariable(value = "id") long id) throws Exception {
-		Club club = clubService.getById(id);
+		ClubInfoDO club = clubService.getClubInfoDOById(id);
 		model.addAttribute("club", club);
 		return "/system/club/detail";
 	}
@@ -87,13 +103,13 @@ public class ClubManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo add(ClubAdd clubAdd,@RequestParam("themeIds[]") List<Long> themeIds) throws Exception {
-		//String[] rr = request.getParameterValues("themeIds");
-		ClubAdd club = clubService.add(clubAdd,themeIds);
-		if(null == club ){
+	public ResponseVo add(ClubAdd clubAdd, @RequestParam("themeIds[]") List<Long> themeIds) throws Exception {
+		// String[] rr = request.getParameterValues("themeIds");
+		ClubAdd club = clubService.saveOrUpdate(clubAdd, themeIds);
+		if (null == club) {
 			return new ResponseVo(ResponseStatus.ERROR);
 		}
-			return new ResponseVo(ResponseStatus.SUCCESS);
+		return new ResponseVo(ResponseStatus.SUCCESS);
 	}
 
 	/**
@@ -104,7 +120,8 @@ public class ClubManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-		Club club = clubService.getById(id);
+		ClubInfo club = clubService.getClubInfoDOById(id);
+		model.addAttribute("thList", club.getListThemeId());
 		model.addAttribute("club", club);
 		return "/system/club/edit";
 	}
@@ -115,11 +132,15 @@ public class ClubManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseVo edit(ClubDOInfoDTO club) throws Exception {
-		clubService.modify(club);
-		return new ResponseVo();
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public @ResponseBody ResponseVo edit(@PathVariable(value = "id") long id,ClubAdd club,@RequestParam("themeIds[]") List<Long> themeIds) throws Exception {
+		club.setId(id);
+		ClubAdd dbClub = clubService.saveOrUpdate(club,themeIds);
+		if(null == dbClub){
+			return new ResponseVo(ResponseStatus.ERROR);
+		}else{
+			return new ResponseVo(ResponseStatus.SUCCESS);
+		}
 	}
 
 	/**
@@ -132,11 +153,11 @@ public class ClubManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo setJoinStatus(BatchSetUpParameter batchSetUpParameter, int status) throws Exception {
 		List<Long> ids = null;
-		if(null != batchSetUpParameter){
+		if (null != batchSetUpParameter) {
 			ids = batchSetUpParameter.getIds();
 		}
 		boolean flag = clubService.batchUpOrDownStatus(ids, status);
-		if(flag){
+		if (flag) {
 			return new ResponseVo(ResponseStatus.SUCCESS);
 		}
 		return new ResponseVo(ResponseStatus.ERROR);

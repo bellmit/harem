@@ -45,17 +45,21 @@ public class HomeManageController extends BaseController{
 
 	private void getResultVOs(Map<String, CfgResultVO> homeResults) {
 		
-		CfgResultVO vipList = homecfgService.getVipList();
+//		CfgResultVO vipList = homecfgService.getVipList();
 		CfgResultVO lineList = homecfgService.getLineList();
 		CfgResultVO travelKaList = homecfgService.getTravelKaList();
-		CfgResultVO cityList = homecfgService.getCityList();
-		CfgResultVO travelSpecialList = homecfgService.getTravelSpecialList();
+//		CfgResultVO cityList = homecfgService.getCityList();
+//		CfgResultVO travelSpecialList = homecfgService.getTravelSpecialList();
+
+//		CfgResultVO greatRecommentList = homecfgService.getGreatRecommentList(); // 精彩推荐
 		
-		homeResults.put("vipList", vipList);
-		homeResults.put("lineList", lineList);
+//		homeResults.put("vipList", vipList);
+		homeResults.put("lineList", lineList);  // 精彩推荐
 		homeResults.put("travelKaList", travelKaList);
-		homeResults.put("cityList", cityList);
-		homeResults.put("travelSpecialList", travelSpecialList);
+//		homeResults.put("cityList", cityList);
+//		homeResults.put("travelSpecialList", travelSpecialList);
+
+
 	}
 	
 	/**

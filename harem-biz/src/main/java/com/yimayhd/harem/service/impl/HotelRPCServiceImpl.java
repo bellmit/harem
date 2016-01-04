@@ -1,6 +1,5 @@
 package com.yimayhd.harem.service.impl;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
@@ -9,6 +8,7 @@ import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.PictureVO;
 import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.service.HotelRPCService;
+import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
@@ -20,6 +20,7 @@ import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ResourcePublishService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,16 @@ import java.util.List;
 public class HotelRPCServiceImpl implements HotelRPCService {
 
     @Autowired
-    private ItemQueryService itemQueryService;
+    private ItemQueryService itemQueryServiceRef;
 	
     @Autowired
-    private HotelService hotelService;
+    private HotelService hotelServiceRef;
 
 	@Autowired
 	private ResourcePublishService resourcePublishServiceRef;
+
+	@Autowired
+	private TfsService tfsService;
 
 	private static final Logger log = LoggerFactory.getLogger(HotelRPCServiceImpl.class);
 	@Override
@@ -76,7 +80,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			hotelPageQuery.setEndTime(DateUtil.add23Hours(endTime));
 		}
 		
-		ICPageResult<HotelDO> icPageResult = itemQueryService.pageQueryHotel(hotelPageQuery);
+		ICPageResult<HotelDO> icPageResult = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
     	List<HotelDO> hotelDOList = icPageResult.getList();
     	
     	PageVO<HotelDO> pageVo = new PageVO<HotelDO>(hotelPageQuery.getPageNo(), hotelPageQuery.getPageSize(), icPageResult.getTotalCount(), hotelDOList);
@@ -85,10 +89,10 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	}
 
 	@Override
-	public ICResult<Boolean> updateHotelStatus(HotelDO hotelDO) {
+	public ICResult<Boolean> updateHotelStatus(HotelDO hotelDO)throws Exception {
 
 		try {
-			return hotelService.updateHotelStatus(hotelDO);
+			return hotelServiceRef.updateHotelStatus(hotelDO);
 		} catch (Exception e) {
 			log.error("hotelService.updateHotelStatus(hotelDO) exception, hotelDO:" + hotelDO,e);
 		}
@@ -102,14 +106,18 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		ICResult<Boolean> result = new ICResult<Boolean>();
 
 		HotelDO hotelDO = HotelVO.getHotelDO(hotelVO);
+		//needKonw中的extraInfoUrl(富文本编辑)
+		if(StringUtils.isNotBlank(hotelDO.getNeedKnow().getExtraInfoUrl())){
+			hotelDO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(hotelDO.getNeedKnow().getExtraInfoUrl()));
+		}
 
-		ICResult<HotelDO> icResult = hotelService.addHotel(hotelDO);
+		ICResult<HotelDO> icResult = hotelServiceRef.addHotel(hotelDO);
 		if(icResult == null){
 			log.error("HotelRPCServiceImpl.addHotel-hotelService.addHotel result is null and parame: " + JSON.toJSONString(hotelDO));
 			throw new BaseException("返回结果为空，酒店资源新增失败");
 		}else if(!icResult.isSuccess()){
 			log.error("HotelRPCServiceImpl.addHotel-hotelService.addHotel error:" + JSON.toJSONString(icResult) + "and parame: " + JSON.toJSONString(hotelDO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
-			throw new BaseException("返回结果错误，图片集保存失败，" + icResult.getResultMsg());
+			throw new BaseException("返回结果错误，酒店资源新增失败，" + icResult.getResultMsg());
 		}
 		//图片集insert
 		if(org.apache.commons.lang.StringUtils.isNotBlank(hotelVO.getPicListStr())){
@@ -128,10 +136,10 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			ICResult<Boolean> icResultPic =  resourcePublishServiceRef.addPictures(picList);
 			if(null == icResultPic){
 				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew result is null and parame: " + JSON.toJSONString(picList));
-				throw new BaseException("景区资源保存成功，图片集保存返回结果为空，保存失败");
+				throw new BaseException("酒店资源保存成功，图片集保存返回结果为空，保存失败");
 			} else if(!icResultPic.isSuccess()){
 				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(icResultPic) + "and parame: " + JSON.toJSONString(picList) + "and hotelVO:" + JSON.toJSONString(hotelVO));
-				throw new BaseException("景区资源保存成功，图片集保存失败" + icResultPic.getResultMsg());
+				throw new BaseException("酒店资源保存成功，图片集保存失败" + icResultPic.getResultMsg());
 			}
 		}
 		result.setModule(icResult.isSuccess());
@@ -139,32 +147,84 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	}
 
 	@Override
-	public ICResult<Boolean> updateHotel(HotelVO hotelVO) {
-		
-		ICResult<Boolean> result = new ICResult<Boolean>();
-		HotelDO hotelDO = null;
-		ICResult<Boolean> icResult = new ICResult<Boolean>();
-		
+	public ICResult<Boolean> updateHotel(HotelVO hotelVO)throws Exception {
+		ICResult<HotelDO> icResultDB = itemQueryServiceRef.getHotel(hotelVO.getId());
+		if(icResultDB == null){
+			log.error("HotelRPCServiceImpl.updateHotel-hotelService.getHotel result is null and parame: " + hotelVO.getId());
+			throw new BaseException("返回结果为空，酒店资源修改失败");
+		}else if(!icResultDB.isSuccess()){
+			log.error("HotelRPCServiceImpl.updateHotel-hotelService.getHotel error:" + JSON.toJSONString(icResultDB) + "and parame: " + hotelVO.getId());
+			throw new BaseException("返回结果错误，酒店资源修改失败，" + icResultDB.getResultMsg());
+		}
+		HotelDO hotelDB = icResultDB.getModule();
 		//数据转换
-		try {
-			hotelDO = HotelVO.getHotelDO(hotelVO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		if (hotelDO != null) {
-			icResult = hotelService.updateHotel(hotelDO);
-		}
-		
-		result.setModule(icResult.isSuccess());		
-		return result;
+		HotelDO hotelDO = HotelVO.getHotelDO(hotelVO);
+		//对接
+
+		//酒店名称
+		hotelDB.setName(hotelDO.getName());
+		//选择地址
+		hotelDB.setLocationProvinceId(hotelDO.getLocationProvinceId());
+		hotelDB.setLocationProvinceName(hotelDO.getLocationProvinceName());
+		hotelDB.setLocationCityId(hotelDO.getLocationCityId());
+		hotelDB.setLocationCityName(hotelDO.getLocationCityName());
+		hotelDB.setLocationTownId(hotelDO.getLocationTownId());
+		hotelDB.setLocationTownName(hotelDO.getLocationTownName());
+		//星级
+		hotelDB.setLevel(hotelDO.getLevel());
+		//地址经纬度
+		hotelDB.setLocationX(hotelDO.getLocationX());
+		hotelDB.setLocationY(hotelDO.getLocationY());
+		//酒店电话
+		hotelDB.setPhoneNum(hotelDO.getPhoneNum());
+		//酒店简介
+		hotelDB.setDescription(hotelDO.getDescription());
+		//特色描述
+		hotelDB.setOneword(hotelDO.getOneword());
+		//基础价格
+		hotelDB.setPrice(hotelDO.getPrice());
+		//酒店联系人
+		hotelDB.setContactPerson(hotelDO.getContactPerson());
+		hotelDB.setContactPhone(hotelDO.getContactPhone());
+		//房间设施
+		hotelDB.setRoomFacility(hotelDO.getRoomFacility());
+		//特色服务
+		hotelDB.setRoomService(hotelDO.getRoomService());
+		//酒店设施
+		hotelDB.setHotelFacility(hotelDO.getHotelFacility());
+		//最晚到店时间
+		hotelDB.setOpenTime(hotelDO.getOpenTime());
+		//入住须知
+		hotelDB.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(hotelDO.getNeedKnow().getExtraInfoUrl()));
+		hotelDB.getNeedKnow().setFrontNeedKnow(hotelDO.getNeedKnow().getFrontNeedKnow());
+		//推荐理由
+		hotelDB.setRecommend(hotelDO.getRecommend());
+		//列表页展示图
+		hotelDB.setLogoUrl(hotelDO.getLogoUrl());
+		//详情页展示图
+		hotelDB.setPicturesString(hotelVO.getPicturesStr());
+
+
+		ICResult<Boolean> icResultUpdate = hotelServiceRef.updateHotel(hotelDO);
+
+		//图片集合处理 TODO
+		/*if(icResultUpdate == null){
+			log.error("HotelRPCServiceImpl.updateHotel-hotelService.updateHotel result is null and parame: " + JSON.toJSONString(hotelDB));
+			throw new BaseException("返回结果为空，酒店资源新增失败");
+		}else if(!icResultUpdate.isSuccess()){
+			log.error("HotelRPCServiceImpl.updateHotel-hotelService.updateHotel error:" + JSON.toJSONString(icResultUpdate) + "and parame: " + JSON.toJSONString(hotelDB) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+			throw new BaseException("返回结果错误，酒店资源新增失败，" + icResultUpdate.getResultMsg());
+		}*/
+
+
+		return null;
 	}
 
 	@Override
-	public HotelVO getHotel(long id) {
+	public HotelVO getHotel(long id)throws Exception {
 		
 		HotelVO hotelVO = null;
-		ICResult<HotelDO> icResult = itemQueryService.getHotel(id);
+		ICResult<HotelDO> icResult = itemQueryServiceRef.getHotel(id);
 		HotelDO hotelDO = icResult.getModule();
 		
 		try {
@@ -177,9 +237,9 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	}
 
 	@Override
-	public List<HotelFacilityVO> queryFacilities(int type) {
+	public List<HotelFacilityVO> queryFacilities(int type) throws Exception{
 		
-		ICPageResult<FacilityIconDO> icPageResult = itemQueryService.queryFacilities(type);
+		ICPageResult<FacilityIconDO> icPageResult = itemQueryServiceRef.queryFacilities(type);
 		List<FacilityIconDO> list = icPageResult.getList();		
 		List<HotelFacilityVO> resultList = new ArrayList<HotelFacilityVO>();
 		Iterator<FacilityIconDO> it = list.iterator();

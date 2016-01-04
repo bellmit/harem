@@ -26,6 +26,7 @@ import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -209,6 +210,8 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.setOneWord(itemDO.getOneWord());
             //商品价格
             itemDB.setPrice(itemDO.getPrice());
+            //商品库存
+            itemDB.setStockNum(itemDO.getStockNum());
             //商品图片
             if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
                 itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
@@ -220,7 +223,10 @@ public class CommodityServiceImpl implements CommodityService {
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
             }
-
+            //最晚到店时间列表(暂时只有酒店用)
+            if(CollectionUtils.isNotEmpty(itemVO.getOpenTimeList())){
+                itemDB.getItemFeature().put(ItemFeatureKey.LATEST_ARRIVE_TIME, itemVO.getOpenTimeList());
+            }
             hotelPublishDTO.setSort(itemVO.getSort());
             ICResult<Boolean> result = hotelServiceRef.updatePublishHotel(hotelPublishDTO);
             if (null == result) {
@@ -336,7 +342,7 @@ public class CommodityServiceImpl implements CommodityService {
             //参数类型匹配
             CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
             //设置itemDB
-            commonItemPublishDTO.setItemDO(itemDB);
+             commonItemPublishDTO.setItemDO(itemDB);
             //设置sku
             ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
             //商品名称
@@ -350,18 +356,18 @@ public class CommodityServiceImpl implements CommodityService {
             //价格
             itemDB.setPrice((long) (itemVO.getPriceY() * 100));
             //商品图片
-            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
-            }
             if(StringUtils.isNotBlank(itemVO.getBigListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getBigListPic());
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getBigListPic());
+            }
+            if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
             }
             if(StringUtils.isNotBlank(itemVO.getCoverPics())){
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
             }
             //自定义属性
-            itemDB.setItemProperties(itemVO.getItemProperties());
+            itemDB.setItemPropertyList(itemVO.getItemPropertyList());
             //TODO 排序
             //详细描述存tfs（富文本编辑）
             if(StringUtils.isNotBlank(itemVO.getDetailUrl())) {

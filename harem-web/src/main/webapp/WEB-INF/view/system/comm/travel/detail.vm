@@ -3,7 +3,9 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
 <!-- 富文本编辑 -->
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
@@ -50,6 +52,7 @@
     </div>
 	#if($categoryId == 6)
     <div class="tab-pane tripInfo" id="tripInfo">
+		<input type="hidden" value="$!{product.routeId}" id="route-id"/>
         #parse("/system/comm/travel/groupTravel/tripInfo.vm")
     </div>
 	#elseif($categoryId == 7)
@@ -86,7 +89,10 @@
 			options:$!{options},
             baseInfo:getBaseInfo(),
 			#if($categoryId == 6)
+			routeId:$("#route-id").val() || 0,
             tripInfo:getTripInfo(),
+			updatedRouteItems:getUpdatedRouteItems(),
+			deletedRouteItems:getDeletedRouteItems(),
             #elseif($categoryId == 7)
 			tripPackageInfo:getTripPackageInfo(),
             #end

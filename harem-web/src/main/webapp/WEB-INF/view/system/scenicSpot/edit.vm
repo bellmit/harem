@@ -30,7 +30,7 @@
                         <td><span class="spColor">*</span>景区名称</td>
                         <td>
                             #if($!{VO.scenic.id})
-                                <input type="hidden" name="scenic.id" value="$!{VO.scenic.id}">
+                                <input type="hidden" name="id" value="$!{VO.scenic.id}">
                             #end
                             <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内" value="$!{VO.scenic.name}">
                         </td>
@@ -59,11 +59,12 @@
                         <td>等级</td>
                         <td>
                             <select class="form-control {required:true}" id="level" name="level">
-                                <option>请选择</option>
-                                <option value="1"  #if($!{VO.scenic.level} == 1) selected #end>五星级</option>
-                                <option value="2" #if($!{VO.scenic.level} == 2) selected #end>四星级</option>
-                                <option value="3" #if($!{VO.scenic.level} == 3) selected #end>三星级</option>
-                                <option value="4" #if($!{VO.scenic.level} == 4) selected #end>连锁酒店</option>
+                                <option value="0">请选择</option>
+                                <option value="5"  #if($!{VO.scenic.level} == 5) selected #end>AAAAA</option>
+                                <option value="4" #if($!{VO.scenic.level} == 4) selected #end>AAAA</option>
+                                <option value="3" #if($!{VO.scenic.level} == 3) selected #end>AAA</option>
+                                <option value="2" #if($!{VO.scenic.level} == 2) selected #end>AA</option>
+                                <option value="1" #if($!{VO.scenic.level} == 1) selected #end>A</option>
                             </select>
                         </td>
                     </tr>
@@ -79,20 +80,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>景区电话</td>
-                        <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字" value="$!{VO.scenic.phoneNum}"></td>
+                        <td>景区电话</td>
+                        <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字" value="$!{VO.scenic.phoneNum[0]}"></td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>营业时间</td>
+                        <td>营业时间</td>
                         <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字" value="$!{VO.scenic.openTime}"></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>景区简介</td>
-                        <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.oneword}</textarea></td>
+                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
-                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
+                        <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.oneword}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>入园须知</td>
@@ -117,7 +118,7 @@
 
                                     #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
                                     <tr class="needKnow">
-                                        <td><input type="text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}"></td>
+                                        <td><input type="text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}"></td>
                                         <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea></td>
                                         <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
                                     </tr>
@@ -127,12 +128,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>退改规定</td>
-                        <td><textarea name="refundRule" id="refundRule" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.refundRule}</textarea></td>
-                    </tr>
-                    <tr>
                         <td><span class="spColor">*</span>基础价格</td>
-                        <td><input type="text" name="price" id="price" class="inpControl" value="$!{VO.scenic.price}">起
+                        <td>
+                        #set($price=$VO.scenic.price / 100.0) 
+                        	<input type="text" name="priceY" id="price" class="inpControl" value="#if(! $price)#else$price#end">起
                         </td>
                     </tr>
                     <tr>
@@ -148,14 +147,14 @@
                         <td>推荐理由</td>
                         <td>
                             <button type="button" class="btn btn-info selectUser">选择旅游咖</button>
-                            <input type="text" name="masterRecommend.title"  class="inpControl" value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end">
-                            <img src="#if($recommend.userPic) $utilWebconfig.getTfsRootPath()$!recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
-                            <span id="recommendNameT"></span>
-                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{recommend.description}</textarea>
-                            <input type="hidden" id="recommendId" name="masterRecommend.id" value="$!{recommend.id}" >
-                            <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="$!{recommend.userId}" >
-                            <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{recommend.userPic}" >
-                            <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{recommend.name}" >
+                            <input type="text" name="masterRecommend.title"  class="inpControl" value="#if(! $VO.scenic.recommend.title)大咖推荐#else$!VO.scenic.recommend.title#end">
+                            <img src="#if($VO.scenic.recommend.userPic) $utilWebconfig.getTfsRootPath()$!VO.scenic.recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
+                            <span id="recommendNameT">#if(! $VO.scenic.recommend.name)#else$!VO.scenic.recommend.name#end</span>
+                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{VO.scenic.recommend.description}</textarea>
+                            <input type="hidden" id="recommendId" name="masterRecommend.id" value="#if(! $VO.scenic.recommend.id)0#else$!VO.scenic.recommend.id#end" >
+                            <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="#if(! $VO.scenic.recommend.userId)0#else$!VO.scenic.recommend.userId#end" >
+                            <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{VO.scenic.recommend.userPic}" >
+                            <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{VO.scenic.recommend.name}" >
                         </td>
                     </tr>
                      <tr>
@@ -175,17 +174,13 @@
 
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
-                        <td>
-                            <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="pictures" value="$!{VO.scenic.pictures}" id="logoUrlUploadFileReturnInput1" >
-                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile1">
-                                <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
-	                        </div>
-	                    <div class="logoView">
-	                        <img src="#if($VO.scenic.pictures) $utilWebconfig.getTfsRootPath()$!{VO.scenic.pictures} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg1">
-	                    </div>
+                        <td class="picUrlsTd">
+                            <input id="batchUploadBtn1" type="file" multiple="multiple" >
+                            #foreach($pictures in $VO.scenic.pictures)
+                               <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
+                            #end
                         </td>
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!VO.scenic.coverUrl">
                     </tr>
                     </tbody>
                 </table>
@@ -217,7 +212,7 @@
 </script>
 
 <script>
-    var conTr = $(".needKnow").length + 1;
+    var conTr = $(".needKnow").length;
     $(".addNeedKnow").unbind("click").click(function () {
         var addhtml = "";
         var html1 = $("#needKnowTemp").html();
@@ -226,6 +221,11 @@
         $(".needKnowTable").prev().append(addhtml);
     });
 
+    function delPic(obj) {
+        $(obj).prev().remove();
+        $(obj).remove();
+    }
+    
     function delneedKnowTR(obj) {
         $(obj).parent().parent().remove();
     }
@@ -236,7 +236,17 @@
         }
     }
  var tfsPath = '$utilWebconfig.getTfsRootPath()';
+ 
+   var batchCallBack = function(dataVal){
+        for(var key in dataVal.data){
+             $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt=""><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>');
+        }
+    }
     $(function () {
+   			 $(document).delegate("#batchUploadBtn1",'change',function(){
+           		 fileUpload('#batchUploadBtn1',2,batchCallBack);
+      	 	 })
+    
     	  /*弹出框{"description":"大咖推荐","id":0,"name":"YOYO","user_id":1,"user_pic":"T1SRhTByYT1R17cSCrK"}
     	  {"id":331,"userId":7606,"nickName":"测试","options":2,"avatar":"T1SRhTByYT1R17cSCrK"}
     	  **/
@@ -265,7 +275,8 @@
             {'areaType': 'PROVINCE',
              'areaParentCode': null},
             function(data) {
-                if (data[0].name) {
+                if (data&&data.status==200) {
+                	data = data.data;
                     for (var i in data) {
                         var code = data[i].code;
                         var name = data[i].name;
@@ -291,7 +302,8 @@
                 {'areaType': $(this).attr("areaType"),
                  'areaParentCode': null},
                 function(data) {
-                    if (data[0].name) {
+                     if (data&&data.status==200) {
+                		data = data.data;
                         for (var i in data) {
                             var code = data[i].code;
                             var name = data[i].name;
@@ -331,8 +343,8 @@
                  'areaParentCode': $('.provinceSelect option:selected').attr("value")},
 
                 function(data) {
-                    if (data[0].name) {
-
+                    if (data&&data.status==200) {
+                		data = data.data;
                         for (var i in data) {
                             var code = data[i].code;
                             var name = data[i].name;
@@ -366,8 +378,8 @@
                  'areaParentCode': $('.citySelect option:selected').attr("value")},
 
                 function(data) {
-                    if (data[0].name) {
-
+                     if (data&&data.status==200) {
+                		data = data.data;
                         for (var i in data) {
                             var code = data[i].code;
                             var name = data[i].name;
@@ -404,16 +416,7 @@
             });
         });
 
-        $(document).delegate('#logoUrlUploadFile1','change',function(){
-            fileUpload('#logoUrlUploadFile1',1,function(data){
-                if(data && data.status==200){
-                    $('#logoUrlUploadFileReturnInput1').val(data.data);
-                    $('#logoUrlUploadFileReturnImg1').attr('src',tfsPath + data.data);
-                }else{
-                    layer.alert('上传失败');
-                }
-            })
-        });
+       
 
 
         $('.locationXYSelectBtn').click(function () {
@@ -424,14 +427,31 @@
         /*提交**/
         $("#saveScenicSpot").validate({
             rules: {
-                'scenic.name': {
+                'name': {
+                    required: true
+                },
+                 'locationProvinceId': {
+                    required: true
+                },'locationX': {
+                    required: true
+                },'locationy': {
+                    required: true
+                },'oneword': {
+                    required: true
+                },'description': {
+                    required: true
+                },'refundRule': {
+                    required: true
+                },'refundRule': {
+                    required: true
+                },'priceY': {
                     required: true
                 }
+               
+              
             },
             messages: {
-                'scenic.name': {
-                    required: "请填写"
-                }
+               
             },
             errorPlacement: function (error, element) { // 指定错误信息位置
 
@@ -444,19 +464,42 @@
                 }
             },
             submitHandler: function (form) {
+             //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
+          
                 var options = {
                     url: actionDefaultPath + "/B2C/scenicSpotManage/save",
                     type: "post",
                     dataType: "json",
                     success: function (data) {
                         if (data.status == 200) {
-                            layer.alert('操作成功');
-                            $("#clubCategorySubmit").attr("disabled", false);
-                            location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                             layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                        	 $("#clubCategorySubmit").attr("disabled", false);
+                      	  location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                        },1500);
+                           
+                            
                         } else {
-                            $("#clubCategorySubmit").attr("disabled", false);
-                            layer.alert('操作失败');
-                            location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                            layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                         setTimeout(function () {
+                        $("#clubCategorySubmit").attr("disabled", false);
+                      	  location.href = actionDefaultPath + "/B2C/scenicSpotManage/list";
+                        },1500);
                         }
                     }
                 };

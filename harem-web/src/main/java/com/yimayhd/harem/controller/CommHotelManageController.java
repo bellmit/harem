@@ -1,20 +1,24 @@
 package com.yimayhd.harem.controller;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.model.CategoryVO;
-import com.yimayhd.harem.model.ItemResultVO;
-import com.yimayhd.harem.model.ItemVO;
-import com.yimayhd.harem.service.CategoryService;
-import com.yimayhd.harem.service.CommodityService;
-import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.enums.ItemType;
+import org.bouncycastle.jcajce.provider.asymmetric.dsa.DSASigner.stdDSA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.constant.B2CConstant;
+import com.yimayhd.harem.model.CategoryVO;
+import com.yimayhd.harem.model.ItemResultVO;
+import com.yimayhd.harem.model.ItemVO;
+import com.yimayhd.harem.service.CategoryService;
+import com.yimayhd.harem.service.CommodityService;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.ResourceType;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 酒店管理（商品）
@@ -27,6 +31,8 @@ public class CommHotelManageController extends BaseController {
     private CommodityService commodityService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private SessionManager sessionManager ;
 
     /**
      * 新增酒店（商品）
@@ -39,6 +45,8 @@ public class CommHotelManageController extends BaseController {
         CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
         CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
         int itemType = categoryFeature.getItemType();//不可能有空值，就不判断空了
+        int outType = ResourceType.HOTEL.getType();
+        model.addAttribute("outType", outType);
         model.addAttribute("category", categoryVO);
         model.addAttribute("itemType",itemType);
         return "/system/comm/hotel/edit";
@@ -70,6 +78,10 @@ public class CommHotelManageController extends BaseController {
     public
     String edit(ItemVO itemVO,@PathVariable("id") long id) throws Exception {
         itemVO.setId(id);
+//        long sellerId = Long.parseLong(SessionUtils.getUserId());
+        long sellerId = sessionManager.getUserId();
+        sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        itemVO.setSellerId(sellerId);
         commodityService.modifyCommHotel(itemVO);
         return "/success";
     }
@@ -82,6 +94,10 @@ public class CommHotelManageController extends BaseController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public
     String add(ItemVO itemVO) throws Exception {
+//        long sellerId = Long.parseLong(SessionUtils.getUserId());
+        long sellerId = sessionManager.getUserId();
+        sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        itemVO.setSellerId(sellerId);
         commodityService.addCommHotel(itemVO);
         return "/success";
     }

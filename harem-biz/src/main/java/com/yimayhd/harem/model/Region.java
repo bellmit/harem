@@ -24,14 +24,12 @@ public class Region extends BaseModel {
 		this.level = regionDO.getLevel();
 		if (this.level == RegionLevel.PROVINCE.getLevel()) {
 			this.code = regionDO.getProvinceCode();
-			this.name = regionDO.getProvinceName();
 		} else if (this.level == RegionLevel.CITY.getLevel()) {
 			this.code = regionDO.getCityCode();
-			this.name = regionDO.getCityName();
 		} else if (this.level == RegionLevel.TOWN.getLevel()) {
 			this.code = regionDO.getTownCode();
-			this.name = regionDO.getTownName();
 		}
+		this.name = regionDO.getName();
 	}
 
 	public String getName() {

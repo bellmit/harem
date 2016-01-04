@@ -2,12 +2,13 @@ package com.yimayhd.harem.controller;
 
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.constant.ResponseStatus;
 import com.yimayhd.harem.model.query.OrderListQuery;
 import com.yimayhd.harem.model.trade.MainOrder;
 import com.yimayhd.harem.model.trade.OrderDetails;
 import com.yimayhd.harem.service.OrderService;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
-import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 订单管理
@@ -30,9 +34,66 @@ public class OrderManageController extends BaseController {
 	@Autowired
 	private OrderService orderService;
 
+
+	/**
+	 * 退款
+	 */
+	@RequestMapping(value = "/refundOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo refundOrderById(long orderId) throws Exception {
+		boolean flag = orderService.refundOrder(orderId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
+
+	/**
+	 * 完成
+	 */
+	@RequestMapping(value = "/buyerConfirmGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo buyerConfirmGoods(long orderId, HttpServletRequest request) throws Exception {
+		boolean flag = orderService.buyerConfirmGoods(orderId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
+
+	/**
+	 * 发货
+	 */
+	@RequestMapping(value = "/sellerSendGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo sellerSendGoods(long orderId, HttpServletRequest request) throws Exception {
+		boolean flag = orderService.sellerSendGoods(orderId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
+
+
+	/**
+	 * 关闭、取消订单
+	 */
+	@RequestMapping(value = "/closeOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo closeOrder(long orderId, HttpServletRequest request) throws Exception {
+		boolean flag = orderService.closeOrder(orderId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
+
+
+
+
+
 	/**
 	 * 根据ID获取路线订单详情
-	 * 
 	 * @return 路线订单详情
 	 * @throws Exception
 	 */
@@ -47,7 +108,6 @@ public class OrderManageController extends BaseController {
 
 	/**
 	 * 路线订单列表
-	 * 
 	 * @return 路线订单列表
 	 * @throws Exception
 	 */

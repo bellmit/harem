@@ -9,13 +9,13 @@
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
 <div class="example whole">
-    <form name="commActivityForm" id="commActivityForm" action="" method="post" commodityId="$!commodity.id">
+    <form name="commodityForm" id="commodityForm" action="" method="post" commodityId="$!commodity.id">
         <div class="">
                 <table class="table">
                     <input type="hidden" name="categoryId" value="$!category.id">
                     <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
                     #*商品类型，此页面全是普通商品发布 新增的时候需要，修改的时候不更新此字段*#
-                   
+                    #*<input type="hidden" name="itemType" value="#if($!itemType)$!itemType#else$!commodity.itemType#end">*#
                     <input type="hidden" name="itemType" value="$!itemType">
 
                     #*pay_type 暂时设置为1*#
@@ -23,7 +23,7 @@
                     #*source 来源暂时都为1*#
                     <input type="hidden" name="source" value="1">
 
-                    #*version 新增时为1$!commodity.version*#
+                    #*version 新增时为1*#
                     <input type="hidden" name="version" value="1">
                     #*有没有sku*#
                     <input type="hidden" name="options" value="#if($!category.sellCategoryPropertyDOs) 1 #else 0 #end">
@@ -36,12 +36,43 @@
                             $!category.name
                         </td>
                     </tr>
-                     <tr>
-                    <td><span class="spColor">*</span>活动商品名称</td>
-                    <td>
-                       <input type="text" class="inpCtlBlock" name="title" id="" placeholder="不得超过30个字">
-                    </td>
-                </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>活动商品名称</td>
+                        <td>
+                            <input type="text" name="title" value="$!commodity.title">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>排序</td>
+                        <td><input type="text" name="index" value="$!commodity.index" ></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>选择订单图</td>
+                        #*<td class="bigListPicTd">
+                            <label>选择列表图</label>
+                            <input id="bigListPicUrl" type="file">
+                            <img class="bigListPicUrl uploadImgFile" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!commodity.bigListPic #end">
+                            <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commHotel.bigListPic">
+                        </td>*#
+                        <td class="smallListPicTd">
+                           
+                            <input id="smallListPicUrl" type="file">
+                            <img class="smallListPicUrl uploadImgFile" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!commodity.smallListPic #end">
+                            <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commHotel.smallListPic">
+                        </td>
+                    </tr>
+                  #* <tr>
+                        <td><span class="spColor">*</span>详情竖图</td>
+                        <td class="picUrlsTd">
+                            <input id="batchUploadBtn" type="file" multiple="multiple" >
+                            #foreach($pic in $!commodity.picList)
+                                <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
+                            #end
+                        </td>
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
+                    </tr>*#
+
+                    
 
                     #*解析关键属性*#
                     #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
@@ -52,15 +83,7 @@
                                     <select class="form-control propertySelect">
                                         <option value="0" >请选择</option>
                                         #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-
-                                            #if($commodity.itemPropertyList && $commodity.itemPropertyList.size() > 0)
-                                                #foreach($itemProperty in $commodity.itemPropertyList)
-                                                    #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
-                                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($!categoryValueDO.id == $itemProperty.vId) selected
-                                                        #end>$!categoryValueDO.text</option>
-                                                    #end
-                                                #end
-                                            #end
+                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text">$!categoryValueDO.text</option>
                                         #end
                                     </select>
                                     #*支持自定义*#
@@ -69,7 +92,7 @@
                                         #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
                                             <span><input class="propertyInput" type="text" value=""></span>
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                            <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="">
+                                            <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="">
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                             3
                                         #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
@@ -97,9 +120,9 @@
                                 #if($!keyCategoryProperty.canCustom == 1)
                                 #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                     #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                        <span><input type="text" value=""></span>
+                                        <span><input type="text" class="propertyInput" value=""></span>
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                        <input type="text" class='form-control form-date' placeholder='yyyy-MM-dd' readonly value="">
+                                        <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="">
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                         3
                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
@@ -139,12 +162,14 @@
                             <th><span>数量</span></th>
                         </thead>
                         #foreach($itemSkuVO in $commodity.itemSkuVOList)
-
+                            #set($index = $velocityCount - 1)
                             <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
-
                                 #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
-                                    #set($index = $velocityCount - 1)
-                                        <td rowspan="$commodity.skuTdRowNumList.get($index)"><span>$itemSkuPVPair.vTxt</span></td>
+                                    #set($index2 = $velocityCount - 1)
+                                    #set($showFlag = $index % $commodity.skuTdRowNumList.get($index2) == 0)
+                                    #if($showFlag)
+                                        <td rowspan="$commodity.skuTdRowNumList.get($index2)"><span>$itemSkuPVPair.vTxt</span></td>
+                                    #end
                                 #end
                                 <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
                                 <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
@@ -170,7 +195,7 @@
                     #*json string 提交*#
                     <input type="hidden" name="itemProperties" id="itemProperties" value="$!commodity.itemProperties">
                     <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!commodity.itemSkuVOStr">
-                    <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
+                    <button class="btn btn-success btnSubmit" type="button" >保存</button>
                 </div>
                 <div class="btn-group">
                     <button type="button"  class="btn closBtn">取消</button>
@@ -227,16 +252,24 @@
                 format: "yyyy-mm-dd"
             });
 
-    var pictureUploadCallBack = function(data){
+   /** var bigListPicUploadCallBack = function(data){
         if(data && data.status == 200){
-            $('.detailUrlVal').val(data.data);
-            $('.detailUrlUrl').attr('src',tfsRootPath + data.data);
+            $('.bigListPicVal').val(data.data);
+            $('.bigListPicUrl').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }*/
+    var smallListPicUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.smallListPicVal').val(data.data);
+            $('.smallListPicUrl').attr('src',tfsRootPath + data.data);
 
         }else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
-
     var batchCallBack = function(dataVal){
         for(var key in dataVal.data){
              $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
@@ -321,22 +354,44 @@
 
     $(function(){
         //上传图片detailUrl
-        $(document).delegate("#fileDetailUrl",'change',function(){
-            fileUpload('#fileDetailUrl',1,pictureUploadCallBack);
+       /** $(document).delegate("#bigListPicUrl",'change',function(){
+            fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
+        })*/
+        //上传图片detailUrl
+        $(document).delegate("#smallListPicUrl",'change',function(){
+            fileUpload('#smallListPicUrl',1,smallListPicUploadCallBack);
         })
-        /****************批量上传pic_urls*****************/
+        /****************批量上传pic_urls
         $(document).delegate("#batchUploadBtn",'change',function(){
             fileUpload('#batchUploadBtn',2,batchCallBack);
-        })
+        })*****************/
         $(document).delegate(".stock",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
-            skuPropertyAll[index]['stockNum'] = $(this).val();
-            skuPropertyAll[index]['modifyStatus'] = true;
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['stockNum'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
         })
         $(document).delegate(".price",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
-            skuPropertyShowAll[index]['priceY'] = $(this).val();
-            skuPropertyShowAll[index]['modifyStatus'] = true;
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['priceY'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
         })
 
         //初始化时构建sku属性数组
@@ -432,56 +487,54 @@
             }else{
                 $('.skuTable').html('您需要选择所有的销售属性，才能组合成完整的规格信息。');
             }
-
-
-            $('#btnSubmit').click(function(){
-                //property
-                var propertyArr = new Array();
-                $('.keyProperty').each(function(){
-                    //TODO 判断必填项
-                });
-                $('.property').each(function(){
-                    //
-                    var v = $(this).find('propertySelect');
-                    var vId = 0;
-                    var vTxt = '';
-                    if(v && $(v).val() !== '0'){
-                        vId = $(v).val();
-                        vTxt = $(v).find(':checked').text();
-                    }else{
-                        vTxt = $(this).find('propertyInput').val();
-                    }
-                    var property = {
-                        'pId':$(this).attr('pId'),
-                        'pTxt':$(this).attr('pTxt'),
-                        'pType':$(this).attr('pType'),
-                        'vId':vId,
-                        'vTxt':vTxt
-                    }
-                    propertyArr.push(property);
-                });
-                $('#itemProperties').val(JSON.stringify(propertyArr));
-
-                //图片列表
-                var picUrls = '';
-                $('.picUrlsUrl').each(function(){
-                    if(picUrls){
-                        picUrls += '|' + $(this).attr('imgUrl');
-                    }else{
-                        picUrls += $(this).attr('imgUrl');
-                    }
-                });
-                $('.picUrlsVal').val(picUrls);
-                $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
-                var url = '';
-                if($('#commActivityForm').attr('commodityId')){
-                    url = actionDefaultPath + '/B2C/comm/activityManage/edit/' + $('#commodityForm').attr('commodityId');
-                }else{
-                    url = actionDefaultPath + '/B2C/comm/activityManage/add';
-                }
-                $('#commActivityForm').attr('action',url);
-                $('#commActivityForm').submit();
+        });
+        $('.btnSubmit').click(function(){
+            //property
+            var propertyArr = new Array();
+            $('.keyProperty').each(function(){
+                //TODO 判断必填项
             });
+            $('.property').each(function(){
+                //
+                var v = $(this).find('.propertySelect');
+                var vId = 0;
+                var vTxt = '';
+                if(v && $(v).val() != '0'){
+                    vId = $(v).val();
+                    vTxt = $(v).find(':checked').text();
+                }else{
+                    vTxt = $(this).find('.propertyInput').val();
+                }
+                var property = {
+                    'pId':$(this).attr('pId'),
+                    'pTxt':$(this).attr('pTxt'),
+                    'pType':$(this).attr('pType'),
+                    'vId':vId,
+                    'vTxt':vTxt
+                }
+                propertyArr.push(property);
+            });
+            $('#itemProperties').val(JSON.stringify(propertyArr));
+
+            //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
+            $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
+            var url = '';
+            if($('#commodityForm').attr('commodityId')){
+                url = actionDefaultPath + '/B2C/comm/activityManage/edit/' + $('#commodityForm').attr('commodityId');
+            }else{
+                url = actionDefaultPath + '/B2C/comm/activityManage/add';
+            }
+            $('#commodityForm').attr('action',url);
+            $('#commodityForm').submit();
         });
 
     });

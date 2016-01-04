@@ -1,5 +1,6 @@
 <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 <div>
   <ul class="nav nav-tabs">
@@ -162,9 +163,9 @@
 		if(!start_date || !end_date) {
     		$("#forwardRunTime").val("");
 		} else {
-    		var start = new Date(start_date);
-        	var end = new Date(end_date);
-    		var run_time = CalendarUtils.getTimeDifferenceByMinute(start,end);
+    		var start = CalendarY.parse(start_date);
+        	var end = CalendarY.parse(end_date);
+    		var run_time = CalendarY.getTimeDifferenceByMinute(start,end);
 			$("#forwardRunTime").val(run_time);
 		}
 	});
@@ -174,9 +175,9 @@
 		if(!start_date || !end_date) {
     		$("#returnRunTime").val("");
 		} else {
-    		var start = new Date(start_date);
-        	var end = new Date(end_date);
-    		var run_time = CalendarUtils.getTimeDifferenceByMinute(start,end);
+    		var start = CalendarY.parse(start_date);
+        	var end = CalendarY.parse(end_date);
+    		var run_time = CalendarY.getTimeDifferenceByMinute(start,end);
 			$("#returnRunTime").val(run_time);
 		}
 	});
@@ -194,7 +195,7 @@
 			} else if($(this).hasClass("forward-plan-time") || $(this).hasClass("return-plan-time")) {
 				var plan_time = $(this).val();
 				if(plan_time) {
-					result[id] = new Date($(this).val()+":00").getTime();
+					result[id] = CalendarY.parse($(this).val()+":00").getTime();
 				}
 			} else {
 				result[id] = $(this).val();

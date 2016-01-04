@@ -1,5 +1,40 @@
-<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/ckeditor/ckeditor.js" type="text/javascript"></script>
+
+<style type="text/css">
+.demo{width:850px;margin:20px auto;display:none;}
+#l-map{height:400px;width:600px;float:left;border:1px solid #bcbcbc;}
+#r-result{height:400px;width:230px;float:right;}
+</style>
+
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#mddInfo" data-toggle="tab">目的地基础信息</a>
+    </li>
+	<li>
+        <a href="#bimaituijian" id="bimaituijianId" data-toggle="tab">必买推荐</a>
+    </li>
+    #*
+    	<li>
+        	<a href="#tieShi" id="tieShiId" data-toggle="tab">贴士</a>
+    	</li>
+    *#
+    <li>
+        <a href="#biqujingdian" id="biqujingdianId" data-toggle="tab">必去景点</a>
+    </li>
+	<li>
+        <a href="#jingxuanjiudian" id="jingxuanjiudianId" data-toggle="tab">精选酒店</a>
+    </li>
+	#*	*#
+		<li>
+        	<a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
+    	</li>
+
+</ul>
+
 
 <form name="addHotel" id="hotelForm" action="" method="post" hotelId="">
 <div class="tab-content grogInfoWrap"  style="">
@@ -10,6 +45,7 @@
                     <td><span class="spColor">*</span>目的地名称</td>
                     <td><select id="cityId" ></select></td>
                 </tr>
+                #*
                 <tr>
                     <td><span class="spColor">*</span>标签</td>
                     <td>
@@ -21,6 +57,7 @@
                         </div>
                     </td>
                 </tr>
+                *#
 				<tr>
                     <td><span class="spColor">*</span>封面图</td>
                     <td>
@@ -31,10 +68,13 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
+                            <img height="100" width="100" src="#if($tripBo.coverURL) $utilWebconfig.getTfsRootPath()$!tripBo.coverURL  #end " id="FMReturnInputImg"> #* #if($tripBo.picturePoster) $utilWebconfig.getTfsRootPath()$!tripBo.picturePoster  #end *#
                         </div>
                     </td>
                 </tr>
+                
+              
+                
                 <tr>
                     <td><span class="spColor">*</span>目的地LOGO</td>
                     <td>
@@ -45,10 +85,27 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img src="" id="LOGOReturnInputImg">
+                            <img height="100" width="100"  src="#if($tripBo.logoURL) $utilWebconfig.getTfsRootPath()$!tripBo.logoURL  #end" id="LOGOReturnInputImg">
                         </div>
                     </td>
                 </tr>
+                
+                 <tr>
+                    <td><span class="spColor">*</span>景点副标题</td>
+                    <td><input type="text" id="scenicSubheadId" name="scenicSubhead" value="$!tripBo.scenicSubhead" ></td>
+                </tr>
+                
+               <tr>
+                    <td><span class="spColor">*</span>酒店副标题</td>
+                    <td><input type="text" id="hotelSubheadId" name="hotelSubhead" value="$!tripBo.hotelSubhead" ></td>
+                </tr>
+                
+                 <tr>
+                    <td><span class="spColor">*</span>直播副标题</td>
+                    <td><input type="text" id="liveSubheadId" name="liveSubhead" value="$!tripBo.liveSubhead"></td>
+                </tr>
+                
+                
 				<tr>
                     <td><span class="spColor">*</span>概况</td>
                     <td>
@@ -62,7 +119,7 @@
                             #if(!${VO.gaikuang.frontNeedKnow})
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="gaikuang.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                    <input type="text" name="gaikuang.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[1].content" rows="3"></textarea>
@@ -76,7 +133,7 @@
                             #foreach($frontNeedKnow in $VO.gaikuang.frontNeedKnow)
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                    <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -102,7 +159,7 @@
                                 #if(!${VO.minsu.frontNeedKnow})
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="minsu.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                        <input type="text" name="minsu.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[1].content" rows="3"></textarea>
@@ -116,7 +173,7 @@
                                 #foreach($frontNeedKnow in $VO.minsu.frontNeedKnow)
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                        <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -142,7 +199,7 @@
                                 #if(!${VO.xiaofei.frontNeedKnow})
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="xiaofei.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                        <input type="text" name="xiaofei.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[1].content" rows="3"></textarea>
@@ -156,7 +213,7 @@
                                 #foreach($frontNeedKnow in $VO.xiaofei.frontNeedKnow)
                                 <tr class="needKnow">
                                     <td>
-                                        <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                        <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                     </td>
                                     <td>
                                         <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -182,7 +239,7 @@
                             #if(!${VO.tieshi.frontNeedKnow})
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="tieshi.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含old">
+                                    <input type="text" name="tieshi.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[1].content" rows="3"></textarea>
@@ -196,7 +253,7 @@
                             #foreach($frontNeedKnow in $VO.tieshi.frontNeedKnow)
                             <tr class="needKnow">
                                 <td>
-                                    <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}">
+                                    <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                 </td>
                                 <td>
                                     <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -211,29 +268,40 @@
                 </tr>
                 <input type="hidden" class="inpControl" name="type" value="4">
                 <input type="hidden" class="inpControl" id="cityIds" name="id" value="">
-                 <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
+                <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
             </table>
         </div>
     </div>
+    
+    <input type="hidden" class="inpControl" id="biMaiId" name="biMai" value="">
+    <input type="hidden" class="inpControl" id="biQuId" name="biQu" value="">
+    <input type="hidden" class="inpControl" id="jiuDianId" name="jiuDian" value="">
+    <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo" value="">
+    <input type="hidden" class="inpControl" id="xianLuId" name="xianLu" value="">
+    
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
 </form>
 
-#*<script type="text/html" id="needKnowTemp">
-    <tr class="needKnow">
-        <td>
-            <input type="text" name="needKnow.frontNeedKnow[$index].title" class="form-control extra-info-item-title" placeholder="费用包含">
-        </td>
-        <td>
-            <textarea name="needKnow.frontNeedKnow[$index1].content" class="form-control extra-info-item-text" rows="3"></textarea>
-        </td>
-        <td>
-            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-        </td>
-    </tr>
-</script>*#
 
 <script>
+function setArrId(obj,textId){ 
+		var arrItems = [] ;
+		var arrZhiBo = [];
+		arrItems =  obj;
+		console.log(arrItems);//zhiBo
+		if(arrItems == null){
+			return;
+		}else{
+			 $.each(arrItems, function(n, val) {
+             	console.log("id="+val);
+             	arrZhiBo.push(val.id);
+             	console.log("arrZhiBo="+arrZhiBo);
+             	$("#"+textId).val(arrZhiBo);
+             });
+		}
+	}  
+	
     var addItemCall = function (obj) {
     	var conTr =$(obj).next().find(".needKnow");
     	console.log(conTr);
@@ -241,7 +309,7 @@
     	++i;
     	var itemId = $(obj).attr("id");
         var itemList = '<tr class="needKnow"><td>'+
-                '<input type="text" name="'+itemId+'.frontNeedKnow['+i+'].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>'+
+                '<input type="text" name="'+itemId+'.frontNeedKnow['+i+'].title" class="form-control extra-info-item-title" ></td>'+
                 '<td><textarea name="'+itemId+'.frontNeedKnow['+i+'].content" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
                 '<td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td></tr>'
         $(obj).next().append(itemList);
@@ -311,14 +379,15 @@
             }else if(level==2){
             	cityCode=$('select option:selected').attr("cityCode");
             }
-             $("#cityCodeId").val(cityCode);
+            $("#cityCodeId").val(cityCode);
+           	console.log($("hotelForm").serialize());
            
             
             $('#hotelForm').submit();
         });
         
     	$("#cityId").focus( function(){
-    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"3"} ,function(data){
+    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
 	    	if(data.status == 200){
 	    	var html="";
 	    		$.each(data.data, function(n,val){ 
@@ -333,4 +402,39 @@
 	        }                                      
     	})
     });
+    
+//---------------------------------------------------------------------------------------------------------------------
+   
+$('#bimaituijianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectMustBuy','买必推荐',function() {
+		setArrId(win.getItems(),"biMaiId");
+		return true;
+		});
+});
+
+$('#biqujingdianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenic','选择景区',function() {
+		setArrId(win.getItems(),"biQuId");
+		return true;
+	});
+});
+
+
+
+$('#jingxuanjiudianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店',function() {
+			setArrId(win.getItems(),"jiuDianId");
+			return true;
+		});
+});
+
+$('#jingxuanzhiboId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLive','选择直播',function() {
+		setArrId(win.getItems(),"zhiBoId");
+		return true;
+	});
+	
+});
+
+
 </script>
