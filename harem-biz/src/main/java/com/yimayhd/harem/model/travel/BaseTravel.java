@@ -54,7 +54,11 @@ public abstract class BaseTravel {
 			this.categoryId = itemDO.getCategoryId();
 			this.options = itemDO.getOptions();
 			this.readonly = itemDO.getStatus() == ItemStatus.valid.getValue();
-			this.priceInfo = new PriceInfo(lineResult.getItemDO(), lineResult.getItemSkuDOList());
+			this.priceInfo = new PriceInfo(itemDO, lineResult.getItemSkuDOList());
+			String picUrls = itemDO.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
+			if (StringUtils.isNotBlank(picUrls) && this.baseInfo != null) {
+				this.baseInfo.setOrderImage(picUrls);
+			}
 		}
 	}
 
@@ -220,6 +224,9 @@ public abstract class BaseTravel {
 		}
 		if (StringUtils.isNotBlank(this.baseInfo.getTripImage())) {
 			itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, this.baseInfo.getTripImage());
+		}
+		if (StringUtils.isNotBlank(this.baseInfo.getOrderImage())) {
+			itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, this.baseInfo.getOrderImage());
 		}
 		return itemDO;
 	}

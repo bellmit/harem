@@ -23,6 +23,7 @@ public class BaseInfo {
 	private String name;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
+	private String orderImage;// 订单封面
 	private List<Long> tags;// 标签
 	private long fromLevel;
 	private long fromId;// 出发地
@@ -297,5 +298,13 @@ public class BaseInfo {
 
 	public void setNeedKnow(NeedKnow needKnow) {
 		this.needKnow = needKnow;
+	}
+
+	public String getOrderImage() {
+		return orderImage;
+	}
+
+	public void setOrderImage(String orderImage) {
+		this.orderImage = orderImage;
 	}
 }
