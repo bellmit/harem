@@ -27,130 +27,173 @@
                         <th>副标题</th>
                         <th>图片（.jpg,png）</th>
                         <th>商品</th>
+                        <th>操作</th>
                     </tr>
 
-                    <tr>
+                    <tr id="leftupTr">
                         <td>左上</td>
-                        <td><input type="text" name="" id=""></td>
-                        <td><input type="text" name="" id=""></td>
+                        <input type="hidden" value="$!advertiseLeftup.id" id="showcaseId"/>
+                        <input type="hidden" value="$!advertiseLeftup.version" name="version" id="version"/>
+                        <td><input type="text" name="title" id="title" value="$!advertiseLeftup.title"></td>
+                        <td><input type="text" name="summary" id="summary" value="$!advertiseLeftup.summary"></td>
                         <td>
                             <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="logoUrl" value="" id="" >
-                                <input type="file" name="file" class="fileInp" id="">
+                                <button type="button" class="btn btn-success selectImage" id="leftup">选择图片</button>
+                                <input type="hidden" name="imgUrl" value="$!advertiseLeftup.imgUrl" id="imgUrl" >
+                                <input type="file" name="file" class="fileInp" id="leftupFile">
                             </div>
                             <div class="logoView">
-                                <img src="" class="img-circle" id="">
+                                <img src="$!advertiseLeftup.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
-                            <span>昆大丽5晚6天</span>
-                            <button type="button" class="btn btn-primary">选择商品</button>
+                        	<span id="activityName">
+                        		$!advertiseLeftup.title
+                        	</span>
+                        </td>
+                        <td>
+                        	
+                            <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseLeftup.operationContent">详情</button>
+                            <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="leftupButton">选择商品</button>
+                            <input type="hidden" name="activityId" value="$!advertiseLeftup.operationContent" id="activityId" />
                         </td>
                     </tr>
 
-
-<!--
-                    <tr>
+                    <tr id="rightupOneTr">
                         <td>右上1</td>
-                        <td><input type="text" name="" id=""></td>
-                        <td><input type="text" name="" id=""></td>
+                        <input type="hidden" value="$!advertiseRightupOne.id" id="showcaseId"/>
+                        <input type="hidden" value="$!advertiseRightupOne.version" name="version" id="version"/>
+                        <td><input type="text" name="title" id="title" value="$!advertiseRightupOne.title"></td>
+                        <td><input type="text" name="summary" id="summary" value="$!advertiseRightupOne.summary"></td>
                         <td>
                             <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="logoUrl" value="" id="" >
-                                <input type="file" name="file" class="fileInp" id="">
+                                <button type="button" class="btn btn-success selectImage" id="rightupOne">选择图片</button>
+                                <input type="hidden" name="imgUrl" value="$!advertiseRightupOne.imgUrl"  id="imgUrl" >
+                                <input type="file" name="file" class="fileInp" id="rightupOneFile">
                             </div>
                             <div class="logoView">
-                                <img src="" class="img-circle" id="">
+                                <img src="$!advertiseRightupOne.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
+                  		<td>
+                  		<span id="activityName">
+                        		$!advertiseRightupOne.title
+                        	</span>
+                  		</td>
                         <td>
-                            <span>昆大丽5晚6天</span>
-                            <button type="button" class="btn btn-primary">选择商品</button>
+                        
+                             <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseRightupOne.operationContent">详情</button>
+                            <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="rightupOneButton">选择商品</button>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupOne.operationContent"/>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="rightupTwoTr">
                         <td>右上2</td>
-                        <td><input type="text" name="" id=""></td>
-                        <td><input type="text" name="" id=""></td>
+                        <input type="hidden" value="$!advertiseRightupTwo.id" id="showcaseId"/>
+                        <input type="hidden" value="$!advertiseRightupTwo.version" name="version" id="version"/>
+                        <td><input type="text" name="title" id="title" value="$!advertiseRightupTwo.title"></td>
+                        <td><input type="text" name="summary" id="summary" value="$!advertiseRightupTwo.summary"></td>
                         <td>
                             <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="logoUrl" value="" id="" >
-                                <input type="file" name="file" class="fileInp" id="">
+                                <button type="button" class="btn btn-success selectImage" id="rightupTwo">选择图片</button>
+                                <input type="hidden" name="imgUrl" value="$!advertiseRightupTwo.imgUrl" id="imgUrl" >
+                                <input type="file" name="file" class="fileInp" id="rightupTwoFile">
                             </div>
                             <div class="logoView">
-                                <img src="" class="img-circle" id="">
+                                <img src="$!advertiseRightupTwo.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
-                            <span>昆大丽5晚6天</span>
-                            <button type="button" class="btn btn-primary">选择商品</button>
+                        <span id="activityName">
+                        		$!advertiseRightupTwo.title
+                        	</span>
+                        </td>
+                        <td>
+                        	
+                             <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseRightupTwo.operationContent">详情</button>
+                            <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="rightupTwoButton">选择商品</button>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseRightupTwo.operationContent"/>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="downOneTr">
                         <td>下1</td>
-                        <td><input type="text" name="" id=""></td>
-                        <td><input type="text" name="" id=""></td>
+                        <input type="hidden"  value="$!advertiseDownOne.id" id="showcaseId"/>
+                        <input type="hidden" value="$!advertiseDownOne.version" name="version" id="version"/>
+                        <td><input type="text" name="title" id="title" value="$!advertiseDownOne.title"></td>
+                        <td><input type="text" name="summary" id="summary" value="$!advertiseDownOne.summary"></td>
                         <td>
                             <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="logoUrl" value="" id="" >
-                                <input type="file" name="file" class="fileInp" id="">
+                                <button type="button" class="btn btn-success selectImage" id="downOne">选择图片</button>
+                                <input type="hidden" name="imgUrl" value="$!advertiseDownOne.imgUrl" id="imgUrl" >
+                                <input type="file" name="file" class="fileInp" id="downOneFile">
                             </div>
                             <div class="logoView">
-                                <img src="" class="img-circle" id="">
+                                <img src="$!advertiseDownOne.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
-                            <span>昆大丽5晚6天</span>
-                            <button type="button" class="btn btn-primary">选择商品</button>
+                        <span id="activityName">
+                        		$!advertiseDownOne.title
+                        	</span>
+                        </td>
+                        <td>
+                        
+                             <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownOne.operationContent">详情</button>
+                            <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downOneButton">选择商品</button>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownOne.operationContent"/>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="downTwoTr">
                         <td>下2</td>
-                        <td><input type="text" name="" id=""></td>
-                        <td><input type="text" name="" id=""></td>
+                        <input type="hidden"  value="$!advertiseDownTwo.id" id="showcaseId"/>
+                        <input type="hidden" value="$!advertiseDownTwo.version" name="version" id="version"/>
+                        <td><input type="text" name="title" id="title" value="$!advertiseDownTwo.title"></td>
+                        <td><input type="text" name="summary" id="summary" value="$!advertiseDownTwo.summary"></td>
                         <td>
                             <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="logoUrl" value="" id="" >
-                                <input type="file" name="file" class="fileInp" id="">
+                                <button type="button" class="btn btn-success selectImage"  id="downTwo">选择图片</button>
+                                <input type="hidden" name="imgUrl" value="$!advertiseDownTwo.imgUrl" id="imgUrl" >
+                                <input type="file" name="file" class="fileInp" id="downTwoFile">
                             </div>
                             <div class="logoView">
-                                <img src="" class="img-circle" id="">
+                                <img src="$!advertiseDownTwo.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
+                	
+                		<td>
+                		<span id="activityName">
+                        		$!advertiseDownTwo.title
+                        	</span>
+                		</td>
                         <td>
-                            <span>昆大丽5晚6天</span>
-                            <button type="button" class="btn btn-primary">选择商品</button>
+                           	 
+                        	 <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownTwo.operationContent">详情</button>
+                            <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downTwoButton">选择商品</button>
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownTwo.operationContent"/>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="downThreeTr">
                         <td>下3</td>
-                        <td><input type="text" name="" id=""></td>
-                        <td><input type="text" name="" id=""></td>
+                        <input type="hidden"  value="$!advertiseDownThree.id" id="showcaseId"/>
+                        <input type="hidden" value="$!advertiseDownThree.version" name="version" id="version"/>
+                       	<td><input type="text" name="title" id="title" value="$!advertiseDownThree.title"></td>
+                        <td><input type="text" name="summary" id="summary" value="$!advertiseDownThree.summary"></td>
                         <td>
                             <div class="fileImgWrap">
-                                <button type="button" class="btn btn-success">选择图片</button>
-                                <input type="hidden" name="logoUrl" value="" id="" >
-                                <input type="file" name="file" class="fileInp" id="">
+                                <button type="button" class="btn btn-success selectImage"  id="downThree">选择图片</button>
+                                <input type="hidden" name="imgUrl" value="$!advertiseDownThree.imgUrl" id="imgUrl" >
+                                <input type="file" name="file" class="fileInp" id="downThreeFile">
                             </div>
                             <div class="logoView">
-                                <img src="" class="img-circle" id="">
+                                <img src="$!advertiseDownThree.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
-                            <span>伴手礼列表</span>
-                            <button type="button" class="btn btn-primary">选择伴手礼</button>
+                           	伴手礼列表
+                            <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownThree.operationContent"/>
                         </td>
+                        <td></td>
                     </tr>
-
--->
-
-
-
                 </table>
 
                 <div class="clubBotBtn">
@@ -158,7 +201,11 @@
                         <button class="btn btn-success"  type="button"  id="advertisementSubmit">保存</button>
                     </div>
                     <div class="btn-group">
-                        <button class="btn">取消</button>
+                        <button class="btn" id="advertisementCancel">取消</button>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn" type="button" id="advertisementModify">修改</button>
                     </div>
                 </div>
 
@@ -166,37 +213,48 @@
             </div>
             <div class="tab-pane" id="tab2">
                  <form id="lineForm" action="" method="post">
-                    <div class="createClubTable">
+                    <div class="createClubTable" id="recommendDiv">
                         <table class="table">
                             <tr>
                                 <td>
 									<input type="hidden" name="boothId" value="$!homeCfg.lineList.boothId">
 									<input type="hidden" name="boothCode" value="$!homeCfg.lineList.boothCode">
-                                     <button type="button" class="btn btn-success selectLineBtn">选择线路</button>
-                                     <button type="button" class="btn btn-success selectActivityBtn">选择活动</button>
+                                    <button type="button" class="btn btn-success selectLineBtn">选择线路</button>
+                                    <button type="button" class="btn btn-success selectActivityBtn">选择活动</button>
                                 </td>
                             </tr>
                         </table>
-                        <table class="table lineTable">
+                        <table class="table lineTable" id="recommendTable">
                         		<tr>
                                 <td>商品名称</td>
-                                <td>价格</td>
                                 <td>操作</td>
                             </tr>
-								#foreach($line in $homeCfg.lineList.cfgInfoList)
+								#foreach($recommend in $recommends)
 									<tr>
-										<td><input type='hidden' name='itemIds' value='$!line.itemId'>$!line.itemTitle</td>
-										<td>$!line.itemPrice</td>
+										<input type="hidden" name="showCaseId" id="showCaseId" value='$!recommend.id'/>
+										<input type="hidden" name="businessCode" id="businessCode" value='$!recommend.businessCode'/>
+										<input type="hidden" name="version" id="version" value='$!recommend.version'/>
+										<td><input type='hidden' name='itemId'  id='itemId' value='$!recommend.operationContent'>$!recommend.title</td>
+										<td><button type="button" id="itemId" class="btn btn-primary recommendDetail" itemType="$!recommend.buisinessCode" itemId="$!recommend.operationContent">详情</button></td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
+							 <div id="updateRecommendDataArea">
+                			<div>
                         </table>
+                       
                     </div>
+                    
+                    
                      <div class="clubBotBtn">
                     <div class="btn-group">
                         <button class="btn btn-success"  type="button"  id="lineSubmit" >保存</button>
                     </div>
                     <div class="btn-group">
-                        <button class="btn">取消</button>
+                        <button class="btn" id="lineCancel">取消</button>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn" type="button" id="lineModify">修改</button>
                     </div>
                 </div>
                 </form>
@@ -204,28 +262,55 @@
             <div class="tab-pane" id="tab3">
             <form id="travelKaForm" action="" method="post">
                     <div class="createClubTable">
-                        <table class="table">
-                            <tr>
-                                <td><span class="spColor">*</span>副标题</td>
-                                <td>
-                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!homeCfg.travelKaList.boothDesc"> <button type="button" class="btn btn-success selectTravelKaBtn">选择大咖</button>
-                                </td>
-                            </tr>
-                        </table>
+         			
                         <table class="table travelKaTable">
                             <tr>
                                 <td>头像</td>
                                 <td>用户昵称</td>
                                 <td>操作</td>
                             </tr>
-								
-								#foreach($travelKa in $homeCfg.travelKaList.cfgInfoList)
-									<tr >
-										<td><input type='hidden' name='itemIds' class='itemIds' value='$!travelKa.itemId'><input type='hidden' name='imgUrl' value='$!travelKa.itemImg'><img src='$!travelKa.itemImg' width=100px height=80px alt='头像' ></td>
-										<td><input type='hidden' name='itemTitle' value='$!travelKa.itemTitle'>$!travelKa.itemTitle</td>
-										<td class='delTravelItem'><a href="javascript:" data-value="$!travelKa.itemId">删除</a></td>
+									<tr id="travelKaTr1">
+										<td>
+										<input type='hidden' name='showcaseId' id='showcaseId' value='$!travelKa1.id'>
+										<input type='hidden' name='businessCode' id='businessCode' value=''>
+										<input type='hidden' name='operationContent' id='operationContent' value='$!travelKa1.operationContent'>
+										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa1.imgUrl'/>
+										<input type="hidden" name="version" id="version" value='$!travelKa1.version'/>
+				
+										<img src='$!travelKa1.imgUrl' width=100px height=80px  id="imgUrl"></td>
+										<td><input type='text' readonly name='title' id="title" value='$!travelKa1.title'></td>
+										<td>
+										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa1.buisinessCode" itemId="$!travelKa1.operationContent">详情</button>
+                                     	<button type="button" class="btn btn-success selectTravelKaBtn1">选择大咖</button>
+                                		</td>
 									</tr>
-								#end
+									<tr id="travelKaTr2">
+										<td>
+										<input type='hidden' name='showcaseId' id='showcaseId' value='$!travelKa2.id'>
+										<input type='hidden' name='operationContent' id='operationContent' value='$!travelKa2.operationContent'>
+										<input type="hidden" name="version" id="version" value='$!travelKa2.version'/>
+										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa2.imgUrl'/>
+										<img src='$!travelKa2.imgUrl' width=100px height=80px  id="imgUrl"></td>
+										<td><input type='text' readonly name='title' id="title" value='$!travelKa2.title'></td>
+										<td>
+										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa2.buisinessCode" itemId="$!travelKa2.operationContent">详情</button>
+                                     	<button type="button" class="btn btn-success selectTravelKaBtn2">选择大咖</button>
+                                		</td>
+									</tr>
+									<tr id="travelKaTr3">
+										<td>
+										<input type='hidden' name='showcaseId' id='showcaseId' value='$!travelKa3.id'>
+										<input type='hidden' name='operationContent' id='operationContent' value='$!travelKa3.operationContent'>
+										<input type="hidden" name="version" id="version" value='$!travelKa3.version'/>
+										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa3.imgUrl'/>
+										
+										<img src='$!travelKa3.imgUrl' width=100px height=80px  id="imgUrl"></td>
+										<td><input type='text' readonly name='title' id="title" value='$!travelKa3.title'></td>
+										<td>
+										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa3.buisinessCode" itemId="$!travelKa3.operationContent">详情</button>
+                                     	<button type="button" class="btn btn-success selectTravelKaBtn3">选择大咖</button>
+                                		</td>
+									</tr>
                         </table>
                     </div>
                      <div class="clubBotBtn">
@@ -233,21 +318,133 @@
                         <button class="btn btn-success"  type="button"  id="travelKaSubmit" >保存</button>
                     </div>
                     <div class="btn-group">
-                        <button class="btn">取消</button>
+                        <button class="btn" id="travelKaCancel">取消</button>
+                    </div>
+                    
+                     <div class="btn-group">
+                        <button class="btn" type="button" id="travelKaModify">修改</button>
                     </div>
                 </div>
-                <input type="text" name = "addItemIds" id="addItemIds" />
-                <input type="text" name = "delItemIds" id="delItemIds" />
+                
+             
+               
                 </form>
             </div>
         </div>
 </div>
 <script>
+	
 
     $(function(){
-    
+    	
+    	$('.activityDetail').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('activityId');
+                window.openwin(url);
+            });
+
+        });
+    	
+    	
+    	$('.travelKaDetail').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toTravelKaDetail?userId='+ $(this).attr('itemId');
+                window.openwin(url);
+            });
+
+        });
+    	
+    	$('.recommendDetail').each(function(){
+            $(this).click(function(){
+            	if($(this).attr('businessCode') == 'ACTIVITY'){
+            		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('itemId');
+                    window.openwin(url);
+            	}else{ //线路
+            		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toLineDetail?lineId='+ $(this).attr('itemId');
+                    window.openwin(url);
+            	}
+            	
+                
+            });
+
+        });
+    	
+    	
+    	function enableAdvertiseModify(){
+    		$("#advertisementSubmit").show();
+    		$("#advertisementCancel").show();
+    		$("#advertisementModify").hide();
+    		
+    	}
+    	
+    	function disableAdvertiseModify(){
+    		$("#advertisementSubmit").hide();
+    		$("#advertisementCancel").hide();
+    		$("#advertisementModify").show();
+    	}
+    	
+    	disableAdvertiseModify();
+    	
+    	$("#advertisementModify").on("click",function(){
+    		enableAdvertiseModify();
+    	});
+    	
+    	
+    	function enableRecommendModify(){
+    		$("#lineSubmit").show();
+    		$("#lineCancel").show();
+    		$("#lineModify").hide();
+    		
+    	}
+    	
+    	function disableRecommendModify(){
+    		$("#lineSubmit").hide();
+    		$("#lineCancel").hide();
+    		$("#lineModify").show();
+    	}
+    	
+    	disableRecommendModify();
+    	
+    	$("#lineModify").on("click",function(){
+    		enableRecommendModify();
+    	});
+    	
+    	
+    	
+    	
+    	function enableTravelKaModify(){
+    		$("#travelKaSubmit").show();
+    		$("#travelKaCancel").show();
+    		$("#travelKaModify").hide();
+    		
+    	}
+    	
+    	function disableTravelKaModify(){
+    		$("#travelKaSubmit").hide();
+    		$("#travelKaCancel").hide();
+    		$("#travelKaModify").show();
+    	}
+    	
+    	disableTravelKaModify();
+    	
+    	$("#travelKaModify").on("click",function(){
+    		enableTravelKaModify();
+    	});
+    	
+    	
+    	/**
+    	*注册删除事件
+    	*/
 	    $(document).on("click",".delItem a",function(){
+	    	 if($(this).parents("tr:eq(0)").find("#operation").val() != undefined){
+	    	 	var itemId = $(this).parents("tr:eq(0)").find("#itemId").val();
+	    	 	$("#updateRecommendDataArea").find(":input[name='addItemIds'][value=" + itemId + "]" ).remove();
+	    	 }else{
+	    	 	var showCaseId = $(this).parents("tr:eq(0)").find("#showCaseId").val();
+	    	 	$("#updateRecommendDataArea").append("<input type='hidden' name='delshowCaseId' value=" + showCaseId + ">");
+	    	 }
 			 $(this).parents("tr:eq(0)").remove();
+			 
 		});
 
         $(document).on("click",".delTravelItem a",function(){
@@ -257,268 +454,184 @@
             $("#delItemIds").val(ids.join(","));
             $(this).parents("tr:eq(0)").remove();
         });
-
-        //选择活动商品信息
-        $('.selectUserBtn').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
-                yes: function(index){
-                    if(top.resultValue&&top.resultValue.length==0){
-                        layer.alert("请选择用户信息");
-                        return false;
-                    }else{
-                    console.log(resultValue);
-						var tr = "";
-                    	for(var i = 0;i<resultValue.length;i++){
-                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
-                    		"<input type='file' name='file' class='fileInp' id='userImg_"+resultValue[i].id+"'><input type='hidden' id='url_userImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
-                    		"<td><input type='text' name='itemTitle' readonly value='"+resultValue[i].name+"'></td>"+
-                    		"<td><input type='text' name='description' value=''></td><td class='delItem'><a>删除</a></td></tr>";
-                    		_uploadImg("userImg_"+resultValue[i].id);
-                    	}
-                    	$(".userTable").append(tr);
-                    	
-                    	 layer.close(index);
-                    }
-                }
+   
+   		/**
+   		*选择线路
+   		*/
+		$('.selectLineBtn').click(function(){
+		 	var targetObj = $(this);
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectline','选择线路 ',function() {
+		 		var resultValue = win.getSelected();
+		 		for(var i in resultValue){
+		 			
+		 			var newTr = "<tr><input type='hidden' name='businessCode' id='businessCode' value='LINE'/><input type='hidden' name='operation' id='operation' value='add' />" ;
+		 			newTr += "<input type='hidden' name='itemId' id='itemId' value='" + resultValue[i].id + "'/>";
+		 			newTr += "<input type='hidden' name='imgUrl' id='imgUrl' value='" + resultValue[i].coverUrl + "'/>";
+		 			newTr += "<input type='hidden' name='title' id='title' value='" + resultValue[i].name + "'/>";
+		 			newTr += "<input type='hidden' name='type' id='type' value='" + resultValue[i].type + "'/>";
+		 			newTr += "<input type='hidden' name='version' id='title' value='0'/>";
+		 			newTr += "<td>" +  resultValue[i].name + "</td>";
+		 			newTr += "<td><button type='button' id='itemId' class='btn btn-primary recommendDetail' itemType=''" + resultValue[i].type + " itemId='" + resultValue[i].id + "'>详情</button></td>";
+		 			newTr += "<td class='delItem'><a>删除</a></td>" + "</tr>"
+		 			$("#recommendTable").append(newTr );
+		 		}
+             
+             return true;
             });
-		});
-			
-         //选择线路信息
-        $('.selectLineBtn').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceForSelect/selectOneTravelProduct',
-                yes: function(index){
-                    if(top.resultValue&&top.resultValue.length==0){
-                        layer.alert("请选择线路信息");
-                        return false;
-                    }else{
-                    console.log(resultValue);
-						var tr = "";
-                    	for(var i = 0;i<resultValue.length;i++){
-                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'>"+resultValue[i].name+"</td>"+
-                    		"<td>188.00</td>"+
-                    		"<td><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' > "+resultValue[i].id+"</td>"+
-							"<td class='delItem'><a>删除</a></td></tr>";
-                    	}
-                    	$(".lineTable").append(tr);
-                    	
-                    	 layer.close(index);
-                    }
-                }
+		 });
+		 
+		 
+		/**
+		* 选择活动
+		*/
+		$('.selectActivityBtn').click(function(){
+		 	var targetObj = $(this);
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectActivity','选择活动 ',function() {
+		 		var resultValue = win.getSelected();
+		 		//过滤重复的数据
+		 		for(var i in resultValue){
+		 			
+		 		}
+		 				 		
+		 		for(var i in resultValue){
+		 			
+		 			var newTr = "<tr><input type='hidden' name='businessCode' id='businessCode' value='ACTIVITY'/><input type='hidden' name='operation' id='operation' value='add' />" ;
+		 			newTr += "<input type='hidden' name='itemId' id='itemId' value='" + resultValue[i].id + "'/>";
+		 			newTr += "<input type='hidden' name='imgUrl' id='imgUrl' value='" + resultValue[i].image + "'/>";
+		 			newTr += "<input type='hidden' name='title' id='title' value='" + resultValue[i].title + "'/>";
+		 			newTr += "<input type='hidden' name='version' id='title' value='0'/>";
+		 			newTr += "<td>" +  resultValue[i].title + "</td>";
+		 			newTr += "<td><button type='button' id='itemId' class='btn btn-primary recommendDetail' itemType='ACTIVITY' itemId='" + resultValue[i].id + "'>详情</button></td>";
+		 			newTr += "<td class='delItem'><a>删除</a></td>" + "</tr>"
+		 			$("#recommendTable").append(newTr );
+		 		}
+             return true;
             });
-		});
-
-        //选择活动
-        $('.selectActivityBtn').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceForSelect/selectOneActivity',
-                yes: function(index){
-                    if(top.resultValue&&top.resultValue.length==0){
-                        layer.alert("请选择线路信息");
-                        return false;
-                    }else{
-                        console.log(resultValue);
-                        var tr = "";
-                        for(var i = 0;i<resultValue.length;i++){
-                            tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'>"+resultValue[i].name+"</td>"+
-                                    "<td>188.00</td>"+
-                                    "<td><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' > "+resultValue[i].id+"</td>"+
-                                    "<td class='delItem'><a>删除</a></td></tr>";
-                        }
-                        $(".lineTable").append(tr);
-
-                        layer.close(index);
-                    }
-                }
-            });
-        });
+		 });
 		
-		
-         //选择大咖信息
-        $('.selectTravelKaBtn11122').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/resourceForSelect/selectOneTravelKa',
-                yes: function(index){
-                    if(top.resultValue&&top.resultValue.length==0){
-                        layer.alert("请选择旅游咖信息");
-                        return false;
-                    }else{
-                    console.log(resultValue);
-						var tr = "";
-                    	for(var i = 0;i<resultValue.length;i++){
-                   // 		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'><input type='hidden' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'><img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' ></td>"+
-                  //  		"<td><input type='hidden' name='itemTitle' value='"+resultValue[i].name+"'>"+resultValue[i].name+"</td>"+
-                   // 		"<td class='delItem'><a>删除</a></td></tr>";
-                            alert(resultValue[i].id);
-                    	}
-                    	$(".travelKaTable").append(tr);
-                    	
-                    	 layer.close(index);
-                    }
-                }
-            });
-		});
-
-
-
-
-        $('.selectTravelKaBtn').click(function(){
-            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
-
-                var ka = win.getTravelKa();
-
-                if(ka == null) return;
-                var tbody = $(".travelKaTable");
-                var str = "";
-                str += "<tr ><td><input type='hidden' name='itemIds' class='itemIds dataNew' value='"+ka.userId+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' ></td>"+
-                        "<td><input type='text' name='itemTitle' readonly value='"+ka.nickName+"'></td>"+
-                        "<td class='delItem'><a>删除</a></td></tr>"
-
-                var flag = true;
-                $(".travelKaTable .itemIds").each(function(){
-                    if($(this).val() == ka.userId){
-                        alert("该用户已存在！");
-                        flag = false;
-                    }
-                })
-                if(!flag)
-                return ;
-                $(".travelKaTable").append(str);
-                alert("123");
+		/**
+		*选择广告位活动 leftupButton,rightupOneButton,rightupTwoButton,downOneButton,downTwoButton,downThreeButton
+		*/
+		  $('#leftupButton').click(function(){
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
+                var selectData = win.getSelected();
+                 $('#leftupButton').parent().find("#activityName").text(selectData.title);
+                 $('#leftupButton').parent().find("#activityId").val(selectData.id);
+                 $('#leftupButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
-
-
+            });
+		 });
+		 
+		 $('#rightupOneButton').click(function(){
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
+                var selectData = win.getSelected();
+                 $('#rightupOneButton').parent().find("#activityName").text(selectData.title);
+                 $('#rightupOneButton').parent().find("#activityId").val(selectData.id);
+                 $('#rightupOneButton').parent().find("#activityDetail").attr("activityId",selectData.id);
+                return true;
+            });
+		 });
+		 
+		  $('#rightupTwoButton').click(function(){
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
+                var selectData = win.getSelected();
+                 $('#rightupTwoButton').parent().find("#activityName").text(selectData.title);
+                 $('#rightupTwoButton').parent().find("#activityId").val(selectData.id);
+                 $('#rightupTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
+                return true;
+            });
+		 });
+		 
+		 $('#downOneButton').click(function(){
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
+                var selectData = win.getSelected();
+                 $('#downOneButton').parent().find("#activityName").text(selectData.title);
+                 $('#downOneButton').parent().find("#activityId").val(selectData.id);
+                 $('#downOneButton').parent().find("#activityDetail").attr("activityId",selectData.id);
+                return true;
+            });
+		 });
+		 
+		 $('#downTwoButton').click(function(){
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
+                var selectData = win.getSelected();
+                 $('#downTwoButton').parent().find("#activityName").text(selectData.title);
+                 $('#downTwoButton').parent().find("#activityId").val(selectData.id);
+                 $('#downTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
+                return true;
+            });
+		 });
+		 
+		  $('#downThreeButton').click(function(){
+		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
+                var selectData = win.getSelected();
+                 $('#downThreeButton').parent().find("#activityName").text(selectData.title);
+                 $('#downThreeButton').parent().find("#activityId").val(selectData.id);
+                 $('#downThreeButton').parent().find("#activityDetail").attr("activityId",selectData.id);
+                return true;
+            });
+		 });
+		
+        $('.selectTravelKaBtn1').click(function(){
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
+				var resultValue = win.getTravelKa();
+		 		$("#travelKaTr1").find("#operationContent").val(resultValue.userId);
+              	$("#travelKaTr1").find("#title").val(resultValue.nickName);
+               	$("#travelKaTr1").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr1").find("#itemId").attr("itemId",resultValue.userId);
+                return true;
             });
         })
-		
-		 //选择目的地信息
-        $('.selectCityBtn').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
-                yes: function(index){
-                    if(top.resultValue&&top.resultValue.length==0){
-                        layer.alert("请选择目的地信息");
-                        return false;
-                    }else{
-                    console.log(resultValue);
-                    	var tbody = $(".userTable");
-						var tr = "";
-                    	for(var i = 0;i<resultValue.length;i++){
-                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
-                    		"<input type='file' name='file' class='fileInp' id='cityImg_"+resultValue[i].id+"'><input type='hidden' id='url_cityImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
-                    		"<td><input type='text' name='itemTitle' readonly value='"+resultValue[i].name+"'></td>"+
-                    		"<td class='delItem'><a>删除</a></td></tr>";
-                    		_uploadImg("cityImg_"+resultValue[i].id);
-                    	}
-                    	$(".cityTable").append(tr);
-                    	
-                    	 layer.close(index);
-                    }
-                }
+        $('.selectTravelKaBtn2').click(function(){
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
+				var resultValue = win.getTravelKa();
+		 		$("#travelKaTr2").find("#operationContent").val(resultValue.userId);
+               	$("#travelKaTr2").find("#title").val(resultValue.nickName);
+               	$("#travelKaTr2").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr2").find("#itemId").attr("itemId",resultValue.userId);
+                return true;
             });
-		});
-		
-		 //选择游记信息
-        $('.selectTravelSpecialBtn').click(function(){
-            layer.open({
-                type: 2,
-                btn: ['确定', '取消'],
-                title: '用户选择',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['1000px', '500px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
-                yes: function(index){
-                    if(top.resultValue&&top.resultValue.length==0){
-                        layer.alert("请选择游记信息");
-                        return false;
-                    }else{
-                    console.log(resultValue);
-						var tr = "";
-                    	for(var i = 0;i<resultValue.length;i++){
-                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
-                    		"<input type='file' name='file' class='fileInp' id='travelSpecialImg_"+resultValue[i].id+"'/><input type='hidden' id='url_travelSpecialImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
-                    		"<td>"+resultValue[i].name+"</td>"+
-                    		"<td>"+resultValue[i].name+"</td>"+
-                    		"<td class='delItem'><a>删除</a></td></tr>";
-                    		_uploadImg("travelSpecialImg_"+resultValue[i].id);
-                    	}
-                    	$(".travelSpecialTable").append(tr);
-                    	
-                    	 layer.close(index);
-                    }
-                }
+        })
+        $('.selectTravelKaBtn3').click(function(){
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
+				var resultValue = win.getTravelKa();
+		 		$("#travelKaTr3").find("#operationContent").val(resultValue.userId);
+               	$("#travelKaTr3").find("#title").val(resultValue.nickName);
+               	$("#travelKaTr3").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr3").find("#itemId").attr("itemId",resultValue.userId);
+                return true;
             });
-		});
-            
-      
-        
-        $('#vipSubmit').click(function(){
-            $(this).prop('disabled',true);
-            $.ajax({
-				type:'post',
-				url:'addHomeVip',
-				data:$("#userForm").serialize(),
-				error:function(){
-					$("#vipSubmit").attr("disabled",false);
-					alert('服务器忙，请稍后再试！');
-				},
-				success:function(data){
-				
-					if(data.status==200){
-						 layer.alert('操作成功');
-						 $("#vipSubmit").attr("disabled",false);
-                    }else{
-                   		$("#vipSubmit").attr("disabled",false);
-                        layer.alert('操作失败');
-                    }
-				}
-			});
-        });
-		
+        })
+	
         $('#lineSubmit').click(function(){
+        	//组织需要提交的数据
+        	var advertiseList = new Array();
+        	$("#recommendDiv").find(":input[name=operation]").each(function(){
+        		var itemId = $(this).parent().find("#itemId").val();
+        		var operation = "add";
+        		var imgUrl = $(this).parent().find("#imgUrl").val();
+        		var title = $(this).parent().find("#title").val();
+        		var businessCode = $(this).parent().find("#businessCode").val();
+        		var version = $(this).parent().find("#version").val();
+        		var lineType = $(this).parent().find("#type").val();
+        		var formdata = {operationContent:itemId,operation:operation,imgUrl:imgUrl,businessCode:businessCode,title:title,version:version,lineType:lineType};
+        		advertiseList.push(formdata);
+        	});
+        	
+        	$("#updateRecommendDataArea").find(":input[name='delshowCaseId']").each(function(){
+        		var showCaseId = $(this).val();
+        		var operation = "del";
+        		var formdata = {showcaseId:showCaseId,operation:operation};
+        		advertiseList.push(formdata);
+        	});
+        	
             $(this).prop('disabled',true);
             $.ajax({
 				type:'post',
-				url:'addHomeLine',
-				data:$("#lineForm").serialize(),
+				url:'addRecommends',
+				dataType:"json", 
+                contentType:"application/json",
+                data:JSON.stringify(advertiseList),
 				error:function(){
 					$("#lineSubmit").attr("disabled",false);
 					alert('服务器忙，请稍后再试！');
@@ -527,6 +640,7 @@
 				
 					if(data.status==200){
 						 layer.alert('操作成功');
+						 disableRecommendModify();
 						 $("#lineSubmit").attr("disabled",false);
                     }else{
                    		$("#lineSubmit").attr("disabled",false);
@@ -538,19 +652,19 @@
 		
 		
         $('#travelKaSubmit').click(function(){
-            var ids = "";
-            $(".travelKaTable .dataNew").each(function(){
-                ids +=  $(this).val() + ","
-            })
-            if(ids == "")
-            return;
-            $("#addItemIds").val(ids);
+           
+            var advertiseList = new Array();
+        	advertiseList.push(parseTravelKaForm("travelKaTr1"));
+        	advertiseList.push(parseTravelKaForm("travelKaTr2"));
+        	advertiseList.push(parseTravelKaForm("travelKaTr3"));
 
             $(this).prop('disabled',true);
             $.ajax({
 				type:'post',
+				dataType:"json", 
+                contentType:"application/json",
+                data:JSON.stringify(advertiseList),
 				url:'addHomeTravelKa',
-				data:$("#travelKaForm").serialize(),
 				error:function(){
 					$("#travelKaSubmit").attr("disabled",false);
 					alert('服务器忙，请稍后再试！');
@@ -559,6 +673,7 @@
 				
 					if(data.status==200){
 						 layer.alert('操作成功');
+						 disableTravelKaModify();
 						 $("#travelKaSubmit").attr("disabled",false);
                     }
                     else{
@@ -569,44 +684,23 @@
 			});
         });
 
-		
-        $('#travelSpecialSubmit').click(function(){
-            $(this).prop('disabled',true);
-            $.ajax({
-				type:'post',
-				url:'addHomeTravelSpecial',
-				data:$("#travelSpecialForm").serialize(),
-				error:function(){
-					$("#travelSpecialSubmit").attr("disabled",false);
-					alert('服务器忙，请稍后再试！');
-				},
-				success:function(data){
-				
-					if(data.status==200){
-						 layer.alert('操作成功');
-						 $("#travelSpecialSubmit").attr("disabled",false);
-                    }else{
-                   		$("#travelSpecialSubmit").attr("disabled",false);
-                        layer.alert('操作失败');
-                    }
-				}
-			});
-        });
-
-
         $('#advertisementSubmit').click(function(){
-//            var ids = "";
-//            $(".travelKaTable .dataNew").each(function(){
-//                ids +=  $(this).val() + ","
-//            })
-//                $("#addItemIds").val(ids);
-
-
+			var advertiseList = new Array()
+			advertiseList[0] = parseAdvertiseForm("leftupTr",1);
+			advertiseList[1] = parseAdvertiseForm("rightupOneTr",2);
+			advertiseList[2] = parseAdvertiseForm("rightupTwoTr",3);
+			advertiseList[3] = parseAdvertiseForm("downOneTr",4);
+			advertiseList[4] = parseAdvertiseForm("downTwoTr",5);
+			advertiseList[5] = parseAdvertiseForm("downThreeTr",6);
+			
             $(this).prop('disabled',true);
             $.ajax({
                 type:'post',
-                url:'addHomeTravelKa',
-                data:$("#adForm").serialize(),
+                dataType:"json", 
+                contentType:"application/json",
+                url:'addAdvertise',
+                
+                data:JSON.stringify(advertiseList),
                 error:function(){
                     $("#travelKaSubmit").attr("disabled",false);
                     alert('服务器忙，请稍后再试！');
@@ -615,7 +709,8 @@
 
                     if(data.status==200){
                         layer.alert('操作成功');
-                        $("#travelKaSubmit").attr("disabled",false);
+                        //$("#travelKaSubmit").attr("disabled",false);
+                        disableAdvertiseModify();
                     }else{
                         $("#travelKaSubmit").attr("disabled",false);
                         layer.alert('操作失败');
@@ -628,11 +723,38 @@
 		
 		
     });
+    
    function initUploadImg(){
-   		$(".tab-content input.fileInp").each(function(i,item){
-			var id = item.id;
+   
+   		$(".selectImage").each(function(i,item){
+			var id = item.id + "File";
 			_uploadImg(id);
 		})
+   }
+   
+   function parseAdvertiseForm(trId,serialNo){
+   		var showcaseId = $("#" + trId).find("#showcaseId").val();
+   		var title = $("#" + trId).find("#title").val();
+		var summary = $("#" + trId).find("#summary").val();
+		var imgUrl = $("#" + trId).find("#imgUrl").val();
+		var operationContent = $("#" + trId).find("#activityId").val();
+		var version = $("#" + trId).find("#version").val();
+		var formData = {title:title,showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,serialNo:serialNo,businessCode:'ACTIVITY',version:version};
+		
+		return formData;
+   }
+   
+   function parseTravelKaForm(trId){
+   		var showcaseId = $("#" + trId).find("#showcaseId").val();
+   		var title = $("#" + trId).find("#title").val();
+		var summary = $("#" + trId).find("#summary").val();
+		var imgUrl = $("#" + trId).find("#imgUrl").val();
+		var operationContent = $("#" + trId).find("#operationContent").val();
+		var version = $("#" + trId).find("#version").val();
+		var businessCode = $("#" + trId).find("#businessCode").val();
+		var formData = {showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,version:version,businessCode:businessCode };
+		
+		return formData;
    }
     
   function _uploadImg(id){
@@ -646,8 +768,8 @@
                 {
                     if(data && data.status==200){
                         var tfsPath = '$utilWebconfig.getTfsRootPath()';
-						$('#'+id).parent().find("img").attr("src",tfsPath + data.data)
-                        $('#url_'+id).val(tfsPath + data.data);
+						$('#'+id).parent().next().find("img").attr("src",tfsPath + data.data)
+                       $('#'+id).parent().find("#imgUrl").val(tfsPath + data.data);
                        //$('#imgUploadUrl'+id).attr('src',tfsPath + data.data);
 
                     }else{

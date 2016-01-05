@@ -2,6 +2,7 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <h1>官方游记列表</h1>
     <form class="form-signin" id="travelOfficialListForm" name="travelOfficialListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/travelOfficialManage/list" method="GET" role="form">
+       #*
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -39,11 +40,12 @@
                 <button type="reset" class="btn btn-primary">重置</button>
             </div>
         </div>
-
+        *#
         <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建游记</button>
-            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量上架</button>
+            #*<button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量上架</button>
             <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2">批量下架</button>
+            *#
         </div>
 
         <div class="tableGroup whole">
@@ -73,7 +75,7 @@
                         <td>$!travelOfficial.praiseNum</td>
 
                         <td>
-                        <button type="button" class="btn btn-primary travelOfficialDetail" travelOfficialId="$travelOfficial.id">详情</button>
+                        <button type="button" class="btn btn-primary travelOfficialEdit" travelOfficialId="$travelOfficial.id">编辑</button>
                         <button type="button" class="btn btn-primary travelOfficialBan"  travelOfficialId="$travelOfficial.id" joinStatus="$travelOfficial.status">#if($travelOfficial.status == 1) 下架 #elseif($travelOfficial.status == 2)上架  #end </button>
                         </td>
                     </tr>
@@ -164,4 +166,11 @@
         var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/travelOfficialManage/toAdd';
         top.tabsAdd("addCommodityBtn",url,2,$(this).text())
     });
+
+    //编辑
+    $('.travelOfficialEdit').click(function(){
+        var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/travelOfficialManage/edit/'+ $(this).attr('travelOfficialId');
+        window.openwin(url);
+    });
+
 </script>

@@ -1,16 +1,12 @@
 package com.yimayhd.harem.controller;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.exception.NoticeException;
-import com.yimayhd.harem.model.IMallRefundRecordExportVO;
-import com.yimayhd.harem.model.query.RefundListQuery;
-import com.yimayhd.harem.service.RefundService;
-import com.yimayhd.harem.util.DateUtil;
-import com.yimayhd.harem.util.excel.JxlFor2003;
-import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundDetailDO;
-import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
-import com.yimayhd.user.session.manager.SessionUtils;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -21,11 +17,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.PageVO;
+import com.yimayhd.harem.exception.NoticeException;
+import com.yimayhd.harem.model.IMallRefundRecordExportVO;
+import com.yimayhd.harem.model.query.RefundListQuery;
+import com.yimayhd.harem.service.RefundService;
+import com.yimayhd.harem.util.DateUtil;
+import com.yimayhd.harem.util.excel.JxlFor2003;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundDetailDO;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 退款管理
@@ -41,6 +43,8 @@ public class RefundManageController extends BaseController {
 	@Autowired
 	private RefundService refundService;
 
+	@Autowired
+	private SessionManager sessionManager;
 	/**
 	 * 退款列表
 	 * 
@@ -50,7 +54,8 @@ public class RefundManageController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String refundList(Model model, RefundListQuery refundListQuery) throws Exception {
 		//TODO
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月
 		if(StringUtils.isBlank(refundListQuery.getEndDate())){
@@ -74,7 +79,8 @@ public class RefundManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
 	public String getById(Model model,@PathVariable(value = "orderId") long refundId) throws Exception {
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		List<IMallRefundDetailDO> iMallRefundDetailDOList = refundService.getOrderByRecordId(sellerId,refundId);
 		model.addAttribute("refundDetailList",iMallRefundDetailDOList);
 		return "/system/refund/detail";
@@ -88,7 +94,8 @@ public class RefundManageController extends BaseController {
 
 	public String refundListExport(HttpServletRequest request,HttpServletResponse response,RefundListQuery refundListQuery) throws Exception {
 		//TODO
-		long sellerId = Long.parseLong(SessionUtils.getUserId());
+//		long sellerId = Long.parseLong(SessionUtils.getUserId());
+		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月
 		if(StringUtils.isBlank(refundListQuery.getEndDate())){

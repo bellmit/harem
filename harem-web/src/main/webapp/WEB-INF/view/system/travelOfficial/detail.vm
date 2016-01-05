@@ -18,13 +18,13 @@
             <tr>
 	          <td>*前言</td>
 	          <td>
-	          	<textarea name="preface" id="prefaceId" value="$!travelOfficial.preface"  class="form-control" rows="5"></textarea>
+	          	<textarea name="preface" id="prefaceId" value="$!travelOfficial.preface"  class="form-control" rows="5">$!travelOfficial.preface</textarea>
 	          </td>
 	        </tr>
         
             <tr>
                 <td><span class="spColor">*</span>发布时间</td>
-                <td><input type="text" class='form-control form-date dateInp' placeholder='' readonly id="publishDateId" name="publishDate" value="$!travelOfficial.publishDate"></td>
+                <td><input type="text" class='form-control form-date dateInp' placeholder='' readonly id="publishDateId" name="publishDate" value="$!utilDate.dateToString($!travelOfficial.publishDate,"yyyy-MM-dd HH:mm:ss")"></td>
             </tr>
 
             <tr>

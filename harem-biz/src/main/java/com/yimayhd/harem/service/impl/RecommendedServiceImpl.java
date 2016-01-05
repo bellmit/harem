@@ -1,14 +1,19 @@
 package com.yimayhd.harem.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.service.RecommendedService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
+import com.yimayhd.snscenter.client.domain.result.ClubDO;
 
 public class RecommendedServiceImpl implements RecommendedService {
 
@@ -45,7 +50,21 @@ public class RecommendedServiceImpl implements RecommendedService {
 
 	@Override
 	public RegionIntroduceDO getRegionIntroduceDO(long id) {
-		return null;
+		RegionIntroduceDO regionIntroduceDO = RegionIntroduceClientServiceRef.getRegionIntroduceById(id);
+		return regionIntroduceDO;
+	}
+
+	@Override
+	public PageVO<RegionIntroduceDO> pageVORegionIntroduceDO(RegionIntroduceQuery regionIntroduceQuery) {
+		regionIntroduceQuery.setNeedCount(true);
+		int totalCount = 0;
+		List<RegionIntroduceDO> list = new ArrayList<RegionIntroduceDO>();
+		RCPageResult<RegionIntroduceDO> res = RegionIntroduceClientServiceRef.queryPageRegionIntroduceList(regionIntroduceQuery);
+		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
+			 list = res.getList();
+			 totalCount = res.getTotalCount();
+		}
+		return new PageVO<RegionIntroduceDO>(regionIntroduceQuery.getPageNo(), regionIntroduceQuery.getPageSize(), totalCount, list);
 	}
 
 }

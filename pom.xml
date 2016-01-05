@@ -39,9 +39,9 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				  <groupId>com.yimayhd.snscenter</groupId>
-				  <artifactId>snscenter-client</artifactId>
-				 <version>${snscenter.version}</version>
+				<groupId>com.yimayhd.snscenter</groupId>
+				<artifactId>snscenter-client</artifactId>
+				<version>${snscenter.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>ch.qos.logback</groupId>
@@ -191,7 +191,7 @@
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>1.7.7</version>
 			</dependency>
-			<!--logback-->
+			<!--logback -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -295,6 +295,10 @@
 						<groupId>org.springframework</groupId>
 						<artifactId>spring</artifactId>
 					</exclusion>
+					<exclusion>
+						<artifactId>tair-client</artifactId>
+						<groupId>com.taobao.tair</groupId>
+					</exclusion>
 				</exclusions>
 			</dependency>
 			<dependency>
@@ -302,7 +306,7 @@
 				<artifactId>commons-fileupload</artifactId>
 				<version>1.3.1</version>
 			</dependency>
-			<!--tair-->
+			<!--tair -->
 			<dependency>
 				<groupId>com.taobao.tair</groupId>
 				<artifactId>tair-client</artifactId>
@@ -320,19 +324,19 @@
 				<artifactId>jxl</artifactId>
 				<version>2.6</version>
 			</dependency>
-			<!--fastJSON-->
+			<!--fastJSON -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>1.1.39</version>
 			</dependency>
-			<!--小飞哥的注解日志包-->
+			<!--小飞哥的注解日志包 -->
 			<dependency>
 				<groupId>com.yiholiday.fhtd</groupId>
 				<artifactId>fhtd</artifactId>
 				<version>${fhtd.version}</version>
 			</dependency>
-			<!--dubbo-->
+			<!--dubbo -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
@@ -431,6 +435,11 @@
 						<groupId>org.slf4j</groupId>
 						<artifactId>slf4j-log4j12</artifactId>
 					</exclusion>
+					<exclusion>
+						<artifactId>tair-client</artifactId>
+						<groupId>com.taobao.tair</groupId>
+					</exclusion>
+					
 				</exclusions>
 			</dependency>
 

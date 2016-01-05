@@ -3,18 +3,22 @@
 
 
 
-<form name="addHotel" id="hotelForm" action="" method="post" hotelId="">
+<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!regionIntroduceDO.id">
 <div class="tab-content grogInfoWrap"  style="">
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
             <table>
                 <tr>
                     <td><span class="spColor">*</span>名称</td>
-                    <td> <input type="text" name="title" class="form-control extra-info-item-title" placeholder=""></td>
+                    <td> <input type="text" name="title" class="form-control extra-info-item-title" value="$!regionIntroduceDO.title"></td>
                 </tr>
                  <tr>
                     <td><span class="spColor">*</span>关联城市</td>
                     <td><select id="cityId" ></select></td>
+                     #if($isEdit)
+                         <td>当前城市：$!regionIntroduceDO.cityName</td>
+                     #end
+
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>标签</td>
@@ -25,6 +29,12 @@
                                 <option value="10">必买推荐须</option>
                             </select>
                         </div>
+                    </td>
+                </tr>
+				<tr>
+                    <td><span class="spColor">*</span>简介</td>
+                    <td>
+                          <textarea class="form-control extra-info-item-text"  name="desc" rows="3">$!regionIntroduceDO.desc</textarea>
                     </td>
                 </tr>
 				
@@ -38,7 +48,7 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img height="100" width="100"  src="" id="FMReturnInputImg">
+                            <img height="100" width="100"  src="#if($regionIntroduceDO.imgUrl) $utilWebconfig.getTfsRootPath()$!regionIntroduceDO.imgUrl #end" id="FMReturnInputImg">
                         </div>
                     </td>
                 </tr>
@@ -46,9 +56,10 @@
                 <tr>
                     <td><span class="spColor">*</span>内容</td>
                     <td>
-                          <textarea class="form-control extra-info-item-text" name="content" rows="3"></textarea>
+                          <textarea class="form-control extra-info-item-text"  name="content" rows="3">$!regionIntroduceDO.content</textarea>
                     </td>
                 </tr>
+                
             </table>
         </div>
     </div>
@@ -85,9 +96,7 @@
  	$('#btnSubmit').click(function(){
     	//if($("#hotelForm").valid()) {}
         $(this).prop('disabled', true);
-        	var actionUrl = actionDefaultPath + '/B2C/recommended/add';
-        	$('#hotelForm').attr('action',actionUrl);
-			var cityName=$('select option:selected').attr("level");;         	
+			var cityName=$('select option:selected').attr("cityName");;
         	//设置选中的citycode
         	var cityCode=""; 
             var level = $('select option:selected').attr("level");
@@ -97,7 +106,15 @@
             	cityCode=$('select option:selected').attr("cityCode");
             }
             $("#cityCodeId").val(cityCode);
-             $("#cityNameId").val(cityName);
+            $("#cityNameId").val(cityName);
+            var actionUrl = "";
+            var recommendedId = $('#hotelForm').attr('recommendedId');
+            if(recommendedId){
+               actionUrl = actionDefaultPath + '/B2C/recommended/edit/'+recommendedId;
+            }else{
+               actionUrl = actionDefaultPath + '/B2C/recommended/add';
+            }
+            $('#hotelForm').attr('action',actionUrl);
             $('#hotelForm').submit();
    });
    

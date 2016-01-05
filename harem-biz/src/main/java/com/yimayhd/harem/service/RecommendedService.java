@@ -2,6 +2,7 @@ package com.yimayhd.harem.service;
 
 import java.util.List;
 
+import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 
@@ -16,7 +17,10 @@ public interface RecommendedService {
 	
 	List<RegionIntroduceDO> queryRegionIntroduceList(RegionIntroduceQuery regionIntroduceQuery);
 	
+	PageVO<RegionIntroduceDO> pageVORegionIntroduceDO(RegionIntroduceQuery regionIntroduceQuery);
+	
 	boolean delete(long id);
 	
 	RegionIntroduceDO getRegionIntroduceDO(long id);
+	
 }

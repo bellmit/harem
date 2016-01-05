@@ -1,19 +1,13 @@
 package com.yimayhd.harem.controller;
 
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.ResponseVo;
-import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
-import com.yimayhd.harem.model.HaMenuDO;
-import com.yimayhd.harem.service.HaMenuService;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.result.BaseResult;
-import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
-import com.yimayhd.user.session.manager.JsonResult;
-import com.yimayhd.user.session.manager.SessionUtils;
-import net.pocrd.entity.AbstractReturnCode;
-import org.apache.commons.lang.StringUtils;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
+import com.yimayhd.harem.model.HaMenuDO;
+import com.yimayhd.harem.service.HaMenuService;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.client.service.UserService;
+import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
+import com.yimayhd.user.session.manager.JsonResult;
+import com.yimayhd.user.session.manager.SessionManager;
+
+import net.pocrd.entity.AbstractReturnCode;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -45,6 +48,8 @@ public class LoginController extends BaseController {
 
     @Autowired
     private HaMenuService haMenuService;
+    @Autowired
+    private SessionManager sessionManager;
 
 
 
@@ -61,39 +66,51 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult login(LoginoutVO loginoutVO) {
+    public JsonResult login(LoginoutVO loginoutVO, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("login loginoutVO= {}", loginoutVO);
+        sessionManager.removeToken(request);
 
         /*if (!imageVerifyCodeValidate.validateImageVerifyCode(loginoutVO.getVerifyCode())) {
             LOGGER.warn("loginoutVO.getVerifyCode() = {} is not correct", loginoutVO.getVerifyCode());
             return JsonResult.buildFailResult(1, "验证码错误!", null);
         }*/
 
-        BaseResult<UserDO> result = userServiceRef.login(loginoutVO.getUsername(), loginoutVO.getPassword());
+//        BaseResult<UserDO> result = userServiceRef.login(loginoutVO.getUsername(), loginoutVO.getPassword());
+        LoginResult result = userServiceRef.loginV2(loginoutVO.getUsername(), loginoutVO.getPassword());
         int errorCode = result.getErrorCode();
         if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
             LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
-            SessionUtils.setUserId(String.valueOf(result.getValue().getId()));
-            HttpSession httpSession = request.getSession();
-            Object userIdObject = httpSession.getAttribute("userId");
-            httpSession.setAttribute("userNickName", result.getValue().getNickname());
+            String token = result.getToken();
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+            //FIXME
+//            SessionUtils.setUserId(String.valueOf(result.getValue().getId()));
+//            HttpSession httpSession = request.getSession();
+//            Object userIdObject = httpSession.getAttribute("userId");
+//            httpSession.setAttribute("userNickName", result.getValue().getNickname());
+           
             return JsonResult.buildSuccessResult(result.getResultMsg(), null);
         }
-
+        
+        
         LOGGER.warn("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
         return JsonResult.buildFailResult(Integer.valueOf(errorCode), result.getResultMsg(), null);
     }
+    
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseVo login(HttpServletRequest request,Model model) {
-        String userIdStr = SessionUtils.getUserId();
-
-        if(StringUtils.isBlank(userIdStr)){
-            //没有去到userId，直接返回成功
-            return new ResponseVo();
-        }
-        long userId = Long.parseLong(userIdStr) ;
-        SessionUtils.removeUserId();
+    public ResponseVo logout(HttpServletRequest request,Model model) {
+    	sessionManager.removeToken(request);
+    	
+//        String userIdStr = SessionUtils.getUserId();
+//
+//        if(StringUtils.isBlank(userIdStr)){
+//            //没有去到userId，直接返回成功
+//            return new ResponseVo();
+//        }
+//        long userId = Long.parseLong(userIdStr) ;
+//        SessionUtils.removeUserId();
         return new ResponseVo();
     }
 
@@ -120,12 +137,14 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String toMain(Model model) throws Exception {
-        long userId = Long.parseLong(SessionUtils.getUserId()) ;
-        HttpSession httpSession = request.getSession();
-        String userNickName = (String) httpSession.getAttribute("userNickName");
-        List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(userId);
+//        long userId = Long.parseLong(SessionUtils.getUserId()) ;
+    	UserDO user = sessionManager.getUser();
+    	if( user == null ){
+    		//FIXME 曹张锋
+    	}
+        List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(user.getId());
         model.addAttribute("menuList", haMenuDOList);
-        model.addAttribute("userNickName", userNickName);
+        model.addAttribute("userNickName", user.getNick());
         return "/system/layout/layout";
     }
 

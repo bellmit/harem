@@ -37,8 +37,8 @@ public class ItemVO extends ItemDO {
     private int sort = 1;//商品排序字段(默认为1)
 
     private Long endBookTimeLimit;//酒店可入住时间限制(存feature中)
-    private Long startBookTimeDays;
-    private Long startBookTimeHours;
+    private Long startBookTimeDays;//景区规则提前几天
+    private Long startBookTimeHours;//景区规则提前几点
     private Integer grade;//评分(存feature中)
 
     private String smallListPic;//方形小列表图，主要用于订单
@@ -240,7 +240,7 @@ public class ItemVO extends ItemDO {
                 if(i == len - 1){
                     skuTdRowNumList.set(i,1);
                 }else if(i == len - 2){
-                    skuTdRowNumList.set(i,tranSetList.get(i - 1).size());
+                    skuTdRowNumList.set(i,tranSetList.get(i + 1).size());
                 }else{
                     int rowNum = 1;
                     for (int j = i + 1; j < len; j++) {

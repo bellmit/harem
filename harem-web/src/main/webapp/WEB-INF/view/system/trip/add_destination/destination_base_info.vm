@@ -68,7 +68,7 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img height="100" width="100" src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
+                            <img height="100" width="100" src="#if($tripBo.coverURL) $utilWebconfig.getTfsRootPath()$!tripBo.coverURL  #end " id="FMReturnInputImg"> #* #if($tripBo.picturePoster) $utilWebconfig.getTfsRootPath()$!tripBo.picturePoster  #end *#
                         </div>
                     </td>
                 </tr>
@@ -85,24 +85,24 @@
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
-                            <img height="100" width="100"  src="" id="LOGOReturnInputImg">
+                            <img height="100" width="100"  src="#if($tripBo.logoURL) $utilWebconfig.getTfsRootPath()$!tripBo.logoURL  #end" id="LOGOReturnInputImg">
                         </div>
                     </td>
                 </tr>
                 
                  <tr>
                     <td><span class="spColor">*</span>景点副标题</td>
-                    <td><input type="text" id="scenicSubheadId" name="scenicSubhead" ></td>
+                    <td><input type="text" id="scenicSubheadId" name="scenicSubhead" value="$!tripBo.scenicSubhead" ></td>
                 </tr>
                 
                <tr>
                     <td><span class="spColor">*</span>酒店副标题</td>
-                    <td><input type="text" id="hotelSubheadId" name="hotelSubhead" ></td>
+                    <td><input type="text" id="hotelSubheadId" name="hotelSubhead" value="$!tripBo.hotelSubhead" ></td>
                 </tr>
                 
                  <tr>
                     <td><span class="spColor">*</span>直播副标题</td>
-                    <td><input type="text" id="liveSubheadId" name="liveSubhead" ></td>
+                    <td><input type="text" id="liveSubheadId" name="liveSubhead" value="$!tripBo.liveSubhead"></td>
                 </tr>
                 
                 

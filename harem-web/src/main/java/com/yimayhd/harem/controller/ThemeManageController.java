@@ -62,14 +62,14 @@ public class ThemeManageController {
 	
 	@RequestMapping(value = "/list/json", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo jsonList(ThemeVoQuery query){
+	public ResponseVo jsonList(int type){
 			try {
-				List<ComTagDO> list = themeService.getListTheme(query);
+				List<ComTagDO> list = themeService.getListTheme(type);
 				if (CollectionUtils.isNotEmpty(list)) {
 					return new ResponseVo(list);
 				} 
 			} catch (Exception e) {
-				LOGGER.error("jsonList error,query="+JSON.toJSONString(query),e);
+				LOGGER.error("jsonList error,query="+type,e);
 			}
 				return new ResponseVo(ResponseStatus.ERROR);
 	}

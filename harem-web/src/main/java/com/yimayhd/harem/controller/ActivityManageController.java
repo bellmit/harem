@@ -21,6 +21,7 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.ResponseStatus;
@@ -76,6 +77,12 @@ public class ActivityManageController extends BaseController {
 			activityList = ret.getList();
 			totalCount = ret.getTotalCount();
 		}
+		/*List<SnsActivityDO> list = ret.getList();
+		for (SnsActivityDO snsActivityDO : list) {
+			BaseResult<List<ComTagDO>> tagResultCheck =activityService.getTagInfoByOutIdAndType(snsActivityDO.getId(),TagType.ACTIVETYTAG.name() );
+			
+		}*/
+		
 		PageVO pageVo = new PageVO(query.getPageNumber(), query.getPageSize(), totalCount);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("activityListQuery", query);
@@ -193,14 +200,17 @@ public class ActivityManageController extends BaseController {
     	if(tagResult!=null){
     		model.addAttribute("tagResultCheck",tagResultCheck.getValue());
     	}
-		ItemResultVO itemResultVO = commodityService.getCommodityById(activityDO.getProductId());
 		
 		List<ActivityJsonDO> list = JSON.parseArray(activityDO.getActiveJson(), ActivityJsonDO.class);
 		activityDO.setActivityJsonArray(list);
+		ItemResultVO itemResultVO = commodityService.getCommodityById(activityDO.getProductId());
+		if(null != itemResultVO&&itemResultVO.isSuccess()){
+			model.addAttribute("itemName", itemResultVO.getItemVO().getTitle());
+		}
 		model.addAttribute("itemType",ItemType.ACTIVITY.getValue());
 		model.addAttribute("clubList",clubList.getValue());
 		model.addAttribute("activity", activityDO);
-		model.addAttribute("itemName", itemResultVO.getItemVO().getTitle());
+		
 		return "/system/activity/edit";
 	}
 	

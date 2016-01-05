@@ -29,7 +29,7 @@ public interface ThemeService {
 	* @return List<ComTagDO> 返回类型 
 	* @throws
 	 */
-	List<ComTagDO> getListTheme(ThemeVoQuery themeVoQuery )throws Exception;
+	List<ComTagDO> getListTheme(int type )throws Exception;
 	
     /**
      * 获取主题详情

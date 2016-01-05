@@ -3,5 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="hotelRepo" class="com.yimayhd.harem.repo.HotelRepo"/>
+	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
+	<bean id="hotelRepo" class="com.yimayhd.harem.repo.HotelRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.TagRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.LineRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.RestaurantRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.ScenicRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.PictureRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.ResourceRepo"></bean>
 </beans>

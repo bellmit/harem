@@ -1,7 +1,6 @@
 package com.yimayhd.harem.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +14,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.B2CConstant;
-import com.yimayhd.harem.model.HotelVO;
 import com.yimayhd.harem.model.travel.groupTravel.GroupTravel;
-import com.yimayhd.harem.model.travel.groupTravel.TripDay;
 import com.yimayhd.harem.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.harem.service.CommTravelService;
-import com.yimayhd.harem.service.HotelRPCService;
-import com.yimayhd.harem.service.PictureRPCService;
-import com.yimayhd.harem.service.RestaurantRPCService;
-import com.yimayhd.harem.service.ScenicService;
 import com.yimayhd.harem.service.TfsService;
-import com.yimayhd.ic.client.model.domain.PicturesDO;
-import com.yimayhd.ic.client.model.domain.RestaurantDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.enums.LineType;
-import com.yimayhd.ic.client.model.enums.PictureOutType;
-import com.yimayhd.ic.client.model.enums.RouteItemType;
 
 /**
  * 商品-跟团游
@@ -42,19 +29,10 @@ import com.yimayhd.ic.client.model.enums.RouteItemType;
 @Controller
 @RequestMapping("/B2C/comm/groupTravel")
 public class CommGroupTravelController extends BaseTravelController {
-	private static final int PICTURE_MAX_SIZE = 6;
-	@Autowired
-	private CommTravelService travelService;
+	@Resource
+	private CommTravelService groupTravelService;
 	@Autowired
 	private TfsService tfsService;
-	@Autowired
-	private RestaurantRPCService restaurantRPCService;
-	@Autowired
-	private ScenicService scenicService;
-	@Autowired
-	private HotelRPCService hotelRPCService;
-	@Autowired
-	private PictureRPCService pictureRPCService;
 
 	/**
 	 * 详细信息页
@@ -68,7 +46,7 @@ public class CommGroupTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			GroupTravel gt = travelService.getById(id, GroupTravel.class);
+			GroupTravel gt = groupTravelService.getById(id, GroupTravel.class);
 			put("product", gt);
 			String importantInfos = tfsService.readHtml5(gt.getPriceInfo().getImportantInfosCode());
 			put("importantInfos", importantInfos);
@@ -124,61 +102,7 @@ public class CommGroupTravelController extends BaseTravelController {
 			String extraInfosCode = tfsService.publishHtml5(extraInfos);
 			gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
 		}
-		// 详情
-		for (TripDay tripDay : gt.getTripInfo()) {
-			long rId = tripDay.getRestaurantDetailId();
-			if (rId > 0) {
-				RestaurantDO restaurant = restaurantRPCService.getRestaurantById(rId);
-				RouteItemDetail detail = new RouteItemDetail();
-				detail.setId(restaurant.getId());
-				detail.setType(RouteItemType.RESTAURANT.name());
-				detail.setName(restaurant.getName());
-				detail.setShortDesc(restaurant.getOneword());
-				List<String> pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.RESTAURANT, rId,
-						PICTURE_MAX_SIZE);
-				for (PicturesDO pictureDO : pictures) {
-					pics.add(pictureDO.getPath());
-				}
-				detail.setPics(pics);
-				tripDay.setRestaurantDetail(detail);
-			}
-			long sId = tripDay.getScenicDetailId();
-			if (sId > 0) {
-				ScenicDO scenic = scenicService.getById(sId).getScenic();
-				RouteItemDetail detail = new RouteItemDetail();
-				detail.setId(scenic.getId());
-				detail.setType(RouteItemType.SCENIC.name());
-				detail.setName(scenic.getName());
-				detail.setShortDesc(scenic.getOneword());
-				List<String> pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.SCENIC, sId,
-						PICTURE_MAX_SIZE);
-				for (PicturesDO pictureDO : pictures) {
-					pics.add(pictureDO.getPath());
-				}
-				detail.setPics(pics);
-				tripDay.setScenicDetail(detail);
-			}
-			long hId = tripDay.getHotelDetailId();
-			if (hId > 0) {
-				HotelVO hotel = hotelRPCService.getHotel(hId);
-				RouteItemDetail detail = new RouteItemDetail();
-				detail.setId(hotel.getId());
-				detail.setType(RouteItemType.HOTEL.name());
-				detail.setName(hotel.getName());
-				detail.setShortDesc(hotel.getOneword());
-				List<String> pics = new ArrayList<String>();
-				List<PicturesDO> pictures = pictureRPCService.queryTopPictureList(PictureOutType.HOTEL, hId,
-						PICTURE_MAX_SIZE);
-				for (PicturesDO pictureDO : pictures) {
-					pics.add(pictureDO.getPath());
-				}
-				detail.setPics(pics);
-				tripDay.setHotelDetail(detail);
-			}
-		}
-		long id = travelService.publishLine(gt);
+		long id = groupTravelService.publishLine(gt);
 		return new ResponseVo(id);
 	}
 

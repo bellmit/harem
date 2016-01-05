@@ -31,7 +31,7 @@ public class ViewEditController extends BaseController {
     @Autowired
     private CategoryService categoryServiceRef;
     @Autowired
-    private TairManager tairManager;
+    private TairManager dtManager;
     @Autowired
     private TfsService tfsService;
 
@@ -72,9 +72,9 @@ public class ViewEditController extends BaseController {
         int nameSpase = 299;
         HotelDO hotelDO = new HotelDO();
         hotelDO.setName("czf123");
-        ResultCode a = tairManager.put(nameSpase, "czf100209", hotelDO);
+        ResultCode a = dtManager.put(nameSpase, "czf100209", hotelDO);
         System.out.println(JSON.toJSONString(a));
-        Result<DataEntry> b = tairManager.get(nameSpase, "czf100209");
+        Result<DataEntry> b = dtManager.get(nameSpase, "czf100209");
         System.out.println(JSON.toJSONString(b));
         return "/demo/calendar";
     }

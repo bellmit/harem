@@ -11,28 +11,28 @@
             </tr>
             
             <tr>
-                <td><span class="spColor">*</span>所属类型 $!theme.outType</td>
+                <td><span class="spColor">*</span>所属类型 </td>
                 <td>
 					<select class="form-control" name="outType" >
-                        <option value="1"  #if($!theme.outType == 1) checked #end>
+                        <option value="1"  #if($!theme.outType == 1) selected = "selected" #end>
 								直播
                         </option>
-                        <option value="2" #if($!theme.outType == 2) checked #end>
+                        <option value="2" #if($!theme.outType == 2) selected = "selected" #end>
 								活动
                         </option>
-                         <option value="3" #if($!theme.outType == 3) checked #end>
+                         <option value="3" #if($!theme.outType == 3) selected = "selected" #end>
 								俱乐部
                         </option>
-                         <option value="4" #if($!theme.outType == 4) checked #end>
+                         <option value="4" #if($!theme.outType == 4) selected = "selected" #end>
 								会员
                         </option>
-                         <option value="5" #if($!theme.outType == 5) checked #end>
+                         <option value="5" #if($!theme.outType == 5) selected = "selected" #end>
 								景区
                         </option>
-                         <option value="6" #if($!theme.outType == 6) checked #end>
+                         <option value="6" #if($!theme.outType == 6) selected = "selected" #end>
 								酒店
                         </option>
-                         <option value="7" #if($!theme.outType == 7) checked #end>
+                         <option value="7" #if($!theme.outType == 7) selected = "selected" #end>
 								线路
                         </option>
                      </select>
@@ -72,7 +72,7 @@
             }else{
                 actionUrl = '/B2C/themeManage/add';
             }
-            layer.alert(actionUrl);
+
             $('#themeForm').attr('action',actionUrl);
 			$('#themeForm').submit();
         });

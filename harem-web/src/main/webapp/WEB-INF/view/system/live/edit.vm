@@ -1,0 +1,140 @@
+<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<div class="clubDynamicPage whole">
+    <table class="table">
+            <tr>
+                <td>直播内容：</td>
+                <td>
+                     <textarea name="summary" id="" rows="2" class="form-control summary"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>发布时间</td>
+                <td><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value=""></td>
+            </tr>
+            <tr>
+                <td>直播标签</td>
+                <td>
+                   <input type="text" class="inpCtlBlock" name="phoneNum"  value="">
+                </td>
+            </tr>
+            <tr>
+                <td>直播地点</td>
+                <td> <input type="text" class="inpCtlBlock" name="phoneNum"  value=""></td>
+            </tr>
+            <tr>
+                <td>作者信息：</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>直播图片：</td>
+                <td class="picUrlsTd">
+                            <input id="batchUploadBtn1" type="file" multiple="multiple" >
+                            #foreach($pictures in $VO.scenic.pictures)
+                               <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures">
+                            #end
+                        </td>
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!VO.scenic.coverUrl">
+                
+            </tr>
+           
+    </table>
+</div>
+<script>
+
+
+ $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
+            });
+
+var tfsPath = '$utilWebconfig.getTfsRootPath()';
+ 
+   var batchCallBack = function(dataVal){
+        for(var key in dataVal.data){
+             $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+        }
+    }
+    
+    
+    	$(document).delegate('#logoUrlUploadFile','change',function(){
+            fileUpload('#logoUrlUploadFile',1,function(data){
+                if(data && data.status==200){
+                    $('#logoUrlUploadFileReturnInput').val(data.data);
+                    $('#logoUrlUploadFileReturnImg').attr('src',tfsPath + data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });
+    
+
+    $(function(){
+		 $(document).delegate("#batchUploadBtn1",'change',function(){
+           		 fileUpload('#batchUploadBtn1',2,batchCallBack);
+      	 	 })
+
+
+        $('.setTrendStatusBtn').click(function(){
+            $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/setTrendStatus',{trendStatus:$(this).attr('trendStatus'),id:$('#trendId').val(),summary:$('.summary').val()},function(data){
+                if(data.status==200){
+                    layer.alert('操作成功');
+                    window.location.href = window.location.href;
+                }else{
+                    layer.alert('操作失败');
+                }
+            });
+        });
+
+        $('.imgRectangular').click(function(){
+
+                layer.photos({
+                    area: ['450px', '300px'],
+                    photos: '#layer-photos-demo',
+                    tab: function(pic, layero){
+                        console.log(pic) //当前图片的一些信息
+                    }
+                });
+            /*var index = $(this).index();
+            $.getJSON('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/picture/' + $('#trendId').val(), function(data){
+
+                if(data && data.status == 200 && data.data.length > 0){
+                    var pictureArr = new Array();
+                    for(var picture in data.data){
+                        pictureArr.push({
+,                                            "alt": "图片名",
+                                            "pid": 666, //图片id
+                                            "src": "http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK",//data.data[picture], //原图地址
+                                            "thumb": "" //缩略图地址
+                                        });
+
+                    }
+                    var json={
+                        "title": "动态图片预览", //相册标题
+                        "start": index, //初始显示的图片序号，默认0
+                        "data": pictureArr
+                    };
+
+                    layer.photos({
+                        area: ['450px', '300px'],
+                        photos: json
+                    });
+
+                }else{
+                    alert('请求错误');
+                }
+
+            });*/
+        });
+    });
+</script>

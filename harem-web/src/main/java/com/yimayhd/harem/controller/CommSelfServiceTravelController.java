@@ -1,5 +1,7 @@
 package com.yimayhd.harem.controller;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.harem.base.BaseTravelController;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.constant.B2CConstant;
-import com.yimayhd.harem.model.travel.selfServiceTravel.SelfServiceTravel;
+import com.yimayhd.harem.model.travel.flightHotelTravel.FlightHotelTravel;
 import com.yimayhd.harem.service.CommTravelService;
 import com.yimayhd.harem.service.FlightRPCService;
 import com.yimayhd.harem.service.TfsService;
@@ -27,8 +29,8 @@ import com.yimayhd.ic.client.model.enums.LineType;
 @Controller
 @RequestMapping("/B2C/comm/selfServiceTravel")
 public class CommSelfServiceTravelController extends BaseTravelController {
-	@Autowired
-	private CommTravelService travelService;
+	@Resource
+	private CommTravelService flightHotelTravelService;
 	@Autowired
 	private FlightRPCService flightRPCService;
 	@Autowired
@@ -46,7 +48,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			SelfServiceTravel sst = travelService.getById(id, SelfServiceTravel.class);
+			FlightHotelTravel sst = flightHotelTravelService.getById(id, FlightHotelTravel.class);
 			put("product", sst);
 			String importantInfos = tfsService.readHtml5(sst.getPriceInfo().getImportantInfosCode());
 			put("importantInfos", importantInfos);
@@ -125,7 +127,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 */
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
-		SelfServiceTravel sst = JSON.parseObject(json, SelfServiceTravel.class);
+		FlightHotelTravel sst = JSON.parseObject(json, FlightHotelTravel.class);
 		if (StringUtils.isNotBlank(importantInfos)) {
 			String importantInfosCode = tfsService.publishHtml5(importantInfos);
 			sst.getPriceInfo().setImportantInfosCode(importantInfosCode);
@@ -136,7 +138,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 			String extraInfosCode = tfsService.publishHtml5(extraInfos);
 			sst.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
 		}
-		long id = travelService.publishLine(sst);
+		long id = flightHotelTravelService.publishLine(sst);
 		return new ResponseVo(id);
 	}
 }

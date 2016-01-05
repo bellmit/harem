@@ -1,18 +1,21 @@
 package com.yimayhd.harem.controller.loginout;
 
-import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.result.BaseResult;
-import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.SessionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.yimayhd.harem.controller.loginout.vo.LoginoutVO;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.UserService;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * Created by root on 15-11-9.
@@ -22,17 +25,19 @@ public class TestController {
 
     @Resource
     private UserService userServiceRef;
+	@Autowired
+	private SessionManager sessionManager;
 
     @RequestMapping("/test/test1")
     public Map<String, Object> testOne() {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        HttpServletRequest httpServletRequest = SessionUtils.getRequest();
-        if (null == httpServletRequest) {
-            return map;
-        }
+//        HttpServletRequest httpServletRequest = SessionUtils.getRequest();
+//        if (null == httpServletRequest) {
+//            return map;
+//        }
 
-        HttpSession httpSession = httpServletRequest.getSession();
+        HttpSession httpSession = sessionManager.getSession();
         httpSession.setAttribute("user","123");
 
         map.put("status", "123");
@@ -42,13 +47,13 @@ public class TestController {
     @RequestMapping("/test/test2")
     public Map<String, Object> testTwo() {
         Map<String, Object> map = new HashMap<String, Object>();
+//
+//        HttpServletRequest httpServletRequest = SessionUtils.getRequest();
+//        if (null == httpServletRequest) {
+//            return map;
+//        }
 
-        HttpServletRequest httpServletRequest = SessionUtils.getRequest();
-        if (null == httpServletRequest) {
-            return map;
-        }
-
-        HttpSession httpSession = httpServletRequest.getSession();
+        HttpSession httpSession = sessionManager.getSession();
         Object test = httpSession.getAttribute("user");
         if (null == test) {
             map.put("status", "not login");
