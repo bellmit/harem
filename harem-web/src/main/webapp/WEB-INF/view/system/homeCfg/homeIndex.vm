@@ -39,16 +39,16 @@
                         <td>
                             <div class="fileImgWrap">
                                 <button type="button" class="btn btn-success selectImage" id="leftup">选择图片</button>
-                                <input type="hidden" name="imgUrl" value="$!advertiseLeftup.imgUrl" id="imgUrl" >
+                                <input type="hidden" name="imgUrl" value="advertiseLeftup.imgUrl" id="imgUrl" >
                                 <input type="file" name="file" class="fileInp" id="leftupFile">
                             </div>
                             <div class="logoView">
-                                <img src="$!advertiseLeftup.imgUrl" class="img-circle" id="">
+                                <img src="$utilWebconfig.getTfsRootPath()$!advertiseLeftup.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
                         	<span id="activityName">
-                        		$!advertiseLeftup.title
+                        		$!advertiseLeftupName
                         	</span>
                         </td>
                         <td>
@@ -72,12 +72,12 @@
                                 <input type="file" name="file" class="fileInp" id="rightupOneFile">
                             </div>
                             <div class="logoView">
-                                <img src="$!advertiseRightupOne.imgUrl" class="img-circle" id="">
+                                <img src="$utilWebconfig.getTfsRootPath()$!advertiseRightupOne.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                   		<td>
                   		<span id="activityName">
-                        		$!advertiseRightupOne.title
+                        		$!advertiseRightupOneName
                         	</span>
                   		</td>
                         <td>
@@ -100,12 +100,12 @@
                                 <input type="file" name="file" class="fileInp" id="rightupTwoFile">
                             </div>
                             <div class="logoView">
-                                <img src="$!advertiseRightupTwo.imgUrl" class="img-circle" id="">
+                                <img src="$utilWebconfig.getTfsRootPath()$!advertiseRightupTwo.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
                         <span id="activityName">
-                        		$!advertiseRightupTwo.title
+                        		$!advertiseRightupTwoName
                         	</span>
                         </td>
                         <td>
@@ -128,12 +128,12 @@
                                 <input type="file" name="file" class="fileInp" id="downOneFile">
                             </div>
                             <div class="logoView">
-                                <img src="$!advertiseDownOne.imgUrl" class="img-circle" id="">
+                                <img src="$utilWebconfig.getTfsRootPath()$!advertiseDownOne.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
                         <span id="activityName">
-                        		$!advertiseDownOne.title
+                        		$!advertiseDownOneName
                         	</span>
                         </td>
                         <td>
@@ -156,18 +156,18 @@
                                 <input type="file" name="file" class="fileInp" id="downTwoFile">
                             </div>
                             <div class="logoView">
-                                <img src="$!advertiseDownTwo.imgUrl" class="img-circle" id="">
+                                <img src="$utilWebconfig.getTfsRootPath()$!advertiseDownTwo.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                 	
                 		<td>
                 		<span id="activityName">
-                        		$!advertiseDownTwo.title
+                        		$!advertiseDownTwoName
                         	</span>
                 		</td>
                         <td>
                            	 
-                        	 <button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownTwo.operationContent">详情</button>
+                        	<button type="button" id="activityDetail" class="btn btn-primary activityDetail" activityId="$!advertiseDownTwo.operationContent">详情</button>
                             <button type="button" class="btn btn-primary selectActivityAdvertiseBtn" id="downTwoButton">选择商品</button>
                             <input type="hidden" name="activityId" id="activityId" value="$!advertiseDownTwo.operationContent"/>
                         </td>
@@ -185,7 +185,7 @@
                                 <input type="file" name="file" class="fileInp" id="downThreeFile">
                             </div>
                             <div class="logoView">
-                                <img src="$!advertiseDownThree.imgUrl" class="img-circle" id="">
+                                <img src="$utilWebconfig.getTfsRootPath()$!advertiseDownThree.imgUrl" class="img-circle" id="">
                             </div>
                         </td>
                         <td>
@@ -235,7 +235,7 @@
 										<input type="hidden" name="businessCode" id="businessCode" value='$!recommend.businessCode'/>
 										<input type="hidden" name="version" id="version" value='$!recommend.version'/>
 										<td><input type='hidden' name='itemId'  id='itemId' value='$!recommend.operationContent'>$!recommend.title</td>
-										<td><button type="button" id="itemId" class="btn btn-primary recommendDetail" itemType="$!recommend.buisinessCode" itemId="$!recommend.operationContent">详情</button></td>
+										<td><button type="button" id="itemId" class="btn btn-primary recommendDetail" itemType="$!recommend.businessCode" itemId="$!recommend.operationContent">详情</button></td>
 										<td class='delItem'><a>删除</a></td></tr>
 								#end
 							 <div id="updateRecommendDataArea">
@@ -277,7 +277,7 @@
 										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa1.imgUrl'/>
 										<input type="hidden" name="version" id="version" value='$!travelKa1.version'/>
 				
-										<img src='$!travelKa1.imgUrl' width=100px height=80px  id="imgUrl"></td>
+										<img src='$utilWebconfig.getTfsRootPath()$!travelKa1.imgUrl' width=100px height=80px  id="imgUrlShow"></td>
 										<td><input type='text' readonly name='title' id="title" value='$!travelKa1.title'></td>
 										<td>
 										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa1.buisinessCode" itemId="$!travelKa1.operationContent">详情</button>
@@ -290,7 +290,7 @@
 										<input type='hidden' name='operationContent' id='operationContent' value='$!travelKa2.operationContent'>
 										<input type="hidden" name="version" id="version" value='$!travelKa2.version'/>
 										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa2.imgUrl'/>
-										<img src='$!travelKa2.imgUrl' width=100px height=80px  id="imgUrl"></td>
+										<img src='$utilWebconfig.getTfsRootPath()$!travelKa2.imgUrl' width=100px height=80px id="imgUrlShow"></td>
 										<td><input type='text' readonly name='title' id="title" value='$!travelKa2.title'></td>
 										<td>
 										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa2.buisinessCode" itemId="$!travelKa2.operationContent">详情</button>
@@ -304,7 +304,7 @@
 										<input type="hidden" name="version" id="version" value='$!travelKa3.version'/>
 										<input type='hidden' name="imgUrl" id="imgUrl" value='$!travelKa3.imgUrl'/>
 										
-										<img src='$!travelKa3.imgUrl' width=100px height=80px  id="imgUrl"></td>
+										<img src='$utilWebconfig.getTfsRootPath()$!travelKa3.imgUrl' width=100px height=80px  id="imgUrlShow"></td>
 										<td><input type='text' readonly name='title' id="title" value='$!travelKa3.title'></td>
 										<td>
 										<button type="button" id="itemId" class="btn btn-primary travelKaDetail" itemType="$!travelKa3.buisinessCode" itemId="$!travelKa3.operationContent">详情</button>
@@ -337,38 +337,39 @@
 
     $(function(){
     	
-    	$('.activityDetail').each(function(){
-            $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('activityId');
-                window.openwin(url);
-            });
-
+    	$(document).delegate(".activityDetail",'click',function(){
+    		 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('activityId');
+             window.openwin(url);
+        	
         });
     	
+    	$(document).delegate(".travelKaDetail",'click',function(){
+    		  var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toTravelKaDetail?userId='+ $(this).attr('itemId');
+              window.openwin(url);
+       	
+       });
     	
-    	$('.travelKaDetail').each(function(){
-            $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toTravelKaDetail?userId='+ $(this).attr('itemId');
+    	
+    	$(document).delegate(".recommendDetail",'click',function(){
+    		if($(this).attr('itemType') == 'ACTIVITY'){
+        		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('itemId');
                 window.openwin(url);
-            });
-
+        	}else{ //线路
+        		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toLineDetail?lineId='+ $(this).attr('itemId');
+                window.openwin(url);
+        	}
+        	
         });
     	
+        /**
     	$('.recommendDetail').each(function(){
             $(this).click(function(){
-            	if($(this).attr('businessCode') == 'ACTIVITY'){
-            		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('itemId');
-                    window.openwin(url);
-            	}else{ //线路
-            		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toLineDetail?lineId='+ $(this).attr('itemId');
-                    window.openwin(url);
-            	}
             	
                 
             });
 
         });
-    	
+    	*/
     	
     	function enableAdvertiseModify(){
     		$("#advertisementSubmit").show();
@@ -515,7 +516,7 @@
 		  $('#leftupButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#leftupButton').parent().find("#activityName").text(selectData.title);
+                 $('#leftupButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#leftupButton').parent().find("#activityId").val(selectData.id);
                  $('#leftupButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -525,7 +526,7 @@
 		 $('#rightupOneButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#rightupOneButton').parent().find("#activityName").text(selectData.title);
+                 $('#rightupOneButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#rightupOneButton').parent().find("#activityId").val(selectData.id);
                  $('#rightupOneButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -577,7 +578,8 @@
 				var resultValue = win.getTravelKa();
 		 		$("#travelKaTr1").find("#operationContent").val(resultValue.userId);
               	$("#travelKaTr1").find("#title").val(resultValue.nickName);
-               	$("#travelKaTr1").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr1").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
+               	$("#travelKaTr1").find("#imgUrl").val(resultValue.avatar);
                	$("#travelKaTr1").find("#itemId").attr("itemId",resultValue.userId);
                 return true;
             });
@@ -587,8 +589,9 @@
 				var resultValue = win.getTravelKa();
 		 		$("#travelKaTr2").find("#operationContent").val(resultValue.userId);
                	$("#travelKaTr2").find("#title").val(resultValue.nickName);
-               	$("#travelKaTr2").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr2").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr2").find("#itemId").attr("itemId",resultValue.userId);
+               	$("#travelKaTr2").find("#imgUrl").val(resultValue.avatar);
                 return true;
             });
         })
@@ -597,8 +600,9 @@
 				var resultValue = win.getTravelKa();
 		 		$("#travelKaTr3").find("#operationContent").val(resultValue.userId);
                	$("#travelKaTr3").find("#title").val(resultValue.nickName);
-               	$("#travelKaTr3").find("#imgUrl").attr("src",resultValue.imgUrl);
+               	$("#travelKaTr3").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr3").find("#itemId").attr("itemId",resultValue.userId);
+               	$("#travelKaTr3").find("#imgUrl").val(resultValue.avatar);
                 return true;
             });
         })
@@ -769,7 +773,7 @@
                     if(data && data.status==200){
                         var tfsPath = '$utilWebconfig.getTfsRootPath()';
 						$('#'+id).parent().next().find("img").attr("src",tfsPath + data.data)
-                       $('#'+id).parent().find("#imgUrl").val(tfsPath + data.data);
+                       $('#'+id).parent().find("#imgUrl").val(data.data);
                        //$('#imgUploadUrl'+id).attr('src',tfsPath + data.data);
 
                     }else{

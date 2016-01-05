@@ -60,21 +60,62 @@ public class HomeManageController extends BaseController {
 		if (advertiseResult.isSuccess() && !CollectionUtils.isEmpty(advertiseResult.getValue())) {
 			List<ShowcaseDO> advertise = advertiseResult.getValue();
 			if (advertise.size() > ADVERTISE_LEFTUP_INDEX) {
+				//查询商品名称
+				String activityId = advertise.get(ADVERTISE_LEFTUP_INDEX).getOperationContent();
+				ServiceResult<SnsActivityDO>  activityResult = homecfgService.getActivityDetail(Long.parseLong(activityId));
+				if(activityResult.isSuccess() == false){
+					LOGGER.error("getActivityDetail error,activityResult={}",JSONObject.toJSONString(activityResult));
+				}else{
+					model.addAttribute("advertiseLeftupName",activityResult.getValue().getTitle());
+				}
+				//
 				model.addAttribute("advertiseLeftup", advertise.get(ADVERTISE_LEFTUP_INDEX));
 			}
 			if (advertise.size() > ADVERTISE_RIGHTUPONE_INDEX) {
+				//查询商品名称
+				String activityId = advertise.get(ADVERTISE_RIGHTUPONE_INDEX).getOperationContent();
+				ServiceResult<SnsActivityDO>  activityResult = homecfgService.getActivityDetail(Long.parseLong(activityId));
+				if(activityResult.isSuccess() == false){
+					LOGGER.error("getActivityDetail error,activityResult={}",JSONObject.toJSONString(activityResult));
+				}else{
+					model.addAttribute("advertiseRightupOneName",activityResult.getValue().getTitle());
+				}
 				model.addAttribute("advertiseRightupOne", advertise.get(ADVERTISE_RIGHTUPONE_INDEX));
 			}
 
 			if (advertise.size() > ADVERTISE_RIGHTUPTWO_INDEX) {
+				//查询商品名称
+				String activityId = advertise.get(ADVERTISE_RIGHTUPTWO_INDEX).getOperationContent();
+				ServiceResult<SnsActivityDO>  activityResult = homecfgService.getActivityDetail(Long.parseLong(activityId));
+				if(activityResult.isSuccess() == false){
+					LOGGER.error("getActivityDetail error,activityResult={}",JSONObject.toJSONString(activityResult));
+				}else{
+					model.addAttribute("advertiseRightupTwoName",activityResult.getValue().getTitle());
+				}
 				model.addAttribute("advertiseRightupTwo", advertise.get(ADVERTISE_RIGHTUPTWO_INDEX));
 			}
 
 			if (advertise.size() > ADVERTISE_DOWNONE_INDEX) {
+				//查询商品名称
+				String activityId = advertise.get(ADVERTISE_DOWNONE_INDEX).getOperationContent();
+				ServiceResult<SnsActivityDO>  activityResult = homecfgService.getActivityDetail(Long.parseLong(activityId));
+				if(activityResult.isSuccess() == false){
+					LOGGER.error("getActivityDetail error,activityResult={}",JSONObject.toJSONString(activityResult));
+				}else{
+					model.addAttribute("advertiseDownOneName",activityResult.getValue().getTitle());
+				}
 				model.addAttribute("advertiseDownOne", advertise.get(ADVERTISE_DOWNONE_INDEX));
 			}
 
 			if (advertise.size() > ADVERTISE_DOWNTWO_INDEX) {
+				//查询商品名称
+				String activityId = advertise.get(ADVERTISE_DOWNTWO_INDEX).getOperationContent();
+				ServiceResult<SnsActivityDO>  activityResult = homecfgService.getActivityDetail(Long.parseLong(activityId));
+				if(activityResult.isSuccess() == false){
+					LOGGER.error("getActivityDetail error,activityResult={}",JSONObject.toJSONString(activityResult));
+				}else{
+					model.addAttribute("advertiseDownTwoName",activityResult.getValue().getTitle());
+				}
 				model.addAttribute("advertiseDownTwo", advertise.get(ADVERTISE_DOWNTWO_INDEX));
 			}
 
