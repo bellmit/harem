@@ -62,7 +62,7 @@ public class OrderManageController extends BaseController {
 	}
 
 	/**
-	 * 发货
+	 * 发货+确认
 	 */
 	@RequestMapping(value = "/sellerSendGoods", method = RequestMethod.POST)
 	@ResponseBody
