@@ -41,15 +41,10 @@ public class PictureVO {
 	 */
 	public static PictureUpdateDTO setPictureListPictureUpdateDTO(long outId, PictureOutType pictureOutType,
 			PictureUpdateDTO pictureUpdateDTO, List<PicturesDO> picturesDOList, List<PictureVO> pictureVOList) {
-		if (pictureUpdateDTO == null
-				|| CollectionUtils.isEmpty(pictureVOList)) {
+		if (pictureUpdateDTO == null || CollectionUtils.isEmpty(pictureVOList)) {
 			return null;
 		}
-		// picturesDOList转map
-		Map<Long, PicturesDO> pictureDOMap = new HashMap<Long, PicturesDO>();
-		for (PicturesDO picturesDO : picturesDOList) {
-			pictureDOMap.put(picturesDO.getId(), picturesDO);
-		}
+
 		// 新增sku数组
 		List<PicturesDO> addPicturesDOList = new ArrayList<PicturesDO>();
 		// 删除sku数组
@@ -57,24 +52,45 @@ public class PictureVO {
 		// 修改sku数组
 		List<PicturesDO> modifyPicturesDOList = new ArrayList<PicturesDO>();
 
-		for (PictureVO pictureVO : pictureVOList) {
-			if (pictureVO.getId() == 0) {
-				PicturesDO picturesDO = new PicturesDO();
-				picturesDO.setPath(pictureVO.getValue());
-				picturesDO.setName(pictureVO.getName());
-				picturesDO.setOutId(outId);
-				picturesDO.setOutType(pictureOutType.getValue());
-				// TODO picturesDO.setOrderNum(pictureVO.getIndex());
-				picturesDO.setIsTop(pictureVO.isTop());
-				addPicturesDOList.add(picturesDO);
-			} else {
-				if (pictureVO.isdel()) {
-					delPicturesDOList.add(pictureVO.getId());
+		if(CollectionUtils.isEmpty(picturesDOList)){
+			for (PictureVO pictureVO : pictureVOList) {
+				if(0 != pictureVO.getId() && !pictureVO.isdel()){
+					PicturesDO picturesDO = new PicturesDO();
+					picturesDO.setPath(pictureVO.getValue());
+					picturesDO.setName(pictureVO.getName());
+					picturesDO.setOutId(outId);
+					picturesDO.setOutType(pictureOutType.getValue());
+					// TODO picturesDO.setOrderNum(pictureVO.getIndex());
+					picturesDO.setIsTop(pictureVO.isTop());
+					addPicturesDOList.add(picturesDO);
+				}
+			}
+		}else {
+			// picturesDOList转map
+			Map<Long, PicturesDO> pictureDOMap = new HashMap<Long, PicturesDO>();
+			for (PicturesDO picturesDO : picturesDOList) {
+				pictureDOMap.put(picturesDO.getId(), picturesDO);
+			}
+
+			for (PictureVO pictureVO : pictureVOList) {
+				if (pictureVO.getId() == 0) {
+					PicturesDO picturesDO = new PicturesDO();
+					picturesDO.setPath(pictureVO.getValue());
+					picturesDO.setName(pictureVO.getName());
+					picturesDO.setOutId(outId);
+					picturesDO.setOutType(pictureOutType.getValue());
+					// TODO picturesDO.setOrderNum(pictureVO.getIndex());
+					picturesDO.setIsTop(pictureVO.isTop());
+					addPicturesDOList.add(picturesDO);
 				} else {
-					if (pictureVO.isModify()) {
-						PicturesDO picturesDO = pictureDOMap.get(pictureVO.getId());
-						picturesDO.setIsTop(pictureVO.isTop());
-						modifyPicturesDOList.add(picturesDO);
+					if (pictureVO.isdel()) {
+						delPicturesDOList.add(pictureVO.getId());
+					} else {
+						if (pictureVO.isModify()) {
+							PicturesDO picturesDO = pictureDOMap.get(pictureVO.getId());
+							picturesDO.setIsTop(pictureVO.isTop());
+							modifyPicturesDOList.add(picturesDO);
+						}
 					}
 				}
 			}
