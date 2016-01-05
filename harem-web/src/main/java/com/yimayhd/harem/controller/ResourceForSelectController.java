@@ -42,14 +42,12 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
-import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
-import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 
@@ -78,8 +76,7 @@ public class ResourceForSelectController extends BaseController {
 	private CommTravelService travelService;
 	@Autowired
 	private ActivityService activityService;
-	@Autowired
-	private TravelKaService travelKaService;
+
 	/**
 	 * 选择景点
 	 *
@@ -115,7 +112,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryScenicForSelect")
-	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicListQuery scenicPageQuery) throws Exception {
+	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicListQuery scenicPageQuery)
+			throws Exception {
 
 		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -292,25 +290,22 @@ public class ResourceForSelectController extends BaseController {
 	}
 
 	/**
-	 * @Title: listMustBuy
-	 * @Description:(获取买必推荐列表)
-	 * @author create by yushengwei @ 2015年12月27日 下午4:23:41
-	 * @param @param regionIntroduceQuery
-	 * @param @return
-	 * @param @throws Exception
-	 * @return ResponseVo 返回类型
-	 * @throws
+	 * @Title: listMustBuy @Description:(获取买必推荐列表) @author create by
+	 * yushengwei @ 2015年12月27日 下午4:23:41 @param @param
+	 * regionIntroduceQuery @param @return @param @throws Exception @return
+	 * ResponseVo 返回类型 @throws
 	 */
 	@RequestMapping(value = "/listMustBuy")
-	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery query,Integer pageNumber,Integer pageSize) throws Exception {
+	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery query, Integer pageNumber, Integer pageSize)
+			throws Exception {
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		} else {
 			query.setPageNo(BaseQuery.DEFAULT_PAGE);
 		}
-		if(pageSize!= null) {
+		if (pageSize != null) {
 			query.setPageSize(pageSize);
-		} else{
+		} else {
 			query.setPageSize(BaseQuery.DEFAULT_SIZE);
 		}
 		PageVO<RegionIntroduceDO> pageVo = tripService.getPageRegionIntroduceDO(query);
@@ -324,20 +319,21 @@ public class ResourceForSelectController extends BaseController {
 	public String selectLive() throws Exception {
 		return "/system/resource/forSelect/selectLive";
 	}
-	
+
 	@RequestMapping(value = "/listLive")
-	public  @ResponseBody ResponseVo listLive(SubjectInfoDTO query,Integer pageNumber,Integer pageSize) throws Exception {
+	public @ResponseBody ResponseVo listLive(SubjectInfoDTO query, Integer pageNumber, Integer pageSize)
+			throws Exception {
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		} else {
 			query.setPageNo(BaseQuery.DEFAULT_PAGE);
 		}
-		if(pageSize!= null) {
+		if (pageSize != null) {
 			query.setPageSize(pageSize);
-		} else{
+		} else {
 			query.setPageSize(BaseQuery.DEFAULT_SIZE);
 		}
-		
+
 		PageVO<SnsSubjectDO> pageVo = tripService.getPageSnsSubjectDO(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
@@ -356,10 +352,10 @@ public class ResourceForSelectController extends BaseController {
 		return "/system/resource/forSelect/selectline";
 	}
 
-
 	/**
 	 *
 	 * 查询旅游产品
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -369,14 +365,13 @@ public class ResourceForSelectController extends BaseController {
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		}
-//		PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
+		// PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
 		PageVO<LineDO> pageVo = travelService.pageQueryLine(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
 		return new ResponseVo(result);
 	}
-
 
 	/**
 	 * 选择单个活动
@@ -388,7 +383,6 @@ public class ResourceForSelectController extends BaseController {
 	public String selectOneActivity() throws Exception {
 		return "/system/resource/forSelect/selectOneActivity";
 	}
-	
 
 	/**
 	 * 选择多活动
@@ -413,13 +407,8 @@ public class ResourceForSelectController extends BaseController {
 		if (pageNumber != null) {
 			query.setPageNumber(pageNumber);
 		}
-		int totalCount = 0;
 		ActivityQueryDTO activityInfoDTO = convertQuery(query);
-		PageVO pageVo = null;
-		BasePageResult<SnsActivityDO> ret = activityService.getList(activityInfoDTO);
-		if(ret != null & ret.isSuccess()){
-			pageVo = new PageVO(activityInfoDTO.getPageNo(), query.getPageSize(), totalCount, ret.getList());
-		}
+		PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(activityInfoDTO);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
@@ -438,7 +427,7 @@ public class ResourceForSelectController extends BaseController {
 			activityQueryDTO.setPageSize(query.getPageSize());
 		}
 		activityQueryDTO.setTitle(query.getTitle());
-//		activityQueryDTO.set
+		// activityQueryDTO.set
 		if (query.getProductId() != null) {
 			activityQueryDTO.setClubId(query.getProductId());
 		}
@@ -463,6 +452,5 @@ public class ResourceForSelectController extends BaseController {
 		}
 		return activityQueryDTO;
 	}
-
 
 }

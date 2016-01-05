@@ -11,4 +11,5 @@
 	<bean class="com.yimayhd.harem.repo.ScenicRepo"></bean>
 	<bean class="com.yimayhd.harem.repo.PictureRepo"></bean>
 	<bean class="com.yimayhd.harem.repo.ResourceRepo"></bean>
+	<bean class="com.yimayhd.harem.repo.ActivityRepo"></bean>
 </beans>
