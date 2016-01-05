@@ -45,9 +45,9 @@ public class RestaurantRepo extends ResourceRepo {
 		return restaurant.getModule();
 	}
 
-	public boolean addRestaurant(RestaurantDO restaurantDO) {
+	public RestaurantDO addRestaurant(RestaurantDO restaurantDO) {
 		RepoUtils.requestLog(log, "resourcePublishServiceRef.addRestaurant");
-		ICResult<Boolean> restaurant = resourcePublishServiceRef.addRestaurant(restaurantDO);
+		ICResult<RestaurantDO> restaurant = resourcePublishServiceRef.addRestaurant(restaurantDO);
 		RepoUtils.resultLog(log, "resourcePublishServiceRef.addRestaurant", restaurant);
 		return restaurant.getModule();
 	}
