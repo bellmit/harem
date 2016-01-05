@@ -46,6 +46,12 @@ public class PictureRepo {
 	}
 
 	public List<PicturesDO> queryAllPictures(PictureOutType outType, long outId) {
-		return queryTopPictures(outType, outId, PICTURE_MAX_SIZE);
+		PicturesPageQuery ppq = new PicturesPageQuery();
+		ppq.setOutId(outId);
+		ppq.setOutType(outType.getValue());
+		ppq.setPageNo(1);
+		ppq.setPageSize(PICTURE_MAX_SIZE);
+		ppq.setStatus(BaseStatus.AVAILABLE.getType());
+		return pageQueryPictures(ppq).getItemList();
 	}
 }

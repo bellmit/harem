@@ -1,5 +1,6 @@
 package com.yimayhd.harem.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
+import com.yimayhd.harem.model.PictureVO;
 import com.yimayhd.harem.model.RestaurantVO;
 import com.yimayhd.harem.model.query.RestaurantListQuery;
 import com.yimayhd.harem.service.PictureService;
@@ -69,7 +71,19 @@ public class RestaurantManageController extends BaseController {
 			model.addAttribute("coverPics", coverPics);
 		}
 		List<PicturesDO> picturesDOs = pictureService.queryAllPictures(PictureOutType.RESTAURANT, id);
-		model.addAttribute("pictureList", picturesDOs);
+		List<PictureVO> pictureVOList = new ArrayList<PictureVO>();
+		if (CollectionUtils.isNotEmpty(picturesDOs)) {
+			for (PicturesDO picturesDO : picturesDOs) {
+				PictureVO pictureVO = new PictureVO();
+				pictureVO.setId(picturesDO.getId());
+				pictureVO.setName(picturesDO.getName());
+				pictureVO.setValue(picturesDO.getPath());
+				pictureVO.setIsTop(picturesDO.isIsTop());
+				pictureVOList.add(pictureVO);
+
+			}
+		}
+		model.addAttribute("pictureList", pictureVOList);
 		return "/system/restaurant/edit";
 	}
 
