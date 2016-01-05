@@ -65,21 +65,29 @@ public class RestaurantServiceImpl implements RestaurantService {
 		if (id > 0) {
 			RestaurantDO restaurantDO = getRestaurantById(id);
 			RestaurantDO restaurantDTO = restaurantVO.toRestaurantDO(restaurantDO);
-			restaurantRepo.updateRestaurant(restaurantDTO);
+			boolean updateRestaurant = restaurantRepo.updateRestaurant(restaurantDTO);
+			if (updateRestaurant) {
+				throw new BaseException("餐厅资源更新失败,未知错误");
+			}
 			List<PicturesDO> picturesDOList = pictureRepo.queryAllPictures(PictureOutType.RESTAURANT, id);
 			String picListStr = restaurantVO.getPicListStr();
-			List<PictureVO> pictureVOList = JSON.parseArray(picListStr, PictureVO.class);
-			PictureUpdateDTO pictureUpdateDTO = new PictureUpdateDTO();
-			if (PictureVO.setPictureListPictureUpdateDTO(id, PictureOutType.RESTAURANT, pictureUpdateDTO,
-					picturesDOList, pictureVOList) != null) {
-				boolean updatePictures = restaurantRepo.updatePictures(pictureUpdateDTO);
-				if (!updatePictures) {
-					throw new BaseException("餐厅资源保存成功，图片集保存失败");
+			if (StringUtils.isNotBlank(picListStr)) {
+				List<PictureVO> pictureVOList = JSON.parseArray(picListStr, PictureVO.class);
+				PictureUpdateDTO pictureUpdateDTO = new PictureUpdateDTO();
+				if (PictureVO.setPictureListPictureUpdateDTO(id, PictureOutType.RESTAURANT, pictureUpdateDTO,
+						picturesDOList, pictureVOList) != null) {
+					boolean updatePictures = restaurantRepo.updatePictures(pictureUpdateDTO);
+					if (!updatePictures) {
+						throw new BaseException("餐厅资源保存成功，图片集保存失败");
+					}
 				}
 			}
 		} else {
 			RestaurantDO restaurantDO = restaurantVO.toRestaurantDO();
-			restaurantRepo.addRestaurant(restaurantDO);
+			RestaurantDO addedRestaurant = restaurantRepo.addRestaurant(restaurantDO);
+			if (addedRestaurant == null) {
+				throw new BaseException("餐厅资源保存失败, 接口返回值为空");
+			}
 			String picListStr = restaurantVO.getPicListStr();
 			if (StringUtils.isNotBlank(picListStr)) {
 				List<PictureVO> pictureVOList = JSON.parseArray(picListStr, PictureVO.class);
@@ -88,7 +96,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 					PicturesDO picturesDO = new PicturesDO();
 					picturesDO.setPath(pictureVO.getValue());
 					picturesDO.setName(pictureVO.getName());
-					picturesDO.setOutId(restaurantDO.getId());
+					picturesDO.setOutId(addedRestaurant.getId());
 					picturesDO.setOutType(PictureOutType.RESTAURANT.getValue());
 					// TODO picturesDO.setOrderNum(pictureVO.getIndex());
 					picturesDO.setIsTop(pictureVO.isTop());
