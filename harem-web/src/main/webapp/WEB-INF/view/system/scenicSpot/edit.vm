@@ -252,7 +252,7 @@
     	  **/
        $('.selectUser').click(function(){
          	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择旅游咖',function() {
-				var ka = win.getSelected();
+				var ka = win.getTravelKa();
 				if(ka == null) return;
 				$("#recommendName").val(ka.nickName);
 				$("#userImg").attr('src',tfsPath + ka.avatar);
@@ -454,9 +454,9 @@
                     required: true
                 },'locationText': {
                     required: true
-                },'file': {
+                },'logoUrl': {
                     required: true
-                },'batchUploadBtn1': {
+                },'coverPics': {
                     required: true
                 }
                
