@@ -111,7 +111,8 @@ public class TravelOfficialManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo edit(TravelOfficial travelOfficial) throws Exception {
+	public ResponseVo edit(@PathVariable(value = "id") long id,TravelOfficial travelOfficial) throws Exception {
+		travelOfficial.setId(id);
 		boolean flag = travelOfficialService.modify(travelOfficial);
 		if(flag){
 			return new ResponseVo(ResponseStatus.SUCCESS);
