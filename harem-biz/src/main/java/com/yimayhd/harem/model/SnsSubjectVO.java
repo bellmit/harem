@@ -1,13 +1,17 @@
 package com.yimayhd.harem.model;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.util.ListUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,6 +22,7 @@ public class SnsSubjectVO extends SnsSubjectDO {
     private long tagId;
     private ComTagDO tag;
     private List<String> picList;
+    private String picListStr;
     private String gmtCreatedStr;//时间字符串(yyyy-MM-dd HH:mm)
     private Integer commentNum;//评论数
     private Integer supportNum;//点赞数
@@ -25,9 +30,12 @@ public class SnsSubjectVO extends SnsSubjectDO {
     public static SnsSubjectVO getSnsSubjectVO(SnsSubjectDO snsSubjectDO){
         SnsSubjectVO snsSubjectVO = new SnsSubjectVO();
         BeanUtils.copyProperties(snsSubjectDO, snsSubjectVO);
-        //图片list
+        //图片list(以‘|’开头，所以要移除第一个元素)
         if(StringUtils.isNotBlank(snsSubjectDO.getPicContent())) {
-            snsSubjectVO.setPicList(Arrays.asList(snsSubjectDO.getPicContent().split("\\|")));
+            List<String> picList = ListUtil.strToListSplit(snsSubjectDO.getPicContent());
+            snsSubjectVO.setPicList(picList);
+            //图片预览用
+            snsSubjectVO.setPicListStr(JSON.toJSONString(snsSubjectVO.getPicList()));
         }
         //时间
         snsSubjectVO.setGmtCreatedStr(DateUtil.dateToString(snsSubjectDO.getGmtCreated(), DateUtil.DAY_HORU_FORMAT));
@@ -88,5 +96,13 @@ public class SnsSubjectVO extends SnsSubjectDO {
 
     public void setTag(ComTagDO tag) {
         this.tag = tag;
+    }
+
+    public String getPicListStr() {
+        return picListStr;
+    }
+
+    public void setPicListStr(String picListStr) {
+        this.picListStr = picListStr;
     }
 }

@@ -2,8 +2,8 @@ package com.yimayhd.harem.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
+import com.yimayhd.commentcenter.client.enums.CommentType;
 import com.yimayhd.commentcenter.client.enums.SupportType;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
@@ -12,7 +12,6 @@ import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.SnsSubjectVO;
 import com.yimayhd.harem.model.SubjectInfoAddVO;
 import com.yimayhd.harem.model.query.LiveListQuery;
-import com.yimayhd.harem.repo.TagRepo;
 import com.yimayhd.harem.service.LiveService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.PhoneUtil;
@@ -156,7 +155,7 @@ public class LiveServiceImpl implements LiveService {
 					}
 				}
 			}
-			//标签 TODO
+			//标签
 			com.yimayhd.commentcenter.client.result.BaseResult<Map<Long,List<ComTagDO>>> tagInfoBaseResult= comCenterServiceRef.getTagInfoByOutIdsAndType(snsSubjectIdList, TagType.LIVESUPTAG.name());
 			if(null == tagInfoBaseResult){
 				log.error("LiveServiceImpl.getList-comCenterService.getTagInfoByOutIdsAndType result is null and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + TagType.LIVESUPTAG.name());
@@ -167,7 +166,7 @@ public class LiveServiceImpl implements LiveService {
 			}
 			Map<Long,List<ComTagDO>> comTagMap = tagInfoBaseResult.getValue();
 			//评论数
-			com.yimayhd.commentcenter.client.result.BaseResult<Map<Long, Integer>> commentNumBaseResult = comCenterServiceRef.getCommentNumByIds(snsSubjectIdList, TagType.LIVESUPTAG.name());
+			com.yimayhd.commentcenter.client.result.BaseResult<Map<Long, Integer>> commentNumBaseResult = comCenterServiceRef.getCommentNumByIds(snsSubjectIdList, CommentType.LIVECOM.name());
 			if(null == commentNumBaseResult){
 				log.error("LiveServiceImpl.getList-comCenterService.getCommentNumByIds result is null and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + TagType.LIVESUPTAG.name());
 				throw new BaseException("查询直播列表失败，查询评论结果为空");
@@ -192,7 +191,9 @@ public class LiveServiceImpl implements LiveService {
 				//设置user
 				snsSubjectVO.setUserDO(userDOMap.get(snsSubjectVO.getUserId()));
 				//标签
-				snsSubjectVO.setTag(comTagMap.get(snsSubjectVO.getId()).get(0));
+				if(CollectionUtils.isNotEmpty(comTagMap.get(snsSubjectVO.getId()))) {
+					snsSubjectVO.setTag(comTagMap.get(snsSubjectVO.getId()).get(0));
+				}
 				//设置评论数
 				snsSubjectVO.setCommentNum(commentNumMap.get(snsSubjectVO.getId()));
 				//设置点赞数

@@ -453,4 +453,38 @@ public class ResourceForSelectController extends BaseController {
 		return activityQueryDTO;
 	}
 
+	@RequestMapping(value = "/selectLightSpot")
+	public String selectLightSpot() throws Exception {
+		return "/system/resource/forSelect/selectLightSpot";
+	}
+
+	/**
+	 * 亮点
+	 * @param query
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/listLightSpot")
+	public @ResponseBody ResponseVo listLightSpot(SubjectInfoDTO query, Integer pageNumber, Integer pageSize)
+			throws Exception {
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		} else {
+			query.setPageNo(BaseQuery.DEFAULT_PAGE);
+		}
+		if (pageSize != null) {
+			query.setPageSize(pageSize);
+		} else {
+			query.setPageSize(BaseQuery.DEFAULT_SIZE);
+		}
+
+		PageVO<SnsSubjectDO> pageVo = tripService.getPageSnsSubjectDO(query);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pageVo", pageVo);
+		result.put("query", query);
+		return new ResponseVo(result);
+	}
+
 }

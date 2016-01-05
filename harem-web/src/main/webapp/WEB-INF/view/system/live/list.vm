@@ -1,5 +1,6 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
     <form class="form-signin" id="liveListForm" name="liveListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/liveManage/list" method="GET" role="form">
         <div class="inputGroup whole">
             #*<div class="input-group inpSingle">
@@ -85,7 +86,7 @@
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
                             <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>
-                            <button type="button" class="btn btn-primary livePicListBtn"  liveId="$live.id" >图片</button>
+                            <button type="button" class="btn btn-primary livePicListBtn"  picListStr='$live.picListStr' >图片</button>
                             <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status">#if($!live.status == 1) 违规 #else 恢复 #end </button>
                         </td>
                     </tr>
@@ -164,6 +165,19 @@
         $('.subCheckedTR').click(function(){
             $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
         });
+        //图片预览
+        $('.livePicListBtn').click(function(){
+            var picListStr = $(this).attr('picListStr');
+            if(picListStr){
+                showPic(JSON.parse(picListStr),0);
+            }else{
+                layer.msg('没有图片', {
+                    icon: 6,
+                    time: 1500
+                });
+            }
+
+        });
         //批量违规
         $('.liveBatchBtn').click(function(){
             $(this).prop('disabled',true);
@@ -173,19 +187,19 @@
             });
             $.post(actionDefaultPath +'/B2C/liveManage/batchViolation',{liveIdList:arr},function(data){
                 if(data && data.status == 200){
-                    layer.alert('操作成功', {
+                    layer.msg('操作成功', {
                         icon: 1,
                         time: 1500
-                    }, function(){
-                        window.location.href = window.location.href;
                     });
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1500);
                 }else{
-                    layer.alert('操作失败', {
+                    layer.msg('操作失败', {
                         icon: 2,
                         time: 2000
-                    }, function(){
-                        $(this).prop('disabled',false);
                     });
+                    $(this).prop('disabled',false);
                 }
             })
         });

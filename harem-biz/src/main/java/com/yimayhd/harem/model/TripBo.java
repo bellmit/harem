@@ -52,6 +52,7 @@ public class TripBo implements Serializable {
 	public int[] jiuDian;/** 精选酒店*/
 	public int[] zhiBo;/** 精选直播*/
 	public int[] xianLu;/** 线路*/
+	public int[] liangDian;/** 亮点*/
 
 	public List<NeedKnow> biMaiList;
 	public List<NeedKnow> biQuList;
@@ -63,6 +64,8 @@ public class TripBo implements Serializable {
 	public List<NeedKnow> xiaofeiList;
 	public List<NeedKnow> minsuList;
 	public List<NeedKnow> gaikuangList;
+
+	public List<NeedKnow> liangDianList;
 
 	
 	
@@ -433,10 +436,24 @@ public class TripBo implements Serializable {
 	public void setLiveSubhead(String liveSubhead) {
 		this.liveSubhead = liveSubhead;
 	}
+
+	public int[] getLiangDian() {
+		return liangDian;
+	}
+
+	public void setLiangDian(int[] liangDian) {
+		this.liangDian = liangDian;
+	}
+
+	public List<NeedKnow> getLiangDianList() {
+		return liangDianList;
+	}
+
+	public void setLiangDianList(List<NeedKnow> liangDianList) {
+		this.liangDianList = liangDianList;
+	}
 	
 	
-
-
 	/*public List<NeedKnow> getNeedKnowList() {
 		return needKnowList;
 	}

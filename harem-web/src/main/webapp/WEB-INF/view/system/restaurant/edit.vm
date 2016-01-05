@@ -395,6 +395,8 @@
                                 time: 0 //不自动关闭
                                 ,yes: function(index){
                                     layer.close(index);
+									// 刷新父页面
+            						top.freshPrevFrame();
             						top.tabTopClose(this);
                                 }
                             });
