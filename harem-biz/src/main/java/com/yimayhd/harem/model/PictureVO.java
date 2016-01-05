@@ -52,9 +52,9 @@ public class PictureVO {
 		// 修改sku数组
 		List<PicturesDO> modifyPicturesDOList = new ArrayList<PicturesDO>();
 
-		if(CollectionUtils.isEmpty(picturesDOList)){
+		if (CollectionUtils.isEmpty(picturesDOList)) {
 			for (PictureVO pictureVO : pictureVOList) {
-				if(0 != pictureVO.getId() && !pictureVO.isdel()){
+				if (pictureVO.getId() == 0) {
 					PicturesDO picturesDO = new PicturesDO();
 					picturesDO.setPath(pictureVO.getValue());
 					picturesDO.setName(pictureVO.getName());
@@ -65,7 +65,7 @@ public class PictureVO {
 					addPicturesDOList.add(picturesDO);
 				}
 			}
-		}else {
+		} else {
 			// picturesDOList转map
 			Map<Long, PicturesDO> pictureDOMap = new HashMap<Long, PicturesDO>();
 			for (PicturesDO picturesDO : picturesDOList) {

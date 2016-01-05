@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -40,6 +41,7 @@ public class PictureRepo {
 		ppq.setOutType(outType.getValue());
 		ppq.setPageNo(1);
 		ppq.setPageSize(limit);
+		ppq.setStatus(BaseStatus.AVAILABLE.getType());
 		return pageQueryPictures(ppq).getItemList();
 	}
 
