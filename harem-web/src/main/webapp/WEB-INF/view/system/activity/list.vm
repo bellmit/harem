@@ -93,7 +93,7 @@
                         </td>
                         <td>
                         #if($activity.isStatus ==1)
-                        	<button type="button" class="btn btn-primary toView" scenicId="$activity.id">查看</button>
+                        	<button type="button" class="btn btn-primary toUpdate" activityId="$activity.id">查看</button>
                         	<button type="button" class="btn btn-primary updateState"  activityId="$activity.id"  state="2">下架   </button>
                         #elseif($activity.isStatus == 2)
                         	<button type="button" class="btn btn-primary toUpdate" activityId="$activity.id" >编辑</button>

@@ -133,7 +133,6 @@
                 </td>
             </tr>
             <tr>
-            	
     		<td>报名须知</td>
 			<td>
 				  <button type="button" class="btn btn-default addNeedKnow">增加条目</button>
@@ -196,9 +195,11 @@
             <script id="webEditor" type="text/plain" name="content" style="width: 100%; height:350px"></script>
             </div>
             <div class="clubBotBtn">
-                <div class="btn-group">
-                     <button type="submit" class="btn btn-info">保存</button>
-                </div>
+                #if($activity.isStatus !=1)
+	                <div class="btn-group">
+	                     <button type="submit" class="btn btn-info">保存</button>
+	                </div>
+                #end
                 <div class="btn-group">
                     <button class="btn" onclick="top.tabTopClose(this)">取消</button>
                 </div>
