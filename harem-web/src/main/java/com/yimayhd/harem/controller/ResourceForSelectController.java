@@ -349,7 +349,7 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectline")
 	public String selectOneTravelProduct() throws Exception {
-		return "/system/resource/forSelect/selectline";
+		return "/system/resource/forSelect/selectLine";
 	}
 
 	/**
