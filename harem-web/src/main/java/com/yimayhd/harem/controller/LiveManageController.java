@@ -1,9 +1,12 @@
 package com.yimayhd.harem.controller;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.SnsSubjectVO;
 import com.yimayhd.harem.model.query.LiveListQuery;
+import com.yimayhd.harem.repo.TagRepo;
 import com.yimayhd.harem.service.LiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +23,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/B2C/liveManage")
 public class LiveManageController {
-	 @Autowired
-	 private LiveService liveService;
+    @Autowired
+	private LiveService liveService;
+
+    @Autowired
+    private TagRepo tagRepo;
 
     /**
      * 直播列表
@@ -44,7 +50,9 @@ public class LiveManageController {
      * @throws Exception
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
-    public String toAdd() throws Exception {
+    public String toAdd(Model model) throws Exception {
+        List<ComTagDO> comTagDOList = tagRepo.getTagListByTagType(TagType.LIVESUPTAG);
+        model.addAttribute("comTagList",comTagDOList);
         return "/system/live/edit";
     }
 
@@ -57,7 +65,7 @@ public class LiveManageController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
         SnsSubjectVO snsSubjectVO = liveService.getById(id);
-        model.addAttribute("snsSubjectVO", snsSubjectVO);
+        model.addAttribute("live", snsSubjectVO);
         return "/system/live/edit";
     }
 

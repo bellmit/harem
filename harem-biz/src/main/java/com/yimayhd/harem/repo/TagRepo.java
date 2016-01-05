@@ -104,4 +104,17 @@ public class TagRepo {
 		RepoUtils.resultLog(log, "comCenterServiceRef.updateComTagInfo", result);
 		return result.getValue();
 	}
+
+	/**
+	 * 根据TagType获取标签列表
+	 * @param tagType 标签类型
+	 * @return 标签列表
+	 */
+	public List<ComTagDO> getTagListByTagType(TagType tagType) {
+		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType",tagType.name());
+		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(tagType.name());
+		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
+		return tagResult.getValue();
+	}
+
 }

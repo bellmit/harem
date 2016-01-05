@@ -3,44 +3,60 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <div class="clubDynamicPage whole">
-    <table class="table">
-            <tr>
-                <td>直播内容：</td>
-                <td>
-                     <textarea name="summary" id="" rows="2" class="form-control summary"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>发布时间</td>
-                <td><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDate" value=""></td>
-            </tr>
-            <tr>
-                <td>直播标签</td>
-                <td>
-                   <input type="text" class="inpCtlBlock" name="phoneNum"  value="">
-                </td>
-            </tr>
-            <tr>
-                <td>直播地点</td>
-                <td> <input type="text" class="inpCtlBlock" name="phoneNum"  value=""></td>
-            </tr>
-            <tr>
-                <td>作者信息：</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>直播图片：</td>
-                <td class="picUrlsTd">
-                            <input id="batchUploadBtn1" type="file" multiple="multiple" >
-                            #foreach($pictures in $VO.scenic.pictures)
-                               <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures">
+    <form name="liveForm" id="liveForm" action="" method="post" liveId="$!live.id">
+        <table class="table">
+                <tr>
+                    <td>直播内容：</td>
+                    <td>
+                         <textarea name="textContent" id="" rows="2" class="form-control summary">$!live.textContent</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>发布时间</td>
+                    <td><input type="text" class='form-control form-date dateInp' placeholder='发布时间' readonly name="gmtCreated" value="$!live.gmtCreated"></td>
+                </tr>
+                <tr>
+                    <td>直播标签</td>
+                    <td>
+                        <select class="form-control" name="level">
+                            <option value="0">请选择标签</option>
+                            #foreach($comTag in $comTagList)
+                                <option #if($comTag.id == $!hotel.locationTownId) selected #end value="$comTag.id">$comTag.name</option>
                             #end
-                        </td>
-                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!VO.scenic.coverUrl">
-                
-            </tr>
-           
-    </table>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>直播地点</td>
+                    <td> <input type="text" class="inpCtlBlock" name="poiContent"  value=""></td>
+                </tr>
+                <tr>
+                    <td>作者信息：</td>
+                    <td>
+                        <button type="button" class="btn btn-info selectUser">选择用户</button>
+                        <img src="#if($recommend.userPic)$utilWebconfig.getTfsRootPath()$!recommend.userPic#end" alt="头像" class="img-circle grogUserLogo" id="userImg">
+                            <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
+                                      placeholder="请输入300字以内">$!{recommend.description}</textarea>
+                        <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
+                        <input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
+                        <input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}" >
+                        <input type="hidden" id="recommendName" name="recommend.name" value="$!{recommend.name}" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>直播图片：</td>
+                    <td class="picUrlsTd">
+                                <input id="batchUploadBtn" type="file" multiple="multiple" >
+                                #foreach($pictures in $VO.scenic.pictures)
+                                   <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures">
+                                #end
+                            </td>
+                            <input class="picUrlsVal" type="hidden" name="coverPics" value="$!VO.scenic.coverUrl">
+                    </td>
+                </tr>
+
+        </table>
+    </form>
 </div>
 <script>
 
@@ -80,8 +96,8 @@ var tfsPath = '$utilWebconfig.getTfsRootPath()';
     
 
     $(function(){
-		 $(document).delegate("#batchUploadBtn1",'change',function(){
-           		 fileUpload('#batchUploadBtn1',2,batchCallBack);
+		 $(document).delegate("#batchUploadBtn",'change',function(){
+           		 fileUpload('#batchUploadBtn',2,batchCallBack);
       	 	 })
 
 

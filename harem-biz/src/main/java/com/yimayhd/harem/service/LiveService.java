@@ -1,5 +1,7 @@
 package com.yimayhd.harem.service;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.SnsSubjectVO;
 import com.yimayhd.harem.model.query.LiveListQuery;

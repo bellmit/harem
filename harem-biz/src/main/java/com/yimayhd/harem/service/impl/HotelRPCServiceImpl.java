@@ -96,13 +96,15 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 
 	@Override
 	public ICResult<Boolean> updateHotelStatus(HotelDO hotelDO)throws Exception {
-
-		try {
-			return hotelServiceRef.updateHotelStatus(hotelDO);
-		} catch (Exception e) {
-			log.error("hotelService.updateHotelStatus(hotelDO) exception, hotelDO:" + hotelDO,e);
+		ICResult<Boolean> result = hotelServiceRef.updateHotelStatus(hotelDO);
+		if(result == null){
+			log.error("HotelRPCServiceImpl.updateHotelStatus-hotelService.updateHotelStatus result is null and parame: " + JSON.toJSONString(hotelDO));
+			throw new BaseException("酒店状态修改失败");
+		}else if(!result.isSuccess()){
+			log.error("HotelRPCServiceImpl.updateHotelStatus-hotelService.updateHotelStatus error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(hotelDO));
+			throw new BaseException("酒店状态修改失败，" + result.getResultMsg());
 		}
-		return null;
+		return result;
 	}
 
 	@Override

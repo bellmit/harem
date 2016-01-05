@@ -154,7 +154,6 @@
 			itemObj.istop = false;
 			itemObj.isdel = true;
 			itemObj.modify = false;
-			itemObj.istop = _istop?false:true;
 			
 			if(_arrIndex==-1){
 				objArr.push(itemObj);
@@ -202,10 +201,11 @@ $(function(){
 	});
 	var batchCallBack = function(dataVal){
 		if(dataVal && dataVal.status == 200){
-
+			var i=0;
 			for(var key in dataVal.data){
+				i++;
 				if(dataVal.data.hasOwnProperty(key)){
-					var addImgs = '<li data-id="0" data-flag="'+(+new Date())+'" data-name="'+key+'" data-value="'+dataVal.data[key]+'">'
+					var addImgs = '<li data-id="0" data-flag="'+(new Date().getTime()+i)+'" data-name="'+key+'" data-value="'+dataVal.data[key]+'">'
 						+'<a href="" class="img"><img src="' + tfsRootPath + dataVal.data[key] + '" width="240" height="192"/></a>'
 						+'<span><a href="javascript:" class="settop">置顶</a><a href="javascript:" class="delimg">删除</a></span>'
 						+'</li>';

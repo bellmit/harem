@@ -1,10 +1,14 @@
 package com.yimayhd.harem.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.SnsSubjectVO;
 import com.yimayhd.harem.model.query.LiveListQuery;
+import com.yimayhd.harem.repo.TagRepo;
 import com.yimayhd.harem.service.LiveService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.PhoneUtil;
@@ -38,6 +42,8 @@ public class LiveServiceImpl implements LiveService {
 	private SnsCenterService snsCenterServiceRef;
 	@Autowired
 	private UserService userServiceRef;
+	@Autowired
+	private ComCenterService comCenterServiceRef;
 
 	@Override
 	public PageVO<SnsSubjectVO> getList(LiveListQuery liveListQuery) throws Exception {
@@ -166,6 +172,15 @@ public class LiveServiceImpl implements LiveService {
 		} else if(!snsSubjectDOBaseResult.isSuccess()){
 			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage error:" + JSON.toJSONString(snsSubjectDOBaseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
 			throw new BaseException(snsSubjectDOBaseResult.getResultMsg());
+		}
+		//查询标签
+		com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> baseResult = comCenterServiceRef.getTagInfoByOutIdAndType(id, TagType.LIVESUPTAG.name());
+		if(null == baseResult){
+			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame1: " + id + " and parame2:" + TagType.LIVESUPTAG.name());
+			throw new BaseException("查询直播失败，查询标签结果为空");
+		} else if(!baseResult.isSuccess()){
+			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage error:" + JSON.toJSONString(baseResult) + "and parame1: " + id + " and parame2:" + TagType.LIVESUPTAG.name());
+			throw new BaseException("查询直播失败，查询标签错误," + baseResult.getResultMsg());
 		}
 		return SnsSubjectVO.getSnsSubjectVO(snsSubjectDOBaseResult.getValue());
 	}

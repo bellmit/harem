@@ -211,7 +211,7 @@ public class HotelManageController extends BaseController {
 		return "/system/hotel/edit";
 	}
 
-	
+
 	/**
 	 * 选择酒店列表
 	 * 
