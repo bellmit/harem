@@ -8,6 +8,7 @@ import com.yimayhd.harem.model.TravelOfficial;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TravelOfficialListQuery;
 import com.yimayhd.harem.service.TravelOfficialService;
+import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 import com.yimayhd.snscenter.client.domain.TravelJsonDO;
 import com.yimayhd.snscenter.client.dto.TravelSpecialAddDTO;
@@ -16,13 +17,12 @@ import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
-
+import com.yimayhd.user.client.domain.UserDO;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +38,8 @@ public class TravelOfficialImpl implements TravelOfficialService{
     @Autowired
     private SnsCenterService snsCenterService;
 
+    @Autowired
+    UserRPCService userRPCService;
 
     @Override
     public PageVO<SnsTravelSpecialtyDO> getList(TravelOfficialListQuery travelOfficialListQuery) throws Exception {
@@ -79,39 +81,17 @@ public class TravelOfficialImpl implements TravelOfficialService{
     public TravelOfficial getById(long id) throws Exception {
 
         BaseResult<SnsTravelSpecialtyDO> result = snsCenterService.getTravelSpecialInfoBySubjectId(id);
-//        SnsTravelSpecialtyDO snsTravelSpecialtyDO = new SnsTravelSpecialtyDO();
         TravelOfficial travelOfficial = new TravelOfficial();
         if(result!= null && result.isSuccess()){
             SnsTravelSpecialtyDO snsTravelSpecialtyDO = result.getValue();
             travelOfficial = convertTravelOfficial(snsTravelSpecialtyDO);
         }
-//        TravelOfficial travelOfficialData = new TravelOfficial();
-//        travelOfficialData.setId(id);
-//        travelOfficialData.setTitle("穿梭在云端的日子【蜜月之旅】");
-//        travelOfficialData.setRegionId((long) 100);
-//        travelOfficialData.setRegionName("西藏");
-//        User user = new User();
-//        user.setName("孙六");
-//        user.setId((long) 2);
-//        travelOfficialData.setUser(user);
-//        travelOfficialData.setTravelStatus(1);
-//        travelOfficialData.setPublishDate(new Date());
-//        travelOfficialData.setPraiseNum(88);
-//        travelOfficialData.setCollectionNum(880);
         return travelOfficial;
     }
 
     @Override
     public TravelOfficial add(TravelOfficial travelOfficial) throws Exception {
-    	
-    	TravelSpecialAddDTO travelSpecialAddDTO = new TravelSpecialAddDTO();
-    	travelSpecialAddDTO.setBackImg(travelOfficial.getBackImg());
-    	travelSpecialAddDTO.setGmtCreated(travelOfficial.getPublishDate());
-    	travelSpecialAddDTO.setPreface(null);
-    	travelSpecialAddDTO.setTitle(travelOfficial.getTitle());
-    	travelSpecialAddDTO.setTravelJsonDO(ImgContentJsonToTravelJsonDO(travelOfficial.getImgContentJson()));
-    	travelSpecialAddDTO.setUserId(travelOfficial.getCreateId());
-    	travelSpecialAddDTO.setPreface(travelOfficial.getPreface());
+        TravelSpecialAddDTO travelSpecialAddDTO = convertTravelSpecialAddDTO(travelOfficial);
     	BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.addTravelSpecialInfo(travelSpecialAddDTO);
     	if(null != res && res.isSuccess() && null != res.getValue()){
     		travelOfficial.setId(res.getValue().getId());
@@ -119,8 +99,18 @@ public class TravelOfficialImpl implements TravelOfficialService{
     	}
         return null;
     }
-    
-    
+
+    private TravelSpecialAddDTO convertTravelSpecialAddDTO(TravelOfficial travelOfficial){
+        TravelSpecialAddDTO travelSpecialAddDTO = new TravelSpecialAddDTO();
+        travelSpecialAddDTO.setBackImg(travelOfficial.getBackImg());
+        travelSpecialAddDTO.setGmtCreated(travelOfficial.getPublishDate());
+        travelSpecialAddDTO.setPreface(travelOfficial.getPreface());
+        travelSpecialAddDTO.setTitle(travelOfficial.getTitle());
+        travelSpecialAddDTO.setTravelJsonDO(ImgContentJsonToTravelJsonDO(travelOfficial.getImgContentJson()));
+        travelSpecialAddDTO.setUserId(travelOfficial.getCreateId());
+        travelSpecialAddDTO.setPreface(travelOfficial.getPreface());
+        return travelSpecialAddDTO;
+    }
     
     public List<TravelJsonDO> ImgContentJsonToTravelJsonDO(String imgContentJson){
     	if(org.apache.commons.lang3.StringUtils.isEmpty(imgContentJson)){
@@ -141,16 +131,12 @@ public class TravelOfficialImpl implements TravelOfficialService{
 
     @Override
     public boolean modify(TravelOfficial travelOfficial) throws Exception {
-    	TravelSpecialDTO travelSpecialDTO = new TravelSpecialDTO();
-    	//travelSpecialDTO.setGmtModified(gmtModified);
-    	//travelSpecialDTO.set
-    	
-    	BaseResult<Boolean>  res = null;
-    	if(null != res && res.isSuccess() && res.getValue()){
-    		return true;
-    	}
-		return false;
-
+        TravelSpecialAddDTO travelSpecialAddDTO = convertTravelSpecialAddDTO(travelOfficial);
+        BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.updateTravelSpecialInfo(travelSpecialAddDTO);
+        if(null != res && res.isSuccess()){
+            return true;
+        }
+        return false;
     }
 
     private long paraseTime(String time) throws Exception{
@@ -169,10 +155,29 @@ public class TravelOfficialImpl implements TravelOfficialService{
             travelOfficialData.setTitle(snsTravelSpecialtyDO.getTitle() == null? "" : snsTravelSpecialtyDO.getTitle());
             travelOfficialData.setPublishDate(snsTravelSpecialtyDO.getGmtCreated() == null ? null : snsTravelSpecialtyDO.getGmtCreated());
             travelOfficialData.setBackImg(snsTravelSpecialtyDO.getBackImg() == null ? null :snsTravelSpecialtyDO.getBackImg() );;
+            travelOfficialData.setPreface(snsTravelSpecialtyDO.getPreface() == null ? null :snsTravelSpecialtyDO.getPreface());
+            travelOfficialData.setImgContentJson(snsTravelSpecialtyDO.getImgContentJson() == null ? null :snsTravelSpecialtyDO.getImgContentJson());
+            travelOfficialData.setListTravelJsonDO(convertTravelJsonDO(snsTravelSpecialtyDO.getImgContentJson()));
+            travelOfficialData.setCreateUserName(getUserName(snsTravelSpecialtyDO.getCreateId()));
         }
-
         return travelOfficialData;
     }
+
+    public String getUserName(long id){
+        UserDO ud = userRPCService.getUserById(id);
+        if(null != ud ){
+            return ud.getName();
+        }
+        return null;
+    }
+    private List<TravelJsonDO> convertTravelJsonDO(String json){
+        if(StringUtils.isEmpty(json)){
+            return null;
+        }
+        List<TravelJsonDO> list = JSON.parseArray(json,TravelJsonDO.class);
+        return list;
+    }
+
 
     private SnsTravelSpecialtyDO convertSnsTravelSpecialtyDO(TravelOfficial travelOfficial){
         SnsTravelSpecialtyDO snsTravelSpecialtyDO = new SnsTravelSpecialtyDO();

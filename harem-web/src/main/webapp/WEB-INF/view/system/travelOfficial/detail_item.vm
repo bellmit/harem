@@ -18,36 +18,65 @@
                                 <th>拍摄于（30字以内）</th>
                                 <th></th>
                             </tr>
+                            #if($travelOfficial.listTravelJsonDO)
+                                #foreach($travelOfficial in $!travelOfficial.listTravelJsonDO)
 
-                            <tr class="needKnow">
-                                <td>
-                                    <textarea name="detail" id="travelDesId_1" class="form-control extra-info-item-title" placeholder=""></textarea>
-                                </td>
-                                <td>
-			                        <div class="fileImgWrap">
-			                            <button type="button" class="btn btn-success">选择图片</button>
-			                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_1" accept="image/png,image/gif">
-			                            <input type="hidden" name="coverURL" value=""  id="FMReturnInput_1">
-			                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
-			                        </div>
-			                        <div class="propagandaView">
-			                            <img src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
-			                        </div>
-			                        <input type="hidden" name="travelBGImg" value=""  id="travelBGImg_1">
-                                   <span id="travelImgId_1" class="form-control extra-info-item-title" ></span>
-                                </td>
-                                <td>
-                                    <textarea class="form-control extra-info-item-text" name="travelDes" id="detailId_1" rows="3"></textarea>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                </td>
-                            </tr>
-                            #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
-                           aaa
+                                    <tr class="needKnow">
+                                        <td>
+                                            <textarea name="detail" id="travelDesId_$!{velocityCount}" class="form-control extra-info-item-title" placeholder="">$!travelOfficial.travelDes</textarea>
+                                        </td>
+                                        <td>
+                                            <div class="fileImgWrap">
+                                                <button type="button" class="btn btn-success">选择图片</button>
+                                                <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_$!{velocityCount}" accept="image/png,image/gif">
+                                                <input type="hidden" name="coverURL" value=""  id="FMReturnInput_$!{velocityCount}">
+                                                <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                                            </div>
+                                            <div class="propagandaView">
+                                                <img src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
+                                            </div>
+                                            <input type="hidden" name="travelBGImg" value="$!travelOfficial.travelImg"  id="travelBGImg_$!{velocityCount}">
+                                        <span id="travelImgId_$!{velocityCount}" class="form-control extra-info-item-title" >
+                                            #foreach($imgList in $!travelOfficial.travelImg)
+                                                <img width='100' height='100' src="$utilWebconfig.getTfsRootPath()$!imgList">
+                                            #end
+                                        </span>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="travelDes" id="detailId_$!{velocityCount}" rows="3">$!travelOfficial.detail</textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr class="needKnow">
+                                    <td>
+                                        <textarea name="detail" id="travelDesId_1" class="form-control extra-info-item-title" placeholder=""></textarea>
+                                    </td>
+                                    <td>
+                                        <div class="fileImgWrap">
+                                            <button type="button" class="btn btn-success">选择图片</button>
+                                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_1" accept="image/png,image/gif">
+                                            <input type="hidden" name="coverURL" value=""  id="FMReturnInput_1">
+                                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                                        </div>
+                                        <div class="propagandaView">
+                                            <img src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
+                                        </div>
+                                        <input type="hidden" name="travelBGImg" value=""  id="travelBGImg_1">
+                                   <span id="travelImgId_1" class="form-control extra-info-item-title" >
+                                   </span>
+                                    </td>
+                                    <td>
+                                        <textarea class="form-control extra-info-item-text" name="travelDes" id="detailId_1" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                    </td>
+                                </tr>
                             #end
-
-
                         </table>
                     </td>
                 </tr>

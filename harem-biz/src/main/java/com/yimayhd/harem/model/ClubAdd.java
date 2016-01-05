@@ -14,10 +14,11 @@ public class ClubAdd extends ClubInfoAddDTO implements Serializable{
 	//List<Long> themeIds;
 	
 	//创建时间
-	Date createTime;
+	/*
+	* Date createTime;
 
-	
-	
+
+
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -25,6 +26,7 @@ public class ClubAdd extends ClubInfoAddDTO implements Serializable{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	* */
 
 	/*public List<Long> getThemeIds() {
 		return themeIds;

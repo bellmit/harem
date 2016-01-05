@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +24,6 @@ import com.yimayhd.harem.model.vo.TravelOfficialVO;
 import com.yimayhd.harem.service.TravelOfficialService;
 import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 
-//import com.yimayhd.service.MessageCodeService;
-
-/**
- * 官方游记管理
- * 
- * @author czf
- */
 @Controller
 @RequestMapping("/B2C/travelOfficialManage")
 public class TravelOfficialManageController extends BaseController {
@@ -118,8 +112,11 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo edit(TravelOfficial travelOfficial) throws Exception {
-		travelOfficialService.modify(travelOfficial);
-		return new ResponseVo();
+		boolean flag = travelOfficialService.modify(travelOfficial);
+		if(flag){
+			return new ResponseVo(ResponseStatus.SUCCESS);
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 
 	/**
@@ -132,9 +129,10 @@ public class TravelOfficialManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo setJoinStatus(BatchSetUpParameter batchSetUpParameter,int travelStatus,HttpServletRequest request) throws Exception {
 		List<Long> ids = null;
-		if(null != batchSetUpParameter){
-			ids = batchSetUpParameter.getIds();
+		if(null == batchSetUpParameter || CollectionUtils.isEmpty(batchSetUpParameter.getIds()) ){
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
 		}
+		ids = batchSetUpParameter.getIds();
 		boolean flag = travelOfficialService.batchUpOrDownStatus(ids, travelStatus);
 		if(flag){
 			return new ResponseVo(ResponseStatus.SUCCESS);
