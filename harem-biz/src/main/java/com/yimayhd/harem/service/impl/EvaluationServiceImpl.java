@@ -12,6 +12,7 @@ import com.yimayhd.harem.model.query.EvaluationListQuery;
 import com.yimayhd.harem.service.EvaluationService;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.PhoneUtil;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOQuery;
 import com.yimayhd.user.client.result.BaseResult;
@@ -155,16 +156,50 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public void regain(long id) throws Exception {
-
+        CommentDTO commentDTO = new CommentDTO();
+        List<Long> idList = new ArrayList<Long>();
+        idList.add(id);
+        commentDTO.setIdList(idList);
+        commentDTO.setState(BaseStatus.AVAILABLE.getType());
+        com.yimayhd.commentcenter.client.result.BaseResult<Boolean> baseResult = comCenterServiceRef.updateCommentStateByIdList(commentDTO);
+        if(null == baseResult){
+            log.error("EvaluationServiceImpl.regain-comCenterService.updateSubjectStatus result is null and parame: " + JSON.toJSONString(commentDTO) + " and id:" + id);
+            throw new BaseException("返回结果为空，恢复失败");
+        } else if(!baseResult.isSuccess()){
+            log.error("EvaluationServiceImpl.regain-comCenterService.updateSubjectStatus error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(commentDTO) + " and id:" + id);
+            throw new BaseException(baseResult.getResultMsg() + ",返回结果为错误，恢复失败");
+        }
     }
 
     @Override
     public void violation(long id) throws Exception {
-
+        CommentDTO commentDTO = new CommentDTO();
+        List<Long> idList = new ArrayList<Long>();
+        idList.add(id);
+        commentDTO.setIdList(idList);
+        commentDTO.setState(BaseStatus.DELETED.getType());
+        com.yimayhd.commentcenter.client.result.BaseResult<Boolean> baseResult = comCenterServiceRef.updateCommentStateByIdList(commentDTO);
+        if(null == baseResult){
+            log.error("EvaluationServiceImpl.violation-comCenterService.updateSubjectStatus result is null and parame: " + JSON.toJSONString(commentDTO) + " and id:" + id);
+            throw new BaseException("返回结果为空，违规失败");
+        } else if(!baseResult.isSuccess()){
+            log.error("EvaluationServiceImpl.violation-comCenterService.updateSubjectStatus error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(commentDTO) + " and id:" + id);
+            throw new BaseException(baseResult.getResultMsg() + ",返回结果为错误，违规失败");
+        }
     }
 
     @Override
     public void batchViolation(List<Long> idList) {
-
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setIdList(idList);
+        commentDTO.setState(BaseStatus.DELETED.getType());
+        com.yimayhd.commentcenter.client.result.BaseResult<Boolean> baseResult = comCenterServiceRef.updateCommentStateByIdList(commentDTO);
+        if(null == baseResult){
+            log.error("EvaluationServiceImpl.batchViolation-comCenterService.updateSubjectStatus result is null and parame: " + JSON.toJSONString(commentDTO) + " and idList:" + JSON.toJSONString(idList));
+            throw new BaseException("返回结果为空，违规失败");
+        } else if(!baseResult.isSuccess()){
+            log.error("EvaluationServiceImpl.batchViolation-comCenterService.updateSubjectStatus error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(commentDTO) + " and idList:" + JSON.toJSONString(idList));
+            throw new BaseException(baseResult.getResultMsg() + ",返回结果为错误，违规失败");
+        }
     }
 }

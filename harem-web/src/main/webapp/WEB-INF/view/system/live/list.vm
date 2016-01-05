@@ -76,11 +76,11 @@
                         <td>$!live.userDO.nickName</td>
                         <td>$!live.userDO.mobileNo</td>
                         <td>$!live.textContent</td>
-                        <th>标签</th>
-                        <th>来源</th>
-                        <th>点赞数</th>
-                        <th>评论数</th>
-                        <th>分享数</th>
+                        <th>$!live.tag.name</th>
+                        <th>暂未实现</th>
+                        <th>$!live.supportNum</th>
+                        <th>$!live.commentNum</th>
+                        <th>暂未实现</th>
                         <td>#TREND_STATUS($!live.status)</td>
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>

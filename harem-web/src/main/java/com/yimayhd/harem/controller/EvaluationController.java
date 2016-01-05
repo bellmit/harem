@@ -45,7 +45,7 @@ public class EvaluationController {
     @RequestMapping(value = "/violation/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo publish(@PathVariable("id") long id) throws Exception {
-        //TODO
+        evaluationService.violation(id);
         return new ResponseVo();
     }
 
@@ -58,7 +58,7 @@ public class EvaluationController {
     @RequestMapping(value = "/regain/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo close(@PathVariable("id") long id) throws Exception {
-        //TODO
+        evaluationService.regain(id);
         return new ResponseVo();
     }
 
@@ -72,7 +72,7 @@ public class EvaluationController {
     @ResponseBody
     public ResponseVo batchPublish(@RequestParam("evaluationIdList[]") ArrayList<Long> evaluationIdList)
             throws Exception {
-        //TODO
+        evaluationService.batchViolation(evaluationIdList);
         return new ResponseVo();
     }
    

@@ -1,5 +1,6 @@
 package com.yimayhd.harem.model;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.user.client.domain.UserDO;
@@ -15,8 +16,11 @@ import java.util.List;
 public class SnsSubjectVO extends SnsSubjectDO {
     private UserDO userDO;
     private long tagId;
+    private ComTagDO tag;
     private List<String> picList;
     private String gmtCreatedStr;//时间字符串(yyyy-MM-dd HH:mm)
+    private Integer commentNum;//评论数
+    private Integer supportNum;//点赞数
 
     public static SnsSubjectVO getSnsSubjectVO(SnsSubjectDO snsSubjectDO){
         SnsSubjectVO snsSubjectVO = new SnsSubjectVO();
@@ -60,5 +64,29 @@ public class SnsSubjectVO extends SnsSubjectDO {
 
     public void setGmtCreatedStr(String gmtCreatedStr) {
         this.gmtCreatedStr = gmtCreatedStr;
+    }
+
+    public Integer getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    public Integer getSupportNum() {
+        return supportNum;
+    }
+
+    public void setSupportNum(Integer supportNum) {
+        this.supportNum = supportNum;
+    }
+
+    public ComTagDO getTag() {
+        return tag;
+    }
+
+    public void setTag(ComTagDO tag) {
+        this.tag = tag;
     }
 }

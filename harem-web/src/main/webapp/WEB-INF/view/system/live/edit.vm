@@ -83,14 +83,14 @@
 
         //选择大咖
         $('.selectUser').click(function(){
-            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择用户',function() {
-                var ka = win.getTravelKa();
-                if(ka == null){
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser','选择用户',function() {
+                var user = win.getItem();
+                if(user == null){
                     return;
                 }
-                $("#userImg").attr('src',tfsRootPath + ka.avatar);
-                $("#userId").val(ka.id);
-                $("#userName").html(ka.nickName);
+                $("#userImg").attr('src',tfsRootPath + user.avatar);
+                $("#userId").val(user.id);
+                $("#userName").html(user.nickName);
                 return true;
             });
         });
