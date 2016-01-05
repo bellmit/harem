@@ -14,12 +14,15 @@ import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.model.CategoryVO;
 import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.ItemVO;
+import com.yimayhd.harem.model.vo.ActivityVO;
+import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.CategoryService;
 import com.yimayhd.harem.service.CommActivityService;
 import com.yimayhd.harem.service.CommodityService;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 
 /**
  * 活动商品
@@ -36,7 +39,8 @@ public class CommActivityManageController extends BaseController {
     private CategoryService categoryService;
 	@Autowired
     private CommodityService commodityService;
-	
+	@Autowired
+	private ActivityService activityService;
 	
 	/**
 	 * 新增活动商品
@@ -65,7 +69,7 @@ public class CommActivityManageController extends BaseController {
     	
 //		itemVO.setSellerId(Long.parseLong(SessionUtils.getUserId()));
 		//long sellerId = sessionManager.getUserId();
-		//itemVO.setSellerId(sellerId);
+		//itemVO.setSellerId(sellerId)
 		ItemPubResult result = commActivityService.add(itemVO);
         
         return "/success";

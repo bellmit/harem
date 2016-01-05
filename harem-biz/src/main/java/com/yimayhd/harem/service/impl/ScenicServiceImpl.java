@@ -10,6 +10,7 @@ import com.yimayhd.harem.model.query.HotelListQuery;
 import com.yimayhd.harem.model.query.ScenicListQuery;
 import com.yimayhd.harem.model.PictureVO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -126,6 +127,8 @@ public class ScenicServiceImpl implements ScenicService {
 			picturesPageQuery.setOutId(id);
 			picturesPageQuery.setPageNo(PIC_PAGE_NO);
 			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
+			picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
+			picturesPageQuery.setOutType(PictureOutType.SCENIC.getValue());
 			ICPageResult<PicturesDO> icPageResult = itemQueryService.queryPictures(picturesPageQuery);
 			if(icPageResult == null){
 				log.error("ScenicServiceImpl.getById-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -264,7 +267,7 @@ public class ScenicServiceImpl implements ScenicService {
 					picturesDO.setPath(pictureVO.getValue());
 					picturesDO.setName(pictureVO.getName());
 					picturesDO.setOutId(addScenicNew.getModule().getId());
-					picturesDO.setOutType(PictureOutType.HOTEL.getValue());
+					picturesDO.setOutType(PictureOutType.SCENIC.getValue());
 					//TODO picturesDO.setOrderNum(pictureVO.getIndex());
 					picturesDO.setIsTop(pictureVO.isTop());
 					picList.add(picturesDO);
@@ -322,14 +325,15 @@ public class ScenicServiceImpl implements ScenicService {
 				log.error("ScenicServiceImpl.save-ResourcePublishService.updateScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
 				throw new BaseException(addScenicNew.getResultMsg());
 			}
-			
-			scenicVO.setPictureList(JSON.parseArray(scenicVO.getPicListStr(),PictureVO.class));
+			if(StringUtils.isNotBlank(scenicVO.getPicListStr())){
+				scenicVO.setPictureList(JSON.parseArray(scenicVO.getPicListStr(),PictureVO.class));
 			if(CollectionUtils.isNotEmpty(scenicVO.getPictureList())) {
 				//获取图片
 				PicturesPageQuery picturesPageQuery = new PicturesPageQuery();
 				picturesPageQuery.setOutId(scenicVO.getId());
 				picturesPageQuery.setPageNo(PIC_PAGE_NO);
 				picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
+				picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 				ICPageResult<PicturesDO> icPageResult = itemQueryService.queryPictures(picturesPageQuery);
 				if (icPageResult == null) {
 					log.error("ScenicServiceImpl.updateScenic-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -351,6 +355,7 @@ public class ScenicServiceImpl implements ScenicService {
 						throw new BaseException("景区资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
 					}
 				}
+			}
 			}
 			
 			

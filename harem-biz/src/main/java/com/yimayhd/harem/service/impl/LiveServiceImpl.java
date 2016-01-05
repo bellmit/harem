@@ -2,11 +2,15 @@ package com.yimayhd.harem.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
+import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
+import com.yimayhd.commentcenter.client.enums.SupportType;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.SnsSubjectVO;
+import com.yimayhd.harem.model.SubjectInfoAddVO;
 import com.yimayhd.harem.model.query.LiveListQuery;
 import com.yimayhd.harem.repo.TagRepo;
 import com.yimayhd.harem.service.LiveService;
@@ -14,6 +18,7 @@ import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoAddDTO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
@@ -126,11 +131,13 @@ public class LiveServiceImpl implements LiveService {
 		}
 		if(CollectionUtils.isNotEmpty(basePageResult.getList())){
 			List<SnsSubjectVO> snsSubjectVOList = new ArrayList<SnsSubjectVO>();
+			List<Long> snsSubjectIdList = new ArrayList<Long>();
 			//查询条件中没有查用户的情况下，要重新查询用户信息
 			if(userDOMap.size() == 0){
 				List<Long> userIds = new ArrayList<Long>();
 				for (SnsSubjectDO snsSubjectDO : basePageResult.getList()){
 					userIds.add(snsSubjectDO.getUserId());
+					snsSubjectIdList.add(snsSubjectDO.getId());
 				}
 				// 查询用户
 				BaseResult<List<UserDO>> userListResult =  userServiceRef.getUserDOList(userIds);
@@ -149,11 +156,47 @@ public class LiveServiceImpl implements LiveService {
 					}
 				}
 			}
+			//标签 TODO
+			com.yimayhd.commentcenter.client.result.BaseResult<Map<Long,List<ComTagDO>>> tagInfoBaseResult= comCenterServiceRef.getTagInfoByOutIdsAndType(snsSubjectIdList, TagType.LIVESUPTAG.name());
+			if(null == tagInfoBaseResult){
+				log.error("LiveServiceImpl.getList-comCenterService.getTagInfoByOutIdsAndType result is null and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + TagType.LIVESUPTAG.name());
+				throw new BaseException("查询直播列表失败，查询标签结果为空");
+			} else if(!tagInfoBaseResult.isSuccess()){
+				log.error("LiveServiceImpl.getList-comCenterService.getTagInfoByOutIdsAndType error:" + JSON.toJSONString(tagInfoBaseResult) + "and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + TagType.LIVESUPTAG.name());
+				throw new BaseException("查询直播列表失败，查询标签错误," + tagInfoBaseResult.getResultMsg());
+			}
+			Map<Long,List<ComTagDO>> comTagMap = tagInfoBaseResult.getValue();
+			//评论数
+			com.yimayhd.commentcenter.client.result.BaseResult<Map<Long, Integer>> commentNumBaseResult = comCenterServiceRef.getCommentNumByIds(snsSubjectIdList, TagType.LIVESUPTAG.name());
+			if(null == commentNumBaseResult){
+				log.error("LiveServiceImpl.getList-comCenterService.getCommentNumByIds result is null and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + TagType.LIVESUPTAG.name());
+				throw new BaseException("查询直播列表失败，查询评论结果为空");
+			} else if(!commentNumBaseResult.isSuccess()){
+				log.error("LiveServiceImpl.getList-comCenterService.getCommentNumByIds error:" + JSON.toJSONString(commentNumBaseResult) + "and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + TagType.LIVESUPTAG.name());
+				throw new BaseException("查询直播列表失败，查询评论错误," + commentNumBaseResult.getResultMsg());
+			}
+			Map<Long, Integer> commentNumMap = commentNumBaseResult.getValue();
+			//点赞数
+			com.yimayhd.commentcenter.client.result.BaseResult<Map<Long, Integer>> supportNumBaseResult = comCenterServiceRef.getSupportNumByOutIds(snsSubjectIdList, SupportType.LIVESUP);
+			if(null == supportNumBaseResult){
+				log.error("LiveServiceImpl.getList-comCenterService.getCommentNumByIds result is null and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + JSON.toJSONString(SupportType.LIVESUP));
+				throw new BaseException("查询直播列表失败，查询评论结果为空");
+			} else if(!supportNumBaseResult.isSuccess()){
+				log.error("LiveServiceImpl.getList-comCenterService.getCommentNumByIds error:" + JSON.toJSONString(supportNumBaseResult) + "and parame1: " + JSON.toJSONString(snsSubjectIdList) + " and parame2:" + JSON.toJSONString(SupportType.LIVESUP));
+				throw new BaseException("查询直播列表失败，查询评论错误," + supportNumBaseResult.getResultMsg());
+			}
+			Map<Long, Integer> supportNumMap = supportNumBaseResult.getValue();
 			for (SnsSubjectDO snsSubjectDO : basePageResult.getList()){
 				//转换类型
 				SnsSubjectVO snsSubjectVO = SnsSubjectVO.getSnsSubjectVO(snsSubjectDO);
 				//设置user
 				snsSubjectVO.setUserDO(userDOMap.get(snsSubjectVO.getUserId()));
+				//标签
+				snsSubjectVO.setTag(comTagMap.get(snsSubjectVO.getId()).get(0));
+				//设置评论数
+				snsSubjectVO.setCommentNum(commentNumMap.get(snsSubjectVO.getId()));
+				//设置点赞数
+				snsSubjectVO.setSupportNum(supportNumMap.get(snsSubjectVO.getId()));
 				snsSubjectVOList.add(snsSubjectVO);
 			}
 			snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),basePageResult.getTotalCount(),snsSubjectVOList);
@@ -167,32 +210,104 @@ public class LiveServiceImpl implements LiveService {
 		subjectInfoDTO.setId(id);
 		com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> snsSubjectDOBaseResult= snsCenterServiceRef.getSubjectInfo(subjectInfoDTO);
 		if(null == snsSubjectDOBaseResult){
-			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			log.error("LiveServiceImpl.getById-snsCenterService.getSubjectInfo result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
 			throw new BaseException("查询返回结果为空");
 		} else if(!snsSubjectDOBaseResult.isSuccess()){
-			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage error:" + JSON.toJSONString(snsSubjectDOBaseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			log.error("LiveServiceImpl.getById-snsCenterService.getSubjectInfo error:" + JSON.toJSONString(snsSubjectDOBaseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
 			throw new BaseException(snsSubjectDOBaseResult.getResultMsg());
 		}
+
 		//查询标签
 		com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> baseResult = comCenterServiceRef.getTagInfoByOutIdAndType(id, TagType.LIVESUPTAG.name());
 		if(null == baseResult){
-			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame1: " + id + " and parame2:" + TagType.LIVESUPTAG.name());
+			log.error("LiveServiceImpl.getById-snsCenterService.getTagInfoByOutIdAndType result is null and parame1: " + id + " and parame2:" + TagType.LIVESUPTAG.name());
 			throw new BaseException("查询直播失败，查询标签结果为空");
 		} else if(!baseResult.isSuccess()){
-			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage error:" + JSON.toJSONString(baseResult) + "and parame1: " + id + " and parame2:" + TagType.LIVESUPTAG.name());
+			log.error("LiveServiceImpl.getById-snsCenterService.getTagInfoByOutIdAndType error:" + JSON.toJSONString(baseResult) + "and parame1: " + id + " and parame2:" + TagType.LIVESUPTAG.name());
 			throw new BaseException("查询直播失败，查询标签错误," + baseResult.getResultMsg());
 		}
-		return SnsSubjectVO.getSnsSubjectVO(snsSubjectDOBaseResult.getValue());
+		SnsSubjectVO snsSubjectVO = SnsSubjectVO.getSnsSubjectVO(snsSubjectDOBaseResult.getValue());
+		//标签为单选
+		if(CollectionUtils.isNotEmpty(baseResult.getValue())){
+			snsSubjectVO.setTagId(baseResult.getValue().get(0).getId());
+		}
+		//查询用户
+		try {
+			UserDO userDO = userServiceRef.getUserDOById(snsSubjectVO.getUserId());
+			if(userDO == null){
+				log.error("LiveServiceImpl.getById-userService.getUserDOById return result is null and parame:" + snsSubjectVO.getUserId());
+				//throw new BaseException("未查到用户");
+			}
+			snsSubjectVO.setUserDO(userDO);
+		}catch (Exception e){
+			log.error("LiveServiceImpl.getById-userService.getUserDOById error:" + JSON.toJSONString(e) +  "and parame:" + snsSubjectVO.getUserId());
+			//throw new BaseException("未查到用户");
+		}
+		return snsSubjectVO;
 	}
 
 	@Override
-	public SnsSubjectVO add(SnsSubjectVO snsSubjectVO) throws Exception {
+	public SnsSubjectVO add(SubjectInfoAddVO subjectInfoAddVO) throws Exception {
+
+		SubjectInfoAddDTO subjectInfoAddDTO = SubjectInfoAddVO.getSubjectInfoAddDTO(subjectInfoAddVO);
+		com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> baseResult = snsCenterServiceRef.addSubjectInfo(subjectInfoAddDTO);
+		if(null == baseResult){
+			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo result is null and parame: " + JSON.toJSONString(subjectInfoAddDTO));
+			throw new BaseException("新增直播失败，返回结果为空");
+		} else if(!baseResult.isSuccess()){
+			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoAddDTO));
+			throw new BaseException("新增直播失败，新增错误," + baseResult.getResultMsg());
+		}
+		//保存标签
+		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
+		tagRelationInfoDTO.setOutId(baseResult.getValue().getId());
+		tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
+		List<Long> tagIdList = new ArrayList<Long>();
+		tagIdList.add(subjectInfoAddDTO.getTagId());
+		tagRelationInfoDTO.setList(tagIdList);
+		tagRelationInfoDTO.setOrderTime(subjectInfoAddDTO.getGmtCreated());
+		com.yimayhd.commentcenter.client.result.BaseResult<Boolean> addTagBaseResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
+		if(null == addTagBaseResult){
+			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo result is null and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+			throw new BaseException("新增直播成功，新增直播标签失败，返回结果为空");
+		} else if(!addTagBaseResult.isSuccess()){
+			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo error:" + JSON.toJSONString(addTagBaseResult) + "and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+			throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
+		}
+
 		return null;
 	}
 
 	@Override
-	public void modify(SnsSubjectVO snsSubjectVO) throws Exception {
+	public void modify(SubjectInfoAddVO subjectInfoAddVO) throws Exception {
 
+		//不用查询DB
+		//修改
+		SubjectInfoAddDTO subjectInfoAddDTO = SubjectInfoAddVO.getSubjectInfoAddDTO(subjectInfoAddVO);
+		com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> baseResult = snsCenterServiceRef.updateSubjectInfo(subjectInfoAddDTO);
+		if(null == baseResult){
+			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo result is null and parame: " + JSON.toJSONString(subjectInfoAddDTO));
+			throw new BaseException("修改直播失败，返回结果为空");
+		} else if(!baseResult.isSuccess()){
+			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoAddDTO));
+			throw new BaseException("修改直播失败，修改错误," + baseResult.getResultMsg());
+		}
+		//修改标签
+		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
+		tagRelationInfoDTO.setOutId(subjectInfoAddVO.getId());
+		tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
+		List<Long> tagIdList = new ArrayList<Long>();
+		tagIdList.add(subjectInfoAddDTO.getTagId());
+		tagRelationInfoDTO.setList(tagIdList);
+		tagRelationInfoDTO.setOrderTime(subjectInfoAddDTO.getGmtCreated());
+		com.yimayhd.commentcenter.client.result.BaseResult<Boolean> addTagBaseResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
+		if(null == addTagBaseResult){
+			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo result is null and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+			throw new BaseException("新增直播成功，新增直播标签失败，返回结果为空");
+		} else if(!addTagBaseResult.isSuccess()){
+			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo error:" + JSON.toJSONString(addTagBaseResult) + "and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+			throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
+		}
 	}
 
 	@Override

@@ -1,8 +1,10 @@
 package com.yimayhd.harem.model;
 
 import com.yimayhd.harem.base.BaseModel;
+import com.yimayhd.snscenter.client.domain.TravelJsonDO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/10.
@@ -11,6 +13,7 @@ public class TravelOfficial extends BaseModel {
 
   
 	private static final long serialVersionUID = 1L;
+    private long id;
 	private String title;//
     private Long regionId;//
     private String regionName;//
@@ -24,12 +27,12 @@ public class TravelOfficial extends BaseModel {
     private String backImg; // 封面
     private String preface;//前言
     private String imgContentJson;//图文详情
-
+    private List<TravelJsonDO> listTravelJsonDO;//把图文详情转换成这个list对象
     //用户的
     private long createId;
     private String userPhoto;
     private String nickName;
-
+    private String createUserName;
     
     public String getPreface() {
 		return preface;
@@ -138,5 +141,31 @@ public class TravelOfficial extends BaseModel {
 
     public void setBackImg(String backImg) {
         this.backImg = backImg;
+    }
+
+    public List<TravelJsonDO> getListTravelJsonDO() {
+        return listTravelJsonDO;
+    }
+
+    public void setListTravelJsonDO(List<TravelJsonDO> listTravelJsonDO) {
+        this.listTravelJsonDO = listTravelJsonDO;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -12,6 +12,7 @@ import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.constant.B2CConstant;
 import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.model.ItemVO;
+import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.CommActivityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
@@ -36,7 +37,9 @@ public class CommActivityServiceImpl implements CommActivityService {
 	private ItemPublishService itemPublishService;
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
-
+	@Autowired
+	private ActivityService activityService;
+	
 	@Override
 	public ItemPubResult add(ItemVO itemVO) throws Exception {
 		 CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
@@ -68,6 +71,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	            log.error("CommActivityServiceImpl.add--ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
 	            throw new BaseException(itemPubResult.getResultMsg());
 	        }
+	        
 		 return  itemPubResult;
 	}
 

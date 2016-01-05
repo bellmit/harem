@@ -29,29 +29,29 @@
                     <tr>
                         <td><span class="spColor">*</span>景区名称</td>
                         <td>
-                            #if($!{VO.scenic.id})
-                                <input type="hidden" name="id" value="$!{VO.scenic.id}">
+                            #if($!{VO.id})
+                                <input type="hidden" name="id" value="$!{VO.id}">
                             #end
-                            <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内" value="$!{VO.scenic.name}">
+                            <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内" value="$!{VO.name}">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>区域</td>
                         <td>
                             <div class="selectList">
-                                <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{VO.scenic.locationProvinceName}">
+                                <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{VO.locationProvinceName}">
                                 <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
-                                    <option value="$!{VO.scenic.locationProvinceId}">#if(! $VO.scenic.locationProvinceName)请选择省份#else$!{VO.scenic.locationProvinceName}#end</option>
+                                    <option value="$!{VO.locationProvinceId}">#if(! $VO.locationProvinceName)请选择省份#else$!{VO.locationProvinceName}#end</option>
                                 </select>
-                                <input type="hidden" id="citySelectName" name="locationCityName" value="$!{VO.scenic.locationCityName}">
+                                <input type="hidden" id="citySelectName" name="locationCityName" value="$!{VO.locationCityName}">
                                 <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
-                                    <option value="$!{VO.scenic.locationCityId}">#if(! $VO.scenic.locationCityName)请选择城市#else$!{VO.scenic.locationProvinceName}#end</option>
+                                    <option value="$!{VO.locationCityId}">#if(! $VO.locationCityName)请选择城市#else$!{VO.locationProvinceName}#end</option>
                                 </select>
-                                <input type="hidden" id="countySelectName" name="locationTownName" value="$!{VO.scenic.locationTownName}">
+                                <input type="hidden" id="countySelectName" name="locationTownName" value="$!{VO.locationTownName}">
                                 <select id="countyId" class="selCity inpControl countySelect" name="locationTownId" areaType="COUNTY">
-                                    <option value="$!{VO.scenic.locationTownId}">#if(! $VO.scenic.locationTownName)请选择区县#else$!{VO.scenic.locationTownName}#end</option>
+                                    <option value="$!{VO.locationTownId}">#if(! $VO.locationTownName)请选择区县#else$!{VO.locationTownName}#end</option>
                                 </select>
-                                <input type="text" class="inpCtlBlock" name="locationText" id="locationText" placeholder="请输入100个字以内" value="$!{VO.scenic.locationText}">
+                                <input type="text" class="inpCtlBlock" name="locationText" id="locationText" placeholder="请输入100个字以内" value="$!{VO.locationText}">
                             </div>
                         </td>
                     </tr>
@@ -60,10 +60,10 @@
                         <td>
                             <select class="form-control {required:true}" id="level" name="level">
                                 <option value="0">请选择</option>
-                                <option value="1"  #if($!{VO.scenic.level} == 1) selected #end>五星级</option>
-                                <option value="2" #if($!{VO.scenic.level} == 2) selected #end>四星级</option>
-                                <option value="3" #if($!{VO.scenic.level} == 3) selected #end>三星级</option>
-                                <option value="4" #if($!{VO.scenic.level} == 4) selected #end>连锁酒店</option>
+                                <option value="1"  #if($!{VO.level} == 1) selected #end>五星级</option>
+                                <option value="2" #if($!{VO.level} == 2) selected #end>四星级</option>
+                                <option value="3" #if($!{VO.level} == 3) selected #end>三星级</option>
+                                <option value="4" #if($!{VO.level} == 4) selected #end>连锁酒店</option>
                             </select>
                         </td>
                     </tr>
@@ -71,28 +71,28 @@
                         <td><span class="spColor">*</span>地址经纬度</td>
                         <td>
                             <span>经度</span>
-                            <input type="text" name="locationX" id="locationX" class="inpControl getAddress" value="$!{VO.scenic.locationX}">
+                            <input type="text" name="locationX" id="locationX" class="inpControl getAddress" value="$!{VO.locationX}">
                             <span>维度</span>
-                            <input type="text" name="locationY" id="locationY" class="inpControl getAddress" value="$!{VO.scenic.locationY}">
+                            <input type="text" name="locationY" id="locationY" class="inpControl getAddress" value="$!{VO.locationY}">
                           
                         </td>
                     </tr>
                     <tr>
                         <td>景区电话</td>
-                        <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字" value="$!{VO.scenic.phoneNum[0]}"></td>
+                        <td><input type="text" class="inpCtlBlock" name="phoneNum" id="phoneNum" placeholder="请输入数字" value="$!{VO.phoneNum[0]}"></td>
                     </tr>
                     <tr>
                         <td>营业时间</td>
-                        <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字" value="$!{VO.scenic.openTime}"></td>
+                        <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字" value="$!{VO.openTime}"></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>景区简介</td>
-                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.description}</textarea></td>
+                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.description}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
                         <td>
-                        <textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.oneword}</textarea>
+                        <textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.oneword}</textarea>
                        </td>
                     </tr>
                     <tr>
@@ -129,12 +129,12 @@
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>退改规定</td>
-                        <td><textarea name="refundRule" id="refundRule" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.scenic.refundRule}</textarea></td>
+                        <td><textarea name="refundRule" id="refundRule" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.refundRule}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>基础价格</td>
                         <td>
-                        #set($price=$VO.scenic.price / 100.0) 
+                        #set($price=$VO.price / 100.0) 
                         	<input type="text" name="priceY" id="price" class="inpControl" value="$price">起
                         </td>
                     </tr>
@@ -142,22 +142,22 @@
                         <td>景区联系人</td>
                         <td>
                             <span>姓名</span>
-                            <input type="text" name="contactPerson" class="inpControl" value="$!{VO.scenic.contactPerson}">
+                            <input type="text" name="contactPerson" class="inpControl" value="$!{VO.contactPerson}">
                             <span>电话</span>
-                            <input type="text" name="contactPhone" class="inpControl" value="$!{VO.scenic.contactPhone}">
+                            <input type="text" name="contactPhone" class="inpControl" value="$!{VO.contactPhone}">
                         </td>
                     </tr>
                     <tr>
                         <td>推荐理由</td>
                         <td>
-                            <input type="text" name="masterRecommend.title"  class="inpControl" value="#if(! $VO.scenic.recommend.title)大咖推荐#else$!VO.scenic.recommend.title#end">
-                            <img src="#if($VO.scenic.recommend.userPic) $utilWebconfig.getTfsRootPath()$!VO.scenic.recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
+                            <input type="text" name="masterRecommend.title"  class="inpControl" value="#if(! $VO.recommend.title)大咖推荐#else$!VO.recommend.title#end">
+                            <img src="#if($VO.recommend.userPic) $utilWebconfig.getTfsRootPath()$!VO.recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
                             <span id="recommendNameT"></span>
-                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{VO.scenic.recommend.description}</textarea>
-                            <input type="hidden" id="recommendId" name="masterRecommend.id" value="#if(! $VO.scenic.recommend.id)0#else$!VO.scenic.recommend.id#end" >
-                            <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="#if(! $VO.scenic.recommend.userId)0#else$!VO.scenic.recommend.userId#end" >
-                            <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{VO.scenic.recommend.userPic}" >
-                            <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{VO.scenic.recommend.name}" >
+                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{VO.recommend.description}</textarea>
+                            <input type="hidden" id="recommendId" name="masterRecommend.id" value="#if(! $VO.recommend.id)0#else$!VO.recommend.id#end" >
+                            <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="#if(! $VO.recommend.userId)0#else$!VO.recommend.userId#end" >
+                            <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{VO.recommend.userPic}" >
+                            <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{VO.recommend.name}" >
                         </td>
                     </tr>
                      <tr>
@@ -165,11 +165,11 @@
                         <td>
                             <div class="fileImgWrap">
                               
-                                <input type="hidden" name="logoUrl" value="$!{VO.scenic.logoUrl}" id="logoUrlUploadFileReturnInput" >
+                                <input type="hidden" name="logoUrl" value="$!{VO.logoUrl}" id="logoUrlUploadFileReturnInput" >
                               
                             </div>
 	                    <div class="logoView"> 
-	                        <img src="#if($VO.scenic.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.scenic.logoUrl} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg">
+	                        <img src="#if($VO.logoUrl) $utilWebconfig.getTfsRootPath()$!{VO.logoUrl} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg">
 	                    </div>
                         </td>
                      </tr>
@@ -177,7 +177,7 @@
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
                         <td>
-                       	 #foreach($pictures in $VO.scenic.pictures)
+                       	 #foreach($pictures in $VO.pictures)
                                 <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures">
                             #end
                         	

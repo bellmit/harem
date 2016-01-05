@@ -38,7 +38,7 @@
                     </div>
                     <div class="userView">
                         <img src=" #if($travelOfficial.userPhoto) $utilWebconfig.getTfsRootPath()$!travelOfficial.userPhoto  #end">
-                        <span id="shownickNameId">$!travelOfficial.nickName</span>
+                        <span id="shownickNameId">$!travelOfficial.createUserName</span>
                     </div>
                 </td>
 			</tr>

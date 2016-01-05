@@ -256,7 +256,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/batchPublish", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList, int commStatus)
+	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
 //		long sellerId = Long.parseLong(SessionUtils.getUserId());
 //		long sellerId = sessionManager.getUserId();
@@ -277,7 +277,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/batchClose", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList, int commStatus)
+	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
 //		long sellerId = Long.parseLong(SessionUtils.getUserId());
 //		long sellerId = sessionManager.getUserId();

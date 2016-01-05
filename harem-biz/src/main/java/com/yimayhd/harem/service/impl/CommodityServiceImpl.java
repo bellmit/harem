@@ -214,10 +214,10 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.setStockNum(itemDO.getStockNum());
             //商品图片
             if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getSmallListPic());
+                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getSmallListPic());
             }
             if(StringUtils.isNotBlank(itemVO.getBigListPic())){
-                itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC,itemVO.getBigListPic());
+                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getBigListPic());
             }
             if(StringUtils.isNotBlank(itemVO.getCoverPics())){
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
