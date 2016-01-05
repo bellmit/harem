@@ -46,11 +46,7 @@
                         <td>
                             <input type="text" name="priceY" value="$!commodity.priceY">
                     </td>
-                    <tr>
-                        <td><span class="spColor">*</span>排序</td>
-                        <td><input type="text" name="index" value="$!commodity.index" ></td>
-                    </tr>
-                    
+                  
                     <tr>
                         <td><span class="spColor">*</span>选择订单图</td>
                         #*<td class="bigListPicTd">
