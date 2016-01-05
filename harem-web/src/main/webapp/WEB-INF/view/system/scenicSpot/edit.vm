@@ -175,7 +175,7 @@
                      <tr>
                         <td><span class="spColor">*</span>详情页展示图</td>
                         <td class="picUrlsTd">
-                            <input id="batchUploadBtn1" type="file" multiple="multiple" >
+                            <input id="batchUploadBtn1" type="file" name="batchUploadBtn1" multiple="multiple" >
                             #foreach($pictures in $VO.pictures)
                                <img class="picUrlsUrl uploadImgFile" imgUrl="$pictures" src="$utilWebconfig.getTfsRootPath()$pictures"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
                             #end
@@ -434,7 +434,7 @@
                     required: true
                 },'locationX': {
                     required: true
-                },'locationy': {
+                },'locationY': {
                     required: true
                 },'oneword': {
                     required: true
@@ -445,6 +445,18 @@
                 },'refundRule': {
                     required: true
                 },'priceY': {
+                    required: true
+                },'locationProvinceId': {
+                    required: true
+                },'locationCityId': {
+                    required: true
+                },'locationTownId': {
+                    required: true
+                },'locationText': {
+                    required: true
+                },'file': {
+                    required: true
+                },'batchUploadBtn1': {
                     required: true
                 }
                
