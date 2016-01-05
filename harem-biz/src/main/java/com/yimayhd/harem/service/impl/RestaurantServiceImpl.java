@@ -27,6 +27,7 @@ import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 public class RestaurantServiceImpl implements RestaurantService {
 	@Autowired
 	private RestaurantRepo restaurantRepo;
+	@Autowired
 	private PictureRepo pictureRepo;
 
 	@Override
@@ -66,7 +67,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 			RestaurantDO restaurantDO = getRestaurantById(id);
 			RestaurantDO restaurantDTO = restaurantVO.toRestaurantDO(restaurantDO);
 			boolean updateRestaurant = restaurantRepo.updateRestaurant(restaurantDTO);
-			if (updateRestaurant) {
+			if (!updateRestaurant) {
 				throw new BaseException("餐厅资源更新失败,未知错误");
 			}
 			List<PicturesDO> picturesDOList = pictureRepo.queryAllPictures(PictureOutType.RESTAURANT, id);
@@ -74,8 +75,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 			if (StringUtils.isNotBlank(picListStr)) {
 				List<PictureVO> pictureVOList = JSON.parseArray(picListStr, PictureVO.class);
 				PictureUpdateDTO pictureUpdateDTO = new PictureUpdateDTO();
-				if (PictureVO.setPictureListPictureUpdateDTO(id, PictureOutType.RESTAURANT, pictureUpdateDTO,
-						picturesDOList, pictureVOList) != null) {
+				PictureUpdateDTO setPictureListPictureUpdateDTO = PictureVO.setPictureListPictureUpdateDTO(id, PictureOutType.RESTAURANT, pictureUpdateDTO,
+						picturesDOList, pictureVOList);
+				if (setPictureListPictureUpdateDTO != null) {
 					boolean updatePictures = restaurantRepo.updatePictures(pictureUpdateDTO);
 					if (!updatePictures) {
 						throw new BaseException("餐厅资源保存成功，图片集保存失败");

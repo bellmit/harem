@@ -41,7 +41,7 @@ public class PictureVO {
 	 */
 	public static PictureUpdateDTO setPictureListPictureUpdateDTO(long outId, PictureOutType pictureOutType,
 			PictureUpdateDTO pictureUpdateDTO, List<PicturesDO> picturesDOList, List<PictureVO> pictureVOList) {
-		if (pictureUpdateDTO == null || CollectionUtils.isEmpty(picturesDOList)
+		if (pictureUpdateDTO == null
 				|| CollectionUtils.isEmpty(pictureVOList)) {
 			return null;
 		}
