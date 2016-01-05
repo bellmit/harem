@@ -52,7 +52,7 @@
                 <button type="reset" class="btn btn-primary">重置</button>
             </div>
         </div>
-        <button type="button" class="btn btn-primary addLiveBtn" id="addLiveBtn">添加商品</button>
+        <button type="button" class="btn btn-primary addLiveBtn" id="addLiveBtn">添加直播</button>
         <button type="button" class="btn btn-primary liveBatchBtn">批量违规</button>
         <div class="tableGroup whole">
             <table class="table table-hover">

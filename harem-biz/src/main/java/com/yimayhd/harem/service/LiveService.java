@@ -1,9 +1,8 @@
 package com.yimayhd.harem.service;
 
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.SnsSubjectVO;
+import com.yimayhd.harem.model.SubjectInfoAddVO;
 import com.yimayhd.harem.model.query.LiveListQuery;
 
 import java.util.List;
@@ -27,18 +26,18 @@ public interface LiveService {
 
     /**
      * 新增直播
-     * @param snsSubjectVO 直播内容
-     * @return
+     * @param subjectInfoAddVO 直播内容
+     * @return 直播对象
      * @throws Exception
      */
-    SnsSubjectVO add(SnsSubjectVO snsSubjectVO)throws Exception;
+    SnsSubjectVO add(SubjectInfoAddVO subjectInfoAddVO)throws Exception;
 
     /**
      * 修改直播
-     * @param snsSubjectVO 直播内容
+     * @param subjectInfoAddVO 直播内容
      * @throws Exception
      */
-    void modify(SnsSubjectVO snsSubjectVO)throws Exception;
+    void modify(SubjectInfoAddVO subjectInfoAddVO)throws Exception;
 
     /**
      * 直播恢复

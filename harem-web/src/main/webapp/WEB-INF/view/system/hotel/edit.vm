@@ -243,6 +243,7 @@
                       		  <input type="text" name="recommend.title"  class="inpControl"
                                    value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end" readonly>
                             <img src="#if($recommend.userPic)$utilWebconfig.getTfsRootPath()$!recommend.userPic#end" alt="头像" class="img-circle grogUserLogo" id="userImg">
+                            <span id="recommendNameT">#if(! $recommend.name)#else$!recommend.name#end</span>
                             <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
                             <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
@@ -422,7 +423,7 @@
         $(document).delegate("#hotelBatchUploadBtn",'change',function(){
             fileUpload('#hotelBatchUploadBtn',2,function(dataVal){
                 for(var key in dataVal.data){
-                    $('.hotelPicUrlsTd').append('<img class="hotelPicUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+                    $('.hotelPicUrlsTd').append('<img class="hotelPicUrlsUrl uploadImgFile" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
                 }
             });
         })

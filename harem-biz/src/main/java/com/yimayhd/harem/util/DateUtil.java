@@ -995,7 +995,7 @@ public class DateUtil {
 	/**
 	 * 周*
 	 * 
-	 * @param time
+	 * @param date
 	 * @return
 	 * @throws ParseException
 	 */
@@ -1008,7 +1008,7 @@ public class DateUtil {
 	/**
 	 * 星期*
 	 * 
-	 * @param time
+	 * @param date
 	 * @return
 	 * @throws ParseException
 	 */

@@ -13,6 +13,7 @@ import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
@@ -228,6 +229,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			picturesPageQuery.setOutId(hotelVO.getId());
 			picturesPageQuery.setPageNo(PIC_PAGE_NO);
 			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
+			picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 			ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 			if (icPageResult == null) {
 				log.error("HotelRPCServiceImpl.updateHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -270,6 +272,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		picturesPageQuery.setOutId(id);
 		picturesPageQuery.setPageNo(PIC_PAGE_NO);
 		picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
+		picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 		ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 		if(icPageResult == null){
 			log.error("HotelRPCServiceImpl.getHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
