@@ -28,10 +28,21 @@
 	<li>
         <a href="#jingxuanjiudian" id="jingxuanjiudianId" data-toggle="tab">精选酒店</a>
     </li>
-	#*	*#
-		<li>
-        	<a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
-    	</li>
+
+    <li>
+        <a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
+    </li>
+
+    #*
+    <li>
+        <a href="#jingxuanzhibo" id="tuiJianLuXianId" data-toggle="tab">推荐路线</a>
+    </li>
+
+    <li>
+        <a href="#jingxuanzhibo" id="lianDianId" data-toggle="tab">亮点</a>
+    </li>
+    *#
+
 
 </ul>
 
@@ -278,6 +289,7 @@
     <input type="hidden" class="inpControl" id="jiuDianId" name="jiuDian" value="">
     <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo" value="">
     <input type="hidden" class="inpControl" id="xianLuId" name="xianLu" value="">
+    <input type="hidden" class="inpControl" id="liangDianId" name="xianLu" value="">
     
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
@@ -433,8 +445,25 @@ $('#jingxuanzhiboId').click(function(){
 		setArrId(win.getItems(),"zhiBoId");
 		return true;
 	});
-	
 });
+
+
+
+
+$('#tuiJianLuXianId').click(function(){
+    openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectline','推荐路线',function() {
+        setArrId(win.getItems(),"xianLuId");
+        return true;
+    });
+});
+
+$('#lianDianId').click(function(){
+    openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLightSpot','亮点',function() {
+        setArrId(win.getItems(),"liangDianId");
+        return true;
+    });
+});
+
 
 
 </script>

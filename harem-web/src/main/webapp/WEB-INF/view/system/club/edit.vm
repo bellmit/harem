@@ -91,7 +91,7 @@
                 <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
             </div>
             <div class="btn-group">
-                <button class="btn">取消</button>
+                <button class="btn" type="button" id="btnCancel" >取消</button>
             </div>
         </div>
     </form>
@@ -125,7 +125,6 @@
 			    });
                 }else{
                  	layer.alert('获取主题失败');
-                    $(this).prop('disabled',false);
                 }
     });
 	
@@ -203,8 +202,7 @@
 
         $('#btnSubmit').click(function(){
             $(this).prop('disabled',true);
-            
-            var themeIds =[]; 
+            var themeIds =[];
 			$('input[name="theme"]:checked').each(function(){ 
 				themeIds.push($(this).val()); 
 			}); 
@@ -231,9 +229,17 @@
             
 			$.post(actionUrl,clubParams,function(data){
                 if(data.status == 200){
-                 layer.alert('操作成功');
+                    layer.alert('操作成功', {
+                        icon: 1,
+                        time: 5000
+                    }, function(){
+                        history.go(-1);
+                    });
                 }else{
-                    layer.alert('操作失败');
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 5000
+                    });
                     $(this).prop('disabled',false);
                 }
             });
@@ -253,4 +259,7 @@
         format: "yyyy-mm-dd"
     });
 
+    $('#btnCancel').click(function(){
+        history.go(0);
+    });
 </script>
