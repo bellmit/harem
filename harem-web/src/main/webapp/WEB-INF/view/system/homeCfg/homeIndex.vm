@@ -536,7 +536,7 @@
 		  $('#rightupTwoButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#rightupTwoButton').parent().find("#activityName").text(selectData.title);
+                 $('#rightupTwoButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#rightupTwoButton').parent().find("#activityId").val(selectData.id);
                  $('#rightupTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -546,7 +546,7 @@
 		 $('#downOneButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#downOneButton').parent().find("#activityName").text(selectData.title);
+                 $('#downOneButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#downOneButton').parent().find("#activityId").val(selectData.id);
                  $('#downOneButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -556,7 +556,7 @@
 		 $('#downTwoButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#downTwoButton').parent().find("#activityName").text(selectData.title);
+                 $('#downTwoButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#downTwoButton').parent().find("#activityId").val(selectData.id);
                  $('#downTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -566,7 +566,7 @@
 		  $('#downThreeButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#downThreeButton').parent().find("#activityName").text(selectData.title);
+                 $('#downThreeButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#downThreeButton').parent().find("#activityId").val(selectData.id);
                  $('#downThreeButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
