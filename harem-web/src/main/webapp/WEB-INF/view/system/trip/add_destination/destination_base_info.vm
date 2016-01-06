@@ -159,7 +159,7 @@
                                 #foreach($frontNeedKnow in $tripBo.gaikuang.frontNeedKnow)
                                     <tr class="needKnow">
                                         <td>
-                                            <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                            <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                         </td>
                                         <td>
                                             <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -199,7 +199,7 @@
                                     #foreach($minsus in $tripBo.minsu.frontNeedKnow)
                                         <tr class="needKnow">
                                             <td>
-                                                <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{minsus.title}">
+                                                <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{minsus.title}">
                                             </td>
                                             <td>
                                                 <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{minsus.content}</textarea>
@@ -239,7 +239,7 @@
                                     #foreach($frontNeedKnow in $tripBo.xiaofei.frontNeedKnow)
                                         <tr class="needKnow">
                                             <td>
-                                                <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                                <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                             </td>
                                             <td>
                                                 <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
@@ -279,7 +279,7 @@
                                 #foreach($frontNeedKnow in $tripBo.tieshi.frontNeedKnow)
                                     <tr class="needKnow">
                                         <td>
-                                            <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                            <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
                                         </td>
                                         <td>
                                             <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>

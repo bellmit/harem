@@ -120,7 +120,7 @@ public class TripServiceImpl implements TripService {
 			return null;
 		}
 	}
-
+	
 	@Override
 	public RegionDO saveOrUpdateDetail(TripBo tripBo,boolean isEdit) throws Exception {
 		RegionDO regionDO = saveOrUpdate(tripBo);
@@ -133,18 +133,26 @@ public class TripServiceImpl implements TripService {
 			List<NeedKnow> list = new ArrayList<NeedKnow>();
 			
 			NeedKnow gaikuang = tripBo.getGaikuang();
-			gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
+			if(null != gaikuang ){
+				gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
+				list.add(gaikuang);
+			}
 			NeedKnow minsu = tripBo.getMinsu();
-			minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.toString());
+			if(null != minsu){
+				minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.toString());
+				list.add(minsu);
+			}
 			NeedKnow tieshi = tripBo.getTieshi();
-			tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.toString());
+			if(null != tieshi){
+				tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.toString());
+				list.add(tieshi);
+			}
 			NeedKnow xiaofei = tripBo.getXiaofei();
-			xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.toString());
-			list.add(gaikuang);
-			list.add(minsu);
-			list.add(tieshi);
-			list.add(xiaofei);
-			saveShowCase(list, tripBo.getCityCode());
+			if(null !=xiaofei){
+				xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.toString());
+				list.add(xiaofei);
+			}
+			saveShowCase(list, tripBo.getCityCode(),isEdit);
 			//保存精选 酒店 推荐之类
 			List<RelevanceRecommended> listRelevanceRecommended = new ArrayList<RelevanceRecommended>();
 			if(null != tripBo.getBiMai()){
@@ -199,28 +207,35 @@ public class TripServiceImpl implements TripService {
 		return dbColumnType.getType();
 	}
 	
-	public void saveShowCase(List<NeedKnow> list, int cityCode) {
-		// XXX:根据设计，流程如下：先往rc_booth表插城市的NeedKnow，然后根据返回的id,继续往rc_showcase表中插具体的NeedKnow包含的TextItem信息.
-		int boothType = 0;
-		for (NeedKnow nk : list) {
-			if (null != nk && CollectionUtils.isNotEmpty(nk.getFrontNeedKnow())) {
-				System.out.println(nk.getExtraInfoUrl());
-				BoothDO boothDO = new BoothDO();
-				boothDO.setCode(nk.getExtraInfoUrl() + "-" + cityCode);
-				boothDO.setName(ColumnType.getByName(nk.getExtraInfoUrl()).getCode());
-				boothDO.setDesc(nk.getExtraInfoUrl() + "-" + cityCode);
-				boothDO.setStatus(10);//上架
-				boothType=getBoothType(nk);
-				if(0 == boothType ){
-					continue;
+	public void saveShowCase(List<NeedKnow> list, int cityCode,boolean isEdit) {
+		try {
+			// XXX:根据设计，流程如下：先往rc_booth表插城市的NeedKnow，然后根据返回的id,继续往rc_showcase表中插具体的NeedKnow包含的TextItem信息.
+			int boothType = 0;
+			for (NeedKnow nk : list) {
+				if (null != nk && CollectionUtils.isNotEmpty(nk.getFrontNeedKnow())) {
+					BoothDO boothDO = new BoothDO();
+					if (isEdit) {
+						boothDO.setId(getBoothDOId(nk.getExtraInfoUrl() + "-" + String.valueOf(cityCode)));
+					}
+					boothDO.setCode(nk.getExtraInfoUrl() + "-" + cityCode);
+					boothDO.setName(ColumnType.getByName(nk.getExtraInfoUrl()).getCode());
+					boothDO.setDesc(nk.getExtraInfoUrl() + "-" + cityCode);
+					boothDO.setStatus(10);//上架
+					
+					boothType = getBoothType(nk);
+					if (0 == boothType) {
+						continue;
+					}
+					boothDO.setType(boothType);
+					boothDO.setGmtCreated(new Date());
+					boothDO.setGmtModified(new Date());
+					List<ShowcaseDO> listShowcaseDO = needKnowToShowCase(nk, cityCode, 0);
+					RcResult<Boolean> resb = showcaseClientServerRef.batchInsertShowcase(listShowcaseDO, boothDO);
+					System.out.println(resb.isSuccess());
 				}
-				boothDO.setType(boothType);
-				boothDO.setGmtCreated(new Date());
-				boothDO.setGmtModified(new Date());
-				List<ShowcaseDO> listShowcaseDO = needKnowToShowCase(nk, cityCode, 0);
-				RcResult<Boolean> resb = showcaseClientServerRef.batchInsertShowcase(listShowcaseDO, boothDO);
-				System.out.println(resb.isSuccess());
-			}
+			} 
+		} catch (Exception e) {
+			
 		}
 	}
 
@@ -400,6 +415,9 @@ public class TripServiceImpl implements TripService {
 		List<Long> listIds = new ArrayList<Long>();
 		for (int i = 0; i < list.size(); i++) {
 			try {
+				if(null ==list.get(i) || null==list.get(i).getClass() || null ==list.get(i).getClass().getDeclaredField("id") ){
+					return null;
+				}
 				Field fields = list.get(i).getClass().getDeclaredField("id");
 				if (!fields.isAccessible()){//判断该对象是否可以访问
 					fields.setAccessible(true);//设置为可访问
@@ -590,11 +608,9 @@ public class TripServiceImpl implements TripService {
 		return null;
 	}
 
-	public long getBoothDOId(RelevanceRecommended rec) throws Exception{
-		if(null == rec ){
-			throw new Exception("获取boothId失败，没有相关的RelevanceRecommended信息");
-		}
-		BoothDO boothDO = boothClientServer.getBoothDoByCode(rec.getName()+"-"+rec.getCityCode());
+	public long getBoothDOId(String code) throws Exception{
+		
+		BoothDO boothDO = boothClientServer.getBoothDoByCode(code);
 		if(null == boothDO ){
 			throw new Exception("获取boothId失败，没有相关的booth信息");
 		}
@@ -611,7 +627,7 @@ public class TripServiceImpl implements TripService {
 			System.out.println(rec.getName()+"---"+rec.getType());
 			BoothDO boothDO = new BoothDO();
 			if(isEdit){
-				boothDO.setId(getBoothDOId(rec));
+				boothDO.setId(getBoothDOId(rec.getName()+"-"+rec.getCityCode()));
 			}
 			boothDO.setCode(rec.getName()+ "-" + rec.getCityCode());
 			boothDO.setName(rec.getDescName());
@@ -622,9 +638,9 @@ public class TripServiceImpl implements TripService {
 			boothDO.setGmtModified(new Date());
 			List<ShowcaseDO> listShowcaseDO = new ArrayList<ShowcaseDO>();
 			ShowcaseDO sc = null;
-			sc = new ShowcaseDO();
 			
 			for (int i = 0; i < rec.getResourceId().size(); i++) {
+				sc = new ShowcaseDO();
 				if(ColumnType.TOURIST_SHOW.getType()==rec.getType()){
 					SnsSubjectDO dbSnsSubjectDO = getSnsSubjectDOById(rec.getResourceId().get(i));
 					sc.setImgUrl(getSnsSubjectDOFirstImgURL(dbSnsSubjectDO));
@@ -637,8 +653,7 @@ public class TripServiceImpl implements TripService {
 				sc.setOperationContent(String.valueOf(rec.getResourceId().get(i)));
 				listShowcaseDO.add(sc);
 			}
-			System.out.println(JSON.toJSON(listShowcaseDO));
-			System.out.println(JSON.toJSON(boothDO));
+			
 			RcResult<Boolean> resb = showcaseClientServerRef.batchInsertShowcase(listShowcaseDO,boothDO);
 			System.out.println(resb.isSuccess());
 			flag=resb.isSuccess();
