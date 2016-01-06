@@ -55,6 +55,8 @@ public class LiveServiceImpl implements LiveService {
 		PageVO<SnsSubjectVO> snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),0);
 		//查询条件对接
 		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		subjectInfoDTO.setPageNo(liveListQuery.getPageNumber());
+		subjectInfoDTO.setPageSize(liveListQuery.getPageSize());
 		//状态
 		subjectInfoDTO.setStatus(liveListQuery.getLiveStatus());
 		//内容
