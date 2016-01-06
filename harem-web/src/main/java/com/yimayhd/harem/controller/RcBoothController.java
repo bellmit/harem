@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.harem.base.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 
 @Controller
 @RequestMapping("/rcBooth")
-public class RcBoothController{
+public class RcBoothController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(RcBoothController.class);
 	@Autowired
 	BoothClientServer boothClientServer;

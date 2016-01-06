@@ -1,5 +1,6 @@
 package com.yimayhd.harem.controller;
 
+import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.ComCommentVO;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 @Controller
 @RequestMapping("/B2C/evaluationManage")
-public class EvaluationController {
+public class EvaluationController extends BaseController {
 	 @Autowired
 	 private EvaluationService evaluationService;
 	

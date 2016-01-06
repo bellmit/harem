@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import java.util.List;
 
+import com.yimayhd.harem.base.BaseController;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ import com.yimayhd.harem.service.ThemeService;
 */
 @Controller
 @RequestMapping("/B2C/themeManage")
-public class ThemeManageController {
+public class ThemeManageController extends BaseController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ThemeManageController.class);
 	

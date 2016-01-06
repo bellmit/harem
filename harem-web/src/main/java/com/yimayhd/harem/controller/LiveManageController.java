@@ -2,6 +2,7 @@ package com.yimayhd.harem.controller;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.harem.base.BaseController;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.SnsSubjectVO;
@@ -24,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/B2C/liveManage")
-public class LiveManageController {
+public class LiveManageController extends BaseController {
     @Autowired
 	private LiveService liveService;
 
