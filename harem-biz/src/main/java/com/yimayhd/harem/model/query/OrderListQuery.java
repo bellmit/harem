@@ -2,6 +2,9 @@ package com.yimayhd.harem.model.query;
 
 import com.yimayhd.harem.base.BaseQuery;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2015/10/27.
  */
@@ -14,7 +17,7 @@ public class OrderListQuery extends BaseQuery {
     private String affiliatedAsk;//附属要求
 	private String beginDate;
 	private String endDate;
-	private int orderType;//订单类型
+	private int [] orderTypes;//订单类型
 
 
 	public String getOrderNO() {
@@ -73,11 +76,11 @@ public class OrderListQuery extends BaseQuery {
 		this.endDate = endDate;
 	}
 
-	public int getOrderType() {
-		return orderType;
+	public int[] getOrderTypes() {
+		return orderTypes;
 	}
 
-	public void setOrderType(int orderType) {
-		this.orderType = orderType;
+	public void setOrderTypes(int[] orderTypes) {
+		this.orderTypes = orderTypes;
 	}
 }

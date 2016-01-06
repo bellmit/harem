@@ -13,6 +13,8 @@ public class MainOrder {
 
     private List<SubOrder> subOrderList;
 
+    private long orderTotalFee;
+
     private int orderActionStates;
 
     private int orderShowState;
@@ -57,6 +59,14 @@ public class MainOrder {
 
     public void setUser(UserDO user) {
         this.user = user;
+    }
+
+    public long getOrderTotalFee() {
+        return orderTotalFee;
+    }
+
+    public void setOrderTotalFee(long orderTotalFee) {
+        this.orderTotalFee = orderTotalFee;
     }
 
     public MainOrder(BizOrderDO bizOrderDO, List<SubOrder> subOrderList) {

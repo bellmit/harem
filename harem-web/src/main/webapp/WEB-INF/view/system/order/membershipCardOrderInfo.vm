@@ -149,14 +149,14 @@
     <div class="orderInfo">
         <div>订单商品信息</div>
         <div>
-            <span>订单总额：￥$!order.totalFee</span>
+            <span>订单总额：￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
         ##    		<span>
         ##    			<span>优惠券：</span>
         ##    			#foreach($coupon in $order.coupons)
         ##    			<span>$!coupon.count / $!coupon.price元</span> |
         ##    			#end
         ##            </span>
-            <span>实付价:￥$!order.actualTotalFee</span>
+            <span>实付价:￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
         </div>
         <table class="table table-hover">
             <tr>
@@ -185,7 +185,7 @@
                     </td>
                     <td>
                         <div class="order-price">
-                            $!subOrder.bizOrderDO.itemPrice
+                            $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
                         </div>
                     </td>
                     <td>
@@ -195,16 +195,20 @@
                     </td>
                     <td>
                         <div class="">
-                            #if($subOrder.bizOrderDO.payStatus == 1)
+                            #if($order.mainOrder.orderShowState == 1)
                                 未付款
-                            #elseif($subOrder.bizOrderDO.payStatus == 2)
+                            #elseif($order.mainOrder.orderShowState == 2)
                                 已付款
-                            #elseif($subOrder.bizOrderDO.payStatus == 4)
-                                已退款
-                            #elseif($subOrder.bizOrderDO.payStatus == 6)
+                            #elseif($order.mainOrder.orderShowState == 3)
+                                已发货
+                            #elseif($order.mainOrder.orderShowState == 4)
                                 交易成功
-                            #elseif($subOrder.bizOrderDO.payStatus == 8)
+                            #elseif($order.mainOrder.orderShowState == 5)
                                 交易关闭
+                            #elseif($order.mainOrder.orderShowState == 6)
+                                待处理
+                            #elseif($order.mainOrder.orderShowState == 7)
+                                已退款
                             #end
                         </div>
                     </td>

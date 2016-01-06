@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 订单管理
@@ -90,8 +92,6 @@ public class OrderManageController extends BaseController {
 
 
 
-
-
 	/**
 	 * 根据ID获取路线订单详情
 	 * @return 路线订单详情
@@ -113,7 +113,8 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/routeOrderList", method = RequestMethod.GET)
 	public String routeOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		orderListQuery.setOrderType(OrderBizType.LINE.getBizType());
+		int [] orderBizTypes = {OrderBizType.LINE.getBizType(),OrderBizType.FLIGHT_HOTEL.getBizType(),OrderBizType.SPOTS_HOTEL.getBizType()};
+		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
@@ -144,7 +145,8 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/scenicSpotOrderList", method = RequestMethod.GET)
 	public String scenicSpotOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		orderListQuery.setOrderType(OrderBizType.SPOTS.getBizType());
+		int [] orderBizTypes = {OrderBizType.SPOTS.getBizType()};
+		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
@@ -175,7 +177,8 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/goodsOrderList", method = RequestMethod.GET)
 	public String goodsOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		orderListQuery.setOrderType(OrderBizType.NORMAL.getBizType());
+		int [] orderBizTypes = {OrderBizType.NORMAL.getBizType()};
+		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
@@ -206,7 +209,8 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/activityOrderList", method = RequestMethod.GET)
 	public String activityOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		orderListQuery.setOrderType(OrderBizType.ACTIVITY.getBizType());
+		int [] orderBizTypes = {OrderBizType.ACTIVITY.getBizType()};
+		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
@@ -237,7 +241,8 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/membershipCardOrderList", method = RequestMethod.GET)
 	public String membershipCardOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		orderListQuery.setOrderType(OrderBizType.MEMBER_RECHARGE.getBizType());
+		int [] orderBizTypes = {OrderBizType.MEMBER_RECHARGE.getBizType()};
+		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());

@@ -32,9 +32,7 @@ public class OrderConverter {
         orderQueryDTO.setPageNo(orderListQuery.getPageNumber());
         orderQueryDTO.setPageSize(orderListQuery.getPageSize());
         //订单类型
-
-        int [] orderBizTypes = {orderListQuery.getOrderType()};
-        orderQueryDTO.setOrderBizTypes(orderBizTypes);
+        orderQueryDTO.setOrderBizTypes(orderListQuery.getOrderTypes());
 
         //订单编号
         if (StringUtils.isNotEmpty(orderListQuery.getOrderNO()) ){

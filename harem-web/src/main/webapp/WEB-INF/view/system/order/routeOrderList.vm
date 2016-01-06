@@ -117,7 +117,7 @@
                         </td>
                         <td>
                             <div class="order-price">
-                                $!subOrder.bizOrderDO.itemPrice
+                                $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
                             </div>
                         </td>
 
@@ -155,7 +155,7 @@
                         </td>
                         <td>
                             <div>
-                                $!subOrder.bizOrderDO.itemPrice
+                                $!utilNum.moneyTransform($!order.bizOrderDO.actualTotalFee)
                             </div>
                         </td>
                         <td>

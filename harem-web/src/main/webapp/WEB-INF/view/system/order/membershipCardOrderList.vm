@@ -111,7 +111,7 @@
                             </td>
                             <td>
                                 <div class="order-price">
-                                    $!subOrder.bizOrderDO.itemPrice
+                                    $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
                                 </div>
                             </td>
 
