@@ -93,10 +93,13 @@ public class CommActivityServiceImpl implements CommActivityService {
 	            CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
 	            //设置itemDB
 	             commonItemPublishDTO.setItemDO(itemDB);
+	             ItemDO itemDO = ItemVO.getItemDO(itemVO);
 	            //设置sku
 	            ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
 	            //商品名称
-	            itemDB.setTitle(itemVO.getTitle());
+	            itemDB.setTitle(itemDO.getTitle());
+	          //商品价格
+	            itemDB.setPrice(itemDO.getPrice());
 	            //商品图片
 	            if(StringUtils.isNotBlank(itemVO.getBigListPic())){
 	                itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getBigListPic());
