@@ -20,6 +20,7 @@ import com.yimayhd.resourcecenter.model.enums.RegionLevel;
 public class BaseInfo {
 	private long id;// ID
 	private int type;// 类型
+	private int orderNum;
 	private String name;// 产品名称
 	private String productImage;// 产品封面图
 	private String tripImage;// 行程封面
@@ -46,6 +47,7 @@ public class BaseInfo {
 	public BaseInfo(LineDO line, List<ComTagDO> comTagDOs) {
 		this.id = line.getId();
 		this.type = line.getType();
+		this.orderNum = line.getOrderNum();
 		this.name = line.getName();
 		this.productImage = line.getLogoUrl();
 		this.tripImage = line.getCoverUrl();
@@ -235,6 +237,7 @@ public class BaseInfo {
 	 */
 	public LineDO modifyLineDO(LineDO line) {
 		line.setType(this.type);
+		line.setOrderNum(this.orderNum);
 		line.setName(this.name);
 		// image
 		line.setCoverUrl(this.tripImage);
@@ -306,5 +309,13 @@ public class BaseInfo {
 
 	public void setOrderImage(String orderImage) {
 		this.orderImage = orderImage;
+	}
+
+	public int getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(int orderNum) {
+		this.orderNum = orderNum;
 	}
 }

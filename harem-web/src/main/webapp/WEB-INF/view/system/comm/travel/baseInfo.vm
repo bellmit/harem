@@ -11,6 +11,10 @@
                 <td><span class="spColor">*</span>产品类型：</td>
                 <td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
             </tr>
+			<tr >
+                <td><span class="spColor">*</span>级别：</td>
+                <td><input type="text" class="form-control int-only orderNum" placeholder="请输入产品名称" value="$!product.baseInfo.orderNum"/></td>
+            </tr>
             <tr >
                 <td><span class="spColor">*</span>产品名称：</td>
                 <td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.name"/></td>
@@ -270,6 +274,7 @@
 	// 获取行程信息
 	function getBaseInfo() {
 		var type = $(".productType").val();
+		var orderNum = $(".orderNum").val() || 0;
 		var name = $(".productName").val();
 		var productImage = $(".productImageUrlVal").val();
 		var tripImage = $(".tripImageUrlVal").val();
@@ -298,6 +303,7 @@
 		var result = {
 			id:$("#line-id").val()||0,
 			type:type,
+			orderNum:orderNum,
 			name:name,
 			productImage:productImage,
 			tripImage:tripImage,
