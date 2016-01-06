@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
@@ -95,7 +96,24 @@ public class ActivityServiceImpl implements ActivityService {
 		
 		//标签
 		if (query.getTagId() != 0) {
-			
+			com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagRelationDO>> result
+				= comCenterService.getTagRelationByTagIdAndType(query.getTagId(), TagType.ACTIVETYTAG.name());
+			if (null == result) {
+				log.error(
+						"ActivityServiceImpl.getById-comCenterService.getTagInfoByOutIdAndType result is null and parame:tagId= "
+								+ query.getTagId() + "|outType=" + TagType.ACTIVETYTAG.name());
+				throw new BaseException("查询结果为空,查询失败 ");
+			} else if (!result.isSuccess()) {
+				log.error("ActivityServiceImpl.getById--comCenterService.getTagInfoByOutIdAndType  error:"
+						+ JSON.toJSONString(result) + "and parame:tagId=  " + query.getTagId() + "|outType=" + TagType.ACTIVETYTAG.name());
+				throw new BaseException(result.getResultMsg());
+			}
+			List<ComTagRelationDO> tagList = result.getValue();
+			List<Long> activityIdList = query.getActivityIdList();
+			for (ComTagRelationDO tag : tagList) {
+				activityIdList.add(tag.getOutId());
+				
+			}
 		}
 
 		return activityRepo.pageQueryActivities(activityQueryDTO);

@@ -56,7 +56,7 @@
                 <select class="form-control" name="tagId">
                 <option value="0">全部</option>
                 #foreach($tag in $tagResult)
-                    <option value="$!{tag.id}" #if($!activity.tagId == $!tag.id) selected #end>$!{tag.name}</option>
+                    <option value="$!{tag.id}" #if($!activityListQuery.tagId == $!tag.id) selected #end>$!{tag.name}</option>
                    
                 #end
                 </select>
