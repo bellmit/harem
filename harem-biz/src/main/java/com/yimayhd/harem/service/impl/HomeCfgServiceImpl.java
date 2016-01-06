@@ -51,7 +51,7 @@ import com.yimayhd.user.client.domain.UserDO;
 public class HomeCfgServiceImpl implements HomeCfgService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeCfgServiceImpl.class);
 
-	private static final String BOOT_HOME_ADVERTISE_CODE = "MAIN_PAGE";
+	private static final String BOOT_HOME_ADVERTISE_CODE = "HOME_RECOMMENT";
 	private static final String BOOT_RECOMMEND_CODE = "GREAT_RECOMMENT";
 	private static final String BOOT_TRAVEKA_CODE = "TRAVE_MASTER";
 
