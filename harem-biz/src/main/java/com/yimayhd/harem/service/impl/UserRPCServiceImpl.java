@@ -96,7 +96,10 @@ public class UserRPCServiceImpl implements UserRPCService {
 
 	@Override
 	public PageVO<UserDO> getUserListByPage(UserDOPageQuery query) {
-		BasePageResult<UserDO> result = userServiceRef.findPageResultByCondition(query);
+		UserDOPageQuery userDOPageQuery = new UserDOPageQuery();
+		userDOPageQuery.setPageSize(query.getPageSize());
+		userDOPageQuery.setPageNo(query.getPageNo());
+		BasePageResult<UserDO> result = userServiceRef.findPageResultByCondition(userDOPageQuery);
 		int totalCount = 0;
 		List<UserDO> itemList = new ArrayList<UserDO>();
 		if (result != null && result.isSuccess()) {
