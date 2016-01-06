@@ -690,12 +690,12 @@
 
         $('#advertisementSubmit').click(function(){
 			var advertiseList = new Array()
-			advertiseList[0] = parseAdvertiseForm("leftupTr",1);
-			advertiseList[1] = parseAdvertiseForm("rightupOneTr",2);
-			advertiseList[2] = parseAdvertiseForm("rightupTwoTr",3);
-			advertiseList[3] = parseAdvertiseForm("downOneTr",4);
-			advertiseList[4] = parseAdvertiseForm("downTwoTr",5);
-			advertiseList[5] = parseAdvertiseForm("downThreeTr",6);
+			advertiseList[0] = parseAdvertiseForm("leftupTr",1,'ACTIVITY');
+			advertiseList[1] = parseAdvertiseForm("rightupOneTr",2,'ACTIVITY');
+			advertiseList[2] = parseAdvertiseForm("rightupTwoTr",3,'ACTIVITY');
+			advertiseList[3] = parseAdvertiseForm("downOneTr",4,'ACTIVITY');
+			advertiseList[4] = parseAdvertiseForm("downTwoTr",5,'ACTIVITY');
+			advertiseList[5] = parseAdvertiseForm("downThreeTr",6,'GREAT_GIFT');
 			
             $(this).prop('disabled',true);
             $.ajax({
@@ -736,14 +736,14 @@
 		})
    }
    
-   function parseAdvertiseForm(trId,serialNo){
+   function parseAdvertiseForm(trId,serialNo,businessCode){
    		var showcaseId = $("#" + trId).find("#showcaseId").val();
    		var title = $("#" + trId).find("#title").val();
 		var summary = $("#" + trId).find("#summary").val();
 		var imgUrl = $("#" + trId).find("#imgUrl").val();
 		var operationContent = $("#" + trId).find("#activityId").val();
 		var version = $("#" + trId).find("#version").val();
-		var formData = {title:title,showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,serialNo:serialNo,businessCode:'ACTIVITY',version:version};
+		var formData = {title:title,showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,serialNo:serialNo,businessCode:businessCode,version:version};
 		
 		return formData;
    }

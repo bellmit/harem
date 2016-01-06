@@ -29,7 +29,7 @@ public class ShowCaseVO implements Serializable {
 
 	private String imgUrl;
 
-	private String serialNo;
+	private Integer serialNo;
 
 	private Integer version;
 
@@ -61,11 +61,11 @@ public class ShowCaseVO implements Serializable {
 		this.version = version;
 	}
 
-	public String getSerialNo() {
+	public Integer getSerialNo() {
 		return serialNo;
 	}
 
-	public void setSerialNo(String serialNo) {
+	public void setSerialNo(Integer serialNo) {
 		this.serialNo = serialNo;
 	}
 
