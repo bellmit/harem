@@ -670,7 +670,9 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 				}
 
 				showcaseDO.setTitle(showCaseVO.getTitle());
-				showcaseDO.setSerialNo(showCaseVO.getSerialNo());
+				if(showCaseVO.getSerialNo() != null){
+					showcaseDO.setSerialNo(showCaseVO.getSerialNo());
+				}
 				showcaseDO.setSummary(showCaseVO.getSummary());
 				// FIXME 设置成枚举
 				if ("LINE".equals(showCaseVO.getBusinessCode()) && showCaseVO.getLineType() != null) {
