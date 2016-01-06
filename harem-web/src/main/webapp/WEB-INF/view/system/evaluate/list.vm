@@ -68,7 +68,7 @@
                     #foreach($evaluation in $evaluationList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!evaluationList.id"></td>
-                        <td>$!evaluation.userDO.nickName</td>
+                        <td>$!evaluation.userDO.nickname</td>
                         <td>$!utilPhone.mask($!evaluation.userDO.mobileNo)</td>
                         <td>#COMMENT_STATUS($!evaluation.outType)</td>
                         <td>$!evaluation.textContent</td>

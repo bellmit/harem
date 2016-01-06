@@ -35,7 +35,7 @@ public interface CategoryService {
 	 * @return 品类
 	 * @throws Exception
 	 */
-	CategoryVO getCategoryVOById(long id);
+	CategoryVO getCategoryVOById(long id) throws Exception;
 
 	/**
 	 * 根据品类id获取品类
@@ -45,6 +45,6 @@ public interface CategoryService {
 	 * @return 品类
 	 * @throws Exception
 	 */
-	CategoryDO getCategoryDOById(long id);
+	CategoryDO getCategoryDOById(long id) throws Exception;
 
 }

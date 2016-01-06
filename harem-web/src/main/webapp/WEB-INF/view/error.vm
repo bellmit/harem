@@ -4,8 +4,8 @@
     <div class="content" style="text-align: center;">
         <i class="icon-frown" style="font-size: 50px;"></i>
         <br />
-        <h4 style="font-size: 16px;margin-top: 20px;">操作失败!</h4>
-        <div class="content" style="font-size: 14px;">#if($!message) $!message #else 出现位置错误 #end</div>
+        <h4 style="font-size: 16px;margin-top: 20px;"></h4>
+        <div class="content" style="font-size: 14px;">#if($!message) $!message #else 服务器出现未知错误，请联系管理员 #end</div>
         <br/>
         <div class="modalFooter" style="width: 100%;">
             <button type="button" class="btn errorBack" style="background: #fff;margin-right: 25px;">返回上一页</button>

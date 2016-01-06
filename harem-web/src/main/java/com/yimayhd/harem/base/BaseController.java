@@ -1,24 +1,19 @@
 package com.yimayhd.harem.base;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.yimayhd.harem.exception.NoticeException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.InvalidPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.yimayhd.harem.constant.ResponseStatus;
-import com.yimayhd.harem.exception.NoticeException;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author wenfeng zhang
@@ -31,7 +26,8 @@ public class BaseController {
 	@Autowired
 	protected HttpServletRequest request;
 
-	@ExceptionHandler(Exception.class)
+	//正式发布，异常不这样处理
+	/*@ExceptionHandler(Exception.class)
 	@ResponseBody
 	protected ResponseVo handleException(Exception e) {
 		logger.error(e.getMessage(), e);
@@ -45,6 +41,19 @@ public class BaseController {
 			return new ResponseVo(ResponseStatus.FORBIDDEN.VALUE, e.getMessage());
 		}
 		return new ResponseVo(ResponseStatus.ERROR.VALUE, ResponseStatus.ERROR.MESSAGE + e.getLocalizedMessage());
+	}*/
+
+	@ExceptionHandler(Exception.class)
+	protected ModelAndView handleException(Exception e) {
+		logger.error(e.getMessage(), e);
+		ModelAndView modelAndView = new ModelAndView("/error");
+		if(e instanceof NoticeException || e instanceof NoticeException) {
+			modelAndView.addObject("message", e.getMessage() + "，请联系管理员");
+		}else{
+			modelAndView.addObject("message", "服务器未知错误，请联系管理员");
+		}
+		return modelAndView;
+
 	}
 
 	@InitBinder

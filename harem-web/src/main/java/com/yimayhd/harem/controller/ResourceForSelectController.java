@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.harem.base.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.harem.base.BaseController;
-import com.yimayhd.harem.base.BaseQuery;
-import com.yimayhd.harem.base.PageVO;
-import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.model.ItemVO;
 import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.model.query.CommodityListQuery;
@@ -211,6 +208,9 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/queryUserForSelect")
 	public @ResponseBody ResponseVo queryUserForSelect(UserDOPageQuery query, Integer pageNumber) throws Exception {
+		if(1 == 1){
+			throw new BaseException("hello");
+		}
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		}

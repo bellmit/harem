@@ -2,6 +2,7 @@ package com.yimayhd.harem.service.impl;
 
 import java.util.List;
 
+import com.yimayhd.harem.exception.NoticeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDO getCategoryDOById(long id) {
+	public CategoryDO getCategoryDOById(long id)throws Exception{
 		RepoUtils.requestLog(log, "categoryServiceRef.getCategory", id);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
 		RepoUtils.resultLog(log, "categoryServiceRef.getCategory", categoryResult);
@@ -67,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryVO getCategoryVOById(long id) {
+	public CategoryVO getCategoryVOById(long id) throws Exception {
 		CategoryDO category = getCategoryDOById(id);
 		if (category != null) {
 			return CategoryVO.getCategoryVO(category);

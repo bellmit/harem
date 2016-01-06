@@ -77,7 +77,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public BaseResult<SnsActivityDO> save(ActivityVO activityVO) {
+	public BaseResult<SnsActivityDO> save(ActivityVO activityVO)throws Exception{
 		BaseResult<SnsActivityDO> result = null;
 
 		if (activityVO.getId() != 0) {

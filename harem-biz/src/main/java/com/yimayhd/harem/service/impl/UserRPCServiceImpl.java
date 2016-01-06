@@ -94,7 +94,7 @@ public class UserRPCServiceImpl implements UserRPCService {
 	}
 
 	@Override
-	public PageVO<UserDO> getUserListByPage(UserDOPageQuery query) {
+	public PageVO<UserDO> getUserListByPage(UserDOPageQuery query)throws Exception{
 		UserDOPageQuery userDOPageQuery = new UserDOPageQuery();
 		userDOPageQuery.setPageSize(query.getPageSize());
 		userDOPageQuery.setPageNo(query.getPageNo());
