@@ -33,7 +33,7 @@ public interface ActivityService {
 	 * @param activityVO
 	 * @return
 	 */
-	BaseResult<SnsActivityDO> save(ActivityVO activityVO);
+	BaseResult<SnsActivityDO> save(ActivityVO activityVO) throws Exception;
 
 	public com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> getTagInfoByOutIdAndType(long outId,
 			String outType);

@@ -31,7 +31,7 @@ public interface UserRPCService {
 	 * @param query
 	 * @return
 	 */
-	PageVO<UserDO> getUserListByPage(UserDOPageQuery query);
+	PageVO<UserDO> getUserListByPage(UserDOPageQuery query) throws Exception;
 
 	/**
 	 * 用过用户id查找用户

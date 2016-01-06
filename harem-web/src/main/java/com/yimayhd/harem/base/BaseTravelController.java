@@ -57,7 +57,7 @@ public abstract class BaseTravelController extends BaseController {
 		put("officialPublisher", userService.getUserById(B2CConstant.YIMAY_OFFICIAL_ID));
 	}
 
-	protected void initLinePropertyTypes(long categoryId) {
+	protected void initLinePropertyTypes(long categoryId) throws Exception {
 		put("categoryId", categoryId);
 		List<CategoryValueDO> persionPropertyValues = new ArrayList<CategoryValueDO>();
 		CategoryDO category = categoryService.getCategoryDOById(categoryId);

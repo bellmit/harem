@@ -6,6 +6,7 @@ import com.taobao.tair.Result;
 import com.taobao.tair.ResultCode;
 import com.taobao.tair.TairManager;
 import com.yimayhd.harem.base.BaseController;
+import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.ResponseVo;
 import com.yimayhd.harem.service.TfsService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
@@ -98,6 +99,19 @@ public class ViewEditController extends BaseController {
     public ResponseVo testUploadImgOrUe(String description) throws Exception {
         String addr = tfsService.publishHtml5(description);
         return new ResponseVo(addr);
+    }
+    /**
+     * 服务端
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/testException", method = RequestMethod.GET)
+    public ResponseVo testException() throws Exception {
+        if(1 == 1){
+            throw new BaseException("hello");
+        }
+        return new ResponseVo();
     }
 
 }
