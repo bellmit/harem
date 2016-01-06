@@ -117,8 +117,8 @@
                     ,yes: function(index){
                         layer.close(index);
 						// 刷新父页面
-						top.freshPrevFrame();
-						top.tabTopClose(this);
+						//top.freshPrevFrame();
+						//top.tabTopClose(this);
                     }
                 });
 			} else {

@@ -15,14 +15,13 @@ import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.User;
 import com.yimayhd.harem.model.query.TradeMemberQuery;
+import com.yimayhd.harem.repo.TravelKaRepo;
 import com.yimayhd.harem.service.UserRPCService;
 import com.yimayhd.harem.util.PhoneUtil;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
 import com.yimayhd.membercenter.client.result.MemPageResult;
-import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.MerchantService;
-import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
@@ -38,9 +37,9 @@ public class UserRPCServiceImpl implements UserRPCService {
 	@Autowired
 	private MerchantService merchantServiceRef;
 	@Autowired
-	private TravelKaService travelKaServiceRef;
-	@Autowired
 	private UserService userServiceRef;
+	@Autowired
+	private TravelKaRepo travelKaRepo;
 
 	@Override
 	public List<User> getClubMemberListByClubId(long clubId) {
@@ -123,30 +122,12 @@ public class UserRPCServiceImpl implements UserRPCService {
 
 	@Override
 	public PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query) {
-		MemPageResult<TravelKaVO> travelKaListPage = travelKaServiceRef.getTravelKaListManagerPage(query);
-		List<TravelKaVO> result = new ArrayList<TravelKaVO>();
-		int totalCount = 0;
-		if (travelKaListPage != null & travelKaListPage.isSuccess()) {
-			totalCount = travelKaListPage.getTotalCount();
-			result = travelKaListPage.getList();
-		} else {
-			log.error("查询旅游咖列表失败：query={}", JSON.toJSONString(query));
-			log.error("查询旅游咖列表失败：result={}", JSON.toJSONString(travelKaListPage));
-			throw new BaseException("查询旅游咖列表失败");
-		}
-		return new PageVO<TravelKaVO>(query.getPageNo(), query.getPageSize(), totalCount, result);
+		return travelKaRepo.pageQueryTravelKas(query);
 	}
 
 	@Override
 	public TravelKaVO getTravelKaById(long id) {
-		MemResult<TravelKaVO> travelKaDetail = travelKaServiceRef.getTravelKaDetail(id);
-		if (travelKaDetail != null & travelKaDetail.isSuccess()) {
-			return travelKaDetail.getValue();
-		} else {
-			log.error("查询旅游咖列表失败：id={}", id);
-			log.error("查询旅游咖列表失败：result={}", JSON.toJSONString(travelKaDetail));
-			throw new BaseException("查询旅游咖列表失败");
-		}
+		return travelKaRepo.getTravelKaById(id);
 	}
 
 }

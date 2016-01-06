@@ -7,6 +7,7 @@ import com.yimayhd.commentcenter.client.result.ResultSupport;
 import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.ic.client.model.result.ICErrorCode;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
 
 /**
  * Repo工具
@@ -131,6 +132,26 @@ public class RepoUtils {
 		} else if (!result.isSuccess()) {
 			log.error(RESULT_FAILURE, method, result.getErrorCode(), result.getResultMsg());
 			throw new BaseException(prefix + result.getResultMsg());
+		} else {
+			log.info(RESULT_SUCCESS, method);
+		}
+	}
+
+	/**
+	 * MemCenter服务返回结果的log
+	 * 
+	 * @param log
+	 * @param method
+	 * @param result
+	 */
+	public static void resultLog(Logger log, String method, MemResultSupport result) {
+		String prefix = "MemCenter服务接口错误：";
+		if (result == null) {
+			log.error(RESULT_NULL, method);
+			throw new BaseException(prefix + "返回结果错误");
+		} else if (!result.isSuccess()) {
+			log.error(RESULT_FAILURE, method, result.getErrorCode(), result.getErrorMsg());
+			throw new BaseException(prefix + result.getErrorMsg());
 		} else {
 			log.info(RESULT_SUCCESS, method);
 		}
