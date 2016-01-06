@@ -39,7 +39,7 @@
                         <td>
                             <div class="fileImgWrap">
                                 <button type="button" class="btn btn-success selectImage" id="leftup">选择图片</button>
-                                <input type="hidden" name="imgUrl" value="advertiseLeftup.imgUrl" id="imgUrl" >
+                                <input type="hidden" name="imgUrl" value="$!advertiseLeftup.imgUrl" id="imgUrl" >
                                 <input type="file" name="file" class="fileInp" id="leftupFile">
                             </div>
                             <div class="logoView">
