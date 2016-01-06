@@ -90,9 +90,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		ICPageResult<HotelDO> icPageResult = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
     	List<HotelDO> hotelDOList = icPageResult.getList();
     	
-    	PageVO<HotelDO> pageVo = new PageVO<HotelDO>(hotelPageQuery.getPageNo(), hotelPageQuery.getPageSize(), icPageResult.getTotalCount(), hotelDOList);
-		
-		return pageVo;
+		return new PageVO<HotelDO>(hotelPageQuery.getPageNo(), hotelPageQuery.getPageSize(), icPageResult.getTotalCount(), hotelDOList);
 	}
 
 	@Override
@@ -129,7 +127,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			throw new BaseException("返回结果错误，酒店资源新增失败，" + icResult.getResultMsg());
 		}
 		//图片集insert
-		if(org.apache.commons.lang.StringUtils.isNotBlank(hotelVO.getPicListStr())){
+		if(StringUtils.isNotBlank(hotelVO.getPicListStr())){
 			List<PictureVO> pictureVOList = JSON.parseArray(hotelVO.getPicListStr(),PictureVO.class);
 			List<PicturesDO> picList = new ArrayList<PicturesDO>();
 			for (PictureVO pictureVO:pictureVOList){
@@ -222,7 +220,9 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			log.error("HotelRPCServiceImpl.updateHotel-hotelService.updateHotel error:" + JSON.toJSONString(icResultUpdate) + "and parame: " + JSON.toJSONString(hotelDB) + "and hotelVO:" + JSON.toJSONString(hotelVO));
 			throw new BaseException("返回结果错误，酒店资源修改失败，" + icResultUpdate.getResultMsg());
 		}
-		hotelVO.setPictureList(JSON.parseArray(hotelVO.getPicListStr(),PictureVO.class));
+		if(StringUtils.isNotBlank(hotelVO.getPicListStr())){
+			hotelVO.setPictureList(JSON.parseArray(hotelVO.getPicListStr(),PictureVO.class));
+		}
 		if(CollectionUtils.isNotEmpty(hotelVO.getPictureList())) {
 			//获取图片
 			PicturesPageQuery picturesPageQuery = new PicturesPageQuery();
