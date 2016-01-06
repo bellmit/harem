@@ -88,6 +88,7 @@ public class RecommendedManageController extends BaseController {
 		RegionIntroduceDO regionIntroduceDO = recommendedService.getRegionIntroduceDO(id);
 		model.addAttribute("regionIntroduceDO", regionIntroduceDO);
 		model.addAttribute("isEdit", true);
+		model.addAttribute("cityId",regionIntroduceDO.getId());
 		return "/system/recommended/edit";
 	}
 

@@ -44,7 +44,7 @@ public interface TripService {
 	* @return TripBo 返回类型 
 	* @throws
 	 */
-	RegionDO saveOrUpdateDetail(TripBo tripBo) throws Exception;
+	RegionDO saveOrUpdateDetail(TripBo tripBo,boolean isEdit) throws Exception;
 	
 	/**
 	* @Title: delTrip 
@@ -102,7 +102,7 @@ public interface TripService {
 	 */
 	boolean relevanceRecommended(int type,int cityCode,int resourceId[])throws Exception;
 	
-	boolean relevanceRecommended(List<RelevanceRecommended> list )throws Exception;
+	boolean relevanceRecommended(List<RelevanceRecommended> list ,boolean isEdit)throws Exception;
 	
 	/**
 	* @Title: selectRegion 

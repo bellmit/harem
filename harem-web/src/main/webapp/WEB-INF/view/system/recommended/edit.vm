@@ -15,10 +15,6 @@
                  <tr>
                     <td><span class="spColor">*</span>关联城市</td>
                     <td><select id="cityId" ></select></td>
-                     #if($isEdit)
-                         <td>当前城市：$!regionIntroduceDO.cityName</td>
-                     #end
-
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>标签</td>
@@ -119,13 +115,20 @@
    });
    
    	//关联城市
-   	    $("#cityId").focus( function(){
-    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
+   	//$("#cityId").focus( function(){});
+   	var thlist = []; 
+	thlist='$cityId';
+	
+   	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
 	    	if(data.status == 200){
 	    	var html="";
 	    		$.each(data.data, function(n,val){ 
                    console.log("data:"+val.id+"  _"+val.name);
-                   html+="<option level="+val.level+" cityCode="+val.cityCode+" cityName="+val.name+" provinceCode="+val.provinceCode+" value="+val.id+">"+val.name+"</option>"
+                   html+="<option id="+val.id+" level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id
+	               if(thlist.indexOf(val.id)>-1){
+               	        html+= " selected = 'selected' ";
+                   }
+	           html+=">"+val.name+"</option>";
                 });
             $("#cityId").html(html);
 	        }else{
@@ -134,8 +137,6 @@
 	            $(this).prop('disabled',false);
 	        }                                      
     	})
-    });
-   	
    	
    	
         

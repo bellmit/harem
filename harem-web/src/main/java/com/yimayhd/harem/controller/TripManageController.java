@@ -61,7 +61,7 @@ public class TripManageController extends BaseController {
 	public String toAdd(Model model,@ModelAttribute("TripBo") TripBo tripBo){
 		try {
 			if (null != tripBo && 0 != tripBo.getCityCode()) {
-				RegionDO regionDO = tripService.saveOrUpdateDetail(tripBo);
+				RegionDO regionDO = tripService.saveOrUpdateDetail(tripBo,false);
 				if (null == regionDO) {
 					return "/error";
 				}
@@ -200,8 +200,8 @@ public class TripManageController extends BaseController {
 		return null;
 	}	
 	
-	@RequestMapping(value="/edit/{id}",method=RequestMethod.GET)
-	public String edit(Model model,@PathVariable(value = "id")long id, HttpServletRequest request){
+	@RequestMapping(value="/toEdit/{id}",method=RequestMethod.GET)
+	public String toEdit(Model model,@PathVariable(value = "id")long id, HttpServletRequest request){
 		if(0==id){
 			return "/error";
 		}
@@ -209,7 +209,26 @@ public class TripManageController extends BaseController {
 		model.addAttribute("tripId",id);
 		model.addAttribute("tripBo",tripBo);
 		model.addAttribute("isEdit",true);
+		model.addAttribute("cityId",tripBo.getId());
+		
 		return "/system/trip/add_destination/destination_base_info";
+	}
+
+	@RequestMapping("/edit/{id}")//,method=RequestMethod.POST
+	public String edit(Model model, HttpServletRequest request,@PathVariable(value = "id")long id, @ModelAttribute("TripBo") TripBo tripBo){
+		if(0==id || null == tripBo ){
+			return "/error";
+		}
+		try {
+			tripBo.setId(id);
+			RegionDO regionDO = tripService.saveOrUpdateDetail(tripBo,true);
+			if (null != regionDO) {
+				return "/success";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "/error";
 	}
 	
 	/**

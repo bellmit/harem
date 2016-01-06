@@ -10,7 +10,7 @@ public class RelevanceRecommended implements Serializable{
 	private String descName;
 	private int type;//类型，如景区，酒店 按枚举取
 	private int cityCode;//关联的城市名称
-	int[] resourceId;//数组类型的 关联的推荐类id
+	List<Long> resourceId;//数组类型的 关联的推荐类id
 	List<SpecialShowCase> listSpecialShowCase;
 	private String subhead;//副标题
 	
@@ -45,20 +45,22 @@ public class RelevanceRecommended implements Serializable{
 		this.cityCode = cityCode;
 	}
 	
-	public int[] getResourceId() {
-		return resourceId;
-	}
-	public void setResourceId(int[] resourceId) {
-		this.resourceId = resourceId;
-	}
-	
-	
 	public String getSubhead() {
 		return subhead;
 	}
 	public void setSubhead(String subhead) {
 		this.subhead = subhead;
 	}
+	
+	public List<Long> getResourceId() {
+		return resourceId;
+	}
+	public void setResourceId(List<Long> resourceId) {
+		this.resourceId = resourceId;
+	}
+
+
+
 
 
 	public class SpecialShowCase implements Serializable{//关联直播的时候需要保存直播的图片url,比较特殊

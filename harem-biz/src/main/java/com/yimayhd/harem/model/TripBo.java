@@ -14,9 +14,7 @@ import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 public class TripBo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
 	public long id; /** id */
-	
 	public String cityName; /**目的地名称 */
 	public int cityCode; /** */
 	public int cityLevel; /** 级别 省市区 */
@@ -29,42 +27,30 @@ public class TripBo implements Serializable {
 	public String hotelSubhead;//酒店副标题
 	public String liveSubhead;//直播副标题
 	
-	
-	//public List<NeedKnow> needKnowList; /** 概况 */
-	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
-
-		public NeedKnow gaikuang; /** 概况 */
-	
-
-		public NeedKnow minsu; /** 民俗 */
-	
-
-		public NeedKnow xiaofei; /** 消费 */
-	
-
-		public NeedKnow tieshi; /** 贴示 */
-	
+	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。
+	//使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
+	public NeedKnow gaikuang; /** 概况 */
+	public NeedKnow minsu; /** 民俗 */
+	public NeedKnow xiaofei; /** 消费 */
+	public NeedKnow tieshi; /** 贴示 */
 	//public List<AffiliateDetail> affiliateDetail;
-	
 	//---以下关联id，以数组方式存放-----------------------------------------------
-	public int[] biMai;/** 必买推荐 */
-	public int[] biQu;/** 必去景点*/
-	public int[] jiuDian;/** 精选酒店*/
-	public int[] zhiBo;/** 精选直播*/
-	public int[] xianLu;/** 线路*/
-	public int[] liangDian;/** 亮点*/
+	public List<Long> biMai;/** 必买推荐 */
+	public List<Long> biQu;/** 必去景点*/
+	public List<Long> jiuDian;/** 精选酒店*/
+	public List<Long> zhiBo;/** 精选直播*/
+	public List<Long> xianLu;/** 线路*/
+	public List<Long> liangDian;/** 亮点*/
 
 	public List<NeedKnow> biMaiList;
 	public List<NeedKnow> biQuList;
 	public List<NeedKnow> jiuDianList;
 	public List<NeedKnow> zhiBoList;
 	public List<NeedKnow> xianLuList;
-	
 	public List<NeedKnow> tieshiList;
 	public List<NeedKnow> xiaofeiList;
 	public List<NeedKnow> minsuList;
 	public List<NeedKnow> gaikuangList;
-
 	public List<NeedKnow> liangDianList;
 
 	
@@ -269,80 +255,6 @@ public class TripBo implements Serializable {
 		this.type = type;
 	}
 	
-
-
-	public int[] getBiMai() {
-		return biMai;
-	}
-
-
-
-	public void setBiMai(int[] biMai) {
-		this.biMai = biMai;
-	}
-
-
-
-	public int[] getBiQu() {
-		return biQu;
-	}
-
-
-
-	public void setBiQu(int[] biQu) {
-		this.biQu = biQu;
-	}
-
-
-
-	public int[] getJiuDian() {
-		return jiuDian;
-	}
-
-
-
-	public void setJiuDian(int[] jiuDian) {
-		this.jiuDian = jiuDian;
-	}
-
-
-
-	public int[] getZhiBo() {
-		return zhiBo;
-	}
-
-
-
-	public void setZhiBo(int[] zhiBo) {
-		this.zhiBo = zhiBo;
-	}
-
-
-
-	public int[] getXianLu() {
-		return xianLu;
-	}
-
-
-
-	public void setXianLu(int[] xianLu) {
-		this.xianLu = xianLu;
-	}
-
-
-
-	/*public List<AffiliateDetail> getAffiliateDetail() {
-		return affiliateDetail;
-	}
-
-
-
-	public void setAffiliateDetail(List<AffiliateDetail> affiliateDetail) {
-		this.affiliateDetail = affiliateDetail;
-	}
-*/
-
-
 	public NeedKnow getGaikuang() {
 		return gaikuang;
 	}
@@ -437,14 +349,6 @@ public class TripBo implements Serializable {
 		this.liveSubhead = liveSubhead;
 	}
 
-	public int[] getLiangDian() {
-		return liangDian;
-	}
-
-	public void setLiangDian(int[] liangDian) {
-		this.liangDian = liangDian;
-	}
-
 	public List<NeedKnow> getLiangDianList() {
 		return liangDianList;
 	}
@@ -452,21 +356,78 @@ public class TripBo implements Serializable {
 	public void setLiangDianList(List<NeedKnow> liangDianList) {
 		this.liangDianList = liangDianList;
 	}
-	
-	
-	/*public List<NeedKnow> getNeedKnowList() {
-		return needKnowList;
+
+
+
+	public List<Long> getBiMai() {
+		return biMai;
 	}
 
 
 
-	public void setNeedKnowList(List<NeedKnow> needKnowList) {
-		this.needKnowList = needKnowList;
+	public void setBiMai(List<Long> biMai) {
+		this.biMai = biMai;
 	}
-	 */
-	
-	
 
+
+
+	public List<Long> getBiQu() {
+		return biQu;
+	}
+
+
+
+	public void setBiQu(List<Long> biQu) {
+		this.biQu = biQu;
+	}
+
+
+
+	public List<Long> getJiuDian() {
+		return jiuDian;
+	}
+
+
+
+	public void setJiuDian(List<Long> jiuDian) {
+		this.jiuDian = jiuDian;
+	}
+
+
+
+	public List<Long> getZhiBo() {
+		return zhiBo;
+	}
+
+
+
+	public void setZhiBo(List<Long> zhiBo) {
+		this.zhiBo = zhiBo;
+	}
+
+
+
+	public List<Long> getXianLu() {
+		return xianLu;
+	}
+
+
+
+	public void setXianLu(List<Long> xianLu) {
+		this.xianLu = xianLu;
+	}
+
+
+
+	public List<Long> getLiangDian() {
+		return liangDian;
+	}
+
+
+
+	public void setLiangDian(List<Long> liangDian) {
+		this.liangDian = liangDian;
+	}
 	
 	
 }

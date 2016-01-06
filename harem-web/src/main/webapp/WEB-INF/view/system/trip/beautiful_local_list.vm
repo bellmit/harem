@@ -74,7 +74,7 @@
     $(function(){
         $('.themeDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/trip/edit/'+ $(this).attr('tripId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/trip/toEdit/'+ $(this).attr('tripId');
                 //window.openwin(url);
                 top.tabsAdd("",url,2,$(this).text());
             });
@@ -86,14 +86,12 @@
     
  	$('.btn-add').click(function(){
     	 var url ='$!utilWebconfig.getActionDefaultFontPath()' +'/B2C/trip/departure/toAdd';
-      	// windown.location.href  = url;
-       top.tabsAdd("",url,2,$(this).text());
+         top.tabsAdd("",url,2,$(this).text());
     });
-    
-    //
-    	//编辑
+
+    //编辑
 	$('.themeEdit').click(function(){
-	 	var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/trip/edit/'+ $(this).attr('tripId');
+	 	var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/trip/toEdit/'+ $(this).attr('tripId');
         window.openwin(url);
     });	
 </script>

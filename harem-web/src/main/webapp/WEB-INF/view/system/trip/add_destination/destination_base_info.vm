@@ -47,7 +47,7 @@
 </ul>
 
 
-<form name="addHotel" id="hotelForm" action="" method="post" hotelId="">
+<form name="trip" id="tripForm" action="" method="post" tripId="$!tripBo.id">
 <div class="tab-content grogInfoWrap"  style="">
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
@@ -312,12 +312,12 @@
         </div>
     </div>
     
-    <input type="hidden" class="inpControl" id="biMaiId" name="biMai" value="">
-    <input type="hidden" class="inpControl" id="biQuId" name="biQu" value="">
-    <input type="hidden" class="inpControl" id="jiuDianId" name="jiuDian" value="">
-    <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo" value="">
-    <input type="hidden" class="inpControl" id="xianLuId" name="xianLu" value="">
-    <input type="hidden" class="inpControl" id="liangDianId" name="liangDian" value="">
+    <input type="hidden" class="inpControl" id="biMaiId" name="biMai"          value="$!tripBo.biMai">
+    <input type="hidden" class="inpControl" id="biQuId" name="biQu"            value="$!tripBo.biQu">
+    <input type="hidden" class="inpControl" id="jiuDianId" name="jiuDian"      value="$!tripBo.jiuDian">
+    <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo"     	   value="$!tripBo.zhiBo">
+    <input type="hidden" class="inpControl" id="xianLuId" name="xianLu"        value="$!tripBo.xianLu">
+    <input type="hidden" class="inpControl" id="liangDianId" name="liangDian"  value="$!tripBo.liangDian">
     
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
@@ -366,8 +366,7 @@ function setArrId(obj,textId){
 		console.log(data.data);
         $('#FMReturnInput').val(data.data);
         $('#FMReturnInputImg').attr('src',tfsRootPath + data.data);
-			
-        }else{
+	}else{
             layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
@@ -402,47 +401,81 @@ function setArrId(obj,textId){
 		$(obj).parent().parent().remove(); 
  	}
  	
+ 	function delBracket(obj){
+		obj=obj.replace("[","");
+		obj=obj.replace("]","");
+		return obj;
+ 	}
+ 	
  	//保存的
  	$('#btnSubmit').click(function(){
-    	//if($("#hotelForm").valid()) {}
+        var cityId=$('select option:selected').attr("value");
+        $("#cityIds").val(cityId);
+        var cityCode="";
+        var level = $('select option:selected').attr("level");
+        if(level==1){
+            cityCode=$('select option:selected').attr("provinceCode");
+        }else if(level==2){
+            cityCode=$('select option:selected').attr("cityCode");
+        }
+        $("#cityCodeId").val(cityCode);
+        console.log($("tripForm").serialize());
+
         $(this).prop('disabled', true);
-        	var actionUrl = actionDefaultPath + '/B2C/trip/add';
-            $('#hotelForm').attr('action', actionUrl);
-            //alert(actionUrl);
-            var cityId=$('select option:selected').attr("value");
-            $("#cityIds").val(cityId);
-           
-           var cityCode=""; 
-            var level = $('select option:selected').attr("level");
-            if(level==1){
-            	cityCode=$('select option:selected').attr("provinceCode");
-            }else if(level==2){
-            	cityCode=$('select option:selected').attr("cityCode");
-            }
-            $("#cityCodeId").val(cityCode);
-           	console.log($("hotelForm").serialize());
-           
-            
-            $('#hotelForm').submit();
-        });
-        
-    	$("#cityId").focus( function(){
-    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
-	    	if(data.status == 200){
-	    	var html="";
-	    		$.each(data.data, function(n,val){ 
-                   console.log("data:"+val.id+"  _"+val.name);
-                   html+="<option level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id+">"+val.name+"</option>"
-                });
-            $("#cityId").html(html);
-	        }else{
-	            var msg = new $.zui.Messager('获取城市列表失败', {placement: 'center',type:'warning',time:'1000'});
-	            msg.show();
-	            $(this).prop('disabled',false);
-	        }                                      
-    	})
+        var actionUrl="";
+        var tripId = $('#tripForm').attr('tripId');
+        if(tripId){
+            actionUrl = actionDefaultPath + '/B2C/trip/edit/'+tripId;
+        }else{
+            actionUrl = actionDefaultPath + '/B2C/trip/add';
+        }
+        $('#tripForm').attr('action', actionUrl);
+		var bm= delBracket($("#biMaiId").val());
+		var bq= delBracket($("#biQuId").val());
+		var jd= delBracket($("#jiuDianId").val());
+		var zb= delBracket($("#zhiBoId").val());
+		var xl= delBracket($("#xianLuId").val());
+		var ld= delBracket($("#liangDianId").val());
+		console.log("bm="+bm+",bq="+bq+",jd="+jd+",zb="+zb+",xl="+xl+",ld="+ld);
+		$("#biMaiId").val(bm);
+		$("#biQuId").val(bq);
+		$("#jiuDianId").val(jd);
+		$("#zhiBoId").val(zb);
+		$("#xianLuId").val(xl);
+		$("#liangDianId").val(ld);
+        $('#tripForm').submit();
     });
-    
+
+	Array.prototype.indexOf = function(val) {              
+		for (var i = 0; i < this.length; i++) {  
+			if (this[i] == val) return i;  
+		}  
+		return -1;  
+	};
+	
+	//获取目的地列表数据
+	var isEdit='$isEdit';
+	var thlist = []; 
+	thlist='$cityId';
+	//$("#cityId").focus( function(){});
+	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
+		if(data.status == 200){
+		var html="";
+			$.each(data.data, function(n,val){ 
+	           console.log("data:"+val.id+"  _"+val.name);
+	           html+="<option id="+val.id+" level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id
+	           if(thlist.indexOf(val.id)>-1){
+               	html+= " selected = 'selected' ";
+               }
+	           html+=">"+val.name+"</option>";
+	        });
+	    $("#cityId").html(html);
+	    }else{
+	        var msg = new $.zui.Messager('获取城市列表失败', {placement: 'center',type:'warning',time:'1000'});
+	        msg.show();
+	        $(this).prop('disabled',false);
+	    }                                      
+	})
 //---------------------------------------------------------------------------------------------------------------------
    
 $('#bimaituijianId').click(function(){
