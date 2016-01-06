@@ -95,13 +95,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 				List<PictureVO> pictureVOList = JSON.parseArray(picListStr, PictureVO.class);
 				List<PicturesDO> picList = new ArrayList<PicturesDO>();
 				for (PictureVO pictureVO : pictureVOList) {
-					PicturesDO picturesDO = new PicturesDO();
-					picturesDO.setPath(pictureVO.getValue());
-					picturesDO.setName(pictureVO.getName());
+					PicturesDO picturesDO = pictureVO.toPicturesDO();
 					picturesDO.setOutId(addedRestaurant.getId());
 					picturesDO.setOutType(PictureOutType.RESTAURANT.getValue());
-					// TODO picturesDO.setOrderNum(pictureVO.getIndex());
-					picturesDO.setIsTop(pictureVO.isTop());
 					picList.add(picturesDO);
 				}
 				if (CollectionUtils.isNotEmpty(picList)) {

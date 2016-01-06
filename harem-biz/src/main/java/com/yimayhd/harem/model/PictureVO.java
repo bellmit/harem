@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
@@ -15,6 +16,7 @@ import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
  * Created by czf on 2015/12/26. 资源图片集用
  */
 public class PictureVO {
+	private static final int NAME_MAX_LENGTH = 15;
 	private long id;// 图片id
 	private int index;// 图片索引
 	private String name;// 图片原名称
@@ -55,13 +57,9 @@ public class PictureVO {
 		if (CollectionUtils.isEmpty(picturesDOList)) {
 			for (PictureVO pictureVO : pictureVOList) {
 				if (pictureVO.getId() == 0) {
-					PicturesDO picturesDO = new PicturesDO();
-					picturesDO.setPath(pictureVO.getValue());
-					picturesDO.setName(pictureVO.getName());
+					PicturesDO picturesDO = pictureVO.toPicturesDO();
 					picturesDO.setOutId(outId);
 					picturesDO.setOutType(pictureOutType.getValue());
-					// TODO picturesDO.setOrderNum(pictureVO.getIndex());
-					picturesDO.setIsTop(pictureVO.isTop());
 					addPicturesDOList.add(picturesDO);
 				}
 			}
@@ -74,13 +72,9 @@ public class PictureVO {
 
 			for (PictureVO pictureVO : pictureVOList) {
 				if (pictureVO.getId() == 0) {
-					PicturesDO picturesDO = new PicturesDO();
-					picturesDO.setPath(pictureVO.getValue());
-					picturesDO.setName(pictureVO.getName());
+					PicturesDO picturesDO = pictureVO.toPicturesDO();
 					picturesDO.setOutId(outId);
 					picturesDO.setOutType(pictureOutType.getValue());
-					// TODO picturesDO.setOrderNum(pictureVO.getIndex());
-					picturesDO.setIsTop(pictureVO.isTop());
 					addPicturesDOList.add(picturesDO);
 				} else {
 					if (pictureVO.isdel()) {
@@ -156,5 +150,16 @@ public class PictureVO {
 
 	public void setIsdel(boolean isdel) {
 		this.isdel = isdel;
+	}
+
+	public PicturesDO toPicturesDO() {
+		PicturesDO picturesDO = new PicturesDO();
+		picturesDO.setPath(this.value);
+		if (StringUtils.isNotBlank(this.name)) {
+			int length = this.name.length() > NAME_MAX_LENGTH ? NAME_MAX_LENGTH : this.name.length();
+			picturesDO.setName(name.substring(0, length));
+		}
+		picturesDO.setIsTop(this.isTop);
+		return picturesDO;
 	}
 }
