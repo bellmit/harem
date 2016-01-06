@@ -75,7 +75,7 @@
                     #foreach($live in $liveList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!live.id"></td>
-                        <td>$!live.userDO.nickName</td>
+                        <td>$!live.userDO.nickname</td>
                         <td>$!live.userDO.mobileNo</td>
                         <td>$!live.textContent</td>
                         <th>$!live.tag.name</th>

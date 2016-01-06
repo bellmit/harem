@@ -110,11 +110,7 @@
         document.body.appendChild(a);
         a.click();
     }
-    var validate = function(){
-        var msg;
-        /*if()*/
-        return true;
-    }
+
     $(function(){
         $('.submitBtn').click(function(){
             $('#hotelDOListForm').submit();

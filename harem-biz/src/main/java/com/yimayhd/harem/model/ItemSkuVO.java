@@ -28,11 +28,10 @@ public class ItemSkuVO extends ItemSkuDO {
         itemSkuDO.setItemId(itemVO.getId());
 
         for(ItemSkuPVPair itemSkuPVPair:itemSkuVO.getItemSkuPVPairList()){
-            itemSkuPVPair.getVTxt();
             if(StringUtils.isBlank(itemSkuDO.getTitle())){
-                itemSkuDO.setTitle(itemSkuDO.getTitle());
+                itemSkuDO.setTitle(itemSkuPVPair.getVTxt());
             }else{
-                itemSkuDO.setTitle("," + itemSkuDO.getTitle());
+                itemSkuDO.setTitle(itemSkuDO.getTitle() + "," + itemSkuPVPair.getVTxt());
             }
         }
         itemSkuDO.setCategoryId(itemVO.getCategoryId());

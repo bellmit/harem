@@ -261,21 +261,23 @@ public class LiveServiceImpl implements LiveService {
 			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoAddDTO));
 			throw new BaseException("新增直播失败，新增错误," + baseResult.getResultMsg());
 		}
-		//保存标签
-		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
-		tagRelationInfoDTO.setOutId(baseResult.getValue().getId());
-		tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
-		List<Long> tagIdList = new ArrayList<Long>();
-		tagIdList.add(subjectInfoAddDTO.getTagId());
-		tagRelationInfoDTO.setList(tagIdList);
-		tagRelationInfoDTO.setOrderTime(subjectInfoAddDTO.getGmtCreated());
-		com.yimayhd.commentcenter.client.result.BaseResult<Boolean> addTagBaseResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
-		if(null == addTagBaseResult){
-			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo result is null and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
-			throw new BaseException("新增直播成功，新增直播标签失败，返回结果为空");
-		} else if(!addTagBaseResult.isSuccess()){
-			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo error:" + JSON.toJSONString(addTagBaseResult) + "and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
-			throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
+		//保存标签(标签不必填)
+		if(0 != subjectInfoAddVO.getTagId()) {
+			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
+			tagRelationInfoDTO.setOutId(baseResult.getValue().getId());
+			tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
+			List<Long> tagIdList = new ArrayList<Long>();
+			tagIdList.add(subjectInfoAddDTO.getTagId());
+			tagRelationInfoDTO.setList(tagIdList);
+			tagRelationInfoDTO.setOrderTime(subjectInfoAddDTO.getGmtCreated());
+			com.yimayhd.commentcenter.client.result.BaseResult<Boolean> addTagBaseResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
+			if (null == addTagBaseResult) {
+				log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo result is null and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+				throw new BaseException("新增直播成功，新增直播标签失败，返回结果为空");
+			} else if (!addTagBaseResult.isSuccess()) {
+				log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo error:" + JSON.toJSONString(addTagBaseResult) + "and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+				throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
+			}
 		}
 
 		return null;
@@ -295,21 +297,23 @@ public class LiveServiceImpl implements LiveService {
 			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoAddDTO));
 			throw new BaseException("修改直播失败，修改错误," + baseResult.getResultMsg());
 		}
-		//修改标签
-		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
-		tagRelationInfoDTO.setOutId(subjectInfoAddVO.getId());
-		tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
-		List<Long> tagIdList = new ArrayList<Long>();
-		tagIdList.add(subjectInfoAddDTO.getTagId());
-		tagRelationInfoDTO.setList(tagIdList);
-		tagRelationInfoDTO.setOrderTime(subjectInfoAddDTO.getGmtCreated());
-		com.yimayhd.commentcenter.client.result.BaseResult<Boolean> addTagBaseResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
-		if(null == addTagBaseResult){
-			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo result is null and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
-			throw new BaseException("新增直播成功，新增直播标签失败，返回结果为空");
-		} else if(!addTagBaseResult.isSuccess()){
-			log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo error:" + JSON.toJSONString(addTagBaseResult) + "and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
-			throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
+		//修改标签(修改时不能删除标签)
+		if(0 != subjectInfoAddVO.getTagId()) {
+			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
+			tagRelationInfoDTO.setOutId(subjectInfoAddVO.getId());
+			tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
+			List<Long> tagIdList = new ArrayList<Long>();
+			tagIdList.add(subjectInfoAddDTO.getTagId());
+			tagRelationInfoDTO.setList(tagIdList);
+			tagRelationInfoDTO.setOrderTime(subjectInfoAddDTO.getGmtCreated());
+			com.yimayhd.commentcenter.client.result.BaseResult<Boolean> addTagBaseResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
+			if (null == addTagBaseResult) {
+				log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo result is null and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+				throw new BaseException("新增直播成功，新增直播标签失败，返回结果为空");
+			} else if (!addTagBaseResult.isSuccess()) {
+				log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo error:" + JSON.toJSONString(addTagBaseResult) + "and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));
+				throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
+			}
 		}
 	}
 
