@@ -33,11 +33,11 @@
         <a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
     </li>
 
-    #*
+
     <li>
         <a href="#jingxuanzhibo" id="tuiJianLuXianId" data-toggle="tab">推荐路线</a>
     </li>
-
+    #*
     <li>
         <a href="#jingxuanzhibo" id="lianDianId" data-toggle="tab">亮点</a>
     </li>
@@ -115,7 +115,35 @@
                     <td><span class="spColor">*</span>直播副标题</td>
                     <td><input type="text" id="liveSubheadId" name="liveSubhead" value="$!tripBo.liveSubhead"></td>
                 </tr>
-                
+
+                #*
+                #if($isEdit)
+                    <tr>
+                        <td><span class="spColor">*</span>已选买必推荐</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选买必推荐</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选必去景点</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选必去景点</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选精选酒店</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选精选酒店</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选精选直播</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选精选直播</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选推荐路线</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选推荐路线</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选亮点</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选亮点</button></td>
+                    </tr>
+                #end
+                *#
                 
 				<tr>
                     <td><span class="spColor">*</span>概况</td>
@@ -127,32 +155,32 @@
                                 <th>内容（500字以内）</th>
                                 <th></th>
                             </tr>
-                            #if(!${VO.gaikuang.frontNeedKnow})
-                            <tr class="needKnow">
-                                <td>
-                                    <input type="text" name="gaikuang.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
-                                </td>
-                                <td>
-                                    <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[1].content" rows="3"></textarea>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                </td>
-                            </tr>
-                            #end
-
-                            #foreach($frontNeedKnow in $VO.gaikuang.frontNeedKnow)
-                            <tr class="needKnow">
-                                <td>
-                                    <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
-                                </td>
-                                <td>
-                                    <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                </td>
-                            </tr>
+                            #if(${tripBo.gaikuang})
+                                #foreach($frontNeedKnow in $tripBo.gaikuang.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr class="needKnow">
+                                    <td>
+                                        <input type="text" name="gaikuang.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                    </td>
+                                    <td>
+                                        <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[1].content" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                    </td>
+                                </tr>
                             #end
                         </table>
                     </td>
@@ -167,32 +195,32 @@
                                 <th>内容（500字以内）</th>
                                 <th></th>
                             </tr>
-                                #if(!${VO.minsu.frontNeedKnow})
-                                <tr class="needKnow">
-                                    <td>
-                                        <input type="text" name="minsu.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
-                                    </td>
-                                    <td>
-                                        <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[1].content" rows="3"></textarea>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                    </td>
-                                </tr>
-                                #end
-
-                                #foreach($frontNeedKnow in $VO.minsu.frontNeedKnow)
-                                <tr class="needKnow">
-                                    <td>
-                                        <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
-                                    </td>
-                                    <td>
-                                        <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                    </td>
-                                </tr>
+                                #if($tripBo.minsu)
+                                    #foreach($minsus in $tripBo.minsu.frontNeedKnow)
+                                        <tr class="needKnow">
+                                            <td>
+                                                <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{minsus.title}">
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{minsus.content}</textarea>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="minsu.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[1].content" rows="3"></textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
                                 #end
                         </table>
                     </td>
@@ -207,32 +235,32 @@
                                     <th>内容（500字以内）</th>
                                     <th></th>
                                 </tr>
-                                #if(!${VO.xiaofei.frontNeedKnow})
-                                <tr class="needKnow">
-                                    <td>
-                                        <input type="text" name="xiaofei.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
-                                    </td>
-                                    <td>
-                                        <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[1].content" rows="3"></textarea>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                    </td>
-                                </tr>
-                                #end
-
-                                #foreach($frontNeedKnow in $VO.xiaofei.frontNeedKnow)
-                                <tr class="needKnow">
-                                    <td>
-                                        <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
-                                    </td>
-                                    <td>
-                                        <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                    </td>
-                                </tr>
+                                #if($tripBo.xiaofei)
+                                    #foreach($frontNeedKnow in $tripBo.xiaofei.frontNeedKnow)
+                                        <tr class="needKnow">
+                                            <td>
+                                                <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="xiaofei.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[1].content" rows="3"></textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
                                 #end
                         </table>
                     </td>
@@ -247,32 +275,32 @@
                                 <th>内容（500字以内）</th>
                                 <th></th>
                             </tr>
-                            #if(!${VO.tieshi.frontNeedKnow})
-                            <tr class="needKnow">
-                                <td>
-                                    <input type="text" name="tieshi.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
-                                </td>
-                                <td>
-                                    <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[1].content" rows="3"></textarea>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                </td>
-                            </tr>
-                            #end
-
-                            #foreach($frontNeedKnow in $VO.tieshi.frontNeedKnow)
-                            <tr class="needKnow">
-                                <td>
-                                    <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
-                                </td>
-                                <td>
-                                    <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
-                                </td>
-                            </tr>
+                            #if($tripBo.tieshi)
+                                #foreach($frontNeedKnow in $tripBo.tieshi.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr class="needKnow">
+                                    <td>
+                                        <input type="text" name="tieshi.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                    </td>
+                                    <td>
+                                        <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[1].content" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                    </td>
+                                </tr>
                             #end
                         </table>
                     </td>
@@ -289,7 +317,7 @@
     <input type="hidden" class="inpControl" id="jiuDianId" name="jiuDian" value="">
     <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo" value="">
     <input type="hidden" class="inpControl" id="xianLuId" name="xianLu" value="">
-    <input type="hidden" class="inpControl" id="liangDianId" name="xianLu" value="">
+    <input type="hidden" class="inpControl" id="liangDianId" name="liangDian" value="">
     
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
@@ -452,7 +480,7 @@ $('#jingxuanzhiboId').click(function(){
 
 $('#tuiJianLuXianId').click(function(){
     openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectline','推荐路线',function() {
-        setArrId(win.getItems(),"xianLuId");
+        setArrId(win.getSelected(),"xianLuId");
         return true;
     });
 });

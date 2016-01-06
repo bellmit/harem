@@ -59,7 +59,7 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button type="button" class="btn btn-primary onReset" >重置</button>
             </div>
         </div>
 
@@ -122,6 +122,10 @@
                 format: "yyyy-mm-dd"
             });
     $(function(){
+		
+		 $('.onReset').click(function(){
+           $("#activityListForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
 		
 		$('.toUpdate').each(function(){
             $(this).click(function(){

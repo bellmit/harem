@@ -536,7 +536,7 @@
 		  $('#rightupTwoButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#rightupTwoButton').parent().find("#activityName").text(selectData.title);
+                 $('#rightupTwoButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#rightupTwoButton').parent().find("#activityId").val(selectData.id);
                  $('#rightupTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -546,7 +546,7 @@
 		 $('#downOneButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#downOneButton').parent().find("#activityName").text(selectData.title);
+                 $('#downOneButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#downOneButton').parent().find("#activityId").val(selectData.id);
                  $('#downOneButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -556,7 +556,7 @@
 		 $('#downTwoButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#downTwoButton').parent().find("#activityName").text(selectData.title);
+                 $('#downTwoButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#downTwoButton').parent().find("#activityId").val(selectData.id);
                  $('#downTwoButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -566,7 +566,7 @@
 		  $('#downThreeButton').click(function(){
 		 	openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectOneActivity','选择活动 ',function() {
                 var selectData = win.getSelected();
-                 $('#downThreeButton').parent().find("#activityName").text(selectData.title);
+                 $('#downThreeButton').parent().parent().find("#activityName").text(selectData.title);
                  $('#downThreeButton').parent().find("#activityId").val(selectData.id);
                  $('#downThreeButton').parent().find("#activityDetail").attr("activityId",selectData.id);
                 return true;
@@ -690,12 +690,12 @@
 
         $('#advertisementSubmit').click(function(){
 			var advertiseList = new Array()
-			advertiseList[0] = parseAdvertiseForm("leftupTr",1);
-			advertiseList[1] = parseAdvertiseForm("rightupOneTr",2);
-			advertiseList[2] = parseAdvertiseForm("rightupTwoTr",3);
-			advertiseList[3] = parseAdvertiseForm("downOneTr",4);
-			advertiseList[4] = parseAdvertiseForm("downTwoTr",5);
-			advertiseList[5] = parseAdvertiseForm("downThreeTr",6);
+			advertiseList[0] = parseAdvertiseForm("leftupTr",1,'ACTIVITY');
+			advertiseList[1] = parseAdvertiseForm("rightupOneTr",2,'ACTIVITY');
+			advertiseList[2] = parseAdvertiseForm("rightupTwoTr",3,'ACTIVITY');
+			advertiseList[3] = parseAdvertiseForm("downOneTr",4,'ACTIVITY');
+			advertiseList[4] = parseAdvertiseForm("downTwoTr",5,'ACTIVITY');
+			advertiseList[5] = parseAdvertiseForm("downThreeTr",6,'GREAT_GIFT');
 			
             $(this).prop('disabled',true);
             $.ajax({
@@ -706,17 +706,17 @@
                 
                 data:JSON.stringify(advertiseList),
                 error:function(){
-                    $("#travelKaSubmit").attr("disabled",false);
+                    $("#advertisementSubmit").attr("disabled",false);
                     alert('服务器忙，请稍后再试！');
                 },
                 success:function(data){
 
                     if(data.status==200){
                         layer.alert('操作成功');
-                        //$("#travelKaSubmit").attr("disabled",false);
+                        $("#advertisementSubmit").attr("disabled",false);
                         disableAdvertiseModify();
                     }else{
-                        $("#travelKaSubmit").attr("disabled",false);
+                        $("#advertisementSubmit").attr("disabled",false);
                         layer.alert('操作失败');
                     }
                 }
@@ -736,14 +736,14 @@
 		})
    }
    
-   function parseAdvertiseForm(trId,serialNo){
+   function parseAdvertiseForm(trId,serialNo,businessCode){
    		var showcaseId = $("#" + trId).find("#showcaseId").val();
    		var title = $("#" + trId).find("#title").val();
 		var summary = $("#" + trId).find("#summary").val();
 		var imgUrl = $("#" + trId).find("#imgUrl").val();
 		var operationContent = $("#" + trId).find("#activityId").val();
 		var version = $("#" + trId).find("#version").val();
-		var formData = {title:title,showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,serialNo:serialNo,businessCode:'ACTIVITY',version:version};
+		var formData = {title:title,showcaseId:showcaseId,title:title,summary:summary,imgUrl:imgUrl,operationContent: operationContent,serialNo:serialNo,businessCode:businessCode,version:version};
 		
 		return formData;
    }

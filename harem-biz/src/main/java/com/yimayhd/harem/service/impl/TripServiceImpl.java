@@ -254,126 +254,122 @@ public class TripServiceImpl implements TripService {
 		//XXX:此处代码需要后期整改优化，现为验证后台后台查询封装的目的地对象是否能在前台正确显示
 		TripBo tripBo = new TripBo();
 		DestinationResult res = showcaseClientServerRef.getDestinationResultByRegionId(id);
-		
-			// 组装其余信息
-			// -------------------------------------------------------------------
-			RegionDO regionDO = res.getRegionDO();
-			if(null == regionDO){
-				return null;
-			}
-			tripBo.setId(regionDO.getId());
-			tripBo.setCityCode(regionDO.getCityCode());
-			tripBo.setType(regionDO.getType());
-			tripBo.setLogoURL(regionDO.getUrl());
-			tripBo.setCoverURL(regionDO.getBgUrl());
-			tripBo.setStatus(regionDO.getStatus());
+		// 组装基础信息
+		RegionDO regionDO = res.getRegionDO();
+		if(null == regionDO){
+			return null;
+		}
+		tripBo.setId(regionDO.getId());
+		tripBo.setCityCode(regionDO.getCityCode());
+		tripBo.setType(regionDO.getType());
+		tripBo.setLogoURL(regionDO.getUrl());
+		tripBo.setCoverURL(regionDO.getBgUrl());
+		tripBo.setStatus(regionDO.getStatus());
+		//组装showcase信息
+		List<DestinationResult.BoothShowResult> listDRB = res.getBoothShowResultList();
+		assembleTripBo(tripBo,listDRB);
+		/*NeedKnow minsu = new NeedKnow();
+		minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.getCode());
+		minsu.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.FOLKWAYS.getCode()));
 
-			//--------------------------------------------------------------------------
-			List<BoothShowResult> list = res.getBoothShowResultList();
-			if(CollectionUtils.isNotEmpty(list)){
-				BoothDO boothDO = null;
-				for (BoothShowResult boothShowResult : list) {
-					boothDO = boothShowResult.getBoothDO();
-					if(null != boothDO){
-						int type=boothDO.getType();
-						if(ColumnType.SURVER.getType() == type){
-							NeedKnow gaikuang = new NeedKnow();
-							List gaikuangList = boothShowResult.getShowcaseDOList();
-							gaikuang.setExtraInfoUrl(ColumnType.SURVER.getCode());
-							gaikuang.setFrontNeedKnow(showCaseToTextItem(gaikuangList));
-							tripBo.setGaikuang(gaikuang);
-						}
-						if(ColumnType.FOLKWAYS.getType() == type){
-							NeedKnow minsu = new NeedKnow();
-							List minsuList = boothShowResult.getShowcaseDOList();
-							minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.getCode());
-							minsu.setFrontNeedKnow(showCaseToTextItem(minsuList));
-							tripBo.setMinsu(minsu);
-							
-						}
-						if(ColumnType.CONSUMPTION.getType() == type){
-							NeedKnow xiaofei = new NeedKnow();
-							List xiaofeiList = boothShowResult.getShowcaseDOList();
-							xiaofei.setExtraInfoUrl(ColumnType.SURVER.getCode());
-							xiaofei.setFrontNeedKnow(showCaseToTextItem(xiaofeiList));
-							tripBo.setXiaofei(xiaofei);
-						}
-						if(ColumnType.HIGHLIGHTS.getType() == type){
-							NeedKnow tieshi = new NeedKnow();
-							List tieshiList = boothShowResult.getShowcaseDOList();
-							tieshi.setExtraInfoUrl(ColumnType.SURVER.getCode());
-							tieshi.setFrontNeedKnow(showCaseToTextItem(tieshiList));
-							tripBo.setTieshi(tieshi);
-						}
-						if(ColumnType.NEED_BUY.getType() == type){
-							NeedKnow maiTuiJian = new NeedKnow();
-							List maiTuiJianList = boothShowResult.getShowcaseDOList();
-							maiTuiJian.setExtraInfoUrl(ColumnType.NEED_BUY.getCode());
-							//maiTuiJian.setFrontNeedKnow(showCaseToTextItem(maiTuiJianList));
-						}
-						if(ColumnType.TIPS.getType() == type){
-							NeedKnow liangDian = new NeedKnow();
-							List liangDianList = boothShowResult.getShowcaseDOList();
-							liangDian.setExtraInfoUrl(ColumnType.TIPS.getCode());
-							//liangDian.setFrontNeedKnow(showCaseToTextItem(liangDianList));
-							tripBo.setGaikuang(liangDian);
-						}
+		NeedKnow xiaofei = new NeedKnow();
+		xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.getCode());
+		xiaofei.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.CONSUMPTION.getCode()));
 
-						if(ColumnType.GREAT_SCENIC.getType() == type){
-							NeedKnow jingdian = new NeedKnow();
-							List jingdianList = boothShowResult.getShowcaseDOList();
-							jingdian.setExtraInfoUrl(ColumnType.GREAT_SCENIC.getCode());
-							jingdian.setFrontNeedKnow(showCaseToTextItem(jingdianList));
-							tripBo.setGaikuang(jingdian);
-							tripBo.setScenicSubhead(boothDO.getDesc());
-						}
+		NeedKnow tieshi = new NeedKnow();
+		tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.getCode());
+		tieshi.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.HIGHLIGHTS.getCode()));
 
-						if(ColumnType.GREAT_HOTEL.getType() == type){
-							NeedKnow jiudian = new NeedKnow();
-							List jiudianList = boothShowResult.getShowcaseDOList();
-							jiudian.setExtraInfoUrl(ColumnType.GREAT_HOTEL.getCode());
-							jiudian.setFrontNeedKnow(showCaseToTextItem(jiudianList));
-							tripBo.setGaikuang(jiudian);
-							tripBo.setHotelSubhead(boothDO.getDesc());
-						}
+		//tripBo.setGaikuang(gaikuang);
+		tripBo.setTieshi(tieshi);
+		tripBo.setXianLu(null);
+		tripBo.setXiaofei(xiaofei);
+		tripBo.setMinsu(minsu);*/
+		return tripBo;
+	}
 
-						if(ColumnType.TOURIST_SHOW.getType() == type){
-							NeedKnow zhibo = new NeedKnow();
-							List liangDianList = boothShowResult.getShowcaseDOList();
-							zhibo.setExtraInfoUrl(ColumnType.TOURIST_SHOW.getCode());
-							zhibo.setFrontNeedKnow(showCaseToTextItem(liangDianList));
-							tripBo.setGaikuang(zhibo);
-							tripBo.setLiveSubhead(boothDO.getDesc());
-						}
+	private TripBo assembleTripBo(TripBo tripBo,List<DestinationResult.BoothShowResult> listDRB){
+		if(CollectionUtils.isNotEmpty(listDRB)){
+			BoothDO boothDO = null;
+			for (BoothShowResult boothShowResult : listDRB) {
+				boothDO = boothShowResult.getBoothDO();
+				if(null != boothDO){
+					int type=boothDO.getType();
+					if(ColumnType.SURVER.getType() == type){
+						NeedKnow gaikuang = new NeedKnow();
+						List gaikuangList = boothShowResult.getShowcaseDOList();
+						gaikuang.setExtraInfoUrl(ColumnType.SURVER.getCode());
+						gaikuang.setFrontNeedKnow(showCaseToTextItem(gaikuangList));
+						tripBo.setGaikuang(gaikuang);
+					}
+					if(ColumnType.FOLKWAYS.getType() == type){
+						NeedKnow minsu = new NeedKnow();
+						List minsuList = boothShowResult.getShowcaseDOList();
+						minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.getCode());
+						minsu.setFrontNeedKnow(showCaseToTextItem(minsuList));
+						tripBo.setMinsu(minsu);
 
 					}
-					
+					if(ColumnType.CONSUMPTION.getType() == type){
+						NeedKnow xiaofei = new NeedKnow();
+						List xiaofeiList = boothShowResult.getShowcaseDOList();
+						xiaofei.setExtraInfoUrl(ColumnType.SURVER.getCode());
+						xiaofei.setFrontNeedKnow(showCaseToTextItem(xiaofeiList));
+						tripBo.setXiaofei(xiaofei);
+					}
+					if(ColumnType.HIGHLIGHTS.getType() == type){
+						NeedKnow tieshi = new NeedKnow();
+						List tieshiList = boothShowResult.getShowcaseDOList();
+						tieshi.setExtraInfoUrl(ColumnType.SURVER.getCode());
+						tieshi.setFrontNeedKnow(showCaseToTextItem(tieshiList));
+						tripBo.setTieshi(tieshi);
+					}
+					if(ColumnType.NEED_BUY.getType() == type){
+						NeedKnow maiTuiJian = new NeedKnow();
+						List maiTuiJianList = boothShowResult.getShowcaseDOList();
+						maiTuiJian.setExtraInfoUrl(ColumnType.NEED_BUY.getCode());
+						//maiTuiJian.setFrontNeedKnow(showCaseToTextItem(maiTuiJianList));
+					}
+					if(ColumnType.TIPS.getType() == type){
+						NeedKnow liangDian = new NeedKnow();
+						List liangDianList = boothShowResult.getShowcaseDOList();
+						liangDian.setExtraInfoUrl(ColumnType.TIPS.getCode());
+						//liangDian.setFrontNeedKnow(showCaseToTextItem(liangDianList));
+						tripBo.setGaikuang(liangDian);
+					}
+
+					if(ColumnType.GREAT_SCENIC.getType() == type){
+						NeedKnow jingdian = new NeedKnow();
+						List jingdianList = boothShowResult.getShowcaseDOList();
+						jingdian.setExtraInfoUrl(ColumnType.GREAT_SCENIC.getCode());
+						jingdian.setFrontNeedKnow(showCaseToTextItem(jingdianList));
+						tripBo.setGaikuang(jingdian);
+						tripBo.setScenicSubhead(boothDO.getDesc());
+					}
+
+					if(ColumnType.GREAT_HOTEL.getType() == type){
+						NeedKnow jiudian = new NeedKnow();
+						List jiudianList = boothShowResult.getShowcaseDOList();
+						jiudian.setExtraInfoUrl(ColumnType.GREAT_HOTEL.getCode());
+						jiudian.setFrontNeedKnow(showCaseToTextItem(jiudianList));
+						tripBo.setGaikuang(jiudian);
+						tripBo.setHotelSubhead(boothDO.getDesc());
+					}
+
+					if(ColumnType.TOURIST_SHOW.getType() == type){
+						NeedKnow zhibo = new NeedKnow();
+						List liangDianList = boothShowResult.getShowcaseDOList();
+						zhibo.setExtraInfoUrl(ColumnType.TOURIST_SHOW.getCode());
+						zhibo.setFrontNeedKnow(showCaseToTextItem(liangDianList));
+						tripBo.setGaikuang(zhibo);
+						tripBo.setLiveSubhead(boothDO.getDesc());
+					}
+
 				}
+
 			}
-			
-			
-			
-			
-
-			/*NeedKnow minsu = new NeedKnow();
-			minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.getCode());
-			minsu.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.FOLKWAYS.getCode()));
-
-			NeedKnow xiaofei = new NeedKnow();
-			xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.getCode());
-			xiaofei.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.CONSUMPTION.getCode()));
-
-			NeedKnow tieshi = new NeedKnow();
-			tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.getCode());
-			tieshi.setFrontNeedKnow(getListShowcaseDO(cityCode, ColumnType.HIGHLIGHTS.getCode()));
-
-			//tripBo.setGaikuang(gaikuang);
-			tripBo.setTieshi(tieshi);
-			tripBo.setXianLu(null);
-			tripBo.setXiaofei(xiaofei);
-			tripBo.setMinsu(minsu);*/
-
-			return tripBo;
+		}
+		return tripBo;
 	}
 
 	public List<TextItem> getListShowcaseDO(int cityCode, String type) {
