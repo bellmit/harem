@@ -1,12 +1,10 @@
 package com.yimayhd.harem.controller;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,12 +27,10 @@ import com.yimayhd.harem.model.ItemResultVO;
 import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.CommodityService;
-import com.yimayhd.harem.util.DateUtil;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.snscenter.client.domain.ActivityJsonDO;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
-import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 
 /**
@@ -63,6 +59,11 @@ public class ActivityManageController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, ActivityListQuery query) throws Exception {
 		PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(query);
+		com.yimayhd.snscenter.client.result.BaseResult<List<ClubInfoDO>> clubList = snsCenterService
+				.selectAllClubList(null);
+		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.ACTIVETYTAG.name());
+		model.addAttribute("tagResult", tagResult.getValue());
+		model.addAttribute("clubList", clubList.getValue());
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("activityListQuery", query);
 		model.addAttribute("activityList", pageVo.getItemList());

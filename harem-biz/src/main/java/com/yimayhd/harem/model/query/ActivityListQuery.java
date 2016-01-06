@@ -29,9 +29,20 @@ public class ActivityListQuery extends BaseQuery {
 	
 	private long clubId;
 	
+	private long tagId;
+	
 	private List<Long> activityIdList = new ArrayList<Long>();
 
 	
+
+	
+	public long getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(long tagId) {
+		this.tagId = tagId;
+	}
 
 	public String getStartTime() {
 		return startTime;

@@ -92,6 +92,11 @@ public class ActivityServiceImpl implements ActivityService {
 		if (query.getClubId() != 0) {
 			activityQueryDTO.setClubId(query.getClubId());
 		}
+		
+		//标签
+		if (query.getTagId() != 0) {
+			
+		}
 
 		return activityRepo.pageQueryActivities(activityQueryDTO);
 	}

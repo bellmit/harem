@@ -41,21 +41,24 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">俱乐部：</button>
                 </span>
-                <select class="form-control" name="productId">
+                <select class="form-control" name="clubId">
                     <option value="0">全部</option>
-                    <option value="1" #if($!activityListQuery.club == 1) selected #end>亲自俱乐部</option>
+                 #foreach($club in $clubList)
+                    <option value="$!{club.id}" #if($!activityListQuery.clubId == $!club.id) selected #end>$!{club.clubName}</option>
+                   
+                #end
                 </select>
             </div>
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">标签：</button>
                 </span>
-                <select class="form-control" name="state">
-                    <option value="0">全部</option>
-                    <option value="1" #if($!activityListQuery.isStatus == 1) selected #end>未开始</option>
-                    <option value="2" #if($!activityListQuery.isStatus == 2) selected #end>已满员</option>
-                    <option value="3" #if($!activityListQuery.isStatus == 3) selected #end>报名中</option>
-                    <option value="4" #if($!activityListQuery.isStatus == 4) selected #end>已结束</option>
+                <select class="form-control" name="tagId">
+                <option value="0">全部</option>
+                #foreach($tag in $tagResult)
+                    <option value="$!{tag.id}" #if($!activity.tagId == $!tag.id) selected #end>$!{tag.name}</option>
+                   
+                #end
                 </select>
             </div>
             <div class="btn-group">
