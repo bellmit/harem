@@ -28,6 +28,7 @@
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
                 <select class="form-control" name="liveStatus">
+                    <option value="0">请选择</option>
                     <option value="1" #if($!liveListQuery.liveStatus == 1) selected #end>正常</option>
                     <option value="2" #if($!liveListQuery.liveStatus == 2) selected #end>违规</option>
                 </select>
@@ -74,7 +75,7 @@
                     #foreach($live in $liveList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!live.id"></td>
-                        <td>$!live.userDO.nickName</td>
+                        <td>$!live.userDO.nickname</td>
                         <td>$!live.userDO.mobileNo</td>
                         <td>$!live.textContent</td>
                         <th>$!live.tag.name</th>

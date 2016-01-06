@@ -94,7 +94,7 @@
                     <td><span>经度</span><input type="text" id="locationX" name="locationX" class="inpControl getAddress" value="$!hotel.locationX"><span>纬度</span><input type="text" id="locationY" name="locationY" class="inpControl getAddress" value="$!hotel.locationY"><button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>酒店电话</td>
+                    <td>酒店电话</td>
                     <td>
                         <input type="text" class="inpControl" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNumListStr" placeholder="请输入酒店电话,以逗号分割">
                     </td>
@@ -117,7 +117,7 @@
                     <td><input type="text" name="priceY" value="$!utilNum.moneyTransform($!hotel.price)" class="inpControl" >起</td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>酒店联系人</td>
+                    <td>酒店联系人</td>
                     <td><span>姓名：</span><input type="text" name="contactPerson" value="$!hotel.contactPerson" class="inpControl" >
                         <span>电话：</span><input type="text" name="contactPhone" value="$!hotel.contactPhone" class="inpControl" >
                     </td>
@@ -153,7 +153,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>特色服务</td>
+                    <td>特色服务</td>
 					<input id="roomServiceStrId" type="hidden" name="roomServiceStr"/>
                     <td  class="grogCheckSel">
 						#set($indexNo = 0)
@@ -168,7 +168,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>酒店设施</td>
+                    <td>酒店设施</td>
 					<input id="hotelFacilityStrId" type="hidden" name="hotelFacilityStr"/>
                     <td  class="grogCheckSel">
 						#set($indexNo = 0)
@@ -298,6 +298,23 @@
 </div>
 </form>
 <script>
+    //非空验证
+    var validate = function(){
+        var flag = true;
+        var msg = '';
+        if(!$('input[name=title]')){
+            flag = false;
+            msg = '';
+        }
+        if(!flag){
+            layer.msg('操作失败', {
+                icon: 2,
+                time: 2000
+            });
+        }
+        return true;
+    }
+
     //表单验
 	var provinceFlag = false;
 	var cityFlag = false;

@@ -63,7 +63,7 @@ public class TfsServiceImpl implements TfsService {
 					byte[] bytes = os.toByteArray();
 					content = new String(bytes, "utf-8");
 				}
-				// content = content.replace("^" + prefix, "").replace(suffix + "$", "");
+				content = content.replace(prefix, "").replace(suffix, "");
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {

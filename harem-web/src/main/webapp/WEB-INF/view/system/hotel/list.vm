@@ -19,19 +19,19 @@
                     <option value="3" #if($!hotelListQuery.hotelStatus == 3) selected #end>停用</option>
                 </select>
             </div>
-            <div class="input-group inpSingle">
+            #*<div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">区域</button>
                     </span>
                 <input type="text" class="form-control" name="regionName" value="$!hotelListQuery.regionName">
                 <input type="hidden" class="form-control" name="regionId" value="$!hotelListQuery.regionId">
-            </div>
-            <div class="input-group inpSingle">
+            </div>*#
+            #*<div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">联系人</button>
                     </span>
                 <input type="text" class="form-control" name="hotelNameOrTel" value="$!hotelListQuery.hotelNameOrTel">
-            </div>
+            </div>*#
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -110,16 +110,15 @@
         document.body.appendChild(a);
         a.click();
     }
+
     $(function(){
         $('.submitBtn').click(function(){
             $('#hotelDOListForm').submit();
         });
         $('.hotelDetail').each(function(){
             $(this).click(function(){
-                //var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/hotelManage/edit/'+ $(this).attr('hotelId');
-                //TODO
-                //window.openwin(url);
-				window.parent.tabsAdd("restaurantDetail", '/B2C/hotelManage/edit/'+ $(this).attr('hotelId'), 3, "查看酒店");
+                var url = actionDefaultPath + '/B2C/hotelManage/edit/'+ $(this).attr('hotelId');
+                top.tabsAdd("",url,2,"查看酒店");
             });
 
         });
@@ -129,21 +128,19 @@
                 $(this).prop('disabled',true);
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/hotelManage/setHotelStatus/' + $(this).attr('hotelId') ,{'hotelStatus':$(this).attr('status')} ,function(data){
                     if(data.status == 200){
-                        layer.alert('操作成功', {
+                        layer.msg('操作成功', {
                             icon: 1,
                             time: 1500
                         });
-
                         setTimeout(function(){
                             window.location.href = window.location.href;
                         },1500);
                     }else{
-                        layer.alert('操作失败', {
+                        layer.msg('操作失败', {
                             icon: 2,
                             time: 2000
-                        }, function(){
-                            $(this).prop('disabled',false);
                         });
+                        $(this).prop('disabled',false);
 
                     }
                 })

@@ -52,7 +52,7 @@
                 <button type="button" class="btn btn-primary submitBtn">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button type="button" class="btn btn-primary onReset" >重置</button>
             </div>
         </div>
         <div class="btnBottomMargin">
@@ -263,6 +263,10 @@
             var url = actionDefaultPath + '/B2C/scenicSpotManage/toAdd';
             top.tabsAdd("scenicAddBtn",url,2,$(this).text());
             //window.openwin(url);
+        });
+        
+         $('.onReset').click(function(){
+           $("#scenicDOListForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
         });
     });
 </script>

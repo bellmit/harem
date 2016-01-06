@@ -142,7 +142,7 @@ public class HotelManageController extends BaseController {
 	/**
 	 * 编辑酒店（资源）
 	 * 
-	 * @return 酒店（资源）详情
+	 * @return 酒店（资源）编辑
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
