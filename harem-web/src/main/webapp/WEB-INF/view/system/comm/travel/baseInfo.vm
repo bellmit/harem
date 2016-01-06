@@ -33,6 +33,15 @@
                     <input class="tripImageUrlVal" type="hidden" value="$!product.baseInfo.tripImage"/>
                 </td>
             </tr>
+			<tr>
+                <td><span class="spColor">*</span>订单列表图：</td>
+                <td class="fileWrap">
+                    <button type="button" class="btn btn-success">选择图片</button>
+                    <input id="orderImageFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
+                    <img class="orderImageUrlImg img-circle" src="#if($!{product.baseInfo.orderImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.orderImage} #end"/>
+                    <input class="orderImageUrlVal" type="hidden" value="$!product.baseInfo.orderImage"/>
+                </td>
+            </tr>
             <tr>
                 <td><span class="spColor">*</span>产品标签：</td>
                 <td>
@@ -173,8 +182,16 @@
                 }
 			});
         });
-		
-		
+		$(document).delegate("#orderImageFile",'change',function(){
+            fileUpload('#orderImageFile',1,function(data){
+                if(data && data.status == 200){
+                    $('.orderImageUrlVal').val(data.data);
+                    $('.orderImageUrlImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.msg('图片上传失败，请重试', {icon: 2});
+                }
+			});
+        });
 	});
 	$(".addItem").click(function(){
 		var content = $(".extra-info");
@@ -256,6 +273,7 @@
 		var name = $(".productName").val();
 		var productImage = $(".productImageUrlVal").val();
 		var tripImage = $(".tripImageUrlVal").val();
+		var orderImage = $(".orderImageUrlVal").val();
 		var tags = [];
 		$(".productTag:checked").each(function(){
 			tags.push($(this).attr("rId"));
@@ -283,6 +301,7 @@
 			name:name,
 			productImage:productImage,
 			tripImage:tripImage,
+			orderImage:orderImage,
 			tags:tags,
 			publisherType:publisherType,
 			publisherId:publisher.attr("rId"),

@@ -208,6 +208,7 @@ public class TripManageController extends BaseController {
 		TripBo tripBo = tripService.getTripBo(id);
 		model.addAttribute("tripId",id);
 		model.addAttribute("tripBo",tripBo);
+		model.addAttribute("isEdit",true);
 		return "/system/trip/add_destination/destination_base_info";
 	}
 	
