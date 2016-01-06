@@ -403,55 +403,15 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/queryActivityForSelect")
 	public @ResponseBody ResponseVo queryActivityForSelect(ActivityListQuery query) throws Exception {
-		Integer pageNumber = getInteger("pageNumber");
-		if (pageNumber != null) {
-			query.setPageNumber(pageNumber);
-		}
-		ActivityQueryDTO activityInfoDTO = convertQuery(query);
-		PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(activityInfoDTO);
+		
+		PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
 		return new ResponseVo(result);
 	}
 
-	private ActivityQueryDTO convertQuery(ActivityListQuery query) {
-		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
-		if (query == null) {
-			return activityQueryDTO;
-		}
-		if (query.getPageNumber() != null) {
-			activityQueryDTO.setPageNo(query.getPageNumber());
-		}
-		if (query.getPageSize() != null) {
-			activityQueryDTO.setPageSize(query.getPageSize());
-		}
-		activityQueryDTO.setTitle(query.getTitle());
-		// activityQueryDTO.set
-		if (query.getProductId() != null) {
-			activityQueryDTO.setClubId(query.getProductId());
-		}
-		if (StringUtils.isNotBlank(query.getActivityBeginDate())) {
-			Date startTime = DateUtil.parseDate(query.getActivityBeginDate());
-			activityQueryDTO.setActivityStartTime(startTime);
-		}
-		if (StringUtils.isNotBlank(query.getActivityEndDate())) {
-			Date endTime = DateUtil.parseDate(query.getActivityEndDate());
-			activityQueryDTO.setActivityEndTime(DateUtil.add23Hours(endTime));
-		}
-		if (StringUtils.isNotBlank(query.getCreateStartTime())) {
-			Date startTime = DateUtil.parseDate(query.getCreateStartTime());
-			activityQueryDTO.setStartTime(startTime);
-		}
-		if (StringUtils.isNotBlank(query.getCreateEndTime())) {
-			Date endTime = DateUtil.parseDate(query.getCreateEndTime());
-			activityQueryDTO.setEndTime(DateUtil.add23Hours(endTime));
-		}
-		if (query.getStatus() != null) {
-			activityQueryDTO.setState(query.getStatus());
-		}
-		return activityQueryDTO;
-	}
+	
 
 	@RequestMapping(value = "/selectLightSpot")
 	public String selectLightSpot() throws Exception {

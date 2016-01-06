@@ -62,15 +62,14 @@ public class ActivityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, ActivityListQuery query) throws Exception {
-		ActivityQueryDTO activityInfoDTO = convertQuery(query);
-		PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(activityInfoDTO);
+		PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(query);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("activityListQuery", query);
 		model.addAttribute("activityList", pageVo.getItemList());
 		return "/system/activity/list";
 	}
 
-	private ActivityQueryDTO convertQuery(ActivityListQuery query) {
+	/*private ActivityQueryDTO convertQuery(ActivityListQuery query) {
 		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
 		if (query == null) {
 			return activityQueryDTO;
@@ -106,7 +105,7 @@ public class ActivityManageController extends BaseController {
 			activityQueryDTO.setState(query.getStatus());
 		}
 		return activityQueryDTO;
-	}
+	}*/
 
 	/**
 	 * 根据活动ID获取活动详情

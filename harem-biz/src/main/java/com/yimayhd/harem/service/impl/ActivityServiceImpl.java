@@ -2,8 +2,10 @@ package com.yimayhd.harem.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +20,12 @@ import com.yimayhd.harem.base.BaseException;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.exception.NoticeException;
 import com.yimayhd.harem.model.ActivityVO;
+import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.harem.repo.ActivityRepo;
 import com.yimayhd.harem.service.ActivityService;
 import com.yimayhd.harem.service.TfsService;
+import com.yimayhd.harem.util.DateUtil;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
@@ -49,7 +54,45 @@ public class ActivityServiceImpl implements ActivityService {
 	private ActivityRepo activityRepo;
 
 	@Override
-	public PageVO<SnsActivityDO> pageQueryActivities(ActivityQueryDTO activityQueryDTO) {
+	public PageVO<SnsActivityDO> pageQueryActivities(ActivityListQuery query) {
+		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
+		if(query.getPageNumber()!=null){
+			int pageNumber =query.getPageNumber();
+			int pageSize = query.getPageSize();
+			activityQueryDTO.setPageNo(pageNumber);
+			activityQueryDTO.setPageSize(pageSize);
+		}
+		//创建开始时间
+		if (StringUtils.isNotBlank(query.getStartTime())) {
+			Date startTime = DateUtil.parseDate(query.getStartTime());
+			activityQueryDTO.setStartTime(startTime);
+		}
+		//创建结束时间
+		if (StringUtils.isNotBlank(query.getEndTime())) {
+			Date endTime = DateUtil.parseDate(query.getEndTime());
+			activityQueryDTO.setEndTime(endTime);
+		}
+		//活动开始时间
+		if (StringUtils.isNotBlank(query.getActivityStartTime())) {
+			Date activityStartTime = DateUtil.parseDate(query.getActivityStartTime());
+			activityQueryDTO.setActivityStartTime(activityStartTime);
+		}
+		//活动结束时间
+		if (StringUtils.isNotBlank(query.getActivityEndTime())) {
+			Date activityEndTime = DateUtil.parseDate(query.getActivityEndTime());
+			activityQueryDTO.setActivityEndTime(activityEndTime);
+		}
+		//名称
+		activityQueryDTO.setTitle(query.getTitle());
+		//状态
+		if (query.getState() != 0) {
+			activityQueryDTO.setState(query.getState());
+		}
+		//俱乐部
+		if (query.getClubId() != 0) {
+			activityQueryDTO.setClubId(query.getClubId());
+		}
+
 		return activityRepo.pageQueryActivities(activityQueryDTO);
 	}
 

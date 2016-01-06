@@ -5,8 +5,8 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.harem.base.PageVO;
 import com.yimayhd.harem.model.ActivityVO;
+import com.yimayhd.harem.model.query.ActivityListQuery;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
-import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
 import com.yimayhd.snscenter.client.result.BaseResult;
 
 /**
@@ -18,7 +18,7 @@ public interface ActivityService {
 	 * 
 	 * @return 活动列表
 	 */
-	PageVO<SnsActivityDO> pageQueryActivities(ActivityQueryDTO activityQueryDTO);
+	PageVO<SnsActivityDO> pageQueryActivities(ActivityListQuery query);
 
 	/**
 	 * 获取活动详情

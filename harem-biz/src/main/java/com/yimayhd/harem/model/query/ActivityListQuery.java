@@ -1,5 +1,9 @@
 package com.yimayhd.harem.model.query;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.yimayhd.harem.base.BaseQuery;
 
 
@@ -10,67 +14,88 @@ public class ActivityListQuery extends BaseQuery {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String title;//名称
-    private String activityBeginDate;//活动开始时间
-    private String activityEndDate;//活动结束时间
 
-    private Integer satatus;//状态
-    private Long productId;//俱乐部
-    private Integer status;//是否显示状态
-	private String createStartTime;//活动创建时间开始时间
-	private String createEndTime;//活动创建时间结束时间
+	private String startTime;
+
+	private String endTime;
+
+	private String activityStartTime;
+	
+	private String activityEndTime;
+	
+	private String title;
+	
+	private int state;
+	
+	private long clubId;
+	
+	private List<Long> activityIdList = new ArrayList<Long>();
+
+	
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getActivityStartTime() {
+		return activityStartTime;
+	}
+
+	public void setActivityStartTime(String activityStartTime) {
+		this.activityStartTime = activityStartTime;
+	}
+
+	public String getActivityEndTime() {
+		return activityEndTime;
+	}
+
+	public void setActivityEndTime(String activityEndTime) {
+		this.activityEndTime = activityEndTime;
+	}
 
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getActivityBeginDate() {
-		return activityBeginDate;
-	}
-	public void setActivityBeginDate(String activityBeginDate) {
-		this.activityBeginDate = activityBeginDate;
-	}
-	public String getActivityEndDate() {
-		return activityEndDate;
-	}
-	public void setActivityEndDate(String activityEndDate) {
-		this.activityEndDate = activityEndDate;
-	}
-	public Integer getSatatus() {
-		return satatus;
-	}
-	public void setSatatus(Integer satatus) {
-		this.satatus = satatus;
-	}
-	public Long getProductId() {
-		return productId;
-	}
-	public void setProductId(Long productId) {
-		this.productId = productId;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
+
+	public int getState() {
+		return state;
 	}
 
-	public String getCreateStartTime() {
-		return createStartTime;
+	public void setState(int state) {
+		this.state = state;
 	}
 
-	public void setCreateStartTime(String createStartTime) {
-		this.createStartTime = createStartTime;
+	public long getClubId() {
+		return clubId;
 	}
 
-	public String getCreateEndTime() {
-		return createEndTime;
+	public void setClubId(long clubId) {
+		this.clubId = clubId;
 	}
 
-	public void setCreateEndTime(String createEndTime) {
-		this.createEndTime = createEndTime;
+	public List<Long> getActivityIdList() {
+		return activityIdList;
 	}
+
+	public void setActivityIdList(List<Long> activityIdList) {
+		this.activityIdList = activityIdList;
+	}
+
 }
 
