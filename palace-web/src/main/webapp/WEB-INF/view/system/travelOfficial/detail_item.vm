@@ -173,9 +173,9 @@
         var actionUrl;
         var clubId = $('#clubForm').attr('clubId');
         if(clubId){
-            actionUrl = '/B2C/travelOfficialManage/edit/'+clubId;
+            actionUrl = actionDefaultPath + '/B2C/travelOfficialManage/edit/'+clubId;
         }else{
-            actionUrl = '/B2C/travelOfficialManage/add';
+            actionUrl = actionDefaultPath + '/B2C/travelOfficialManage/add';
         }
         var img= $("#logoUrlUploadFileReturnInput").val();
        var params = {

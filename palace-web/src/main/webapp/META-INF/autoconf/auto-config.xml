@@ -30,8 +30,8 @@
 	<group name="default">
 		<property name="palace.staticResourcesPath" defaultValue="http://console.test.yimayholiday.com/palace-web" description="#静态文件地址" />
 		<property name="palace.actionDefaultFontPath" defaultValue="http://console.test.yimayholiday.com/palace-web" description="#请求地址默认前缀" />
-		<property name="actionUploadFilePath" defaultValue="http://localhost:8080/palace-web/upload/file" description="#上传附件地址(单个)" />
-		<property name="actionUploadFilesPath" defaultValue="http://localhost:8080/palace-web/upload/files" description="#上传附件地址(多个)" />
+		<property name="actionUploadFilePath" defaultValue="http://console.test.yimayholiday.com/palace-web/upload/file" description="#上传附件地址(单个)" />
+		<property name="actionUploadFilesPath" defaultValue="http://console.test.yimayholiday.com/palace-web/upload/files" description="#上传附件地址(多个)" />
 	</group>
 
 	<group name="dubbo">

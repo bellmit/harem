@@ -68,9 +68,9 @@
             var themeId = $('#themeForm').attr('themeId');
 			//alert("themeId="+themeId);
             if(themeId){
-                actionUrl = '/B2C/themeManage/edit/'+themeId;
+                actionUrl = actionDefaultPath + '/B2C/themeManage/edit/'+themeId;
             }else{
-                actionUrl = '/B2C/themeManage/add';
+                actionUrl =actionDefaultPath + '/B2C/themeManage/add';
             }
 
             $('#themeForm').attr('action',actionUrl);

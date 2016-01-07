@@ -55,9 +55,9 @@
             var actionUrl;
             var departureId = $('#clubForm').attr('departureId');
             if(departureId){
-                actionUrl = '/B2C/departure/edit/'+departureId;
+                actionUrl = actionDefaultPath + '/B2C/departure/edit/'+departureId;
             }else{
-                actionUrl = '/B2C/departure/add';
+                actionUrl = actionDefaultPath + '/B2C/departure/add';
             }
             layer.alert(actionUrl);
             $('#clubForm').attr('action',actionUrl);
