@@ -1,3 +1,4 @@
+#*
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css?version=$!{utilWebconfig.getResourceVersion()}"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
@@ -28,5 +29,4 @@
 
 </div>
 
-
-
+* *#

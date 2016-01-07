@@ -231,14 +231,14 @@
                 if(data.status == 200){
                     layer.alert('操作成功', {
                         icon: 1,
-                        time: 5000
+                        time: 3000
                     }, function(){
                         history.go(-1);
                     });
                 }else{
                     layer.msg('操作失败', {
                         icon: 2,
-                        time: 5000
+                        time: 3000
                     });
                     $(this).prop('disabled',false);
                 }

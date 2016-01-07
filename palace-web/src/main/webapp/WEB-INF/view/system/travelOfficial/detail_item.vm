@@ -144,7 +144,14 @@
  	function delneedKnowTR(obj){
 		$(obj).parent().parent().remove(); 
  	}
- 	
+
+    //去掉[]
+    function delBracket(obj){
+        obj=obj.replace(new RegExp("\\[",'g'),"");
+        obj=obj.replace(new RegExp("\\]",'g'),"");
+        return obj;
+    }
+
  	//保存的
  	$('#btnSubmit').click(function(){
 
@@ -158,9 +165,12 @@
            	travelJsonDO.travelDes=$("#travelDesId_"+index).val();//来源
             if($("#travelBGImg_"+index).val()!=""){
 				var imgs = $("#travelBGImg_"+index).val();//图片;
-				var ss=[];
-				ss = imgs.split(",");	            
-	            travelJsonDO.travelImg=ss;
+				if(null != imgs ){
+                    imgs=delBracket(imgs);
+                    var ss=[];
+                    ss = imgs.split(",");
+                    travelJsonDO.travelImg=ss;
+                }
             } 
             travelJsonDO.detail=$("#detailId_"+index).val();//内容       
             parts.push(travelJsonDO);	
@@ -192,10 +202,17 @@
         $('#clubForm').attr('action',actionUrl);
         $.post(actionUrl,params,function(data){
             if(data.status == 200){
-                layer.alert('操作成功');
-                //window.location.href = window.location.href;
+                layer.alert('操作成功', {
+                    icon: 1,
+                    time: 3000
+                }, function(){
+                    history.go(-1);
+                });
             }else{
-                layer.alert('操作失败');
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 3000
+                });
                 $(this).prop('disabled',false);
             }
         });
