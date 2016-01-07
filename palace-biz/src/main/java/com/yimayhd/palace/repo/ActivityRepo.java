@@ -3,12 +3,14 @@ package com.yimayhd.palace.repo;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
@@ -27,6 +29,8 @@ public class ActivityRepo {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private SnsCenterService snsCenterServiceRef;
+	@Autowired
+	private TfsService tfsService;
 
 	public PageVO<SnsActivityDO> pageQueryActivities(ActivityQueryDTO activityQueryDTO) {
 		RepoUtils.requestLog(log, "snsCenterServiceRef.getActivityPage", activityQueryDTO);
@@ -41,6 +45,14 @@ public class ActivityRepo {
 	public SnsActivityDO getActivityById(long id) {
 		RepoUtils.requestLog(log, "snsCenterServiceRef.getActivityPage", id);
 		BaseResult<SnsActivityDO> scResult = snsCenterServiceRef.getActivityInfoByActivityId(id);
+		if (scResult != null && scResult.isSuccess()) {
+			try {
+				scResult.getValue().setContent(tfsService.readHtml5(scResult.getValue().getContent()));
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
+		}
 		RepoUtils.resultLog(log, "snsCenterServiceRef.getActivityPage", scResult);
 		return scResult.getValue();
 	}
