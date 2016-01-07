@@ -84,7 +84,13 @@
             <tr>
                 <td>付款时间：</td>
                 <td>$utilDate.date2String($!order.mainOrder.bizOrderDO.payTime)</td>
-                <td>付款方式：</td>
+            ##                <td>付款方式：#PAY_CHANNEL($!order.payChannel)</td>
+                <td>
+                    付款方式：
+                    #if($order.mainOrder.orderShowState != 1 && $order.mainOrder.orderShowState != 5)
+                        支付宝
+                    #end
+                </td>
                 <td></td>
             </tr>
             <tr>

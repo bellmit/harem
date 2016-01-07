@@ -26,6 +26,8 @@ public class OrderDetails {
 
     private long actualTotalFee;
 
+    private int payChannel;
+
     public MainOrder getMainOrder() {
         return mainOrder;
     }
@@ -96,5 +98,13 @@ public class OrderDetails {
 
     public void setActualTotalFee(long actualTotalFee) {
         this.actualTotalFee = actualTotalFee;
+    }
+
+    public int getPayChannel() {
+        return payChannel;
+    }
+
+    public void setPayChannel(int payChannel) {
+        this.payChannel = payChannel;
     }
 }

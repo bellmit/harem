@@ -8,6 +8,7 @@ import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.param.order.BuyerConfirmGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
@@ -154,6 +155,8 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setBuyerName(buyer.getName());
 					orderDetails.setBuyerNiceName(buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+					//付款方式
+					orderDetails.setPayChannel(BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.PAY_CHANNEL));
 				}
 
 				if (singleQueryResult.getPayOrderDO()!=null){
@@ -173,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
 					contactUser.setContactEmail(email);
 					orderDetails.setContacts(contactUser);
 				}
-				//卖家备忘录
+				//买家备忘录
 				String buyerMemo = BizOrderUtil.getBuyerMemo(mainOrder.getBizOrderDO());
 				orderDetails.setBuyerMemo(buyerMemo);
 				return orderDetails;
