@@ -133,12 +133,15 @@ public class LiveServiceImpl implements LiveService {
 		if(CollectionUtils.isNotEmpty(basePageResult.getList())){
 			List<SnsSubjectVO> snsSubjectVOList = new ArrayList<SnsSubjectVO>();
 			List<Long> snsSubjectIdList = new ArrayList<Long>();
+			for (SnsSubjectDO snsSubjectDO : basePageResult.getList()){
+				snsSubjectIdList.add(snsSubjectDO.getId());
+			}
+			// 查询
 			//查询条件中没有查用户的情况下，要重新查询用户信息
 			if(userDOMap.size() == 0){
 				List<Long> userIds = new ArrayList<Long>();
 				for (SnsSubjectDO snsSubjectDO : basePageResult.getList()){
 					userIds.add(snsSubjectDO.getUserId());
-					snsSubjectIdList.add(snsSubjectDO.getId());
 				}
 				// 查询用户
 				BaseResult<List<UserDO>> userListResult =  userServiceRef.getUserDOList(userIds);
