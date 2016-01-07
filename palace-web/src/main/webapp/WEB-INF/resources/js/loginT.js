@@ -60,7 +60,14 @@ $(function () {
                     top.freshFrame();
                 }
             } else {
-                layer.alert(data.message);
+                var message = '帐号或密码不正确';
+                if(data.message){
+                    message = data.message
+                }
+                layer.msg(message, {
+                    icon: 2,
+                    time: 2000
+                });
             }
         });
     })

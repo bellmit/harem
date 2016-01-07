@@ -207,9 +207,6 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/queryUserForSelect")
 	public @ResponseBody ResponseVo queryUserForSelect(UserDOPageQuery query, Integer pageNumber) throws Exception {
-		if(1 == 1){
-			throw new BaseException("hello");
-		}
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		}

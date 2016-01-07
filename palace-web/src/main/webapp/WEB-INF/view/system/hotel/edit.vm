@@ -377,7 +377,7 @@
             if($('.provinceSelect option:selected')){
                 $('#provinceSelectName').val($('.provinceSelect option:selected').text());
             }
-            $.get('/AREA/list/',{'areaType': $('.citySelect').attr("areaType"),'areaParentCode':$('.provinceSelect').val()},function(data){
+            $.get(actionDefaultPath + '/AREA/list/',{'areaType': $('.citySelect').attr("areaType"),'areaParentCode':$('.provinceSelect').val()},function(data){
                 $('.citySelect option').remove();
                 var optionList = '';
                 if(data && data.status == 200){
@@ -400,7 +400,7 @@
             if($('.citySelect option:selected')){
                 $('#citySelectName').val($('.citySelect option:selected').text());
             }
-            $.get('/AREA/list/',{'areaType': $('.countySelect').attr("areaType"),'areaParentCode':$('.citySelect').val()},function(data){
+            $.get(actionDefaultPath + '/AREA/list/',{'areaType': $('.countySelect').attr("areaType"),'areaParentCode':$('.citySelect').val()},function(data){
                 $('.countySelect option').remove();
                 var optionList = '';
                 if(data && data.status == 200){
