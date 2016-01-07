@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>harem</artifactId>
+	<artifactId>palace</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<parent>
@@ -12,13 +12,13 @@
 		<version>1.0.0</version>
 	</parent>
 	<modules>
-		<module>harem-web</module>
-		<module>harem-biz</module>
-		<module>harem-client</module>
+		<module>palace-web</module>
+		<module>palace-biz</module>
+		<module>palace-client</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<harem.version>1.0-SNAPSHOT</harem.version>
+		<palace.version>1.0-SNAPSHOT</palace.version>
 		<itemcenter.client.version>1.0.0-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.5.3-SNAPSHOT</session.manager.version>
@@ -86,13 +86,13 @@
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd</groupId>
-				<artifactId>harem-biz</artifactId>
-				<version>${harem.version}</version>
+				<artifactId>palace-biz</artifactId>
+				<version>${palace.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd</groupId>
-				<artifactId>harem-client</artifactId>
-				<version>${harem.version}</version>
+				<artifactId>palace-client</artifactId>
+				<version>${palace.version}</version>
 			</dependency>
 
 			<dependency>

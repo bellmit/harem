@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
+	<bean id="hotelRepo" class="com.yimayhd.palace.repo.HotelRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.TagRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.LineRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.RestaurantRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.ScenicRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.PictureRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.ResourceRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.ActivityRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.TravelKaRepo"></bean>
+</beans>

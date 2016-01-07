@@ -4,8 +4,8 @@ target
 .settings/
 .classpath
 .project
-/harem-client/bin
-/harem-web/bin
+/palace-client/bin
+/palace-web/bin
 /run/
 /build.bat
 id_rsa

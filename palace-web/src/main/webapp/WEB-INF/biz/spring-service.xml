@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.yimayhd.palace.service.impl.UserRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.TradeServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.RefundServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.OrderServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.HaMenuServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.HaRoleMenuServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.HaRoleServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.HaUserRoleServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ClubServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ActivityServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.PointRuleServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.TravelOfficialImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.RegionServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.LiveServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ThemeServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.TripServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.RecommendedServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.EvaluationServiceImpl"></bean>
+	<!-- 资源管理 -->
+	<bean class="com.yimayhd.palace.service.impl.RestaurantServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.HotelRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.FacilityIconServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ScenicServiceImpl"></bean>
+	<!-- <bean id="config" class="com.yimayhd.palacee.config.ResourceConfig" init-method="init">
+		</bean> -->
+
+	<!-- resources -->
+	<bean class="com.yimayhd.palace.service.impl.RcBoothServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.RcOperationServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.RcShowcaseServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.PictureServiceImpl"></bean>
+	<!-- home config -->
+	<bean class="com.yimayhd.palace.service.impl.HomeCfgServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.PeripheryCfgServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.DiscoveryCfgServiceImpl"></bean>
+	<!-- <bean id="config" class="com.yimayhd.palacee.config.ResourceConfig" init-method="init">
+		</bean> -->
+	<!-- system -->
+	<bean class="com.yimayhd.palace.service.impl.SystemManageServiceImpl" />
+	<bean class="com.yimayhd.palace.service.impl.TfsServiceImpl" />
+	<bean class="com.yimayhd.palace.service.impl.LiveTagServiceImpl" />
+	<!-- commodity -->
+	<bean class="com.yimayhd.palace.service.impl.CommodityServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.CategoryServiceImpl"></bean>
+	<bean id="travelService" class="com.yimayhd.palace.service.impl.CommTravelServiceImpl"></bean>
+	<bean id="groupTravelService"
+		class="com.yimayhd.palace.service.impl.CommGroupTravelServiceImpl"></bean>
+	<bean id="flightHotelTravelService"
+		class="com.yimayhd.palace.service.impl.CommFlightHotelTravelServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.CommScenicServiceImpl" />
+	<bean class="com.yimayhd.palace.service.impl.CommActivityServiceImpl" />
+	<bean class="com.yimayhd.palace.service.impl.FlightRPCServiceImpl"></bean>
+</beans>

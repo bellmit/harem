@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+    <toolbox scope="application">
+        <tool key="utilDate" class="com.yimayhd.palace.util.DateUtil"></tool>
+        <tool key="utilNum" class="com.yimayhd.palace.util.NumUtil"></tool>
+        <tool key="utilText" class="com.yimayhd.palace.util.TextUtil"></tool>
+        <tool key="utilWebconfig" class="com.yimayhd.palace.util.WebResourceConfigUtil"></tool>
+        <tool key="utilPhone" class="com.yimayhd.palace.util.PhoneUtil"></tool>
+    </toolbox>
+
+</tools>
