@@ -591,6 +591,7 @@
                	$("#travelKaTr2").find("#title").val(resultValue.nickName);
                	$("#travelKaTr2").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr2").find("#itemId").attr("itemId",resultValue.userId);
+               	$("#travelKaTr2").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
                	$("#travelKaTr2").find("#imgUrl").val(resultValue.avatar);
                 return true;
             });
@@ -602,6 +603,7 @@
                	$("#travelKaTr3").find("#title").val(resultValue.nickName);
                	$("#travelKaTr3").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr3").find("#itemId").attr("itemId",resultValue.userId);
+               	$("#travelKaTr3").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
                	$("#travelKaTr3").find("#imgUrl").val(resultValue.avatar);
                 return true;
             });

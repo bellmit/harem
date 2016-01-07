@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.yimayhd.palace.base.*;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -361,6 +363,9 @@ public class ResourceForSelectController extends BaseController {
 		Integer pageNumber = getInteger("pageNumber");
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
+		}
+		if(StringUtils.isEmpty(query.getTags())){
+			query.setTags(null);
 		}
 		// PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
 		query.setNeedCount(true);
