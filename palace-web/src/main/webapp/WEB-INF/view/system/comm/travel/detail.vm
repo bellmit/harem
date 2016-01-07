@@ -1,5 +1,10 @@
 <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+<style type="text/css">
+	//禁用输入法
+	.double-only{ime-mode:"disabled"}
+	.int-only{ime-mode:"disabled"}
+</style>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>

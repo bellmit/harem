@@ -99,11 +99,11 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">会员价：</span>
-						#set($memberPrice = $product.baseInfo.memberPrice / 100)
-                        <input type="text" class="form-control" id="memberPrice" placeholder="请输入会员价" value="$!{memberPrice}"/>
+						#set($memberPrice = $product.baseInfo.memberPrice / 100.0)
+                        <input type="text" class="form-control double-only" id="memberPrice" placeholder="请输入会员价" value="$!{memberPrice}"/>
                         <span class="input-group-addon">非会员价：</span>
-						#set($price = $product.baseInfo.price / 100)
-                        <input type="text" class="form-control" id = "price" placeholder="请输入非会员价" value="$!{price}"/>
+						#set($price = $product.baseInfo.price / 100.0)
+                        <input type="text" class="form-control double-only" id = "price" placeholder="请输入非会员价" value="$!{price}"/>
                     </div>
                 </td>
             </tr>

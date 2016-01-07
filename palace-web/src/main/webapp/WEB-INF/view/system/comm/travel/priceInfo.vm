@@ -3,10 +3,6 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 -->
-<style type="text/css">
-	//禁用输入法
-	.tc-item{ime-mode:"Disabled"}
-</style>
 <div class="priceInfo">
     <div class="input-group">
 		<span class="input-group-btn">
@@ -113,7 +109,7 @@
 		<span class="input-group-btn">
 			<button class="btn btn-default" type="button">提前报名天数</button>
 		</span>
-        <input type="text" class="form-control day-limit" value="$!{product.priceInfo.limit}">
+        <input type="text" class="form-control day-limit int-only" value="$!{product.priceInfo.limit}">
     </div>
     #*<div class="input-group inpSingle">
 		<span>提前报名天数：</span>

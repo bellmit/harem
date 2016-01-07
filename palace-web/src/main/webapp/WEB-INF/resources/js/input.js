@@ -8,11 +8,8 @@ $(document).delegate(".double-only","keyup",function(){
 });
 $(document).delegate(".double-only","onafterpaste",function(){
 	if (event.keyCode != 8) {
-		var temp = parseInt(this.value);
-		if(isNaN(temp)) {
+		if(isNaN(this.value)) {
 			document.execCommand('undo');
-		} else {
-			this.value = temp
 		}
 	}
 });
