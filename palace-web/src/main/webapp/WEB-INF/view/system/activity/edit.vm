@@ -39,7 +39,7 @@
                             <td><span class="spColor">*</span>活动名称</td>
                             <td>
                             	#if($activity.id)
-                           		<input type="text" class="inpControl" name="id" id="id" value="$!{activity.id}">
+                           		<input type="hidden" class="inpControl" name="id" id="id" value="$!{activity.id}">
                            		#end
                                 <input type="text" class="form-control" placeholder="请输入20个字以内" name="title" value="$!{activity.title}">
                             </td>
@@ -50,7 +50,7 @@
                             
 	                                <select class="form-control" name="clubId">
 	                                  #foreach($club in $clubList)
-	                                    <option value="$!{club.id}" #if($!activity.clubId == $!club.id) selected #end>$!{club.clubName}</option>
+	                                    <option value="$!{club.id}" #if($!activity.clubName == $!club.clubName) selected #end>$!{club.clubName}</option>
 	                                   #end
 	                                </select>
                                
