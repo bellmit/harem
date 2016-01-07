@@ -592,6 +592,7 @@
                	$("#travelKaTr2").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr2").find("#itemId").attr("itemId",resultValue.userId);
                	$("#travelKaTr2").find("#imgUrl").val(resultValue.avatar);
+               	$("#travelKaTr2").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
                 return true;
             });
         })
@@ -603,6 +604,7 @@
                	$("#travelKaTr3").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr3").find("#itemId").attr("itemId",resultValue.userId);
                	$("#travelKaTr3").find("#imgUrl").val(resultValue.avatar);
+               	$("#travelKaTr3").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
                 return true;
             });
         })
