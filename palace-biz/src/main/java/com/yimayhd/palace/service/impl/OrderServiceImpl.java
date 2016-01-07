@@ -168,7 +168,9 @@ public class OrderServiceImpl implements OrderService {
 				}
 				//联系人
 				ContactUser contactUser = BizOrderUtil.getContactUser(mainOrder.getBizOrderDO());
+				String email = BizOrderUtil.getLineContactEmail(mainOrder.getBizOrderDO());
 				if (contactUser!=null){
+					contactUser.setContactEmail(email);
 					orderDetails.setContacts(contactUser);
 				}
 				//卖家备忘录

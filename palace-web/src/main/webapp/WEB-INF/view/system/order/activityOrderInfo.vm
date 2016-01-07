@@ -109,12 +109,10 @@
             <tr>
                 <th>姓名</th>
                 <th>手机号</th>
-                <th>邮箱</th>
             </tr>
             <tr>
                 <td>$!order.contacts.contactName</td>
                 <td>$!order.contacts.contactPhone</td>
-                <td>$!order.contacts.contactEmail</td>
             </tr>
         </table>
     </div>
