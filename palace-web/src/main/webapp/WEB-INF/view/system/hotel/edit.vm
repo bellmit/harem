@@ -284,7 +284,7 @@
     <div class="tab-pane" id="scenicDetailDiv">
          <script type="text/javascript">
                $(function() {
-                    window.UEDITOR_HOME_URL = "/resources/ueditor/";
+                    window.UEDITOR_HOME_URL = "$utilWebconfig.getStaticResourcesPath()/resources/ueditor/";
                     var ue = UE.getEditor('editor');
                });
           </script>

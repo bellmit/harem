@@ -1,6 +1,6 @@
-<link href="$!{rc.contextPath}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<script src="$!{rc.contextPath}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/resources/css/common.css"/>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <div>
     <form class="form-signin" id="refundListForm" name="refundListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/refundManage/list" method="GET" role="form" listSize="$!refundList.size()">
         <div class="inputGroup whole">

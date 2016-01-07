@@ -26,10 +26,10 @@
 	</group>
 
 	<group name="default">
-		<property name="palace.staticResourcesPath" defaultValue="http://localhost:8080/" description="#静态文件地址" />
-		<property name="palace.actionDefaultFontPath" defaultValue="http://localhost:8080/" description="#请求地址默认前缀" />
-		<property name="actionUploadFilePath" defaultValue="http://192.168.1.126:8080/filegw/file/upload" description="#上传附件地址(单个)" />
-		<property name="actionUploadFilesPath" defaultValue="http://192.168.1.126:8080/filegw/file/uploads" description="#上传附件地址(多个)" />
+		<property name="palace.staticResourcesPath" defaultValue="http://console.test.yimayholiday.com/palace-web" description="#静态文件地址" />
+		<property name="palace.actionDefaultFontPath" defaultValue="http://console.test.yimayholiday.com/palace-web" description="#请求地址默认前缀" />
+		<property name="actionUploadFilePath" defaultValue="http://localhost:8080/palace-web/upload/file" description="#上传附件地址(单个)" />
+		<property name="actionUploadFilesPath" defaultValue="http://localhost:8080/palace-web/upload/files" description="#上传附件地址(多个)" />
 	</group>
 
 	<group name="dubbo">

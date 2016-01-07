@@ -1,4 +1,4 @@
-<script type="text/javascript"src="/resources/ckeditor/ckeditor.js"></script>
+<script type="text/javascript"src="$utilWebconfig.getStaticResourcesPath()/resources/ckeditor/ckeditor.js"></script>
 <form class="form-signin" id="loginForm" action="/upload/ckeditor" method="post" role="form" enctype="application/x-www-form-urlencoded">
 <textarea name="activityDetailWeb" id="editor1" class="ckeditor" rows="10" cols="80"></textarea>
 <textarea name="activityDetailApp" id="editor2" class="ckeditor" rows="10" cols="80"></textarea>

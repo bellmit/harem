@@ -20,12 +20,12 @@
                    
                 </select>
             </div>
-            <div class="input-group inpSingle">
+            #*<div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">区域</button>
                     </span>
                
-            </div>
+            </div>*#
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">等级</button>

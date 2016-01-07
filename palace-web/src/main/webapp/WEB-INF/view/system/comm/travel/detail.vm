@@ -41,7 +41,7 @@
 		<script type="text/javascript">
 			var extra_infos_ue;
             $(function() {
-                window.UEDITOR_HOME_URL = "/resources/ueditor/";
+                window.UEDITOR_HOME_URL = "$utilWebconfig.getStaticResourcesPath()/resources/ueditor/";
                 extra_infos_ue = UE.getEditor('extraInfos_editor');
             });
             function getExtraInfos() {
@@ -67,7 +67,7 @@
 		<script type="text/javascript">
 			var important_infos_ue;
             $(function() {
-                window.UEDITOR_HOME_URL = "/resources/ueditor/";
+                window.UEDITOR_HOME_URL = "$utilWebconfig.getStaticResourcesPath()/resources/ueditor/";
                 important_infos_ue = UE.getEditor('importantInfos_editor');
             });
 			function getImportantInfos() {

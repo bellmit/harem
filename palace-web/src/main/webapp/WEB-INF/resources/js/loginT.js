@@ -13,7 +13,7 @@ jQuery(function($) {
         fit_landscape: 0,
         slide_links: 'blank',
         slides: [{
-            image: '/resources/img/bj04.jpg'
+            image:staticResourcesPath + '/resources/img/bj04.jpg'
         }]
     });
 });

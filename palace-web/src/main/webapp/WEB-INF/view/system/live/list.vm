@@ -87,7 +87,7 @@
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
                             <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>
-                            <button type="button" class="btn btn-primary livePicListBtn"  picListStr='$live.picListStr' >图片</button>
+                            <button type="button" class="btn btn-primary livePicListBtn"  picListStr='$!live.picListStr' >图片</button>
                             <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status">#if($!live.status == 1) 违规 #else 恢复 #end </button>
                         </td>
                     </tr>

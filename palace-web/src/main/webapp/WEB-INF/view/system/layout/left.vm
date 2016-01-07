@@ -136,7 +136,7 @@
 
     $(function(){
         $('.menuLi').click(function(){
-            tabsAdd($(this).attr('id'),$(this).attr('menuLinkUrl'),1,$(this).text());
+            tabsAdd($(this).attr('id'),actionDefaultPath + $(this).attr('menuLinkUrl'),1,$(this).text());
         });
         $(document).delegate(".tabClose","click",function(e){
             e.stopPropagation();

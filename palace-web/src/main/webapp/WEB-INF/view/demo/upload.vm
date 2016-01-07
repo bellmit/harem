@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>登陆</title>
-        <script src="/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+        <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
         <script>var Y={URL:'${}'}</script>
         #*<script type="text/javascript">
             function addTr(){
