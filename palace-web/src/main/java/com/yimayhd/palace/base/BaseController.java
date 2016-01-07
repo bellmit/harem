@@ -47,7 +47,7 @@ public class BaseController {
 	protected ModelAndView handleException(Exception e) {
 		logger.error(e.getMessage(), e);
 		ModelAndView modelAndView = new ModelAndView("/error");
-		if(e instanceof NoticeException || e instanceof NoticeException) {
+		if(e instanceof NoticeException || e instanceof BaseException) {
 			modelAndView.addObject("message", e.getMessage() + "，请联系管理员");
 		}else{
 			modelAndView.addObject("message", "服务器未知错误，请联系管理员");
