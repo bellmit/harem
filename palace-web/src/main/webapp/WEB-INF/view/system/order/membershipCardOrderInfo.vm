@@ -180,9 +180,6 @@
                             </div>
                             <div class="t-msg">
                                 <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-                                #if($!subOrder.executeTime != 0)
-                                    <div class="t-date">出发日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.executeTime)</div>
-                                #end
                                 <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
                             </div>
                         </div>
@@ -309,6 +306,24 @@
 
             $(".affirm").click(function(){
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+
+
+            //取消订单
+            $(".cancel").click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/closeOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();

@@ -125,7 +125,7 @@ public class OrderConverter {
             }else{
                 mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
             }
-        }else if (PayStatus.PAID.getStatus() == payStatus){
+        }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.NO_LG_ORDER.getStatus() == logisticsStatus && RefundStatus.NOT_REFUND.getStatus() == refundStatus){
             mainOrder.setOrderShowState(OrderShowStatus.PAID.getStatus());//待发货|已付款
             mainOrder.setOrderActionStates(OrderActionStatus.AFFIRM_REFUND.getStatus());
         }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.CONSIGNED.getStatus() == logisticsStatus){
@@ -135,12 +135,11 @@ public class OrderConverter {
             }else{
                 mainOrder.setOrderActionStates(OrderActionStatus.FINISH_REFUND.getStatus());
             }
-        }else if (PayStatus.SUCCESS.getStatus() == payStatus){
+        }else if (PayStatus.SUCCESS.getStatus() == payStatus && RefundStatus.NOT_REFUND.getStatus() == refundStatus){
             mainOrder.setOrderShowState(OrderShowStatus.FINISH.getStatus());//已完成
             mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
-        }else if (RefundStatus.APPLY_REFUND.getStatus() == refundStatus || RefundStatus.REFUNDING.getStatus() == refundStatus){
-            mainOrder.setOrderShowState(OrderShowStatus.PENDING.getStatus());//处理中
-            mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
+        }else if (RefundStatus.REFUND_SUCCESS.getStatus() == refundStatus || RefundStatus.REFUNDING.getStatus() == refundStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.REFUNDED.getStatus());//已退款
         }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
             mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
         }
