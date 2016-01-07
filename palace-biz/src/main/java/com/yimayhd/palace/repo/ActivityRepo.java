@@ -49,7 +49,6 @@ public class ActivityRepo {
 			try {
 				scResult.getValue().setContent(tfsService.readHtml5(scResult.getValue().getContent()));
 			} catch (Exception e) {
-				
 				e.printStackTrace();
 			}
 		}
