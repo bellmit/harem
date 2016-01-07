@@ -34,7 +34,7 @@ import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
- * Created by Administrator on 2015/11/24.
+ * Created by czf on 2015/11/24.
  */
 @Controller
 @RequestMapping("/B2C/commodityManage")

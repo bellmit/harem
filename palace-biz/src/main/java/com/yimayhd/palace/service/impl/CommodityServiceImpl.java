@@ -67,7 +67,7 @@ public class CommodityServiceImpl implements CommodityService {
         }
         if(!StringUtils.isBlank(commodityListQuery.getEndDate())) {
             Date endTime = DateUtil.formatMaxTimeForDate(commodityListQuery.getEndDate());
-            itemQryDTO.setEndDate(DateUtil.add23Hours(endTime));
+            itemQryDTO.setEndDate(endTime);
         }
         List<Integer> status = new ArrayList<Integer>();
         if(0 != commodityListQuery.getCommStatus()){
