@@ -14,7 +14,7 @@
             </tr>
             <tr>
                 <td><span class="spColor">*</span>俱乐部描述</td>
-                <td><input type="text" class="form-control" placeholder="请输入20个字以内" id="clubDesId" name="clubDes" value="$!club.clubDes"></td>
+                <td><input type="text" class="form-control" placeholder="请输入15个字以内" id="clubDesId" name="clubDes" value="$!club.clubDes"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>创建时间</td>

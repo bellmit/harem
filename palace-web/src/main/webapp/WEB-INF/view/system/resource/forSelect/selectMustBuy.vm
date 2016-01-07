@@ -55,7 +55,7 @@
     	});
 	}
 	// 初始化分页条
-	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/listMustBuy", function(query, pageVo){
+	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/listMustBuy?type=10", function(query, pageVo){
 		$("#itemName").val(query.tags);
 		showData(pageVo.itemList);
 	});

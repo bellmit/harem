@@ -12,6 +12,7 @@ import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -298,23 +299,27 @@ public class ScenicServiceImpl implements ScenicService {
 			addNewDTO.setScenic(scenicDO);
 			scenicDO.setMemberPrice(scenicDO.getPrice());
 			//NeedKnowOb
-			
-			List<TextItem> frontNeedKnow = scenicVO.getNeedKnowOb().getFrontNeedKnow();
-			List<TextItem> newFrontNeedKnow =new ArrayList<TextItem>();
-			if(frontNeedKnow!=null&&!frontNeedKnow.isEmpty()){
-				for (int i = 0; i < frontNeedKnow.size(); i++) {
-					if(StringUtils.isNotBlank(frontNeedKnow.get(i).getTitle())||StringUtils.isNotBlank(frontNeedKnow.get(i).getContent())){
-						newFrontNeedKnow.add(frontNeedKnow.get(i));
+			if(null !=scenicVO.getNeedKnowOb()){
+				List<TextItem> frontNeedKnow = scenicVO.getNeedKnowOb().getFrontNeedKnow();
+				List<TextItem> newFrontNeedKnow =new ArrayList<TextItem>();
+				if(frontNeedKnow!=null&&!frontNeedKnow.isEmpty()){
+					for (int i = 0; i < frontNeedKnow.size(); i++) {
+						if(StringUtils.isNotBlank(frontNeedKnow.get(i).getTitle())||StringUtils.isNotBlank(frontNeedKnow.get(i).getContent())){
+							newFrontNeedKnow.add(frontNeedKnow.get(i));
+						}
 					}
+					scenicVO.getNeedKnowOb().setFrontNeedKnow(newFrontNeedKnow);
 				}
-				scenicVO.getNeedKnowOb().setFrontNeedKnow(newFrontNeedKnow);
+				addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
+				//购买须知存tfs
+				if(org.apache.commons.lang.StringUtils.isNotBlank(scenicVO.getNeedKnowOb().getExtraInfoUrl())) {
+					addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(scenicVO.getNeedKnowOb().getExtraInfoUrl()));
+				}
+			}else{
+				addNewDTO.setNeedKnow(null);
 			}
-			addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
 			scenicDO.setRecommend(scenicVO.getMasterRecommend());
-			//购买须知存tfs
-			if(org.apache.commons.lang.StringUtils.isNotBlank(addNewDTO.getNeedKnow().getExtraInfoUrl())) {
-				addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(addNewDTO.getNeedKnow().getExtraInfoUrl()));
-			}
+			
 			//TODO 修改项处理
 			addScenicNew = resourcePublishServiceRef.updateScenicNew(addNewDTO);
 			if(null == addScenicNew){

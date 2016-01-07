@@ -1,11 +1,12 @@
 package com.yimayhd.palace.model;
 
 import com.yimayhd.palace.base.BaseQuery;
+import com.yimayhd.resourcecenter.model.query.PageQuery;
 
 /**
  * Created by Administrator on 2015/12/27.
  */
-public class TripBoQuery extends BaseQuery {
+public class TripBoQuery extends PageQuery {
 	int type;
 
 	public int getType() {
