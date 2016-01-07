@@ -467,7 +467,7 @@
 		 			
 		 			var newTr = "<tr><input type='hidden' name='businessCode' id='businessCode' value='LINE'/><input type='hidden' name='operation' id='operation' value='add' />" ;
 		 			newTr += "<input type='hidden' name='itemId' id='itemId' value='" + resultValue[i].id + "'/>";
-		 			newTr += "<input type='hidden' name='imgUrl' id='imgUrl' value='" + resultValue[i].coverUrl + "'/>";
+	//	 			newTr += "<input type='hidden' name='imgUrl' id='imgUrl' value='" + resultValue[i].coverUrl + "'/>";
 		 			newTr += "<input type='hidden' name='title' id='title' value='" + resultValue[i].name + "'/>";
 		 			newTr += "<input type='hidden' name='type' id='type' value='" + resultValue[i].type + "'/>";
 		 			newTr += "<input type='hidden' name='version' id='title' value='0'/>";
@@ -498,7 +498,7 @@
 		 			
 		 			var newTr = "<tr><input type='hidden' name='businessCode' id='businessCode' value='ACTIVITY'/><input type='hidden' name='operation' id='operation' value='add' />" ;
 		 			newTr += "<input type='hidden' name='itemId' id='itemId' value='" + resultValue[i].id + "'/>";
-		 			newTr += "<input type='hidden' name='imgUrl' id='imgUrl' value='" + resultValue[i].image + "'/>";
+		 		//	newTr += "<input type='hidden' name='imgUrl' id='imgUrl' value='" + resultValue[i].image + "'/>";
 		 			newTr += "<input type='hidden' name='title' id='title' value='" + resultValue[i].title + "'/>";
 		 			newTr += "<input type='hidden' name='version' id='title' value='0'/>";
 		 			newTr += "<td>" +  resultValue[i].title + "</td>";
@@ -618,7 +618,7 @@
         		var businessCode = $(this).parent().find("#businessCode").val();
         		var version = $(this).parent().find("#version").val();
         		var lineType = $(this).parent().find("#type").val();
-        		var formdata = {operationContent:itemId,operation:operation,imgUrl:imgUrl,businessCode:businessCode,title:title,version:version,lineType:lineType};
+        		var formdata = {operationContent:itemId,operation:operation,businessCode:businessCode,title:title,version:version,lineType:lineType};
         		advertiseList.push(formdata);
         	});
         	

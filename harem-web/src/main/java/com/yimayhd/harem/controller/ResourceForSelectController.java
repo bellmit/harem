@@ -35,6 +35,7 @@ import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
@@ -366,6 +367,8 @@ public class ResourceForSelectController extends BaseController {
 			query.setPageNo(pageNumber);
 		}
 		// PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
+		query.setNeedCount(true);
+		query.setStatus(ItemStatus.valid.getValue());
 		PageVO<LineDO> pageVo = travelService.pageQueryLine(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
