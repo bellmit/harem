@@ -70,7 +70,7 @@ public class TravelOfficialManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() throws Exception {
-		return "/system/travelOfficial/base";
+		return "/system/travelOfficial/detail";
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class TravelOfficialManageController extends BaseController {
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		TravelOfficial travelOfficial = travelOfficialService.getById(id);
 		model.addAttribute("travelOfficial", travelOfficial);
-		return "/system/travelOfficial/base";
+		return "/system/travelOfficial/detail";
 	}
 
 	/**

@@ -37,11 +37,11 @@
     <li>
         <a href="#jingxuanzhibo" id="tuiJianLuXianId" data-toggle="tab">推荐路线</a>
     </li>
-    #*
+
     <li>
         <a href="#jingxuanzhibo" id="lianDianId" data-toggle="tab">亮点</a>
     </li>
-    *#
+
 
 
 </ul>

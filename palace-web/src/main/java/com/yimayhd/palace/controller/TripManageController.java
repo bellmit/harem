@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.palace.base.BaseQuery;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -126,10 +127,20 @@ public class TripManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, TripBoQuery query){
+	public String list(Model model, TripBoQuery query, Integer pageNumber,Integer pageSize){
 		if(null == query || 0 == query.getType()){
 			query = new TripBoQuery();
 			query.setType(RegionType.DESC_REGION.getType());
+		}
+		if (pageNumber != null) {
+			query.setPageNo(pageNumber);
+		} else {
+			query.setPageNo(BaseQuery.DEFAULT_PAGE);
+		}
+		if(pageSize!= null) {
+			query.setPageSize(pageSize);
+		} else{
+			query.setPageSize(BaseQuery.DEFAULT_SIZE);
 		}
 		PageVO<RegionDO> list = tripService.selectRegion(query);
 		model.addAttribute("pageVo",list);

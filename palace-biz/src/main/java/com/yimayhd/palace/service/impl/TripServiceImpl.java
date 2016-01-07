@@ -134,21 +134,29 @@ public class TripServiceImpl implements TripService {
 			if(null != gaikuang ){
 				gaikuang.setExtraInfoUrl(ColumnType.SURVER.toString());
 				list.add(gaikuang);
+			}else{
+				showcaseClientServerRef.deleteShowcaseByBoothCode(ColumnType.SURVER.toString()+"-"+tripBo.getCityCode());
 			}
 			NeedKnow minsu = tripBo.getMinsu();
 			if(null != minsu){
 				minsu.setExtraInfoUrl(ColumnType.FOLKWAYS.toString());
 				list.add(minsu);
+			}else{
+				showcaseClientServerRef.deleteShowcaseByBoothCode(ColumnType.FOLKWAYS.toString()+"-"+tripBo.getCityCode());
 			}
 			NeedKnow tieshi = tripBo.getTieshi();
 			if(null != tieshi){
 				tieshi.setExtraInfoUrl(ColumnType.HIGHLIGHTS.toString());
 				list.add(tieshi);
+			}else{
+				showcaseClientServerRef.deleteShowcaseByBoothCode(ColumnType.HIGHLIGHTS.toString()+"-"+tripBo.getCityCode());
 			}
 			NeedKnow xiaofei = tripBo.getXiaofei();
 			if(null !=xiaofei){
 				xiaofei.setExtraInfoUrl(ColumnType.CONSUMPTION.toString());
 				list.add(xiaofei);
+			}else{
+				showcaseClientServerRef.deleteShowcaseByBoothCode(ColumnType.CONSUMPTION.toString()+"-"+tripBo.getCityCode());
 			}
 			saveShowCase(list, tripBo.getCityCode(),isEdit);
 			//保存精选 酒店 推荐之类
@@ -191,6 +199,24 @@ public class TripServiceImpl implements TripService {
 				zhibo.setResourceId(tripBo.getZhiBo());
 				zhibo.setSubhead(tripBo.getLiveSubhead());
 				listRelevanceRecommended.add(zhibo);
+			}
+			if(null != tripBo.getXianLu() ){
+				RelevanceRecommended xianlu = new RelevanceRecommended();
+				xianlu.setName(ColumnType.MUST_LINE.toString());
+				xianlu.setDescName(ColumnType.MUST_LINE.getCode());
+				xianlu.setType(ColumnType.MUST_LINE.getType());
+				xianlu.setCityCode(tripBo.getCityCode());
+				xianlu.setResourceId(tripBo.getZhiBo());
+				listRelevanceRecommended.add(xianlu);
+			}
+
+			if(null != tripBo.getLiangDian() ){
+				RelevanceRecommended liangdian = new RelevanceRecommended();
+				liangdian.setName(ColumnType.TIPS.toString());
+				liangdian.setDescName(ColumnType.TIPS.getCode());
+				liangdian.setType(ColumnType.TIPS.getType());
+				liangdian.setCityCode(tripBo.getCityCode());
+				listRelevanceRecommended.add(liangdian);
 			}
 			relevanceRecommended(listRelevanceRecommended,isEdit);
 		}
@@ -501,7 +527,7 @@ public class TripServiceImpl implements TripService {
 		List<RegionDO> list = new ArrayList<RegionDO>();
 		RegionQuery regionQuery = new RegionQuery();
 		regionQuery.setNeedCount(true);
-		regionQuery.setPageNo(tripBoQuery.getPageNumber());
+		regionQuery.setPageNo(tripBoQuery.getPageNo());
 		regionQuery.setPageSize(tripBoQuery.getPageSize());
 		regionQuery.setType(tripBoQuery.getType());
 		
@@ -510,7 +536,7 @@ public class TripServiceImpl implements TripService {
 			list = res.getList();
 			totalCount = res.getTotalCount();
 		}
-		return new PageVO<RegionDO>(tripBoQuery.getPageNumber(), tripBoQuery.getPageSize(), totalCount, list);
+		return new PageVO<RegionDO>(tripBoQuery.getPageNo(), tripBoQuery.getPageSize(), totalCount, list);
 	}
 
 	@Override
@@ -606,13 +632,13 @@ public class TripServiceImpl implements TripService {
 		return null;
 	}
 
-	public long getBoothDOId(String code) throws Exception{
+	public Long getBoothDOId(String code) throws Exception{
 		
 		BoothDO boothDO = boothClientServer.getBoothDoByCode(code);
-		if(null == boothDO ){
-			throw new Exception("获取boothId失败，没有相关的booth信息");
+		if(null != boothDO ){
+			return boothDO.getId();
 		}
-		return boothDO.getId();
+		return null;
 	}
 	
 	@Override
@@ -622,10 +648,12 @@ public class TripServiceImpl implements TripService {
 			if(null == rec ){
 				continue;
 			}
-			System.out.println(rec.getName()+"---"+rec.getType());
 			BoothDO boothDO = new BoothDO();
 			if(isEdit){
-				boothDO.setId(getBoothDOId(rec.getName()+"-"+rec.getCityCode()));
+				Long booId = getBoothDOId(rec.getName()+"-"+rec.getCityCode());
+				if(null != booId){
+					boothDO.setId(booId);
+				}
 			}
 			boothDO.setCode(rec.getName()+ "-" + rec.getCityCode());
 			boothDO.setName(rec.getDescName());
@@ -636,22 +664,22 @@ public class TripServiceImpl implements TripService {
 			boothDO.setGmtModified(new Date());
 			List<ShowcaseDO> listShowcaseDO = new ArrayList<ShowcaseDO>();
 			ShowcaseDO sc = null;
-			
-			for (int i = 0; i < rec.getResourceId().size(); i++) {
-				sc = new ShowcaseDO();
-				if(ColumnType.TOURIST_SHOW.getType()==rec.getType()){
-					SnsSubjectDO dbSnsSubjectDO = getSnsSubjectDOById(rec.getResourceId().get(i));
-					sc.setImgUrl(getSnsSubjectDOFirstImgURL(dbSnsSubjectDO));
+			if( CollectionUtils.isNotEmpty(rec.getResourceId())){
+				for (int i = 0; i < rec.getResourceId().size(); i++) {
+					sc = new ShowcaseDO();
+					if(ColumnType.TOURIST_SHOW.getType()==rec.getType()){
+						SnsSubjectDO dbSnsSubjectDO = getSnsSubjectDOById(rec.getResourceId().get(i));
+						sc.setImgUrl(getSnsSubjectDOFirstImgURL(dbSnsSubjectDO));
+					}
+
+					sc.setTitle("目的地_" + rec.getCityCode() + "	关联	" + rec.getDescName() + " [" + rec.getResourceId().get(i) + "]");
+					sc.setStatus(10);// BoothStatusType.ON_SHELF.getValue()
+					sc.setGmtCreated(new Date());
+					sc.setGmtModified(new Date());
+					sc.setOperationContent(String.valueOf(rec.getResourceId().get(i)));
+					listShowcaseDO.add(sc);
 				}
-				
-				sc.setTitle("目的地_" + rec.getCityCode() + "	关联	" + rec.getDescName() + " [" + rec.getResourceId().get(i) + "]");
-				sc.setStatus(10);// BoothStatusType.ON_SHELF.getValue()
-				sc.setGmtCreated(new Date());
-				sc.setGmtModified(new Date());
-				sc.setOperationContent(String.valueOf(rec.getResourceId().get(i)));
-				listShowcaseDO.add(sc);
 			}
-			
 			RcResult<Boolean> resb = showcaseClientServerRef.batchInsertShowcase(listShowcaseDO,boothDO);
 			System.out.println(resb.isSuccess());
 			flag=resb.isSuccess();
