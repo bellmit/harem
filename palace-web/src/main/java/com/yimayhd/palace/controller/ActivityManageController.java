@@ -18,6 +18,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -27,7 +28,6 @@ import com.yimayhd.palace.model.ItemResultVO;
 import com.yimayhd.palace.model.query.ActivityListQuery;
 import com.yimayhd.palace.service.ActivityService;
 import com.yimayhd.palace.service.CommodityService;
-import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.snscenter.client.domain.ActivityJsonDO;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
@@ -193,6 +193,14 @@ public class ActivityManageController extends BaseController {
 		if (null != itemResultVO && itemResultVO.isSuccess()) {
 			model.addAttribute("itemName", itemResultVO.getItemVO().getTitle());
 		}
+		 /* private String activityDateStr;
+			private String startDateStr;
+			private String endDateStr;
+		
+		DateUtil.dateToString(activity.getStartDate(), DateUtil.DAY_HORU_FORMAT);*/
+		
+		// snsSubjectVO.setGmtCreatedStr(DateUtil.dateToString(snsSubjectDO.getGmtCreated(), DateUtil.DAY_HORU_FORMAT));
+		
 		model.addAttribute("itemType", ItemType.ACTIVITY.getValue());
 		model.addAttribute("clubList", clubList.getValue());
 		model.addAttribute("activity", activityDO);
