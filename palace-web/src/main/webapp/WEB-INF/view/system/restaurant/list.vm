@@ -110,6 +110,8 @@
 		window.parent.tabsAdd("restaurantView", '/B2C/restaurantManage/edit/'+ $(this).attr('restaurantId'), 2, "添加餐厅");
     });
     $('.updateRestaurantStatus').click(function(){
+		layer.msg("该功能暂不启用");
+		return;
         $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/restaurantManage/updateStatus/' + $(this).attr('restaurantId') ,{'restaurantStatus':$(this).attr('status')} ,function(data){
             if(data.status == 200){
                 layer.alert('操作成功', {
