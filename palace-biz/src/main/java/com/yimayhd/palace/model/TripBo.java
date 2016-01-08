@@ -26,8 +26,8 @@ public class TripBo implements Serializable {
 	public String scenicSubhead;//景点副标题
 	public String hotelSubhead;//酒店副标题
 	public String liveSubhead;//直播副标题
+	public String lineSubhead;//线路副标题
 	
-	//XXX:此处为了方便对应上页面的各个选项，不得已而为之。
 	//使用list<NeedKnow> 属性，页面无法识别，low，待后期有时间在调整。
 	public NeedKnow gaikuang; /** 概况 */
 	public NeedKnow minsu; /** 民俗 */
@@ -53,8 +53,14 @@ public class TripBo implements Serializable {
 	public List<NeedKnow> gaikuangList;
 	public List<NeedKnow> liangDianList;
 
-	
-	
+	public String getLineSubhead() {
+		return lineSubhead;
+	}
+
+	public void setLineSubhead(String lineSubhead) {
+		this.lineSubhead = lineSubhead;
+	}
+
 	public List<NeedKnow> getBiMaiList() {
 		return biMaiList;
 	}

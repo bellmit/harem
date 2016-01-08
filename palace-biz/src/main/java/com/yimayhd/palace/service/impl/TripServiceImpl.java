@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.enums.LineType;
+import com.yimayhd.ic.client.model.result.ICResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -206,7 +209,8 @@ public class TripServiceImpl implements TripService {
 				xianlu.setDescName(ColumnType.MUST_LINE.getCode());
 				xianlu.setType(ColumnType.MUST_LINE.getType());
 				xianlu.setCityCode(tripBo.getCityCode());
-				xianlu.setResourceId(tripBo.getZhiBo());
+				xianlu.setResourceId(tripBo.getXianLu());
+				xianlu.setSubhead(tripBo.getLineSubhead());
 				listRelevanceRecommended.add(xianlu);
 			}
 
@@ -548,32 +552,7 @@ public class TripServiceImpl implements TripService {
 	public List<RegionIntroduceDO> getListShowCaseResult(int type) {
 		RegionIntroduceQuery regionIntroduceQuery = new RegionIntroduceQuery();
 		regionIntroduceQuery.setType(type);
-		// List<RegionIntroduceDO> list =
-		regionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
-		List<RegionIntroduceDO> list = new ArrayList<RegionIntroduceDO>();
-		RegionIntroduceDO e = new RegionIntroduceDO();
-		e.setCityCode(31231);
-		e.setContent("eqweqweqweqwe");
-		e.setId(1);
-		e.setTitle("eqwe");
-		e.setType(10);
-
-		RegionIntroduceDO e1 = new RegionIntroduceDO();
-		e1.setCityCode(31231);
-		e1.setContent("eqweqweqweqwe");
-		e1.setId(1);
-		e1.setTitle("eqwe");
-		e1.setType(10);
-
-		RegionIntroduceDO e2 = new RegionIntroduceDO();
-		e2.setCityCode(31231);
-		e2.setContent("eqweqweqweqwe");
-		e2.setId(1);
-		e2.setTitle("eqwe");
-		e2.setType(10);
-		list.add(e);
-		list.add(e1);
-		list.add(e2);
+		List<RegionIntroduceDO>  list = regionIntroduceClientServiceRef.queryRegionIntroduceList(regionIntroduceQuery);
 		return list;
 	}
 
@@ -627,7 +606,15 @@ public class TripServiceImpl implements TripService {
 	public List<RegionDO> selectRegion(int type) {
 		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
 		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
-			return res.getList();
+			List<RegionDO> list = res.getList();
+			int size = list.size();
+			for(int i=0;i<size;i++){
+				if(list.get(i).getStatus() == BaseStatus.DELETED.getType() ){
+					list.remove(i);
+				}
+			}
+			System.out.println(list.size());
+			return list;
 		}
 		return null;
 	}
@@ -677,6 +664,9 @@ public class TripServiceImpl implements TripService {
 					sc.setGmtCreated(new Date());
 					sc.setGmtModified(new Date());
 					sc.setOperationContent(String.valueOf(rec.getResourceId().get(i)));
+					if(rec.getType()==ColumnType.MUST_LINE.getType()){//如果是线路，还要查线路的类型
+						sc.setBusinessCode(getMustLineType(rec.getResourceId().get(i)));
+					}
 					listShowcaseDO.add(sc);
 				}
 			}
@@ -688,6 +678,18 @@ public class TripServiceImpl implements TripService {
 			}
 		}
 		return flag;
+	}
+
+	public String getMustLineType(long id){
+		ICResult<LineDO> res =  itemQueryServiceRef.getLine(id);
+		if(null != res && res.isSuccess() && null != res.getModule()){
+			LineDO line = res.getModule();
+			LineType lt = LineType.getByType(line.getType());
+			if(null != lt){
+				return lt.toString();
+			}
+		}
+		return null;
 	}
 	
 	//根据id查游记

@@ -116,6 +116,11 @@
                     <td><input type="text" id="liveSubheadId" name="liveSubhead" value="$!tripBo.liveSubhead"></td>
                 </tr>
 
+                <tr>
+                    <td><span class="spColor">*</span>线路副标题</td>
+                    <td><input type="text" id="lineSubheadId" name="lineSubhead" value="$!tripBo.lineSubhead"></td>
+                </tr>
+
                 #*
                 #if($isEdit)
                     <tr>

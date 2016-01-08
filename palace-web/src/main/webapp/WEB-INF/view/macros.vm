@@ -281,3 +281,22 @@
 <option value="15" #if($status==15) selected="selected" #end>等待审核</option>
 <option value="30" #if($status==30) selected="selected" #end>审核未通过</option>
 #end
+
+##推荐列表
+#macro(RECOMMEND_TYPE $type)
+    #if($type == '10')
+    必买推荐
+    #elseif($type == '18')
+    概况
+    #elseif($type == '19')
+    民俗
+    #elseif($type == '20')
+    消费
+    #elseif($type == '21')
+    亮点
+    #elseif($type == '22')
+    贴士
+    #else
+    其他
+    #end
+#end

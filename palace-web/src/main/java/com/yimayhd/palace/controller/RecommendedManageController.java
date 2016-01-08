@@ -39,10 +39,10 @@ public class RecommendedManageController extends BaseController {
 	}
 	
 	@RequestMapping(value="/add",method = RequestMethod.POST)
-	public String add(RegionIntroduceDO RegionIntroduce){
+	public String add(RegionIntroduceDO regionIntroduce){
 		boolean flag = false;
 		try {
-			flag = recommendedService.saveOrUpdate(RegionIntroduce);
+			flag = recommendedService.saveOrUpdate(regionIntroduce);
 			if(flag){
 				return "/success";
 			}
