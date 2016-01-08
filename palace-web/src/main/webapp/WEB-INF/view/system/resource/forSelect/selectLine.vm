@@ -9,7 +9,7 @@
     <div class="input-group selectResourceTable">
     </div>
     <div>
-        <span>以选择：</span>
+        <span>已选择：</span>
         <span class="checked-resource"></span>
     </div>
 #*分页*#

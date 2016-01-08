@@ -44,6 +44,7 @@ public class CommActivityServiceImpl implements CommActivityService {
 	public ItemPubResult add(ItemVO itemVO) throws Exception {
 		 CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
 	        ItemDO itemDO = ItemVO.getItemDO(itemVO);
+			itemDO.setDomain(B2CConstant.B2C_DOMAIN);
 	        itemDO.setSellerId(B2CConstant.YIMAY_OFFICIAL_ID);
 	        itemDO.setSubTitle("");
 	        itemDO.setOneWord("");

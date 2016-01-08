@@ -3,6 +3,7 @@ package com.yimayhd.palace.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.exception.NoticeException;
 import com.yimayhd.palace.model.CategoryVO;
 import com.yimayhd.palace.model.ItemResultVO;
@@ -36,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/11/24.
+ * Created by czf on 2015/11/24.
  */
 public class CommodityServiceImpl implements CommodityService {
     private static final Logger log = LoggerFactory.getLogger(CommodityServiceImpl.class);
@@ -51,7 +52,9 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public PageVO<ItemVO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
-        //TODO 条件对接
+        List<Integer> domainList = new ArrayList<Integer>();
+        domainList.add(B2CConstant.B2C_DOMAIN);
+        itemQryDTO.setDomains(domainList);
         itemQryDTO.setPageNo(commodityListQuery.getPageNumber());
         itemQryDTO.setPageSize(commodityListQuery.getPageSize());
 
@@ -158,8 +161,10 @@ public class CommodityServiceImpl implements CommodityService {
     public ItemDO addCommHotel(ItemVO itemVO) throws Exception {
         HotelPublishDTO hotelPublishDTO = new HotelPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
+        itemDO.setDomain(B2CConstant.B2C_DOMAIN);
         hotelPublishDTO.setItemDO(itemDO);
         hotelPublishDTO.setSort(itemVO.getSort());
+
         ICResult<Long> result = hotelServiceRef.publishHotel(hotelPublishDTO);
         if(null == result){
             log.error("ItemPublishService.publish result is null and parame: " + JSON.toJSONString(hotelPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
@@ -304,6 +309,7 @@ public class CommodityServiceImpl implements CommodityService {
         //参数类型匹配
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
+        itemDO.setDomain(B2CConstant.B2C_DOMAIN);
         //详细描述存tfs（富文本编辑）
         if(StringUtils.isNotBlank(itemDO.getDetailUrl())){
             itemDO.setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));

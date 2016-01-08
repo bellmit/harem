@@ -56,6 +56,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 	public ItemPubResult save(CommScenicVO commScenic) throws Exception {
 		ScenicPublishDTO dto = new ScenicPublishDTO();
 		ItemDO itemDO = commScenic.getItemDO();
+
 		if(itemDO.getId()!=0){
 			  ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
 		        //全部设置成true
@@ -165,8 +166,8 @@ public class CommScenicServiceImpl implements CommScenicService {
 			ScenicDO scenicDO= new ScenicDO();
 			scenicDO.setOrderNum(commScenic.getScenicDO().getOrderNum());
 			scenicDO.setId(commScenic.getItemDO().getOutId());
-		
-			
+
+			itemDO.setDomain(B2CConstant.B2C_DOMAIN);
 			itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
 			itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, commScenic.getBigListPic());
 			itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
