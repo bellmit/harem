@@ -2,7 +2,7 @@
 <div>
 	<div class="input-group">
 		<span class="input-group-addon">用户名称</span>
-		<input type="text" class="form-control" name="itemName" id="itemName">
+		<input type="text" class="form-control" name="nickname" id="nickname">
 		<span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>
 	</div>
 	<div class="input-group selectResourceTable">
@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	var checks = {};
 	$(".search").click(function() {
-		pageUtils.request(1, $(".pageSize").val(),{name:$("#itemName").val()});
+		pageUtils.request(1, $(".pageSize").val(),{nickname:$("#nickname").val()});
 	});
 	function initTable() { 
     	$('table.resourceTable').datatable({
@@ -59,20 +59,21 @@
 	}
 	// 初始化分页条
 	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/queryUserForSelect", function(query, pageVo){
-		$("#itemName").val(query.name);
+		$("#nickname").val(query.nickname);
 		showData(pageVo.itemList);
 	});
 	var resource_table = {};
 	function showData(itemList) {
 		$(".selectResourceTable").empty();
 		var table = $("<table class='table table-striped table-hover resourceTable'/>");
-		table.append("<thead><tr><th>名称</th><th>状态</th></tr></thead>");
+		table.append("<thead><tr><th>昵称</th><th>名称</th><th>状态</th></tr></thead>");
 		var tbody= $("<tbody/>");
 		table.append(tbody);
 		for(i in itemList) {
 			var item = itemList[i];
 			resource_table[item.id] = item;
 			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
+            tr.append($("<td>"+item.nickname+"</td>"));
 			tr.append($("<td>"+item.name+"</td>"));
 			tr.append($("<td>"+(item.status==1?'有效':'停用')+"</td>"));
             tbody.append(tr);

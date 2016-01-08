@@ -98,6 +98,9 @@ public class UserRPCServiceImpl implements UserRPCService {
 		UserDOPageQuery userDOPageQuery = new UserDOPageQuery();
 		userDOPageQuery.setPageSize(query.getPageSize());
 		userDOPageQuery.setPageNo(query.getPageNo());
+		if(StringUtils.isNotBlank(query.getNickname())){
+			userDOPageQuery.setNickname(query.getNickname());
+		}
 		BasePageResult<UserDO> result = userServiceRef.findPageResultByCondition(userDOPageQuery);
 		int totalCount = 0;
 		List<UserDO> itemList = new ArrayList<UserDO>();
