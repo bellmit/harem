@@ -326,7 +326,7 @@
         if(!$('.title').val()){
             return '请输入商品名称';
         }
-        if(!$('.priceY').val() && !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';
         }
         if(!$('.stockNum').val() || !/^[0-9]*[1-9][0-9]*$/.test($('.stockNum').val())){
@@ -359,11 +359,27 @@
         }
         //必填属性
         var msg;
+        if(!skuTableShowFlag){
+            return '您需要选择所有的销售属性，才能组合成完整的规格信息。';
+        }
         $('.keyProperty').each(function(){
             if($(this).find('.propertySelect').val() == '0' && !$(this).find('.propertyInput').val()){
                 msg = '请填写必填属性' + $(this).attr('pTxt');
             }
         });
+        //sku
+
+        $('.price').each(function(){
+            if(!$(this).val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($(this).val())){
+                msg = '请检查sku价格格式';
+            }
+        });
+        $('.stock').each(function(){
+            if(!$(this).val() || !/^[0-9]*[1-9][0-9]*$/.test($(this).val())){
+                msg = '请检查sku库存格式';
+            }
+        });
+
         if(msg){
             return msg;
         }

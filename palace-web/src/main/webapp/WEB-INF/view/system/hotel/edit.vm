@@ -330,14 +330,14 @@
         if(!$('.oneword').val()){
             return '特色描述不能为空';
         }
-        if(!$('.priceY').val() && !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '基础价格最多保留两位小数的正数';
         }
         if($('.facilityCl:checked').length <= 0){
             return '房间设施不能为空';
         }
         if(!$('.openTime').val()){
-            return '房间设施不能为空';
+            return '入离时间不能为空';
         }
         if($('.needKnow').length <= 0){
             return '入住须知不能为空';

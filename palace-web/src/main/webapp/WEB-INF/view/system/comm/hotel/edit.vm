@@ -128,10 +128,10 @@
         if(!$('.hotelIdInp').val()){
             return '请选择酒店';
         }
-        if(!$('.stockNum').val() || /^[0-9]*[1-9][0-9]*$/.test($('.stockNum').val())){
+        if(!$('.stockNum').val() || !/^[0-9]*[1-9][0-9]*$/.test($('.stockNum').val())){
             return '请输入库存';
         }
-        if(!$('.sort').val() || /^[0-9]*[1-9][0-9]*$/.test($('.sort').val())){
+        if(!$('.sort').val() || !/^[0-9]*[1-9][0-9]*$/.test($('.sort').val())){
             return '请输入排序';
         }
         if(!$('.endBookTimeLimit').val()){
@@ -140,10 +140,10 @@
         if(!$('.title').val()){
             return '请输入商品名称';
         }
-        if(!$('.oneword').val()){
+        if(!$('.oneWord').val()){
             return '请输入说明';
         }
-        if(!$('.priceY').val() && !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';
         }
 
