@@ -106,7 +106,7 @@ public class OrderConverter {
         //名称
         if (StringUtils.isNotEmpty(orderListQuery.getItemName())){
             orderQueryDTO.setItemName(orderListQuery.getItemName());
-            orderQueryDTO.setIsMain(MainDetailStatus.NO.getType());
+            orderQueryDTO.setIsMain(null);
             orderQueryDTO.setIsDetail(MainDetailStatus.YES.getType());
         }else{
             orderQueryDTO.setIsMain(MainDetailStatus.YES.getType());
