@@ -252,4 +252,36 @@ public class OrderManageController extends BaseController {
 		return "/system/order/membershipCardOrderList";
 	}
 
+
+
+	/**
+	 * 根据ID获取路线订单详情
+	 * @return 路线订单详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/hotelOrder/{id}", method = RequestMethod.GET)
+	public String getHotelOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		if (orderDetails!=null){
+			model.addAttribute("order", orderDetails);
+		}
+		return "/system/order/hotelOrderInfo";
+	}
+
+	/**
+	 * 路线订单列表
+	 * @return 路线订单列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/hotelOrderList", method = RequestMethod.GET)
+	public String hotelOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
+		int [] orderBizTypes = {OrderBizType.HOTEL.getBizType()};
+		orderListQuery.setOrderTypes(orderBizTypes);
+		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderListQuery", orderListQuery);
+		return "/system/order/hotelOrderList";
+	}
+
 }

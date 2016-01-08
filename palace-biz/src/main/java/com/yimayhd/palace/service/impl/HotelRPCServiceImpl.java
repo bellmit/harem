@@ -208,6 +208,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		hotelDB.getNeedKnow().setFrontNeedKnow(hotelDO.getNeedKnow().getFrontNeedKnow());
 		//推荐理由
 		hotelDB.setRecommend(hotelDO.getRecommend());
+
 		//列表页展示图
 		hotelDB.setLogoUrl(hotelDO.getLogoUrl());
 		//详情页展示图

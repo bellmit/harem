@@ -107,7 +107,7 @@
         $('#restaurantDOListForm').submit();
     });
     $('.toView').click(function(){
-		window.parent.tabsAdd("restaurantView", '/B2C/restaurantManage/edit/'+ $(this).attr('restaurantId'), 2, "添加餐厅");
+		window.parent.tabsAdd("restaurantView",actionDefaultPath + '/B2C/restaurantManage/edit/'+ $(this).attr('restaurantId'), 2, "添加餐厅");
     });
     $('.updateRestaurantStatus').click(function(){
 		layer.msg("该功能暂不启用");

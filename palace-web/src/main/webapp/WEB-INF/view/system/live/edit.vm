@@ -7,14 +7,14 @@
     <form name="liveForm" id="liveForm" action="" method="post" liveId="$!live.id">
         <table class="table">
                 <tr>
-                    <td>直播内容：</td>
+                    <td><span class="spColor">*</span>直播内容：</td>
                     <td>
-                         <textarea name="textContent" id="" rows="2" class="form-control summary">$!live.textContent</textarea>
+                         <textarea name="textContent" id="" rows="2" class="form-control summary textContent">$!live.textContent</textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td>发布时间</td>
-                    <td><input type="text" class='form-control form-date dateInp' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr"></td>
+                    <td><span class="spColor">*</span>发布时间</td>
+                    <td><input type="text" class='form-control form-date dateInp gmtCreatedStr' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr" ></td>
                 </tr>
                 <tr>
                     <td>直播标签</td>
@@ -28,8 +28,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>直播地点</td>
-                    <td> <input type="text" class="inpCtlBlock" name="snsPOI.detail"  value="$!live.snsPOI.detail"></td>
+                    <td><span class="spColor">*</span>直播地点</td>
+                    <td> <input type="text" class="inpCtlBlock snsPOIDetail" name="snsPOI.detail"  value="$!live.snsPOI.detail"></td>
                 </tr>
                 <tr>
                     <td>作者信息：</td>
@@ -71,6 +71,24 @@
                 showMeridian: 1,
                 format: "yyyy-mm-dd hh:ii"
             });
+     //非空验证
+     var validate = function(){
+         if(!$('.textContent').val()){
+             return '直播内容不能为空';
+         }
+         if(!$('.gmtCreatedStr').val()){
+             return '发布时间不能为空';
+         }
+         if(!$('.snsPOIDetail').val()){
+             return '直播地点不能为空';
+         }
+         if(!$('#userId').val()){
+             return '作者信息不能为空';
+         }
+         if($('.picUrlsUrl').length > 9){
+             return '直播图片不能超过9张';
+         }
+     }
    var batchCallBack = function(dataVal){
         for(var key in dataVal.data){
              $('.picUrlsTd').append('<img class="picUrlsUrl uploadImgFile" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
@@ -96,6 +114,15 @@
         });
 
         $('#btnSubmit').click(function(){
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
             //列表长图片
             var picUrls = new Array();
             $('.picUrlsUrl').each(function(){
