@@ -6,9 +6,9 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.User;
 import com.yimayhd.palace.model.query.TradeMemberQuery;
 import com.yimayhd.membercenter.client.domain.TravelKaVO;
-import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
+import com.yimayhd.user.client.result.BasePageResult;
 
 /**
  * @author
@@ -60,7 +60,7 @@ public interface UserRPCService {
 	 * @return
 	 * @throws Exception
 	 */
-	PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query);
+	BasePageResult<UserDO>  getTravelKaListByPage(UserDOPageQuery query);
 
 	/**
 	 * 获取旅游咖详细信息

@@ -121,8 +121,8 @@ public class UserRPCServiceImpl implements UserRPCService {
 	}
 
 	@Override
-	public PageVO<TravelKaVO> getTravelKaListByPage(TravelkaPageQuery query) {
-		return travelKaRepo.pageQueryTravelKas(query);
+	public BasePageResult<UserDO>  getTravelKaListByPage(UserDOPageQuery query) {
+		return userServiceRef.findPageResultByCondition(query);
 	}
 
 	@Override

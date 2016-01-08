@@ -46,6 +46,8 @@ import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
+import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.client.result.BasePageResult;
 
 /**
  * 资源选择理
@@ -246,12 +248,13 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryTravelKaForSelect")
-	public @ResponseBody ResponseVo queryTravelKaForSelect(TravelkaPageQuery query) throws Exception {
+	public @ResponseBody ResponseVo queryTravelKaForSelect(UserDOPageQuery query) throws Exception {
 		Integer pageNumber = getInteger("pageNumber");
 		if (pageNumber != null) {
 			query.setPageNo(pageNumber);
 		}
-		PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
+		query.setOptions(UserOptions.TRAVEL_KA.getOption());
+		BasePageResult<UserDO> pageVo = userService.getTravelKaListByPage(query);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("pageVo", pageVo);
 		result.put("query", query);
