@@ -69,19 +69,11 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-    function openwin(url) {
-        var a = document.createElement("a");
-        a.setAttribute("href", url);
-        a.setAttribute("target", "_blank");
-        a.setAttribute("id", "camnpr");
-        document.body.appendChild(a);
-        a.click();
-    }
     $(function(){
         $('.themeDetail').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/themeManage/edit/'+ $(this).attr('themeId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,'出发地');
             });
 
         });

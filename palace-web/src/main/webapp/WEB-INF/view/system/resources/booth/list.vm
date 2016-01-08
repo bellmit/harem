@@ -69,13 +69,13 @@
     $(function(){
         $('.boothAdd').click(function(){
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/rcBooth/initAdd';
-            window.openwin(url);
+            top.tabsAdd("",url,2,$(this).text());
         });
 
         $('.boothEdit').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/rcBooth/initAdd？id='+ $(this).attr('boothId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
 
         });

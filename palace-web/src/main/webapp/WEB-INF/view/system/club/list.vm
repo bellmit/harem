@@ -119,7 +119,7 @@
         $('.clubDetail').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/clubManage/'+ $(this).attr('clubId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
 
         });
@@ -176,7 +176,7 @@
 	//编辑
 	$('.clubEdit').click(function(){
 	 	var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/clubManage/edit/'+ $(this).attr('clubId');
-        window.openwin(url);
+        top.tabsAdd("",url,2,$(this).text());
     });	
 			
     
