@@ -111,7 +111,7 @@
         $('.travelOfficialDetail').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/travelOfficialManage/'+ $(this).attr('travelOfficialId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
 
         });
@@ -170,7 +170,7 @@
     //编辑
     $('.travelOfficialEdit').click(function(){
         var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/travelOfficialManage/edit/'+ $(this).attr('travelOfficialId');
-        window.openwin(url);
+        top.tabsAdd("",url,2,$(this).text());
     });
 
 </script>

@@ -375,7 +375,7 @@
             }
         });
         $('.stock').each(function(){
-            if(!$(this).val() || !/^[0-9]*[1-9][0-9]*$/.test($(this).val())){
+            if(!$(this).val() || !/^[1-9]\d*|0$/.test($(this).val())){
                 msg = '请检查sku库存格式';
             }
         });

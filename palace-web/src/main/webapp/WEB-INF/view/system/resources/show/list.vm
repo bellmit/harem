@@ -77,13 +77,13 @@
     $(function(){
         $('.showcaseAdd').click(function(){
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/rcBooth/initShow';
-            window.openwin(url);
+            top.tabsAdd("",url,2,$(this).text());
         });
 
         $('.boothEdit').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/rcBooth/initShow?id='+ $(this).attr('showcaseId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
 
         });

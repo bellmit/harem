@@ -107,7 +107,7 @@
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/themeManage/edit/'+ $(this).attr('themeId');
                 //top.tabsAdd("",url,2,$(this).text());
-               window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
 
         });

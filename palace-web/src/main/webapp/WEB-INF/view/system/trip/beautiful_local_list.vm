@@ -94,13 +94,13 @@
     
  	$('.btn-add').click(function(){
     	 var url ='$!utilWebconfig.getActionDefaultFontPath()' +'/B2C/trip/departure/toAdd';
-         top.tabsAdd("",url,2,$(this).text());
+         top.tabsAdd("",url,2,'目的地');
     });
 
     //编辑
 	$('.themeEdit').click(function(){
 	 	var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/trip/toEdit/'+ $(this).attr('tripId');
-        window.openwin(url);
+        top.tabsAdd("",url,2,'目的地');
     });
 
     //上下架

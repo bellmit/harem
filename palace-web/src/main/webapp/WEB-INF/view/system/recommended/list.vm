@@ -46,13 +46,13 @@
 	$('.themeDetail').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/recommended/edit/'+ $(this).attr('themeId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
         });
 	$('.themeDelete').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/recommended/del/'+ $(this).attr('themeId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
         });
 

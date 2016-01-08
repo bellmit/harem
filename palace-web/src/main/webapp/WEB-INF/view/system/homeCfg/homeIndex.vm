@@ -367,10 +367,10 @@
     	$(document).delegate(".recommendDetail",'click',function(){
     		if($(this).attr('itemType') == 'ACTIVITY'){
         		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toActivityDetail?activityId='+ $(this).attr('itemId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
         	}else{ //线路
         		var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/homeManage/toLineDetail?lineId='+ $(this).attr('itemId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
         	}
         	
         });

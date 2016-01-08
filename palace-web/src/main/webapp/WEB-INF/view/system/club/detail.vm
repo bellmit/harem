@@ -90,6 +90,6 @@
 
     $('.clubMember').click(function(){
         var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/clubManage/clubMember/'+ $(this).attr('clubId');
-        window.openwin(url);
+        top.tabsAdd("",url,2,$(this).text());
     });
 </script>
