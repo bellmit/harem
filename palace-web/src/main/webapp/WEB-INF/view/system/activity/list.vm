@@ -32,7 +32,7 @@
                 <select class="form-control" name="state">
                     <option value="0">全部</option>
                     <option value="1" #if($!activityListQuery.isStatus == 1) selected #end>未开始</option>
-                    <option value="2" #if($!activityListQuery.isStatus == 2) selected #end>已满员</option>
+                   #* <option value="2" #if($!activityListQuery.isStatus == 2) selected #end>已满员</option>  *#
                     <option value="3" #if($!activityListQuery.isStatus == 3) selected #end>报名中</option>
                     <option value="4" #if($!activityListQuery.isStatus == 4) selected #end>已结束</option>
                 </select>
