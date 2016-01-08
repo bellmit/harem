@@ -90,8 +90,13 @@ public class RestaurantManageController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo save(RestaurantVO restaurantVO) throws Exception {
-		restaurantService.publish(restaurantVO);
-		return new ResponseVo();
+		try {
+			restaurantService.publish(restaurantVO);
+			return ResponseVo.success();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -105,8 +110,13 @@ public class RestaurantManageController extends BaseController {
 	@RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo updateRoleStatus(@PathVariable("id") int id, int restaurantStatus) throws Exception {
-		restaurantService.changeStatus(id, restaurantStatus);
-		return new ResponseVo();
+		try {
+			restaurantService.changeStatus(id, restaurantStatus);
+			return ResponseVo.success();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -119,10 +129,14 @@ public class RestaurantManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchUpdateStatus(@RequestParam("restaurantIdList[]") List<Integer> restaurantIdList,
 			int restaurantStatus) throws Exception {
-		ResponseVo responseVo = new ResponseVo();
-		for (int id : restaurantIdList) {
-			restaurantService.changeStatus(id, restaurantStatus);
+		try {
+			for (int id : restaurantIdList) {
+				restaurantService.changeStatus(id, restaurantStatus);
+			}
+			return ResponseVo.success();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		return responseVo;
 	}
 }

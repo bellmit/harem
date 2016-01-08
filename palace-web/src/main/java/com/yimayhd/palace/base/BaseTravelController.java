@@ -6,25 +6,23 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
+import com.yimayhd.ic.client.model.domain.CategoryValueDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
+import com.yimayhd.ic.client.model.enums.LineOwnerType;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.palace.service.CategoryService;
 import com.yimayhd.palace.service.RegionService;
 import com.yimayhd.palace.service.UserRPCService;
 import com.yimayhd.palace.util.RepoUtils;
-import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
-import com.yimayhd.ic.client.model.domain.CategoryValueDO;
-import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
-import com.yimayhd.ic.client.model.enums.LineOwnerType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 
 /**
@@ -34,7 +32,6 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
  *
  */
 public abstract class BaseTravelController extends BaseController {
-	protected Logger log = LoggerFactory.getLogger(getClass());
 	@Resource
 	protected ComCenterService comCenterServiceRef;
 	@Autowired
