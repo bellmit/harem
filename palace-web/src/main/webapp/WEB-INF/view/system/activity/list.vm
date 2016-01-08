@@ -175,7 +175,7 @@
         $('.activityDetail').each(function(){
             $(this).click(function(){
                 var url =  actionDefaultPath+ '/B2C/activityManage/'+ $(this).attr('activityId');
-                window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
             });
         });
 

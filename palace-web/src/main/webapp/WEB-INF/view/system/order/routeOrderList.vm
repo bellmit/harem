@@ -115,6 +115,7 @@
                                         <div class="t-date">结束日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.endTime)</div>
                                     #end
                                     <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
+                                    <div class="t-userType">$!subOrder.vTxt</div>
                                 </div>
                             </div>
                         </td>

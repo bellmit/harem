@@ -95,9 +95,11 @@ public class OrderServiceImpl implements OrderService {
 							bizOrderDOListMain.add(bizOrderDO);
 						}
 					}
-					BatchQueryResult batchQueryResultMain = tcQueryServiceRef.queryOrders(orderQueryDTOMain);
-					if (batchQueryResultMain.isSuccess() && !CollectionUtils.isEmpty(batchQueryResultMain.getBizOrderDOList())){
-						bizOrderDOListMain.addAll(batchQueryResultMain.getBizOrderDOList());
+					if (!CollectionUtils.isEmpty(bizOrderIds)) {
+						BatchQueryResult batchQueryResultMain = tcQueryServiceRef.queryOrders(orderQueryDTOMain);
+						if (batchQueryResultMain.isSuccess() && !CollectionUtils.isEmpty(batchQueryResultMain.getBizOrderDOList())){
+							bizOrderDOListMain.addAll(batchQueryResultMain.getBizOrderDOList());
+						}
 					}
 
 					if (bizOrderDOListMain.size()>0){

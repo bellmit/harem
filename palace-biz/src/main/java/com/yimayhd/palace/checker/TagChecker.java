@@ -16,16 +16,19 @@ public class TagChecker {
 		if (StringUtils.isBlank(tag.getName())) {
 			return CheckResult.error("标签名称不能为空");
 		}
-		return CheckResult.success();
-	}
-
-	public static CheckResult checkLiveTagVOForUpdate(LiveTagVO tag) {
-		if (tag.getId() <= 0) {
-			return CheckResult.error("标签ID不能为0");
+		if (tag.getScore() <= 0) {
+			return CheckResult.error("无效标签序号");
 		}
 		if (StringUtils.isBlank(tag.getName())) {
 			return CheckResult.error("标签名称不能为空");
 		}
 		return CheckResult.success();
+	}
+
+	public static CheckResult checkLiveTagVOForUpdate(LiveTagVO tag) {
+		if (tag.getId() <= 0) {
+			return CheckResult.error("无效标签ID");
+		}
+		return checkLiveTagVOForSave(tag);
 	}
 }

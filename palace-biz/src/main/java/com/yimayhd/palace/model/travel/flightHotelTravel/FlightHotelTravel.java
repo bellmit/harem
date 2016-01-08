@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import com.yimayhd.palace.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.domain.item.HotelShortItem;
 import com.yimayhd.ic.client.model.domain.share_json.FlightDetail;
 import com.yimayhd.ic.client.model.domain.share_json.FlightInfo;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.palace.model.travel.BaseTravel;
 
 /**
  * 自由行
@@ -38,6 +38,8 @@ public class FlightHotelTravel extends BaseTravel {
 
 	@Override
 	public void setRouteInfo(LinePublishDTO dto) {
+		dto.getLineDO().setFlightDetail(null);
+		dto.getLineDO().setFlights(null);
 		if (this.tripPackageInfo.getHasFlight() != 1) {
 			FlightInfo flightInfo = this.tripPackageInfo.getFlightInfo();
 			if (flightInfo != null) {
