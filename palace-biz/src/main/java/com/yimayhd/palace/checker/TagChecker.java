@@ -5,6 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.model.LiveTagVO;
 
+/**
+ * Tag checker
+ * 
+ * @author yebin
+ *
+ */
 public class TagChecker {
 	public static CheckResult checkLiveTagVOForSave(LiveTagVO tag) {
 		if (StringUtils.isBlank(tag.getName())) {
