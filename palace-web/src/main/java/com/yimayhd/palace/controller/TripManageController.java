@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
@@ -187,16 +184,17 @@ public class TripManageController extends BaseController {
 	* @return String 返回类型 
 	* @throws
 	 */
-	@RequestMapping("/block/{id}")
+	@RequestMapping("/setJoinStatus")
 	@ResponseBody
-	public ResponseVo block(long id,int type,int cityCode, HttpServletRequest request){
-		TripBo tripBo = new TripBo();
-		tripBo.setCityCode(cityCode);
+	//public ResponseVo block(@RequestParam("ids[]") List<Long> ids, int status, HttpServletRequest request){
+	public ResponseVo block(@RequestParam("ids") Long ids, int status, HttpServletRequest request){
 		boolean flag = false;
 		try {
-			flag = tripService.blockOrUnBlock(id, cityCode, type);
+			List<Long> listIds = new ArrayList<Long>();
+			listIds.add(ids);
+			flag = tripService.blockOrUnBlock(listIds,status);
 		} catch (Exception e) {
-			logger.error("trip+block,parameter[type]="+type+",cityCode="+cityCode+",id="+id+" |error="+e.toString());
+			logger.error("trip+block,parameter[ids]="+JSON.toJSONString(ids)+",status="+status+" |error="+e.toString());
 		}
 		return new ResponseVo(flag);
 	}
@@ -217,7 +215,8 @@ public class TripManageController extends BaseController {
 		model.addAttribute("tripBo",tripBo);
 		model.addAttribute("isEdit",true);
 		model.addAttribute("cityId",tripBo.getId());
-		
+		model.addAttribute("cityName",tripBo.getCityName());
+
 		return "/system/trip/add_destination/destination_base_info";
 	}
 

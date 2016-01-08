@@ -11,13 +11,13 @@
                 <td><span class="spColor">*</span>产品类型：</td>
                 <td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
             </tr>
-			<tr >
-                <td><span class="spColor">*</span>级别：</td>
-                <td><input type="text" class="form-control int-only orderNum" placeholder="请输入产品名称" value="$!product.baseInfo.orderNum"/></td>
-            </tr>
             <tr >
                 <td><span class="spColor">*</span>产品名称：</td>
                 <td><input type="text" class="form-control productName" placeholder="请输入产品名称" value="$!product.baseInfo.name"/></td>
+            </tr>
+			<tr >
+                <td><span class="spColor">*</span>产品序号：</td>
+                <td><input type="text" class="form-control int-only orderNum" style="width:120px" placeholder="请输入产品序号" value="$!product.baseInfo.orderNum"/></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>产品封面图：</td>

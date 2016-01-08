@@ -39,10 +39,10 @@ public class RecommendedManageController extends BaseController {
 	}
 	
 	@RequestMapping(value="/add",method = RequestMethod.POST)
-	public String add(RegionIntroduceDO RegionIntroduce){
+	public String add(RegionIntroduceDO regionIntroduce){
 		boolean flag = false;
 		try {
-			flag = recommendedService.saveOrUpdate(RegionIntroduce);
+			flag = recommendedService.saveOrUpdate(regionIntroduce);
 			if(flag){
 				return "/success";
 			}
@@ -93,17 +93,19 @@ public class RecommendedManageController extends BaseController {
 	}
 
 	@RequestMapping(value="/edit/{id}",method=RequestMethod.POST)
-	public @ResponseBody ResponseVo edit(Model model, @PathVariable(value = "id") long id,RegionIntroduceDO regionIntroduce){
+	public String  edit(Model model, @PathVariable(value = "id") long id,RegionIntroduceDO regionIntroduce){
 		try {
 			regionIntroduce.setId(id);
 			boolean flag = recommendedService.saveOrUpdate(regionIntroduce);
 			if(flag){
-				return new ResponseVo(ResponseStatus.SUCCESS);
+				return "/success";
+				//return new ResponseVo(ResponseStatus.SUCCESS);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
-		return new ResponseVo(ResponseStatus.ERROR);
+		return "/error";
+		//return new ResponseVo(ResponseStatus.ERROR);
 	}
 	
 }

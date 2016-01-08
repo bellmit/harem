@@ -247,7 +247,7 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/goodsOrder/"+orderId, 3, "订单详情");
+            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/goodsOrder/"+orderId, 2, "商品订单详情");
         });
 
 

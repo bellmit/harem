@@ -71,17 +71,17 @@
             var item = itemList[i];
             resource_table[item.id] = item;
             var tr = $("<tr id='resource_"+item.id+"_"+item.title+"'></tr>");
-            if(item.type=10){
+            if(item.type==10){
                 typeName="必买推荐";
-            }else if(item.type=18){
+            }else if(item.type==18){
                 typeName="概况";
-            }else if(item.type=19){
+            }else if(item.type==19){
                 typeName="民俗";
-            }else if(item.type=20){
+            }else if(item.type==20){
                 typeName="消费";
-            }else if(item.type=21){
+            }else if(item.type==21){
                 typeName="亮点";
-            }else if(item.type=22){
+            }else if(item.type==22){
                 typeName="贴士";
             }
             tr.append($("<td>"+item.title+"</td>"));

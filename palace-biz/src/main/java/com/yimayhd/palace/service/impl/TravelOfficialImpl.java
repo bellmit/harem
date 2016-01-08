@@ -120,6 +120,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
             travelOfficialData.setImgContentJson(snsTravelSpecialtyDO.getImgContentJson() == null ? null :snsTravelSpecialtyDO.getImgContentJson());
             travelOfficialData.setListTravelJsonDO(convertTravelJsonDO(snsTravelSpecialtyDO.getImgContentJson()));
             travelOfficialData.setCreateUserName(getUserName(snsTravelSpecialtyDO.getCreateId()));
+            travelOfficialData.setCreateId(snsTravelSpecialtyDO.getCreateId());
         }
         return travelOfficialData;
     }
