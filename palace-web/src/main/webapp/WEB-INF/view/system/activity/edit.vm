@@ -83,7 +83,7 @@
                             <td><span class="spColor">*</span>活动时间</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityDateStr" value="$!utilDate.dateToString($!{activity.activityDate},"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityDateStr" value="$!utilDate.dateToString($!{activity.activityDate},"yyyy-MM-dd HH:mm")"></div>
                                 </div>
                             </td>
                         </tr>
@@ -91,9 +91,9 @@
                             <td><span class="spColor">*</span>报名时间</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm")"></div>
                                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm:ss")"></div>
+                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm")"></div>
                                 </div>
                             </td>
                         </tr>

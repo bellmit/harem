@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	var checks = {};
 	$(".search").click(function() {
-		pageUtils.request(1, $(".pageSize").val(),{name:$("#itemName").val()});
+		pageUtils.request(1, $(".pageSize").val(),{nickname:$("#itemName").val()});
 	});
 	function initTable() { 
     	$('table.resourceTable').datatable({
@@ -71,7 +71,7 @@
 			resource_table[item.id] = item;
 			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
 			tr.append($("<td>"+item.name+"</td>"));
-			tr.append($("<td>"+item.nickName+"</td>"));
+			tr.append($("<td>"+item.nickname+"</td>"));
             tbody.append(tr);
 		}
 		$(".selectResourceTable").append(table);

@@ -38,7 +38,7 @@
                 </td>
             </tr>
 			<tr>
-                <td><span class="spColor">*</span>订单列表图：</td>
+                <td><span class="spColor">*</span>商品订单图：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input id="orderImageFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>

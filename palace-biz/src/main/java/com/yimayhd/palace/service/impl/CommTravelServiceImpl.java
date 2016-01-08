@@ -8,16 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
-import com.yimayhd.palace.base.BaseException;
-import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.travel.BaseTravel;
-import com.yimayhd.palace.repo.LineRepo;
-import com.yimayhd.palace.repo.TagRepo;
-import com.yimayhd.palace.service.CommTravelService;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.palace.base.BaseException;
+import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.checker.LineChecker;
+import com.yimayhd.palace.checker.result.CheckResult;
+import com.yimayhd.palace.model.travel.BaseTravel;
+import com.yimayhd.palace.repo.LineRepo;
+import com.yimayhd.palace.repo.TagRepo;
+import com.yimayhd.palace.service.CommTravelService;
 
 public class CommTravelServiceImpl implements CommTravelService {
 	protected static final int PICTURE_TOP_SIZE = 6;
@@ -55,16 +57,27 @@ public class CommTravelServiceImpl implements CommTravelService {
 		LinePublishResult publishLine = null;
 		long lineId = travel.getBaseInfo().getId();
 		if (lineId > 0) {
-			LineResult lineResult = lineRepo.getLineById(lineId);
-			publishLine = lineRepo.updateLine(travel.toLinePublishDTOForUpdate(lineResult));
+			CheckResult checkForSave = LineChecker.checkForSave(travel);
+			if (checkForSave.isSuccess()) {
+				LineResult lineResult = lineRepo.getLineById(lineId);
+				publishLine = lineRepo.updateLine(travel.toLinePublishDTOForUpdate(lineResult));
+			} else {
+				throw new BaseException(checkForSave.getMsg());
+			}
 		} else {
-			publishLine = lineRepo.saveLine(travel.toLinePublishDTOForSave());
+			CheckResult checkForUpdate = LineChecker.checkForUpdate(travel);
+			if (checkForUpdate.isSuccess()) {
+				publishLine = lineRepo.saveLine(travel.toLinePublishDTOForSave());
+			} else {
+				throw new BaseException(checkForUpdate.getMsg());
+			}
 		}
 		if (publishLine.getLineId() > 0) {
 			tagRepo.addTagRelation(publishLine.getLineId(), TagType.LINETAG, travel.getTagIdList(),
 					publishLine.getCreateTime());
 		}
 		return publishLine.getLineId();
+
 	}
 
 	@Override

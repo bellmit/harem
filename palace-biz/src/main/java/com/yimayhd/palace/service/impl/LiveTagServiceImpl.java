@@ -60,7 +60,12 @@ public class LiveTagServiceImpl implements LiveTagService {
 				throw new BaseException(checkResult.getMsg());
 			}
 		} else {
-			tagRepo.saveTag(tag.toTagInfo());
+			CheckResult checkResult = TagChecker.checkLiveTagVOForSave(tag);
+			if(checkResult.isSuccess()) {
+				tagRepo.saveTag(tag.toTagInfo());
+			} else {
+				throw new BaseException(checkResult.getMsg());
+			}
 		}
 	}
 }
