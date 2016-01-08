@@ -591,7 +591,7 @@
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var resultValue = win.getTravelKa();
 		 		$("#travelKaTr1").find("#operationContent").val(resultValue.userId);
-              	$("#travelKaTr1").find("#title").val(resultValue.nickName);
+              	$("#travelKaTr1").find("#title").val(resultValue.nickname);
                	$("#travelKaTr1").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
                	$("#travelKaTr1").find("#imgUrl").val(resultValue.avatar);
                	$("#travelKaTr1").find("#itemId").attr("itemId",resultValue.userId);
@@ -602,7 +602,7 @@
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var resultValue = win.getTravelKa();
 		 		$("#travelKaTr2").find("#operationContent").val(resultValue.userId);
-               	$("#travelKaTr2").find("#title").val(resultValue.nickName);
+               	$("#travelKaTr2").find("#title").val(resultValue.nickname);
                	$("#travelKaTr2").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr2").find("#itemId").attr("itemId",resultValue.userId);
                	$("#travelKaTr2").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
@@ -614,7 +614,7 @@
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var resultValue = win.getTravelKa();
 		 		$("#travelKaTr3").find("#operationContent").val(resultValue.userId);
-               	$("#travelKaTr3").find("#title").val(resultValue.nickName);
+               	$("#travelKaTr3").find("#title").val(resultValue.nickname);
                	$("#travelKaTr3").find("#imgUrlShow").attr("src",resultValue.avatar);
                	$("#travelKaTr3").find("#itemId").attr("itemId",resultValue.userId);
                	$("#travelKaTr3").find("#imgUrlShow").attr("src","$utilWebconfig.getTfsRootPath()" +  resultValue.avatar);
