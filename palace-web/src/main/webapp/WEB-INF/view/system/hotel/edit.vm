@@ -198,7 +198,7 @@
                     </td>
                 </tr>*#
                <tr>$!hotel.openTimelist
-                   <td><span class="spColor">*</span>最晚到店时间</td>
+                   <td><span class="spColor">*</span>入离时间</td>
                    <td>
                        <input type="text" name="openTime" value="$!hotel.openTime" class="inpControl openTime" >
                    </td>
@@ -307,7 +307,7 @@
 </div>
 </form>
 <script>
-    //非空验证
+    //验证
     var validate = function(){
         if(!$('.name').val()){
             return '酒店名称不能为空';
@@ -330,14 +330,14 @@
         if(!$('.oneword').val()){
             return '特色描述不能为空';
         }
-        if(!$('.priceY').val() && !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '基础价格最多保留两位小数的正数';
         }
         if($('.facilityCl:checked').length <= 0){
             return '房间设施不能为空';
         }
         if(!$('.openTime').val()){
-            return '房间设施不能为空';
+            return '入离时间不能为空';
         }
         if($('.needKnow').length <= 0){
             return '入住须知不能为空';
