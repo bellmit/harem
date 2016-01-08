@@ -28,6 +28,8 @@ public class OrderDetails {
 
     private int payChannel;
 
+    private String closeReason;
+
     public MainOrder getMainOrder() {
         return mainOrder;
     }
@@ -106,5 +108,13 @@ public class OrderDetails {
 
     public void setPayChannel(int payChannel) {
         this.payChannel = payChannel;
+    }
+
+    public String getCloseReason() {
+        return closeReason;
+    }
+
+    public void setCloseReason(String closeReason) {
+        this.closeReason = closeReason;
     }
 }

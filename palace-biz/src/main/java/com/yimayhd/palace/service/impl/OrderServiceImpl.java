@@ -9,11 +9,9 @@ import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
-import com.yimayhd.tradecenter.client.model.param.order.BuyerConfirmGoodsDTO;
-import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
-import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
-import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
+import com.yimayhd.tradecenter.client.model.param.order.*;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
 import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
@@ -181,7 +179,13 @@ public class OrderServiceImpl implements OrderService {
 				//买家备忘录
 				String buyerMemo = BizOrderUtil.getBuyerMemo(mainOrder.getBizOrderDO());
 				orderDetails.setBuyerMemo(buyerMemo);
+
+				//关闭原因
+				String closeReason = BizOrderUtil.getCloseReason(mainOrder.getBizOrderDO());
+				orderDetails.setCloseReason(closeReason);
+
 				return orderDetails;
+
 			}
 		}catch (Exception e){
 			log.error("public OrderDetails getOrderById(long id);" + e);
@@ -240,7 +244,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public boolean closeOrder(long id) {
 		try {
-			ResultSupport resultSupport = tcTradeServiceRef.closeOrder(id);
+			CloseOrderDTO closeOrderDTO = new CloseOrderDTO();
+			closeOrderDTO.setBizOrderId(id);
+			closeOrderDTO.setCloseOrderReasonId(CloseOrderReason.CLOSE_BY_ADMIN.getType());
+			ResultSupport resultSupport = tcTradeServiceRef.closeOrder(closeOrderDTO);
 			return resultSupport.isSuccess();
 		}catch (Exception e){
 			log.error("tcTradeServiceRef.closeOrder(id);" + e);

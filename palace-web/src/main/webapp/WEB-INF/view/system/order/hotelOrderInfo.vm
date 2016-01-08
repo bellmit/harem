@@ -48,7 +48,13 @@
                 </span>
             #elseif($order.mainOrder.orderShowState == 5)
                 <span>
-                    交易关闭
+                    交易关闭；
+                </span>
+                <span>
+                    关闭时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.bizOrderDO.endTime)
+                </span>
+                <span>
+                    取消原因：$!order.closeReason
                 </span>
             #elseif($order.mainOrder.orderShowState == 6)
                 <span>
