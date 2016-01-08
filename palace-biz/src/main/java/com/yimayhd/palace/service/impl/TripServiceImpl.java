@@ -560,6 +560,7 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public PageVO<RegionIntroduceDO> getPageRegionIntroduceDO(RegionIntroduceQuery regionIntroduceQuery) {
+		regionIntroduceQuery.setNeedCount(true);
 		List<RegionIntroduceDO> list = new ArrayList<RegionIntroduceDO>();
 		int totalCount = 0; 
 		RCPageResult<RegionIntroduceDO> res = regionIntroduceClientServiceRef.queryPageRegionIntroduceList(regionIntroduceQuery);
