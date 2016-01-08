@@ -334,7 +334,20 @@
         </div>
 </div>
 <script>
-	
+	function validateAdvertiseSubmit(trId){
+		var title = $("#" + trId).find("#title").val();
+		if(title.length > 50){
+			alert("标题字数不能超过50个字符!");
+			return false;
+		}
+		var summary = $("#" + trId).find("#summary").val();
+		if(summary.length > 80){
+			alert("副标题字数不能超过80个字符!");
+			return false;
+		}
+		
+		return true;
+	}
 
     $(function(){
     	
@@ -692,6 +705,10 @@
         });
 
         $('#advertisementSubmit').click(function(){
+        	if(!(validateAdvertiseSubmit("leftupTr") && validateAdvertiseSubmit("rightupOneTr") && validateAdvertiseSubmit("rightupTwoTr") && validateAdvertiseSubmit("downOneTr") && validateAdvertiseSubmit("downTwoTr") && validateAdvertiseSubmit("downThreeTr"))){
+        		return ;
+        	}
+        	
 			var advertiseList = new Array()
 			advertiseList[0] = parseAdvertiseForm("leftupTr",1,'ACTIVITY');
 			advertiseList[1] = parseAdvertiseForm("rightupOneTr",2,'ACTIVITY');
