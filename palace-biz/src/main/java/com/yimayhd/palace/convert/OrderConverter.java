@@ -158,11 +158,11 @@ public class OrderConverter {
                     for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
                         SubOrder subOrder =  new SubOrder();
                         subOrder.setBizOrderDO(detailOrder);
-                        if (bizOrderDO.getBizType() == OrderBizType.LINE.getBizType()){
+                        if (bizOrderDO.getBizType() == OrderBizType.LINE.getBizType() ||bizOrderDO.getBizType() == OrderBizType.FLIGHT_HOTEL.getBizType() ||bizOrderDO.getBizType() == OrderBizType.SPOTS_HOTEL.getBizType()){
                             long departDate = BizOrderUtil.getLineDepartDate(detailOrder);
                             subOrder.setExecuteTime(departDate);//出发时间
                             //sku
-                            SkuInfo skuInfo = bizOrderDO.getSkuInfo();
+                            SkuInfo skuInfo = detailOrder.getSkuInfo();
                             if (skuInfo!=null){
                                 List<SkuPropertyInfo> skuPropertyInfoList = skuInfo.getSkuPropertyInfoList();
                                 for (SkuPropertyInfo skuPropertyInfo : skuPropertyInfoList) {
@@ -170,7 +170,6 @@ public class OrderConverter {
                                         subOrder.setvTxt(skuPropertyInfo.getVTxt());
                                     }
                                 }
-
                             }
                         }else if (bizOrderDO.getBizType() == OrderBizType.SPOTS.getBizType()){
                             long spotStartDate = BizOrderUtil.getSpotStartDate(detailOrder);
