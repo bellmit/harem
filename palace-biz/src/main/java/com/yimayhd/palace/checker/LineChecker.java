@@ -1,5 +1,6 @@
 package com.yimayhd.palace.checker;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -10,6 +11,7 @@ import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.model.travel.BaseInfo;
 import com.yimayhd.palace.model.travel.BaseTravel;
+import com.yimayhd.palace.model.travel.PackageBlock;
 import com.yimayhd.palace.model.travel.PackageDay;
 import com.yimayhd.palace.model.travel.PackageInfo;
 import com.yimayhd.palace.model.travel.PackageMonth;
@@ -26,8 +28,8 @@ import com.yimayhd.palace.model.travel.groupTravel.TripDay;
  */
 public class LineChecker {
 	public static <T extends BaseTravel> CheckResult checkForSave(T travel) {
-		if(travel instanceof GroupTravel) {
-			CheckResult checkGroupTravelForSave = checkGroupTravelForSave((GroupTravel)travel);
+		if (travel instanceof GroupTravel) {
+			CheckResult checkGroupTravelForSave = checkGroupTravelForSave((GroupTravel) travel);
 			if (!checkGroupTravelForSave.isSuccess()) {
 				return checkGroupTravelForSave;
 			}
@@ -36,8 +38,8 @@ public class LineChecker {
 	}
 
 	public static <T extends BaseTravel> CheckResult checkForUpdate(T travel) {
-		if(travel instanceof GroupTravel) {
-			CheckResult checkGroupTravelForUpdate = checkGroupTravelForUpdate((GroupTravel)travel);
+		if (travel instanceof GroupTravel) {
+			CheckResult checkGroupTravelForUpdate = checkGroupTravelForUpdate((GroupTravel) travel);
 			if (!checkGroupTravelForUpdate.isSuccess()) {
 				return checkGroupTravelForUpdate;
 			}
@@ -195,8 +197,24 @@ public class LineChecker {
 		return CheckResult.success();
 	}
 
-	public static CheckResult checkPackageDayForSave(PackageDay packageDay) {
-		// TODO YEBIN
+	public static CheckResult checkPackageDayForSave(PackageDay day) {
+		if (day.getTime() <= 0) {
+			return CheckResult.error("无效套餐日期项时间");
+		}
+		List<PackageBlock> blocks = day.getBlocks();
+		if (CollectionUtils.isEmpty(blocks)) {
+			return CheckResult.error("套餐sku不能为空");
+		}
+		for (PackageBlock packageBlock : blocks) {
+			CheckResult checkPackageBlockForSave = checkPackageBlockForSave(packageBlock);
+			if (!checkPackageBlockForSave.isSuccess()) {
+				return checkPackageBlockForSave;
+			}
+		}
+		return PropertyChecker.checkProperty(day.getPId(), day.getPType(), day.getPTxt());
+	}
+
+	public static CheckResult checkPackageBlockForSave(PackageBlock block) {
 		return CheckResult.success();
 	}
 
