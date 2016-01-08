@@ -1,21 +1,24 @@
 package com.yimayhd.palace.checker.result;
 
-public class CheckResult {
-	public static final CheckResult SUCCESS = new CheckResult(true, "验证成功");
-	public static final CheckResult FAILURE = new CheckResult(false, "验证失败");
-	private boolean success;
-	private String msg;
+import com.yimayhd.palace.error.BizErrorCode;
+import com.yimayhd.palace.result.BizResultSupport;
 
-	public CheckResult(boolean success, String msg) {
-		this.success = success;
-		this.msg = msg;
+public class CheckResult extends BizResultSupport {
+	private static final long serialVersionUID = -3672364961175610633L;
+
+	public static CheckResult success() {
+		CheckResult checkResult = new CheckResult();
+		checkResult.initSuccess("验证成功");
+		return checkResult;
 	}
-
-	public String getMsg() {
-		return msg;
+	public static CheckResult failure() {
+		CheckResult checkResult = new CheckResult();
+		checkResult.initFailure(BizErrorCode.ParametersValidateError);
+		return checkResult;
 	}
-
-	public boolean isSuccess() {
-		return success;
+	public static CheckResult failure(String msg) {
+		CheckResult checkResult = failure();
+		checkResult.setMsg(msg);
+		return checkResult;
 	}
 }
