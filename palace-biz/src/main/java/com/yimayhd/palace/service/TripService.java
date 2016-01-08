@@ -170,7 +170,7 @@ public interface TripService {
 	* @return boolean 返回类型 
 	* @throws
 	 */
-	boolean blockOrUnBlock(long id,int cityCode,int type)throws Exception;
+	boolean blockOrUnBlock(List<Long> ids,int status)throws Exception;
 	
 	
 	List<RegionDO> selectRegion(int type);

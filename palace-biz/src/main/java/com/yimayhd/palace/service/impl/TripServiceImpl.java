@@ -582,24 +582,22 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public boolean blockOrUnBlock(long id, int cityCode, int type) throws Exception {
-		RcResult<RegionDO> res = regionClientServiceRef.selectById(id);
-		if (null == res || !res.isSuccess() || null == res.getT()) {
-			throw new Exception("data [RegionDO] not available,id=" + id);
+	public boolean blockOrUnBlock(List<Long> ids,int status) throws Exception {
+		BaseStatus bs = BaseStatus.getByType(status);
+		if(null == bs){
+			throw  new Exception("参数[status="+status+"]非法");
 		}
-		TripBo tripBo = new TripBo();
-		tripBo.setId(id);
-		tripBo.setCityCode(cityCode);
-		if (type == BaseStatus.AVAILABLE.getType()) {
-			tripBo.setStatus(BaseStatus.AVAILABLE.getType());
-		} else {
-			tripBo.setStatus(BaseStatus.DELETED.getType());
+		//把status设置成相反的
+		if(bs.getType()==BaseStatus.AVAILABLE.getType()){
+			status=BaseStatus.DELETED.getType();
+		}else{
+			status=BaseStatus.AVAILABLE.getType();
 		}
-		RegionDO db = saveOrUpdate(tripBo);
-		if (null == db) {
-			return false;
+		int count = regionClientServiceRef.updateRegionByIds(status,ids);
+		if(count >0 ){
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
