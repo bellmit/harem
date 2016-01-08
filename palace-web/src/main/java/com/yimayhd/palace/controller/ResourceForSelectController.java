@@ -274,8 +274,11 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryTravelKaForSelect")
-	public @ResponseBody ResponseVo queryTravelKaForSelect(UserDOPageQuery query) {
+	public @ResponseBody ResponseVo queryTravelKaForSelect(UserDOPageQuery query,Integer pageNumber) {
 		try {
+			if(pageNumber != null){
+				query.setPageNo(pageNumber);
+			}
 			query.setOptions(UserOptions.TRAVEL_KA.getLong());
 			PageVO<UserDO>  pageVo = userService.getTravelKaListByPage(query);
 			Map<String, Object> result = new HashMap<String, Object>();
