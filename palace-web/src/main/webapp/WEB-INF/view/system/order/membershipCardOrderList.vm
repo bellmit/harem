@@ -238,7 +238,7 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/membershipCardOrder/"+orderId, 3, "订单详情");
+            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/membershipCardOrder/"+orderId, 2, "会员订单详情");
         });
 
 

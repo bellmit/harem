@@ -10,6 +10,7 @@ public class SubOrder {
     private long startTime;
     private long endTime;
     private long executeTime;
+    private String vTxt;
 
     public SubOrder(){}
 
@@ -58,5 +59,13 @@ public class SubOrder {
 
     public void setExecuteTime(long executeTime) {
         this.executeTime = executeTime;
+    }
+
+    public String getvTxt() {
+        return vTxt;
+    }
+
+    public void setvTxt(String vTxt) {
+        this.vTxt = vTxt;
     }
 }

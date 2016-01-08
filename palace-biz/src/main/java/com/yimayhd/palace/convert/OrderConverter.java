@@ -7,6 +7,8 @@ import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.SubOrder;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
+import com.yimayhd.tradecenter.client.model.domain.order.SkuPropertyInfo;
 import com.yimayhd.tradecenter.client.model.enums.*;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
@@ -159,6 +161,17 @@ public class OrderConverter {
                         if (bizOrderDO.getBizType() == OrderBizType.LINE.getBizType()){
                             long departDate = BizOrderUtil.getLineDepartDate(detailOrder);
                             subOrder.setExecuteTime(departDate);//出发时间
+                            //sku
+                            SkuInfo skuInfo = bizOrderDO.getSkuInfo();
+                            if (skuInfo!=null){
+                                List<SkuPropertyInfo> skuPropertyInfoList = skuInfo.getSkuPropertyInfoList();
+                                for (SkuPropertyInfo skuPropertyInfo : skuPropertyInfoList) {
+                                    if (skuPropertyInfo.getPId() == 2){
+                                        subOrder.setvTxt(skuPropertyInfo.getVTxt());
+                                    }
+                                }
+
+                            }
                         }else if (bizOrderDO.getBizType() == OrderBizType.SPOTS.getBizType()){
                             long spotStartDate = BizOrderUtil.getSpotStartDate(detailOrder);
                             subOrder.setExecuteTime(spotStartDate);//入院时间
