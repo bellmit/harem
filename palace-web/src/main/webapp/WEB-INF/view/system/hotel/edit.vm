@@ -47,7 +47,7 @@
 					#if($!{hotel.id})
 						<input type="hidden" name="id" value="$!{hotel.id}">
 					#end
-                    <td><input type="text" class="inpControl" name="name" placeholder="请输入20个字以内" value="$!{hotel.name}"></td>
+                    <td><input type="text" class="inpControl name" name="name" placeholder="请输入20个字以内" value="$!{hotel.name}"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>选择地址</td>
@@ -108,13 +108,13 @@
                 <tr>
                     <td><span class="spColor">*</span>特色描述</td>
                     <td>
-                        <textarea name="oneword" rows="3" class="form-control" placeholder="请输入80字以内">$!hotel.oneword</textarea>
+                        <textarea name="oneword" rows="3" class="form-control oneword" placeholder="请输入80字以内">$!hotel.oneword</textarea>
                     </td>
                 </tr>
 
                 <tr>
                     <td><span class="spColor">*</span>基础价格<br/>(单位：元)</td>
-                    <td><input type="text" name="priceY" value="$!utilNum.moneyTransform($!hotel.price)" class="inpControl" >起</td>
+                    <td><input type="text" name="priceY" value="$!utilNum.moneyTransform($!hotel.price)" class="inpControl priceY" >起</td>
                 </tr>
                 <tr>
                     <td>酒店联系人</td>
@@ -200,7 +200,7 @@
                <tr>$!hotel.openTimelist
                    <td><span class="spColor">*</span>最晚到店时间</td>
                    <td>
-                       <input type="text" name="openTime" value="$!hotel.openTime" class="inpControl" >
+                       <input type="text" name="openTime" value="$!hotel.openTime" class="inpControl openTime" >
                    </td>
                </tr>
                 <tr>
@@ -246,8 +246,17 @@
                             <span id="recommendNameT">#if(! $recommend.name)#else$!recommend.name#end</span>
                             <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
-                            <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
-                            <input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
+                            #if($!{recommend.id})
+                                <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
+                            #else
+                                <input type="hidden" id="recommendId" name="recommend.id" value="0" >
+                            #end
+                            #if($!{recommend.userId})
+                                <input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
+                            #else
+                                <input type="hidden" id="recommendUserId" name="recommend.userId" value="0" >
+                            #end
+
                             <input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}" >
                             <input type="hidden" id="recommendName" name="recommend.name" value="$!{recommend.name}" >
                         </td>
@@ -300,21 +309,57 @@
 <script>
     //非空验证
     var validate = function(){
-        var flag = true;
-        var msg = '';
-        if(!$('input[name=title]')){
-            flag = false;
-            msg = '';
+        if(!$('.name').val()){
+            return '酒店名称不能为空';
         }
-        if(!flag){
-            layer.msg('操作失败', {
-                icon: 2,
-                time: 2000
+        if(!$('.provinceSelect').val() || $('.provinceSelect').val() == '0'){
+            return '省份不能为空';
+        }
+        if(!$('.citySelect').val() || $('.citySelect').val() == '0'){
+            return '城市不能为空';
+        }
+        if(!$('.countySelect').val() || $('.countySelect').val() == '0'){
+            return '地区不能为空';
+        }
+        if(!$('#locationX').val() || !$('#locationY').val() || !/^[0-9]+.?[0-9]*$/.test($('#locationX').val()) || !/^[0-9]+.?[0-9]*$/.test($('#locationY').val())){
+            return '地址经纬度格式不正确';
+        }
+        if(!$('#grogDescr').val()){
+            return '酒店简介不能为空';
+        }
+        if(!$('.oneword').val()){
+            return '特色描述不能为空';
+        }
+        if(!$('.priceY').val() && !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+            return '基础价格最多保留两位小数的正数';
+        }
+        if($('.facilityCl:checked').length <= 0){
+            return '房间设施不能为空';
+        }
+        if(!$('.openTime').val()){
+            return '房间设施不能为空';
+        }
+        if($('.needKnow').length <= 0){
+            return '入住须知不能为空';
+        }else{
+            var msg;
+            $('.needKnow').each(function(){
+                if(!$(this).find('.extra-info-item-title').val() || !$(this).find('.extra-info-item-text').val()){
+                    msg = '入住须知不能为空';
+                }
+                return;
             });
+            if(msg){
+                return msg;
+            }
         }
-        return true;
+        if(!$('#logoUrlUploadFileReturnImg').attr('src')){
+            return '列表页展示图不能为空';
+        }
+        if($('.hotelPicUrlsTd .uploadImgFile').length <= 0){
+            return '详情页展示图不能为空';
+        }
     }
-
     //表单验
 	var provinceFlag = false;
 	var cityFlag = false;
@@ -446,85 +491,93 @@
         })
 
 		$('#btnSubmit').click(function(){
-
-                // 房间设施 roomFacility
-                var facilityId = 1;
-                var roomFacilityStr = '';
-                while (true) {
-
-                    if ($("#roomFacility"+facilityId).length == 0) {
-                        facilityId = 1;
-                        break;
-                    } else {
-                        roomFacilityStr += $("#roomFacility"+facilityId).val();
-                        facilityId ++;
-                    }
-
-                }
-
-                $("#roomFacilityStrId").attr('value', roomFacilityStr);
-
-                // 特色服务 roomService
-                var roomServiceStr = '';
-                while (true) {
-
-                    if ($("#roomService"+facilityId).length == 0) {
-                        facilityId = 1;
-                        break;
-                    } else {
-                        roomServiceStr += $("#roomService"+facilityId).val();
-                        facilityId ++;
-                    }
-
-                }
-
-                $("#roomServiceStrId").val(roomServiceStr);
-
-                // 酒店设施 roomFacility
-                var hotelFacilityStr = '';
-                while (true) {
-
-                    if ($("#hotelFacility"+facilityId).length == 0) {
-                        facilityId = 1;
-                        break;
-                    } else {
-                        hotelFacilityStr += $("#hotelFacility"+facilityId).val();
-                        facilityId ++;
-                    }
-
-                }
-
-                $("#hotelFacilityStrId").val(hotelFacilityStr);
-                //条目
-                var needKnowFrontNeedKnowArr = new Array();
-                $('.needKnow').each(function(){
-                    var title = $(this).find('.extra-info-item-title').val();
-                    var content = $(this).find('.extra-info-item-text').val();
-                    if(title || content){
-                        needKnowFrontNeedKnowArr.push({'title':title,'content':content});
-                    }
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
                 });
-                $('.needKnowFrontNeedKnowStr').val(JSON.stringify(needKnowFrontNeedKnowArr));
-                //列表长图片
-                var picUrls = '';
-                $('.hotelPicUrlsUrl').each(function(){
-                    if(picUrls){
-                        picUrls += '|' + $(this).attr('imgUrl');
-                    }else{
-                        picUrls += $(this).attr('imgUrl');
-                    }
-                });
-                $('.hotelPicUrlsVal').val(picUrls);
+                return false;
+            }
+            // 房间设施 roomFacility
+            var facilityId = 1;
+            var roomFacilityStr = '';
+            while (true) {
 
-                var actionUrl;
-                var hotelId = $('#hotelForm').attr('hotelId');
-                if (hotelId) {
-                    actionUrl = actionDefaultPath + '/B2C/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+                if ($("#roomFacility"+facilityId).length == 0) {
+                    facilityId = 1;
+                    break;
                 } else {
-                    actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
+                    roomFacilityStr += $("#roomFacility"+facilityId).val();
+                    facilityId ++;
                 }
-                $('#hotelForm').attr('action', actionUrl);
-                $('#hotelForm').submit();
+
+            }
+
+            $("#roomFacilityStrId").attr('value', roomFacilityStr);
+
+            // 特色服务 roomService
+            var roomServiceStr = '';
+            while (true) {
+
+                if ($("#roomService"+facilityId).length == 0) {
+                    facilityId = 1;
+                    break;
+                } else {
+                    roomServiceStr += $("#roomService"+facilityId).val();
+                    facilityId ++;
+                }
+
+            }
+
+            $("#roomServiceStrId").val(roomServiceStr);
+
+            // 酒店设施 roomFacility
+            var hotelFacilityStr = '';
+            while (true) {
+
+                if ($("#hotelFacility"+facilityId).length == 0) {
+                    facilityId = 1;
+                    break;
+                } else {
+                    hotelFacilityStr += $("#hotelFacility"+facilityId).val();
+                    facilityId ++;
+                }
+
+            }
+
+            $("#hotelFacilityStrId").val(hotelFacilityStr);
+            //条目
+            var needKnowFrontNeedKnowArr = new Array();
+            $('.needKnow').each(function(){
+                var title = $(this).find('.extra-info-item-title').val();
+                var content = $(this).find('.extra-info-item-text').val();
+                if(title || content){
+                    needKnowFrontNeedKnowArr.push({'title':title,'content':content});
+                }
+            });
+            $('.needKnowFrontNeedKnowStr').val(JSON.stringify(needKnowFrontNeedKnowArr));
+            //列表长图片
+            var picUrls = '';
+            $('.hotelPicUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.hotelPicUrlsVal').val(picUrls);
+
+            var actionUrl;
+            var hotelId = $('#hotelForm').attr('hotelId');
+            if (hotelId) {
+                actionUrl = actionDefaultPath + '/B2C/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+            } else {
+                actionUrl = actionDefaultPath + '/B2C/hotelManage/add';
+            }
+            $('#hotelForm').attr('action', actionUrl);
+            $('#hotelForm').submit();
         });
     });
 </script>

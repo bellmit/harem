@@ -100,6 +100,10 @@ public class HotelVO extends HotelDO implements Serializable {
             List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
             hotelDO.setPhoneNum(phoneNumList);
         }
+        //大咖推荐不必填
+        if(hotelVO.getRecommend() != null && 0 == hotelVO.getRecommend().getId()){
+            hotelDO.setRecommend(null);
+        }
         //图片集处理(因为有outId还是,只处理新增的)
         //列表长图片处理
         hotelDO.setPicturesString(hotelVO.getPicturesStr());
