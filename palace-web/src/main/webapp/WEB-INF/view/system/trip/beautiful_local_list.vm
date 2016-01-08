@@ -33,12 +33,14 @@
 		 	<div class="btn-group">
             	<button type="submit" class="btn btn-add">新增目的地</button>
             </div>
-            <div class="btn-group">
+           #*
+           *  <div class="btn-group">
             	<button type="submit" class="btn btn-unblock">批量启用</button>
             </div>
            	<div class="btn-group">
             	<button type="submit" class="btn btn-block">批量停用</button>
             </div>	
+           * *#
 		 </div>
 		
         <div class="tableGroup whole">
