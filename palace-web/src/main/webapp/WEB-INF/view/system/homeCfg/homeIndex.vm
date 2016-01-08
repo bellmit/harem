@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <style>
     .fileImgWrap .fileInp {margin-top: -7px;}
 </style>
@@ -764,7 +765,29 @@
    }
     
   function _uploadImg(id){
+ 	 $(document).delegate('#logoUrlUploadFile','change',function(){
+            fileUpload('#logoUrlUploadFile',1,function(data){
+                if(data && data.status==200){
+                    $('#logoUrlUploadFileReturnInput').val(data.data);
+                    $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });
+  	
 	 $(document).delegate('#'+id,'change',function(){
+	 		fileUpload('#' + id,1,function (data,status){
+	 			if(data && data.status==200){
+                       var tfsPath = '$utilWebconfig.getTfsRootPath()';
+					   $('#'+id).parent().next().find("img").attr("src",tfsPath + data.data)
+                       $('#'+id).parent().find("#imgUrl").val(data.data);
+                    }else{
+                        layer.alert('上传失败');
+                    }
+	 		} );
+
+	 		/**	
             $.ajaxFileUpload({
                 url: '/upload/file', //用于文件上传的服务器端请求地址
                 secureuri: false, //是否需要安全协议，一般设置为false
@@ -773,6 +796,7 @@
                 success: function (data,status)  //服务器成功响应处理函数
                 {
                     if(data && data.status==200){
+                    	
                         var tfsPath = '$utilWebconfig.getTfsRootPath()';
 						$('#'+id).parent().next().find("img").attr("src",tfsPath + data.data)
                        $('#'+id).parent().find("#imgUrl").val(data.data);
@@ -787,6 +811,7 @@
                     layer.alert('服务器异常');
                 }
             });
+            */   
         });
 }
 </script>

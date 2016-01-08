@@ -10,11 +10,11 @@
         <table class="table">
             <tr>
                 <td><span class="spColor">*</span>俱乐部名称</td>
-                <td><input type="text" class="form-control" placeholder="请输入4个字以内" id="clubNameId" name="clubName" value="$!club.clubName"></td>
+                <td><input type="text" class="form-control" placeholder="请输入2-20个字以内" id="clubNameId" name="clubName" value="$!club.clubName"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>俱乐部描述</td>
-                <td><input type="text" class="form-control" placeholder="请输入15个字以内" id="clubDesId" name="clubDes" value="$!club.clubDes"></td>
+                <td><input type="text" class="form-control" placeholder="请输入2-15个字以内" id="clubDesId" name="clubDes" value="$!club.clubDes"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>创建时间</td>
