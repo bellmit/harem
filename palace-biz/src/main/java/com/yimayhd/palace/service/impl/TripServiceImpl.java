@@ -406,7 +406,11 @@ public class TripServiceImpl implements TripService {
 						tripBo.setZhiBo(getRelevanceItemIds(liangDianList));
 						tripBo.setLiveSubhead(boothDO.getDesc());
 					}
-
+					if(ColumnType.MUST_LINE.getType() == type){//必体验线路
+						List biTiYanList = boothShowResult.getShowcaseDOList();
+						tripBo.setZhiBo(getRelevanceItemIds(biTiYanList));
+						tripBo.setLineSubhead(boothDO.getDesc());
+					}
 				}
 
 			}
