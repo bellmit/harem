@@ -30,7 +30,7 @@ public class LineChecker {
 		if(!checkPriceInfoForSave.isSuccess()) {
 			return checkPriceInfoForSave;
 		}
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 
 	public static CheckResult checkForUpdate(FlightHotelTravel fht) {
@@ -46,7 +46,7 @@ public class LineChecker {
 		if(!checkPriceInfoForUpdate.isSuccess()) {
 			return checkPriceInfoForUpdate;
 		}
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 
 	public static CheckResult checkBaseInfoForSave(BaseInfo baseInfo) {
@@ -57,35 +57,35 @@ public class LineChecker {
 		baseInfo.getOrderImage();
 		baseInfo.getTags();
 		baseInfo.getClass();
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 
 	public static CheckResult checkBaseInfoForUpdate(BaseInfo baseInfo) {
 		
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 	
 	public static CheckResult checkPriceInfoForSave(PriceInfo priceInfo) {
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 
 	public static CheckResult checkPriceInfoForUpdate(PriceInfo priceInfo) {
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 	
 	public static CheckResult checkTripInfoForSave(List<TripDay> tripInfo) {
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 	
 	public static CheckResult checkTripInfoForUpdate(List<TripDay> tripInfo) {
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 	
 	public static CheckResult checkTripPackageInfoForSave(TripPackageInfo tripPackageInfo) {
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 	
 	public static CheckResult checkTripPackageInfoForUpdate(TripPackageInfo tripPackageInfo) {
-		return CheckResult.SUCCESS;
+		return CheckResult.success();
 	}
 }

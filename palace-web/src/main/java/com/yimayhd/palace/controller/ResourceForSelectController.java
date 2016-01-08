@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.yimayhd.palace.base.*;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.domain.RestaurantDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.query.LinePageQuery;
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
+import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
+import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseQuery;
+import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.ActivityListQuery;
 import com.yimayhd.palace.model.query.CommodityListQuery;
@@ -30,15 +41,6 @@ import com.yimayhd.palace.service.RestaurantService;
 import com.yimayhd.palace.service.ScenicService;
 import com.yimayhd.palace.service.TripService;
 import com.yimayhd.palace.service.UserRPCService;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.ic.client.model.domain.RestaurantDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
-import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.query.LinePageQuery;
-import com.yimayhd.membercenter.client.domain.TravelKaVO;
-import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
@@ -83,11 +85,16 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/queryRestaurantForSelect")
 	public @ResponseBody ResponseVo queryRestaurantForSelect(RestaurantListQuery query) {
-		PageVO<RestaurantDO> pageVo = restaurantService.pageQueryRestaurant(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
+		try {
+			PageVO<RestaurantDO> pageVo = restaurantService.pageQueryRestaurant(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -97,7 +104,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectRestaurant")
-	public String selectRstaurant() throws Exception {
+	public String selectRstaurant() {
 		return "/system/resource/forSelect/selectRestaurant";
 	}
 
@@ -112,12 +119,16 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/queryScenicForSelect")
 	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicListQuery scenicPageQuery)
 			throws Exception {
-
-		PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", scenicPageQuery);
-		return new ResponseVo(result);
+		try {
+			PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", scenicPageQuery);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -127,7 +138,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectScenic")
-	public String selectScenic() throws Exception {
+	public String selectScenic() {
 		return "/system/resource/forSelect/selectScenic";
 	}
 
@@ -138,7 +149,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneScenic")
-	public String selectOneScenic() throws Exception {
+	public String selectOneScenic() {
 		return "/system/resource/forSelect/selectOneScenic";
 	}
 
@@ -149,7 +160,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneActivityComm")
-	public String selectOneActivityComm(Model model) throws Exception {
+	public String selectOneActivityComm(Model model) {
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("itemTypeList", itemTypeList);
 		return "/system/resource/forSelect/selectOneActivityComm";
@@ -166,13 +177,18 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/queryActivityComm")
 	public @ResponseBody ResponseVo queryScenicForSelect(Model model, CommodityListQuery commodityListQuery)
 			throws Exception {
-		PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
-		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("itemTypeList", itemTypeList);
-		result.put("pageVo", pageVO);
-		result.put("query", commodityListQuery);
-		return new ResponseVo(result);
+		try {
+			PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
+			List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("itemTypeList", itemTypeList);
+			result.put("pageVo", pageVO);
+			result.put("query", commodityListQuery);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -182,12 +198,17 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryHotelForSelect")
-	public @ResponseBody ResponseVo queryHotelForSelect(HotelListQuery query) throws Exception {
-		PageVO<HotelDO> pageVo = hotelService.pageQueryHotel(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
+	public @ResponseBody ResponseVo queryHotelForSelect(HotelListQuery query) {
+		try {
+			PageVO<HotelDO> pageVo = hotelService.pageQueryHotel(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -197,7 +218,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectHotel")
-	public String selectHotel() throws Exception {
+	public String selectHotel() {
 		return "/system/resource/forSelect/selectHotel";
 	}
 
@@ -208,15 +229,20 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryUserForSelect")
-	public @ResponseBody ResponseVo queryUserForSelect(UserDOPageQuery query, Integer pageNumber) throws Exception {
-		if (pageNumber != null) {
-			query.setPageNo(pageNumber);
+	public @ResponseBody ResponseVo queryUserForSelect(UserDOPageQuery query, Integer pageNumber) {
+		try {
+			if (pageNumber != null) {
+				query.setPageNo(pageNumber);
+			}
+			PageVO<UserDO> pageVo = userService.getUserListByPage(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		PageVO<UserDO> pageVo = userService.getUserListByPage(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
 	}
 
 	/**
@@ -226,7 +252,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneUser")
-	public String selectOneUser() throws Exception {
+	public String selectOneUser() {
 		return "/system/resource/forSelect/selectOneUser";
 	}
 
@@ -237,7 +263,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectUser")
-	public String selectUser() throws Exception {
+	public String selectUser() {
 		return "/system/resource/forSelect/selectUser";
 	}
 
@@ -248,17 +274,18 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryTravelKaForSelect")
-	public @ResponseBody ResponseVo queryTravelKaForSelect(UserDOPageQuery query) throws Exception {
-		Integer pageNumber = getInteger("pageNumber");
-		if (pageNumber != null) {
-			query.setPageNo(pageNumber);
+	public @ResponseBody ResponseVo queryTravelKaForSelect(UserDOPageQuery query) {
+		try {
+			query.setOptions(UserOptions.TRAVEL_KA.getLong());
+			PageVO<UserDO>  pageVo = userService.getTravelKaListByPage(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		query.setOptions(UserOptions.TRAVEL_KA.getOption());
-		BasePageResult<UserDO> pageVo = userService.getTravelKaListByPage(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
 	}
 
 	/**
@@ -268,7 +295,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneTravelKa")
-	public String selectOneTravelKa() throws Exception {
+	public String selectOneTravelKa() {
 		return "/system/resource/forSelect/selectOneTravelKa";
 	}
 
@@ -279,65 +306,75 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectTravelKa")
-	public String selectTravelKa() throws Exception {
+	public String selectTravelKa() {
 		return "/system/resource/forSelect/selectTravelKa";
 	}
 
 	@RequestMapping(value = "/selectMustBuy")
-	public String selectMustBuy() throws Exception {
+	public String selectMustBuy() {
 		return "/system/resource/forSelect/selectMustBuy";
 	}
 
 	/**
 	 * @Title: listMustBuy @Description:(获取买必推荐列表) @author create by
-	 * yushengwei @ 2015年12月27日 下午4:23:41 @param @param
-	 * regionIntroduceQuery @param @return @param @throws Exception @return
-	 * ResponseVo 返回类型 @throws
+	 *         yushengwei @ 2015年12月27日 下午4:23:41 @param @param
+	 *         regionIntroduceQuery @param @return @param @throws
+	 *         Exception @return ResponseVo 返回类型 @throws
 	 */
 	@RequestMapping(value = "/listMustBuy")
 	public @ResponseBody ResponseVo listMustBuy(RegionIntroduceQuery query, Integer pageNumber, Integer pageSize)
 			throws Exception {
-		if (pageNumber != null) {
-			query.setPageNo(pageNumber);
-		} else {
-			query.setPageNo(BaseQuery.DEFAULT_PAGE);
+		try {
+			if (pageNumber != null) {
+				query.setPageNo(pageNumber);
+			} else {
+				query.setPageNo(BaseQuery.DEFAULT_PAGE);
+			}
+			if (pageSize != null) {
+				query.setPageSize(pageSize);
+			} else {
+				query.setPageSize(BaseQuery.DEFAULT_SIZE);
+			}
+			PageVO<RegionIntroduceDO> pageVo = tripService.getPageRegionIntroduceDO(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		if (pageSize != null) {
-			query.setPageSize(pageSize);
-		} else {
-			query.setPageSize(BaseQuery.DEFAULT_SIZE);
-		}
-		PageVO<RegionIntroduceDO> pageVo = tripService.getPageRegionIntroduceDO(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
 	}
 
 	@RequestMapping(value = "/selectLive")
-	public String selectLive() throws Exception {
+	public String selectLive() {
 		return "/system/resource/forSelect/selectLive";
 	}
 
 	@RequestMapping(value = "/listLive")
 	public @ResponseBody ResponseVo listLive(SubjectInfoDTO query, Integer pageNumber, Integer pageSize)
 			throws Exception {
-		if (pageNumber != null) {
-			query.setPageNo(pageNumber);
-		} else {
-			query.setPageNo(BaseQuery.DEFAULT_PAGE);
-		}
-		if (pageSize != null) {
-			query.setPageSize(pageSize);
-		} else {
-			query.setPageSize(BaseQuery.DEFAULT_SIZE);
-		}
+		try {
+			if (pageNumber != null) {
+				query.setPageNo(pageNumber);
+			} else {
+				query.setPageNo(BaseQuery.DEFAULT_PAGE);
+			}
+			if (pageSize != null) {
+				query.setPageSize(pageSize);
+			} else {
+				query.setPageSize(BaseQuery.DEFAULT_SIZE);
+			}
 
-		PageVO<SnsSubjectDO> pageVo = tripService.getPageSnsSubjectDO(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
+			PageVO<SnsSubjectDO> pageVo = tripService.getPageSnsSubjectDO(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -347,7 +384,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectline")
-	public String selectOneTravelProduct() throws Exception {
+	public String selectOneTravelProduct() {
 		return "/system/resource/forSelect/selectLine";
 	}
 
@@ -359,22 +396,28 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryTravelProductForSelect")
-	public @ResponseBody ResponseVo queryTravelProductForSelect(LinePageQuery query) throws Exception {
-		Integer pageNumber = getInteger("pageNumber");
-		if (pageNumber != null) {
-			query.setPageNo(pageNumber);
+	public @ResponseBody ResponseVo queryTravelProductForSelect(LinePageQuery query) {
+		try {
+			Integer pageNumber = getInteger("pageNumber");
+			if (pageNumber != null) {
+				query.setPageNo(pageNumber);
+			}
+			if (StringUtils.isEmpty(query.getTags())) {
+				query.setTags(null);
+			}
+			// PageVO<TravelKaVO> pageVo =
+			// userService.getTravelKaListByPage(query);
+			query.setNeedCount(true);
+			query.setStatus(ItemStatus.valid.getValue());
+			PageVO<LineDO> pageVo = travelService.pageQueryLine(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		if(StringUtils.isEmpty(query.getTags())){
-			query.setTags(null);
-		}
-		// PageVO<TravelKaVO> pageVo = userService.getTravelKaListByPage(query);
-		query.setNeedCount(true);
-		query.setStatus(ItemStatus.valid.getValue());
-		PageVO<LineDO> pageVo = travelService.pageQueryLine(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
 	}
 
 	/**
@@ -384,7 +427,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectOneActivity")
-	public String selectOneActivity() throws Exception {
+	public String selectOneActivity() {
 		return "/system/resource/forSelect/selectOneActivity";
 	}
 
@@ -395,7 +438,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectActivity")
-	public String selectActivity() throws Exception {
+	public String selectActivity() {
 		return "/system/resource/forSelect/selectActivity";
 	}
 
@@ -406,19 +449,21 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryActivityForSelect")
-	public @ResponseBody ResponseVo queryActivityForSelect(ActivityListQuery query) throws Exception {
-		
-		PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(query);
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pageVo", pageVo);
-		result.put("query", query);
-		return new ResponseVo(result);
+	public @ResponseBody ResponseVo queryActivityForSelect(ActivityListQuery query) {
+		try {
+			PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(query);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("pageVo", pageVo);
+			result.put("query", query);
+			return new ResponseVo(result);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
-	
-
 	@RequestMapping(value = "/selectLightSpot")
-	public String selectLightSpot() throws Exception {
+	public String selectLightSpot() {
 		return "/system/resource/forSelect/selectLightSpot";
 	}
 

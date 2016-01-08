@@ -60,7 +60,7 @@ public interface UserRPCService {
 	 * @return
 	 * @throws Exception
 	 */
-	BasePageResult<UserDO>  getTravelKaListByPage(UserDOPageQuery query);
+	PageVO<UserDO>  getTravelKaListByPage(UserDOPageQuery query) throws Exception;
 
 	/**
 	 * 获取旅游咖详细信息

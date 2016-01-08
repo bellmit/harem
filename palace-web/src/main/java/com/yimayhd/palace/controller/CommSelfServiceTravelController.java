@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.palace.base.BaseTravelController;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.B2CConstant;
@@ -18,7 +19,6 @@ import com.yimayhd.palace.model.travel.flightHotelTravel.FlightHotelTravel;
 import com.yimayhd.palace.service.CommTravelService;
 import com.yimayhd.palace.service.FlightRPCService;
 import com.yimayhd.palace.service.TfsService;
-import com.yimayhd.ic.client.model.enums.LineType;
 
 /**
  * 商品-自由行
@@ -127,18 +127,23 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 */
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
-		FlightHotelTravel sst = JSON.parseObject(json, FlightHotelTravel.class);
-		if (StringUtils.isNotBlank(importantInfos)) {
-			String importantInfosCode = tfsService.publishHtml5(importantInfos);
-			sst.getPriceInfo().setImportantInfosCode(importantInfosCode);
-		} else {
-			sst.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
+		try {
+			FlightHotelTravel sst = JSON.parseObject(json, FlightHotelTravel.class);
+			if (StringUtils.isNotBlank(importantInfos)) {
+				String importantInfosCode = tfsService.publishHtml5(importantInfos);
+				sst.getPriceInfo().setImportantInfosCode(importantInfosCode);
+			} else {
+				sst.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
+			}
+			if (StringUtils.isNotBlank(extraInfos)) {
+				String extraInfosCode = tfsService.publishHtml5(extraInfos);
+				sst.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
+			}
+			long id = flightHotelTravelService.publishLine(sst);
+			return ResponseVo.success(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		if (StringUtils.isNotBlank(extraInfos)) {
-			String extraInfosCode = tfsService.publishHtml5(extraInfos);
-			sst.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
-		}
-		long id = flightHotelTravelService.publishLine(sst);
-		return new ResponseVo(id);
 	}
 }

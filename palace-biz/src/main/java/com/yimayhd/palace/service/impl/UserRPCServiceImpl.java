@@ -98,6 +98,9 @@ public class UserRPCServiceImpl implements UserRPCService {
 		UserDOPageQuery userDOPageQuery = new UserDOPageQuery();
 		userDOPageQuery.setPageSize(query.getPageSize());
 		userDOPageQuery.setPageNo(query.getPageNo());
+		if(StringUtils.isNotBlank(query.getNickname())){
+			userDOPageQuery.setNickname(query.getNickname());
+		}
 		BasePageResult<UserDO> result = userServiceRef.findPageResultByCondition(userDOPageQuery);
 		int totalCount = 0;
 		List<UserDO> itemList = new ArrayList<UserDO>();
@@ -121,8 +124,28 @@ public class UserRPCServiceImpl implements UserRPCService {
 	}
 
 	@Override
-	public BasePageResult<UserDO>  getTravelKaListByPage(UserDOPageQuery query) {
-		return userServiceRef.findPageResultByCondition(query);
+	public  PageVO<UserDO>  getTravelKaListByPage(UserDOPageQuery query) throws Exception{
+		UserDOPageQuery userDOPageQuery = new UserDOPageQuery();
+		userDOPageQuery.setPageSize(query.getPageSize());
+		//userDOPageQuery.setStartIndex(new Long(query.getPageSize()));
+		userDOPageQuery.setPageNo(query.getPageNo());
+		if(StringUtils.isNotBlank(query.getNickname())){
+			userDOPageQuery.setLikeNickname(query.getNickname());
+		}
+		BasePageResult<UserDO> result = userServiceRef.findPageResultByCondition(userDOPageQuery);
+		int totalCount = 0;
+		List<UserDO> itemList = new ArrayList<UserDO>();
+		if (result != null && result.isSuccess()) {
+			totalCount = result.getTotalCount();
+			if (CollectionUtils.isNotEmpty(result.getList())) {
+				itemList.addAll(result.getList());
+			}
+		} else {
+			log.error("查询用户列表失败：query={}", JSON.toJSONString(query));
+			log.error("查询用户列表失败：result={}", JSON.toJSONString(result));
+			throw new BaseException("查询用户列表失败");
+		}
+		return new PageVO<UserDO>(query.getPageNo(), query.getPageSize(), totalCount, itemList);
 	}
 
 	@Override

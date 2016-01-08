@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.palace.base.BaseTravelController;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.B2CConstant;
@@ -18,7 +19,6 @@ import com.yimayhd.palace.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.palace.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.palace.service.CommTravelService;
 import com.yimayhd.palace.service.TfsService;
-import com.yimayhd.ic.client.model.enums.LineType;
 
 /**
  * 商品-跟团游
@@ -90,20 +90,25 @@ public class CommGroupTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
-		GroupTravel gt = (GroupTravel) JSONObject.parseObject(json, GroupTravel.class);
-		if (StringUtils.isNotBlank(importantInfos)) {
-			String importantInfosCode = tfsService.publishHtml5(importantInfos);
-			gt.getPriceInfo().setImportantInfosCode(importantInfosCode);
-		} else {
-			gt.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
+	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) {
+		try {
+			GroupTravel gt = (GroupTravel) JSONObject.parseObject(json, GroupTravel.class);
+			if (StringUtils.isNotBlank(importantInfos)) {
+				String importantInfosCode = tfsService.publishHtml5(importantInfos);
+				gt.getPriceInfo().setImportantInfosCode(importantInfosCode);
+			} else {
+				gt.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
+			}
+			if (StringUtils.isNotBlank(extraInfos)) {
+				String extraInfosCode = tfsService.publishHtml5(extraInfos);
+				gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
+			}
+			long id = groupTravelService.publishLine(gt);
+			return ResponseVo.success(id);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		if (StringUtils.isNotBlank(extraInfos)) {
-			String extraInfosCode = tfsService.publishHtml5(extraInfos);
-			gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
-		}
-		long id = groupTravelService.publishLine(gt);
-		return new ResponseVo(id);
 	}
 
 	/**
