@@ -54,7 +54,13 @@
             <table>
                 <tr>
                     <td><span class="spColor">*</span>目的地名称</td>
-                    <td><select id="cityId" ></select></td>
+                    <td>
+                    #if($isEdit)
+                        <span id="cityNameId"></span>
+                    #else
+                        <select id="cityId" ></select>
+                    #end
+                    </td>
                 </tr>
                 #*
                 <tr>
@@ -460,6 +466,10 @@ function setArrId(obj,textId){
 	
 	//获取目的地列表数据
 	var isEdit='$isEdit';
+    var cityName='$cityName';
+    if(isEdit){
+        $("#cityNameId" ).text(cityName);
+    }
 	var thlist = []; 
 	thlist='$cityId';
 	//$("#cityId").focus( function(){});
@@ -470,7 +480,7 @@ function setArrId(obj,textId){
 	           console.log("data:"+val.id+"  _"+val.name);
 	           html+="<option id="+val.id+" level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id
 	           if(thlist.indexOf(val.id)>-1){
-               	html+= " selected = 'selected' ";
+               	    html+= " selected = 'selected' ";
                }
 	           html+=">"+val.name+"</option>";
 	        });

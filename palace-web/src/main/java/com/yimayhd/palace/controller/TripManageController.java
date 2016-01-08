@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -185,10 +186,13 @@ public class TripManageController extends BaseController {
 	 */
 	@RequestMapping("/setJoinStatus")
 	@ResponseBody
-	public ResponseVo block(@RequestParam("ids[]") List<Long> ids, int status, HttpServletRequest request){
+	//public ResponseVo block(@RequestParam("ids[]") List<Long> ids, int status, HttpServletRequest request){
+	public ResponseVo block(@RequestParam("ids") Long ids, int status, HttpServletRequest request){
 		boolean flag = false;
 		try {
-			flag = tripService.blockOrUnBlock(ids,status);
+			List<Long> listIds = new ArrayList<Long>();
+			listIds.add(ids);
+			flag = tripService.blockOrUnBlock(listIds,status);
 		} catch (Exception e) {
 			logger.error("trip+block,parameter[ids]="+JSON.toJSONString(ids)+",status="+status+" |error="+e.toString());
 		}
@@ -211,7 +215,8 @@ public class TripManageController extends BaseController {
 		model.addAttribute("tripBo",tripBo);
 		model.addAttribute("isEdit",true);
 		model.addAttribute("cityId",tripBo.getId());
-		
+		model.addAttribute("cityName",tripBo.getCityName());
+
 		return "/system/trip/add_destination/destination_base_info";
 	}
 

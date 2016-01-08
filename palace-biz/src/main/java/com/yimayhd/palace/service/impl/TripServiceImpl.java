@@ -220,6 +220,7 @@ public class TripServiceImpl implements TripService {
 				liangdian.setDescName(ColumnType.TIPS.getCode());
 				liangdian.setType(ColumnType.TIPS.getType());
 				liangdian.setCityCode(tripBo.getCityCode());
+				liangdian.setResourceId(tripBo.getLiangDian());
 				listRelevanceRecommended.add(liangdian);
 			}
 			relevanceRecommended(listRelevanceRecommended,isEdit);
@@ -312,6 +313,7 @@ public class TripServiceImpl implements TripService {
 			return null;
 		}
 		tripBo.setId(regionDO.getId());
+		tripBo.setCityName(regionDO.getCityName());
 		tripBo.setCityCode(regionDO.getCityCode());
 		tripBo.setType(regionDO.getType());
 		tripBo.setLogoURL(regionDO.getUrl());
