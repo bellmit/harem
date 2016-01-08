@@ -313,8 +313,14 @@ public class TripServiceImpl implements TripService {
 			return null;
 		}
 		tripBo.setId(regionDO.getId());
-		tripBo.setCityName(regionDO.getCityName());
-		tripBo.setCityCode(regionDO.getCityCode());
+		if(0 != regionDO.getCityCode()){
+			tripBo.setCityName(regionDO.getCityName());
+			tripBo.setCityCode(regionDO.getCityCode());
+		}else{
+			tripBo.setCityName(regionDO.getProvinceName());
+			tripBo.setCityCode(regionDO.getProvinceCode());
+		}
+
 		tripBo.setType(regionDO.getType());
 		tripBo.setLogoURL(regionDO.getUrl());
 		tripBo.setCoverURL(regionDO.getBgUrl());

@@ -317,8 +317,8 @@
                     </td>
                 </tr>
                 <input type="hidden" class="inpControl" name="type" value="4">
-                <input type="hidden" class="inpControl" id="cityIds" name="id" value="">
-                <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
+                #*<input type="hidden" class="inpControl" id="cityIds" name="id" value="$!tripBo.id">*#
+                <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="$!tripBo.cityCode">
             </table>
         </div>
     </div>
@@ -420,16 +420,18 @@ function setArrId(obj,textId){
  	
  	//保存的
  	$('#btnSubmit').click(function(){
-        var cityId=$('select option:selected').attr("value");
-        $("#cityIds").val(cityId);
-        var cityCode="";
-        var level = $('select option:selected').attr("level");
-        if(level==1){
-            cityCode=$('select option:selected').attr("provinceCode");
-        }else if(level==2){
-            cityCode=$('select option:selected').attr("cityCode");
+        /*var cityId=$('select option:selected').attr("value");
+        $("#cityIds").val(cityId);*/
+        if(!$('#cityCodeId').val()){
+            var cityCode="";
+            var level = $('select option:selected').attr("level");
+            if(level==1){
+                cityCode=$('select option:selected').attr("provinceCode");
+            }else if(level==2){
+                cityCode=$('select option:selected').attr("cityCode");
+            }
+            $("#cityCodeId").val(cityCode);
         }
-        $("#cityCodeId").val(cityCode);
         console.log($("tripForm").serialize());
 
         $(this).prop('disabled', true);

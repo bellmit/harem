@@ -329,7 +329,7 @@
         if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';
         }
-        if(!$('.stockNum').val() || !/^[0-9]*[1-9][0-9]*$/.test($('.stockNum').val())){
+        if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
             return '请输入正确的库存';
         }
 
