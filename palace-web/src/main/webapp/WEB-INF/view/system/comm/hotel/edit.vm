@@ -39,16 +39,16 @@
                     <tr>
                         <td><span class="spColor">*</span>商品库存</td>
                         <td>
-                            <input type="text" name="stockNum" value="$!commHotel.stockNum">
+                            <input class="stockNum" type="text" name="stockNum" value="$!commHotel.stockNum">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>排序</td>
-                        <td><input type="text" name="sort" value="$!commHotel.sort" >请输入数字，数字越大排序靠后</td>
+                        <td><input class="sort" type="text" name="sort" value="$!commHotel.sort" >请输入数字，数字越大排序靠后</td>
                     </tr>
                     <tr>
-                        <td>*时间区间</td>
-                        <td>用户可选入住时间为<input type="text" name="endBookTimeLimit" value="$!commHotel.endBookTimeLimit">天内</td>
+                        <td><span class="spColor">*</span>时间区间</td>
+                        <td>用户可选入住时间为<input class="endBookTimeLimit" type="text" name="endBookTimeLimit" value="$!commHotel.endBookTimeLimit">天内</td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>最晚到店时间</td>
@@ -80,9 +80,9 @@
 
                     </tr>
                         <tr class="subCheckedTR">
-                            <td><input type="text" name="title" value="$!commHotel.title"></td>
-                            <td><input type="text" name="oneWord" value="$!commHotel.oneWord"></td>
-                            <td><input type="text" name="priceY" value="$!commHotel.priceY"></td>
+                            <td><input class="title" type="text" name="title" value="$!commHotel.title"></td>
+                            <td><input class="oneWord" type="text" name="oneWord" value="$!commHotel.oneWord"></td>
+                            <td><input class="priceY" type="text" name="priceY" value="$!commHotel.priceY"></td>
                             <td><input type="text" name="" value=""></td>
                             <td><input type="text" name="" value=""></td>
                             <td class="smallListPicTd">
@@ -123,7 +123,34 @@
     </form>
 </div>
 <script>
+    //验证
+    var validate = function(){
+        if(!$('.hotelIdInp').val()){
+            return '请选择酒店';
+        }
+        if(!$('.stockNum').val() || /^[0-9]*[1-9][0-9]*$/.test($('.stockNum').val())){
+            return '请输入库存';
+        }
+        if(!$('.sort').val() || /^[0-9]*[1-9][0-9]*$/.test($('.sort').val())){
+            return '请输入排序';
+        }
+        if(!$('.endBookTimeLimit').val()){
+            return '请输入可选入住时间';
+        }
+        if(!$('.title').val()){
+            return '请输入商品名称';
+        }
+        if(!$('.oneword').val()){
+            return '请输入说明';
+        }
+        if(!$('.priceY').val() && !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+            return '请输入正确的价格';
+        }
 
+        if(!$('.smallListPicUrl').attr('src')){
+            return '请选择图片';
+        }
+    }
     var singleCallBack = function(dataVal){
         if(dataVal && dataVal.status == 200){
             $('.smallListPicUrl').attr('src',tfsRootPath + dataVal.data);
@@ -160,6 +187,15 @@
         }
         //提交
         $('#btnSubmit').click(function(){
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
             $(this).prop('disabled',true);
             //图片列表
             var picUrls = '';

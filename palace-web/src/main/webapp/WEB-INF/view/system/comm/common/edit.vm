@@ -39,51 +39,51 @@
                     <tr>
                         <td><span class="spColor">*</span>商品名称</td>
                         <td>
-                            <input type="text" name="title" value="$!commodity.title">
+                            <input class="title" type="text" name="title" value="$!commodity.title">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品价格</td>
                         <td>
-                            <input type="text" name="priceY" value="$!commodity.priceY">
+                            <input class="priceY" type="text" name="priceY" value="$!commodity.priceY">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品库存</td>
                         <td>
-                            <input type="text" name="stockNum" value="$!commodity.stockNum">
+                            <input class="stockNum" type="text" name="stockNum" value="$!commodity.stockNum">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>减库存方式</td>
                         <td>
                             #foreach($reduceType in $reduceTypeList)
-                                <label class='radio-inline'> <input type="radio" name="reduceType" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end>$!reduceType.des</label>
+                                <label class='radio-inline'> <input class="reduceType" type="radio" name="reduceType" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end #if(!$!commodity.reduceType && $!reduceType.bizType == $!reduceTypeList.get(0).bizType)checked#end>$!reduceType.des</label>
                             #end
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>评分</td>
                         <td>
-                            <input type="text" name="grade" value="$!commodity.grade">
+                            <input class="grade" type="text" name="grade" value="$!commodity.grade">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>副标题</td>
                         <td>
-                            <input type="text" name="subTitle" value="$!commodity.subTitle">
+                            <input class="subTitle" type="text" name="subTitle" value="$!commodity.subTitle">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>二级副标题</td>
                         <td>
-                            <input type="text" name="oneWord" value="$!commodity.oneWord">
+                            <input class="oneWord" type="text" name="oneWord" value="$!commodity.oneWord">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品描述</td>
                         <td>
-                            <textarea class="form-control extra-info-item-text"
+                            <textarea class="form-control extra-info-item-text description"
                                       name="description"
                                       rows="3">$!commodity.description</textarea>
                         </td>
@@ -219,7 +219,7 @@
                     #*解析销售属性(sku属性)*#
                         #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
                         <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
-                            <td><span class="spColor">*</span>$!sellCategoryProperty.categoryPropertyVO.text</td>
+                            <td>$!sellCategoryProperty.categoryPropertyVO.text</td>
                             <td>
                                 #foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
                                 #*sku可选值*#
@@ -321,6 +321,53 @@
     var skuTableShowFlag = false;
 </script>
 <script>
+    //验证
+    var validate = function(){
+        if(!$('.title').val()){
+            return '请输入商品名称';
+        }
+        if(!$('.priceY').val() && !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+            return '请输入正确的价格';
+        }
+        if(!$('.stockNum').val() || !/^[0-9]*[1-9][0-9]*$/.test($('.stockNum').val())){
+            return '请输入正确的库存';
+        }
+
+        if(!$('.grade').val() || !/^[0-5]$/.test($('.grade').val())){
+            return '请输入正确的评分（0-5）';
+        }
+
+        if(!$('.subTitle').val()){
+            return '请输入副标题';
+        }
+
+        if(!$('.oneWord').val()){
+            return '请输入二级副标题';
+        }
+        if(!$('.description').val()){
+            return '请输入商品描述';
+        }
+
+        if(!$('.bigListPicUrl').attr('src')){
+            return '请选择列表图';
+        }
+        if(!$('.smallListPicUrl').attr('src')){
+            return '请选择订单图';
+        }
+        if($('.picUrlsUrl').length <= 0){
+            return '请选择详情竖图';
+        }
+        //必填属性
+        var msg;
+        $('.keyProperty').each(function(){
+            if($(this).find('.propertySelect').val() == '0' && !$(this).find('.propertyInput').val()){
+                msg = '请填写必填属性' + $(this).attr('pTxt');
+            }
+        });
+        if(msg){
+            return msg;
+        }
+    }
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -571,6 +618,16 @@
             }
         });
         $('.btnSubmit').click(function(){
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
             //property
             var propertyArr = new Array();
             $('.keyProperty').each(function(){
