@@ -100,8 +100,14 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo save(ScenicVO scenicVO) throws Exception {
-		ICResult<ScenicDO> result =scenicSpotService.save(scenicVO);
-		return new ResponseVo();
+		try {
+			ICResult<ScenicDO> result =scenicSpotService.save(scenicVO);
+			return  ResponseVo.success(result.getResultMsg());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+		
 	}
 
 	/**
@@ -113,8 +119,14 @@ public class ScenicManageController extends BaseController {
 	@RequestMapping(value = "/enableStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo enableStatus(@PathVariable("id") long id) throws Exception {
-		scenicSpotService.enableScenicItem(id);
-		return new ResponseVo();
+		try {
+			boolean enableScenicItem = scenicSpotService.enableScenicItem(id);
+			return ResponseVo.success(enableScenicItem);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+		
 	}
 	
 	/**

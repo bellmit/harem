@@ -70,43 +70,32 @@ public class ActivityManageController extends BaseController {
 		return "/system/activity/list";
 	}
 
-	/*private ActivityQueryDTO convertQuery(ActivityListQuery query) {
-		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
-		if (query == null) {
-			return activityQueryDTO;
-		}
-		if (query.getPageNumber() != null) {
-			activityQueryDTO.setPageNo(query.getPageNumber());
-		}
-		if (query.getPageSize() != null) {
-			activityQueryDTO.setPageSize(query.getPageSize());
-		}
-		activityQueryDTO.setTitle(query.getTitle());
-		// activityQueryDTO.set
-		if (query.getProductId() != null) {
-			activityQueryDTO.setClubId(query.getProductId());
-		}
-		if (StringUtils.isNotBlank(query.getActivityBeginDate())) {
-			Date startTime = DateUtil.parseDate(query.getActivityBeginDate());
-			activityQueryDTO.setActivityStartTime(startTime);
-		}
-		if (StringUtils.isNotBlank(query.getActivityEndDate())) {
-			Date endTime = DateUtil.parseDate(query.getActivityEndDate());
-			activityQueryDTO.setActivityEndTime(DateUtil.add23Hours(endTime));
-		}
-		if (StringUtils.isNotBlank(query.getCreateStartTime())) {
-			Date startTime = DateUtil.parseDate(query.getCreateStartTime());
-			activityQueryDTO.setStartTime(startTime);
-		}
-		if (StringUtils.isNotBlank(query.getCreateEndTime())) {
-			Date endTime = DateUtil.parseDate(query.getCreateEndTime());
-			activityQueryDTO.setEndTime(DateUtil.add23Hours(endTime));
-		}
-		if (query.getStatus() != null) {
-			activityQueryDTO.setState(query.getStatus());
-		}
-		return activityQueryDTO;
-	}*/
+	/*
+	 * private ActivityQueryDTO convertQuery(ActivityListQuery query) {
+	 * ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO(); if (query ==
+	 * null) { return activityQueryDTO; } if (query.getPageNumber() != null) {
+	 * activityQueryDTO.setPageNo(query.getPageNumber()); } if
+	 * (query.getPageSize() != null) {
+	 * activityQueryDTO.setPageSize(query.getPageSize()); }
+	 * activityQueryDTO.setTitle(query.getTitle()); // activityQueryDTO.set if
+	 * (query.getProductId() != null) {
+	 * activityQueryDTO.setClubId(query.getProductId()); } if
+	 * (StringUtils.isNotBlank(query.getActivityBeginDate())) { Date startTime =
+	 * DateUtil.parseDate(query.getActivityBeginDate());
+	 * activityQueryDTO.setActivityStartTime(startTime); } if
+	 * (StringUtils.isNotBlank(query.getActivityEndDate())) { Date endTime =
+	 * DateUtil.parseDate(query.getActivityEndDate());
+	 * activityQueryDTO.setActivityEndTime(DateUtil.add23Hours(endTime)); } if
+	 * (StringUtils.isNotBlank(query.getCreateStartTime())) { Date startTime =
+	 * DateUtil.parseDate(query.getCreateStartTime());
+	 * activityQueryDTO.setStartTime(startTime); } if
+	 * (StringUtils.isNotBlank(query.getCreateEndTime())) { Date endTime =
+	 * DateUtil.parseDate(query.getCreateEndTime());
+	 * activityQueryDTO.setEndTime(DateUtil.add23Hours(endTime)); } if
+	 * (query.getStatus() != null) {
+	 * activityQueryDTO.setState(query.getStatus()); } return activityQueryDTO;
+	 * }
+	 */
 
 	/**
 	 * 根据活动ID获取活动详情
@@ -150,18 +139,22 @@ public class ActivityManageController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo save(ActivityVO activityVO) throws Exception {
-		ResponseVo responseVo = new ResponseVo();
+		try {
+			ResponseVo responseVo = new ResponseVo();
 
-		com.yimayhd.snscenter.client.result.BaseResult<SnsActivityDO> result = activityService.save(activityVO);
-		if (result.isSuccess()) {
-			responseVo.setMessage("添加成功！");
-			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-		} else {
-			responseVo.setMessage(result.getResultMsg());
-			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+			com.yimayhd.snscenter.client.result.BaseResult<SnsActivityDO> result = activityService.save(activityVO);
+			if (result.isSuccess()) {
+				responseVo.setMessage("添加成功！");
+				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+			} else {
+				responseVo.setMessage(result.getResultMsg());
+				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+			}
+			return responseVo;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-
-		return responseVo;
 	}
 
 	/**
@@ -193,14 +186,17 @@ public class ActivityManageController extends BaseController {
 		if (null != itemResultVO && itemResultVO.isSuccess()) {
 			model.addAttribute("itemName", itemResultVO.getItemVO().getTitle());
 		}
-		 /* private String activityDateStr;
-			private String startDateStr;
-			private String endDateStr;
-		
-		DateUtil.dateToString(activity.getStartDate(), DateUtil.DAY_HORU_FORMAT);*/
-		
-		// snsSubjectVO.setGmtCreatedStr(DateUtil.dateToString(snsSubjectDO.getGmtCreated(), DateUtil.DAY_HORU_FORMAT));
-		
+		/*
+		 * private String activityDateStr; private String startDateStr; private
+		 * String endDateStr;
+		 * 
+		 * DateUtil.dateToString(activity.getStartDate(),
+		 * DateUtil.DAY_HORU_FORMAT);
+		 */
+
+		// snsSubjectVO.setGmtCreatedStr(DateUtil.dateToString(snsSubjectDO.getGmtCreated(),
+		// DateUtil.DAY_HORU_FORMAT));
+
 		model.addAttribute("itemType", ItemType.ACTIVITY.getValue());
 		model.addAttribute("clubList", clubList.getValue());
 		model.addAttribute("activity", activityDO);
@@ -217,8 +213,13 @@ public class ActivityManageController extends BaseController {
 	@RequestMapping(value = "/updateState/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo updateState(@PathVariable("id") long id, int state) throws Exception {
-		activityService.updateActivityStateByIList(Arrays.asList(id), state);
-		return new ResponseVo();
+		try {
+			activityService.updateActivityStateByIList(Arrays.asList(id), state);
+			return new ResponseVo();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 }
