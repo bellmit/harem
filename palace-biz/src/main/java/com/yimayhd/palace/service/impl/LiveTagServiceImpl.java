@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.checker.TagChecker;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.model.LiveTagVO;
 import com.yimayhd.palace.repo.TagRepo;
 import com.yimayhd.palace.service.LiveTagService;
@@ -50,7 +53,12 @@ public class LiveTagServiceImpl implements LiveTagService {
 	@Override
 	public void save(LiveTagVO tag) {
 		if (tag.getId() > 0) {
-			tagRepo.updateTag(tag.toTagInfo());
+			CheckResult checkResult = TagChecker.checkLiveTagVOForUpdate(tag);
+			if(checkResult.isSuccess()) {
+				tagRepo.updateTag(tag.toTagInfo());
+			} else {
+				throw new BaseException(checkResult.getMsg());
+			}
 		} else {
 			tagRepo.saveTag(tag.toTagInfo());
 		}

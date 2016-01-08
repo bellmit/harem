@@ -56,7 +56,7 @@ public class LineChecker {
 		baseInfo.getTripImage();
 		baseInfo.getOrderImage();
 		baseInfo.getTags();
-		baseInfo.getClass();
+		baseInfo.getPublisherId();
 		return CheckResult.success();
 	}
 

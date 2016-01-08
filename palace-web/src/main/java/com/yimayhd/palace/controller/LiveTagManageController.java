@@ -57,8 +57,13 @@ public class LiveTagManageController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo save(LiveTagVO liveTagVO) throws Exception {
-		liveTagService.save(liveTagVO);
-		return new ResponseVo();
+		try {
+			liveTagService.save(liveTagVO);
+			return ResponseVo.success();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -95,8 +100,13 @@ public class LiveTagManageController extends BaseController {
 	@RequestMapping(value = "/toDisable/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo toDisable(@PathVariable(value = "id") long id) throws Exception {
-		liveTagService.disableLiveTagById(id);
-		return new ResponseVo();
+		try {
+			liveTagService.disableLiveTagById(id);
+			return new ResponseVo();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -109,8 +119,13 @@ public class LiveTagManageController extends BaseController {
 	@RequestMapping(value = "/toEnable/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo toEnable(@PathVariable(value = "id") long id) throws Exception {
-		liveTagService.enableLiveTagById(id);
-		return new ResponseVo();
+		try {
+			liveTagService.enableLiveTagById(id);
+			return new ResponseVo();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -123,10 +138,15 @@ public class LiveTagManageController extends BaseController {
 	@RequestMapping(value = "/toBatchDisable", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo toBatchDisable(@RequestParam("ids[]") List<Long> ids) throws Exception {
-		if (CollectionUtils.isNotEmpty(ids)) {
-			liveTagService.disableLiveTagByIdList(ids);
+		try {
+			if (CollectionUtils.isNotEmpty(ids)) {
+				liveTagService.disableLiveTagByIdList(ids);
+			}
+			return new ResponseVo();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		return new ResponseVo();
 	}
 
 	/**
@@ -139,9 +159,14 @@ public class LiveTagManageController extends BaseController {
 	@RequestMapping(value = "/toBatchEnable", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo toBatchEnable(@RequestParam("ids[]") List<Long> ids) throws Exception {
-		if (CollectionUtils.isNotEmpty(ids)) {
-			liveTagService.enableLiveTagByIdList(ids);
+		try {
+			if (CollectionUtils.isNotEmpty(ids)) {
+				liveTagService.enableLiveTagByIdList(ids);
+			}
+			return new ResponseVo();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		return new ResponseVo();
 	}
 }
