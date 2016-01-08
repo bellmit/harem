@@ -190,6 +190,17 @@ public class OrderConverter {
             } else {
                 List<SubOrder> subOrderList = new ArrayList<SubOrder>();
                 subOrderList.add(new SubOrder(bizOrderDO));
+                for (SubOrder subOrder : subOrderList) {
+                    if (subOrder.getBizOrderDO().getBizType() == OrderBizType.SPOTS.getBizType()){
+                        long spotStartDate = BizOrderUtil.getSpotStartDate(bizOrderDO);
+                        subOrder.setExecuteTime(spotStartDate);//入院时间
+                    }else if (subOrder.getBizOrderDO().getBizType() == OrderBizType.HOTEL.getBizType()){
+                        long hotelStartDate = BizOrderUtil.getHotelStartDate(bizOrderDO);
+                        long hotelEndDate = BizOrderUtil.getHotelEndDate(bizOrderDO);
+                        subOrder.setStartTime(hotelStartDate);//入住日期
+                        subOrder.setEndTime(hotelEndDate);//离店日期
+                    }
+                }
                 return new MainOrder(bizOrderDO,subOrderList);
             }
         }
