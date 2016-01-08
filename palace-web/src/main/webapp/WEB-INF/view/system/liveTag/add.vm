@@ -4,12 +4,12 @@
 		<input type='hidden' id="id" value="$!tag.id" class='form-control'/>
 		<span class='input-group-addon'>*标签名称：</span>
 		<input type='text' id="name" value="$!tag.name" class='form-control'/>
-		<span class='input-group-addon'>请输入15字以内</span>
+		<span class='input-group-addon'>请输入4字以内</span>
 	</div>
 	<div class='input-group'>
 		<span class='input-group-addon'>*序号：</span>
 		<input type='text' id="score" value="$!tag.score" class='form-control int-only'/>
-		<span class='input-group-addon'>0~100，越大排序越靠前</span>
+		<span class='input-group-addon'>1~100，越小排序越靠前</span>
 	</div>
 </div>
 <script type="text/javascript">
