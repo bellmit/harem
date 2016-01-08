@@ -1,6 +1,5 @@
 package com.yimayhd.palace.checker;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -215,7 +214,19 @@ public class LineChecker {
 	}
 
 	public static CheckResult checkPackageBlockForSave(PackageBlock block) {
-		return CheckResult.success();
+		if (block.getPrice() < 0) {
+			return CheckResult.error("无效套餐sku价格");
+		}
+		if (block.getStock() < 0) {
+			return CheckResult.error("无效套餐sku库存");
+		}
+		if (block.getDiscount() < 0) {
+			return CheckResult.error("无效套餐sku会员优惠");
+		}
+		if (StringUtils.isBlank(block.getName())) {
+			return CheckResult.error("套餐sku名称不能为空");
+		}
+		return PropertyChecker.checkProperty(block.getPId(), block.getPType(), block.getPTxt());
 	}
 
 	public static CheckResult checkPriceInfoForUpdate(PriceInfo priceInfo) {
