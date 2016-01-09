@@ -25,7 +25,7 @@ public class PropertyChecker {
 			log.error(temp, pId, pType, pTxt);
 			return CheckResult.error("无效Property类型");
 		}
-		if (StringUtils.isNotBlank(pTxt)) {
+		if (StringUtils.isBlank(pTxt)) {
 			log.error(temp, pId, pType, pTxt);
 			return CheckResult.error("Property名称不能为空");
 		}
