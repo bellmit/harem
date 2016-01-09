@@ -81,7 +81,7 @@
                         <div class="fileImgWrap">
                             <button type="button" class="btn btn-success">选择图片</button>
                             <input type="file"  name="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
-                            <input type="hidden" name="coverURL" value=""  id="FMReturnInput">
+                            <input type="hidden" name="coverURL" value="$!tripBo.coverURL"  id="FMReturnInput">
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
@@ -98,7 +98,7 @@
                         <div class="fileImgWrap">
                             <button type="button" class="btn btn-success">选择图片</button>
                             <input type="file"  name="file" class="fileInp" id="LOGOUploadFile" accept="image/png,image/gif">
-                            <input type="hidden" name="logoURL" value=""  id="LOGOReturnInput">
+                            <input type="hidden" name="logoURL" value="$!tripBo.logoURL"  id="LOGOReturnInput">
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
@@ -438,6 +438,7 @@ function setArrId(obj,textId){
         var actionUrl="";
         var tripId = $('#tripForm').attr('tripId');
         if(tripId){
+            $("#tripId").val(tripId);
             actionUrl = actionDefaultPath + '/B2C/trip/edit/'+tripId;
         }else{
             var tripId=$('select option:selected').attr("id");
