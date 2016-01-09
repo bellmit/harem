@@ -158,9 +158,8 @@
                     layer.alert('操作失败', {
                         icon: 2,
                         time: 2000
-                    }, function(){
-                        $(this).prop('disabled',false);
                     });
+                    $(this).prop('disabled',false);
                 }
             })
         });
