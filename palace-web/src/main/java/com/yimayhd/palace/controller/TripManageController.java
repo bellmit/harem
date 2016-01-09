@@ -35,8 +35,6 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
 @RequestMapping("/B2C/trip")
 public class TripManageController extends BaseController {
 	
-	//XXX:目的地 以及推荐相关的，入库设计的逻辑非常复杂，后期需要优化
-	
 	private static final Logger logger = LoggerFactory.getLogger(TripManageController.class);
 	
 	@Autowired TripService tripService;
@@ -56,11 +54,10 @@ public class TripManageController extends BaseController {
 		try {
 			if (null != tripBo && 0 != tripBo.getCityCode()) {
 				RegionDO regionDO = tripService.saveOrUpdateDetail(tripBo,false);
-				if (null == regionDO) {
-					return "/error";
+				if (null != regionDO) {
+					return "/success";
 				}
-				return "/success";
-			} 
+			}
 		} catch (Exception e) {
 			logger.error("trip+add,parameter[tripBo]="+JSON.toJSONString(tripBo)+" |error="+e.toString());
 		}
@@ -92,27 +89,7 @@ public class TripManageController extends BaseController {
 		return "/success";
 	}
 	
-	
-	/**
-	* @Title: del 
-	* @Description:(删除出发地，目的地) 
-	* @author create by yushengwei @ 2015年12月8日 下午3:11:21 
-	* @param @param model
-	* @param @param code
-	* @param @return 
-	* @return ResponseVo 返回类型 
-	* @throws
-	 */
-	@RequestMapping("/del")
-	@ResponseBody
-	public ResponseVo del(Model model,String code){
-		if(StringUtils.isNotEmpty(code)){
-			//TODO:删除接口
-			return new ResponseVo(ResponseStatus.SUCCESS);
-		}
-		return new ResponseVo(ResponseStatus.ERROR);
-	}
-		
+
 	/**
 	* @Title: list 
 	* @Description:(出发地或最美当地) 
@@ -163,7 +140,7 @@ public class TripManageController extends BaseController {
 	@RequestMapping("/selectRegion")
 	@ResponseBody
 	public ResponseVo selectDepartureList(Model model,int type){
-		//TODO:去掉已经创建过的,返回list中可以创建的出发地
+		//已经根据status,过滤掉相应type下已经创建过的城市
 		// 1-酒店区域 2-景区区域 3-线路出发地 4-线路目的地
 		List<RegionDO> list = tripService.selectRegion(RegionType.DESC_REGION.getType());
 		if(CollectionUtils.isNotEmpty(list)){
@@ -175,7 +152,7 @@ public class TripManageController extends BaseController {
 	
 	/**
 	* @Title: block 
-	* @Description:(停用某个目的地) 
+	* @Description:(停用或启用某个目的地)
 	* @author create by yushengwei @ 2015年12月22日 上午10:12:09 
 	* @param @param model
 	* @param @param id
@@ -199,12 +176,6 @@ public class TripManageController extends BaseController {
 		return new ResponseVo(flag);
 	}
 	
-	@RequestMapping(value="/detail/{cityCode}",method=RequestMethod.GET)
-	public String detail(Model model,@PathVariable(value = "cityCode")long cityCode, HttpServletRequest request){
-		
-		return null;
-	}	
-	
 	@RequestMapping(value="/toEdit/{id}",method=RequestMethod.GET)
 	public String toEdit(Model model,@PathVariable(value = "id")long id, HttpServletRequest request){
 		if(0==id){
@@ -216,13 +187,13 @@ public class TripManageController extends BaseController {
 		model.addAttribute("isEdit",true);
 		model.addAttribute("cityId",tripBo.getId());
 		model.addAttribute("cityName",tripBo.getCityName());
-
 		return "/system/trip/add_destination/destination_base_info";
 	}
 
-	@RequestMapping("/edit/{id}")//,method=RequestMethod.POST
+	@RequestMapping("/edit/{id}")
 	public String edit(Model model, HttpServletRequest request,@PathVariable(value = "id")long id, @ModelAttribute("TripBo") TripBo tripBo){
 		if(0==id || null == tripBo ){
+			model.addAttribute("errMsg","参数错误，id不能为0或tripBo不能为空");
 			return "/error";
 		}
 		try {
@@ -232,8 +203,9 @@ public class TripManageController extends BaseController {
 				return "/success";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("trip+update_destination Failure,parameter[tripBo]="+JSON.toJSONString(tripBo)+" |error="+e.toString());
 		}
+		model.addAttribute("errMsg","修改目的地失败");
 		return "/error";
 	}
 	

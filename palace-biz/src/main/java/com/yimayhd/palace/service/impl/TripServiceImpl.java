@@ -90,10 +90,12 @@ public class TripServiceImpl implements TripService {
 	public RegionDO saveOrUpdate(TripBo tripBo) throws Exception {
 		RegionDO regionDO = null;
 		if (0 == tripBo.getId()) {
+			log.error("saveOrUpdate Failure,the destination based data abnormal, id cannot be 0");
 			throw  new Exception("目的地基础数据异常，id不能为0");
 		}
 		RcResult<RegionDO> res = regionClientServiceRef.selectById(tripBo.getId());
 		if (null == res || !res.isSuccess() || null == res.getT()) {
+			log.error("regionClientServiceRef.selectById Failure,id="+tripBo.getId()+"|result="+JSON.toJSONString(res));
 			throw new Exception("data [RegionDO] not available,id=" + tripBo.getId());
 		}
 		regionDO = res.getT();
@@ -107,6 +109,8 @@ public class TripServiceImpl implements TripService {
 		RcResult<Boolean> resb = regionClientServiceRef.updateById(regionDO);
 		if (null != resb && resb.isSuccess() && null != resb.getT()) {
 			return regionDO;
+		}else{
+			log.error("regionClientServiceRef.updateById Failure,id="+tripBo.getId()+"|result="+JSON.toJSONString(resb));
 		}
 		return null;
 	}
@@ -115,8 +119,8 @@ public class TripServiceImpl implements TripService {
 	public RegionDO saveOrUpdateDetail(TripBo tripBo,boolean isEdit) throws Exception {
 		RegionDO regionDO = saveOrUpdate(tripBo);
 		if(null == regionDO ){
-			log.error("save saveOrUpdate Failure");
-			return null;
+			log.error("save saveOrUpdate Failure|result=regionDO is null");
+			throw new Exception("更新regionDO失败");
 		}
 		if (tripBo.getType() == RegionType.DESC_REGION.getType()) {// 目的地
 			// 保存相应的概况 民俗等信息

@@ -102,7 +102,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
         travelSpecialAddDTO.setGmtCreated(travelOfficial.getPublishDate());
         travelSpecialAddDTO.setPreface(travelOfficial.getPreface());
         travelSpecialAddDTO.setTitle(travelOfficial.getTitle());
-        travelSpecialAddDTO.setTravelJsonDO(ImgContentJsonToTravelJsonDO(travelOfficial.getImgContentJson()));
+        travelSpecialAddDTO.setTravelJsonDO(imgContentJsonToTravelJsonDO(travelOfficial.getImgContentJson()));
         travelSpecialAddDTO.setUserId(travelOfficial.getCreateId());
         travelSpecialAddDTO.setPreface(travelOfficial.getPreface());
         travelSpecialAddDTO.setTravelSpecialId(travelOfficial.getId());
@@ -134,16 +134,18 @@ public class TravelOfficialImpl implements TravelOfficialService{
         return snsTravelSpecialtyDO;
     }
 
-    public List<TravelJsonDO> ImgContentJsonToTravelJsonDO(String imgContentJson){
+    public List<TravelJsonDO> imgContentJsonToTravelJsonDO(String imgContentJson){
         if(org.apache.commons.lang3.StringUtils.isEmpty(imgContentJson)){
             return null;
         }
         try {
             System.out.println(imgContentJson);
+            imgContentJson=imgContentJson.replaceAll(" ","");
+            System.out.println(imgContentJson);
             List<TravelJsonDO> list  = JSON.parseArray(imgContentJson, TravelJsonDO.class);
             return list;
         } catch (Exception e) {
-            log.error("ImgContentJsonToTravelJsonDO error,imgContentJson="+JSON.toJSONString(imgContentJson),e);
+            log.error("imgContentJsonToTravelJsonDO error,imgContentJson="+JSON.toJSONString(imgContentJson),e);
         }
         return null;
     }

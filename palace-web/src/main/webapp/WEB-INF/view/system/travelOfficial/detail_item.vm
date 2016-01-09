@@ -38,7 +38,7 @@
                                             <input type="hidden" name="travelBGImg" value="$!travelOfficial.travelImg"  id="travelBGImg_$!{velocityCount}">
                                         <span id="travelImgId_$!{velocityCount}" class="form-control extra-info-item-title" >
                                             #foreach($imgList in $!travelOfficial.travelImg)
-                                                <img width='100' height='100' src="$utilWebconfig.getTfsRootPath()$!imgList">
+                                                <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgList">
                                             #end
                                         </span>
                                         </td>
@@ -103,7 +103,7 @@
     var imgArr=[];
     
    		$.each(data.data, function(n, val) {
-   			imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='100' height='100' ></img>";
+   			imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='50' height='50' ></img>";
    			imgArr.push(val);
         	//alert("n="+n+"  val="+val);
         });
@@ -155,7 +155,7 @@
  	//保存的
  	$('#btnSubmit').click(function(){
 
-       // $(this).prop('disabled', true);
+       $(this).prop('disabled', true);
         var count = $(".bigTables tr").length-1;
         var parts=[];
         
@@ -206,7 +206,7 @@
                     icon: 1,
                     time: 3000
                 }, function(){
-                    history.go(-1);
+                    location.reload();
                 });
             }else{
                 layer.msg('操作失败', {
