@@ -123,7 +123,7 @@ public class TripServiceImpl implements TripService {
 			throw new Exception("更新regionDO失败");
 		}
 		if (tripBo.getType() == RegionType.DESC_REGION.getType()) {// 目的地
-			// 保存相应的概况 民俗等信息
+
 			List<NeedKnow> list = new ArrayList<NeedKnow>();
 			
 			NeedKnow gaikuang = tripBo.getGaikuang();
@@ -154,8 +154,9 @@ public class TripServiceImpl implements TripService {
 			}else{
 				showcaseClientServerRef.deleteShowcaseByBoothCode(ColumnType.CONSUMPTION.toString()+"-"+tripBo.getCityCode());
 			}
+			// 保存相应的概况 民俗等信息
 			saveShowCase(list, tripBo.getCityCode(),isEdit);
-			//保存精选 酒店 推荐之类
+
 			List<RelevanceRecommended> listRelevanceRecommended = new ArrayList<RelevanceRecommended>();
 			if(null != tripBo.getBiMai()){
 				RelevanceRecommended bimai = new RelevanceRecommended();
@@ -216,6 +217,7 @@ public class TripServiceImpl implements TripService {
 				liangdian.setResourceId(tripBo.getLiangDian());
 				listRelevanceRecommended.add(liangdian);
 			}
+			//保存推荐相关的数据
 			relevanceRecommended(listRelevanceRecommended,isEdit);
 		}
 		return regionDO;
@@ -257,7 +259,7 @@ public class TripServiceImpl implements TripService {
 				}
 			} 
 		} catch (Exception e) {
-			
+			log.error("saveOrUpdateDetail Failure; parameter[|cityCode="+cityCode+"|isEdit="+isEdit+"|list="+JSON.toJSONString(list)+"]");
 		}
 	}
 
@@ -442,7 +444,13 @@ public class TripServiceImpl implements TripService {
 		return listTextItem;
 	}
 
-
+	/**
+	 * @Title: getRelevanceItemIds
+	 * @Description:(通过反射来获取目的地关联的资源id)
+	 * @author create by yushengwei @ 2016年1月5日 上午10:12:09
+	 * @param @param list
+	 * @return List 返回类型
+	 */
 	public List<Long> getRelevanceItemIds(List list) {
 		if(CollectionUtils.isEmpty(list)){
 			return null;
@@ -464,6 +472,7 @@ public class TripServiceImpl implements TripService {
 					listIds.add(id);
 				}
 			} catch (IllegalAccessException e) {
+				log.error("");
 				e.printStackTrace();
 			}catch (SecurityException se ){
 				se.printStackTrace();
@@ -490,11 +499,6 @@ public class TripServiceImpl implements TripService {
 		return listTextItem;
 	}
 
-	@Override
-	public List<RegionDO> getTripBo() {
-
-		return null;
-	}
 
 	@Override
 	public boolean editTripBo(TripBo tripBo) {
@@ -528,7 +532,6 @@ public class TripServiceImpl implements TripService {
 			list.add(sc);
 		}
 		RcResult<Boolean> resb = showcaseClientServerRef.batchInsertShowcase(list, boothDO);
-		System.out.println(resb.isSuccess());
 		return resb.isSuccess();
 	}
 
@@ -573,7 +576,7 @@ public class TripServiceImpl implements TripService {
 			list=res.getList();
 			totalCount=res.getTotalCount();
 		}else{
-			throw new BaseException("get PageVo RegionIntroduceDO list failure");
+			log.error("get PageVo RegionIntroduceDO list failure");
 		}
 		return new PageVO<RegionIntroduceDO>(regionIntroduceQuery.getPageNo(), regionIntroduceQuery.getPageSize(), totalCount, list);
 	}
@@ -611,7 +614,6 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public List<RegionDO> selectRegion(int type) {
 
-		//TODO:这里过滤掉已经启用的目的地。
 		List<RegionDO> listRegionDO = regionClientServiceRef.getAllRegionListByType(type);
 		if(CollectionUtils.isNotEmpty(listRegionDO)){
 			Iterator iter = listRegionDO.iterator();
@@ -621,7 +623,6 @@ public class TripServiceImpl implements TripService {
 					iter.remove();
 				}
 			}
-			System.out.println(listRegionDO.size());
 			return listRegionDO;
 		}
 		return null;
@@ -682,7 +683,7 @@ public class TripServiceImpl implements TripService {
 			System.out.println(resb.isSuccess());
 			flag=resb.isSuccess();
 			if(!flag){
-				log.debug("showcase保存错误，具体数据："+JSON.toJSONString(listShowcaseDO)+","+JSON.toJSONString(boothDO));
+				log.error("showcase保存错误，具体数据："+JSON.toJSONString(listShowcaseDO)+","+JSON.toJSONString(boothDO));
 			}
 		}
 		return flag;

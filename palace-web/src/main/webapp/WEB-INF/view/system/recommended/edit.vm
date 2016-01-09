@@ -21,19 +21,20 @@
                     <td>
                         <div class="selectList">
                             <select class="selCity inpControl provinceSelect" name="type">
-                                <option value="0" >全部</option>
                                 <option value="21" #if($!regionIntroduceDO.state == 0) selected #end>当地指南-亮点</option>
                                 <option value="10" #if($!query.state == 0) selected #end >必买推荐须</option>
                             </select>
                         </div>
                     </td>
                 </tr>
-				<tr>
+				#*
+				* <tr>
                     <td><span class="spColor">*</span>简介</td>
                     <td>
                           <textarea class="form-control extra-info-item-text"  name="desc" rows="3">$!regionIntroduceDO.desc</textarea>
                     </td>
                 </tr>
+				* *#
 				
 				<tr>
                     <td><span class="spColor">*</span>图片</td>

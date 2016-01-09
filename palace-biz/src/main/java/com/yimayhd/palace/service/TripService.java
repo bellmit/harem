@@ -67,16 +67,6 @@ public interface TripService {
 	TripBo getTripBo(long  id);
 	
 	/**
-	* @Title: getTripBo 
-	* @Description:(获取TripBo列表) 
-	* @author create by yushengwei @ 2015年12月10日 下午8:44:34 
-	* @param @return 
-	* @return List<TripBo> 返回类型 
-	* @throws
-	 */
-	List<RegionDO> getTripBo();
-	
-	/**
 	* @Title: editTripBo 
 	* @Description:(修改出发地目的地) 
 	* @author create by yushengwei @ 2015年12月10日 下午8:43:06 

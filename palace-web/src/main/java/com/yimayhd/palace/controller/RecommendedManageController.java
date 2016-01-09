@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class RecommendedManageController extends BaseController {
 				return "/success";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("add RegionIntroduceQuery  Failure;parameter[regionIntroduce"+ JSON.toJSONString(regionIntroduce));
 		}
 		return "/error";
 	}
@@ -71,7 +72,7 @@ public class RecommendedManageController extends BaseController {
 			model.addAttribute("pageVo", pageVo);
 			return "/system/recommended/list";
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("get listRegionIntroduceQuery  Failure;parameter[query"+query+",pageNumber="+pageNumber+"pageSize="+pageSize+"]|"+e);
 		}
 		return "/error";
 	}
@@ -99,13 +100,11 @@ public class RecommendedManageController extends BaseController {
 			boolean flag = recommendedService.saveOrUpdate(regionIntroduce);
 			if(flag){
 				return "/success";
-				//return new ResponseVo(ResponseStatus.SUCCESS);
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage(),e);
+			log.error("edit regionIntroduce Failure,parameter[regionIntroduce="+JSON.toJSONString(regionIntroduce)+"]"+e);
 		}
 		return "/error";
-		//return new ResponseVo(ResponseStatus.ERROR);
 	}
 	
 }
