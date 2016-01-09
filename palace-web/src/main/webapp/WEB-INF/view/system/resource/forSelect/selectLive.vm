@@ -1,9 +1,9 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/page.js" type="text/javascript"></script>
 <div>
 	<div class="input-group">
-		<span class="input-group-addon">直播名称</span>
+		#*<span class="input-group-addon">直播名称</span>
 		<input type="text" class="form-control" id="itemName">
-		<span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>
+		<span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>*#
 	</div>
 	<div class="input-group selectResourceTable">
 	</div>
