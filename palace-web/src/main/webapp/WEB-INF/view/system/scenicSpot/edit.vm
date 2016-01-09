@@ -151,8 +151,10 @@
                             <img src="#if($VO.recommend.userPic) $utilWebconfig.getTfsRootPath()$!VO.recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
                             <span id="recommendNameT">#if(! $VO.recommend.name)#else$!VO.recommend.name#end</span>
                             <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{VO.recommend.description}</textarea>
+							#if($VO.recommend.id)
                             <input type="hidden" id="recommendId" name="masterRecommend.id" value="#if(! $VO.recommend.id)0#else$!VO.recommend.id#end" >
-                            <input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="#if(! $VO.recommend.userId)0#else$!VO.recommend.userId#end" >
+                            #end
+							<input type="hidden" id="recommendUserId" name="masterRecommend.userId" value="#if(! $VO.recommend.userId)0#else$!VO.recommend.userId#end" >
                             <input type="hidden" id="recommendUserPic" name="masterRecommend.userPic" value="$!{VO.recommend.userPic}" >
                             <input type="hidden" id="recommendName" name="masterRecommend.name" value="$!{VO.recommend.name}" >
                         </td>
@@ -254,12 +256,11 @@
          	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择旅游咖',function() {
 				var ka = win.getTravelKa();
 				if(ka == null) return;
-				$("#recommendName").val(ka.nickName);
+				$("#recommendName").val(ka.nickname);
 				$("#userImg").attr('src',tfsPath + ka.avatar);
-				$("#recommendId").val(ka.id);
-				$("#recommendUserId").val(ka.userId);
+				$("#recommendUserId").val(ka.id);
 				$("#recommendUserPic").val(ka.avatar);
-				$("#recommendNameT").html(ka.nickName);
+				$("#recommendNameT").html(ka.nickname);
 				return true;
 			});
         })

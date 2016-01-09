@@ -113,11 +113,12 @@
                                  <span id="recommendNameT">$!{recommend.name}</span>
                             <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
+							#if($recommend.id)
                             <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
+							#end
 							<input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
 							<input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}" >
 							<input type="hidden" id="recommendName" name="recommend.name" value="$!{recommend.name}">
-						
                         </td>
                     </tr>
 					<tr>
@@ -196,11 +197,11 @@
          	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneTravelKa','选择大咖',function() {
 				var ka = win.getTravelKa();
 				if(ka == null) return;
-				$("#recommendName").val(ka.nickName);
+				$("#recommendName").val(ka.nickname);
 				$("#userImg").attr('src',tfsPath + ka.avatar);
 				$("#recommendUserId").val(ka.id);
 				$("#recommendUserPic").val(ka.avatar);
-				$("#recommendNameT").html(ka.nickName);
+				$("#recommendNameT").html(ka.nickname);
 				return true;
 			});
         })
