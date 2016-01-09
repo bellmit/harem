@@ -116,8 +116,8 @@
 							#if($recommend.id)
                             <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
 							#end
-							<input type="hidden" id="recommendUserId" name="recommend.userId" value="$!{recommend.userId}" >
-							<input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}" >
+							<input type="hidden" id="recommendUserId" name="recommend.userId" value="#if($!{recommend.userId}) $!{recommend.userId}#else 0 #end" >
+							<input type="hidden" id="recommendUserPic" name="recommend.userPic" value="$!{recommend.userPic}">
 							<input type="hidden" id="recommendName" name="recommend.name" value="$!{recommend.name}">
                         </td>
                     </tr>
