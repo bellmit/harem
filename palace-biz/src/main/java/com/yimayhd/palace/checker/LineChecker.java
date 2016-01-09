@@ -236,10 +236,6 @@ public class LineChecker {
 
 	public static CheckResult checkPackageMonth(PackageMonth month) {
 		String temp = "套餐月份验证失败: {}";
-		if (month.getTime() <= 0) {
-			log.error(temp, JSON.toJSONString(month));
-			return CheckResult.error("无效套餐月份时间");
-		}
 		List<PackageDay> days = month.getDays();
 		if (CollectionUtils.isEmpty(days)) {
 			log.error(temp, JSON.toJSONString(month));
@@ -256,10 +252,6 @@ public class LineChecker {
 
 	public static CheckResult checkPackageDay(PackageDay day) {
 		String temp = "套餐日期项验证失败: {}";
-		if (day.getTime() <= 0) {
-			log.error(temp, JSON.toJSONString(day));
-			return CheckResult.error("无效套餐日期项时间");
-		}
 		List<PackageBlock> blocks = day.getBlocks();
 		if (CollectionUtils.isEmpty(blocks)) {
 			log.error(temp, JSON.toJSONString(day));
