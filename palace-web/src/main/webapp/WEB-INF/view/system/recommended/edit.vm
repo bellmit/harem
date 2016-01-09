@@ -22,7 +22,7 @@
                         <div class="selectList">
                             <select class="selCity inpControl provinceSelect" name="type">
                                 <option value="21" #if($!regionIntroduceDO.state == 21) selected #end>当地指南-亮点</option>
-                                <option value="10" #if($!query.state == 10) selected #end >必买推荐须</option>
+                                <option value="10" #if($!regionIntroduceDO.state == 10) selected #end >必买推荐须</option>
                             </select>
                         </div>
                     </td>
