@@ -25,6 +25,7 @@ import com.yimayhd.membercenter.client.service.MerchantService;
 import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
+import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.service.UserService;
 
@@ -132,6 +133,8 @@ public class UserRPCServiceImpl implements UserRPCService {
 		if(StringUtils.isNotBlank(query.getNickname())){
 			userDOPageQuery.setLikeNickname(query.getNickname());
 		}
+		userDOPageQuery.setOptionsList(query.getOptionsList());
+		
 		BasePageResult<UserDO> result = userServiceRef.findPageResultByCondition(userDOPageQuery);
 		int totalCount = 0;
 		List<UserDO> itemList = new ArrayList<UserDO>();
