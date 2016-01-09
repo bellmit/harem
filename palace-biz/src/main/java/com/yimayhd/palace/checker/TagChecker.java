@@ -9,7 +9,7 @@ import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.model.LiveTagVO;
 
 /**
- * Tag checker
+ * 标签checker
  * 
  * @author yebin
  *
@@ -35,7 +35,9 @@ public class TagChecker {
 	}
 
 	public static CheckResult checkLiveTagVOForUpdate(LiveTagVO tag) {
+		String temp = "标签验证失败: {}";
 		if (tag.getId() <= 0) {
+			log.error(temp, JSON.toJSONString(tag));
 			return CheckResult.error("无效标签ID");
 		}
 		return checkLiveTagVOForSave(tag);

@@ -9,8 +9,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.PicturesDO;
+import com.yimayhd.ic.client.model.domain.RestaurantDO;
+import com.yimayhd.ic.client.model.enums.PictureOutType;
+import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
+import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.checker.RestaurantChecker;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.model.PictureVO;
 import com.yimayhd.palace.model.RestaurantVO;
 import com.yimayhd.palace.model.query.RestaurantListQuery;
@@ -18,11 +25,6 @@ import com.yimayhd.palace.repo.PictureRepo;
 import com.yimayhd.palace.repo.RestaurantRepo;
 import com.yimayhd.palace.service.RestaurantService;
 import com.yimayhd.palace.util.DateUtil;
-import com.yimayhd.ic.client.model.domain.PicturesDO;
-import com.yimayhd.ic.client.model.domain.RestaurantDO;
-import com.yimayhd.ic.client.model.enums.PictureOutType;
-import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
-import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 
 public class RestaurantServiceImpl implements RestaurantService {
 	@Autowired
@@ -64,6 +66,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public void publish(RestaurantVO restaurantVO) {
 		long id = restaurantVO.getId();
 		if (id > 0) {
+			CheckResult checkResult = RestaurantChecker.checkRestaurantVOForUpdate(restaurantVO);
+			if(!checkResult.isSuccess()) {
+				throw new BaseException(checkResult.getMsg());
+			}
 			RestaurantDO restaurantDO = getRestaurantById(id);
 			RestaurantDO restaurantDTO = restaurantVO.toRestaurantDO(restaurantDO);
 			boolean updateRestaurant = restaurantRepo.updateRestaurant(restaurantDTO);
@@ -85,6 +91,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 				}
 			}
 		} else {
+			CheckResult checkResult = RestaurantChecker.checkRestaurantVOForSave(restaurantVO);
+			if(!checkResult.isSuccess()) {
+				throw new BaseException(checkResult.getMsg());
+			}
 			RestaurantDO restaurantDO = restaurantVO.toRestaurantDO();
 			RestaurantDO addedRestaurant = restaurantRepo.addRestaurant(restaurantDO);
 			if (addedRestaurant == null) {
