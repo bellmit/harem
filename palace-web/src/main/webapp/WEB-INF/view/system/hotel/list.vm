@@ -166,16 +166,16 @@
                     layer.alert('操作成功', {
                         icon: 1,
                         time: 1500
-                    }, function(){
-                        window.location.href = window.location.href;
                     });
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1500);
                 }else{
                     layer.alert('操作失败', {
                         icon: 2,
                         time: 2000
-                    }, function(){
-                        $(this).prop('disabled',false);
                     });
+                    $(this).prop('disabled',false);
                 }
             })
         });
