@@ -141,10 +141,6 @@ public class LineChecker {
 			log.error(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效发布者");
 		}
-		if (baseInfo.getPublisherType() <= 0) {
-			log.error(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("发布者类型不能为空");
-		}
 		if (baseInfo.getToId() <= 0) {
 			log.error(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效目的地");
