@@ -2,6 +2,7 @@ package com.yimayhd.palace.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.LineDO;
@@ -89,37 +90,25 @@ public class TripServiceImpl implements TripService {
 	public RegionDO saveOrUpdate(TripBo tripBo) throws Exception {
 		RegionDO regionDO = null;
 		if (0 == tripBo.getId()) {
-			regionDO = new RegionDO();
-			regionDO.setCityCode(tripBo.getCityCode());
-			regionDO.setType(tripBo.getType());
-			regionDO.setBgUrl(tripBo.getCoverURL());// 封面logo
-			regionDO.setUrl(tripBo.getLogoURL());// logo
-			regionDO.setGmtModified(new Date());
-			regionDO.setStatus(RegionStatus.VALID.getStatus());
-			RcResult<RegionDO> res = regionClientServiceRef.insert(regionDO);
-			if (null != res && res.isSuccess() && null != res.getT()) {
-				return res.getT();
-			}
-			return null;
-		} else {
-			RcResult<RegionDO> res = regionClientServiceRef.selectById(tripBo.getId());
-			if (null == res || !res.isSuccess() || null == res.getT()) {
-				throw new Exception("data [RegionDO] not available,id=" + tripBo.getId());
-			}
-			regionDO = res.getT();
-			regionDO.setId(tripBo.getId());
-			regionDO.setCityCode(tripBo.getCityCode());
-			regionDO.setType(tripBo.getType());
-			regionDO.setBgUrl(tripBo.getCoverURL());// 封面logo
-			regionDO.setUrl(tripBo.getLogoURL());// logo
-			regionDO.setGmtModified(new Date());
-			regionDO.setStatus(RegionStatus.VALID.getStatus());
-			RcResult<Boolean> resb = regionClientServiceRef.updateById(regionDO);
-			if (null != resb && resb.isSuccess() && null != resb.getT()) {
-				return regionDO;
-			}
-			return null;
+			throw  new Exception("目的地基础数据异常，id不能为0");
 		}
+		RcResult<RegionDO> res = regionClientServiceRef.selectById(tripBo.getId());
+		if (null == res || !res.isSuccess() || null == res.getT()) {
+			throw new Exception("data [RegionDO] not available,id=" + tripBo.getId());
+		}
+		regionDO = res.getT();
+		regionDO.setId(tripBo.getId());
+		regionDO.setCityCode(tripBo.getCityCode());
+		regionDO.setType(tripBo.getType());
+		regionDO.setBgUrl(tripBo.getCoverURL());// 封面logo
+		regionDO.setUrl(tripBo.getLogoURL());// logo
+		regionDO.setGmtModified(new Date());
+		regionDO.setStatus(RegionStatus.VALID.getStatus());
+		RcResult<Boolean> resb = regionClientServiceRef.updateById(regionDO);
+		if (null != resb && resb.isSuccess() && null != resb.getT()) {
+			return regionDO;
+		}
+		return null;
 	}
 	
 	@Override
@@ -617,17 +606,19 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public List<RegionDO> selectRegion(int type) {
-		RCPageResult<RegionDO> res = regionClientServiceRef.getRegionDOListByType(type);
-		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
-			List<RegionDO> list = res.getList();
-			int size = list.size();
-			for(int i=0;i<size;i++){
-				if(list.get(i).getStatus() == BaseStatus.DELETED.getType() ){
-					list.remove(i);
+
+		//TODO:这里过滤掉已经启用的目的地。
+		List<RegionDO> listRegionDO = regionClientServiceRef.getAllRegionListByType(type);
+		if(CollectionUtils.isNotEmpty(listRegionDO)){
+			Iterator iter = listRegionDO.iterator();
+			while (iter.hasNext()){
+				RegionDO regionDO = (RegionDO) iter.next();
+				if(null != regionDO && regionDO.getStatus() == BaseStatus.AVAILABLE.getType()){
+					iter.remove();
 				}
 			}
-			System.out.println(list.size());
-			return list;
+			System.out.println(listRegionDO.size());
+			return listRegionDO;
 		}
 		return null;
 	}

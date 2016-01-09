@@ -56,7 +56,7 @@ public class LineChecker {
 		if (!checkBaseInfoForSave.isSuccess()) {
 			return checkBaseInfoForSave;
 		}
-		CheckResult checkTripInfoForSave = checkTripInfoForSave(gt.getTripInfo());
+		CheckResult checkTripInfoForSave = checkTripInfo(gt.getTripInfo());
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
 		}
@@ -72,7 +72,12 @@ public class LineChecker {
 		if (!checkBaseInfoForUpdate.isSuccess()) {
 			return checkBaseInfoForUpdate;
 		}
-		CheckResult checkTripInfoForSave = checkTripInfoForUpdate(gt.getTripInfo());
+		String temp = "行程信息验证失败: {}";
+		if (gt.getRouteId() <= 0) {
+			log.error(temp, JSON.toJSONString(gt));
+			return CheckResult.error("无效行程ID");
+		}
+		CheckResult checkTripInfoForSave = checkTripInfo(gt.getTripInfo());
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
 		}
@@ -274,19 +279,29 @@ public class LineChecker {
 
 	public static CheckResult checkPriceInfoForUpdate(PriceInfo priceInfo) {
 		String temp = "线路价格信息验证失败: {}";
-		if(priceInfo.getItemId() <= 0) {
+		if (priceInfo.getItemId() <= 0) {
 			log.error(temp, JSON.toJSONString(priceInfo));
 			return CheckResult.error("无效商品ID");
 		}
 		return checkPriceInfoForSave(priceInfo);
 	}
 
-	public static CheckResult checkTripInfoForSave(List<TripDay> tripInfo) {
-		// TODO YEBIN
+	public static CheckResult checkTripInfo(List<TripDay> tripInfo) {
+		String temp = "行程信息验证失败: {}";
+		if (CollectionUtils.isEmpty(tripInfo)) {
+			log.error(temp, JSON.toJSONString(tripInfo));
+			return CheckResult.error("行程信息不能为空");
+		}
+		for (TripDay tripDay : tripInfo) {
+			CheckResult checkTripDay = checkTripDay(tripDay);
+			if (!checkTripDay.isSuccess()) {
+				return checkTripDay;
+			}
+		}
 		return CheckResult.success();
 	}
 
-	public static CheckResult checkTripInfoForUpdate(List<TripDay> tripInfo) {
+	public static CheckResult checkTripDay(TripDay tripDay) {
 		// TODO YEBIN
 		return CheckResult.success();
 	}
