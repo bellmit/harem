@@ -407,12 +407,14 @@ public class TripServiceImpl implements TripService {
 						tripBo.setLiveSubhead(boothDO.getDesc());
 					}
 					if(ColumnType.MUST_LINE.getType() == type){//必体验线路
-						List biTiYanList = boothShowResult.getShowcaseDOList();
-						tripBo.setZhiBo(getRelevanceItemIds(biTiYanList));
-						tripBo.setLineSubhead(boothDO.getDesc());
+						NeedKnow xianLu = new NeedKnow();
+						List xianLuList = boothShowResult.getShowcaseDOList();
+						xianLu.setExtraInfoUrl(ColumnType.MUST_LINE.getCode());
+						//xianLu.setFrontNeedKnow(showCaseToTextItem(liangDianList));
+						tripBo.setXianLu(getRelevanceItemIds(xianLuList));
+						tripBo.setLiveSubhead(boothDO.getDesc());
 					}
 				}
-
 			}
 		}
 		return tripBo;
