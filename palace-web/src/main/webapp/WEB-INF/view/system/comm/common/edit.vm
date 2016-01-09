@@ -498,6 +498,8 @@
     }
 
     $(function(){
+        //修改页时检查sku
+        setTableShowFlag();
         //上传图片detailUrl
         $(document).delegate("#bigListPicUrl",'change',function(){
             fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
