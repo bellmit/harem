@@ -65,10 +65,16 @@ public class RestaurantChecker {
 		if (StringUtils.isBlank(restaurantVO.getOneword())) {
 			log.error(temp, JSON.toJSONString(restaurantVO));
 			return CheckResult.error("餐厅简介不能为空");
+		} else if (restaurantVO.getOneword().length() > 100) {
+			log.error(temp, JSON.toJSONString(restaurantVO));
+			return CheckResult.error("餐厅简介不能超过100字");
 		}
 		if (StringUtils.isBlank(restaurantVO.getDescription())) {
 			log.error(temp, JSON.toJSONString(restaurantVO));
 			return CheckResult.error("特色描述不能为空");
+		} else if (restaurantVO.getDescription().length() > 500) {
+			log.error(temp, JSON.toJSONString(restaurantVO));
+			return CheckResult.error("特色描述不能超过500字");
 		}
 		if (StringUtils.isBlank(restaurantVO.getLogoUrl())) {
 			log.error(temp, JSON.toJSONString(restaurantVO));
