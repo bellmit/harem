@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.item.HotelShortItem;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.palace.checker.result.CheckResult;
@@ -18,6 +19,7 @@ import com.yimayhd.palace.model.travel.PackageDay;
 import com.yimayhd.palace.model.travel.PackageInfo;
 import com.yimayhd.palace.model.travel.PackageMonth;
 import com.yimayhd.palace.model.travel.PriceInfo;
+import com.yimayhd.palace.model.travel.flightHotelTravel.FlightHotelTravel;
 import com.yimayhd.palace.model.travel.flightHotelTravel.TripPackageInfo;
 import com.yimayhd.palace.model.travel.groupTravel.GroupTravel;
 import com.yimayhd.palace.model.travel.groupTravel.TripDay;
@@ -32,58 +34,78 @@ public class LineChecker {
 	private static final Logger log = LoggerFactory.getLogger(LineChecker.class);
 
 	public static <T extends BaseTravel> CheckResult checkForSave(T travel) {
+		CheckResult checkBaseInfoForSave = checkBaseInfoForSave(travel.getBaseInfo());
+		if (!checkBaseInfoForSave.isSuccess()) {
+			return checkBaseInfoForSave;
+		}
+		CheckResult checkPriceInfoForSave = checkPriceInfoForSave(travel.getPriceInfo());
+		if (!checkPriceInfoForSave.isSuccess()) {
+			return checkPriceInfoForSave;
+		}
 		if (travel instanceof GroupTravel) {
 			CheckResult checkGroupTravelForSave = checkGroupTravelForSave((GroupTravel) travel);
 			if (!checkGroupTravelForSave.isSuccess()) {
 				return checkGroupTravelForSave;
+			}
+		} else if (travel instanceof FlightHotelTravel) {
+			CheckResult checkFlightHotelTravel = checkFlightHotelTravel((FlightHotelTravel) travel);
+			if (!checkFlightHotelTravel.isSuccess()) {
+				return checkFlightHotelTravel;
 			}
 		}
 		return CheckResult.success();
 	}
 
 	public static <T extends BaseTravel> CheckResult checkForUpdate(T travel) {
+		CheckResult checkBaseInfoForUpdate = checkBaseInfoForUpdate(travel.getBaseInfo());
+		if (!checkBaseInfoForUpdate.isSuccess()) {
+			return checkBaseInfoForUpdate;
+		}
+		CheckResult checkPriceInfoForUpdate = checkPriceInfoForUpdate(travel.getPriceInfo());
+		if (!checkPriceInfoForUpdate.isSuccess()) {
+			return checkPriceInfoForUpdate;
+		}
 		if (travel instanceof GroupTravel) {
 			CheckResult checkGroupTravelForUpdate = checkGroupTravelForUpdate((GroupTravel) travel);
 			if (!checkGroupTravelForUpdate.isSuccess()) {
 				return checkGroupTravelForUpdate;
+			}
+		} else if (travel instanceof FlightHotelTravel) {
+			CheckResult checkFlightHotelTravel = checkFlightHotelTravel((FlightHotelTravel) travel);
+			if (!checkFlightHotelTravel.isSuccess()) {
+				return checkFlightHotelTravel;
 			}
 		}
 		return CheckResult.success();
 	}
 
 	public static CheckResult checkGroupTravelForSave(GroupTravel gt) {
-		CheckResult checkBaseInfoForSave = checkBaseInfoForSave(gt.getBaseInfo());
-		if (!checkBaseInfoForSave.isSuccess()) {
-			return checkBaseInfoForSave;
-		}
 		CheckResult checkTripInfoForSave = checkTripInfo(gt.getTripInfo());
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
-		}
-		CheckResult checkPriceInfoForSave = checkPriceInfoForSave(gt.getPriceInfo());
-		if (!checkPriceInfoForSave.isSuccess()) {
-			return checkPriceInfoForSave;
 		}
 		return CheckResult.success();
 	}
 
 	public static CheckResult checkGroupTravelForUpdate(GroupTravel gt) {
-		CheckResult checkBaseInfoForUpdate = checkBaseInfoForUpdate(gt.getBaseInfo());
-		if (!checkBaseInfoForUpdate.isSuccess()) {
-			return checkBaseInfoForUpdate;
-		}
 		String temp = "行程信息验证失败: {}";
 		if (gt.getRouteId() <= 0) {
 			log.error(temp, JSON.toJSONString(gt));
 			return CheckResult.error("无效行程ID");
 		}
-		CheckResult checkTripInfoForSave = checkTripInfo(gt.getTripInfo());
-		if (!checkTripInfoForSave.isSuccess()) {
-			return checkTripInfoForSave;
-		}
-		CheckResult checkPriceInfoForUpdate = checkPriceInfoForUpdate(gt.getPriceInfo());
-		if (!checkPriceInfoForUpdate.isSuccess()) {
-			return checkPriceInfoForUpdate;
+		return checkGroupTravelForSave(gt);
+	}
+
+	public static CheckResult checkFlightHotelTravel(FlightHotelTravel fht) {
+		return checkTripPackageInfo(fht.getTripPackageInfo());
+	}
+
+	public static CheckResult checkTripPackageInfo(TripPackageInfo tripPackageInfo) {
+		String temp = "机酒套餐信息验证失败: {}";
+		List<HotelShortItem> hotels = tripPackageInfo.getHotels();
+		if (CollectionUtils.isEmpty(hotels)) {
+			log.error(temp, JSON.toJSONString(tripPackageInfo));
+			return CheckResult.error("机酒套餐中酒店信息不能为空");
 		}
 		return CheckResult.success();
 	}
