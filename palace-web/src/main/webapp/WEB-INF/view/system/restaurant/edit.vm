@@ -198,8 +198,7 @@
 				if(ka == null) return;
 				$("#recommendName").val(ka.nickName);
 				$("#userImg").attr('src',tfsPath + ka.avatar);
-				$("#recommendId").val(ka.id);
-				$("#recommendUserId").val(ka.userId);
+				$("#recommendUserId").val(ka.id);
 				$("#recommendUserPic").val(ka.avatar);
 				$("#recommendNameT").html(ka.nickName);
 				return true;
