@@ -386,16 +386,7 @@ function setArrId(obj,textId){
         }
      }
 	
-	//概况的
-	/*var conTr =$(".needKnow").length;
-	$(".addNeedKnow").unbind("click").click(function () {
-    	var addhtml="";
-    	var html1 = $("#needKnowTemp").html();
-    	var i = ++conTr;
-    	addhtml = addhtml + html1.replace('$index', i).replace('$index1', i);
-    	$(".needKnowTable").prev().append(addhtml);
-	});	*/
-	
+
  	function delneedKnowTR(obj){
 		$(obj).parent().parent().remove(); 
  	}
@@ -465,8 +456,8 @@ function setArrId(obj,textId){
     }
 	var thlist = []; 
 	thlist='$cityId';
-	//$("#cityId").focus( function(){});
-	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
+
+	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4",isAll:"true"} ,function(data){
 		if(data.status == 200){
 		var html="";
 			$.each(data.data, function(n,val){ 

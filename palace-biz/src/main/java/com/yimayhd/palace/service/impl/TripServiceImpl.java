@@ -612,10 +612,13 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public List<RegionDO> selectRegion(int type) {
-
+	public List<RegionDO> selectRegion(int type,boolean isAll) {
 		List<RegionDO> listRegionDO = regionClientServiceRef.getAllRegionListByType(type);
-		if(CollectionUtils.isNotEmpty(listRegionDO)){
+		if(CollectionUtils.isEmpty(listRegionDO)){
+			log.error("获取省市基础数据列表异常");
+			return null;
+		}
+		if(isAll){
 			Iterator iter = listRegionDO.iterator();
 			while (iter.hasNext()){
 				RegionDO regionDO = (RegionDO) iter.next();
@@ -623,9 +626,8 @@ public class TripServiceImpl implements TripService {
 					iter.remove();
 				}
 			}
-			return listRegionDO;
 		}
-		return null;
+		return listRegionDO;
 	}
 
 	public Long getBoothDOId(String code) throws Exception{

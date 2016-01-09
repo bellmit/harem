@@ -72,10 +72,10 @@
 			var picName="";
 			var name=item.textContent;
 			if ( name != null && name!=""){
-				if(name.length<20){
+				if(name.length<30){
 					picName=name;
 				}else{
-					picName=name.substr(0, 20)+"...";
+					picName=name.substr(0, 30)+"...";
 				}
 			}
 			var PicURL = "";

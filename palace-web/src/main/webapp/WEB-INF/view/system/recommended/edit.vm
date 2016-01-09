@@ -27,14 +27,14 @@
                         </div>
                     </td>
                 </tr>
-				#*
-				* <tr>
-                    <td><span class="spColor">*</span>简介</td>
-                    <td>
-                          <textarea class="form-control extra-info-item-text"  name="desc" rows="3">$!regionIntroduceDO.desc</textarea>
-                    </td>
-                </tr>
-				* *#
+            #**
+             * <tr>
+             <td><span class="spColor">*</span>简介</td>
+             <td>
+             <textarea class="form-control extra-info-item-text"  name="desc" rows="3">$!regionIntroduceDO.desc</textarea>
+             </td>
+             </tr>
+             *#
 				
 				<tr>
                     <td><span class="spColor">*</span>图片</td>
@@ -42,7 +42,7 @@
                         <div class="fileImgWrap">
                             <button type="button" class="btn btn-success">选择图片</button>
                             <input type="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
-                            <input type="hidden" name="imgUrl" value=""  id="FMReturnInput">
+                            <input type="hidden" name="imgUrl" value="$!regionIntroduceDO.imgUrl"  id="FMReturnInput">
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
                         <div class="propagandaView">
@@ -117,17 +117,23 @@
    });
    
    	//关联城市
-   	//$("#cityId").focus( function(){});
-   	var thlist = []; 
-	thlist='$cityId';
+   	var thlist = [];
+	thlist='$cityCode';
 	
-   	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
+   	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4",isAll:"false"} ,function(data){
 	    	if(data.status == 200){
 	    	var html="";
 	    		$.each(data.data, function(n,val){ 
                    console.log("data:"+val.id+"  _"+val.name);
-                   html+="<option id="+val.id+" level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id
-	               if(thlist.indexOf(val.id)>-1){
+                   var dbCityCode="";
+                    var level=val.level;
+                    if(1==level){
+                        dbCityCode=val.provinceCode;
+                    }else{
+                        dbCityCode=val.cityCode;
+                    }
+                    html+="<option id="+val.id+" cityName="+val.name+ " level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id
+	               if(thlist.indexOf(dbCityCode)>-1){
                	        html+= " selected = 'selected' ";
                    }
 	           html+=">"+val.name+"</option>";

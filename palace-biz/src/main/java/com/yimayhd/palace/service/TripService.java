@@ -163,7 +163,7 @@ public interface TripService {
 	boolean blockOrUnBlock(List<Long> ids,int status)throws Exception;
 	
 	
-	List<RegionDO> selectRegion(int type);
+	List<RegionDO> selectRegion(int type,boolean isAll);
 	
 	/**
 	* @Title: getPageSnsSubjectDO 

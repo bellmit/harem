@@ -139,10 +139,10 @@ public class TripManageController extends BaseController {
 	 */
 	@RequestMapping("/selectRegion")
 	@ResponseBody
-	public ResponseVo selectDepartureList(Model model,int type){
+	public ResponseVo selectDepartureList(Model model,int type,boolean isAll){
 		//已经根据status,过滤掉相应type下已经创建过的城市
 		// 1-酒店区域 2-景区区域 3-线路出发地 4-线路目的地
-		List<RegionDO> list = tripService.selectRegion(RegionType.DESC_REGION.getType());
+		List<RegionDO> list = tripService.selectRegion(RegionType.DESC_REGION.getType(),isAll);
 		if(CollectionUtils.isNotEmpty(list)){
 			return new ResponseVo(list);			
 		}
