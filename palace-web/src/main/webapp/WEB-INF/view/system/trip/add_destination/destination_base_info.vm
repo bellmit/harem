@@ -329,7 +329,7 @@
     <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo"     	   value="$!tripBo.zhiBo">
     <input type="hidden" class="inpControl" id="xianLuId" name="xianLu"        value="$!tripBo.xianLu">
     <input type="hidden" class="inpControl" id="liangDianId" name="liangDian"  value="$!tripBo.liangDian">
-    
+    <input type="hidden" class="inpControl" id="tripId" name="id"  value="">
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
 </form>
@@ -440,6 +440,8 @@ function setArrId(obj,textId){
         if(tripId){
             actionUrl = actionDefaultPath + '/B2C/trip/edit/'+tripId;
         }else{
+            var tripId=$('select option:selected').attr("id");
+            $("#tripId").val(tripId);
             actionUrl = actionDefaultPath + '/B2C/trip/add';
         }
         $('#tripForm').attr('action', actionUrl);
