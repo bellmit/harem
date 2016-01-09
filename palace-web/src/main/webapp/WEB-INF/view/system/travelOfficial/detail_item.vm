@@ -38,7 +38,9 @@
                                             <input type="hidden" name="travelBGImg" value="$!travelOfficial.travelImg"  id="travelBGImg_$!{velocityCount}">
                                         <span id="travelImgId_$!{velocityCount}" class="form-control extra-info-item-title" >
                                             #foreach($imgList in $!travelOfficial.travelImg)
-                                                <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgList">
+                                                #if($!imgList)
+                                                    <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgList">
+                                                #end
                                             #end
                                         </span>
                                         </td>
@@ -206,7 +208,7 @@
                     icon: 1,
                     time: 3000
                 }, function(){
-                    location.reload();
+                    window.location.reload();
                 });
             }else{
                 layer.msg('操作失败', {
