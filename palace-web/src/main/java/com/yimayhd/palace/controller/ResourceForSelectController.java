@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -279,8 +280,11 @@ public class ResourceForSelectController extends BaseController {
 			if(pageNumber != null){
 				query.setPageNo(pageNumber);
 			}
-			query.setOptions(UserOptions.TRAVEL_KA.getLong());
+			List<Long> optionList = new ArrayList<Long>();
+			optionList.add(UserOptions.TRAVEL_KA.getLong());
+			query.setOptionsList(optionList);
 			PageVO<UserDO>  pageVo = userService.getTravelKaListByPage(query);
+			query.setOptionsList(null);
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("pageVo", pageVo);
 			result.put("query", query);
