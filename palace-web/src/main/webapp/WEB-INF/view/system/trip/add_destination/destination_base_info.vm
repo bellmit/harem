@@ -62,19 +62,7 @@
                     #end
                     </td>
                 </tr>
-                #*
-                <tr>
-                    <td><span class="spColor">*</span>标签</td>
-                    <td>
-                        <div class="selectList">
-                            <select class="selCity inpControl provinceSelect" name="tag">
-                                <option value="1">国内目的地</option>
-                                <option value="2">热门目的地</option>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                *#
+
 				<tr>
                     <td><span class="spColor">*</span>封面图</td>
                     <td>

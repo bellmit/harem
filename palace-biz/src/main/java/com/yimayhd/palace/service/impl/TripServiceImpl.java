@@ -405,7 +405,7 @@ public class TripServiceImpl implements TripService {
 						xianLu.setExtraInfoUrl(ColumnType.MUST_LINE.getCode());
 						//xianLu.setFrontNeedKnow(showCaseToTextItem(liangDianList));
 						tripBo.setXianLu(getRelevanceItemIds(xianLuList));
-						tripBo.setLiveSubhead(boothDO.getDesc());
+						tripBo.setLineSubhead(boothDO.getDesc());
 					}
 				}
 			}
