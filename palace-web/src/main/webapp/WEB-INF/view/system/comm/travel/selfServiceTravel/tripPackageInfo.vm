@@ -70,7 +70,7 @@
 		<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home'></i><span class="tripAddSp">添加酒店</span></div>
 		<div class='panel-body hotel' id='day_hotel'>
 		#foreach($hotel in $product.tripPackageInfo.hotels)
-			<button class="btn btn-info remove-self" rNd="$!{hotel.id}" rName="$!{hotel.name}" rAddress="$!{hotel.address}">$!{hotel.name}</button>
+			<button class="btn btn-info hotel_item remove-self" rNd="$!{hotel.id}" rName="$!{hotel.name}" rAddress="$!{hotel.address}">$!{hotel.name}</button>
 		#end
 		</div>
 		<div class="panel-body"><button class='btn btn-primary select-hotel'>选择酒店</button></div>
