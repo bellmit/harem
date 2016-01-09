@@ -120,7 +120,7 @@
 			if(result.status == 200) {
 				window.location.reload();
 			} else {
-				layer.alert('保存标签失败', {
+				layer.alert(result.message, {
 					icon : 2
 				});
 			}

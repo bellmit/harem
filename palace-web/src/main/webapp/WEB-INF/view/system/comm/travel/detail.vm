@@ -127,7 +127,7 @@
                     }
                 });
 			} else {
-				layer.alert('添加失败', {
+				layer.alert(data.message, {
 					icon : 2
 				});
 			}

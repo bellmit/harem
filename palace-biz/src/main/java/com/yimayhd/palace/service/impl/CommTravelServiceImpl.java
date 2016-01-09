@@ -57,7 +57,7 @@ public class CommTravelServiceImpl implements CommTravelService {
 		LinePublishResult publishLine = null;
 		long lineId = travel.getBaseInfo().getId();
 		if (lineId > 0) {
-			CheckResult checkForSave = LineChecker.checkForSave(travel);
+			CheckResult checkForSave = LineChecker.checkForUpdate(travel);
 			if (checkForSave.isSuccess()) {
 				LineResult lineResult = lineRepo.getLineById(lineId);
 				publishLine = lineRepo.updateLine(travel.toLinePublishDTOForUpdate(lineResult));
@@ -65,7 +65,7 @@ public class CommTravelServiceImpl implements CommTravelService {
 				throw new BaseException(checkForSave.getMsg());
 			}
 		} else {
-			CheckResult checkForUpdate = LineChecker.checkForUpdate(travel);
+			CheckResult checkForUpdate = LineChecker.checkForSave(travel);
 			if (checkForUpdate.isSuccess()) {
 				publishLine = lineRepo.saveLine(travel.toLinePublishDTOForSave());
 			} else {
