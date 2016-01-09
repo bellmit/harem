@@ -72,7 +72,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		
 		//酒店状态
 		if (hotelListQuery.getHotelStatus() != 0) {			
-			hotelPageQuery.setItemStatus(hotelListQuery.getHotelStatus());
+			hotelPageQuery.setStatus(hotelListQuery.getHotelStatus());
 		}
 		
 		//开始时间

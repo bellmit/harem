@@ -105,7 +105,7 @@ public class HotelManageController extends BaseController {
 
 		HotelDO hotelDO = new HotelDO();
 		hotelDO.setId(id);
-		hotelDO.setItemStatus(hotelStatus);
+		hotelDO.setStatus(hotelStatus);
 
 		ICResult<Boolean> icResult = hotelRPCService.updateHotelStatus(hotelDO);
 

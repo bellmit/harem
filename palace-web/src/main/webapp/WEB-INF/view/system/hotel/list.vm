@@ -48,8 +48,8 @@
             </div>
         </div>
         <button type="button" class="btn btn-primary addHotelBtn">添加酒店</button>
-        <button type="button" class="btn btn-primary hotelBatchBtn" btnType="1">批量启用</button>
-        <button type="button" class="btn btn-primary hotelBatchBtn" btnType="2">批量禁用</button>
+        #*<button type="button" class="btn btn-primary hotelBatchBtn" btnType="1">批量启用</button>
+        <button type="button" class="btn btn-primary hotelBatchBtn" btnType="2">批量禁用</button>*#
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
@@ -78,7 +78,7 @@
                         </td>
                         <td>
                         <button type="button" class="btn btn-primary hotelDetail" hotelId="$hotel.id">查看</button>
-                        <button type="button" class="btn btn-primary hotelBtn"  hotelId="$hotel.id" #if($hotel.itemStatus == 2) status="3" #elseif($hotel.itemStatus != 2) status="2" #end >#if($hotel.itemStatus == 2) 停用 #elseif($hotel.itemStatus != 2) 启用 #end </button>
+                        <button type="button" class="btn btn-primary hotelBtn"  hotelId="$hotel.id" #if($hotel.status == 1) status="2" #elseif($hotel.status == 2) status="1" #end >#if($hotel.status == 1) 停用 #elseif($hotel.status == 2) 启用 #end</button>
                         </td>
                     </tr>
                     #end
