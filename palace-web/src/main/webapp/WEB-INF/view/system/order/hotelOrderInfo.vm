@@ -21,7 +21,7 @@
                 </span>
             #elseif($order.mainOrder.orderShowState == 2)
                 <span>
-                    已付款
+                    已发货；发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.consignTime)
                     <button type="button" class="btn btn-primary affirm"
                             data-target="#affirmModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">确认
                     </button>

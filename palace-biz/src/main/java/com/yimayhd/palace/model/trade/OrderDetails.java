@@ -2,6 +2,7 @@ package com.yimayhd.palace.model.trade;
 
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +30,8 @@ public class OrderDetails {
     private int payChannel;
 
     private String closeReason;
+
+    private Date consignTime;
 
     public MainOrder getMainOrder() {
         return mainOrder;
@@ -116,5 +119,13 @@ public class OrderDetails {
 
     public void setCloseReason(String closeReason) {
         this.closeReason = closeReason;
+    }
+
+    public Date getConsignTime() {
+        return consignTime;
+    }
+
+    public void setConsignTime(Date consignTime) {
+        this.consignTime = consignTime;
     }
 }

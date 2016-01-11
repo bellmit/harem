@@ -7,6 +7,7 @@ import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
@@ -32,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -184,8 +186,15 @@ public class OrderServiceImpl implements OrderService {
 				String closeReason = BizOrderUtil.getCloseReason(mainOrder.getBizOrderDO());
 				orderDetails.setCloseReason(closeReason);
 
+				//确认、发货时间
+				LogisticsOrderDO logisticsOrderDO = singleQueryResult.getLogisticsOrderDO();
+				if (logisticsOrderDO!=null){
+					Date consignTime = logisticsOrderDO.getConsignTime();
+					if (consignTime!=null){
+						orderDetails.setConsignTime(consignTime);
+					}
+				}
 				return orderDetails;
-
 			}
 		}catch (Exception e){
 			log.error("public OrderDetails getOrderById(long id);" + e);

@@ -31,7 +31,7 @@
                 </span>
             #elseif($order.mainOrder.orderShowState == 3)
                 <span>
-                    已发货
+                    已发货；发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.consignTime)
                     <button type="button" class="btn btn-primary finish"
                          data-target="#finishModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
                     </button>
