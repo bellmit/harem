@@ -1,5 +1,7 @@
 package com.yimayhd.commission.controller;
 
+import com.yimayhd.commission.repo.CommissionRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -12,5 +14,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class CommissionController  {
 
-    
+    @Autowired
+    private CommissionRepo commissionRepo;
 }
