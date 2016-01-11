@@ -69,6 +69,8 @@ public class TravelOfficialImpl implements TravelOfficialService{
         PageVO<SnsTravelSpecialtyDO> pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),0);;
         if(result != null && result.isSuccess()){
             pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),result.getTotalCount(),result.getList());
+        }else{
+            log.error("snsCenterService.getTravelSpecialPage is null,result="+JSON.toJSONString(result)+"|parameter="+JSON.toJSONString(travelSpecialDTO));
         }
         return pageVO;
     }
@@ -81,6 +83,8 @@ public class TravelOfficialImpl implements TravelOfficialService{
         if(result!= null && result.isSuccess()){
             SnsTravelSpecialtyDO snsTravelSpecialtyDO = result.getValue();
             travelOfficial = convertTravelOfficial(snsTravelSpecialtyDO);
+        }else{
+            log.error("snsCenterService.getTravelSpecialInfoBySubjectId is null,result="+result+"|paramenter="+id);
         }
         return travelOfficial;
     }
@@ -92,6 +96,8 @@ public class TravelOfficialImpl implements TravelOfficialService{
         if(null != res && res.isSuccess() && null != res.getValue()){
             travelOfficial.setId(res.getValue().getId());
             return travelOfficial;
+        }else{
+            log.error("snsCenterService.addTravelSpecialInfo failure,paramenter="+JSON.toJSONString(travelOfficial));
         }
         return null;
     }
@@ -159,6 +165,8 @@ public class TravelOfficialImpl implements TravelOfficialService{
         BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.updateTravelSpecialInfo(travelSpecialAddDTO);
         if(null != res && res.isSuccess()){
             return true;
+        }else{
+            log.error("snsCenterService.updateTravelSpecialInfo failure,paramenter="+JSON.toJSONString(travelOfficial));
         }
         return false;
     }
@@ -180,6 +188,8 @@ public class TravelOfficialImpl implements TravelOfficialService{
         UserDO ud = userRPCService.getUserById(id);
         if(null != ud ){
             return ud.getName();
+        }else{
+            log.error("userRPCService.getUserById failure,paramenter="+id);
         }
         return null;
     }
@@ -207,6 +217,8 @@ public class TravelOfficialImpl implements TravelOfficialService{
         BaseResult<Boolean> res = snsCenterService.updateTravelStateByIds(travelSpecialDTO);
         if(null != res && res.isSuccess() && res.getValue() ){
             return true;
+        }else{
+            log.error("snsCenterService.updateTravelStateByIds failure,paramenter="+ JSON.toJSONString(travelSpecialDTO));
         }
         return false;
     }
