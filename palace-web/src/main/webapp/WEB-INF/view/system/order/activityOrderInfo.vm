@@ -22,16 +22,6 @@
             #elseif($order.mainOrder.orderShowState == 2)
                 <span>
                     已付款
-                    <button type="button" class="btn btn-primary affirm"
-                            data-target="#affirmModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">确认
-                    </button>
-##                    <button type="button" class="btn btn-primary refund"
-##                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
-##                    </button>
-                </span>
-            #elseif($order.mainOrder.orderShowState == 3)
-                <span>
-                    已发货；发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.consignTime)
                     <button type="button" class="btn btn-primary finish"
                             data-target="#finishModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
                     </button>
