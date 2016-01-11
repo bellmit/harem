@@ -132,6 +132,9 @@ public class ClubServiceImpl implements ClubService {
 				log.error(" add,Club related theme failure,clubAdd=" + JSON.toJSONString(clubAdd)
 						+ " ,tagRelationInfoDTO=" + JSON.toJSONString(tagRelationInfoDTO));
 			}
+		}else{
+			log.error(" add,Club related theme failure,clubAdd=" + JSON.toJSONString(clubAdd)
+					+ " ,snsCenterService.addClubInfo=" + JSON.toJSONString(res));
 		}
 		return null;
 	}

@@ -60,12 +60,12 @@
                     <td>用户可选入园时间为<input type="text" class="inpControl" name="endTime" id="" placeholder="请输入数字" value="$!commScenic.endBookTimeLimit">天内</td>
                 </tr>
                 <tr>
-                        <td><span class="spColor">*</span>宣传图</td>
-                        <td class="bigListPicTd">
-                            <label>选择列表图</label>
-                            <input id="bigListPicUrl" type="file">
+                       <td><span class="spColor">*</span>宣传图</td>
+                         <td class="bigListPicTd">
+                           #*  <label>选择列表图</label>
+                            <input id="bigListPicUrl" type="file">*#
                             <img class="bigListPicUrl uploadImgFile" src="#if($!commScenic.bigListPic)$utilWebconfig.getTfsRootPath()$!commScenic.bigListPic #end">
-                            <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commScenic.bigListPic">
+                           <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commScenic.bigListPic">
                         </td>
                         <td class="smallListPicTd">
                             <label>选择订单图</label>
@@ -77,7 +77,7 @@
                     <tr>
                         <td><span class="spColor">*</span>详情竖图</td>
                         <td class="picUrlsTd">
-                            <input id="batchUploadBtn" type="file" multiple="multiple" >
+                            #*<input id="batchUploadBtn" type="file" multiple="multiple" >*#
                             #foreach($pic in $!commScenic.picList)
                                 <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
                             #end

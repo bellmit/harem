@@ -1,18 +1,5 @@
 package com.yimayhd.palace.controller;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
@@ -27,8 +14,14 @@ import com.yimayhd.palace.service.UserRPCService;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-//import com.yimayhd.service.MessageCodeService;
+import java.util.List;
 
 /**
  * 俱乐部管理
@@ -105,7 +98,6 @@ public class ClubManageController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo add(ClubAdd clubAdd, @RequestParam("themeIds[]") List<Long> themeIds) throws Exception {
-		// String[] rr = request.getParameterValues("themeIds");
 		ClubAdd club = clubService.saveOrUpdate(clubAdd, themeIds);
 		if (null == club) {
 			return new ResponseVo(ResponseStatus.ERROR);

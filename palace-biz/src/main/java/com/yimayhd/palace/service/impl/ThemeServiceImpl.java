@@ -62,6 +62,8 @@ public class ThemeServiceImpl implements ThemeService {
 		BaseResult<List<ComTagDO>> res = comCenterService.selectTagListByTagType(tagType.name());
 		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getValue())){
 			return res.getValue();
+		}else{
+			log.error("comCenterService.selectTagListByTagType failure,result="+JSON.toJSONString(res)+"|paramenter="+type);
 		}
 		return null;
 	}
@@ -79,6 +81,7 @@ public class ThemeServiceImpl implements ThemeService {
 			themeVo.setStatus(res.getValue().getStatus());
 			return themeVo;
 		}
+		log.error("comCenterService.selectByPrimaryKey failure,result="+JSON.toJSONString(res)+"|paramenter="+id);
 		return null;
 	}
 
