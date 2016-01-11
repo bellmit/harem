@@ -52,6 +52,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 	private ItemQueryService itemQueryServiceRef;
 	@Autowired
 	private ResourcePublishService resourcePublishServiceRef;
+	
 	@Override
 	public ItemPubResult save(CommScenicVO commScenic) throws Exception {
 		ScenicPublishDTO dto = new ScenicPublishDTO();
@@ -90,17 +91,30 @@ public class CommScenicServiceImpl implements CommScenicService {
 					   }
 				   }
 				  
-				   itemDB.setOutId(itemDO.getOutId());
+				  
+				   ICResult<ScenicDO> icResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
+				   if(null == icResult){
+			            log.error("CommScenicServiceImpl.update--itemQueryServiceRef.getScenic return value is null and id is : " + itemDO.getOutId());
+			            throw new BaseException("查询景区资源，返回结果错误");
+			        }else if(!icResult.isSuccess()){
+			            log.error("CommScenicServiceImpl.update--itemQueryServiceRef.getScenic return value error ! returnValue : "+ JSON.toJSONString(icResult) + "  and id is : " + itemDO.getOutId());
+			            throw new NoticeException(icResult.getResultMsg());
+			        }else{
+			        	ScenicDO scenicDO = icResult.getModule();
+			        	//宣传图选择列表图
+			        	 if(StringUtils.isNotBlank(scenicDO.getLogoUrl())){
+				            	itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, scenicDO.getLogoUrl());
+				            }
+			        	 //详情竖图
+				         if(StringUtils.isNotBlank(scenicDO.getCoverUrl())){
+				            	itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, scenicDO.getCoverUrl());
+				            }
+			        }
 				   //商品图片
 		            if(StringUtils.isNotBlank(commScenic.getSmallListPic())){
 		            	itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
 		            }
-		            if(StringUtils.isNotBlank(commScenic.getBigListPic())){
-		            	itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, commScenic.getBigListPic());
-		            }
-		            if(StringUtils.isNotBlank(commScenic.getCoverPics())){
-		            	itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
-		            }
+		           
 		            //商品名称
 					itemDB.setTitle(itemDO.getTitle());
 					//包含项目
@@ -108,7 +122,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 					//入园限制
 					itemDB.setOneWord(itemDO.getOneWord());
 					//价格
-					itemDB.setPrice((long) (commScenic.getPriceF() * 100));
+					itemDB.setPrice((long) (commScenic.getPriceF() * 100)); 
 					itemDB.setOutId(itemDO.getOutId());
 					/*ItemUpdDTO itemDto = new ItemUpdDTO();
 					itemDto.setItem(itemDB);
@@ -160,17 +174,39 @@ public class CommScenicServiceImpl implements CommScenicService {
 						log.error(MessageFormat.format("保存景区失败：line={0}", JSON.toJSONString(itemPubResult)));
 						throw new BaseException("保存景区失败");
 					}
+					return itemPubResult;
 					
 			   }
+			   
 		}else{
 			ScenicDO scenicDO= new ScenicDO();
 			scenicDO.setOrderNum(commScenic.getScenicDO().getOrderNum());
 			scenicDO.setId(commScenic.getItemDO().getOutId());
 
 			itemDO.setDomain(B2CConstant.B2C_DOMAIN);
+			
+			  ICResult<ScenicDO> icResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
+			   if(null == icResult){
+		            log.error("CommScenicServiceImpl.update--itemQueryServiceRef.getScenic return value is null and id is : " + itemDO.getOutId());
+		            throw new BaseException("查询景区资源，返回结果错误");
+		        }else if(!icResult.isSuccess()){
+		            log.error("CommScenicServiceImpl.update--itemQueryServiceRef.getScenic return value error ! returnValue : "+ JSON.toJSONString(icResult) + "  and id is : " + itemDO.getOutId());
+		            throw new NoticeException(icResult.getResultMsg());
+		        }else{
+		        	ScenicDO scenic = icResult.getModule();
+		        	//宣传图选择列表图
+		        	 if(StringUtils.isNotBlank(scenic.getLogoUrl())){
+		        		 itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, scenic.getLogoUrl());
+			            }
+		        	 //详情竖图
+			         if(StringUtils.isNotBlank(scenic.getCoverUrl())){
+			        	 itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, scenic.getCoverUrl());
+			         }
+		        }
+			
 			itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
-			itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, commScenic.getBigListPic());
-			itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
+			//itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, commScenic.getBigListPic());
+			//itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
 			itemDO.setPrice((long) (commScenic.getPriceF() * 100));
 			ItemFeature itemFeature = new ItemFeature(null);
 			 //减库存方式

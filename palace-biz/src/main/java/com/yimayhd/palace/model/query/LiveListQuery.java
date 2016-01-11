@@ -3,7 +3,7 @@ package com.yimayhd.palace.model.query;
 import com.yimayhd.palace.base.BaseQuery;
 
 /**
- * Created by Administrator on 2015/11/16.
+ * Created by czf on 2015/11/16.
  */
 public class LiveListQuery extends BaseQuery {
 	private static final long serialVersionUID = 6465843112323563661L;

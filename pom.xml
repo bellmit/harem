@@ -35,6 +35,7 @@
 		<fhtd.version>0.1.0-SNAPSHOT</fhtd.version>
 		<logback.version>1.1.1</logback.version>
 		<commons.io.version>2.4</commons.io.version>
+		<commission.version>1.0-SNAPSHOT</commission.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -694,6 +695,11 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yimayhd</groupId>
+				<artifactId>commission-client</artifactId>
+				<version>1.0-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 

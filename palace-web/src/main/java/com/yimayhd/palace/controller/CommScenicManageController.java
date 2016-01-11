@@ -79,38 +79,15 @@ public class CommScenicManageController extends BaseController {
     @ResponseBody
     public
     ResponseVo save(CommScenicVO scenicVO) throws Exception {
-    	ResponseVo responseVo = new ResponseVo(); 	
-//<<<<<<< HEAD
-////    	scenicPublishDTO.getItemDO().setSellerId(Long.parseLong(SessionUtils.getUserId()));
-//    	long sellerId = sessionManager.getUserId();
-//    	scenicPublishDTO.getItemDO().setSellerId(sellerId);
-//    	ItemFeature itemFeature = new ItemFeature(null);
-//	        //减库存方式
-//	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE.getBizType());
-//	        //未付款超时时间
-//	        //itemFeature.put(ItemFeatureKey.NOT_PAY_TIMEOUT,3 * 24 * 3600 * 1000L);
-//	        //商品星级
-//	        itemFeature.put(ItemFeatureKey.GRADE,5);
-//	        //可预订时间，秒
-//	        itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT,endTime* 24 * 3600 );
-//	        //需要提前多久预订，秒startDayTime*24 * 3600 * 1000L+startHourTime* 3600 * 1000L
-//	        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,startDayTime*24+(24-startHourTime));
-//	        scenicPublishDTO.getItemDO().setItemFeature(itemFeature);
-//	        ItemPubResult result = commScenicService.save(scenicPublishDTO,check);
-//	        if(result.isSuccess()){
-//				responseVo.setMessage("添加成功！");
-//				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-//			}else{
-//				responseVo.setMessage(result.getResultMsg());
-//				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-//			}
-//	        
-//	    	return responseVo;
-//=======
-   
+    	try {
+    	
     	ItemPubResult result = commScenicService.save(scenicVO);
-	    return responseVo;
-//>>>>>>> d470e5034a6f18ffe553138ad1c5fc8bb3f21c5d
+    	return  ResponseVo.success(result.getResultMsg());
+    	} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+
     }
 
     /**
