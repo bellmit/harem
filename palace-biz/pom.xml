@@ -235,6 +235,11 @@
 			<artifactId>commission-client</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.yimayhd.voucher</groupId>
+			<artifactId>voucher-client</artifactId>
+		</dependency>
+
 
 	</dependencies>
 

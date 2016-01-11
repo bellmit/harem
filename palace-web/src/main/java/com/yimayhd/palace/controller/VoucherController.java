@@ -1,8 +1,11 @@
 package com.yimayhd.palace.controller;
 
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
+import com.yimayhd.palace.service.VoucherTemplateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/B2C/voucherManage")
 public class VoucherController extends BaseController {
 
+    @Autowired
+    private VoucherTemplateService voucherTemplateService;
     /**
      * 优惠券列表
      *
@@ -25,8 +30,11 @@ public class VoucherController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, VoucherListQuery voucherListQuery) throws Exception {
-        
-        return "/system/live/list";
+        PageVO<VoucherTemplateVO> pageVO = voucherTemplateService.getList(voucherListQuery);
+        model.addAttribute("voucherListQuery",voucherListQuery);
+        model.addAttribute("voucherTemplateList",pageVO.getItemList());
+        model.addAttribute("pageVo",pageVO);
+        return "/system/voucherTemplate/list";
     }
 
     /**
@@ -35,9 +43,8 @@ public class VoucherController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
-    public String toAdd(Model model) throws Exception {
-        
-        return "/system/live/edit";
+    public String toAdd() throws Exception {
+        return "/system/voucherTemplate/edit";
     }
 
     /**
@@ -48,8 +55,9 @@ public class VoucherController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-        
-        return "/system/live/edit";
+        VoucherTemplateVO voucherTemplateVO = voucherTemplateService.getById(id);
+        model.addAttribute("voucherTemplate",voucherTemplateVO);
+        return "/system/voucherTemplate/edit";
     }
 
     /**
@@ -59,7 +67,7 @@ public class VoucherController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(VoucherTemplateVO voucherTemplateVO) throws Exception {
-       
+        voucherTemplateService.add(voucherTemplateVO);
         return "/success";
     }
 
@@ -71,7 +79,8 @@ public class VoucherController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable(value = "id") long id,VoucherTemplateVO voucherTemplateVO) throws Exception {
-        
+        voucherTemplateVO.setId(id);
+        voucherTemplateService.modify(voucherTemplateVO);
         return "/success";
     }
 	
