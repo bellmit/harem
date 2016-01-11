@@ -72,3 +72,6 @@ consumer.dubbo.sns.version = ${consumer.dubbo.sns.version}
 
 consumer.dubbo.comment.check = ${consumer.dubbo.comment.check}
 consumer.dubbo.comment.version = ${consumer.dubbo.comment.version}
+
+consumer.dubbo.commission.check = ${consumer.dubbo.commission.check}
+consumer.dubbo.commission.version = ${consumer.dubbo.commission.version}
