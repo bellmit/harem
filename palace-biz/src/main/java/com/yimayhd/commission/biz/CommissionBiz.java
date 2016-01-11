@@ -38,13 +38,17 @@ public class CommissionBiz {
 
         try{
             int totalCount = 0;
+            int pageNum = 0;
+            int size = 0;
             List<AmountDetailDTO> list = new ArrayList<AmountDetailDTO>();
             PageResult<AmountDetailDTO> pageResult = commissionRepo.queryExtractDetailByUserId(userId, pageNo, pageSize);
             if(pageResult!=null && pageResult.isSuccess()){
                 totalCount = pageResult.getTotalCount();
                 list = pageResult.getList();
+                pageNum = pageResult.getPageNo();
+                size = pageResult.getPageSize();
             }
-            pageVO = new PageVO<AmountDetailDTO>(pageResult.getPageNo(),pageResult.getPageSize(),totalCount,list);
+            pageVO = new PageVO<AmountDetailDTO>(pageNum,size,totalCount,list);
 
         }catch (Exception e){
             logger.error("CommissionBiz.queryExtractDetailByUserId exception,userId:",userId,e);
