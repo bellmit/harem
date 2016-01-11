@@ -108,11 +108,9 @@
                                 </div>
                                 <div class="t-msg">
                                     <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-                                    #if($!subOrder.executeTime != 0)
-                                        <div class="t-date">出发日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.executeTime)</div>
-                                    #elseif($!subOrder.startTime != 0 || $!subOrder.endTime != 0)
-                                        <div class="t-date">开始日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.startTime)</div>
-                                        <div class="t-date">结束日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.endTime)</div>
+                                    #if($!subOrder.startTime != 0 || $!subOrder.endTime != 0)
+                                        <div class="t-date">开始日期：$!date.format('yyyy-MM-dd',$!subOrder.startTime)</div>
+                                        <div class="t-date">结束日期：$!date.format('yyyy-MM-dd',$!subOrder.endTime)</div>
                                     #end
                                     <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
                                 </div>
