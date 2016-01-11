@@ -75,3 +75,6 @@ consumer.dubbo.comment.version = ${consumer.dubbo.comment.version}
 
 consumer.dubbo.commission.check = ${consumer.dubbo.commission.check}
 consumer.dubbo.commission.version = ${consumer.dubbo.commission.version}
+
+consumer.dubbo.voucher.check = ${consumer.dubbo.voucher.check}
+consumer.dubbo.voucher.version = ${consumer.dubbo.voucher.version}
