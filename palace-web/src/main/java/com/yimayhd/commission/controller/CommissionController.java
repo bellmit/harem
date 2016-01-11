@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
+
 public class CommissionController  {
 
     private static final Logger logger = LoggerFactory.getLogger(CommissionController.class);
