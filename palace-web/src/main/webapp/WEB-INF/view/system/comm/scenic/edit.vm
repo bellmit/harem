@@ -33,7 +33,7 @@
                 <tr>
                     <td><span class="spColor">*</span>景区</td>
                     <td>
-                       	<input type="text" class="inpControl"  id="name" value="$!scenicName">
+                       	<input type="text" class="inpControl"  id="name" name="scenicName" value="$!scenicName">
                        	<input type="hidden" class="inpControl" id="outId" name="itemDO.outId"  value="$!commScenic.outId">
 						<button type="button" class="btn btn-primary selectScenic">选择景区</button>
                     </td>
@@ -175,9 +175,28 @@
 		$("#saveScenic").validate(
 			{
 				rules:{
-					'name' : {
+					'scenicName' : {
+						required : true
+					},'check' : {
+						required : true
+					},'scenicDO.orderNum' : {
+						required : true
+					},'endTime' : {
+						required : true
+					},'itemDO.title' : {
+						required : true
+					},'itemDO.subTitle' : {
+						required : true
+					},'itemDO.oneWord' : {
+						required : true
+					},'startDayTime' : {
+						required : true
+					},'startHourTime' : {
+						required : true
+					},'priceF' : {
 						required : true
 					}
+					
 				},
 				errorPlacement : function(error, element) { // 指定错误信息位置
 
