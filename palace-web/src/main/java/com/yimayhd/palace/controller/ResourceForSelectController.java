@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.palace.model.query.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,11 +30,6 @@ import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.ItemVO;
-import com.yimayhd.palace.model.query.ActivityListQuery;
-import com.yimayhd.palace.model.query.CommodityListQuery;
-import com.yimayhd.palace.model.query.HotelListQuery;
-import com.yimayhd.palace.model.query.RestaurantListQuery;
-import com.yimayhd.palace.model.query.ScenicListQuery;
 import com.yimayhd.palace.service.ActivityService;
 import com.yimayhd.palace.service.CommTravelService;
 import com.yimayhd.palace.service.CommodityService;
@@ -359,19 +355,8 @@ public class ResourceForSelectController extends BaseController {
 	}
 
 	@RequestMapping(value = "/listLive")
-	public @ResponseBody ResponseVo listLive(SubjectInfoDTO query, Integer pageNumber, Integer pageSize)
-			throws Exception {
+	public @ResponseBody ResponseVo listLive(LiveListQuery query) throws Exception {
 		try {
-			if (pageNumber != null) {
-				query.setPageNo(pageNumber);
-			} else {
-				query.setPageNo(BaseQuery.DEFAULT_PAGE);
-			}
-			if (pageSize != null) {
-				query.setPageSize(pageSize);
-			} else {
-				query.setPageSize(BaseQuery.DEFAULT_SIZE);
-			}
 
 			PageVO<SnsSubjectDO> pageVo = tripService.getPageSnsSubjectDO(query);
 			Map<String, Object> result = new HashMap<String, Object>();

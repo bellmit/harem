@@ -8,6 +8,8 @@ import java.util.List;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.palace.base.BaseQuery;
+import com.yimayhd.palace.model.query.LiveListQuery;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -105,7 +107,7 @@ public class TripServiceImpl implements TripService {
 		regionDO.setBgUrl(tripBo.getCoverURL());// 封面logo
 		regionDO.setUrl(tripBo.getLogoURL());// logo
 		regionDO.setGmtModified(new Date());
-		regionDO.setStatus(RegionStatus.VALID.getStatus());
+		regionDO.setStatus(regionDO.getStatus());//原来是什么状态还是什么状态
 		RcResult<Boolean> resb = regionClientServiceRef.updateById(regionDO);
 		if (null != resb && resb.isSuccess() && null != resb.getT()) {
 			return regionDO;
@@ -299,7 +301,7 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public TripBo getTripBo(long id) {
-		//XXX:此处代码需要后期整改优化，现为验证后台后台查询封装的目的地对象是否能在前台正确显示
+
 		TripBo tripBo = new TripBo();
 		DestinationResult res = showcaseClientServerRef.getDestinationResultByRegionId(id);
 		// 组装基础信息
@@ -482,6 +484,50 @@ public class TripServiceImpl implements TripService {
 		}
 		return listIds;
 	}
+
+	public List<TextItem> getListTextItemA(List list) {
+		List<TextItem> listTextItem = new ArrayList<TextItem>();
+		/*if (CollectionUtils.isEmpty(list)) {
+			return listTextItem;
+		}
+		for (int i = 0; i < list.size(); i++) {
+			try {
+				if(null ==list.get(i) || null==list.get(i).getClass()  ){
+					return null;
+				}
+				Field title = list.get(i).getClass().getDeclaredField("id");
+				Field content= list.get(i).getClass().getDeclaredField("id");
+				Field picUrl = list.get(i).getClass().getDeclaredField("id");
+
+				if (!fields.isAccessible()){//判断该对象是否可以访问
+					fields.setAccessible(true);//设置为可访问
+				}
+				String type = fields.getType().toString();
+				System.out.println("type="+type+" ,value="+fields.get(list.get(i)));
+				if(type.equals("long")){
+					Long id= (Long) fields.get(list.get(i));
+					listIds.add(id);
+				}
+			} catch (IllegalAccessException e) {
+				log.error("");
+				e.printStackTrace();
+			}catch (SecurityException se ){
+				se.printStackTrace();
+			}catch (NoSuchFieldException ne){
+				ne.printStackTrace();
+			}
+		}*/
+
+		/*for (ShowcaseDO showcaseDO : list) {
+			textItem = new TextItem();
+			textItem.setContent(showcaseDO.getOperationContent());
+			textItem.setPic_url(showcaseDO.getSerialNo() == 0 ? "0" : String.valueOf(showcaseDO.getSerialNo()));
+			textItem.setTitle(showcaseDO.getTitle());
+			listTextItem.add(textItem);
+		}*/
+		return listTextItem;
+	}
+
 	
 	public List<TextItem> showCaseToTextItem(List<ShowcaseDO> list) {
 		List<TextItem> listTextItem = new ArrayList<TextItem>();
@@ -728,16 +774,20 @@ public class TripServiceImpl implements TripService {
 	
 	
 	@Override
-	public PageVO<SnsSubjectDO> getPageSnsSubjectDO(SubjectInfoDTO query) {
-		int totalCount = 0; 
+	public PageVO<SnsSubjectDO> getPageSnsSubjectDO(LiveListQuery liveListQuery) {
+		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		subjectInfoDTO.setPageSize(liveListQuery.getPageSize());
+		subjectInfoDTO.setPageNo(liveListQuery.getPageNumber());
+		subjectInfoDTO.setNeedCount(true);
+		subjectInfoDTO.setTextContent(liveListQuery.getContent());
+		int totalCount = 0;
 		List<SnsSubjectDO> list = new ArrayList<SnsSubjectDO>();
-		BasePageResult<SnsSubjectDO> res = snsCenterService.getSubjectInfoPage(query);
+		BasePageResult<SnsSubjectDO> res = snsCenterService.getSubjectInfoPage(subjectInfoDTO);
 		if(null != res && res.isSuccess() && CollectionUtils.isNotEmpty(res.getList())){
 			list = res.getList();
 			totalCount=res.getTotalCount();
 		}
-
-		return new PageVO<SnsSubjectDO>(query.getPageNo(), query.getPageSize(), totalCount, list);
+		return new PageVO<SnsSubjectDO>(liveListQuery.getPageNumber(), liveListQuery.getPageSize(), totalCount, list);
 	}
 
 }

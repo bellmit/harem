@@ -6,6 +6,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.RelevanceRecommended;
 import com.yimayhd.palace.model.TripBo;
 import com.yimayhd.palace.model.TripBoQuery;
+import com.yimayhd.palace.model.query.LiveListQuery;
 import com.yimayhd.palace.model.query.ScenicListQuery;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
@@ -173,5 +174,5 @@ public interface TripService {
 	* @return PageVO<SnsSubjectDO> 返回类型 
 	* @throws
 	 */
-	PageVO<SnsSubjectDO> getPageSnsSubjectDO(SubjectInfoDTO subjectInfoDTO);
+	PageVO<SnsSubjectDO> getPageSnsSubjectDO(LiveListQuery liveListQuery);
 }
