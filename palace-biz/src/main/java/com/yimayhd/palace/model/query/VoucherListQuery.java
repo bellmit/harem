@@ -10,7 +10,7 @@ public class VoucherListQuery extends BaseQuery{
     private String beginDate;
     private String endDate;
     private int status;
-    private int voucherType;
+    private int voucherType;//券类型
     private String title;//标题
 
     public String getBeginDate() {
