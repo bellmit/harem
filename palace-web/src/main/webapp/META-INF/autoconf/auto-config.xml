@@ -66,6 +66,12 @@
 		<property name="consumer.dubbo.comment.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.comment.version" defaultValue="1.0.0.test" description="#" />
 
+		<property name="consumer.dubbo.commission.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.commission.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.voucher.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.voucher.version" defaultValue="1.0.0.test" description="#" />
+
 	</group>
 
 	<group name="session">

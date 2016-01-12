@@ -11,6 +11,7 @@ public class VoucherListQuery extends BaseQuery{
     private String endDate;
     private int status;
     private int voucherType;
+    private String title;//标题
 
     public String getBeginDate() {
         return beginDate;
@@ -42,5 +43,13 @@ public class VoucherListQuery extends BaseQuery{
 
     public void setVoucherType(int voucherType) {
         this.voucherType = voucherType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -55,4 +55,5 @@
 	<bean class="com.yimayhd.palace.service.impl.CommScenicServiceImpl" />
 	<bean class="com.yimayhd.palace.service.impl.CommActivityServiceImpl" />
 	<bean class="com.yimayhd.palace.service.impl.FlightRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.VoucherTemplateServiceImpl"></bean>
 </beans>

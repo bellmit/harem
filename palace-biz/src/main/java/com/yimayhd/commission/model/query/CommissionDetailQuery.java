@@ -9,16 +9,16 @@ import com.yimayhd.palace.base.BaseQuery;
  * Time: 14:49
  * To change this template use File | Settings | File Templates.
  */
-public class CommissonDetailQuery extends BaseQuery {
+public class CommissionDetailQuery extends BaseQuery {
 
 
-    private String userId;
+    private long userId;
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 }
