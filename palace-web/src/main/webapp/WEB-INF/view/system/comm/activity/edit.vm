@@ -39,12 +39,12 @@
                     <tr>
                         <td><span class="spColor">*</span>活动商品名称</td>
                         <td>
-                            <input type="text" name="title" value="$!commodity.title">
+                            <input type="text" name="title" class="title" value="$!commodity.title">
                         </td>
                     </tr>
                      <td><span class="spColor">*</span>商品价格</td>
                         <td>
-                            <input type="text" name="priceY" value="$!commodity.priceY">
+                            <input type="text" name="priceY" class="priceY" value="$!commodity.priceY">
                     </td>
                   
                     <tr>
@@ -240,6 +240,50 @@
     var skuTableShowFlag = false;
 </script>
 <script>
+
+  //验证
+    var validate = function(){
+        if(!$('.title').val()){
+            return '请输入商品名称';
+        }
+        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+            return '请输入正确的价格';
+        }
+      
+        if(!$('.smallListPicUrl').attr('src')){
+            return '请选择订单图';
+        }
+       
+        //必填属性
+        var msg;
+
+        $('.keyProperty').each(function(){
+            if($(this).find('.propertySelect').val() == '0' && !$(this).find('.propertyInput').val()){
+                msg = '请填写必填属性' + $(this).attr('pTxt');
+            }
+        });
+        //sku
+        if(!skuTableShowFlag){
+            return '您需要选择所有的销售属性，才能组合成完整的规格信息。';
+        }
+        $('.price').each(function(){
+            if(!$(this).val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($(this).val())){
+                msg = '请检查sku价格格式';
+            }
+        });
+        $('.stock').each(function(){
+            if(!$(this).val() || !/^[1-9]\d*|0$/.test($(this).val())){
+                msg = '请检查sku库存格式';
+            }
+        });
+
+        if(msg){
+            return msg;
+        }
+    }
+
+
+
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -354,6 +398,8 @@
     }
 
     $(function(){
+     //修改页时检查sku
+        setTableShowFlag();
         //上传图片detailUrl
        /** $(document).delegate("#bigListPicUrl",'change',function(){
             fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
@@ -490,6 +536,15 @@
             }
         });
         $('.btnSubmit').click(function(){
+        //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
             //property
             var propertyArr = new Array();
             $('.keyProperty').each(function(){
