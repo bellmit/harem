@@ -246,10 +246,10 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			if(PictureVO.setPictureListPictureUpdateDTO(hotelVO.getId(),PictureOutType.HOTEL,pictureUpdateDTO, picturesDOList,hotelVO.getPictureList()) != null){
 				ICResult<Boolean> updatePictrueResult = resourcePublishServiceRef.updatePictures(pictureUpdateDTO);
 				if(null == updatePictrueResult){
-					log.error("ScenicServiceImpl.save-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
+					log.error("HotelRPCServiceImpl.save-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
 					throw new BaseException("酒店资源保存成功，图片集保存返回结果为空，保存失败");
 				} else if(!updatePictrueResult.isSuccess()){
-					log.error("ScenicServiceImpl.save-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+					log.error("HotelRPCServiceImpl.save-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
 					throw new BaseException("酒店资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
 				}
 			}
