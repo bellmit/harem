@@ -45,7 +45,7 @@
                                 </select>
                                 <input type="hidden" id="citySelectName" name="locationCityName" value="$!{VO.locationCityName}">
                                 <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
-                                    <option value="$!{VO.locationCityId}">#if(! $VO.locationCityName)请选择城市#else$!{VO.locationProvinceName}#end</option>
+                                    <option value="$!{VO.locationCityId}">#if(! $VO.locationCityName)请选择城市#else$!{VO.locationCityName}#end</option>
                                 </select>
                                 <input type="hidden" id="countySelectName" name="locationTownName" value="$!{VO.locationTownName}">
                                 <select id="countyId" class="selCity inpControl countySelect" name="locationTownId" areaType="COUNTY">
@@ -486,8 +486,10 @@
                     picUrls += $(this).attr('imgUrl');
                 }
             });
+            
+            
             $('.picUrlsVal').val(picUrls);
-          
+             
                 var options = {
                     url: actionDefaultPath + "/B2C/scenicSpotManage/save",
                     type: "post",
