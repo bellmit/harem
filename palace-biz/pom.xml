@@ -62,6 +62,10 @@
 			<artifactId>druid</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
@@ -233,6 +237,11 @@
 		<dependency>
 			<groupId>com.yimayhd</groupId>
 			<artifactId>commission-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yimayhd.voucher</groupId>
+			<artifactId>voucher-client</artifactId>
 		</dependency>
 
 

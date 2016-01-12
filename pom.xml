@@ -36,6 +36,7 @@
 		<logback.version>1.1.1</logback.version>
 		<commons.io.version>2.4</commons.io.version>
 		<commission.version>1.0-SNAPSHOT</commission.version>
+		<voucher.client.version>0.0.6-SNAPSHOT</voucher.client.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -84,6 +85,11 @@
 						<artifactId>slf4j-log4j12</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>18.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd</groupId>
@@ -656,6 +662,29 @@
 				<groupId>com.yimayhd.commentcenter</groupId>
 				<artifactId>commentcenter-client</artifactId>
 				<version>${comment.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-log4j12</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.yimayhd.voucher</groupId>
+				<artifactId>voucher-client</artifactId>
+				<version>${voucher.client.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>ch.qos.logback</groupId>

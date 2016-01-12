@@ -12,4 +12,5 @@
     <import resource="spring-consumer-sns.xml"/>
     <import resource="spring-consumer-comment.xml"/>
     <import resource="spring-consumer-commission.xml"/>
+    <import resource="spring-consumer-voucher.xml"/>
 </beans>
