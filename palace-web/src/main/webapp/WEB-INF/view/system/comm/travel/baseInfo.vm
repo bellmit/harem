@@ -67,7 +67,7 @@
                 </td>
             </tr>
             <tr>
-                <td>我为自己代言：</td>
+                <td><span class="spColor">*</span>我为自己代言：</td>
                 <td>
                     <textarea class="form-control recommond" rows="3" rId="$!{product.baseInfo.recommond.id}">$!{product.baseInfo.recommond.description}</textarea>
                 </td>
