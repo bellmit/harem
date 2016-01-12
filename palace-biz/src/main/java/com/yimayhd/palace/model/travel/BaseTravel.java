@@ -220,6 +220,7 @@ public abstract class BaseTravel {
 		itemDO.setItemFeature(itemFeature);
 		itemDO.setItemType(getItemType());
 		itemDO.setTitle(this.baseInfo.getName());
+		itemDO.setPrice(this.baseInfo.getPrice());
 		if (StringUtils.isNotBlank(this.baseInfo.getProductImage())) {
 			itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, this.baseInfo.getProductImage());
 		}
