@@ -33,6 +33,7 @@ import com.yimayhd.palace.util.excel.TestPerson;
 @Controller
 @RequestMapping("/upload")
 public class UploadController extends BaseController {
+
 	@Autowired
 	private TfsManager tfsManager;
 
@@ -99,11 +100,17 @@ public class UploadController extends BaseController {
                     suffix=fileName.substring(fileName.lastIndexOf("."));
                 }
                 String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix)  + suffix;
+                //除去后缀截取十五个字符
+                if(fileName.split("\\.")[0].length() > 15){
+                    fileName = fileName.split("\\.")[0].substring(0,15) + (fileName.split("\\.").length > 1 ? "." + fileName.split("\\.")[1] :"");
+                }
                 map.put(fileName,tfsName);
             }
         return new ResponseVo(map);
 
     }
+
+
 
     /**
      * 富文本编辑上传单个文件
