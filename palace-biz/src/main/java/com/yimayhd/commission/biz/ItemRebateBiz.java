@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.model.query.ItemRebateQuery;
 import com.yimayhd.commission.repo.ItemRebateRepo;
 import com.yimayhd.marketing.client.model.domain.ItemRebateDO;
+import com.yimayhd.marketing.client.model.enums.DomainType;
+import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
 import com.yimayhd.marketing.client.model.result.SpmPageResult;
+import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.palace.base.PageVO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -60,6 +63,27 @@ public class ItemRebateBiz {
             logger.error("CommissionBiz.queryExtractDetailByUserId exception,params:{}", JSONObject.toJSONString(itemRebateQuery),e);
         }
         return pageVO;
+    }
+
+
+    public SpmResult<ItemRebateDO> updateItemRebate(ItemRebateRateUpdateDTO itemRebateRateUpdateDTO){
+
+        SpmResult<ItemRebateDO> spmResult = null;
+
+        try{
+
+            if(itemRebateRateUpdateDTO != null){
+                itemRebateRateUpdateDTO.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
+            }
+            spmResult = itemRebateRepo.updateItemRebate(itemRebateRateUpdateDTO);
+            if(spmResult != null && spmResult.isSuccess() && spmResult.getT()!=null){
+                return spmResult;
+            }
+
+        }catch (Exception e){
+            logger.error("CommissionBiz.updateItemRebate exception,params:{}", JSONObject.toJSONString(itemRebateRateUpdateDTO),e);
+        }
+        return spmResult;
     }
 
 

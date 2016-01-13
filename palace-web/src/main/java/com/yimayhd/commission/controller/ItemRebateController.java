@@ -1,10 +1,10 @@
 package com.yimayhd.commission.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.biz.ItemRebateBiz;
-import com.yimayhd.commission.client.result.comm.AmountDetailDTO;
 import com.yimayhd.commission.model.query.ItemRebateQuery;
 import com.yimayhd.marketing.client.model.domain.ItemRebateDO;
+import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
+import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -53,9 +53,27 @@ public class ItemRebateController extends BaseController {
     @ResponseBody
     public ResponseVo updateItemRebateRate(long itemId,int parentRate,int grandpaRate){
 
-        System.out.println("itemId:"+itemId);
-        System.out.println("parentRate:"+parentRate);
-        System.out.println("grandpaRate:"+grandpaRate);
-        return new ResponseVo(ResponseStatus.SUCCESS);
+        ResponseVo responseVo =  new ResponseVo();
+
+        try{
+
+            System.out.println(itemId);
+            System.out.println(parentRate);
+            System.out.println(grandpaRate);
+
+            ItemRebateRateUpdateDTO itemRebateRateUpdateDTO = new ItemRebateRateUpdateDTO();
+            itemRebateRateUpdateDTO.setItemId(itemId);
+            itemRebateRateUpdateDTO.setRebateParentRate(parentRate);
+            itemRebateRateUpdateDTO.setRebateGrandpaRate(grandpaRate);
+            SpmResult<ItemRebateDO> spmResult = itemRebateBiz.updateItemRebate(itemRebateRateUpdateDTO);
+            if(spmResult.isSuccess() && spmResult.getT()!=null){
+                responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+                return responseVo;
+            }
+        }catch (Exception e){
+            log.error("ItemRebateController.updateItemRebate error!itemId:{},parentRate:{},grandpaRate:{}",itemId,parentRate,grandpaRate,e);
+            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+        }
+        return responseVo;
     }
 }
