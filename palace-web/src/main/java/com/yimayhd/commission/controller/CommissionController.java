@@ -1,10 +1,20 @@
 package com.yimayhd.commission.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.biz.CommissionBiz;
+import com.yimayhd.commission.client.enums.Domain;
+import com.yimayhd.commission.client.param.AmountObtainDTO;
 import com.yimayhd.commission.client.result.comm.AmountDetailDTO;
+import com.yimayhd.commission.client.result.comm.AmountTotalDTO;
 import com.yimayhd.commission.model.query.CommissionDetailQuery;
+import com.yimayhd.commission.model.query.CommissionListQuery;
+import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+
+import net.pocrd.util.StringUtil;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +22,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +38,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/commission")
-public class CommissionController  {
+public class CommissionController  extends BaseController{
 
     private static final Logger logger = LoggerFactory.getLogger(CommissionController.class);
 
@@ -41,8 +55,6 @@ public class CommissionController  {
     public String queryCommissionDetail(Model model,CommissionDetailQuery commissionDetailQuery){
 
         try{
-            //测试
-            commissionDetailQuery.setUserId(11);
 
             long userId = commissionDetailQuery.getUserId();
             int pageNo = commissionDetailQuery.getPageNumber();
@@ -66,6 +78,51 @@ public class CommissionController  {
             return "/error";
         }
     }
-
-
+    
+	
+	@RequestMapping(value="/queryList", method = RequestMethod.GET)
+	public String getCommissionList(Model model,CommissionListQuery query){
+		try {
+			if(query == null){
+				query = new CommissionListQuery();
+			}
+			query.setDomainId(Domain.AZ.getType());
+			PageVO<AmountTotalDTO> pageVO = commissionBiz.getCommissionList(query);
+			model.addAttribute("commissionListQuery",query);
+			model.addAttribute("pageVo", pageVO);
+			model.addAttribute("commissionList", pageVO == null ? null : pageVO.getItemList());
+			return "/system/commission/commissionList";
+		} catch (Exception e) {
+			logger.error("CommissionController.getCommissionList error happens,ex:" , e);
+			return "/error";
+		}
+	}
+	
+	@RequestMapping(value="/amountExtract",method = RequestMethod.POST)
+	@ResponseBody
+	public String amountExtract(Model model,AmountObtainDTO dto){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("success", true);
+		try{
+			if(dto == null){
+				logger.error("CommissionController.amountExtract param null");
+				map.put("success", false);
+				map.put("desc", "传入对象为空");
+				return JSON.toJSONString(map);
+			}
+			dto.setDomainId(Domain.AZ.getType());
+			if(dto.getUserId() <= 0 || StringUtils.isBlank(dto.getPayeeAccount()) || StringUtils.isBlank(dto.getUserName()) || dto.getCommissionAmt() < 0){
+				logger.error("CommissionController.amountExtract param error,param:" + JSON.toJSONString(dto));
+				map.put("success", false);
+				map.put("desc", "对象参数错误");
+				return JSON.toJSONString(map);
+			}
+			return commissionBiz.amountExtract(dto);
+		}catch(Exception e){
+			logger.error("CommissionController.amountExtract error happens,param:{},ex:",JSON.toJSONString(dto), e);
+			map.put("success", false);
+			map.put("desc", "服务请求发生异常");
+			return JSON.toJSONString(map);
+		}
+	}
 }

@@ -41,7 +41,7 @@
                     <tr>
                         <td>$!commission.serialId</td>
                         <td>$!commission.buildTime</td>
-                        <td>$!commission.commissionAmt</td>
+                        <td>$utilNum.moneyTransform($!commission.commissionAmt)</td>
                         <td>$!commission.payeeAccount</td>
                         <td>$!commission.operator</td>
                     </tr>
