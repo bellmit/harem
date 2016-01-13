@@ -19,7 +19,6 @@ import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
-import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.B2CConstant;
 
 /**
@@ -149,17 +148,19 @@ public abstract class BaseTravel {
 					if (skuId > 0) {
 						ItemSkuDO skuVO = skuVOMap.get(skuId);
 						ItemSkuDO skuDO = skuDOMap.get(skuId);
-						if (skuVO != null && skuDO != null) {
-							// 更新
-							skuDO.setPrice(skuVO.getPrice());
-							skuDO.setStockNum(skuVO.getStockNum());
-							skuDO.setFeature(skuVO.getFeature());
-							skuDO.setTitle(skuVO.getTitle());
-							skuDO.setProperty(skuVO.getProperty());
-							updateSkuList.add(skuDO);
+						if (skuVO == null) {
+							deleteSkuList.add(skuId);
+						} else {
+							if (skuDO != null) {
+								// 更新
+								skuDO.setPrice(skuVO.getPrice());
+								skuDO.setStockNum(skuVO.getStockNum());
+								skuDO.setFeature(skuVO.getFeature());
+								skuDO.setTitle(skuVO.getTitle());
+								skuDO.setProperty(skuVO.getProperty());
+								updateSkuList.add(skuDO);
+							}
 						}
-					} else {
-						throw new BaseException("更新SKU时，检查数据一致性出错: ItemSkuId={0}", skuId);
 					}
 				}
 			}

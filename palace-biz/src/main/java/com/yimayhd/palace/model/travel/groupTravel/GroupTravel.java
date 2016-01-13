@@ -11,8 +11,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import com.yimayhd.palace.base.BaseException;
-import com.yimayhd.palace.model.travel.BaseTravel;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
@@ -22,6 +20,7 @@ import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.palace.model.travel.BaseTravel;
 
 /**
  * 跟团游
@@ -166,25 +165,27 @@ public class GroupTravel extends BaseTravel {
 					if (routeItemId > 0) {
 						RouteItemDO routeItemVO = routeItemVOMap.get(routeItemId);
 						RouteItemDO routeItemDO = routeItemDOMap.get(routeItemId);
-						if (routeItemVO != null && routeItemDO != null) {
-							// 更新
-							routeItemDO.setDay(routeItemVO.getDay());
-							routeItemDO.setName(routeItemVO.getName());
-							routeItemDO.setOrderNum(routeItemVO.getOrderNum());
-							routeItemDO.setType(routeItemVO.getType());
-							if (routeItemVO.getType() == RouteItemBizType.DESCRIPTION.getType()) {
-								routeItemDO.setDescription(routeItemVO.getDescription());
-							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
-								routeItemDO.setRouteTrafficInfo(routeItemVO.getRouteTrafficInfo());
-							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
-								routeItemDO.setRouteItemDesc(routeItemVO.getRouteItemDesc());
-							} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
-								routeItemDO.setRouteItemDetail(routeItemVO.getRouteItemDetail());
-							}
-							routeItemDO.setStatus(routeItemVO.getStatus());
-							updateRouteItemList.add(routeItemDO);
+						if (routeItemVO == null) {
+							deleteRouteItemList.add(routeItemId);
 						} else {
-							throw new BaseException("更新RouteItem时，检查数据一致性出错: RouteItemId={0}", routeItemId);
+							if (routeItemDO != null) {
+								// 更新
+								routeItemDO.setDay(routeItemVO.getDay());
+								routeItemDO.setName(routeItemVO.getName());
+								routeItemDO.setOrderNum(routeItemVO.getOrderNum());
+								routeItemDO.setType(routeItemVO.getType());
+								if (routeItemVO.getType() == RouteItemBizType.DESCRIPTION.getType()) {
+									routeItemDO.setDescription(routeItemVO.getDescription());
+								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
+									routeItemDO.setRouteTrafficInfo(routeItemVO.getRouteTrafficInfo());
+								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
+									routeItemDO.setRouteItemDesc(routeItemVO.getRouteItemDesc());
+								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
+									routeItemDO.setRouteItemDetail(routeItemVO.getRouteItemDetail());
+								}
+								routeItemDO.setStatus(routeItemVO.getStatus());
+								updateRouteItemList.add(routeItemDO);
+							}
 						}
 					}
 				}
