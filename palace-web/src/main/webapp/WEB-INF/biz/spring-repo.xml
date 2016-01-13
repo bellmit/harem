@@ -13,5 +13,6 @@
 	<bean class="com.yimayhd.palace.repo.ResourceRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.ActivityRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.TravelKaRepo"></bean>
-	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"></bean>
+	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
+	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
 </beans>
