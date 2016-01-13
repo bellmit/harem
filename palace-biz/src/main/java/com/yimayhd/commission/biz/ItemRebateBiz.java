@@ -46,11 +46,13 @@ public class ItemRebateBiz {
             int size = 0;
             List<ItemRebateDO> list = new ArrayList<ItemRebateDO>();
 
-            com.yimayhd.marketing.client.model.query.ItemRebateQuery itemRebateQuery1 = new com.yimayhd.marketing.client.model.query.ItemRebateQuery();
-            if(StringUtils.isNotBlank(itemRebateQuery.getItemTitle())){
-                //itemRebateQuery1
-            }
-            SpmPageResult<ItemRebateDO> pageResult = itemRebateRepo.queryItemRebateResult(itemRebateQuery1);
+            com.yimayhd.marketing.client.model.query.ItemRebateQuery query = new com.yimayhd.marketing.client.model.query.ItemRebateQuery();
+            query.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
+            query.setPageNo(itemRebateQuery.getPageNumber());
+            query.setPageSize(itemRebateQuery.getPageSize());
+            query.setItemTitle(itemRebateQuery.getItemTitle());
+            
+            SpmPageResult<ItemRebateDO> pageResult = itemRebateRepo.queryItemRebateResult(query);
             if(pageResult!=null && pageResult.isSuccess()){
                 totalCount = pageResult.getTotalCount();
                 list = pageResult.getList();

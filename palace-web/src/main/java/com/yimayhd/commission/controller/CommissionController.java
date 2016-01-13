@@ -7,6 +7,8 @@ import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.commission.client.param.AmountObtainDTO;
 import com.yimayhd.commission.client.result.comm.AmountDetailDTO;
 import com.yimayhd.commission.client.result.comm.AmountTotalDTO;
+import com.yimayhd.commission.convert.CommissionAmoutConvert;
+import com.yimayhd.commission.model.param.ExtractDTO;
 import com.yimayhd.commission.model.query.CommissionDetailQuery;
 import com.yimayhd.commission.model.query.CommissionListQuery;
 import com.yimayhd.palace.base.BaseController;
@@ -100,17 +102,20 @@ public class CommissionController  extends BaseController{
 	
 	@RequestMapping(value="/amountExtract",method = RequestMethod.POST)
 	@ResponseBody
-	public String amountExtract(Model model,AmountObtainDTO dto){
+	public String amountExtract(Model model,ExtractDTO extractDTO){
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("success", true);
 		try{
-			if(dto == null){
+			if(extractDTO == null){
 				logger.error("CommissionController.amountExtract param null");
 				map.put("success", false);
 				map.put("desc", "传入对象为空");
 				return JSON.toJSONString(map);
 			}
-			dto.setDomainId(Domain.AZ.getType());
+			extractDTO.setDomainId(Domain.AZ.getType());
+			
+			AmountObtainDTO dto = new AmountObtainDTO();
+			CommissionAmoutConvert.extractConvert(extractDTO, dto);
 			if(dto.getUserId() <= 0 || StringUtils.isBlank(dto.getPayeeAccount()) || StringUtils.isBlank(dto.getUserName()) || dto.getCommissionAmt() < 0){
 				logger.error("CommissionController.amountExtract param error,param:" + JSON.toJSONString(dto));
 				map.put("success", false);
@@ -119,7 +124,7 @@ public class CommissionController  extends BaseController{
 			}
 			return commissionBiz.amountExtract(dto);
 		}catch(Exception e){
-			logger.error("CommissionController.amountExtract error happens,param:{},ex:",JSON.toJSONString(dto), e);
+			logger.error("CommissionController.amountExtract error happens,param:{},ex:",JSON.toJSONString(extractDTO), e);
 			map.put("success", false);
 			map.put("desc", "服务请求发生异常");
 			return JSON.toJSONString(map);

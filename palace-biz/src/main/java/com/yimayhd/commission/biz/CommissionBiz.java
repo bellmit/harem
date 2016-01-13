@@ -132,7 +132,6 @@ public class CommissionBiz {
 		map.put("success", true);
 		
 		try{
-			dto.setCommissionAmt(dto.getCommissionAmt()*100);
 			BaseResult<AmountNumDTO> remoteBaseResult = commissionRepo.amountExtract(dto);
 			if(remoteBaseResult == null || !remoteBaseResult.isSuccess()){
 				map.put("success", false);
