@@ -93,7 +93,7 @@
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
-                        <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.oneword}</textarea></td>
+                        <td><textarea name="oneword" id="oneword" rows="3" class="form-control" placeholder="请输入80字以内"  maxlength="80">$!{VO.oneword}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>入园须知</td>
