@@ -69,7 +69,7 @@
                             <p>$!hotel.name</p>
                             <p>商品编码:$!hotel.id</p>
                         </td>
-                        <td>#HOTEL_STATUS($!hotel.itemStatus)</td>
+                        <td>#HOTEL_STATUS($!hotel.status)</td>
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>
                         <td>￥$utilNum.moneyTransform($!hotel.price)起</td>
                         <td>
