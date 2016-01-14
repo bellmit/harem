@@ -63,19 +63,25 @@ public class CommissionController  extends BaseController{
             int pageSize = commissionDetailQuery.getPageSize();
 
             PageVO<AmountDetailDTO> pageVO =  commissionBiz.queryExtractDetailByUserId(userId, pageNo, pageSize);
-            List<AmountDetailDTO> commissionList =  pageVO.getItemList();
-            model.addAttribute("commissionDetailQuery", commissionDetailQuery);
-            model.addAttribute("pageVo",pageVO);
-            model.addAttribute("commissionList",commissionList);
+			model.addAttribute("totalAmount",0);
 
-            if(!CollectionUtils.isEmpty(commissionList)){
-                AmountDetailDTO amountDetailDTO = commissionList.get(0);
-                model.addAttribute("totalAmount",amountDetailDTO.getTotalMoney());
-                model.addAttribute("userName",amountDetailDTO.getUserName());
-            }
+			if (pageVO != null) {
+
+				List<AmountDetailDTO> commissionList =  pageVO.getItemList();
+				model.addAttribute("commissionDetailQuery", commissionDetailQuery);
+				model.addAttribute("pageVo",pageVO);
+				model.addAttribute("commissionList",commissionList);
+
+				if(!CollectionUtils.isEmpty(commissionList)){
+					AmountDetailDTO amountDetailDTO = commissionList.get(0);
+					model.addAttribute("totalAmount",amountDetailDTO.getTotalMoney());
+					model.addAttribute("userName",amountDetailDTO.getUserName());
+				}
+			}
 
             return "/system/commission/commissionDetail";
         }catch (Exception e){
+			e.printStackTrace();
             logger.error("CommissionController.queryCommissionDetail error!params:{}", JSONObject.toJSONString(commissionDetailQuery),e);
             return "/error";
         }
