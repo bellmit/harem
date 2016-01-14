@@ -1,5 +1,6 @@
 package com.yimayhd.commission.repo;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.client.base.BaseResult;
 import com.yimayhd.commission.client.base.PageResult;
@@ -10,6 +11,7 @@ import com.yimayhd.commission.client.result.comm.AmountDetailDTO;
 import com.yimayhd.commission.client.result.comm.AmountNumDTO;
 import com.yimayhd.commission.client.result.comm.AmountTotalDTO;
 import com.yimayhd.commission.service.CommissionService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,17 +76,18 @@ public class CommissionRepo {
      * @param amountObtainDTO
      * @return
      */
-    public AmountNumDTO amountExtract(AmountObtainDTO amountObtainDTO){
-
+    public BaseResult<AmountNumDTO> amountExtract(AmountObtainDTO amountObtainDTO){
+    	BaseResult<AmountNumDTO> baseResult = null;
         try{
-            BaseResult<AmountNumDTO> baseResult = commissionService.amountExtract(amountObtainDTO);
-            if(baseResult.isSuccess()){
-                return baseResult.getValue();
+             baseResult = commissionService.amountExtract(amountObtainDTO);
+            if(baseResult == null || !baseResult.isSuccess()){
+            	logger.error("CommissionRepo.amountExtract request commissionService failure,param:{},result:{}",
+            			JSON.toJSONString(amountObtainDTO), baseResult);
             }
         }catch (Exception e){
             logger.error("CommissionRepo.amountExtract error!,params:{}",amountObtainDTO,e);
         }
-        return null;
+        return baseResult;
     }
 
 

@@ -359,6 +359,8 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.setDescription(itemVO.getDescription());
             //价格
             itemDB.setPrice((long) (itemVO.getPriceY() * 100));
+            //商品库存
+            itemDB.setStockNum(itemVO.getStockNum());
             //商品图片
             if(StringUtils.isNotBlank(itemVO.getBigListPic())){
                 itemDB.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC,itemVO.getBigListPic());

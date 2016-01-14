@@ -3,8 +3,10 @@ package com.yimayhd.commission.repo;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.marketing.client.model.domain.ItemRebateDO;
 import com.yimayhd.marketing.client.model.enums.DomainType;
+import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
 import com.yimayhd.marketing.client.model.query.ItemRebateQuery;
 import com.yimayhd.marketing.client.model.result.SpmPageResult;
+import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.marketing.client.service.ItemRebateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,25 @@ public class ItemRebateRepo {
             logger.error("ItemRebateRepo.queryItemRebateResult error!params:{}", JSONObject.toJSONString(itemRebateQuery),e);
         }
         return null;
+    }
+
+    /**
+     * 更新商品佣金比例
+     * @param itemRebateRateUpdateDTO
+     * @return
+     */
+    public SpmResult<ItemRebateDO> updateItemRebate(ItemRebateRateUpdateDTO itemRebateRateUpdateDTO){
+
+        SpmResult<ItemRebateDO> spmResult = null;
+        try{
+            spmResult = itemRebateService.update(itemRebateRateUpdateDTO);
+            if(spmResult.isSuccess() && spmResult.getT()!=null){
+                return spmResult;
+            }
+        }catch (Exception e){
+            logger.error("ItemRebateRepo.updateItemRebate exception!params:{}",JSONObject.toJSONString(itemRebateRateUpdateDTO));
+        }
+        return spmResult;
     }
 
 }

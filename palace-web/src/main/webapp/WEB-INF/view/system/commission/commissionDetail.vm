@@ -24,7 +24,7 @@
             <img id="u43_img" class="img " src="$utilWebconfig.getStaticResourcesPath()/resources/img/transparent.gif"/>
             <!-- Unnamed () -->
             <div id="u44" class="text">
-                <p><span style="color:#333333;">总计</span><span style="color:#333333;">提现金额：$!{totalAmount}</span><span style="color:#FF0000;"></span><span style="color:#333333;"> 元</span></p>
+                <p><span style="color:#333333;">总计</span><span style="color:#333333;">提现金额：$utilNum.moneyTransform($!totalAmount)</span><span style="color:#FF0000;"></span><span style="color:#333333;"> 元</span></p>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
                     <tr>
                         <td>$!commission.serialId</td>
                         <td>$!commission.buildTime</td>
-                        <td>$!commission.commissionAmt</td>
+                        <td>$utilNum.moneyTransform($!commission.commissionAmt)</td>
                         <td>$!commission.payeeAccount</td>
                         <td>$!commission.operator</td>
                     </tr>
