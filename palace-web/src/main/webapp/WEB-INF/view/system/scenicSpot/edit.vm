@@ -32,7 +32,7 @@
                             #if($!{VO.id})
                                 <input type="hidden" name="id" value="$!{VO.id}">
                             #end
-                            <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内" value="$!{VO.name}">
+                            <input type="text" class="inpCtlBlock" name="name" id="name" placeholder="请输入20个字以内" maxlength="20" value="$!{VO.name}">
                         </td>
                     </tr>
                     <tr>
@@ -85,11 +85,11 @@
                     </tr>
                     <tr>
                         <td>营业时间</td>
-                        <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字" value="$!{VO.openTime}"></td>
+                        <td><input type="text" class="inpCtlBlock" name="openTime" id="openTime" placeholder="请输入数字" maxlength="30" value="$!{VO.openTime}"></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>景区简介</td>
-                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内">$!{VO.description}</textarea></td>
+                        <td><textarea name="description" id="description" rows="3" class="form-control" placeholder="请输入500字以内"  maxlength="500">$!{VO.description}</textarea></td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>特色描述</td>
@@ -110,16 +110,16 @@
                                 <tbody class="extra-info-list needKnowTable">
                                     #if(!${VO.needKnow.frontNeedKnow})
                                     <tr class="needKnow">
-                                        <td><input type="text" name="needKnowOb.frontNeedKnow[0].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[0].content" rows="3"></textarea></td>
+                                        <td><input type="text" name="needKnowOb.frontNeedKnow[0].title" class="form-control extra-info-item-title" placeholder="费用包含" maxlength="10"></td>
+                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[0].content" rows="3" maxlength="500"></textarea></td>
                                         <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
                                     </tr>
                                     #end
 
                                     #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
                                     <tr class="needKnow">
-                                        <td><input type="text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}"></td>
-                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea></td>
+                                        <td><input type="text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}" maxlength="10"></td>
+                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" rows="3" maxlength="500">$!{frontNeedKnow.content}</textarea></td>
                                         <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
                                     </tr>
                                     #end
@@ -150,7 +150,7 @@
                             <input type="text" name="masterRecommend.title"  class="inpControl" value="#if(! $VO.recommend.title)大咖推荐#else$!VO.recommend.title#end">
                             <img src="#if($VO.recommend.userPic) $utilWebconfig.getTfsRootPath()$!VO.recommend.userPic  #end" alt="头像" class="img-circle grogUserLogo" id="userImg">
                             <span id="recommendNameT">#if(! $VO.recommend.name)#else$!VO.recommend.name#end</span>
-                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内">$!{VO.recommend.description}</textarea>
+                            <textarea name="masterRecommend.description" id="recommend" rows="3" class="form-control" placeholder="请输入300字以内" maxlength="300">$!{VO.recommend.description}</textarea>
 							#if($VO.recommend.id)
                             <input type="hidden" id="recommendId" name="masterRecommend.id" value="#if(! $VO.recommend.id)0#else$!VO.recommend.id#end" >
                             #end
@@ -207,8 +207,8 @@
 </div>
 <script type="text/html" id="needKnowTemp">
     <tr class="needKnow">
-        <td><input type="text" name="needKnowOb.frontNeedKnow[$index].title" class="form-control extra-info-item-title" placeholder="费用包含"></td>
-        <td><textarea name="needKnowOb.frontNeedKnow[$index1].content" class="form-control extra-info-item-text" rows="3"></textarea></td>
+        <td><input type="text" name="needKnowOb.frontNeedKnow[$index].title" class="form-control extra-info-item-title" placeholder="费用包含" maxlength="10"></td>
+        <td><textarea name="needKnowOb.frontNeedKnow[$index1].content" class="form-control extra-info-item-text" rows="3" maxlength="500"></textarea></td>
         <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
     </tr>
 </script>
