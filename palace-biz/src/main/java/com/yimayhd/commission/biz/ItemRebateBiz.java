@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.model.query.ItemRebateQuery;
 import com.yimayhd.commission.repo.ItemRebateRepo;
 import com.yimayhd.marketing.client.model.domain.ItemRebateDO;
+import com.yimayhd.marketing.client.model.enums.DomainType;
+import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
 import com.yimayhd.marketing.client.model.result.SpmPageResult;
+import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.palace.base.PageVO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -43,11 +46,13 @@ public class ItemRebateBiz {
             int size = 0;
             List<ItemRebateDO> list = new ArrayList<ItemRebateDO>();
 
-            com.yimayhd.marketing.client.model.query.ItemRebateQuery itemRebateQuery1 = new com.yimayhd.marketing.client.model.query.ItemRebateQuery();
-            if(StringUtils.isNotBlank(itemRebateQuery.getItemTitle())){
-                //itemRebateQuery1
-            }
-            SpmPageResult<ItemRebateDO> pageResult = itemRebateRepo.queryItemRebateResult(itemRebateQuery1);
+            com.yimayhd.marketing.client.model.query.ItemRebateQuery query = new com.yimayhd.marketing.client.model.query.ItemRebateQuery();
+            query.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
+            query.setPageNo(itemRebateQuery.getPageNumber());
+            query.setPageSize(itemRebateQuery.getPageSize());
+            query.setItemTitle(itemRebateQuery.getItemTitle());
+            
+            SpmPageResult<ItemRebateDO> pageResult = itemRebateRepo.queryItemRebateResult(query);
             if(pageResult!=null && pageResult.isSuccess()){
                 totalCount = pageResult.getTotalCount();
                 list = pageResult.getList();
@@ -60,6 +65,27 @@ public class ItemRebateBiz {
             logger.error("CommissionBiz.queryExtractDetailByUserId exception,params:{}", JSONObject.toJSONString(itemRebateQuery),e);
         }
         return pageVO;
+    }
+
+
+    public SpmResult<ItemRebateDO> updateItemRebate(ItemRebateRateUpdateDTO itemRebateRateUpdateDTO){
+
+        SpmResult<ItemRebateDO> spmResult = null;
+
+        try{
+
+            if(itemRebateRateUpdateDTO != null){
+                itemRebateRateUpdateDTO.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
+            }
+            spmResult = itemRebateRepo.updateItemRebate(itemRebateRateUpdateDTO);
+            if(spmResult != null && spmResult.isSuccess() && spmResult.getT()!=null){
+                return spmResult;
+            }
+
+        }catch (Exception e){
+            logger.error("CommissionBiz.updateItemRebate exception,params:{}", JSONObject.toJSONString(itemRebateRateUpdateDTO),e);
+        }
+        return spmResult;
     }
 
 

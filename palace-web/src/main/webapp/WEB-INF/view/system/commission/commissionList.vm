@@ -1,0 +1,129 @@
+  
+   <div>
+    <form class="form-signin" id="commissionListForm" name="commissionListForm" action="$!utilWebconfig.getActionDefaultFontPath()/commission/queryList" method="GET" role="form">
+        <div class="inputGroup whole">
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">会员名：</button>
+                    </span>
+                    <input type="text" class="form-control" name="userName" value="$!commissionListQuery.userName" />
+                </div>
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">联系电话：</button>
+                    </span>
+                    <input type="text" class="form-control" name="telNum" value="$!commissionListQuery.telNum" />
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="queryBtn">查询</button>
+                </div>
+
+        </div>
+
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tr>
+                    <th>会员名称</th>
+                    <th>用户账号</th>
+                    <th>联系电话</th>
+                    <th>当前返佣金额</th>
+                    <th>支付宝账号</th>
+                    <th>操作</th>
+                </tr>
+                #foreach($amountTotalDTO in $commissionList)
+                <tr>
+                    <td>$!amountTotalDTO.userName</td>
+                    <td>$!amountTotalDTO.userId</td>
+                    <td>$!amountTotalDTO.telNum</td>
+                    <td>$utilNum.moneyTransform($!amountTotalDTO.commissionAmt)</td>
+                    <td>$!amountTotalDTO.payeeAccount</td>
+                    <td>
+                    	<div id="u46" class="ax_html_button">
+        					<input id="showTranBtn" type="button" value="转账" #if($!amountTotalDTO.commissionAmt < 10000) disabled="disabled" #end  onclick="showTran('$!amountTotalDTO.userId','$!amountTotalDTO.userName','$!amountTotalDTO.commissionAmt','$!amountTotalDTO.payeeAccount');"/>
+      						<input id="viewRecordBtn" type="button" value="转账记录" onclick="viewRecord('$!{amountTotalDTO.userId}','$!{amountTotalDTO.userName}');" />
+      					</div>
+                    </td>
+                 </tr>
+                 #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("commissionListForm")
+    </form>
+</div>
+<script>
+	$(function(){
+		$("#cancelBtn").click(function(){
+			//取消转账
+			layer.close(layerIndex);
+		});
+	});
+	var data = {},layerIndex,submitIndex = 0;
+	//显示转账pannel
+	function showTran(userId,userName,commissionAmt,payeeAccount){
+		layerIndex = layer.open({
+		    type: 1,
+		    content: $('#pannel')
+		});
+		data.userId = userId;
+		data.userName = userName;
+		data.commissionAmt = commissionAmt;
+		data.payeeAccount = payeeAccount;
+		$("#payeeAcount").val(data.payeeAccount);
+	}
+	//查看转账记录
+	function viewRecord(userId,userName){
+		var url = '$!{utilWebconfig.getActionDefaultFontPath()}/commission/queryCommissionDetail?userId='+userId;
+		window.parent.tabsAdd("recordView", url, 2, userName+"转账记录");
+	}
+	//确认转账
+	function tranAccount(){
+		var amount = $("#payeeAmount").val() || 0,account=$("#payeeAcount").val();
+		if(!account){
+			alert("请输入用户支付宝账号");
+			return ;
+		}
+		if(isNaN(amount)){
+			alert("金额必须是数字");
+			return ;
+		}
+		var amountCoin = (parseFloat(amount) * 100).toFixed(2);
+		if(amountCoin > parseFloat(data.commissionAmt)){
+			alert("转账金额不能大于返佣余额");
+			return ;
+		}
+		submitIndex += 1;
+		data.commissionAmt = amount;
+		submitIndex == 1 && $.post('$!{utilWebconfig.getActionDefaultFontPath()}/commission/amountExtract',data,function(result){
+			if(result.success){
+				layer.close(layerIndex);
+				alert("转账成功");
+				$("#queryBtn").click();
+			}else{
+				alert("请求失败,失败原因：" + result.desc);
+				submitIndex = 0;
+			}
+			
+		},"json");
+	}
+</script>
+<div id="pannel" style="display:none;width:400px;height:200px;">
+    
+      <div id="u56" class="text">
+        <p><span>转账账号：<input type="input" id="payeeAcount" /></span></p>
+        <p><span>&nbsp;</span></p>
+        <p><span>金额：<input type="input" id="payeeAmount" />元</span></p>
+      </div>
+      
+      <div id="u57" class="ax_html_button">
+        <input id="sureBtn" type="button" value="确认转账" onclick="tranAccount()"/>
+        <input id="cancelBtn" type="submit" value="取消转账"/>
+      </div>
+</div>
+
+
+
+
+
+

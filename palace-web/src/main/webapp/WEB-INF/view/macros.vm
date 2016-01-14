@@ -300,3 +300,25 @@
     其他
     #end
 #end
+
+##券状态
+#macro(VOUCHER_STATUS $status)
+    #if($status == '1')
+    初始
+    #elseif($status == '2')
+    有效
+    #elseif($status == '3')
+    无效
+    #end
+#end
+
+##券类型
+#macro(VOUCHER_TYPE $type)
+    #if($type == '1')
+    满减券
+    #elseif($type == '2')
+    满折券
+    #elseif($type == '3')
+    兑换券
+    #end
+#end

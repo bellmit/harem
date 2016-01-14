@@ -5,12 +5,14 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
 import com.yimayhd.palace.service.VoucherTemplateService;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
 import com.yimayhd.voucher.client.query.VoucherTemplateQuery;
 import com.yimayhd.voucher.client.result.BasePageResult;
 import com.yimayhd.voucher.client.service.VoucherClientService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -29,6 +31,8 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setStartTime(voucherListQuery.getBeginDate());
         voucherTemplateQuery.setEndTime(voucherListQuery.getEndDate());
         voucherTemplateQuery.setTitle(voucherListQuery.getTitle());
+        voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
+        voucherTemplateQuery.setNeedCount(true);
 
         BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
         List<VoucherTemplateVO> voucherTemplateVOs = Lists.newArrayList();
@@ -37,6 +41,8 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
             for (VoucherTemplateDO voucherTemplateDO : result.getList()) {
                 VoucherTemplateVO voucherVO = new VoucherTemplateVO();
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
+                voucherVO.setBeginDate(DateUtil.date2StringByDay(voucherTemplateDO.getStartTime()));
+                voucherVO.setEndDate(DateUtil.date2StringByDay(voucherTemplateDO.getEndTime()));
                 voucherTemplateVOs.add(voucherVO);
             }
             pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
@@ -51,16 +57,18 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
 
     @Override
     public void modify(VoucherTemplateVO entity) throws Exception {
-
+        voucherClientServiceRef.updateVoucherTemplate(entity);
     }
 
     @Override
-    public VoucherTemplateVO add(VoucherTemplateVO entity) throws Exception {
-        return null;
+    public boolean add(VoucherTemplateVO entity) throws Exception {
+        return voucherClientServiceRef.publishVoucherTemplate(entity);
     }
 
     @Override
     public VoucherTemplateVO getById(long id) throws Exception {
-        return null;
+        VoucherTemplateVO voucherTemplateVO = new VoucherTemplateVO();
+        BeanUtils.copyProperties(voucherClientServiceRef.getVoucherTemplateById(id), voucherTemplateVO);
+        return voucherTemplateVO;
     }
 }

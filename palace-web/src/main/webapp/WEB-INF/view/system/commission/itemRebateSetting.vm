@@ -16,9 +16,9 @@
             <table class="table table-hover">
                 <tr>
                     <th>缩略图</th>
-                    <th>商品类目</th>
+                    <th>商品名称</th>
                     <th>商品编号</th>
-                    <th>销售价(元))</th>
+                    <th>销售价(元)</th>
                     <th>1级</th>
                     <th>2级</th>
                     <th>操作</th>
@@ -26,11 +26,11 @@
                 #foreach($itemRebate in $itemRebateList)
                     <tr>
                         <td><img style="width: 40px;height: 40px;" src="http://img.gellefreres.com/shop/store/goods/$!{itemRebate.sellerId}/$!{itemRebate.imgName}" /></td>
-                        <td>$itemRebate.itemType</td>
+                        <td>$itemRebate.itemTitle</td>
                         <td>$itemRebate.itemId</td>
-                        <td>$itemRebate.price</td>
-                        <td><input type="text" name="parent$itemRebate.itemId" value="$utilNum.moneyTransform($!itemRebate.rebateParentRate)"/>%</td>
-                        <td><input type="text" name="grandpa$itemRebate.itemId" value="$utilNum.moneyTransform($!itemRebate.rebateGrandpaRate)"/>%</td>
+                        <td>$!utilNum.moneyTransform($!itemRebate.price)</td>
+                        <td><input maxlength="2" style="width:60px;" type="text" name="parent$itemRebate.itemId" value="$utilNum.moneyTrans($!itemRebate.rebateParentRate)"/>%</td>
+                        <td><input max="2" style="width:60px;" type="text" name="grandpa$itemRebate.itemId" value="$utilNum.moneyTrans($!itemRebate.rebateGrandpaRate)"/>%</td>
                         <td>
                             <button type="button" class="btn btn-primary okStatus"   itemId="$itemRebate.itemId">确认</button>
                         </td>
@@ -51,10 +51,8 @@
                 var itemId = $(this).attr('itemId');
                 var parentName = "parent" + itemId
                 var grandpaName = "grandpa" + itemId
-                var parentRate =$("input[name="+parentName+"]").val() * 100
-                var grandpaRate =$("input[name="+grandpaName+"]").val() * 100
-
-
+                var parentRate =($("input[name="+parentName+"]").val() * 100)
+                var grandpaRate =($("input[name="+grandpaName+"]").val()* 100)
 
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/itemRebate/updateItemRebate',
                         {itemId:itemId,parentRate:parentRate,grandpaRate:grandpaRate},function(data){

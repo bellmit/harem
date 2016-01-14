@@ -34,7 +34,7 @@ public interface VoucherTemplateService {
      *            数据实体
      * @throws Exception
      */
-    VoucherTemplateVO add(VoucherTemplateVO entity) throws Exception;
+    boolean add(VoucherTemplateVO entity) throws Exception;
 
     /**
      * 根据主键获取优惠券模板

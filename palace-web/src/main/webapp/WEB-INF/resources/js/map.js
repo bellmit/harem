@@ -35,7 +35,7 @@ function openBaiduMap(pointX,pointY,callback){   //获取经纬度，pointX初�
 
     layer.open({
         type : 1, title : '地图', closeBtn : false,
-        area : [ '900px', '450px' ], shadeClose : false,
+        area : [ '880px', '450px' ], shadeClose : false,
         content : $('#baiduMap'),
         btn : [ '确认', '取消' ],
         yes : function(index) {
