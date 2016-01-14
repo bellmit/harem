@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+
+
+
+<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!voucherDO.id">
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+            <table>
+                <tr>
+                    <td><span class="spColor">*</span>券标题</td>
+                    <td> <input type="text" name="title" class="form-control extra-info-item-title" value="$!voucherDO.title"></td>
+                </tr>
+
+                <tr>
+                    <td><span class="spColor">*</span>券类型</td>
+                    <td>
+                        <div class="selectList">
+                            <select class="selCity inpControl provinceSelect" name="voucherType">
+                                <option value="1" #if($!voucherDO.voucherType == 1) selected #end>满减券</option>
+                                <option value="2" #if($!voucherDO.voucherType == 2) selected #end >满折券</option>
+                                <option value="3" #if($!voucherDO.voucherType == 3) selected #end >兑换券</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td><span class="spColor">*</span>券金额</td>
+                    <td>
+                        <input type="text" name="value" class="inpControl" value="$!{voucherDO.value}">
+                    </td>
+                    <td><span class="spColor">*</span>券总数</td>
+                    <td>
+                        <input type="text" name="totalNum" class="inpControl" value="$!{voucherDO.totalNum}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>使用条件</td>
+                    <td>
+                        <input type="text" name="requirement" class="inpControl" value="$!{voucherDO.requirement}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>已发放券数量</td>
+                    <td>
+                        $!{voucherDO.sendNum}
+                    </td>
+                </tr>
+                <tr>
+                    <div class="input-group inpSingle">
+                        <td><span class="spColor">*</span>有效期</td>
+                        <td>
+                            <input type="text" class='form-control form-date dateInp startDate' readonly name="startTime" value="$!voucherDO.beginDate">
+                            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                            <input type="text" class='form-control form-date endDate dateInp' readonly name="endTime" value="$!voucherDO.endDate">
+                        </td>
+                    </div>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+</div>
+</form>
+
+
+
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+
+ 	//保存的
+ 	$('#btnSubmit').click(function(){
+            var actionUrl = "";
+            var recommendedId = $('#hotelForm').attr('recommendedId');
+            if(recommendedId){
+               actionUrl = actionDefaultPath + '/B2C/voucherManage/edit/'+recommendedId;
+            }else{
+               actionUrl = actionDefaultPath + '/B2C/voucherManage/add';
+            }
+            $('#hotelForm').attr('action',actionUrl);
+            $('#hotelForm').submit();
+   });
+
+</script>

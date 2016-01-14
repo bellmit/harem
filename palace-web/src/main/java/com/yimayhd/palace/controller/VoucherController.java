@@ -5,12 +5,17 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
 import com.yimayhd.palace.service.VoucherTemplateService;
+import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.voucher.client.enums.EntityType;
+import com.yimayhd.voucher.client.enums.VoucherStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Date;
 
 /**
  * 优惠券管理
@@ -56,7 +61,9 @@ public class VoucherController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
         VoucherTemplateVO voucherTemplateVO = voucherTemplateService.getById(id);
-        model.addAttribute("voucherTemplate",voucherTemplateVO);
+        voucherTemplateVO.setBeginDate(DateUtil.date2StringByDay(voucherTemplateVO.getStartTime()));
+        voucherTemplateVO.setEndDate(DateUtil.date2StringByDay(voucherTemplateVO.getEndTime()));
+        model.addAttribute("voucherDO",voucherTemplateVO);
         return "/system/voucherTemplate/edit";
     }
 
@@ -67,6 +74,10 @@ public class VoucherController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(VoucherTemplateVO voucherTemplateVO) throws Exception {
+        voucherTemplateVO.setEntityType(EntityType.SHOP.getType());
+        voucherTemplateVO.setEntityId(10000);
+        voucherTemplateVO.setStatus(VoucherStatus.INIT.getStatus());
+        voucherTemplateVO.setGmtCreated(new Date());
         voucherTemplateService.add(voucherTemplateVO);
         return "/success";
     }
