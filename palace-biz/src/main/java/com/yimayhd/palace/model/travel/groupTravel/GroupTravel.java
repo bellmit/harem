@@ -76,7 +76,6 @@ public class GroupTravel extends BaseTravel {
 						}
 					}
 				} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
-					System.out.println(routeItem.getValue());
 					RouteItemDetail detail = routeItem.getRouteItemDetail();
 					if (detail != null) {
 						if (RouteItemType.RESTAURANT.name().equals(detail.getType())) {
