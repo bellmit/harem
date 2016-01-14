@@ -5,6 +5,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
 import com.yimayhd.palace.service.VoucherTemplateService;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
 import com.yimayhd.voucher.client.query.VoucherTemplateQuery;
 import com.yimayhd.voucher.client.result.BasePageResult;
@@ -30,6 +31,8 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setStartTime(voucherListQuery.getBeginDate());
         voucherTemplateQuery.setEndTime(voucherListQuery.getEndDate());
         voucherTemplateQuery.setTitle(voucherListQuery.getTitle());
+        voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
+        voucherTemplateQuery.setNeedCount(true);
 
         BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
         List<VoucherTemplateVO> voucherTemplateVOs = Lists.newArrayList();
@@ -38,6 +41,8 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
             for (VoucherTemplateDO voucherTemplateDO : result.getList()) {
                 VoucherTemplateVO voucherVO = new VoucherTemplateVO();
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
+                voucherVO.setBeginDate(DateUtil.date2StringByDay(voucherTemplateDO.getStartTime()));
+                voucherVO.setEndDate(DateUtil.date2StringByDay(voucherTemplateDO.getEndTime()));
                 voucherTemplateVOs.add(voucherVO);
             }
             pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),

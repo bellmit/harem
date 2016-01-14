@@ -1,6 +1,6 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-    <form class="form-signin" id="payListForm" name="payListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/voucherManage/pay/list" method="GET" role="form">
+    <form class="form-signin" id="payListForm" name="payListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/voucherManage/list" method="GET" role="form">
         <div class="inputGroup whole">
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -8,6 +8,7 @@
                     </span>
                     <input type="text" class="form-control" name="title" value="$!voucherListQuery.title">
                 </div>
+
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">创建时间</button>
@@ -16,34 +17,50 @@
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
                     <input type="text" class='form-control form-date endDate dateInp' readonly name="endDate" value="$!voucherListQuery.endDate">
                 </div>
-
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">状态</button>
+                    </span>
+                <div class="selectList">
+                    <select class="selCity inpControl provinceSelect" name="status">
+                        <option value="0">全部</option>
+                        <option value="1">初始</option>
+                        <option value="2">有效</option>
+                        <option value="3">无效</option>
+                    </select>
+                </div>
+            </div>
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnSubmit">查询</button>
                 </div>
         </div>
-
+        <div class="inputGroup whole">
+            <div class="btn-group">
+                <button type="submit" class="btn btn-add">新增优惠券</button>
+            </div>
+        </div>
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
                     <th>序号</th>
-                    <th>优惠券编号</th>
                     <th>优惠券标题</th>
                     <th>优惠券类型</th>
-                    <th>优惠券实体</th>
-                    <th>优惠类型</th>
+                    <th>券额度</th>
+                    <th>有效期</th>
                     <th>状态</th>
                     <th>创建时间</th>
+                    <th>操作</th>
                 </tr>
-                    #foreach($pay in $payList)
+                    #foreach($voucher in $voucherTemplateList)
                     <tr>
                         <td>$!velocityCount</td>
-                        <td>$!pay.id</td>
-                        <td>$!pay.bizOrderId</td>
-                        <td>$!pay.subject</td>
-                        <td>$!pay.buyerAccount</td>
-                        <td>$!utilNum.moneyTransform($!pay.totalAmount)</td>
-                        <td>#PAY_RECORD_STATUS($!pay.payStatus)</td>
-                        <td>$!utilDate.dateToString($!pay.gmtPayment,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td>$!voucher.title</td>
+                        <td>#VOUCHER_TYPE($!voucher.voucherType)</td>
+                        <td>$!voucher.value</td>
+                        <td>$!voucher.beginDate 至 $!voucher.endDate</td>
+                        <td>#VOUCHER_STATUS($!voucher.status)</td>
+                        <td>$!utilDate.dateToString($!voucher.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td><button type="button" class="btn btn-primary themeDetail" themeId="$voucher.id">编辑</button></td>
                     </tr>
                     #end
             </table>
@@ -53,31 +70,13 @@
     #pageStyle("payListForm")
     </form>
 <script>
-    $("#payListForm").validate({
-        rules:{
-            bizOrderId:{
-                number:true
-            }
-            /*endDate:{
-                compareDate:".startDate"
-            }*/
-        },
-        messages:{
-            bizOrderId:{
-                number:"请输入正确的交易号"
-            }
-            /*endDate:{
-                compareDate:"结束日期必须大于开始日期!"
-            }*/
-        },
-        errorPlacement: function(error, element) {
-            element.parent().parent().append (error);
-        }
-    })
 
-    /*if($(".endDate").val() != ""){
-        $(this).rules("add", {compareDate: ".startDate", messages: {compareDate: "结束日期必须大于开始日期!"} });
-    }*/
+    $('.themeDetail').each(function(){
+        $(this).click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/voucherManage/edit/'+ $(this).attr('themeId');
+            top.tabsAdd("",url,2,$(this).text());
+        });
+    });
 
     $(".form-date").datetimepicker(
             {
@@ -93,11 +92,12 @@
             });
 
 
-    $(function(){
-        $('.orderLink').click(function(){
-            top.tabsAdd('',$(this).attr('orderLinkUrl'),2,$(this).text());
+    $('.btn-add').click(function(){
+        var url ='$!utilWebconfig.getActionDefaultFontPath()' +'/B2C/voucherManage/toAdd';
+        top.tabsAdd("",url,2,'优惠券');
+    });
 
-        });
+    $(function(){
         $('#btnSubmit').click(function(){
             if($('.startDate').val() && $('.endDate').val()){
                 if($('.startDate').val() > $('.endDate').val()){
@@ -108,22 +108,13 @@
                         return false;
                     }
                 }
-
             }
             if($("#payListForm").valid()){
-                $('#payListForm').attr('action',actionDefaultPath + '/trade/tradeManage/pay/list')
+                $('#payListForm').attr('action',actionDefaultPath + '/B2C/voucherManage/list')
                 $('#payListForm').submit();
             }
         });
-        $('.exportBtn').click(function(){
-            if($("#payListForm").valid()){
-                if($("#payListForm").attr('listSize') > 0){
-                    window.location = actionDefaultPath + '/trade/tradeManage/pay/export?'+ $("#payListForm").serialize();
-                }else{
-                    layer.msg('没有可导出的记录',{icon:5,time:2000});
-                }
-            }
-        });
+
 
     });
 </script>
