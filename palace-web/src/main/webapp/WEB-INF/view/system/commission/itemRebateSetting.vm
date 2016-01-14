@@ -29,8 +29,8 @@
                         <td>$itemRebate.itemTitle</td>
                         <td>$itemRebate.itemId</td>
                         <td>$!utilNum.moneyTransform($!itemRebate.price)</td>
-                        <td><input style="width:60px;" type="text" name="parent$itemRebate.itemId" value="$utilNum.moneyTransform($!itemRebate.rebateParentRate)"/>%</td>
-                        <td><input style="width:60px;" type="text" name="grandpa$itemRebate.itemId" value="$utilNum.moneyTransform($!itemRebate.rebateGrandpaRate)"/>%</td>
+                        <td><input maxlength="2" style="width:60px;" type="text" name="parent$itemRebate.itemId" value="$utilNum.moneyTrans($!itemRebate.rebateParentRate)"/>%</td>
+                        <td><input max="2" style="width:60px;" type="text" name="grandpa$itemRebate.itemId" value="$utilNum.moneyTrans($!itemRebate.rebateGrandpaRate)"/>%</td>
                         <td>
                             <button type="button" class="btn btn-primary okStatus"   itemId="$itemRebate.itemId">确认</button>
                         </td>
