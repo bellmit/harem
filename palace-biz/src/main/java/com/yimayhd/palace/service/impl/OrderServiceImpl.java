@@ -12,6 +12,7 @@ import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
+import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.*;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
@@ -149,6 +150,9 @@ public class OrderServiceImpl implements OrderService {
 				MainOrder mainOrder = OrderConverter.orderVOConverter(singleQueryResult.getBizOrderDO());
 				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,singleQueryResult.getBizOrderDO());
 				if (mainOrder!=null){
+					if (singleQueryResult.getLogisticsOrderDO()!=null){
+						mainOrder.setLogisticsOrderDO(singleQueryResult.getLogisticsOrderDO());
+					}
 					orderDetails.setMainOrder(mainOrder);
 				}
 				if (mainOrder.getBizOrderDO()!=null){

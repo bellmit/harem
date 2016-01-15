@@ -75,6 +75,14 @@
             <span>昵称：$!order.buyerNiceName</span>
             <span>姓名：$!order.buyerName</span>
         </div>
+        <div>
+            <span>收货地址：</span>
+            <span>$!order.mainOrder.logisticsOrderDO.fullName ，</span>
+            <span>$!order.mainOrder.logisticsOrderDO.mobilePhone ，</span>
+            <span>$!order.mainOrder.logisticsOrderDO.address ，</span>
+            <span>$!order.mainOrder.logisticsOrderDO.post </span>
+        </div>
+
     </div>
     <br><br>
     <!-- 订单基础信息 -->
