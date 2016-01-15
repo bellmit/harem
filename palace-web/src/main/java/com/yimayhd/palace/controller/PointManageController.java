@@ -41,8 +41,6 @@ public class PointManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/sendPointRule/list", method = RequestMethod.GET)
 	public String sendPointRule(HttpServletRequest request,Model model,BaseQuery baseQuery) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		IMallPointRuleResult iMallPointRuleResult = pointRuleService.getSendPointRuleNow(sellerId);
@@ -72,8 +70,6 @@ public class PointManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/sendPointRule/add", method = RequestMethod.POST)
 	public String sendPointRuleAdd(HttpServletRequest request,IMallPointRuleVO iMallPointRuleVO) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		boolean success = pointRuleService.add(sellerId,iMallPointRuleVO);

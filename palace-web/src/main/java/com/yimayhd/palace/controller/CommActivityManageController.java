@@ -65,7 +65,6 @@ public class CommActivityManageController extends BaseController {
     public
     String add(ItemVO itemVO) throws Exception {
     	
-//		itemVO.setSellerId(Long.parseLong(SessionUtils.getUserId()));
 		//long sellerId = sessionManager.getUserId();
 		//itemVO.setSellerId(sellerId)
 		ItemPubResult result = commActivityService.add(itemVO);
