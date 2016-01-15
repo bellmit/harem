@@ -120,6 +120,9 @@ public class LineChecker {
 		if (StringUtils.isBlank(baseInfo.getName())) {
 			log.error(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路名称不能为空");
+		} else if (baseInfo.getName().length() > 50) {
+			log.error(temp, JSON.toJSONString(baseInfo));
+			return CheckResult.error("线路名称不能超过50个字");
 		}
 		if (StringUtils.isBlank(baseInfo.getProductImage())) {
 			log.error(temp, JSON.toJSONString(baseInfo));
@@ -161,9 +164,9 @@ public class LineChecker {
 		if (StringUtils.isBlank(highlights)) {
 			log.error(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路设计亮点不能为空");
-		} else if (highlights.length() > 800) {
+		} else if (highlights.length() > 500) {
 			log.error(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("线路设计亮点不能超过800个字符");
+			return CheckResult.error("线路设计亮点不能超过500个字");
 		}
 		MasterRecommend recommond = baseInfo.getRecommond();
 		if (StringUtils.isBlank(recommond.getTitle())) {
@@ -173,6 +176,9 @@ public class LineChecker {
 		if (StringUtils.isBlank(recommond.getDescription())) {
 			log.error(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("推荐理由内容不能为空");
+		} else if (recommond.getDescription().length() > 300) {
+			log.error(temp, JSON.toJSONString(baseInfo));
+			return CheckResult.error("推荐理由不能超过300个字");
 		}
 		if (recommond.getUserId() <= 0) {
 			log.error(temp, JSON.toJSONString(baseInfo));
