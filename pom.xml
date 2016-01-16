@@ -37,6 +37,7 @@
 		<commission.version>1.0-SNAPSHOT</commission.version>
 		<voucher.client.version>0.0.6-SNAPSHOT</voucher.client.version>
 		<spread_version>1.0.0-SNAPSHOT</spread_version>
+		<tair.version>2.3.4.3</tair.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -294,7 +295,7 @@
 			<dependency>
 				<groupId>com.taobao.tair</groupId>
 				<artifactId>tair-client</artifactId>
-				<version>2.3.4.5</version>
+				<version>${tair.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.slf4j</groupId>
