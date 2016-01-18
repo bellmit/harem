@@ -188,8 +188,10 @@ public class OrderServiceImpl implements OrderService {
 
 				//关闭原因
 				int closeReasonId = BizOrderUtil.getCloseReasonId(mainOrder.getBizOrderDO());
-				String closeReason = CloseOrderReason.getReasonByType(closeReasonId).getDesc();
-				orderDetails.setCloseReason(closeReason);
+				if (closeReasonId!=0){
+					String closeReason = CloseOrderReason.getReasonByType(closeReasonId).getDesc();
+					orderDetails.setCloseReason(closeReason);
+				}
 
 				//确认、发货时间
 				LogisticsOrderDO logisticsOrderDO = singleQueryResult.getLogisticsOrderDO();
