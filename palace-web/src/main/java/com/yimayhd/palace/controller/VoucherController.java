@@ -77,7 +77,6 @@ public class VoucherController extends BaseController {
         voucherTemplateVO.setEntityType(EntityType.SHOP.getType());
         voucherTemplateVO.setEntityId(10000);
         voucherTemplateVO.setStatus(VoucherStatus.ACTIVE.getStatus());
-        voucherTemplateVO.setGmtCreated(new Date());
         voucherTemplateService.add(voucherTemplateVO);
         return "/success";
     }
