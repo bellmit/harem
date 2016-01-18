@@ -144,8 +144,8 @@
         }
         if(!$('.oneWord').val()){
             return '请输入说明';
-        }else if($('.oneWord').val().length > 100){
-            return '说明不能超过100个字';
+        }else if($('.oneWord').val().length > 30){
+            return '说明不能超过30个字';
         }
         if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';

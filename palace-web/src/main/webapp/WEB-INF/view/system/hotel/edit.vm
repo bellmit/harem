@@ -74,7 +74,7 @@
                                     <option #if($town.code == $!hotel.locationTownId) selected #end value="$town.code">$town.name</option>
                                 #end
                             </select>			
-                            <input type="text" class="inpControl" name="locationText" id="locationText" placeholder="请输入街道门牌号" value="$!hotel.locationText">
+                            <input type="text" class="inpControl locationText" name="locationText" id="locationText" placeholder="请输入街道门牌号" value="$!hotel.locationText">
                         </div>
                     </td>
                 </tr>
@@ -96,7 +96,7 @@
                 <tr>
                     <td>酒店电话</td>
                     <td>
-                        <input type="text" class="inpControl" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNumListStr" placeholder="请输入酒店电话,以逗号分割">
+                        <input type="text" class="inpControl phoneNumListStr" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNumListStr" placeholder="请输入酒店电话,以逗号分割">
                     </td>
                 </tr>
                 <tr>
@@ -118,8 +118,8 @@
                 </tr>
                 <tr>
                     <td>酒店联系人</td>
-                    <td><span>姓名：</span><input type="text" name="contactPerson" value="$!hotel.contactPerson" class="inpControl" >
-                        <span>电话：</span><input type="text" name="contactPhone" value="$!hotel.contactPhone" class="inpControl" >
+                    <td><span>姓名：</span><input type="text" name="contactPerson" value="$!hotel.contactPerson" class="inpControl contactPerson" >
+                        <span>电话：</span><input type="text" name="contactPhone" value="$!hotel.contactPhone" class="inpControl contactPhone" >
                     </td>
                 </tr>
                 <tr>
@@ -244,7 +244,7 @@
                                    value="#if(! $recommend.title)大咖推荐#else$!recommend.title#end" readonly>
                             <img src="#if($recommend.userPic)$utilWebconfig.getTfsRootPath()$!recommend.userPic#end" alt="头像" class="img-circle grogUserLogo" id="userImg">
                             <span id="recommendNameT">#if(! $recommend.name)#else$!recommend.name#end</span>
-                            <textarea name="recommend.description" id="recommend" rows="3" class="form-control"
+                            <textarea name="recommend.description" id="recommend" rows="3" class="form-control recommend_description"
                                       placeholder="请输入300字以内">$!{recommend.description}</textarea>
                             #if($!{recommend.id})
                                 <input type="hidden" id="recommendId" name="recommend.id" value="$!{recommend.id}" >
@@ -312,6 +312,8 @@
     var validate = function(){
         if(!$('.name').val()){
             return '酒店名称不能为空';
+        }else if($('.name').val().length > 20){
+            return '酒店名称不能超过20个字';
         }
         if(!$('.provinceSelect').val() || $('.provinceSelect').val() == '0'){
             return '省份不能为空';
@@ -322,23 +324,41 @@
         if(!$('.countySelect').val() || $('.countySelect').val() == '0'){
             return '地区不能为空';
         }
+        if($('.locationText').val() && $('.locationText').val().length > 30){
+            return '区域地址不能超过30个字';
+        }
         if(!$('#locationX').val() || !$('#locationY').val() || !/^[0-9]+.?[0-9]*$/.test($('#locationX').val()) || !/^[0-9]+.?[0-9]*$/.test($('#locationY').val())){
             return '地址经纬度格式不正确';
         }
+        if($('.phoneNumListStr').val() && $('.phoneNumListStr').val().length > 30){
+            return '酒店电话不能超过30个字';
+        }
         if(!$('#grogDescr').val()){
             return '酒店简介不能为空';
+        }else if($('#grogDescr').val().length > 500){
+            return '酒店简介不能超过500个字';
         }
         if(!$('.oneword').val()){
             return '特色描述不能为空';
+        }else if($('.oneword').val().length > 80){
+            return '特色描述不能超过80个字';
         }
         if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '基础价格最多保留两位小数的正数';
+        }
+        if($('.contactPerson').val() && $('.contactPerson').val().length > 20){
+            return '酒店联系人姓名不能超过20个字';
+        }
+        if($('.contactPhone').val() && $('.contactPhone').val().length > 20){
+            return '酒店联系人电话不能超过20个字';
         }
         if($('.facilityCl:checked').length <= 0){
             return '房间设施不能为空';
         }
         if(!$('.openTime').val()){
             return '入离时间不能为空';
+        }else if($('.openTime').val().length > 50){
+            return '入离时间不能超过50个字';
         }
         if($('.needKnow').length <= 0){
             return '入住须知不能为空';
@@ -347,12 +367,19 @@
             $('.needKnow').each(function(){
                 if(!$(this).find('.extra-info-item-title').val() || !$(this).find('.extra-info-item-text').val()){
                     msg = '入住须知不能为空';
+                }else if($(this).find('.extra-info-item-title').val().length > 10){
+                    msg = '入住须知标题不能超过10个字';
+                }else if($(this).find('.extra-info-item-text').val().length > 500){
+                    msg = '入住须知内容不能超过500个字';
                 }
                 return;
             });
             if(msg){
                 return msg;
             }
+        }
+        if($('.recommend_description').val() && $('.recommend_description').val().length > 300){
+            return '大咖推荐理由不能超过300个字';
         }
         if(!$('#logoUrlUploadFileReturnImg').attr('src')){
             return '列表页展示图不能为空';

@@ -75,8 +75,8 @@
      var validate = function(){
          if(!$('.textContent').val()){
              return '直播内容不能为空';
-         }else if($('.textContent').val().length > 100){
-            return '直播内容不能超过100字';
+         }else if($('.textContent').val().length > 200){
+            return '直播内容不能超过200字';
          }
          if(!$('.gmtCreatedStr').val()){
              return '发布时间不能为空';

@@ -341,14 +341,14 @@
 
         if(!$('.subTitle').val()){
             return '请输入副标题';
-        }else if($('.subTitle').val().length > 100){
-            return '副标题不能超过20个字';
+        }else if($('.subTitle').val().length > 30){
+            return '副标题不能超过30个字';
         }
 
         if(!$('.oneWord').val()){
             return '请输入二级副标题';
-        }else if($('.oneWord').val().length > 100){
-            return '二级副标题不能超过20个字';
+        }else if($('.oneWord').val().length > 30){
+            return '二级副标题不能超过30个字';
         }
         if(!$('.description').val()){
             return '请输入商品描述';
