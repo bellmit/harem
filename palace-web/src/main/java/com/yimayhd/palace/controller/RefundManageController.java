@@ -53,8 +53,6 @@ public class RefundManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String refundList(Model model, RefundListQuery refundListQuery) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月
@@ -79,7 +77,6 @@ public class RefundManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
 	public String getById(Model model,@PathVariable(value = "orderId") long refundId) throws Exception {
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		List<IMallRefundDetailDO> iMallRefundDetailDOList = refundService.getOrderByRecordId(sellerId,refundId);
 		model.addAttribute("refundDetailList",iMallRefundDetailDOList);
@@ -93,8 +90,6 @@ public class RefundManageController extends BaseController {
 	@RequestMapping(value = "/refund/export", method = RequestMethod.GET)
 
 	public String refundListExport(HttpServletRequest request,HttpServletResponse response,RefundListQuery refundListQuery) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月

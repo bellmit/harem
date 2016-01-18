@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.user.client.dto.LoginDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +76,11 @@ public class LoginController extends BaseController {
             return JsonResult.buildFailResult(1, "验证码错误!", null);
         }*/
 
-//        BaseResult<UserDO> result = userServiceRef.login(loginoutVO.getUsername(), loginoutVO.getPassword());
-        LoginResult result = userServiceRef.loginV2(loginoutVO.getUsername(), loginoutVO.getPassword());
+        LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setMobile(loginoutVO.getUsername());
+        loginDTO.setPassword(loginoutVO.getPassword());
+        LoginResult result = userServiceRef.loginV3(loginDTO);
+        //LoginResult result = userServiceRef.loginV2(loginoutVO.getUsername(),loginoutVO.getPassword());
         int errorCode = result.getErrorCode();
         if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
             LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
@@ -84,12 +88,6 @@ public class LoginController extends BaseController {
             Cookie cookie = new Cookie("token", token);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
-            //FIXME
-//            SessionUtils.setUserId(String.valueOf(result.getValue().getId()));
-//            HttpSession httpSession = request.getSession();
-//            Object userIdObject = httpSession.getAttribute("userId");
-//            httpSession.setAttribute("userNickName", result.getValue().getNickname());
-           
             return JsonResult.buildSuccessResult(result.getResultMsg(), null);
         }
         
@@ -102,15 +100,6 @@ public class LoginController extends BaseController {
     @ResponseBody
     public ResponseVo logout(HttpServletRequest request,Model model) {
     	sessionManager.removeToken(request);
-    	
-//        String userIdStr = SessionUtils.getUserId();
-//
-//        if(StringUtils.isBlank(userIdStr)){
-//            //没有去到userId，直接返回成功
-//            return new ResponseVo();
-//        }
-//        long userId = Long.parseLong(userIdStr) ;
-//        SessionUtils.removeUserId();
         return new ResponseVo();
     }
 
@@ -137,14 +126,10 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String toMain(Model model) throws Exception {
-//        long userId = Long.parseLong(SessionUtils.getUserId()) ;
     	UserDO user = sessionManager.getUser();
-    	if( user == null ){
-    		//FIXME 曹张锋
-    	}
         List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(user.getId());
         model.addAttribute("menuList", haMenuDOList);
-        model.addAttribute("userNickName", user.getNick());
+        model.addAttribute("userNickName", user.getNickname());
         return "/system/layout/layout";
     }
 

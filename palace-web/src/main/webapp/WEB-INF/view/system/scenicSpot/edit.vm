@@ -98,29 +98,34 @@
                     <tr>
                         <td><span class="spColor">*</span>入园须知</td>
                         <td>
-                            <button type="button" class="btn btn-default addNeedKnow">增加条目</button>
+                           
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>标题（10个字以内）</th>
-                                        <th>内容（500字以内）</th>
+                                        <th>内容（400字以内）</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody class="extra-info-list needKnowTable">
                                     #if(!${VO.needKnow.frontNeedKnow})
                                     <tr class="needKnow">
-                                        <td><input type="text" name="needKnowOb.frontNeedKnow[0].title" class="form-control extra-info-item-title" placeholder="费用包含" maxlength="10"></td>
-                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[0].content" rows="3" maxlength="500"></textarea></td>
-                                        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
+                                        <td><input type="text" name="needKnowOb.frontNeedKnow[1].title" class="form-control extra-info-item-title" placeholder="费用包含" maxlength="10"></td>
+                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[1].content" rows="3" maxlength="400"></textarea></td>
+                                       
+                                    </tr>
+                                    <tr class="needKnow">
+                                        <td><input type="text" name="needKnowOb.frontNeedKnow[2].title" class="form-control extra-info-item-title" placeholder="费用包含" maxlength="10"></td>
+                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[2].content" rows="3" maxlength="400"></textarea></td>
+                                      
                                     </tr>
                                     #end
 
                                     #foreach($frontNeedKnow in $VO.needKnow.frontNeedKnow)
                                     <tr class="needKnow">
                                         <td><input type="text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title" placeholder="费用包含" value="$!{frontNeedKnow.title}" maxlength="10"></td>
-                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" rows="3" maxlength="500">$!{frontNeedKnow.content}</textarea></td>
-                                        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
+                                        <td><textarea class="form-control extra-info-item-text" name="needKnowOb.frontNeedKnow[$!{velocityCount}].content" rows="3" maxlength="400">$!{frontNeedKnow.content}</textarea></td>
+                                      
                                     </tr>
                                     #end
                                 </tbody>
@@ -459,6 +464,14 @@
                     required: true
                 },'coverPics': {
                     required: true
+                },'needKnowOb.frontNeedKnow[1].title':{
+                	 required: true
+                },'needKnowOb.frontNeedKnow[2].title':{
+                	 required: true
+                },'needKnowOb.frontNeedKnow[1].content':{
+                	 required: true
+                },'needKnowOb.frontNeedKnow[2].content':{
+                	 required: true
                 }
                
               

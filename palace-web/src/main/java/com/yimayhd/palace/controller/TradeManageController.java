@@ -55,8 +55,6 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/order/list", method = RequestMethod.GET)
 	public String orderList(Model model, TradeListQuery tradeListQuery) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月
@@ -80,8 +78,6 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/order/export", method = RequestMethod.GET)
 	public void orderListExport(HttpServletRequest request,HttpServletResponse response,TradeListQuery tradeListQuery) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
 		//初始化和未填日期的时候，默认最近两个月
@@ -135,8 +131,6 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/pay/list", method = RequestMethod.GET)
 	public String payList(Model model, PayListQuery payListQuery) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId =10000000;
 		//初始化和未填日期的时候，默认最近两个月
@@ -159,8 +153,6 @@ public class TradeManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/pay/export", method = RequestMethod.GET)
 	public void payListExport(HttpServletRequest request,HttpServletResponse response,PayListQuery payListQuery) throws Exception {
-		//TODO
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		//long sellerId =10000000;
 		//初始化和未填日期的时候，默认最近两个月

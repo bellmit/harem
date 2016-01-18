@@ -108,11 +108,11 @@
                                 </div>
                                 <div class="t-msg">
                                     <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
+                                    <div class="t-userType">$!subOrder.vTxt</div>
                                     #if($!subOrder.executeTime != 0)
                                         <div class="t-date">出发日期：$!date.format('yyyy-MM-dd',$!subOrder.executeTime)</div>
                                     #end
                                     <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
-                                    <div class="t-userType">$!subOrder.vTxt</div>
                                 </div>
                             </div>
                         </td>
