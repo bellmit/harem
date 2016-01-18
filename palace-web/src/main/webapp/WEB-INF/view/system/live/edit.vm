@@ -75,12 +75,16 @@
      var validate = function(){
          if(!$('.textContent').val()){
              return '直播内容不能为空';
+         }else if($('.textContent').val().length > 100){
+            return '直播内容不能超过100字';
          }
          if(!$('.gmtCreatedStr').val()){
              return '发布时间不能为空';
          }
          if(!$('.snsPOIDetail').val()){
              return '直播地点不能为空';
+         }else if($('.snsPOIDetail').val().length > 20){
+             return '直播地点不能超过20字';
          }
          if(!$('#userId').val()){
              return '作者信息不能为空';

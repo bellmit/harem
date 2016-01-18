@@ -76,6 +76,7 @@
             <table class="table table-hover">
                 <tr>
                     <th><input type="checkbox" name="checkAll" id="checkAll" value="" /></th>
+                    <th>活动ID</th>
                     <th>活动名称</th>
                     <th>所属俱乐部</th>
                     <th>活动状态</th>
@@ -87,6 +88,7 @@
                     #foreach($activity in $activityList)
                     <tr>
                         <td><input type="checkbox" name="subBox" class="finance_check" id="" value="$!activity.id" /></td>
+                        <td>$!activity.id</td>
                         <td>$!activity.title</td>
                         <td>$!activity.clubName</td>
                          <td>#ACTIVITY_STATUS($!activity.isStatus)</td>

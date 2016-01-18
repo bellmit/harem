@@ -112,6 +112,7 @@ public class ActivityServiceImpl implements ActivityService {
 				activityIdList.add(tag.getOutId());
 				
 			}
+			activityQueryDTO.setActivityIdList(activityIdList);
 		}
 
 		return activityRepo.pageQueryActivities(activityQueryDTO);
