@@ -869,16 +869,16 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 	}
 
 	@Override
-	public ServiceResult<TravelKaVO> getTravelKaDetail(Long id) {
-		ServiceResult<TravelKaVO> serviceResult = new ServiceResult<TravelKaVO>(false);
+	public ServiceResult<UserDO> getTravelKaDetail(Long id) {
+		ServiceResult<UserDO> serviceResult = new ServiceResult<UserDO>(false);
 
-		MemResult<TravelKaVO> result = travelKaService.getTravelKaDetail(id);
-		if (result.isSuccess()) {
+		UserDO  userDO = userRPCService.getUserById(id);
+		if (userDO != null) {
 			serviceResult.setResult(true);
-			serviceResult.setValue(result.getValue());
+			serviceResult.setValue(userDO);
 		} else {
 			serviceResult.setErrorMsg("getTravelKaDetail error");
-			LOGGER.error("getTravelKaDetail error,result={},id={}", result, id);
+			LOGGER.error("getTravelKaDetail error,userDO={},id={}", userDO, id);
 		}
 
 		return serviceResult;

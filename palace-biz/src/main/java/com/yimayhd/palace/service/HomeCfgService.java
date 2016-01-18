@@ -10,6 +10,7 @@ import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
+import com.yimayhd.user.client.domain.UserDO;
 
 /**
  * 首页配置信息
@@ -103,7 +104,7 @@ public interface HomeCfgService {
 	
 	public ServiceResult<SnsActivityDO> getActivityDetail(Long id);
 	
-	public ServiceResult<TravelKaVO> getTravelKaDetail(Long id);
+	public ServiceResult<UserDO> getTravelKaDetail(Long id);
 	
 	
 	/**
