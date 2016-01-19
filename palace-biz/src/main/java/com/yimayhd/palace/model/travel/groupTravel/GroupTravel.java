@@ -179,7 +179,7 @@ public class GroupTravel extends BaseTravel {
 									routeItemDO.setRouteTrafficInfo(routeItemVO.getRouteTrafficInfo());
 								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
 									routeItemDO.setRouteItemDesc(routeItemVO.getRouteItemDesc());
-								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
+								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
 									routeItemDO.setRouteItemDetail(routeItemVO.getRouteItemDetail());
 								}
 								routeItemDO.setStatus(routeItemVO.getStatus());
