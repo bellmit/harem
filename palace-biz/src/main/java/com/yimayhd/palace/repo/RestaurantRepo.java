@@ -46,7 +46,7 @@ public class RestaurantRepo extends ResourceRepo {
 	}
 
 	public RestaurantDO addRestaurant(RestaurantDO restaurantDO) {
-		RepoUtils.requestLog(log, "resourcePublishServiceRef.addRestaurant");
+		RepoUtils.requestLog(log, "resourcePublishServiceRef.addRestaurant", restaurantDO);
 		ICResult<RestaurantDO> restaurant = resourcePublishServiceRef.addRestaurant(restaurantDO);
 		RepoUtils.resultLog(log, "resourcePublishServiceRef.addRestaurant", restaurant);
 		return restaurant.getModule();
