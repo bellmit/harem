@@ -114,7 +114,5 @@
                 $('#payListForm').submit();
             }
         });
-
-
     });
 </script>
