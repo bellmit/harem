@@ -1,10 +1,10 @@
 package com.yimayhd.palace.service.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
-import com.yimayhd.snscenter.client.enums.ActivityType;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,11 +91,11 @@ public class ActivityServiceImpl implements ActivityService {
 		if (query.getClubId() != 0) {
 			activityQueryDTO.setClubId(query.getClubId());
 		}
-		
+
 		//标签
 		if (query.getTagId() != 0) {
 			com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagRelationDO>> result
-				= comCenterService.getTagRelationByTagIdAndType(query.getTagId(), TagType.ACTIVETYTAG.name());
+					= comCenterService.getTagRelationByTagIdAndType(query.getTagId(), TagType.ACTIVETYTAG.name());
 			if (null == result) {
 				log.error(
 						"ActivityServiceImpl.getById-comCenterService.getTagInfoByOutIdAndType result is null and parame:tagId= "
@@ -110,7 +110,7 @@ public class ActivityServiceImpl implements ActivityService {
 			List<Long> activityIdList = query.getActivityIdList();
 			for (ComTagRelationDO tag : tagList) {
 				activityIdList.add(tag.getOutId());
-				
+
 			}
 			activityQueryDTO.setActivityIdList(activityIdList);
 		}
@@ -125,7 +125,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> getTagInfoByOutIdAndType(long outId,
-			String outType) {
+																									   String outType) {
 		com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> talList = comCenterService
 				.getTagInfoByOutIdAndType(outId, outType);
 		if (null == talList) {
@@ -158,7 +158,6 @@ public class ActivityServiceImpl implements ActivityService {
 				throw new BaseException(activityInfo.getResultMsg());
 			}
 			SnsActivityDO snsActivityDO = activityInfo.getValue();
-			//TODO snsActivityDO之后都没用到，这样是覆盖，需要改一下
 			if (snsActivityDO == null) {
 				log.error(
 						"ActivityServiceImpl.save-snsCenterService.getActivityInfoByActivityId result.getValue is null and parame: "
@@ -199,12 +198,6 @@ public class ActivityServiceImpl implements ActivityService {
 				}
 			}
 			dto.setActivityJsonArray(newjsonDOs);
-			Map<String,String> picUrls = new HashMap<String, String>();
-			String imagePC = snsActivityDO.getPicUrls(ActivityPicUrlsKey.BIG_LIST_PIC);
-			if(StringUtils.isNotBlank(imagePC)){
-				picUrls.put(ActivityPicUrlsKey.BIG_LIST_PIC.getCode(),activityVO.getImagePC());
-			}
-			dto.setPicUrlsMap(picUrls);
 			result = snsCenterService.updateActivityInfo(dto);
 			if (!result.isSuccess()) {
 				log.error("Activity|snsCenterService.save return value is null !returnValue :"
