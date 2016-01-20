@@ -43,8 +43,6 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
             for (VoucherTemplateDO voucherTemplateDO : result.getList()) {
                 VoucherTemplateVO voucherVO = new VoucherTemplateVO();
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
-                voucherVO.setBeginDate(DateUtil.date2StringByDay(voucherTemplateDO.getStartTime()));
-                voucherVO.setEndDate(DateUtil.date2StringByDay(voucherTemplateDO.getEndTime()));
                 voucherTemplateVOs.add(voucherVO);
             }
             pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
