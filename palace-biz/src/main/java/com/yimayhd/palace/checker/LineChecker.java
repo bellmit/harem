@@ -226,6 +226,9 @@ public class LineChecker {
 		if (StringUtils.isBlank(tc.getName())) {
 			log.error(temp, JSON.toJSONString(tc));
 			return CheckResult.error("线路套餐名称不能为空");
+		} else if (tc.getName().length() > 15) {
+			log.error(temp, JSON.toJSONString(tc));
+			return CheckResult.error("线路套餐名称不能超过15个字");
 		}
 		if (CollectionUtils.isEmpty(months)) {
 			log.error(temp, JSON.toJSONString(tc));
