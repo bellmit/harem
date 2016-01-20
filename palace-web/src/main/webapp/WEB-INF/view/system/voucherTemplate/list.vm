@@ -27,6 +27,7 @@
                         <option value="1">初始</option>
                         <option value="2">有效</option>
                         <option value="3">无效</option>
+                        <option value="4">已领完</option>
                     </select>
                 </div>
             </div>
