@@ -243,6 +243,10 @@
 			<groupId>com.yimayhd.voucher</groupId>
 			<artifactId>voucher-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.promotion</groupId>
+			<artifactId>promotion-client</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.yimayhd.spread-marketing</groupId>
