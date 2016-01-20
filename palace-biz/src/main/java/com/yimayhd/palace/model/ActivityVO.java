@@ -1,10 +1,15 @@
 package com.yimayhd.palace.model;
 
+import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ActivityVO extends ActivityInfoDTO {
@@ -15,8 +20,8 @@ public class ActivityVO extends ActivityInfoDTO {
 	private String activityDateStr;
 	private String startDateStr;
 	private String endDateStr;
-
-
+	private String imagePC;
+    
 
 
 	public static ActivityInfoDTO getActivityInfoDTO(ActivityVO activityVO) throws Exception{
@@ -27,6 +32,12 @@ public class ActivityVO extends ActivityInfoDTO {
 		activityInfoDTO.setActivityDate( DateUtil.convertStringToDateUseringFormats(activityVO.getActivityDateStr(), DateUtil.DAY_HORU_FORMAT));
 		activityInfoDTO.setStartDate(DateUtil.convertStringToDateUseringFormats(activityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT));
 		activityInfoDTO.setEndDate(DateUtil.convertStringToDateUseringFormats(activityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT));
+		//新增的时候PC展示图
+		if(StringUtils.isNotBlank(activityVO.getImagePC())){
+			Map<String, String> picUrls = new HashMap<String, String>();
+			picUrls.put(ActivityPicUrlsKey.BIG_LIST_PIC.getCode(), activityVO.getImagePC());
+			activityInfoDTO.setPicUrlsMap(picUrls);
+		}
 		return activityInfoDTO;
 	}
 	public static ActivityVO getActivityVO(ActivityInfoDTO activityInfoDTO){
@@ -75,7 +86,11 @@ public class ActivityVO extends ActivityInfoDTO {
 	}
 
 
+	public String getImagePC() {
+		return imagePC;
+	}
 
-
-
+	public void setImagePC(String imagePC) {
+		this.imagePC = imagePC;
+	}
 }
