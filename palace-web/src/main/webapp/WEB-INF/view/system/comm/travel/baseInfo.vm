@@ -4,9 +4,14 @@
 -->
 <div class="baseInfo">
 	<div class="baseInfoList">
-		<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/>
         <p class="lineDetail">线路明细</p>
         <table>
+			#if($product.baseInfo.id > 0)
+			<tr>
+                <td>产品编号：</td>
+                <td>$!{product.baseInfo.id}<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/></td>
+            </tr>
+			#end
             <tr>
                 <td><span class="spColor">*</span>产品类型：</td>
                 <td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
