@@ -198,8 +198,8 @@ public class ActivityServiceImpl implements ActivityService {
 			}
 			dto.setActivityJsonArray(newjsonDOs);
 			Map<String,String> picUrls = new HashMap<String, String>();
-			String imagePC = snsActivityDO.getPicUrls(ActivityPicUrlsKey.BIG_LIST_PIC);
-			if(StringUtils.isNotBlank(imagePC)){
+			//String imagePC = snsActivityDO.getPicUrls(ActivityPicUrlsKey.BIG_LIST_PIC);
+			if(StringUtils.isNotBlank(activityVO.getImagePC())){
 				picUrls.put(ActivityPicUrlsKey.BIG_LIST_PIC.getCode(),activityVO.getImagePC());
 			}
 			dto.setPicUrlsMap(picUrls);
