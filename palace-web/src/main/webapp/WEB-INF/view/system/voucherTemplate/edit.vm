@@ -11,33 +11,39 @@
             <table>
                 <tr>
                     <td><span class="spColor">*</span>券标题</td>
-                    <td> <input type="text" name="title" class="form-control extra-info-item-title" value="$!voucherDO.title"></td>
+                    <td> <input type="text" name="title" class="title" value="$!voucherDO.title"></td>
                 </tr>
 
                 <tr>
                     <td><span class="spColor">*</span>券类型</td>
                     <td>
                         <div class="selectList">
-                            <select class="selCity inpControl provinceSelect" name="voucherType">
+                            <select class="voucherType" name="voucherType">
                                 <option value="1" #if($!voucherDO.voucherType == 1) selected #end>满减券</option>
-                                <option value="2" #if($!voucherDO.voucherType == 2) selected #end >满折券</option>
-                                <option value="3" #if($!voucherDO.voucherType == 3) selected #end >兑换券</option>
+##                                <option value="2" #if($!voucherDO.voucherType == 2) selected #end >满折券</option>
+##                                <option value="3" #if($!voucherDO.voucherType == 3) selected #end >兑换券</option>
                             </select>
                         </div>
                     </td>
-                    <td><span class="spColor">*</span>券金额</td>
+                    <td><span class="spColor">*</span>满</td>
                     <td>
-                        <input type="text" name="value" class="inpControl" value="$!{voucherDO.value}">
+                        <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
                     </td>
-                    <td><span class="spColor">*</span>券总数</td>
+                    <td><span class="spColor">*</span>减</td>
                     <td>
-                        <input type="text" name="totalNum" class="inpControl" value="$!{voucherDO.totalNum}">
+                        <input type="text" name="value" class="value2" value="$!{voucherDO.value}">
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>使用条件</td>
+                    <td><span class="spColor">*</span>发放数量</td>
                     <td>
-                        <input type="text" name="requirement" class="inpControl" value="$!{voucherDO.requirement}">
+                        <input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>领取限制</td>
+                    <td>
+                        <input type="text" name="voucherCount" class="voucherCount" value="$!{voucherDO.voucherCount}">
                     </td>
                 </tr>
                 <tr>
@@ -50,9 +56,9 @@
                     <div class="input-group inpSingle">
                         <td><span class="spColor">*</span>有效期</td>
                         <td>
-                            <input type="text" class='form-control form-date dateInp startDate' readonly name="startTime" value="$!voucherDO.beginDate">
+                            <input type="text" class='form-control form-date dateInp startTime' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd HH:mm")">
                             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                            <input type="text" class='form-control form-date endDate dateInp' readonly name="endTime" value="$!voucherDO.endDate">
+                            <input type="text" class='form-control form-date dateInp endTime' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd HH:mm")">
                         </td>
                     </div>
                 </tr>
@@ -74,13 +80,46 @@
                 autoclose: 1,
                 todayHighlight: 1,
                 startView: 2,
-                minView: 2,
                 forceParse: 0,
-                format: "yyyy-mm-dd"
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
             });
+
+    //验证
+    var validate = function(){
+        if(!$('.title').val()){
+            return '请输入券标题';
+        }
+        if(!$('.requirement').val() || !/^[1-9]\d*|0$/.test($('.requirement').val())){
+            return '请输入满值';
+        }
+        if(!$('.value2').val() || !/^[1-9]\d*|0$/.test($('.value2').val())){
+            return '请输入减值';
+        }
+        if(!$('.totalNum').val() || !/^[1-9]\d*|0$/.test($('.totalNum').val())){
+            return '请输入券数量';
+        }
+        if(!$('.voucherCount').val() || !/^[1-9]\d*|0$/.test($('.voucherCount').val())){
+            return '请输入可领取数量';
+        }
+        if(!$('.startTime').val()){
+            return '请输入有效期';
+        }
+        if(!$('.endTime').val()){
+            return '请输入有效期';
+        }
+    }
 
  	//保存的
  	$('#btnSubmit').click(function(){
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
             var actionUrl = "";
             var recommendedId = $('#hotelForm').attr('recommendedId');
             if(recommendedId){

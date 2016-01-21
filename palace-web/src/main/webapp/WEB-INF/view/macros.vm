@@ -306,9 +306,11 @@
     #if($status == '1')
     初始
     #elseif($status == '2')
-    有效
+    上架
     #elseif($status == '3')
-    无效
+    下架
+    #elseif($status == '4')
+    已领完
     #end
 #end
 

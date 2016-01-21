@@ -11,7 +11,7 @@
 
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">创建时间</button>
+                        <button class="btn btn-default" type="button">生成日期</button>
                     </span>
                     <input type="text" class='form-control form-date dateInp startDate' readonly name="beginDate" value="$!voucherListQuery.beginDate">
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
@@ -24,9 +24,8 @@
                 <div class="selectList">
                     <select class="selCity inpControl provinceSelect" name="status">
                         <option value="0">全部</option>
-                        <option value="1">初始</option>
-                        <option value="2">有效</option>
-                        <option value="3">无效</option>
+                        <option value="2">上架</option>
+                        <option value="3">下架</option>
                         <option value="4">已领完</option>
                     </select>
                 </div>
@@ -58,10 +57,14 @@
                         <td>$!voucher.title</td>
                         <td>#VOUCHER_TYPE($!voucher.voucherType)</td>
                         <td>$!voucher.value</td>
-                        <td>$!voucher.beginDate 至 $!voucher.endDate</td>
+                        <td>$!utilDate.dateToString($!voucher.startTime,"yyyy-MM-dd HH:mm") 至 $!utilDate.dateToString($!voucher.endTime,"yyyy-MM-dd HH:mm")</td>
                         <td>#VOUCHER_STATUS($!voucher.status)</td>
                         <td>$!utilDate.dateToString($!voucher.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
-                        <td><button type="button" class="btn btn-primary themeDetail" themeId="$voucher.id">编辑</button></td>
+                        <td>
+                            <button type="button" class="btn btn-primary themeStop" joinStatus="$voucher.status" tripId="$voucher.id">
+                                #if($!voucher.status == 3) 上架  #elseif($!voucher.status == 2)  下架  #end
+                            </button>
+                            <button type="button" class="btn btn-primary themeDetail" themeId="$voucher.id">编辑</button></td>
                     </tr>
                     #end
             </table>
@@ -71,6 +74,23 @@
     #pageStyle("payListForm")
     </form>
 <script>
+
+    $('.themeStop').click(function(){
+        var id=$(this).attr('tripId');
+        var status = $(this).attr('joinStatus');
+        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/voucherManage/setJoinStatus' ,{'id': id,'status':status} ,function(data){
+            if(data.status == 200){
+                layer.alert('操作成功', {
+                    icon: 1,
+                    time: 3000
+                }, function(){
+                    window.location.href = window.location.href;
+                });
+            }else{
+                layer.alert('操作失败');
+            }
+        })
+    });
 
     $('.themeDetail').each(function(){
         $(this).click(function(){

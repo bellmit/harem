@@ -1,21 +1,26 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
 import com.yimayhd.palace.service.VoucherTemplateService;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.voucher.client.enums.EntityType;
 import com.yimayhd.voucher.client.enums.VoucherStatus;
+import com.yimayhd.voucher.client.enums.VoucherTemplateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 优惠券管理
@@ -61,8 +66,6 @@ public class VoucherController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
         VoucherTemplateVO voucherTemplateVO = voucherTemplateService.getById(id);
-        voucherTemplateVO.setBeginDate(DateUtil.date2StringByDay(voucherTemplateVO.getStartTime()));
-        voucherTemplateVO.setEndDate(DateUtil.date2StringByDay(voucherTemplateVO.getEndTime()));
         model.addAttribute("voucherDO",voucherTemplateVO);
         return "/system/voucherTemplate/edit";
     }
@@ -76,11 +79,31 @@ public class VoucherController extends BaseController {
     public String add(VoucherTemplateVO voucherTemplateVO) throws Exception {
         voucherTemplateVO.setEntityType(EntityType.SHOP.getType());
         voucherTemplateVO.setEntityId(10000);
-        voucherTemplateVO.setStatus(VoucherStatus.ACTIVE.getStatus());
+        //新增默认下架状态
+        voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
         voucherTemplateService.add(voucherTemplateVO);
         return "/success";
     }
 
+    @RequestMapping("/setJoinStatus")
+    @ResponseBody
+    public ResponseVo setJoinStatus(long id, int status){
+        try {
+            VoucherTemplateVO voucherTemplateVO = new VoucherTemplateVO();
+            voucherTemplateVO.setId(id);
+            if (VoucherTemplateStatus.ACTIVE.getStatus() == status){
+                voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
+            }
+            if (VoucherTemplateStatus.INACTIVE.getStatus() == status){
+                voucherTemplateVO.setStatus(VoucherTemplateStatus.ACTIVE.getStatus());
+            }
+            voucherTemplateService.modify(voucherTemplateVO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVo.error(e);
+        }
+        return ResponseVo.success();
+    }
     /**
      * 根据优惠券ID修改优惠券
      *
