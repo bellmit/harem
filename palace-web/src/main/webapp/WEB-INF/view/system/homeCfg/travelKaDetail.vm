@@ -6,7 +6,7 @@
             <th>姓名</th>
         </tr>
             <tr>
-				<td>$!travleKaDetail.nickName</td>
+				<td>$!travleKaDetail.nickname</td>
                 <td>$!travleKaDetail.name</td>
             </tr>
     </table>

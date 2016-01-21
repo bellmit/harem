@@ -88,7 +88,6 @@ public class UserController extends BaseController {
 			throws Exception {
 
 		long sellerId = sessionManager.getUserId();
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		PageVO<UserDO> pageVO = userService.getMemberByUserId(sellerId, tradeMemberQuery);
 		model.addAttribute("tradeMemberQuery", tradeMemberQuery);
 		model.addAttribute("userList", pageVO.getItemList());

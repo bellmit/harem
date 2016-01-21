@@ -75,6 +75,14 @@
             <span>昵称：$!order.buyerNiceName</span>
             <span>姓名：$!order.buyerName</span>
         </div>
+        <div>
+            <span>收货地址：</span>
+            <span>$!order.mainOrder.logisticsOrderDO.fullName ，</span>
+            <span>$!order.mainOrder.logisticsOrderDO.mobilePhone ，</span>
+            <span>$!order.mainOrder.logisticsOrderDO.address ，</span>
+            <span>$!order.mainOrder.logisticsOrderDO.post </span>
+        </div>
+
     </div>
     <br><br>
     <!-- 订单基础信息 -->
@@ -186,9 +194,6 @@
                             </div>
                             <div class="t-msg">
                                 <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-                                #if($!subOrder.executeTime != 0)
-                                    <div class="t-date">出发日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.executeTime)</div>
-                                #end
                                 <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
                             </div>
                         </div>

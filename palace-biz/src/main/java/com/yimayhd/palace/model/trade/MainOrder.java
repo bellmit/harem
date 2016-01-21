@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model.trade;
 
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.user.client.domain.UserDO;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  */
 public class MainOrder {
     private BizOrderDO bizOrderDO;
+
+    private LogisticsOrderDO logisticsOrderDO;
 
     private List<SubOrder> subOrderList;
 
@@ -69,8 +72,18 @@ public class MainOrder {
         this.orderTotalFee = orderTotalFee;
     }
 
-    public MainOrder(BizOrderDO bizOrderDO, List<SubOrder> subOrderList) {
+   public LogisticsOrderDO getLogisticsOrderDO() {
+        return logisticsOrderDO;
+    }
+
+    public void setLogisticsOrderDO(LogisticsOrderDO logisticsOrderDO) {
+        this.logisticsOrderDO = logisticsOrderDO;
+    }
+
+     public MainOrder(BizOrderDO bizOrderDO, List<SubOrder> subOrderList) {
         this.bizOrderDO = bizOrderDO;
         this.subOrderList = subOrderList;
-    }
+
+
+}
 }

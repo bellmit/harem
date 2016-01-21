@@ -165,9 +165,7 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
 	public String addCommon(ItemVO itemVO) throws Exception {
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
-		// TODO
 		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
 		commodityService.addCommonItem(itemVO);
@@ -206,7 +204,6 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
 	public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
 		itemVO.setId(itemId);
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = sessionManager.getUserId();
 		// TODO
 		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
@@ -224,10 +221,8 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/publish/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 //		long sellerId = sessionManager.getUserId();
 //		sellerId = B2CConstant.SELLERID;
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		commodityService.publish(sellerId, id);
 		return new ResponseVo();
@@ -258,9 +253,7 @@ public class CommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 //		long sellerId = sessionManager.getUserId();
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 //		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 
 
@@ -279,7 +272,6 @@ public class CommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
-//		long sellerId = Long.parseLong(SessionUtils.getUserId());
 //		long sellerId = sessionManager.getUserId();
 		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
 		commodityService.batchClose(sellerId, commIdList);

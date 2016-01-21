@@ -166,6 +166,8 @@ public class OrderConverter {
                             if (skuInfo!=null){
                                 List<SkuPropertyInfo> skuPropertyInfoList = skuInfo.getSkuPropertyInfoList();
                                 for (SkuPropertyInfo skuPropertyInfo : skuPropertyInfoList) {
+                                    //{"skuPropertyInfoList":[{"pId":1,"pTxt":"出行日期","pType":2,"vId":5,"vTxt":"1448625207921"},{"pId":2,"pTxt":"人员","pType":1,"vId":6,"vTxt":"儿童"}]}
+                                    //为了获取购买类型（无枚举）
                                     if (skuPropertyInfo.getPId() == 2){
                                         subOrder.setvTxt(skuPropertyInfo.getVTxt());
                                     }

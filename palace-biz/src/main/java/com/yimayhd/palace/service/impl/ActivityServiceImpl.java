@@ -91,11 +91,11 @@ public class ActivityServiceImpl implements ActivityService {
 		if (query.getClubId() != 0) {
 			activityQueryDTO.setClubId(query.getClubId());
 		}
-		
+
 		//标签
 		if (query.getTagId() != 0) {
 			com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagRelationDO>> result
-				= comCenterService.getTagRelationByTagIdAndType(query.getTagId(), TagType.ACTIVETYTAG.name());
+					= comCenterService.getTagRelationByTagIdAndType(query.getTagId(), TagType.ACTIVETYTAG.name());
 			if (null == result) {
 				log.error(
 						"ActivityServiceImpl.getById-comCenterService.getTagInfoByOutIdAndType result is null and parame:tagId= "
@@ -110,8 +110,9 @@ public class ActivityServiceImpl implements ActivityService {
 			List<Long> activityIdList = query.getActivityIdList();
 			for (ComTagRelationDO tag : tagList) {
 				activityIdList.add(tag.getOutId());
-				
+
 			}
+			activityQueryDTO.setActivityIdList(activityIdList);
 		}
 
 		return activityRepo.pageQueryActivities(activityQueryDTO);
@@ -124,7 +125,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> getTagInfoByOutIdAndType(long outId,
-			String outType) {
+																									   String outType) {
 		com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> talList = comCenterService
 				.getTagInfoByOutIdAndType(outId, outType);
 		if (null == talList) {

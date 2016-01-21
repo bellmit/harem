@@ -77,7 +77,6 @@ public class CommHotelManageController extends BaseController {
     public
     String edit(ItemVO itemVO,@PathVariable("id") long id) throws Exception {
         itemVO.setId(id);
-//        long sellerId = Long.parseLong(SessionUtils.getUserId());
         long sellerId = sessionManager.getUserId();
         sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
         itemVO.setSellerId(sellerId);
@@ -93,7 +92,6 @@ public class CommHotelManageController extends BaseController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public
     String add(ItemVO itemVO) throws Exception {
-//        long sellerId = Long.parseLong(SessionUtils.getUserId());
         long sellerId = sessionManager.getUserId();
         sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
         itemVO.setSellerId(sellerId);

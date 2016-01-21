@@ -178,7 +178,7 @@
                     #*解析普通属性*#
                         #foreach($keyCategoryProperty in $category.nonKeyCategoryPropertyDOs)
                         <tr class="property nonKeyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
-                            <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                            <td>$!keyCategoryProperty.categoryPropertyDO.text</td>
                             <td>
                                 #*编辑的时候回填属性*#
                                     #foreach($itemProperty in $commodity.itemPropertyList)
@@ -325,6 +325,8 @@
     var validate = function(){
         if(!$('.title').val()){
             return '请输入商品名称';
+        }else if($('.title').val().length > 20){
+            return '商品名称不能超过20个字';
         }
         if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';
@@ -339,13 +341,19 @@
 
         if(!$('.subTitle').val()){
             return '请输入副标题';
+        }else if($('.subTitle').val().length > 30){
+            return '副标题不能超过30个字';
         }
 
         if(!$('.oneWord').val()){
             return '请输入二级副标题';
+        }else if($('.oneWord').val().length > 30){
+            return '二级副标题不能超过30个字';
         }
         if(!$('.description').val()){
             return '请输入商品描述';
+        }else if($('.description').val().length > 300){
+            return '商品描述不能超过300个字';
         }
 
         if(!$('.bigListPicUrl').attr('src')){
@@ -363,8 +371,25 @@
         $('.keyProperty').each(function(){
             if($(this).find('.propertySelect').val() == '0' && !$(this).find('.propertyInput').val()){
                 msg = '请填写必填属性' + $(this).attr('pTxt');
+                return false;
+            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+                msg = $(this).attr('pTxt') + '长度不能超过30个字';
+                return false;
             }
         });
+        if(msg){
+            return msg;
+        }
+        //非必填属性
+        $('.nonKeyProperty').each(function(){
+            if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+                msg = $(this).attr('pTxt') + '长度不能超过30个字';
+                return false;
+            }
+        });
+        if(msg){
+            return msg;
+        }
         //sku
         if(!skuTableShowFlag){
             return '您需要选择所有的销售属性，才能组合成完整的规格信息。';

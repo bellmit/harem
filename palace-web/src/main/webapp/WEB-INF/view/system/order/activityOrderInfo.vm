@@ -177,7 +177,7 @@
                             <div class="t-msg">
                                 <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
                                 #if($!subOrder.executeTime != 0)
-                                    <div class="t-date">出发日期：$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.executeTime)</div>
+                                    <div class="t-date">出发日期：$!date.format('yyyy-MM-dd',$!subOrder.executeTime)</div>
                                 #end
                                 <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
                             </div>

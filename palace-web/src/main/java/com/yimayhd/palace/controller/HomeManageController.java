@@ -22,10 +22,10 @@ import com.yimayhd.palace.model.vo.ShowCaseVO;
 import com.yimayhd.palace.service.HomeCfgService;
 import com.yimayhd.palace.service.ServiceResult;
 import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
+import com.yimayhd.user.client.domain.UserDO;
 
 /**
  * @autuor : xusq
@@ -369,7 +369,7 @@ public class HomeManageController extends BaseController {
 	public String toTravelKaDetail(Long userId,Model model) {
 		
 		ResponseVo responseVo = new ResponseVo();
-		ServiceResult<TravelKaVO> result = homecfgService.getTravelKaDetail(userId);
+		ServiceResult<UserDO> result = homecfgService.getTravelKaDetail(userId);
 		LOGGER.debug("result={}",JSONObject.toJSONString(result));
 		
 		if (result.isSuccess()) {
