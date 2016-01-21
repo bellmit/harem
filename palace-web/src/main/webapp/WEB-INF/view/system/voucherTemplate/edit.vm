@@ -10,40 +10,43 @@
         <div class="createHotrlTable">
             <table>
                 <tr>
-                    <td><span class="spColor">*</span>券标题</td>
+                    <td width="120"><span class="spColor">*</span>券标题</td>
                     <td> <input type="text" name="title" class="title" value="$!voucherDO.title"></td>
                 </tr>
 
                 <tr>
-                    <td><span class="spColor">*</span>券类型</td>
-                    <td>
-                        <div class="selectList">
+                    <td align="left" width="10%"><span class="spColor">*</span>券类型</td>
+                    <td align="left" width="10%">
                             <select class="voucherType" name="voucherType">
                                 <option value="1" #if($!voucherDO.voucherType == 1) selected #end>满减券</option>
 ##                                <option value="2" #if($!voucherDO.voucherType == 2) selected #end >满折券</option>
 ##                                <option value="3" #if($!voucherDO.voucherType == 3) selected #end >兑换券</option>
                             </select>
-                        </div>
                     </td>
-                    <td><span class="spColor">*</span>满</td>
-                    <td>
-                        <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
-                    </td>
-                    <td><span class="spColor">*</span>减</td>
-                    <td>
-                        <input type="text" name="value" class="value2" value="$!{voucherDO.value}">
+                    <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
+                        <span class="spColor">*</span>减 <input type="text" name="value" class="value" value="$!{voucherDO.value}"> 元
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>发放数量</td>
+                    <div class="input-group inpSingle">
+                        <td><span class="spColor">*</span>有效期</td>
+                        <td>
+                            <input type="text" class='form-control form-date dateInp startTime' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd")">
+                            至
+                            <input type="text" class='form-control form-date dateInp endTime' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd")">
+                        </td>
+                    </div>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>发放数量：限量</td>
                     <td>
-                        <input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">
+                        <input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}"> 张
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>领取限制</td>
+                    <td><span class="spColor">*</span>领取限制：可领</td>
                     <td>
-                        <input type="text" name="voucherCount" class="voucherCount" value="$!{voucherDO.voucherCount}">
+                        <input type="text" name="voucherCount" class="voucherCount" value="$!{voucherDO.voucherCount}"> 张
                     </td>
                 </tr>
                 <tr>
@@ -52,16 +55,7 @@
                         $!{voucherDO.sendNum}
                     </td>
                 </tr>
-                <tr>
-                    <div class="input-group inpSingle">
-                        <td><span class="spColor">*</span>有效期</td>
-                        <td>
-                            <input type="text" class='form-control form-date dateInp startTime' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd HH:mm")">
-                            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                            <input type="text" class='form-control form-date dateInp endTime' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd HH:mm")">
-                        </td>
-                    </div>
-                </tr>
+
             </table>
         </div>
     </div>
@@ -80,9 +74,9 @@
                 autoclose: 1,
                 todayHighlight: 1,
                 startView: 2,
+                minView: 2,
                 forceParse: 0,
-                showMeridian: 1,
-                format: "yyyy-mm-dd hh:ii"
+                format: "yyyy-mm-dd"
             });
 
     //验证
@@ -90,19 +84,27 @@
         if(!$('.title').val()){
             return '请输入券标题';
         }
-        if(!$('.requirement').val() || !/^[1-9]\d*|0$/.test($('.requirement').val())){
+        if($('.title').val().length > 60){
+            return '字数不能超过60';
+        }
+        if(!$('.requirement').val() || !/^\+?[1-9][0-9]*$/.test($('.requirement').val())){
             return '请输入满值';
         }
-        if(!$('.value2').val() || !/^[1-9]\d*|0$/.test($('.value2').val())){
+        if(!$('.value').val() || !/^\+?[1-9][0-9]*$/.test($('.value').val())){
             return '请输入优惠券金额';
         }
-        if($('.requirement').val() < $('.value2').val()){
+        var v1 = parseInt($('.value').val(),10);
+        var v2 = parseInt($('.requirement').val(),10);
+        if(v1 > v2){
             return '优惠券金额必须小于满值';
         }
-        if(!$('.totalNum').val() || !/^[1-9]\d*|0$/.test($('.totalNum').val())){
+        if(9999 < $('.value').val()){
+            return '优惠券金额不能超过9999';
+        }
+        if(!$('.totalNum').val() || !/^\+?[1-9][0-9]*$/.test($('.totalNum').val())){
             return '请输入券数量';
         }
-        if(!$('.voucherCount').val() || !/^[1-9]\d*|0$/.test($('.voucherCount').val())){
+        if(!$('.voucherCount').val() || !/^\+?[1-9][0-9]*$/.test($('.voucherCount').val())){
             return '请输入可领取数量';
         }
         if(!$('.startTime').val()){
@@ -110,6 +112,11 @@
         }
         if(!$('.endTime').val()){
             return '请输入有效期';
+        }
+        if($('.startTime').val() && $('.endTime').val()){
+            if($('.startTime').val() > $('.endTime').val()){
+                  return "结束日期必须大于开始日期!";
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
 import com.yimayhd.palace.service.VoucherTemplateService;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.voucher.client.enums.EntityType;
 import com.yimayhd.voucher.client.enums.VoucherStatus;
@@ -32,6 +33,9 @@ public class VoucherController extends BaseController {
 
     @Autowired
     private VoucherTemplateService voucherTemplateService;
+
+    @Autowired
+    private SessionManager sessionManager;
     /**
      * 优惠券列表
      *
@@ -77,6 +81,10 @@ public class VoucherController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(VoucherTemplateVO voucherTemplateVO) throws Exception {
+        UserDO userDO = sessionManager.getUser();
+        if (userDO != null){
+            voucherTemplateVO.setOperator(userDO.getNickname());
+        }
         voucherTemplateVO.setEntityType(EntityType.SHOP.getType());
         voucherTemplateVO.setEntityId(10000);
         //新增默认下架状态
@@ -112,6 +120,10 @@ public class VoucherController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable(value = "id") long id,VoucherTemplateVO voucherTemplateVO) throws Exception {
+        UserDO userDO = sessionManager.getUser();
+        if (userDO != null){
+            voucherTemplateVO.setOperator(userDO.getNickname());
+        }
         voucherTemplateVO.setId(id);
         voucherTemplateService.modify(voucherTemplateVO);
         return "/success";

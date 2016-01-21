@@ -49,6 +49,7 @@
                     <th>有效期</th>
                     <th>状态</th>
                     <th>创建时间</th>
+                    <th>操作人</th>
                     <th>操作</th>
                 </tr>
                     #foreach($voucher in $voucherTemplateList)
@@ -57,9 +58,10 @@
                         <td>$!voucher.title</td>
                         <td>#VOUCHER_TYPE($!voucher.voucherType)</td>
                         <td>$!voucher.value</td>
-                        <td>$!utilDate.dateToString($!voucher.startTime,"yyyy-MM-dd HH:mm") 至 $!utilDate.dateToString($!voucher.endTime,"yyyy-MM-dd HH:mm")</td>
+                        <td>$!utilDate.dateToString($!voucher.startTime,"yyyy-MM-dd") 至 $!utilDate.dateToString($!voucher.endTime,"yyyy-MM-dd")</td>
                         <td>#VOUCHER_STATUS($!voucher.status)</td>
                         <td>$!utilDate.dateToString($!voucher.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td>$!voucher.operator</td>
                         <td>
                             <button type="button" class="btn btn-primary themeStop" joinStatus="$voucher.status" tripId="$voucher.id">
                                 #if($!voucher.status == 3) 上架  #elseif($!voucher.status == 2)  下架  #end
