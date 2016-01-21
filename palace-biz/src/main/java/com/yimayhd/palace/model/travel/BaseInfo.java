@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.LineOwnerType;
 import com.yimayhd.resourcecenter.model.enums.RegionLevel;
 
@@ -22,7 +25,8 @@ public class BaseInfo {
 	private int type;// 类型
 	private int orderNum;
 	private String name;// 产品名称
-	private String productImage;// 产品封面图
+	private String productImageApp;// App产品封面图
+	private String productImagePc;// Pc产品封面图
 	private String tripImage;// 行程封面
 	private String orderImage;// 订单封面
 	private List<Long> tags;// 标签
@@ -49,8 +53,26 @@ public class BaseInfo {
 		this.type = line.getType();
 		this.orderNum = line.getOrderNum();
 		this.name = line.getName();
-		this.productImage = line.getLogoUrl();
-		this.tripImage = line.getCoverUrl();
+		String productImageApp = line.getPicUrls(ItemPicUrlsKey.BIG_LIST_PIC);
+		if (StringUtils.isNotBlank(productImageApp)) {
+			this.productImageApp = productImageApp;
+		} else {
+			this.productImageApp = line.getLogoUrl();
+		}
+		String productImagePc = line.getPicUrls(ItemPicUrlsKey.PC_BIG_LIST_PIC);
+		if (StringUtils.isNotBlank(productImagePc)) {
+			this.productImagePc = productImagePc;
+		}
+		String tripImage = line.getPicUrls(ItemPicUrlsKey.COVER_PICS);
+		if (StringUtils.isNotBlank(tripImage)) {
+			this.tripImage = tripImage;
+		} else {
+			this.tripImage = line.getCoverUrl();
+		}
+		String orderImage = line.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
+		if (StringUtils.isNotBlank(orderImage)) {
+			this.orderImage = orderImage;
+		}
 		tags = new ArrayList<Long>();
 		if (comTagDOs != null) {
 			for (ComTagDO comTagDO : comTagDOs) {
@@ -116,14 +138,6 @@ public class BaseInfo {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getProductImage() {
-		return productImage;
-	}
-
-	public void setProductImage(String productImage) {
-		this.productImage = productImage;
 	}
 
 	public String getTripImage() {
@@ -241,7 +255,11 @@ public class BaseInfo {
 		line.setName(this.name);
 		// image
 		line.setCoverUrl(this.tripImage);
-		line.setLogoUrl(this.productImage);
+		line.addPicUrls(ItemPicUrlsKey.COVER_PICS, this.tripImage);
+		line.setLogoUrl(this.productImageApp);
+		line.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, this.productImageApp);
+		line.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, this.orderImage);
+		line.addPicUrls(ItemPicUrlsKey.PC_BIG_LIST_PIC, this.productImagePc);
 		line.setPictures(Arrays.asList(this.tripImage));
 		if (this.fromLevel == RegionLevel.PROVINCE.getLevel()) {
 			line.setStartProvinceId(this.fromId);
@@ -317,5 +335,21 @@ public class BaseInfo {
 
 	public void setOrderNum(int orderNum) {
 		this.orderNum = orderNum;
+	}
+
+	public String getProductImageApp() {
+		return productImageApp;
+	}
+
+	public void setProductImageApp(String productImageApp) {
+		this.productImageApp = productImageApp;
+	}
+
+	public String getProductImagePc() {
+		return productImagePc;
+	}
+
+	public void setProductImagePc(String productImagePc) {
+		this.productImagePc = productImagePc;
 	}
 }

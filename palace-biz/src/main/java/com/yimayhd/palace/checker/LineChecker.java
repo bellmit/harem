@@ -124,9 +124,13 @@ public class LineChecker {
 			log.error(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路名称不能超过50个字");
 		}
-		if (StringUtils.isBlank(baseInfo.getProductImage())) {
+		if (StringUtils.isBlank(baseInfo.getProductImageApp())) {
 			log.error(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("产品封面图不能为空");
+			return CheckResult.error("APP产品封面图不能为空");
+		}
+		if (StringUtils.isBlank(baseInfo.getProductImagePc())) {
+			log.error(temp, JSON.toJSONString(baseInfo));
+			return CheckResult.error("PC产品封面图不能为空");
 		}
 		if (StringUtils.isBlank(baseInfo.getTripImage())) {
 			log.error(temp, JSON.toJSONString(baseInfo));
