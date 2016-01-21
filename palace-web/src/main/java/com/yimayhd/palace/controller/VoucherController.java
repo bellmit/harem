@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,6 +90,7 @@ public class VoucherController extends BaseController {
         voucherTemplateVO.setEntityId(10000);
         //新增默认下架状态
         voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
+        voucherTemplateVO.setEndTime(getEndTime(voucherTemplateVO.getEndTime()));
         voucherTemplateService.add(voucherTemplateVO);
         return "/success";
     }
@@ -104,6 +106,10 @@ public class VoucherController extends BaseController {
             }
             if (VoucherTemplateStatus.INACTIVE.getStatus() == status){
                 voucherTemplateVO.setStatus(VoucherTemplateStatus.ACTIVE.getStatus());
+            }
+            UserDO userDO = sessionManager.getUser();
+            if (userDO != null){
+                voucherTemplateVO.setOperator(userDO.getNickname());
             }
             voucherTemplateService.modify(voucherTemplateVO);
         } catch (Exception e) {
@@ -125,8 +131,15 @@ public class VoucherController extends BaseController {
             voucherTemplateVO.setOperator(userDO.getNickname());
         }
         voucherTemplateVO.setId(id);
+        voucherTemplateVO.setEndTime(getEndTime(voucherTemplateVO.getEndTime()));
         voucherTemplateService.modify(voucherTemplateVO);
         return "/success";
+    }
+
+    private Date getEndTime(Date endTime) throws ParseException {
+        String str = DateUtil.date2StringByDay(endTime);
+        str = str + " 23:59:59";
+        return DateUtil.convertStringToDate(DateUtil.DATE_TIME_FORMAT,str);
     }
 	
 }
