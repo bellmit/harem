@@ -34,7 +34,7 @@
                 </td>
             </tr>
 			<tr>
-                <td><span class="spColor">*</span>产品封面图(APP)：</td>
+                <td><span class="spColor">*</span>产品封面图(PC)：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input id="productImagePcFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
