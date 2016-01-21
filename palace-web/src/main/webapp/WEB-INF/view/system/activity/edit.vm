@@ -50,7 +50,7 @@
 
                                 <select class="form-control" name="clubId">
                                     #foreach($club in $clubList)
-                                        <option value="$!{club.id}" #if($!activity.clubName == $!club.clubName) selected #end>$!{club.clubName}</option>
+                                        <option value="$!{club.id}" #if($!activity.outId == $!club.id) selected #end value="$club.id">$!{club.clubName}</option>
                                     #end
                                 </select>
 
