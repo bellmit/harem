@@ -94,7 +94,10 @@
             return '请输入满值';
         }
         if(!$('.value2').val() || !/^[1-9]\d*|0$/.test($('.value2').val())){
-            return '请输入减值';
+            return '请输入优惠券金额';
+        }
+        if($('.requirement').val() < $('.value2').val()){
+            return '优惠券金额必须小于满值';
         }
         if(!$('.totalNum').val() || !/^[1-9]\d*|0$/.test($('.totalNum').val())){
             return '请输入券数量';
