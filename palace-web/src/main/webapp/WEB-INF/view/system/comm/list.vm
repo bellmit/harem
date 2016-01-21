@@ -78,6 +78,7 @@
                         <p><img class="uploadImgFile" src="#if($!commodity.smallListPic && $!commodity.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!commodity.smallListPic) #end"></p>
                         <p>$!commodity.title</p>
                         <p>商品编码:$!commodity.id</p>
+						<p>资源编码:$!commodity.outId</p>
                     </td>
                     <td>$!commodity.categoryId</td>
                     <td>主题</td>

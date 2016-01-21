@@ -8,7 +8,7 @@
         <table>
 			#if($product.baseInfo.id > 0)
 			<tr>
-                <td>产品编号：</td>
+                <td>资源编号：</td>
                 <td>$!{product.baseInfo.id}<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/></td>
             </tr>
 			#end
