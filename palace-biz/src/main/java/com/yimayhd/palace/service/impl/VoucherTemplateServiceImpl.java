@@ -10,11 +10,13 @@ import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
 import com.yimayhd.voucher.client.query.VoucherTemplateQuery;
 import com.yimayhd.voucher.client.result.BasePageResult;
 import com.yimayhd.voucher.client.service.VoucherClientService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,8 +30,11 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
     @Override
     public PageVO<VoucherTemplateVO> getList(VoucherListQuery voucherListQuery) throws Exception {
         VoucherTemplateQuery voucherTemplateQuery = new VoucherTemplateQuery();
+        if (StringUtils.isNotEmpty(voucherListQuery.getEndDate())){
+            Date endDate = DateUtil.formatMaxTimeForDate(voucherListQuery.getEndDate());
+            voucherTemplateQuery.setEndTime(DateUtil.date2String(endDate));
+        }
         voucherTemplateQuery.setStartTime(voucherListQuery.getBeginDate());
-        voucherTemplateQuery.setEndTime(voucherListQuery.getEndDate());
         voucherTemplateQuery.setTitle(voucherListQuery.getTitle());
         voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
         voucherTemplateQuery.setPageSize(voucherListQuery.getPageSize());

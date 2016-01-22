@@ -13,6 +13,7 @@ import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.voucher.client.enums.EntityType;
 import com.yimayhd.voucher.client.enums.VoucherStatus;
 import com.yimayhd.voucher.client.enums.VoucherTemplateStatus;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

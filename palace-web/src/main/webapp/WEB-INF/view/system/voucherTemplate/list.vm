@@ -19,16 +19,14 @@
                 </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">状态</button>
-                    </span>
-                <div class="selectList">
-                    <select class="selCity inpControl provinceSelect" name="status">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+                    <select class="form-control" name="status">
                         <option value="0">全部</option>
-                        <option value="2">上架</option>
-                        <option value="3">下架</option>
-                        <option value="4">已领完</option>
+                        <option value="2" #if($!voucherListQuery.status == 2) selected #end>上架</option>
+                        <option value="3" #if($!voucherListQuery.status == 3) selected #end>下架</option>
+                        <option value="4" #if($!voucherListQuery.status == 4) selected #end>已领完</option>
                     </select>
-                </div>
             </div>
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnSubmit">查询</button>
@@ -45,7 +43,7 @@
                     <th>序号</th>
                     <th>优惠券标题</th>
                     <th>优惠券类型</th>
-                    <th>券额度</th>
+                    <th>券金额</th>
                     <th>有效期</th>
                     <th>状态</th>
                     <th>创建时间</th>
