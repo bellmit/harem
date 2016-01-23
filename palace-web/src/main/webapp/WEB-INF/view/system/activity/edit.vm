@@ -90,10 +90,10 @@
                         <tr>
                             <td><span class="spColor">*</span>报名时间</td>
                             <td>
-                                <div class="row">
-                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm")"></div>
+                                <div class="row input-group">
+                                    <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm")">
                                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                                    <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm")"></div>
+                                    <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm")">
                                 </div>
                             </td>
                         </tr>
