@@ -124,7 +124,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><span class="spColor">*</span>活动宣传图：</td>
+                            <td><span class="spColor">*</span>活动宣传图(APP)：</td>
                             <td>
                                 <div class="fileImgWrap">
                                     <button type="button" class="btn btn-success">选择图片</button>
@@ -135,15 +135,19 @@
                                 <div class="logoView">
                                     <img  class="productImageUrlImg img-square" src="#if($!{activity.image})$!{utilWebconfig.getTfsRootPath()}$!{activity.image} #end"/>
                                 </div>
-                    <div class="fileImgWrap">
-                        <button type="button" class="btn btn-success">选择PC版本图片</button>
-                        <input id="productImageFilePC" class="fileInp" type="file" accept="image/png,image/gif,image/jpeg"/>
-                        <input class="productImageUrlValPC" type="hidden" name="imagePC" value="$!activity.imagePC"/>
-                        <p>注：图片大小不超过2M<br />建议尺寸：300*300$activity.getImagePC()</p>
-                    </div>
-                    <div class="logoView">
-                        <img  class="productImageUrlImgPC img-square" src="#if($!{activity.imagePC})$!{utilWebconfig.getTfsRootPath()}$!{activity.imagePC} #end"/>
-                    </div>
+                            </td>
+							<tr>
+                            <td><span class="spColor">*</span>活动宣传图(PC)：</td>
+                            <td>
+                                <div class="fileImgWrap">
+                                    <button type="button" class="btn btn-success">选择图片</button>
+                                    <input id="productImageFilePC" class="fileInp" type="file" accept="image/png,image/gif,image/jpeg"/>
+                                    <input class="productImageUrlValPC" type="hidden" name="imagePC" value="$!activity.imagePC"/>
+                                    <p>注：图片大小不超过2M<br />建议尺寸：300*300</p>
+                                </div>
+                                <div class="logoView">
+                                    <img  class="productImageUrlImgPC img-square" src="#if($!{activity.imagePC})$!{utilWebconfig.getTfsRootPath()}$!{activity.imagePC} #end"/>
+                                </div>
                             </td>
                         </tr>
                         <tr>
