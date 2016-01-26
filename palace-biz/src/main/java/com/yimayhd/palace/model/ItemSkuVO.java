@@ -7,6 +7,8 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Comparator;
+
 /**
  * Created by czf on 2015/12/17.
  */
@@ -86,4 +88,19 @@ public class ItemSkuVO extends ItemSkuDO {
     public void setModifyStatus(boolean modifyStatus) {
         this.modifyStatus = modifyStatus;
     }
+    public static class ItemSkuVOSort implements Comparator<ItemSkuVO>{
+        public int compare(ItemSkuVO o1, ItemSkuVO o2) {
+            for (ItemSkuPVPair itemSkuPVPair1 : o1.getItemSkuPVPairList()){
+                for (ItemSkuPVPair itemSkuPVPair2 : o2.getItemSkuPVPairList()){
+                    if(itemSkuPVPair1.getPId() == itemSkuPVPair2.getPId()){
+                        if(itemSkuPVPair1.getVId() != itemSkuPVPair2.getVId()){
+                            return itemSkuPVPair1.getVId() < itemSkuPVPair2.getVId() ? 1 : -1;
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+    }
 }
+

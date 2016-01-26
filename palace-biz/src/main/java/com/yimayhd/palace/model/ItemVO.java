@@ -284,6 +284,13 @@ public class ItemVO extends ItemDO {
             }
         }
         itemVO.setSkuTdRowNumList(skuTdRowNumList);
+        //sku排序
+        if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOList())) {
+            Collections.sort(itemVO.getItemSkuVOList(), new ItemSkuVO.ItemSkuVOSort());
+        }
+        if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListAll())) {
+            Collections.sort(itemVO.getItemSkuVOListAll(), new ItemSkuVO.ItemSkuVOSort());
+        }
 
         return itemVO;
     }
