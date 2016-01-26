@@ -293,9 +293,9 @@ public class OrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/gfOrderList", method = RequestMethod.GET)
 	public String gfOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		orderListQuery.setDomain(1100);
-		int [] orderBizTypes = {OrderBizType.HOTEL.getBizType()};
-		orderListQuery.setOrderTypes(orderBizTypes);
+		orderListQuery.setDomain(1100);//TODO:enum类
+		//int [] orderBizTypes = {OrderBizType.HOTEL.getBizType()};
+		//orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("orderList", pageVo.getItemList());
