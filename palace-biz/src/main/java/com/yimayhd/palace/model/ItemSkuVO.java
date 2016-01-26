@@ -94,7 +94,7 @@ public class ItemSkuVO extends ItemSkuDO {
                 for (ItemSkuPVPair itemSkuPVPair2 : o2.getItemSkuPVPairList()){
                     if(itemSkuPVPair1.getPId() == itemSkuPVPair2.getPId()){
                         if(itemSkuPVPair1.getVId() != itemSkuPVPair2.getVId()){
-                            return itemSkuPVPair1.getVId() < itemSkuPVPair2.getVId() ? 1 : -1;
+                            return itemSkuPVPair1.getVId() < itemSkuPVPair2.getVId() ? -1 : 1;
                         }
                     }
                 }

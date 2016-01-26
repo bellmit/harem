@@ -10,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -105,6 +106,8 @@ public class CategoryVO extends CategoryDO {
                 }
             }
         }
+        //排序
+        Collections.sort(itemSkuVOListAll,new ItemSkuVO.ItemSkuVOSort());
         return itemSkuVOListAll;
     }
     //供vm页面用
