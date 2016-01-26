@@ -75,6 +75,9 @@
 		<property name="consumer.dubbo.itemRebate.check" defaultValue="false" description="#"/>
 		<property name="consumer.dubbo.itemRebate.version" defaultValue="1.0.0.test" description="#"/>
 
+		<property name="consumer.dubbo.promotion.check" defaultValue="false" description="#"/>
+		<property name="consumer.dubbo.promotion.version" defaultValue="1.0.0.test" description="#"/>
+
 	</group>
 
 	<group name="session">

@@ -3,21 +3,28 @@ package com.yimayhd.palace.service.impl;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.PromotionListQuery;
 import com.yimayhd.palace.model.vo.PromotionVO;
-import com.yimayhd.palace.service.PromotionService;
+import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.promotion.client.domain.PromotionDO;
-import com.yimayhd.promotion.client.result.BaseResult;
+import com.yimayhd.promotion.client.query.PromotionPageQuery;
 import com.yimayhd.promotion.client.service.PromotionPublishService;
+import com.yimayhd.promotion.client.service.PromotionQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by czf on 2016/1/19.
  */
-public class PromotionServiceImpl implements PromotionService {
+public class PromotionCommServiceImpl implements PromotionCommService {
     @Autowired
     private PromotionPublishService promotionPublishServiceRef;
+    @Autowired
+    private PromotionQueryService promotionQueryServiceRef;
     @Override
     public PageVO<PromotionDO> getList(PromotionListQuery promotionListQuery) throws Exception {
-        //promotionPublishServiceRef.
+        PromotionPageQuery promotionPageQuery = new PromotionPageQuery();
+        promotionPageQuery.setPageNo(promotionListQuery.getPageNumber());
+        promotionPageQuery.setPageSize(promotionListQuery.getPageSize());
+        //TODO
+        promotionQueryServiceRef.queryPromotions(promotionPageQuery);
         return null;
     }
 

@@ -56,4 +56,5 @@
 	<bean class="com.yimayhd.palace.service.impl.CommActivityServiceImpl" />
 	<bean class="com.yimayhd.palace.service.impl.FlightRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.VoucherTemplateServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.PromotionCommServiceImpl"></bean>
 </beans>
