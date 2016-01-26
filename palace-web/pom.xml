@@ -103,7 +103,7 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
-		<!--logback-->
+		<!--logback -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -112,11 +112,6 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
@@ -267,39 +262,27 @@
 					<outputDirectory>./target/</outputDirectory>
 				</configuration>
 			</plugin>
-			<!--<plugin>-->
-				<!--<artifactId>maven-surefire-plugin</artifactId>-->
-				<!--<version>2.12.4</version>-->
-				<!--<configuration>-->
-					<!--<includes>-->
-						<!--<include>**/*Tests.java</include>-->
-					<!--</includes>-->
-				<!--</configuration>-->
-			<!--</plugin>-->
-			<!--<plugin>-->
-				<!--<groupId>org.apache.maven.plugins</groupId>-->
-				<!--<artifactId>maven-resources-plugin</artifactId>-->
-				<!--<version>2.6</version>-->
-				<!--<configuration>-->
-					<!--<encoding>UTF-8</encoding>-->
-				<!--</configuration>-->
-			<!--</plugin>-->
-			<!--<plugin>
-				<groupId>com.alibaba.citrus.tool</groupId>
-				<artifactId>autoconfig-maven-plugin</artifactId>
-				<version>1.2</version>
-				<configuration>
-
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>autoconfig</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>-->
+			<!--<plugin> -->
+			<!--<artifactId>maven-surefire-plugin</artifactId> -->
+			<!--<version>2.12.4</version> -->
+			<!--<configuration> -->
+			<!--<includes> -->
+			<!--<include>**/*Tests.java</include> -->
+			<!--</includes> -->
+			<!--</configuration> -->
+			<!--</plugin> -->
+			<!--<plugin> -->
+			<!--<groupId>org.apache.maven.plugins</groupId> -->
+			<!--<artifactId>maven-resources-plugin</artifactId> -->
+			<!--<version>2.6</version> -->
+			<!--<configuration> -->
+			<!--<encoding>UTF-8</encoding> -->
+			<!--</configuration> -->
+			<!--</plugin> -->
+			<!--<plugin> <groupId>com.alibaba.citrus.tool</groupId> <artifactId>autoconfig-maven-plugin</artifactId> 
+				<version>1.2</version> <configuration> </configuration> <executions> <execution> 
+				<phase>package</phase> <goals> <goal>autoconfig</goal> </goals> </execution> 
+				</executions> </plugin> -->
 		</plugins>
 	</build>
 
