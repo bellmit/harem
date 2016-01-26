@@ -42,6 +42,9 @@
             #elseif($order.mainOrder.orderShowState == 4)
                 <span>
                     交易成功
+                    <button type="button" class="btn btn-primary refund"
+                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
+                    </button>
                 </span>
             #elseif($order.mainOrder.orderShowState == 5)
                 <span>
