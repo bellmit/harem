@@ -9,6 +9,8 @@ import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
 import com.yimayhd.marketing.client.model.result.SpmPageResult;
 import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.palace.base.PageVO;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +44,8 @@ public class ItemRebateBiz {
 
         try{
             int totalCount = 0;
-            int pageNum = 0;
-            int size = 0;
+            int pageNum = itemRebateQuery.getPageNumber();
+            int size = itemRebateQuery.getPageSize();
             List<ItemRebateDO> list = new ArrayList<ItemRebateDO>();
 
             com.yimayhd.marketing.client.model.query.ItemRebateQuery query = new com.yimayhd.marketing.client.model.query.ItemRebateQuery();
@@ -53,13 +55,13 @@ public class ItemRebateBiz {
             query.setItemTitle(itemRebateQuery.getItemTitle());
             
             SpmPageResult<ItemRebateDO> pageResult = itemRebateRepo.queryItemRebateResult(query);
-            if(pageResult!=null && pageResult.isSuccess()){
+            if(pageResult != null && pageResult.isSuccess() && !CollectionUtils.isEmpty(pageResult.getList())){
                 totalCount = pageResult.getTotalCount();
                 list = pageResult.getList();
-                pageNum = pageResult.getPageNo();
-                size = pageResult.getPageSize();
+                pageVO = new PageVO<ItemRebateDO>(pageNum,size,totalCount,list);
+            }else{
+            	pageVO = new PageVO<ItemRebateDO>(pageNum,size,totalCount); 
             }
-            pageVO = new PageVO<ItemRebateDO>(pageNum,size,totalCount,list);
 
         }catch (Exception e){
             logger.error("CommissionBiz.queryExtractDetailByUserId exception,params:{}", JSONObject.toJSONString(itemRebateQuery),e);

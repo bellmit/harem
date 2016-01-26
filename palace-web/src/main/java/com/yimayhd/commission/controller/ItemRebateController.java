@@ -6,9 +6,11 @@ import com.yimayhd.marketing.client.model.domain.ItemRebateDO;
 import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
 import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/itemRebate")
 public class ItemRebateController extends BaseController {
-
+	
     @Autowired
     private ItemRebateBiz itemRebateBiz;
 
@@ -36,16 +38,25 @@ public class ItemRebateController extends BaseController {
     @RequestMapping(value = "/queryItemRebate")
     public String queryItemRebate(Model model,ItemRebateQuery itemRebateQuery) throws Exception{
 
-        PageVO<ItemRebateDO> pageVO = itemRebateBiz.queryItemRebate(itemRebateQuery);
-        if(!CollectionUtils.isEmpty(pageVO.getItemList())){
-            List<ItemRebateDO> commissionList =  pageVO.getItemList();
-            model.addAttribute("itemRebateQuery", itemRebateQuery);
-            model.addAttribute("pageVo",pageVO);
-            model.addAttribute("itemRebateList",commissionList);
-        }
-
-
-        return "/system/commission/itemRebateSetting";
+    	try{
+    		if(itemRebateQuery == null){
+    			itemRebateQuery = new ItemRebateQuery();
+    		}
+    		if(itemRebateQuery.getPageNumber() != null && itemRebateQuery.getPageNumber() <= 0){
+    			itemRebateQuery.setPageNumber(1);
+    		}
+    		if(itemRebateQuery.getPageSize() != null && itemRebateQuery.getPageSize() <= 0){
+    			itemRebateQuery.setPageSize(BaseQuery.DEFAULT_SIZE);
+    		}
+    		model.addAttribute("itemRebateQuery", itemRebateQuery);
+    		PageVO<ItemRebateDO> pageVO = itemRebateBiz.queryItemRebate(itemRebateQuery);
+    		model.addAttribute("pageVo",pageVO);
+    		
+    		return "/system/commission/itemRebateSetting";
+    		
+    	}catch(Exception e){
+    		return "/error";
+    	}
     }
 
 

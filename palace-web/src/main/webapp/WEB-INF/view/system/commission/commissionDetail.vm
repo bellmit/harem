@@ -1,7 +1,7 @@
 <div>
     <form class="form-signin" id="commisssionDetailForm" name="commisssionDetailForm" action="$!utilWebconfig.getActionDefaultFontPath()/commission/queryCommissionDetail" method="GET" role="form">
 
-
+		<input type="hidden" name="userId" value="$!commissionDetailQuery.userId">
         <!-- Unnamed (Shape) -->
         <div id="u37" class="ax_paragraph">
             <img id="u37_img" class="img " src="$utilWebconfig.getStaticResourcesPath()/resources/img/transparent.gif"/>

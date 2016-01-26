@@ -8,12 +8,25 @@ public class CommissionListQuery extends BaseQuery{
 	 * 
 	 */
 	private static final long serialVersionUID = -1405732862120567997L;
-
+	
+	/**
+	 * 用户账号
+	 */
 	private String userName;
 	
+	/**
+	 * 联系电话
+	 */
 	private String telNum;
-	
+	/**
+	 * 系统标识ID
+	 */
 	private long domainId;
+	
+	/**
+	 * 会员名称
+	 */
+	private String payeeAccountName;
 	
 	public String getUserName() {
 		return userName;
@@ -38,5 +51,14 @@ public class CommissionListQuery extends BaseQuery{
 	public void setDomainId(long domainId) {
 		this.domainId = domainId;
 	}
+
+	public String getPayeeAccountName() {
+		return payeeAccountName;
+	}
+
+	public void setPayeeAccountName(String payeeAccountName) {
+		this.payeeAccountName = payeeAccountName;
+	}
+	
 	
 }

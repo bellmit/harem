@@ -13,6 +13,9 @@ public class WebResourceConfigUtil {
     private final static String ACTION_UPLOAD_FILE_PATH_KEY = "actionUploadFilePath";
     private final static String ACTION_UPLOAD_FILES_PATH_KEY = "actionUploadFilesPath";
 
+    //分销
+    private final static String ITEM_IMG_URI_PATH = "item.img.uri";
+    
     public static String getTfsRootPath() {
         return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
     }
@@ -34,5 +37,8 @@ public class WebResourceConfigUtil {
     }
     public static String getResourceVersion(){
         return "20151227";
+    }
+    public static String getItemImgUrlPath(){
+    	return ResourceConfig.getInstance().getValueByKey(ITEM_IMG_URI_PATH);
     }
 }

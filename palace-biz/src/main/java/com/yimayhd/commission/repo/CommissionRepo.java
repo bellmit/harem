@@ -1,5 +1,7 @@
 package com.yimayhd.commission.repo;
 
+import java.util.List;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.client.base.BaseResult;
@@ -7,11 +9,13 @@ import com.yimayhd.commission.client.base.PageResult;
 import com.yimayhd.commission.client.param.AmountObtainDTO;
 import com.yimayhd.commission.client.param.AmountTotalDetailDTO;
 import com.yimayhd.commission.client.param.CommissionDetailDTO;
+import com.yimayhd.commission.client.param.UserInfoDTO;
 import com.yimayhd.commission.client.result.comm.AmountDetailDTO;
 import com.yimayhd.commission.client.result.comm.AmountNumDTO;
 import com.yimayhd.commission.client.result.comm.AmountTotalDTO;
 import com.yimayhd.commission.service.CommissionService;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +93,28 @@ public class CommissionRepo {
         }
         return baseResult;
     }
-
+    
+    /**
+     * 批量更新用户信息
+     * @param list
+     */
+    public void batchUpdateUserInfo(List<UserInfoDTO> list){
+    	if(CollectionUtils.isEmpty(list)){
+    		return ;
+    	}
+    	try{
+    		
+    		BaseResult<List<UserInfoDTO>> remoteBaseResult = commissionService.batchUpdateUserInfo(list);
+    		if (remoteBaseResult == null || !remoteBaseResult.isSuccess()) {
+    			logger.error("CommissionRepo.batchUpdateUserInfo unexpected result,param:{},result:{}", 
+    					JSON.toJSONString(list), JSON.toJSONString(remoteBaseResult));
+    		}
+    		
+    	}catch(Exception e){
+    		logger.error("CommissionRepo.batchUpdateUserInfo exceptions occur,param:{},ex:{}", 
+    				JSON.toJSONString(list), e);
+    	}
+    	
+    }
 
 }

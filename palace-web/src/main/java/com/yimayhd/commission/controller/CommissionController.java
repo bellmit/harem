@@ -88,7 +88,7 @@ public class CommissionController  extends BaseController{
     }
     
 	
-	@RequestMapping(value="/queryList", method = RequestMethod.GET)
+	@RequestMapping(value="/queryList", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	public String getCommissionList(Model model,CommissionListQuery query){
 		try {
 			if(query == null){
@@ -98,7 +98,6 @@ public class CommissionController  extends BaseController{
 			PageVO<AmountTotalDTO> pageVO = commissionBiz.getCommissionList(query);
 			model.addAttribute("commissionListQuery",query);
 			model.addAttribute("pageVo", pageVO);
-			model.addAttribute("commissionList", pageVO == null ? null : pageVO.getItemList());
 			return "/system/commission/commissionList";
 		} catch (Exception e) {
 			logger.error("CommissionController.getCommissionList error happens,ex:" , e);

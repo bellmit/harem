@@ -34,18 +34,18 @@ public class ItemRebateRepo {
      * @return
      */
     public SpmPageResult<ItemRebateDO> queryItemRebateResult(ItemRebateQuery itemRebateQuery){
-
+    	
+    	SpmPageResult<ItemRebateDO> spmPageResult = null;
         try{
             itemRebateQuery.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
             itemRebateQuery.setNeedPage(true);
-            SpmPageResult<ItemRebateDO> spmPageResult =  itemRebateService.pageQuery(itemRebateQuery);
-            if(spmPageResult.isSuccess() && !CollectionUtils.isEmpty(spmPageResult.getList())){
-                return spmPageResult;
-            }
+            spmPageResult =  itemRebateService.pageQuery(itemRebateQuery);
+            
         }catch (Exception e){
-            logger.error("ItemRebateRepo.queryItemRebateResult error!params:{}", JSONObject.toJSONString(itemRebateQuery),e);
+            logger.error("ItemRebateRepo.queryItemRebateResult error!params:{},ex:{}",
+            		JSONObject.toJSONString(itemRebateQuery),e);
         }
-        return null;
+        return spmPageResult;
     }
 
     /**
