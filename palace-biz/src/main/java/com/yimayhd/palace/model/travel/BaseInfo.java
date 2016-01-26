@@ -12,6 +12,7 @@ import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.LineOwnerType;
+import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.resourcecenter.model.enums.RegionLevel;
 
 /**
@@ -285,7 +286,7 @@ public class BaseInfo {
 		line.setDescription(this.highlights);
 		line.setRecommend(this.recommond);
 		line.setNeedKnow(this.needKnow);
-		line.setPhoneNum(Arrays.asList("4000901666"));
+		line.setPhoneNum(Arrays.asList(B2CConstant.YIMAY_CUSTOMER_SERVICE));
 		return line;
 	}
 
