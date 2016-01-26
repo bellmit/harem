@@ -8,6 +8,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.user.client.dto.LoginDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,33 +69,35 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult login(LoginoutVO loginoutVO, HttpServletRequest request, HttpServletResponse response) {
-        LOGGER.info("login loginoutVO= {}", loginoutVO);
-        sessionManager.removeToken(request);
-
-        /*if (!imageVerifyCodeValidate.validateImageVerifyCode(loginoutVO.getVerifyCode())) {
-            LOGGER.warn("loginoutVO.getVerifyCode() = {} is not correct", loginoutVO.getVerifyCode());
-            return JsonResult.buildFailResult(1, "验证码错误!", null);
-        }*/
-
-        LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setMobile(loginoutVO.getUsername());
-        loginDTO.setPassword(loginoutVO.getPassword());
-        LoginResult result = userServiceRef.loginV3(loginDTO);
-        //LoginResult result = userServiceRef.loginV2(loginoutVO.getUsername(),loginoutVO.getPassword());
-        int errorCode = result.getErrorCode();
-        if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
-            LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
-            String token = result.getToken();
-            Cookie cookie = new Cookie("token", token);
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
-            return JsonResult.buildSuccessResult(result.getResultMsg(), null);
+    public ResponseVo login(LoginoutVO loginoutVO, HttpServletRequest request, HttpServletResponse response) {
+        int errorCode = 0;
+        ResponseVo responseVo = new ResponseVo();
+        try {
+            LOGGER.info("login loginoutVO= {}", loginoutVO);
+            sessionManager.removeToken(request);
+            LoginDTO loginDTO = new LoginDTO();
+            loginDTO.setMobile(loginoutVO.getUsername());
+            loginDTO.setPassword(loginoutVO.getPassword());
+            LoginResult result = userServiceRef.loginV3(loginDTO);
+            errorCode = result.getErrorCode();
+            if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
+                LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
+                String token = result.getToken();
+                Cookie cookie = new Cookie("token", token);
+                cookie.setHttpOnly(true);
+                response.addCookie(cookie);
+                return new ResponseVo(result.getResultMsg());
+            }
+            LOGGER.info("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
+            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+            responseVo.setMessage(result.getResultMsg());
+            return responseVo;
+        } catch (Throwable e) {
+            LOGGER.error("loginoutVO= {} login fail and msg = {}", JSON.toJSONString(e));
+            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+            responseVo.setMessage(ResponseStatus.ERROR.MESSAGE);
+            return responseVo;
         }
-        
-        
-        LOGGER.warn("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
-        return JsonResult.buildFailResult(Integer.valueOf(errorCode), result.getResultMsg(), null);
     }
     
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
