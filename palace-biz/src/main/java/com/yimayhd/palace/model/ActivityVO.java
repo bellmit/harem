@@ -21,6 +21,7 @@ public class ActivityVO extends ActivityInfoDTO {
 	private String startDateStr;
 	private String endDateStr;
 	private String imagePC;
+	private String contentPC;
     
 
 
@@ -93,4 +94,12 @@ public class ActivityVO extends ActivityInfoDTO {
 	public void setImagePC(String imagePC) {
 		this.imagePC = imagePC;
 	}
+	public String getContentPC() {
+		return contentPC;
+	}
+	public void setContentPC(String contentPC) {
+		this.contentPC = contentPC;
+	}
+	
+	
 }

@@ -1,6 +1,8 @@
 package com.yimayhd.palace.repo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +17,7 @@ import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
 import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
@@ -48,6 +51,14 @@ public class ActivityRepo {
 		if (scResult != null && scResult.isSuccess()) {
 			try {
 				scResult.getValue().setContent(tfsService.readHtml5(scResult.getValue().getContent()));
+				
+				scResult.getValue().setContentPC(tfsService.readHtml5(scResult.getValue().getPicUrls(ActivityPicUrlsKey.BIG_H5_PIC)));
+				
+				/*Map<String, String> picUrls =scResult.getValue().getpic
+			
+				scResult.getValue().setPicUrlsString(picUrlsMap);*/
+				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
