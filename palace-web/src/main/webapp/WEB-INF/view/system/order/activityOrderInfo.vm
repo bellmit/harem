@@ -25,9 +25,9 @@
                     <button type="button" class="btn btn-primary finish"
                             data-target="#finishModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
                     </button>
-##                    <button type="button" class="btn btn-primary refund"
-##                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
-##                    </button>
+                    <button type="button" class="btn btn-primary refund"
+                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
+                    </button>
                 </span>
             #elseif($order.mainOrder.orderShowState == 4)
                 <span>
@@ -46,9 +46,9 @@
             #elseif($order.mainOrder.orderShowState == 6)
                 <span>
                     待处理
-##                    <button type="button" class="btn btn-primary refund"
-##                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
-##                    </button>
+                    <button type="button" class="btn btn-primary refund"
+                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
+                    </button>
                 </span>
             #elseif($order.mainOrder.orderShowState == 7)
                 已退款
