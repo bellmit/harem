@@ -78,6 +78,7 @@ public class CommissionBiz {
 	public PageVO<AmountTotalDTO> getCommissionList(CommissionListQuery query) {
 		logger.info("CommissionBiz.getCommissionList begin,param:" + JSON.toJSONString(query));
 		PageVO<AmountTotalDTO> pageVO = null;
+		List<UserInfoDTO> desList = null;
 		
 		try{
 			if(query == null){
@@ -135,10 +136,10 @@ public class CommissionBiz {
 								}
 							}
 						}//end for
-						List<UserInfoDTO> desList = CommissionAmoutConvert.userInfoDTOConvert(list);
-						if(desList.size() > 0){
-							commissionRepo.batchUpdateUserInfo(desList);
-						}
+						desList = CommissionAmoutConvert.userInfoDTOConvert(list);
+//						if(desList.size() > 0){
+//							commissionRepo.batchUpdateUserInfo(desList);
+//						}
 					}
 					
 				}
@@ -153,8 +154,22 @@ public class CommissionBiz {
 		}catch(Exception e){
 			logger.error("CommissionBiz.getCommissionList exceptions occur,param:{},ex:{}",
 					JSON.toJSONString(query),e);
+		}finally{
+			if(CollectionUtils.isNotEmpty(desList)){
+				class ThreadUtil extends Thread{
+					private List<UserInfoDTO> innerList;
+					ThreadUtil(List<UserInfoDTO> list){
+						this.innerList = list;
+					}
+					@Override
+					public void run() {
+						commissionRepo.batchUpdateUserInfo(innerList);
+					}
+				}
+				new ThreadUtil(desList).start();
+			}
+			
 		}
-		
 		return pageVO;
 	}
 	
