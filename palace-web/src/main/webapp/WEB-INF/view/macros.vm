@@ -302,13 +302,13 @@
 #end
 
 ##券状态
-#macro(VOUCHER_STATUS $status)
-    #if($status == '1')
-    初始
-    #elseif($status == '2')
-    上架
-    #elseif($status == '3')
-    下架
+        #macro(VOUCHER_STATUS $status)
+            #if($status == '1')
+            初始
+            #elseif($status == '2')
+            上架
+            #elseif($status == '3')
+            下架
     #elseif($status == '4')
     已领完
     #end
@@ -316,6 +316,29 @@
 
 ##券类型
 #macro(VOUCHER_TYPE $type)
+    #if($type == '1')
+    满减券
+    #elseif($type == '2')
+    满折券
+    #elseif($type == '3')
+    兑换券
+    #end
+#end
+
+##优惠状态
+#macro(PROMOTION_STATUS $status)
+    #if($status == '1')
+    初始化
+    #elseif($status == '2')
+    上架
+    #elseif($status == '3')
+    下架
+    #end
+#end
+
+
+##优惠类型
+#macro(PROMOTION_TYPE $type)
     #if($type == '1')
     满减券
     #elseif($type == '2')
