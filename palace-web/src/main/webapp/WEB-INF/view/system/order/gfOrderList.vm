@@ -4,7 +4,7 @@
         type="text/javascript"></script>
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
-          action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/hotelOrderList" method="GET" role="form">
+          action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList" method="GET" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -15,7 +15,7 @@
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">下单日期</button>
+                        <button class="btn btn-default" type="button">订单日期</button>
                     </span>
                 <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate"
                        value="$!orderListQuery.beginDate">
@@ -37,24 +37,46 @@
                     <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>交易关闭</option>
                 </select>
             </div>
+
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">买家手机号</button>
+                        <button class="btn btn-default" type="button">商品名称</button>
                     </span>
-                <input type="text" class="form-control" name="buyerPhone" value="$!orderListQuery.buyerPhone">
+                <input type="text" class="form-control" name="buyerName" value="$!orderListQuery.buyerName">
             </div>
+
+            <div class="input-group inpSingle ">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">促销活动</button>
+                    </span>
+                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
+                    <option value="">全部</option>
+                    <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>满减</option>
+                    <option value="NO_LG_ORDER" #if($!orderListQuery.orderStat == 'NO_LG_ORDER') selected #end>满赠</option>
+                    <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>折扣</option>
+                    <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>秒杀</option>
+                    <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>交易关闭</option>
+                </select>
+            </div>
+
+            <div class="input-group inpSingle ">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">物流服务</button>
+                    </span>
+                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
+                    <option value="">全部</option>
+                    <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>包邮</option>
+                    <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>付费</option>
+                </select>
+            </div>
+
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">买家昵称</button>
                     </span>
-                <input type="text" class="form-control" name="buyerName" value="$!orderListQuery.buyerName">
-            </div>
-            <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">酒店名称</button>
-                    </span>
                 <input type="text" class="form-control" name="itemName" value="$!orderListQuery.itemName">
             </div>
+
             <!--
 				<div class="input-group inpSingle">
                     <button class="btn btn-default" type="button">附属要求</button>
@@ -80,13 +102,13 @@
             <tbody>
                 <tr>
                     <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
-                    <th>酒店</th>
+                    <th>商品</th>
                     <th>单价</th>
                     <th>数量</th>
                     <th>买家</th>
-                    <th>订单状态</th>
+                    <th>交易状态</th>
                     <th>订单金额</th>
-                    <th>操作</th>
+                    #* <th>操作</th> *#
                 </tr>
                 #foreach($order in $orderList)
                     <tr></tr>

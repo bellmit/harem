@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.user.client.dto.LoginDTO;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,11 +73,16 @@ public class LoginController extends BaseController {
     public ResponseVo login(LoginoutVO loginoutVO, HttpServletRequest request, HttpServletResponse response) {
         int errorCode = 0;
         ResponseVo responseVo = new ResponseVo();
+        if(StringUtils.isEmpty(loginoutVO.getUsername()) || StringUtils.isEmpty(loginoutVO.getPassword()) ){
+            responseVo.setStatus(ResponseStatus.INVALID_DATA.VALUE);
+            responseVo.setMessage(ResponseStatus.INVALID_DATA.MESSAGE);
+            return responseVo;
+        }
         try {
-            LOGGER.info("login loginoutVO= {}", loginoutVO);
+            LOGGER.info("login loginoutVO= {}", JSON.toJSONString(loginoutVO));
             sessionManager.removeToken(request);
             LoginDTO loginDTO = new LoginDTO();
-            loginDTO.setMobile(loginoutVO.getUsername());
+            loginDTO.setMobile(loginoutVO.getUsername().trim());
             loginDTO.setPassword(loginoutVO.getPassword());
             LoginResult result = userServiceRef.loginV3(loginDTO);
             errorCode = result.getErrorCode();
