@@ -38,7 +38,7 @@ public class ScenicVO extends ScenicDO {
         //NeedKnowOb 在serviceImpl中处理
         //图片集处理(因为有outId还是,只处理新增的)
         //元转分
-        scenicDO.setPrice((long) (scenicVO.getPriceY() * 100));
+        scenicDO.setPrice(NumUtil.doubleToLong(scenicVO.getPriceY()));
 
         return scenicDO;
     }

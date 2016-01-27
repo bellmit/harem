@@ -1,5 +1,6 @@
 package com.yimayhd.palace.model;
 
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.tradecenter.client.model.param.imall.pointrule.IMallPointRuleDTO;
 import com.yimayhd.tradecenter.client.model.result.imall.pointrule.IMallPointRuleResult;
 import org.apache.commons.beanutils.BeanUtils;
@@ -16,7 +17,7 @@ public class IMallPointRuleVO extends IMallPointRuleDTO {
         return iMallPointRuleVO;
     }
     public static IMallPointRuleDTO getIMallPointRuleDTO(IMallPointRuleVO iMallPointRuleVO){
-        iMallPointRuleVO.setPayment((long) (iMallPointRuleVO.getPaymentY() * 100));
+        iMallPointRuleVO.setPayment(NumUtil.doubleToLong(iMallPointRuleVO.getPaymentY()));
         return iMallPointRuleVO;
     }
 
