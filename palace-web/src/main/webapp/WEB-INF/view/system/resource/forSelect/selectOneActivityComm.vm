@@ -82,7 +82,7 @@
 			resource_table[item.id] = item;
 			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
 			tr.append($("<td>"+item.title+"</td>"));
-			tr.append($("<td>"+(item.status==1?'有效':'停用')+"</td>"));
+			tr.append($("<td>"+(item.status==2?'有效':'停用')+"</td>"));
 			tbody.append(tr);
 		}
 		$(".selectResourceTable").append(table);
