@@ -36,7 +36,7 @@ public class ItemSkuVO extends ItemSkuDO {
         }
         itemSkuDO.setCategoryId(itemVO.getCategoryId());
         //元转分
-        itemSkuDO.setPrice((long) (itemSkuVO.getPriceY() * 100));
+        itemSkuDO.setPrice(NumUtil.doubleToLong(itemSkuVO.getPriceY()));
 
 
         return itemSkuDO;

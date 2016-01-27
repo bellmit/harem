@@ -26,6 +26,7 @@ import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.palace.util.NumUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -358,7 +359,7 @@ public class CommodityServiceImpl implements CommodityService {
             //商品Description
             itemDB.setDescription(itemVO.getDescription());
             //价格
-            itemDB.setPrice((long) (itemVO.getPriceY() * 100));
+            itemDB.setPrice(NumUtil.doubleToLong(itemVO.getPriceY()));
             //商品库存
             itemDB.setStockNum(itemVO.getStockNum());
             //商品图片

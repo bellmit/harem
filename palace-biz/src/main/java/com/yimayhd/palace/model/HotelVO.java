@@ -113,7 +113,7 @@ public class HotelVO extends HotelDO implements Serializable {
         //hotelDO.setRoomService(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //hotelDO.setHotelFacility(BitUtil.convertLong(hotelVO.getRoomFacilityList(), 0));
         //元转分
-        hotelDO.setPrice((long) (hotelVO.getPriceY() * 100));
+        hotelDO.setPrice(NumUtil.doubleToLong(hotelVO.getPriceY()));
         return hotelDO;
     }
 
