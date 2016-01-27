@@ -24,7 +24,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         promotionPageQuery.setPageNo(promotionListQuery.getPageNumber());
         promotionPageQuery.setPageSize(promotionListQuery.getPageSize());
         //TODO
-        promotionQueryServiceRef.queryPromotions(promotionPageQuery);
+//        promotionQueryServiceRef.queryPromotions(promotionPageQuery);
         return null;
     }
 
