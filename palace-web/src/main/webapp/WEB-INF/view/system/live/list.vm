@@ -77,8 +77,8 @@
                         <td><input class="subChecked" type="checkbox" value="$!live.id"></td>
                         <td>$!live.userDO.nickname</td>
                         <td>$!live.userDO.mobileNo</td>
-                        <td>$!live.textContent</td>
-                        <th>$!live.tag.name</th>
+                        <td>$!esc.html($!live.textContent)</td>
+                        <th>$!esc.html($!live.tag.name)</th>
                         <th>暂未实现</th>
                         <th>$!live.supportNum</th>
                         <th>$!live.commentNum</th>
