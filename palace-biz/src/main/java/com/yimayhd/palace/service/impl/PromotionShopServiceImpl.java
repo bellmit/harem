@@ -5,7 +5,7 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.PromotionListQuery;
 import com.yimayhd.palace.model.vo.PromotionVO;
-import com.yimayhd.palace.service.PromotionCommService;
+import com.yimayhd.palace.service.PromotionShopService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.enums.EntityType;
@@ -23,7 +23,7 @@ import java.util.Date;
 /**
  * Created by czf on 2016/1/19.
  */
-public class PromotionShopServiceImpl implements PromotionCommService {
+public class PromotionShopServiceImpl implements PromotionShopService {
     @Autowired
     private PromotionPublishService promotionPublishServiceRef;
     @Autowired
