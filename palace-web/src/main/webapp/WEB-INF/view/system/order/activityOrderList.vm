@@ -165,7 +165,7 @@
                                 </button>
                             #elseif($order.orderShowState !=7 && $order.orderShowState !=1 && $order.orderShowState !=5)
                                 <button type="button" class="btn btn-primary refund"
-                                        data-target="#refundModal" orderId="$!$!order.bizOrderDO.bizOrderId">退款
+                                        data-target="#refundModal" orderId="$!order.bizOrderDO.bizOrderId">退款
                                 </button>
                             #end
                         </td>
@@ -266,19 +266,21 @@
 
         $('.refund').each(function(){
             $(this).click(function(){
-                $(this).prop('disabled',true);
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/refundOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
                     if(data.status == 200){
-                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                        msg.show();
+                        layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                        });
+                        setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1500);
                     }else{
-                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                        msg.show();
+                        layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                    	});
                     }
-                    //TODO暂时先刷新页面
-                    setTimeout(function(){
-                        window.location.href = window.location.href;
-                    },1050);
                 })
             });
         });
