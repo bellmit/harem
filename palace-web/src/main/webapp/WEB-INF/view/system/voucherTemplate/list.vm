@@ -55,7 +55,7 @@
                         <td>$!velocityCount</td>
                         <td>$!voucher.title</td>
                         <td>#VOUCHER_TYPE($!voucher.voucherType)</td>
-                        <td>$!voucher.value</td>
+                        <td>￥$!voucher.value</td>
                         <td>$!utilDate.dateToString($!voucher.startTime,"yyyy-MM-dd") 至 $!utilDate.dateToString($!voucher.endTime,"yyyy-MM-dd")</td>
                         <td>#VOUCHER_STATUS($!voucher.status)</td>
                         <td>$!utilDate.dateToString($!voucher.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
