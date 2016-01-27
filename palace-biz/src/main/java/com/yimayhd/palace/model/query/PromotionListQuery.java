@@ -9,8 +9,8 @@ public class PromotionListQuery extends BaseQuery{
 
     private String beginDate;
     private String endDate;
-    private int status;
-    private int promotionType;//优惠类型
+    private Integer status;
+    private Integer promotionType;//优惠类型
     private String title;//标题
 
     public String getBeginDate() {
@@ -29,19 +29,19 @@ public class PromotionListQuery extends BaseQuery{
         this.endDate = endDate;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public int getPromotionType() {
+    public Integer getPromotionType() {
         return promotionType;
     }
 
-    public void setPromotionType(int promotionType) {
+    public void setPromotionType(Integer promotionType) {
         this.promotionType = promotionType;
     }
 
