@@ -126,7 +126,7 @@
                 });
                 return false;
             }
-            var url = actionDefaultPath +'/GF/promotionManage/toAdd?promotionType=' + $('.addPromotionType').val();
+            var url = actionDefaultPath +'/GF/promotionShopManage/toAdd?promotionType=' + $('.addPromotionType').val();
             top.tabsAdd("",url,2,'优惠');
         });
 

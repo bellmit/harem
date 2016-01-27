@@ -46,7 +46,7 @@ public class PromotionShopController extends BaseController {
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("promotionTypeList",promotionTypeList);
         model.addAttribute("promotionStatusList",promotionStatusList);
-        return "/system/promotion/Shop/list";
+        return "/system/promotion/shop/list";
     }
 
     /**
@@ -57,7 +57,7 @@ public class PromotionShopController extends BaseController {
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public String toAdd(Model model,int promotionType) throws Exception {
         model.addAttribute("promotionType",promotionType);
-        return "/system/promotion/Shop/edit";
+        return "/system/promotion/shop/edit";
     }
 
     /**
@@ -70,7 +70,7 @@ public class PromotionShopController extends BaseController {
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
         PromotionVO promotionVO = promotionShopService.getById(id);
         model.addAttribute("promotionVO",promotionVO);
-        return "/system/promotion/Shop/edit";
+        return "/system/promotion/shop/edit";
     }
 
     /**

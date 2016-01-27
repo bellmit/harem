@@ -11,6 +11,7 @@ import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.query.PromotionPageQuery;
 import com.yimayhd.promotion.client.result.BasePageResult;
+import com.yimayhd.promotion.client.result.BaseResult;
 import com.yimayhd.promotion.client.service.PromotionPublishService;
 import com.yimayhd.promotion.client.service.PromotionQueryService;
 import org.apache.commons.lang.StringUtils;
@@ -72,13 +73,13 @@ public class PromotionShopServiceImpl implements PromotionShopService {
 
     @Override
     public boolean add(PromotionVO entity) throws Exception {
-        //BaseResult<PromotionDO> baseResult = promotionPublishServiceRef.addPromotion();
-        return false;
+        BaseResult<PromotionDO> baseResult = promotionPublishServiceRef.addPromotion(entity);
+        return baseResult.isSuccess();
     }
 
     @Override
     public PromotionVO getById(long id) throws Exception {
-        //BaseResult<PromotionDO> baseResult = promotionPublishServiceRef.
+//        BaseResult<PromotionDO> baseResult = promotionPublishServiceRef
         return null;
     }
 }

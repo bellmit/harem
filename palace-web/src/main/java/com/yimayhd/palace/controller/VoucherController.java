@@ -30,7 +30,7 @@ import java.util.List;
  * @author xzj
  */
 @Controller
-@RequestMapping("/B2C/voucherManage")
+@RequestMapping("/GF/voucherManage")
 public class VoucherController extends BaseController {
 
     @Autowired

@@ -28,14 +28,6 @@
                     </td>
                 </tr>
                 <tr>
-##                    <div class="input-group inpSingle">
-##                        <td><span class="spColor">*</span>有效期</td>
-##                        <td>
-##                            <input type="text" class='form-control form-date dateInp startTime' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd")">
-##                            至
-##                            <input type="text" class='form-control form-date dateInp endTime' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd")">
-##                        </td>
-##                    </div>
     <td>
         <span class="spColor">*</span>有效期：
     </td>
@@ -44,7 +36,6 @@
             <input type="text" class='form-control form-date dateInp startTime' placeholder='' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd")">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
             <input type="text" class='form-control form-date dateInp endTime' placeholder='' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd")">
-        #*<button class="btn btn-primary setTime" #if($product) style="display:none;" #end>确定</button>*#
         </div>
     </td>
 
@@ -146,9 +137,9 @@
             var actionUrl = "";
             var recommendedId = $('#hotelForm').attr('recommendedId');
             if(recommendedId){
-               actionUrl = actionDefaultPath + '/B2C/voucherManage/edit/'+recommendedId;
+               actionUrl = actionDefaultPath + '/GF/voucherManage/edit/'+recommendedId;
             }else{
-               actionUrl = actionDefaultPath + '/B2C/voucherManage/add';
+               actionUrl = actionDefaultPath + '/GF/voucherManage/add';
             }
             $('#hotelForm').attr('action',actionUrl);
             $('#hotelForm').submit();
