@@ -42,7 +42,7 @@
 			<div class="tab-pane in #if($tcId==1) active #end" id="tc_$!{tcId}">
 				<table class="table">
 					<tr>
-						<td><span class="spColor">*</span>套餐名称：<input type="text" id="tc_$!{tcId}_name" class="form-control" placeholder="请输入套餐名称" tc-id="$!{tc.id}" value="$!{tc.name}"></td>
+						<td><span class="spColor">*</span>套餐名称：<input type="text" id="tc_$!{tcId}_name" class="form-control tc-name" placeholder="请输入套餐名称" tc-id="$!{tcId}" value="$!{tc.name}"></td>
 					</tr>
 					<tr>
 						<td>
@@ -192,6 +192,13 @@
 	// 删除套餐
 	$(document).delegate(".tc-item","change",function(){
 		setUpdatedSKU($(this).attr("sku-id"));
+	});
+	// 改名
+	$(document).delegate(".tc-name","change",function(){
+		var tcId = $(this).attr("tc-id");
+		$(".tc-"+tcId+"-item").each(function() {
+			setUpdatedSKU($(this).attr("sku-id"));
+		});
 	});
 	// 重置
 	$(".form-date").change(function (){
