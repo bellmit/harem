@@ -19,7 +19,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<palace.version>1.0.0-SNAPSHOT</palace.version>
-		<itemcenter.client.version>1.0.0-SNAPSHOT</itemcenter.client.version>
+		<itemcenter.client.version>1.0.3-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.5.3-SNAPSHOT</session.manager.version>
 		<user.client.version>1.5.4-SNAPSHOT</user.client.version>
@@ -152,11 +152,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>jstl</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.2</version>
-			</dependency>
-			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>1.7.7</version>
@@ -171,11 +166,6 @@
 				<artifactId>log4j</artifactId>
 				<version>1.2.17</version>
 			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.7.7</version>
-			</dependency>
 			<!--logback -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
@@ -187,12 +177,6 @@
 				<artifactId>logback-core</artifactId>
 				<version>${logback.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>2.3.3</version>
-			</dependency>
-
 			<dependency>
 				<groupId>org.jdom</groupId>
 				<artifactId>jdom</artifactId>
@@ -638,11 +622,6 @@
 				</exclusions>
 			</dependency>
 
-			<dependency>
-				<groupId>com.yiholiday.fhtd</groupId>
-				<artifactId>fhtd</artifactId>
-				<version>${fhtd.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>

@@ -43,6 +43,7 @@ import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.enums.BaseStatus;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 import com.yimayhd.user.client.enums.UserOptions;
@@ -443,6 +444,8 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/queryActivityForSelect")
 	public @ResponseBody ResponseVo queryActivityForSelect(ActivityListQuery query) {
 		try {
+			//只查询启用状态的数据
+			query.setState(BaseStatus.AVAILABLE.getType());
 			PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(query);
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("pageVo", pageVo);

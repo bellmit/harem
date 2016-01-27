@@ -1,10 +1,8 @@
 package com.yimayhd.palace.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,6 +156,7 @@ public class ActivityServiceImpl implements ActivityService {
 				throw new BaseException(activityInfo.getResultMsg());
 			}
 			SnsActivityDO snsActivityDO = activityInfo.getValue();
+			//TODO snsActivityDO之后都没用到，这样是覆盖，需要改一下
 			if (snsActivityDO == null) {
 				log.error(
 						"ActivityServiceImpl.save-snsCenterService.getActivityInfoByActivityId result.getValue is null and parame: "
@@ -169,6 +168,7 @@ public class ActivityServiceImpl implements ActivityService {
 			if (org.apache.commons.lang.StringUtils.isNotBlank(dto.getContent())) {
 				dto.setContent(tfsService.publishHtml5(dto.getContent()));
 			}
+			
 			// 设置库存
 			ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
 			// 全部设置成true
@@ -198,6 +198,15 @@ public class ActivityServiceImpl implements ActivityService {
 				}
 			}
 			dto.setActivityJsonArray(newjsonDOs);
+			Map<String,String> picUrls = new HashMap<String, String>();
+			//String imagePC = snsActivityDO.getPicUrls(ActivityPicUrlsKey.BIG_LIST_PIC);
+			if(StringUtils.isNotBlank(activityVO.getImagePC())){
+				picUrls.put(ActivityPicUrlsKey.BIG_LIST_PIC.getCode(),activityVO.getImagePC());
+			}
+			if(org.apache.commons.lang.StringUtils.isNotBlank(activityVO.getContentPC())){
+				picUrls.put(ActivityPicUrlsKey.BIG_H5_PIC.getCode(), tfsService.publishHtml5(activityVO.getContentPC()));	
+			}
+			dto.setPicUrlsMap(picUrls);
 			result = snsCenterService.updateActivityInfo(dto);
 			if (!result.isSuccess()) {
 				log.error("Activity|snsCenterService.save return value is null !returnValue :"
@@ -223,6 +232,11 @@ public class ActivityServiceImpl implements ActivityService {
 			dto.setPreferentialPrice(dto.getPreferentialPrice());
 			if (org.apache.commons.lang.StringUtils.isNotBlank(dto.getContent())) {
 				dto.setContent(tfsService.publishHtml5(dto.getContent()));
+			}
+			
+			if(org.apache.commons.lang.StringUtils.isNotBlank(activityVO.getContentPC())){
+				Map<String, String> picUrlsMap = dto.getPicUrls();
+				picUrlsMap.put(ActivityPicUrlsKey.BIG_H5_PIC.getCode(), tfsService.publishHtml5(activityVO.getContentPC()));
 			}
 			// 设置库存
 			ItemOptionDTO itemOptionDTO = new ItemOptionDTO();

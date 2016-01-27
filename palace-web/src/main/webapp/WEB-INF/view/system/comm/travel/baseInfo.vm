@@ -4,9 +4,14 @@
 -->
 <div class="baseInfo">
 	<div class="baseInfoList">
-		<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/>
         <p class="lineDetail">线路明细</p>
         <table>
+			#if($product.baseInfo.id > 0)
+			<tr>
+                <td>资源编号：</td>
+                <td>$!{product.baseInfo.id}<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/></td>
+            </tr>
+			#end
             <tr>
                 <td><span class="spColor">*</span>产品类型：</td>
                 <td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
@@ -20,12 +25,21 @@
                 <td><input type="text" class="form-control int-only orderNum" style="width:120px" placeholder="请输入产品序号" value="$!product.baseInfo.orderNum"/></td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>产品封面图：</td>
+                <td><span class="spColor">*</span>产品封面图(APP)：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
-                    <input id="productImageFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
-                    <img class="productImageUrlImg img-circle" src="#if($!{product.baseInfo.productImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImage} #end"/>
-                    <input class="productImageUrlVal" type="hidden" value="$!product.baseInfo.productImage"/>
+                    <input id="productImageAppFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
+                    <img class="productImageAppUrlImg img-circle" src="#if($!{product.baseInfo.productImageApp})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImageApp} #end"/>
+                    <input class="productImageAppUrlVal" type="hidden" value="$!product.baseInfo.productImageApp"/>
+                </td>
+            </tr>
+			<tr>
+                <td><span class="spColor">*</span>产品封面图(PC)：</td>
+                <td class="fileWrap">
+                    <button type="button" class="btn btn-success">选择图片</button>
+                    <input id="productImagePcFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
+                    <img class="productImagePcUrlImg img-circle" src="#if($!{product.baseInfo.productImagePc})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImagePc} #end"/>
+                    <input class="productImagePcUrlVal" type="hidden" value="$!product.baseInfo.productImagePc"/>
                 </td>
             </tr>
             <tr>
@@ -166,11 +180,21 @@
 <script type="text/javascript">
 	$(function(){
         //上传图片
-        $(document).delegate("#productImageFile",'change',function(){
-            fileUpload('#productImageFile',1,function(data){
+        $(document).delegate("#productImageAppFile",'change',function(){
+            fileUpload('#productImageAppFile',1,function(data){
                 if(data && data.status == 200){
-                    $('.productImageUrlVal').val(data.data);
-                    $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
+                    $('.productImageAppUrlVal').val(data.data);
+                    $('.productImageAppUrlImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.msg('图片上传失败，请重试', {icon: 2});
+                }
+			});
+        });
+		$(document).delegate("#productImagePcFile",'change',function(){
+            fileUpload('#productImagePcFile',1,function(data){
+                if(data && data.status == 200){
+                    $('.productImagePcUrlVal').val(data.data);
+                    $('.productImagePcUrlImg').attr('src',tfsRootPath + data.data);
                 }else{
                     layer.msg('图片上传失败，请重试', {icon: 2});
                 }
@@ -276,7 +300,8 @@
 		var type = $(".productType").val();
 		var orderNum = $(".orderNum").val() || 0;
 		var name = $(".productName").val();
-		var productImage = $(".productImageUrlVal").val();
+		var productImageApp = $(".productImageAppUrlVal").val();
+		var productImagePc = $(".productImagePcUrlVal").val();
 		var tripImage = $(".tripImageUrlVal").val();
 		var orderImage = $(".orderImageUrlVal").val();
 		var tags = [];
@@ -305,7 +330,8 @@
 			type:type,
 			orderNum:orderNum,
 			name:name,
-			productImage:productImage,
+			productImageApp:productImageApp,
+			productImagePc:productImagePc,
 			tripImage:tripImage,
 			orderImage:orderImage,
 			tags:tags,

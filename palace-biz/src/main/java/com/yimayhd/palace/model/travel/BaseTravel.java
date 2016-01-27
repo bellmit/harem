@@ -222,8 +222,8 @@ public abstract class BaseTravel {
 		itemDO.setItemType(getItemType());
 		itemDO.setTitle(this.baseInfo.getName());
 		itemDO.setPrice(this.baseInfo.getPrice());
-		if (StringUtils.isNotBlank(this.baseInfo.getProductImage())) {
-			itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, this.baseInfo.getProductImage());
+		if (StringUtils.isNotBlank(this.baseInfo.getProductImageApp())) {
+			itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, this.baseInfo.getProductImageApp());
 		}
 		if (StringUtils.isNotBlank(this.baseInfo.getTripImage())) {
 			itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, this.baseInfo.getTripImage());

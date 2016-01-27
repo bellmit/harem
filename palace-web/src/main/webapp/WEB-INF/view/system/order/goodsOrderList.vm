@@ -164,7 +164,7 @@
                                 <button type="button" class="btn btn-primary finish"
                                         data-target="#finishModal" orderId="$!order.bizOrderDO.bizOrderId">完成
                                 </button>
-                            #elseif($order.bizOrderDO.refundStatus != 4 && $order.bizOrderDO.payStatus == 2)
+                            #elseif($order.orderShowState !=7 && $order.orderShowState !=1)
                                 <button type="button" class="btn btn-primary refund"
                                         data-target="#refundModal" orderId="$!$!order.bizOrderDO.bizOrderId">退款
                                 </button>
