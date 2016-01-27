@@ -343,8 +343,8 @@
 			toLevel:to_arr[0],
 			toId:to_arr[2],
 			toName:to_arr[1],
-			price:$("#price").val() * 100,
-			memberPrice:$("#memberPrice").val() * 100,
+			price:Math.round($("#price").val() * 100),
+			memberPrice:Math.round($("#memberPrice").val() * 100),
 			masters:masters,
 			highlights:highlights,
 			needKnow:{

@@ -348,9 +348,9 @@
                     	PId: $!{persionProperty.id},
                     	PType: $!{persionProperty.type},
                     	PTxt: "$!{persionProperty.text}",
-                    	price: ($("#"+key_$!{persionPropertyValue.id}+"_1").val()||0)*100, 
+                    	price: Math.round(($("#"+key_$!{persionPropertyValue.id}+"_1").val()||0)*100), 
                     	stock: $("#"+key_$!{persionPropertyValue.id}+"_2").val(),
-                    	discount: ($("#"+key_$!{persionPropertyValue.id}+"_3").val()||0)*100
+                    	discount: Math.round(($("#"+key_$!{persionPropertyValue.id}+"_3").val()||0)*100)
 					});
 					#end
 					var day = {

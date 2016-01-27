@@ -210,6 +210,9 @@ public class LineChecker {
 		if (CollectionUtils.isEmpty(tcs)) {
 			log.error(temp, JSON.toJSONString(priceInfo));
 			return CheckResult.error("线路套餐不能为空");
+		} else if (tcs.size() > 10) {
+			log.error(temp, JSON.toJSONString(priceInfo));
+			return CheckResult.error("线路套餐不能超过10个");
 		}
 		for (PackageInfo tc : tcs) {
 			CheckResult packageCheckResult = checkPackageInfoForSave(tc);
