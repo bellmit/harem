@@ -14,8 +14,8 @@
                 </span>
                 <select class="form-control" name="state">
 					<option value="0" #if($!query.state == 0) selected #end>全部</option>
-                    <option value="1" #if($!query.state == 1) selected #end>上架</option>
-                    <option value="2" #if($!query.state == 2) selected #end>下架</option>
+                    <option value="1" #if($!query.state == 1) selected #end>启用</option>
+                    <option value="2" #if($!query.state == 2) selected #end>禁用</option>
                 </select>
             </div>
 			<div class="btn-group">
@@ -39,7 +39,8 @@
 				<thead>
                     <tr>
                         <th>排序</th>
-                        <th>话题名称</th>
+                        <th>名称</th>
+						<th>类型</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -49,6 +50,7 @@
                     <tr id="item_$!{item.id}" item-id="$!item.id">
                         <td>$!item.score</td>
                         <td>$!item.name</td>
+						<td>#TAG_TYPE($!item.type)</td>
                         <td>#TAG_STATUS($!item.status)</td>
                         <td>
                             <button type="button" class="btn btn-primary item-edit" item-id="$!item.id">编辑</button>
