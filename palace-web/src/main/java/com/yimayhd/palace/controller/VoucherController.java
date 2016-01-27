@@ -88,7 +88,8 @@ public class VoucherController extends BaseController {
             voucherTemplateVO.setOperator(userDO.getNickname());
         }
         voucherTemplateVO.setEntityType(EntityType.SHOP.getType());
-        voucherTemplateVO.setEntityId(10000);
+        voucherTemplateVO.setEntityId(1000);
+        voucherTemplateVO.setDomain(1100);
         //新增默认下架状态
         voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
         voucherTemplateVO.setEndTime(getEndTime(voucherTemplateVO.getEndTime()));
