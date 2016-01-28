@@ -174,7 +174,7 @@
                             #end
                             #if($order.orderShowState !=7 && $order.orderShowState !=1 && $order.orderShowState !=5)
                                 <button type="button" class="btn btn-primary refund"
-                                        data-target="#refundModal" orderId="$!$!order.bizOrderDO.bizOrderId">退款
+                                        data-target="#refundModal" orderId="$!order.bizOrderDO.bizOrderId">退款
                                 </button>
                             #end
                         </td>
