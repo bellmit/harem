@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception {
+		List<MainOrder> mainOrderList = new ArrayList<MainOrder>();
 		long userId = 0;
 		List<BizOrderDO> list = null;
 		if (StringUtils.isNotEmpty(orderListQuery.getBuyerName()) || StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
@@ -71,12 +72,14 @@ public class OrderServiceImpl implements OrderService {
 				if (!CollectionUtils.isEmpty(basePageResult.getList())){
 					UserDO userDO = basePageResult.getList().get(0);
 					userId = userDO.getId();
+				}else{
+					PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), 0,mainOrderList);
+					return orderPageVO;
 				}
 			}
 		}
 
 		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
-		List<MainOrder> mainOrderList = new ArrayList<MainOrder>();
 		if (orderQueryDTO!=null){
 			BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
 			if (batchQueryResult.isSuccess()){
