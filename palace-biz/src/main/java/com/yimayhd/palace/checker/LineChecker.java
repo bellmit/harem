@@ -1,6 +1,8 @@
 package com.yimayhd.palace.checker;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -90,7 +92,7 @@ public class LineChecker {
 	public static CheckResult checkGroupTravelForUpdate(GroupTravel gt) {
 		String temp = "行程信息验证失败: {}";
 		if (gt.getRouteId() <= 0) {
-			log.error(temp, JSON.toJSONString(gt));
+			log.warn(temp, JSON.toJSONString(gt));
 			return CheckResult.error("无效行程ID");
 		}
 		return checkGroupTravelForSave(gt);
@@ -104,7 +106,7 @@ public class LineChecker {
 		String temp = "机酒套餐信息验证失败: {}";
 		List<HotelShortItem> hotels = tripPackageInfo.getHotels();
 		if (CollectionUtils.isEmpty(hotels)) {
-			log.error(temp, JSON.toJSONString(tripPackageInfo));
+			log.warn(temp, JSON.toJSONString(tripPackageInfo));
 			return CheckResult.error("机酒套餐中酒店信息不能为空");
 		}
 		return CheckResult.success();
@@ -114,82 +116,82 @@ public class LineChecker {
 		String temp = "线路基本信息验证失败: {}";
 		int type = baseInfo.getType();
 		if (LineType.getByType(type) == null) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("未知线路类型");
 		}
 		if (StringUtils.isBlank(baseInfo.getName())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路名称不能为空");
 		} else if (baseInfo.getName().length() > 50) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路名称不能超过50个字");
 		}
 		if (StringUtils.isBlank(baseInfo.getProductImageApp())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("APP产品封面图不能为空");
 		}
 		if (StringUtils.isBlank(baseInfo.getProductImagePc())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("PC产品封面图不能为空");
 		}
 		if (StringUtils.isBlank(baseInfo.getTripImage())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("行程封面图不能为空");
 		}
 		if (StringUtils.isBlank(baseInfo.getOrderImage())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("商品订单图不能为空");
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getTags())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("产品标签不能为空");
 		}
 		if (baseInfo.getPublisherId() <= 0) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效发布者");
 		}
 		if (baseInfo.getToId() <= 0) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效目的地");
 		}
 		if (StringUtils.isBlank(baseInfo.getToName())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("目的地名称不能为空");
 		}
 		if (baseInfo.getMemberPrice() < 0) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效会员价");
 		}
 		if (baseInfo.getPrice() < 0) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效会员价");
 		}
 		String highlights = baseInfo.getHighlights();
 		if (StringUtils.isBlank(highlights)) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路设计亮点不能为空");
 		} else if (highlights.length() > 500) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路设计亮点不能超过500个字");
 		}
 		MasterRecommend recommond = baseInfo.getRecommond();
 		if (StringUtils.isBlank(recommond.getTitle())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("推荐理由标题不能为空");
 		}
 		if (StringUtils.isBlank(recommond.getDescription())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("推荐理由内容不能为空");
 		} else if (recommond.getDescription().length() > 300) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("推荐理由不能超过300个字");
 		}
 		if (recommond.getUserId() <= 0) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效线路推荐人");
 		}
 		if (StringUtils.isBlank(recommond.getName())) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路推荐人名称不能为空");
 		}
 		return CheckResult.success();
@@ -198,7 +200,7 @@ public class LineChecker {
 	public static CheckResult checkBaseInfoForUpdate(BaseInfo baseInfo) {
 		String temp = "线路基本信息验证失败: {}";
 		if (baseInfo.getId() <= 0) {
-			log.error(temp, JSON.toJSONString(baseInfo));
+			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效线路ID");
 		}
 		return checkBaseInfoForSave(baseInfo);
@@ -208,11 +210,22 @@ public class LineChecker {
 		String temp = "线路价格信息验证失败: {}";
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
-			log.error(temp, JSON.toJSONString(priceInfo));
+			log.warn(temp, JSON.toJSONString(priceInfo));
 			return CheckResult.error("线路套餐不能为空");
 		} else if (tcs.size() > 10) {
-			log.error(temp, JSON.toJSONString(priceInfo));
+			log.warn(temp, JSON.toJSONString(priceInfo));
 			return CheckResult.error("线路套餐不能超过10个");
+		} else {
+			Set<String> tcSet = new HashSet<String>();
+			for (PackageInfo tc : tcs) {
+				String name = tc.getName();
+				if (!tcSet.contains(name)) {
+					tcSet.add(name);
+				} else {
+					log.warn(temp, JSON.toJSONString(priceInfo));
+					return CheckResult.error("线路套餐名称不能重复");
+				}
+			}
 		}
 		for (PackageInfo tc : tcs) {
 			CheckResult packageCheckResult = checkPackageInfoForSave(tc);
@@ -221,7 +234,7 @@ public class LineChecker {
 			}
 		}
 		if (priceInfo.getLimit() <= 0) {
-			log.error(temp, JSON.toJSONString(priceInfo));
+			log.warn(temp, JSON.toJSONString(priceInfo));
 			return CheckResult.error("无效提前报名天数");
 		}
 		return CheckResult.success();
@@ -231,14 +244,14 @@ public class LineChecker {
 		String temp = "线路套餐验证失败: {}";
 		List<PackageMonth> months = tc.getMonths();
 		if (StringUtils.isBlank(tc.getName())) {
-			log.error(temp, JSON.toJSONString(tc));
+			log.warn(temp, JSON.toJSONString(tc));
 			return CheckResult.error("线路套餐名称不能为空");
 		} else if (tc.getName().length() > 15) {
-			log.error(temp, JSON.toJSONString(tc));
+			log.warn(temp, JSON.toJSONString(tc));
 			return CheckResult.error("线路套餐名称不能超过15个字");
 		}
 		if (CollectionUtils.isEmpty(months)) {
-			log.error(temp, JSON.toJSONString(tc));
+			log.warn(temp, JSON.toJSONString(tc));
 			return CheckResult.error("套餐月份不能为空");
 		}
 		for (PackageMonth packageMonth : months) {
@@ -254,7 +267,7 @@ public class LineChecker {
 		String temp = "套餐月份验证失败: {}";
 		List<PackageDay> days = month.getDays();
 		if (CollectionUtils.isEmpty(days)) {
-			log.error(temp, JSON.toJSONString(month));
+			log.warn(temp, JSON.toJSONString(month));
 			return CheckResult.error("套餐日期项不能为空");
 		}
 		for (PackageDay packageDay : days) {
@@ -270,7 +283,7 @@ public class LineChecker {
 		String temp = "套餐日期项验证失败: {}";
 		List<PackageBlock> blocks = day.getBlocks();
 		if (CollectionUtils.isEmpty(blocks)) {
-			log.error(temp, JSON.toJSONString(day));
+			log.warn(temp, JSON.toJSONString(day));
 			return CheckResult.error("套餐sku不能为空");
 		}
 		for (PackageBlock packageBlock : blocks) {
@@ -285,19 +298,19 @@ public class LineChecker {
 	public static CheckResult checkPackageBlock(PackageBlock block) {
 		String temp = "套餐sku验证失败: {}";
 		if (block.getPrice() < 0) {
-			log.error(temp, JSON.toJSONString(block));
+			log.warn(temp, JSON.toJSONString(block));
 			return CheckResult.error("无效套餐sku价格");
 		}
 		if (block.getStock() < 0) {
-			log.error(temp, JSON.toJSONString(block));
+			log.warn(temp, JSON.toJSONString(block));
 			return CheckResult.error("无效套餐sku库存");
 		}
 		if (block.getDiscount() < 0) {
-			log.error(temp, JSON.toJSONString(block));
+			log.warn(temp, JSON.toJSONString(block));
 			return CheckResult.error("无效套餐sku会员优惠");
 		}
 		if (StringUtils.isBlank(block.getName())) {
-			log.error(temp, JSON.toJSONString(block));
+			log.warn(temp, JSON.toJSONString(block));
 			return CheckResult.error("套餐sku名称不能为空");
 		}
 		return PropertyChecker.checkProperty(block.getPId(), block.getPType(), block.getPTxt());
@@ -306,7 +319,7 @@ public class LineChecker {
 	public static CheckResult checkPriceInfoForUpdate(PriceInfo priceInfo) {
 		String temp = "线路价格信息验证失败: {}";
 		if (priceInfo.getItemId() <= 0) {
-			log.error(temp, JSON.toJSONString(priceInfo));
+			log.warn(temp, JSON.toJSONString(priceInfo));
 			return CheckResult.error("无效商品ID");
 		}
 		return checkPriceInfoForSave(priceInfo);
@@ -315,7 +328,7 @@ public class LineChecker {
 	public static CheckResult checkTripInfo(List<TripDay> tripInfo) {
 		String temp = "行程信息验证失败: {}";
 		if (CollectionUtils.isEmpty(tripInfo)) {
-			log.error(temp, JSON.toJSONString(tripInfo));
+			log.warn(temp, JSON.toJSONString(tripInfo));
 			return CheckResult.error("行程信息不能为空");
 		}
 		for (TripDay tripDay : tripInfo) {
