@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.palace.constant.ResponseStatus;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -78,7 +80,13 @@ public class UploadController extends BaseController {
 		if (fileName.lastIndexOf(".") != -1) {
 			suffix = fileName.substring(fileName.lastIndexOf("."));
 		}
-		String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
+		String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix);
+		if(StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)){
+			tfsName += suffix;
+		}else{
+			return new ResponseVo(ResponseStatus.ERROR.VALUE,"图片上传失败");
+		}
+
 		return new ResponseVo(tfsName);
 	}
 
@@ -103,10 +111,12 @@ public class UploadController extends BaseController {
 				suffix = fileName.substring(fileName.lastIndexOf("."));
 			}
 			String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
-			// 除去后缀截取十五个字符
-			if (fileName.split("\\.")[0].length() > 15) {
-				fileName = fileName.split("\\.")[0].substring(0, 15)
-						+ (fileName.split("\\.").length > 1 ? "." + fileName.split("\\.")[1] : "");
+			if(StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
+				// 除去后缀截取十五个字符
+				if (fileName.split("\\.")[0].length() > 15) {
+					fileName = fileName.split("\\.")[0].substring(0, 15)
+							+ (fileName.split("\\.").length > 1 ? "." + fileName.split("\\.")[1] : "");
+				}
 			}
 			map.put(fileName, tfsName);
 		}

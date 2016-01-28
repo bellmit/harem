@@ -8,7 +8,7 @@
                 <input type="text" class="form-control" name="itemTitle" value="$!itemRebateQuery.itemTitle">
             </div>
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary">查询</button>
+                <button type="submit" class="btn btn-primary" id="searchBtn" >查询</button>
             </div>
         </div>
 
@@ -76,9 +76,7 @@
                             icon: 1,
                             time: 1500
                         });
-                        setTimeout(function () {
-                            window.location.href = window.location.href;
-                        },1500);
+                        $("#searchBtn").click();
                     }else{
                         layer.msg('操作失败', {
                             icon: 2,
