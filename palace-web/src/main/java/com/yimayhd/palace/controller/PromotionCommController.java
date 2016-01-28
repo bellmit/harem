@@ -3,6 +3,7 @@ package com.yimayhd.palace.controller;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.query.PromotionListQuery;
 import com.yimayhd.palace.model.vo.PromotionVO;
 import com.yimayhd.palace.service.PromotionCommService;
@@ -106,9 +107,11 @@ public class PromotionCommController extends BaseController {
     @RequestMapping(value = "/publish/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo publish(@PathVariable("id") long id) throws Exception {
-//		long sellerId = sessionManager.getUserId();
-//		sellerId = B2CConstant.SELLERID;
-//        long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        try {
+            promotionCommService.publish(id);
+        }catch (Exception e){
+            return ResponseVo.error(e);
+        }
         return new ResponseVo();
     }
 
@@ -121,8 +124,11 @@ public class PromotionCommController extends BaseController {
     @RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo close(@PathVariable("id") long id) throws Exception {
-//		long sellerId = sessionManager.getUserId();
-//        long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        try {
+            promotionCommService.close(id);
+        }catch (Exception e){
+            return ResponseVo.error(e);
+        }
         return new ResponseVo();
     }
 

@@ -10,6 +10,7 @@ import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.query.PromotionPageQuery;
 import com.yimayhd.promotion.client.result.BasePageResult;
+import com.yimayhd.promotion.client.result.BaseResult;
 import com.yimayhd.promotion.client.service.PromotionPublishService;
 import com.yimayhd.promotion.client.service.PromotionQueryService;
 import org.apache.commons.lang.StringUtils;
@@ -65,18 +66,56 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     @Override
     public void modify(PromotionVO entity) throws Exception {
-        //BaseResult<PromotionDO> baseResult = promotionPublishServiceRef.updPromotion();
+        BaseResult<Boolean> baseResult = promotionPublishServiceRef.updPromotion(entity);
+        if(baseResult == null){
+            log.error("PromotionCommService.modify-promotionPublishService.updPromotion result is null and parame: " + entity);
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.modify-promotionPublishService.updPromotion error:" + entity);
+            throw new BaseException(baseResult.getResultMsg());
+        }
     }
 
     @Override
     public boolean add(PromotionVO entity) throws Exception {
-        //BaseResult<PromotionDO> baseResult = promotionPublishServiceRef.addPromotion();
-        return false;
+        BaseResult<PromotionDO> baseResult = promotionPublishServiceRef.addPromotion(entity);
+        if(baseResult == null){
+            log.error("PromotionCommService.add-promotionPublishService.addPromotion result is null and parame: " + entity);
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.add-promotionPublishService.addPromotion error:" + entity);
+            throw new BaseException(baseResult.getResultMsg());
+        }
+        return true;
     }
 
     @Override
     public PromotionVO getById(long id) throws Exception {
-        //BaseResult<PromotionDO> baseResult = promotionPublishServiceRef.
+        //BaseResult<PromotionDO> baseResult = promotionQueryServiceRef.get
         return null;
+    }
+
+    @Override
+    public void publish(long id) throws Exception {
+        BaseResult<Boolean> baseResult = promotionPublishServiceRef.publishPromotion(id);
+        if(baseResult == null){
+            log.error("PromotionCommService.publish-promotionPublishService.publishPromotion result is null and parame: " + id);
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.publish-promotionPublishService.publishPromotion error:" + id);
+            throw new BaseException(baseResult.getResultMsg());
+        }
+    }
+
+    @Override
+    public void close(long id) throws Exception {
+        BaseResult<Boolean> baseResult = promotionPublishServiceRef.closePromotion(id);
+        if(baseResult == null){
+            log.error("PromotionCommService.publish-promotionPublishService.closePromotion result is null and parame: " + id);
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.publish-promotionPublishService.closePromotion error:" + id);
+            throw new BaseException(baseResult.getResultMsg());
+        }
     }
 }

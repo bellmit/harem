@@ -44,4 +44,16 @@ public interface PromotionCommService {
      * @throws Exception
      */
     PromotionVO getById(long id) throws Exception;
+
+    /**
+     * 优惠上架
+     * @param id 优惠ID
+     */
+    void publish(long id)throws Exception;
+
+    /**
+     * 优惠下架
+     * @param id 优惠ID
+     */
+    void close(long id)throws Exception;
 }
