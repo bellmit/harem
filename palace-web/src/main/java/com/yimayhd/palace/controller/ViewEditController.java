@@ -85,7 +85,8 @@ public class ViewEditController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/testUploadImgOrUe", method = RequestMethod.GET)
-    public String toTestUploadImgOrUe() throws Exception {
+    public String toTestUploadImgOrUe(Model model) throws Exception {
+        model.addAttribute("html","<script>hello张三");
         return "/demo/testUploadImgOrUe";
     }
 

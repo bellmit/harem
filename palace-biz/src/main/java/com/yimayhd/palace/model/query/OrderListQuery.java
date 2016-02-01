@@ -15,6 +15,7 @@ public class OrderListQuery extends BaseQuery {
 	private String beginDate;
 	private String endDate;
 	private int [] orderTypes;//订单类型
+	private Integer domain; //1000--b2c、1100--gf;
 
 
 	public String getOrderNO() {
@@ -79,5 +80,13 @@ public class OrderListQuery extends BaseQuery {
 
 	public void setOrderTypes(int[] orderTypes) {
 		this.orderTypes = orderTypes;
+	}
+
+	public Integer getDomain() {
+		return domain;
+	}
+
+	public void setDomain(Integer domain) {
+		this.domain = domain;
 	}
 }

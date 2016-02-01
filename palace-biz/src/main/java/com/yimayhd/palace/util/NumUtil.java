@@ -37,4 +37,13 @@ public class NumUtil {
         return Double.parseDouble(decimalFormat.format(dn / 100));
     }
 
+    /**
+     * 金额转换（元转分）
+     * @param d
+     * @return
+     */
+    public static long round(double d){
+       return Math.round(d * 100);
+    }
+
 }

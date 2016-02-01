@@ -22,21 +22,21 @@
                         <select class="form-control" name="tagId">
                             <option value="0">请选择标签</option>
                             #foreach($comTag in $comTagList)
-                                <option #if($comTag.id == $!live.tagId) selected #end value="$comTag.id">$comTag.name</option>
+                                <option #if($comTag.id == $!live.tagId) selected #end value="$comTag.id">$!esc.html($!comTag.name)</option>
                             #end
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>直播地点</td>
-                    <td> <input type="text" class="inpCtlBlock snsPOIDetail" name="snsPOI.detail"  value="$!live.snsPOI.detail"></td>
+                    <td> <input type="text" class="inpCtlBlock snsPOIDetail" name="snsPOI.detail"  value="$!esc.html($!live.snsPOI.detail)"></td>
                 </tr>
                 <tr>
                     <td>作者信息：</td>
                     <td>
                         <button type="button" class="btn btn-info selectUser">选择用户</button>
                         <img src="#if($!live.userDO.avatar)$utilWebconfig.getTfsRootPath()$!live.userDO.avatar#end" alt="头像" class="img-circle grogUserLogo" id="userImg">
-                        <span id="userName">$!live.userDO.nickName</span>
+                        <span id="userName">$!esc.html($!live.userDO.nickname)</span>
                         <input type="hidden" id="userId" name="userId" value="$!live.userDO.id" >
                     </td>
                 </tr>

@@ -53,7 +53,7 @@ $(function () {
         //开始发送数据
 
         $.post(actionDefaultPath + '/login',{ username: strTxtName, password: strTxtPass ,verifyCode: strTxtVerify},function(data){
-            if (data && data.status == 0) {//注意是True,不是true
+            if (data && data.status == 200) {//注意是True,不是true
                 if(top.$(".navbar").length == 0){
                     location.href = actionDefaultPath + '/main';
                 }else{

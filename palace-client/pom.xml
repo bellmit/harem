@@ -158,7 +158,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
-        
+
     </dependencies>
     <build>
         <finalName>palace-client</finalName>

@@ -2,29 +2,20 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 
-
-
-<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!voucherDO.id">
+<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!promotionVO.id">
 <div class="tab-content grogInfoWrap"  style="">
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
             <table>
                 <tr>
-                    <td width="120"><span class="spColor">*</span>券标题：</td>
-                    <td> <input type="text" name="title" class="title" value="$!voucherDO.title"></td>
+                    <td width="120"><span class="spColor">*</span>店铺优惠名称：</td>
+                    <td> <input type="text" name="title" class="title" value="$!promotionVO.title"></td>
                 </tr>
 
                 <tr>
-                    <td align="left" width="10%"><span class="spColor">*</span>券类型：</td>
-                    <td align="left" width="10%">
-                            <select class="voucherType" name="voucherType">
-                                <option value="1" #if($!voucherDO.voucherType == 1) selected #end>满减券</option>
-##                                <option value="2" #if($!voucherDO.voucherType == 2) selected #end >满折券</option>
-##                                <option value="3" #if($!voucherDO.voucherType == 3) selected #end >兑换券</option>
-                            </select>
-                    </td>
-                    <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
-                        <span class="spColor">*</span>减 <input type="text" name="value" class="value" value="$!{voucherDO.value}"> 元
+                    <td align="left" width="10%"><span class="spColor">*</span>优惠设置：</td>
+                    <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement" class="requirement" value="$!{promotionVO.requirement}">
+                        <span class="spColor">*</span>减 <input type="text" name="value" class="value" value="$!{promotionVO.value}"> 元
                     </td>
                 </tr>
                 <tr>
@@ -33,33 +24,11 @@
     </td>
     <td width="15%">
         <div class="input-group">
-            <input type="text" class='form-control form-date dateInp startTime' placeholder='' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd")">
+            <input type="text" class='form-control form-date dateInp startTime' placeholder='' readonly name="startTime" value="$!utilDate.dateToString($!{promotionVO.startTime},"yyyy-MM-dd")">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-            <input type="text" class='form-control form-date dateInp endTime' placeholder='' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd")">
+            <input type="text" class='form-control form-date dateInp endTime' placeholder='' readonly name="endTime" value="$!utilDate.dateToString($!{promotionVO.endTime},"yyyy-MM-dd")">
         </div>
     </td>
-
-
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>发放数量：限量</td>
-                    <td>
-                        <input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}"> 张
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>领取限制：可领</td>
-                    <td>
-                        <input type="text" name="voucherCount" class="voucherCount" value="$!{voucherDO.voucherCount}"> 张
-                    </td>
-                </tr>
-                <tr>
-                    <td>已发放券数量</td>
-                    <td>
-                        $!{voucherDO.sendNum}
-                    </td>
-                </tr>
-
             </table>
         </div>
     </div>
@@ -137,9 +106,9 @@
             var actionUrl = "";
             var recommendedId = $('#hotelForm').attr('recommendedId');
             if(recommendedId){
-               actionUrl = actionDefaultPath + '/GF/voucherManage/edit/'+recommendedId;
+               actionUrl = actionDefaultPath + '/GF/promotionShopManage/edit/'+recommendedId;
             }else{
-               actionUrl = actionDefaultPath + '/GF/voucherManage/add';
+               actionUrl = actionDefaultPath + '/GF/promotionShopManage/add';
             }
             $('#hotelForm').attr('action',actionUrl);
             $('#hotelForm').submit();

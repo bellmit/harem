@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>palace</artifactId>
@@ -19,7 +19,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<palace.version>1.0.0-SNAPSHOT</palace.version>
-		<itemcenter.client.version>1.0.3-SNAPSHOT</itemcenter.client.version>
+		<itemcenter.client.version>1.0.4-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.5.3-SNAPSHOT</session.manager.version>
 		<user.client.version>1.5.4-SNAPSHOT</user.client.version>
@@ -37,6 +37,7 @@
 		<commission.version>1.0-SNAPSHOT</commission.version>
 		<voucher.client.version>0.0.6-SNAPSHOT</voucher.client.version>
 		<spread_version>1.0.0-SNAPSHOT</spread_version>
+		<promotion.client.version>1.0.0-SNAPSHOT</promotion.client.version>
 		<tair.version>2.3.4.3</tair.version>
 	</properties>
 	<dependencyManagement>
@@ -408,7 +409,7 @@
 						<artifactId>tair-client</artifactId>
 						<groupId>com.taobao.tair</groupId>
 					</exclusion>
-					
+
 				</exclusions>
 			</dependency>
 
@@ -621,7 +622,29 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-
+			<dependency>
+				<groupId>com.yimayhd.promotion</groupId>
+				<artifactId>promotion-client</artifactId>
+				<version>${promotion.client.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-log4j12</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
