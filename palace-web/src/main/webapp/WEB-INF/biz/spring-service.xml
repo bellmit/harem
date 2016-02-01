@@ -58,4 +58,8 @@
 	<bean class="com.yimayhd.palace.service.impl.VoucherTemplateServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionCommServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionShopServiceImpl"></bean>
+
+
+	<!--GF商品-->
+	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
 </beans>
