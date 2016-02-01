@@ -291,7 +291,7 @@ public class OrderManageController extends BaseController {
 	 * @author create by yushengwei @ 2016年2月26日
 	 * @throws
 	 */
-	@RequestMapping(value = "/gfOrderList", method = RequestMethod.GET)
+	@RequestMapping(value = "/gfOrderList")//, method = RequestMethod.GET
 	public String gfOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
 		orderListQuery.setDomain(1100);//TODO:enum类
 		//int [] orderBizTypes = {OrderBizType.HOTEL.getBizType()};
@@ -301,6 +301,21 @@ public class OrderManageController extends BaseController {
 		model.addAttribute("orderList", pageVo.getItemList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/gfOrderList";
+	}
+
+	/**
+	 * @Title: gfOrderDetailById
+	 * @Description:(根据ID获取GF订单详情)
+	 * @author create by yushengwei @ 2016年2月26日
+	 * @throws
+	 */
+	@RequestMapping(value = "/gfOrder/{id}", method = RequestMethod.GET)
+	public String gfOrderDetailById(Model model, @PathVariable(value = "id") long id) throws Exception {
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		if (orderDetails!=null){
+			model.addAttribute("order", orderDetails);
+		}
+		return "/system/order/gfOrderInfo";
 	}
 
 
