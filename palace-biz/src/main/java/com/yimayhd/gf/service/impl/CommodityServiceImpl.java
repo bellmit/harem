@@ -15,6 +15,7 @@ import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.B2CConstant;
@@ -130,10 +131,15 @@ public class CommodityServiceImpl implements CommodityService {
 
         }
 
+
         itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
         itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
         //商品的排序字段
         itemResultVO.getItemVO().setSort(itemResult.getSortNum());
+        //pc版详情H5
+        if(StringUtils.isNotBlank(itemResult.getItem().getPicUrls(ItemPicUrlsKey.PC_DETAIL_H5))){
+            itemResultVO.getItemVO().setPcDetail(tfsService.readHtml5(itemResult.getItem().getPicUrls(ItemPicUrlsKey.PC_DETAIL_H5)));
+        }
         return itemResultVO;
     }
 
@@ -227,22 +233,23 @@ public class CommodityServiceImpl implements CommodityService {
         if(StringUtils.isNotBlank(itemVO.getBigListPic())){
             itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, itemVO.getBigListPic());
         }
-        if(StringUtils.isNotBlank(itemVO.getCoverPics())){
-            itemDO.addPicUrls(ItemPicUrlsKey.PC_DETAIL_H5, itemVO.getPcDetail());
-            itemDO.addPicUrls(ItemPicUrlsKey.DETAIL_H5, itemVO.getCoverPics());
+        //pc详细描述tfs（富文本编辑）
+        if(StringUtils.isNotBlank(itemVO.getPcDetail())){
+            String pcDetailTfs = tfsService.publishHtml5(itemVO.getPcDetail());
+            itemDO.addPicUrls(ItemPicUrlsKey.PC_DETAIL_H5, pcDetailTfs);
+
+        }
+        //详细描述存tfs（富文本编辑）
+        if(StringUtils.isNotBlank(itemDO.getDetailUrl())){
+            String detailUrlTfs = tfsService.publishHtml5(itemDO.getDetailUrl());
+            itemDO.setDetailUrl(detailUrlTfs);
+            itemDO.addPicUrls(ItemPicUrlsKey.DETAIL_H5, detailUrlTfs);
         }
         itemDO.setPicUrlsString(itemDO.getPicUrlsString());
-        //评分（暂时普通商品用）
-        if(null != itemVO.getGrade()){
-            itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
-        }
         //减库存方式
         itemFeature.put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
         itemDO.setDomain(B2CConstant.GF_DOMAIN);
-        //详细描述存tfs（富文本编辑）
-        if(StringUtils.isNotBlank(itemDO.getDetailUrl())){
-            itemDO.setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
-        }
+
         commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 
@@ -280,12 +287,6 @@ public class CommodityServiceImpl implements CommodityService {
             ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
             //商品名称
             itemDB.setTitle(itemVO.getTitle());
-            //SubTitle
-            itemDB.setSubTitle(itemVO.getSubTitle());
-            //商品OneWord
-            itemDB.setOneWord(itemVO.getOneWord());
-            //商品Description
-            itemDB.setDescription(itemVO.getDescription());
             //价格
             itemDB.setPrice((long) (itemVO.getPriceY() * 100));
             //商品库存
@@ -297,31 +298,22 @@ public class CommodityServiceImpl implements CommodityService {
             if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
                 itemDB.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
             }
-            if(StringUtils.isNotBlank(itemVO.getCoverPics())){
-                itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
-
-            }
             //自定义属性
             itemDB.setItemPropertyList(itemVO.getItemPropertyList());
-            //TODO 排序
+
+            //pc详细描述tfs（富文本编辑）
+            if(StringUtils.isNotBlank(itemVO.getPcDetail())){
+                String pcDetailTfs = tfsService.publishHtml5(itemVO.getPcDetail());
+                itemDB.addPicUrls(ItemPicUrlsKey.PC_DETAIL_H5, pcDetailTfs);
+            }
             //详细描述存tfs（富文本编辑）
-            if(StringUtils.isNotBlank(itemVO.getDetailUrl())) {
-                commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemVO.getDetailUrl()));
+            if(StringUtils.isNotBlank(itemVO.getDetailUrl())){
+                String detailUrlTfs = tfsService.publishHtml5(itemVO.getDetailUrl());
+                itemDB.setDetailUrl(detailUrlTfs);
+                itemDB.addPicUrls(ItemPicUrlsKey.DETAIL_H5, detailUrlTfs);
             }
             //减库存方式
             itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
-            //评分
-            if(null != itemVO.getGrade()){
-                ItemFeature itemFeature = null;
-                if (null != itemDB.getItemFeature()) {
-                    itemFeature = itemDB.getItemFeature();
-                    itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
-                } else {
-                    itemFeature = new ItemFeature(null);
-                    itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
-                    itemDB.setItemFeature(itemFeature);
-                }
-            }
 
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
             if(null == itemPubResult){

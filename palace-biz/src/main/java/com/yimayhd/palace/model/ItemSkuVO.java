@@ -1,5 +1,7 @@
 package com.yimayhd.palace.model;
 
+import com.yimayhd.ic.client.model.domain.item.ItemSkuFeature;
+import com.yimayhd.ic.client.model.enums.ItemSkuFeatureKey;
 import com.yimayhd.palace.model.enums.ItemSkuStatus;
 import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
@@ -18,6 +20,9 @@ public class ItemSkuVO extends ItemSkuDO {
     
     private boolean checked = false;//此条sku是否已展示
     private boolean modifyStatus = false;//是否修改过
+
+    private String mainPic;//sku主图
+    private String pcMainPic;//PC版sku主图
     
     public static ItemSkuDO getItemSkuDO(ItemVO itemVO,ItemSkuVO itemSkuVO){
         ItemSkuDO itemSkuDO = new ItemSkuDO();
@@ -37,7 +42,17 @@ public class ItemSkuVO extends ItemSkuDO {
         itemSkuDO.setCategoryId(itemVO.getCategoryId());
         //元转分
         itemSkuDO.setPrice((long) (itemSkuVO.getPriceY() * 100));
-
+        //sku主图和PC版sku主图
+        ItemSkuFeature itemSkuFeature = itemSkuDO.getItemSkuFeature();
+        if(itemSkuFeature == null){
+            itemSkuFeature = new ItemSkuFeature(null);
+            itemSkuDO.setItemSkuFeature(itemSkuFeature);
+        }
+        if(StringUtils.isNotBlank(itemSkuVO.getMainPic())){
+            //TODO 暂时用一个
+            itemSkuFeature.put(ItemSkuFeatureKey.MAIN_PIC,itemSkuVO.getMainPic());
+            itemSkuFeature.put(ItemSkuFeatureKey.PC_MAIN_PIC,itemSkuVO.getMainPic());
+        }
 
         return itemSkuDO;
     }
@@ -49,9 +64,12 @@ public class ItemSkuVO extends ItemSkuDO {
      */
     public static ItemSkuVO getItemSkuVO(ItemSkuDO itemSkuDO){
         ItemSkuVO itemSkuVO = new ItemSkuVO();
-        BeanUtils.copyProperties(itemSkuDO,itemSkuVO);
+        BeanUtils.copyProperties(itemSkuDO, itemSkuVO);
         //分转元
         itemSkuVO.setPriceY(NumUtil.moneyTransformDouble(itemSkuVO.getPrice()));
+        //sku主图和PC版sku主图
+        itemSkuVO.setMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
+        itemSkuVO.setPcMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
         return itemSkuVO;
     }
 
@@ -88,6 +106,23 @@ public class ItemSkuVO extends ItemSkuDO {
     public void setModifyStatus(boolean modifyStatus) {
         this.modifyStatus = modifyStatus;
     }
+
+    public String getMainPic() {
+        return mainPic;
+    }
+
+    public void setMainPic(String mainPic) {
+        this.mainPic = mainPic;
+    }
+
+    public String getPcMainPic() {
+        return pcMainPic;
+    }
+
+    public void setPcMainPic(String pcMainPic) {
+        this.pcMainPic = pcMainPic;
+    }
+
     public static class ItemSkuVOSort implements Comparator<ItemSkuVO>{
         public int compare(ItemSkuVO o1, ItemSkuVO o2) {
             for (ItemSkuPVPair itemSkuPVPair1 : o1.getItemSkuPVPairList()){

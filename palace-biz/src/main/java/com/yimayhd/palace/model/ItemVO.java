@@ -19,7 +19,7 @@ import com.yimayhd.ic.client.model.enums.ReduceType;
 import java.util.*;
 
 /**
- * Created by Administrator on 2015/12/17.
+ * Created by czf on 2015/12/17.
  */
 public class ItemVO extends ItemDO {
 
@@ -203,6 +203,7 @@ public class ItemVO extends ItemDO {
             itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
             //最晚到店时间列表(暂时只有酒店用)
             itemVO.setOpenTimeList(itemVO.getItemFeature().getLatestArriveTime());
+
         }
         //picUrls转对应的list
         if(StringUtils.isNotBlank(itemVO.getPicUrlsString())){
