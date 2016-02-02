@@ -128,7 +128,12 @@
                         </tr>
                         <tr>
                             <td>客服电话</td>
-                            <td><input type="text" class="form-control serviceTel" placeholder="请输入客服电话" name="serviceTel" value="$!activity.serviceTel"></td>
+                            #if($!activity.id)
+                                #set($serviceTel=$!activity.serviceTel)
+                            #else
+                                #set($serviceTel=4000696888)
+                            #end
+                            <td><input type="text" class="form-control serviceTel" placeholder="请输入客服电话" name="serviceTel" value="$!serviceTel"></td>
                         </tr>
                         <tr>
                             <td><span class="spColor">*</span>活动宣传图(APP)：</td>
