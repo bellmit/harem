@@ -1,6 +1,5 @@
 package com.yimayhd.gf.service;
 
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ItemResultVO;
 import com.yimayhd.palace.model.ItemVO;

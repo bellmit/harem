@@ -45,6 +45,7 @@ public class ItemVO extends ItemDO {
     private String bigListPic;//扁长大列表图，主要用于伴手礼等商品列表
     private String coverPics;//封面大图String
     private List<String> picList;//封面大图List
+    private String pcDetail;//pc版详情H5
 
     private Integer reduceType = ReduceType.NONE.getBizType();//减库存方式
 
@@ -449,6 +450,12 @@ public class ItemVO extends ItemDO {
 	public void setStartBookTimeHours(Long startBookTimeHours) {
 		this.startBookTimeHours = startBookTimeHours;
 	}
-    
-    
+
+    public String getPcDetail() {
+        return pcDetail;
+    }
+
+    public void setPcDetail(String pcDetail) {
+        this.pcDetail = pcDetail;
+    }
 }

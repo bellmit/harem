@@ -32,11 +32,14 @@ import java.util.List;
 public class GFCommodityManageController extends BaseController {
 
 	@Autowired
-	private CommodityService commodityService;
+	private CommodityService gfCommodityService;
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
 	private SessionManager sessionManager;
+
+	@Autowired
+	private com.yimayhd.palace.service.CommodityService commodityService;
 
 	/**
 	 * 商品列表
@@ -46,7 +49,7 @@ public class GFCommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
-		PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
+		PageVO<ItemVO> pageVO = gfCommodityService.getList(commodityListQuery);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("itemTypeList", itemTypeList);
@@ -83,14 +86,14 @@ public class GFCommodityManageController extends BaseController {
 	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId) throws Exception {
 
 		//TODO
-		ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
+		ItemResultVO itemResultVO = gfCommodityService.getCommodityById(itemId);
 		//库存选项
 		List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
 		model.addAttribute("reduceTypeList", reduceTypeList);
 		model.addAttribute("itemResult", itemResultVO);
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("category", itemResultVO.getCategoryVO());
-		return "/system/comm/common/edit";
+		return "/system/comm/gf/edit";
 	}
 
 	/**
@@ -114,10 +117,9 @@ public class GFCommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
 	public String addCommon(ItemVO itemVO) throws Exception {
-		long sellerId = sessionManager.getUserId();
-		sellerId = B2CConstant.GF_OFFICIAL_ID;
+		long sellerId = B2CConstant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
-		commodityService.addCommonItem(itemVO);
+		gfCommodityService.addCommonItem(itemVO);
 		return "/success";
 	}
 
@@ -134,7 +136,7 @@ public class GFCommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.GET)
 	public String toEditCommon(Model model, @PathVariable(value = "id") long itemId, int itemType) throws Exception {
-		ItemResult itemResult = commodityService.getCommodityById(itemId);
+		ItemResult itemResult = gfCommodityService.getCommodityById(itemId);
 		model.addAttribute("category", itemResult.getCategory());
 		model.addAttribute("commodity", itemResult.getItem());
 		model.addAttribute("itemSkuList", itemResult.getItemSkuDOList());
@@ -155,7 +157,7 @@ public class GFCommodityManageController extends BaseController {
 		itemVO.setId(itemId);
 		long sellerId = B2CConstant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
-		commodityService.modifyCommonItem(itemVO);
+		gfCommodityService.modifyCommonItem(itemVO);
 		return "/success";
 	}
 

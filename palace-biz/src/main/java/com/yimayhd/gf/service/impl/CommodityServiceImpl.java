@@ -4,11 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.gf.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.*;
-import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
@@ -21,6 +21,7 @@ import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.exception.NoticeException;
 import com.yimayhd.palace.model.CategoryVO;
 import com.yimayhd.palace.model.ItemResultVO;
+import com.yimayhd.palace.model.ItemSkuVO;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
 import com.yimayhd.palace.service.TfsService;
@@ -29,6 +30,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -196,7 +198,46 @@ public class CommodityServiceImpl implements CommodityService {
     public void addCommonItem(ItemVO itemVO) throws Exception {
         //参数类型匹配
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
-        ItemDO itemDO = ItemVO.getItemDO(itemVO);
+        ItemDO itemDO = new ItemDO();
+        BeanUtils.copyProperties(itemVO, itemDO);
+        //元转分
+        itemDO.setPrice((long) (itemVO.getPriceY() * 100));
+
+        //新增的时候设置skuDOList
+        if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+            List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
+            for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                if(itemSkuVO.isChecked()) {
+                    itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                }
+            }
+            itemDO.setItemSkuDOList(itemSkuDOList);
+        }
+
+        ItemFeature itemFeature = itemDO.getItemFeature();;
+        if (itemDO.getItemFeature() == null) {
+            itemFeature = new ItemFeature(null);
+            itemDO.setItemFeature(itemFeature);
+        }
+
+        //picUrls转换
+        if(StringUtils.isNotBlank(itemVO.getSmallListPic())){
+            itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
+        }
+        if(StringUtils.isNotBlank(itemVO.getBigListPic())){
+            itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, itemVO.getBigListPic());
+        }
+        if(StringUtils.isNotBlank(itemVO.getCoverPics())){
+            itemDO.addPicUrls(ItemPicUrlsKey.PC_DETAIL_H5, itemVO.getPcDetail());
+            itemDO.addPicUrls(ItemPicUrlsKey.DETAIL_H5, itemVO.getCoverPics());
+        }
+        itemDO.setPicUrlsString(itemDO.getPicUrlsString());
+        //评分（暂时普通商品用）
+        if(null != itemVO.getGrade()){
+            itemFeature.put(ItemFeatureKey.GRADE, itemVO.getGrade());
+        }
+        //减库存方式
+        itemFeature.put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
         itemDO.setDomain(B2CConstant.GF_DOMAIN);
         //详细描述存tfs（富文本编辑）
         if(StringUtils.isNotBlank(itemDO.getDetailUrl())){
