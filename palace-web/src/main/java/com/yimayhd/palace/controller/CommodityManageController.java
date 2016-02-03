@@ -89,6 +89,8 @@ public class CommodityManageController extends BaseController {
 			redirectUrl = "/B2C/comm/selfServiceTravel/create?categoryId=" + categoryId;
 		} else if (itemType == ItemType.ACTIVITY.getValue()) {
 			redirectUrl = "/B2C/comm/activityManage/toAdd?categoryId=" + categoryId;
+		} else if (itemType == ItemType.GF.getValue()) {
+			redirectUrl = "/GF/commodityManage/toAdd?categoryId=" + categoryId;
 		} else {
 			// 普通商品，伴手礼应该也走普通商品
 			//库存选项

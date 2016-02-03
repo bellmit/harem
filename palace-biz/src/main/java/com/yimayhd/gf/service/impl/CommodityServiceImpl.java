@@ -9,13 +9,9 @@ import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.*;
-import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
-import com.yimayhd.ic.client.model.result.item.ItemPageResult;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.model.result.item.*;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
-import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.B2CConstant;
@@ -325,5 +321,31 @@ public class CommodityServiceImpl implements CommodityService {
             }
 
         }
+    }
+
+    @Override
+    public List<ItemSkuVO> getSkuListByItemId(Long itemId) throws Exception {
+        ItemOptionDTO options = new ItemOptionDTO();
+        options.setNeedSku(true);
+        SingleItemQueryResult singleItemQueryResult = itemQueryServiceRef.querySingleItem(itemId, options);
+        if(null == singleItemQueryResult){
+            log.error("itemQueryServiceRef.querySingleItem result is null and itemId:" + itemId + " and options:" + JSON.toJSONString(options));
+            throw new BaseException("返回结果错误,修改失败");
+        } else if(!singleItemQueryResult.isSuccess()){
+            log.error("itemQueryServiceRef.querySingleItem error:" + JSON.toJSONString(singleItemQueryResult) + "and itemId:" + itemId + " and options:" + JSON.toJSONString(options));
+            throw new BaseException(singleItemQueryResult.getResultMsg());
+        }
+        if(singleItemQueryResult.getItemDO() != null){
+            List<ItemSkuDO> skuDOList = singleItemQueryResult.getItemDO().getItemSkuDOList();
+            if(CollectionUtils.isNotEmpty(skuDOList)){
+                List<ItemSkuVO> itemSkuVOList = new ArrayList<ItemSkuVO>();
+                for(ItemSkuDO itemSkuDO : skuDOList){
+                    ItemSkuVO itemSkuVO = ItemSkuVO.getItemSkuVO(itemSkuDO);
+                    itemSkuVOList.add(itemSkuVO);
+                }
+                return itemSkuVOList;
+            }
+        }
+        return null;
     }
 }

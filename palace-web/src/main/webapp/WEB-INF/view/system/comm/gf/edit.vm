@@ -12,7 +12,7 @@
     <form name="commodityForm" id="commodityForm" action="" method="post" commodityId="$!commodity.id">
         <ul id="myTab" class="nav nav-tabs">
             <li class="active">
-                <a href="#tab1" data-toggle="tab">活动基础信息</a>
+                <a href="#tab1" data-toggle="tab">基础信息</a>
             </li>
             <li class="">
                 <a href="#tab2" data-toggle="tab">app详情</a>
@@ -72,14 +72,15 @@
                             <input class="stockNum" type="text" name="stockNum" value="$!commodity.stockNum">
                         </td>
                     </tr>
-                    <tr>
+                    <input type="hidden" name="reduceType" value="1">
+                    #*<tr>
                         <td><span class="spColor">*</span>减库存方式</td>
                         <td>
                             #foreach($reduceType in $reduceTypeList)
                                 <label class='radio-inline'> <input class="reduceType" type="radio" name="reduceType" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end #if(!$!commodity.reduceType && $!reduceType.bizType == $!reduceTypeList.get(0).bizType)checked#end>$!reduceType.des</label>
                             #end
                         </td>
-                    </tr>
+                    </tr>*#
 
                     <tr>
                         <td><span class="spColor">*</span>宣传图</td>
@@ -224,6 +225,7 @@
 
                             <th><span>价格</span></th>
                             <th><span>数量</span></th>
+                            <th><span>图片</span></th>
                         </thead>
                         #foreach($itemSkuVO in $commodity.itemSkuVOList)
                             #set($index = $velocityCount - 1)
@@ -237,6 +239,12 @@
                                 #end
                                 <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
                                 <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
+                                <td>
+                                    <label>选择图片</label>
+                                    <input class="uploadMainPicFile" type="file">
+                                    <img class="mainPicImg uploadImgFile" src="#if($!itemSkuVO.mainPic)$utilWebconfig.getTfsRootPath()$!itemSkuVO.mainPic #end">
+                                    <input class="mainPic" type="hidden" value="$!itemSkuVO.mainPic">
+                                </td>
                             </tr>
                         #end
                     </table>
@@ -276,7 +284,7 @@
                 #end
         </div>
             </div>
-            <div class="tab-pane active" id="tab2">
+            <div class="tab-pane" id="tab2">
                 <script type="text/javascript">
                     $(function() {
                         window.UEDITOR_HOME_URL = "${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/";
@@ -285,7 +293,7 @@
                 </script>
                 <script id="editor" type="text/plain" name="detailUrl" style="width: 100%; height:350px">$!commodity.detailUrl</script>
             </div>
-            <div class="tab-pane active" id="tab3">
+            <div class="tab-pane" id="tab3">
                 <script type="text/javascript">
                     $(function() {
                         window.UEDITOR_HOME_URL = "${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/";
@@ -483,6 +491,7 @@
         }
         titleTrBody += '<th><span>价格</span></th>';
         titleTrBody += '<th><span>数量</span></th>'
+        titleTrBody += '<th><span>图片</span></th>'
         titleTrBody += '</thead>';
         titleTrBody += '</tr>';
         var trBody = '';
@@ -496,6 +505,18 @@
             }
             trBody += '<td><input class="price" type="text" value="' + skuPropertyShowAll[i]['priceY'] + '"></td>';
             trBody += '<td><input class="stock" type="text" value="' + skuPropertyShowAll[i]['stockNum'] + '"></td>';
+            var imgUrl = '';
+            var imgVal = '';
+            if(skuPropertyShowAll[i]['mainPic']){
+                imgUrl = tfsRootPath + skuPropertyShowAll[i]['mainPic'];
+                imgVal = skuPropertyShowAll[i]['mainPic'];
+            }
+            trBody += '<td>'
+                    + '<label>选择图片</label>'
+                    + '<input class="uploadMainPicFile" type="file">'
+                    + '<img class="mainPicImg uploadImgFile" src="' + imgUrl + '">'
+                    + '<input class="mainPic" type="hidden" value="' + imgVal + '">'
+                    + '</td>';
             trBody += '</tr>';
         }
         var talbeEnd = '</table>';
@@ -516,6 +537,30 @@
         /****************批量上传pic_urls*****************/
         $(document).delegate("#batchUploadBtn",'change',function(){
             fileUpload('#batchUploadBtn',2,batchCallBack);
+        })
+
+        //上传图片sku mainPic
+        $(document).delegate(".uploadMainPicFile",'change',function(){
+            var that = $(this);
+            var index = $(this).parents('.skuTbEdit').index();
+            uploadSenedFile($(this)[0].files,1,function(data){
+                if(data && data.status == 200){
+                    $(that).parent().find('.mainPic').val(data.data);
+                    $(that).parent().find('.mainPicImg').attr('src',tfsRootPath + data.data);
+                    var i = 0;
+                    for(var j = 0; j < skuPropertyAll.length;j++){
+                        if(skuPropertyAll[j]['checked']){
+                            i += 1;
+                            if(i == index + 1){
+                                skuPropertyAll[j]['mainPic'] = data.data;
+                                skuPropertyAll[j]['modifyStatus'] = true;
+                            }
+                        }
+                    }
+                }else{
+                    layer.msg('图片上传失败，请重试', {icon: 2});
+                }
+            });
         })
         $(document).delegate(".stock",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();

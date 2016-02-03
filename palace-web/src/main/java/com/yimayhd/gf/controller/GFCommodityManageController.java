@@ -11,6 +11,7 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.CategoryVO;
 import com.yimayhd.palace.model.ItemResultVO;
+import com.yimayhd.palace.model.ItemSkuVO;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
 import com.yimayhd.palace.service.CategoryService;
@@ -20,9 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by czf on 2015/11/24.
@@ -56,6 +55,33 @@ public class GFCommodityManageController extends BaseController {
 		model.addAttribute("commodityList", pageVO.getItemList());
 		model.addAttribute("commodityListQuery", commodityListQuery);
 		return "/system/comm/gf/list";
+	}
+	/**
+	 * 商品列表
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/selectList", method = RequestMethod.GET)
+	public ResponseVo listAjax(CommodityListQuery commodityListQuery) throws Exception {
+		PageVO<ItemVO> pageVO = gfCommodityService.getList(commodityListQuery);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("pageVO", pageVO);
+		map.put("commodityListQuery", commodityListQuery);
+		return new ResponseVo(map);
+	}
+	/**
+	 * 商品列表
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/skuList/{itemId}", method = RequestMethod.GET)
+	public ResponseVo getSkuListAjax(@PathVariable("itemId") long itemId) throws Exception {
+		List<ItemSkuVO> itemSkuVOList = gfCommodityService.getSkuListByItemId(itemId);
+		return new ResponseVo(itemSkuVOList);
 	}
 
 	/**

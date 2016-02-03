@@ -265,6 +265,8 @@ public class ItemVO extends ItemDO {
                         itemSkuVOListAll.get(j).setStockNum(itemSkuVOList.get(i).getStockNum());
                         itemSkuVOListAll.get(j).setPriceY(itemSkuVOList.get(i).getPriceY());
                         itemSkuVOListAll.get(j).setVersion(itemSkuVOList.get(i).getVersion());
+                        //GF用
+                        itemSkuVOListAll.get(j).setMainPic(itemSkuVOList.get(i).getMainPic());
                         break;
                     }
 

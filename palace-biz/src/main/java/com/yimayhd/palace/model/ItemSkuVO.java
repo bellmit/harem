@@ -68,8 +68,10 @@ public class ItemSkuVO extends ItemSkuDO {
         //分转元
         itemSkuVO.setPriceY(NumUtil.moneyTransformDouble(itemSkuVO.getPrice()));
         //sku主图和PC版sku主图
-        itemSkuVO.setMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
-        itemSkuVO.setPcMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
+        if(itemSkuDO.getItemSkuFeature() != null) {
+            itemSkuVO.setMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
+            itemSkuVO.setPcMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
+        }
         return itemSkuVO;
     }
 

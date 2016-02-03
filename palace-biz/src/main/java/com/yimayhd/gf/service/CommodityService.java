@@ -2,6 +2,7 @@ package com.yimayhd.gf.service;
 
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ItemResultVO;
+import com.yimayhd.palace.model.ItemSkuVO;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
 
@@ -67,5 +68,14 @@ public interface CommodityService {
      * @throws Exception
      */
     void modifyCommonItem(ItemVO itemVO)throws Exception;
+
+
+    /**
+     * 根据商品ID查询sku
+     * @param itemId
+     * @return
+     * @throws Exception
+     */
+    List<ItemSkuVO> getSkuListByItemId(Long itemId)throws Exception;
 
 }
