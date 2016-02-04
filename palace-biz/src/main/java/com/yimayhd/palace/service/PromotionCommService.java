@@ -1,9 +1,15 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.dto.ActPromotionDTO;
+import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
+import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
+import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.PromotionListQuery;
 import com.yimayhd.palace.model.vo.PromotionVO;
 import com.yimayhd.promotion.client.domain.PromotionDO;
+import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 
 /**
  * Created by czf on 2016/1/19.
@@ -12,19 +18,19 @@ public interface PromotionCommService {
     /**
      * 根据条件查询列表
      *
-     * @param promotionListQuery 查询条件
+     * @param actPromotionPageQuery 查询条件
      * @throws Exception
      */
-    PageVO<PromotionDO> getList(PromotionListQuery promotionListQuery) throws Exception;
+    PageVO<ActActivityDO> getList(ActPromotionPageQuery actPromotionPageQuery) throws Exception;
 
     /**
      * 修改优惠
      *
-     * @param entity
+     * @param actPromotionEditDTO
      *            需要修改的字段和主键
      * @throws Exception
      */
-    void modify(PromotionVO entity) throws Exception;
+    void modify(ActPromotionEditDTO actPromotionEditDTO) throws Exception;
 
     /**
      * 添加优惠
@@ -34,7 +40,7 @@ public interface PromotionCommService {
      *            数据实体
      * @throws Exception
      */
-    boolean add(PromotionVO entity) throws Exception;
+    boolean add(PromotionEditDTO entity) throws Exception;
 
     /**
      * 根据主键获取优惠
@@ -43,17 +49,17 @@ public interface PromotionCommService {
      *            主键long类型的
      * @throws Exception
      */
-    PromotionVO getById(long id) throws Exception;
+    ActResult<ActPromotionDTO> getById(long id) throws Exception;
 
     /**
      * 优惠上架
      * @param id 优惠ID
      */
-    void publish(long id)throws Exception;
+    boolean publish(long id)throws Exception;
 
     /**
      * 优惠下架
      * @param id 优惠ID
      */
-    void close(long id)throws Exception;
+    boolean close(long id)throws Exception;
 }

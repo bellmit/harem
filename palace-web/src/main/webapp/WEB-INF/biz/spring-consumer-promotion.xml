@@ -22,4 +22,13 @@
         <property name="check" value="${consumer.dubbo.promotion.check}"/>
     </bean>
 
+    <bean id="activityPromotionServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.activitycenter.service.ActivityPromotionService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="version" value="${consumer.dubbo.promotion.version}"/>
+        <property name="check" value="${consumer.dubbo.promotion.check}"/>
+    </bean>
+
 </beans>
