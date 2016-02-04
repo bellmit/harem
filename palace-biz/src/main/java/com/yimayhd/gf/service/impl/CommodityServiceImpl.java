@@ -327,24 +327,22 @@ public class CommodityServiceImpl implements CommodityService {
     public List<ItemSkuVO> getSkuListByItemId(Long itemId) throws Exception {
         ItemOptionDTO options = new ItemOptionDTO();
         options.setNeedSku(true);
-        SingleItemQueryResult singleItemQueryResult = itemQueryServiceRef.querySingleItem(itemId, options);
-        if(null == singleItemQueryResult){
-            log.error("itemQueryServiceRef.querySingleItem result is null and itemId:" + itemId + " and options:" + JSON.toJSONString(options));
+        ItemResult itemResult = itemQueryServiceRef.getItem(itemId, options);
+        if(null == itemResult){
+            log.error("itemQueryServiceRef.getItem result is null and itemId:" + itemId + " and options:" + JSON.toJSONString(options));
             throw new BaseException("返回结果错误,修改失败");
-        } else if(!singleItemQueryResult.isSuccess()){
-            log.error("itemQueryServiceRef.querySingleItem error:" + JSON.toJSONString(singleItemQueryResult) + "and itemId:" + itemId + " and options:" + JSON.toJSONString(options));
-            throw new BaseException(singleItemQueryResult.getResultMsg());
+        } else if(!itemResult.isSuccess()){
+            log.error("itemQueryServiceRef.getItem error:" + JSON.toJSONString(itemResult) + "and itemId:" + itemId + " and options:" + JSON.toJSONString(options));
+            throw new BaseException(itemResult.getResultMsg());
         }
-        if(singleItemQueryResult.getItemDO() != null){
-            List<ItemSkuDO> skuDOList = singleItemQueryResult.getItemDO().getItemSkuDOList();
-            if(CollectionUtils.isNotEmpty(skuDOList)){
-                List<ItemSkuVO> itemSkuVOList = new ArrayList<ItemSkuVO>();
-                for(ItemSkuDO itemSkuDO : skuDOList){
-                    ItemSkuVO itemSkuVO = ItemSkuVO.getItemSkuVO(itemSkuDO);
-                    itemSkuVOList.add(itemSkuVO);
-                }
-                return itemSkuVOList;
+        List<ItemSkuDO> skuDOList = itemResult.getItemSkuDOList();
+        if(CollectionUtils.isNotEmpty(skuDOList)){
+            List<ItemSkuVO> itemSkuVOList = new ArrayList<ItemSkuVO>();
+            for(ItemSkuDO itemSkuDO : skuDOList){
+                ItemSkuVO itemSkuVO = ItemSkuVO.getItemSkuVO(itemSkuDO);
+                itemSkuVOList.add(itemSkuVO);
             }
+            return itemSkuVOList;
         }
         return null;
     }
