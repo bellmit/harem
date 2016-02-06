@@ -67,21 +67,21 @@ public class GFCommodityManageController extends BaseController {
 	public ResponseVo listAjax(CommodityListQuery commodityListQuery) throws Exception {
 		PageVO<ItemVO> pageVO = gfCommodityService.getList(commodityListQuery);
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("pageVO", pageVO);
-		map.put("commodityListQuery", commodityListQuery);
+		map.put("pageVo", pageVO);
+		map.put("query", commodityListQuery);
 		return new ResponseVo(map);
 	}
 	/**
-	 * 商品列表
+	 * 商品sku列表
 	 *
 	 * @return
 	 * @throws Exception
 	 */
-	@ResponseBody
 	@RequestMapping(value = "/skuList/{itemId}", method = RequestMethod.GET)
-	public ResponseVo getSkuListAjax(@PathVariable("itemId") long itemId) throws Exception {
+	public String getSkuListAjax(Model model,@PathVariable("itemId") long itemId) throws Exception {
 		List<ItemSkuVO> itemSkuVOList = gfCommodityService.getSkuListByItemId(itemId);
-		return new ResponseVo(itemSkuVOList);
+		model.addAttribute("skuList",itemSkuVOList);
+		return "/system/comm/gf/commSkuList";
 	}
 
 	/**

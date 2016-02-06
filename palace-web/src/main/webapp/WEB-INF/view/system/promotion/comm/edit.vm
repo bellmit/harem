@@ -8,59 +8,77 @@
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
             <table>
-                entityType
-                <tr>
-                    <td><span class="spColor">*</span>优惠名称：</td>
-                    <td> <input type="text" name="title" class="title" value="$!voucherDO.title"></td>
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>优惠设置</td>
-                    <td>
-                        #*SUM_DISCOUNT("满折",1),
-                        SUM_REDUCE("满减",2),
-                        COUNT_DISCOUNT("满个折",3),
-                        COUNT_REDUCE("满个减",4),
-                        PER_SUM_REDUCE("每满减",5),
-                        DIRECT_REDUCE("直降",6);*#
-                        #if($promotionType == 1)
-                            满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">折
-                        #elseif($promotionType == 2)
-                            满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                        #elseif($promotionType == 3)
-                            满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">个<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">折
-                        #elseif($promotionType == 4)
-                            满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">个减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                        #elseif($promotionType == 5)
-                            每满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                        #elseif($promotionType == 6)
-                            直降<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                        #end
+            entityType
+            <tr>
+                <td><span class="spColor">*</span>优惠名称：</td>
+                <td> <input type="text" name="title" class="title" value="$!voucherDO.title"></td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>优惠设置</td>
+                <td>
+                #*SUM_DISCOUNT("满折",1),
+                SUM_REDUCE("满减",2),
+                COUNT_DISCOUNT("满个折",3),
+                COUNT_REDUCE("满个减",4),
+                PER_SUM_REDUCE("每满减",5),
+                DIRECT_REDUCE("直降",6);*#
+                    #if($promotionType == 1)
+                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">折
+                    #elseif($promotionType == 2)
+                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
+                    #elseif($promotionType == 3)
+                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">个<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">折
+                    #elseif($promotionType == 4)
+                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">个减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
+                    #elseif($promotionType == 5)
+                        每满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
+                    #elseif($promotionType == 6)
+                        直降<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
+                    #end
 
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>优惠时间</td>
-                    <td>
-                        <div class="row">
-                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm")"></div>
-                            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm")"></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>已发放券数量</td>
-                    <td>
-                        $!{voucherDO.sendNum}
-                    </td>
-                </tr>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>优惠时间</td>
+                <td>
+                    <div class="row">
+                        <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm")"></div>
+                        <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                        <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm")"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>已发放券数量</td>
+                <td>
+                    $!{voucherDO.sendNum}
+                </td>
+            </tr>
 
+        </table>
+        <div class="tableGroup whole">
+            <input type="text" name="promotionListStr" class="promotionListStr" value="">
+            <table class="table table-hover dataTableSelected">
+                <tr>
+                    <th>商品编码</th>
+                    <th>sku编码</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>状态</th>
+                    <th>总库存</th>
+                    <th>操作</th>
+                </tr>
             </table>
         </div>
+    </div>
     </div>
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
 </form>
+<div>
+    #parse("/system/promotion/commList.vm")
+    #selectItem()
+</div>
 
 
 
@@ -118,9 +136,57 @@
             return '请输入可领取数量';
         }
     }
+    $(function(){
+        $(document).delegate(".selectSkuBtn",'click',function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: 'SKU选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/GF/commodityManage/skuList/' + $(this).attr('commodityId'),
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择sku");
+                        return false;
+                    }else{
+                        console.log(top.resultValue);
+                        layer.close();
+                    }
+                }
+            });
+        })
+        $(document).delegate(".commoditySelect",'click',function(){
+            var data = JSON.parse($(this).attr('commodity'));
+            $('.dataTr').each(function(){
+                if($(this).attr('commId') == data.id){
+                    return false;
+                }
+            });
+            var dataTableSelected = '<tr class="dataTr">'
+                    + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
+                    + '<td skuId=""></td>'
+                    + '<td>' + data['title'] + '</td>'
+                    + '<td>￥' + data['price'] / 100 + '</td>'
+                    + '<td>' + (data['title'] == 2 ? '启用' : '停用') + '</td>'
+                    + '<td>' + data['stockNum'] + '</td>'
+                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                    + '</tr>';
+            $('.dataTableSelected').append(dataTableSelected);
+        })
+        $(document).delegate(".delBtn",'click',function(){
+            if($(this).attr('promotionId')){
+                $(this).parents('tr').attr('isDel',"true");
+                $(this).parents('tr').hidden();
+            }else{
+                $(this).parents('tr').remove();
+            }
+        });
 
- 	//保存的
- 	$('#btnSubmit').click(function(){
+        //保存的
+        $('#btnSubmit').click(function(){
             var msg = validate();
             if(msg){
                 layer.msg(msg, {
@@ -132,12 +198,14 @@
             var actionUrl = "";
             var recommendedId = $('#hotelForm').attr('recommendedId');
             if(recommendedId){
-               actionUrl = actionDefaultPath + '/B2C/voucherManage/edit/'+recommendedId;
+                actionUrl = actionDefaultPath + '/B2C/voucherManage/edit/'+recommendedId;
             }else{
-               actionUrl = actionDefaultPath + '/B2C/voucherManage/add';
+                actionUrl = actionDefaultPath + '/B2C/voucherManage/add';
             }
             $('#hotelForm').attr('action',actionUrl);
             $('#hotelForm').submit();
-   });
+        });
+    });
+
 
 </script>

@@ -9,28 +9,38 @@ import org.springframework.beans.BeanUtils;
  */
 public class PromotionVO extends PromotionDO {
 
-    //TODO
-
-    private String title;
-
-    private int entityType;
-
-    private long entityId;
-
-    private int promotionType;
-
-    private String requirementY;
-
-    private String value;
-
-    private int domain;
-
-
-
+    private double valueY;//金额或者折扣
+    private boolean isDel = false;
+    private boolean isModify = false;
 
     public static PromotionVO getPromotionVO(PromotionDO promotionDO){
         PromotionVO promotionVO = new PromotionVO();
         BeanUtils.copyProperties(promotionDO,promotionVO);
+        promotionVO.setValueY(promotionDO.getValue() / 100);
         return promotionVO;
+    }
+
+    public boolean isDel() {
+        return isDel;
+    }
+
+    public void setIsDel(boolean isDel) {
+        this.isDel = isDel;
+    }
+
+    public boolean isModify() {
+        return isModify;
+    }
+
+    public void setIsModify(boolean isModify) {
+        this.isModify = isModify;
+    }
+
+    public double getValueY() {
+        return valueY;
+    }
+
+    public void setValueY(double valueY) {
+        this.valueY = valueY;
     }
 }
