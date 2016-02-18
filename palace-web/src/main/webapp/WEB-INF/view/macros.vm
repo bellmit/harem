@@ -333,6 +333,8 @@
     进行中
     #elseif($status == '3')
     已结束
+    #elseif($status == '4')
+    已停用
     #end
 #end
 

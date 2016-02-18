@@ -83,7 +83,7 @@
                         <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">
                             #if($!promotion.status == 1) 编辑  #else  查看  #end
                         </button>
-                        <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">删除</button></td>
+                        <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">停用</button></td>
                 </tr>
                 #end
             </table>

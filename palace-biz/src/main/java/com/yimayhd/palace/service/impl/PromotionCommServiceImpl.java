@@ -96,6 +96,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     @Override
     public boolean close(long id) throws Exception {
-        return activityPromotionServiceRef.closeActPromotion(id).isSuccess();
+        boolean res = activityPromotionServiceRef.closeActPromotion(id).isSuccess();
+        return res;
     }
 }
