@@ -1,4 +1,4 @@
-package com.yimayhd.palace.model.vo;
+package com.yimayhd.palace.model;
 
 
 import com.yimayhd.promotion.client.domain.PromotionDO;
@@ -12,6 +12,11 @@ public class PromotionVO extends PromotionDO {
     private double valueY;//金额或者折扣
     private boolean isDel = false;
     private boolean isModify = false;
+    private long itemId;
+    private long itemSkuId;
+    private String itemTitle;
+    private long stockNum;
+    private int itemStatus;
 
     public static PromotionVO getPromotionVO(PromotionDO promotionDO){
         PromotionVO promotionVO = new PromotionVO();
@@ -42,5 +47,45 @@ public class PromotionVO extends PromotionDO {
 
     public void setValueY(double valueY) {
         this.valueY = valueY;
+    }
+
+    public long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
+    }
+
+    public long getItemSkuId() {
+        return itemSkuId;
+    }
+
+    public void setItemSkuId(long itemSkuId) {
+        this.itemSkuId = itemSkuId;
+    }
+
+    public String getItemTitle() {
+        return itemTitle;
+    }
+
+    public void setItemTitle(String itemTitle) {
+        this.itemTitle = itemTitle;
+    }
+
+    public long getStockNum() {
+        return stockNum;
+    }
+
+    public void setStockNum(long stockNum) {
+        this.stockNum = stockNum;
+    }
+
+    public int getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(int itemStatus) {
+        this.itemStatus = itemStatus;
     }
 }

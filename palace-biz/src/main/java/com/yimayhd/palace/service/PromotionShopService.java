@@ -2,7 +2,7 @@ package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.PromotionListQuery;
-import com.yimayhd.palace.model.vo.PromotionVO;
+import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 
 /**

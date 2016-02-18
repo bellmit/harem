@@ -6,9 +6,7 @@ import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
 import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
 import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.query.PromotionListQuery;
-import com.yimayhd.palace.model.vo.PromotionVO;
-import com.yimayhd.promotion.client.domain.PromotionDO;
+import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 
 /**
@@ -40,7 +38,7 @@ public interface PromotionCommService {
      *            数据实体
      * @throws Exception
      */
-    boolean add(PromotionEditDTO entity) throws Exception;
+    boolean add(ActActivityEditVO entity) throws Exception;
 
     /**
      * 根据主键获取优惠

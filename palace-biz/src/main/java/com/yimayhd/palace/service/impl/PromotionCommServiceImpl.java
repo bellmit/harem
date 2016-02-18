@@ -11,17 +11,11 @@ import com.yimayhd.activitycenter.result.ActResultSupport;
 import com.yimayhd.activitycenter.service.ActivityPromotionService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.query.PromotionListQuery;
-import com.yimayhd.palace.model.vo.PromotionVO;
+import com.yimayhd.palace.convert.PromotionEditDTOConverter;
+import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.palace.util.DateUtil;
-import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
-import com.yimayhd.promotion.client.query.PromotionPageQuery;
-import com.yimayhd.promotion.client.result.BasePageResult;
-import com.yimayhd.promotion.client.result.BaseResult;
-import com.yimayhd.promotion.client.service.PromotionPublishService;
-import com.yimayhd.promotion.client.service.PromotionQueryService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +67,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     }
 
     @Override
-    public boolean add(PromotionEditDTO promotionEditDTO) throws Exception {
+    public boolean add(ActActivityEditVO actActivityEditVO) throws Exception {
+        PromotionEditDTO promotionEditDTO = PromotionEditDTOConverter.getPromotionEditDTO(actActivityEditVO);
         ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
         if(baseResult == null){
             log.error("PromotionCommService.add error: " + promotionEditDTO);

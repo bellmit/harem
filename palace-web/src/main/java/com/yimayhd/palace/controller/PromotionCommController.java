@@ -8,12 +8,9 @@ import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
-import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.constant.ResponseStatus;
-import com.yimayhd.palace.model.query.PromotionListQuery;
-import com.yimayhd.palace.model.vo.PromotionVO;
+import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.service.PromotionCommService;
-import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 import com.yimayhd.promotion.client.enums.PromotionStatus;
 import com.yimayhd.promotion.client.enums.PromotionType;
@@ -86,9 +83,9 @@ public class PromotionCommController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(PromotionEditDTO promotionVO) throws Exception {
+    public String add(ActActivityEditVO actActivityEditVO) throws Exception {
         //promotionVO.setEntityType(EntityType.SHOP.getType());
-        promotionCommService.add(promotionVO);
+        promotionCommService.add(actActivityEditVO);
         return "/success";
     }
 

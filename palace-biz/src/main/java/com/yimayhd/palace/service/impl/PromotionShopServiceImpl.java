@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.PromotionListQuery;
-import com.yimayhd.palace.model.vo.PromotionVO;
+import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.service.PromotionShopService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.promotion.client.domain.PromotionDO;

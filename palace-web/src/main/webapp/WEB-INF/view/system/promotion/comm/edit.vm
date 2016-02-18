@@ -3,61 +3,58 @@
 
 
 
-<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!voucherDO.id">
+
 <div class="tab-content grogInfoWrap"  style="">
     <div class="tab-pane active" id="grogshopInfo">
-        <div class="createHotrlTable">
-            <table>
-            entityType
-            <tr>
-                <td><span class="spColor">*</span>优惠名称：</td>
-                <td> <input type="text" name="title" class="title" value="$!voucherDO.title"></td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>优惠设置</td>
-                <td>
-                #*SUM_DISCOUNT("满折",1),
-                SUM_REDUCE("满减",2),
-                COUNT_DISCOUNT("满个折",3),
-                COUNT_REDUCE("满个减",4),
-                PER_SUM_REDUCE("每满减",5),
-                DIRECT_REDUCE("直降",6);*#
-                    #if($promotionType == 1)
-                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">折
-                    #elseif($promotionType == 2)
-                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                    #elseif($promotionType == 3)
-                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">个<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">折
-                    #elseif($promotionType == 4)
-                        满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">个减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                    #elseif($promotionType == 5)
-                        每满<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元减<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                    #elseif($promotionType == 6)
-                        直降<input type="text" name="totalNum" class="totalNum" value="$!{voucherDO.totalNum}">元
-                    #end
+        <div class="createActActivityTable">
+            <form name="addActActivity" id="actActivityForm" action="" method="post" actActivityId="$!actActivity.id">
+                <table>
+                <tr>
+                    <td><span class="spColor">*</span>优惠名称：</td>
+                    <td> <input type="text" name="actActivityVO.title" class="title" value="$!actActivity.title"></td>
+                    <input type="text" name="actActivityVO.promotionType" class="promotionType" value="$promotionType">
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>优惠设置</td>
+                    <td>
+                    #*SUM_DISCOUNT("满折",1),
+                    SUM_REDUCE("满减",2),
+                    COUNT_DISCOUNT("满个折",3),
+                    COUNT_REDUCE("满个减",4),
+                    PER_SUM_REDUCE("每满减",5),
+                    DIRECT_REDUCE("直降",6);*#
+                        #if($promotionType == 1)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">元<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">折
+                        #elseif($promotionType == 2)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">减<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                        #elseif($promotionType == 3)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">个<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">折
+                        #elseif($promotionType == 4)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">个减<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                        #elseif($promotionType == 5)
+                            每满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">元减<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                        #elseif($promotionType == 6)
+                            直降<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                        #end
 
-                </td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>优惠时间</td>
-                <td>
-                    <div class="row">
-                        <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm")"></div>
-                        <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                        <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm")"></div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>已发放券数量</td>
-                <td>
-                    $!{voucherDO.sendNum}
-                </td>
-            </tr>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>优惠时间</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivity.startDate},"yyyy-MM-dd HH:mm")"></div>
+                            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivity.endDate},"yyyy-MM-dd HH:mm")"></div>
+                        </div>
+                    </td>
+                </tr>
 
-        </table>
-        <div class="tableGroup whole">
+            </table>
             <input type="text" name="promotionListStr" class="promotionListStr" value="">
+        </form>
+        <div class="tableGroup whole">
+
             <table class="table table-hover dataTableSelected">
                 <tr>
                     <th>商品编码</th>
@@ -65,7 +62,11 @@
                     <th>商品名称</th>
                     <th>单价</th>
                     <th>状态</th>
-                    <th>总库存</th>
+                    #*<th>总库存</th>*#
+                    #if($promotionType == 6)
+                        <th>直降金额</th>
+                        <th>优惠价</th>
+                    #end
                     <th>操作</th>
                 </tr>
             </table>
@@ -74,14 +75,16 @@
     </div>
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
-</form>
+
 <div>
     #parse("/system/promotion/commList.vm")
     #selectItem()
 </div>
 
 
-
+<script>
+    var promotionType = $promotionType;
+</script>
 <script>
     $(".form-date").datetimepicker(
             {
@@ -91,9 +94,9 @@
                 autoclose: 1,
                 todayHighlight: 1,
                 startView: 2,
-                minView: 2,
                 forceParse: 0,
-                format: "yyyy-mm-dd"
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
             });
 
     //验证
@@ -138,6 +141,7 @@
     }
     $(function(){
         $(document).delegate(".selectSkuBtn",'click',function(){
+            var item = JSON.parse($(this).prev().attr('commodity'));
             layer.open({
                 type: 2,
                 btn: ['确定', '取消'],
@@ -153,7 +157,31 @@
                         return false;
                     }else{
                         console.log(top.resultValue);
-                        layer.close();
+                        var resultValue = top.resultValue;
+                        var dataTableSelected = '';
+                        for(var data in resultValue){
+                            //if()
+                            dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1">'
+                                    + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
+                                    + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
+                                    + '<td>' + item['title'] + '</td>'
+                                    + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
+                                    + '<td>启用</td>'
+                                    //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
+                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value=""></td>' + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>') : '')
+                                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                                    + '</tr>';
+
+                        }
+                        if(dataTableSelected){
+                            $('.dataTableSelected').append(dataTableSelected);
+                        }
+                        $('.dataTr').each(function(){
+                            if($(this).attr('skuId') == data.id){
+                                return false;
+                            }
+                        });
+                        layer.close(index);
                     }
                 }
             });
@@ -165,13 +193,14 @@
                     return false;
                 }
             });
-            var dataTableSelected = '<tr class="dataTr">'
+            var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2">'
                     + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
                     + '<td skuId=""></td>'
                     + '<td>' + data['title'] + '</td>'
                     + '<td>￥' + data['price'] / 100 + '</td>'
-                    + '<td>' + (data['title'] == 2 ? '启用' : '停用') + '</td>'
-                    + '<td>' + data['stockNum'] + '</td>'
+                    + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
+                    //+ '<td>' + data['stockNum'] + '</td>'
+                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value=""></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
                     + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
                     + '</tr>';
             $('.dataTableSelected').append(dataTableSelected);
@@ -187,23 +216,30 @@
 
         //保存的
         $('#btnSubmit').click(function(){
-            var msg = validate();
+            /*var msg = validate();
             if(msg){
                 layer.msg(msg, {
                     icon: 2,
                     time: 2000
                 });
                 return false;
-            }
+            }*/
+            var promotionList = new Array();
+            $('.dataSelectTr').each(function(){
+                var promotion = {entityId:$(this).attr('entityId'),entityType:$(this).attr('entityType'),isDel:$(this).attr('entityType'),isModify:$(this).attr('entityType'),valueY:$(this).find('.priceY').val()};
+                promotionList.push(promotion);
+            });
+            $('.promotionListStr').val(JSON.stringify(promotionList));
+            var data = $('.dataSelectTr').attr('class');
             var actionUrl = "";
-            var recommendedId = $('#hotelForm').attr('recommendedId');
-            if(recommendedId){
-                actionUrl = actionDefaultPath + '/B2C/voucherManage/edit/'+recommendedId;
+            var actActivityId = $('#actActivityForm').attr('actActivityId');
+            if(actActivityId){
+                actionUrl = actionDefaultPath + '/GF/promotionCommManage/edit/'+recommendedId;
             }else{
-                actionUrl = actionDefaultPath + '/B2C/voucherManage/add';
+                actionUrl = actionDefaultPath + '/GF/promotionCommManage/add';
             }
-            $('#hotelForm').attr('action',actionUrl);
-            $('#hotelForm').submit();
+            $('#actActivityForm').attr('action',actionUrl);
+            $('#actActivityForm').submit();
         });
     });
 
