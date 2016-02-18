@@ -12,7 +12,11 @@
                 <tr>
                     <td><span class="spColor">*</span>优惠名称：</td>
                     <td> <input type="text" name="actActivityVO.title" class="title" value="$!actActivity.title"></td>
-                    <input type="text" name="actActivityVO.promotionType" class="promotionType" value="$promotionType">
+                    <input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$promotionType">
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>优惠描述：</td>
+                    <td> <input type="text" name="actActivityVO.description" class="description" value="$!actActivity.description"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>优惠设置</td>
@@ -51,7 +55,7 @@
                 </tr>
 
             </table>
-            <input type="text" name="promotionListStr" class="promotionListStr" value="">
+            <input type="hidden" name="promotionVOListStr" class="promotionVOListStr" value="">
         </form>
         <div class="tableGroup whole">
 
@@ -226,10 +230,10 @@
             }*/
             var promotionList = new Array();
             $('.dataSelectTr').each(function(){
-                var promotion = {entityId:$(this).attr('entityId'),entityType:$(this).attr('entityType'),isDel:$(this).attr('entityType'),isModify:$(this).attr('entityType'),valueY:$(this).find('.priceY').val()};
+                var promotion = {entityId:$(this).attr('entityId'),entityType:$(this).attr('entityType'),isDel:$(this).attr('isDel') || false,isModify:$(this).attr('isModify') || false,valueY:$(this).find('.priceY').val()};
                 promotionList.push(promotion);
             });
-            $('.promotionListStr').val(JSON.stringify(promotionList));
+            $('.promotionVOListStr').val(JSON.stringify(promotionList));
             var data = $('.dataSelectTr').attr('class');
             var actionUrl = "";
             var actActivityId = $('#actActivityForm').attr('actActivityId');

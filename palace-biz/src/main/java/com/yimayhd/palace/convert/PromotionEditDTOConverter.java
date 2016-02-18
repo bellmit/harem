@@ -13,6 +13,7 @@ import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class PromotionEditDTOConverter {
     public static PromotionEditDTO getPromotionEditDTO(ActActivityEditVO actActivityEditVO) throws Exception {
         //活动能够时间格式转换
         actActivityEditVO.getActActivityVO().setStartDate(DateUtil.convertStringToDateUseringFormats(actActivityEditVO.getActActivityVO().getStartDateStr(),DateUtil.DAY_HORU_FORMAT));
-        actActivityEditVO.getActActivityVO().setEndDate(DateUtil.convertStringToDateUseringFormats(actActivityEditVO.getActActivityVO().getEndDateStr(),DateUtil.DAY_HORU_FORMAT));
+        actActivityEditVO.getActActivityVO().setEndDate(DateUtil.convertStringToDateUseringFormats(actActivityEditVO.getActActivityVO().getEndDateStr(), DateUtil.DAY_HORU_FORMAT));
 
         PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
         List<PromotionVO> promotionVOList = null;
@@ -52,37 +53,39 @@ public class PromotionEditDTOConverter {
                     break;
             }*/
             for (PromotionVO promotionVO : promotionVOList){
-                promotionVO.setTitle(actActivityEditVO.getActActivityVO().getTitle());
-                promotionVO.setDescription(actActivityEditVO.getActActivityVO().getDescription());
+                PromotionDO promotionDO = new PromotionDO();
+                BeanUtils.copyProperties(promotionVO,promotionDO);
+                promotionDO.setTitle(actActivityEditVO.getActActivityVO().getTitle());
+                promotionDO.setDescription(actActivityEditVO.getActActivityVO().getDescription());
 
-                promotionVO.setEntityType(actActivityEditVO.getActActivityVO().getEntityType());
+                //promotionVO.setEntityType();
 
 
-                promotionVO.setPromotionType(actActivityEditVO.getActActivityVO().getPromotionType());
+                promotionDO.setPromotionType(actActivityEditVO.getActActivityVO().getPromotionType());
                 switch (PromotionType.getByType(actActivityEditVO.getActActivityVO().getPromotionType())) {
                     case SUM_REDUCE:
-                        promotionVO.setRequirement(Math.round(actActivityEditVO.getActActivityVO().getRequirementY()));
-                        promotionVO.setValue(Math.round(promotionVO.getValueY() * 100));
+                        promotionDO.setRequirement(Math.round(actActivityEditVO.getActActivityVO().getRequirementY()));
+                        promotionDO.setValue(Math.round(promotionVO.getValueY() * 100));
                         break;
                     case DIRECT_REDUCE:
-                        promotionVO.setRequirement(0);
-                        promotionVO.setValue(Math.round(promotionVO.getValueY() * 100));
+                        promotionDO.setRequirement(0);
+                        promotionDO.setValue(Math.round(promotionVO.getValueY() * 100));
                         break;
                     default:
                         break;
                 }
-                promotionVO.setStartTime(actActivityEditVO.getActActivityVO().getStartDate());
-                promotionVO.setEndTime(actActivityEditVO.getActActivityVO().getEndDate());
-                promotionVO.setDomain(B2CConstant.GF_DOMAIN);
+                promotionDO.setStartTime(actActivityEditVO.getActActivityVO().getStartDate());
+                promotionDO.setEndTime(actActivityEditVO.getActActivityVO().getEndDate());
+                promotionDO.setDomain(B2CConstant.GF_DOMAIN);
                 //promotionVO.setStatus();
                 //promotionVO.setFeatureV();
                 //promotionVO.setUserTag();
                 if(promotionVO.getId() == 0){
-                    addPromotionDOList.add(promotionVO);
+                    addPromotionDOList.add(promotionDO);
                 }else if(promotionVO.isDel()){
-                    delPromotionIdList.add(promotionVO.getId());
+                    delPromotionIdList.add(promotionDO.getId());
                 }else if(promotionVO.isModify()){
-                    updPromotionDOList.add(promotionVO);
+                    updPromotionDOList.add(promotionDO);
                 }
             }
         }
