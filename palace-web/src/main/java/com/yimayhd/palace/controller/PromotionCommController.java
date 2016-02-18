@@ -12,6 +12,7 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.service.PromotionCommService;
+import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,7 @@ public class PromotionCommController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
+        actPromotionPageQuery.setLotteryType(EntityType.ITEM.getType());
         PageVO<ActActivityDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
         List<PromotionType> promotionTypeList = Arrays.asList(PromotionType.values());
         List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());

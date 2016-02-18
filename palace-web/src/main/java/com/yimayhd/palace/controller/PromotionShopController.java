@@ -1,13 +1,21 @@
 package com.yimayhd.palace.controller;
 
+import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.dto.ActPromotionDTO;
+import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
+import com.yimayhd.activitycenter.enums.PromotionStatus;
+import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
+import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.query.PromotionListQuery;
 import com.yimayhd.palace.model.PromotionVO;
+import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.palace.service.PromotionShopService;
 import com.yimayhd.promotion.client.domain.PromotionDO;
-import com.yimayhd.promotion.client.enums.PromotionStatus;
+import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +38,8 @@ public class PromotionShopController extends BaseController {
 
     @Autowired
     private PromotionShopService promotionShopService;
+    @Autowired
+    private PromotionCommService promotionCommService;
     /**
      * 店铺优惠列表
      *
@@ -37,11 +47,12 @@ public class PromotionShopController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model, PromotionListQuery promotionListQuery) throws Exception {
-        PageVO<PromotionDO> pageVO = promotionShopService.getList(promotionListQuery);
+    public String list(Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
+        actPromotionPageQuery.setLotteryType(EntityType.SHOP.getType());
+        PageVO<ActActivityDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
         List<PromotionType> promotionTypeList = Arrays.asList(PromotionType.values());
         List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());
-        model.addAttribute("promotionListQuery",promotionListQuery);
+        model.addAttribute("promotionListQuery",actPromotionPageQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("promotionTypeList",promotionTypeList);
         model.addAttribute("promotionStatusList",promotionStatusList);
@@ -67,8 +78,8 @@ public class PromotionShopController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-        PromotionVO promotionVO = promotionShopService.getById(id);
-        model.addAttribute("promotionVO",promotionVO);
+        ActResult<ActPromotionDTO> result = promotionCommService.getById(id);
+        model.addAttribute("promotionVO",result.getT());
         return "/system/promotion/shop/edit";
     }
 
@@ -91,9 +102,8 @@ public class PromotionShopController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String edit(@PathVariable(value = "id") long id,PromotionVO promotionVO) throws Exception {
-        promotionVO.setId(id);
-        promotionShopService.modify(promotionVO);
+    public String edit(@PathVariable(value = "id") long id,ActPromotionEditDTO promotionVO) throws Exception {
+        promotionCommService.modify(promotionVO);
         return "/success";
     }
 
@@ -121,9 +131,11 @@ public class PromotionShopController extends BaseController {
     @RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo close(@PathVariable("id") long id) throws Exception {
-//		long sellerId = sessionManager.getUserId();
-//        long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
-        return new ResponseVo();
+        if (promotionCommService.close(id)){
+            return new ResponseVo();
+        }else {
+            return new ResponseVo(ResponseStatus.ERROR);
+        }
     }
 
 }
