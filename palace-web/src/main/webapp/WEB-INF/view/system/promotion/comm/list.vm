@@ -13,9 +13,9 @@
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
                 <select class="form-control" name="status">
-                    <option value="">全部</option>
+                    <option value="0">全部</option>
                     #foreach($promotionStatus in $promotionStatusList)
-                        <option value="$!promotionStatus.value" #if($!promotionListQuery.status == $!promotionStatus.value) selected #end>$!promotionStatus.text</option>
+                        <option value="$!promotionStatus.status" #if($!promotionListQuery.status == $!promotionStatus.status) selected #end>$!promotionStatus.desc</option>
                     #end
                 </select>
             </div>
@@ -24,9 +24,9 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">优惠时间</button>
                 </span>
-                <input type="text" class='form-control form-date dateInp startDate' readonly name="beginDate" value="$!promotionListQuery.beginDate">
+                <input type="text" class='form-control form-date dateInp beginTime' readonly name="beginTime" value="$!promotionListQuery.beginTime">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date endDate dateInp' readonly name="endDate" value="$!promotionListQuery.endDate">
+                <input type="text" class='form-control form-date endTime dateInp' readonly name="endTime" value="$!promotionListQuery.endTime">
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -67,8 +67,7 @@
                     <th>活动类型</th>
                     <th>活动开始时间</th>
                     <th>活动结束时间</th>
-                    <th>状态</th>
-                    <th>创建时间</th>
+                    <th>活动状态</th>
                     <th>操作</th>
                 </tr>
                 #set($promotionList = $!pageVo.itemList)
@@ -76,16 +75,15 @@
                 <tr>
                     <td>$!velocityCount</td>
                     <td>$!promotion.title</td>
-                    <td>#PROMOTION_TYPE($!promotion.promotionType)</td>
-                    <td>$!utilDate.dateToString($!promotion.startTime,"yyyy-MM-dd HH:mm:ss")</td>
-                    <td>$!utilDate.dateToString($!promotion.endTime,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>#PROMOTION_TYPE($!promotion.type)</td>
+                    <td>$!utilDate.dateToString($!promotion.startDate,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>$!utilDate.dateToString($!promotion.endDate,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>#PROMOTION_STATUS($!promotion.status)</td>
-                    <td>$!utilDate.dateToString($!promotion.gmtCreated,"yyyy-MM-dd")</td>
                     <td>
-                        <button type="button" class="btn btn-primary themeStop" promotionStatus="$promotion.status" promotioId="$promotion.id">
-                            #if($!promotion.status == 3) 上架  #elseif($!promotion.status == 2)  下架  #end
+                        <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">
+                            #if($!promotion.status == 1) 编辑  #else  查看  #end
                         </button>
-                        <button type="button" class="btn btn-primary themeDetail" themeId="$promotion.id">编辑</button></td>
+                        <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">删除</button></td>
                 </tr>
                 #end
             </table>
@@ -94,13 +92,7 @@
     #*分页*#
     #parse("/page.vm")
     #pageStyle("promotionListForm")
-
 <script>
-
-
-
-
-
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
@@ -113,9 +105,6 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-
-
-
 
     $(function(){
         $('.btn-add').click(function(){
@@ -132,14 +121,9 @@
 
         $('.themeStop').click(function(){
             $(this).prop('disabled',true);
-            var id = $(this).attr('promotioId');
-            var status = $(this).attr('promotionStatus');
+            var id = $(this).attr('themeId');
             var url;
-            if(status == 2){
-                url = '/GF/promotionCommManage/close/' + id;
-            }else{
-                url = '/GF/promotionCommManage/publish/' + id;
-            }
+            url = '/GF/promotionCommManage/close/' + id;
             $.post(actionDefaultPath + url ,function(data){
                 if(data.status == 200){
                     layer.msg('操作成功', {
@@ -161,7 +145,7 @@
 
         $('.themeDetail').each(function(){
             $(this).click(function(){
-                var url = actionDefaultPath + '/GF/promotionCommManage/edit/'+ $(this).attr('themeId');
+                var url = actionDefaultPath + '/GF/promotionCommManage/edit/'+ $(this).attr('promotioId');
                 top.tabsAdd("",url,2,$(this).text());
             });
         });

@@ -328,22 +328,27 @@
 ##优惠状态
 #macro(PROMOTION_STATUS $status)
     #if($status == '1')
-    初始化
+    未开始
     #elseif($status == '2')
-    上架
+    进行中
     #elseif($status == '3')
-    下架
+    已结束
     #end
 #end
-
 
 ##优惠类型
 #macro(PROMOTION_TYPE $type)
     #if($type == '1')
-    满减券
+    满折
     #elseif($type == '2')
-    满折券
+    满减
     #elseif($type == '3')
-    兑换券
+    满个折
+    #elseif($type == '4')
+    满个减
+    #elseif($type == '5')
+    每满减
+    #elseif($type == '6')
+    直降
     #end
 #end

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
 import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
+import com.yimayhd.activitycenter.enums.PromotionStatus;
 import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
 import com.yimayhd.activitycenter.result.ActPageResult;
 import com.yimayhd.activitycenter.result.ActResult;
@@ -56,6 +57,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     @Override
     public void modify(ActPromotionEditDTO actPromotionEditDTO) throws Exception {
+        if (PromotionStatus.NOTBEING.getStatus() != actPromotionEditDTO.getActActivityDO().getStatus()){
+            throw new BaseException("只有未开始活动允许修改");
+        }
         ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
         if(baseResult == null){
             log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
