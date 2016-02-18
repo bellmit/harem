@@ -32,10 +32,10 @@
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button">优惠类型：</button>
                 </span>
-            <select class="form-control" name="promotionType">
-                <option value="">全部</option>
+            <select class="form-control" name="type">
+                <option value="0">全部</option>
                 #foreach($promotionType in $promotionTypeList)
-                    <option value="$!promotionType.type" #if($!promotionListQuery.promotionType == $!promotionType.type) selected #end>$!promotionType.desc</option>
+                    <option value="$!promotionType.type" #if($!promotionListQuery.type == $!promotionType.type) selected #end>$!promotionType.desc</option>
                 #end
             </select>
         </div>
@@ -83,7 +83,7 @@
                         <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">
                             #if($!promotion.status == 1) 编辑  #else  查看  #end
                         </button>
-                        <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">删除</button></td>
+                        <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">停用</button></td>
                 </tr>
             #end
         </table>
@@ -115,7 +115,7 @@
                 });
                 return false;
             }
-            var url = actionDefaultPath +'/GF/promotionManage/toAdd?promotionType=' + $('.addPromotionType').val();
+            var url = actionDefaultPath +'/GF/promotionShopManage/toAdd?promotionType=' + $('.addPromotionType').val();
             top.tabsAdd("",url,2,'优惠');
         });
 
@@ -145,7 +145,7 @@
 
         $('.themeDetail').each(function(){
             $(this).click(function(){
-                var url = actionDefaultPath + '/GF/promotionCommManage/edit/'+ $(this).attr('promotioId');
+                var url = actionDefaultPath + '/GF/promotionShopManage/edit/'+ $(this).attr('promotioId');
                 top.tabsAdd("",url,2,$(this).text());
             });
         });
@@ -162,7 +162,7 @@
                 }
             }
             if($("#promotionListForm").valid()){
-                $('#promotionListForm').attr('action',actionDefaultPath + '/GF/promotionCommManage/list')
+                $('#promotionListForm').attr('action',actionDefaultPath + '/GF/promotionShopManage/list')
                 $('#promotionListForm').submit();
             }
         });
