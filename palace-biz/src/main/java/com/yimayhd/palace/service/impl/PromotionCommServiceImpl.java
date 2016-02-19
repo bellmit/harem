@@ -173,7 +173,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
                         promotionVO.setItemStatus(itemDO.getStatus());
                         if(itemSkuDO != null){
                             promotionVO.setItemSkuId(itemSkuDO.getId());
-                            promotionVO.setSkuTitle(itemDO.getTitle() + "_" +itemSkuDO.getTitle());
+                            if (StringUtils.isNotEmpty(itemSkuDO.getTitle())){
+                                promotionVO.setItemTitle(itemDO.getTitle() + "_" +itemSkuDO.getTitle());
+                            }
                             promotionVO.setPriceY(itemSkuDO.getPrice() / 100);
                         }
                     }
