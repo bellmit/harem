@@ -12,9 +12,8 @@
                 <tr>
                     <td><span class="spColor">*</span>优惠名称：</td>
                     <td> <input type="text" name="actActivityVO.title" class="title" value="$!actActivityEditVO.actActivityVO.title"></td>
-                    <input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$promotionType">
-                    <input type="hidden" name="actActivityVO.entityType" class="entityType" value="$entityType">
-                    entityType
+                    <input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$!promotionType">
+                    <input type="hidden" name="actActivityVO.entityType" class="entityType" value="$!entityType">
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>优惠描述：</td>
@@ -48,10 +47,10 @@
                 <tr>
                     <td><span class="spColor">*</span>优惠时间</td>
                     <td>
-                        <div class="row">
-                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")"></div>
+                        <div class="input-group">
+                            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
                             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")"></div>
+                            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")">
                         </div>
                     </td>
                 </tr>
@@ -79,7 +78,7 @@
                    <tr class="dataSelectTr" promotionId="$promotionVO.id" entityId="$promotionVO.entityId" entityType="$promotionVO.entityType" priceY="$!promotionVO.priceY" isDel="$!promotionVO.isDel" isModify="$!promotionVO.isModify">
                     <td commId="$promotionVO.itemId">$promotionVO.itemId</td>
                     <td skuId="$promotionVO.itemSkuId">$promotionVO.itemSkuId</td>
-                    <td>$promotionVO.itemTitle</td>
+                    <td>$!promotionVO.itemTitle</td>
                     <td>$promotionVO.priceY</td>
                     <td>#COMMODITY_STATUS($!promotionVO.itemStatus)</td>
                        #if($promotionType == 6)
@@ -123,42 +122,49 @@
     //验证
     var validate = function(){
         if(!$('.title').val()){
-            return '请输入券标题';
+            return '请输入活动名称';
         }
         if($('.title').val().length > 60){
             return '字数不能超过60';
         }
-        if(!$('.requirement').val() || !/^\+?[1-9][0-9]*$/.test($('.requirement').val())){
-            return '请输入满值';
+        if(!$('.description').val()){
+            return '请输入活动描述';
         }
-        if(!$('.value').val() || !/^\+?[1-9][0-9]*$/.test($('.value').val())){
-            return '请输入优惠券金额';
+        if($('.description').val().length > 60){
+            return '字数不能超过60';
         }
-        var v1 = parseInt($('.value').val(),10);
-        var v2 = parseInt($('.requirement').val(),10);
-        if(v1 > v2){
-            return '优惠券金额必须小于满值';
-        }
-        if(9999 < $('.value').val()){
-            return '优惠券金额不能超过9999';
-        }
-        if(!$('.startTime').val()){
-            return '请输入起始有效期';
-        }
-        if(!$('.endTime').val()){
-            return '请输入结束有效期';
-        }
-        if($('.startTime').val() && $('.endTime').val()){
-            if($('.startTime').val() > $('.endTime').val()){
-                return "结束日期必须大于开始日期!";
-            }
-        }
-        if(!$('.totalNum').val() || !/^\+?[1-9][0-9]*$/.test($('.totalNum').val())){
-            return '请输入券数量';
-        }
-        if(!$('.voucherCount').val() || !/^\+?[1-9][0-9]*$/.test($('.voucherCount').val())){
-            return '请输入可领取数量';
-        }
+
+//        if(!$('.requirement').val() || !/^\+?[1-9][0-9]*$/.test($('.requirement').val())){
+//            return '请输入满值';
+//        }
+//        if(!$('.value').val() || !/^\+?[1-9][0-9]*$/.test($('.value').val())){
+//            return '请输入优惠券金额';
+//        }
+//        var v1 = parseInt($('.value').val(),10);
+//        var v2 = parseInt($('.requirement').val(),10);
+//        if(v1 > v2){
+//            return '优惠券金额必须小于满值';
+//        }
+//        if(9999 < $('.value').val()){
+//            return '优惠券金额不能超过9999';
+//        }
+//        if(!$('.startTime').val()){
+//            return '请输入起始有效期';
+//        }
+//        if(!$('.endTime').val()){
+//            return '请输入结束有效期';
+//        }
+//        if($('.startTime').val() && $('.endTime').val()){
+//            if($('.startTime').val() > $('.endTime').val()){
+//                return "结束日期必须大于开始日期!";
+//            }
+//        }
+//        if(!$('.totalNum').val() || !/^\+?[1-9][0-9]*$/.test($('.totalNum').val())){
+//            return '请输入券数量';
+//        }
+//        if(!$('.voucherCount').val() || !/^\+?[1-9][0-9]*$/.test($('.voucherCount').val())){
+//            return '请输入可领取数量';
+//        }
     }
     $(function(){
         $(document).delegate(".selectSkuBtn",'click',function(){
@@ -299,14 +305,14 @@
 
         //保存的
         $('#btnSubmit').click(function(){
-            /*var msg = validate();
+            var msg = validate();
             if(msg){
                 layer.msg(msg, {
                     icon: 2,
                     time: 2000
                 });
                 return false;
-            }*/
+            }
             var promotionList = new Array();
             $('.dataSelectTr').each(function(){
                 var promotion = {id:$(this).attr('promotionId') || 0,entityId:$(this).attr('entityId'),entityType:$(this).attr('entityType'),isDel:$(this).attr('isDel') || false,isModify:$(this).attr('isModify') || false,valueY:$(this).find('.priceY').val() | $('.allValueY').val()};
