@@ -3,10 +3,14 @@ package com.yimayhd.palace.convert;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.ActActivityEditVO;
+import com.yimayhd.palace.model.ActActivityVO;
 import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.promotion.client.domain.PromotionDO;
+import com.yimayhd.promotion.client.domain.PromotionFeature;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
+import com.yimayhd.promotion.client.enums.EntityType;
+import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -20,9 +24,10 @@ import java.util.List;
  */
 public class PromotionEditDTOConverter {
     public static PromotionEditDTO getPromotionEditDTO(ActActivityEditVO actActivityEditVO) throws Exception {
+        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
         //活动能够时间格式转换
-        actActivityEditVO.getActActivityVO().setStartDate(DateUtil.convertStringToDateUseringFormats(actActivityEditVO.getActActivityVO().getStartDateStr(),DateUtil.DAY_HORU_FORMAT));
-        actActivityEditVO.getActActivityVO().setEndDate(DateUtil.convertStringToDateUseringFormats(actActivityEditVO.getActActivityVO().getEndDateStr(), DateUtil.DAY_HORU_FORMAT));
+        actActivityVO.setStartDate(DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT));
+        actActivityVO.setEndDate(DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT));
 
         PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
         List<PromotionVO> promotionVOList = null;
@@ -33,61 +38,94 @@ public class PromotionEditDTOConverter {
         List<PromotionDO> updPromotionDOList = new ArrayList<PromotionDO>();
         List<Long> delPromotionIdList = new ArrayList<Long>();
         if(CollectionUtils.isNotEmpty(promotionVOList)){
-            /*switch (EntityType.getByType(actActivityEditVO.getActActivityVO().getEntityType())){
+            switch (EntityType.getByType(actActivityVO.getEntityType())){
                 case SHOP:
-                    promotionVO.setEntityId(0);
-                    PromotionFeature promotionFeature = new PromotionFeature(null);
-                    List<Long> idList = new ArrayList<Long>();
-                    if(!promotionVO.isDel()){
-                        idList.add(promotionVO.getEntityId());
+                    PromotionDO promotionDOShop = new PromotionDO();
+                    //设置ID
+                    if(0 != actActivityVO.getShopPromotionId()){
+                        promotionDOShop.setId(actActivityVO.getShopPromotionId());
                     }
-                    promotionFeature.put(PromotionFeatureKey.AVAILABLE_ITEM_IDS,idList);
-                    //TODO
-                    //promotionVO.setFeature(PromotionFeature);
+                    promotionDOShop.setTitle(actActivityVO.getTitle());
+                    promotionDOShop.setDescription(actActivityVO.getDescription());
+                    promotionDOShop.setEntityType(EntityType.SHOP.getType());
+                    //promotionDO.setEntityId(0);
+                    promotionDOShop.setPromotionType(actActivityVO.getPromotionType());
+                    promotionDOShop.setRequirement(Math.round(actActivityVO.getRequirementY()));
+                    promotionDOShop.setValue(Math.round(actActivityVO.getValueY()));
+                    promotionDOShop.setStartTime(actActivityVO.getStartDate());
+                    promotionDOShop.setEndTime(actActivityVO.getEndDate());
+                    promotionDOShop.setDomain(B2CConstant.GF_DOMAIN);
+                    //feature
+                    if(CollectionUtils.isNotEmpty(promotionVOList)){
+                        List<Long> itemList = new ArrayList<Long>();
+                        List<Long> skuList = new ArrayList<Long>();
+                        for(PromotionVO promotionVO : promotionVOList){
+                            if(EntityType.SKU.getType() == promotionVO.getEntityType()){
+                                skuList.add(promotionVO.getEntityId());
+                            }else{
+                                itemList.add(promotionVO.getEntityId());
+                            }
+                            //防止null，引用操作失败
+                            if(promotionDOShop.getFeature() == null){
+                                promotionDOShop.setFeature("");
+                            }
+                            PromotionFeature promotionFeature = new PromotionFeature(promotionDOShop.getFeature());
+                            if(CollectionUtils.isNotEmpty( itemList)) {
+                                promotionFeature.put(PromotionFeatureKey.AVAILABLE_ITEM_IDS, itemList);
+                            }
+                            if(CollectionUtils.isNotEmpty( skuList)) {
+                                promotionFeature.put(PromotionFeatureKey.AVAILABLE_SKU_IDS, skuList);
+                            }
+                        }
+                    }
+                    if(0 == promotionDOShop.getId()){
+                        addPromotionDOList.add(promotionDOShop);
+                    }else{
+                        updPromotionDOList.add(promotionDOShop);
+                    }
                     break;
                 default:
                     //promotionVO.setEntityId(promotionVO.getEntityId());
+                    for (PromotionVO promotionVO : promotionVOList){
+                        PromotionDO promotionDO = new PromotionDO();
+                        BeanUtils.copyProperties(promotionVO,promotionDO);
+                        promotionDO.setTitle(actActivityVO.getTitle());
+                        promotionDO.setDescription(actActivityVO.getDescription());
+
+                        //promotionVO.setEntityType();
+
+
+                        promotionDO.setPromotionType(actActivityVO.getPromotionType());
+                        switch (PromotionType.getByType(actActivityVO.getPromotionType())) {
+                            case SUM_REDUCE:
+                                promotionDO.setRequirement(Math.round(actActivityVO.getRequirementY()));
+                                promotionDO.setValue(Math.round(promotionVO.getValueY() * 100));
+                                break;
+                            case DIRECT_REDUCE:
+                                promotionDO.setRequirement(0);
+                                promotionDO.setValue(Math.round(promotionVO.getValueY() * 100));
+                                break;
+                            default:
+                                break;
+                        }
+                        promotionDO.setStartTime(actActivityVO.getStartDate());
+                        promotionDO.setEndTime(actActivityVO.getEndDate());
+                        promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+                        //promotionVO.setStatus();
+                        //promotionVO.setFeatureV();
+                        //promotionVO.setUserTag();
+                        if(promotionVO.getId() == 0){
+                            addPromotionDOList.add(promotionDO);
+                        }else if(promotionVO.isDel()){
+                            delPromotionIdList.add(promotionDO.getId());
+                        }else{
+                            updPromotionDOList.add(promotionDO);
+                        }
+                    }
                     break;
-            }*/
-            for (PromotionVO promotionVO : promotionVOList){
-                PromotionDO promotionDO = new PromotionDO();
-                BeanUtils.copyProperties(promotionVO,promotionDO);
-                promotionDO.setTitle(actActivityEditVO.getActActivityVO().getTitle());
-                promotionDO.setDescription(actActivityEditVO.getActActivityVO().getDescription());
-
-                //promotionVO.setEntityType();
-
-
-                promotionDO.setPromotionType(actActivityEditVO.getActActivityVO().getPromotionType());
-                switch (PromotionType.getByType(actActivityEditVO.getActActivityVO().getPromotionType())) {
-                    case SUM_REDUCE:
-                        promotionDO.setRequirement(Math.round(actActivityEditVO.getActActivityVO().getRequirementY()));
-                        promotionDO.setValue(Math.round(promotionVO.getValueY() * 100));
-                        break;
-                    case DIRECT_REDUCE:
-                        promotionDO.setRequirement(0);
-                        promotionDO.setValue(Math.round(promotionVO.getValueY() * 100));
-                        break;
-                    default:
-                        break;
-                }
-                promotionDO.setStartTime(actActivityEditVO.getActActivityVO().getStartDate());
-                promotionDO.setEndTime(actActivityEditVO.getActActivityVO().getEndDate());
-                promotionDO.setDomain(B2CConstant.GF_DOMAIN);
-                //promotionVO.setStatus();
-                //promotionVO.setFeatureV();
-                //promotionVO.setUserTag();
-                if(promotionVO.getId() == 0){
-                    addPromotionDOList.add(promotionDO);
-                }else if(promotionVO.isDel()){
-                    delPromotionIdList.add(promotionDO.getId());
-                }else{
-                    updPromotionDOList.add(promotionDO);
-                }
             }
+
         }
-        //if()
-        //TODO
         promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
         promotionEditDTO.setDelPromotionIdList(delPromotionIdList);
         promotionEditDTO.setUpdPromotionDOList(updPromotionDOList);

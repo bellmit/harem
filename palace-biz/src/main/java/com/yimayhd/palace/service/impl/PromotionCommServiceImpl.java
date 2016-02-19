@@ -10,21 +10,32 @@ import com.yimayhd.activitycenter.result.ActPageResult;
 import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.activitycenter.result.ActResultSupport;
 import com.yimayhd.activitycenter.service.ActivityPromotionService;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuMixDTO;
+import com.yimayhd.ic.client.model.query.BatchRichSkuQuery;
+import com.yimayhd.ic.client.model.query.Pair;
+import com.yimayhd.ic.client.model.result.item.ItemSkuMixResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ActActivityEditVOConverter;
 import com.yimayhd.palace.convert.ActPromotionEditDTOConverter;
 import com.yimayhd.palace.convert.PromotionEditDTOConverter;
 import com.yimayhd.palace.model.ActActivityEditVO;
+import com.yimayhd.palace.model.ItemSkuVO;
+import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
+import com.yimayhd.promotion.client.enums.EntityType;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by czf on 2016/1/19.
@@ -33,6 +44,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     @Autowired
     private ActivityPromotionService activityPromotionServiceRef;
+
+    @Autowired
+    private ItemQueryService itemQueryServiceRef;
 
     private static final Logger log = LoggerFactory.getLogger(PromotionCommServiceImpl.class);
 
@@ -102,7 +116,64 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             throw new BaseException(actResult.getMsg());
         }
         ActActivityEditVO actActivityEditVO = ActActivityEditVOConverter.getActActivityEditVO(actResult.getT());
+        //组合item和sku信息
+        combineItem(actActivityEditVO);
         return actActivityEditVO;
+    }
+    public void combineItem(ActActivityEditVO actActivityEditVO){
+        if(actActivityEditVO != null && CollectionUtils.isNotEmpty(actActivityEditVO.getPromotionVOList())){
+            BatchRichSkuQuery batchRichSkuQuery = new BatchRichSkuQuery();
+            List<Pair<Long,Long>> itemIdSkuIdPairList = new ArrayList<Pair<Long, Long>>();
+            for(PromotionVO promotionVO : actActivityEditVO.getPromotionVOList()){
+                if(EntityType.ITEM.getType() == promotionVO.getEntityType()){
+                    itemIdSkuIdPairList.add(new Pair<Long, Long>(promotionVO.getEntityId(),null));
+                }else if(EntityType.SKU.getType() == promotionVO.getEntityType()){
+                    itemIdSkuIdPairList.add(new Pair<Long, Long>(null,promotionVO.getEntityId()));
+                }
+            }
+            batchRichSkuQuery.setItemIdSkuIdPairs(itemIdSkuIdPairList);
+            ItemSkuMixResult itemSkuMixResult = itemQueryServiceRef.batchQueryItemSku(batchRichSkuQuery);
+            if(itemSkuMixResult == null){
+                log.error("itemQueryServiceRef.batchQueryItemSku return null and param : " + JSON.toJSONString(batchRichSkuQuery));
+                throw new BaseException("返回结果为空");
+            } else if(!itemSkuMixResult.isSuccess()){
+                log.error("itemQueryServiceRef.batchQueryItemSku error:" + itemSkuMixResult + "and param :" + JSON.toJSONString(batchRichSkuQuery));
+                throw new BaseException(itemSkuMixResult.getResultMsg());
+            }
+            List<ItemSkuMixDTO> itemSkuMixDTOList = itemSkuMixResult.getItemSkuMixDTOList();
+            if(CollectionUtils.isNotEmpty(itemSkuMixDTOList)){
+                //转map
+                Map<String,ItemSkuMixDTO> map = new HashMap<String, ItemSkuMixDTO>();
+                for(ItemSkuMixDTO itemSkuMixDTO : itemSkuMixDTOList){
+                    String key = String.valueOf(itemSkuMixDTO.getItemDO() == null ? "" : itemSkuMixDTO.getItemDO().getId()) + "_" + String.valueOf(itemSkuMixDTO.getItemSkuDO() == null ? "" : itemSkuMixDTO.getItemSkuDO().getId());
+                    map.put(key,itemSkuMixDTO);
+                }
+                //组合值
+                for(PromotionVO promotionVO : actActivityEditVO.getPromotionVOList()){
+                    String key = "";
+                    if(EntityType.ITEM.getType() == promotionVO.getEntityType()){
+                        key = String.valueOf(promotionVO.getEntityId()) + "_";
+                    }else if(EntityType.SKU.getType() == promotionVO.getEntityType()){
+                        key =  "_" + String.valueOf(promotionVO.getEntityId());
+                    }
+
+                    ItemSkuMixDTO itemSkuMixDTO = map.get(key);
+                    if(itemSkuMixDTO != null){
+                        ItemDO itemDO = itemSkuMixDTO.getItemDO();
+                        ItemSkuDO itemSkuDO = itemSkuMixDTO.getItemSkuDO();
+                        promotionVO.setItemId(itemDO.getId());
+                        promotionVO.setItemTitle(itemDO.getTitle());
+                        promotionVO.setPriceY(itemDO.getPrice() / 100);
+                        promotionVO.setItemStatus(itemDO.getStatus());
+                        if(itemSkuDO != null){
+                            promotionVO.setItemSkuId(itemSkuDO.getId());
+                            promotionVO.setSkuTitle(itemSkuDO.getTitle());
+                            promotionVO.setPriceY(itemSkuDO.getPrice() / 100);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override

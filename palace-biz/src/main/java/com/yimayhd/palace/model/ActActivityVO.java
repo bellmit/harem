@@ -19,6 +19,8 @@ public class ActActivityVO extends ActActivityDO {
 
     private String endDateStr;
 
+    private int shopPromotionId;
+
     public int getEntityType() {
         return entityType;
     }
@@ -65,5 +67,13 @@ public class ActActivityVO extends ActActivityDO {
 
     public void setValueY(double valueY) {
         this.valueY = valueY;
+    }
+
+    public int getShopPromotionId() {
+        return shopPromotionId;
+    }
+
+    public void setShopPromotionId(int shopPromotionId) {
+        this.shopPromotionId = shopPromotionId;
     }
 }

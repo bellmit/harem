@@ -68,7 +68,7 @@
                     + '<td>' + data[i]['id'] + '</td>'
                     + '<td>' + data[i]['title'] + '</td>'
                     + '<td>￥' + data[i]['price'] / 100 + '</td>'
-                    + '<td>' + (data[i]['title'] == 2 ? '启用' : '停用') + '</td>'
+                    + '<td>' + (data[i]['status'] == 2 ? '启用' : '停用') + '</td>'
                     + '<td>' + data[i]['stockNum'] + '</td>'
                     + '<td><button type="button" class="btn btn-primary commoditySelect" commodity=' + JSON.stringify(commodity) + '>选择</button><button type="button" class="btn btn-primary selectSkuBtn" commodityId='+ data[i]['id'] + '>SKU</button></td>'
                     + '</tr>';

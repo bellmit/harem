@@ -187,9 +187,9 @@
                             dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY'] + '">'
                                     + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
                                     + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
-                                    + '<td>' + item['title'] + '</td>'
+                                    + '<td>' + item['title'] + '</br>' + resultValue[data]['skuTitle'] + '</td>'
                                     + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
-                                    + '<td>启用</td>'
+                                    + '<td>' + (item['status'] == 2 ? '启用' : '停用') + '</td>'
                                     //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
                                     + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
                                     + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
