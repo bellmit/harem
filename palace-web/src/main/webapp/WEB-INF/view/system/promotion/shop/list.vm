@@ -83,7 +83,10 @@
                         <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">
                             #if($!promotion.status == 1) 编辑  #else  查看  #end
                         </button>
-                        <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">停用</button></td>
+                        #if($!promotion.status != 4)
+                            <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">停用</button>
+                        #end
+                    </td>
                 </tr>
             #end
         </table>
@@ -123,7 +126,7 @@
             $(this).prop('disabled',true);
             var id = $(this).attr('themeId');
             var url;
-            url = '/GF/promotionCommManage/close/' + id;
+            url = '/GF/promotionShopManage/close/' + id;
             $.post(actionDefaultPath + url ,function(data){
                 if(data.status == 200){
                     layer.msg('操作成功', {
