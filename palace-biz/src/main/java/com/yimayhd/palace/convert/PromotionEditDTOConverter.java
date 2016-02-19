@@ -6,10 +6,7 @@ import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.promotion.client.domain.PromotionDO;
-import com.yimayhd.promotion.client.domain.PromotionFeature;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
-import com.yimayhd.promotion.client.enums.EntityType;
-import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -84,7 +81,7 @@ public class PromotionEditDTOConverter {
                     addPromotionDOList.add(promotionDO);
                 }else if(promotionVO.isDel()){
                     delPromotionIdList.add(promotionDO.getId());
-                }else if(promotionVO.isModify()){
+                }else{
                     updPromotionDOList.add(promotionDO);
                 }
             }
@@ -97,9 +94,4 @@ public class PromotionEditDTOConverter {
         return promotionEditDTO;
     }
 
-    public static void main(String[] args) {
-        List<PromotionVO> promotionVOList = JSON.parseArray("",PromotionVO.class);
-
-        System.out.println(1);
-    }
 }

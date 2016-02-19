@@ -62,6 +62,7 @@ public class PromotionCommController extends BaseController {
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public String toAdd(Model model,int promotionType) throws Exception {
         model.addAttribute("promotionType",promotionType);
+        model.addAttribute("entityType",EntityType.ITEM.getType());
         return "/system/promotion/comm/edit";
     }
 
@@ -73,8 +74,12 @@ public class PromotionCommController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-        ActResult<ActPromotionDTO> result = promotionCommService.getById(id);
-        model.addAttribute("promotionVO",result.getT());
+        ActActivityEditVO actActivityEditVO = promotionCommService.getById(id);
+        //TODO
+        int promotionType = 6;
+        model.addAttribute("actActivityEditVO",actActivityEditVO);
+        model.addAttribute("promotionType",promotionType);
+        model.addAttribute("entityType",EntityType.ITEM.getType());
         return "/system/promotion/comm/edit";
     }
 
@@ -97,9 +102,10 @@ public class PromotionCommController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String edit(@PathVariable(value = "id") long id,ActPromotionEditDTO promotionVO) throws Exception {
+    public String edit(@PathVariable(value = "id") long id,ActActivityEditVO actActivityEditVO) throws Exception {
 //        promotionVO.setId(id);
-        promotionCommService.modify(promotionVO);
+        actActivityEditVO.getActActivityVO().setId(id);
+        promotionCommService.modify(actActivityEditVO);
         return "/success";
     }
 

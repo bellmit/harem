@@ -1,13 +1,10 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.activitycenter.domain.ActActivityDO;
-import com.yimayhd.activitycenter.dto.ActPromotionDTO;
 import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
 import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
-import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ActActivityEditVO;
-import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 
 /**
  * Created by czf on 2016/1/19.
@@ -24,11 +21,11 @@ public interface PromotionCommService {
     /**
      * 修改优惠
      *
-     * @param actPromotionEditDTO
+     * @param actActivityEditVO
      *            需要修改的字段和主键
      * @throws Exception
      */
-    void modify(ActPromotionEditDTO actPromotionEditDTO) throws Exception;
+    void modify(ActActivityEditVO actActivityEditVO) throws Exception;
 
     /**
      * 添加优惠
@@ -47,7 +44,7 @@ public interface PromotionCommService {
      *            主键long类型的
      * @throws Exception
      */
-    ActResult<ActPromotionDTO> getById(long id) throws Exception;
+    ActActivityEditVO getById(long id) throws Exception;
 
     /**
      * 优惠上架

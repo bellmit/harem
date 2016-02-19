@@ -11,6 +11,8 @@ public class ActActivityVO extends ActActivityDO {
 
     private double requirementY;
 
+    private double valueY;
+
     private int promotionType;
 
     private String startDateStr;
@@ -55,5 +57,13 @@ public class ActActivityVO extends ActActivityDO {
 
     public void setEndDateStr(String endDateStr) {
         this.endDateStr = endDateStr;
+    }
+
+    public double getValueY() {
+        return valueY;
+    }
+
+    public void setValueY(double valueY) {
+        this.valueY = valueY;
     }
 }

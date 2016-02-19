@@ -78,8 +78,9 @@ public class PromotionShopController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-        ActResult<ActPromotionDTO> result = promotionCommService.getById(id);
-        model.addAttribute("promotionVO",result.getT());
+        //TODO
+        //ActResult<ActPromotionDTO> result = promotionCommService.getById(id);
+        //model.addAttribute("promotionVO",result.getT());
         return "/system/promotion/shop/edit";
     }
 
@@ -103,7 +104,8 @@ public class PromotionShopController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable(value = "id") long id,ActPromotionEditDTO promotionVO) throws Exception {
-        promotionCommService.modify(promotionVO);
+        //TODO
+        //promotionCommService.modify(promotionVO);
         return "/success";
     }
 

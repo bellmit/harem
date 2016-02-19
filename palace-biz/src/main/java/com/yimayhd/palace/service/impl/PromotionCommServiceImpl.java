@@ -12,6 +12,8 @@ import com.yimayhd.activitycenter.result.ActResultSupport;
 import com.yimayhd.activitycenter.service.ActivityPromotionService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.convert.ActActivityEditVOConverter;
+import com.yimayhd.palace.convert.ActPromotionEditDTOConverter;
 import com.yimayhd.palace.convert.PromotionEditDTOConverter;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.service.PromotionCommService;
@@ -55,11 +57,15 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         return promotionDOPageVO;
     }
 
-    @Override
-    public void modify(ActPromotionEditDTO actPromotionEditDTO) throws Exception {
-        if (PromotionStatus.NOTBEING.getStatus() != actPromotionEditDTO.getActActivityDO().getStatus()){
+    public void modify(ActActivityEditVO actActivityEditVO) throws Exception {
+
+        //TODO
+        /*if (PromotionStatus.NOTBEING.getStatus() != actActivityEditVO.getActActivityVO().getStatus()){
             throw new BaseException("只有未开始活动允许修改");
-        }
+        }*/
+
+        ActPromotionEditDTO actPromotionEditDTO = ActPromotionEditDTOConverter.getActPromotionEditDTO(actActivityEditVO);
+
         ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
         if(baseResult == null){
             log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
@@ -85,8 +91,18 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     }
 
     @Override
-    public ActResult<ActPromotionDTO> getById(long id) throws Exception {
-        return activityPromotionServiceRef.getActPromotionById(id);
+    public ActActivityEditVO getById(long id) throws Exception {
+
+        ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);
+        if(actResult == null){
+            log.error("activityPromotionServiceRef.getActPromotionById return null and param : " + id);
+            throw new BaseException("返回结果为空");
+        } else if(!actResult.isSuccess()){
+            log.error("activityPromotionServiceRef.getActPromotionById error:" + actResult + "and param :" + id);
+            throw new BaseException(actResult.getMsg());
+        }
+        ActActivityEditVO actActivityEditVO = ActActivityEditVOConverter.getActActivityEditVO(actResult.getT());
+        return actActivityEditVO;
     }
 
     @Override

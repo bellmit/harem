@@ -14,6 +14,7 @@ public class PromotionVO extends PromotionDO {
     private boolean isModify = false;
     private long itemId;
     private long itemSkuId;
+    private double priceY;
     private String itemTitle;
     private long stockNum;
     private int itemStatus;
@@ -87,5 +88,13 @@ public class PromotionVO extends PromotionDO {
 
     public void setItemStatus(int itemStatus) {
         this.itemStatus = itemStatus;
+    }
+
+    public double getPriceY() {
+        return priceY;
+    }
+
+    public void setPriceY(double priceY) {
+        this.priceY = priceY;
     }
 }

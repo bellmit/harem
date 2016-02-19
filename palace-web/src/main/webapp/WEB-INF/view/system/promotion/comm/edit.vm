@@ -7,16 +7,18 @@
 <div class="tab-content grogInfoWrap"  style="">
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createActActivityTable">
-            <form name="addActActivity" id="actActivityForm" action="" method="post" actActivityId="$!actActivity.id">
+            <form name="addActActivity" id="actActivityForm" action="" method="post" actActivityId="$!actActivityEditVO.actActivityVO.id">
                 <table>
                 <tr>
                     <td><span class="spColor">*</span>优惠名称：</td>
-                    <td> <input type="text" name="actActivityVO.title" class="title" value="$!actActivity.title"></td>
+                    <td> <input type="text" name="actActivityVO.title" class="title" value="$!actActivityEditVO.actActivityVO.title"></td>
                     <input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$promotionType">
+                    <input type="hidden" name="actActivityVO.entityType" class="entityType" value="$entityType">
+                    entityType
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>优惠描述：</td>
-                    <td> <input type="text" name="actActivityVO.description" class="description" value="$!actActivity.description"></td>
+                    <td> <input type="text" name="actActivityVO.description" class="description" value="$!actActivityEditVO.actActivityVO.summary"></td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>优惠设置</td>
@@ -28,17 +30,17 @@
                     PER_SUM_REDUCE("每满减",5),
                     DIRECT_REDUCE("直降",6);*#
                         #if($promotionType == 1)
-                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">元<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">折
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">元<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">折
                         #elseif($promotionType == 2)
-                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">减<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">减<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
                         #elseif($promotionType == 3)
-                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">个<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">折
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">个<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">折
                         #elseif($promotionType == 4)
-                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">个减<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">个减<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
                         #elseif($promotionType == 5)
-                            每满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivity.totalNum}">元减<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                            每满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">元减<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
                         #elseif($promotionType == 6)
-                            直降<input type="text" name="" class="allValueY" value="$!{actActivity.totalNum}">元
+                            直降<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
                         #end
 
                     </td>
@@ -47,9 +49,9 @@
                     <td><span class="spColor">*</span>优惠时间</td>
                     <td>
                         <div class="row">
-                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivity.startDate},"yyyy-MM-dd HH:mm")"></div>
+                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")"></div>
                             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivity.endDate},"yyyy-MM-dd HH:mm")"></div>
+                            <div class="col-md-4"><input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")"></div>
                         </div>
                     </td>
                 </tr>
@@ -73,6 +75,21 @@
                     #end
                     <th>操作</th>
                 </tr>
+                #foreach($promotionVO in $actActivityEditVO.promotionVOList)
+                   <tr class="dataSelectTr" promotionId="$promotionVO.id" entityId="$promotionVO.entityId" entityType="$promotionVO.entityType" priceY="$!promotionVO.priceY" isDel="$!promotionVO.isDel" isModify="$!promotionVO.isModify">
+                    <td commId="$promotionVO.itemId">$promotionVO.itemId</td>
+                    <td skuId="$promotionVO.itemSkuId">$promotionVO.itemSkuId</td>
+                    <td>$promotionVO.itemTitle</td>
+                    <td>$promotionVO.priceY</td>
+                    <td>#COMMODITY_STATUS($!promotionVO.itemStatus)</td>
+                       #if($promotionType == 6)
+                           <td>￥<input class="priceY" type="text" value="$promotionVO.valueY"></td>
+                           #set($afterPromotionPriceY = $promotionVO.priceY - $promotionVO.valueY)
+                           <td class="afterPromotionPriceY">$afterPromotionPriceY</td>
+                       #end
+                    <td><button type="button" class="btn btn-primary delBtn">删除</button></td>
+                    </tr>
+                #end
             </table>
         </div>
     </div>
@@ -163,16 +180,18 @@
                         console.log(top.resultValue);
                         var resultValue = top.resultValue;
                         var dataTableSelected = '';
+                        var allValueY = $('.allValueY').val();
                         for(var data in resultValue){
                             //if()
-                            dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1">'
+
+                            dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY'] + '">'
                                     + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
                                     + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
                                     + '<td>' + item['title'] + '</td>'
                                     + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
                                     + '<td>启用</td>'
                                     //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
-                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value=""></td>' + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>') : '')
+                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
                                     + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
                                     + '</tr>';
 
@@ -197,26 +216,64 @@
                     return false;
                 }
             });
-            var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2">'
+            var allValueY = $('.allValueY').val();
+            var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2" priceY="' + data['price'] + '">'
                     + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
                     + '<td skuId=""></td>'
                     + '<td>' + data['title'] + '</td>'
                     + '<td>￥' + data['price'] / 100 + '</td>'
                     + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
                     //+ '<td>' + data['stockNum'] + '</td>'
-                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value=""></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
+                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
                     + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
                     + '</tr>';
             $('.dataTableSelected').append(dataTableSelected);
         })
         $(document).delegate(".delBtn",'click',function(){
-            if($(this).attr('promotionId')){
+            if($(this).parents('tr').attr('promotionId')){
                 $(this).parents('tr').attr('isDel',"true");
-                $(this).parents('tr').hidden();
+                $(this).parents('tr').hide();
             }else{
                 $(this).parents('tr').remove();
             }
         });
+        if(promotionType == 6){
+            //单个修改直降
+            $(document).delegate(".priceY",'change',function(){
+                var priceY = $(this).val();
+                if(!priceY || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test(priceY)){
+                    layer.msg('请输入正确的金额', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+                if(priceY >= $(this).parents('tr').attr('priceY')){
+                    layer.msg('直降价格不能大于原价', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+                $(this).parents('tr').find('.afterPromotionPriceY').text('￥' + ($(this).parents('tr').attr('priceY') - priceY));
+            });
+            //批量修改直降
+            $(document).delegate(".allValueY",'change',function(){
+                var allValueY = $(this).val();
+                if(!allValueY || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test(allValueY)){
+                    layer.msg('请输入正确的金额', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+                $('.dataSelectTr').each(function(){
+                    $(this).find('.priceY').val(allValueY);
+                    $(this).find('.afterPromotionPriceY').text('￥' + ($(this).attr('priceY') - allValueY));
+                });
+            });
+
+        }
 
         //保存的
         $('#btnSubmit').click(function(){
@@ -230,7 +287,7 @@
             }*/
             var promotionList = new Array();
             $('.dataSelectTr').each(function(){
-                var promotion = {entityId:$(this).attr('entityId'),entityType:$(this).attr('entityType'),isDel:$(this).attr('isDel') || false,isModify:$(this).attr('isModify') || false,valueY:$(this).find('.priceY').val()};
+                var promotion = {id:$(this).attr('promotionId') || 0,entityId:$(this).attr('entityId'),entityType:$(this).attr('entityType'),isDel:$(this).attr('isDel') || false,isModify:$(this).attr('isModify') || false,valueY:$(this).find('.priceY').val() | $('.allValueY').val()};
                 promotionList.push(promotion);
             });
             $('.promotionVOListStr').val(JSON.stringify(promotionList));
@@ -238,7 +295,7 @@
             var actionUrl = "";
             var actActivityId = $('#actActivityForm').attr('actActivityId');
             if(actActivityId){
-                actionUrl = actionDefaultPath + '/GF/promotionCommManage/edit/'+recommendedId;
+                actionUrl = actionDefaultPath + '/GF/promotionCommManage/edit/'+actActivityId;
             }else{
                 actionUrl = actionDefaultPath + '/GF/promotionCommManage/add';
             }
