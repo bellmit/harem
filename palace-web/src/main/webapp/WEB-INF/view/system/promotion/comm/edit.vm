@@ -40,7 +40,7 @@
                         #elseif($promotionType == 5)
                             每满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">元减<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
                         #elseif($promotionType == 6)
-                            直降<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
+                            直降<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}" initValue="$!{actActivityEditVO.actActivityVO.valueY}">元
                         #end
 
                     </td>
@@ -83,7 +83,7 @@
                     <td>$promotionVO.priceY</td>
                     <td>#COMMODITY_STATUS($!promotionVO.itemStatus)</td>
                        #if($promotionType == 6)
-                           <td>￥<input class="priceY" type="text" value="$promotionVO.valueY"></td>
+                           <td>￥<input class="priceY" type="text" value="$promotionVO.valueY" initValue="$promotionVO.valueY"></td>
                            #set($afterPromotionPriceY = $promotionVO.priceY - $promotionVO.valueY)
                            <td class="afterPromotionPriceY">$afterPromotionPriceY</td>
                        #end
@@ -182,7 +182,11 @@
                         var dataTableSelected = '';
                         var allValueY = $('.allValueY').val();
                         for(var data in resultValue){
-                            //if()
+                            if(promotionType == 6){
+                                if(allValueY - resultValue[data]['skuPriceY'] >= 0){
+                                    allValueY = 0;
+                                }
+                            }
 
                             dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY'] + '">'
                                     + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
@@ -191,7 +195,7 @@
                                     + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
                                     + '<td>启用</td>'
                                     //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
-                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
+                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
                                     + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
                                     + '</tr>';
 
@@ -217,6 +221,9 @@
                 }
             });
             var allValueY = $('.allValueY').val();
+            if(allValueY - data['price'] / 100 >= 0){
+                allValueY = 0;
+            }
             var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2" priceY="' + data['price'] + '">'
                     + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
                     + '<td skuId=""></td>'
@@ -224,7 +231,7 @@
                     + '<td>￥' + data['price'] / 100 + '</td>'
                     + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
                     //+ '<td>' + data['stockNum'] + '</td>'
-                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
+                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
                     + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
                     + '</tr>';
             $('.dataTableSelected').append(dataTableSelected);
@@ -246,15 +253,18 @@
                         icon: 2,
                         time: 2000
                     });
+                    $(this).val($(this).attr('initValue'))
                     return false;
                 }
-                if(priceY >= $(this).parents('tr').attr('priceY')){
+                if(priceY - $(this).parents('tr').attr('priceY') >= 0){
                     layer.msg('直降价格不能大于原价', {
                         icon: 2,
                         time: 2000
                     });
+                    $(this).val($(this).attr('initValue'))
                     return false;
                 }
+                $(this).attr('initValue',priceY);
                 $(this).parents('tr').find('.afterPromotionPriceY').text('￥' + ($(this).parents('tr').attr('priceY') - priceY));
             });
             //批量修改直降
@@ -265,8 +275,20 @@
                         icon: 2,
                         time: 2000
                     });
+                    $(this).val($(this).attr('initValue'))
                     return false;
                 }
+                $('.dataSelectTr').each(function(){
+                    if(allValueY - $(this).attr('priceY') >= 0){
+                        layer.msg('存在商品原价小于优惠金额，请重新设置', {
+                            icon: 2,
+                            time: 2000
+                        });
+                        $('.allValueY').val($(this).attr('initValue'));
+                        return false;
+                    }
+                });
+                $(this).attr('initValue',allValueY);
                 $('.dataSelectTr').each(function(){
                     $(this).find('.priceY').val(allValueY);
                     $(this).find('.afterPromotionPriceY').text('￥' + ($(this).attr('priceY') - allValueY));
