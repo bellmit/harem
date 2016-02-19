@@ -24,17 +24,7 @@
                 <td><span class="spColor">*</span>产品序号：</td>
                 <td><input type="text" class="form-control int-only orderNum" style="width:120px" placeholder="请输入产品序号" value="$!product.baseInfo.orderNum"/></td>
             </tr>
-			<tr>
-            <td><span class="spColor">*</span>APP详情轮播图</td>
-            <td class="fileWrap detailAppImagesTd" id="detailAppImagesTd">
-                <input id="detailAppImagesBatchUploadBtn" class="btn btn-success fileBtn" type="file" multiple="multiple" >
-				#foreach($pic in $!product.baseInfo.detailAppImages)
-                    <img class="detailAppImages img-circle" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
-				#end
-            </td>
-            <input class="detailAppImagesVal" type="hidden" name="picturesStr">
-            </tr>
-			<tr>
+    		<tr>
                 <td><span class="spColor">*</span>产品封面图(APP)：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
@@ -70,7 +60,19 @@
                     <input class="orderImageUrlVal" type="hidden" value="$!product.baseInfo.orderImage"/>
                 </td>
             </tr>
-            <tr>
+ 			<tr>
+            <td><span class="spColor">*</span>APP详情轮播图</td>
+            <td class="fileWrap detailAppImagesTd" id="detailAppImagesTd">
+                <input id="detailAppImagesBatchUploadBtn" class="btn btn-success " type="file" multiple="multiple" >
+                <h5>图片大小不超过2M，背景图尺寸为：750x360 1~5张
+                </h5>
+				#foreach($pic in $!product.baseInfo.detailAppImages)
+                    <img class="detailAppImages img-circle" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
+				#end
+            </td>
+            <input class="detailAppImagesVal" type="hidden" name="picturesStr">
+            </tr>
+           <tr>
                 <td><span class="spColor">*</span>产品标签：</td>
                 <td>
 					#foreach($tag in $tags)
