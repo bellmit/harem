@@ -37,54 +37,58 @@ public class PromotionEditDTOConverter {
         List<PromotionDO> addPromotionDOList = new ArrayList<PromotionDO>();
         List<PromotionDO> updPromotionDOList = new ArrayList<PromotionDO>();
         List<Long> delPromotionIdList = new ArrayList<Long>();
-        if(CollectionUtils.isNotEmpty(promotionVOList)){
-            switch (EntityType.getByType(actActivityVO.getEntityType())){
-                case SHOP:
-                    PromotionDO promotionDOShop = new PromotionDO();
-                    //设置ID
-                    if(0 != actActivityVO.getShopPromotionId()){
-                        promotionDOShop.setId(actActivityVO.getShopPromotionId());
-                    }
-                    promotionDOShop.setTitle(actActivityVO.getTitle());
-                    promotionDOShop.setDescription(actActivityVO.getDescription());
-                    promotionDOShop.setEntityType(EntityType.SHOP.getType());
-                    //promotionDO.setEntityId(0);
-                    promotionDOShop.setPromotionType(actActivityVO.getPromotionType());
-                    promotionDOShop.setRequirement(Math.round(actActivityVO.getRequirementY()));
-                    promotionDOShop.setValue(Math.round(actActivityVO.getValueY()));
-                    promotionDOShop.setStartTime(actActivityVO.getStartDate());
-                    promotionDOShop.setEndTime(actActivityVO.getEndDate());
-                    promotionDOShop.setDomain(B2CConstant.GF_DOMAIN);
-                    //feature
-                    if(CollectionUtils.isNotEmpty(promotionVOList)){
-                        List<Long> itemList = new ArrayList<Long>();
-                        List<Long> skuList = new ArrayList<Long>();
-                        for(PromotionVO promotionVO : promotionVOList){
-                            if(EntityType.SKU.getType() == promotionVO.getEntityType()){
+
+        switch (EntityType.getByType(actActivityVO.getEntityType())){
+            case SHOP:
+                PromotionDO promotionDOShop = new PromotionDO();
+                //设置ID
+                if(0 != actActivityVO.getShopPromotionId()){
+                    promotionDOShop.setId(actActivityVO.getShopPromotionId());
+                }
+                promotionDOShop.setTitle(actActivityVO.getTitle());
+                promotionDOShop.setDescription(actActivityVO.getDescription());
+                promotionDOShop.setEntityType(EntityType.SHOP.getType());
+                //promotionDO.setEntityId(0);
+                promotionDOShop.setPromotionType(actActivityVO.getPromotionType());
+                promotionDOShop.setRequirement(Math.round(actActivityVO.getRequirementY() * 100));
+                promotionDOShop.setValue(Math.round(actActivityVO.getValueY() * 100));
+                promotionDOShop.setStartTime(actActivityVO.getStartDate());
+                promotionDOShop.setEndTime(actActivityVO.getEndDate());
+                promotionDOShop.setDomain(B2CConstant.GF_DOMAIN);
+                //feature
+                if(CollectionUtils.isNotEmpty(promotionVOList)){
+                    List<Long> itemList = new ArrayList<Long>();
+                    List<Long> skuList = new ArrayList<Long>();
+                    for(PromotionVO promotionVO : promotionVOList){
+                        if(!promotionVO.isDel()) {
+                            if (EntityType.SKU.getType() == promotionVO.getEntityType()) {
                                 skuList.add(promotionVO.getEntityId());
-                            }else{
+                            } else {
                                 itemList.add(promotionVO.getEntityId());
                             }
-                            //防止null，引用操作失败
-                            if(promotionDOShop.getFeature() == null){
-                                promotionDOShop.setFeature("");
-                            }
-                            PromotionFeature promotionFeature = new PromotionFeature(promotionDOShop.getFeature());
-                            if(CollectionUtils.isNotEmpty( itemList)) {
-                                promotionFeature.put(PromotionFeatureKey.AVAILABLE_ITEM_IDS, itemList);
-                            }
-                            if(CollectionUtils.isNotEmpty( skuList)) {
-                                promotionFeature.put(PromotionFeatureKey.AVAILABLE_SKU_IDS, skuList);
-                            }
                         }
+                        //防止null，引用操作失败
+                        if(promotionDOShop.getFeature() == null){
+                            promotionDOShop.setFeature("");
+                        }
+                        PromotionFeature promotionFeature = new PromotionFeature(promotionDOShop.getFeature());
+                        if(CollectionUtils.isNotEmpty( itemList)) {
+                            promotionFeature.put(PromotionFeatureKey.AVAILABLE_ITEM_IDS, itemList);
+                        }
+                        if(CollectionUtils.isNotEmpty( skuList)) {
+                            promotionFeature.put(PromotionFeatureKey.AVAILABLE_SKU_IDS, skuList);
+                        }
+                        promotionDOShop.setFeature(promotionFeature.getFeature());
                     }
-                    if(0 == promotionDOShop.getId()){
-                        addPromotionDOList.add(promotionDOShop);
-                    }else{
-                        updPromotionDOList.add(promotionDOShop);
-                    }
-                    break;
-                default:
+                }
+                if(0 == promotionDOShop.getId()){
+                    addPromotionDOList.add(promotionDOShop);
+                }else{
+                    updPromotionDOList.add(promotionDOShop);
+                }
+                break;
+            default:
+                if(CollectionUtils.isNotEmpty(promotionVOList)){
                     //promotionVO.setEntityId(promotionVO.getEntityId());
                     for (PromotionVO promotionVO : promotionVOList){
                         PromotionDO promotionDO = new PromotionDO();
@@ -122,10 +126,11 @@ public class PromotionEditDTOConverter {
                             updPromotionDOList.add(promotionDO);
                         }
                     }
-                    break;
-            }
-
+                }
+                break;
         }
+
+
         promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
         promotionEditDTO.setDelPromotionIdList(delPromotionIdList);
         promotionEditDTO.setUpdPromotionDOList(updPromotionDOList);

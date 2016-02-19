@@ -10,6 +10,7 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.query.PromotionListQuery;
 import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.service.PromotionCommService;
@@ -67,6 +68,7 @@ public class PromotionShopController extends BaseController {
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public String toAdd(Model model,int promotionType) throws Exception {
         model.addAttribute("promotionType",promotionType);
+        model.addAttribute("entityType",EntityType.SHOP.getType());
         return "/system/promotion/shop/edit";
     }
 
@@ -78,9 +80,13 @@ public class PromotionShopController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
+
+        ActActivityEditVO actActivityEditVO = promotionCommService.getById(id);
         //TODO
-        //ActResult<ActPromotionDTO> result = promotionCommService.getById(id);
-        //model.addAttribute("promotionVO",result.getT());
+        int promotionType = 2;
+        model.addAttribute("actActivityEditVO",actActivityEditVO);
+        model.addAttribute("promotionType",promotionType);
+        model.addAttribute("entityType",EntityType.SHOP.getType());
         return "/system/promotion/shop/edit";
     }
 
@@ -90,9 +96,9 @@ public class PromotionShopController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(PromotionVO promotionVO) throws Exception {
+    public String add(ActActivityEditVO actActivityEditVO) throws Exception {
         //promotionVO.setEntityType(EntityType.SHOP.getType());
-        promotionShopService.add(promotionVO);
+        promotionCommService.add(actActivityEditVO);
         return "/success";
     }
 
@@ -103,9 +109,10 @@ public class PromotionShopController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String edit(@PathVariable(value = "id") long id,ActPromotionEditDTO promotionVO) throws Exception {
-        //TODO
-        //promotionCommService.modify(promotionVO);
+    public String edit(@PathVariable(value = "id") long id,ActActivityEditVO actActivityEditVO) throws Exception {
+//        promotionVO.setId(id);
+        actActivityEditVO.getActActivityVO().setId(id);
+        promotionCommService.modify(actActivityEditVO);
         return "/success";
     }
 

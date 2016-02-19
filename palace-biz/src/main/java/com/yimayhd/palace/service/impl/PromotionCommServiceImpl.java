@@ -27,6 +27,7 @@ import com.yimayhd.palace.model.ItemSkuVO;
 import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 import com.yimayhd.promotion.client.enums.EntityType;
 import org.apache.commons.collections.CollectionUtils;
@@ -169,14 +170,14 @@ public class PromotionCommServiceImpl implements PromotionCommService {
                         ItemSkuDO itemSkuDO = itemSkuMixDTO.getItemSkuDO();
                         promotionVO.setItemId(itemDO.getId());
                         promotionVO.setItemTitle(itemDO.getTitle());
-                        promotionVO.setPriceY(itemDO.getPrice() / 100);
+                        promotionVO.setPriceY(NumUtil.moneyTransformDouble(itemDO.getPrice()));
                         promotionVO.setItemStatus(itemDO.getStatus());
                         if(itemSkuDO != null){
                             promotionVO.setItemSkuId(itemSkuDO.getId());
                             if (StringUtils.isNotEmpty(itemSkuDO.getTitle())){
                                 promotionVO.setItemTitle(itemDO.getTitle() + "_" +itemSkuDO.getTitle());
                             }
-                            promotionVO.setPriceY(itemSkuDO.getPrice() / 100);
+                            promotionVO.setPriceY(NumUtil.moneyTransformDouble(itemSkuDO.getPrice()));
                         }
                     }
                 }

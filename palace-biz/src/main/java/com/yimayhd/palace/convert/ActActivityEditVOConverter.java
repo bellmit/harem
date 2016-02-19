@@ -5,6 +5,7 @@ import com.yimayhd.activitycenter.dto.ActPromotionDTO;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.ActActivityVO;
 import com.yimayhd.palace.model.PromotionVO;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.domain.PromotionFeature;
 import com.yimayhd.promotion.client.enums.EntityType;
@@ -37,16 +38,27 @@ public class ActActivityEditVOConverter {
             if(CollectionUtils.isNotEmpty(promotionDOList)){
                 //店铺优惠只有一跳记录
                 PromotionDO promotionDO = promotionDOList.get(0);
-                PromotionFeature promotionFeature = new PromotionFeature(promotionDO.getFeature());
-                //TODO 没有区分item和sku
-                List<Long> itemIdList = promotionFeature.getAvailableItemIds();
-                for(Long itemId : itemIdList){
-                    PromotionVO promotionVO = new PromotionVO();
-                    BeanUtils.copyProperties(promotionDO, promotionVO);
-                    promotionVO.setEntityId(itemId);
-                    promotionVO.setEntityType(EntityType.ITEM.getType());
-                    promotionVO.setValueY(promotionDO.getValue() / 100);
-                    promotionVOList.add(promotionVO);
+                actActivityVO.setRequirementY(NumUtil.moneyTransformDouble(promotionDO.getRequirement()));
+                actActivityVO.setValueY(NumUtil.moneyTransformDouble(promotionDO.getValue()));
+                if(StringUtils.isNotBlank(promotionDO.getFeature())) {
+                    PromotionFeature promotionFeature = new PromotionFeature(promotionDO.getFeature());
+                    List<Long> itemIdList = promotionFeature.getAvailableItemIds();
+                    List<Long> skuIdList = promotionFeature.getAvailableSkuIds();
+                    for(int i = 0;i < itemIdList.size();i++){
+                        PromotionVO promotionVO = new PromotionVO();
+                        BeanUtils.copyProperties(promotionDO, promotionVO);
+                        promotionVO.setEntityId(Long.valueOf(String.valueOf(itemIdList.get(i))));
+                        promotionVO.setEntityType(EntityType.ITEM.getType());
+                        promotionVOList.add(promotionVO);
+                    }
+
+                    for (int i = 0;i < skuIdList.size();i++) {
+                        PromotionVO promotionVO = new PromotionVO();
+                        BeanUtils.copyProperties(promotionDO, promotionVO);
+                        promotionVO.setEntityId(Long.valueOf(String.valueOf(skuIdList.get(i))));
+                        promotionVO.setEntityType(EntityType.SKU.getType());
+                        promotionVOList.add(promotionVO);
+                    }
                 }
 
             }
@@ -55,11 +67,11 @@ public class ActActivityEditVOConverter {
                 for(PromotionDO promotionDO : promotionDOList){
                     PromotionVO promotionVO = new PromotionVO();
                     BeanUtils.copyProperties(promotionDO, promotionVO);
-                    promotionVO.setValueY(promotionDO.getValue() / 100);
+                    promotionVO.setValueY(NumUtil.moneyTransformDouble(promotionDO.getValue()));
                     //非直降的情况下设置优惠条件和优惠额度
                     if(PromotionType.DIRECT_REDUCE.getType() != promotionDO.getPromotionType()) {
-                        actActivityVO.setRequirementY(promotionDO.getRequirement() / 100);
-                        actActivityVO.setValueY(promotionDO.getValue() / 100);
+                        actActivityVO.setRequirementY(NumUtil.moneyTransformDouble(promotionDO.getRequirement()));
+                        actActivityVO.setValueY(NumUtil.moneyTransformDouble(promotionDO.getValue()));
                     }
 //                promotionVO.setItemId();
 //                promotionVO.setItemSkuId();
