@@ -145,9 +145,15 @@ public class PromotionCommServiceImpl implements PromotionCommService {
                 //转map
                 Map<String,ItemSkuMixDTO> map = new HashMap<String, ItemSkuMixDTO>();
                 for(ItemSkuMixDTO itemSkuMixDTO : itemSkuMixDTOList){
-                    String key = String.valueOf(itemSkuMixDTO.getItemDO() == null ? "" : itemSkuMixDTO.getItemDO().getId()) + "_" + String.valueOf(itemSkuMixDTO.getItemSkuDO() == null ? "" : itemSkuMixDTO.getItemSkuDO().getId());
+                    String key = "";
+                    if (itemSkuMixDTO.getItemSkuDO() == null){
+                        key = String.valueOf(itemSkuMixDTO.getItemDO().getId()) + "_";
+                    }else{
+                        key = "_" + String.valueOf(itemSkuMixDTO.getItemSkuDO().getId());
+                    }
                     map.put(key,itemSkuMixDTO);
                 }
+
                 //组合值
                 for(PromotionVO promotionVO : actActivityEditVO.getPromotionVOList()){
                     String key = "";
@@ -167,7 +173,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
                         promotionVO.setItemStatus(itemDO.getStatus());
                         if(itemSkuDO != null){
                             promotionVO.setItemSkuId(itemSkuDO.getId());
-                            promotionVO.setSkuTitle(itemSkuDO.getTitle());
+                            promotionVO.setSkuTitle(itemDO.getTitle() + "_" +itemSkuDO.getTitle());
                             promotionVO.setPriceY(itemSkuDO.getPrice() / 100);
                         }
                     }
