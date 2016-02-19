@@ -115,4 +115,12 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         boolean res = activityPromotionServiceRef.closeActPromotion(id).isSuccess();
         return res;
     }
+
+    @Override
+    public boolean checkActivityName(String name, int type) {
+        ActActivityDO actActivityDO = new ActActivityDO();
+        actActivityDO.setTitle(name);
+        actActivityDO.setType(type);
+        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);
+    }
 }

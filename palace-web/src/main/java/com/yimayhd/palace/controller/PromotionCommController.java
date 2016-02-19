@@ -83,6 +83,16 @@ public class PromotionCommController extends BaseController {
         return "/system/promotion/comm/edit";
     }
 
+    @RequestMapping(value = "/checkActivityName", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseVo checkActivityName(String name, int type) throws Exception {
+        boolean res = promotionCommService.checkActivityName(name, type);
+        if (res){
+            return new ResponseVo(ResponseStatus.ERROR);
+        }
+        return ResponseVo.success();
+    }
+
     /**
      * 新增优惠
      * @return 单品优惠详情

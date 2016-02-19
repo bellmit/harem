@@ -57,4 +57,6 @@ public interface PromotionCommService {
      * @param id 优惠ID
      */
     boolean close(long id)throws Exception;
+
+    boolean checkActivityName(String name, int type);
 }
