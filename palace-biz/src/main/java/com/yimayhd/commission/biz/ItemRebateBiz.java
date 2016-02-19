@@ -5,6 +5,7 @@ import com.yimayhd.commission.model.query.ItemRebateQuery;
 import com.yimayhd.commission.repo.ItemRebateRepo;
 import com.yimayhd.marketing.client.model.domain.ItemRebateDO;
 import com.yimayhd.marketing.client.model.enums.DomainType;
+import com.yimayhd.marketing.client.model.enums.ItemRebateStatus;
 import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
 import com.yimayhd.marketing.client.model.result.SpmPageResult;
 import com.yimayhd.marketing.client.model.result.SpmResult;

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.marketing.client.model.query.UserRelationQuery;
+import com.yimayhd.marketing.client.model.result.SpmPageResult;
 import com.yimayhd.marketing.client.model.result.SpmResult;
+import com.yimayhd.marketing.client.model.result.userrelation.HierarchyResult;
 import com.yimayhd.marketing.client.model.result.userrelation.UserInfoResult;
 import com.yimayhd.marketing.client.service.UserRelationService;
 
@@ -30,6 +32,18 @@ public class UserRelationRepo {
 					JSON.toJSONString(query), e);
 		}
 				
+		return baseResult;
+	}
+	
+	public SpmPageResult<HierarchyResult> queryList(UserRelationQuery query){
+		logger.info("UserRelationRepo.queryList begin,param:" + JSON.toJSONString(query));
+		SpmPageResult<HierarchyResult> baseResult = null;
+		try{
+			baseResult = userRelationService.hierarchyPageQuery(query);
+		}catch(Exception e){
+			logger.error("UserRelationRepo.queryList exceptions occur,param:{},ex:{}",
+					JSON.toJSONString(query), e);
+		}
 		return baseResult;
 	}
 }

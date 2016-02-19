@@ -25,7 +25,7 @@
                 </tr>
                 #foreach($itemRebate in $pageVo.itemList)
                     <tr>
-                        <td><img style="width: 40px;height: 40px;" src="$!utilWebconfig.getTfsRootPath()/$!{itemRebate.imgName}" /></td>
+                        <td><img style="width: 40px;height: 40px;" src="$!utilWebconfig.getItemImgUrlPath()/$!{itemRebate.sellerId}/$!{itemRebate.imgName}" /></td>
                         <td>$itemRebate.itemTitle</td>
                         <td>$itemRebate.itemId</td>
                         <td>$!utilNum.moneyTransform($!itemRebate.price)</td>

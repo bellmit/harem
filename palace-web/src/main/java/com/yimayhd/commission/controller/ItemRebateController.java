@@ -68,10 +68,6 @@ public class ItemRebateController extends BaseController {
 
         try{
 
-            System.out.println(itemId);
-            System.out.println(parentRate);
-            System.out.println(grandpaRate);
-
             ItemRebateRateUpdateDTO itemRebateRateUpdateDTO = new ItemRebateRateUpdateDTO();
             itemRebateRateUpdateDTO.setItemId(itemId);
             itemRebateRateUpdateDTO.setRebateParentRate(parentRate);
