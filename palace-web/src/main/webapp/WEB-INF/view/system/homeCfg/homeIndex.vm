@@ -715,7 +715,7 @@
 			advertiseList[2] = parseAdvertiseForm("rightupTwoTr",3,'ACTIVITY');
 			advertiseList[3] = parseAdvertiseForm("downOneTr",4,'ACTIVITY');
 			advertiseList[4] = parseAdvertiseForm("downTwoTr",5,'ACTIVITY');
-			advertiseList[5] = parseAdvertiseForm("downThreeTr",6,'GREAT_GIFT');
+			advertiseList[5] = parseAdvertiseForm("downThreeTr",6,'ACTIVITY');
 			
             $(this).prop('disabled',true);
             $.ajax({
