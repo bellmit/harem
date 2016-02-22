@@ -60,8 +60,15 @@
                     });
                 	return ;
                 }
-                if(parseFloat(parentRate) > 100 || parseFloat(grandpaRate) > 100){
-                	layer.msg('返佣比率不能大于100', {
+                if(parseFloat(parentRate) > 30 || parseFloat(grandpaRate) > 30){
+                	layer.msg('返佣比率不能大于30', {
+                        icon: 2,
+                        time: 2000
+                    });
+                	return ;
+                }
+                if(parseFloat(parentRate) + parseFloat(grandpaRate) > 30){
+                	layer.msg('返佣比率之和不能超过30%', {
                         icon: 2,
                         time: 2000
                     });

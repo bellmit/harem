@@ -32,6 +32,7 @@
                     <th>会员名称</th>
                     <th>用户账号</th>
                     <th>联系电话</th>
+                    <td>上级用户</td>
                     <th>一级</th>
                     <th>二级</th>
                 </tr>
@@ -40,16 +41,17 @@
                     <td>$!hierarchyResult.userRelationDO.alipayAccountName</td>
                     <td>$!hierarchyResult.userRelationDO.userName</td>
                     <td>$!hierarchyResult.userRelationDO.alipayAccountPhone</td>
+                    <td>$!hierarchyResult.parentDO.userName</td>
                     <td>
                     	<font color="red">共$!hierarchyResult.lowerUserList.size()人</font><br/>
                     	#foreach($lowerUser in $hierarchyResult.lowerUserList)
-                    		$!lowerUser.userName
+                    		$!lowerUser.userName  &nbsp;&nbsp;
                     	#end
                     </td>
                     <td>
                     	<font color="red">共$!hierarchyResult.subLowerUserList.size()人</font><br/>
                     	#foreach($subLowerUser in $hierarchyResult.subLowerUserList)
-                    		$!subLowerUser.userName
+                    		$!subLowerUser.userName  &nbsp;&nbsp;
                     	#end
                     </td>
                  </tr>
