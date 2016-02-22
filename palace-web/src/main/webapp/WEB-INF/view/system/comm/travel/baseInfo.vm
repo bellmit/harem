@@ -63,7 +63,7 @@
  			<tr>
             <td><span class="spColor">*</span>APP详情轮播图</td>
             <td class="fileWrap detailAppImagesTd" id="detailAppImagesTd">
-                <input id="detailAppImagesBatchUploadBtn" class="btn btn-success " type="file" multiple="multiple" >
+                <input id="detailAppImagesBatchUploadBtn" class="" type="file" multiple="multiple" >
                 <h5>图片大小不超过2M，背景图尺寸为：750x360 1~5张
                 </h5>
 				#foreach($pic in $!product.baseInfo.detailAppImages)
@@ -195,8 +195,19 @@
         $(document).delegate("#detailAppImagesBatchUploadBtn",'change',function(){
             fileUpload('#detailAppImagesBatchUploadBtn',2,function(dataVal){
                 for(var key in dataVal.data){
-                    $('.detailAppImagesTd').append('<img class="detailAppImages " imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+                    $('.detailAppImagesTd').append('<img class="detailAppImages img-circle" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+                    $('.detailAppImagesTd').append('<button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>');
                 }
+                var imgs = 0;
+                $(".detailAppImagesTd").find("img").each(function(){
+                    imgs = imgs + 1;
+                    if(imgs > 5) {
+                        layer.msg('图片不能大于5张', {icon: 2});
+//                        $('.detailAppImagesTd').remove(this.next());
+                        $(this).next().remove();
+                        $(this).remove();
+                    }
+                });
             });
         });
         //上传图片
