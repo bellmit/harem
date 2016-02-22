@@ -77,7 +77,11 @@
                 #foreach($promotionVO in $actActivityEditVO.promotionVOList)
                    <tr class="dataSelectTr" promotionId="$promotionVO.id" entityId="$promotionVO.entityId" entityType="$promotionVO.entityType" priceY="$!promotionVO.priceY" isDel="$!promotionVO.isDel" isModify="$!promotionVO.isModify">
                     <td commId="$promotionVO.itemId">$promotionVO.itemId</td>
-                    <td skuId="$promotionVO.itemSkuId">$promotionVO.itemSkuId</td>
+                    <td skuId="$promotionVO.itemSkuId">
+                        #if($promotionVO.itemSkuId != 0)
+                            $promotionVO.itemSkuId
+                        #end
+                    </td>
                     <td>$!promotionVO.itemTitle</td>
                     <td>$promotionVO.priceY</td>
                     <td>#COMMODITY_STATUS($!promotionVO.itemStatus)</td>

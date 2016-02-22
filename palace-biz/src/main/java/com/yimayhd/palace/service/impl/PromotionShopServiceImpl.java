@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by czf on 2016/1/19.
  */
 public class PromotionShopServiceImpl implements PromotionShopService {
-    @Autowired
-    private PromotionPublishService promotionPublishServiceRef;
+//    @Autowired
+//    private PromotionPublishService promotionPublishServiceRef;
 
     private static final Logger log = LoggerFactory.getLogger(PromotionShopServiceImpl.class);
 
