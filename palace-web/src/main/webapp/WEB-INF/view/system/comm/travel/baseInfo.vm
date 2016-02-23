@@ -24,17 +24,7 @@
                 <td><span class="spColor">*</span>产品序号：</td>
                 <td><input type="text" class="form-control int-only orderNum" style="width:120px" placeholder="请输入产品序号" value="$!product.baseInfo.orderNum"/></td>
             </tr>
-			<tr>
-            <td><span class="spColor">*</span>APP详情轮播图</td>
-            <td class="fileWrap detailAppImagesTd" id="detailAppImagesTd">
-                <input id="detailAppImagesBatchUploadBtn" class="btn btn-success fileBtn" type="file" multiple="multiple" >
-				#foreach($pic in $!product.baseInfo.detailAppImages)
-                    <img class="detailAppImages img-circle" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
-				#end
-            </td>
-            <input class="detailAppImagesVal" type="hidden" name="picturesStr">
-            </tr>
-			<tr>
+            <tr>
                 <td><span class="spColor">*</span>产品封面图(APP)：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
@@ -189,14 +179,6 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-        /****************批量上传pic_urls*****************/
-        $(document).delegate("#detailAppImagesBatchUploadBtn",'change',function(){
-            fileUpload('#detailAppImagesBatchUploadBtn',2,function(dataVal){
-                for(var key in dataVal.data){
-                    $('.detailAppImagesTd').append('<img class="detailAppImages " imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
-                }
-            });
-        });
         //上传图片
         $(document).delegate("#productImageAppFile",'change',function(){
             fileUpload('#productImageAppFile',1,function(data){
@@ -322,16 +304,6 @@
 		var productImagePc = $(".productImagePcUrlVal").val();
 		var tripImage = $(".tripImageUrlVal").val();
 		var orderImage = $(".orderImageUrlVal").val();
-        var picUrls = '';
-        var detailAppImages = new Array();
-        $('.detailAppImages').each(function(){
-            detailAppImages.push( $(this).attr('imgUrl'))
-//            if(picUrls){
-//                picUrls += '|' + $(this).attr('imgUrl');
-//            }else{
-//                picUrls += $(this).attr('imgUrl');
-//            }
-        });
 		var tags = [];
 		$(".productTag:checked").each(function(){
 			tags.push($(this).attr("rId"));
@@ -362,7 +334,6 @@
 			productImagePc:productImagePc,
 			tripImage:tripImage,
 			orderImage:orderImage,
-            detailAppImages:detailAppImages,
 			tags:tags,
 			publisherType:publisherType,
 			publisherId:publisher.attr("rId"),
@@ -390,8 +361,4 @@
 		};
 		return result;
 	}
-    function delPic(obj) {
-        $(obj).prev().remove();
-        $(obj).remove();
-    }
 </script>
