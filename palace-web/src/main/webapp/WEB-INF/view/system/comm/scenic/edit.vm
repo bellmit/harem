@@ -68,7 +68,7 @@
                            <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commScenic.bigListPic">
                         </td>
                         <td class="smallListPicTd">
-                            <label>选择订单图</label>
+                            <label>选择订单图(建议尺寸：310*310)</label>
                             <input id="smallListPicUrl" type="file">
                             <img class="smallListPicUrl uploadImgFile" src="#if($!commScenic.smallListPic)$utilWebconfig.getTfsRootPath()$!commScenic.smallListPic #end">
                             <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commScenic.smallListPic">
