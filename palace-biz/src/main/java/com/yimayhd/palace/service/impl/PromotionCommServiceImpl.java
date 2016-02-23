@@ -75,9 +75,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     public void modify(ActActivityEditVO actActivityEditVO) throws Exception {
 
         //TODO
-        /*if (PromotionStatus.NOTBEING.getStatus() != actActivityEditVO.getActActivityVO().getStatus()){
+        if (PromotionStatus.NOTBEING.getStatus() != actActivityEditVO.getActActivityVO().getStatus()){
             throw new BaseException("只有未开始活动允许修改");
-        }*/
+        }
 
         ActPromotionEditDTO actPromotionEditDTO = ActPromotionEditDTOConverter.getActPromotionEditDTO(actActivityEditVO);
 
