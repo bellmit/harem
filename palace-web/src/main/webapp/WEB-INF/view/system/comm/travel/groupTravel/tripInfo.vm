@@ -311,7 +311,11 @@
 						<button class="btn btn-info day_${day}_scenic_item remove-self" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
 					#end
 					</div>
-					<div class="panel-body">
+					<div class="panel-body input-group">
+                        <input type='text' class='form-control' placeholder='请输入景区名称' id='day_${velocityCount}_scenic_add'>
+                        <span class="input-group-btn">
+						<button class='btn btn-default add-scenic-btn' type='button' display-id='day_${velocityCount}_scenic'>添加景区</button>
+						</span>
 						<span class="input-group-btn">
 						<button class="btn btn-primary select-scenic" display-id="day_${velocityCount}_scenic">选择景区</button>
 						</span>
@@ -319,14 +323,22 @@
 				</div>
 			</div>
 			<div class="panel add-hotel">
-				<div class="panel-heading travelPanelHotel"><i class="icon icon-2x icon-home"></i><span class="tripAddSp">添加酒店</span></div>
-				<div class="panel-body hotel" id="day_${velocityCount}_hotel" route-item-id="$!{tripDay.hotelsRouteItemId}" route-item-detail-id="$!{tripDay.hotelDetailRouteItemId}">
-				#foreach($hotel in $tripDay.hotels)
-					<button class="btn btn-info day_${day}_hotel_item remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
-				#end
-				</div>
-                <div class="panel-body">
-					<button class="btn btn-primary select-hotel" display-id="day_${velocityCount}_hotel">选择酒店</button>
+                <div class="panel">
+					<div class="panel-heading travelPanelHotel"><i class="icon icon-2x icon-home"></i><span class="tripAddSp">添加酒店</span></div>
+					<div class="panel-body hotel" id="day_${velocityCount}_hotel" route-item-id="$!{tripDay.hotelsRouteItemId}" route-item-detail-id="$!{tripDay.hotelDetailRouteItemId}">
+					#foreach($hotel in $tripDay.hotels)
+						<button class="btn btn-info day_${day}_hotel_item remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
+					#end
+					</div>
+					<div class="panel-body input-group">
+						<input type='text' class='form-control' placeholder='请输入酒店名称' id='day_${velocityCount}_hotel_add'>
+							<span class="input-group-btn">
+							<button class='btn btn-default add-hotel-btn' type='button' display-id='day_${velocityCount}_hotel'>添加酒店</button>
+							</span>
+							<span class="input-group-btn">
+							<button class="btn btn-primary select-hotel" display-id="day_${velocityCount}_hotel">选择酒店</button>
+							</span>
+					</div>
 				</div>
 			</div>
 		</div>
