@@ -48,9 +48,9 @@
                     <td><span class="spColor">*</span>优惠时间</td>
                     <td>
                         <div class="input-group">
-                            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
+                            <input type="text" class='form-control form-date dateInp startDate' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
                             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")">
+                            <input type="text" class='form-control form-date dateInp endDate' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")">
                         </div>
                     </td>
                 </tr>
@@ -138,6 +138,12 @@
         }
         if($('.description').val().length > 60){
             return '字数不能超过60';
+        }
+
+        if($('.startDate').val() && $('.endDate').val()){
+            if($('.startDate').val() > $('.endDate').val()){
+                return "结束日期必须大于开始日期!";
+            }
         }
 
         var url = '/GF/promotionCommManage/checkActivityName';

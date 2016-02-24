@@ -154,12 +154,12 @@
         });
 
         $('#btnSubmit').click(function(){
-            if($('.startDate').val() && $('.endDate').val()){
-                if($('.startDate').val() > $('.endDate').val()){
+            if($('.beginTime').val() && $('.endTime').val()){
+                if($('.beginTime').val() > $('.endTime').val()){
                     if($("#phone-error").length != 0){
                         return false;
                     }else {
-                        $('.endDate').parent().parent().append('<label id="phone-error" class="error" for="phone">结束日期必须大于开始日期!</label>');
+                        $('.endTime').parent().parent().append('<label id="phone-error" class="error" for="phone">结束日期必须大于开始日期!</label>');
                         return false;
                     }
                 }
