@@ -56,7 +56,7 @@
                 </select>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-add">新增优惠券</button>
+                <button type="button" class="btn btn-add">新增商品优惠</button>
             </div>
         </div>
         <div class="tableGroup whole">
@@ -111,9 +111,9 @@
 
     $(function(){
         $('.btn-add').click(function(){
-            if(!$('.addPromotionType').val()){
-                layer.msg('操作成功', {
-                    icon: 1,
+            if(!$('.addPromotionType').val() || $('.addPromotionType').val() != 6){
+                layer.msg('单品优惠暂时只支持直降优惠', {
+                    icon: 2,
                     time: 1500
                 });
                 return false;

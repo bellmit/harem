@@ -29,6 +29,7 @@
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input id="productImageAppFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
+                    建议尺寸：750*360
                     <img class="productImageAppUrlImg img-circle" src="#if($!{product.baseInfo.productImageApp})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImageApp} #end"/>
                     <input class="productImageAppUrlVal" type="hidden" value="$!product.baseInfo.productImageApp"/>
                 </td>
@@ -38,6 +39,7 @@
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input id="productImagePcFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
+                    建议尺寸：1200*520
                     <img class="productImagePcUrlImg img-circle" src="#if($!{product.baseInfo.productImagePc})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.productImagePc} #end"/>
                     <input class="productImagePcUrlVal" type="hidden" value="$!product.baseInfo.productImagePc"/>
                 </td>
@@ -47,6 +49,7 @@
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input id="tripImageFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
+                    建议尺寸：580*985
                     <img class="tripImageUrlImg img-circle" src="#if($!{product.baseInfo.tripImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.tripImage} #end"/>
                     <input class="tripImageUrlVal" type="hidden" value="$!product.baseInfo.tripImage"/>
                 </td>
@@ -56,6 +59,7 @@
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input id="orderImageFile" class="fileBtn" type="file" accept="image/png,image/gif,image/jpeg"/>
+					建议尺寸：310*310
                     <img class="orderImageUrlImg img-circle" src="#if($!{product.baseInfo.orderImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.orderImage} #end"/>
                     <input class="orderImageUrlVal" type="hidden" value="$!product.baseInfo.orderImage"/>
                 </td>

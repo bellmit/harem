@@ -83,5 +83,5 @@ consumer.dubbo.itemRebate.check = ${consumer.dubbo.itemRebate.check}
 consumer.dubbo.itemRebate.version = ${consumer.dubbo.itemRebate.version}
 
 
-consumer.dubbo.promotion.check = ${consumer.dubbo.promotion.check}
-consumer.dubbo.promotion.version = ${consumer.dubbo.promotion.check}
+consumer.dubbo.activity.check = ${consumer.dubbo.activity.check}
+consumer.dubbo.activity.version = ${consumer.dubbo.activity.version}

@@ -44,20 +44,23 @@ public class ActActivityEditVOConverter {
                     PromotionFeature promotionFeature = new PromotionFeature(promotionDO.getFeature());
                     List<Long> itemIdList = promotionFeature.getAvailableItemIds();
                     List<Long> skuIdList = promotionFeature.getAvailableSkuIds();
-                    for(int i = 0;i < itemIdList.size();i++){
-                        PromotionVO promotionVO = new PromotionVO();
-                        BeanUtils.copyProperties(promotionDO, promotionVO);
-                        promotionVO.setEntityId(Long.valueOf(String.valueOf(itemIdList.get(i))));
-                        promotionVO.setEntityType(EntityType.ITEM.getType());
-                        promotionVOList.add(promotionVO);
+                    if(CollectionUtils.isNotEmpty(itemIdList)) {
+                        for (int i = 0; i < itemIdList.size(); i++) {
+                            PromotionVO promotionVO = new PromotionVO();
+                            BeanUtils.copyProperties(promotionDO, promotionVO);
+                            promotionVO.setEntityId(Long.valueOf(String.valueOf(itemIdList.get(i))));
+                            promotionVO.setEntityType(EntityType.ITEM.getType());
+                            promotionVOList.add(promotionVO);
+                        }
                     }
-
-                    for (int i = 0;i < skuIdList.size();i++) {
-                        PromotionVO promotionVO = new PromotionVO();
-                        BeanUtils.copyProperties(promotionDO, promotionVO);
-                        promotionVO.setEntityId(Long.valueOf(String.valueOf(skuIdList.get(i))));
-                        promotionVO.setEntityType(EntityType.SKU.getType());
-                        promotionVOList.add(promotionVO);
+                    if(CollectionUtils.isNotEmpty(skuIdList)) {
+                        for (int i = 0; i < skuIdList.size(); i++) {
+                            PromotionVO promotionVO = new PromotionVO();
+                            BeanUtils.copyProperties(promotionDO, promotionVO);
+                            promotionVO.setEntityId(Long.valueOf(String.valueOf(skuIdList.get(i))));
+                            promotionVO.setEntityType(EntityType.SKU.getType());
+                            promotionVOList.add(promotionVO);
+                        }
                     }
                 }
 
