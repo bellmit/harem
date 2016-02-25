@@ -11,6 +11,7 @@
                     <td><input type="text" name="actActivityVO.title" class="title" value="$!actActivityEditVO.actActivityVO.title"></td>
                     <input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$!promotionType">
                     <input type="hidden" name="actActivityVO.entityType" class="entityType" value="$!entityType">
+                    <input type="hidden" name="actActivityVO.entityId" class="entityId" value="$!entityId">
                     #if($!actActivityEditVO.actActivityVO.id)
                         <input type="hidden" name="actActivityVO.id" class="entityType" value="$!actActivityEditVO.actActivityVO.id">
                     #end
@@ -97,7 +98,7 @@
         </div>
     </div>
     </div>
-    #if($actActivityEditVO.actActivityVO.status == 1)
+    #if(!$actActivityEditVO || $actActivityEditVO.actActivityVO.status == 1)
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
     #end
 </div>

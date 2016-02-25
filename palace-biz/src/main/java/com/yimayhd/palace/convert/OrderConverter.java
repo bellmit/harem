@@ -31,7 +31,7 @@ public class OrderConverter {
 
     public static OrderQueryDTO orderListQueryToOrderQueryDTO(OrderListQuery orderListQuery,long userId){
         OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
-        if (orderListQuery.getDomain()==0){
+        if (orderListQuery.getDomain() == null || orderListQuery.getDomain()==0){
             orderQueryDTO.setDomain(1000);
         }else{
             orderQueryDTO.setDomain(orderListQuery.getDomain());

@@ -36,7 +36,7 @@
 		<commons.io.version>2.4</commons.io.version>
 		<commission.version>1.0-SNAPSHOT</commission.version>
 		<voucher.client.version>0.0.6-SNAPSHOT</voucher.client.version>
-		<spread_version>1.0.0-SNAPSHOT</spread_version>
+		<spread_version>1.0.4-SNAPSHOT</spread_version>
 		<promotion.client.version>1.0.0-SNAPSHOT</promotion.client.version>
 		<tair.version>2.3.4.3</tair.version>
 		<activity.client.version>1.1.0-SNAPSHOT</activity.client.version>

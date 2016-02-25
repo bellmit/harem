@@ -97,7 +97,7 @@
         </div>
     </div>
     </div>
-    #if($actActivityEditVO.actActivityVO.status == 1)
+    #if(!$actActivityEditVO || $actActivityEditVO.actActivityVO.status == 1)
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
     #end
 </div>

@@ -9,6 +9,8 @@ public class ActActivityVO extends ActActivityDO {
 
     private int entityType;
 
+    private int entityId;//店铺优惠用
+
     private double requirementY;
 
     private double valueY;
@@ -75,5 +77,13 @@ public class ActActivityVO extends ActActivityDO {
 
     public void setShopPromotionId(int shopPromotionId) {
         this.shopPromotionId = shopPromotionId;
+    }
+
+    public int getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(int entityId) {
+        this.entityId = entityId;
     }
 }

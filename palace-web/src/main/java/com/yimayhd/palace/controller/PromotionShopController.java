@@ -9,6 +9,7 @@ import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.query.PromotionListQuery;
@@ -69,6 +70,7 @@ public class PromotionShopController extends BaseController {
     public String toAdd(Model model,int promotionType) throws Exception {
         model.addAttribute("promotionType",promotionType);
         model.addAttribute("entityType",EntityType.SHOP.getType());
+        model.addAttribute("entityId", B2CConstant.GF_OFFICIAL_ID);
         return "/system/promotion/shop/edit";
     }
 
@@ -87,6 +89,7 @@ public class PromotionShopController extends BaseController {
         model.addAttribute("actActivityEditVO",actActivityEditVO);
         model.addAttribute("promotionType",promotionType);
         model.addAttribute("entityType",EntityType.SHOP.getType());
+        model.addAttribute("entityId", B2CConstant.GF_OFFICIAL_ID);
         return "/system/promotion/shop/edit";
     }
 

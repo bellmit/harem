@@ -48,7 +48,7 @@ public class PromotionEditDTOConverter {
                 promotionDOShop.setTitle(actActivityVO.getTitle());
                 promotionDOShop.setDescription(actActivityVO.getDescription());
                 promotionDOShop.setEntityType(EntityType.SHOP.getType());
-                //promotionDO.setEntityId(0);
+                promotionDOShop.setEntityId(actActivityVO.getEntityId());
                 promotionDOShop.setPromotionType(actActivityVO.getPromotionType());
                 promotionDOShop.setRequirement(Math.round(actActivityVO.getRequirementY() * 100));
                 promotionDOShop.setValue(Math.round(actActivityVO.getValueY() * 100));
