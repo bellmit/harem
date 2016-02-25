@@ -42,7 +42,11 @@ public class NumUtil {
      * @param d
      * @return
      */
+
     public static long round(double d){
+        return Math.round(d * 100);
+    }
+    public static long doubleToLong(double d){
        return Math.round(d * 100);
     }
 

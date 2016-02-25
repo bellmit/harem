@@ -6,12 +6,19 @@ import com.yimayhd.commission.client.base.PageResult;
 import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.commission.client.param.AmountObtainDTO;
 import com.yimayhd.commission.client.param.AmountTotalDetailDTO;
+import com.yimayhd.commission.client.param.UserInfoDTO;
 import com.yimayhd.commission.client.result.comm.AmountDetailDTO;
 import com.yimayhd.commission.client.result.comm.AmountNumDTO;
 import com.yimayhd.commission.client.result.comm.AmountTotalDTO;
 import com.yimayhd.commission.convert.CommissionAmoutConvert;
 import com.yimayhd.commission.model.query.CommissionListQuery;
 import com.yimayhd.commission.repo.CommissionRepo;
+import com.yimayhd.commission.repo.UserRelationRepo;
+import com.yimayhd.commission.service.CommissionService;
+import com.yimayhd.marketing.client.model.enums.DomainType;
+import com.yimayhd.marketing.client.model.query.UserRelationQuery;
+import com.yimayhd.marketing.client.model.result.SpmResult;
+import com.yimayhd.marketing.client.model.result.userrelation.UserInfoResult;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.util.NumUtil;
@@ -42,6 +49,9 @@ public class CommissionBiz {
     
     @Autowired
     private CommissionRepo commissionRepo;
+    
+    @Autowired
+    private UserRelationRepo userRelationRepo;
 
     /**
      * 查询提现记录
@@ -68,6 +78,7 @@ public class CommissionBiz {
 	public PageVO<AmountTotalDTO> getCommissionList(CommissionListQuery query) {
 		logger.info("CommissionBiz.getCommissionList begin,param:" + JSON.toJSONString(query));
 		PageVO<AmountTotalDTO> pageVO = null;
+		List<UserInfoDTO> desList = null;
 		
 		try{
 			if(query == null){
@@ -88,7 +99,6 @@ public class CommissionBiz {
 			}
 			if(domainId <= 0){
 				logger.error("CommissionBiz.getCommissionList [domainId] param error,param:" + JSON.toJSONString(query));
-				//TODO:domainId暂定默认为天香分销
 				query.setDomainId(Domain.AZ.getType());
 			}
 			
@@ -97,8 +107,45 @@ public class CommissionBiz {
 			
 			PageResult<AmountTotalDTO> remotePageResult = commissionRepo.queryRebateAmt(repoDTO);
 			if(remotePageResult != null && remotePageResult.isSuccess() && CollectionUtils.isNotEmpty(remotePageResult.getList()) ){
+				
+				List<AmountTotalDTO> list = remotePageResult.getList();
+				
+				List<Long> userIds = getUserIds(list);
+				if(CollectionUtils.isNotEmpty(userIds)){
+					UserRelationQuery relationQuery = new UserRelationQuery();
+					relationQuery.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
+					relationQuery.setUserIds(userIds);
+					SpmResult<List<UserInfoResult>> remoteBaseResult = userRelationRepo.getUserInfoList(relationQuery);
+					
+					if (remoteBaseResult != null && remoteBaseResult.isSuccess() && CollectionUtils.isNotEmpty(remoteBaseResult.getT())) {
+						for (AmountTotalDTO amountTotalDTO : list) {
+							List<UserInfoResult> userInfoList = remoteBaseResult.getT();
+							for (UserInfoResult userInfoResult : userInfoList) {
+								if (amountTotalDTO.getUserId() == userInfoResult.getUserId()) {
+									
+									amountTotalDTO.setPayeeAccount(StringUtils.isBlank(amountTotalDTO.getPayeeAccount()) ? 
+											userInfoResult.getAlipayAccount() : amountTotalDTO.getPayeeAccount());
+									
+									amountTotalDTO.setPayeeAccountName(StringUtils.isBlank(amountTotalDTO.getPayeeAccountName()) ? 
+											userInfoResult.getAlipayAccountName() : amountTotalDTO.getPayeeAccountName());
+									
+									amountTotalDTO.setTelNum(StringUtils.isBlank(amountTotalDTO.getTelNum()) ?
+											userInfoResult.getAlipayAccountPhone() : amountTotalDTO.getTelNum());
+									
+									break;
+								}
+							}
+						}//end for
+						desList = CommissionAmoutConvert.userInfoDTOConvert(list);
+//						if(desList.size() > 0){
+//							commissionRepo.batchUpdateUserInfo(desList);
+//						}
+					}
+					
+				}
+				
 				pageVO = new PageVO<AmountTotalDTO>(query.getPageNumber(), query.getPageSize(), 
-						remotePageResult.getTotalCount(), remotePageResult.getList());
+						remotePageResult.getTotalCount(), list);
 			}else{
 				pageVO = new PageVO<AmountTotalDTO>(query.getPageNumber(), query.getPageSize(), 
 						0);
@@ -107,10 +154,41 @@ public class CommissionBiz {
 		}catch(Exception e){
 			logger.error("CommissionBiz.getCommissionList exceptions occur,param:{},ex:{}",
 					JSON.toJSONString(query),e);
+		}finally{
+			if(CollectionUtils.isNotEmpty(desList)){
+				class ThreadUtil extends Thread{
+					private List<UserInfoDTO> innerList;
+					ThreadUtil(List<UserInfoDTO> list){
+						this.innerList = list;
+					}
+					@Override
+					public void run() {
+						commissionRepo.batchUpdateUserInfo(innerList);
+					}
+				}
+				new ThreadUtil(desList).start();
+			}
+			
 		}
-		
 		return pageVO;
 	}
+	
+	/**
+	 * 得到需要查询的userId集合
+	 * @return
+	 */
+	private List<Long> getUserIds(final List<AmountTotalDTO> list){
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		List<Long> userIdList = new ArrayList<Long>();
+		for(AmountTotalDTO dto : list){
+			if(StringUtils.isBlank(dto.getPayeeAccount()) || StringUtils.isBlank(dto.getPayeeAccountName()) || StringUtils.isBlank(dto.getTelNum())){
+				userIdList.add(dto.getUserId());
+			}
+		}
+		return userIdList;
+	} 
 	
 	/**
 	 * 佣金转账提现

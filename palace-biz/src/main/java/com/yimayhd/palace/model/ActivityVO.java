@@ -28,8 +28,8 @@ public class ActivityVO extends ActivityInfoDTO {
 	public static ActivityInfoDTO getActivityInfoDTO(ActivityVO activityVO) throws Exception{
 		ActivityInfoDTO activityInfoDTO = new ActivityVO();
 		BeanUtils.copyProperties(activityVO, activityInfoDTO);
-		activityInfoDTO.setOriginalPrice((long) (activityVO.getOriginalPriceY() * 100));
-		activityInfoDTO.setPreferentialPrice((long) (activityVO.getPreferentialPriceY() * 100));
+		activityInfoDTO.setOriginalPrice(NumUtil.doubleToLong(activityVO.getOriginalPriceY()));
+		activityInfoDTO.setPreferentialPrice(NumUtil.doubleToLong(activityVO.getPreferentialPriceY()));
 		activityInfoDTO.setActivityDate( DateUtil.convertStringToDateUseringFormats(activityVO.getActivityDateStr(), DateUtil.DAY_HORU_FORMAT));
 		activityInfoDTO.setStartDate(DateUtil.convertStringToDateUseringFormats(activityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT));
 		activityInfoDTO.setEndDate(DateUtil.convertStringToDateUseringFormats(activityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT));

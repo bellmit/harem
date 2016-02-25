@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.palace.util.NumUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,7 +123,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 					//入园限制
 					itemDB.setOneWord(itemDO.getOneWord());
 					//价格
-					itemDB.setPrice((long) (commScenic.getPriceF() * 100)); 
+					itemDB.setPrice(NumUtil.doubleToLong(commScenic.getPriceF()));
 					itemDB.setOutId(itemDO.getOutId());
 					/*ItemUpdDTO itemDto = new ItemUpdDTO();
 					itemDto.setItem(itemDB);
@@ -207,7 +208,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 			itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, commScenic.getSmallListPic());
 			//itemDO.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, commScenic.getBigListPic());
 			//itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, commScenic.getCoverPics());
-			itemDO.setPrice((long) (commScenic.getPriceF() * 100));
+			itemDO.setPrice(NumUtil.doubleToLong(commScenic.getPriceF()));
 			ItemFeature itemFeature = new ItemFeature(null);
 			 //减库存方式
 	        itemFeature.put(ItemFeatureKey.REDUCE_TYPE,ReduceType.NONE.getBizType());

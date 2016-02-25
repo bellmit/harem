@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 
 /**
@@ -53,7 +55,10 @@ public class PackageInfo {
 	}
 
 	public String getName() {
-		return name;
+		if (name != null) {
+			return StringUtils.trim(name);
+		}
+		return "";
 	}
 
 	public void setName(String name) {

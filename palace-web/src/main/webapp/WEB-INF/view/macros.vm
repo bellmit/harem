@@ -47,9 +47,22 @@
 #*标签-状态*#
 #macro(TAG_STATUS $type)
     #if($type == '1')
-    启用
+	启用
     #elseif($type == '2')
-    停用
+	停用
+    #else
+	未知
+    #end
+#end
+
+#*标签-类型*#
+#macro(TAG_TYPE $type)
+    #if($type == '1')
+	热门标签
+    #elseif($type == '2')
+	普通标签
+	#else
+	未知
     #end
 #end
 

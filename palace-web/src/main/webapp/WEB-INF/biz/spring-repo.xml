@@ -15,4 +15,5 @@
 	<bean class="com.yimayhd.palace.repo.TravelKaRepo"></bean>
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
 	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
+	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo"/>
 </beans>

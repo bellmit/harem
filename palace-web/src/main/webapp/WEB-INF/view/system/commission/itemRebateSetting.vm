@@ -8,7 +8,7 @@
                 <input type="text" class="form-control" name="itemTitle" value="$!itemRebateQuery.itemTitle">
             </div>
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary">查询</button>
+                <button type="submit" class="btn btn-primary" id="searchBtn" >查询</button>
             </div>
         </div>
 
@@ -23,14 +23,14 @@
                     <th>2级</th>
                     <th>操作</th>
                 </tr>
-                #foreach($itemRebate in $itemRebateList)
+                #foreach($itemRebate in $pageVo.itemList)
                     <tr>
-                        <td><img style="width: 40px;height: 40px;" src="http://img.gellefreres.com/shop/store/goods/$!{itemRebate.sellerId}/$!{itemRebate.imgName}" /></td>
+                        <td><img style="width: 40px;height: 40px;" src="$!utilWebconfig.getTfsRootPath()/$!{itemRebate.imgName}" /></td>
                         <td>$itemRebate.itemTitle</td>
                         <td>$itemRebate.itemId</td>
                         <td>$!utilNum.moneyTransform($!itemRebate.price)</td>
-                        <td><input maxlength="2" style="width:60px;" type="text" name="parent$itemRebate.itemId" value="$utilNum.moneyTrans($!itemRebate.rebateParentRate)"/>%</td>
-                        <td><input max="2" style="width:60px;" type="text" name="grandpa$itemRebate.itemId" value="$utilNum.moneyTrans($!itemRebate.rebateGrandpaRate)"/>%</td>
+                        <td><input maxlength="5" style="width:60px;" type="text" name="parent$itemRebate.itemId" value="$utilNum.moneyTransform($!itemRebate.rebateParentRate)"/>%</td>
+                        <td><input maxlength="5" style="width:60px;" type="text" name="grandpa$itemRebate.itemId" value="$utilNum.moneyTransform($!itemRebate.rebateGrandpaRate)"/>%</td>
                         <td>
                             <button type="button" class="btn btn-primary okStatus"   itemId="$itemRebate.itemId">确认</button>
                         </td>
@@ -49,11 +49,26 @@
             $('.okStatus').click(function(){
 
                 var itemId = $(this).attr('itemId');
-                var parentName = "parent" + itemId
-                var grandpaName = "grandpa" + itemId
-                var parentRate =($("input[name="+parentName+"]").val() * 100)
-                var grandpaRate =($("input[name="+grandpaName+"]").val()* 100)
-
+                var parentName = "parent" + itemId ;
+                var grandpaName = "grandpa" + itemId ;
+                var parentRate =($("input[name="+parentName+"]").val()) ;
+                var grandpaRate =($("input[name="+grandpaName+"]").val()) ;
+                if(isNaN(parentRate) || isNaN(grandpaRate)){
+                	layer.msg('请输入数字', {
+                        icon: 2,
+                        time: 2000
+                    });
+                	return ;
+                }
+                if(parseFloat(parentRate) > 100 || parseFloat(grandpaRate) > 100){
+                	layer.msg('返佣比率不能大于100', {
+                        icon: 2,
+                        time: 2000
+                    });
+                	return ;
+                }
+                parentRate = parseInt(parentRate * 100);
+                grandpaRate = parseInt(grandpaRate * 100);
                 $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/itemRebate/updateItemRebate',
                         {itemId:itemId,parentRate:parentRate,grandpaRate:grandpaRate},function(data){
                     if(data.status == 200){
@@ -61,9 +76,7 @@
                             icon: 1,
                             time: 1500
                         });
-                        setTimeout(function () {
-                            window.location.href = window.location.href;
-                        },1500);
+                        $("#searchBtn").click();
                     }else{
                         layer.msg('操作失败', {
                             icon: 2,

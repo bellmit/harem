@@ -56,7 +56,7 @@ public class ItemVO extends ItemDO {
         ItemDO itemDO = new ItemDO();
         BeanUtils.copyProperties(itemVO, itemDO);
         //元转分
-        itemDO.setPrice((long) (itemVO.getPriceY() * 100));
+        itemDO.setPrice(NumUtil.doubleToLong(itemVO.getPriceY()));
 
         //新增的时候设置skuDOList（注：修改时走setItemSkuDOListCommonItemPublishDTO）
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){

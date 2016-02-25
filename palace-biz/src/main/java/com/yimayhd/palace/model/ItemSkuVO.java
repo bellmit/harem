@@ -41,7 +41,7 @@ public class ItemSkuVO extends ItemSkuDO {
         }
         itemSkuDO.setCategoryId(itemVO.getCategoryId());
         //元转分
-        itemSkuDO.setPrice((long) (itemSkuVO.getPriceY() * 100));
+        itemSkuDO.setPrice(NumUtil.doubleToLong(itemSkuVO.getPriceY()));
         //sku主图和PC版sku主图
         ItemSkuFeature itemSkuFeature = itemSkuDO.getItemSkuFeature();
         if(itemSkuFeature == null){
@@ -53,6 +53,8 @@ public class ItemSkuVO extends ItemSkuDO {
             itemSkuFeature.put(ItemSkuFeatureKey.MAIN_PIC,itemSkuVO.getMainPic());
             itemSkuFeature.put(ItemSkuFeatureKey.PC_MAIN_PIC,itemSkuVO.getMainPic());
         }
+
+
 
         return itemSkuDO;
     }

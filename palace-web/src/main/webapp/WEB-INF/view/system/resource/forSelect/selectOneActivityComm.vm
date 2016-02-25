@@ -67,7 +67,7 @@
 	// 初始化分页条
 	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/queryActivityComm", function(query, pageVo){
 		$("#itemName").val(query.commName);
-		$("#itemType").val(query.itemType);
+		$("#itemType").val(query.itemType || 0);
 		showData(pageVo.itemList);
 	});
 	var resource_table = {};
@@ -82,7 +82,8 @@
 			resource_table[item.id] = item;
 			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
 			tr.append($("<td>"+item.title+"</td>"));
-			tr.append($("<td>"+(item.status==1?'有效':'停用')+"</td>"));
+			var status_str = 
+			tr.append($("<td>"+itemStatus(item.status)+"</td>"));
 			tbody.append(tr);
 		}
 		$(".selectResourceTable").append(table);
@@ -94,6 +95,17 @@
 			var rName = $(this).attr("rName");
 			$("input[id='radio_"+rId+"']").attr("checked", "checked");
 		});
+	}
+	function itemStatus(status) {
+		if(status == 1) {
+			return "初始化";
+		} else if(status ==2) {
+			return "上架";
+		} else if(status == 3) {
+			return "下架";
+		} else {
+			return "未知";
+		}
 	}
 	// 获得最终结果
 	function getItems() {

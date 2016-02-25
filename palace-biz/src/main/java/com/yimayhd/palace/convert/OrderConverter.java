@@ -104,11 +104,11 @@ public class OrderConverter {
                 orderQueryDTO.setPayStatuses(payStatus);
             }
         }
-        //买家手机号，买家昵称
+        //买家userId
         if (userId >0){
             orderQueryDTO.setBuyerId(userId);
         }
-        //名称
+        //商品名称
         if (StringUtils.isNotEmpty(orderListQuery.getItemName())){
             orderQueryDTO.setItemName(orderListQuery.getItemName());
             orderQueryDTO.setIsMain(null);
