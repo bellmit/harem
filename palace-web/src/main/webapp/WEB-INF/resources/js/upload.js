@@ -14,12 +14,12 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
     }
     var xhr = new XMLHttpRequest();
     xhr.onload = function(data) {
-
         var data = JSON.parse(data.target.response);
         if(data && data.status == 200){
             var errMessage = new Array();
             for(key in data.data){
-                if(!data.data[key] || data.data[key] === "null"){
+                alert(data.data[key]);
+                if(!data.data[key] || data.data[key] === "null" || data.data[key].length < 10){
                     delete data.data[key];
                     errMessage.push(key);
                 }
