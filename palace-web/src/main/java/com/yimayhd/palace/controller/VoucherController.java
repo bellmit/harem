@@ -72,6 +72,8 @@ public class VoucherController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
         VoucherTemplateVO voucherTemplateVO = voucherTemplateService.getById(id);
+        voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO.getRequirement() / 100));
+        voucherTemplateVO.setValue(Math.round(voucherTemplateVO.getValue() / 100));
         model.addAttribute("voucherDO",voucherTemplateVO);
         return "/system/voucherTemplate/edit";
     }
