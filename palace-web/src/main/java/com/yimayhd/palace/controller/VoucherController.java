@@ -91,6 +91,8 @@ public class VoucherController extends BaseController {
         voucherTemplateVO.setEntityId(1000);
         voucherTemplateVO.setDomain(1100);
         //新增默认下架状态
+        voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO.getRequirement() * 100));
+        voucherTemplateVO.setValue(Math.round(voucherTemplateVO.getValue() * 100));
         voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
         voucherTemplateVO.setEndTime(getEndTime(voucherTemplateVO.getEndTime()));
         voucherTemplateService.add(voucherTemplateVO);
@@ -134,6 +136,8 @@ public class VoucherController extends BaseController {
         }
         voucherTemplateVO.setId(id);
         voucherTemplateVO.setEndTime(getEndTime(voucherTemplateVO.getEndTime()));
+        voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO.getRequirement() * 100));
+        voucherTemplateVO.setValue(Math.round(voucherTemplateVO.getValue() * 100));
         voucherTemplateService.modify(voucherTemplateVO);
         return "/success";
     }
