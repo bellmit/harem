@@ -48,6 +48,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
             for (VoucherTemplateDO voucherTemplateDO : result.getList()) {
                 VoucherTemplateVO voucherVO = new VoucherTemplateVO();
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
+                voucherVO.setValue(Math.round(voucherVO.getValue() / 100));
                 voucherTemplateVOs.add(voucherVO);
             }
             pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
