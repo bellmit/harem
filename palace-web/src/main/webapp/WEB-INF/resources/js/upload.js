@@ -33,7 +33,7 @@ var uploadSenedFile = function(files,type,callBack){//id：上传控件筛选器
                 layer.msg("以下图片上传失败：" + errMessage.join(','),{icon:2});
             }
         }
-        callBack(data,id);
+        callBack(data);
 
     };
     //xhr.addEventListener("load", uploadComplete, false);
