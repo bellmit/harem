@@ -96,11 +96,12 @@
             ##                <td>付款方式：#PAY_CHANNEL($!order.payChannel)</td>
                 <td>
                     付款方式：
-                    #if($order.mainOrder.orderShowState != 1 && $order.mainOrder.orderShowState != 5)
-                        支付宝
-                    #end
+                    $!order.payChannel
                 </td>
-                <td></td>
+                <td>
+                    订单来源：
+                    $!order.orderFrom
+                </td>
             </tr>
             <tr>
                 <td>买家备注：</td>

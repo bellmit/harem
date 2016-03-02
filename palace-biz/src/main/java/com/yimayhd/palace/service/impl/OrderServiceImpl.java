@@ -9,10 +9,7 @@ import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
-import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
-import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
-import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
-import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.enums.*;
 import com.yimayhd.tradecenter.client.model.param.order.*;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
@@ -164,8 +161,17 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setBuyerName(buyer.getName());
 					orderDetails.setBuyerNiceName(buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+					//订单来源
+					int payChannel = BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.PAY_CHANNEL);
+					if (payChannel == OrderSourceType.PC.getBizType()){
+						orderDetails.setOrderFrom(OrderSourceType.PC.getDes());
+					}else if (payChannel == OrderSourceType.MOBILE.getBizType()){
+						orderDetails.setOrderFrom(OrderSourceType.MOBILE.getDes());
+					}else if(payChannel == OrderSourceType.OFFLINE.getBizType()){
+						orderDetails.setOrderFrom(OrderSourceType.OFFLINE.getDes());
+					}
 					//付款方式
-					orderDetails.setPayChannel(BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.PAY_CHANNEL));
+					orderDetails.setPayChannel(BizOrderUtil.getString(mainOrder.getBizOrderDO(), BizOrderFeatureKey.PAY_CHANNEL));
 				}
 
 				if (singleQueryResult.getPayOrderDO()!=null){

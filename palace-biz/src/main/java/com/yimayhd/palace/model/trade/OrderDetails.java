@@ -27,7 +27,9 @@ public class OrderDetails {
 
     private long actualTotalFee;
 
-    private int payChannel;
+    private String payChannel;
+
+    private String orderFrom;
 
     private String closeReason;
 
@@ -105,14 +107,6 @@ public class OrderDetails {
         this.actualTotalFee = actualTotalFee;
     }
 
-    public int getPayChannel() {
-        return payChannel;
-    }
-
-    public void setPayChannel(int payChannel) {
-        this.payChannel = payChannel;
-    }
-
     public String getCloseReason() {
         return closeReason;
     }
@@ -127,5 +121,21 @@ public class OrderDetails {
 
     public void setConsignTime(Date consignTime) {
         this.consignTime = consignTime;
+    }
+
+    public String getPayChannel() {
+        return payChannel;
+    }
+
+    public void setPayChannel(String payChannel) {
+        this.payChannel = payChannel;
+    }
+
+    public String getOrderFrom() {
+        return orderFrom;
+    }
+
+    public void setOrderFrom(String orderFrom) {
+        this.orderFrom = orderFrom;
     }
 }
