@@ -39,6 +39,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
         voucherTemplateQuery.setPageSize(voucherListQuery.getPageSize());
         voucherTemplateQuery.setPageNo(voucherListQuery.getPageNumber());
+        voucherTemplateQuery.setDomain(1100);
         voucherTemplateQuery.setNeedCount(true);
 
         BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
