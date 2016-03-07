@@ -194,9 +194,17 @@
         /****************批量上传pic_urls*****************/
         $(document).delegate("#detailAppImagesBatchUploadBtn",'change',function(){
             fileUpload('#detailAppImagesBatchUploadBtn',2,function(dataVal){
+                var errMessage = new Array();
                 for(var key in dataVal.data){
-                    $('.detailAppImagesTd').append('<img class="detailAppImages img-circle" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
-                    $('.detailAppImagesTd').append('<button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>');
+                    if (dataVal.data[key].length < 10){
+                        errMessage.push(key);
+                    }else {
+                        $('.detailAppImagesTd').append('<img class="detailAppImages img-circle" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+                        $('.detailAppImagesTd').append('<button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>');
+                    }
+                }
+                if(errMessage.length > 0){
+                    layer.msg("以下图片上传失败：" + errMessage.join(','),{icon:2});
                 }
                 var imgs = 0;
                 $(".detailAppImagesTd").find("img").each(function(){
@@ -208,6 +216,7 @@
                         $(this).remove();
                     }
                 });
+
             });
         });
         //上传图片

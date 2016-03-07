@@ -18,7 +18,7 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
         if(data && data.status == 200){
             var errMessage = new Array();
             for(key in data.data){
-                if(!data.data[key] || data.data[key] === "null" || data.data[key].length < 10){
+                if(!data.data[key] || data.data[key] === "null" ){
                     delete data.data[key];
                     errMessage.push(key);
                 }
