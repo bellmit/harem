@@ -162,7 +162,7 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setBuyerNiceName(buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
 					//订单来源
-					int payChannel = BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.PAY_CHANNEL);
+					int payChannel = BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.ORDER_SOURCE);
 					if (payChannel == OrderSourceType.PC.getBizType()){
 						orderDetails.setOrderFrom(OrderSourceType.PC.getDes());
 					}else if (payChannel == OrderSourceType.MOBILE.getBizType()){
