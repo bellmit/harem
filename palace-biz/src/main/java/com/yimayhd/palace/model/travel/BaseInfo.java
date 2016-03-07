@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.yimayhd.ic.client.util.ListUtils;
-import com.yimayhd.ic.client.util.PicUrlsUtil;
 import org.apache.commons.lang.StringUtils;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
@@ -47,7 +45,6 @@ public class BaseInfo {
 	private String highlights;// 亮点
 	private MasterRecommend recommond;// 代言
 	private NeedKnow needKnow;// 报名须知
-	private List<String> detailAppImages;	//App详情轮播图
 
 	public BaseInfo() {
 	}
@@ -76,10 +73,6 @@ public class BaseInfo {
 		String orderImage = line.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
 		if (StringUtils.isNotBlank(orderImage)) {
 			this.orderImage = orderImage;
-		}
-		String detailAppImages = line.getPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS);
-		if (StringUtils.isNotBlank(detailAppImages)) {
-			this.detailAppImages = PicUrlsUtil.parsePicList(detailAppImages);
 		}
 		tags = new ArrayList<Long>();
 		if (comTagDOs != null) {
@@ -244,14 +237,6 @@ public class BaseInfo {
 		this.toName = toName;
 	}
 
-	public List<String> getDetailAppImages() {
-		return detailAppImages;
-	}
-
-	public void setDetailAppImages(List<String> detailAppImages) {
-		this.detailAppImages = detailAppImages;
-	}
-
 	public LineDO toLineDO() {
 		// 初始化
 		LineDO line = new LineDO();
@@ -276,7 +261,6 @@ public class BaseInfo {
 		line.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, this.productImageApp);
 		line.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, this.orderImage);
 		line.addPicUrls(ItemPicUrlsKey.PC_BIG_LIST_PIC, this.productImagePc);
-		line.addPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS, PicUrlsUtil.parsePicsString(this.getDetailAppImages()));
 		line.setPictures(Arrays.asList(this.tripImage));
 		if (this.fromLevel == RegionLevel.PROVINCE.getLevel()) {
 			line.setStartProvinceId(this.fromId);

@@ -6,4 +6,5 @@
 	<bean id="gfTagBiz" class="com.yimayhd.gf.biz.GFTagBiz"/>
 	<bean id ="commissionBiz" class="com.yimayhd.commission.biz.CommissionBiz"/>
 	<bean id ="itemRebateBiz" class="com.yimayhd.commission.biz.ItemRebateBiz"/>
+	<bean id="userRelationBiz" class="com.yimayhd.commission.biz.UserRelationBiz" />
 </beans>

@@ -1,0 +1,65 @@
+  
+   <div>
+    <form class="form-signin" id="hierarchyListForm" name="hierarchyListForm" action="$!utilWebconfig.getActionDefaultFontPath()/userRelation/queryList" method="GET" role="form">
+        <div class="inputGroup whole">
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">会员名称：</button>
+                    </span>
+                    <input type="text" class="form-control" name="alipayAccountName" value="$!userRelationQuery.alipayAccountName" />
+                </div>
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">用户账号：</button>
+                    </span>
+                    <input type="text" class="form-control" name="userName" value="$!userRelationQuery.userName" />
+                </div>
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">联系电话：</button>
+                    </span>
+                    <input type="text" class="form-control" name="alipayAccountPhone" value="$!userRelationQuery.alipayAccountPhone" />
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="queryBtn">查询</button>
+                </div>
+
+        </div>
+
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tr>
+                    <th width="10%">会员名称</th>
+                    <th width="10%">用户账号</th>
+                    <th width="10%">联系电话</th>
+                    <th width="10%">上级用户</th>
+                    <th width="20%">一级</th>
+                    <th width="20%">二级</th>
+                </tr>
+                #foreach($hierarchyResult in $pageVo.itemList)
+                <tr>
+                    <td>$!hierarchyResult.userRelationDO.alipayAccountName</td>
+                    <td>$!hierarchyResult.userRelationDO.userName</td>
+                    <td>$!hierarchyResult.userRelationDO.alipayAccountPhone</td>
+                    <td>$!hierarchyResult.parentDO.userName</td>
+                    <td>
+                    	<font color="red">共$!hierarchyResult.lowerUserList.size()人</font><br/>
+                    	#foreach($lowerUser in $hierarchyResult.lowerUserList)
+                    		$!lowerUser.userName  &nbsp;&nbsp;
+                    	#end
+                    </td>
+                    <td>
+                    	<font color="red">共$!hierarchyResult.subLowerUserList.size()人</font><br/>
+                    	#foreach($subLowerUser in $hierarchyResult.subLowerUserList)
+                    		$!subLowerUser.userName  &nbsp;&nbsp;
+                    	#end
+                    </td>
+                 </tr>
+                 #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("hierarchyListForm")
+    </form>
+</div>
