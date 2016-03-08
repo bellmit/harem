@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>palace</artifactId>
 		<groupId>com.yimayhd</groupId>
@@ -231,7 +231,14 @@
 			<groupId>com.yimayhd.voucher</groupId>
 			<artifactId>voucher-client</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.yimayhd.promotion</groupId>
+			<artifactId>promotion-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.activitycenter</groupId>
+			<artifactId>activitycenter-client</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.yimayhd.spread-marketing</groupId>
 			<artifactId>spread-marketing-client</artifactId>

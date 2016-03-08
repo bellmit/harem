@@ -13,7 +13,7 @@
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
                 <select class="form-control" name="itemStatus">
-                    <option value="" >全部</option>
+                      <option value="" >全部</option>
                       <option value="1" #if($!scenicPageQuery.itemStatus == 1) selected #end>初始化</option>
                       <option value="2" #if($!scenicPageQuery.itemStatus == 2) selected #end>启用</option>
                       <option value="3" #if($!scenicPageQuery.itemStatus == 3) selected #end>停用</option>

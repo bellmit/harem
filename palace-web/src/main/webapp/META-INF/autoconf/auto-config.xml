@@ -76,6 +76,9 @@
 		<property name="consumer.dubbo.marketing.check" defaultValue="false" description="#"/>
 		<property name="consumer.dubbo.marketing.version" defaultValue="1.0.0.test" description="#"/>
 
+		<property name="consumer.dubbo.activity.check" defaultValue="false" description="#"/>
+		<property name="consumer.dubbo.activity.version" defaultValue="1.0.0.test" description="#"/>
+
 	</group>
 
 	<group name="session">

@@ -81,5 +81,10 @@ consumer.dubbo.commission.version = ${consumer.dubbo.commission.version}
 consumer.dubbo.voucher.check = ${consumer.dubbo.voucher.check}
 consumer.dubbo.voucher.version = ${consumer.dubbo.voucher.version}
 
+consumer.dubbo.activity.check = ${consumer.dubbo.activity.check}
+consumer.dubbo.activity.version = ${consumer.dubbo.activity.version}
+
 consumer.dubbo.marketing.check = ${consumer.dubbo.marketing.check}
+consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
+
 consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
