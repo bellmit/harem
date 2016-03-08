@@ -87,4 +87,3 @@ consumer.dubbo.activity.version = ${consumer.dubbo.activity.version}
 consumer.dubbo.marketing.check = ${consumer.dubbo.marketing.check}
 consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
 
-consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
