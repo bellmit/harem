@@ -27,7 +27,7 @@ public class GFBbsManagerController {
 
 	@RequestMapping("/module/index")
 	public String moduleIndex(){
-		return "/bbs/module";
+		return "/system/bbs/module";
 	}
 	
 	
@@ -90,7 +90,7 @@ public class GFBbsManagerController {
 	
 	@RequestMapping("/master/index")
 	public String masterIndex(){
-		return "/bbs/master";
+		return "/system/bbs/master";
 	}
 	
 	
@@ -105,7 +105,7 @@ public class GFBbsManagerController {
 		
 		model.addAttribute("pageVO", result);
 	
-		return "/bbs/masterModel";
+		return "/system/bbs/masterModel";
 	}
 	
 	@RequestMapping("/initMaster")
@@ -121,7 +121,7 @@ public class GFBbsManagerController {
 			}
 		}
 		
-		return "/bbs/addMaster";
+		return "/system/bbs/addMaster";
 	}
 	
 	@RequestMapping("/master/saveOrUpdate")
