@@ -83,8 +83,8 @@
         $('.masterDetail').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/bbs/initMaster?id='+ $(this).attr('masterId');
-                window.openwin(url);
-                //top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+                //window.openwin(url);
+                top.tabsAdd("addCommodityBtn",url,2,$(this).text())
             });
 
         });
