@@ -6,8 +6,11 @@ import com.yimayhd.gf.service.BbsService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.snscenter.client.domain.SnsMasterDO;
 import com.yimayhd.snscenter.client.domain.SnsModuleDO;
+import com.yimayhd.snscenter.client.domain.SnsPostsDO;
+import com.yimayhd.snscenter.client.dto.PostsResultDTO;
 import com.yimayhd.snscenter.client.query.SnsMasterPageQuery;
 import com.yimayhd.snscenter.client.query.SnsModulePageQuery;
+import com.yimayhd.snscenter.client.query.SnsPostsQuery;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsMasterService;
@@ -75,5 +78,31 @@ public class BbsServiceImpl implements BbsService{
 		
 		return null;
 	}
+	
+	public PageVO<PostsResultDTO> postsQueryList(SnsPostsQuery postsQuery){
+		BasePageResult<PostsResultDTO> basePageResult = snsPostsService.pageQuery(postsQuery);
+		if(null != basePageResult && basePageResult.isSuccess()){
+			PageVO<PostsResultDTO> pageVO = new PageVO<PostsResultDTO>(postsQuery.getPageNo(), postsQuery.getPageSize(), basePageResult.getTotalCount(), basePageResult.getList());
+			return pageVO;
+		}
+		
+		return null;
+		
+	}
+	
+	public BaseResult<SnsPostsDO> getPostsDetail(long id){
+		BaseResult<SnsPostsDO> snsPostsResult = snsPostsService.getSnsPosts(id);
+		return snsPostsResult;
+	}
 
+	
+	public BaseResult<SnsPostsDO> savePosts(SnsPostsDO bbsPostsDO){
+		BaseResult<SnsPostsDO> saveSnsPostsResult = snsPostsService.saveSnsPosts(bbsPostsDO);
+		return saveSnsPostsResult;
+	}
+	
+	public BaseResult<SnsPostsDO> updatePosts(SnsPostsDO snsPostsDO){
+		BaseResult<SnsPostsDO> updateSnsPostsResult = snsPostsService.updateSnsPosts(snsPostsDO);
+		return updateSnsPostsResult;
+	}
 }

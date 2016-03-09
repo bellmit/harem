@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.gf.service.BbsService;
@@ -14,8 +13,11 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.snscenter.client.domain.SnsMasterDO;
 import com.yimayhd.snscenter.client.domain.SnsModuleDO;
+import com.yimayhd.snscenter.client.domain.SnsPostsDO;
+import com.yimayhd.snscenter.client.dto.PostsResultDTO;
 import com.yimayhd.snscenter.client.query.SnsMasterPageQuery;
 import com.yimayhd.snscenter.client.query.SnsModulePageQuery;
+import com.yimayhd.snscenter.client.query.SnsPostsQuery;
 import com.yimayhd.snscenter.client.result.BaseResult;
 
 @Controller
@@ -24,11 +26,6 @@ public class GFBbsManagerController {
 	
 	@Autowired
 	private BbsService bbsService;
-
-//	@RequestMapping("/module/index")
-//	public String moduleIndex(){
-//		return "/system/bbs/module";
-//	}
 	
 	
 	@RequestMapping("/module/index")
@@ -158,4 +155,96 @@ public class GFBbsManagerController {
 			
 	}
 	
+	
+	
+	@RequestMapping("/list")
+	public String toBbsMgmt(Model model,Integer pageNumber,SnsPostsQuery postsQuery){
+		
+		if(null == pageNumber){
+			pageNumber = 1;
+		}
+		
+		postsQuery.setNeedCount(true);
+		postsQuery.setPageNo(pageNumber);
+		postsQuery.setPageSize(10);
+		
+		SnsModulePageQuery bbsModulePageQuery = new SnsModulePageQuery();
+		bbsModulePageQuery.setPageNo(1);
+		bbsModulePageQuery.setPageSize(100);
+		
+		PageVO<SnsModuleDO> queryListResult = bbsService.moduleQueryList(bbsModulePageQuery);
+		if(null != queryListResult){
+			model.addAttribute("modules", queryListResult.getItemList());
+			
+		}
+		PageVO<PostsResultDTO> pageVO = bbsService.postsQueryList(postsQuery);
+		model.addAttribute("pageVo", pageVO);
+		model.addAttribute("query", postsQuery);
+		return "/system/bbs/postsList";
+	}
+	
+	@RequestMapping("/initPosts")
+	public String initPosts(String id,Model model){
+		
+		if(StringUtils.isNotEmpty(id)){
+			
+			BaseResult<SnsPostsDO> masterResult = bbsService.getPostsDetail(Long.parseLong(id));
+			if(masterResult.isSuccess()){
+				
+				SnsPostsDO posts = masterResult.getValue();
+				model.addAttribute("posts", posts);
+			}
+		}
+		
+		SnsMasterPageQuery snsMasterPageuery = new SnsMasterPageQuery();
+
+		snsMasterPageuery.setPageNo(1);
+		snsMasterPageuery.setPageSize(100);
+		
+		
+		PageVO<SnsMasterDO> masterQueryList = bbsService.masterQueryList(snsMasterPageuery );
+		
+		
+		if(null != masterQueryList){
+			model.addAttribute("masters", masterQueryList.getItemList());
+		}
+		
+		SnsModulePageQuery snsModulePageQuery = new SnsModulePageQuery();
+		snsModulePageQuery.setPageNo(1);
+		snsModulePageQuery.setPageSize(100);
+		
+		PageVO<SnsModuleDO> moduleQueryList = bbsService.moduleQueryList(snsModulePageQuery);
+	    
+		
+		if(null != moduleQueryList){
+			model.addAttribute("module", moduleQueryList.getItemList());
+		}
+		return "/system/bbs/addPosts";
+	}
+	
+	
+	@RequestMapping("/posts/saveOrUpdate")
+	@ResponseBody
+	public ResponseVo postsSaveOrUpdate(SnsPostsDO snsPosts,String imgUrl){
+		
+		
+		ResponseVo ajaxResponse=new ResponseVo(true);
+		if(snsPosts.getId() != null){ 
+			
+			BaseResult<SnsPostsDO> updResult = bbsService.updatePosts(snsPosts);
+			if(!updResult.isSuccess()){
+				ajaxResponse.setMessage(updResult.getResultMsg());
+				ajaxResponse.setStatus(ResponseStatus.ERROR.VALUE);
+			}
+		}else{
+			
+			BaseResult<SnsPostsDO> addResult = bbsService.savePosts(snsPosts);
+			if(!addResult.isSuccess()){
+				ajaxResponse.setMessage(addResult.getResultMsg());
+				ajaxResponse.setStatus(ResponseStatus.ERROR.VALUE);
+			}
+		}
+		return ajaxResponse;
+			
+	}
 }
