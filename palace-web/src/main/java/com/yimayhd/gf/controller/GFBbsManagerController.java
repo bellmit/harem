@@ -19,29 +19,34 @@ import com.yimayhd.snscenter.client.query.SnsModulePageQuery;
 import com.yimayhd.snscenter.client.result.BaseResult;
 
 @Controller
-@RequestMapping("/bbs")
+@RequestMapping("/GF/bbs")
 public class GFBbsManagerController {
 	
-//	@Autowired
+	@Autowired
 	private BbsService bbsService;
 
+//	@RequestMapping("/module/index")
+//	public String moduleIndex(){
+//		return "/system/bbs/module";
+//	}
+	
+	
 	@RequestMapping("/module/index")
-	public String moduleIndex(){
-		return "/system/bbs/module";
-	}
-	
-	
-	@RequestMapping(value="/module/ajax/loadModel",method=RequestMethod.POST)
 	public String loadMOdel(SnsModulePageQuery bbsModulePageQuery,Integer pageNumber,Model model){
 		
 		bbsModulePageQuery.setNeedCount(true);
+		
+		if(null == pageNumber){
+			pageNumber = 1;
+		}
 		bbsModulePageQuery.setPageNo(pageNumber);
 		bbsModulePageQuery.setPageSize(10);
 		
 		PageVO<SnsModuleDO> result = bbsService.moduleQueryList(bbsModulePageQuery);
 		
 	
-		model.addAttribute("pageVO", result);
+		model.addAttribute("query", bbsModulePageQuery);
+		model.addAttribute("pageVo", result);
 		return "/system/bbs/moduleList";
 	}
 	
@@ -71,31 +76,30 @@ public class GFBbsManagerController {
 	}
 	
 	
-	@RequestMapping("/ajax/initModule")
-	@ResponseBody
-	public ResponseVo initModule(long id){
+	@RequestMapping("/initModule")
+	public String initModule(Long id,Model model){
 		
-		ResponseVo ajaxResponse = new ResponseVo(true);
-		
-		BaseResult<SnsModuleDO> bbsResult = bbsService.selectSnsModuleById(id);
-		
-		if(!bbsResult.isSuccess()){
-			ajaxResponse.setMessage(bbsResult.getResultMsg());
-			ajaxResponse.setStatus(ResponseStatus.ERROR.VALUE);
+		if(null != id && id > 0){
+			
+			BaseResult<SnsModuleDO> bbsModuleResult = bbsService.selectSnsModuleById(id);
+			
+			if(!bbsModuleResult.isSuccess()){
+				model.addAttribute("module", bbsModuleResult.getValue());
+			}
 		}
 		
-		return ajaxResponse;
+		
+		return "/system/bbs/addModule";
 	}
+	
 	
 	
 	@RequestMapping("/master/index")
-	public String masterIndex(){
-		return "/system/bbs/master";
-	}
-	
-	
-	@RequestMapping(value="/master/ajax/loadModel",method=RequestMethod.POST)
 	public String loadMOdel(SnsMasterPageQuery bbsMasterPageQuery,Integer pageNumber,Model model){
+		
+		if(null == pageNumber){
+			pageNumber = 1;
+		}
 		
 		bbsMasterPageQuery.setNeedCount(true);
 		bbsMasterPageQuery.setPageNo(pageNumber);
@@ -103,9 +107,10 @@ public class GFBbsManagerController {
 		
 		PageVO<SnsMasterDO> result = bbsService.masterQueryList(bbsMasterPageQuery);
 		
-		model.addAttribute("pageVO", result);
+		model.addAttribute("pageVo", result);
+		model.addAttribute("query", bbsMasterPageQuery);
 	
-		return "/system/bbs/masterModel";
+		return "/system/bbs/masterList";
 	}
 	
 	@RequestMapping("/initMaster")

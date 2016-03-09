@@ -16,11 +16,11 @@ import com.yimayhd.snscenter.client.service.SnsPostsService;
 
 public class BbsServiceImpl implements BbsService{
 	
-//	@Autowired
+	@Autowired
 	private SnsModuleService snsModuleService;
-//	@Autowired
+	@Autowired
 	private SnsPostsService snsPostsService;
-//	@Autowired
+	@Autowired
 	private SnsMasterService snsMasterService;
 	@Override
 	public PageVO<SnsModuleDO> moduleQueryList(SnsModulePageQuery snsModulePageQuery) {
