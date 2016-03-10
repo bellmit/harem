@@ -153,7 +153,7 @@ getBLen = function(str) {
             //非空验证
             var msg = validate();
             if(msg){
-			
+			 $(".btnSubmit").attr("disabled", true);
 			 var actionUrl= actionDefaultPath + '/GF/bbs/master/saveOrUpdate';
            	var options = {
                     url: actionUrl,
@@ -166,7 +166,7 @@ getBLen = function(str) {
                             time: 1500
                         });
                         setTimeout(function () {
-                        	 $("#clubCategorySubmit").attr("disabled", false);
+                        	 $(".btnSubmit").attr("disabled", false);
                       	  location.href = actionDefaultPath + "/GF/bbs/master/index";
                         },1500);
                            
@@ -177,7 +177,7 @@ getBLen = function(str) {
                             time: 2000
                         });
                          setTimeout(function () {
-                        $("#clubCategorySubmit").attr("disabled", false);
+                        $(".btnSubmit").attr("disabled", false);
                       	  location.href = actionDefaultPath + "/GF/bbs/master/index";
                         },1500);
                         }

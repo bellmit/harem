@@ -93,7 +93,7 @@
                             time: 1500
                         });
                         setTimeout(function () {
-                        	 $("#clubCategorySubmit").attr("disabled", false);
+                        	 $("#btnSubmit").attr("disabled", false);
                       	  location.href = actionDefaultPath + "/GF/bbs/module/index";
                         },1500);
                            
@@ -104,7 +104,7 @@
                             time: 2000
                         });
                          setTimeout(function () {
-                        $("#clubCategorySubmit").attr("disabled", false);
+                        $("#btnSubmit").attr("disabled", false);
                       	  location.href = actionDefaultPath + "/GF/bbs/module/index";
                         },1500);
                         }

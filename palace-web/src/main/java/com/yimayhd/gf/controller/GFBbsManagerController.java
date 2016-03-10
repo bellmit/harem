@@ -237,7 +237,7 @@ public class GFBbsManagerController {
 				ajaxResponse.setStatus(ResponseStatus.ERROR.VALUE);
 			}
 		}else{
-			
+			snsPosts.setStatus(20);
 			BaseResult<SnsPostsDO> addResult = bbsService.savePosts(snsPosts);
 			if(!addResult.isSuccess()){
 				ajaxResponse.setMessage(addResult.getResultMsg());
