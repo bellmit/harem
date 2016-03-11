@@ -36,4 +36,6 @@ public interface BbsService {
 
 	BaseResult<SnsPostsDO> getPostsDetail(long postsId);
 
+	BaseResult<Boolean> updatePostsStatus(SnsPostsDO bbsPostsDO);
+
 }

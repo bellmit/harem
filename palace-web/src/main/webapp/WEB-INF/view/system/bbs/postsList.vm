@@ -1,12 +1,13 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-    <form class="form-signin" id="postsListForm" name="postsListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/bbs/list" method="POST" role="form">
+    <form class="form-signin" id="postsListForm" name="postsListForm" action="http://192.168.1.126/filegw/file/upload" method="POST" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">帖子名称</button>
                     </span>
                 <input type="text" class="form-control" name="title" value="$!query.title">
+                ##<input type="hidden" name="pageNumber" value="$!query.pageNo">
             </div>
 
             <div class="input-group inpSingle">
@@ -16,19 +17,21 @@
                 <select class="form-control" name="statuses">
 					
                     <option value="">全部</option>
-                    <option value="10" #if($!query.statuses == 10) selected #end>上架</option>
-                    <option value="20" #if($!query.statuses == 20) selected #end>下架</option>
+					
+                    <option value="10" #if(10 == $!query.statuses) selected #end>上架</option>
+                    <option value="20" #if(20 == $!query.statuses) selected #end>下架</option>
                 </select>
             </div>
 			<div class="input-group inpSingle">
                <span class="input-group-btn">
                     <button class="btn btn-default" type="button">板块名称：</button>
                 </span>
+				
                 <select class="form-control" name="moduleIds">
 					
                     <option value="">全部</option>
 					#foreach($module in $modules)
-						<option  value="$!{module.id}">$!{module.name}</option>
+						<option #if($query.moduleIds == $module.id) selected #end value="$!{module.id}">$!{module.name}</option>
 					#end
                 </select>
             </div>
@@ -65,12 +68,12 @@
                         <td>$!utilDate.dateToString($!posts.postsDO.gmtModified,"yyyy-MM-dd HH:mm:ss") </td>
                         <td>
 							#if($!posts.postsDO.status == 10)
-								<button type="button" class="btn btn-primary postsDetail" postsId="$!posts.postsDO.id">下架</button>
+								<button type="button" class="btn btn-primary upordown" status="20" postsId="$!posts.postsDO.id">下架</button>
 							#elseif($!posts.postsDO.status == 20)
-								<button type="button" class="btn btn-primary postsDetail" postsId="$!posts.postsDO.id">上架</button>
+								<button type="button" class="btn btn-primary upordown" status="10" postsId="$!posts.postsDO.id">上架</button>
 							#end
                         <button type="button" class="btn btn-primary postsDetail" postsId="$!posts.postsDO.id">修改</button>
-                        <button type="button" class="btn btn-primary" onclick="deletePosts('${data.bbsPostsDO.id}')">删除</button>
+                        <button type="button" class="btn btn-primary" onclick="deletePosts('$!posts.postsDO.id')">删除</button>
                         </td>
                     </tr>
                     #end
@@ -105,8 +108,43 @@
         $('.postsDetail').each(function(){
             $(this).click(function(){
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/bbs/initPosts?id='+ $(this).attr('postsId');
-                window.openwin(url);
-                //top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+                //window.openwin(url);
+                top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+            });
+
+        });
+		
+		 $('.upordown').each(function(){
+            $(this).click(function(){
+                var id = $(this).attr('postsId');
+				var status = $(this).attr('status');
+				$.ajax({
+    			async : false,
+    			type : "post",
+    			url : '$!utilWebconfig.getActionDefaultFontPath()/GF/bbs/posts/upOrDown',
+    			data : {id:id,status:status},
+    			dataType : "JSON",
+    			success : function(data) {
+    				 if (data.status == 200) {
+                         layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                  	  location.href = location.href;
+                    },1500);
+                    } else {
+                        layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+					}
+    			},
+    			error : function(jqXHR, textStatus, errorThrown) {
+    				alert("操作失败 ，请稍后再试。。");
+    			}
+    		});
+				
             });
 
         });
@@ -120,22 +158,45 @@
     });
     function deletePosts(id){
 	
-	$.dialog.confirm('确定删除此帖子？', function(){
-		$.ajax({
+	
+	layer.msg('确定删除此帖子？', {
+    time: 0 //不自动关闭
+    ,btn: ['确定', '取消']
+    ,yes: function(index){
+        
+        $.ajax({
 			async : false,
 			type : "post",
-			url : '${path}/bbs/deleteBbs',
-			data : {postId:id},
+			url : '$!utilWebconfig.getActionDefaultFontPath()/GF/bbs/posts/del',
+			data : {postsId:id},
 			dataType : "JSON",
-			success : function(msg) {
-				 window.location = "../bbs/bbsPostsListByPage";
+			success : function(data) {
+				layer.close(index);
+				 if (data.status == 200) {
+                     layer.msg('操作成功', {
+                    icon: 1,
+                    time: 1500
+                });
+                setTimeout(function () {
+				
+				$("#postsListForm").submit();
+				
+              	  //location.href = location.href;
+                },1500);
+                } else {
+                    layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				alert("查询失败 ，请稍后再试。。");
+				alert("操作失败 ，请稍后再试。。");
 			}
 		});
-	}, function(){
-	});
+    }
+});
+	
 	 
 }
 </script>

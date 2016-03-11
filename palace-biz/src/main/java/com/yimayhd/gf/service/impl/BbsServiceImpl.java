@@ -105,4 +105,9 @@ public class BbsServiceImpl implements BbsService{
 		BaseResult<SnsPostsDO> updateSnsPostsResult = snsPostsService.updateSnsPosts(snsPostsDO);
 		return updateSnsPostsResult;
 	}
+	@Override
+	public BaseResult<Boolean> updatePostsStatus(SnsPostsDO bbsPostsDO) {
+		BaseResult<Boolean> updateStatusResult = snsPostsService.updateSnsPostsStatus(bbsPostsDO);
+		return updateStatusResult;
+	}
 }

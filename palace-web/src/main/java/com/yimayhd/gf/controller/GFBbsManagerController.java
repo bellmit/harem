@@ -1,5 +1,7 @@
 package com.yimayhd.gf.controller;
 
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +39,6 @@ public class GFBbsManagerController {
 			pageNumber = 1;
 		}
 		bbsModulePageQuery.setPageNo(pageNumber);
-		bbsModulePageQuery.setPageSize(10);
 		
 		PageVO<SnsModuleDO> result = bbsService.moduleQueryList(bbsModulePageQuery);
 		
@@ -100,7 +101,6 @@ public class GFBbsManagerController {
 		
 		bbsMasterPageQuery.setNeedCount(true);
 		bbsMasterPageQuery.setPageNo(pageNumber);
-		bbsMasterPageQuery.setPageSize(10);
 		
 		PageVO<SnsMasterDO> result = bbsService.masterQueryList(bbsMasterPageQuery);
 		
@@ -166,7 +166,6 @@ public class GFBbsManagerController {
 		
 		postsQuery.setNeedCount(true);
 		postsQuery.setPageNo(pageNumber);
-		postsQuery.setPageSize(10);
 		
 		SnsModulePageQuery bbsModulePageQuery = new SnsModulePageQuery();
 		bbsModulePageQuery.setPageNo(1);
@@ -246,5 +245,49 @@ public class GFBbsManagerController {
 		}
 		return ajaxResponse;
 			
+	}
+	
+	
+	@RequestMapping("/posts/upOrDown")
+	@ResponseBody
+	public ResponseVo downPost(Model model,SnsPostsDO bbsPostsDO) {
+		
+		ResponseVo ajaxResponse = new ResponseVo(true);
+		
+		bbsPostsDO.setOnlineTime(new Date());
+		
+		BaseResult<Boolean>  updateStatusResult = bbsService.updatePostsStatus(bbsPostsDO);
+		
+		if(!updateStatusResult.isSuccess() || !updateStatusResult.getValue()){
+			ajaxResponse.setMessage(updateStatusResult.getResultMsg());
+			ajaxResponse.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+		   
+
+		 return ajaxResponse;
+	}
+	
+	@RequestMapping("/posts/del")
+	@ResponseBody
+	public ResponseVo deleteBbs(Model model,long postsId) {
+		
+		ResponseVo ajaxResponse = new ResponseVo(true);
+		
+		SnsPostsDO bbsPostsDO =  new SnsPostsDO();
+		
+		bbsPostsDO.setId(postsId);
+		bbsPostsDO.setStatus(30);
+
+		BaseResult<Boolean>  updateStatusResult = bbsService.updatePostsStatus(bbsPostsDO);
+		
+		if(!updateStatusResult.isSuccess()){
+			ajaxResponse.setMessage(updateStatusResult.getResultMsg());
+			ajaxResponse.setStatus(ResponseStatus.ERROR.VALUE);
+			
+		}
+		
+
+
+		 return ajaxResponse;
 	}
 }
