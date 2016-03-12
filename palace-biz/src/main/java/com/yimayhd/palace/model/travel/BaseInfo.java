@@ -77,10 +77,11 @@ public class BaseInfo {
 		if (StringUtils.isNotBlank(orderImage)) {
 			this.orderImage = orderImage;
 		}
-		String detailAppImages = line.getPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS);
-		if (StringUtils.isNotBlank(detailAppImages)) {
-			this.detailAppImages = PicUrlsUtil.parsePicList(detailAppImages);
-		}
+		//FIXME 编译问题，过不去，先注释
+//		String detailAppImages = line.getPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS);
+//		if (StringUtils.isNotBlank(detailAppImages)) {
+//			this.detailAppImages = PicUrlsUtil.parsePicList(detailAppImages);
+//		}
 		tags = new ArrayList<Long>();
 		if (comTagDOs != null) {
 			for (ComTagDO comTagDO : comTagDOs) {
@@ -276,7 +277,9 @@ public class BaseInfo {
 		line.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, this.productImageApp);
 		line.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, this.orderImage);
 		line.addPicUrls(ItemPicUrlsKey.PC_BIG_LIST_PIC, this.productImagePc);
-		line.addPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS, PicUrlsUtil.parsePicsString(this.getDetailAppImages()));
+
+		//FIXME 编译问题，过不去，先注释
+//		line.addPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS, PicUrlsUtil.parsePicsString(this.getDetailAppImages()));
 		line.setPictures(Arrays.asList(this.tripImage));
 		if (this.fromLevel == RegionLevel.PROVINCE.getLevel()) {
 			line.setStartProvinceId(this.fromId);
