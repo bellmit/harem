@@ -41,6 +41,8 @@ actionUploadFilePath=${actionUploadFilePath}
 actionUploadFilesPath=${actionUploadFilesPath}
 #D:webapp\WEB-INF\resources\ckeditor\config.js 也需要对应修改
 
+item.img.uri=${item.img.uri}
+
 #dubbo
 app.name  = ${app.name}
 dubbo.port  = ${dubbo.port}
@@ -84,4 +86,5 @@ consumer.dubbo.activity.version = ${consumer.dubbo.activity.version}
 
 consumer.dubbo.marketing.check = ${consumer.dubbo.marketing.check}
 consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
+
 

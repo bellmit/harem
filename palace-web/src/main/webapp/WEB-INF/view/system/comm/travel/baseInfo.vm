@@ -24,7 +24,7 @@
                 <td><span class="spColor">*</span>产品序号：</td>
                 <td><input type="text" class="form-control int-only orderNum" style="width:120px" placeholder="请输入产品序号" value="$!product.baseInfo.orderNum"/></td>
             </tr>
-            <tr>
+    		<tr>
                 <td><span class="spColor">*</span>产品封面图(APP)：</td>
                 <td class="fileWrap">
                     <button type="button" class="btn btn-success">选择图片</button>
@@ -64,7 +64,19 @@
                     <input class="orderImageUrlVal" type="hidden" value="$!product.baseInfo.orderImage"/>
                 </td>
             </tr>
-            <tr>
+ 			<tr>
+            <td><span class="spColor">*</span>APP详情轮播图</td>
+            <td class="fileWrap detailAppImagesTd" id="detailAppImagesTd">
+                <input id="detailAppImagesBatchUploadBtn" class="" type="file" multiple="multiple" >
+                <h5>图片大小不超过2M，背景图尺寸为：750x360 1~5张
+                </h5>
+				#foreach($pic in $!product.baseInfo.detailAppImages)
+                    <img class="detailAppImages img-circle" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
+				#end
+            </td>
+            <input class="detailAppImagesVal" type="hidden" name="picturesStr">
+            </tr>
+           <tr>
                 <td><span class="spColor">*</span>产品标签：</td>
                 <td>
 					#foreach($tag in $tags)
@@ -183,6 +195,34 @@
 </div>
 <script type="text/javascript">
 	$(function(){
+        /****************批量上传pic_urls*****************/
+        $(document).delegate("#detailAppImagesBatchUploadBtn",'change',function(){
+            fileUpload('#detailAppImagesBatchUploadBtn',2,function(dataVal){
+                var errMessage = new Array();
+                for(var key in dataVal.data){
+                    if (dataVal.data[key].length < 10){
+                        errMessage.push(key);
+                    }else {
+                        $('.detailAppImagesTd').append('<img class="detailAppImages img-circle" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+                        $('.detailAppImagesTd').append('<button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>');
+                    }
+                }
+                if(errMessage.length > 0){
+                    layer.msg("以下图片上传失败：" + errMessage.join(','),{icon:2});
+                }
+                var imgs = 0;
+                $(".detailAppImagesTd").find("img").each(function(){
+                    imgs = imgs + 1;
+                    if(imgs > 5) {
+                        layer.msg('图片不能大于5张', {icon: 2});
+//                        $('.detailAppImagesTd').remove(this.next());
+                        $(this).next().remove();
+                        $(this).remove();
+                    }
+                });
+
+            });
+        });
         //上传图片
         $(document).delegate("#productImageAppFile",'change',function(){
             fileUpload('#productImageAppFile',1,function(data){
@@ -308,6 +348,16 @@
 		var productImagePc = $(".productImagePcUrlVal").val();
 		var tripImage = $(".tripImageUrlVal").val();
 		var orderImage = $(".orderImageUrlVal").val();
+        var picUrls = '';
+        var detailAppImages = new Array();
+        $('.detailAppImages').each(function(){
+            detailAppImages.push( $(this).attr('imgUrl'))
+//            if(picUrls){
+//                picUrls += '|' + $(this).attr('imgUrl');
+//            }else{
+//                picUrls += $(this).attr('imgUrl');
+//            }
+        });
 		var tags = [];
 		$(".productTag:checked").each(function(){
 			tags.push($(this).attr("rId"));
@@ -338,6 +388,7 @@
 			productImagePc:productImagePc,
 			tripImage:tripImage,
 			orderImage:orderImage,
+            detailAppImages:detailAppImages,
 			tags:tags,
 			publisherType:publisherType,
 			publisherId:publisher.attr("rId"),
@@ -365,4 +416,8 @@
 		};
 		return result;
 	}
+    function delPic(obj) {
+        $(obj).prev().remove();
+        $(obj).remove();
+    }
 </script>

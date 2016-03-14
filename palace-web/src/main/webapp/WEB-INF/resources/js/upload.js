@@ -19,12 +19,11 @@ var uploadSenedFile = function(files,type,callBack){//id：上传控件筛选器
     }
     var xhr = new XMLHttpRequest();
     xhr.onload = function(data) {
-
         var data = JSON.parse(data.target.response);
         if(data && data.status == 200){
             var errMessage = new Array();
             for(key in data.data){
-                if(!data.data[key] || data.data[key] === "null"){
+                if(!data.data[key] || data.data[key] === "null" ){
                     delete data.data[key];
                     errMessage.push(key);
                 }

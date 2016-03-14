@@ -32,6 +32,7 @@
 		<property name="palace.actionDefaultFontPath" defaultValue="http://console.test.yimayholiday.com/palace-web" description="#请求地址默认前缀" />
 		<property name="actionUploadFilePath" defaultValue="http://console.test.yimayholiday.com/palace-web/upload/file" description="#上传附件地址(单个)" />
 		<property name="actionUploadFilesPath" defaultValue="http://console.test.yimayholiday.com/palace-web/upload/files" description="#上传附件地址(多个)" />
+		<property name="item.img.uri" defaultValue="http://markting.gellefreres.com/data/upload/shop/store/goods/" description="分销商品图片地址" />
 	</group>
 
 	<group name="dubbo">
