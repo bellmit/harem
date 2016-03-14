@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
@@ -292,15 +293,21 @@ public class OrderManageController extends BaseController {
 	 * @throws
 	 */
 	@RequestMapping(value = "/gfOrderList")//, method = RequestMethod.GET
-	public String gfOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
-		orderListQuery.setDomain(1100);//TODO:enum类
-		//int [] orderBizTypes = {OrderBizType.HOTEL.getBizType()};
-		//orderListQuery.setOrderTypes(orderBizTypes);
-		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
-		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
-		model.addAttribute("orderListQuery", orderListQuery);
-		return "/system/order/gfOrderList";
+	public String gfOrderList(Model model, OrderListQuery orderListQuery){
+		try {
+			orderListQuery.setDomain(1100);//TODO:enum类
+			//int [] orderBizTypes = {OrderBizType.HOTEL.getBizType()};
+			//orderListQuery.setOrderTypes(orderBizTypes);
+			PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
+			model.addAttribute("pageVo", pageVo);
+			model.addAttribute("orderList", pageVo.getItemList());
+			model.addAttribute("orderListQuery", orderListQuery);
+			return "/system/order/gfOrderList";
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("gfOrderList|parameter="+ JSON.toJSONString(orderListQuery)+"|||exception="+e);
+		}
+		return "/error";
 	}
 
 	/**
