@@ -43,7 +43,7 @@
                     #*GF不需要这些属性*#
                     #*<input class="grade" type="text" name="grade" value="$!commodity.grade">*#
                     <input class="subTitle" type="hidden" name="subTitle" value="$!commodity.subTitle">
-                    <input class="oneWord" type="hidden" name="oneWord" value="$!commodity.oneWord">
+
                     <input class="description" type="hidden" name="description" value="$!commodity.description">
 
 
@@ -73,6 +73,16 @@
                         </td>
                     </tr>
                     <input type="hidden" name="reduceType" value="1">
+
+                    <tr>
+                        <td><span class="spColor">*</span>商品描述</td>
+                        <td>
+                            <textarea class="form-control extra-info-item-text oneWord"
+                                      name="oneWord"
+                                      rows="3">$!commodity.oneWord</textarea>
+                        </td>
+                    </tr>
+
                     #*<tr>
                         <td><span class="spColor">*</span>减库存方式</td>
                         <td>
@@ -346,6 +356,9 @@
             return '请输入正确的库存';
         }
 
+        if($('.oneWord').val() && $('.oneWord').val().length > 50){
+            return '商品描述不能超过50个字';
+        }
 
         if(!$('.bigListPicUrl').attr('src')){
             return '请选择列表图';
