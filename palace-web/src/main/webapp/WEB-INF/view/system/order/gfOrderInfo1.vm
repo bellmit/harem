@@ -4,16 +4,20 @@
         type="text/javascript"></script>
 <div>
 
+
     <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a href="#orderInfo" data-toggle="tab"></a>订单详情</li>
-        <li><a href="#logisticsInfo" data-toggle="tab">物流信息</a></li>
+        <li class="active">
+            <a href="#orderInfo" data-toggle="tab">订单详情</a>
+        </li>
+        <li>
+            <a href="#logisticsInfo" id="logisticsInfoId" data-toggle="tab">物流信息</a>
+        </li>
     </ul>
 
-    <br><br>
     <!-- 位置 -->
-	<div class="position">
+	#*<div class="position">
 		<div>您所在的位置： 订单管理>GF订单>订单详情</div>
-	</div>
+	</div>*#
 
 
 

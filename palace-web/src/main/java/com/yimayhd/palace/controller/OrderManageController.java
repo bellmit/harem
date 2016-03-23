@@ -11,6 +11,7 @@ import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -296,8 +297,10 @@ public class OrderManageController extends BaseController {
 	public String gfOrderList(Model model, OrderListQuery orderListQuery){
 		try {
 			orderListQuery.setDomain(1100);//TODO:enum类
-			//int [] orderBizTypes = {OrderBizType.HOTEL.getBizType()};
-			//orderListQuery.setOrderTypes(orderBizTypes);
+			//这里莫名其妙的多个，待后期检查vm页面代码
+			if(StringUtils.isNotEmpty(orderListQuery.getItemName()) && orderListQuery.getItemName().equals(",")){
+				orderListQuery.setItemName(null);
+			}
 			PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 			model.addAttribute("pageVo", pageVo);
 			model.addAttribute("orderList", pageVo.getItemList());
@@ -322,7 +325,7 @@ public class OrderManageController extends BaseController {
 		if (orderDetails!=null){
 			model.addAttribute("order", orderDetails);
 		}
-		return "/system/order/gfOrderInfo";
+		return "/system/order/gfOrderInfo1";
 	}
 
 

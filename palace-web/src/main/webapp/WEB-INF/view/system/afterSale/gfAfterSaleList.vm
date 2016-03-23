@@ -262,7 +262,7 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/gfOrder/"+orderId, 2, "酒店订单详情");
+            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/gfOrder/"+orderId, 2, "GF订单详情");
         });
 
 
