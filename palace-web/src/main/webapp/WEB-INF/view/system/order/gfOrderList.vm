@@ -43,21 +43,21 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商品名称</button>
                     </span>
-                <input type="text" class="form-control" name="buyerName" value="$!orderListQuery.itemName">
+                <input type="text" class="form-control" name="itemName" value="$!orderListQuery.itemName">
             </div>
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">买家手机号</button>
                     </span>
-                <input type="text" class="form-control" name="itemName" value="$!orderListQuery.buyerPhone">
+                <input type="text" class="form-control" name="buyerPhone" value="$!orderListQuery.buyerPhone">
             </div>
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">买家昵称</button>
                     </span>
-                <input type="text" class="form-control" name="itemName" value="$!orderListQuery.buyerName">
+                <input type="text" class="form-control" name="buyerName" value="$!orderListQuery.buyerName">
             </div>
 
             <div class="btn-group">
