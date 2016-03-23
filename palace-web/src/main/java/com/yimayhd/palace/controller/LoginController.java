@@ -91,6 +91,7 @@ public class LoginController extends BaseController {
                 String token = result.getToken();
                 Cookie cookie = new Cookie("token", token);
                 cookie.setHttpOnly(true);
+                cookie.setPath("/");
                 response.addCookie(cookie);
                 return new ResponseVo(result.getResultMsg());
             }

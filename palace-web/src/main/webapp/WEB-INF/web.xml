@@ -73,7 +73,7 @@
 			<param-name>loginUrl</param-name>
 			<param-value>/toLogin</param-value>
 		</init-param>
-	</filter> 
+	</filter>
 	
 	
 
