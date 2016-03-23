@@ -64,6 +64,8 @@
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
 	
 	<bean class="com.yimayhd.gf.service.impl.BbsServiceImpl"></bean>
+
+	<bean class="com.yimayhd.palace.service.impl.LogisticsServiceImpl"></bean>
 	
 	
 </beans>
