@@ -293,7 +293,7 @@ public class OrderManageController extends BaseController {
 	 * @author create by yushengwei @ 2016年2月26日
 	 * @throws
 	 */
-	@RequestMapping(value = "/gfOrderList")//, method = RequestMethod.GET
+	@RequestMapping(value = "/gfOrderList",method = RequestMethod.GET)//, method = RequestMethod.GET
 	public String gfOrderList(Model model, OrderListQuery orderListQuery){
 		try {
 			orderListQuery.setDomain(1100);//TODO:enum类
