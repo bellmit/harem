@@ -4,7 +4,7 @@
         type="text/javascript"></script>
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
-          action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList" method="post" role="form">
+          action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList" method="GET" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
