@@ -216,6 +216,10 @@
 			<groupId>com.yimayhd.tradecenter</groupId>
 			<artifactId>tradecenter-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.lgcenter</groupId>
+			<artifactId>lgcenter-client</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.taobao.tair</groupId>
