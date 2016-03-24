@@ -125,6 +125,16 @@
                 format: "yyyy-mm-dd hh:ii"
             });
 
+    var getNowFormat = function(){
+        var date = new Date();
+        return date.getFullYear() + '-' + fullStr(date.getMonth() + 1) + '-' + fullStr(date.getDate()) + ' ' + fullStr(date.getHours()) + ':' + fullStr(date.getMinutes());
+    }
+    var fullStr  = function(num){
+        if(num >= 10){
+            return num;
+        }
+        return '0' + num;
+    }
     //验证
     var validate = function(){
         if(!$('.title').val()){
@@ -143,6 +153,8 @@
 
         if(!$('.startDate').val() || !$('.endDate').val()){
             return "请选择活动日期";
+        }else if($('.startDate').val() <= getNowFormat()){
+            return "开始时间必须大于当前时间";
         }else if($('.startDate').val() > $('.endDate').val()){
             return "结束日期必须大于开始日期!";
         }
