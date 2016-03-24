@@ -1,23 +1,20 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
       rel="stylesheet">
-<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css?version=$!{utilWebconfig.getResourceVersion()}"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
-
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
             <a href="#orderInfo" data-toggle="tab">订单详情</a>
         </li>
         <li>
-            <a href="#logisticsInfo" data-toggle="tab">物流信息</a>
+            <a href="#logisticsInfo" id="logisticsInfoId" data-toggle="tab">物流信息</a>
         </li>
     </ul>
 
-    <br><br>
     <!-- 位置 -->
-	<div class="position">
+	#*<div class="position">
 		<div>您所在的位置： 订单管理>GF订单>订单详情</div>
-	</div>
+	</div>*#
 
 
 
@@ -182,7 +179,7 @@
             * *#
             <br><br>
             <!-- 订单商品信息 -->
-            <div class="orderInfo tab-pane" id="orderInfo">
+            <div class="orderInfo">
                 <div>订单商品信息</div>
                 <div>
                     <span>订单总额：￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
@@ -302,7 +299,7 @@
             </div>
         </div>
         <div class="tab-pane" id="logisticsInfo">
-            #parse("/system/order/gflogisticsInfo.vm")
+            #parse("/system/logistics/logisticsInfo.vm")
         </div>
     </div>
 

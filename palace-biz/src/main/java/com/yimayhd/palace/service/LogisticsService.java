@@ -11,7 +11,7 @@ import java.util.List;
  * @Description
  */
 public interface LogisticsService {
-   public List<ExpressVO> getLogisticsInfo(TaskInfoRequestDTO taskInfoRequestDTO);
+   public ExpressVO getLogisticsInfo(TaskInfoRequestDTO taskInfoRequestDTO);
 
 
 }

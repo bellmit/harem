@@ -1,0 +1,42 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+      rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
+        type="text/javascript"></script>
+
+<div class="tab-content grogInfoWrap" style="">
+    <div class="tab-pane active" id="orderInfo">
+        <div class="buyerInfo">
+            <div>物流信息</div>
+            <div>
+                <span>物流单号：$!logistics.numbers</span>
+                <span>物流公司：$!logistics.com</span>
+                #*<span>物流公司：$!logistics.name</span>
+                <span>状态：$!logistics.state</span>*#
+            </div>
+        </div>
+        <br><br>
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tbody>
+                <tr>
+                    <th>时间</th>
+                    <th>描述</th>
+                </tr>
+                    #foreach($log in $logistics.expressDetailVOList)
+                        <tr>
+                            <td  align="left">
+                                $!log.ftime
+                            </td>
+                            <td  align="left">
+                                $!log.context
+                            </td>
+                        </tr>
+                    #end
+                </tbody>
+            </table>
+        </div>
+        <br><br>
+    </div>
+</div>
+<script>
+</script>

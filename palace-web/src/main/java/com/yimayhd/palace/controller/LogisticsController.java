@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
@@ -33,8 +34,8 @@ public class LogisticsController extends BaseController {
         //logistics
         taskInfoRequestDTO.setNumber("V030344422");
         taskInfoRequestDTO.setCompany("yauntong");
-        List list = logisticsService.getLogisticsInfo(taskInfoRequestDTO);
-        model.addAttribute("logisticsList",list);
-        return "";
+        ExpressVO expressVO = logisticsService.getLogisticsInfo(taskInfoRequestDTO);
+        model.addAttribute("logistics",expressVO);
+        return "/system/logistics/logisticsInfo";
     }
 }

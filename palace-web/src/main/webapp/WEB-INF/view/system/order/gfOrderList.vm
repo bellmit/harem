@@ -64,7 +64,7 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button type="button" id="clean_btn" class="btn btn-primary">重置</button>
             </div>
 
         </div>
@@ -299,6 +299,10 @@
                 })
             });
         });
+    });
 
+    $("#clean_btn").click(function(){
+        $('#tradeListForm div:eq(0)').find('input').val("").end().find('select')[0].selectedIndex = 0;
+        //$('#tradeListForm div:eq(0)').find('select')[0].selectedIndex = 0;
     });
 </script>

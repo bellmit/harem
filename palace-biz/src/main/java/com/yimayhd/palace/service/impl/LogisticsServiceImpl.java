@@ -22,14 +22,12 @@ public class LogisticsServiceImpl implements LogisticsService {
 
     @Autowired LgService lgService;
 
-    public List<ExpressVO> getLogisticsInfo(TaskInfoRequestDTO taskInfoRequestDTO) {
+    public ExpressVO getLogisticsInfo(TaskInfoRequestDTO taskInfoRequestDTO) {
         BaseResult<ExpressVO> result = lgService.getLogisticsInfo(taskInfoRequestDTO);
         if(null == result || !result.isSuccess()){
             log.error(">>>LogisticsServiceImpl.getLogisticsInfo result is null or notSuccess,Parameters=" + JSON.toJSONString(taskInfoRequestDTO)+"|||result="+JSON.toJSONString(result));
             return null;
         }
-        List<ExpressVO> list = new ArrayList<ExpressVO>();
-        list.add(result.getValue());
-        return list;
+        return result.getValue();
     }
 }

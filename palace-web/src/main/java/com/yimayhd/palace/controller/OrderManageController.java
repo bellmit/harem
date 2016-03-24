@@ -9,6 +9,7 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.palace.service.LogisticsService;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +37,8 @@ public class OrderManageController extends BaseController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderManageController.class);
 	@Autowired
 	private OrderService orderService;
-
+	@Autowired
+	LogisticsService logisticsService;
 
 	/**
 	 * 退款
@@ -322,10 +324,9 @@ public class OrderManageController extends BaseController {
 	@RequestMapping(value = "/gfOrder/{id}", method = RequestMethod.GET)
 	public String gfOrderDetailById(Model model, @PathVariable(value = "id") long id) throws Exception {
 		OrderDetails orderDetails = orderService.getOrderById(id);
-		if (orderDetails!=null){
-			model.addAttribute("order", orderDetails);
-		}
-		return "/system/order/gfOrderInfo1";
+		model.addAttribute("logistics",orderDetails.getExpress());
+		model.addAttribute("order", orderDetails);
+		return "/system/order/gfOrderInfo";
 	}
 
 
