@@ -1,5 +1,9 @@
 package com.yimayhd.palace.service.impl;
 
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
+import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
+import com.yimayhd.lgcenter.client.result.BaseResult;
+import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.OrderConverter;
 import com.yimayhd.palace.model.query.OrderListQuery;
@@ -48,6 +52,8 @@ public class OrderServiceImpl implements OrderService {
 	private TcTradeService tcTradeServiceRef;
 	@Autowired
 	private UserService userServiceRef;
+	@Autowired
+	private LgService lgService;
 
 	@Override
 	public PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception {
@@ -210,6 +216,17 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setConsignTime(consignTime);
 					}
 				}
+
+				//物流信息
+				TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
+				//TODO 此处为测试信息。需要改为正式信息。
+				taskInfoRequestDTO.setNumber("227326133769");
+				taskInfoRequestDTO.setCompany("shentong");
+				BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
+				if (lgResult.isSuccess() && lgResult.getValue()!=null){
+					orderDetails.setExpress(lgResult.getValue());
+				}
+
 				return orderDetails;
 			}
 		}catch (Exception e){
