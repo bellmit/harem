@@ -22,14 +22,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/B2C/logisticsManage/")
 public class LogisticsController extends BaseController {
-    @Autowired LogisticsService logisticsService;
+
     protected Logger log = LoggerFactory.getLogger(getClass());
+
+    @Autowired LogisticsService logisticsService;
 
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String list(Model model,TaskInfoRequestDTO taskInfoRequestDTO) {
         //logistics
-        taskInfoRequestDTO.setNumber("111111111111111");
+        taskInfoRequestDTO.setNumber("V030344422");
+        taskInfoRequestDTO.setCompany("yauntong");
         List list = logisticsService.getLogisticsInfo(taskInfoRequestDTO);
         model.addAttribute("logisticsList",list);
         return "";
