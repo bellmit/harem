@@ -1,9 +1,12 @@
 package com.yimayhd.palace.base;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.exception.NoticeException;
 
 /**
@@ -26,6 +31,8 @@ public class BaseController {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	protected HttpServletRequest request;
+	@Autowired
+	protected HttpServletResponse response;
 
 	// 正式发布，异常不这样处理
 	/*
@@ -45,18 +52,54 @@ public class BaseController {
 	 * e.getLocalizedMessage()); }
 	 */
 
+//	@ExceptionHandler(Exception.class)
+//	protected ModelAndView handleException(Exception e) {
+//		log.error(e.getMessage(), e);
+//		ModelAndView modelAndView = new ModelAndView("/error");
+//		if (e instanceof NoticeException || e instanceof BaseException) {
+//			modelAndView.addObject("message", e.getMessage() + "，请联系管理员");
+//		} else {
+//			modelAndView.addObject("message", "服务器未知错误，请联系管理员");
+//		}
+//		return modelAndView;
+//
+//	}
+//	
 	@ExceptionHandler(Exception.class)
-	protected ModelAndView handleException(Exception e) {
+	protected ModelAndView handleException(Exception e) throws IOException {
 		log.error(e.getMessage(), e);
 		ModelAndView modelAndView = new ModelAndView("/error");
 		if (e instanceof NoticeException || e instanceof BaseException) {
-			modelAndView.addObject("message", e.getMessage() + "，请联系管理员");
+			if(request.getHeader("x-requested-with") != null && "XMLHttpRequest".equals(request.getHeader("x-requested-with"))){
+				//ajax
+				response.setContentType("application/json;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				String jsonString = JSON.toJSONString(new ResponseVo(ResponseStatus.FORBIDDEN.VALUE, e.getMessage()));
+				out.println(jsonString);
+				out.flush();
+				out.close();
+				return null;
+			}else{
+				modelAndView.addObject("message", e.getMessage() + "，请联系管理员");
+			}
 		} else {
-			modelAndView.addObject("message", "服务器未知错误，请联系管理员");
+				if (request.getHeader("x-requested-with") != null && "XMLHttpRequest".equals(request.getHeader("x-requested-with"))) {
+					//ajax
+					response.setContentType("application/json;charset=utf-8");
+					PrintWriter out = response.getWriter();
+					String jsonString = JSON.toJSONString(new ResponseVo(ResponseStatus.ERROR.VALUE, ResponseStatus.ERROR.MESSAGE));
+					out.println(jsonString);
+					out.flush();
+					out.close();
+					return null;
+				} else {
+					modelAndView.addObject("message", "服务器未知错误，请联系管理员");
+				}
 		}
 		return modelAndView;
 
 	}
+
 
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
