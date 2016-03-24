@@ -10,7 +10,7 @@
 		<property name="registry" ref="dubboRegistryConfig" />
 		<property name="timeout" value="${consumer.dubbo.timeout}" />
 		<property name="check" value="${consumer.dubbo.logistics.check}" />
-		<property name="version" value="${consumer.dubbo.logistics.check.version}" />
+		<property name="version" value="${consumer.dubbo.logistics.version}" />
 	</bean>
 
 </beans>
