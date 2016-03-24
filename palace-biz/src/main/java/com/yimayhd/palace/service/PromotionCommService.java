@@ -1,10 +1,9 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.activitycenter.domain.ActActivityDO;
-import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
-import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ActActivityEditVO;
+import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 
 /**
  * Created by czf on 2016/1/19.

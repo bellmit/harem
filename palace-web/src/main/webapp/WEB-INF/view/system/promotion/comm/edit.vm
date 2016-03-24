@@ -129,21 +129,25 @@
     var validate = function(){
         if(!$('.title').val()){
             return '请输入活动名称';
-        }
-        if($('.title').val().length > 60){
+        } else if($('.title').val().length > 60){
             return '字数不能超过60';
         }
         if(!$('.description').val()){
             return '请输入活动描述';
-        }
-        if($('.description').val().length > 60){
+        }else if($('.description').val().length > 60){
             return '字数不能超过60';
         }
+        if(!$('.allValueY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.allValueY').val())){
+            return "请输入正确的直降金额";
+        }
 
-        if($('.startDate').val() && $('.endDate').val()){
-            if($('.startDate').val() > $('.endDate').val()){
-                return "结束日期必须大于开始日期!";
-            }
+        if(!$('.startDate').val() || !$('.endDate').val()){
+            return "请选择活动日期";
+        }else if($('.startDate').val() > $('.endDate').val()){
+            return "结束日期必须大于开始日期!";
+        }
+        if($('.dataSelectTr[isDel != "true"]').length <= 0){
+            return "请选择商品";
         }
 
         var url = '/GF/promotionCommManage/checkActivityName';

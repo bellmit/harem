@@ -1,16 +1,13 @@
 package com.yimayhd.palace.controller;
 
 import com.yimayhd.activitycenter.domain.ActActivityDO;
-import com.yimayhd.activitycenter.dto.ActPromotionDTO;
-import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
-import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
-import com.yimayhd.activitycenter.result.ActResult;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ActActivityEditVO;
+import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;

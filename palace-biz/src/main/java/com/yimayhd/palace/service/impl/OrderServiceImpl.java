@@ -1,9 +1,5 @@
 package com.yimayhd.palace.service.impl;
 
-import com.yimayhd.lgcenter.client.domain.ExpressVO;
-import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
-import com.yimayhd.lgcenter.client.result.BaseResult;
-import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.OrderConverter;
 import com.yimayhd.palace.model.query.OrderListQuery;

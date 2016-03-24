@@ -247,8 +247,10 @@
 			<groupId>com.yimayhd.spread-marketing</groupId>
 			<artifactId>spread-marketing-client</artifactId>
 		</dependency>
-
-
+		<dependency>
+			<groupId>com.yimayhd.lgcenter</groupId>
+			<artifactId>lgcenter-client</artifactId>
+		</dependency>
 	</dependencies>
 
 

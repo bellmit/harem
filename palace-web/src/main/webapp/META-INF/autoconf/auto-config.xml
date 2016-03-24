@@ -79,6 +79,9 @@
 		<property name="consumer.dubbo.activity.check" defaultValue="false" description="#"/>
 		<property name="consumer.dubbo.activity.version" defaultValue="1.0.0.test" description="#"/>
 
+		<property name="consumer.dubbo.logistics.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.logistics.version" defaultValue="1.0.0.test" description="#" />
+
 	</group>
 
 	<group name="session">
@@ -100,4 +103,6 @@
 		<generate template="redis.properties.vm" destfile="WEB-INF/redis.properties"	charset="UTF-8" />
 		<generate template="logback.xml" destfile="WEB-INF/logback.xml" charset="UTF-8"/>
 	</script>
+
+
 </config>
