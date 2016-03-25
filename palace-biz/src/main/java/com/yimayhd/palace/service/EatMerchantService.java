@@ -72,5 +72,15 @@ public interface EatMerchantService {
 	 *
 	 */
 	public PageVO<EatMerchantVO> queryEatMerchantList(EatMerchantListQuery eatMerchantListQuery);
+	
+	/**
+	 * 
+	 * batchOnlineEatMerchant:(批量上架店铺). <br/>  
+	 * @author zhangjian  
+	 * @param eatMerchantIds
+	 * @return  
+	 *
+	 */
+	public boolean batchOnlineEatMerchant(List<Long> eatMerchantIds);
 }
   

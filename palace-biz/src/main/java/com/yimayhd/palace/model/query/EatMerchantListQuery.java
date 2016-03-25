@@ -30,6 +30,16 @@ public class EatMerchantListQuery extends BaseQuery {
 	private Integer cityCode;
 
 	private String status;
+	
+	private int domainId;
+
+	public int getDomainId() {
+		return domainId;
+	}
+
+	public void setDomainId(int domainId) {
+		this.domainId = domainId;
+	}
 
 	public String getName() {
 		return name;
