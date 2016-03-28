@@ -82,6 +82,9 @@
 		<property name="consumer.dubbo.logistics.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.logistics.version" defaultValue="1.0.0.test" description="#" />
 
+		<property name="consumer.dubbo.refund.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.refund.version" defaultValue="1.0.0.test" description="#" />
+
 	</group>
 
 	<group name="session">

@@ -6,7 +6,10 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.Refund;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
+import com.yimayhd.palace.service.AfterSaleService;
 import com.yimayhd.palace.service.OrderService;
+import com.yimayhd.refund.client.domain.RefundOrderDO;
+import com.yimayhd.refund.client.query.RefundOrderQuery;
 import com.yimayhd.tradecenter.client.model.enums.RefundStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -31,32 +34,39 @@ public class AfterSaleManageController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired private OrderService orderService;
+    @Autowired private AfterSaleService afterSaleService;
 
     @RequestMapping(value = "/refund/list", method = RequestMethod.GET)
-    public String list(Model model, OrderListQuery orderListQuery){
+    public String list(Model model, RefundOrderQuery refundOrderQuery){
         try {
-            PageVO pageVo = getPageVo(orderListQuery);
+            PageVO pageVo = getPageVo(refundOrderQuery);
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("orderList", pageVo.getItemList());
-            model.addAttribute("orderListQuery", orderListQuery);
-            model.addAttribute("orderStat", orderListQuery.getOrderStat());
+            model.addAttribute("orderListQuery", refundOrderQuery);
+            model.addAttribute("orderStat", refundOrderQuery.getRefundStatus());
             return "/system/aftersale/gfAfterSaleList";
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("gfOrderList|parameter="+ JSON.toJSONString(orderListQuery)+"|||exception="+e);
+            log.error("gfOrderList|parameter="+ JSON.toJSONString(refundOrderQuery)+"|||exception="+e);
         }
         return "/error";
 
     }
 
-    public PageVO getPageVo(OrderListQuery orderListQuery) throws Exception{
-        orderListQuery.setDomain(1100);//TODO:enum类
-        if(null == orderListQuery || StringUtils.isEmpty(orderListQuery.getOrderStat())){
-            orderListQuery.setOrderStat(RefundStatus.APPLY_REFUND.toString());//默认退款
+    public PageVO getPageVo(RefundOrderQuery refundOrderQuery) throws Exception{
+        refundOrderQuery.setDomain(1100);//TODO:enum类
+        refundOrderQuery.setNeedCount(true);
+        if(null == refundOrderQuery || refundOrderQuery.getRefundStatus() == 0 ){
+            refundOrderQuery.setRefundStatus(RefundStatus.APPLY_REFUND.getStatus());//默认退款
         }
-        PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
+        PageVO<RefundOrderDO> pageVo = afterSaleService.queryRefundOrder(refundOrderQuery);
         return pageVo;
+    }
+
+    @RequestMapping(value = "/refund/detail/{orderNO}", method = RequestMethod.GET)
+    public String detail(Model model, OrderListQuery orderListQuery){
+        System.out.println(orderListQuery.getOrderNO());
+        return null;
     }
 
 }

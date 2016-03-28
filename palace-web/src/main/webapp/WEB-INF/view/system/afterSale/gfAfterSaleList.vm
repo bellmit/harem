@@ -5,20 +5,21 @@
 </script>
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
-          action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList" method="post" role="form">
+          action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list" method="get" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle ">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">当前状态</button>
                     </span>
-                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
+                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="refundStatus">
                     <option value="">全部</option>
-                    <option value="NOTING" #if($!orderListQuery.orderStat == 'NOTING') selected #end>待付款</option>
-                    <option value="PAID" #if($!orderListQuery.orderStat == 'PAID') selected #end>待发货/已付款</option>
-                    <option value="SHIPPED" #if($!orderListQuery.orderStat == 'SHIPPED') selected #end>待收货/已发货</option>
-                    <option value="TRADE_CLOSE" #if($!orderListQuery.orderStat == 'TRADE_CLOSE') selected #end>交易关闭</option>
-                    <option value="PENDING" #if($!orderListQuery.orderStat == 'PENDING') selected #end>待处理</option>
-                    <option value="WAITING_EVALUATION" #if($!orderListQuery.orderStat == 'WAITING_EVALUATION') selected #end>待评价</option>
+                    <option value="NOT_REFUND" #if($!orderListQuery.refundStatus == 'NOT_REFUND') selected #end>未退款</option>
+                    <option value="APPLY_REFUND" #if($!orderListQuery.refundStatus == 'APPLY_REFUND') selected #end>退款已申请</option>
+                    <option value="REFUNDING" #if($!orderListQuery.refundStatus == 'REFUNDING') selected #end>退款中</option>
+                    <option value="REFUND_FAIL" #if($!orderListQuery.refundStatus == 'REFUND_FAIL') selected #end>退款失败</option>
+                    <option value="REFUND_SUCCESS" #if($!orderListQuery.refundStatus == 'REFUND_SUCCESS') selected #end>退款成功</option>
+                    <option value="RETURN_GOODS_ING" #if($!orderListQuery.refundStatus == 'RETURN_GOODS_ING') selected #end>退款退货中</option>
+                    <option value="REFUND_CANCELLED" #if($!orderListQuery.refundStatus == 'REFUND_CANCELLED') selected #end>用户已撤销</option>
                 </select>
             </div>
 
@@ -84,111 +85,61 @@
             <tbody>
                 <tr>
                     <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
-                    <th>商品</th>
-                    <th>单价</th>
-                    <th>数量</th>
-                    <th>买家</th>
-                    <th>交易状态</th>
-                    <th>订单金额</th>
+                    <th>售后单号</th>
+                    <th>订单编号</th>
+                    <th>会员手机号</th>
+                    <th>当前状态</th>
+                    <th>申请售后日期</th>
+                    <th>下单日期</th>
                      <th>操作</th>
                 </tr>
                 #foreach($order in $orderList)
                     <tr></tr>
                     <tr>
-                        <td><input class="subChecked" type="checkbox" value="$!order.bizOrderDO.bizOrderId"></td>
-                        <td colspan="8" align="left">
-
-                            订单编号：$!order.bizOrderDO.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrderDO.gmtCreated)
+                        <td><input class="subChecked" type="checkbox" value="$!order.id"></td>
+                        <td  align="left">
+                            $!order.Id
                         </td>
-                    </tr>
-
-                    #foreach($subOrder in $order.subOrderList)
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div class="goods-item">
-                                <div class="t-img">
-                                    <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic">
-                                </div>
-                                <div class="t-msg">
-                                    <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-                                    #if($!subOrder.startTime != 0 || $!subOrder.endTime != 0)
-                                        <div class="t-date">开始日期：$!date.format('yyyy-MM-dd',$!subOrder.startTime)</div>
-                                        <div class="t-date">结束日期：$!date.format('yyyy-MM-dd',$!subOrder.endTime)</div>
-                                    #end
-                                    <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
-                                </div>
-                            </div>
+                        <td  align="left">
+                            ：$!order.bizOrderId
                         </td>
                         <td>
-                            <div class="order-price">
-                                $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="order-number">
-                                $!subOrder.bizOrderDO.buyAmount
-                            </div>
-                        </td>
-                    #end
-                        <td>
-                            <div>
-                                <div class="txt">$!order.user.nickname</div>
-                                <div class="txt">$!order.user.mobileNo</div>
-                            </div>
+                            $!order.buyerAccount ---
                         </td>
                         <td>
                             <div class="">
-                                #if($order.orderShowState == 1)
-                                    未付款
-                                #elseif($order.orderShowState == 2)
-                                    已付款
-                                #elseif($order.orderShowState == 3)
-                                    已发货
-                                #elseif($order.orderShowState == 4)
-                                    交易成功
-                                #elseif($order.orderShowState == 5)
-                                    交易关闭
-                                #elseif($order.orderShowState == 6)
-                                    待处理
-                                #elseif($order.orderShowState == 7)
-                                    已退款
+                                #if($!orderListQuery.refundStatus == '0') >未退款
+                                #elseif($!orderListQuery.refundStatus == '1') >退款已申请
+                                #elseif($!orderListQuery.refundStatus == '2') >退款中
+                                #elseif($!orderListQuery.refundStatus == '3') >退款失败
+                                #elseif($!orderListQuery.refundStatus == '4') >退款成功
+                                #elseif($!orderListQuery.refundStatus == '5') >退款退货中
+                                #elseif($!orderListQuery.refundStatus == '6') >用户已撤销
                                 #end
                             </div>
                         </td>
                         <td>
+                            $!date.format('yyyy-MM-dd HH:mm:ss',$!order.gmtCreated)
+                        </td>
+                        <td>
                             <div>
-                                $!utilNum.moneyTransform($!order.bizOrderDO.actualTotalFee)
+                                $!date.format('yyyy-MM-dd HH:mm:ss',$!order.gmtCreated)
                             </div>
                         </td>
                         <td>
                             <button type="button" class="btn btn-primary addRefund detail"
-                                    orderId="$!order.bizOrderDO.bizOrderId">查看</button>
-                    #if($order.orderShowState == 1)
-                        <button type="button" class="btn btn-primary affirm"
-                                data-target="#affirmModal" orderId="$!order.bizOrderDO.bizOrderId">审核
-                        </button>
-                    #elseif($order.orderShowState == 4)
-                        <button type="button" class="btn btn-primary finish"
-                                data-target="#finishModal" orderId="$!order.bizOrderDO.bizOrderId">退款完成
-                        </button>
-                        #end
-                            #*#if($order.orderShowState == 2)
+                                    orderId="$!order.bizOrderId">查看</button>
+                            #if($order.orderShowState == 1)
                                 <button type="button" class="btn btn-primary affirm"
-                                        data-target="#affirmModal" orderId="$!order.bizOrderDO.bizOrderId">确认
+                                        data-target="#affirmModal" orderId="$!order.bizOrderId">审核
                                 </button>
-                            #elseif($order.orderShowState == 3)
+                            #elseif($order.orderShowState == 4)
                                 <button type="button" class="btn btn-primary finish"
-                                        data-target="#finishModal" orderId="$!order.bizOrderDO.bizOrderId">完成
+                                        data-target="#finishModal" orderId="$!order.bizOrderId">退款完成
                                 </button>
-                            #elseif($order.bizOrderDO.refundStatus != 4 && $order.bizOrderDO.payStatus == 2)
-                                <button type="button" class="btn btn-primary refund"
-                                        data-target="#refundModal" orderId="$!$!order.bizOrderDO.bizOrderId">退款
-                                </button>
-                            #end*#
+                            #end
                         </td>
-                </tr>
+                    </tr>
                 #end
             </tbody>
             </table>
@@ -198,46 +149,7 @@
         #pageStyle("tradeListForm")
     </form>
 
-    <!-- 退款模态框 -->
-    <div class="modal fade" id="refundModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
-                            class="sr-only">关闭</span></button>
-                    <h4 class="modal-title">对话框标题</h4>
-                </div>
-                <div class="modal-body dialogPoint">
-                    <form class="form-signin" id="refundAddForm" action="/refundManage/add" method="POST" role="form">
-                        <div class="form-group">
-                            <ul class="formPoint">
-                                <li> 退款金额：￥86.00 退款路径：支付宝/微信/银联</li>
-                                <li>
-                                    <label for="refundMoney">退款金额</label>
-                                    <input id="refundMoney" type="text" class="form-control refundMoney"
-                                           placeholder="退款金额" name="refundMoney" value="">
-                                </li>
-                                <li>
-                                    <label for="shouldRefundPoint">需返还积分</label>
-                                    <input type="text" class="form-control shouldRefundPoint pointShow"
-                                           placeholder="需返还积分" name="shouldRefundPoint" value="" readonly="">
-                                </li>
-                                <li>
-                                    <label for="availablePoint">可返还积分</label>
-                                    <input type="text" class="form-control availablePoint pointShow" placeholder="可返还积分"
-                                           name="availablePoint" value="" readonly="">
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">确定</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 </div>
 <script>
@@ -262,7 +174,7 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/gfOrder/"+orderId, 2, "GF订单详情");
+            window.parent.tabsAdd('', actionDefaultPath + "/GF/aftersale/refund/detail/"+orderId, 2, "售后单详情");
         });
 
 

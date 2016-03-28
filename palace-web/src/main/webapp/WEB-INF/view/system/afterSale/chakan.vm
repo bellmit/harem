@@ -1,0 +1,30 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+      rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
+        type="text/javascript"></script>
+
+
+<!-- 位置 -->
+<div class="position">
+    <div>您所在的位置： 售后管理>详情页面</div>
+</div>
+
+<div class="tab-content grogInfoWrap" style="">
+
+    <div class="tab-pane active" id="orderInfo">
+        <br><br>
+           #if(true)
+               #parse("/system/afterSale/tk_info.vm")
+           #else
+               #parse("/system/afterSale/tkth_info.vm")
+           #end
+        <br><br>
+        #parse("/system/afterSale/common/item.vm")
+        <br><br>
+        <br><br>
+        #parse("/system/afterSale/common/logistics.vm")
+    </div>
+</div>
+
+
+=-

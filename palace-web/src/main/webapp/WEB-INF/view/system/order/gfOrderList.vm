@@ -177,45 +177,6 @@
         #pageStyle("tradeListForm")
     </form>
 
-    <!-- 退款模态框 -->
-    <div class="modal fade" id="refundModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
-                            class="sr-only">关闭</span></button>
-                    <h4 class="modal-title">对话框标题</h4>
-                </div>
-                <div class="modal-body dialogPoint">
-                    <form class="form-signin" id="refundAddForm" action="/refundManage/add" method="POST" role="form">
-                        <div class="form-group">
-                            <ul class="formPoint">
-                                <li> 退款金额：￥86.00 退款路径：支付宝/微信/银联</li>
-                                <li>
-                                    <label for="refundMoney">退款金额</label>
-                                    <input id="refundMoney" type="text" class="form-control refundMoney"
-                                           placeholder="退款金额" name="refundMoney" value="">
-                                </li>
-                                <li>
-                                    <label for="shouldRefundPoint">需返还积分</label>
-                                    <input type="text" class="form-control shouldRefundPoint pointShow"
-                                           placeholder="需返还积分" name="shouldRefundPoint" value="" readonly="">
-                                </li>
-                                <li>
-                                    <label for="availablePoint">可返还积分</label>
-                                    <input type="text" class="form-control availablePoint pointShow" placeholder="可返还积分"
-                                           name="availablePoint" value="" readonly="">
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">确定</button>
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>

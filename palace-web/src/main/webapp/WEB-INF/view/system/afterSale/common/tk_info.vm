@@ -1,0 +1,29 @@
+<div class="buyerInfo">
+    <div>仅退款信息</div>
+    <div>
+        <span>退款原因：121</span><br>
+        <span>实退金额：121</span><br>
+        <span>系统计算退款金额：3213</span><br>
+        <span>退款说明：213</span><br>
+        <span>上传凭证：213</span><br>
+
+        <span>审核结果：2131</span><br>
+        <span>当前状态：3213</span><br>
+        <span>审核时间：213</span><br>
+        <span>审核备注：3123</span><br>
+        <span>审核人：123</span><br>
+        <span>买家举证：123</span><br>
+    </div>
+
+    #if(true)#* 用户没有取消*#
+        <div>
+            <span>审核结果：3123</span><br>
+            <span>当前状态：3123</span><br>
+            <span>审核时间：3123</span><br>
+            <span>审核备注：2131231</span><br>
+            <span>审核人：32131</span><br>
+            <span>卖家举证：123</span><br>
+        </div>
+    #end
+
+</div>

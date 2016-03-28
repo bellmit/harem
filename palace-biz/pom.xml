@@ -251,6 +251,11 @@
 			<groupId>com.yimayhd.lgcenter</groupId>
 			<artifactId>lgcenter-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.refund</groupId>
+			<artifactId>refund-client</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 
