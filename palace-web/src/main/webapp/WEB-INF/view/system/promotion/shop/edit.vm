@@ -126,6 +126,17 @@
                 format: "yyyy-mm-dd hh:ii"
             });
 
+    var getNowFormat = function(){
+        var date = new Date();
+        return date.getFullYear() + '-' + fullStr(date.getMonth() + 1) + '-' + fullStr(date.getDate()) + ' ' + fullStr(date.getHours()) + ':' + fullStr(date.getMinutes());
+    }
+    var fullStr  = function(num){
+        if(num >= 10){
+            return num;
+        }
+        return '0' + num;
+    }
+
     //验证
     var validate = function(){
         if(!$('.title').val()){
@@ -141,10 +152,12 @@
             return '字数不能超过60';
         }
 
-        if($('.startDate').val() && $('.endDate').val()){
-            if($('.startDate').val() > $('.endDate').val()){
-                return "结束日期必须大于开始日期!";
-            }
+        if(!$('.startDate').val() || !$('.endDate').val()){
+            return "请选择活动日期";
+        }else if($('.startDate').val() <= getNowFormat()){
+            return "开始时间必须大于当前时间";
+        }else if($('.startDate').val() > $('.endDate').val()){
+            return "结束日期必须大于开始日期!";
         }
 
         var url = '/GF/promotionCommManage/checkActivityName';
@@ -196,17 +209,19 @@
                                     allValueY = 0;
                                 }
                             }
-
-                            dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY'] + '">'
-                                    + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
-                                    + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
-                                    + '<td>' + item['title'] + '</br>' + resultValue[data]['skuTitle'] + '</td>'
-                                    + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
-                                    + '<td>' + (item['status'] == 2 ? '启用' : '停用') + '</td>'
-                                    //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
-                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
-                                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
-                                    + '</tr>';
+                            //没有选中的
+                            if($('.dataSelectTr[entityid = '+ resultValue[data]['skuId'] +'][entitytype = 1][isDel != "true"]').length <= 0) {
+                                dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY'] + '">'
+                                        + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
+                                        + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
+                                        + '<td>' + item['title'] + '</br>' + resultValue[data]['skuTitle'] + '</td>'
+                                        + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
+                                        + '<td>' + (item['status'] == 2 ? '启用' : '停用') + '</td>'
+                                            //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
+                                        + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
+                                        + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                                        + '</tr>';
+                            }
 
                         }
                         if(dataTableSelected){
@@ -234,17 +249,20 @@
             if(allValueY - data['price'] / 100 >= 0){
                 allValueY = 0;
             }
-            var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2" priceY="' + data['price'] + '">'
-                    + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
-                    + '<td skuId=""></td>'
-                    + '<td>' + data['title'] + '</td>'
-                    + '<td>￥' + data['price'] / 100 + '</td>'
-                    + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
-                    //+ '<td>' + data['stockNum'] + '</td>'
-                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
-                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
-                    + '</tr>';
-            $('.dataTableSelected').append(dataTableSelected);
+            //没有选中的
+            if($('.dataSelectTr[entityid = '+ data['id'] +'][entitytype = 2][isDel != "true"]').length <= 0) {
+                var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2" priceY="' + data['price'] + '">'
+                        + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
+                        + '<td skuId=""></td>'
+                        + '<td>' + data['title'] + '</td>'
+                        + '<td>￥' + data['price'] / 100 + '</td>'
+                        + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
+                            //+ '<td>' + data['stockNum'] + '</td>'
+                        + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
+                        + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                        + '</tr>';
+                $('.dataTableSelected').append(dataTableSelected);
+            }
         })
         $(document).delegate(".delBtn",'click',function(){
             if($(this).parents('tr').attr('promotionId')){
