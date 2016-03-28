@@ -161,6 +161,17 @@
         if($('.dataSelectTr[isDel != "true"]').length <= 0){
             return "请选择商品";
         }
+        $('.dataSelectTr[isDel != "true"]').each(function(){
+            var msg = '';
+            if($(this).attr('pricey') <= $(this).find('.priceY').val()){
+                if(msg){
+                    msg = "直降后价格不能为负值";
+                }
+            }
+            if(msg){
+                return msg;
+            }
+        });
 
         var url = '/GF/promotionCommManage/checkActivityName';
         var params={};
@@ -211,17 +222,20 @@
                                     allValueY = 0;
                                 }
                             }
+                            //没有选中的
+                            if($('.dataSelectTr[entityid = '+ resultValue[data]['skuId'] +'][entitytype = 1][isDel != "true"]').length <= 0){
+                                dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY']/100 + '">'
+                                        + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
+                                        + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
+                                        + '<td>' + item['title'] + '</br>' + resultValue[data]['skuTitle'] + '</td>'
+                                        + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
+                                        + '<td>' + (item['status'] == 2 ? '启用' : '停用') + '</td>'
+                                            //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
+                                        + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
+                                        + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                                        + '</tr>';
+                            }
 
-                            dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY'] + '">'
-                                    + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
-                                    + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
-                                    + '<td>' + item['title'] + '</br>' + resultValue[data]['skuTitle'] + '</td>'
-                                    + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
-                                    + '<td>' + (item['status'] == 2 ? '启用' : '停用') + '</td>'
-                                    //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
-                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
-                                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
-                                    + '</tr>';
 
                         }
                         if(dataTableSelected){
@@ -249,17 +263,20 @@
             if(allValueY - data['price'] / 100 >= 0){
                 allValueY = 0;
             }
-            var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2" priceY="' + data['price'] + '">'
-                    + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
-                    + '<td skuId=""></td>'
-                    + '<td>' + data['title'] + '</td>'
-                    + '<td>￥' + data['price'] / 100 + '</td>'
-                    + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
-                    //+ '<td>' + data['stockNum'] + '</td>'
-                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
-                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
-                    + '</tr>';
-            $('.dataTableSelected').append(dataTableSelected);
+            //没有选中的
+            if($('.dataSelectTr[entityid = '+ data['id'] +'][entitytype = 2][isDel != "true"]').length <= 0) {
+                var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2" priceY="' + data['price'] / 100 + '">'
+                        + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
+                        + '<td skuId=""></td>'
+                        + '<td>' + data['title'] + '</td>'
+                        + '<td>￥' + data['price'] / 100 + '</td>'
+                        + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
+                            //+ '<td>' + data['stockNum'] + '</td>'
+                        + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
+                        + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                        + '</tr>';
+                $('.dataTableSelected').append(dataTableSelected);
+            }
         })
         $(document).delegate(".delBtn",'click',function(){
             if($(this).parents('tr').attr('promotionId')){
@@ -281,7 +298,7 @@
                     $(this).val($(this).attr('initValue'))
                     return false;
                 }
-                if(priceY - $(this).parents('tr').attr('priceY') >= 0){
+                if(priceY - $(this).parents('tr').attr('priceY') <= 0){
                     layer.msg('直降价格不能大于原价', {
                         icon: 2,
                         time: 2000
