@@ -63,10 +63,28 @@ public class AfterSaleManageController {
         return pageVo;
     }
 
-    @RequestMapping(value = "/refund/detail/{orderNO}", method = RequestMethod.GET)
-    public String detail(Model model, OrderListQuery orderListQuery){
-        System.out.println(orderListQuery.getOrderNO());
-        return null;
+    @RequestMapping(value = "/refund/detail", method = RequestMethod.GET)
+    public String detail(Model model, OrderListQuery orderListQuery,int type){
+        String orderNO = orderListQuery.getOrderNO();
+        if(StringUtils.isEmpty(orderNO)){
+            return "error";
+        }
+        RefundOrderDO refundOrderDO = afterSaleService.querySingRefundOrder(Long.parseLong(orderNO));
+        if(null != refundOrderDO){
+            model.addAttribute("orderShowState", refundOrderDO.getRefundStatus());
+        }
+        model.addAttribute("refundOrderDO", refundOrderDO);
+        if(type==2){
+            return "/system/aftersale/shenhe";
+        }
+        return "/system/aftersale/chakan";
+    }
+
+    //审核
+    @RequestMapping(value = "/refund/audit", method = RequestMethod.GET)
+    @ResponseBody
+    public String audit(Model model,long id,int type){
+        return null ;
     }
 
 }

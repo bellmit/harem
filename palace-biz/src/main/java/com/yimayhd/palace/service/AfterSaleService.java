@@ -3,6 +3,7 @@ package com.yimayhd.palace.service;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
 import com.yimayhd.refund.client.query.RefundOrderQuery;
+import com.yimayhd.refund.client.result.BaseResult;
 import com.yimayhd.refund.client.result.refundorder.RefundOrderPageQueryResult;
 
 /**
@@ -13,4 +14,8 @@ import com.yimayhd.refund.client.result.refundorder.RefundOrderPageQueryResult;
 public interface AfterSaleService {
 
     PageVO<RefundOrderDO> queryRefundOrder(RefundOrderQuery var1);
+
+    RefundOrderDO querySingRefundOrder(long refundOrderId);
+
+
 }

@@ -104,7 +104,7 @@
                             ：$!order.bizOrderId
                         </td>
                         <td>
-                            $!order.buyerAccount ---
+                            $!order.buyerAccount
                         </td>
                         <td>
                             <div class="">
@@ -128,16 +128,17 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-primary addRefund detail"
-                                    orderId="$!order.bizOrderId">查看</button>
-                            #if($order.orderShowState == 1)
+                                    orderId="$!order.Id">查看</button>
+
                                 <button type="button" class="btn btn-primary affirm"
-                                        data-target="#affirmModal" orderId="$!order.bizOrderId">审核
+                                        data-target="#affirmModal" orderId="$!order.Id">审核详情
                                 </button>
+                            #*#if($order.orderShowState == 1)
                             #elseif($order.orderShowState == 4)
                                 <button type="button" class="btn btn-primary finish"
-                                        data-target="#finishModal" orderId="$!order.bizOrderId">退款完成
+                                        data-target="#finishModal" orderId="$!order.Id">退款完成
                                 </button>
-                            #end
+                            #end*#
                         </td>
                     </tr>
                 #end
@@ -217,19 +218,9 @@
 
         $('.affirm').each(function(){
             $(this).click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
-                    if(data.status == 200){
-                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                        msg.show();
-                    }else{
-                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                        msg.show();
-                    }
-                    //TODO暂时先刷新页面
-                    setTimeout(function(){
-                        window.location.href = window.location.href;
-                    },1050);
-                })
+                var orderId = $(this).attr("orderId");
+                window.parent.tabsAdd('', actionDefaultPath
+                        + "/GF/aftersale/refund/detail?orderNO="+orderId+"&type="+2, 2, "审核详情");
             });
         });
 

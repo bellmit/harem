@@ -5,6 +5,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.service.AfterSaleService;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
 import com.yimayhd.refund.client.query.RefundOrderQuery;
+import com.yimayhd.refund.client.result.BaseResult;
 import com.yimayhd.refund.client.result.refundorder.RefundOrderPageQueryResult;
 import com.yimayhd.refund.client.service.RefundQueryService;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
@@ -26,15 +27,25 @@ public class AfterSaleServiceImpl implements AfterSaleService {
 
     @Autowired RefundQueryService refundQueryService;
 
+    @Override
+    public RefundOrderDO querySingRefundOrder(long refundOrderId) {
+        BaseResult<RefundOrderDO> result = refundQueryService.querySingleRefundOrder(refundOrderId);
+        if(null == result || !result.isSuccess()){
+            log.error(">>>AfterSaleServiceImpl.querySingRefundOrder result is null or notSuccess,Parameters="
+                    + refundOrderId+"|||result="+JSON.toJSONString(result));
+        }
+        return result.getValue();
+    }
+
    public PageVO<RefundOrderDO> queryRefundOrder(RefundOrderQuery var1){
-      RefundOrderPageQueryResult result = refundQueryService.queryRefundOrder(var1);
+    RefundOrderPageQueryResult result = refundQueryService.queryRefundOrder(var1);
        if(null ==result || !result.isSuccess()){
            log.error(">>>AfterSaleServiceImpl.queryRefundOrder result is null or notSuccess,Parameters="
                    + JSON.toJSONString(var1)+"|||result="+JSON.toJSONString(result));
        }
-       return new PageVO<RefundOrderDO >(var1.getPageNo(), var1.getPageSize(), result.getTotalCount(), result.getList());
+       return new PageVO<RefundOrderDO >(var1.getPageNo(), var1.getPageSize(), result.getTotalCount(), result.getRefundOrderDOList());
 
-      /* List<RefundOrderDO> list  = new ArrayList<RefundOrderDO>();
+     /* List<RefundOrderDO> list  = new ArrayList<RefundOrderDO>();
        RefundOrderDO r1 = new RefundOrderDO();
        r1.setId(1111L);
        r1.setBizOrderId(12222L);

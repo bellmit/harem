@@ -1,0 +1,66 @@
+        <div class="orderInfo">
+            <div>卖家备注</div>
+            <input class="form-control input-lg" type="text"
+                   placeholder="卖家备注">
+            <div>
+                <div>卖家上传凭证：</div>
+                <div class="fileImg">
+                    <button type="button" class="btn btn-success">选择图片</button>
+                    <input type="file" class="fileInp" id="logoUrlUploadFile">
+                    <input type="hidden" name="logoUrl" value="$!club.logoUrl" id="logoUrlUploadFileReturnInput" >
+                    <p>注：图片大小不超过5M<br /></p>
+                </div>
+                <div class="logoView">
+                    <img src="#if($club.logoUrl) $utilWebconfig.getTfsRootPath()$!club.logoUrl #end" class="img-circle" id="logoUrlUploadFileReturnImg">
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary pass" passType="1" >审核通过</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary pass" passType="2" >审核不通过</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary returns">返回</button>
+            </div>
+
+        </div>
+
+        <script>
+            var LogoPicloadCallBack = function(data){
+                if(data && data.status == 200){
+                    console.log(data.data);
+                    $('#logoUrlUploadFileReturnInput').val(data.data);
+                    $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+
+                }else{
+                    layer.msg('图片上传失败，请重试', {icon: 2});
+                }
+            }
+            //上传图片
+            $(document).delegate("#logoUrlUploadFile",'change',function(){
+                fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack);
+            })
+
+            $(".pass").click(function(){
+                var passType = $(this).attr("passType");
+                var id = $(this).attr("passType");
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'
+                        +'/GF/aftersale/refund/refund/audit/',{'id':id,"type":passType} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+
+        </script>
+
+
