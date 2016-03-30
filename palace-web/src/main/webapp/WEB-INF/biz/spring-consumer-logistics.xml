@@ -19,9 +19,17 @@
 		<property name="application" ref="dubboApplicationConfig" />
 		<property name="registry" ref="dubboRegistryConfig" />
 		<property name="timeout" value="${consumer.dubbo.timeout}" />
+		<property name="check" value="${consumer.dubbo.refundQuery.check}" />
+		<property name="version" value="${consumer.dubbo.refundQuery.version}" />
+	</bean>
+
+	<bean id="refundService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+		<property name="interface" value="com.yimayhd.refund.client.service.RefundService" />
+		<property name="application" ref="dubboApplicationConfig" />
+		<property name="registry" ref="dubboRegistryConfig" />
+		<property name="timeout" value="${consumer.dubbo.timeout}" />
 		<property name="check" value="${consumer.dubbo.refund.check}" />
 		<property name="version" value="${consumer.dubbo.refund.version}" />
 	</bean>
-
 
 </beans>

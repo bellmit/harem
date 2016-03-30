@@ -10,6 +10,11 @@
 </div>
 
 <div class="tab-content grogInfoWrap" style="">
+    <br><br>
+    #if($!refundStatus==6)
+        用户已撤销售后申请
+    #end
+    <br><br>
 
     <div class="tab-pane active" id="orderInfo">
         <br><br>

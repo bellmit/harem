@@ -2,12 +2,19 @@ package com.yimayhd.palace.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.RefundOrderVO;
+import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.service.AfterSaleService;
+import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
+import com.yimayhd.refund.client.param.ExamineRefundOrderDTO;
 import com.yimayhd.refund.client.query.RefundOrderQuery;
 import com.yimayhd.refund.client.result.BaseResult;
+import com.yimayhd.refund.client.result.ResultSupport;
+import com.yimayhd.refund.client.result.refundorder.ExamineRefundOrderResult;
 import com.yimayhd.refund.client.result.refundorder.RefundOrderPageQueryResult;
 import com.yimayhd.refund.client.service.RefundQueryService;
+import com.yimayhd.refund.client.service.RefundService;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,39 +34,60 @@ public class AfterSaleServiceImpl implements AfterSaleService {
 
     @Autowired RefundQueryService refundQueryService;
 
+    @Autowired RefundService refundService;
+
+    @Autowired private OrderService orderService;
+
     @Override
-    public RefundOrderDO querySingRefundOrder(long refundOrderId) {
-        BaseResult<RefundOrderDO> result = refundQueryService.querySingleRefundOrder(refundOrderId);
+    public ExamineRefundOrderResult examineRefundOrder(ExamineRefundOrderDTO examineRefundOrderDTO) {
+        ExamineRefundOrderResult result = refundService.examineRefundOrder(examineRefundOrderDTO);
         if(null == result || !result.isSuccess()){
-            log.error(">>>AfterSaleServiceImpl.querySingRefundOrder result is null or notSuccess,Parameters="
-                    + refundOrderId+"|||result="+JSON.toJSONString(result));
+            recordLog("querySingRefundOrder",examineRefundOrderDTO,result);
         }
-        return result.getValue();
+        return result;
+    }
+
+    @Override
+    public RefundOrderVO querySingRefundOrder(long refundOrderId) {
+        //查退款单信息
+        RefundOrderVO rv = new RefundOrderVO();
+        try {
+            BaseResult<RefundOrderDO> result = refundQueryService.querySingleRefundOrder(refundOrderId);
+            if(null == result || !result.isSuccess()){
+                recordLog("querySingRefundOrder.refundQueryService.querySingleRefundOrder",refundOrderId,result);
+                return null;
+            }
+            RefundOrderDO rdo = result.getValue();
+            rv.setRefundOrderDO(rdo);
+            //查订单信息
+            OrderDetails orderDetails = orderService.getOrderById(rdo.getBizOrderId());
+            if(null == orderDetails ){
+                recordLog("querySingRefundOrder.orderService.getOrderById",rdo.getBizOrderId(),orderDetails);
+                return rv;
+            }
+            rv.setSignId(rdo.getBizOrderId()+"_"+rdo.getId());
+            rv.setOrderDetails(orderDetails);
+        } catch (Exception e) {
+            e.printStackTrace();
+            recordLog("querySingRefundOrder",refundOrderId,e);
+        }
+        return rv;
     }
 
    public PageVO<RefundOrderDO> queryRefundOrder(RefundOrderQuery var1){
     RefundOrderPageQueryResult result = refundQueryService.queryRefundOrder(var1);
        if(null ==result || !result.isSuccess()){
-           log.error(">>>AfterSaleServiceImpl.queryRefundOrder result is null or notSuccess,Parameters="
-                   + JSON.toJSONString(var1)+"|||result="+JSON.toJSONString(result));
+           recordLog("queryRefundOrder",var1,result);
        }
        return new PageVO<RefundOrderDO >(var1.getPageNo(), var1.getPageSize(), result.getTotalCount(), result.getRefundOrderDOList());
 
-     /* List<RefundOrderDO> list  = new ArrayList<RefundOrderDO>();
-       RefundOrderDO r1 = new RefundOrderDO();
-       r1.setId(1111L);
-       r1.setBizOrderId(12222L);
-       r1.setBuyerAccount("1333333333322");
-       r1.setRefundStatus(1);
-       r1.setGmtCreated(new Date());
-       RefundOrderDO r2 = new RefundOrderDO();
-       r2.setId(2222L);
-       r2.setBizOrderId(22222L);
-       r2.setBuyerAccount("12222222222");
-       r2.setRefundStatus(3);
-       r2.setGmtCreated(new Date());
-       list.add(r1);list.add(r2);
-       return new PageVO<RefundOrderDO >(1, 10,100, list);*/
    }
+
+    public void recordLog(String funcName,Object para,Object result){
+        //XXX:为什么不统一一下ResultSupport呢
+        //if(null ==result || (result instanceof ResultSupport && !((ResultSupport) result).isSuccess())){}
+        log.error(">>>AfterSaleServiceImpl."+funcName+" result is null or notSuccess,Parameters="
+                + JSON.toJSONString(para)+"|||result="+JSON.toJSONString(result));
+    }
 
 }

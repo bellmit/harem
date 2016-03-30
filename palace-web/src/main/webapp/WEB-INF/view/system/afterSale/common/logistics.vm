@@ -1,9 +1,9 @@
 <div class="orderInfo">
     <div>退货物流信息</div>
     <div>
-        <span>物流公司：3123</span><br>
-        <span>物流单号：3123</span><br>
-        <span>提交时间：3123</span><br>
+        <span>物流公司：$!refundOrderDO.logisticsCompanyName</span><br>
+        <span>物流单号：$!refundOrderDO.logisticsNumber</span><br>
+        <span>提交时间：$!refundOrderDO.logisticsNumber.gmtCreated</span><br>
     </div>
 </div>
 

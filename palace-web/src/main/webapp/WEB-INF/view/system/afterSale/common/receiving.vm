@@ -1,12 +1,14 @@
         <div class="orderInfo">
             <div>收货人信息</div>
             <div>
-                <span>账号：3123</span><br>
-                <span>昵称：3123</span><br>
-                <span>收货人：3123</span><br>
-                <span>联系电话：2131231</span><br>
-                <span>邮编：32131</span><br>
-                <span>收货地址：32131</span><br>
+                <span>手机号：$!order.</span>
+
+                <span>账号：$!refundOrderDetail.buyerAccount</span><br>
+                <span>昵称：$!refundOrderDetail.buyerNiceName</span><br>
+                <span>收货人：$!refundOrderDetail.buyerName</span><br>
+                <span>联系电话：$!refundOrderDetail.buyerPhoneNum</span><br>
+                <span>邮编：</span><br>
+                <span>收货地址：</span><br>
             </div>
         </div>
 

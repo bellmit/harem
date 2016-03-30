@@ -15,12 +15,11 @@
         #* 物流*#
         #parse("/system/afterSale/common/logistics.vm")
         #* 卖家备注*#
+            <br><br><br><br>
         #parse("/system/afterSale/common/seller_remark.vm")
-        <br><br>
+            <br><br><br><br>
         #parse("/system/afterSale/common/item.vm")
-        <br><br>
-        <br><br>
-
+            <br><br><br><br>
     </div>
 </div>
 

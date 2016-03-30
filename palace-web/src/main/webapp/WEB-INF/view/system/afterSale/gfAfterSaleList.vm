@@ -6,7 +6,7 @@
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list" method="get" role="form">
-        <div class="inputGroup whole">
+       #* <div class="inputGroup whole">
             <div class="input-group inpSingle ">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">当前状态</button>
@@ -69,17 +69,15 @@
                     <option value="PAID" #if($!orderListQuery.orderStat == 'PAID') selected #end>移动端</option>
                 </select>
             </div>
-
-
-
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
                 <button type="reset" class="btn btn-primary">重置</button>
             </div>
+        </div>*#
 
-        </div>
+
         <div class="tableGroup whole">
             <table class="table table-hover">
             <tbody>
@@ -101,7 +99,7 @@
                             $!order.Id
                         </td>
                         <td  align="left">
-                            ：$!order.bizOrderId
+                            $!order.bizOrderId
                         </td>
                         <td>
                             $!order.buyerAccount
@@ -175,7 +173,8 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/GF/aftersale/refund/detail/"+orderId, 2, "售后单详情");
+            window.parent.tabsAdd('', actionDefaultPath
+                    + "/GF/aftersale/refund/detail?orderNO="+orderId+"&type="+1, 2,  "售后单详情");
         });
 
 
