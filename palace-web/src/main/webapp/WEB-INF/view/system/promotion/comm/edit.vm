@@ -147,8 +147,10 @@
         }else if($('.description').val().length > 60){
             return '字数不能超过60';
         }
-        if(!$('.allValueY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.allValueY').val())){
-            return "请输入正确的直降金额";
+        if(promotionType != 6) {
+            if (!$('.allValueY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.allValueY').val())) {
+                return "请输入正确的直降金额";
+            }
         }
 
         if(!$('.startDate').val() || !$('.endDate').val()){
@@ -161,18 +163,17 @@
         if($('.dataSelectTr[isDel != "true"]').length <= 0){
             return "请选择商品";
         }
+        var msg = '';
         $('.dataSelectTr[isDel != "true"]').each(function(){
-            var msg = '';
-            if($(this).attr('pricey') <= $(this).find('.priceY').val()){
-                if(msg){
+            if($(this).attr('pricey') * 100 <= $(this).find('.priceY').val() * 100){
+                if(!msg){
                     msg = "直降后价格不能为负值";
                 }
             }
-            if(msg){
-                return msg;
-            }
         });
-
+        if(msg){
+            return msg;
+        }
         var url = '/GF/promotionCommManage/checkActivityName';
         var params={};
         params['name'] = $('.title').val();
