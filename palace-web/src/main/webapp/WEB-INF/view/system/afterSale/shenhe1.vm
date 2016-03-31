@@ -6,22 +6,20 @@
 
 <!-- 位置 -->
 <div class="position">
-    <div>您所在的位置： 售后管理>详情页面</div>
+    <div>您所在的位置： 售后管理>审核页面</div>
 </div>
 
 <div class="tab-content grogInfoWrap" style="">
-    <br><br>
-    #if($!refundStatus==6)
-        用户已撤销售后申请
-    #end
-    <br><br>
 
     <div class="tab-pane active" id="orderInfo">
-        <br><br>
-               #parse("/system/afterSale/common/tk_info.vm")
-        <br><br>
-            #parse("/system/afterSale/common/item.vm")
-        <br><br>
-            #parse("/system/afterSale/common/receiving.vm")
+        #* 退款*#
+        #parse("/system/afterSale/common/tkth_info.vm")
+        #* 商品*#
+            <br><br><br><br>
+        #parse("/system/afterSale/common/item.vm")
+            <br><br><br><br>
+        #* 收货人*#
+        #parse("/system/afterSale/common/receiving.vm")
+            <br><br><br><br>
     </div>
 </div>

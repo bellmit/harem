@@ -367,3 +367,22 @@
     直降
     #end
 #end
+
+
+#macro(REFUND_STATUS $status)
+    #if($!status==0)
+    未退款
+    #elseif($!status==1)
+    退款已申请
+    #elseif($!status==2)
+    退款中
+    #elseif($!status==3)
+    退款失败
+    #elseif($!status==4)
+    退款成功
+    #elseif($!status==5)
+    退款退货中
+    #elseif($!status==6)
+    客户取消
+    #end
+#end

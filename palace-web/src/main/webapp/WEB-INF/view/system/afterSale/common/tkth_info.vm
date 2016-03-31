@@ -1,20 +1,101 @@
 <div class="buyerInfo">
-    <div>退款退货信息</div>
     <div>
-        <span>退款退货原因：121</span><br>
-        <span>实退金额：121</span><br>
-        <span>系统计算退款金额：3213</span><br>
-        <span>退款说明：213</span><br>
-        <span>上传凭证：213</span><br>
+        <span>退款原因：
+            #if($!refundOrderDO.refundReasonType==1)
+                收到商品少件/破损等
+            #elseif($!refundOrderDO.refundReasonType==2)
+                假冒品牌
+            #elseif($!refundOrderDO.refundReasonType==3)
+                拍错/效果不好/不喜欢
+            #elseif($!refundOrderDO.refundReasonType==4)
+                颜色/款式/外貌与描述不符
+            #elseif($!refundOrderDO.refundReasonType==5)
+                卖家发错货
+            #elseif($!refundOrderDO.refundReasonType==6)
+                生产人气/保质期描述不符
+            #else
+                其他
+            #end
+        </span><br>
+        <span>实退金额：
+            <input type="text" class="inpControl name"
+            id="stjeId"       name="name" placeholder="请输入20个字以内" value="$!refundOrderDO.refundFee">
+        </span><br>
+        <span>系统计算退款金额：$!refundOrderDO.refundFee</span><br>
+        <span>退款说明：$!refundOrderDO.refundDesc</span><br>
+        <span>上传凭证：</span>
 
-    #if(true)#* 用户没有取消*#
-        <span>审核结果：2131</span><br>
-        <span>当前状态：3213</span><br>
-        <span>审核时间：213</span><br>
-        <span>审核备注：3123</span><br>
-        <span>审核人：123</span><br>
-    #end
-
+        #foreach($imgs in $!refundOrderDO.pictures)
+            #if($!imgs)
+                <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgs">
+            #end
+        #end
+        <br>
+        <input type="hidden"  value="$!refundOrderDO.id"  id="tkdid">
+        <span>卖家备注</span>
+        <input class="form-control input-lg" type="text" id="mjbz" placeholder="卖家备注">
     </div>
-
+    <br><br>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary pass" refundStatus="3" >审核通过</button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary pass" refundStatus="4" >审核不通过</button>
+    </div>
+    <br><br>
 </div>
+
+<script>
+    $(".returns").click(function(){
+        window.location.href = "";
+    });
+
+
+
+    $(".pass").click(function(){
+        var id = $("#tkdid").val();
+        var auditorRemark= $("#mjbz").val();
+        var refundStatus = $(this).attr('refundStatus');
+        var stje= $("#stjeId").val();
+
+        $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
+                {'refundOrderId':id,
+                    'stje':stje,
+                    'auditorRemark':auditorRemark,
+                    'refundStatus':refundStatus
+                    }
+                ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    setTimeout(function(){
+                        window.location.href = '$!utilWebconfig.getActionDefaultFontPath()'+"/GF/aftersale/refund/list?orderStat=1";
+                    },1050);
+                })
+    });
+
+    //---------------------------------------------------------------------
+    $(document).delegate(".fileInp",'change',function(){
+        fileUpload("#FMUploadFileSH",2,pictureUploadCallBack);
+    })
+
+    var pictureUploadCallBack = function(data){
+        if(data && data.status == 200){
+            var imgHtml="";
+            var imgArr=[];
+            $.each(data.data, function(n, val) {
+                imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='100' height='100' ></img>";
+                imgArr.push(val);
+            });
+            $("#travelBGImgSH").val(imgArr);
+            $("#travelImgIdSH").html(imgHtml);
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+
+</script>
