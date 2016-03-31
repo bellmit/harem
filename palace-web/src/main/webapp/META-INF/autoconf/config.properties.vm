@@ -89,3 +89,8 @@ consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
 
 consumer.dubbo.logistics.check = ${consumer.dubbo.logistics.check}
 consumer.dubbo.logistics.version = ${consumer.dubbo.logistics.version}
+
+consumer.dubbo.refund.check = ${consumer.dubbo.refund.check}
+consumer.dubbo.refund.version = ${consumer.dubbo.refund.version}
+consumer.dubbo.refundQuery.check = ${consumer.dubbo.refundQuery.check}
+consumer.dubbo.refundQuery.version = ${consumer.dubbo.refundQuery.version}
