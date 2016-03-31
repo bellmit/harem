@@ -60,7 +60,7 @@ public class AfterSaleManageController {
             model.addAttribute("orderList", pageVo.getItemList());
             model.addAttribute("orderListQuery", refundOrderQuery);
             model.addAttribute("bizType", refundOrderQuery.getBizType());
-            return "/system/aftersale/gfAfterSaleList";
+            return "/system/afterSale/gfAfterSaleList";
         } catch (Exception e) {
             e.printStackTrace();
             log.error("gfOrderList|parameter="+ JSON.toJSONString(refundOrderQuery)+"|||exception="+e);
@@ -96,14 +96,14 @@ public class AfterSaleManageController {
         //区分是查看 还是审核，在根据状态跳转不同的页面
         if (type == 1) {
             model.addAttribute("isModified", false);
-            return "/system/aftersale/chakan";
+            return "/system/afterSale/chakan";
         }else{
             model.addAttribute("isModified", true);
             if(refundOrderVO.getRefundOrderDO().getRefundStatus()==6
                     || refundOrderVO.getRefundOrderDO().getRefundStatus()==7){
-                return "/system/aftersale/shouhuo_shenhe";
+                return "/system/afterSale/shouhuo_shenhe";
             }
-            return "/system/aftersale/shenhe1";
+            return "/system/afterSale/shenhe1";
         }
     }
     //审核

@@ -123,8 +123,13 @@
                     #end
                         <td>
                             <div>
-                                <div class="txt">$!order.user.nickname</div>
-                                <div class="txt">$!order.user.mobileNo</div>
+                                <div class="txt">id:$!order.user.id</div>
+                                <div class="txt">
+                                    #if($!order.user.nickname)
+                                        nickName:$!order.user.nickname
+                                    #end
+                                </div>
+                                <div class="txt">mobile:$!order.user.mobileNo</div>
                             </div>
                         </td>
                         <td>
