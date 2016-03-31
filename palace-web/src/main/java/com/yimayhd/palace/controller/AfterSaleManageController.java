@@ -59,6 +59,7 @@ public class AfterSaleManageController {
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("orderList", pageVo.getItemList());
             model.addAttribute("orderListQuery", refundOrderQuery);
+            model.addAttribute("bizType", refundOrderQuery.getBizType());
             return "/system/aftersale/gfAfterSaleList";
         } catch (Exception e) {
             e.printStackTrace();

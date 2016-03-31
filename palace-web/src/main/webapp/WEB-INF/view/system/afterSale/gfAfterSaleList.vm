@@ -6,20 +6,25 @@
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list" method="get" role="form">
-       #* <div class="inputGroup whole">
+        <input type="hidden" name="bizType" value="$!bizType">
+        #*<div class="inputGroup whole">
             <div class="input-group inpSingle ">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">当前状态</button>
                     </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="refundStatus">
+
                     <option value="">全部</option>
-                    <option value="NOT_REFUND" #if($!orderListQuery.refundStatus == 'NOT_REFUND') selected #end>未退款</option>
-                    <option value="APPLY_REFUND" #if($!orderListQuery.refundStatus == 'APPLY_REFUND') selected #end>退款已申请</option>
-                    <option value="REFUNDING" #if($!orderListQuery.refundStatus == 'REFUNDING') selected #end>退款中</option>
-                    <option value="REFUND_FAIL" #if($!orderListQuery.refundStatus == 'REFUND_FAIL') selected #end>退款失败</option>
-                    <option value="REFUND_SUCCESS" #if($!orderListQuery.refundStatus == 'REFUND_SUCCESS') selected #end>退款成功</option>
-                    <option value="RETURN_GOODS_ING" #if($!orderListQuery.refundStatus == 'RETURN_GOODS_ING') selected #end>退款退货中</option>
-                    <option value="REFUND_CANCELLED" #if($!orderListQuery.refundStatus == 'REFUND_CANCELLED') selected #end>用户已撤销</option>
+                    <option value="NOT_REFUND" #if($!orderListQuery.refundStatus == '1') selected #end>未审批</option>
+                    <option value="APPLY_REFUND" #if($!orderListQuery.refundStatus == '2') selected #end>客户取消申请</option>
+                    <option value="REFUNDING" #if($!orderListQuery.refundStatus == '3') selected #end>卖家同意</option>
+                    <option value="REFUND_FAIL" #if($!orderListQuery.refundStatus == '4') selected #end>卖家拒绝</option>
+                    <option value="REFUND_SUCCESS" #if($!orderListQuery.refundStatus == '5') selected #end>客户退货给卖家</option>
+                    <option value="RETURN_GOODS_ING" #if($!orderListQuery.refundStatus == '6') selected #end>卖家确认收货,并同意退款</option>
+                    <option value="RETURN_GOODS_ING" #if($!orderListQuery.refundStatus == '7') selected #end>卖家确认收货,拒绝退款</option>
+                    <option value="REFUND_CANCELLED" #if($!orderListQuery.refundStatus == '8') selected #end>退款中</option>
+                    <option value="REFUND_CANCELLED" #if($!orderListQuery.refundStatus == '9') selected #end>已完成</option>
+
                 </select>
             </div>
 
@@ -59,22 +64,14 @@
                 <input type="text" class="form-control" name="itemName" value="$!orderListQuery.buyerPhone">
             </div>
 
-            <div class="input-group inpSingle ">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">售后来源</button>
-                    </span>
-                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
-                    <option value="">全部</option>
-                    <option value="NOTING" #if($!orderListQuery.orderStat == 'NOTING') selected #end>PC端</option>
-                    <option value="PAID" #if($!orderListQuery.orderStat == 'PAID') selected #end>移动端</option>
-                </select>
-            </div>
+
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
                 <button type="reset" class="btn btn-primary">重置</button>
             </div>
+
         </div>*#
 
 
