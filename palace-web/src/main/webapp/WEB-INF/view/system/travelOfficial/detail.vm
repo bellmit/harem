@@ -118,7 +118,7 @@
                         if(null != item){
                             $("#nickNameId").val(item.nickname);
                             $("#shownickNameId").text(item.name);
-                            
+
                             $("#userPhotoId").val(item.avatar);
                             $("#createIdId").val(item.id);
                        }

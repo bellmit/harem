@@ -370,19 +370,23 @@
 
 
 #macro(REFUND_STATUS $status)
-    #if($!status==0)
-    未退款
-    #elseif($!status==1)
-    退款已申请
+    #if($!status==1)
+        未审批
     #elseif($!status==2)
-    退款中
+        客户取消申请
     #elseif($!status==3)
-    退款失败
+        卖家同意
     #elseif($!status==4)
-    退款成功
+        卖家拒绝
     #elseif($!status==5)
-    退款退货中
+        客户退货给卖家
     #elseif($!status==6)
-    客户取消
+        卖家确认收货,并同意退款
+    #elseif($!status==7)
+        卖家确认收货,拒绝退款
+    #elseif($!status==8)
+        退款中
+    #elseif($!status==9)
+        已完成
     #end
 #end

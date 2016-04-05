@@ -4,9 +4,9 @@
         type="text/javascript">
 </script>
 <div>
-    <form class="form-signin" id="tradeListForm" name="tradeListForm"
+    <form class="form-signin" id="tradeListForm1" name="tradeListForm1"
           action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list" method="get" role="form">
-        <input type="hidden" name="bizType" value="$!bizType">
+        <input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
         #*<div class="inputGroup whole">
             <div class="input-group inpSingle ">
                     <span class="input-group-btn">
@@ -99,20 +99,12 @@
                             $!order.bizOrderId
                         </td>
                         <td>
-                            $!order.buyerAccount
+                            $!order.buyerMobile
                         </td>
                         <td>
                             <div class="">
-                                #if($!order.refundStatus == '1') 未审批
-                                #elseif($!order.refundStatus == '2') 客户取消申请
-                                #elseif($!order.refundStatus == '3') 卖家同意
-                                #elseif($!order.refundStatus == '4') 卖家拒绝
-                                #elseif($!order.refundStatus == '5') 客户退货给卖家
-                                #elseif($!order.refundStatus == '6') 卖家确认收货,并同意退款
-                                #elseif($!order.refundStatus == '7') 卖家确认收货,拒绝退款
-                                #elseif($!order.refundStatus == '8') 退款中
-                                #elseif($!order.refundStatus == '9') 已完成
-                                #end
+                                #REFUND_STATUS($!order.refundStatus)
+                                ($!order.refundStatus)
                             </div>
                         </td>
                         <td>
@@ -120,14 +112,16 @@
                         </td>
                         <td>
                             <div>
-                                $!date.format('yyyy-MM-dd HH:mm:ss',$!order.gmtCreated)
+                                $!date.format('yyyy-MM-dd HH:mm:ss',$!order.orderCreateDate)
                             </div>
                         </td>
                         <td>
                             <button type="button" class="btn btn-primary addRefund detail"
                                     orderId="$!order.Id">查看
                             </button>
-                            #if($order.refundStatus !=8)
+                            #if($order.refundStatus ==1 || $order.refundStatus ==3  || $order.refundStatus ==4 ||  $order.refundStatus ==5 ||
+                            $order.refundStatus ==6 || $order.refundStatus ==7
+                            )
                                 <button type="button" class="btn btn-primary affirm"
                                         data-target="#affirmModal" orderId="$!order.Id">审核详情
                                 </button>
@@ -143,8 +137,8 @@
             </table>
         </div>
     #*分页*#
-        #parse("/page.vm")
-        #pageStyle("tradeListForm")
+         #parse("/page.vm")
+        #pageStyle("tradeListForm1")
     </form>
 
 
@@ -172,8 +166,10 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
+            var bizType = $("#bizTypeId").val();
             window.parent.tabsAdd('', actionDefaultPath
-                    + "/GF/aftersale/refund/detail?orderNO="+orderId+"&type="+1, 2,  "售后单详情");
+                    + "/GF/aftersale/refund/detail?orderNO="
+                    +orderId+"&type="+1+"&bizType="+bizType, 2,  "售后单详情");
         });
 
 
@@ -230,8 +226,9 @@
         $('.affirm').each(function(){
             $(this).click(function(){
                 var orderId = $(this).attr("orderId");
+                var bizType = $("#bizTypeId").val();
                 window.parent.tabsAdd('', actionDefaultPath
-                        + "/GF/aftersale/refund/detail?orderNO="+orderId+"&type="+2, 2, "审核详情");
+                        + "/GF/aftersale/refund/detail?orderNO="+orderId+"&type="+2+"&bizType="+bizType, 2, "审核详情");
             });
         });
 

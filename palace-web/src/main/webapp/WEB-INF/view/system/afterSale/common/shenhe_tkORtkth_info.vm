@@ -1,4 +1,8 @@
 <div class="buyerInfo">
+    <input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
+    <br>
+    <input type="hidden"  value="$!refundOrderDO.id"  id="tkdid">
+    <br><br>
     <div>
         <span>退款原因：
             #if($!refundOrderDO.refundReasonType==1)
@@ -16,22 +20,30 @@
             #else
                 其他
             #end
-        </span><br>
+        </span>
+        <br><br>
         <span>实退金额：
-            <input type="text" class="inpControl name"
-            id="stjeId"       name="name" placeholder="请输入20个字以内" value="$!refundOrderDO.refundFee">
-        </span><br>
-        <span>系统计算退款金额：$!refundOrderDO.refundFee</span><br>
-        <span>退款说明：$!refundOrderDO.refundDesc</span><br>
+            <input type="text" class="inpControl name" id="stjeId" name="stje"
+                   value=" $!utilNum.moneyTransform($!refundOrderDO.refundFee)">
+        </span>
+        <br><br>
+        <span>系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)</span>
+        <br><br>
+        <span>退款说明：$!refundOrderDO.refundDesc</span>
+        <br><br>
         <span>上传凭证：</span>
 
         #foreach($imgs in $!refundOrderDO.pictures)
             #if($!imgs)
-                <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgs">
+                <img width='150' height='150' src="$utilWebconfig.getTfsRootPath()$!imgs">
             #end
         #end
-        <br>
-        <input type="hidden"  value="$!refundOrderDO.id"  id="tkdid">
+        <br><br>
+
+        #if($!bizType==2)
+            #parse("/system/afterSale/common/shouhuo_address.vm")
+        #end
+        <br><br>
         <span>卖家备注</span>
         <input class="form-control input-lg" type="text" id="mjbz" placeholder="卖家备注">
     </div>
@@ -56,7 +68,19 @@
         var id = $("#tkdid").val();
         var auditorRemark= $("#mjbz").val();
         var refundStatus = $(this).attr('refundStatus');
+        var bizType = $("#bizTypeId").val();
         var stje= $("#stjeId").val();
+        if(refundStatus==3 && bizType==2){
+            alert("ok");
+            layer.open({
+                type: 1,
+                content: '<div><input type="radio" name="options" id="1" checked> 北京市大兴区金安路9号申通快递，陆经理收，17744529569 ' +
+                '<input type="radio" name="options" id="2"> 云南省昆明市呈贡区信息产业基地林溪路182号，沈运青收 15198807697' +
+                '</div> ' //这里content是一个普通的String
+            });
+
+
+        }
 
         $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
                 {'refundOrderId':id,
@@ -88,7 +112,7 @@
             var imgHtml="";
             var imgArr=[];
             $.each(data.data, function(n, val) {
-                imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='100' height='100' ></img>";
+                imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='150' height='150' ></img>";
                 imgArr.push(val);
             });
             $("#travelBGImgSH").val(imgArr);

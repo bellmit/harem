@@ -10,6 +10,7 @@ import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.service.AfterSaleService;
 import com.yimayhd.palace.service.OrderService;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
 import com.yimayhd.refund.client.enums.RefundType;
 import com.yimayhd.refund.client.param.ExamineRefundOrderDTO;
@@ -20,6 +21,7 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +55,10 @@ public class AfterSaleManageController {
 
     //list
     @RequestMapping(value = "/refund/list", method = RequestMethod.GET)
-    public String list(Model model, RefundOrderQuery refundOrderQuery){
+    public String list(HttpServletRequest request, Model model, RefundOrderQuery refundOrderQuery){
+        int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? 1 : Integer.parseInt(request.getParameter("pageNumber")) ;
         try {
+            refundOrderQuery.setPageNo(pageNumber);
             PageVO pageVo = getPageVo(refundOrderQuery);
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("orderList", pageVo.getItemList());
@@ -81,7 +85,7 @@ public class AfterSaleManageController {
 
     //详情
     @RequestMapping(value = "/refund/detail", method = RequestMethod.GET)
-    public String detail(Model model, OrderListQuery orderListQuery,int type) {
+    public String detail(Model model, OrderListQuery orderListQuery,int type,int bizType) {
         String orderNO = orderListQuery.getOrderNO();
         if (StringUtils.isEmpty(orderNO)) {
             return "error";
@@ -90,28 +94,28 @@ public class AfterSaleManageController {
         if (null == refundOrderVO) {
             return "error";
         }
+        model.addAttribute("bizType", bizType);
         model.addAttribute("orderShowState", refundOrderVO.getRefundOrderDO().getRefundStatus());
         model.addAttribute("refundOrderDO", refundOrderVO.getRefundOrderDO());
         model.addAttribute("refundOrderDetail", refundOrderVO.getOrderDetails());
+        model.addAttribute("type", type);
         //区分是查看 还是审核，在根据状态跳转不同的页面
         if (type == 1) {
             model.addAttribute("isModified", false);
             return "/system/afterSale/chakan";
         }else{
             model.addAttribute("isModified", true);
-            if(refundOrderVO.getRefundOrderDO().getRefundStatus()==6
-                    || refundOrderVO.getRefundOrderDO().getRefundStatus()==7){
-                return "/system/afterSale/shouhuo_shenhe";
+            if(refundOrderVO.getRefundOrderDO().getRefundStatus()==6 || refundOrderVO.getRefundOrderDO().getRefundStatus()==7){
+                return "/system/afterSale/shenhe_shouhuo";
             }
-            return "/system/afterSale/shenhe1";
+            return "/system/afterSale/shenhe";
         }
     }
     //审核
     @RequestMapping(value = "/refund/audit")
     @ResponseBody
     public ResponseVo audit(long refundOrderId, int refundStatus, HttpServletRequest request){
-        //@RequestParam("pictures[]")List<String> pictures
-        String tkje = request.getParameter("tkje");
+        String tkje = request.getParameter("stje");
         String auditorRemark = request.getParameter("auditorRemark");
         String[] pictures = request.getParameterValues("pictures");
 
@@ -122,10 +126,11 @@ public class AfterSaleManageController {
         ExamineRefundOrderDTO ero = new ExamineRefundOrderDTO();
         ero.setRefundStatus(refundStatus);
         ero.setAuditorId(user.getId());
+        ero.setAuditorName(user.getName());
         ero.setRefundOrderId(refundOrderId);
         ero.setAuditorRemark(auditorRemark);
         if(StringUtils.isNotEmpty(tkje) && NumberUtils.isNumber(tkje)){
-            ero.setRefundActualFee(Long.parseLong(tkje));
+            ero.setRefundActualFee( NumUtil.doubleToLong(Double.parseDouble(tkje)) );
         }
         if(null != pictures && pictures.length>0){
             ero.setPictures(Arrays.asList(pictures));

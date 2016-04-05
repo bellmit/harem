@@ -6,19 +6,20 @@
 
 <!-- 位置 -->
 <div class="position">
-    <div>您所在的位置： 售后管理>退款退货审核页面</div>
+    <div>您所在的位置： 售后管理>审核页面</div>
 </div>
 
 <div class="tab-content grogInfoWrap" style="">
 
     <div class="tab-pane active" id="orderInfo">
-        #* 物流*#
-        #parse("/system/afterSale/common/logistics.vm")
-        #* 卖家备注*#
-            <br><br><br><br>
-        #parse("/system/afterSale/common/seller_remark.vm")
+        #* 退款or退货*#
+        #parse("/system/afterSale/common/shenhe_tkORtkth_info.vm")
+        #* 商品*#
             <br><br><br><br>
         #parse("/system/afterSale/common/item.vm")
+            <br><br><br><br>
+        #* 收货人*#
+        #parse("/system/afterSale/common/receiving.vm")
             <br><br><br><br>
     </div>
 </div>

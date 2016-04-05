@@ -13,12 +13,17 @@
     <br><br>
     #if($!refundStatus==6)
         用户已撤销售后申请
+    #elseif($!refundStatus==8 && $!bizTypeId==1)#* 退款状态8的话*#
+        退款完成
+    #elseif($!refundStatus==8 && $!bizTypeId==2)#* 退款状态8的话*#
+        退款退货完成
     #end
+
     <br><br>
 
     <div class="tab-pane active" id="orderInfo">
         <br><br>
-               #parse("/system/afterSale/common/tk_info.vm")
+               #parse("/system/afterSale/common/chakan_tkth_info.vm")
         <br><br>
             #parse("/system/afterSale/common/item.vm")
         <br><br>

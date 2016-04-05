@@ -16,7 +16,7 @@
         #parse("/system/afterSale/common/logistics.vm")
         #* 卖家备注*#
             <br><br><br><br>
-        #parse("/system/afterSale/common/shouhuo_remark.vm")
+        #parse("/system/afterSale/common/shenhe_tuihuo_info.vm")
             <br><br><br><br>
         #parse("/system/afterSale/common/item.vm")
             <br><br><br><br>

@@ -2,6 +2,7 @@ package com.yimayhd.palace.model;
 
 import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 
 import java.io.Serializable;
 
@@ -37,4 +38,5 @@ public class RefundOrderVO implements Serializable{
     public void setOrderDetails(OrderDetails orderDetails) {
         this.orderDetails = orderDetails;
     }
+
 }

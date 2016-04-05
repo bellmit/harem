@@ -16,6 +16,9 @@ import com.yimayhd.refund.client.result.refundorder.RefundOrderPageQueryResult;
 import com.yimayhd.refund.client.service.RefundQueryService;
 import com.yimayhd.refund.client.service.RefundService;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +70,7 @@ public class AfterSaleServiceImpl implements AfterSaleService {
             }
             rv.setSignId(rdo.getBizOrderId()+"_"+rdo.getId());
             rv.setOrderDetails(orderDetails);
+
         } catch (Exception e) {
             e.printStackTrace();
             recordLog("querySingRefundOrder",refundOrderId,e);

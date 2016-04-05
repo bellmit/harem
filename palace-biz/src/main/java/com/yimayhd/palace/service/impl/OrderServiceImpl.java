@@ -191,8 +191,8 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setTourists(contactUserList);
 				}
 				//联系人
-				ContactUser contactUser = BizOrderUtil.getContactUser(mainOrder.getBizOrderDO());
-				String email = BizOrderUtil.getLineContactEmail(mainOrder.getBizOrderDO());
+				ContactUser contactUser = BizOrderUtil.getContactUser(singleQueryResult.getBizOrderDO());
+				String email = BizOrderUtil.getLineContactEmail(singleQueryResult.getBizOrderDO());
 				if (contactUser!=null){
 					contactUser.setContactEmail(email);
 					orderDetails.setContacts(contactUser);

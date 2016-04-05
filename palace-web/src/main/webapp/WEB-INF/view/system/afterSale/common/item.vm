@@ -31,12 +31,12 @@
                 </td>
                 <td>
                     <div class="order-price">
-                        $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
+                        $!subOrder.bizOrderDO.buyAmount
                     </div>
                 </td>
                 <td>
                     <div class="order-number">
-                        $!subOrder.bizOrderDO.buyAmount
+                        $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
                     </div>
                 </td>
                 <td>-</td>
