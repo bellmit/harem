@@ -45,7 +45,7 @@
                     <tr>
                         <td><span class="spColor">*</span>头像</td>
                         <td class="bigListPicTd">
-                            <label>选择头像</label>
+                            <label>选择头像<span style="color:red">(建议上传47px*47px或它倍数的图片)</span></label>
                             <input id="bigListPicUrl" type="file">
                             <img class="bigListPicUrl uploadImgFile" src="#if($!master.avatar)$utilWebconfig.getTfsRootPath()$!master.avatar #end">
                             <input class="bigListPicVal" type="hidden" name="avatar" value="$!{master.avatar}">

@@ -67,17 +67,17 @@
                             <textarea class="form-control description" rows="5" name="summary">$!{posts.summary}</textarea>
                         </td>
                     </tr>
-
+                    <tr><td colspan="2"><span style="color:#3595CC;">提示：推荐图片 达人评测：288px*286px; 成迷私房课：大图657*453；小图：296*250; 活动报道：809*400; 精油+：286*284</span></td></tr>
                     <tr>
                         <td><span class="spColor">*</span>帖子图片</td>
                         <td class="bigListPicTd">
-                            <label>推荐图片</label>
+                            <label>推荐图片</label> <span class="spColor">建议上传图片尺寸为288x286px或倍数像素，类型为JPEG/PNG,此图片将用于首页推荐 </span>
                             <input id="bigListPicUrl" type="file">
                             <img class="bigListPicUrl uploadImgFile" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!posts.imageUrl #end">
                             <input class="bigListPicVal" type="hidden" name="imageUrl" value="$!posts.imageUrl">
                         </td>
                         <td class="smallListPicTd">
-                            <label>展示图片</label>
+                            <label>展示图片</label> <span class="spColor">建议上传图片尺寸为138x138px或倍数像素，类型为JPEG/PNG,此图片将用户帖子列表页面</span>
                             <input id="smallListPicUrl" type="file">
                             <img class="smallListPicUrl uploadImgFile" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!posts.mainImage #end">
                             <input class="smallListPicVal" type="hidden" name="mainImage" value="$!posts.mainImage">

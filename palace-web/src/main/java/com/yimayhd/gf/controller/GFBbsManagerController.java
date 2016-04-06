@@ -81,7 +81,7 @@ public class GFBbsManagerController {
 			
 			BaseResult<SnsModuleDO> bbsModuleResult = bbsService.selectSnsModuleById(id);
 			
-			if(!bbsModuleResult.isSuccess()){
+			if(bbsModuleResult.isSuccess()){
 				model.addAttribute("module", bbsModuleResult.getValue());
 			}
 		}
@@ -158,7 +158,7 @@ public class GFBbsManagerController {
 	
 	
 	@RequestMapping("/list")
-	public String toBbsMgmt(Model model,Integer pageNumber,SnsPostsQuery postsQuery){
+	public String toBbsMgmt(Model model,Integer pageNumber,SnsPostsQuery postsQuery,String startDate,String endDate){
 		
 		if(null == pageNumber){
 			pageNumber = 1;
