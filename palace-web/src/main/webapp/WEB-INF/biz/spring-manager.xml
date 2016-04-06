@@ -7,4 +7,7 @@
 	<bean id ="commissionBiz" class="com.yimayhd.commission.biz.CommissionBiz"/>
 	<bean id ="itemRebateBiz" class="com.yimayhd.commission.biz.ItemRebateBiz"/>
 	<bean id="userRelationBiz" class="com.yimayhd.commission.biz.UserRelationBiz" />
+	
+	
+	<bean id="applyBiz" class="com.yimayhd.palace.biz.ApplyBiz" />
 </beans>

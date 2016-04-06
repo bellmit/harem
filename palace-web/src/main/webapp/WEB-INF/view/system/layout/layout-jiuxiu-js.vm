@@ -1,3 +1,4 @@
-<script src="$rs_js_css_path_jiuxiu/js/sea.js"></script><!--seajs 必须引-->
-<script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
-<script src="$rs_js_css_path_jiuxiu/js/config.js"></script><!--seajs seajs配置文件 必须引-->
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<script src="$rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/common.js"></script>

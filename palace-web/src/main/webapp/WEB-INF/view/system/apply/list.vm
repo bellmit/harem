@@ -1,30 +1,58 @@
-#set($layout = "layout-jiuxiu.vm")
-
+#set($layout = "/system/layout/layout-jiuxiu.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
-	<title>入驻申请-运营后台</title>
+	<title>入驻申请-运营后台$!{rs_path_jiuxiu}</title>
 </head>
-
-<div class="searchbox">
+<div class="dialog">
+	<div class="bgmeng"></div>
+	<div class="dlgcont">
+		<table>
+			<tr>
+				<td class="tit">是否通过：</td>
+				<td><label><input type="radio" name="isSure" checked="checked" value="1">：是</label><label><input type="radio" name="isSure" value="0">：否</label></td>
+			</tr>
+			<tr>
+				<td class="tit">备注：</td>
+				<td><textarea></textarea></td>
+			</tr>
+		</table>
+		<div class="boxbtn">
+			<button class="ok">确定</button>
+			<button class="cancel">取消</button>
+		</div>
+	</div>
+</div>
+<div class="searchbox" style="width:980px;">
 	<form id="fm">
 		<table>
 			<tr>
 				<td class="tit">商户名称：</td>
-				<td><input name="" maxlength="30" /></td>
+				<td><input name="merchantName" maxlength="30" /></td>
 				<td class="tit">商户编号：</td>
-				<td><input name="" maxlength="30" /></td>
+				<td><input name="sellerId" maxlength="30" /></td>
 				<td class="tit">商户类型：</td>
-				<td><select>
+				<td><select name="type">
 					<option value="0">全部</option>
-					<option value="1">审核通过</option>
-					<option value="2">审核不通过</option>
-				</select></td>
+					#foreach( $type in $types )
+						<option value="${type.id}">${type.name}</option>
+					#end
+				</select></td><td colspan="2"></td>
 			</tr>
 			<tr>
-				<td class="tit">负责人：</td>
-				<td><input name="" maxlength="30" /></td>
-				<td class="tit">手机号码：</td>
-				<td><input name="" maxlength="30" /></td>
-				<td colspan="2" class="tit"><button class="searchbtn">搜索</button></td>
+				<td class="tit">店铺负责人：</td>
+				<td><input name="principleName" maxlength="30" /></td>
+				<td class="tit">负责人手机号：</td>
+				<td><input name="principleTel" maxlength="30" /></td>
+				<!--
+				<td class="tit">状态：</td>
+				<td><select name="status">
+					<option value="0">全部</option>
+					#foreach( $status in $statuses )
+						<option value="${status.id}">${status.name}</option>
+					#end
+				</select></td>
+				-->
+				<td align='center' ><button class="searchbtn">搜索</button><button type="reset">重置</button></td>
 			</tr>
 		</table>
 	</form>
@@ -32,76 +60,32 @@
 <div class="gridbox">
 	<table class="tbgrid">
 		<thead>
-			<th>Name</th>
-			<th>City</th>
-			<th>Phone</th>
-			<th>Name</th>
-			<th>City</th>
-			<th>Phone</th>
-			<th>Name</th>
-			<th>City</th>
-			<th>Phone</th>
+			<th>商户类型</th>
+			<th>商户名称</th>
+			<th>商户编号</th>
+			<th>商户负责人</th>
+			<th>负责人电话</th>
+			<th>注册手机</th>
+			<th>创建日期</th>
+			<th>状态</th>
+			<th>操作</th>
 		</thead>
 		<tbody>
 			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
+				<td class='empty' align="center" colspan="9"><img src="$!{rs_path_jiuxiu}/img/loading.gif"></td>
 			</tr>
 		</tbody>
 	</table>
-	<ul id="pagination-digg">
-	<li class="previous-off">&laquo;上一页</li>
-	  <li class="active">1</li>
-	  <li><a href="?page=2">2</a></li>
-	  <li><a href="?page=3">3</a></li>
-	  <li><a href="?page=4">4</a></li>
-	  <li><a href="?page=5">5</a></li>
-	  <li><a href="?page=6">6</a></li>
-	  <li><a href="?page=7">7</a></li>
-	  <li><a href="?page=7">...</a></li>
-	  <li class="next"><a href="?page=8">下一页 &raquo;</a></li>
-	</ul>
+	<div class='pagebox'>
+		<div class="actionpage"><button class='prev'>上一页</button><label>当前第 </label><label class='curpage'>1</label><label> 页</label><button class='next'>下一页</button></div>
+		<div class="pageinfo"><label>共：</label><label class='total'>20</label><label>页</label></div>
+	</div>
+	
+
 </div>
 <!-- 尾部结束 -->
-	#parse("layout-jiuxiu-js.vm")
+	#parse("/system/layout/layout-jiuxiu-js.vm")
+	
+	<script src="$rs_js_css_path_jiuxiu/js/apply/apply.js?t=1"></script>
+	
 </script>

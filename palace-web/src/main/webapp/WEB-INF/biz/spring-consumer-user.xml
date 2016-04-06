@@ -36,7 +36,7 @@
         <property name="check" value="${dubbo.import.consumer.user.check}"/>
     </bean>
     
-    <bean id="merchantServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+    <bean id="userMerchantServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.user.client.service.MerchantService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>

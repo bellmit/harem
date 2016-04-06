@@ -3,6 +3,7 @@ package com.yimayhd.palace.result;
 import java.io.Serializable;
 
 import com.yimayhd.palace.error.BizErrorCode;
+import com.yimayhd.palace.error.PalaceReturnCode;
 
 /**
  * 业务支持
@@ -16,6 +17,7 @@ public class BizResultSupport implements Serializable {
 	private boolean success = true;
 	private int code;
 	private String msg;
+	private PalaceReturnCode palaceReturnCode ;
 
 	public BizResultSupport() {
 	}
@@ -30,6 +32,21 @@ public class BizResultSupport implements Serializable {
 		this.success = false;
 		this.code = errorCode.getCode();
 		this.msg = errorCode.getMsg();
+	}
+	
+	
+
+	public PalaceReturnCode getPalaceReturnCode() {
+		return palaceReturnCode;
+	}
+
+	public void setPalaceReturnCode(PalaceReturnCode palaceReturnCode) {
+		this.palaceReturnCode = palaceReturnCode;
+		if( palaceReturnCode != null ){
+			this.success = false;
+			this.code = palaceReturnCode.getErrorCode() ;
+			this.msg = palaceReturnCode.getErrorMsg() ;
+		}
 	}
 
 	public void initSuccess(String msg) {

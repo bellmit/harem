@@ -1,6 +1,7 @@
 package com.yimayhd.palace.util;
 
 import com.yimayhd.palace.config.ResourceConfig;
+import com.yimayhd.palace.constant.Constant;
 
 /**
  * 暴露给view用的
@@ -16,9 +17,14 @@ public class WebResourceConfigUtil {
     //分销
     private final static String ITEM_IMG_URI_PATH = "item.img.uri";
     private final static String RESOURCE_PATH_JIUXIU = "resource.path.jiuxiu";
+    private final static String ENV = "env";
+    private final static String ROOT_PATH = "root.path";
     
     public static String getTfsRootPath() {
         return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
+    }
+    public static String getRootPath() {
+    	return ResourceConfig.getInstance().getValueByKey(ROOT_PATH);
     }
     public static String getResourcePathJiuXiu() {
     	return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH_JIUXIU);
@@ -44,5 +50,12 @@ public class WebResourceConfigUtil {
     }
     public static String getItemImgUrlPath(){
     	return ResourceConfig.getInstance().getValueByKey(ITEM_IMG_URI_PATH);
+    }
+    public static boolean isTestMode(){
+    	String e = ResourceConfig.getInstance().getValueByKey(ENV) ;
+    	if( e != null && Constant.ENV_PROD.equalsIgnoreCase(e) ){
+    		return false;
+    	}
+    	return true;
     }
 }
