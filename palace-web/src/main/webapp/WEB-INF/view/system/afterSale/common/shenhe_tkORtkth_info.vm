@@ -73,7 +73,7 @@
         var shdz = $('input[name="options"]:checked ').next().text();
         console.log("shdz="+shdz);
 
-        if(refundStatus==3){
+        if(refundStatus==3 && bizType==2){
             if(null == shdz || ""==shdz){
                 var msg = new $.zui.Messager('请选择收货地址', {placement: 'center',type:'error',time:'2000'});
                 msg.show();
