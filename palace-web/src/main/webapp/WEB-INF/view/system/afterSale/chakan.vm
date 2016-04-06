@@ -10,7 +10,7 @@
 </div>
 
 <div class="tab-content grogInfoWrap" style="">
-    <br><br>
+    <br>
     #if($!refundStatus==6)
         用户已撤销售后申请
     #elseif($!refundStatus==8 && $!bizTypeId==1)#* 退款状态8的话*#

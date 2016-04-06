@@ -5,26 +5,25 @@
 </script>
 <div>
     <form class="form-signin" id="tradeListForm1" name="tradeListForm1"
-          action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list" method="get" role="form">
+          action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list?bizType=$!bizType" method="get" role="form">
         <input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
-        #*<div class="inputGroup whole">
+        <div class="inputGroup whole">
             <div class="input-group inpSingle ">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">当前状态</button>
                     </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="refundStatus">
 
-                    <option value="">全部</option>
-                    <option value="NOT_REFUND" #if($!orderListQuery.refundStatus == '1') selected #end>未审批</option>
-                    <option value="APPLY_REFUND" #if($!orderListQuery.refundStatus == '2') selected #end>客户取消申请</option>
-                    <option value="REFUNDING" #if($!orderListQuery.refundStatus == '3') selected #end>卖家同意</option>
-                    <option value="REFUND_FAIL" #if($!orderListQuery.refundStatus == '4') selected #end>卖家拒绝</option>
-                    <option value="REFUND_SUCCESS" #if($!orderListQuery.refundStatus == '5') selected #end>客户退货给卖家</option>
-                    <option value="RETURN_GOODS_ING" #if($!orderListQuery.refundStatus == '6') selected #end>卖家确认收货,并同意退款</option>
-                    <option value="RETURN_GOODS_ING" #if($!orderListQuery.refundStatus == '7') selected #end>卖家确认收货,拒绝退款</option>
-                    <option value="REFUND_CANCELLED" #if($!orderListQuery.refundStatus == '8') selected #end>退款中</option>
-                    <option value="REFUND_CANCELLED" #if($!orderListQuery.refundStatus == '9') selected #end>已完成</option>
-
+                    <option value="0">全部</option>
+                    <option value="1" #if($!orderListQuery.refundStatus == '1') selected #end>未审批</option>
+                    <option value="2" #if($!orderListQuery.refundStatus == '2') selected #end>客户取消申请</option>
+                    <option value="3" #if($!orderListQuery.refundStatus == '3') selected #end>卖家同意</option>
+                    <option value="4" #if($!orderListQuery.refundStatus == '4') selected #end>卖家拒绝</option>
+                    <option value="5" #if($!orderListQuery.refundStatus == '5') selected #end>客户退货给卖家</option>
+                    <option value="6" #if($!orderListQuery.refundStatus == '6') selected #end>卖家确认收货,并同意退款</option>
+                    <option value="7" #if($!orderListQuery.refundStatus == '7') selected #end>卖家确认收货,拒绝退款</option>
+                    <option value="8" #if($!orderListQuery.refundStatus == '8') selected #end>退款中</option>
+                    <option value="9" #if($!orderListQuery.refundStatus == '9') selected #end>已完成</option>
                 </select>
             </div>
 
@@ -32,36 +31,38 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">申请售后日期</button>
                     </span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate"
-                       value="$!orderListQuery.beginDate">
+                <input type="text" class='form-control form-date dateInp' placeholder=''
+                       readonly name="startRefundDate" value="$!date.format('yyyy-MM-dd',$!orderListQuery.startRefundDate)">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate"
-                       value="$!orderListQuery.endDate">
+                <input type="text" class='form-control form-date dateInp' placeholder=''
+                       readonly name="endRefundDate"
+                       value="$!date.format('yyyy-MM-dd',$!orderListQuery.endRefundDate)">
             </div>
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">订单编号</button>
                     </span>
-                <input type="text" class="form-control" name="orderNO" value="$!orderListQuery.orderNO">
+
+                <input type="text" class="form-control" name="bizOrderIdBak" #if($!orderListQuery.bizOrderId != 0) value="$!orderListQuery.bizOrderId" #else value="" #end >
             </div>
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">下单日期</button>
                     </span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate"
-                       value="$!orderListQuery.beginDate">
+                <input type="text" class='form-control form-date dateInp' placeholder=''
+                       readonly name="startOrderDate" value="$!date.format('yyyy-MM-dd',$!orderListQuery.startOrderDate)">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate"
-                       value="$!orderListQuery.endDate">
+                <input type="text" class='form-control form-date dateInp' placeholder=''
+                       readonly name="endOrderDate" value="$!date.format('yyyy-MM-dd',$!orderListQuery.endOrderDate)">
             </div>
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">买家手机号</button>
                     </span>
-                <input type="text" class="form-control" name="itemName" value="$!orderListQuery.buyerPhone">
+                <input type="text" class="form-control" name="buyerMobile" value="$!orderListQuery.buyerMobile">
             </div>
 
 
@@ -69,10 +70,10 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button type="button" id="clean_btn" class="btn btn-primary">重置</button>
             </div>
 
-        </div>*#
+        </div>
 
 
         <div class="tableGroup whole">
@@ -230,6 +231,11 @@
                 window.parent.tabsAdd('', actionDefaultPath
                         + "/GF/aftersale/refund/detail?orderNO="+orderId+"&type="+2+"&bizType="+bizType, 2, "审核详情");
             });
+        });
+
+
+        $("#clean_btn").click(function(){
+            $('#tradeListForm1 div:eq(0)').find('input').val("").end().find('select')[0].selectedIndex = 0;
         });
 
     });

@@ -25,15 +25,17 @@ import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +49,13 @@ import java.util.List;
 
 public class AfterSaleManageController {
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
+
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired private AfterSaleService afterSaleService;
@@ -57,6 +66,10 @@ public class AfterSaleManageController {
     @RequestMapping(value = "/refund/list", method = RequestMethod.GET)
     public String list(HttpServletRequest request, Model model, RefundOrderQuery refundOrderQuery){
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? 1 : Integer.parseInt(request.getParameter("pageNumber")) ;
+        String bizOrderIdBak = request.getParameter("bizOrderIdBak");
+        if(StringUtils.isNotEmpty(bizOrderIdBak) && NumberUtils.isNumber(bizOrderIdBak)){
+            refundOrderQuery.setBizOrderId(Long.parseLong(bizOrderIdBak));
+        }
         try {
             refundOrderQuery.setPageNo(pageNumber);
             PageVO pageVo = getPageVo(refundOrderQuery);
@@ -116,6 +129,7 @@ public class AfterSaleManageController {
     @ResponseBody
     public ResponseVo audit(long refundOrderId, int refundStatus, HttpServletRequest request){
         String tkje = request.getParameter("stje");
+        String shdz = request.getParameter("shdz");
         String auditorRemark = request.getParameter("auditorRemark");
         String[] pictures = request.getParameterValues("pictures");
 
@@ -127,6 +141,7 @@ public class AfterSaleManageController {
         ero.setRefundStatus(refundStatus);
         ero.setAuditorId(user.getId());
         ero.setAuditorName(user.getName());
+        ero.setAddress(shdz);
         ero.setRefundOrderId(refundOrderId);
         ero.setAuditorRemark(auditorRemark);
         if(StringUtils.isNotEmpty(tkje) && NumberUtils.isNumber(tkje)){

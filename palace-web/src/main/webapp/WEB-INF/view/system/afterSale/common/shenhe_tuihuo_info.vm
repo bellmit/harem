@@ -78,7 +78,7 @@
                     var imgHtml="";
                     var imgArr=[];
                     $.each(data.data, function(n, val) {
-                        imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='100' height='100' ></img>";
+                        imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='200' height='200' ></img>";
                         imgArr.push(val);
                     });
                     $("#travelBGImgSH").val(imgArr);

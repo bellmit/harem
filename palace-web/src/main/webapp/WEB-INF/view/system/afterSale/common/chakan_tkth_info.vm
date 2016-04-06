@@ -18,7 +18,7 @@
         #end
         </span><br>
         <span>实退金额：
-            $!refundOrderDO.refundFee
+            $!refundOrderDO.refundActualFee
         </span>
 
         <br>
@@ -28,7 +28,7 @@
 
         #foreach($imgs in $!refundOrderDO.pictures)
             #if($!imgs)
-                <img width='150' height='150' src="$utilWebconfig.getTfsRootPath()$!imgs">
+                <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!imgs">
             #end
         #end
         <br>
@@ -51,7 +51,7 @@
         <span>卖家举证：
             #foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
                 #if($!rimgs)
-                    <img width='150' height='150' src="$utilWebconfig.getTfsRootPath()$!rimgs">
+                    <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
                     &nbsp;&nbsp;&nbsp;&nbsp;
                 #end
             #end
@@ -81,7 +81,7 @@
             <span>买家举证：
                 #foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
                     #if($!arimgs)
-                        <img width='150' height='150'
+                        <img width='200' height='200'
                              src="$utilWebconfig.getTfsRootPath()$!arimgs">
                     #end
                 #end

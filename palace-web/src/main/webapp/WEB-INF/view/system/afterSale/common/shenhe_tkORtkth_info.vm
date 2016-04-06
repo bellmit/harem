@@ -24,7 +24,7 @@
         <br><br>
         <span>实退金额：
             <input type="text" class="inpControl name" id="stjeId" name="stje"
-                   value=" $!utilNum.moneyTransform($!refundOrderDO.refundFee)">
+                   value=" $!utilNum.moneyTransform($!refundOrderDO.refundActualFee)">
         </span>
         <br><br>
         <span>系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)</span>
@@ -35,7 +35,7 @@
 
         #foreach($imgs in $!refundOrderDO.pictures)
             #if($!imgs)
-                <img width='150' height='150' src="$utilWebconfig.getTfsRootPath()$!imgs">
+                <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!imgs">
             #end
         #end
         <br><br>
@@ -70,21 +70,23 @@
         var refundStatus = $(this).attr('refundStatus');
         var bizType = $("#bizTypeId").val();
         var stje= $("#stjeId").val();
-        if(refundStatus==3 && bizType==2){
+        var shdz = $('input[name="options"]:checked ').next().text();
+        console.log("shdz="+shdz);
+        /*if(refundStatus==3 && bizType==2){
             alert("ok");
             layer.open({
                 type: 1,
-                content: '<div><input type="radio" name="options" id="1" checked> 北京市大兴区金安路9号申通快递，陆经理收，17744529569 ' +
+               /!* content: '<div><input type="radio" name="options" id="1" checked> 北京市大兴区金安路9号申通快递，陆经理收，17744529569 ' +
                 '<input type="radio" name="options" id="2"> 云南省昆明市呈贡区信息产业基地林溪路182号，沈运青收 15198807697' +
-                '</div> ' //这里content是一个普通的String
+                '</div> ' //这里content是一个普通的String*!/
+                content:''
             });
-
-
-        }
+        }*/
 
         $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
                 {'refundOrderId':id,
                     'stje':stje,
+                    'shdz':shdz,
                     'auditorRemark':auditorRemark,
                     'refundStatus':refundStatus
                     }
@@ -97,7 +99,7 @@
                         msg.show();
                     }
                     setTimeout(function(){
-                        window.location.href = '$!utilWebconfig.getActionDefaultFontPath()'+"/GF/aftersale/refund/list?orderStat=1";
+                        window.location.href="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list?bizType="+bizType;                                                                                                     href = window.location.href;
                     },1050);
                 })
     });
@@ -112,7 +114,7 @@
             var imgHtml="";
             var imgArr=[];
             $.each(data.data, function(n, val) {
-                imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='150' height='150' ></img>";
+                imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='200' height='200' ></img>";
                 imgArr.push(val);
             });
             $("#travelBGImgSH").val(imgArr);
