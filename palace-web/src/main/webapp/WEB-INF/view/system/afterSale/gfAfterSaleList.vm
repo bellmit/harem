@@ -105,7 +105,7 @@
                         <td>
                             <div class="">
                                 #REFUND_STATUS($!order.refundStatus)
-                                ($!order.refundStatus)
+                                <input type="hidden" value="$!order.refundStatus">
                             </div>
                         </td>
                         <td>
@@ -120,13 +120,11 @@
                             <button type="button" class="btn btn-primary addRefund detail"
                                     orderId="$!order.Id">查看
                             </button>
-                            #if($order.refundStatus ==1 || $order.refundStatus ==3  || $order.refundStatus ==4 ||  $order.refundStatus ==5 ||
-                            $order.refundStatus ==6 || $order.refundStatus ==7
-                            )
+                            #if($order.refundStatus ==1 ||  $order.refundStatus ==5 )
                                 <button type="button" class="btn btn-primary affirm"
                                         data-target="#affirmModal" orderId="$!order.Id">审核详情
                                 </button>
-                            #elseif($order.orderShowState == 8)
+                            #elseif($order.refundStatus == 8)
                                 <button type="button" class="btn btn-primary finish"
                                         data-target="#finishModal" orderId="$!order.Id">退款完成
                                 </button>
@@ -176,19 +174,13 @@
 
         $('.finish').each(function(){
             $(this).click(function(){
-                var id = $("#orderId").val();
+                var id = $(this).attr("orderId");
                 var refundStatus = "9";
-                var pictures=[];
-
-                console.log("refundOrderId="+id);
-                console.log("refundStatus="+refundStatus);
-                console.log("pictures="+pictures);
-
+                var bizType = $("#bizTypeId").val();
                 $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
                         {'refundOrderId':id,
                             'auditorRemark':"COMPLETE",
-                            'refundStatus':refundStatus,
-                            'pictures[]':pictures}
+                            'refundStatus':refundStatus}
                         ,function(data){
                             if(data.status == 200){
                                 var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
@@ -198,7 +190,7 @@
                                 msg.show();
                             }
                             setTimeout(function(){
-                                window.location.href = '$!utilWebconfig.getActionDefaultFontPath()'+"/GF/aftersale/refund/list?orderStat=1";
+                                  window.location.href="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list?bizType="+bizType;
                             },1050);
                         })
             });

@@ -155,7 +155,7 @@ public class AfterSaleManageController {
             return new ResponseVo(ResponseStatus.ERROR);
         }
         if(!result.isSuccess()){
-            return new ResponseVo(result.getResultMsg());
+            return new ResponseVo(-200,result.getResultMsg());
         }
         return new ResponseVo(ResponseStatus.SUCCESS);
     }

@@ -72,16 +72,22 @@
         var stje= $("#stjeId").val();
         var shdz = $('input[name="options"]:checked ').next().text();
         console.log("shdz="+shdz);
-        /*if(refundStatus==3 && bizType==2){
-            alert("ok");
+
+        if(refundStatus==3){
+            if(null == shdz || ""==shdz){
+                var msg = new $.zui.Messager('请选择收货地址', {placement: 'center',type:'error',time:'2000'});
+                msg.show();
+                return false;
+            }
+            /*alert("ok");
             layer.open({
                 type: 1,
                /!* content: '<div><input type="radio" name="options" id="1" checked> 北京市大兴区金安路9号申通快递，陆经理收，17744529569 ' +
                 '<input type="radio" name="options" id="2"> 云南省昆明市呈贡区信息产业基地林溪路182号，沈运青收 15198807697' +
                 '</div> ' //这里content是一个普通的String*!/
                 content:''
-            });
-        }*/
+            });*/
+        }
 
         $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
                 {'refundOrderId':id,

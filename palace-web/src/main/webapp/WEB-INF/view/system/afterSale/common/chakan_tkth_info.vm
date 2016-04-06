@@ -18,12 +18,12 @@
         #end
         </span><br>
         <span>实退金额：
-            $!refundOrderDO.refundActualFee
+            $!utilNum.moneyTransform($!refundOrderDO.refundActualFee)
         </span>
 
         <br>
         <span>系统计算退款金额：$!refundOrderDO.refundFee</span><br>
-        <span>退款说明：$!refundOrderDO.refundDesc</span><br>
+        <span>退款说明：$!utilNum.moneyTransform($!refundOrderDO.refundDesc)</span><br>
         <span>上传凭证：</span>
 
         #foreach($imgs in $!refundOrderDO.pictures)
