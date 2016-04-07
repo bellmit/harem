@@ -1,7 +1,13 @@
 package com.yimayhd.gf.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.gf.model.BbsPostsQueryVO;
 import com.yimayhd.gf.service.BbsService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.snscenter.client.domain.SnsMasterDO;
@@ -109,5 +115,74 @@ public class BbsServiceImpl implements BbsService{
 	public BaseResult<Boolean> updatePostsStatus(SnsPostsDO bbsPostsDO) {
 		BaseResult<Boolean> updateStatusResult = snsPostsService.updateSnsPostsStatus(bbsPostsDO);
 		return updateStatusResult;
+	}
+	@Override
+	public PageVO<PostsResultDTO> postsQueryList(BbsPostsQueryVO postsQuery) {
+		
+		
+		SnsPostsQuery snsPostsQuery = setSnsPostsQuery(postsQuery);
+		
+		
+		BasePageResult<PostsResultDTO> basePageResult = snsPostsService.pageQuery(snsPostsQuery );
+		if(null != basePageResult && basePageResult.isSuccess()){
+			PageVO<PostsResultDTO> pageVO = new PageVO<PostsResultDTO>(snsPostsQuery.getPageNo(), snsPostsQuery.getPageSize(), basePageResult.getTotalCount(), basePageResult.getList());
+			return pageVO;
+		}
+		
+		return null;
+	}
+	
+	private SnsPostsQuery setSnsPostsQuery(BbsPostsQueryVO postsQuery) {
+		
+		SnsPostsQuery snsPostsQuery = new SnsPostsQuery();
+		snsPostsQuery.setStartTime(getDateStart(postsQuery.getStartTime()));
+		snsPostsQuery.setEndTime(getDateEnd(postsQuery.getEndTime()));
+		if(null != postsQuery.getModuleId()){
+			snsPostsQuery.setModuleIds(postsQuery.getModuleId());
+		}
+		if(null != postsQuery.getStatus()){
+			snsPostsQuery.setStatuses(postsQuery.getStatus());
+		}
+		snsPostsQuery.setTitle(postsQuery.getTitle());
+		snsPostsQuery.setPageNo(postsQuery.getPageNumber());
+		snsPostsQuery.setPageSize(postsQuery.getPageSize());
+		return snsPostsQuery;
+	}
+	
+	
+	public static Date getDateEnd(String time){
+
+    	if(StringUtils.isBlank(time)){
+    		return null;
+    	}
+    	
+		time  = time + " 23:59:59";
+		
+		Date end = parseDate(time, "yyyy-MM-dd HH:mm:ss");
+		return end;
+		
+	}
+	public static Date getDateStart(String time){
+    	if(StringUtils.isBlank(time)){
+    		return null;
+    	}
+		time  = time + " 00:00:00";
+		
+		Date end = parseDate(time, "yyyy-MM-dd HH:mm:ss");
+		return end ;
+		
+	}
+	
+	public static Date parseDate(String dayFormat, String format){
+		if( dayFormat == null || format == null || "".equals(format)){
+			return null;
+		}
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+		try {
+			return simpleDateFormat.parse(dayFormat);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package com.yimayhd.gf.service;
 
+import com.yimayhd.gf.model.BbsPostsQueryVO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.snscenter.client.domain.SnsMasterDO;
 import com.yimayhd.snscenter.client.domain.SnsModuleDO;
@@ -28,7 +29,7 @@ public interface BbsService {
 
 	PageVO<SnsMasterDO> masterQueryList(SnsMasterPageQuery bbsMasterPageQuery);
 
-	PageVO<PostsResultDTO> postsQueryList(SnsPostsQuery postsQuery);
+	PageVO<PostsResultDTO> postsQueryList(BbsPostsQueryVO postsQuery);
 
 	BaseResult<SnsPostsDO> updatePosts(SnsPostsDO snsPosts);
 

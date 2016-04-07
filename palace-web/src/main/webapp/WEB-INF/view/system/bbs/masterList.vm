@@ -6,7 +6,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">达人名称</button>
                     </span>
-                <input type="text" class="form-control" name="name" value="$!query.name">
+                <input type="text" class="form-control mastername" name="name" value="$!query.name">
             </div>
 
             <div class="input-group inpSingle">
@@ -22,7 +22,7 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button type="button"  class="btn btn-primary clean_btn">重置</button>
             </div>
         </div>
 		<div class="btnBottomMargin">
@@ -94,6 +94,10 @@
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/bbs/initMaster';
             top.tabsAdd("addCommodityBtn",url,2,$(this).text())
         });
+		
+		$('.clean_btn').click(function(){
+			$('.mastername').val("");
+		});
 
     });
     

@@ -37,7 +37,7 @@
                         <td>
 							<select class="form-control" name="moduleId">
 								#foreach($module in $module)
-									<option  value="$!{module.id}">$!{module.name}</option>
+									<option #if($posts.moduleId == $module.id) selected #end value="$!{module.id}">$!{module.name}</option>
 								#end
                             </select>
                             ##<input class="form-control" type="text" name="priceY" value="$!commodity.priceY">
@@ -49,7 +49,7 @@
 							<select class="form-control" name="creatorId">
 									<option  value="0">请选择</option>
 								#foreach($master in $masters)
-									<option  value="$!{master.id}">$!{master.name}</option>
+									<option #if($posts.creatorId == $master.id) selected #end value="$!{master.id}">$!{master.name}</option>
 								#end
                             </select>
                             ##<input class="form-control" type="text" name="priceY" value="$!commodity.priceY">
@@ -73,13 +73,13 @@
                         <td class="bigListPicTd">
                             <label>推荐图片</label> <span class="spColor">建议上传图片尺寸为288x286px或倍数像素，类型为JPEG/PNG,此图片将用于首页推荐 </span>
                             <input id="bigListPicUrl" type="file">
-                            <img class="bigListPicUrl uploadImgFile" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!posts.imageUrl #end">
+                            <img class="bigListPicUrl uploadImgFile" src="#if($!posts.imageUrl)$utilWebconfig.getTfsRootPath()$!posts.imageUrl #end">
                             <input class="bigListPicVal" type="hidden" name="imageUrl" value="$!posts.imageUrl">
                         </td>
                         <td class="smallListPicTd">
                             <label>展示图片</label> <span class="spColor">建议上传图片尺寸为138x138px或倍数像素，类型为JPEG/PNG,此图片将用户帖子列表页面</span>
                             <input id="smallListPicUrl" type="file">
-                            <img class="smallListPicUrl uploadImgFile" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!posts.mainImage #end">
+                            <img class="smallListPicUrl uploadImgFile" src="#if($!posts.mainImage)$utilWebconfig.getTfsRootPath()$!posts.mainImage #end">
                             <input class="smallListPicVal" type="hidden" name="mainImage" value="$!posts.mainImage">
                         </td>
                     </tr>

@@ -1,5 +1,7 @@
 package com.yimayhd.gf.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.gf.model.BbsPostsQueryVO;
 import com.yimayhd.gf.service.BbsService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -158,14 +161,10 @@ public class GFBbsManagerController {
 	
 	
 	@RequestMapping("/list")
-	public String toBbsMgmt(Model model,Integer pageNumber,SnsPostsQuery postsQuery,String startDate,String endDate){
+	public String toBbsMgmt(Model model,BbsPostsQueryVO postsQuery){
 		
-		if(null == pageNumber){
-			pageNumber = 1;
-		}
 		
-		postsQuery.setNeedCount(true);
-		postsQuery.setPageNo(pageNumber);
+		
 		
 		SnsModulePageQuery bbsModulePageQuery = new SnsModulePageQuery();
 		bbsModulePageQuery.setPageNo(1);
