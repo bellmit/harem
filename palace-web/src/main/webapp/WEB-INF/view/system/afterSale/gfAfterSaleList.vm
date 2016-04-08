@@ -179,7 +179,7 @@
                 var bizType = $("#bizTypeId").val();
                 $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
                         {'refundOrderId':id,
-                            'auditorRemark':"COMPLETE",
+                            'auditorRemark':"已完成",
                             'refundStatus':refundStatus}
                         ,function(data){
                             if(data.status == 200){

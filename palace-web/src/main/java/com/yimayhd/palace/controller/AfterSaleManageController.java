@@ -144,8 +144,9 @@ public class AfterSaleManageController {
         ero.setAddress(shdz);
         ero.setRefundOrderId(refundOrderId);
         ero.setAuditorRemark(auditorRemark);
-        if(StringUtils.isNotEmpty(tkje) && NumberUtils.isNumber(tkje)){
-            ero.setRefundActualFee( NumUtil.doubleToLong(Double.parseDouble(tkje)) );
+        if(StringUtils.isNotEmpty(tkje) ){//&& NumberUtils.isNumber(tkje)
+            ero.setRefundActualFee( NumUtil.doubleToLong(Double.parseDouble(tkje)));//NumberUtils.toLong(tkje)
+
         }
         if(null != pictures && pictures.length>0){
             ero.setPictures(Arrays.asList(pictures));
@@ -160,4 +161,5 @@ public class AfterSaleManageController {
         return new ResponseVo(ResponseStatus.SUCCESS);
     }
 
+    
 }
