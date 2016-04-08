@@ -23,18 +23,19 @@ public class ApplyHelper {
 		examinePageQueryDTO.setPageSize(applyQuery.getPageSize());
 		examinePageQueryDTO.setMerchantName(applyQuery.getMerchantName());
 		examinePageQueryDTO.setPrincipleName(applyQuery.getPrincipleName());
-//		examinePageQueryDTO.setPrincipleTel(applyQuery.getPrincipleTel());
+		examinePageQueryDTO.setPrincipleTel(applyQuery.getPrincipleTel());
 		examinePageQueryDTO.setSellerId(applyQuery.getSellerId());
 		examinePageQueryDTO.setType(applyQuery.getType());
-//		examinePageQueryDTO.sete
 		return examinePageQueryDTO ;
 	}
 	
-	public static ExamineDealDTO getExamineDealDTO(ApproveVO approveVO){
+	public static ExamineDealDTO getExamineDealDTO(ApproveVO approveVO, long approverId){
 		ExamineDealDTO examineDealDTO = new ExamineDealDTO() ;
 		if( approveVO == null ){
 			return examineDealDTO;
 		}
+		examineDealDTO.setReviewerId(approverId);
+		examineDealDTO.setId(approveVO.getId());
 		examineDealDTO.setCheckIsOk(approveVO.isPass());
 		examineDealDTO.setExamineMes(approveVO.getReason());
 		return examineDealDTO ;

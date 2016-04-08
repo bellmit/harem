@@ -15,10 +15,13 @@ import com.yimayhd.palace.model.vo.apply.ApplyVO;
 import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
+import com.yimayhd.user.session.manager.SessionManager;
 
 @Controller
 @RequestMapping("/jiuxiu/apply")
 public class ApplyApprovalController {
+	@Autowired
+	private SessionManager sessionManager ;
 	@Autowired
 	private ApplyBiz applyBiz ;
 	
@@ -46,7 +49,8 @@ public class ApplyApprovalController {
 		if( !checkResult.isSuccess() ){
 			return checkResult ;
 		}
-		BizResultSupport result = applyBiz.approve(approveVO);
+		long userId = sessionManager.getUserId();
+		BizResultSupport result = applyBiz.approve(approveVO, userId);
 		return result;
 	}
 }

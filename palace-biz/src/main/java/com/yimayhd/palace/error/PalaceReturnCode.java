@@ -37,6 +37,9 @@ public class PalaceReturnCode implements Serializable {
 	/******************************************* 入驻审批 ******************************************************/
 	public static final PalaceReturnCode APPROVE_FAILED = new PalaceReturnCode(25001000, "审批失败");
 	public static final PalaceReturnCode APPROVE_REJECT_REASON_EMPTY = new PalaceReturnCode(25001001, "审批不通过需要有原因");
+	public static final PalaceReturnCode APPLY_RECORD_NOT_EXIT = new PalaceReturnCode(25001002, "申请记录不存在");
+	public static final PalaceReturnCode APPLY_APPROVE_PASS = new PalaceReturnCode(25001003, "申请已审核通过");
+	public static final PalaceReturnCode APPLY_APPROVE_REJECT = new PalaceReturnCode(25001004, "申请已被拒绝");
 
 	/***************************************** 商户相关 ********************************************************/
 }

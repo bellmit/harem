@@ -56,9 +56,20 @@ public class ApplyBiz {
 		return result;
 	}
 	
-	public BizResultSupport approve(ApproveVO approveVO){
-		ExamineDealDTO examineDealDTO = ApplyHelper.getExamineDealDTO(approveVO);
-		BizResultSupport result = examineDealRepo.approve(examineDealDTO);
+	public BizResultSupport approve(ApproveVO approveVO, long approverId){
+		BizResultSupport result = new BizResultSupport() ;
+		if( approveVO == null || approveVO.getId() <=0 ){
+			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return result;
+		}
+		ExamineInfoDTO dto = examineDealRepo.queryExamineInfoById(approveVO.getId());
+		if( dto == null ){
+			result.setPalaceReturnCode(PalaceReturnCode.APPLY_RECORD_NOT_EXIT);
+			return result ;
+		}
+		ExamineDealDTO examineDealDTO = ApplyHelper.getExamineDealDTO(approveVO, approverId);
+		examineDealDTO.setType(dto.getType());
+		result = examineDealRepo.approve(examineDealDTO);
 		return result ;
 	}
 }

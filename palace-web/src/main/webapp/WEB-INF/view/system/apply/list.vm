@@ -6,14 +6,18 @@
 <div class="dialog">
 	<div class="bgmeng"></div>
 	<div class="dlgcont">
+		<input type="hidden" id="recordId">
 		<table>
 			<tr>
 				<td class="tit">是否通过：</td>
-				<td><label><input type="radio" name="isSure" checked="checked" value="1">：是</label><label><input type="radio" name="isSure" value="0">：否</label></td>
+				<td>
+					<label><input type="radio" name="pass" value="true">：是</label>
+					<label><input type="radio" name="pass" value="false">：否</label>
+				</td>
 			</tr>
 			<tr>
 				<td class="tit">备注：</td>
-				<td><textarea></textarea></td>
+				<td><textarea id="reason" name="reason"></textarea></td>
 			</tr>
 		</table>
 		<div class="boxbtn">
@@ -34,7 +38,7 @@
 				<td><select name="type">
 					<option value="0">全部</option>
 					#foreach( $type in $types )
-						<option value="${type.id}">${type.name}</option>
+						<option value="${type.type}">${type.name}</option>
 					#end
 				</select></td><td colspan="2"></td>
 			</tr>
@@ -48,7 +52,7 @@
 				<td><select name="status">
 					<option value="0">全部</option>
 					#foreach( $status in $statuses )
-						<option value="${status.id}">${status.name}</option>
+						<option value="${status.status}">${status.name}</option>
 					#end
 				</select></td>
 				-->
@@ -86,6 +90,6 @@
 <!-- 尾部结束 -->
 	#parse("/system/layout/layout-jiuxiu-js.vm")
 	
-	<script src="$rs_js_css_path_jiuxiu/js/apply/apply.js?t=1"></script>
+	<script src="$rs_js_css_path_jiuxiu/js/apply/apply.js?t=2"></script>
 	
 </script>
