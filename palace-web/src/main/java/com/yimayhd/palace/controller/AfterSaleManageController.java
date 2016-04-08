@@ -161,11 +161,4 @@ public class AfterSaleManageController {
         return new ResponseVo(ResponseStatus.SUCCESS);
     }
 
-    public static void main(String[] fsd){
-        //System.out.println(NumberUtils.isNumber("1.0"));
-        //System.out.println(NumberUtils.toLong("0.01"));
-        System.out.println(NumberUtils.isNumber("0.1"));
-        //System.out.println(Double.parseDouble("0.01"));
-        //System.out.println( NumUtil.doubleToLong(Double.parseDouble("0.01")));
-    }
 }
