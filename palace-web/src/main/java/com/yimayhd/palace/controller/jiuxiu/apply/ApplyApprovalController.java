@@ -27,7 +27,7 @@ public class ApplyApprovalController {
 	
 	
 	@RequestMapping(value="/list")
-	public String applyApproval(Model model, ApplyQuery applyQuery){
+	public String applyApproval(Model model){
 		ExamineType[] types =ExamineType.values();
 		ExamineStatus[] statuses = ExamineStatus.values() ;
 		model.addAttribute("types", types);

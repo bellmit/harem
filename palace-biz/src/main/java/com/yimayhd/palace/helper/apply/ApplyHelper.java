@@ -6,6 +6,7 @@ import java.util.List;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.membercenter.client.dto.ExamineDealDTO;
 import com.yimayhd.membercenter.client.query.examine.ExaminePageQueryDTO;
+import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.palace.model.query.apply.ApplyQuery;
 import com.yimayhd.palace.model.vo.apply.ApplyVO;
 import com.yimayhd.palace.model.vo.apply.ApproveVO;
@@ -26,6 +27,12 @@ public class ApplyHelper {
 		examinePageQueryDTO.setPrincipleTel(applyQuery.getPrincipleTel());
 		examinePageQueryDTO.setSellerId(applyQuery.getSellerId());
 		examinePageQueryDTO.setType(applyQuery.getType());
+		//FIXME wuzhengfei
+		int status = applyQuery.getStatus() ;
+		if( status == 0 ){
+			
+		}
+		
 		return examinePageQueryDTO ;
 	}
 	
