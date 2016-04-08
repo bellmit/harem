@@ -11,6 +11,7 @@ import com.yimayhd.membercenter.client.query.examine.ExaminePageQueryDTO;
 import com.yimayhd.membercenter.client.result.MemPageResult;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
@@ -41,11 +42,11 @@ public class ExamineDealRepo {
 	
 	public BizResultSupport approve(ExamineDealDTO examineDealDTO){
 		BizResultSupport result = new BizResultSupport() ;
-		if( examineDealDTO == null ){
+		if( examineDealDTO == null || examineDealDTO.getReviewerId() <=0 || ExamineType.getByType(examineDealDTO.getType()) == null ){
 			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
 			return result;
 		}
-		MemResult<Boolean> approveResult = examineDealService.examineInfoIsOk(examineDealDTO);
+		MemResult<Boolean> approveResult = examineDealService.dealExamineInfo(examineDealDTO);
 		if( approveResult == null || !approveResult.isSuccess() || approveResult.getValue()){
 			logger.error("examineInfoIsOk   examineDealDTO={},  Result={}", JSON.toJSONString(examineDealDTO), JSON.toJSONString(approveResult) );
 			if( approveResult == null ){
