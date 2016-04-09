@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.dto.ExamineDealDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.examine.ExaminePageQueryDTO;
@@ -47,25 +48,20 @@ public class ExamineDealRepo {
 			return result;
 		}
 		MemResult<Boolean> approveResult = examineDealService.dealExamineInfo(examineDealDTO);
-		if( approveResult == null || !approveResult.isSuccess() || approveResult.getValue()){
+		if( approveResult == null || !approveResult.isSuccess() || approveResult.getValue() == null || !approveResult.getValue()){
 			logger.error("dealExamineInfo   examineDealDTO={},  Result={}", JSON.toJSONString(examineDealDTO), JSON.toJSONString(approveResult) );
 			if( approveResult == null ){
 				result.setPalaceReturnCode(PalaceReturnCode.REMOTE_CALL_FAILED);
 			}else{
 				//FIXME
 				int code = approveResult.getErrorCode();
-				if( PalaceReturnCode.APPLY_APPROVE_PASS.getErrorCode() == code ){
-					result.setPalaceReturnCode(PalaceReturnCode.APPLY_APPROVE_PASS);
-				}else if( PalaceReturnCode.APPLY_APPROVE_REJECT.getErrorCode() == code ){
-					result.setPalaceReturnCode(PalaceReturnCode.APPLY_APPROVE_REJECT);
+				if( MemberReturnCode.DB_EXAMINE_NOT_ING.getCode() == code ){
+					result.setPalaceReturnCode(PalaceReturnCode.APPLY_APPROVE_STATUS_ERROR);
 				}else{
-					result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+					result.setPalaceReturnCode(PalaceReturnCode.APPROVE_FAILED);
 				}
 			}
 			return result;
-		}
-		if( !approveResult.getValue() ){
-			result.setPalaceReturnCode(PalaceReturnCode.APPROVE_FAILED);
 		}
 		return result ;
 	}

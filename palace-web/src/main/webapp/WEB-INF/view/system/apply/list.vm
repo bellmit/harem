@@ -11,7 +11,7 @@
 			<tr>
 				<td class="tit">是否通过：</td>
 				<td>
-					<label><input type="radio" name="pass" value="true">：是</label>
+					<label><input type="radio" name="pass" value="true" checked="checked">：是</label>
 					<label><input type="radio" name="pass" value="false">：否</label>
 				</td>
 			</tr>
@@ -90,6 +90,6 @@
 <!-- 尾部结束 -->
 	#parse("/system/layout/layout-jiuxiu-js.vm")
 	
-	<script src="$rs_js_css_path_jiuxiu/js/apply/apply.js?t=2"></script>
+	<script src="$rs_js_css_path_jiuxiu/js/apply/apply.js?t=3"></script>
 	
 </script>
