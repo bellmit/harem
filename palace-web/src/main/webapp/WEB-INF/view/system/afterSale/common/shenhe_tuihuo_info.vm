@@ -19,10 +19,18 @@
 
             <br><br><br><br>
             <div class="btn-group">
-                <button type="button" class="btn btn-primary pass" refundStatus="3" >审核通过</button>
+            	#if( $!agreeStatus )
+                	<button type="button" class="btn btn-primary pass" refundStatus="$!agreeStatus" >审核通过</button>
+                #else
+                	<button type="button" class="btn btn-primary pass" refundStatus="3" >审核通过</button>
+                #end
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-primary pass" refundStatus="4" >审核不通过</button>
+            	#if( $!rejectStatus )
+                	<button type="button" class="btn btn-primary pass" refundStatus="$!rejectStatus" >审核不通过</button>
+                #else
+	                <button type="button" class="btn btn-primary pass" refundStatus="4" >审核不通过</button>
+                #end
             </div>
             #*<div class="btn-group">
                 <button type="button" class="btn btn-primary returns">返回</button>

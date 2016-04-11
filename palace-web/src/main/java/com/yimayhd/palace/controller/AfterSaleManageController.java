@@ -1,15 +1,33 @@
 package com.yimayhd.palace.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
-import com.yimayhd.palace.model.Refund;
 import com.yimayhd.palace.model.RefundOrderVO;
 import com.yimayhd.palace.model.query.OrderListQuery;
-import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.service.AfterSaleService;
-import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
 import com.yimayhd.refund.client.enums.RefundType;
@@ -19,24 +37,6 @@ import com.yimayhd.refund.client.result.refundorder.ExamineRefundOrderResult;
 import com.yimayhd.tradecenter.client.model.enums.RefundStatus;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.http.HttpRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author create by yushengwei on 2016/3/11
@@ -118,7 +118,10 @@ public class AfterSaleManageController {
             return "/system/afterSale/chakan";
         }else{
             model.addAttribute("isModified", true);
-            if(refundOrderVO.getRefundOrderDO().getRefundStatus()== 5 ){
+            int refundStatus = refundOrderVO.getRefundOrderDO().getRefundStatus();
+            if(refundStatus == com.yimayhd.refund.client.enums.RefundStatus.CUSTOMER_RETURNS.getStatus() ){
+            	model.addAttribute("agreeStatus", com.yimayhd.refund.client.enums.RefundStatus.SELLER_RECEIPT_AGREE.getStatus()) ;
+            	model.addAttribute("rejectStatus", com.yimayhd.refund.client.enums.RefundStatus.SELLER_RECEIPT_REFUSE.getStatus()) ;
                 return "/system/afterSale/shenhe_shouhuo";
             }
             return "/system/afterSale/shenhe";
