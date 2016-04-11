@@ -123,23 +123,15 @@ public class CommissionBiz {
 							for (UserInfoResult userInfoResult : userInfoList) {
 								if (amountTotalDTO.getUserId() == userInfoResult.getUserId()) {
 									
-									amountTotalDTO.setPayeeAccount(StringUtils.isBlank(amountTotalDTO.getPayeeAccount()) ? 
-											userInfoResult.getAlipayAccount() : amountTotalDTO.getPayeeAccount());
-									
-									amountTotalDTO.setPayeeAccountName(StringUtils.isBlank(amountTotalDTO.getPayeeAccountName()) ? 
-											userInfoResult.getAlipayAccountName() : amountTotalDTO.getPayeeAccountName());
-									
-									amountTotalDTO.setTelNum(StringUtils.isBlank(amountTotalDTO.getTelNum()) ?
-											userInfoResult.getAlipayAccountPhone() : amountTotalDTO.getTelNum());
+									amountTotalDTO.setPayeeAccount( userInfoResult.getAlipayAccount());
+									amountTotalDTO.setPayeeAccountName(userInfoResult.getAlipayAccountName());
+									amountTotalDTO.setTelNum(userInfoResult.getAlipayAccountPhone());
 									
 									break;
 								}
 							}
 						}//end for
 						desList = CommissionAmoutConvert.userInfoDTOConvert(list);
-//						if(desList.size() > 0){
-//							commissionRepo.batchUpdateUserInfo(desList);
-//						}
 					}
 					
 				}

@@ -3,8 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="gfTagBiz" class="com.yimayhd.gf.biz.GFTagBiz"/>
-	<bean id ="commissionBiz" class="com.yimayhd.commission.biz.CommissionBiz"/>
-	<bean id ="itemRebateBiz" class="com.yimayhd.commission.biz.ItemRebateBiz"/>
+	<bean id="gfTagBiz" class="com.yimayhd.gf.biz.GFTagBiz" />
+	<bean id="commissionBiz" class="com.yimayhd.commission.biz.CommissionBiz" />
+	<bean id="itemRebateBiz" class="com.yimayhd.commission.biz.ItemRebateBiz" />
 	<bean id="userRelationBiz" class="com.yimayhd.commission.biz.UserRelationBiz" />
+	<bean id="mallFansBiz" class="com.yimayhd.commission.biz.MallFansBiz" />
+	<bean id="levelBiz" class="com.yimayhd.commission.biz.LevelBiz" />
 </beans>
