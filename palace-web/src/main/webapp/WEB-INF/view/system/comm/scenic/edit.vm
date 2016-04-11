@@ -60,7 +60,7 @@
                     <td>用户可选入园时间为<input type="text" class="inpControl" name="endTime" id="" placeholder="请输入数字" value="$!commScenic.endBookTimeLimit">天内</td>
                 </tr>
                 <tr>
-                       <td><span class="spColor">*</span>宣传图</td>
+                       <td><span class="spColor">*</span>宣传图(建议尺寸：750*360)</td>
                          <td class="bigListPicTd">
                            #*  <label>选择列表图</label>
                             <input id="bigListPicUrl" type="file">*#
@@ -68,7 +68,7 @@
                            <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commScenic.bigListPic">
                         </td>
                         <td class="smallListPicTd">
-                            <label>选择订单图</label>
+                            <label>选择订单图(建议尺寸：310*310)</label>
                             <input id="smallListPicUrl" type="file">
                             <img class="smallListPicUrl uploadImgFile" src="#if($!commScenic.smallListPic)$utilWebconfig.getTfsRootPath()$!commScenic.smallListPic #end">
                             <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commScenic.smallListPic">

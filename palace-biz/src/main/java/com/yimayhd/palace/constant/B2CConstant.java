@@ -10,4 +10,6 @@ public class B2CConstant {
 	public static final String YIMAY_CUSTOMER_SERVICE = "4000696888";
 	
 	public static final int JIUXIU_DOMAIN = 1200;
+	public static final int GF_OFFICIAL_ID = 1000;
+	public static final int GF_DOMAIN = 1100;
 }

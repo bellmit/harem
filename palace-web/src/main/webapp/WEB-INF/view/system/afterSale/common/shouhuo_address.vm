@@ -1,0 +1,19 @@
+<div>
+    *【审核通过】请选择收货地址：
+    <br>
+    <div >
+        <label >
+            <input type="radio" name="options" id="1" >
+                <span>
+                    北京市大兴区金安路9号申通快递，陆经理收，17744529569
+                </span>
+        </label>
+        <br><br>
+        <label >
+            <input type="radio" name="options" id="2">
+                <span>云南省昆明市呈贡区信息产业基地林溪路182号，沈运青收，15198807697
+            </span>
+        </label>
+    </div>
+
+</div>

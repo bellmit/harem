@@ -8,7 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yimayhd.user.client.dto.LoginDTO;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.controller.loginout.vo.LoginoutVO;
 import com.yimayhd.palace.model.HaMenuDO;
 import com.yimayhd.palace.service.HaMenuService;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.result.login.LoginResult;
 import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
 import com.yimayhd.user.session.manager.JsonResult;
 import com.yimayhd.user.session.manager.SessionManager;
+import com.yimayhd.user.session.manager.VerifyCodeManager;
 
 import net.pocrd.entity.AbstractReturnCode;
 
@@ -44,8 +47,8 @@ public class LoginController extends BaseController {
     @Resource
     private UserService userServiceRef;
 
-    @Resource
-    private ImageVerifyCodeValidate imageVerifyCodeValidate;
+    @Autowired
+    private VerifyCodeManager verifyCodeManager ;
 
     @Autowired
     private HaMenuService haMenuService;
@@ -67,33 +70,41 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult login(LoginoutVO loginoutVO, HttpServletRequest request, HttpServletResponse response) {
-        LOGGER.info("login loginoutVO= {}", loginoutVO);
-        sessionManager.removeToken(request);
-
-        /*if (!imageVerifyCodeValidate.validateImageVerifyCode(loginoutVO.getVerifyCode())) {
-            LOGGER.warn("loginoutVO.getVerifyCode() = {} is not correct", loginoutVO.getVerifyCode());
-            return JsonResult.buildFailResult(1, "验证码错误!", null);
-        }*/
-
-        LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setMobile(loginoutVO.getUsername());
-        loginDTO.setPassword(loginoutVO.getPassword());
-        LoginResult result = userServiceRef.loginV3(loginDTO);
-        //LoginResult result = userServiceRef.loginV2(loginoutVO.getUsername(),loginoutVO.getPassword());
-        int errorCode = result.getErrorCode();
-        if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
-            LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
-            String token = result.getToken();
-            Cookie cookie = new Cookie("token", token);
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
-            return JsonResult.buildSuccessResult(result.getResultMsg(), null);
+    public ResponseVo login(LoginoutVO loginoutVO, HttpServletRequest request, HttpServletResponse response) {
+        int errorCode = 0;
+        ResponseVo responseVo = new ResponseVo();
+        if(StringUtils.isEmpty(loginoutVO.getUsername()) || StringUtils.isEmpty(loginoutVO.getPassword()) ){
+            responseVo.setStatus(ResponseStatus.INVALID_DATA.VALUE);
+            responseVo.setMessage(ResponseStatus.INVALID_DATA.MESSAGE);
+            return responseVo;
         }
-        
-        
-        LOGGER.warn("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
-        return JsonResult.buildFailResult(Integer.valueOf(errorCode), result.getResultMsg(), null);
+        try {
+            LOGGER.info("login loginoutVO= {}", JSON.toJSONString(loginoutVO));
+            sessionManager.removeToken(request);
+            LoginDTO loginDTO = new LoginDTO();
+            loginDTO.setMobile(loginoutVO.getUsername().trim());
+            loginDTO.setPassword(loginoutVO.getPassword());
+            LoginResult result = userServiceRef.loginV3(loginDTO);
+            errorCode = result.getErrorCode();
+            if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
+                LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
+                String token = result.getToken();
+                Cookie cookie = new Cookie("token", token);
+                cookie.setHttpOnly(true);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+                return new ResponseVo(result.getResultMsg());
+            }
+            LOGGER.info("loginoutVO= {} login fail and msg = {}", loginoutVO, result.getResultMsg());
+            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+            responseVo.setMessage(result.getResultMsg());
+            return responseVo;
+        } catch (Throwable e) {
+            LOGGER.error("loginoutVO= {} login fail and msg = {}", JSON.toJSONString(e));
+            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+            responseVo.setMessage(ResponseStatus.ERROR.MESSAGE);
+            return responseVo;
+        }
     }
     
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
@@ -108,8 +119,9 @@ public class LoginController extends BaseController {
     @ResponseBody
     public JsonResult validateCode(LoginoutVO loginoutVO) {
         LOGGER.info("validateCode loginoutVO= {}", loginoutVO);
-
-        if (!imageVerifyCodeValidate.validateImageVerifyCode(loginoutVO.getVerifyCode())) {
+        String verifyCode = loginoutVO.getVerifyCode() ;
+        boolean checkResult = verifyCodeManager.checkVerifyCode(verifyCode);
+        if (!checkResult) {
             LOGGER.warn("loginoutVO.getVerifyCode() = {} is not correct", loginoutVO.getVerifyCode());
             return JsonResult.buildFailResult(1, "验证码错误!", null);
         }

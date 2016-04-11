@@ -1,0 +1,98 @@
+<div class="buyerInfo">
+    <div>
+        <span>退款原因：
+        #if($!refundOrderDO.refundReasonType==1)
+            收到商品少件/破损等
+        #elseif($!refundOrderDO.refundReasonType==2)
+            假冒品牌
+        #elseif($!refundOrderDO.refundReasonType==3)
+            拍错/效果不好/不喜欢
+        #elseif($!refundOrderDO.refundReasonType==4)
+            颜色/款式/外貌与描述不符
+        #elseif($!refundOrderDO.refundReasonType==5)
+            卖家发错货
+        #elseif($!refundOrderDO.refundReasonType==6)
+            生产人气/保质期描述不符
+        #else
+            其他
+        #end
+        </span><br>
+        <span>实退金额：
+            $!utilNum.moneyTransform($!refundOrderDO.refundActualFee)
+        </span>
+
+        <br>
+        <span>系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)
+        </span><br>
+        <span>退款说明：$!utilNum.moneyTransform($!refundOrderDO.refundDesc)</span><br>
+        <span>上传凭证：</span>
+
+        #foreach($imgs in $!refundOrderDO.pictures)
+            #if($!imgs)
+                <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!imgs">
+            #end
+        #end
+        <br>
+        <br> <br> <br>
+        <br>
+        <span>审核结果：
+            #REFUND_STATUS($!orderShowState)
+        </span>
+        <br>
+        <br>
+        <span>当前状态：
+            #REFUND_STATUS($!orderShowState)
+        </span>
+        <br>
+        <span>审核时间：
+            $!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.refundOperationRecordDOList.get(0).auditorTime)
+            </span><br>
+        <span>审核备注：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</span><br>
+        <span>审核人：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</span><br>
+        <span>卖家举证：
+            #foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
+                #if($!rimgs)
+                    <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                #end
+            #end
+        </span>
+        <br>
+    </div>
+    <br>
+    <br>
+    <br><br><br><br>
+    审核历史：
+    <br>
+    <br>
+    #*#if($!refundOrderDO.refundStatus != 2) #end 用户没有取消*#
+    #foreach($as in $!refundOrderDO.refundOperationRecordDOList)
+        <div>
+            <span>审核结果：
+                #REFUND_STATUS($!as.refundStatus)
+            </span><br>
+            <span>当前状态：
+                #REFUND_STATUS($!as.refundStatus)
+            </span><br>
+            <span>审核时间：
+                $!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
+                </span><br>
+            <span>审核备注：$!as.auditorRemark</span><br>
+            <span>审核人：$!as.auditorName</span><br>
+            <span>买家举证：
+                #foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
+                    #if($!arimgs)
+                        <img width='200' height='200'
+                             src="$utilWebconfig.getTfsRootPath()$!arimgs">
+                    #end
+                #end
+            </span>
+            <br>
+        </div>
+        <br>
+        ----------------------------------------------------------------------------
+        <br>
+    #end
+
+    <br> <br> <br>
+</div>

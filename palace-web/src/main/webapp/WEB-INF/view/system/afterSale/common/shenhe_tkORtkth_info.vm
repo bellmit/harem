@@ -1,0 +1,133 @@
+<div class="buyerInfo">
+    <input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
+    <br>
+    <input type="hidden"  value="$!refundOrderDO.id"  id="tkdid">
+    <br><br>
+    <div>
+        <span>退款原因：
+            #if($!refundOrderDO.refundReasonType==1)
+                收到商品少件/破损等
+            #elseif($!refundOrderDO.refundReasonType==2)
+                假冒品牌
+            #elseif($!refundOrderDO.refundReasonType==3)
+                拍错/效果不好/不喜欢
+            #elseif($!refundOrderDO.refundReasonType==4)
+                颜色/款式/外貌与描述不符
+            #elseif($!refundOrderDO.refundReasonType==5)
+                卖家发错货
+            #elseif($!refundOrderDO.refundReasonType==6)
+                生产人气/保质期描述不符
+            #else
+                其他
+            #end
+        </span>
+        <br><br>
+        <span>实退金额：
+            <input type="text" class="inpControl name" id="stjeId" name="stje"
+                   value=" $!utilNum.moneyTransform($!refundOrderDO.refundActualFee)">
+        </span>
+        <br><br>
+        <span>系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)</span>
+        <br><br>
+        <span>退款说明：$!refundOrderDO.refundDesc</span>
+        <br><br>
+        <span>上传凭证：</span>
+
+        #foreach($imgs in $!refundOrderDO.pictures)
+            #if($!imgs)
+                <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!imgs">
+            #end
+        #end
+        <br><br>
+
+        #if($!bizType==2)
+            #parse("/system/afterSale/common/shouhuo_address.vm")
+        #end
+        <br><br>
+        <span>卖家备注</span>
+        <input class="form-control input-lg" type="text" id="mjbz" placeholder="卖家备注">
+    </div>
+    <br><br>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary pass" refundStatus="3" >审核通过</button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary pass" refundStatus="4" >审核不通过</button>
+    </div>
+    <br><br>
+</div>
+
+<script>
+    $(".returns").click(function(){
+        window.location.href = "";
+    });
+
+
+
+    $(".pass").click(function(){
+        var id = $("#tkdid").val();
+        var auditorRemark= $("#mjbz").val();
+        var refundStatus = $(this).attr('refundStatus');
+        var bizType = $("#bizTypeId").val();
+        var stje= $("#stjeId").val();
+        var shdz = $('input[name="options"]:checked ').next().text();
+        console.log("shdz="+shdz);
+
+        if(refundStatus==3 && bizType==2){
+            if(null == shdz || ""==shdz){
+                var msg = new $.zui.Messager('请选择收货地址', {placement: 'center',type:'error',time:'2000'});
+                msg.show();
+                return false;
+            }
+            /*alert("ok");
+            layer.open({
+                type: 1,
+               /!* content: '<div><input type="radio" name="options" id="1" checked> 北京市大兴区金安路9号申通快递，陆经理收，17744529569 ' +
+                '<input type="radio" name="options" id="2"> 云南省昆明市呈贡区信息产业基地林溪路182号，沈运青收 15198807697' +
+                '</div> ' //这里content是一个普通的String*!/
+                content:''
+            });*/
+        }
+
+        $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
+                {'refundOrderId':id,
+                    'stje':stje,
+                    'shdz':shdz,
+                    'auditorRemark':auditorRemark,
+                    'refundStatus':refundStatus
+                    }
+                ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    setTimeout(function(){
+                        window.location.href="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list?bizType="+bizType;                                                                                                     href = window.location.href;
+                    },1050);
+                })
+    });
+
+    //---------------------------------------------------------------------
+    $(document).delegate(".fileInp",'change',function(){
+        fileUpload("#FMUploadFileSH",2,pictureUploadCallBack);
+    })
+
+    var pictureUploadCallBack = function(data){
+        if(data && data.status == 200){
+            var imgHtml="";
+            var imgArr=[];
+            $.each(data.data, function(n, val) {
+                imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='200' height='200' ></img>";
+                imgArr.push(val);
+            });
+            $("#travelBGImgSH").val(imgArr);
+            $("#travelImgIdSH").html(imgHtml);
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+
+</script>

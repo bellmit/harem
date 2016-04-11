@@ -10,11 +10,13 @@ import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
 import com.yimayhd.voucher.client.query.VoucherTemplateQuery;
 import com.yimayhd.voucher.client.result.BasePageResult;
 import com.yimayhd.voucher.client.service.VoucherClientService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,10 +30,16 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
     @Override
     public PageVO<VoucherTemplateVO> getList(VoucherListQuery voucherListQuery) throws Exception {
         VoucherTemplateQuery voucherTemplateQuery = new VoucherTemplateQuery();
+        if (StringUtils.isNotEmpty(voucherListQuery.getEndDate())){
+            Date endDate = DateUtil.formatMaxTimeForDate(voucherListQuery.getEndDate());
+            voucherTemplateQuery.setEndTime(DateUtil.date2String(endDate));
+        }
         voucherTemplateQuery.setStartTime(voucherListQuery.getBeginDate());
-        voucherTemplateQuery.setEndTime(voucherListQuery.getEndDate());
         voucherTemplateQuery.setTitle(voucherListQuery.getTitle());
         voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
+        voucherTemplateQuery.setPageSize(voucherListQuery.getPageSize());
+        voucherTemplateQuery.setPageNo(voucherListQuery.getPageNumber());
+        voucherTemplateQuery.setDomain(1100);
         voucherTemplateQuery.setNeedCount(true);
 
         BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
@@ -41,8 +49,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
             for (VoucherTemplateDO voucherTemplateDO : result.getList()) {
                 VoucherTemplateVO voucherVO = new VoucherTemplateVO();
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
-                voucherVO.setBeginDate(DateUtil.date2StringByDay(voucherTemplateDO.getStartTime()));
-                voucherVO.setEndDate(DateUtil.date2StringByDay(voucherTemplateDO.getEndTime()));
+                voucherVO.setValue(Math.round(voucherVO.getValue() / 100));
                 voucherTemplateVOs.add(voucherVO);
             }
             pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),

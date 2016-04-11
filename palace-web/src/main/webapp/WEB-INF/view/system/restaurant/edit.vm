@@ -122,13 +122,13 @@
                         </td>
                     </tr>
 					<tr>
-                        <td><span class="spColor">*</span>列表页展示图</td>
+                        <td><span class="spColor">*</span>列表页展示图(建议尺寸：750*360)</td>
                         <td>
                             <div class="fileImgWrap">
                                 <button type="button" class="btn btn-success">选择图片</button>
                                 <input type="hidden" name="logoUrl" value="$!{restaurant.logoUrl}" id="logoUrlUploadFileReturnInput" >
                                 <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
-                                <p>注：图片大小不超过2M<br />建议尺寸：300*300</p>
+                                <p>注：图片大小不超过2M<br />建议尺寸：750*360</p>
                             </div>
 	                    <div class="logoView"> 
 	                        <img src="#if($restaurant.logoUrl) $utilWebconfig.getTfsRootPath()$!{restaurant.logoUrl} #end" class="img-square uploadImgFile" id="logoUrlUploadFileReturnImg">
@@ -136,7 +136,7 @@
                         </td>
                      </tr>
                      <tr>
-                        <td><span class="spColor">*</span>详情页展示图</td>
+                        <td><span class="spColor">*</span>详情页展示图(建议尺寸：750*1334)</td>
                         <td class="picUrlsTd">
                             <input id="batchUploadBtn1" type="file" multiple="multiple" >
                             #foreach($pictures in $restaurant.pictures)

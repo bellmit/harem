@@ -315,13 +315,15 @@
 #end
 
 ##券状态
-#macro(VOUCHER_STATUS $status)
-    #if($status == '1')
-    初始
-    #elseif($status == '2')
-    有效
-    #elseif($status == '3')
-    无效
+        #macro(VOUCHER_STATUS $status)
+            #if($status == '1')
+            初始
+            #elseif($status == '2')
+            上架
+            #elseif($status == '3')
+            下架
+    #elseif($status == '4')
+    已领完
     #end
 #end
 
@@ -333,5 +335,58 @@
     满折券
     #elseif($type == '3')
     兑换券
+    #end
+#end
+
+##优惠状态
+#macro(PROMOTION_STATUS $status)
+    #if($status == '1')
+    未开始
+    #elseif($status == '2')
+    进行中
+    #elseif($status == '3')
+    已结束
+    #elseif($status == '4')
+    已停用
+    #end
+#end
+
+##优惠类型
+#macro(PROMOTION_TYPE $type)
+    #if($type == '1')
+    满折
+    #elseif($type == '2')
+    满减
+    #elseif($type == '3')
+    满个折
+    #elseif($type == '4')
+    满个减
+    #elseif($type == '5')
+    每满减
+    #elseif($type == '6')
+    直降
+    #end
+#end
+
+
+#macro(REFUND_STATUS $status)
+    #if($!status==1)
+        未审批
+    #elseif($!status==2)
+        客户取消申请
+    #elseif($!status==3)
+        卖家同意
+    #elseif($!status==4)
+        卖家拒绝
+    #elseif($!status==5)
+        客户退货给卖家
+    #elseif($!status==6)
+        卖家确认收货,并同意退款
+    #elseif($!status==7)
+        卖家确认收货,拒绝退款
+    #elseif($!status==8)
+        退款中
+    #elseif($!status==9)
+        已完成
     #end
 #end

@@ -1,0 +1,67 @@
+<div class="orderBaseInfo">
+    <div>商品信息</div>
+    <tr>
+        <td>订单编号：</td>
+        <td>
+            <span id="orderDetail" orderId="$!refundOrderDetail.mainOrder.bizOrderDO.bizOrderId">
+                $!refundOrderDetail.mainOrder.bizOrderDO.bizOrderId
+            </span>
+        </td>
+    </tr>
+    <table class="table table-hover">
+        <tr>
+            <th>商品</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+        </tr>
+        #foreach($subOrder in $!refundOrderDetail.mainOrder.subOrderList)
+            <tr>
+                <td></td>
+                <td>
+                    <div class="goods-item">
+                        <div class="t-img">
+                            <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic">
+                        </div>
+                        <div class="t-msg">
+                            <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
+                            <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="order-price">
+                        $!subOrder.bizOrderDO.buyAmount
+                    </div>
+                </td>
+                <td>
+                    <div class="order-number">
+                        $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
+                    </div>
+                </td>
+                <td>-</td>
+            </tr>
+        #end
+    </table>
+</div>
+<script>
+    $("#orderDetail").click(function () {
+        var orderId = $(this).attr("orderId");
+        window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/gfOrder/"+orderId, 2, "GF订单详情");
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

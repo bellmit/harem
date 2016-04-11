@@ -1,0 +1,32 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+      rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
+        type="text/javascript"></script>
+
+
+<!-- 位置 -->
+<div class="position">
+    <div>您所在的位置： 售后管理>详情页面</div>
+</div>
+
+<div class="tab-content grogInfoWrap" style="">
+    <br>
+    #if($!refundStatus==6)
+        用户已撤销售后申请
+    #elseif($!refundStatus==8 && $!bizTypeId==1)#* 退款状态8的话*#
+        退款完成
+    #elseif($!refundStatus==8 && $!bizTypeId==2)#* 退款状态8的话*#
+        退款退货完成
+    #end
+
+    <br><br>
+
+    <div class="tab-pane active" id="orderInfo">
+        <br><br>
+               #parse("/system/afterSale/common/chakan_tkth_info.vm")
+        <br><br>
+            #parse("/system/afterSale/common/item.vm")
+        <br><br>
+            #parse("/system/afterSale/common/receiving.vm")
+    </div>
+</div>

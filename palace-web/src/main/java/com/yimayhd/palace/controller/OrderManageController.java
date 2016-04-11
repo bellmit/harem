@@ -1,5 +1,7 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -7,8 +9,10 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.palace.service.LogisticsService;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +37,8 @@ public class OrderManageController extends BaseController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderManageController.class);
 	@Autowired
 	private OrderService orderService;
-
+	@Autowired
+	LogisticsService logisticsService;
 
 	/**
 	 * 退款
@@ -283,5 +288,46 @@ public class OrderManageController extends BaseController {
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/hotelOrderList";
 	}
+
+	/**
+	 * @Title: GFOrderList
+	 * @Description:(GF订单列表)
+	 * @author create by yushengwei @ 2016年2月26日
+	 * @throws
+	 */
+	@RequestMapping(value = "/gfOrderList",method = RequestMethod.GET)//, method = RequestMethod.GET
+	public String gfOrderList(Model model, OrderListQuery orderListQuery){
+		try {
+			orderListQuery.setDomain(1100);//TODO:enum类
+			//这里莫名其妙的多个，待后期检查vm页面代码
+			if(StringUtils.isNotEmpty(orderListQuery.getItemName()) && orderListQuery.getItemName().equals(",")){
+				orderListQuery.setItemName(null);
+			}
+			PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
+			model.addAttribute("pageVo", pageVo);
+			model.addAttribute("orderList", pageVo.getItemList());
+			model.addAttribute("orderListQuery", orderListQuery);
+			return "/system/order/gfOrderList";
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("gfOrderList|parameter="+ JSON.toJSONString(orderListQuery)+"|||exception="+e);
+		}
+		return "/error";
+	}
+
+	/**
+	 * @Title: gfOrderDetailById
+	 * @Description:(根据ID获取GF订单详情)
+	 * @author create by yushengwei @ 2016年2月26日
+	 * @throws
+	 */
+	@RequestMapping(value = "/gfOrder/{id}", method = RequestMethod.GET)
+	public String gfOrderDetailById(Model model, @PathVariable(value = "id") long id) throws Exception {
+		OrderDetails orderDetails = orderService.getOrderById(id);
+		model.addAttribute("logistics",orderDetails.getExpress());
+		model.addAttribute("order", orderDetails);
+		return "/system/order/gfOrderInfo";
+	}
+
 
 }

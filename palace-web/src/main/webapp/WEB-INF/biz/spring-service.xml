@@ -59,4 +59,17 @@
 	
 	
 	<bean class="com.yimayhd.palace.service.impl.EatMerchantServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.PromotionCommServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.PromotionShopServiceImpl"></bean>
+
+
+	<!--GF商品-->
+	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
+	
+	<bean class="com.yimayhd.gf.service.impl.BbsServiceImpl"></bean>
+
+	<bean class="com.yimayhd.palace.service.impl.LogisticsServiceImpl"></bean>
+
+	<bean class="com.yimayhd.palace.service.impl.AfterSaleServiceImpl"></bean>
+	
 </beans>

@@ -18,8 +18,10 @@
 		<property name="palace.tfsRootPath" defaultValue="//192.168.1.209:7500/v1/tfs/" description="#tfs默认访问地址" />
 	</group>
 	<group name="tair">
-		<property name="tair.configServer.main" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
-		<property name="tair.configServer.slave" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
+		<!--<property name="tair.configServer.main" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />-->
+		<property name="tair.configServer.main" defaultValue="192.168.1.55:5198" description="#tair服务器的地址" />
+		<!--<property name="tair.configServer.slave" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />-->
+		<property name="tair.configServer.slave" defaultValue="192.168.1.56:5198" description="#tair服务器的地址" />
 		<property name="tair.groupName.per" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.groupName.temp" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.palace.namespace" defaultValue="299" description="#tair命名空间" />
@@ -79,6 +81,18 @@
 		<property name="consumer.dubbo.marketing.check" defaultValue="false" description="#"/>
 		<property name="consumer.dubbo.marketing.version" defaultValue="1.0.0.test" description="#"/>
 
+		<property name="consumer.dubbo.activity.check" defaultValue="false" description="#"/>
+		<property name="consumer.dubbo.activity.version" defaultValue="1.0.0.test" description="#"/>
+
+		<property name="consumer.dubbo.logistics.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.logistics.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.refund.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.refund.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.refundQuery.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.refundQuery.version" defaultValue="1.0.0.test" description="#" />
+
 	</group>
 
 	<group name="session">
@@ -100,4 +114,6 @@
 		<generate template="redis.properties.vm" destfile="WEB-INF/redis.properties"	charset="UTF-8" />
 		<generate template="logback.xml" destfile="WEB-INF/logback.xml" charset="UTF-8"/>
 	</script>
+
+
 </config>

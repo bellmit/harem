@@ -68,10 +68,10 @@
                     #foreach($evaluation in $evaluationList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!evaluation.id"></td>
-                        <td>$!evaluation.userDO.nickname</td>
+                        <td>$!esc.html($!evaluation.userDO.nickname)</td>
                         <td>$!utilPhone.mask($!evaluation.userDO.mobileNo)</td>
                         <td>#COMMENT_STATUS($!evaluation.outType)</td>
-                        <td>$!evaluation.textContent</td>
+                        <td>$!esc.html($!evaluation.textContent)</td>
                         <td>#TREND_STATUS($!evaluation.status)</td>
                         <td>$!utilDate.dateToString($!evaluation.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td><button type="button" class="btn btn-primary evaluationBtn"  evaluationId="$!evaluation.id" status="$!evaluation.status">#if($!evaluation.status == 1) 违规 #else 恢复 #end </button></td>

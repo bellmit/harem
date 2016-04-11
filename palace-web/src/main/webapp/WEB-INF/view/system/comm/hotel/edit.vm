@@ -76,7 +76,7 @@
                         <th>单价</th>
                         <th>会员优惠额度</th>
                         <th>会员限购</th>
-                        <th>图片</th>
+                        <th>图片(建议尺寸：310*310)</th>
 
                     </tr>
                         <tr class="subCheckedTR">

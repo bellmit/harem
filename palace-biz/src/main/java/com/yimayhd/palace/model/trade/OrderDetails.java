@@ -1,5 +1,6 @@
 package com.yimayhd.palace.model.trade;
 
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 
 import java.util.Date;
@@ -34,6 +35,8 @@ public class OrderDetails {
     private String closeReason;
 
     private Date consignTime;
+
+    private ExpressVO express;
 
     public MainOrder getMainOrder() {
         return mainOrder;
@@ -137,5 +140,13 @@ public class OrderDetails {
 
     public void setOrderFrom(String orderFrom) {
         this.orderFrom = orderFrom;
+    }
+
+    public ExpressVO getExpress() {
+        return express;
+    }
+
+    public void setExpress(ExpressVO express) {
+        this.express = express;
     }
 }

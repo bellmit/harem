@@ -75,7 +75,7 @@
         <property name="defaultEncoding" value="utf-8"></property>
     </bean>
 
-<aop:aspectj-autoproxy expose-proxy="true"/>
+	<aop:aspectj-autoproxy expose-proxy="true"/>
     <!-- 启用spring mvc 内建的Jackson支持  -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
