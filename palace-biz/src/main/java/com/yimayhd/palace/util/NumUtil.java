@@ -50,4 +50,9 @@ public class NumUtil {
        return Math.round(d * 100);
     }
 
+    public static double totalFee(long num,long price){
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        double realPrice = Double.parseDouble(decimalFormat.format(((double)price) / 100));
+        return num * realPrice;
+    }
 }
