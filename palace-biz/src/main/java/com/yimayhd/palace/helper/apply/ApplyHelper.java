@@ -7,6 +7,7 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.membercenter.client.dto.ExamineDealDTO;
 import com.yimayhd.membercenter.client.query.examine.ExaminePageQueryDTO;
 import com.yimayhd.membercenter.enums.ExamineStatus;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.query.apply.ApplyQuery;
 import com.yimayhd.palace.model.vo.apply.ApplyVO;
 import com.yimayhd.palace.model.vo.apply.ApproveVO;
@@ -21,7 +22,8 @@ public class ApplyHelper {
 			return examinePageQueryDTO;
 		}
 		examinePageQueryDTO.setPageNo(applyQuery.getPageNumber());
-		examinePageQueryDTO.setPageSize(applyQuery.getPageSize());
+//		examinePageQueryDTO.setPageSize(Constant.DEFAULT_PAGE_SIZE);
+		examinePageQueryDTO.setPageSize(10);
 		examinePageQueryDTO.setMerchantName(applyQuery.getMerchantName());
 		examinePageQueryDTO.setPrincipleName(applyQuery.getPrincipleName());
 		examinePageQueryDTO.setPrincipleTel(applyQuery.getPrincipleTel());

@@ -53,6 +53,8 @@ public class ApplyBiz {
 		}
 		result.setList(vos);
 		result.setTotalCount(queryResult.getTotalCount());
+		result.setPageSize(examinePageQueryDTO.getPageSize());
+		result.setPageNo(examinePageQueryDTO.getPageNo());
 		return result;
 	}
 	

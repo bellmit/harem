@@ -20,6 +20,27 @@
                     </span>
                     <input type="text" class="form-control" name="alipayAccountPhone" value="$!userRelationQuery.alipayAccountPhone" />
                 </div>
+                <div class="input-group inpSingle">
+                	<span class="input-group-btn">
+                        <button class="btn btn-default" type="button">等级：</button>
+                    </span>
+                    <select class="form-control" name="level">
+                    	<option value="0"
+                    	#if(!$userRelationQuery.levelId || $userRelationQuery.levelId == 0)
+                    	selected = "selected"
+                    	#end
+                    	>全部</option>
+                    #foreach($item in $levelList)
+                    	<option value="$!item.id" 
+                    	#if($userRelationQuery.levelId == $item.id)
+                    	selected = "selected"
+                    	#end
+                    	>
+                    		$!item.levelName
+                    	</option>
+                    #end
+                    </select>
+                </div>
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary" id="queryBtn">查询</button>
                 </div>
@@ -32,15 +53,18 @@
                     <th width="10%">会员名称</th>
                     <th width="10%">用户账号</th>
                     <th width="10%">联系电话</th>
+                    <th width="10%">魔法等级</th>
                     <th width="10%">上级用户</th>
                     <th width="20%">一级</th>
                     <th width="20%">二级</th>
+                    <th width="10%">操作</th>
                 </tr>
                 #foreach($hierarchyResult in $pageVo.itemList)
                 <tr>
                     <td>$!hierarchyResult.userRelationDO.alipayAccountName</td>
                     <td>$!hierarchyResult.userRelationDO.userName</td>
                     <td>$!hierarchyResult.userRelationDO.alipayAccountPhone</td>
+                  	<td>$!hierarchyResult.levelDO.levelName</td>
                     <td>$!hierarchyResult.parentDO.userName</td>
                     <td>
                     	<font color="red">共$!hierarchyResult.lowerUserList.size()人</font><br/>
@@ -54,6 +78,14 @@
                     		$!subLowerUser.userName  &nbsp;&nbsp;
                     	#end
                     </td>
+                    <td>
+                    	<input id="showSettingBtn" type="button" class="btn btn-primary" value="等级设置"
+						#if(!$hierarchyResult.mallFansDO)
+	                    	disabled="disabled"
+						#end 
+						onclick="showLevel('$!hierarchyResult.userRelationDO.userId','$!hierarchyResult.userRelationDO.userName','$!hierarchyResult.levelDO.id','$!hierarchyResult.levelDO.levelName')"
+						/>
+					</td
                  </tr>
                  #end
             </table>
@@ -63,3 +95,85 @@
     #pageStyle("hierarchyListForm")
     </form>
 </div>
+
+
+<div id="pannel" style="display: none; height: 150px;">
+
+	<div id="u56" class="text" style="width : 360px;">
+		<p style="text-align: left; margin-top: 30px; overflow: hidden;">
+			<span style="width: 100px; font-size: 12px; display: black; float: left; text-align: right;">会员名称：</span>
+			<span style="width: 200px; font-size: 12px; display: black; float: left" id="userName"></span>
+		</p>
+		<p style="text-align: left; margin-top: 10px; overflow: hidden;">
+			<span style="width: 100px; display: black; float: left; text-align: right;">当前等级：</span>
+			<span style="width: 200px; margin-left: 0px; display: black; float: left" id="currLevel"></span>
+		</p>
+		<p style="text-align: left; margin-top: 10px; overflow: hidden;">
+			<span style="width: 100px; display: black; float: left; text-align: right;">设置为：</span>
+			#foreach($item in $levelList)
+			<input type="radio" name="level" value="$!item.id" />$!item.levelName&nbsp;&nbsp;
+			#end
+		</p>
+	</div>
+
+	<div id="u57" class="ax_html_button"
+		style="text-align: center; margin-top: 30px;">
+		<input id="sureBtn" type="button" value="保存" class="btn btn-primary"
+			onclick="setLevel()" />
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	var data = {},layerIndex,submitIndex = 0;
+	
+	//显示等级弹窗
+	function showLevel(userId, userName, levelId, levelName){
+		layerIndex = layer.open({
+		    type: 1,
+		    title : '等级设置',
+		    content: $('#pannel')
+		});
+		data.userId = userId;
+		data.levelId = levelId;
+		$("#userName").text(userName);
+		$("#currLevel").text(levelName);
+		
+		$("input:radio[name='level']").each(function(i,v){
+			if($(this).val() == levelId){
+				$(this).attr("checked","checked");
+			}else{
+				$(this).removeAttr("checked");
+			}
+		});		
+	}
+	
+	//手动设置等级
+	function setLevel(){
+		var selectedId = $("input:radio[name='level']:checked").val();
+		if(!selectedId){
+			errorTip('请选择要设置的等级！');
+			return ;
+		}
+		data.levelId = selectedId; 
+		$.post('$!utilWebconfig.getActionDefaultFontPath()/mallFans/setLevel',data,function(data){
+            if(data.status == 200){
+                layer.msg('操作成功', {
+                    icon: 1,
+                    time: 1500
+                });
+                $("#queryBtn").click();
+            }else{
+            	errorTip('操作失败');
+                $(this).prop('disabled',false);
+            }
+        })
+	}
+	
+	function errorTip(msg){
+		layer.msg(msg, {
+            icon: 2,
+            time: 2000
+        });
+	}
+</script>

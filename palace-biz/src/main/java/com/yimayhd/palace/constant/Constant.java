@@ -12,4 +12,6 @@ public class Constant {
 	public static final String TEST = "TEST";
 	
 	public static int DOMAIN_JIUXIU = 1200 ;
+	
+	public static final int DEFAULT_PAGE_SIZE = 30 ;
 }
