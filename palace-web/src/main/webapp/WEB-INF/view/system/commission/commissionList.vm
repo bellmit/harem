@@ -85,7 +85,7 @@
 		
 		$("#payeeAccount").text(data.payeeAccount);
 		var amount = (data.commissionAmt/100).toFixed(2);
-		$("#commissionAmt").text(amount);
+		$("#commissionAmt").val(amount);
 		data.commissionAmt = amount;
 		
 	}
@@ -96,6 +96,22 @@
 	}
 	//确认转账
 	function tranAccount(){
+		var commissionAmt = $.trim($("#commissionAmt").val());
+		if(!commissionAmt || isNaN(commissionAmt)){
+			layer.msg('请输入金额数字',{
+				icon : 2,
+				time : 1000
+			});
+			return ;
+		}
+		if(parseFloat(commissionAmt) > parseFloat(data.commissionAmt) ){
+			layer.msg('转账金额不可超过当前提现余额',{
+				icon : 2,
+				time : 2000
+			});
+			return ;
+		}
+		data.commissionAmt = commissionAmt;
 		submitIndex += 1;
 		submitIndex == 1 && $.post('$!{utilWebconfig.getActionDefaultFontPath()}/commission/amountExtract',data,function(result){
 			if(result.success){
@@ -112,17 +128,17 @@
 </script>
 <div id="pannel" style="display:none;width:350px;height:150px;">
     
-      <div id="u56" class="text" style="padding-left:50px;">
+      <div id="u56" class="text" style="padding-left:40px;">
         <p style="text-align:left;margin-top:30px;overflow:hidden;">
-        	<span style="width:100px;font-size:12px;display:black;float:left;text-align:right;">转账账号：</span>
-        	<span style="width:200px;font-size:12px; display:black;float:left" id="payeeAccount"></span>
+        	<span style="width:60px;font-size:12px;display:black;float:left;text-align:right;">转账账号：</span>
+        	<span style="width:240px;font-size:12px; display:black;float:left" id="payeeAccount"></span>
 <!--         	<input type="input"  id="payeeAcount" style="width:200px;height:30px;padding-left:7px" disabled="disabled"/> -->
 			<span>
         </p>
         <p style="text-align:left;margin-top:10px;overflow:hidden;">
-        	<span style="width:100px;display:black;float:left;text-align:right;">金额：</span>
-        	<span style="width:200px;margin-left:0px;display:black;float:left" id="commissionAmt"></span>
-<!--         	<input type="input"  id="payeeAmount" style="width:200px;height:30px;padding-left:7px" disabled="disabled"/>元 -->
+        	<span style="width:60px;display:black;float:left;text-align:right;">金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：</span>
+<!--         	<span style="width:200px;margin-left:0px;display:black;float:left" id="commissionAmt"></span> -->
+        	<input type="input" id="commissionAmt" style="width:200px;height:30px;padding-left:7px" maxlength="16"/>元
         </p>
       </div>
       

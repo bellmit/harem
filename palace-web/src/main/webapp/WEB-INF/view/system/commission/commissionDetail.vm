@@ -34,7 +34,7 @@
                     <th>流水号</th>
                     <th>转账时间</th>
                     <th>金额(元))</th>
-                    <th>转账帐号</th>
+                    <th>转账账户</th>
                     <th>操作人员</th>
                 </tr>
                 #foreach($commission in $commissionList)
