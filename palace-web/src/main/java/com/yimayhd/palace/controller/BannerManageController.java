@@ -1,5 +1,13 @@
 package com.yimayhd.palace.controller;
 
+import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constants;
+import com.yimayhd.palace.service.ShowcaseService;
+import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +24,10 @@ import com.yimayhd.palace.base.ResponseVo;
 @Controller
 @RequestMapping("/banner")
 public class BannerManageController extends BaseController {
+
+    @Autowired  ShowcaseService showcaseService;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     /**
      * booth列表
@@ -37,8 +49,11 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/list/{boothCode}", method = RequestMethod.GET)
-    public String showcaseList(Model model) throws Exception {
-        //TODO
+    public String showcaseList(Model model,ShowcaseQuery showcaseQuery,int pageNumber) throws Exception {
+        showcaseQuery.setPageNo( 0 == pageNumber ? Constants.DEFAULT_PAGE_NUMBER : pageNumber );
+        PageVO<ShowCaseResult> page = showcaseService.getShowcaseResult(showcaseQuery);
+        model.addAttribute("page",page);
+        model.addAttribute("showcaseQuery",showcaseQuery);
         return "/system/banner/showcase/list";
     }
 

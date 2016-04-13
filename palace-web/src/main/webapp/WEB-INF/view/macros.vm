@@ -390,3 +390,25 @@
         已完成
     #end
 #end
+
+
+
+
+#macro(ORDERS_STATUS $status)
+    #if($!status == 1)
+        未付款
+    #elseif($!status == 2)
+        已付款
+    #elseif($!status == 3)
+        已发货
+    #elseif($!status == 4)
+        交易成功
+    #elseif($!status == 5)
+        交易关闭
+    #elseif($!status == 6)
+        待处理
+    #elseif($!status == 7)
+        已退款
+    #end
+#end
+
