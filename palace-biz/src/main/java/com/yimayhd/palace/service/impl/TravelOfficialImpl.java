@@ -209,11 +209,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
         }
         TravelSpecialDTO travelSpecialDTO = new TravelSpecialDTO();
         travelSpecialDTO.setList(ids);
-        if(status==BaseStatus.AVAILABLE.getType()){
-            travelSpecialDTO.setState(BaseStatus.DELETED.getType());
-        }else{
-            travelSpecialDTO.setState(BaseStatus.AVAILABLE.getType());
-        }
+        travelSpecialDTO.setState(status);
         BaseResult<Boolean> res = snsCenterService.updateTravelStateByIds(travelSpecialDTO);
         if(null != res && res.isSuccess() && res.getValue() ){
             return true;

@@ -7,7 +7,7 @@
         <table class="table">
             <tr>
                 <td><span class="spColor">*</span>主题名称</td>
-                <td><input type="text" class="form-control" placeholder="请输入2-4个字以内" name="name" value="$!theme.name"></td>
+                <td><input type="text" class="form-control" placeholder="请输入2-4个字以内" name="name" id="name" value="$!theme.name"></td>
             </tr>
             
             <tr>
@@ -73,8 +73,11 @@
                 actionUrl =actionDefaultPath + '/B2C/themeManage/add';
             }
 
-            $('#themeForm').attr('action',actionUrl);
-			$('#themeForm').submit();
+            //$('#themeForm').attr('action',actionUrl);
+			//$('#themeForm').submit();
+			var name = $("#name").val();
+			$.post(actionUrl,{name:name},function(data){
+			});
         });
     });
 </script>

@@ -1,13 +1,14 @@
 package com.yimayhd.palace.controller;
 
-import com.sun.tools.internal.ws.processor.model.Model;
-import com.yimayhd.palace.base.BaseController;
-import com.yimayhd.palace.base.ResponseVo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.ResponseVo;
 
 /**
  * Created by czf on 2016/4/12.
