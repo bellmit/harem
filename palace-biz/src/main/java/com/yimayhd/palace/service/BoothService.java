@@ -1,5 +1,7 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.palace.base.BaseQuery;
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 
 import java.util.List;
@@ -9,9 +11,17 @@ import java.util.List;
  */
 public interface BoothService {
     /**
-     * 获取banner列表
+     * 获取booth列表
      * @return
      * @throws Exception
      */
-    List<BoothVO> getList()throws Exception;
+    PageVO<BoothVO> getList(BaseQuery baseQuery)throws Exception;
+
+    /**
+     * 新增booth
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    BoothVO add(BoothVO entity)throws Exception;
 }
