@@ -375,9 +375,9 @@
     #elseif($!status==2)
         客户取消申请
     #elseif($!status==3)
-        卖家同意
+        审核通过
     #elseif($!status==4)
-        卖家拒绝
+        审核未通过，退款关闭
     #elseif($!status==5)
         客户退货给卖家
     #elseif($!status==6)

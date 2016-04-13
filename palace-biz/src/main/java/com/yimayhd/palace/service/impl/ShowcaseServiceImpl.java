@@ -35,6 +35,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             LOGGER.error("getShowcaseResult|showcaseClientServer.getShowcaseResult parameter is null");
             return null;
         }
+        showcaseQuery.setNeedCount(true);
         RCPageResult<ShowCaseResult> result = showcaseClientServer.getShowcaseResult(showcaseQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getShowcaseResult|showcaseClientServer.getShowcaseResult result is " + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(showcaseQuery));

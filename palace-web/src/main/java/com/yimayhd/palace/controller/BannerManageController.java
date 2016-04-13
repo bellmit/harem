@@ -82,10 +82,11 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/list/{boothCode}", method = RequestMethod.GET)
-    public String showcaseList(Model model,ShowcaseQuery showcaseQuery,int pageNumber) throws Exception {
+    public String showcaseList(Model model,ShowcaseQuery showcaseQuery,
+                               @PathVariable(value = "boothCode") String boothCode,int pageNumber) throws Exception {
         showcaseQuery.setPageNo( 0 == pageNumber ? Constants.DEFAULT_PAGE_NUMBER : pageNumber );
         PageVO<ShowCaseResult> page = showcaseService.getShowcaseResult(showcaseQuery);
-        model.addAttribute("page",page);
+        model.addAttribute("page",page.getItemList());
         model.addAttribute("showcaseQuery",showcaseQuery);
         return "/system/banner/showcase/list";
     }
