@@ -87,6 +87,7 @@
 		var amount = (data.commissionAmt/100).toFixed(2);
 		$("#commissionAmt").val(amount);
 		data.commissionAmt = amount;
+		data.oldAmt = amount;
 		
 	}
 	//查看转账记录
@@ -104,7 +105,7 @@
 			});
 			return ;
 		}
-		if(parseFloat(commissionAmt) > parseFloat(data.commissionAmt) ){
+		if(parseFloat(commissionAmt) > parseFloat(data.oldAmt) ){
 			layer.msg('转账金额不可超过当前提现余额',{
 				icon : 2,
 				time : 2000
