@@ -31,7 +31,15 @@
         <property name="check" value="${consumer.resources.dubbo.check}"/>
         <property name="version" value="${consumer.resource.dubbo.version}"/>
     </bean>
-        
+    
+    <bean id="comTagCenterServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.commentcenter.client.service.ComTagCenterService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.resources.dubbo.check}"/>
+        <property name="version" value="${consumer.resource.dubbo.version}"/>
+    </bean>    
 
     
      <bean id="regionClientServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">

@@ -13,4 +13,14 @@ public class ThemeVo extends ComTagDO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private int domain;
+
+	public int getDomain() {
+		return domain;
+	}
+
+	public void setDomain(int domain) {
+		this.domain = domain;
+	}
+	
 }

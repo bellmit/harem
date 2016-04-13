@@ -7,7 +7,7 @@
         <table class="table">
             <tr>
                 <td><span class="spColor">*</span>主题名称</td>
-                <td><input type="text" class="form-control" placeholder="请输入2-4个字以内" name="name" id="name" value="$!theme.name"></td>
+                <td><input type="text" class="form-control" placeholder="请输入2-4个字以内" name="name" id="name"  onblur="check()" value="$!theme.name"><span id="ret" style="color:red"><span></td>
             </tr>
             
             <tr>
@@ -38,7 +38,19 @@
                      </select>
 				</td>
             </tr>
-            
+            <tr>
+            	<td><span class="spColor">*</span>数据域</td>
+            	<td>
+					<select class="form-control" name="domain" >
+                        <option value="1000"  #if($!theme.outType == 1) selected = "selected" #end>
+								B2C
+                        </option>
+                        <option value="1200" #if($!theme.outType == 2) selected = "selected" #end>
+								九休
+                        </option>
+                     </select>
+				</td>
+            </tr>
             <tr>
                 <td><span class="spColor">*</span>排序</td>
                 <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="score" value="$!theme.score"></td>
@@ -73,11 +85,23 @@
                 actionUrl =actionDefaultPath + '/B2C/themeManage/add';
             }
 
-            //$('#themeForm').attr('action',actionUrl);
-			//$('#themeForm').submit();
-			var name = $("#name").val();
-			$.post(actionUrl,{name:name},function(data){
-			});
+            $('#themeForm').attr('action',actionUrl);
+			$('#themeForm').submit();
         });
     });
+    
+    //校验标签名称是否已经存在
+    function check(){
+    	var name = $("#name").val();
+    	$.post("/B2C/themeManage/checkTagName",{name:name},function(data){
+    		if(data.data == 'faile'){
+    			$("#ret").html('');
+    			$("#ret").append("<b>该名称已经存在</b>");
+    			$("#btnSubmit").attr("disabled","true");
+    		}else {
+    			$("#ret").html('');
+    			$("#btnSubmit").removeAttr("disabled");
+    		}
+    	});
+    }
 </script>

@@ -12,10 +12,12 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
+import com.yimayhd.commentcenter.client.dto.TagNameTypeDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.commentcenter.client.service.ComTagCenterService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ThemeVo;
 import com.yimayhd.palace.model.query.ThemeVoQuery;
@@ -26,7 +28,8 @@ public class ThemeServiceImpl implements ThemeService {
 	private static final Logger log = LoggerFactory.getLogger(ThemeServiceImpl.class);
 	
 	@Autowired ComCenterService comCenterService;
-
+	@Autowired ComTagCenterService comTagCenterService;
+	
 	@Override
 	public PageVO<ComTagDO> getPageTheme(ThemeVoQuery themeVoQuery) throws Exception {
 		int totalCount = 0;
@@ -91,6 +94,7 @@ public class ThemeServiceImpl implements ThemeService {
 			throw new Exception("parameters [themeVo] cannot be empty");
 		}
 		TagInfoAddDTO tagInfoAddDTO = new TagInfoAddDTO();
+		tagInfoAddDTO.setDomain(themeVo.getDomain());
 		if(themeVo.getId() == 0 ){
 			tagInfoAddDTO.setName(themeVo.getName());
 			tagInfoAddDTO.setScore(themeVo.getScore());
@@ -123,6 +127,15 @@ public class ThemeServiceImpl implements ThemeService {
 
 	@Override
 	public void delete(long id) throws Exception {
+	}
+
+	@Override
+	public ComTagDO getTagByName(TagNameTypeDTO tagNameTypeDTO) {
+		BaseResult<ComTagDO> baseResult = comTagCenterService.getTagByName(tagNameTypeDTO);
+		if( null == baseResult || !baseResult.isSuccess()){
+			return null;
+		}
+		return baseResult.getValue();
 	}
 
 }
