@@ -35,7 +35,7 @@ public class TravelSpecialConverter {
 		}
 		snsTravelSpecialtyVO.setBackImg(snsTravelSpecialtyDO.getBackImg());
 		snsTravelSpecialtyVO.setCreateId(snsTravelSpecialtyDO.getCreateId());
-		snsTravelSpecialtyVO.setDomain(snsTravelSpecialtyDO.getDomain());
+		//snsTravelSpecialtyVO.setDomain(snsTravelSpecialtyDO.getDomain());
 		snsTravelSpecialtyVO.setGmtCreated(snsTravelSpecialtyDO.getGmtCreated());
 		snsTravelSpecialtyVO.setGmtModified(snsTravelSpecialtyDO.getGmtCreated());
 		snsTravelSpecialtyVO.setId(snsTravelSpecialtyDO.getId());
