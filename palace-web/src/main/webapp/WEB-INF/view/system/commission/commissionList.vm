@@ -45,10 +45,11 @@
                     <td>$!amountTotalDTO.payeeAccount</td>
                     <td>
                     	<div id="u46" class="ax_html_button">
+                    		#set( $disableFlag = $!amountTotalDTO.commissionAmt < 10000 || !$amountTotalDTO.payeeAccount || $amountTotalDTO.payeeAccount.trim().length() == 0)
         					<input id="showTranBtn" type="button" class="btn btn-primary" value="转账" 
-        						#if($!amountTotalDTO.commissionAmt < 10000 || !$amountTotalDTO.payeeAccount || '$!amountTotalDTO.payeeAccount' == '') 
-        							disabled="disabled" 
-        						#end  
+        						#if($disableFlag) 
+         							disabled="disabled" 
+         						#end  
         						onclick="showTran('$!amountTotalDTO.userId','$!amountTotalDTO.userName','$!amountTotalDTO.commissionAmt','$!amountTotalDTO.payeeAccount');"/>
       						<input id="viewRecordBtn" type="button" class="btn btn-primary" value="转账记录" onclick="viewRecord('$!{amountTotalDTO.userId}','$!{amountTotalDTO.userName}');" />
       					</div>

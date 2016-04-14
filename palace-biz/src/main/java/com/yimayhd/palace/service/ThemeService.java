@@ -3,6 +3,7 @@ package com.yimayhd.palace.service;
 import java.util.List;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagNameTypeDTO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ThemeVo;
 import com.yimayhd.palace.model.query.ThemeVoQuery;
@@ -58,4 +59,6 @@ public interface ThemeService {
      * @throws Exception
      */
     void delete(long id)throws Exception;
+    
+    public ComTagDO getTagByName(TagNameTypeDTO tagNameTypeDTO);
 }

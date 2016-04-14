@@ -21,4 +21,6 @@
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
 	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
 	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo"/>
+	<bean id="mallFansRepo" class="com.yimayhd.commission.repo.MallFansRepo" />
+	<bean id="levelRepo" class="com.yimayhd.commission.repo.LevelRepo" />
 </beans>

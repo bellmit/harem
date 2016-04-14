@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.palace.base.BaseController;
@@ -128,17 +130,15 @@ public class TravelOfficialManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/setJoinStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setJoinStatus(BatchSetUpParameter batchSetUpParameter,int travelStatus,HttpServletRequest request) throws Exception {
-		List<Long> ids = null;
-		if(null == batchSetUpParameter || CollectionUtils.isEmpty(batchSetUpParameter.getIds()) ){
+	public ResponseVo setJoinStatus(@RequestParam("ids[]") ArrayList<Long> ids,int status) throws Exception {
+		if(CollectionUtils.isEmpty(ids)){
 			return new ResponseVo(ResponseStatus.INVALID_DATA);
 		}
-		ids = batchSetUpParameter.getIds();
-		boolean flag = travelOfficialService.batchUpOrDownStatus(ids, travelStatus);
+		boolean flag = travelOfficialService.batchUpOrDownStatus(ids, status);
 		if(flag){
 			return new ResponseVo(ResponseStatus.SUCCESS);
 		}
-			return new ResponseVo(ResponseStatus.ERROR);
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 
 }

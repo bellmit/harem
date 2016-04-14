@@ -304,11 +304,12 @@ public class LiveServiceImpl implements LiveService {
 		if(0 != subjectInfoAddVO.getTagId()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 			tagRelationInfoDTO.setOutId(subjectInfoAddVO.getId());
-			tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
+			tagRelationInfoDTO.setOutType(TagType.LIVESUPTAG.getType());
 			List<Long> tagIdList = new ArrayList<Long>();
 			tagIdList.add(subjectInfoAddDTO.getTagId());
 			tagRelationInfoDTO.setList(tagIdList);
 			tagRelationInfoDTO.setOrderTime(subjectInfoAddDTO.getGmtCreated());
+			tagRelationInfoDTO.setDomain(1200);
 			com.yimayhd.commentcenter.client.result.BaseResult<Boolean> addTagBaseResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 			if (null == addTagBaseResult) {
 				log.error("LiveServiceImpl.add-comCenterService.addTagRelationInfo result is null and parame: " + JSON.toJSONString(tagRelationInfoDTO) + "and subjectInfoAddVO" + JSON.toJSONString(subjectInfoAddVO));

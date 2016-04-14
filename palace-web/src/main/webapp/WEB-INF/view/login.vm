@@ -5,7 +5,7 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/common.js"></script>
 <div class="page-container">
 
-    <form action="" method="post" id="loginForm">
+    <form action="$!{utilWebconfig.getActionDefaultFontPath()}/login" method="post" id="loginForm">
         <div class="loginBox">
             <div class="head">
             #*<p class="logo left"></p>*#<h1 style="float: none;text-align: center;">商家后台</h1></div>

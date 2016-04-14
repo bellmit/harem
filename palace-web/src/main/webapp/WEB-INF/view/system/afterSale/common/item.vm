@@ -17,7 +17,6 @@
         </tr>
         #foreach($subOrder in $!refundOrderDetail.mainOrder.subOrderList)
             <tr>
-                <td></td>
                 <td>
                     <div class="goods-item">
                         <div class="t-img">
@@ -30,16 +29,19 @@
                     </div>
                 </td>
                 <td>
+                    $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
+                </td>
+                <td>
                     <div class="order-price">
                         $!subOrder.bizOrderDO.buyAmount
                     </div>
                 </td>
                 <td>
                     <div class="order-number">
-                        $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
+                        $utilNum.totalFee($subOrder.bizOrderDO.buyAmount,$subOrder.bizOrderDO.itemPrice)
+                       #* $utilNum.moneyTransform()*#
                     </div>
                 </td>
-                <td>-</td>
             </tr>
         #end
     </table>

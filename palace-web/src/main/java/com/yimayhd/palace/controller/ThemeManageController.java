@@ -3,7 +3,9 @@ package com.yimayhd.palace.controller;
 import java.util.List;
 
 import com.yimayhd.palace.base.BaseController;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagNameTypeDTO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
@@ -177,5 +180,24 @@ public class ThemeManageController extends BaseController {
 			return "/error";
 	}
 	
-	
+	@RequestMapping(value = "/checkTagName", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo checkTagName(String name){
+		ResponseVo response = new ResponseVo();
+		final int domain = 1200;
+		if(StringUtils.isBlank(name)){
+			return new ResponseVo(ResponseStatus.ERROR);
+		}
+		TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
+		tagNameTypeDTO.setDomain(domain);
+		tagNameTypeDTO.setName(name);
+		tagNameTypeDTO.setOutType("LIVESUPTAG");
+		ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
+		if( null == comTagDO ){
+			response.setData("success");
+			return response;
+		}
+		response.setData("faile");
+		return response;
+	} 
 }

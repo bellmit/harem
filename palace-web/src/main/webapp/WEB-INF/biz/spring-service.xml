@@ -71,5 +71,9 @@
 	<bean class="com.yimayhd.palace.service.impl.LogisticsServiceImpl"></bean>
 
 	<bean class="com.yimayhd.palace.service.impl.AfterSaleServiceImpl"></bean>
-	
+
+	<!--广告位配置-->
+	<bean class="com.yimayhd.palace.service.impl.BoothServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ShowcaseServiceImpl"></bean>
+
 </beans>

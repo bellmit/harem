@@ -43,9 +43,8 @@
         *#
         <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建游记</button>
-            #*<button type="button" class="btn btn-primary commodityBatchBtn" btnType="1">批量上架</button>
-            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2">批量下架</button>
-            *#
+            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="1" onClick="check(true)">批量上架</button>
+            <button type="button" class="btn btn-primary commodityBatchBtn" btnType="2" onClick="check(false)">批量下架</button>
         </div>
 
         <div class="tableGroup whole">
@@ -173,4 +172,24 @@
         top.tabsAdd("",url,2,$(this).text());
     });
 
+    //全选
+        $('.allChecked').click(function(){
+            $('.subChecked').prop('checked',$(this).prop('checked'));
+        });
+    // 批量上下架
+    function check(data){
+    	var arr = new Array();
+    	$('.subChecked:checked').each(function(){
+            arr.push($(this).val());
+        });
+        var status = 0;
+        if(data){
+        	status = 1;
+        }else {
+        	status = 2;
+        }
+    	$.post('/B2C/travelOfficialManage/setJoinStatus',{ids:arr,status:status},function(data){
+    		window.location.href = window.location.href;
+    	});
+    }    
 </script>

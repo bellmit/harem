@@ -82,7 +82,10 @@
 	</table>
 	<div class='pagebox'>
 		<div class="actionpage"><button class='prev'>上一页</button><label>当前第 </label><label class='curpage'>1</label><label> 页</label><button class='next'>下一页</button></div>
-		<div class="pageinfo"><label>共：</label><label class='total'>20</label><label>页</label></div>
+		<div class="pageinfo">
+			<label>共</label><label class='totalcount' >0</label><label>条记录；</label>
+			<label>共</label><label class='totalpage total'>0</label><label>页</label>
+		</div>
 	</div>
 	
 

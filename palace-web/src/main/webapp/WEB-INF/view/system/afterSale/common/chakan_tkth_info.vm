@@ -24,7 +24,7 @@
         <br>
         <span>系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)
         </span><br>
-        <span>退款说明：$!utilNum.moneyTransform($!refundOrderDO.refundDesc)</span><br>
+        <span>退款说明：$!refundOrderDO.refundDesc</span><br>
         <span>上传凭证：</span>
 
         #foreach($imgs in $!refundOrderDO.pictures)
@@ -32,23 +32,23 @@
                 <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!imgs">
             #end
         #end
-        <br>
-        <br> <br> <br>
-        <br>
+        <br><br> <br> <br><br>
+        #if($!orderShowState !=9 )
+            <div>
         <span>审核结果：
             #REFUND_STATUS($!orderShowState)
         </span>
-        <br>
-        <br>
+                <br>
+                <br>
         <span>当前状态：
             #REFUND_STATUS($!orderShowState)
         </span>
-        <br>
+                <br>
         <span>审核时间：
             $!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.refundOperationRecordDOList.get(0).auditorTime)
             </span><br>
-        <span>审核备注：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</span><br>
-        <span>审核人：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</span><br>
+                <span>审核备注：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</span><br>
+                <span>审核人：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</span><br>
         <span>卖家举证：
             #foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
                 #if($!rimgs)
@@ -57,17 +57,20 @@
                 #end
             #end
         </span>
-        <br>
+            </div>
+        #end
+
     </div>
-    <br>
-    <br>
     <br><br><br><br>
     审核历史：
     <br>
     <br>
     #*#if($!refundOrderDO.refundStatus != 2) #end 用户没有取消*#
     #foreach($as in $!refundOrderDO.refundOperationRecordDOList)
-        <div>
+        #if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
+            $!as.refundStatus ==5 ||
+            $!as.refundStatus ==6 || $!as.refundStatus ==7)
+            <div>
             <span>审核结果：
                 #REFUND_STATUS($!as.refundStatus)
             </span><br>
@@ -77,8 +80,8 @@
             <span>审核时间：
                 $!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
                 </span><br>
-            <span>审核备注：$!as.auditorRemark</span><br>
-            <span>审核人：$!as.auditorName</span><br>
+                <span>审核备注：$!as.auditorRemark</span><br>
+                <span>审核人：$!as.auditorName</span><br>
             <span>买家举证：
                 #foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
                     #if($!arimgs)
@@ -87,11 +90,11 @@
                     #end
                 #end
             </span>
-            <br>
-        </div>
-        <br>
-        ----------------------------------------------------------------------------
-        <br>
+                <br>
+                ----------------------------------------------------------------------------
+                <br>
+            </div>
+        #end
     #end
 
     <br> <br> <br>

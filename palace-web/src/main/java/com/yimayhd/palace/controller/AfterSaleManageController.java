@@ -67,7 +67,8 @@ public class AfterSaleManageController {
     public String list(HttpServletRequest request, Model model, RefundOrderQuery refundOrderQuery){
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? 1 : Integer.parseInt(request.getParameter("pageNumber")) ;
         String bizOrderIdBak = request.getParameter("bizOrderIdBak");
-        if(StringUtils.isNotEmpty(bizOrderIdBak) && NumberUtils.isNumber(bizOrderIdBak)){
+        if(StringUtils.isNotEmpty(bizOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
+            bizOrderIdBak=bizOrderIdBak.trim();
             refundOrderQuery.setBizOrderId(Long.parseLong(bizOrderIdBak));
         }
         try {
@@ -149,7 +150,6 @@ public class AfterSaleManageController {
         ero.setAuditorRemark(auditorRemark);
         if(StringUtils.isNotEmpty(tkje) ){//&& NumberUtils.isNumber(tkje)
             ero.setRefundActualFee( NumUtil.doubleToLong(Double.parseDouble(tkje)));//NumberUtils.toLong(tkje)
-
         }
         if(null != pictures && pictures.length>0){
             ero.setPictures(Arrays.asList(pictures));
