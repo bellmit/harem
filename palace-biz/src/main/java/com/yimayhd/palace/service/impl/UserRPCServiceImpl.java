@@ -2,7 +2,9 @@ package com.yimayhd.palace.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
+import com.yimayhd.membercenter.client.result.MemPageResult;
+import com.yimayhd.membercenter.client.service.MerchantService;
+import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.User;
@@ -18,14 +24,9 @@ import com.yimayhd.palace.model.query.TradeMemberQuery;
 import com.yimayhd.palace.repo.TravelKaRepo;
 import com.yimayhd.palace.service.UserRPCService;
 import com.yimayhd.palace.util.PhoneUtil;
-import com.yimayhd.membercenter.client.domain.TravelKaVO;
-import com.yimayhd.membercenter.client.query.TravelkaPageQuery;
-import com.yimayhd.membercenter.client.result.MemPageResult;
-import com.yimayhd.membercenter.client.service.MerchantService;
-import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
+import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
-import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.service.UserService;
 
@@ -154,6 +155,26 @@ public class UserRPCServiceImpl implements UserRPCService {
 	@Override
 	public TravelKaVO getTravelKaById(long id) {
 		return travelKaRepo.getTravelKaById(id);
+	}
+
+	@Override
+	public Map<Long, UserDO> getUserListByIds(List<SnsTravelSpecialtyDO> specialDoList) {
+		Map<Long, UserDO> map = new HashMap<Long, UserDO>();
+		if(CollectionUtils.isEmpty(specialDoList)){
+			return null;
+		}
+		List<Long> ids = new ArrayList<Long>();
+		for(SnsTravelSpecialtyDO snsTravelSpecialtyDO : specialDoList){
+			ids.add(snsTravelSpecialtyDO.getCreateId());
+		}
+		List<UserDO> userDOList = userServiceRef.getUserInfoList(ids);
+		if(CollectionUtils.isEmpty(userDOList)){
+			return null;
+		}
+		for(UserDO userDO : userDOList){
+			map.put(userDO.getId(), userDO);
+		}
+		return map;
 	}
 
 }

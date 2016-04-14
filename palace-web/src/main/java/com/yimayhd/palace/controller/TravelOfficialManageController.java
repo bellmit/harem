@@ -1,9 +1,6 @@
 package com.yimayhd.palace.controller;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +16,18 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
-import com.yimayhd.palace.model.BatchSetUpParameter;
 import com.yimayhd.palace.model.TravelOfficial;
 import com.yimayhd.palace.model.query.TravelOfficialListQuery;
+import com.yimayhd.palace.model.travel.SnsTravelSpecialtyVO;
 import com.yimayhd.palace.model.vo.TravelOfficialVO;
 import com.yimayhd.palace.service.TravelOfficialService;
-import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 
 @Controller
 @RequestMapping("/B2C/travelOfficialManage")
 public class TravelOfficialManageController extends BaseController {
 	@Autowired
 	private TravelOfficialService travelOfficialService;
-
+	
 	/**
 	 * 官方游记列表
 	 * 
@@ -42,7 +38,7 @@ public class TravelOfficialManageController extends BaseController {
 	public String list(Model model, TravelOfficialListQuery travelOfficialListQuery) throws Exception {
 		TravelOfficialVO travelOfficialVO = new TravelOfficialVO();
 		travelOfficialVO.setTravelOfficialListQuery(travelOfficialListQuery);
-		PageVO<SnsTravelSpecialtyDO> pageVo = travelOfficialService.getList(travelOfficialListQuery);
+		PageVO<SnsTravelSpecialtyVO> pageVo = travelOfficialService.getList(travelOfficialListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("travelOfficialListQuery", travelOfficialListQuery);
 		model.addAttribute("travelOfficialList", pageVo.getItemList());
