@@ -10,4 +10,5 @@
 	
 	
 	<bean id="applyBiz" class="com.yimayhd.palace.biz.ApplyBiz" />
+	<bean id="merchantBiz" class="com.yimayhd.palace.biz.MerchantBiz" />
 </beans>

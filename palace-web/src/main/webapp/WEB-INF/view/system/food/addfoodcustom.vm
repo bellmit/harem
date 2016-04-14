@@ -1,0 +1,140 @@
+﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/jquery.form.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.addfoodcustom.js"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/layer-v2.1/layer.js"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<style type="text/css">
+    .demo {width: 850px;margin: 20px auto;display: none;}
+    #l-map {height: 400px;width: 600px;float: left;border: 1px solid #bcbcbc;}
+    #r-result {height: 400px;width: 230px;float: right;}
+</style>
+<div class="loading">
+	<div class="bgmeng"></div>
+	<div class="dlgcont"><img src="http://s0.test.jiuxiulvxing.com/yunying/src/img/loading.gif"><label>请稍后。。。</label></div>
+</div>
+<div class="msg">
+	<div class="bgmeng"></div>
+	<div class="dlgcont"><label></label></div>
+</div>
+<table class="addfood">
+	<tr>
+		<td class="tit"><span>*</span><label>商家名称：</label></td>
+		<td><input class="busname" maxlength="30"  name="name" value="$!merchant.name" placeholder="请输入商家名称"></td>
+	</tr>
+	<tr>
+		<td class="tit"><span>*</span><label>商家图片：</label></td>
+		<td>
+			<div class="uploadbox clearfix">
+				<div class="imgbox">
+					<div class="dimg">
+					#if ($merchant.loopImages[0])
+					
+					#else
+					
+					#end
+						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+					</div>
+					<div class="upimgbtn">
+						<input type="hidden" name="loopImageStr">
+						<input type="file" name="picfile" class="picfile">
+						<button class="upl">上传图片</button>
+						<button class="del">删除图片</button>
+					</div>
+				</div>
+				<div class="imgbox">
+					<div class="dimg">
+						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+					</div>
+					<div class="upimgbtn">
+						<input type="hidden" name="loopImageStr">
+						<input type="file" name="picfile" class="picfile">
+						<button class="upl">上传图片</button>
+						<button class="del">删除图片</button>
+					</div>
+				</div>
+				<div class="imgbox">
+					<div class="dimg">
+						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+					</div>
+					<div class="upimgbtn">
+						<input type="hidden" name="loopImageStr">
+						<input type="file" name="picfile" class="picfile">
+						<button class="upl">上传图片</button>
+						<button class="del">删除图片</button>
+					</div>
+				</div>
+				<div class="imgbox">
+					<div class="dimg">
+						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+					</div>
+					<div class="upimgbtn">
+						<input type="hidden" name="loopImageStr">
+						<input type="file" name="picfile" class="picfile">
+						<button class="upl">上传图片</button>
+						<button class="del">删除图片</button>
+					</div>
+				</div>
+				<div class="imgbox">
+					<div class="dimg">
+						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+					</div>
+					<div class="upimgbtn">
+						<input type="hidden" name="loopImageStr">
+						<input type="file" name="picfile" class="picfile">
+						<button class="upl">上传图片</button>
+						<button class="del">删除图片</button>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="tit"><span>*</span><label>联系电话：</label></td>
+		<td><input placeholder="请输入电话或手机号" maxlength="11" class="tel" value="$!merchant.merchantPrincipalTel" name="merchantPrincipalTel"></td>
+	</tr>
+	<tr>
+		<td class="tit"><span>*</span><label>营业时间：</label></td>
+		<td><input placeholder="请输入营业时间" maxlength="30" class="datepicker" value="$!merchant.serviceTime" name="serviceTime"></td>
+	</tr>
+	<tr>
+		<td class="tit"><span>*</span><label>人均消费：</label></td>
+		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="$!merchant.avgprice" name="avgprice"></td>
+	</tr>
+	<tr>
+		<td class="tit"><span>*</span><label>服务设施：</label></td>
+		<td><label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "1")  checked="checked"  #end #end value="1" type="checkbox">wifi</label>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "2")  checked="checked"  #end #end value="2" type="checkbox">停车</label>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "3")  checked="checked"  #end #end value="3" type="checkbox">刷卡</label>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "4")  checked="checked"  #end #end value="4" type="checkbox">包厢</label>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "5")  checked="checked"  #end #end value="5" type="checkbox">露天位</label></td>
+	</tr>
+	<tr>
+		<td class="tit"><span>*</span><label>商家住址：</label></td>
+		<td><select class="ml10" id="city" name="cityCode"><option>--请选择--</option>
+			#foreach ($city in $cities)
+				<option #if ($!merchant.cityCode == $!city.cityCode) selected="selected" #end value="$!city.cityCode">$!city.cityName</option>
+			#end
+		</select>&nbsp;&nbsp;<input maxlength="30" name="address" value="$!merchant.address" class="address" placeholder="请输入商家住址"></td>
+	</tr>
+	<tr>
+		<td class="tit"><span>*</span><label>商家地图：</label></td>
+		<td><label>经度：</label><input id="locationX" name="lon" value="$!merchant.lon" >&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label><input id="locationY" value="$!merchant.lat" name="lat">&nbsp;&nbsp;<button class="locationXYSelectBtn">查找经纬度</button></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="save"><button  class="save_btn">保存</button></td>
+	</tr>
+</table>
+<script>
+	var mapCallback = function (data) {
+        if (data) {
+            $("#locationX").val(data['pointX']);
+            $("#locationY").val(data['pointY']);
+        }
+    }
+</script>
+
+

@@ -41,4 +41,6 @@ public class PalaceReturnCode implements Serializable {
 	public static final PalaceReturnCode APPLY_APPROVE_STATUS_ERROR = new PalaceReturnCode(25001003, "记录已被修改了，目前不能审批，请刷新页面");
 
 	/***************************************** 商户相关 ********************************************************/
+	public static final PalaceReturnCode ADD_MERCHANT_ERROR = new PalaceReturnCode(25001004, "新增美食商户失败");
+	public static final PalaceReturnCode UPDATE_MERCHANT_ERROR = new PalaceReturnCode(25001005, "修改美食商户失败");
 }
