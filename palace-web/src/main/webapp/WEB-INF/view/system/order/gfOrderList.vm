@@ -29,13 +29,13 @@
                         <button class="btn btn-default" type="button">订单状态</button>
                     </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
-                    <option value="">全部</option>
-                    <option value="NOTING" #if($!orderListQuery.orderStat == 'NOTING') selected #end>待付款</option>
+                    <option value="0">全部</option>
+                    <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>未付款</option>
                     <option value="PAID" #if($!orderListQuery.orderStat == 'PAID') selected #end>待发货/已付款</option>
-                    <option value="SHIPPED" #if($!orderListQuery.orderStat == 'SHIPPED') selected #end>待收货/已发货</option>
-                    <option value="TRADE_CLOSE" #if($!orderListQuery.orderStat == 'TRADE_CLOSE') selected #end>交易关闭</option>
-                    <option value="PENDING" #if($!orderListQuery.orderStat == 'PENDING') selected #end>待处理</option>
-                    <option value="WAITING_EVALUATION" #if($!orderListQuery.orderStat == 'WAITING_EVALUATION') selected #end>待评价</option>
+                    <option value="REFUNDED" #if($!orderListQuery.orderStat == 'REFUNDED') selected #end>退款后交易关闭</option>
+                    <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>交易成功</option>
+                    <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>未付款关闭</option>
+                    <option value="WAIT_BUSINESS_CONFIRM" #if($!orderListQuery.orderStat == 'WAIT_BUSINESS_CONFIRM') selected #end>待商户确认</option>
                 </select>
             </div>
 
@@ -134,21 +134,7 @@
                         </td>
                         <td>
                             <div class="">
-                                #if($order.orderShowState == 1)
-                                    未付款
-                                #elseif($order.orderShowState == 2)
-                                    已付款
-                                #elseif($order.orderShowState == 3)
-                                    已发货
-                                #elseif($order.orderShowState == 4)
-                                    交易成功
-                                #elseif($order.orderShowState == 5)
-                                    交易关闭
-                                #elseif($order.orderShowState == 6)
-                                    待处理
-                                #elseif($order.orderShowState == 7)
-                                    已退款
-                                #end
+                                #ORDERS_STATUS($!order.orderShowState)
                             </div>
                         </td>
                         <td>

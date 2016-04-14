@@ -1,6 +1,10 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
+import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 
 import java.util.List;
 
@@ -39,4 +43,11 @@ public interface ShowcaseService {
      * @throws Exception
      */
     ShowcaseVO modify(ShowcaseVO entity)throws Exception;
+
+    /**
+     *  根据查询条件查询showcase列表返回page对象
+     * @return
+     * @throws Exception
+     */
+    PageVO<ShowCaseResult> getShowcaseResult(ShowcaseQuery showcaseQuery);
 }

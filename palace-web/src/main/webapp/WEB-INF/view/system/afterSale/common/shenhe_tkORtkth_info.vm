@@ -62,8 +62,6 @@
         window.location.href = "";
     });
 
-
-
     $(".pass").click(function(){
         var id = $("#tkdid").val();
         var auditorRemark= $("#mjbz").val();
@@ -78,7 +76,11 @@
             msg.show();
             return false;
         }
-
+        if(auditorRemark.length>50){
+            var msg = new $.zui.Messager('长度超过限制', {placement: 'center',type:'error',time:'2000'});
+            msg.show();
+            return false;
+        }
         if(refundStatus==3 && bizType==2){
             if(null == shdz || ""==shdz){
                 var msg = new $.zui.Messager('请选择收货地址', {placement: 'center',type:'error',time:'2000'});
