@@ -7,7 +7,7 @@
             <img id="u37_img" class="img " src="$utilWebconfig.getStaticResourcesPath()/resources/img/transparent.gif"/>
             <!-- Unnamed () -->
             <div id="u38" class="text">
-                <p><span>会员名称：$!{userName} </span></p>
+                <p><span>开户人名：$!{userName} </span></p>
             </div>
 
 ##            <img id="u39_img" class="img " src="$utilWebconfig.getStaticResourcesPath()/resources/img/transparent.gif"/>
@@ -33,7 +33,7 @@
                 <tr>
                     <th>流水号</th>
                     <th>转账时间</th>
-                    <th>金额(元))</th>
+                    <th>金额(元)</th>
                     <th>转账账户</th>
                     <th>操作人员</th>
                 </tr>
@@ -42,7 +42,12 @@
                         <td>$!commission.serialId</td>
                         <td>$!commission.buildTime</td>
                         <td>$utilNum.moneyTransform($!commission.commissionAmt)</td>
-                        <td>$!commission.payeeAccount</td>
+                        <td>
+                        	开户行：$!commission.pdcBankName<br/>
+                        	银行卡号：$!commission.pdcBankNo<br/>
+                        	开户人名：$!commission.pdcBankUser<br/>
+                        	身份证号：$!commission.memerIdNo
+                        </td>
                         <td>$!commission.operator</td>
                     </tr>
                 #end

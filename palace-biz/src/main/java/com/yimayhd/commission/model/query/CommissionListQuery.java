@@ -28,6 +28,12 @@ public class CommissionListQuery extends BaseQuery{
 	 */
 	private String payeeAccountName;
 	
+	//开户人姓名
+	private String pdcBankUser;
+	//联系电话
+	private String pdcBankPhone;
+	
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -59,6 +65,21 @@ public class CommissionListQuery extends BaseQuery{
 	public void setPayeeAccountName(String payeeAccountName) {
 		this.payeeAccountName = payeeAccountName;
 	}
-	
+
+	public String getPdcBankUser() {
+		return pdcBankUser;
+	}
+
+	public void setPdcBankUser(String pdcBankUser) {
+		this.pdcBankUser = pdcBankUser;
+	}
+
+	public String getPdcBankPhone() {
+		return pdcBankPhone;
+	}
+
+	public void setPdcBankPhone(String pdcBankPhone) {
+		this.pdcBankPhone = pdcBankPhone;
+	}
 	
 }
