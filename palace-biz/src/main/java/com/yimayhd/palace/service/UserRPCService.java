@@ -1,14 +1,15 @@
 package com.yimayhd.palace.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.User;
 import com.yimayhd.palace.model.query.TradeMemberQuery;
-import com.yimayhd.membercenter.client.domain.TravelKaVO;
+import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
-import com.yimayhd.user.client.result.BasePageResult;
 
 /**
  * @author
@@ -70,4 +71,6 @@ public interface UserRPCService {
 	 * @throws Exception
 	 */
 	TravelKaVO getTravelKaById(long id);
+	
+	Map<Long,UserDO> getUserListByIds(List<SnsTravelSpecialtyDO> specialDoList);
 }

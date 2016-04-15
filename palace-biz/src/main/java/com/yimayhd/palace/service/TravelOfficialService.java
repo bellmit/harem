@@ -1,11 +1,11 @@
 package com.yimayhd.palace.service;
 
+import java.util.List;
+
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.TravelOfficial;
 import com.yimayhd.palace.model.query.TravelOfficialListQuery;
-import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
-
-import java.util.List;
+import com.yimayhd.palace.model.travel.SnsTravelSpecialtyVO;
 
 /**
  * Created by Administrator on 2015/11/10.
@@ -15,7 +15,7 @@ public interface TravelOfficialService {
          * 获取官方游记列表(可带查询条件)
          * @return 官方游记列表
          */
-        PageVO<SnsTravelSpecialtyDO> getList(TravelOfficialListQuery travelOfficialListQuery)throws Exception;
+        PageVO<SnsTravelSpecialtyVO> getList(TravelOfficialListQuery travelOfficialListQuery)throws Exception;
         /**
          * 获取官方游记详情
          * @return 官方游记详情

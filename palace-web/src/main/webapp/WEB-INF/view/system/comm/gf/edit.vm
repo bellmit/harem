@@ -95,13 +95,13 @@
                     <tr>
                         <td><span class="spColor">*</span>宣传图</td>
                         <td class="bigListPicTd">
-                            <label>选择列表图</label>
+                            <label>选择列表图(图片大小不能超过2M!,建议500K以内,图片尺寸:400*400)</label>
                             <input id="bigListPicUrl" type="file">
                             <img class="bigListPicUrl uploadImgFile" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!commodity.bigListPic #end">
                             <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commHotel.bigListPic">
                         </td>
                         <td class="smallListPicTd">
-                            <label>选择订单图</label>
+                            <label>选择订单图(图片大小不能超过2M!,建议500K以内,图片尺寸:400*400)</label>
                             <input id="smallListPicUrl" type="file">
                             <img class="smallListPicUrl uploadImgFile" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!commodity.smallListPic #end">
                             <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commHotel.smallListPic">
