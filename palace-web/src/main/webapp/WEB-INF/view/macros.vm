@@ -412,3 +412,10 @@
     #end
 #end
 
+#macro(SHOWCASE_STATUS $status)
+    #if($status == '10')
+    上架
+    #elseif($status == '20')
+    下架
+    #end
+#end

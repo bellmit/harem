@@ -4,6 +4,7 @@
             <input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
             <input type="hidden"  value="$!refundOrderDO.id"  id="tkdid">
             <input class="form-control input-lg" type="text" id="mjbz" placeholder="卖家备注50字以内">
+            50字以内
             <br><br>
             <div>
                 <div>卖家上传凭证：</div>

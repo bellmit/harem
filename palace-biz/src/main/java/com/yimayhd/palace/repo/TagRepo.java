@@ -93,6 +93,7 @@ public class TagRepo {
 
 	public ComTagDO saveTag(TagInfoAddDTO tag) {
 		RepoUtils.requestLog(log, "comCenterServiceRef.addComTagInfo", tag);
+		tag.setDomain(1200);
 		BaseResult<ComTagDO> result = comCenterServiceRef.addComTagInfo(tag);
 		RepoUtils.resultLog(log, "comCenterServiceRef.addComTagInfo", result);
 		return result.getValue();
@@ -100,6 +101,7 @@ public class TagRepo {
 
 	public ComTagDO updateTag(TagInfoAddDTO tag) {
 		RepoUtils.requestLog(log, "comCenterServiceRef.updateComTagInfo", tag);
+		tag.setDomain(1200);
 		BaseResult<ComTagDO> result = comCenterServiceRef.updateComTagInfo(tag);
 		RepoUtils.resultLog(log, "comCenterServiceRef.updateComTagInfo", result);
 		return result.getValue();

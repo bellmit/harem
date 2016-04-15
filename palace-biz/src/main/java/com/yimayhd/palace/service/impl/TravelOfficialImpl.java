@@ -1,10 +1,22 @@
 package com.yimayhd.palace.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.convert.TravelSpecialConverter;
 import com.yimayhd.palace.model.TravelOfficial;
 import com.yimayhd.palace.model.query.TravelOfficialListQuery;
+import com.yimayhd.palace.model.travel.SnsTravelSpecialtyVO;
 import com.yimayhd.palace.service.TravelOfficialService;
 import com.yimayhd.palace.service.UserRPCService;
 import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
@@ -15,14 +27,6 @@ import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 import com.yimayhd.user.client.domain.UserDO;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/10.
@@ -38,7 +42,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
     UserRPCService userRPCService;
 
     @Override
-    public PageVO<SnsTravelSpecialtyDO> getList(TravelOfficialListQuery travelOfficialListQuery) throws Exception {
+    public PageVO<SnsTravelSpecialtyVO> getList(TravelOfficialListQuery travelOfficialListQuery) throws Exception {
         TravelSpecialDTO travelSpecialDTO = new TravelSpecialDTO();
         if(!StringUtils.isEmpty(travelOfficialListQuery.getTitle())){  // 游记名称
             travelSpecialDTO.setTravelName(travelOfficialListQuery.getTravelName());
@@ -66,16 +70,19 @@ public class TravelOfficialImpl implements TravelOfficialService{
         travelSpecialDTO.setPageNo(travelOfficialListQuery.getPageNumber());
         BasePageResult<SnsTravelSpecialtyDO> result = snsCenterService.getTravelSpecialPage(travelSpecialDTO);
 
-        PageVO<SnsTravelSpecialtyDO> pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),0);;
+        PageVO<SnsTravelSpecialtyVO> pageVO = new PageVO<SnsTravelSpecialtyVO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),0);;
         if(result != null && result.isSuccess()){
-            pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),result.getTotalCount(),result.getList());
+        	Map<Long, UserDO> map = userRPCService.getUserListByIds(result.getList());
+        	List<SnsTravelSpecialtyVO> conveterRet = TravelSpecialConverter.TravelSpecialtyDOToVoConveter(result.getList(),map);
+            pageVO = new PageVO<SnsTravelSpecialtyVO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),result.getTotalCount(),conveterRet);
         }else{
             log.error("snsCenterService.getTravelSpecialPage is null,result="+JSON.toJSONString(result)+"|parameter="+JSON.toJSONString(travelSpecialDTO));
         }
+        
         return pageVO;
     }
 
-    @Override
+	@Override
     public TravelOfficial getById(long id) throws Exception {
 
         BaseResult<SnsTravelSpecialtyDO> result = snsCenterService.getTravelSpecialInfoBySubjectId(id);

@@ -82,11 +82,12 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/list/{boothCode}", method = RequestMethod.GET)
-    public String showcaseList(Model model,ShowcaseQuery showcaseQuery,
-                               @PathVariable(value = "boothCode") String boothCode,int pageNumber) throws Exception {
+    public String showcaseList(Model model,ShowcaseQuery showcaseQuery, @PathVariable(value = "boothCode") String boothCode,int pageNumber) throws Exception {
         showcaseQuery.setPageNo( 0 == pageNumber ? Constants.DEFAULT_PAGE_NUMBER : pageNumber );
         PageVO<ShowCaseResult> page = showcaseService.getShowcaseResult(showcaseQuery);
-        model.addAttribute("page",page.getItemList());
+        model.addAttribute("pageVo",page);
+        model.addAttribute("boothCode",boothCode);
+        model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
         return "/system/banner/showcase/list";
     }
@@ -94,13 +95,13 @@ public class BannerManageController extends BaseController {
     /**
      * 新增showcase
      * @param model
-     * @param boothId
+     * @param boothCode
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/showcase/add/{boothId}", method = RequestMethod.GET)
-    public String showcaseToAdd(Model model,@PathVariable("boothId") long boothId) throws Exception {
-        //TODO
+    @RequestMapping(value = "/showcase/add/{boothCode}", method = RequestMethod.GET)
+    public String showcaseToAdd(Model model,@PathVariable("boothCode") String boothCode) throws Exception {
+
         return "/system/banner/showcase/edit";
     }
 

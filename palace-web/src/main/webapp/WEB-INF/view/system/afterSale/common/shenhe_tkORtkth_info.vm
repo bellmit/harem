@@ -46,6 +46,8 @@
         <br><br>
         <span>卖家备注</span>
         <input class="form-control input-lg" type="text" id="mjbz" placeholder="卖家备注">
+        50字以内
+        <br><br>
     </div>
     <br><br>
     <div class="btn-group">

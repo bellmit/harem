@@ -114,11 +114,16 @@
             });
 
         });
-
+		
         $('.travelOfficialBan').each(function(){
-            $(this).click(function(){
-                $(this).prop('disabled',true);
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/travelOfficialManage/setJoinStatus' ,{'ids':$(this).attr('travelOfficialId'),'travelStatus':$(this).attr('joinStatus')} ,function(data){
+           $(this).click(function(){
+                $(this).prop('disabled',true);                	
+                	var st = $(this).attr('joinstatus');
+                	var status = (st == 1) ? 2 : 1;
+				    var id = $(this).attr('travelOfficialId');
+				    var arr = new Array();
+			        arr.push(id);
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/travelOfficialManage/setJoinStatus' ,{ids:arr,status:status},function(data){
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();
@@ -135,9 +140,6 @@
                 })
             });
         });
-
-
-
 
     });
 
@@ -191,5 +193,6 @@
     	$.post('/B2C/travelOfficialManage/setJoinStatus',{ids:arr,status:status},function(data){
     		window.location.href = window.location.href;
     	});
-    }    
+    }   
+    
 </script>

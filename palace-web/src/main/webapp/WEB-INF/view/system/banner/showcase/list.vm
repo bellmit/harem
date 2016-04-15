@@ -5,7 +5,7 @@
 </script>
 <div>
     <form class="form-signin" id="tradeListForm1" name="tradeListForm1"
-          action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list?bizType=$!bizType" method="get" role="form">
+          action="$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=$!pageNumber" method="get" role="form">
 
             <div class="btn-group">
                 <button type="button" class="btn btn-add">增加</button>
@@ -33,21 +33,22 @@
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
-                    #foreach($!sw in $!page)
+                    #foreach($!sw in $!pageVo.itemList)
                     <tr>
                         <td>$!sw.showcaseDO.id</td>
-                        <td>$!sw.showcaseDO.id</td>
-                        <td>$!sw.showcaseDO.id</td>
-                        <td>$!sw.showcaseDO.id</td>
-                        <td>
-                            $!date.format('yyyy-MM-dd HH:mm:ss',$!sw.showcaseDO.onOffTime)
-                        </td>
+                        <td>$!sw.showcaseDO.serialNo</td>
+                        <td>$!sw.showcaseDO.info</td>
+                        <td>$!sw.showcaseDO.img_url</td>
                         <td>
                             $!date.format('yyyy-MM-dd HH:mm:ss',$!sw.showcaseDO.gmtCreated)
                         </td>
-                        <td>$!sw.showcaseDO.id</td>
-                        <td>$!sw.showcaseDO.id</td>
-                        <td>$!sw.showcaseDO.id</td>
+                        <td>
+                            $!date.format('yyyy-MM-dd HH:mm:ss',$!sw.showcaseDO.onOffTime)
+                        </td>
+                        <td>$!sw.showcaseDO.title</td>
+                        <td>$!sw.showcaseDO.summary</td>
+                        <td>$!sw.operationDO.name</td>
+                        <td>#SHOWCASE_STATUS($!sw.showcaseDO.status)</td>
                         <td>
                             <button type="button" class="btn btn-primary addRefund detail"
                                     orderId="$!order.Id">查看

@@ -19,7 +19,7 @@
                         <td>$!entity.code</td>
                         <td>$!entity.name</td>
                         <td>
-                            <button type="button" class="btn btn-primary entityDetail" entityId="$entity.id">详情</button>
+                            <button type="button" class="btn btn-primary entityDetail" entityCode="$!entity.code" entityId="$entity.id">详情</button>
                         </td>
                     </tr>
                     #end
@@ -34,7 +34,7 @@
         //详情
         $('.entityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/banner/showcase/list/'+ $(this).attr('entityId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/banner/showcase/list/'+ $(this).attr('entityCode')+"?pageNumber=1";
                 top.tabsAdd("",url,2,$(this).text());
             });
 
