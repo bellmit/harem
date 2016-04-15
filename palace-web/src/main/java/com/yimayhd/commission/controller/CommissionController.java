@@ -114,7 +114,7 @@ public class CommissionController  extends BaseController{
 			if(extractDTO == null){
 				logger.error("CommissionController.amountExtract param null");
 				map.put("success", false);
-				map.put("desc", "传入对象为空");
+				map.put("desc", "输入不正确");
 				return JSON.toJSONString(map);
 			}
 			extractDTO.setDomainId(Domain.AZ.getType());
@@ -124,14 +124,14 @@ public class CommissionController  extends BaseController{
 			if(dto.getUserId() <= 0 || StringUtils.isBlank(dto.getPayeeAccount()) || StringUtils.isBlank(dto.getUserName()) || dto.getCommissionAmt() < 0){
 				logger.error("CommissionController.amountExtract param error,param:" + JSON.toJSONString(dto));
 				map.put("success", false);
-				map.put("desc", "对象参数错误");
+				map.put("desc", "输入不正确");
 				return JSON.toJSONString(map);
 			}
 			return commissionBiz.amountExtract(dto);
 		}catch(Exception e){
 			logger.error("CommissionController.amountExtract error happens,param:{},ex:",JSON.toJSONString(extractDTO), e);
 			map.put("success", false);
-			map.put("desc", "服务请求发生异常");
+			map.put("desc", "请求发生异常");
 			return JSON.toJSONString(map);
 		}
 	}
