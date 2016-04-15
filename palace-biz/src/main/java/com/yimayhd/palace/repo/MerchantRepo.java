@@ -34,8 +34,8 @@ public class MerchantRepo {
 		try {
 			BaseResult<MerchantDO> saveMerchantResult = userMerchantServiceRef.saveMerchant(vo.getMerchantDO(vo,sessionManager.getUserId()));
 			if (!saveMerchantResult.isSuccess()) {
-				
-				resultSupport.setPalaceReturnCode(PalaceReturnCode.ADD_MERCHANT_ERROR);
+				resultSupport.init(false, saveMerchantResult.getErrorCode(), saveMerchantResult.getErrorMsg());
+				//resultSupport.setPalaceReturnCode(PalaceReturnCode.ADD_MERCHANT_ERROR);
 			}
 			return resultSupport;
 		} catch (Exception e) {
@@ -56,7 +56,8 @@ public class MerchantRepo {
 			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(vo.getMerchantDTO(vo, sessionManager.getUserId()));
 			if (!updateMerchantResult.isSuccess()) {
 				
-				resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
+				//resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
+				resultSupport.init(false, updateMerchantResult.getErrorCode(), updateMerchantResult.getErrorMsg());
 			}
 			return resultSupport;
 		} catch (Exception e) {

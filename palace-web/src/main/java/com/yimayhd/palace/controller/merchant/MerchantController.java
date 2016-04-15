@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.biz.MerchantBiz;
@@ -23,6 +25,7 @@ import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.enums.ServiceFacilityOption;
+import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
@@ -67,10 +70,11 @@ public class MerchantController extends BaseController {
 	}
 	
 	@RequestMapping(value="addDeliciousFood",method=RequestMethod.POST)
-	public BizResult<String> addDeliciousFoodMerchant(MerchantVO vo,Model model) {
+	@ResponseBody
+	public BizResult<String> addDeliciousFoodMerchant(MerchantVO vo,Model model,Long sellerId) {
 		BizResult<String> result = new BizResult<String>();
 		BizResultSupport saveResult = null;
-		if (vo.getId() <= 0) {
+		if (sellerId <= 0 || sellerId == null) {
 			
 			saveResult = merchantBiz.addDeliciousFood(vo);
 			if (saveResult.isSuccess()) {
@@ -126,14 +130,15 @@ public class MerchantController extends BaseController {
 		
 	}*/
 	@RequestMapping(value="toMerchantList",method=RequestMethod.POST)
-	public String getMerchantList(Model model,MerchantQuery merchantQuery) {
+	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
 		//MerchantQuery merchantQuery = new MerchantQuery();
-		merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
 		try {
-			BaseResult<List<MerchantDO>> merchantList = userMerchantServiceRef.getMerchantList(merchantQuery);
-			if (merchantList.isSuccess() && merchantList.getValue() != null) {
-				model.addAttribute("merchant", merchantList.getValue());
-			}
+			//BaseResult<List<MerchantDO>> merchantList = 
+					userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
+//			if (merchantList.isSuccess() && merchantList.getValue() != null) {
+//				model.addAttribute("merchant", merchantList.getValue());
+//			}
 			return "system/businessManage/busineslist";
 		} catch (Exception e) {
 			log.error("get merchant list error and exception is  "+e);
