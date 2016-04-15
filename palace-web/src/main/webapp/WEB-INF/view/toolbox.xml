@@ -6,6 +6,8 @@
         <tool key="utilText" class="com.yimayhd.palace.util.TextUtil"></tool>
         <tool key="utilWebconfig" class="com.yimayhd.palace.util.WebResourceConfigUtil"></tool>
         <tool key="utilPhone" class="com.yimayhd.palace.util.PhoneUtil"></tool>
+        <tool key="utilItem" class="com.yimayhd.palace.util.ItemUtil"></tool>
+        <tool key="utilMoney" class="com.yimayhd.palace.util.MoneyUtil"></tool>
     </toolbox>
 
 </tools>
