@@ -84,9 +84,24 @@ table{border: 1px solid #ddd;}
 .grogBatchAddWrap{display: none;}
 
 
-
-
-
+table.travel-item-table{
+  border-collapse: collapse;
+}
+table.travel-item-table tr th{
+	text-align:center;
+}
+table.travel-item-table tr td{
+}
+table.travel-item-table tr td textarea{
+	height: 100%;
+	width: 96%;
+}
+table.travel-item-table tr td div.img-upload-container{
+	display: block;
+}
+table.travel-item-table tr td div.img-view-container{
+	
+}
 
 
 
