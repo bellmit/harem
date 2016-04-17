@@ -1,17 +1,20 @@
 package com.yimayhd.palace.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -21,6 +24,7 @@ import com.yimayhd.palace.model.query.TravelOfficialListQuery;
 import com.yimayhd.palace.model.travel.SnsTravelSpecialtyVO;
 import com.yimayhd.palace.model.vo.TravelOfficialVO;
 import com.yimayhd.palace.service.TravelOfficialService;
+import com.yimayhd.snscenter.client.domain.TravelJsonDO;
 
 @Controller
 @RequestMapping("/B2C/travelOfficialManage")
@@ -80,14 +84,42 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo add(TravelOfficial travelOfficial) throws Exception {
+		updateTravelJson(travelOfficial);
 		TravelOfficial db = travelOfficialService.add(travelOfficial);
-		System.out.println(db);
 		if(null == db ){
 			return new ResponseVo(ResponseStatus.ERROR);	
 		}
 		return new ResponseVo(ResponseStatus.SUCCESS);
 	}
 
+	private void updateTravelJson(TravelOfficial travelOfficial){
+		if( travelOfficial == null ){
+			return;
+		}
+		String imgContentJson = travelOfficial.getImgContentJson();
+		List<TravelJsonDO> contents = JSON.parseArray(imgContentJson, TravelJsonDO.class);
+		
+		if( CollectionUtils.isEmpty(contents) ){
+			return ;
+		}
+		for( TravelJsonDO travelJsonDO : contents ){
+			
+			List<String> imgs = travelJsonDO.getTravelImg();
+			if( !CollectionUtils.isEmpty(imgs) ){
+				List<String> rs = new ArrayList<String>() ;
+				for( String img : imgs){
+					if( StringUtils.isNoneBlank(img) ){
+						img = img.replace("[", "").replace("]", "") ;
+						rs.add(img);
+					}
+				}
+				travelJsonDO.setTravelImg(rs);
+			}
+		}
+		String imgContentJsonResult = JSON.toJSONString(contents);
+		travelOfficial.setImgContentJson(imgContentJsonResult);
+	}
+	
 	/**
 	 * 编辑官方游记
 	 * 
@@ -97,6 +129,7 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		TravelOfficial travelOfficial = travelOfficialService.getById(id);
+//		updateTravelJson(travelOfficial);
 		model.addAttribute("travelOfficial", travelOfficial);
 		return "/system/travelOfficial/detail";
 	}
@@ -111,6 +144,8 @@ public class TravelOfficialManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo edit(@PathVariable(value = "id") long id,TravelOfficial travelOfficial) throws Exception {
 		travelOfficial.setId(id);
+
+		updateTravelJson(travelOfficial);
 		boolean flag = travelOfficialService.modify(travelOfficial);
 		if(flag){
 			return new ResponseVo(ResponseStatus.SUCCESS);

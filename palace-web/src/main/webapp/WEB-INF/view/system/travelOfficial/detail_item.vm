@@ -1,7 +1,4 @@
-<!--
-<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
--->
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?t=1" type="text/javascript"></script>
 
 
 <div class="tab-content grogInfoWrap"  style="">
@@ -11,7 +8,7 @@
 				<tr>
                     <td width="6%"><span class="spColor">*</span>游记</td>
                     <td width="94%">
-                    	<button type="button" class="btn btn-default addNeedKnow" id="gaikuang" onclick="addItemCall(this)">增加条目</button>
+                    	<button type="button" class="btn btn-default" id="gaikuang" onclick="addItemCall()">增加条目</button>
         	            <table class="table bigTables travel-item-table">
                             <input type="hidden" id="imgContentJsonId"  name="imgContentJson" value="$!travelOfficial.imgContentJson">
                             <tr>
@@ -23,64 +20,53 @@
                             #if($travelOfficial.listTravelJsonDO)
                                 #foreach($travelOfficial in $!travelOfficial.listTravelJsonDO)
 
-                                    <tr class="needKnow">
+                                    <tr class="item-tr" data="$!{velocityCount}" >
                                         <td>
-                                            <textarea name="detail" id="travelDesId_$!{velocityCount}" class="form-control extra-info-item-title" placeholder="">$!travelOfficial.travelDes</textarea>
+                                        	<textarea name="detail" class="form-control trave-desc" placeholder="" >$!travelOfficial.travelDes</textarea>
                                         </td>
                                         <td>
-                                            <div class="fileImgWrap">
+                                            <div class="fileImgWrap img-upload-container">
                                                 <button type="button" class="btn btn-success">选择图片</button>
-                                                <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_$!{velocityCount}" accept="image/png,image/jpg,image/jpeg,image/gif">
-                                                <input type="hidden" name="coverURL" value=""  id="FMReturnInput_$!{velocityCount}">
-                                                <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                                                <input type="file"  name="file" class="file-selector" multiple="multiple" id="FMUploadFile_$!{velocityCount}" accept="image/png,image/jpg,image/jpeg,image/gif">
+                                               <span>注：图片大小不超过5M；建议尺寸：687*237</span>
                                             </div>
-                                            <div class="propagandaView">
-                                                <img src="" id="FMReturnInputImg"> #* #if($club.picturePoster) $utilWebconfig.getTfsRootPath()$!club.picturePoster  #end *#
-                                            </div>
-                                            <input type="hidden" name="travelBGImg" value="$!travelOfficial.travelImg"  id="travelBGImg_$!{velocityCount}">
-                                        	<span id="travelImgId_$!{velocityCount}" class="form-control extra-info-item-title" >
-                                            #foreach($imgList in $!travelOfficial.travelImg)
-                                                #if($!imgList)
-                                                    <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgList">
-                                                #end
-                                            #end
-                                        </span>
+                                            <input type="hidden" name="travelBGImg" class="img-values" value="$!travelOfficial.travelImg">
+                                        	<div class="form-control img-view-container" >
+	                                            #foreach($imgList in $!travelOfficial.travelImg)
+	                                                #if($!imgList)
+	                                                    <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgList">
+	                                                #end
+	                                            #end
+	                                        </div>
                                         </td>
                                         <td>
-                                            <textarea class="form-control extra-info-item-text" name="travelDes" id="detailId_$!{velocityCount}" rows="3">$!travelOfficial.detail</textarea>
+                                            <textarea class="form-control trave-extra-info" name="travelDes" >$!travelOfficial.detail</textarea>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                            <button type="button" class="btn btn-link" onclick="deleteItemTr(this)">删除</button>
                                         </td>
                                     </tr>
                                 #end
                             #else
-                                <tr class="needKnow">
+                                <tr class="item-tr" data="1" >
                                     <td>
-                                        <textarea name="detail" id="travelDesId_1" class="form-control extra-info-item-title" placeholder=""></textarea>
+                                        <textarea name="detail" class="form-control trave-desc" placeholder=""></textarea>
                                     </td>
                                     <td>
                                         <div class="fileImgWrap img-upload-container">
                                             <button type="button" class="btn btn-success">选择图片</button>
-                                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_1" accept="image/png,image/jpg,image/jpeg,image/gif">
-                                            <input type="hidden" name="coverURL" value=""  id="FMReturnInput_1">
-                                            <span>注：图片大小不超过5M<br />建议尺寸：687*237</span>
+                                            <input type="file"  name="file" class="file-selector" multiple="multiple" id="FMUploadFile_1" accept="image/png,image/jpg,image/jpeg,image/gif">
+                                            <span>注：图片大小不超过5M；建议尺寸：687*237</span>
                                         </div>
-                                        <!--
-                                        <div class="propagandaView">
-                                            <img src="" id="FMReturnInputImg">
-                                        </div>
-                                        -->
-                                        <input type="hidden" name="travelBGImg" value=""  id="travelBGImg_1">
+                                        <input type="hidden" name="travelBGImg" value=""  class="img-values">
                                         <!--图片预览容器-->
-                                   		<div id="travelImgId_1" class="form-control extra-info-item-title img-view-container" >
-                                   		</div>
+                                   		<div class="form-control img-view-container"></div>
                                     </td>
                                     <td>
-                                        <textarea class="form-control extra-info-item-text" name="travelDes" id="detailId_1" rows="3"></textarea>
+                                        <textarea class="form-control trave-extra-info" name="travelDes" id="detailId_1" rows="3"></textarea>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        <button type="button" class="btn btn-link" onclick="deleteItemTr(this)">删除</button>
                                     </td>
                                 </tr>
                             #end
@@ -90,6 +76,23 @@
             </table>
         </div>
     </div>
+    <input type="hidden" id="item_index" value="">
+    <div class="modal fade" id="myModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+              <h4 class="modal-title">确认删除图片么？</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary remove-ok">删除</button>
+            </div>
+          </div>
+	  </div>
+	</div>
+    
+    
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
 </div>
 #*
@@ -97,59 +100,149 @@
 * *#
 
 <script>
-	$(document).delegate(".fileInp",'change',function(){
+	$(document).delegate(".file-selector",'change',function(){
 		 var id = $(this).attr("id");
+		 var tr =  $(this).parents("tr.item-tr");
+		 var data = $(tr).attr("data");
+		 $("#item_index").val(data);
 	     fileUpload("#"+id,1,pictureUploadCallBack);
 	 })
 		
  	var pictureUploadCallBack = function(data,id){
-    if(data && data.status == 200){
-	   // var index = id.split('_')[id.split('_').length - 1];
-	   var index = "";
-	    
-	    var imgHtml="";
+	 	if( !data || data.status != 200 ){
+	 	  layer.msg('图片上传失败，请重试', {icon: 2});
+	 	  return ;
+	 	}
+		var index = $("#item_index").val();
+		index = parseInt(index);
+		var trs  = $("table.travel-item-table tr");
+		if( !trs ){
+			return ;
+		}
+		var tr = null;
+		for( var i =0; i<trs.length; i++ ){
+			var trIndex = $(trs[i]).attr("data");
+			if( index == trIndex ){
+				tr = trs[i];
+				break;
+			}
+		}
+		if( !tr ){
+			return ;
+		}
+		
+	    var imgViewHtml=$(tr).find(".img-view-container").html();
 	    var imgArr=[];
+	    var vals = $(tr).find(".img-values").val();
+		if( !vals ){
+			if( vals != "" ){
+				imgArr = vals.split(",");
+			}
+		}	    
     
-   		$.each(data.data, function(n, val) {
-   			imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='50' height='50' ></img>";
-   			imgArr.push(val);
-        	//alert("n="+n+"  val="+val);
-        });
-   		$("#travelImgId_"+index).html(imgHtml);
-   		$("#travelBGImg_"+index).val(imgArr);
-    	//$('#FMReturnInput_'+index).val();
-		/*console.log(data.data);
-        $('#FMReturnInput_'+index).val(imgArr);
-        $('#FMReturnInputImg_'+index).attr('src',tfsRootPath + data.data);*/
-			
-        }else{
-            layer.msg('图片上传失败，请重试', {icon: 2});
-        }
+    	var imgs = data.data ;
+    	if( imgs instanceof Array ){
+    		$.each(imgs, function(n, val) {
+    			var imgUrl = tfsRootPath+val;
+   				imgViewHtml+="<img src='"+imgUrl+"' class='view-img' width='50' height='50' data='"+val+"' />";
+   				imgArr.push(val);
+      		});
+    	}else{
+    		var imgUrl = tfsRootPath+imgs;
+    		imgViewHtml+="<img src='"+imgUrl+"' class='view-img' width='50' height='50' data='"+imgs+"' ></img>";
+    		imgArr.push(imgs);
+    	}
+	    $(tr).find(".img-view-container").html(imgViewHtml) ;
+	    $(tr).find(".img-values").val(imgArr) ;
+	    $(".view-img").off("click");
+	    $(".view-img").on("click", viewImgClickEvent) ;
     }
+    $(".view-img").on("click",viewImgClickEvent) ;
+    
+    
+    function viewImgClickEvent(){
+    	var tr = $(this).parent("tr.item-tr");
+    	$(this).addClass("removing");
+    	$('#myModal').modal() ;
+    }
+    
+    $('.remove-ok').click(function(){
+    	$('#myModal').modal('hide') ;
+    	
+		var imgs = $("tr.item-tr").find("img.view-img");
+		if( !imgs ){
+			return ;
+		}
+		for( var i=0 ; i<imgs.length ; i++ ){
+			var img = imgs[i];
+			var has = $(img).hasClass("removing");
+			if( has ){
+				var imgKey = $(img).attr("data");
+				var td = $(img).parents("td")[0] ;
+				var imgNode = $(td).find(".img-values");
+				var value = $(imgNode).attr("value");
+				if( value ){
+					value = value.replace(imgKey, "");
+					$(imgNode).val(value);
+				}
+				$(img).remove();
+			}
+		}
+		
+	});
+    $('.remove-cancel').click(function(){
+    	$("img.view-img").removeClass("removing");
+    	
+		var imgs = $("tr.item-tr").find("img.view-img");
+		if( imgs ){
+			return ;
+		}
+		for( var i=0 ; i<imgs.length ; i++ ){
+			var img = imgs[i];
+			var has = $(img).hasClass("removing");
+			if( has ){
+				var imgKey = $(img).data("data");
+				$(img).removeClass("removing");
+			}
+		}
+		$('.modal-confirm-remove-img').fadeOut();
+	});
+    
 
 //--------------------------------------------------------
-    var addItemCall = function (obj) {
-    
-    	var conTr =$(obj).next().find(".needKnow");
-    	console.log(conTr);
-    	var i = conTr.length;
-    	++i;
-    	var itemId = $(obj).attr("id");
-        var itemList = '<tr class="needKnow">'+
-                '<td><textarea type="text" name="detail" id="travelDesId_'+i+'" class="form-control extra-info-item-title" placeholder=""></textarea></td>'+
-                '<td><div class="fileImgWrap"><button type="button" class="btn btn-success">选择图片</button>'+
-        		'<input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFile_'+i+'" accept="image/png,image/jpg,image/jpeg,image/gif">'+
-				'<input type="hidden" name="coverURL" value=""  id="FMReturnInput_'+i+'">'+
-				'<p>注：图片大小不超过5M<br />建议尺寸：687*237</p>'+
-				'</div><div class="propagandaView"><img src="" id="FMReturnInputImg_'+i+'">'+
-				'</div><input id="travelBGImg_'+i+'" type="hidden" name="travelBGImg" value="" ><span  id="travelImgId_'+i+'" class="form-control extra-info-item-title" ></span></td>'+
-				'<td><textarea name="travelDes" id="detailId_'+i+'" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
-                '<td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td></tr>'
-        $(obj).next().append(itemList);
-       
+    var addItemCall = function () {
+    	var trs = $("tr.item-tr");
+    	if( !trs ){
+    		return ;
+    	}
+    	var tr = trs[trs.length-1];
+    	var index = $(tr).attr("data") ;
+    	index = parseInt(index)+1 ;
+    	var newTr = "<tr class='item-tr' data='"+index+"' >"+$(tr).html()+"</tr>";
+    	$(tr).after( newTr );
+    	
+    	
+    	var trs = $("tr.item-tr");
+    	newTr = trs[trs.length-1] ;
+    	
+    	$(newTr).find("input textarea").val("");
+    	$(newTr).find("textarea").text("");
+    	$(newTr).find(".img-view-container").empty();
+    	
+    	var node = $(newTr).find(".file-selector") ;
+    	$( node ).attr("id", "FMUploadFile_"+index) ;
+    	console.log(  $(newTr).html() );
     };
 
- 	function delneedKnowTR(obj){
+ 	function deleteItemTr(obj){
+ 		var trs = $("tr.item-tr");
+ 		if( !trs ){
+ 			return ;
+ 		}
+ 		if( trs.length ==1 ){
+ 			alert("最后一条，不允许删除");
+ 			return ;
+ 		}
 		$(obj).parent().parent().remove(); 
  	}
 
@@ -167,22 +260,28 @@
         var count = $(".bigTables tr").length-1;
         var parts=[];
         
-        $("tr.needKnow").each(function(i){
-        	var index = i+1;
-            var travelJsonDO={};
-           	travelJsonDO.travelDes=$("#travelDesId_"+index).val();//来源
-            if($("#travelBGImg_"+index).val()!=""){
-				var imgs = $("#travelBGImg_"+index).val();//图片;
-				if(null != imgs ){
-                    imgs=delBracket(imgs);
-                    var ss=[];
-                    ss = imgs.split(",");
-                    travelJsonDO.travelImg=ss;
-                }
-            } 
-            travelJsonDO.detail=$("#detailId_"+index).val();//内容       
+        var trs = $("tr.item-tr");
+        if( !trs ){
+        	return ;
+        }
+        for(var i=0 ; i<trs.length; i++){
+        	var tr = trs[i] ;
+        	
+        	var travelDes = $(tr).find("textarea.trave-desc").val() ;
+        	var node = $(tr).find("input.img-values") ;
+            var imgs = $(tr).find("input.img-values").val();
+        	imgs = imgs.split(",") ;
+        	var extraInfo = $(tr).find("textarea.trave-extra-info").val() ;
+        	
+        	
+        	var travelJsonDO={
+        		travelDes : travelDes ,
+        		travelImg : imgs ,
+        		detail : extraInfo
+        	};
             parts.push(travelJsonDO);	
-        });
+        	
+        }
 
         var json = JSON.stringify(parts); //可以将json对象转换成json对符串
         console.log(json);
@@ -210,11 +309,32 @@
         $('#clubForm').attr('action',actionUrl);
         $.post(actionUrl,params,function(data){
             if(data.status == 200){
+            	var currentTab = $("#grogshopInfo").parents(".tab-pane");
+            	var currentTabId = $(currentTab).attr("id");
+            	var tabs =  $(".tab-pane");
+            	if( !tabs ){
+            		return ;
+            	}
+            	var index = null;
+            	for( var i=0; i< tabs.length ; i++ ){
+            		var tab = tabs[i];
+            		var hasActive = $(tab).hasClass("active");
+            		if( hasActive ){
+            			index = i ;
+            			break;
+            		}
+            	}
+            
                 layer.alert('操作成功', {
                     icon: 1,
                     time: 3000
                 }, function(){
-                    window.location.reload();
+                	layer.close(index);
+					// 刷新父页面
+					top.freshPrevFrame();
+					top.tabTopClose(this);
+					
+                    //window.location.reload();
                 });
             }else{
                 layer.msg('操作失败', {

@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
-<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css?t=2"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css?t=4"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
@@ -57,7 +56,7 @@
                                     <button type="button" class="btn btn-success">选择图片</button>
                                     <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
                                     <input type="hidden" name="logoUrl" value="$!travelOfficial.backImg" id="logoUrlUploadFileReturnInput" >
-                                    <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+                                    <p>注：图片大小不超过5M,建议尺寸：300*300</p>
                                 </div>
                                 <div class="logoView">
                                     <img name="backImg" src="#if($travelOfficial.backImg) $utilWebconfig.getTfsRootPath()$!travelOfficial.backImg #end" class="img-circle" id="logoUrlUploadFileReturnImg">
@@ -86,28 +85,6 @@
                 forceParse: 0,
                 format: "yyyy-mm-dd"
             });
-/**
-    $('#btnSubmit').click(function(){
-            $(this).prop('disabled',true);
-            var actionUrl;
-            var clubId = $('#clubForm').attr('clubId');
-            if(clubId){
-                actionUrl = '/B2C/travelOfficialManage/edit';
-            }else{
-                actionUrl = '/B2C/travelOfficialManage/add';
-            }
-            $('#clubForm').attr('action',actionUrl);
-            $.post(actionUrl,$('#clubForm').serialize(),function(data){
-                if(data.status == 200){
-                   layer.alert('操作成功');
-                   window.location.href = window.location.href;
-                }else{
-                 	layer.alert('操作失败');
-                    $(this).prop('disabled',false);
-                }
-            });
-    });
-*/
     //选择用户
      $('.selectUserBtn').click(function(){
             '$!utilWebconfig.getActionDefaultFontPath()',
