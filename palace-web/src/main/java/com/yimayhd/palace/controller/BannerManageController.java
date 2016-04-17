@@ -104,9 +104,8 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/add", method = RequestMethod.POST)
-    public String showcaseAdd(Model model) throws Exception {
-        //TODO
-        return "success";
+    public String showcaseAdd(Model model,ShowcaseVO showcaseVO) throws Exception {
+        return operation( showcaseVO);
     }
 
     /**
@@ -118,21 +117,23 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.GET)
     public String showcaseToEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        //TODO
+        if(id == 0L){
+            throw new Exception("参数【id】错误");
+        }
+        ShowcaseVO showcase = showcaseService.getById(id);
+        model.addAttribute("showcase",showcase);
         return "/system/banner/showcase/edit";
     }
 
     /**
      * 编辑showcase提交
      * @param model
-     * @param id
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.POST)
-    public String showcaseEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        //TODO
-        return "success";
+    public String showcaseEdit(Model model,ShowcaseVO showcaseVO) throws Exception {
+        return operation( showcaseVO);
     }
 
     /**
@@ -150,11 +151,9 @@ public class BannerManageController extends BaseController {
         ShowcaseVO sv = new ShowcaseVO();
         sv.setId(showcaseId);
         sv.setStatus(status);
-        BizResult<ShowcaseVO>  rs = showcaseService.modify(sv);
-        if(null == rs ){
+        boolean flag = showcaseService.publish(showcaseId,ShowcaseStauts.getByStatus(status));
+        if( flag ){
             return new ResponseVo(ResponseStatus.ERROR);
-        }else if(!rs.isSuccess()){
-            return new ResponseVo(ResponseStatus.ERROR.VALUE,rs.getMsg());
         }
         return new ResponseVo(ResponseStatus.SUCCESS);
     }
@@ -179,4 +178,11 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(themeService.getListTheme(1));
     }
 
+    public String operation(ShowcaseVO showcaseVO) throws Exception{
+        ShowcaseVO showcase = showcaseService.saveOrUpdate(showcaseVO);
+        if(null == showcase){
+            return "error";
+        }
+        return "success";
+    }
 }

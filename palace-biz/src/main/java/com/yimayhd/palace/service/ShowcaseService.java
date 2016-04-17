@@ -7,6 +7,7 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
+import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -40,7 +41,7 @@ public interface ShowcaseService {
      * @return
      * @throws Exception
      */
-    BizResult<ShowcaseVO> add(ShowcaseVO entity)throws Exception;
+    ShowcaseVO add(ShowcaseVO entity)throws Exception;
 
     /**
      *  修改showcase
@@ -48,7 +49,14 @@ public interface ShowcaseService {
      * @return
      * @throws Exception
      */
-    BizResult<ShowcaseVO> modify(ShowcaseVO entity)throws Exception;
+    ShowcaseVO saveOrUpdate(ShowcaseVO entity)throws Exception;
+
+    /**
+     *  上下架
+     * @return
+     * @throws Exception
+     */
+    boolean publish(long id,ShowcaseStauts status)throws Exception;
 
     /**
      *  根据查询条件查询showcase列表返回page对象

@@ -13,6 +13,7 @@ import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
+import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
@@ -79,26 +80,41 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     @Override
-    public BizResult<ShowcaseVO> add(ShowcaseVO entity) throws Exception {
-        return null;
+    public ShowcaseVO add(ShowcaseVO entity) throws Exception {
+        RcResult<Boolean> result = showcaseClientServer.insert(entity);
+        if(null == result || !result.isSuccess()){
+            LOGGER.error("add|showcaseClientServer.update result is " + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(entity));
+            return null;
+        }
+        return entity;
     }
 
     @Override
-    public BizResult<ShowcaseVO> modify(ShowcaseVO entity) throws Exception {
+    public ShowcaseVO saveOrUpdate(ShowcaseVO entity) throws Exception {
         BizResult<ShowcaseVO> result = new BizResult<ShowcaseVO>() ;
         ShowcaseVO sv = getById(entity.getId());
         if(null == sv ){
-            result.setPalaceReturnCode(PalaceReturnCode.DATA_NOT_FOUND);
-            return result;
+            return add(entity);
         }
         RcResult<Boolean> rcResult = showcaseClientServer.update(entity);
         if(null == rcResult || !rcResult.isSuccess()){
-            LOGGER.error("modify|showcaseClientServer.update result is " + JSON.toJSONString(rcResult) +",parameter is "+JSON.toJSONString(entity));
-            result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-            return result;
+            LOGGER.error("saveOrUpdate|showcaseClientServer.update result is " + JSON.toJSONString(rcResult) +",parameter is "+JSON.toJSONString(entity));
+           return null;
         }
-        result.buildSuccessResult(entity);
-        return result;
+        return entity;
+    }
+
+    @Override
+    public boolean publish(long id, ShowcaseStauts status) throws Exception {
+        ShowcaseVO sv = getById(id);
+        if(null == sv){
+            return false;
+        }
+        sv.setStatus(status.getStatus());
+        if(null == saveOrUpdate(sv)){
+            return false;
+        }
+        return true;
     }
 
     public PageVO<OperationDO> getPageOperationDO(OperationQuery operationQuery) {
