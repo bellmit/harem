@@ -24,9 +24,11 @@ import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.ServiceFacilityOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.query.MerchantQuery;
+import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -71,10 +73,10 @@ public class MerchantController extends BaseController {
 	
 	@RequestMapping(value="addDeliciousFood",method=RequestMethod.POST)
 	@ResponseBody
-	public BizResult<String> addDeliciousFoodMerchant(MerchantVO vo,Model model,Long sellerId) {
+	public BizResult<String> addDeliciousFoodMerchant(MerchantVO vo,Model model,Long id) {
 		BizResult<String> result = new BizResult<String>();
 		BizResultSupport saveResult = null;
-		if (sellerId <= 0 || sellerId == null) {
+		if (id <= 0 || id == null) {
 			
 			saveResult = merchantBiz.addDeliciousFood(vo);
 			if (saveResult.isSuccess()) {
@@ -84,7 +86,7 @@ public class MerchantController extends BaseController {
 				result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
 			}
 		}else {
-			
+			vo.setId(id);
 			saveResult = merchantBiz.updateDeliciousFood(vo);
 			if (saveResult.isSuccess()) {
 				result.initSuccess(saveResult.getMsg());
@@ -133,12 +135,21 @@ public class MerchantController extends BaseController {
 	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
 		//MerchantQuery merchantQuery = new MerchantQuery();
 		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+		//BizResult<String> bizResult = new 
 		try {
 			//BaseResult<List<MerchantDO>> merchantList = 
-					userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
+			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
 //			if (merchantList.isSuccess() && merchantList.getValue() != null) {
 //				model.addAttribute("merchant", merchantList.getValue());
 //			}
+			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
+				
+				return "system/businessManage/busineslist";
+			}
+			
+			model.addAttribute("merchant", merchantUserList.getList());
+			model.addAttribute("cities", getMerchantRegions());
+			model.addAttribute("merchantQuery", merchantPageQuery);
 			return "system/businessManage/busineslist";
 		} catch (Exception e) {
 			log.error("get merchant list error and exception is  "+e);

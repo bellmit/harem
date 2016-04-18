@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
@@ -40,12 +41,17 @@ public class MerchantVO extends MerchantDTO {
 	public void setService(String service) {
 		this.service = service;
 	}
-	public MerchantDTO getMerchantDTO(MerchantVO vo,long userId) {
+	public MerchantDTO getMerchantDTO(MerchantVO vo) {
+		if (vo == null ) {
+			log.error("merchantVO get merchantDTO error and params:vo={}"+JSON.toJSONString(vo));
+			//return null;
+			throw new BaseException("参数错误");
+		}
 		MerchantDTO dto =  new MerchantDTO();
 		try {
 			BeanUtils.copyProperties(dto, vo);
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
-			dto.setId(userId);
+			//dto.setId(userId);
 			
 			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
@@ -71,6 +77,10 @@ public class MerchantVO extends MerchantDTO {
 		
 	}
 	public MerchantDO getMerchantDO(MerchantVO vo,long userId) {
+		if (vo == null || userId <= 0 ) {
+			log.error("merchantVO get merchantDO error and params:vo={}"+JSON.toJSONString(vo)+"and userId="+userId);
+			throw new BaseException("参数错误");
+		}
 		MerchantDO merchantDO = new MerchantDO();
 		try {
 			BeanUtils.copyProperties(merchantDO, vo);

@@ -1,24 +1,6 @@
 ﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
-<div class="dialog">
-	<div class="bgmeng"></div>
-	<div class="dlgcont">
-		<table>
-			<tr>
-				<td class="tit">是否通过：</td>
-				<td><label><input type="radio" name="isSure" checked="checked" value="1">：是</label><label><input type="radio" name="isSure" value="0">：否</label></td>
-			</tr>
-			<tr>
-				<td class="tit">备注：</td>
-				<td><textarea></textarea></td>
-			</tr>
-		</table>
-		<div class="boxbtn">
-			<button class="ok">确定</button>
-			<button class="cancel">取消</button>
-		</div>
-	</div>
-</div>
+
 <div class="searchbox" style="width:980px;">
 	<form id="fm">
 		<table>
@@ -40,7 +22,7 @@
 				<td class="tit">手机号码：</td>
 				<td><input name="merchantPrincipalTel" maxlength="30" /></td>
 				<td class="tit">状态：</td>
-				<td><select name="ccc">
+				<td><select name="status">
 					<option value="0">全部</option>
 					<option value="1">启用</option>
 					<option value="2">禁用</option>
@@ -64,13 +46,13 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
 			</tr>
 			
