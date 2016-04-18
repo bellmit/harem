@@ -20,7 +20,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.ItemListQuery;
 import com.yimayhd.palace.model.enums.ItemOperate;
-import com.yimayhd.palace.model.item.ItemListItemVO;
+import com.yimayhd.palace.model.item.ItemInfoVO;
 import com.yimayhd.palace.service.ItemService;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -53,7 +53,7 @@ public class ItemController extends BaseController {
 			log.warn("未登录");
 			throw new BaseException("请登陆后重试");
 		}
-		PageVO<ItemListItemVO> pageVO = itemService.getItemList(sellerId, itemListQuery);
+		PageVO<ItemInfoVO> pageVO = itemService.getItemList(itemListQuery);
 		
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("itemList", pageVO.getItemList());

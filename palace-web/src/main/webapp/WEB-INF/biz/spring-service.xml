@@ -77,5 +77,8 @@
 	<bean class="com.yimayhd.palace.service.impl.ShowcaseServiceImpl"></bean>
 	
 	<bean class="com.yimayhd.palace.service.impl.ItemServiceImpl"></bean>
+	
+	<!-- 九休订单 -->
+	<bean class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
 
 </beans>

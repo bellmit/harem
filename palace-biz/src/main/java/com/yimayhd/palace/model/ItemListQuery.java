@@ -7,7 +7,7 @@ import com.yimayhd.palace.base.BaseQuery;
 /**
  * 商品列表查询
  * 
- * @author yebin
+ * @author hongfei.guo
  *
  */
 public class ItemListQuery extends BaseQuery {
@@ -18,6 +18,15 @@ public class ItemListQuery extends BaseQuery {
 	private Integer status;// 状态
 	private Date BeginDate;// 发布开始时间
 	private Date endDate;// 发布结束时间
+	private String merchantName; //店铺名称
+
+	public String getMerchantName() {
+		return merchantName;
+	}
+
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
 
 	public String getName() {
 		return name;

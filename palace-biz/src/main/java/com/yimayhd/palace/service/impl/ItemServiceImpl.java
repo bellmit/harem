@@ -11,15 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDTO;
+import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
-import com.yimayhd.ic.client.model.result.item.ItemPageResult;
+import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ItemConverter;
 import com.yimayhd.palace.model.ItemListQuery;
-import com.yimayhd.palace.model.item.ItemListItemVO;
+import com.yimayhd.palace.model.item.ItemInfoVO;
+import com.yimayhd.palace.model.item.ItemVO;
 import com.yimayhd.palace.model.line.CityVO;
 import com.yimayhd.palace.repo.CityRepo;
 import com.yimayhd.palace.repo.CommentRepo;
@@ -44,37 +46,45 @@ public class ItemServiceImpl implements ItemService {
 	private CityRepo cityRepo;
 
 	@Override
-	public PageVO<ItemListItemVO> getItemList(long sellerId, ItemListQuery query) throws Exception{
+	public PageVO<ItemInfoVO> getItemList(ItemListQuery query) throws Exception{
 			
 		if (query == null) {
 			query = new ItemListQuery();
 		}
-		ItemQryDTO itemQryDTO = ItemConverter.toItemQryDTO(sellerId, query);
-		ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
+		ItemQryDTO itemQryDTO = ItemConverter.toItemQryDTO(query);
+		ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
 		
-		List<ItemDO> itemDOList = itemPageResult.getItemDOList();
-		List<ItemListItemVO> resultList = new ArrayList<ItemListItemVO>();
-		if (CollectionUtils.isNotEmpty(itemDOList)) {
+		List<ItemInfo> itemInfoList = icPageResult.getList();
+		List<ItemInfoVO> resultList = new ArrayList<ItemInfoVO>();
+		if (CollectionUtils.isNotEmpty(itemInfoList)) {
 			List<Long> itemIds = new ArrayList<Long>();
-			for (ItemDO itemDO : itemDOList) {
-				resultList.add(ItemConverter.toItemListItemVO(itemDO));
-				itemIds.add(itemDO.getId());
+			for (ItemInfo itemInfo : itemInfoList) {
+				resultList.add(ItemConverter.toItemInfoVO(itemInfo));
+				ItemDTO itemDTO = itemInfo.getItemDTO();
+				if(itemDTO != null){
+					itemIds.add(itemDTO.getId());
+				}
 			}
 			Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
 			if(!org.springframework.util.CollectionUtils.isEmpty(tagMap)) {
-				for (ItemListItemVO itemListItemVO : resultList) {
-					long itemId = itemListItemVO.getId();
+				for (ItemInfoVO itemInfoVO : resultList) {
+					ItemVO itemVO = itemInfoVO.getItemVO();
+					if(itemVO == null){
+						continue;
+					}
+					
+					long itemId = itemVO.getId();
 					if (tagMap.containsKey(itemId)) {
 						List<ComTagDO> comTagDOs = tagMap.get(itemId);
 						List<CityVO> dests = toCityVO(comTagDOs);
-						itemListItemVO.setDests(dests);
+						itemVO.setDests(dests);
 					}
 				}
 			}
 
 		}
-		PageVO<ItemListItemVO> pageVO = new PageVO<ItemListItemVO>(query.getPageNumber(), query.getPageSize(),
-				itemPageResult.getRecordCount(), resultList);
+		PageVO<ItemInfoVO> pageVO = new PageVO<ItemInfoVO>(query.getPageNumber(), query.getPageSize(),
+				icPageResult.getTotalCount(), resultList);
 		return pageVO;
 	}
 	
