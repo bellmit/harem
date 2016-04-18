@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.constant.Constant;
@@ -84,7 +87,7 @@ public class MerchantController extends BaseController {
 			saveResult = merchantBiz.addDeliciousFood(vo);
 			if (saveResult.isSuccess()) {
 				result.initSuccess(saveResult.getMsg());
-				result.setValue("jiuxiu/merchant/toMerchantList");
+				result.setValue("toMerchantList");
 			}else {
 				result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
 			}
@@ -93,7 +96,7 @@ public class MerchantController extends BaseController {
 			saveResult = merchantBiz.updateDeliciousFood(vo);
 			if (saveResult.isSuccess()) {
 				result.initSuccess(saveResult.getMsg());
-				result.setValue("jiuxiu/merchant/toMerchantList");
+				result.setValue("toMerchantList");
 			}else {
 				result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
 			}
@@ -153,30 +156,51 @@ public class MerchantController extends BaseController {
 		return result;
 		
 	}*/
-	@RequestMapping(value="toMerchantList",method=RequestMethod.POST)
-	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
-		//MerchantQuery merchantQuery = new MerchantQuery();
-		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-		//BizResult<String> bizResult = new 
+	@RequestMapping(value="toMerchantList",method=RequestMethod.GET)
+	public String toMerchantList(Model model) {
+		//merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
 		try {
-			//BaseResult<List<MerchantDO>> merchantList = 
-			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
-//			if (merchantList.isSuccess() && merchantList.getValue() != null) {
-//				model.addAttribute("merchant", merchantList.getValue());
+//			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
+//			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
+//				
+//				return "system/businessManage/busineslist";
 //			}
-			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
-				
-				return "system/businessManage/busineslist";
-			}
-			
-			model.addAttribute("merchant", merchantUserList.getList());
+//			model.addAttribute("merchant", merchantUserList.getList());
 			model.addAttribute("cities", getMerchantRegions());
-			model.addAttribute("merchantQuery", merchantPageQuery);
+			//model.addAttribute("merchantQuery", merchantPageQuery);
+			
 			return "system/food/busineslist";
 		} catch (Exception e) {
-			log.error("get merchant list error and exception is  "+e);
+			log.error("get merchant list error, ",e);
 			return "system/food/busineslist";
 		}
+		
+	}
+	@RequestMapping(value="getMerchantList",method=RequestMethod.GET)
+	@ResponseBody
+	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
+		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+		try {
+			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
+			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
+				
+				return null;
+			}
+			//model.addAttribute("merchant", merchantUserList.getList());
+			model.addAttribute("cities", getMerchantRegions());
+			model.addAttribute("merchantQuery", merchantPageQuery);
+			System.out.println(JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty));
+			return "{total:"+merchantUserList.getList().size()+",rows:"+JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty)+"}";
+		} catch (Exception e) {
+			log.error("get merchant list error, ",e);
+			return null;
+		}
+	}
+	@RequestMapping(value="updateStatus")
+	@ResponseBody
+	public String updateStatus() {
+		//userMerchantServiceRef.
+		return null;
 		
 	}
 }
