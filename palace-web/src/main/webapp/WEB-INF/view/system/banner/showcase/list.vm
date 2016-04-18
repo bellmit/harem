@@ -51,17 +51,18 @@
                         <td>#SHOWCASE_STATUS($!sw.showcaseDO.status)</td>
                         <td>
                             <button type="button" class="btn btn-primary addRefund detail"
-                                    orderId="$!order.Id">查看
+                                    orderId="$!sw.showcaseDO.id">编辑
                             </button>
-                            #if($order.refundStatus ==1 ||  $order.refundStatus ==5 )
+                            #if(10==$!sw.showcaseDO.status)
                                 <button type="button" class="btn btn-primary affirm"
-                                        data-target="#affirmModal" orderId="$!order.Id">审核详情
+                                        data-target="#affirmModal" orderId="$!sw.showcaseDO.id" status="20">下架
                                 </button>
-                            #elseif($order.refundStatus == 8)
-                                <button type="button" class="btn btn-primary finish"
-                                        data-target="#finishModal" orderId="$!order.Id">退款完成
+                            #elseif(20==$!sw.showcaseDO.status)
+                                <button type="button" class="btn btn-primary affirm"
+                                        data-target="#affirmModal" orderId="$!sw.showcaseDO.id" status="10">上架
                                 </button>
                             #end
+
                         </td>
                     </tr>
                     #end
@@ -78,9 +79,6 @@
 </div>
 <script>
     //全选
-    $('.allChecked').click(function(){
-        $('.subChecked').prop('checked',$(this).prop('checked'));
-    });
 
     $(".form-date").datetimepicker(
             {
@@ -105,34 +103,17 @@
         });
 
 
-        $('.finish').each(function(){
-            $(this).click(function(){
-                var id = $(this).attr("orderId");
-                var refundStatus = "9";
-                var bizType = $("#bizTypeId").val();
-                $.post('$!utilWebconfig.getActionDefaultFontPath()' +'/GF/aftersale/refund/audit',
-                        {'refundOrderId':id,
-                            'auditorRemark':"已完成",
-                            'refundStatus':refundStatus}
-                        ,function(data){
-                            if(data.status == 200){
-                                var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                                msg.show();
-                            }else{
-                                var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                                msg.show();
-                            }
-                            setTimeout(function(){
-                                window.location.href="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list?bizType="+bizType;
-                            },1050);
-                        })
-            });
-        });
-
-        $('.refund').each(function(){
+        //启用禁用
+        $('.affirm').each(function(){
             $(this).click(function(){
                 $(this).prop('disabled',true);
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/refundOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
+                var orderId = $(this).attr("orderId");
+                var status = $(this).attr("status");
+                console.log(orderId+"_"+status)
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/publish/',
+                    {'showcaseId':$(this).attr('orderId'),
+                     'status':$(this).attr('status')
+                    } ,function(data){
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();
@@ -145,16 +126,6 @@
                         window.location.href = window.location.href;
                     },1050);
                 })
-            });
-        });
-
-        //审核详情
-        $('.affirm').each(function(){
-            $(this).click(function(){
-                var orderId = $(this).attr("orderId");
-                var bizType = $("#bizTypeId").val();
-                window.parent.tabsAdd('', actionDefaultPath
-                        + "/GF/aftersale/refund/detail?orderNO="+orderId+"&type="+2+"&bizType="+bizType, 2, "审核详情");
             });
         });
 

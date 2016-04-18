@@ -84,13 +84,45 @@ table{border: 1px solid #ddd;}
 .grogBatchAddWrap{display: none;}
 
 
-
-
-
-
-
-
-
-
+table.travel-item-table{
+  border-collapse: collapse;
+}
+table.travel-item-table tr.item-tr{
+  height: 133px;
+}
+table.travel-item-table tr th{
+	text-align:center;
+}
+table.travel-item-table tr.item-tr td{
+	padding: 0px 30px 0px 0px !important
+}
+table.travel-item-table tr td textarea.trave-desc{
+	height: 100%;
+}
+table.travel-item-table tr td textarea.trave-extra-info{
+	height: 100% !important;
+}
+table.travel-item-table tr td div.img-upload-container{
+	display: block;
+	float: none;
+	padding-top: 0px;
+}
+table.travel-item-table tr td div.img-upload-container .file-selector{
+	position: absolute;
+	margin-top: -34px;
+	left: 0;
+	font-size: 25px;
+	width: 102px;
+	height: 33px;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	-webkit-opacity: 0;
+}
+table.travel-item-table tr td div.img-view-container{
+	margin: 10px 10px 0 0 ;	
+	height: 77px;
+}
 
 

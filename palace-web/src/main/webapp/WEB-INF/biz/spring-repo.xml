@@ -23,4 +23,9 @@
 	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo"/>
 	<bean id="mallFansRepo" class="com.yimayhd.commission.repo.MallFansRepo" />
 	<bean id="levelRepo" class="com.yimayhd.commission.repo.LevelRepo" />
+	
+	<bean id="itemRepo" class="com.yimayhd.palace.repo.ItemRepo" />
+	<bean id="commentRepo" class="com.yimayhd.palace.repo.CommentRepo" />
+	<bean id="cityRepo" class="com.yimayhd.palace.repo.CityRepo" />
+	
 </beans>

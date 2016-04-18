@@ -1,0 +1,258 @@
+
+<form class="form-signin" id="itemListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/list" method="GET" role="form">
+    
+    <div class="inputGroup whole">
+    	<div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">商户名称：</button>
+            </span>
+            <input type="text"  class="form-control" name="" value=""/>
+        </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">商户编号：</button>
+            </span>
+            <input type="text"  class="form-control" name="" value=""/>
+        </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">商户类型：</button>
+            </span>
+            <select class="form-control" name="">
+				<option value="" >全部</option>
+            </select>
+        </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">状态：</button>
+            </span>
+            <select class="form-control" name="status">
+				<option value="" #if(!$itemListQuery.status) selected #end>全部</option>
+				#foreach($itemStatus in $itemStatusList)
+					#set($itemStatusText = $itemStatus.text)
+					#if($itemStatusText != '删除')
+						#if($itemStatusText == '初始化')
+							#set($itemStatusText = '待上架')
+						#end
+						<option value="$!{itemStatus.value}" #if($itemListQuery.status == $itemStatus.value) selected #end >$!itemStatusText</option>
+					#end
+				#end
+            </select>
+        </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">商品名称：</button>
+            </span>
+            <input type="text"  class="form-control" name="name" value="$!itemListQuery.name"/>
+        </div>
+		<div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">商品类型：</button>
+            </span>
+            <select class="form-control" name="itemType">
+				<option value="" #if(!$itemListQuery.itemType) selected #end>全部</option>
+				#foreach($itemType in $itemTypeList)
+					#set($itemTypeText = $itemType.text)
+					#if($itemTypeText == '普通商品交易' || $itemTypeText == '跟团游' ||
+							$itemTypeText == '自由行' || $itemTypeText == '同城活动')
+						#if($itemTypeText == '普通商品交易')
+							#set($itemTypeText = '特产商品')	
+						#end
+						<option value="$!{itemType.value}" #if($itemListQuery.itemType == $itemType.value) selected #end >$!{itemTypeText}</option>
+					#end
+				#end
+            </select>
+        </div>
+		<div class="btn-group">
+            <button type="submit" class="btn btn-primary form-submit">查询</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary form-clear">清空</button>
+        </div>
+    </div>
+    <div class="inputGroup whole">
+		 <div class="btn-group">
+           <button type="button" class="btn btn-primary batch-operate" operate-type="SHELVE">批量上架</button>
+         </div>
+		 <div class="btn-group">
+           <button type="button" class="btn btn-primary batch-operate" operate-type="UNSHELVE">批量下架</button>
+         </div>
+		 <div class="btn-group">
+           <button type="button" class="btn btn-primary batch-operate" operate-type="DELETE">批量删除</button>
+         </div>
+	 </div>
+    
+	 <div class="tableGroup whole">
+         <table class="table datatable table-bordered table-hover">
+			<thead>
+                <tr>
+                	<th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
+                    <th data-col-class="text-center" data-width="80">编号</th>
+                    <th>商品主图</th>
+                    <th>商品标题</th>
+					<th data-col-class="text-center" data-width="110">商品类型</th>
+					<th data-width="160">单价</th>
+					<th data-width="160">商户名称</th>
+					<th data-width="160">商户类型</th>
+					<th data-col-class="text-center" data-width="70">状态</th>
+					<th data-col-class="text-center" data-width="60">操作</th>
+                </tr>
+            </thead>
+			<tbody >
+                #foreach($item in $itemList)
+                <tr id="item_$!{item.id}" item-id="$!item.id">
+                	<td><input class="subChecked" type="checkbox" value="$!item.id"></td>
+                    <td>$!item.id</td>
+                    <td>
+                    	<img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="160" height="90" />
+                    </td>
+                    <td>$!item.name</td>
+					<td>$!{utilItem.getItemTypeName($item.type)}</td>
+					<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
+                    <td>接口没有</td>
+                    <td>接口没有</td>
+                    <td>
+                    	#if($utilItem.getItemStatusName($item.status) == '初始化')
+                    		待上架
+                    	#else
+                    		$!{utilItem.getItemStatusName($item.status)}	
+                    	#end
+                    </td>
+                    <td>
+						#if($item.containsOperate('SHELVE'))
+						<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="SHELVE">上架</a><br/>
+						#end
+						#if($item.containsOperate('UNSHELVE'))
+						<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="UNSHELVE">下架</a><br/>
+						#end
+						#if($item.containsOperate('DELETE'))
+						<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="DELETE">删除</a><br/>
+						#end
+					</td>
+                </tr>
+				#end
+            </tbody>
+        </table>
+    </div>
+#*分页*#
+    #parse("/page.vm")
+    #pageStyle("itemListForm")
+</form>
+
+<script>
+
+	$(".form-clear").click(function() {
+		$(".form-control").val("");
+	});
+	
+	//全选
+    $('.allChecked').click(function(){
+        $('.subChecked').prop('checked',$(this).prop('checked'));
+    });
+	
+	function batchOperate(target){
+		var checkedIdList = new Array();
+        $('.subChecked:checked').each(function(){
+            checkedIdList.push($(this).val());
+        });
+        
+        if(checkedIdList.length < 1){
+            layer.msg('请选择商品', {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
+    	
+		var param = {
+			itemIds:checkedIdList,
+			operate:$(target).attr("operate-type")
+		};
+		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/batchOperate",param,function(result) {
+			if(result.status) {
+				window.location.reload();
+			} else {
+				layer.alert('操作失败', {
+					icon : 2
+				});
+			}
+		},"json");
+	}
+	
+	//批量操作
+    $('.batch-operate').click(function(){
+		
+		var checkedIdList = new Array();
+        $('.subChecked:checked').each(function(){
+            checkedIdList.push($(this).val());
+        });
+        
+        if(checkedIdList.length < 1){
+            layer.msg('请选择商品', {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
+    	
+    	var operateType = $(this).attr("operate-type");
+    	
+		var param = {
+			itemIds:checkedIdList,
+			operate:operateType
+		};
+		
+		var confirmText = "";
+		if(operateType == "SHELVE"){
+			confirmText = '确定要上架该批商品吗？'
+		}else if(operateType == "UNSHELVE"){
+			confirmText = '确定要下架该批商品吗？'
+		}else if(operateType == "DELETE"){
+			confirmText = '确定要删除该批商品吗？'
+		}
+		
+		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
+			$.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/batchOperate",param,function(result) {
+				if(result.status) {
+					window.location.reload();
+				} else {
+					layer.alert('操作失败', {
+						icon : 2
+					});
+				}
+			},"json");
+		});
+    });
+    
+	// 商品操作
+	$('.item-operate').click(function(){
+		var id = $(this).attr("item-id");
+		
+		var operateType = $(this).attr("operate-type");
+		var params = {
+			operate:operateType
+		};
+		
+		var confirmText = "";
+		if(operateType == "SHELVE"){
+			confirmText = '确定要上架该商品吗？'
+		}else if(operateType == "UNSHELVE"){
+			confirmText = '确定要下架该商品吗？'
+		}else if(operateType == "DELETE"){
+			confirmText = '确定要删除该商品吗？'
+		}
+		
+		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
+			$.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/"+id+"/operate",params,function(result) {
+				if(result.status == 200) {
+					window.location.reload();
+				} else {
+					layer.msg('操作失败', {
+	    				icon : 2,
+	    				time : 1000
+	    			});
+				}
+			},"json");
+		});
+    });
+</script>

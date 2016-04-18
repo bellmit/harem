@@ -5,10 +5,17 @@ import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constants;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
+import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
+import com.yimayhd.palace.service.ThemeService;
 import com.yimayhd.resourcecenter.model.enums.CacheType;
+import com.yimayhd.resourcecenter.model.enums.RegionType;
+import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
+import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import org.slf4j.Logger;
@@ -30,12 +37,10 @@ import java.util.Arrays;
 @Controller
 @RequestMapping("/banner")
 public class BannerManageController extends BaseController {
-
-    @Autowired  ShowcaseService showcaseService;
-
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private BoothService boothService;
+    @Autowired  ShowcaseService showcaseService;
+    @Autowired  BoothService boothService;
+    @Autowired  ThemeService themeService;
 
     /**
      * booth列表
@@ -93,28 +98,14 @@ public class BannerManageController extends BaseController {
     }
 
     /**
-     * 新增showcase
-     * @param model
-     * @param boothCode
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/showcase/add/{boothCode}", method = RequestMethod.GET)
-    public String showcaseToAdd(Model model,@PathVariable("boothCode") String boothCode) throws Exception {
-
-        return "/system/banner/showcase/edit";
-    }
-
-    /**
      * 新增showcase提交
      * @param model
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/add", method = RequestMethod.POST)
-    public String showcaseAdd(Model model) throws Exception {
-        //TODO
-        return "success";
+    public String showcaseAdd(Model model,ShowcaseVO showcaseVO) throws Exception {
+        return operation( showcaseVO);
     }
 
     /**
@@ -126,51 +117,72 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.GET)
     public String showcaseToEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        //TODO
+        if(id == 0L){
+            throw new Exception("参数【id】错误");
+        }
+        ShowcaseVO showcase = showcaseService.getById(id);
+        model.addAttribute("showcase",showcase);
         return "/system/banner/showcase/edit";
     }
 
     /**
      * 编辑showcase提交
      * @param model
-     * @param id
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.POST)
-    public String showcaseEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        //TODO
-        return "success";
+    public String showcaseEdit(Model model,ShowcaseVO showcaseVO) throws Exception {
+        return operation( showcaseVO);
     }
 
     /**
      * showcase上架
-     * @param model
-     * @param id
+     * @param showcaseId
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/showcase/publish/{showcaseId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/showcase/publish", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo showcasePublish(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        //TODO
-        return new ResponseVo();
+    public ResponseVo showcasePublish(long showcaseId,int status) throws Exception {
+        if(showcaseId == 0 || null == ShowcaseStauts.getByStatus(status)){
+            return new ResponseVo(ResponseStatus.INVALID_DATA);
+        }
+        ShowcaseVO sv = new ShowcaseVO();
+        sv.setId(showcaseId);
+        sv.setStatus(status);
+        boolean flag = showcaseService.publish(showcaseId,ShowcaseStauts.getByStatus(status));
+        if( flag ){
+            return new ResponseVo(ResponseStatus.ERROR);
+        }
+        return new ResponseVo(ResponseStatus.SUCCESS);
     }
 
-    /**
-     * showcase下架
-     * @param model
-     * @param id
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/showcase/close/{showcaseId}", method = RequestMethod.POST)
+    //获取选择页面的列表
+    @RequestMapping(value = "/operation/list")
     @ResponseBody
-    public ResponseVo showcaseClose(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        //TODO
-        return new ResponseVo();
+    public ResponseVo operationList() throws Exception {
+        return new ResponseVo(showcaseService.getListOperationDO(new OperationQuery()));
     }
 
+    //目的地
+    @RequestMapping(value = "/destination/list")
+    @ResponseBody
+    public ResponseVo destinationList() throws Exception {
+        return new ResponseVo(showcaseService.getListdestination(RegionType.JIUXIU_REGION));
+    }
+    //主题
+    @RequestMapping(value = "/theme/list")
+    @ResponseBody
+    public ResponseVo themeList() throws Exception {
+        return new ResponseVo(themeService.getListTheme(1));
+    }
 
-
+    public String operation(ShowcaseVO showcaseVO) throws Exception{
+        ShowcaseVO showcase = showcaseService.saveOrUpdate(showcaseVO);
+        if(null == showcase){
+            return "error";
+        }
+        return "success";
+    }
 }

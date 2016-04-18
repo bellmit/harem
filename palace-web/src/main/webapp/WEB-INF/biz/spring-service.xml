@@ -75,5 +75,7 @@
 	<!--广告位配置-->
 	<bean class="com.yimayhd.palace.service.impl.BoothServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ShowcaseServiceImpl"></bean>
+	
+	<bean class="com.yimayhd.palace.service.impl.ItemServiceImpl"></bean>
 
 </beans>
