@@ -43,7 +43,7 @@
                     <td>$!amountTotalDTO.userName</td>
                     <td>$!amountTotalDTO.pdcBankPhone</td>
                     <td>$!amountTotalDTO.pdcBankUser</td>
-                    <td>$!amountTotalDTO.pdcBankName</td>
+                    <td><span style="padding-right:10px; display:inline-block;">$!amountTotalDTO.pdcBankName</span></td>
                     <td>$!amountTotalDTO.pdcBankNo</td>
                     <td>$!amountTotalDTO.memberIdNo</td>
                     <td>$utilNum.moneyTransform($!amountTotalDTO.commissionAmt)</td>
