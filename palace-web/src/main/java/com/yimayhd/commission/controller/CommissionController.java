@@ -121,7 +121,11 @@ public class CommissionController  extends BaseController{
 			
 			AmountObtainDTO dto = new AmountObtainDTO();
 			CommissionAmoutConvert.extractConvert(extractDTO, dto);
-			if(dto.getUserId() <= 0 || StringUtils.isBlank(dto.getPayeeAccount()) || StringUtils.isBlank(dto.getUserName()) || dto.getCommissionAmt() < 0){
+			if(dto.getUserId() <= 0 
+					|| StringUtils.isBlank(dto.getPayeeAccount()) 
+					|| StringUtils.isBlank(dto.getUserName()) 
+					|| dto.getCommissionAmt() <= 0
+				){
 				logger.error("CommissionController.amountExtract param error,param:" + JSON.toJSONString(dto));
 				map.put("success", false);
 				map.put("desc", "输入不正确");

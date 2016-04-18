@@ -104,9 +104,16 @@
 	function tranAccount(){
 		var commissionAmt = $.trim($("#commissionAmt").val());
 		if(!commissionAmt || isNaN(commissionAmt)){
-			layer.msg('请输入金额数字',{
+			layer.msg('请输入数字',{
 				icon : 2,
 				time : 1000
+			});
+			return ;
+		}
+		if(parseFloat(commissionAmt) <= 0){
+			layer.msg('请输入大于0的金额',{
+				icon : 2,
+				time : 2000
 			});
 			return ;
 		}
