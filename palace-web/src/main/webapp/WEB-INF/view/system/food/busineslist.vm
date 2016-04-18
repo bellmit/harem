@@ -1,26 +1,37 @@
 ﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 
+<div class="dialog">
+	<div class="bgmeng"></div>
+	<div class="dlgcont">
+		<table>
+			<tr>
+				<td class="tit">是否通过：</td>
+				<td><label><input type="radio" name="isSure" checked="checked" value="1">：是</label><label><input type="radio" name="isSure" value="0">：否</label></td>
+			</tr>
+			<tr>
+				<td class="tit">备注：</td>
+				<td><textarea></textarea></td>
+			</tr>
+		</table>
+		<div class="boxbtn">
+			<button class="ok">确定</button>
+			<button class="cancel">取消</button>
+		</div>
+	</div>
+</div>
 <div class="searchbox" style="width:980px;">
 	<form id="fm">
 		<table>
 			<tr>
 				<td class="tit">商户名称：</td>
 				<td><input name="name" maxlength="30" /></td>
-				<td class="tit">商户编号：</td>
-				<td><input name="" maxlength="30" /></td>
-				<td class="tit">商户类型：</td>
-				<td><select name="merchantType">
+				<td class="tit">城市：</td>
+				<td><select name="cityCode">
 					<option value="0">全部</option>
 					<option value="1">审核通过</option>
 					<option value="2">审核不通过</option>
-				</select></td><td colspan="2"></td>
-			</tr>
-			<tr>
-				<td class="tit">负责人：</td>
-				<td><input name="" maxlength="30" /></td>
-				<td class="tit">手机号码：</td>
-				<td><input name="merchantPrincipalTel" maxlength="30" /></td>
+				</select></td>
 				<td class="tit">状态：</td>
 				<td><select name="status">
 					<option value="0">全部</option>
@@ -35,6 +46,7 @@
 <div class="gridbox">
 	<table class="tbgrid">
 		<thead>
+			<th class="tl"><input type="checkbox" class="ck all_ck"></th>
 			<th>商户类型</th>
 			<th>商户名称</th>
 			<th>商户编号</th>
@@ -46,13 +58,14 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td><input type="checkbox" class="ck"></td>
+				<td>Albert Ellis</td>
+				<td>New York</td>
+				<td>+1 718 000000</td>
+				<td>Albert Ellis</td>
+				<td>New York</td>
+				<td>+1 718 000000</td>
+				<td>Albert Ellis</td>
 				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
 			</tr>
 			

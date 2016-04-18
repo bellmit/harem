@@ -30,68 +30,64 @@
 		<td class="tit"><span>*</span><label>商家图片：</label></td>
 		<td>
 			<div class="uploadbox clearfix">
-				<div class="imgbox">
-					<div class="dimg">
-					#if ($merchant.logo.length()>0)
+					<div class="imgbox">
+						<div class="dimg">
+						#if ($merchant.logo.length()>0)
 					
 						<img src="$!tfs/$!merchant.logo">
-					#else
-					
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-					#end
-					</div>
-					<div class="upimgbtn">
+						#else
+						
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						#end
+							
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 						<input type="hidden" name="loopImageStr" value="$!merchant.logo">
-						<input type="file" name="picfile" class="picfile">
-						<button class="upl">上传图片</button>
-						<button class="del">删除图片</button>
 					</div>
-				</div>
-				<div class="imgbox">
-					<div class="dimg">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-					</div>
-					<div class="upimgbtn">
+					<div class="imgbox">
+						<div class="dimg">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 						<input type="hidden" name="loopImageStr">
-						<input type="file" name="picfile" class="picfile">
-						<button class="upl">上传图片</button>
-						<button class="del">删除图片</button>
 					</div>
-				</div>
-				<div class="imgbox">
-					<div class="dimg">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-					</div>
-					<div class="upimgbtn">
+					<div class="imgbox">
+						<div class="dimg">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 						<input type="hidden" name="loopImageStr">
-						<input type="file" name="picfile" class="picfile">
-						<button class="upl">上传图片</button>
-						<button class="del">删除图片</button>
 					</div>
-				</div>
-				<div class="imgbox">
-					<div class="dimg">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-					</div>
-					<div class="upimgbtn">
+					<div class="imgbox">
+						<div class="dimg">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 						<input type="hidden" name="loopImageStr">
-						<input type="file" name="picfile" class="picfile">
-						<button class="upl">上传图片</button>
-						<button class="del">删除图片</button>
 					</div>
-				</div>
-				<div class="imgbox">
-					<div class="dimg">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-					</div>
-					<div class="upimgbtn">
+					<div class="imgbox">
+						<div class="dimg">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 						<input type="hidden" name="loopImageStr">
-						<input type="file" name="picfile" class="picfile">
-						<button class="upl">上传图片</button>
-						<button class="del">删除图片</button>
 					</div>
 				</div>
-			</div>
 		</td>
 	</tr>
 	<tr>

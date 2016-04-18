@@ -1,6 +1,9 @@
 package com.yimayhd.palace.controller.merchant;
 
+import java.util.Enumeration;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +103,7 @@ public class MerchantController extends BaseController {
 		
 	}
 	@RequestMapping(value="toAddDeliciousFood",method=RequestMethod.GET)
-	public String toEditDeliciousFood(Model model) {
+	public String toEditDeliciousFood(Model model,HttpServletRequest request) {
 		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
@@ -113,11 +116,30 @@ public class MerchantController extends BaseController {
 			
 			
 		}
+//		System.out.println(request.getRemoteHost());
+//		System.out.println(request.getRemoteAddr());
+//		Enumeration<String> headerNames = request.getHeaderNames();
+//		while (headerNames.hasMoreElements()) {
+//			String string = (String) headerNames.nextElement();
+//			System.out.println(string+"--------------"+request.getHeader(string));
+//			
+//		}
+		
+		model.addAttribute("dmid", getRemoteHost(request));
+		//System.out.println(sb);
 		model.addAttribute("cities", getMerchantRegions());
 		return "system/food/addfoodcustom";
 		
 	}
 	
+	private Object getRemoteHost(HttpServletRequest request) {
+		String host = request.getHeader("host").split(":")[0];
+		StringBuilder sb = new StringBuilder();
+		String[] hostArr = host.split("\\.");
+		sb.append(hostArr[hostArr.length-2]+"."+hostArr[hostArr.length-1]);
+		return sb;
+	}
+
 	/*@RequestMapping(value="updateDeliciousFood",method=RequestMethod.POST)
 	public BizResult<String> updateDeliciousFoodMerchant(MerchantVO vo,Model model) {
 		BizResult<String> result = new BizResult<String>();
@@ -150,10 +172,10 @@ public class MerchantController extends BaseController {
 			model.addAttribute("merchant", merchantUserList.getList());
 			model.addAttribute("cities", getMerchantRegions());
 			model.addAttribute("merchantQuery", merchantPageQuery);
-			return "system/businessManage/busineslist";
+			return "system/food/busineslist";
 		} catch (Exception e) {
 			log.error("get merchant list error and exception is  "+e);
-			return "system/businessManage/busineslist";
+			return "system/food/busineslist";
 		}
 		
 	}
