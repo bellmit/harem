@@ -178,9 +178,7 @@ public class CommissionBiz {
 		}
 		List<Long> userIdList = new ArrayList<Long>();
 		for(AmountTotalDTO dto : list){
-			if(StringUtils.isBlank(dto.getPayeeAccount()) || StringUtils.isBlank(dto.getPayeeAccountName()) || StringUtils.isBlank(dto.getTelNum())){
-				userIdList.add(dto.getUserId());
-			}
+			userIdList.add(dto.getUserId());
 		}
 		return userIdList;
 	} 

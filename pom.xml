@@ -36,7 +36,7 @@
 		<commons.io.version>2.4</commons.io.version>
 		<commission.version>3.0-SNAPSHOT</commission.version>
 		<voucher.client.version>0.0.6-SNAPSHOT</voucher.client.version>
-		<spread_version>1.0.9-SNAPSHOT</spread_version>
+		<spread.version>1.0.9-SNAPSHOT</spread.version>
 		<tair.version>2.3.4.3</tair.version>
 	</properties>
 	<dependencyManagement>
@@ -640,12 +640,12 @@
 			<dependency>
 				<groupId>com.yimayhd</groupId>
 				<artifactId>commission-client</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${commission.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd.spread-marketing</groupId>
 				<artifactId>spread-marketing-client</artifactId>
-				<version>${spread_version}</version>
+				<version>${spread.version}</version>
 			</dependency>
 		</dependencies>
 
