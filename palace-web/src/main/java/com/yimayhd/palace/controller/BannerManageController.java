@@ -101,7 +101,8 @@ public class BannerManageController extends BaseController {
     }
 
     @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
-    public String showcaseToAdd(Model model) throws Exception {
+    public String showcaseToAdd(Model model,long boothId) throws Exception {
+        model.addAttribute("boothId",boothId);
         return "/system/banner/showcase/edit";
     }
 

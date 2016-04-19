@@ -12,7 +12,7 @@
         <table class="add">
             <tr>
                 <td class="tit"></td>
-                <input type="hidden" name="boothId" value="">
+                <input type="hidden" name="boothId" value="$!boothId">
                 <td><label>权重：</label><input name='serialNo'  type="text" class="busname" placeholder=""><span class="prompt">请填写整数</span></td>
             </tr>
             <tr>
