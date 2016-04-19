@@ -4,7 +4,7 @@
         type="text/javascript"></script>
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
-          action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/goodsOrderList" method="GET" role="form">
+          action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/orderManage/goodsOrderList" method="GET" role="form">
         <div class="inputGroup whole">
         	<div class="input-group inpSingle ">
                     <span class="input-group-btn">
@@ -267,7 +267,7 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/goodsOrder/"+orderId, 2, "商品订单详情");
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/orderManage/goodsOrder/"+orderId, 2, "商品订单详情");
         });
         
 

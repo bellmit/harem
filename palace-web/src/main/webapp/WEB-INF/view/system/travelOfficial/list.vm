@@ -190,7 +190,8 @@
         }else {
         	status = 2;
         }
-    	$.post('/B2C/travelOfficialManage/setJoinStatus',{ids:arr,status:status},function(data){
+        var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/travelOfficialManage/setJoinStatus';
+    	$.post(url,{ids:arr,status:status},function(data){
     		window.location.href = window.location.href;
     	});
     }   

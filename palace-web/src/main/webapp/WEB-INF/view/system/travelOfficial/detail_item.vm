@@ -32,9 +32,9 @@
                                             </div>
                                             <input type="hidden" name="travelBGImg" class="img-values" value="$!travelOfficial.travelImg">
                                         	<div class="form-control img-view-container" >
-	                                            #foreach($imgList in $!travelOfficial.travelImg)
-	                                                #if($!imgList)
-	                                                    <img width='50' height='50' src="$utilWebconfig.getTfsRootPath()$!imgList">
+	                                            #foreach($imgUrl in $!travelOfficial.travelImg)
+	                                                #if( $!imgUrl )
+	                                                    <img width='50' height='50'  class='view-img' src="$utilWebconfig.getTfsRootPath()$!imgUrl"  data='$!imgUrl'/>
 	                                                #end
 	                                            #end
 	                                        </div>
@@ -103,6 +103,14 @@
 	$(document).delegate(".file-selector",'change',function(){
 		 var id = $(this).attr("id");
 		 var tr =  $(this).parents("tr.item-tr");
+		 var imgs = $(tr).find("img.view-img");
+		 if( imgs != null ){
+		 	var length = imgs.length;
+		 	if( length >= 6 ){
+		 		alert("已经上传6张图片了");
+		 		return false;
+		 	} 
+		 } 
 		 var data = $(tr).attr("data");
 		 $("#item_index").val(data);
 	     fileUpload("#"+id,1,pictureUploadCallBack);
@@ -134,10 +142,8 @@
 	    var imgViewHtml=$(tr).find(".img-view-container").html();
 	    var imgArr=[];
 	    var vals = $(tr).find(".img-values").val();
-		if( !vals ){
-			if( vals != "" ){
-				imgArr = vals.split(",");
-			}
+		if( vals != null  ){
+			imgArr = vals.split(",");
 		}	    
     
     	var imgs = data.data ;
@@ -326,8 +332,8 @@
             	}
             
                 layer.alert('操作成功', {
-                    icon: 1,
-                    time: 3000
+                    icon: 1
+                  //  time: 3000
                 }, function(){
                 	layer.close(index);
 					// 刷新父页面
@@ -338,8 +344,8 @@
                 });
             }else{
                 layer.msg('操作失败', {
-                    icon: 2,
-                    time: 3000
+                    icon: 2
+                  //  time: 3000
                 });
                 $(this).prop('disabled',false);
             }
