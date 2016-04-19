@@ -79,4 +79,6 @@ public interface ShowcaseService {
 
 
     public List<OperationDO> getAllOperactions() ;
+
+    public BoothDO getBoothInfoByBoothCode(String code) throws Exception;
 }
