@@ -4,12 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDTO;
+import com.yimayhd.ic.client.model.domain.item.ItemInfo;
+import com.yimayhd.ic.client.model.domain.person.IcMerchantInfo;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
-import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.palace.model.ItemListQuery;
-import com.yimayhd.palace.model.item.ItemListItemVO;
+import com.yimayhd.palace.model.item.IcMerchantVO;
+import com.yimayhd.palace.model.item.ItemInfoVO;
+import com.yimayhd.palace.model.item.ItemVO;
 import com.yimayhd.palace.util.ItemUtil;
 
 /**
@@ -20,8 +23,8 @@ import com.yimayhd.palace.util.ItemUtil;
  */
 public class ItemConverter {
 
-	public static ItemQryDTO toItemQryDTO(long sellerId, ItemListQuery query) {
-		if (sellerId <= 0 || query == null) {
+	public static ItemQryDTO toItemQryDTO(ItemListQuery query) {
+		if (query == null) {
 			return null;
 		}
 		ItemQryDTO itemQryDTO = new ItemQryDTO();
@@ -29,7 +32,6 @@ public class ItemConverter {
 		if (query.getItemId() != null) {
 			itemQryDTO.setId(query.getItemId());
 		}
-		itemQryDTO.setSellerId(sellerId);
 		if (query.getStatus() != null) {
 			itemQryDTO.setStatus(Arrays.asList(query.getStatus()));
 		} else {
@@ -43,26 +45,47 @@ public class ItemConverter {
 		itemQryDTO.setEndDate(query.getEndDate());
 		itemQryDTO.setPageNo(query.getPageNumber());
 		itemQryDTO.setPageSize(query.getPageSize());
+		itemQryDTO.setMerchantName(query.getMerchantName());
 		return itemQryDTO;
 	}
 
-	public static ItemListItemVO toItemListItemVO(ItemDO itemDO) {
-		if (itemDO == null) {
+	public static ItemInfoVO toItemInfoVO(ItemInfo itemInfo) {
+		if (itemInfo == null) {
 			return null;
 		}
-		ItemListItemVO itemListItemVO = new ItemListItemVO();
-		itemListItemVO.setId(itemDO.getId());
-		List<String> itemMainPics = PicUrlsUtil.getItemMainPics(itemDO);
-		if (CollectionUtils.isNotEmpty(itemMainPics)) {
-			itemListItemVO.setPicture(itemMainPics.get(0));
+		
+		ItemDTO itemDTO = itemInfo.getItemDTO();
+		ItemVO itemVO = new ItemVO();
+		if(itemDTO != null){
+			itemVO.setId(itemDTO.getId());
+			List<String> itemMainPics = itemDTO.getItemMainPics();
+			if (CollectionUtils.isNotEmpty(itemMainPics)) {
+				itemVO.setPicture(itemMainPics.get(0));
+			}
+			itemVO.setName(itemDTO.getTitle());
+			itemVO.setCode(itemDTO.getCode());
+			itemVO.setPrice(itemDTO.getPrice());
+			itemVO.setType(itemDTO.getItemType());
+			itemVO.setStatus(itemDTO.getStatus());
+			itemVO.setOperates(ItemUtil.getItemOperates(itemDTO.getItemType(), itemDTO.getStatus()));
 		}
-		itemListItemVO.setName(itemDO.getTitle());
-		itemListItemVO.setCode(itemDO.getCode());
-		itemListItemVO.setPrice(itemDO.getPrice());
-		itemListItemVO.setType(itemDO.getItemType());
-		itemListItemVO.setStatus(itemDO.getStatus());
-		itemListItemVO.setOperates(ItemUtil.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
-		itemListItemVO.setPublishDate(itemDO.getGmtModified());
-		return itemListItemVO;
+		
+		IcMerchantInfo icMerchantInfo = itemInfo.getIcMerchantInfoInfo();
+		IcMerchantVO icMerchantVO = new IcMerchantVO();
+		if(icMerchantInfo != null){
+			icMerchantVO.setUserId(icMerchantInfo.getUserId());
+			icMerchantVO.setUserNick(icMerchantInfo.getUserNick());
+			icMerchantVO.setUserAvatar(icMerchantInfo.getUserAvatar());
+			
+			icMerchantVO.setMerchantId(icMerchantInfo.getMerchantId());
+			icMerchantVO.setMerchantName(icMerchantInfo.getMerchantName());
+			icMerchantVO.setMerchantLogo(icMerchantInfo.getMerchantLogo());
+		}
+		
+		ItemInfoVO itemInfoVo = new ItemInfoVO();
+		itemInfoVo.setItemVO(itemVO);
+		itemInfoVo.setIcMerchantVO(icMerchantVO);
+		
+		return itemInfoVo;
 	}
 }

@@ -10,12 +10,12 @@ import org.apache.commons.lang.StringUtils;
 import com.yimayhd.palace.model.line.CityVO;
 
 /**
- * 商品列表
+ * 商品信息
  * 
- * @author yebin
+ * @author hongfei.guo
  *
  */
-public class ItemListItemVO {
+public class ItemVO {
 	private long id;
 	private String picture;
 	private String name;

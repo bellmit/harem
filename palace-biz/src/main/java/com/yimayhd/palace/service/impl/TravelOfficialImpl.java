@@ -99,6 +99,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
     @Override
     public TravelOfficial add(TravelOfficial travelOfficial) throws Exception {
         TravelSpecialAddDTO travelSpecialAddDTO = convertTravelSpecialAddDTO(travelOfficial);
+        travelSpecialAddDTO.setDomain(1200);
         BaseResult<SnsTravelSpecialtyDO> res = snsCenterService.addTravelSpecialInfo(travelSpecialAddDTO);
         if(null != res && res.isSuccess() && null != res.getValue()){
             travelOfficial.setId(res.getValue().getId());

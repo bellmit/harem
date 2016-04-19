@@ -31,4 +31,13 @@
         <property name="check" value="${consumer.dubbo.trade.check}"/>
         <property name="version" value="${consumer.dubbo.trade.version}"/>
     </bean>
+    
+    <bean id="tcBizQueryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.tradecenter.client.service.trade.TcBizQueryService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.trade.check}"/>
+        <property name="version" value="${consumer.dubbo.trade.version}"/>
+    </bean>
 </beans>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ItemListQuery;
-import com.yimayhd.palace.model.item.ItemListItemVO;
+import com.yimayhd.palace.model.item.ItemInfoVO;
 
 /**
  * 商品服务
@@ -16,11 +16,10 @@ public interface ItemService {
 	/**
 	 * 查询商家商品列表
 	 * 
-	 * @param sellerId
 	 * @param query
 	 * @return
 	 */
-	PageVO<ItemListItemVO> getItemList(long sellerId, ItemListQuery query) throws Exception;
+	PageVO<ItemInfoVO> getItemList(ItemListQuery query) throws Exception;
 	
 	/**
 	 * 下架

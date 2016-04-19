@@ -45,6 +45,7 @@
         <property name="check" value="${dubbo.import.consumer.user.check}"/>
     </bean>
     
+
     <bean id="dataCacheServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
 		<property name="interface" value="com.yimayhd.user.client.service.DataCacheService" />
 		<property name="application" ref="dubboApplicationConfig" />

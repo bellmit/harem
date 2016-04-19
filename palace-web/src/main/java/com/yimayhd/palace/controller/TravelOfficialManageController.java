@@ -129,6 +129,7 @@ public class TravelOfficialManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		TravelOfficial travelOfficial = travelOfficialService.getById(id);
+		System.err.println("get="+JSON.toJSONString(travelOfficial));
 //		updateTravelJson(travelOfficial);
 		model.addAttribute("travelOfficial", travelOfficial);
 		return "/system/travelOfficial/detail";
@@ -146,6 +147,7 @@ public class TravelOfficialManageController extends BaseController {
 		travelOfficial.setId(id);
 
 		updateTravelJson(travelOfficial);
+		System.err.println("save="+JSON.toJSONString(travelOfficial));
 		boolean flag = travelOfficialService.modify(travelOfficial);
 		if(flag){
 			return new ResponseVo(ResponseStatus.SUCCESS);
