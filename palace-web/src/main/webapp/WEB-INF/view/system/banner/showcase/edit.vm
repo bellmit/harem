@@ -1,0 +1,317 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+      rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/jquery.js"></script>
+<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/module/md.adconfig.js"></script>
+<meta charset="UTF-8">
+<title>广告位配置内容编辑</title>
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/style.css"/>
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/adconfig.css"/>
+<div>
+    <div id="adediter">
+        <table class="add">
+            <tr>
+                <td class="tit"></td>
+                <input type="hidden" name="boothId" value="">
+                <td><label>权重：</label><input name='serialNo'  type="text" class="busname" placeholder=""><span class="prompt">请填写整数</span></td>
+            </tr>
+            <tr>
+                <td class="yun"><label>名称(运营备注)：</label></td>
+                <td><input name='info' type="text" class="bisname" id="operat" placeholder="" errormsg="最多输入30个字">&nbsp;&nbsp;<label><span class="checktip">0</span>/30</label></td>
+            </tr>
+            <tr>
+                <td class="yun"><label>广告位标题：</label></td>
+                <td><input name='title'  type="text" class="bisname" placeholder=""></td>
+            </tr>
+            <tr>
+                <td class="yun"><label>广告位副标题：</label></td>
+                <td><input name='summery' type="text" class="bisname" placeholder=""></td>
+            </tr>
+            <tr>
+                <td class="yun"><label>广告位图片：</label></td>
+                <td>
+                    <div class="imgbox">
+                        <div class="fileImgWrap upimgbtn">
+                            <button type="button" class="btn btn-success picfile">选择图片</button>
+                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFileSH" accept="image/png,image/gif">
+                            <input type="hidden" name="imgUrl" value=""  id="travelBGImgSH">
+                            <p>注：图片大小不超过4M,<br /></p>
+                        </div>
+                        <br><br>
+                        <div class="edimg" id="travelImgIdSH">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="yun"><label>跳转：</label></td>
+                <td>
+                    <div class="imgbox">
+                        <table class="selectpage">
+                            <tr>
+                                <td>选择页面：</td>
+                                <td>
+                                    <select class="selectpages">
+                                        <option value="">-------------------------------请选择------------------------------</option>
+                                        <option value="1">自由行列表页</option>
+                                        <option value="2">自由行商品详情页</option>
+                                        <option value="3">自由行首页</option>
+                                        <option value="4"> 跟团游列表页</option>
+                                        <option value="5">跟团游商品详情页</option>
+                                        <option value="6">跟团游首页</option>
+                                        <option value="7">同城活动列表页</option>
+                                        <option value="8">同城活动商品详情页</option>
+                                        <option value="9">周边玩乐首页</option>
+                                        <option value="10">达人列表页</option>
+                                        <option value="11">达人首页</option>
+                                        <option value="12">必买商品详情页</option>
+                                        <option value="13">必买首页</option>
+                                        <option value="14">搜索目的地</option>
+                                        <option value="15">美食店铺详情页</option>
+                                        <option value="16">美食列表页</option>
+                                        <option value="17">九休glup首页</option>
+                                        <option value="18">URl</option>
+                                    </select>
+                                    <div class="selectrdi">
+                                        <label for="title"><input type="radio" value="主题" name="radio1" id="title">&nbsp;主题</label>
+                                        <label for="addres"><input type="radio"  value="目的地"name="radio1" id="addres">&nbsp;目的地</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="selectcontent">
+                                <td>
+                                    <a href="javascript:void(0)" class="selecontent">选择内容</a>
+                                </td>
+                                <td>
+                                    <input type="text" name="secontent" class="secontent">
+                                </td>
+                            </tr>
+                            <tr class="addurl">
+                                <td>
+                                    添加链接：
+                                </td>
+                                <td>
+                                    <input type="text" name="secontent" class="secontent" id="secontent" >
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td >
+                    <div class="save">
+                        <a href="">保存</a>
+                        <a href="">取消</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="mask">
+        <div id="seleadd1" class="address">
+            <span>请选择主题：</span>
+            <div class="seladdress">
+                <div>
+                    <label class="ck"> <input type="checkbox">任性玩</label>
+                    <label class="ck"> <input type="checkbox">养生</label>
+                    <label class="ck"> <input type="checkbox">工艺</label>
+                    <label class="ck"> <input type="checkbox">文化</label>
+                    <label class="ck"> <input type="checkbox">沙龙</label>
+
+                </div>
+                <div>
+                    <label class="ck"> <input type="checkbox">美食</label>
+                    <label class="ck"> <input type="checkbox">换技能</label>
+                    <label class="ck"> <input type="checkbox">户外</label>
+                    <label class="ck"> <input type="checkbox">休闲</label>
+                    <label class="ck"> <input type="checkbox">定制</label>
+                    <label class="ck"> <input type="checkbox">众筹</label>
+                </div>
+
+            </div>
+            <div class="listsure">
+                <a href="javascript:void(0)" class="sure">确定</a>
+                <a href="javascript:void(0)" class="sure">取消</a>
+            </div>
+        </div>
+        <div id="seleadd2" class="address">
+            <span>请选择主题：</span>
+            <div class="seladdress">
+                <div>
+                    <label class="ck"> <input type="checkbox">温泉</label>
+                    <label class="ck"> <input type="checkbox">亲子</label>
+                    <label class="ck"> <input type="checkbox">温泉</label>
+                    <label class="ck"> <input type="checkbox">亲子</label>
+                    <label class="ck"> <input type="checkbox">宝山</label>
+                </div>
+                <div>
+                    <label class="ck"> <input type="checkbox">古镇</label>
+                    <label class="ck"> <input type="checkbox">赏花</label>
+                    <label class="ck"> <input type="checkbox">美食</label>
+                    <label class="ck"> <input type="checkbox">民俗</label>
+                    <label class="ck"> <input type="checkbox">娱乐</label>
+                </div>
+            </div>
+            <div class="listsure">
+                <a href="javascript:void(0)" class="sure">确定</a>
+                <a href="javascript:void(0)" class="cancel">取消</a>
+            </div>
+        </div>
+        <div id="selmudidi" class="address">
+            <span>请选择目的地：</span>
+            <div class="seladdress">
+                <div>
+                    <span>B</span>
+                    <label class="ck"> <input type="checkbox"> 宝山</label>
+
+                </div>
+                <div>
+                    <span>C</span>
+                    <label class="ck"> <input type="checkbox"> 楚雄</label>
+
+                </div>
+                <div>
+                    <span>D</span>
+                    <label class="ck"> <input type="checkbox"> 德宏</label>
+                    <label class="ck"> <input type="checkbox"> 迪庆</label>
+                    <label class="ck"> <input type="checkbox"> 大理</label>
+
+                </div>
+                <div>
+                    <span>H</span>
+                    <label class="ck"> <input type="checkbox"> 红河</label>
+
+                </div>
+                <div>
+                    <span>K</span>
+                    <label class="ck"> <input type="checkbox"> 昆明</label>
+
+                </div>
+                <div>
+                    <span>L</span>
+                    <label class="ck"> <input type="checkbox"> 丽江</label>
+                    <label class="ck"> <input type="checkbox"> 临沧</label>
+
+                </div>
+                <div>
+                    <span>N</span>
+                    <label class="ck"> <input type="checkbox"> 怒江</label>
+
+                </div>
+                <div>
+                    <span>P</span>
+                    <label class="ck"> <input type="checkbox"> 普洱</label>
+
+                </div>
+                <div>
+                    <span>Q</span>
+                    <label class="ck"> <input type="checkbox"> 曲靖</label>
+
+                </div>
+                <div>
+                    <span>W</span>
+                    <label class="ck"> <input type="checkbox"> 文山</label>
+
+                </div>
+                <div>
+                    <span>X</span>
+                    <label class="ck"> <input type="checkbox"> 西双版纳</label>
+
+                </div>
+                <div>
+                    <span>Y</span>
+                    <label class="ck"> <input type="checkbox"> 玉溪</label>
+
+                </div>
+                <div>
+                    <span>Z</span>
+                    <label class="ck"> <input type="checkbox"> 昭通</label>
+
+                </div>
+            </div>
+            <div class="listsure">
+                <a href="javascript:void(0)" class="sure">确定</a>
+                <a href="javascript:void(0)">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //全选
+
+    /*$(".form-date").datetimepicker(
+            {
+                language: "zh-CN",
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });*/
+
+    $(function () {
+        //新增
+        $(".btn-add").click(function () {
+           //新增
+            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/toAdd", 2,  "新增showcase");
+        });
+
+
+        //启用禁用
+        $('.affirm').each(function(){
+            $(this).click(function(){
+                $(this).prop('disabled',true);
+                var orderId = $(this).attr("orderId");
+                var status = $(this).attr("status");
+                console.log(orderId+"_"+status)
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/publish/',
+                    {'showcaseId':$(this).attr('orderId'),
+                     'status':$(this).attr('status')
+                    } ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+        });
+
+
+        $("#clean_btn").click(function(){
+            $('#tradeListForm1 div:eq(0)').find('input').val("").end().find('select')[0].selectedIndex = 0;
+        });
+
+        //---------------------------------------------------------------------
+        $(document).delegate(".fileInp",'change',function(){
+            fileUpload("#FMUploadFileSH",2,pictureUploadCallBack);
+        })
+
+        var pictureUploadCallBack = function(data){
+            if(data && data.status == 200){
+                var imgHtml="";
+                var imgArr=[];
+                $.each(data.data, function(n, val) {
+                    imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='200' height='200' ></img>";
+                    imgArr.push(val);
+                });
+                $("#travelBGImgSH").val(imgArr);
+                $("#travelImgIdSH").html(imgHtml);
+            }else{
+                layer.msg('图片上传失败，请重试', {icon: 2});
+            }
+        }
+
+    });
+</script>
