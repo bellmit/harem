@@ -6,17 +6,13 @@
 <div>
     <form class="form-signin" id="tradeListForm1" name="tradeListForm1"
           action="$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=$!pageNumber" method="get" role="form">
-
+            <input type="hidden" name="boothCode" value="$!boothCode">
             <div class="btn-group">
                 <button type="button" class="btn btn-add">增加</button>
             </div>
            #* <div class="btn-group">
                 <button type="button" id="clean_btn" class="btn btn-primary">重置</button>
             </div>*#
-
-        </div>
-
-
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tbody>
@@ -34,6 +30,7 @@
                     <th>操作</th>
                 </tr>
                     #foreach($!sw in $!pageVo.itemList)
+                        #set( $boothId = $!sw.showcaseDO.boothId)
                     <tr>
                         <td>$!sw.showcaseDO.id</td>
                         <td>$!sw.showcaseDO.serialNo</td>
@@ -62,20 +59,17 @@
                                         data-target="#affirmModal" orderId="$!sw.showcaseDO.id" status="10">上架
                                 </button>
                             #end
-
                         </td>
                     </tr>
                     #end
                 </tbody>
             </table>
+            <input type="hidden" name="boothId" id="boothId" " value="$!boothId">
         </div>
     #*分页*#
         #parse("/page.vm")
         #pageStyle("tradeListForm1")
     </form>
-
-
-
 </div>
 <script>
     //全选
@@ -94,12 +88,16 @@
             });
 
     $(function () {
+        //新增
+        $(".btn-add").click(function () {
+            var boothId = $("boothId").val();
+            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/toAdd?boothId="+boothId, 2,  "新增showcase");
+        });
+
+        //编辑
         $(".detail").click(function () {
-            var orderId = $(this).attr("orderId");
-            var bizType = $("#bizTypeId").val();
-            window.parent.tabsAdd('', actionDefaultPath
-                    + "/GF/aftersale/refund/detail?orderNO="
-                    +orderId+"&type="+1+"&bizType="+bizType, 2,  "售后单详情");
+            var id = $(this).attr("orderId");
+            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/edit/"+id, 2,  "编辑showcase");
         });
 
 

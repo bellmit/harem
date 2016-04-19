@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
@@ -27,8 +28,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.yimayhd.resourcecenter.model.enums.OperationParamCombineType;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.EnumMap;
 
 
 /**
@@ -50,7 +54,6 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
-
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         return "/system/banner/booth/list";
@@ -97,6 +100,12 @@ public class BannerManageController extends BaseController {
         return "/system/banner/showcase/list";
     }
 
+    @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
+    public String showcaseToAdd(Model model,long boothId) throws Exception {
+        model.addAttribute("boothId",boothId);
+        return "/system/banner/showcase/edit";
+    }
+
     /**
      * 新增showcase提交
      * @param model
@@ -117,10 +126,9 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.GET)
     public String showcaseToEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        if(id == 0L){
-            throw new Exception("参数【id】错误");
-        }
+        if(id == 0L){throw new Exception("参数【id】错误");}
         ShowcaseVO showcase = showcaseService.getById(id);
+        model.addAttribute("boothId",null==showcase?0:showcase.getBoothId());
         model.addAttribute("showcase",showcase);
         return "/system/banner/showcase/edit";
     }
@@ -137,7 +145,7 @@ public class BannerManageController extends BaseController {
     }
 
     /**
-     * showcase上架
+     * showcase上下架
      * @param showcaseId
      * @return
      * @throws Exception
@@ -158,23 +166,17 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(ResponseStatus.SUCCESS);
     }
 
-    //获取选择页面的列表
-    @RequestMapping(value = "/operation/list")
-    @ResponseBody
-    public ResponseVo operationList() throws Exception {
-        return new ResponseVo(showcaseService.getListOperationDO(new OperationQuery()));
-    }
-
     //目的地
     @RequestMapping(value = "/destination/list")
     @ResponseBody
     public ResponseVo destinationList() throws Exception {
         return new ResponseVo(showcaseService.getListdestination(RegionType.JIUXIU_REGION));
     }
-    //主题
+    //获取主题，内容
     @RequestMapping(value = "/theme/list")
     @ResponseBody
-    public ResponseVo themeList() throws Exception {
+    public ResponseVo themeList(String code,int type) throws Exception {
+        //TODO:根据code,和type去查询相应的数据
         return new ResponseVo(themeService.getListTheme(1));
     }
 
@@ -185,4 +187,15 @@ public class BannerManageController extends BaseController {
         }
         return "success";
     }
+
+
+    //获取选择页面的列表
+    @RequestMapping(value = "/operation/list")
+    @ResponseBody
+    public ResponseVo operationList() throws Exception {
+        OperationParamCombineType[] allLight = OperationParamCombineType.values();
+        //TODO:序列化枚举类有问题
+        return new ResponseVo(allLight);
+    }
+
 }
