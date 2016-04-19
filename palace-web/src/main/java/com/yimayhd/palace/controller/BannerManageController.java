@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
@@ -13,6 +14,7 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
+import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.model.enums.CacheType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
@@ -97,6 +99,13 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothCode",boothCode);
         model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
+        //把boothid返回去。假如该booth没有showcase，那么在查一遍
+        if(CollectionUtils.isEmpty(page.getItemList())){
+            BoothDO db = showcaseService.getBoothInfoByBoothCode(boothCode);
+            if(null != db ){
+                model.addAttribute("boothId",db.getId());
+            }
+        }
         return "/system/banner/showcase/list";
     }
 

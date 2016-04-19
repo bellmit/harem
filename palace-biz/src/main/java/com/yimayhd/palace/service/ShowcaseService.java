@@ -4,6 +4,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.Region;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.result.BizResult;
+import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
@@ -75,4 +76,6 @@ public interface ShowcaseService {
 
     //主题
     List<OperationDO> getListtheme(OperationQuery operationQuery);
+
+    BoothDO getBoothInfoByBoothCode(String code) throws Exception;;
 }

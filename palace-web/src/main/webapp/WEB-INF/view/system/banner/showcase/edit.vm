@@ -3,12 +3,17 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/jquery.js"></script>
 <script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/module/md.adconfig.js"></script>
+
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+
 <meta charset="UTF-8">
 <title>广告位配置内容编辑</title>
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/style.css"/>
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/adconfig.css"/>
 <div>
     <div id="adediter">
+        <form name="addShowcase" id="showcaseForm"
+              action="$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add/" method="post" showcaseId="$!showcase.id">
         <table class="add">
             <tr>
                 <td class="tit"></td>
@@ -34,7 +39,7 @@
                     <div class="imgbox">
                         <div class="fileImgWrap upimgbtn">
                             <button type="button" class="btn btn-success picfile">选择图片</button>
-                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFileSH"
+                            <input type="file"  name="file" class="fileInp uploadpic" multiple="multiple" id="FMUploadFileSH"
                                    accept="image/png,image/gif">
                             <input type="hidden" name="imgUrl" value="$!showcase.imgUrl"  id="travelBGImgSH">
                             <p>注：图片大小不超过4M,<br /></p>
@@ -42,7 +47,7 @@
                         <br><br>
                         <div class="edimg" id="travelImgIdSH">
                         #if($!showcase.imgUrl)
-                            <img src="$!showcase.imgUrl" />
+                            <img src="$utilWebconfig.getTfsRootPath()$!showcase.imgUrl" />
                         #end
                         </div>
                     </div>
@@ -107,12 +112,13 @@
                 <td></td>
                 <td >
                     <div class="save">
-                        <a href="">保存</a>
-                        <a href="">取消</a>
+                        <button type="submit"  class="btn btn-primary" id="saveId">保存</button>
+                        <button type="button" class="btn btn-primary" id="cancelId">取消</button>
                     </div>
                 </td>
             </tr>
         </table>
+        </form>
     </div>
     <div class="mask">
         <div id="seleadd1" class="address">
@@ -260,6 +266,16 @@
             });*/
 
     $(function () {
+
+//        $(document).delegate("#FMUploadFileSH",'change',function(){
+//
+//        })
+
+        $(".picfile").click(function () {
+            alert("aaa");
+           fileUpload("#FMUploadFileSH",2,pictureUploadCallBack);
+        })
+
         //新增
         $(".btn-add").click(function () {
            //新增
@@ -299,9 +315,6 @@
         });
 
         //---------------------------------------------------------------------
-        $(document).delegate(".fileInp",'change',function(){
-            fileUpload("#FMUploadFileSH",2,pictureUploadCallBack);
-        })
 
         var pictureUploadCallBack = function(data){
             if(data && data.status == 200){

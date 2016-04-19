@@ -1,5 +1,6 @@
 package com.yimayhd.palace.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.error.PalaceReturnCode;
@@ -9,9 +10,11 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.RegionService;
 import com.yimayhd.palace.service.ShowcaseService;
+import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
+import com.yimayhd.resourcecenter.entity.Booth;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
@@ -20,14 +23,17 @@ import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.OperationClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +48,9 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Autowired OperationClientServer operationClientServer;
 
     @Autowired RegionClientService regionClientService;
+
+    @Autowired BoothClientServer boothClientServer;
+
     public List<ShowcaseVO> getList(long boothId) throws Exception {
 
         return null;
@@ -59,7 +68,11 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             LOGGER.error("getShowcaseResult|showcaseClientServer.getShowcaseResult result is " + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(showcaseQuery));
             return null;
         }
-        PageVO page  = new PageVO<ShowCaseResult>(showcaseQuery.getPageNo(), showcaseQuery.getPageSize(),result.getTotalCount(), result.getList());
+        List<ShowCaseResult> list  = new ArrayList<ShowCaseResult>();
+        if(CollectionUtils.isNotEmpty(result.getList())){
+            list = result.getList();
+        }
+        PageVO page  = new PageVO<ShowCaseResult>(showcaseQuery.getPageNo(), showcaseQuery.getPageSize(), result.getTotalCount(), list);
         return page;
     }
 
@@ -142,8 +155,15 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return regionClientService.getAllRegionListByType(regionType.getType());
     }
 
-    @Override
     public List<OperationDO> getListtheme(OperationQuery operationQuery) {
         return null;
+    }
+
+    public BoothDO getBoothInfoByBoothCode(String code) throws Exception{
+        if(StringUtils.isEmpty(code)){
+            throw new Exception("参数【code】不能为空");
+        }
+        BoothDO result = boothClientServer.getBoothDoByCode(code);
+        return result;
     }
 }

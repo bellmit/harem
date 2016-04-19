@@ -64,7 +64,7 @@
                     #end
                 </tbody>
             </table>
-            <input type="hidden" name="boothId" id="boothId" " value="$!boothId">
+            <input type="hidden" name="boothId" id="boothId"  value="$!boothId">
         </div>
     #*分页*#
         #parse("/page.vm")
@@ -90,7 +90,7 @@
     $(function () {
         //新增
         $(".btn-add").click(function () {
-            var boothId = $("boothId").val();
+            var boothId = $("#boothId").val();
             window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/toAdd?boothId="+boothId, 2,  "新增showcase");
         });
 
