@@ -77,5 +77,6 @@ public interface ShowcaseService {
     //主题
     List<OperationDO> getListtheme(OperationQuery operationQuery);
 
-    BoothDO getBoothInfoByBoothCode(String code) throws Exception;;
+
+    public List<OperationDO> getAllOperactions() ;
 }

@@ -166,4 +166,14 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         BoothDO result = boothClientServer.getBoothDoByCode(code);
         return result;
     }
+    @Override
+    public List<OperationDO> getAllOperactions(){
+    	RcResult<List<OperationDO>> result = operationClientServer.getAllOperactions() ;
+    	if( result == null || !result.isSuccess() ){
+    		LOGGER.error("getAllOperactions failed!  result={}",JSON.toJSONString(result));;
+    		return null;
+    	}
+    	return result.getT() ;
+    }
+   
 }

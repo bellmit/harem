@@ -1,13 +1,14 @@
 package com.yimayhd.palace.controller;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constants;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.controller.vo.OperationParamConstant;
+import com.yimayhd.palace.controller.vo.OperationVO;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.result.BizResult;
@@ -15,10 +16,11 @@ import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
+import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.model.enums.CacheType;
+import com.yimayhd.resourcecenter.model.enums.OperationType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
-import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import org.slf4j.Logger;
@@ -30,11 +32,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.yimayhd.resourcecenter.model.enums.OperationParamCombineType;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumMap;
+import java.util.List;
 
 
 /**
@@ -201,10 +202,63 @@ public class BannerManageController extends BaseController {
     //获取选择页面的列表
     @RequestMapping(value = "/operation/list")
     @ResponseBody
-    public ResponseVo operationList() throws Exception {
-        OperationParamCombineType[] allLight = OperationParamCombineType.values();
-        //TODO:序列化枚举类有问题
-        return new ResponseVo(allLight);
+    public BizResult<List<OperationVO>> operationList() throws Exception {
+    	BizResult<List<OperationVO>> result = new BizResult<List<OperationVO>>() ;
+    	List<OperationVO> vos = new ArrayList<OperationVO>() ;
+    	List<OperationDO> operationDOs = showcaseService.getAllOperactions();
+    	if( CollectionUtils.isEmpty(operationDOs) ){
+    		return result;
+    	}
+    	for( OperationDO operationDO : operationDOs ){
+    		String code = operationDO.getCode() ;
+    		OperationVO vo = new OperationVO();
+    		vo.setOperationId(operationDO.getId());
+    		vo.setOperationCode(code);
+    		vo.setOperationName(operationDO.getName());
+    		
+    		for (OperationType type : OperationType.values()) {
+    			if( code.equals(type.name())) {
+    				
+    				if (OperationType.FREE_TOUR_LIST == type || OperationType.PACKAGE_TOUR_LIST == type
+    						|| OperationType.AROUND_FUN_LIST == type) {
+    					// 选择目的地、选择路线标签
+    					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_LINE };
+    					vo.setParamTypes(types);
+    				} else if (OperationType.CITY_ACTIVITY_LIST == type) {
+    					// 选择目的地、选择活动标签
+    					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_ACTIVITY };
+    					vo.setParamTypes(types);
+    				} else if (OperationType.FREE_TOUR_DETAIL == type || OperationType.PACKAGE_TOUR_DETAIL == type
+    						|| OperationType.JIUXIU_BUY_DETAIL == type || OperationType.AROUND_FUN_DETAIL == type
+    						|| OperationType.CITY_ACTIVITY_DETAIL == type) {
+    					// 选择商品
+    					String[] types = { OperationParamConstant.ITEM_DETAIL };
+    					vo.setParamTypes(types);
+    				}
+    				break;
+    			}
+    		}
+    		vos.add(vo);
+    		
+    	}
+    	result.setValue(vos);
+        return result;
     }
+    
+/**
+1、从operation中查询所有跳转方式
+2、定义需要特殊处理的OperationType（选目的地、主题）
+3、从operaction表中查询出所有的跳转配置，然后和operactionType比较，如果是需要特殊处理，那么跳转的radio
+4、选择目的地；主题（使用tagType中的主题）
+5、
+
+
+OperationType.FREE_TOUR_LIST ,  OperationType.PACKAGE_TOUR_LIST , OperationType.AROUND_FUN_LISL
+
+
+
+
+
+ */
 
 }
