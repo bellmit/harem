@@ -75,4 +75,7 @@ public interface ShowcaseService {
 
     //主题
     List<OperationDO> getListtheme(OperationQuery operationQuery);
+    
+
+    public List<OperationDO> getAllOperactions() ;
 }
