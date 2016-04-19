@@ -180,6 +180,7 @@ public class MerchantController extends BaseController {
 	@ResponseBody
 	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
 		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+		//merchantPageQuery.
 		try {
 			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
 			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
