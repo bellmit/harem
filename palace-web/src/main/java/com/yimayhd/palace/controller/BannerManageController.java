@@ -126,10 +126,9 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.GET)
     public String showcaseToEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        if(id == 0L){
-            throw new Exception("参数【id】错误");
-        }
+        if(id == 0L){throw new Exception("参数【id】错误");}
         ShowcaseVO showcase = showcaseService.getById(id);
+        model.addAttribute("boothId",null==showcase?0:showcase.getBoothId());
         model.addAttribute("showcase",showcase);
         return "/system/banner/showcase/edit";
     }

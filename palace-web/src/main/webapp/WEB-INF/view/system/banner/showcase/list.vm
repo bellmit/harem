@@ -97,7 +97,7 @@
         //编辑
         $(".detail").click(function () {
             var id = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/edit?showcaseId="+id, 2,  "编辑showcase");
+            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/edit/"+id, 2,  "编辑showcase");
         });
 
 

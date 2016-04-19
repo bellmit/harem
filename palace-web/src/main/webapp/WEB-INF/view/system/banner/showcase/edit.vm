@@ -13,19 +13,20 @@
             <tr>
                 <td class="tit"></td>
                 <input type="hidden" name="boothId" value="$!boothId">
-                <td><label>权重：</label><input name='serialNo'  type="text" class="busname" placeholder=""><span class="prompt">请填写整数</span></td>
+                <td><label>权重：</label><input name='serialNo'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
+                    <span class="prompt">请填写整数</span></td>
             </tr>
             <tr>
                 <td class="yun"><label>名称(运营备注)：</label></td>
-                <td><input name='info' type="text" class="bisname" id="operat" placeholder="" errormsg="最多输入30个字">&nbsp;&nbsp;<label><span class="checktip">0</span>/30</label></td>
+                <td><input name='info' value="$!showcase.info" type="text" class="bisname" id="operat" placeholder="" errormsg="最多输入30个字">&nbsp;&nbsp;<label><span class="checktip">0</span>/30</label></td>
             </tr>
             <tr>
                 <td class="yun"><label>广告位标题：</label></td>
-                <td><input name='title'  type="text" class="bisname" placeholder=""></td>
+                <td><input name='title' value="$!showcase.title"  type="text" class="bisname" placeholder=""></td>
             </tr>
             <tr>
                 <td class="yun"><label>广告位副标题：</label></td>
-                <td><input name='summery' type="text" class="bisname" placeholder=""></td>
+                <td><input name='summery' value="$!showcase.summery"  type="text" class="bisname" placeholder=""></td>
             </tr>
             <tr>
                 <td class="yun"><label>广告位图片：</label></td>
@@ -33,12 +34,16 @@
                     <div class="imgbox">
                         <div class="fileImgWrap upimgbtn">
                             <button type="button" class="btn btn-success picfile">选择图片</button>
-                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFileSH" accept="image/png,image/gif">
-                            <input type="hidden" name="imgUrl" value=""  id="travelBGImgSH">
+                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFileSH"
+                                   accept="image/png,image/gif">
+                            <input type="hidden" name="imgUrl" value="$!showcase.imgUrl"  id="travelBGImgSH">
                             <p>注：图片大小不超过4M,<br /></p>
                         </div>
                         <br><br>
                         <div class="edimg" id="travelImgIdSH">
+                        #if($!showcase.imgUrl)
+                            <img src="$!showcase.imgUrl" />
+                        #end
                         </div>
                     </div>
                 </td>
