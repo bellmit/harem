@@ -1,7 +1,17 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
+import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
+import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.ic.client.model.domain.item.ItemInfo;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.Region;
+import com.yimayhd.palace.model.query.CommodityListQuery;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.resourcecenter.domain.BoothDO;
@@ -10,6 +20,7 @@ import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
+import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
@@ -68,17 +79,18 @@ public interface ShowcaseService {
 
     PageVO<OperationDO> getPageOperationDO(OperationQuery operationQuery);
 
-    //操作跳转列表
-    List<OperationDO> getListOperationDO(OperationQuery operationQuery);
-
     //目的地
     List<RegionDO> getListdestination(RegionType regionType);
 
+    PageVO<RegionDO> getRegionDOListByType(RegionQuery regionQuery);
     //主题
-    List<OperationDO> getListtheme(OperationQuery operationQuery);
+    PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO)throws Exception;
 
 
     public List<OperationDO> getAllOperactions() ;
 
     public BoothDO getBoothInfoByBoothCode(String code) throws Exception;
+
+    //商品列表
+    public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception ;
 }
