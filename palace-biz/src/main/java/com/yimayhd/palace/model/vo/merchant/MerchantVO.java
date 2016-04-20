@@ -14,6 +14,7 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
+import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.enums.ServiceFacilityOption;
 
@@ -34,13 +35,20 @@ public class MerchantVO extends MerchantDTO {
 		this.loopImageStr = loopImageStr;
 	}
 	private String service;//服务设施
-	
+	private int status;
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public String getService() {
 		return service;
 	}
 	public void setService(String service) {
 		this.service = service;
 	}
+	
 	public MerchantDTO getMerchantDTO(MerchantVO vo) {
 		if (vo == null ) {
 			log.error("merchantVO get merchantDTO error and params:vo={}"+JSON.toJSONString(vo));
@@ -87,7 +95,8 @@ public class MerchantVO extends MerchantDTO {
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
 			//merchantDO.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
-			merchantDO.setStatus(MerchantStatus.INVALID.getCode());
+			merchantDO.setStatus(MerchantStatus.OFFLINE.getCode());
+			merchantDO.setOption(MerchantOption.EAT.getOption());
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
 			//merchantDO.setFeature("{merchantPrincipalTel:"+vo.getMerchantPrincipalTel()+"},{serviceTime:"+vo.getServiceTime()+"}");
 			//merchantDO.setFeature(",{serviceTime:"+vo.getServiceTime()+"}");

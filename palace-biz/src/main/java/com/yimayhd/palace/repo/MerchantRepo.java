@@ -1,5 +1,7 @@
 package com.yimayhd.palace.repo;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -53,7 +56,9 @@ public class MerchantRepo {
 		}
 		BizResultSupport resultSupport = new BizResultSupport();
 		try {
-			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(vo.getMerchantDTO(vo));
+			MerchantDTO dto = new MerchantDTO();
+			//dto.sets
+			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(dto);
 			if (!updateMerchantResult.isSuccess()) {
 				
 				//resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
@@ -67,6 +72,22 @@ public class MerchantRepo {
 			return resultSupport;
 		}
 		
+	}
+	public BizResultSupport batchUpdateMerchant(List<Long> idList,int status) {
+		if (idList == null || status <= 0) {
+			return null;
+		}
+		BizResultSupport bizSupport = new BizResultSupport();
+		try {
+			BaseResult<Boolean> updateResult = userMerchantServiceRef.updateMerchantListStatus(idList, status);
+			if (!updateResult.isSuccess()) {
+				bizSupport.init(false, updateResult.getErrorCode(), updateResult.getErrorMsg());
+			}
+			return bizSupport;
+		} catch (Exception e) {
+			log.error("batch update merchant of food  error and params:"+JSON.toJSONString(idList)+"and status ="+status);
+			return null;
+		}
 	}
 	
 }

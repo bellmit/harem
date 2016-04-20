@@ -1,27 +1,28 @@
 package com.yimayhd.palace.controller.merchant;
 
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
+import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.resourcecenter.domain.RegionDO;
@@ -31,9 +32,10 @@ import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
+import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.enums.ServiceFacilityOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
-import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
@@ -87,7 +89,7 @@ public class MerchantController extends BaseController {
 			saveResult = merchantBiz.addDeliciousFood(vo);
 			if (saveResult.isSuccess()) {
 				result.initSuccess(saveResult.getMsg());
-				result.setValue("toMerchantList");
+				result.setValue("/jiuxiu/merchant/toMerchantList");
 			}else {
 				result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
 			}
@@ -96,7 +98,7 @@ public class MerchantController extends BaseController {
 			saveResult = merchantBiz.updateDeliciousFood(vo);
 			if (saveResult.isSuccess()) {
 				result.initSuccess(saveResult.getMsg());
-				result.setValue("toMerchantList");
+				result.setValue("/jiuxiu/merchant/toMerchantList");
 			}else {
 				result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
 			}
@@ -106,7 +108,13 @@ public class MerchantController extends BaseController {
 		
 	}
 	@RequestMapping(value="toAddDeliciousFood",method=RequestMethod.GET)
-	public String toEditDeliciousFood(Model model,HttpServletRequest request) {
+	public String toEditDeliciousFood(Model model,HttpServletRequest request,Long id) {
+		model.addAttribute("dmid", getRemoteHost(request));
+		model.addAttribute("cities", getMerchantRegions());
+		if (id == null ) {
+			
+			return "system/food/addfoodcustom";
+		}
 		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
@@ -119,18 +127,7 @@ public class MerchantController extends BaseController {
 			
 			
 		}
-//		System.out.println(request.getRemoteHost());
-//		System.out.println(request.getRemoteAddr());
-//		Enumeration<String> headerNames = request.getHeaderNames();
-//		while (headerNames.hasMoreElements()) {
-//			String string = (String) headerNames.nextElement();
-//			System.out.println(string+"--------------"+request.getHeader(string));
-//			
-//		}
-		
-		model.addAttribute("dmid", getRemoteHost(request));
-		//System.out.println(sb);
-		model.addAttribute("cities", getMerchantRegions());
+
 		return "system/food/addfoodcustom";
 		
 	}
@@ -158,7 +155,6 @@ public class MerchantController extends BaseController {
 	}*/
 	@RequestMapping(value="toMerchantList",method=RequestMethod.GET)
 	public String toMerchantList(Model model) {
-		//merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
 		try {
 //			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
 //			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
@@ -177,31 +173,111 @@ public class MerchantController extends BaseController {
 		
 	}
 	@RequestMapping(value="getMerchantList",method=RequestMethod.GET)
-	@ResponseBody
+	//@ResponseBody
 	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
+		BizPageResult<MerchantVO> result = new BizPageResult<>() ;
+				
 		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-		//merchantPageQuery.
+		merchantPageQuery.setOption(MerchantOption.EAT.getOption());
+		if (StringUtils.isBlank(merchantPageQuery.getName())) {
+			
+			merchantPageQuery.setName(null);
+		}
 		try {
 			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
 			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
 				
 				return null;
 			}
-			//model.addAttribute("merchant", merchantUserList.getList());
-			model.addAttribute("cities", getMerchantRegions());
-			model.addAttribute("merchantQuery", merchantPageQuery);
+			//model.addAttribute("cities", getMerchantRegions());
+			//model.addAttribute("merchantQuery", merchantPageQuery);
 			System.out.println(JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty));
-			return "{total:"+merchantUserList.getList().size()+",rows:"+JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty)+"}";
+			List<MerchantVO> merchantList = new ArrayList<>();
+			for (MerchantUserDTO merchant : merchantUserList.getList()) {
+				MerchantVO vo = new MerchantVO();
+				vo.setId(merchant.getMerchantDO().getId());
+				vo.setName(merchant.getMerchantDO().getName());
+				vo.setAddress(merchant.getMerchantDO().getAddress());
+				vo.setCityName(merchant.getMerchantDO().getCityName());
+				vo.setMerchantPrincipalTel(merchant.getMerchantDO().getMerchantPrincipalTel());
+				vo.setStatus(merchant.getMerchantDO().getStatus());
+				merchantList.add(vo);
+			}
+//			result.setList(merchantList);
+//			result.setTotalCount(merchantUserList.getTotalCount());
+//			return result ;
+			model.addAttribute("merchantList", merchantList);
+			int totalPage = 0;
+			if (merchantUserList.getTotalCount()%merchantPageQuery.getPageSize() > 0) {
+				totalPage += merchantUserList.getTotalCount()/merchantPageQuery.getPageSize()+1;
+			}else {
+				
+				totalPage += merchantUserList.getTotalCount()/merchantPageQuery.getPageSize();
+			}
+			model.addAttribute("totalPage", totalPage);
+			model.addAttribute("pageNo", merchantUserList.getPageNo());
+			model.addAttribute("totalCount", merchantUserList.getTotalCount());
+			//model.addAttribute("pageSize", merchantUserList.getTotalCount());
+			return "/system/food/businesTable";
+//			return "{'total':'"+merchantUserList.getList().size()+"','rows':'"+JSON.toJSONString(merchantList, SerializerFeature.WriteNullStringAsEmpty)+"'}";
 		} catch (Exception e) {
 			log.error("get merchant list error, ",e);
-			return null;
+			return "/system/food/businesTable";
 		}
 	}
-	@RequestMapping(value="updateStatus")
+	@RequestMapping(value="updateStatus",method=RequestMethod.POST)
 	@ResponseBody
-	public String updateStatus() {
+	public BizResult<String> updateStatus(String ids,Integer status) {
+		if (ids == null || status == null) {
+			log.error("params error and params is "+ids);
+			throw new BaseException("参数错误");
+		}
+		BizResult<String> bizResult = new BizResult<String>();
+		String[] idArr = ids.split(",");
+//		if (idArr.length < 2 ) {
+//			MerchantVO  vo = new MerchantVO();
+//			if (status == 1) {
+//				vo.setStatus(MerchantStatus.INVALID.getCode());
+//				vo.setId(Integer.parseInt(idArr[0]));
+//			}else if (status == 2) {
+//				//MerchantVO  vo = new MerchantVO();
+//				vo.setStatus(MerchantStatus.OFFLINE.getCode());
+//				vo.setId(Integer.parseInt(idArr[0]));
+//				
+//			}else if (status == 3) {
+//				//MerchantVO  vo = new MerchantVO();
+//				
+//			}
+//			vo.setStatus(status);
+//			vo.setId(Integer.parseInt(idArr[0]));
+//			
+//			BizResultSupport updateResult = merchantBiz.updateDeliciousFood(vo);
+//			if (updateResult == null || !updateResult.isSuccess()) {
+//				String msg = updateResult == null?"操作失败":updateResult.getMsg();
+//				bizResult.init(false, -1, msg);
+//			}
+//			return bizResult;
+//			}
+		List<Long> idList = new ArrayList<>();
+		for (String s : idArr) {
+			idList.add(Long.parseLong(s));
+		}
+		//BizResultSupport resultSupport = null;
+//		if (status == 1) {
+//			
+//			//resultSupport = merchantBiz.batchUpdateMerchant(idList, MerchantStatus.INVALID.getCode());
+//		}else if (status == 2) {
+//			//resultSupport = merchantBiz.batchUpdateMerchant(idList, MerchantStatus.OFFLINE.getCode());
+//		}else if (status == 3) {
+//			
+//		}
+		BizResultSupport resultSupport = merchantBiz.batchUpdateMerchant(idList, status);
+		if (resultSupport == null || !resultSupport.isSuccess()) {
+			String msg = resultSupport == null?"操作失败":resultSupport.getMsg();
+			bizResult.init(false, -1, msg);
+		}
 		//userMerchantServiceRef.
-		return null;
+		return bizResult;
 		
 	}
 }

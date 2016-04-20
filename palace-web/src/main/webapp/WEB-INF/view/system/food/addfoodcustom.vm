@@ -96,7 +96,7 @@
 	<tr>
 		<td class="tit"><span>*</span><label>联系电话：</label></td>
 		<td><input placeholder="请输入电话或手机号"  class="tel" value="$!merchant.merchantPrincipalTel" name="merchantPrincipalTel">
-		<label class="gray9"> 例如：13355454487 或 073183188599 或 0731-83188599</label></td>
+		<label class="gray9"> 例如：13355454487 或 073183188599 或 0731-83188599或83188599</label></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>营业时间：</label></td>
@@ -112,7 +112,9 @@
 		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "2")  checked="checked"  #end #end value="2" type="checkbox">停车</label>
 		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "3")  checked="checked"  #end #end value="3" type="checkbox">刷卡</label>
 		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "4")  checked="checked"  #end #end value="4" type="checkbox">包厢</label>
-		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "5")  checked="checked"  #end #end value="5" type="checkbox">露天位</label></td>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "5")  checked="checked"  #end #end value="5" type="checkbox">露天位</label>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "6")  checked="checked"  #end #end value="6" type="checkbox">吸烟区</label>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "7")  checked="checked"  #end #end value="7" type="checkbox">支付宝</label></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>商家住址：</label></td>
@@ -127,7 +129,7 @@
 		<td><label>经度：</label><input id="locationX" name="lon" value="$!merchant.lon" >&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label><input id="locationY" value="$!merchant.lat" name="lat">&nbsp;&nbsp;<button class="locationXYSelectBtn">查找经纬度</button></td>
 	</tr>
 	<tr>
-		<td colspan="2" class="save"><button  class="save_btn">保存</button></td>
+		<td colspan="2" class="save"><button  class="save_btn">确定</button></td>
 	</tr>
 </table>
 <script>
