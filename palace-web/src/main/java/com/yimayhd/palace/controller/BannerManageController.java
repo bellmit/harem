@@ -1,34 +1,41 @@
 package com.yimayhd.palace.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constants;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.controller.vo.OperationParamConstant;
+import com.yimayhd.palace.controller.vo.OperationVO;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
+import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.model.enums.CacheType;
+import com.yimayhd.resourcecenter.model.enums.OperationType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
-import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Arrays;
 
 
 /**
@@ -50,7 +57,6 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
-
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         return "/system/banner/booth/list";
@@ -97,6 +103,12 @@ public class BannerManageController extends BaseController {
         return "/system/banner/showcase/list";
     }
 
+    @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
+    public String showcaseToAdd(Model model,long boothId) throws Exception {
+        model.addAttribute("boothId",boothId);
+        return "/system/banner/showcase/edit";
+    }
+
     /**
      * 新增showcase提交
      * @param model
@@ -117,10 +129,9 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.GET)
     public String showcaseToEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
-        if(id == 0L){
-            throw new Exception("参数【id】错误");
-        }
+        if(id == 0L){throw new Exception("参数【id】错误");}
         ShowcaseVO showcase = showcaseService.getById(id);
+        model.addAttribute("boothId",null==showcase?0:showcase.getBoothId());
         model.addAttribute("showcase",showcase);
         return "/system/banner/showcase/edit";
     }
@@ -137,7 +148,7 @@ public class BannerManageController extends BaseController {
     }
 
     /**
-     * showcase上架
+     * showcase上下架
      * @param showcaseId
      * @return
      * @throws Exception
@@ -158,23 +169,17 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(ResponseStatus.SUCCESS);
     }
 
-    //获取选择页面的列表
-    @RequestMapping(value = "/operation/list")
-    @ResponseBody
-    public ResponseVo operationList() throws Exception {
-        return new ResponseVo(showcaseService.getListOperationDO(new OperationQuery()));
-    }
-
     //目的地
     @RequestMapping(value = "/destination/list")
     @ResponseBody
     public ResponseVo destinationList() throws Exception {
         return new ResponseVo(showcaseService.getListdestination(RegionType.JIUXIU_REGION));
     }
-    //主题
+    //获取主题，内容
     @RequestMapping(value = "/theme/list")
     @ResponseBody
-    public ResponseVo themeList() throws Exception {
+    public ResponseVo themeList(String code,int type) throws Exception {
+        //TODO:根据code,和type去查询相应的数据
         return new ResponseVo(themeService.getListTheme(1));
     }
 
@@ -185,4 +190,68 @@ public class BannerManageController extends BaseController {
         }
         return "success";
     }
+
+
+    //获取选择页面的列表
+    @RequestMapping(value = "/operation/list")
+    @ResponseBody
+    public BizResult<List<OperationVO>> operationList() throws Exception {
+    	BizResult<List<OperationVO>> result = new BizResult<List<OperationVO>>() ;
+    	List<OperationVO> vos = new ArrayList<OperationVO>() ;
+    	List<OperationDO> operationDOs = showcaseService.getAllOperactions();
+    	if( CollectionUtils.isEmpty(operationDOs) ){
+    		return result;
+    	}
+    	for( OperationDO operationDO : operationDOs ){
+    		String code = operationDO.getCode() ;
+    		OperationVO vo = new OperationVO();
+    		vo.setOperationId(operationDO.getId());
+    		vo.setOperationCode(code);
+    		vo.setOperationName(operationDO.getName());
+    		
+    		for (OperationType type : OperationType.values()) {
+    			if( code.equals(type.name())) {
+    				
+    				if (OperationType.FREE_TOUR_LIST == type || OperationType.PACKAGE_TOUR_LIST == type
+    						|| OperationType.AROUND_FUN_LIST == type) {
+    					// 选择目的地、选择路线标签
+    					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_LINE };
+    					vo.setParamTypes(types);
+    				} else if (OperationType.CITY_ACTIVITY_LIST == type) {
+    					// 选择目的地、选择活动标签
+    					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_ACTIVITY };
+    					vo.setParamTypes(types);
+    				} else if (OperationType.FREE_TOUR_DETAIL == type || OperationType.PACKAGE_TOUR_DETAIL == type
+    						|| OperationType.JIUXIU_BUY_DETAIL == type || OperationType.AROUND_FUN_DETAIL == type
+    						|| OperationType.CITY_ACTIVITY_DETAIL == type) {
+    					// 选择商品
+    					String[] types = { OperationParamConstant.ITEM_DETAIL };
+    					vo.setParamTypes(types);
+    				}
+    				break;
+    			}
+    		}
+    		vos.add(vo);
+    		
+    	}
+    	result.setValue(vos);
+        return result;
+    }
+    
+/**
+1、从operation中查询所有跳转方式
+2、定义需要特殊处理的OperationType（选目的地、主题）
+3、从operaction表中查询出所有的跳转配置，然后和operactionType比较，如果是需要特殊处理，那么跳转的radio
+4、选择目的地；主题（使用tagType中的主题）
+5、
+
+
+OperationType.FREE_TOUR_LIST ,  OperationType.PACKAGE_TOUR_LIST , OperationType.AROUND_FUN_LISL
+
+
+
+
+
+ */
+
 }
