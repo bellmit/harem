@@ -87,23 +87,37 @@ public class MerchantController extends BaseController {
 		if (id <= 0 || id == null) {
 			
 			saveResult = merchantBiz.addDeliciousFood(vo);
-			if (saveResult.isSuccess()) {
-				result.initSuccess(saveResult.getMsg());
-				result.setValue("/jiuxiu/merchant/toMerchantList");
-			}else {
-				//result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
-				String errorMsg = saveResult.getPalaceReturnCode().getErrorMsg();
-				result.init(false, -1, StringUtils.isBlank(errorMsg)?"保存失败":errorMsg);
-			}
+				if (saveResult == null) {
+					result.init(false, -1,
+							 "保存失败");
+					return result;
+				}
+				if (saveResult.isSuccess()) {
+					result.initSuccess(saveResult.getMsg());
+					result.setValue("/jiuxiu/merchant/toMerchantList");
+				} else {
+					//result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
+					String errorMsg = saveResult.getPalaceReturnCode() == null ? null
+							: saveResult.getPalaceReturnCode().getErrorMsg();
+					result.init(false, -1,
+							StringUtils.isBlank(errorMsg) ? "保存失败" : errorMsg);
+				}
+			
 		}else {
 			vo.setId(id);
 			saveResult = merchantBiz.updateDeliciousFood(vo);
+			if (saveResult == null) {
+				result.init(false, -1,
+						 "保存失败");
+				return result;
+			}
 			if (saveResult.isSuccess()) {
 				result.initSuccess(saveResult.getMsg());
 				result.setValue("/jiuxiu/merchant/toMerchantList");
 			}else {
 				//result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
-				String errorMsg = saveResult.getPalaceReturnCode().getErrorMsg();
+				//saveResult
+				String errorMsg = saveResult.getPalaceReturnCode() == null?null:saveResult.getPalaceReturnCode().getErrorMsg();
 				result.init(false, -1, StringUtils.isBlank(errorMsg)?"保存失败":errorMsg);
 			}
 		}
