@@ -246,6 +246,7 @@ public class MerchantController extends BaseController {
 				vo.setMerchantPrincipalTel(merchant.getMerchantDO().getMerchantPrincipalTel());
 				vo.setStatus(merchant.getMerchantDO().getStatus());
 				vo.setCityCode(merchant.getMerchantDO().getCityCode());
+				vo.setLogoImage(merchant.getMerchantDO().getLogo());
 				merchantList.add(vo);
 			}
 //			result.setList(merchantList);

@@ -17,8 +17,8 @@
 				<td><input type="checkbox" class="ck" value="$!merchant.id"></td>
 				<td>$!merchant.id</td>
 				<td class='viewimg'><a href="#">
-				#if ($!merchant.logo.length>0)
-				<img src='http://s0.test.jiuxiulvxing.com/yunying/img/$!merchant.logo'>
+				#if ($!merchant.logoImage.length()>0)
+				<img src="$tfs/$!merchant.logoImage">
 				#else
 				<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 				#end
