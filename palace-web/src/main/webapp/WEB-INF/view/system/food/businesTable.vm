@@ -1,0 +1,42 @@
+#set($layout="/system/layout/layout-empty.vm")
+<table class="tbgrid">
+		<thead>
+			<th class="tl" style="width:60px;"><label><input type="checkbox" class="all_ck"> 全选</label></th>
+			<th style="width:100px;">编号</th>
+			<th >商户名称</th>
+			<th style="width:100px;">城市</th>
+			<th >商家地址</th>
+			<th style="width:100px;">联系电话</th>
+			<th style="width:100px;">状态</th>
+			<th style="width:140px;">操作</th>
+		</thead>
+		<tbody>
+			#foreach ($merchant in $merchantList)
+			<tr>
+				<td><input type="checkbox" class="ck" value="$!merchant.id"></td>
+				<td>$!merchant.id</td>
+				<td class='viewimg'><a href="#">
+				#if ($!merchant.logo.length>0)
+				<img src='http://s0.test.jiuxiulvxing.com/yunying/img/$!merchant.logo'>
+				#else
+				<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+				#end
+				</a><label>$!merchant.name</label></td>
+				<td class="ct">$!merchant.cityCode</td>
+				<td>$!merchant.address</td>
+				<td>$!merchant.merchantPrincipalTel</td>
+				<td>
+					#if ($!merchant.status == 3)上架 
+					#elseif ($!merchant.status == 2)下架
+					 #end
+				</td>
+				<td><a href="/jiuxiu/merchant/toAddDeliciousFood?id=$!merchant.id" class="exam">编辑</a>&nbsp;&nbsp;
+				#if($!merchant.status == 3)<label id="row_id" class="exam offshelf">下架</label>#end
+				#if($!merchant.status == 2)<label id="row_id" class="exam onshelf">上架</label>#end
+				
+				&nbsp;&nbsp;<label id="row_id" class="exam del">删除</label></td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	<input type="hidden" class="totalCount" value="$!totalCount">

@@ -1,5 +1,6 @@
 package com.yimayhd.palace.service.impl;
 
+import com.alibaba.dubbo.common.json.JSONToken;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
@@ -98,6 +99,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     public boolean add(ActActivityEditVO actActivityEditVO) throws Exception {
         PromotionEditDTO promotionEditDTO = PromotionEditDTOConverter.getPromotionEditDTO(actActivityEditVO);
         ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+//        System.err.println(JSON.toJSONString(promotionEditDTO));
+//        System.err.println(JSON.toJSONString(baseResult));
         if(baseResult == null){
             log.error("PromotionCommService.add error: " + promotionEditDTO);
             throw new BaseException("返回结果错误");

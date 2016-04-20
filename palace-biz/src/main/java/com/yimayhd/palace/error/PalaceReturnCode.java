@@ -43,4 +43,9 @@ public class PalaceReturnCode implements Serializable {
 	/***************************************** 商户相关 ********************************************************/
 	public static final PalaceReturnCode ADD_MERCHANT_ERROR = new PalaceReturnCode(25001004, "新增美食商户失败");
 	public static final PalaceReturnCode UPDATE_MERCHANT_ERROR = new PalaceReturnCode(25001005, "修改美食商户失败");
+	
+	
+
+	public static final PalaceReturnCode FILE_TO_BIG = new PalaceReturnCode(25002000, "文件超过最大限制");
+	public static final PalaceReturnCode UPLOAD_FILE_FAILED = new PalaceReturnCode(25002001, "上传文件失败");
 }

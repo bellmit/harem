@@ -231,7 +231,7 @@
     	var trs = $("tr.item-tr");
     	newTr = trs[trs.length-1] ;
     	
-    	$(newTr).find("input textarea").val("");
+    	$(newTr).find("input.img-values").val("");
     	$(newTr).find("textarea").text("");
     	$(newTr).find(".img-view-container").empty();
     	
