@@ -50,46 +50,7 @@
 						</div>
 						<input type="hidden" name="loopImageStr" value="$!merchant.logo">
 					</div>
-					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
-							<button class="del">删除图片</button>
-						</div>
-						<input type="hidden" name="loopImageStr">
-					</div>
-					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
-							<button class="del">删除图片</button>
-						</div>
-						<input type="hidden" name="loopImageStr">
-					</div>
-					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
-							<button class="del">删除图片</button>
-						</div>
-						<input type="hidden" name="loopImageStr">
-					</div>
-					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
-							<button class="del">删除图片</button>
-						</div>
-						<input type="hidden" name="loopImageStr">
-					</div>
+					
 				</div>
 		</td>
 	</tr>

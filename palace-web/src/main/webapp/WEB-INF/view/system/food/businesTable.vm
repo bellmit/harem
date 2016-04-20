@@ -32,7 +32,7 @@
 				</td>
 				<td><a href="/jiuxiu/merchant/toAddDeliciousFood?id=$!merchant.id" class="exam">编辑</a>&nbsp;&nbsp;
 				#if($!merchant.status == 3)<label id="row_id" class="exam offshelf">下架</label>#end
-				#if($!merchant.status == 2)<label id="row_id" class="exam offshelf">上架</label>#end
+				#if($!merchant.status == 2)<label id="row_id" class="exam onshelf">上架</label>#end
 				
 				&nbsp;&nbsp;<label id="row_id" class="exam del">删除</label></td>
 			</tr>
