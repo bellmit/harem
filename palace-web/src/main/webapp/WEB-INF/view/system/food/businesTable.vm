@@ -1,4 +1,4 @@
-#set($layout="/system/food/﻿abc.vm")
+#set($layout = "/system/layout/layout-empty.vm")
 
 	<table class="tbgrid">
 		<thead>
