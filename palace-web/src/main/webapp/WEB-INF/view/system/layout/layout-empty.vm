@@ -1,15 +1,2 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-	#parse("/system/layout/layout-jiuxiu-meta.vm")
-
-	<meta charset="utf-8">
-	
-	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/base.css?t=3">
-
-</head>
-<body>
     $screen_content
-</body>
-</html>
 

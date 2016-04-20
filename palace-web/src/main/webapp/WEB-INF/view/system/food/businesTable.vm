@@ -1,6 +1,5 @@
 #set($layout="/system/layout/layout-empty.vm")
-
-	<table class="tbgrid">
+<table class="tbgrid">
 		<thead>
 			<th class="tl" style="width:60px;"><label><input type="checkbox" class="all_ck"> 全选</label></th>
 			<th style="width:100px;">编号</th>
