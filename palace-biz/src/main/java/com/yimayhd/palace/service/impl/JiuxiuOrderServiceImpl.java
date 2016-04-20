@@ -36,7 +36,7 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 	public BatchBizQueryResult getOrderList(JiuxiuOrderListQuery jiuxiuOrderListQuery) throws Exception {
 		OrderQueryDTO dto = new OrderQueryDTO();
 		dto.setDomain(Constant.DOMAIN_JIUXIU);
-		dto.setSellerId(sessionManager.getUserId());
+//		dto.setSellerId(sessionManager.getUserId());
 		//商品类型
 		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getItemType())){
 			dto.setOrderBizTypes(new int[]{Integer.parseInt(jiuxiuOrderListQuery.getItemType())});
@@ -75,7 +75,7 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantNo())){
 			dto.setSellerId(Long.parseLong(jiuxiuOrderListQuery.getMerchantNo()));
 		}
-		return tcBizQueryServiceRef.queryOrderForSeller(dto);
+		return tcBizQueryServiceRef.queryOrderForAdmin(dto);
 	}
 
 	
