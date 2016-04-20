@@ -91,7 +91,9 @@ public class MerchantController extends BaseController {
 				result.initSuccess(saveResult.getMsg());
 				result.setValue("/jiuxiu/merchant/toMerchantList");
 			}else {
-				result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
+				//result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
+				String errorMsg = saveResult.getPalaceReturnCode().getErrorMsg();
+				result.init(false, -1, StringUtils.isBlank(errorMsg)?"保存失败":errorMsg);
 			}
 		}else {
 			vo.setId(id);
@@ -100,7 +102,9 @@ public class MerchantController extends BaseController {
 				result.initSuccess(saveResult.getMsg());
 				result.setValue("/jiuxiu/merchant/toMerchantList");
 			}else {
-				result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
+				//result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
+				String errorMsg = saveResult.getPalaceReturnCode().getErrorMsg();
+				result.init(false, -1, StringUtils.isBlank(errorMsg)?"保存失败":errorMsg);
 			}
 		}
 		
@@ -130,6 +134,31 @@ public class MerchantController extends BaseController {
 		}
 
 		return "system/food/addfoodcustom";
+		
+	}
+	@RequestMapping(value="toViewDeliciousFood",method=RequestMethod.GET)
+	public String toViewDeliciousFood(Model model,HttpServletRequest request,Long id) {
+		model.addAttribute("dmid", getRemoteHost(request));
+		model.addAttribute("cities", getMerchantRegions());
+		if (id == null || id <= 0 ) {
+			
+			return "/system/food/foodcustomdt";
+		}
+		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
+		//BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
+		if (merchant.isSuccess() && merchant.getValue() != null) {
+			MerchantDO merchantDO = merchant.getValue();
+			long serviceFacility = merchantDO.getServiceFacility();
+			if (serviceFacility >= 0 ) {
+				List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
+				model.addAttribute("containedOptions",containedOptions);
+			}
+			model.addAttribute("merchant",merchant.getValue() );
+			
+			
+		}
+		
+		return "/system/food/foodcustomdt";
 		
 	}
 	
@@ -202,6 +231,7 @@ public class MerchantController extends BaseController {
 				vo.setCityName(merchant.getMerchantDO().getCityName());
 				vo.setMerchantPrincipalTel(merchant.getMerchantDO().getMerchantPrincipalTel());
 				vo.setStatus(merchant.getMerchantDO().getStatus());
+				vo.setCityCode(merchant.getMerchantDO().getCityCode());
 				merchantList.add(vo);
 			}
 //			result.setList(merchantList);

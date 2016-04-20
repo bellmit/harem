@@ -41,7 +41,7 @@
 				<option value="2">下架</option>
 				<option value="3">上架</option>
 			</select></td>
-			<td><button class="searchbtn">搜索</button></td>
+			<td><button class="searchbtn">搜索</button>&nbsp;&nbsp;<input class="inputbtn" type="reset" value="重置"></td>
 		</tr>
 	</table>
 </div>
@@ -54,7 +54,7 @@
 		<button class="groupdelete">批量删除</button>
 	</div>
 	<div class="fr">
-		<a class="abtn" href="/jiuxiu/merchant/toAddDeliciousFood">添加</a>
+		<a class="abtn" href="$root_path/jiuxiu/merchant/toAddDeliciousFood">添加</a>
 	</div>
 </div>
 <div class="gridbox">

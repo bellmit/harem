@@ -56,9 +56,9 @@ public class MerchantRepo {
 		}
 		BizResultSupport resultSupport = new BizResultSupport();
 		try {
-			MerchantDTO dto = new MerchantDTO();
+			//MerchantDTO dto = new MerchantDTO();
 			//dto.sets
-			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(dto);
+			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(vo.getMerchantDTO(vo));
 			if (!updateMerchantResult.isSuccess()) {
 				
 				//resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
