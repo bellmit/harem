@@ -111,11 +111,12 @@ public class MerchantController extends BaseController {
 	public String toEditDeliciousFood(Model model,HttpServletRequest request,Long id) {
 		model.addAttribute("dmid", getRemoteHost(request));
 		model.addAttribute("cities", getMerchantRegions());
-		if (id == null ) {
+		if (id == null || id <= 0 ) {
 			
 			return "system/food/addfoodcustom";
 		}
-		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
+		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
+		//BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
 			long serviceFacility = merchantDO.getServiceFacility();
@@ -165,11 +166,11 @@ public class MerchantController extends BaseController {
 			model.addAttribute("cities", getMerchantRegions());
 			//model.addAttribute("merchantQuery", merchantPageQuery);
 			
-			return "system/food/busineslist";
+			//return "system/food/busineslist";
 		} catch (Exception e) {
 			log.error("get merchant list error, ",e);
-			return "system/food/busineslist";
 		}
+		return "system/food/busineslist";
 		
 	}
 	@RequestMapping(value="getMerchantList",method=RequestMethod.GET)

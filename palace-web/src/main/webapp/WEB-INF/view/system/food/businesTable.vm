@@ -22,7 +22,7 @@
 				<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 				#end
 				</a><label>$!merchant.name</label></td>
-				<td>$!merchant.cityName</td>
+				<td class="ct">$!merchant.cityCode</td>
 				<td>$!merchant.address</td>
 				<td>$!merchant.merchantPrincipalTel</td>
 				<td>
@@ -30,7 +30,11 @@
 					#elseif ($!merchant.status == 2)下架
 					 #end
 				</td>
-				<td><a href="#" class="exam">编辑</a>&nbsp;&nbsp;<label id="row_id" class="exam offshelf">下架</label>&nbsp;&nbsp;<label id="row_id" class="exam del">删除</label></td>
+				<td><a href="/jiuxiu/merchant/toAddDeliciousFood?id=$!merchant.id" class="exam">编辑</a>&nbsp;&nbsp;
+				#if($!merchant.status == 3)<label id="row_id" class="exam offshelf">下架</label>#end
+				#if($!merchant.status == 2)<label id="row_id" class="exam offshelf">上架</label>#end
+				
+				&nbsp;&nbsp;<label id="row_id" class="exam del">删除</label></td>
 			</tr>
 			#end
 		</tbody>
