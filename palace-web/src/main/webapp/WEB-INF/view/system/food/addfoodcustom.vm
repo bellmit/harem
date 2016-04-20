@@ -79,7 +79,7 @@
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>商家住址：</label></td>
-		<td><select class="ml10" id="city" name="cityCode"><option>--请选择--</option>
+		<td><select class="ml10" id="city" name="cityCode"><option value="0">--请选择--</option>
 			#foreach ($city in $cities)
 				<option #if ($!merchant.cityCode == $!city.cityCode) selected="selected" #end value="$!city.cityCode">$!city.cityName</option>
 			#end
