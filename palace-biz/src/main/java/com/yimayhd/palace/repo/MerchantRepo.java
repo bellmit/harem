@@ -35,16 +35,22 @@ public class MerchantRepo {
 		}
 		BizResultSupport resultSupport = new BizResultSupport();
 		try {
+			log.error("params is "+vo);
 			BaseResult<MerchantDO> saveMerchantResult = userMerchantServiceRef.saveMerchant(vo.getMerchantDO(vo,sessionManager.getUserId()));
 			log.error("error is "+saveMerchantResult);
 			if (saveMerchantResult == null) {
 				resultSupport.init(false, -1, "保存失败");
 				return resultSupport;
 			}
+			log.error("info is "+saveMerchantResult.getErrorMsg()+saveMerchantResult.getErrorCode()+saveMerchantResult.isSuccess());
+			log.error("info is "+resultSupport);
 			if (!saveMerchantResult.isSuccess()) {
+				log.error("info is "+saveMerchantResult.getErrorMsg()+saveMerchantResult.getErrorCode()+saveMerchantResult.isSuccess());
+				log.error("info is "+resultSupport);
 				resultSupport.init(false, saveMerchantResult.getErrorCode(), saveMerchantResult.getErrorMsg());
 				//resultSupport.setPalaceReturnCode(PalaceReturnCode.ADD_MERCHANT_ERROR);
 			}
+			log.error("info is "+resultSupport);
 			//return resultSupport;
 		} catch (Exception e) {
 			log.error("add merchant of food error and params:"+JSON.toJSONString(vo)+"and exception is "+e);
@@ -63,17 +69,22 @@ public class MerchantRepo {
 		try {
 			//MerchantDTO dto = new MerchantDTO();
 			//dto.sets
+			log.error("params is "+vo);
 			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(vo.getMerchantDTO(vo));
 			log.error("error is "+updateMerchantResult);
 			if (updateMerchantResult == null) {
 				resultSupport.init(false, -1, "保存失败");
 				return resultSupport;
 			}
+			log.error("info is "+updateMerchantResult.getErrorMsg()+updateMerchantResult.getErrorCode()+updateMerchantResult.isSuccess());
+			log.error("info is "+resultSupport);
 			if (!updateMerchantResult.isSuccess()) {
-				
+				log.error("info is "+updateMerchantResult.getErrorMsg()+updateMerchantResult.getErrorCode()+updateMerchantResult.isSuccess());
+				log.error("info is "+resultSupport);
 				//resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
 				resultSupport.init(false, updateMerchantResult.getErrorCode(), updateMerchantResult.getErrorMsg());
 			}
+			log.error("info is "+resultSupport);
 			//return resultSupport;
 		} catch (Exception e) {
 			log.error("update merchant of food error and params:"+JSON.toJSONString(vo)+"and exception is "+e.getMessage());
