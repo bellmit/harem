@@ -311,7 +311,9 @@ public class CommodityServiceImpl implements CommodityService {
             //减库存方式
             itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
 
+//            System.err.println(JSON.toJSONString(commonItemPublishDTO));
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
+//            System.err.println(JSON.toJSONString(itemPubResult));
             if(null == itemPubResult){
                 log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
                 throw new BaseException("返回结果错误,修改失败");

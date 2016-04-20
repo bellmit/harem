@@ -1,5 +1,7 @@
 package com.yimayhd.palace.biz;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
@@ -23,5 +25,8 @@ public class MerchantBiz {
 	
 	public BizResultSupport updateDeliciousFood(MerchantVO vo) {
 		return merchantRepo.updateDeliciousFood(vo);
+	}
+	public BizResultSupport batchUpdateMerchant(List<Long> idList,int status) {
+		return merchantRepo.batchUpdateMerchant(idList, status);
 	}
 }

@@ -5,6 +5,13 @@
 	<div class="bgmeng"></div>
 	<div class="dlgcont"><img src="http://s0.test.jiuxiulvxing.com/yunying/img/loading.gif"><label>请稍后。。。</label></div>
 </div>
+<div class="msg">
+<div class="bgmeng"></div>
+	<div class="dlgcont">
+		<label ></label>
+		
+	</div>
+	</div>
 <div class="confirm">
 	<div class="bgmeng"></div>
 	<div class="dlgcont">
@@ -15,30 +22,30 @@
 		</div>
 	</div>
 </div>
+<form id="fm" >
 <div class="searchbox" style="width:980px;">
-	<form id="fm">
-		<table>
-			<tr>
-				<td class="tit">商户名称：</td>
-				<td><input name="name" maxlength="30" /></td>
-				<td class="tit">城市：</td>
-				<td><select name="cityCode">
+	<table>
+		<tr>
+			<td class="tit">商户名称：</td>
+			<td><input name="name" maxlength="30" /></td>
+			<td class="tit">城市：</td>
+			<td><select name="cityCode">
 					<option value="0">全部</option>
 				#foreach ($city in $cities)
 					<option value="$!city.cityCode">$!city.cityName</option>
 				#end
 				</select></td>
-				<td class="tit">状态：</td>
-				<td><select name="status">
-					<option value="0">全部</option>
-					<option value="1">启用</option>
-					<option value="2">禁用</option>
-				</select></td>
-				<td><button class="searchbtn">搜索</button></td>
-			</tr>
-		</table>
-	</form>
+			<td class="tit">状态：</td>
+			<td><select name="status">
+				<option value="0">全部</option>
+				<option value="2">下架</option>
+				<option value="3">上架</option>
+			</select></td>
+			<td><button class="searchbtn">搜索</button>&nbsp;&nbsp;<input class="inputbtn" type="reset" value="重置"></td>
+		</tr>
+	</table>
 </div>
+</form>
 <div class="clearfix operabox">
 	<div class="fl">
 		<label>批量操作：</label>
@@ -47,44 +54,24 @@
 		<button class="groupdelete">批量删除</button>
 	</div>
 	<div class="fr">
-		<a class="abtn" href="../merchant/toAddDeliciousFood">添加</a>
+		<a class="abtn" href="$root_path/jiuxiu/merchant/toAddDeliciousFood">添加</a>
 	</div>
 </div>
 <div class="gridbox">
-	<table class="tbgrid">
-		<thead>
-			<th class="tl" style="width:100px;"><label><input type="checkbox" class="all_ck"> 全选</label></th>
-			<th>编号</th>
-			<th>商户名称</th>
-			<th>城市</th>
-			<th>商家地址</th>
-			<th>联系电话</th>
-			<th>状态</th>
-			<th>操作</th>
-		</thead>
-		<tbody>
-		#foreach ($merchant in $merchantList)
-			<tr>
-				<td><input type="checkbox" class="ck" value="1002"></td>
-				<td>$!merchant.merchantDO.id</td>
-				<td class='viewimg'><a href="#"><img src='http://s0.test.jiuxiulvxing.com/yunying/img/loading.gif'></a><label>$!merchant.merchantDO.name</label></td>
-				<td>$!merchant.merchantDO.city</td>
-				<td>$!merchant.merchantDO.address</td>
-				<td>$!merchant.merchantDO.merchantPrincipalTel</td>
-				<td>
-					#if ($!merchant.merchantDO.status == 2)上架 
-					#elseif ($!merchant.merchantDO.status == 3)下架
-					 #end
-				</td>
-				<td><a href="#" class="exam">编辑</a>&nbsp;&nbsp;<label id="row_id" class="exam offshelf">下架</label>&nbsp;&nbsp;<label id="row_id" class="exam del">删除</label></td>
-			</tr>
-			#end
-		</tbody>
-	</table>
-	<div class='pagebox'>
-		<div class="actionpage"><button class='prev'>上一页</button><label>当前第 </label><label class='curpage'>1</label><label> 页</label><button class='next'>下一页</button></div>
-		<div class="pageinfo"><label>共：</label><label class='total'>20</label><label>页</label></div>
+<div class='tblist'>
+
 	</div>
+	<div class='pagebox'>
+		<div class="actionpage"><button class='prev'>上一页</button><label>当前第 </label><label class='page'>1</label><label> 页</label><button class='next'>下一页</button></div>
+		<div class="pageinfo"><label>每页：</label>
+		<select class="pagesize"> 
+		<option value="10">10</option>
+		<option value="20">20</option>
+		<option value="30">30</option>
+		</select><label> 条</label>
+		<label> 共：</label><label class='total'>20</label><label>页</label></div>
+	</div>
+
 </div>
 
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>

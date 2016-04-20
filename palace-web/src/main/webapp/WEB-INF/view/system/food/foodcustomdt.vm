@@ -1,0 +1,76 @@
+﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<link type="text/css" rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/admin.css" />
+<link rel="stylesheet" type="text/css" href="$rs_js_css_path_jiuxiu/css/jquery-ui.css" />
+</head>
+<body>
+<div class="loading">
+	<div class="bgmeng"></div>
+	<div class="dlgcont"><img src="http://s0.test.jiuxiulvxing.com/yunying/img/loading.gif"><label>请稍后。。。</label></div>
+</div>
+<div class="msg">
+	<div class="bgmeng"></div>
+	<div class="dlgcont"><label></label></div>
+</div>
+	<table class="addfood">
+		<tr>
+			<td class="tit"><span>*</span><label>商家名称：</label></td>
+			<td>$!merchant.name</td>
+		</tr>
+		<tr>
+			<td class="tit"><span>*</span><label>商家图片：</label></td>
+			<td>
+				<div class="uploadbox clearfix espcil">
+					<div class="imgbox">
+						<div class="dimg">
+							#if ($merchant.logo.length()>0)
+					
+						<img src="$!tfs/$!merchant.logo">
+						#else
+						
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						#end
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit"><span>*</span><label>联系电话：</label></td>
+			<td>$!merchant.merchantPrincipalTel</td>
+		</tr>
+		<tr>
+			<td class="tit"><span>*</span><label>营业时间：</label></td>
+			<td>$!merchant.serviceTime</td>
+		</tr>
+		<tr>
+			<td class="tit"><span>*</span><label>人均消费：</label></td>
+			<td>$!merchant.avgprice</td>
+		</tr>
+		<tr>
+			<td class="tit"><span>*</span><label>服务设施：</label></td>
+			<td>#foreach ($option in $containedOptions) #if ($!option.code == "1")<label class="ck"> wifi </label>   
+		 #elseif ($!option.code == "2") <label class="ck"> 停车  </label>  
+		 #elseif ($!option.code == "3") <label class="ck">  刷卡  </label>   
+		  #elseif ($!option.code == "4")<label class="ck"> 包厢  </label>    
+		  #elseif ($!option.code == "5") <label class="ck"> 露天位  </label>  
+		 #elseif ($!option.code == "6")<label class="ck"> 吸烟区  </label>  
+		  #elseif ($!option.code == "7") <label class="ck"> 支付宝  </label>  #end  #end</td>
+		</tr>
+		<tr>
+			<td class="tit"><span>*</span><label>商家住址：</label></td>
+			<td id="$!{merchant.cityCode}" class="ct">&nbsp;&nbsp;$!{merchant.address}</td>
+		</tr>
+		<tr>
+			<td class="tit"><span>*</span><label>商家地图：</label></td>
+			<td><label>经度：</label>$!merchant.lon&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label>$!merchant.lat</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="save"><a href="javascript:history.go(-1)" class="abtn">返回</a></td>
+		</tr>
+	</table>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/jquery.form.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.addfoodcustom.js"></script>
+</body>
+</html>

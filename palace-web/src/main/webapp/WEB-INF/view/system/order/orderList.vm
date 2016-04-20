@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="t-msg">
                                         <div class="t-name">$!subOrder.itemTitle</div>
-                                        <div class="t-userType">$!date.format('yyyy-MM-dd HH:mm:ss',$!subOrder.startDate) | $!subOrder.linePackage | $!subOrder.personType</div>
+                                        <div class="t-userType">#if("$!subOrder.startDate" == "")  #else  $!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发  #end | $!subOrder.linePackage | $!subOrder.personType</div>
                                     </div>
                                 </div>
                             </td>
