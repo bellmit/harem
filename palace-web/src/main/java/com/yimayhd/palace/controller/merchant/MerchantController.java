@@ -218,12 +218,12 @@ public class MerchantController extends BaseController {
 			model.addAttribute("pageNo", merchantUserList.getPageNo());
 			model.addAttribute("totalCount", merchantUserList.getTotalCount());
 			//model.addAttribute("pageSize", merchantUserList.getTotalCount());
-			return "/system/food/businesTable";
+//			return "/system/food/businesTable";
 //			return "{'total':'"+merchantUserList.getList().size()+"','rows':'"+JSON.toJSONString(merchantList, SerializerFeature.WriteNullStringAsEmpty)+"'}";
 		} catch (Exception e) {
 			log.error("get merchant list error, ",e);
-			return "/system/food/businesTable";
 		}
+		return "/system/food/businesTable";
 	}
 	@RequestMapping(value="updateStatus",method=RequestMethod.POST)
 	@ResponseBody
