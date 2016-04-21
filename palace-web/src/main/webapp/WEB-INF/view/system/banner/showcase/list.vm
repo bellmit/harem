@@ -36,7 +36,7 @@
                         <td>$!sw.showcaseDO.serialNo</td>
                         <td>$!sw.showcaseDO.info</td>
                         <td>
-                            #if(!$sw.showcaseDO.imgUrl)
+                            #if($sw.showcaseDO.imgUrl)
                                 <img src="$utilWebconfig.getTfsRootPath()$!sw.showcaseDO.imgUrl" width='200' height='200' />
                             #end
                         </td>
