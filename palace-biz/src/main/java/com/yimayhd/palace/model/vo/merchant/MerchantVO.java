@@ -67,7 +67,7 @@ public class MerchantVO extends MerchantDTO {
 			BeanUtils.copyProperties(dto, vo);
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
 			//dto.setId(userId);
-			
+			dto.setAvgprice((long)(vo.getAveragePrice()*100));
 			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
 			if (imgList != null && imgList.size()>0) {
