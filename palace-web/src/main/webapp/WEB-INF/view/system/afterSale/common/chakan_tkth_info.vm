@@ -2,19 +2,19 @@
     <div>
         <span>退款原因：
         #if($!refundOrderDO.refundReasonType==1)
-            收到商品少件/破损等
-        #elseif($!refundOrderDO.refundReasonType==2)
-            假冒品牌
-        #elseif($!refundOrderDO.refundReasonType==3)
-            拍错/效果不好/不喜欢
-        #elseif($!refundOrderDO.refundReasonType==4)
-            颜色/款式/外貌与描述不符
-        #elseif($!refundOrderDO.refundReasonType==5)
-            卖家发错货
-        #elseif($!refundOrderDO.refundReasonType==6)
-            生产人气/保质期描述不符
-        #else
-            其他
+			收到商品少件/破损等
+		#elseif($!refundOrderDO.refundReasonType==2)
+			假冒品牌
+		#elseif($!refundOrderDO.refundReasonType==3)
+		 	拍错/效果不好/不喜欢
+		#elseif($!refundOrderDO.refundReasonType==4)
+			颜色/款式/外貌与描述不符
+		#elseif($!refundOrderDO.refundReasonType==5)
+			卖家发错货
+		#elseif($!refundOrderDO.refundReasonType==6)
+			生产日期/保质期描述不符
+		#else
+			其他
         #end
         </span><br>
         <span>实退金额：

@@ -1,8 +1,8 @@
 #set($layout = "/system/layout/layout-jiuxiu.vm")
+#set($title = "入驻申请-运营后台")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
-<head>
-	<title>入驻申请-运营后台$!{rs_path_jiuxiu}</title>
-</head>
+
+
 <div class="dialog">
 	<div class="bgmeng"></div>
 	<div class="dlgcont">
@@ -93,6 +93,6 @@
 <!-- 尾部结束 -->
 	#parse("/system/layout/layout-jiuxiu-js.vm")
 	
-	<script src="$rs_js_css_path_jiuxiu/js/apply/apply.js?t=3"></script>
+	<script src="$rs_js_css_path_jiuxiu/js/apply/apply.js?t=6"></script>
 	
 </script>

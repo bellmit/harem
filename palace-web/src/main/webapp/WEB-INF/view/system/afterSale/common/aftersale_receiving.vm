@@ -1,0 +1,34 @@
+<div class = "title distance dis">
+	<div class = "info-tit">收货人信息</div>
+	<div class = "cont cont1">
+		<p class = "info first"><em>账号：</em>$!refundOrderDetail.buyerAccount</p>
+		<p class = "info"><em>收货人：</em>$!refundOrderDetail.mainOrder.logisticsOrderDO.fullName</p>
+		<p class = "info last"><em>邮编：</em>$!refundOrderDetail.mainOrder.logisticsOrderDO.post</p>
+	</div>
+	<div class = "cont">
+		<p class = "info first"><em>昵称：</em>$!refundOrderDetail.buyerNiceName</p>
+		<p class = "info"><em>联系电话：</em>
+		
+			#if($!refundOrderDetail.mainOrder.logisticsOrderDO.mobilePhone)
+                $!refundOrderDetail.mainOrder.logisticsOrderDO.mobilePhone
+            #else
+                $!refundOrderDetail.mainOrder.logisticsOrderDO.phone
+            #end
+		
+		</p>
+		<p class = "info last">
+			<em>收货地址：</em>
+			
+				#if($!refundOrderDetail.mainOrder.logisticsOrderDO.prov)
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.prov &nbsp;-&nbsp;
+                #elseif($!refundOrderDetail.mainOrder.logisticsOrderDO.city)
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.city &nbsp;-&nbsp;
+                #elseif($!refundOrderDetail.mainOrder.logisticsOrderDO.area)
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.area &nbsp;-&nbsp;
+                #else
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.address
+                #end
+			
+		</p>
+	</div>
+</div>

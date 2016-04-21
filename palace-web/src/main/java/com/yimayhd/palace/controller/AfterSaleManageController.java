@@ -115,8 +115,8 @@ public class AfterSaleManageController {
         model.addAttribute("type", type);
         //区分是查看 还是审核，在根据状态跳转不同的页面
         if (type == 1) {
+            model.addAttribute("approve", false);
             model.addAttribute("isModified", false);
-            return "/system/afterSale/chakan";
         }else{
             model.addAttribute("isModified", true);
             int refundStatus = refundOrderVO.getRefundOrderDO().getRefundStatus();
@@ -125,8 +125,9 @@ public class AfterSaleManageController {
             	model.addAttribute("rejectStatus", com.yimayhd.refund.client.enums.RefundStatus.SELLER_RECEIPT_REFUSE.getStatus()) ;
                 return "/system/afterSale/shenhe_shouhuo";
             }
-            return "/system/afterSale/shenhe";
+            model.addAttribute("approve", true);
         }
+        return "/system/afterSale/aftersale_detail";
     }
     //审核
     @RequestMapping(value = "/refund/audit")
