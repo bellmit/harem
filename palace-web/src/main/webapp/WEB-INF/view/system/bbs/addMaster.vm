@@ -148,44 +148,55 @@ getBLen = function(str) {
         })
 
 
+		
        
         $('.btnSubmit').click(function(){
             //非空验证
             var msg = validate();
             if(msg){
-			 $(".btnSubmit").attr("disabled", true);
-			 var actionUrl= actionDefaultPath + '/GF/bbs/master/saveOrUpdate';
-           	var options = {
-                    url: actionUrl,
-                    type: "post",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.status == 200) {
-                             layer.msg('操作成功', {
-                            icon: 1,
-                            time: 1500
-                        });
-                        setTimeout(function () {
-                        	 $(".btnSubmit").attr("disabled", false);
-                      	  location.href = actionDefaultPath + "/GF/bbs/master/index";
-                        },1500);
-                           
-                            
-                        } else {
-                            layer.msg('操作失败', {
-                            icon: 2,
-                            time: 2000
-                        });
-                         setTimeout(function () {
-                        $(".btnSubmit").attr("disabled", false);
-                      	  location.href = actionDefaultPath + "/GF/bbs/master/index";
-                        },1500);
-                        }
-                    }
-                };
+				
+				var name = $.trim($(".masterName").val());
+			 
+				$.post(actionDefaultPath+'/GF/bbs/master/check',{name:name},function(data){
+                		if(data == 0){
+						$(".btnSubmit").attr("disabled", true);
+						var actionUrl= actionDefaultPath + '/GF/bbs/master/saveOrUpdate';
+                       	var options = {
+                                url: actionUrl,
+                                type: "post",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.status == 200) {
+                                         layer.msg('操作成功', {
+                                        icon: 1,
+                                        time: 1500
+                                    });
+                                    setTimeout(function () {
+                                    	 $(".btnSubmit").attr("disabled", false);
+                                  	  location.href = actionDefaultPath + "/GF/bbs/master/index";
+                                    },1500);
+                                    } else {
+                                        layer.msg('操作失败', {
+                                        icon: 2,
+                                        time: 2000
+                                    });
+                                     setTimeout(function () {
+                                    $(".btnSubmit").attr("disabled", false);
+                                  	  location.href = actionDefaultPath + "/GF/bbs/master/index";
+                                    },1500);
+                                    }
+                                }
+                            };
 
-                	$("#commodityForm").ajaxSubmit(options);
-				}
+							$("#commodityForm").ajaxSubmit(options);
+						} else {
+							layer.msg('用户昵称重复，请重新添加昵称！', {
+							   icon: 2,
+							   time: 2000
+							});
+						}
+            	});
+			}
         });
 
     });
