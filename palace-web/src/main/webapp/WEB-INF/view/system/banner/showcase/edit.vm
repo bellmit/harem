@@ -46,7 +46,7 @@
                     <div class="imgbox">
                         <div id="travelImgIdSH" class="edimg">
                             #if($!showcase.imgUrl)
-                                <img src='$!showcase.imgUrl' class='dasda' width='200' height='200' ></img>
+                                <img src='$utilWebconfig.getTfsRootPath()$!showcase.imgUrl' class='dasda' width='200' height='200' ></img>
                             #end
                         </div>
                         <div class="fileImgWrap">
@@ -87,7 +87,7 @@
                                     添加内容：
                                 </td>
                                 <td>
-                                    <input type="text" name="addsecontent" class="secontent" id="addsecontentId" >
+                                    <input type="text" name="addsecontent" class="secontent" value="$!showcase.operationContent" id="addsecontentId" >
                                 </td>
                             </tr>
                         </table>
