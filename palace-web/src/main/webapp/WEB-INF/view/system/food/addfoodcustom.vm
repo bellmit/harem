@@ -56,7 +56,7 @@
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>联系电话：</label></td>
-		<td><input placeholder="请输入电话或手机号"  class="tel" value="$!merchant.merchantPrincipalTel" name="merchantPrincipalTel">
+		<td><input placeholder="请输入电话或手机号"  class="tel" value="$!merchant.serviceTel" name="serviceTel">
 		<label class="gray9"> 例如：13355454487 或 073183188599 或 0731-83188599或83188599</label></td>
 	</tr>
 	<tr>
