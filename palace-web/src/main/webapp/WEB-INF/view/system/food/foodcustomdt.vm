@@ -38,7 +38,7 @@
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>联系电话：</label></td>
-			<td>$!merchant.merchantPrincipalTel</td>
+			<td>$!merchant.serviceTel</td>
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>营业时间：</label></td>
