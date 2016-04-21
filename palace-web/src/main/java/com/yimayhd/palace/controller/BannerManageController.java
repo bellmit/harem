@@ -37,6 +37,7 @@ import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,11 +155,12 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/edit/{showcaseId}", method = RequestMethod.GET)
-    public String showcaseToEdit(Model model,@PathVariable("showcaseId") long id) throws Exception {
+    public String showcaseToEdit(Model model,@PathVariable("showcaseId") long id,String boothCode) throws Exception {
         if(id == 0L){throw new Exception("参数【id】错误");}
         ShowcaseVO showcase = showcaseService.getById(id);
         model.addAttribute("boothId",null==showcase?0:showcase.getBoothId());
         model.addAttribute("showcase",showcase);
+        model.addAttribute("boothCode",boothCode);
         return "/system/banner/showcase/edit";
     }
 
@@ -173,9 +175,9 @@ public class BannerManageController extends BaseController {
     public ResponseVo showcaseEdit(Model model,ShowcaseVO showcaseVO) throws Exception {
         ShowcaseVO showcase = showcaseService.saveOrUpdate(showcaseVO);
         if(null != showcase){
-            return new ResponseVo(ResponseStatus.SUCCESS);
+            return new ResponseVo(ResponseStatus.SUCCESS.VALUE,showcaseVO.getBoothCode());
         }
-        return new ResponseVo(ResponseStatus.ERROR);
+        return new ResponseVo(ResponseStatus.ERROR.VALUE,showcaseVO.getBoothCode());
     }
 
     /**
@@ -225,6 +227,10 @@ public class BannerManageController extends BaseController {
         int type = StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber"))?Constant.DEFAULT_PAGE_NO:Integer.parseInt(request.getParameter("pageNumber"));
         int pageSize = StringUtils.isEmpty(request.getParameter("pageSize"))?Constant.DEFAULT_PAGE_SIZE_TEN:Integer.parseInt(request.getParameter("pageSize"));
+        String keyWord = request.getParameter("tags");
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
+            keyWord = (new String(keyWord.getBytes("ISO-8859-1"),"utf-8")).trim();
+        }
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", code);
         result.put("type", type);
@@ -254,7 +260,16 @@ public class BannerManageController extends BaseController {
             query.setDomains(Arrays.asList(1200,1100));
             query.setPageNo(pageNumber);
             query.setPageSize(pageSize);
-            query.setItemType(ItemType.getByName(code).getValue());
+            //判断keyWord是纯数字则放id，否则放title
+            if(NumberUtils.isNumber(keyWord)){
+                query.setId(Long.parseLong(keyWord));
+            }else{
+                query.setName(keyWord);
+            }
+            //商品详情这里不确定
+            if(null != ItemType.getByName(code)){
+                query.setItemType(ItemType.getByName(code).getValue());
+            }
             PageVO<ShowCaseItem> page = showcaseService.getItemByItemOptionDTO(query);
             result.put("pageVo", page);
         }

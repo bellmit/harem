@@ -1,6 +1,7 @@
 package com.yimayhd.palace.convert;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author create by yushengwei on 2016/4/20
@@ -13,7 +14,7 @@ public class ShowCaseItem implements Serializable{
     public String imgUrl;//主图
     public String showType;//显示类别
     public String salerName;//卖家名称
-    public String destination;//目的地
+    public List<String> destination;//目的地
     public String price;//单价
     public String showStatus; //显示状态
     public String pushDate;//发布时间
@@ -58,11 +59,11 @@ public class ShowCaseItem implements Serializable{
         this.salerName = salerName;
     }
 
-    public String getDestination() {
+    public List<String> getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(List<String> destination) {
         this.destination = destination;
     }
 

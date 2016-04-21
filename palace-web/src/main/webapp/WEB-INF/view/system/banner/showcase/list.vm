@@ -36,7 +36,7 @@
                         <td>$!sw.showcaseDO.serialNo</td>
                         <td>$!sw.showcaseDO.info</td>
                         <td>
-                            #if(!$sw.showcaseDO.imgUrl)
+                            #if($sw.showcaseDO.imgUrl)
                                 <img src="$utilWebconfig.getTfsRootPath()$!sw.showcaseDO.imgUrl" width='200' height='200' />
                             #end
                         </td>
@@ -51,9 +51,9 @@
                         <td>$!sw.operationDO.name</td>
                         <td>#SHOWCASE_STATUS($!sw.showcaseDO.status)</td>
                         <td>
-                           #* <button type="button" class="btn btn-primary addRefund detail"
+                            <button type="button" class="btn btn-primary addRefund detail"
                                     orderId="$!sw.showcaseDO.id">编辑
-                            </button>*#
+                            </button>
                             #if(10==$!sw.showcaseDO.status)
                                 <button type="button" class="btn btn-primary affirm"
                                         data-target="#affirmModal" orderId="$!sw.showcaseDO.id" status="20">下架
@@ -101,7 +101,7 @@
         //编辑
         $(".detail").click(function () {
             var id = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/edit/"+id, 2,  "编辑showcase");
+            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/edit/"+id+"?boothCode=$!boothCode", 2,  "编辑showcase");
         });
 
 

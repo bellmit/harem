@@ -4,13 +4,18 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -32,6 +37,7 @@ import com.yimayhd.palace.service.CommodityService;
 import com.yimayhd.palace.service.RegionService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
@@ -50,6 +56,8 @@ import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.OperationClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.user.client.cache.CityDataCacheClient;
+import com.yimayhd.user.client.dto.CityDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +66,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/4/13.
@@ -78,7 +87,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired ItemBizQueryService itemBizQueryService;
 
-    @Autowired CommodityService commodityService;
+    @Autowired CityDataCacheClient cityDataCacheClient;
+
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
         return null;
@@ -140,6 +150,9 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             return add(entity);
         }
         ShowcaseVO sv = getById(entity.getId());
+        if(null == sv){
+            throw  new Exception("查询无数据");
+        }
         RcResult<Boolean> rcResult = showcaseClientServer.update(entity);
         if(null == rcResult || !rcResult.isSuccess()){
             LOGGER.error("saveOrUpdate|showcaseClientServer.update result is " + JSON.toJSONString(rcResult) +",parameter is "+JSON.toJSONString(entity));
@@ -239,31 +252,81 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception {
         ICPageResult<ItemInfo> result = itemBizQueryService.getItem(itemQryDTO);
-        if(null == result || !result.isSuccess()){
+        if(null == result || !result.isSuccess() || null == result.getList()){
             LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is " + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(itemQryDTO));
             return null;
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
-        ShowCaseItem sc = null;
+        List<Long> idList = new ArrayList<Long>();
+
+        //
         if(CollectionUtils.isNotEmpty(result.getList())){
             for (ItemInfo io:result.getList()) {
-                sc = new ShowCaseItem();
-                sc.setId(io.getItemDTO().getId());
-                sc.setName(io.getItemDTO().getTitle());//标题
-                //TODO:参照源码改
-                sc.setImgUrl("---");//主图
-                sc.setShowType("自由行");//显示类别
-                sc.setSalerName(io.getIcMerchantInfoInfo().getMerchantName());//卖家名称
-                sc.setDestination("北京");//目的地
-                sc.setPrice("111");//单价
-                sc.setShowStatus("上架"); //显示状态
-                if(null !=io.getItemDTO().getStartDate()){
-                    sc.setPushDate(DateFormat.dateFormat(io.getItemDTO().getStartDate(),"yyyy-MM-dd"));//发布时间
-                }else{
-                    sc.setPushDate(null);
+                if(null != io.getItemDTO()){
+                    idList.add(io.getItemDTO().getId());
                 }
-                list.add(sc);
             }
+        }
+
+        //批量获取该商品的目的地标签
+        TagInfoByOutIdDTO tag = new TagInfoByOutIdDTO();
+        tag.setDomain(1200);
+        tag.setIdList(idList);
+        tag.setOutType(TagType.DESTPLACE.name());
+
+        BaseResult<Map<Long, List<ComTagDO>>> tagResult = comTagCenterService.getComTag(tag);
+        if(null == tagResult || !tagResult.isSuccess()){
+            LOGGER.error("getItemByItemOptionDTO|comTagCenterService.getComTag result is " + JSON.toJSONString(tagResult) +",parameter is "+JSON.toJSONString(tag));
+            return null;
+        }
+
+        //标签获取完了
+        List<String> cityCodeList = null;
+        List<String> itemCityList = null;
+        for (ItemInfo io:result.getList() ) {
+            itemCityList = new ArrayList<String>();
+            cityCodeList = new ArrayList<String>();
+            ItemDTO ido = io.getItemDTO();
+            if(tagResult.getValue().containsKey(ido.getId())){
+                List<ComTagDO> listComTagDO = tagResult.getValue().get(ido.getId());
+                if(CollectionUtils.isNotEmpty(listComTagDO)){
+                    for (ComTagDO ctd:listComTagDO) {
+                        cityCodeList.add(ctd.getName());
+                    }
+                    Map<String, CityDTO> cityResult = cityDataCacheClient.getCities(cityCodeList);
+                    if(null != cityCodeList && cityCodeList.size()>0){
+                        for (CityDTO cd : cityResult.values()) {
+                            itemCityList.add(cd.getName());
+                        }
+                    }
+                }
+            }
+            ShowCaseItem sc = null;
+            sc = new ShowCaseItem();
+            sc.setId(io.getItemDTO().getId());
+            sc.setName(io.getItemDTO().getTitle());//标题
+            List<String> listPic = io.getItemDTO().getItemMainPics();
+            if(CollectionUtils.isNotEmpty(listPic)){
+                sc.setImgUrl(listPic.get(0)); //主图
+            }
+            sc.setDestination(itemCityList);
+            if(null == itemQryDTO.getItemTypes() || itemQryDTO.getItemTypes().length<=0){
+                sc.setShowType("");//显示类别
+            }
+            if(null !=itemQryDTO.getItemTypes()){
+                int type = (itemQryDTO.getItemTypes())[0];
+                sc.setShowType(ItemType.get(type).getText());//显示类别
+            }
+            sc.setSalerName(io.getIcMerchantInfoInfo().getMerchantName());//卖家名称
+            long pric = NumUtil.doubleToLong(io.getItemDTO().getPrice());
+            sc.setPrice(String.valueOf(pric));//单价
+            sc.setShowStatus(ItemStatus.get(io.getItemDTO().getStatus()).getText()); //显示状态
+            if(null !=io.getItemDTO().getGmtCreated()){
+                sc.setPushDate(DateFormat.dateFormat(io.getItemDTO().getGmtCreated(),"yyyy-MM-dd"));//发布时间
+            }else{
+                sc.setPushDate(null);
+            }
+            list.add(sc);
         }
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(itemQryDTO.getPageNo(), itemQryDTO.getPageSize(), result.getTotalCount(), list);
         return page;
