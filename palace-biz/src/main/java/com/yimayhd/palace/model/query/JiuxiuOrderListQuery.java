@@ -3,9 +3,13 @@ package com.yimayhd.palace.model.query;
 import com.yimayhd.palace.base.BaseQuery;
 
 /**
- * Created by Administrator on 2015/10/27.
+ * 
  */
 public class JiuxiuOrderListQuery extends BaseQuery {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String itemType;//商品类型
 	private String itemName;//商品名称
     private String orderNO;//订单编号
