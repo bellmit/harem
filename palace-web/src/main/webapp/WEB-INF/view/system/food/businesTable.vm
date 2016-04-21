@@ -25,7 +25,7 @@
 				<label>$!merchant.name</label></td>
 				<td id="$!merchant.cityCode" class="ct">$!merchant.cityCode</td>
 				<td>$!merchant.address</td>
-				<td>$!merchant.merchantPrincipalTel</td>
+				<td>$!merchant.serviceTel</td>
 				<td>
 					#if ($!merchant.status == 3)上架 
 					#elseif ($!merchant.status == 2)下架

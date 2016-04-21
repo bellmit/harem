@@ -3,6 +3,8 @@ package com.yimayhd.palace.model.vo.merchant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.glassfish.grizzly.utils.ServiceFinder;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.helper.apply.StringHelper;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
@@ -26,6 +29,14 @@ import com.yimayhd.user.client.enums.ServiceFacilityOption;
 public class MerchantVO extends MerchantDTO {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
+	private String merchantName;
+	
+	public String getMerchantName() {
+		return merchantName;
+	}
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
 	private String loopImageStr;
 	
 	public String getLoopImageStr() {
@@ -66,8 +77,10 @@ public class MerchantVO extends MerchantDTO {
 		try {
 			BeanUtils.copyProperties(dto, vo);
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
+			String name = getName(vo.getMerchantName());
+			dto.setName(name);
 			//dto.setId(userId);
-			dto.setAvgprice((long)(vo.getAveragePrice()*100));
+			dto.setAvgprice(getAvgPrice(vo.getAveragePrice()));
 			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
 			if (imgList != null && imgList.size()>0) {
@@ -91,6 +104,17 @@ public class MerchantVO extends MerchantDTO {
 		return dto;
 		
 	}
+	private long getAvgPrice(float averagePrice) {
+		
+		return (long)(averagePrice*100);
+	}
+	
+	private String getName(String merchantName) {
+		if (merchantName == null) {
+			return "";
+		}
+		return StringHelper.replaceBlank(merchantName);
+	}
 	public MerchantDO getMerchantDO(MerchantVO vo,long userId) {
 		if (vo == null || userId <= 0 ) {
 			log.error("merchantVO get merchantDO error and params:vo={}"+JSON.toJSONString(vo)+"and userId="+userId);
@@ -99,9 +123,11 @@ public class MerchantVO extends MerchantDTO {
 		MerchantDO merchantDO = new MerchantDO();
 		try {
 			BeanUtils.copyProperties(merchantDO, vo);
+			String name = getName(vo.getMerchantName());
+			merchantDO.setName(name);
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
-			merchantDO.setAvgprice((long)(vo.getAveragePrice()*100));
+			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
 			//merchantDO.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			merchantDO.setStatus(MerchantStatus.OFFLINE.getCode());
 			merchantDO.setOption(MerchantOption.EAT.getOption());
