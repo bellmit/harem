@@ -35,7 +35,8 @@
                     <tr>
                         <td><span class="spColor">*</span>板块</td>
                         <td>
-							<select class="form-control" name="moduleId">
+							<select class="form-control module" name="moduleId">
+								<option  value="0">请选择</option>
 								#foreach($module in $module)
 									<option #if($posts.moduleId == $module.id) selected #end value="$!{module.id}">$!{module.name}</option>
 								#end
@@ -71,13 +72,13 @@
                     <tr>
                         <td><span class="spColor">*</span>帖子图片</td>
                         <td class="bigListPicTd">
-                            <label>推荐图片</label> <span class="spColor">建议上传图片尺寸为288x286px或倍数像素，类型为JPEG/PNG,此图片将用于首页推荐 </span>
+                            <label>推荐图片</label> ##<span class="spColor">建议上传图片尺寸为288x286px或倍数像素，类型为JPEG/PNG,此图片将用于首页推荐 </span>
                             <input id="bigListPicUrl" type="file">
                             <img class="bigListPicUrl uploadImgFile" src="#if($!posts.imageUrl)$utilWebconfig.getTfsRootPath()$!posts.imageUrl #end">
                             <input class="bigListPicVal" type="hidden" name="imageUrl" value="$!posts.imageUrl">
                         </td>
                         <td class="smallListPicTd">
-                            <label>展示图片</label> <span class="spColor">建议上传图片尺寸为138x138px或倍数像素，类型为JPEG/PNG,此图片将用户帖子列表页面</span>
+                            <label>展示图片</label> ##<span class="spColor">建议上传图片尺寸为138x138px或倍数像素，类型为JPEG/PNG,此图片将用户帖子列表页面</span>
                             <input id="smallListPicUrl" type="file">
                             <img class="smallListPicUrl uploadImgFile" src="#if($!posts.mainImage)$utilWebconfig.getTfsRootPath()$!posts.mainImage #end">
                             <input class="smallListPicVal" type="hidden" name="mainImage" value="$!posts.mainImage">
@@ -167,6 +168,20 @@
 		var status = true;
 		
 		
+		var title = $.trim($(".title").val());
+		if(getBLen(title) < 1 || getBLen(title) > 100){
+			status = false;
+			layer.msg('帖子标题只能1-100字符', {icon: 2}); 
+			return;
+		}
+		
+		var module = $(".module").val();
+		if(Number(module) < 1){
+			status = false;
+			layer.msg('请选择板块', {icon: 2}); 
+			return;
+		}
+		
 		var sort = $.trim($(".sort").val());
 		
 		if(!RegExp("^\\d{1,5}$").test(sort)){
@@ -175,14 +190,6 @@
 			return;
 		}
 		
-
-		
-		var title = $.trim($(".title").val());
-		if(getBLen(title) < 1 || getBLen(title) > 100){
-			status = false;
-			layer.msg('帖子标题只能1-100字符', {icon: 2}); 
-			return;
-		}
 		
 		var mainImage = $(".smallListPicVal").val();
 		if(getBLen(mainImage) < 1){
