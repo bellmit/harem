@@ -16,13 +16,13 @@
 			<tr>
 				<td><input type="checkbox" class="ck" value="$!merchant.id"></td>
 				<td>$!merchant.id</td>
-				<td class='viewimg'><a href="#">
+				<td class='viewimg'>
 				#if ($!merchant.logoImage.length()>0)
 				<img src="$tfs/$!merchant.logoImage">
 				#else
 				<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 				#end
-				</a><label>$!merchant.name</label></td>
+				<label>$!merchant.name</label></td>
 				<td id="$!merchant.cityCode" class="ct">$!merchant.cityCode</td>
 				<td>$!merchant.address</td>
 				<td>$!merchant.merchantPrincipalTel</td>
