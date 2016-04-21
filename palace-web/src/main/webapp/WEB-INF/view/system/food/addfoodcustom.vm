@@ -65,7 +65,8 @@
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>人均消费：</label></td>
-		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="$!merchant.avgprice" name="avgprice"></td>
+		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="#if($!merchant.avgprice)$!merchant.avgprice/100 #end" name="averagePrice">
+		<label class="gray9">最多输入两位小数</label></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>服务设施：</label></td>

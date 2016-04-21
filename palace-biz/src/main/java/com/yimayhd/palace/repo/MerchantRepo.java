@@ -7,13 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.base.BaseException;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
+import com.yimayhd.user.client.dto.RegisterDTO;
+import com.yimayhd.user.client.enums.RegisterType;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
+import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -28,7 +34,8 @@ public class MerchantRepo {
 	private MerchantService userMerchantServiceRef;
 	@Autowired
 	private SessionManager sessionManager;
-	
+	@Autowired
+	private UserService userServiceRef;
 	public BizResultSupport addDeliciousFood(MerchantVO vo) {
 		if (vo == null) {
 			return null;
@@ -36,7 +43,15 @@ public class MerchantRepo {
 		BizResultSupport resultSupport = new BizResultSupport();
 		try {
 			log.error("params is "+vo);
-			BaseResult<MerchantDO> saveMerchantResult = userMerchantServiceRef.saveMerchant(vo.getMerchantDO(vo,sessionManager.getUserId()));
+			RegisterDTO registerDTO = new RegisterDTO();
+			registerDTO.setRegisterType(RegisterType.NO_ACCOUNT);
+			registerDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+			BaseResult<UserDO> registerWithoutAccount = userServiceRef.registerWithoutAccount(registerDTO);
+			if (registerWithoutAccount == null || !registerWithoutAccount.isSuccess() || registerWithoutAccount.getValue() == null) {
+				log.error("generate merchant's id of food error");
+				throw new BaseException("生产注册美食商家id失败");
+			}
+			BaseResult<MerchantDO> saveMerchantResult = userMerchantServiceRef.saveMerchant(vo.getMerchantDO(vo,registerWithoutAccount.getValue().getId()));
 			log.error("error is "+saveMerchantResult);
 			if (saveMerchantResult == null) {
 				resultSupport.init(false, -1, "保存失败");

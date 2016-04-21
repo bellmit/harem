@@ -12,6 +12,7 @@
 	<div class="bgmeng"></div>
 	<div class="dlgcont"><label></label></div>
 </div>
+<input type="hidden" id="dmid" value="$!dmid">
 	<table class="addfood">
 		<tr>
 			<td class="tit"><span>*</span><label>商家名称：</label></td>

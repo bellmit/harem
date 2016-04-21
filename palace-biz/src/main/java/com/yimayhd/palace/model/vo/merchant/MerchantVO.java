@@ -48,7 +48,14 @@ public class MerchantVO extends MerchantDTO {
 	public void setService(String service) {
 		this.service = service;
 	}
+	public float averagePrice;
 	
+	public float getAveragePrice() {
+		return averagePrice;
+	}
+	public void setAveragePrice(float averagePrice) {
+		this.averagePrice = averagePrice;
+	}
 	public MerchantDTO getMerchantDTO(MerchantVO vo) {
 		if (vo == null ) {
 			log.error("merchantVO get merchantDTO error and params:vo={}"+JSON.toJSONString(vo));
@@ -94,6 +101,7 @@ public class MerchantVO extends MerchantDTO {
 			BeanUtils.copyProperties(merchantDO, vo);
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
+			merchantDO.setAvgprice((long)(vo.getAveragePrice()*100));
 			//merchantDO.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			merchantDO.setStatus(MerchantStatus.OFFLINE.getCode());
 			merchantDO.setOption(MerchantOption.EAT.getOption());
