@@ -46,7 +46,8 @@
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>人均消费：</label></td>
-			<td>$!merchant.avgprice</td>
+			#set($result =$!merchant.avgprice/100 )
+			<td>$!result</td>
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>服务设施：</label></td>
