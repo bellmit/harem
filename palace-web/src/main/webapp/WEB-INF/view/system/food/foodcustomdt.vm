@@ -46,7 +46,7 @@
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>人均消费：</label></td>
-			#set($result =$!merchant.avgprice/100 )
+			#set($result =$!merchant.avgprice/100.00 )
 			<td>$!result</td>
 		</tr>
 		<tr>
