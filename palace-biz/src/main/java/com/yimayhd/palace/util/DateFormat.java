@@ -30,4 +30,10 @@ public class DateFormat {
         java.text.DateFormat dfNew = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         return dfNew.parse(date + " 23-59-59");
     }
+
+    public static String dateFormat(Date date,String format) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        String dateFormat = simpleDateFormat.format(date);
+        return dateFormat;
+    }
 }

@@ -1,49 +1,59 @@
-<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
-      rel="stylesheet">
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/jquery.js"></script>
-<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/module/md.adconfig.js"></script>
+#*<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/jquery.js"></script>
+<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/module/md.adconfig.js"></script>*#
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+
+
+
+
 <meta charset="UTF-8">
 <title>广告位配置内容编辑</title>
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/style.css"/>
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/adconfig.css"/>
 <div>
     <div id="adediter">
+        <form name="addShowcase" id="showcaseForm"
+              action="$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add/" method="post" showcaseId="$!showcase.id">
         <table class="add">
             <tr>
                 <td class="tit"></td>
-                <input type="hidden" name="boothId" value="$!boothId">
-                <td><label>权重：</label><input name='serialNo'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
+                <input type="hidden" class="inpControl" id="operationIds" name="operationId" value="$!showcase.operationId">
+                <input type="hidden" class="inpControl" id="chooseId" name="choose" value="">
+                <input type="hidden" name="boothId" id="boothId" value="$!boothId">
+                <input type="hidden" name="boothCode" id="boothCodeId" value="$!boothCode">
+                <input type="hidden" name="showcaseId" id="showcaseId" value="$!showcase.id">
+                <td><label>权重：</label><input name='serialNo' id='serialNoId'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
                     <span class="prompt">请填写整数</span></td>
             </tr>
             <tr>
                 <td class="yun"><label>名称(运营备注)：</label></td>
-                <td><input name='info' value="$!showcase.info" type="text" class="bisname" id="operat" placeholder="" errormsg="最多输入30个字">&nbsp;&nbsp;<label><span class="checktip">0</span>/30</label></td>
+                <td><input id='infoId' maxlength="30" name='info' value="$!showcase.info" type="text" class="bisname" id="operat" placeholder="" errormsg="最多输入30个字">&nbsp;&nbsp;<label><span class="checktip">0</span>/30</label></td>
             </tr>
             <tr>
                 <td class="yun"><label>广告位标题：</label></td>
-                <td><input name='title' value="$!showcase.title"  type="text" class="bisname" placeholder=""></td>
+                <td><input name='title' id='titleId'maxlength="100" value="$!showcase.title"  type="text" class="bisname" placeholder=""></td>
             </tr>
             <tr>
                 <td class="yun"><label>广告位副标题：</label></td>
-                <td><input name='summery' value="$!showcase.summery"  type="text" class="bisname" placeholder=""></td>
+                <td><input name='summary' id='summaryId' maxlength="100"value="$!showcase.summary"  type="text" class="bisname" placeholder=""></td>
             </tr>
             <tr>
                 <td class="yun"><label>广告位图片：</label></td>
                 <td>
                     <div class="imgbox">
-                        <div class="fileImgWrap upimgbtn">
-                            <button type="button" class="btn btn-success picfile">选择图片</button>
-                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFileSH"
-                                   accept="image/png,image/gif">
-                            <input type="hidden" name="imgUrl" value="$!showcase.imgUrl"  id="travelBGImgSH">
-                            <p>注：图片大小不超过4M,<br /></p>
+                        <div id="travelImgIdSH" class="edimg">
+                            #if($!showcase.imgUrl)
+                                <img src='$!showcase.imgUrl' class='dasda' width='200' height='200' ></img>
+                            #end
                         </div>
-                        <br><br>
-                        <div class="edimg" id="travelImgIdSH">
-                        #if($!showcase.imgUrl)
-                            <img src="$!showcase.imgUrl" />
-                        #end
+                        <div class="fileImgWrap">
+                            <button type="button" class="btn btn-success">选择图片</button>
+                            <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFileSH" accept="image/png,image/gif">
+                            <input type="hidden" name="imgUrl" value=""  id="travelBGImgSH">
+                            <p>注：图片大小不超过4M,<br /></p>
                         </div>
                     </div>
                 </td>
@@ -56,31 +66,11 @@
                             <tr>
                                 <td>选择页面：</td>
                                 <td>
-                                    <select class="selectpages">
-                                        <option value="">-------------------------------请选择------------------------------</option>
-                                        <option value="1">自由行列表页</option>
-                                        <option value="2">自由行商品详情页</option>
-                                        <option value="3">自由行首页</option>
-                                        <option value="4"> 跟团游列表页</option>
-                                        <option value="5">跟团游商品详情页</option>
-                                        <option value="6">跟团游首页</option>
-                                        <option value="7">同城活动列表页</option>
-                                        <option value="8">同城活动商品详情页</option>
-                                        <option value="9">周边玩乐首页</option>
-                                        <option value="10">达人列表页</option>
-                                        <option value="11">达人首页</option>
-                                        <option value="12">必买商品详情页</option>
-                                        <option value="13">必买首页</option>
-                                        <option value="14">搜索目的地</option>
-                                        <option value="15">美食店铺详情页</option>
-                                        <option value="16">美食列表页</option>
-                                        <option value="17">九休glup首页</option>
-                                        <option value="18">URl</option>
+                                    <select class="selectpages" id="opId">
+
                                     </select>
-                                    <div class="selectrdi">
-                                        <label for="title"><input type="radio" value="主题" name="radio1" id="title">&nbsp;主题</label>
-                                        <label for="addres"><input type="radio"  value="目的地"name="radio1" id="addres">&nbsp;目的地</label>
-                                    </div>
+                                    <span  id="radioId">
+                                    </span>
                                 </td>
                             </tr>
                             <tr class="selectcontent">
@@ -88,15 +78,16 @@
                                     <a href="javascript:void(0)" class="selecontent">选择内容</a>
                                 </td>
                                 <td>
-                                    <input type="text" name="secontent" class="secontent">
+                                    <input type="text" name="secontent" id="choId" value="" class="secontent">
+                                    <input type="hidden" name="chcontent" id="chosId" value="" class="secontent">
                                 </td>
                             </tr>
                             <tr class="addurl">
                                 <td>
-                                    添加链接：
+                                    添加内容：
                                 </td>
                                 <td>
-                                    <input type="text" name="secontent" class="secontent" id="secontent" >
+                                    <input type="text" name="addsecontent" class="secontent" id="addsecontentId" >
                                 </td>
                             </tr>
                         </table>
@@ -107,165 +98,165 @@
                 <td></td>
                 <td >
                     <div class="save">
-                        <a href="">保存</a>
-                        <a href="">取消</a>
+                        <button type="button"  class="btn btn-primary" id="saveId">保存</button>
+                        <button type="button" class="btn btn-primary" id="cancelId">取消</button>
                     </div>
                 </td>
             </tr>
         </table>
+        </form>
     </div>
-    <div class="mask">
-        <div id="seleadd1" class="address">
-            <span>请选择主题：</span>
-            <div class="seladdress">
-                <div>
-                    <label class="ck"> <input type="checkbox">任性玩</label>
-                    <label class="ck"> <input type="checkbox">养生</label>
-                    <label class="ck"> <input type="checkbox">工艺</label>
-                    <label class="ck"> <input type="checkbox">文化</label>
-                    <label class="ck"> <input type="checkbox">沙龙</label>
 
-                </div>
-                <div>
-                    <label class="ck"> <input type="checkbox">美食</label>
-                    <label class="ck"> <input type="checkbox">换技能</label>
-                    <label class="ck"> <input type="checkbox">户外</label>
-                    <label class="ck"> <input type="checkbox">休闲</label>
-                    <label class="ck"> <input type="checkbox">定制</label>
-                    <label class="ck"> <input type="checkbox">众筹</label>
-                </div>
-
-            </div>
-            <div class="listsure">
-                <a href="javascript:void(0)" class="sure">确定</a>
-                <a href="javascript:void(0)" class="sure">取消</a>
-            </div>
-        </div>
-        <div id="seleadd2" class="address">
-            <span>请选择主题：</span>
-            <div class="seladdress">
-                <div>
-                    <label class="ck"> <input type="checkbox">温泉</label>
-                    <label class="ck"> <input type="checkbox">亲子</label>
-                    <label class="ck"> <input type="checkbox">温泉</label>
-                    <label class="ck"> <input type="checkbox">亲子</label>
-                    <label class="ck"> <input type="checkbox">宝山</label>
-                </div>
-                <div>
-                    <label class="ck"> <input type="checkbox">古镇</label>
-                    <label class="ck"> <input type="checkbox">赏花</label>
-                    <label class="ck"> <input type="checkbox">美食</label>
-                    <label class="ck"> <input type="checkbox">民俗</label>
-                    <label class="ck"> <input type="checkbox">娱乐</label>
-                </div>
-            </div>
-            <div class="listsure">
-                <a href="javascript:void(0)" class="sure">确定</a>
-                <a href="javascript:void(0)" class="cancel">取消</a>
-            </div>
-        </div>
-        <div id="selmudidi" class="address">
-            <span>请选择目的地：</span>
-            <div class="seladdress">
-                <div>
-                    <span>B</span>
-                    <label class="ck"> <input type="checkbox"> 宝山</label>
-
-                </div>
-                <div>
-                    <span>C</span>
-                    <label class="ck"> <input type="checkbox"> 楚雄</label>
-
-                </div>
-                <div>
-                    <span>D</span>
-                    <label class="ck"> <input type="checkbox"> 德宏</label>
-                    <label class="ck"> <input type="checkbox"> 迪庆</label>
-                    <label class="ck"> <input type="checkbox"> 大理</label>
-
-                </div>
-                <div>
-                    <span>H</span>
-                    <label class="ck"> <input type="checkbox"> 红河</label>
-
-                </div>
-                <div>
-                    <span>K</span>
-                    <label class="ck"> <input type="checkbox"> 昆明</label>
-
-                </div>
-                <div>
-                    <span>L</span>
-                    <label class="ck"> <input type="checkbox"> 丽江</label>
-                    <label class="ck"> <input type="checkbox"> 临沧</label>
-
-                </div>
-                <div>
-                    <span>N</span>
-                    <label class="ck"> <input type="checkbox"> 怒江</label>
-
-                </div>
-                <div>
-                    <span>P</span>
-                    <label class="ck"> <input type="checkbox"> 普洱</label>
-
-                </div>
-                <div>
-                    <span>Q</span>
-                    <label class="ck"> <input type="checkbox"> 曲靖</label>
-
-                </div>
-                <div>
-                    <span>W</span>
-                    <label class="ck"> <input type="checkbox"> 文山</label>
-
-                </div>
-                <div>
-                    <span>X</span>
-                    <label class="ck"> <input type="checkbox"> 西双版纳</label>
-
-                </div>
-                <div>
-                    <span>Y</span>
-                    <label class="ck"> <input type="checkbox"> 玉溪</label>
-
-                </div>
-                <div>
-                    <span>Z</span>
-                    <label class="ck"> <input type="checkbox"> 昭通</label>
-
-                </div>
-            </div>
-            <div class="listsure">
-                <a href="javascript:void(0)" class="sure">确定</a>
-                <a href="javascript:void(0)">取消</a>
-            </div>
-        </div>
-    </div>
 </div>
 <script>
-    //全选
 
-    /*$(".form-date").datetimepicker(
-            {
-                language: "zh-CN",
-                weekStart: 1,
-                todayBtn: 1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0,
-                format: "yyyy-mm-dd"
-            });*/
+        $(document).ready(function(){
+            //选择内容，添加内容加载隐藏，if 点选择内容就不能添加内容，反之。
+            $("#choId").hide();//隐藏
+            //获取跳转的下拉列表
+            $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/operation/list', {} ,function(data){
+                if(data.status == 200){
+                    var showName="";
+                    var showType="";
+                    var radioArr = []
+                    var radioHtml="";
+                    var optionHtml="<option value='0'>请选择</option>";
+                    $.each(data.data, function(n, val) {
+                        optionHtml+="<option paramTypes='"+val.paramTypes+"' operationId='"+val.operationId+"' value='"+val.operationCode+"' >"+val.operationName+"</option>";
+                        radioArr = val.paramTypes;
+                    });
+                    //console.log(optionHtml);
+                    $("#opId").html(optionHtml)
+                }else{
+                    var msg = new $.zui.Messager('获取跳转类型失败', {placement: 'center',type:'warning',time:'1000'});
+                    msg.show();
+                }
+            })
+        });
 
-    $(function () {
+        //处理可选择的radio
+        $("#opId").on('change', function(){
+            var showType="";
+            var radioHtml="";
+            var paramTypes = [];
+            //获取选择的select的id
+            var strParam = $('.selectpages option:selected').attr('paramtypes');
+            if(strParam == 'null' || strParam == null){
+                return
+            }
+            paramTypes=strParam.split(",");
+            console.log(paramTypes)
+            $.each(paramTypes, function(a, b) {
+                if(b== "KEYWORD"){
+                    showType="1";
+                    showName="关键字";
+                }else if(b== "CHOOSE_DESTINATION"){
+                    showType="2";
+                    showName="目的地";
+                }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"){
+                    showType="3";
+                    showName="详情";
+                }else if(b == "CITYACTIVITY"){
+                    showType="4";
+                    showName="城市活动主题";
+                }else if(b == "LINETAG"){
+                    showType="4";
+                    showName="线路主题";
+                }
+                radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
+            });
+            $("#radioId").html(radioHtml)
+            console.log(radioHtml);
+        });
+
+        //处理添加内容的时候把operationid赋值
+        $("#addsecontentId").focus(function(){
+            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
+            if(null == operationId || ""==operationId ||0==operationId){
+                var msg = new $.zui.Messager('请选选择跳转类型', {placement: 'center',type:'warning',time:'1000'});
+                msg.show();
+                return false;
+            }
+            $("#operationIds").val(operationId);
+        });
+
+        //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
+        $('.selecontent').click(function(){
+            var type= $('input:radio:checked').attr("showType")
+            //var code = $("#opId").find("option:selected").val();//获取选择的select的code
+            var code = $('input:radio:checked').val();//获取选择的select的code
+            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
+            $("#operationIds").val(operationId);
+            console.log("code="+code);
+            console.log("type="+type);
+            if(null == code || ""==code){
+                return false;
+            }
+            openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
+                var sce = win.getItems();
+                $("#choId").val(sce.name);
+                $("#chosId").val(sce.id);
+                //如果选了内容就不能填下面的内容了
+                if(null != sce ){
+                    $("#addsecontentId").hide();//隐藏
+                    $("#choId").show();//显示所选的
+                }else{
+                    //$("#choId").hide();//隐藏
+                    $("#addsecontentId").show();//显示
+                }
+                return true;
+            });
+        });
+
+        //保存
+        $('#saveId').click(function(){
+            var showcaseId= $("#showcaseId").val();
+            var boothId= $("#boothId").val();
+            var serialNo= $("#serialNoId").val();
+            var info= $("#infoId").val();
+            var title= $("#titleId").val();
+            var summary= $("#summaryId").val();
+            var imgUrl= $("#travelBGImgSH").val();
+            //内容这里 判断有没有选择内容，无则找有没有添加内容
+            var operationContent= $("#chosId").val();
+            if(null == operationContent || ""==operationContent){
+                operationContent = $("#addsecontentId").val();
+            }
+            var operationId= $("#operationIds").val();
+            if(isNaN(serialNo)){
+                var msg = new $.zui.Messager('权重请输入数字', {placement: 'center',type:'warning',time:'1000'});
+                msg.show();
+                return ;
+            }
+            console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo+" info="+info+" title="+title
+                    +" summary="+summary+" imgUrl="+imgUrl+" operationContent="+operationContent+" operationId="+operationId);
+            //跳转类型
+            //var id=;//选择主题目的地之类型
+            //var id=;//选择后的id
+            // var id=;//添加内容
+            $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add',
+                    {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
+                        'title':title,'summary':summary, 'imgUrl':imgUrl,'operationContent':operationContent,
+                        'operationId':operationId
+                    } ,function(data){
+                        if(data.status == 200){
+                            var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                            msg.show();
+                        }else{
+                            var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                            msg.show();
+                        }
+                        setTimeout(function(){
+                            window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=1';
+                        },2000);
+                    })
+        });
+
         //新增
         $(".btn-add").click(function () {
            //新增
             window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/toAdd", 2,  "新增showcase");
         });
-
 
         //启用禁用
         $('.affirm').each(function(){
@@ -300,23 +291,19 @@
 
         //---------------------------------------------------------------------
         $(document).delegate(".fileInp",'change',function(){
-            fileUpload("#FMUploadFileSH",2,pictureUploadCallBack);
+            fileUpload("#FMUploadFileSH",1,pictureUploadCallBack);
         })
 
         var pictureUploadCallBack = function(data){
             if(data && data.status == 200){
-                var imgHtml="";
-                var imgArr=[];
-                $.each(data.data, function(n, val) {
-                    imgHtml+="<img src='"+tfsRootPath+val+"' class='dasda' width='200' height='200' ></img>";
-                    imgArr.push(val);
-                });
-                $("#travelBGImgSH").val(imgArr);
+                var imgHtml="<img src='"+tfsRootPath+data.data+"' class='dasda' width='200' height='200' ></img>";
+                $("#travelBGImgSH").val(data.data);
                 $("#travelImgIdSH").html(imgHtml);
             }else{
                 layer.msg('图片上传失败，请重试', {icon: 2});
             }
         }
 
-    });
+
+
 </script>

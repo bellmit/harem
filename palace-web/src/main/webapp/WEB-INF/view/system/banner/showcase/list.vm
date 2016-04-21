@@ -22,7 +22,7 @@
                     <th>名称（运营备注）</th>
                     <th>图片</th>
                     <th>上传时间</th>
-                    <th>启用时间</th>
+                    #*<th>启用时间</th>*#
                     <th>标题</th>
                     <th>副标题</th>
                     <th>跳转</th>
@@ -35,21 +35,25 @@
                         <td>$!sw.showcaseDO.id</td>
                         <td>$!sw.showcaseDO.serialNo</td>
                         <td>$!sw.showcaseDO.info</td>
-                        <td>$!sw.showcaseDO.img_url</td>
+                        <td>
+                            #if(!$sw.showcaseDO.imgUrl)
+                                <img src="$utilWebconfig.getTfsRootPath()$!sw.showcaseDO.imgUrl" width='200' height='200' />
+                            #end
+                        </td>
                         <td>
                             $!date.format('yyyy-MM-dd HH:mm:ss',$!sw.showcaseDO.gmtCreated)
                         </td>
-                        <td>
+                        #*<td>
                             $!date.format('yyyy-MM-dd HH:mm:ss',$!sw.showcaseDO.onOffTime)
-                        </td>
+                        </td>*#
                         <td>$!sw.showcaseDO.title</td>
                         <td>$!sw.showcaseDO.summary</td>
                         <td>$!sw.operationDO.name</td>
                         <td>#SHOWCASE_STATUS($!sw.showcaseDO.status)</td>
                         <td>
-                            <button type="button" class="btn btn-primary addRefund detail"
+                           #* <button type="button" class="btn btn-primary addRefund detail"
                                     orderId="$!sw.showcaseDO.id">编辑
-                            </button>
+                            </button>*#
                             #if(10==$!sw.showcaseDO.status)
                                 <button type="button" class="btn btn-primary affirm"
                                         data-target="#affirmModal" orderId="$!sw.showcaseDO.id" status="20">下架
@@ -64,7 +68,7 @@
                     #end
                 </tbody>
             </table>
-            <input type="hidden" name="boothId" id="boothId" " value="$!boothId">
+            <input type="hidden" name="boothId" id="boothId"  value="$!boothId">
         </div>
     #*分页*#
         #parse("/page.vm")
@@ -90,8 +94,8 @@
     $(function () {
         //新增
         $(".btn-add").click(function () {
-            var boothId = $("boothId").val();
-            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/toAdd?boothId="+boothId, 2,  "新增showcase");
+            var boothId = $("#boothId").val();
+            window.parent.tabsAdd('', actionDefaultPath + "/banner/showcase/toAdd?boothId="+boothId+"&boothCode=$!boothCode", 2,  "新增showcase");
         });
 
         //编辑
