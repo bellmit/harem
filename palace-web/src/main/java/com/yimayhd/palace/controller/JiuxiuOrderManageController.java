@@ -6,18 +6,25 @@ import java.util.List;
 import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
+import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.tradecenter.client.util.SkuUtils;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
 
 import org.slf4j.Logger;
@@ -46,6 +53,8 @@ public class JiuxiuOrderManageController extends BaseController {
 	private JiuxiuOrderService jiuxiuOrderService;
 	@Autowired
     private SessionManager sessionManager;
+	@Autowired
+	private UserService userServiceRef;
 
 	
 	/**
@@ -56,12 +65,40 @@ public class JiuxiuOrderManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/goodsOrder/{id}", method = RequestMethod.GET)
 	public String getGoodOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
-		OrderQueryOption opt = new OrderQueryOption();
-		opt.setNeedDetailOrder(true);
-		opt.setNeedExtFeature(true);
-		TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
-		if(result.isSuccess() && null!=result.getTcMainOrder()){
-			model.addAttribute("order", result.getTcMainOrder());
+		try {
+			OrderQueryOption opt = new OrderQueryOption();
+			opt.setNeedDetailOrder(true);
+			opt.setNeedExtFeature(true);
+			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
+			if(result.isSuccess() && null!=result.getTcMainOrder()){
+				TcMainOrder tcMainOrder = result.getTcMainOrder();
+				model.addAttribute("order", tcMainOrder);
+				UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
+				model.addAttribute("phone", buyer.getMobileNo());
+				if(null!=tcMainOrder.getDetailOrders()){
+					List<TcDetailOrder> tcDetailOrders = tcMainOrder.getDetailOrders();
+					model.addAttribute("startDate", tcDetailOrders.get(0).getStartDate());
+					UserDO seller = userServiceRef.getUserDOById(tcDetailOrders.get(0).getBizOrder()==null?0:tcDetailOrders.get(0).getBizOrder().getSellerId());
+					if(null!=seller){
+						boolean isUserTalent = UserOptions.USER_TALENT.has(seller.getOptions());
+						boolean isCommercialTenant = UserOptions.COMMERCIAL_TENANT.has(seller.getOptions());
+						if(isUserTalent){
+							model.addAttribute("talent", tcMainOrder.getBizOrder()==null?"": tcMainOrder.getBizOrder().getSellerNick());
+						}
+						if(isCommercialTenant){
+							model.addAttribute("merchant", seller.getNickname());
+						}
+					}
+					//获取卖家备注
+					BizOrderDO bizOrderDO = new BizOrderDO();
+					bizOrderDO.setDomain(Constant.DOMAIN_JIUXIU);
+					bizOrderDO.setBizOrderId(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBizOrderId());
+					model.addAttribute("sellerMsg", BizOrderUtil.getSellerMemo(bizOrderDO));
+				}
+			}
+		} catch (Exception e) {
+			LOG.error(e.getMessage(),e);
+			e.printStackTrace();
 		}
 		return "/system/order/orderInfo";
 	}

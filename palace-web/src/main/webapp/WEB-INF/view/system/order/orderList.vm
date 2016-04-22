@@ -62,10 +62,10 @@
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
                     <option value="">全部</option>
                     <option value="2" #if($!orderListQuery.orderStat == '2') selected #end>待付款</option>
-                    <option value="3" #if($!orderListQuery.orderStat == '3') selected #end>待发货</option>
-                    <option value="6" #if($!orderListQuery.orderStat == '6') selected #end>待收货</option>
+                    <option value="3" #if($!orderListQuery.orderStat == '3') selected #end>已付款</option>
+                    <option value="6" #if($!orderListQuery.orderStat == '6') selected #end>待出行</option>
                     <option value="10" #if($!orderListQuery.orderStat == '10') selected #end>已完成</option>
-                    <option value="8" #if($!orderListQuery.orderStat == '8') selected #end>交易关闭</option>
+                    <option value="8" #if($!orderListQuery.orderStat == '8') selected #end>已取消</option>
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -174,13 +174,13 @@
                                 #if( $!order.jiuxiuTcBizOrder.orderStatus == 2)
                                     待付款
                                 #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 3)
-                                    待发货
+                                    已付款
                                 #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 6)
-                                     待收货
+                                     待出行
                                 #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 10)
                                     已完成
                                 #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 8)
-                                    交易关闭
+                                    已取消
                                 #end
                             </div>
                         </td>
