@@ -6,6 +6,9 @@
 	<meta charset="utf-8">
 	
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/base.css?t=3">
+	#if( $!title )
+		<title>$!title</title>
+	#end
 
 </head>
 <body>

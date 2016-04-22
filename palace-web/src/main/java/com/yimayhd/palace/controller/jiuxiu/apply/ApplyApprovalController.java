@@ -35,6 +35,12 @@ public class ApplyApprovalController {
 		return "/system/apply/list";
 	}
 	
+	@RequestMapping(value="/queryApplies")
+	public String getApplies(ApplyQuery applyQuery){
+		BizPageResult<ApplyVO> result = applyBiz.queryApplys(applyQuery);
+		return null;
+	}
+	
 	@RequestMapping(value="/query")
 	@ResponseBody
 	public BizPageResult<ApplyVO> queryApplies(ApplyQuery applyQuery){

@@ -1,7 +1,5 @@
 package com.yimayhd.gf.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +20,6 @@ import com.yimayhd.snscenter.client.domain.SnsPostsDO;
 import com.yimayhd.snscenter.client.dto.PostsResultDTO;
 import com.yimayhd.snscenter.client.query.SnsMasterPageQuery;
 import com.yimayhd.snscenter.client.query.SnsModulePageQuery;
-import com.yimayhd.snscenter.client.query.SnsPostsQuery;
 import com.yimayhd.snscenter.client.result.BaseResult;
 
 @Controller
@@ -156,6 +153,15 @@ public class GFBbsManagerController {
 		}
 		return ajaxResponse;
 			
+	}
+	
+	@RequestMapping("/master/check")
+	@ResponseBody
+	public int checkMaster(String name){
+		
+		int count = bbsService.masterCountByName(name);
+		
+		return count;
 	}
 	
 	

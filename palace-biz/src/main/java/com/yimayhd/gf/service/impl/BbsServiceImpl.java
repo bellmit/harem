@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.gf.model.BbsPostsQueryVO;
 import com.yimayhd.gf.service.BbsService;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.snscenter.client.domain.SnsMasterDO;
 import com.yimayhd.snscenter.client.domain.SnsModuleDO;
 import com.yimayhd.snscenter.client.domain.SnsPostsDO;
@@ -135,8 +136,8 @@ public class BbsServiceImpl implements BbsService{
 	private SnsPostsQuery setSnsPostsQuery(BbsPostsQueryVO postsQuery) {
 		
 		SnsPostsQuery snsPostsQuery = new SnsPostsQuery();
-		snsPostsQuery.setStartTime(getDateStart(postsQuery.getStartTime()));
-		snsPostsQuery.setEndTime(getDateEnd(postsQuery.getEndTime()));
+		snsPostsQuery.setStartTime(DateFormat.getDateStart(postsQuery.getStartTime()));
+		snsPostsQuery.setEndTime(DateFormat.getDateEnd(postsQuery.getEndTime()));
 		if(null != postsQuery.getModuleId()){
 			snsPostsQuery.setModuleIds(postsQuery.getModuleId());
 		}
@@ -148,41 +149,14 @@ public class BbsServiceImpl implements BbsService{
 		snsPostsQuery.setPageSize(postsQuery.getPageSize());
 		return snsPostsQuery;
 	}
-	
-	
-	public static Date getDateEnd(String time){
-
-    	if(StringUtils.isBlank(time)){
-    		return null;
-    	}
-    	
-		time  = time + " 23:59:59";
+	@Override
+	public int masterCountByName(String name) {
+		BaseResult<Integer> countResult = snsMasterService.countByName(name);
 		
-		Date end = parseDate(time, "yyyy-MM-dd HH:mm:ss");
-		return end;
-		
-	}
-	public static Date getDateStart(String time){
-    	if(StringUtils.isBlank(time)){
-    		return null;
-    	}
-		time  = time + " 00:00:00";
-		
-		Date end = parseDate(time, "yyyy-MM-dd HH:mm:ss");
-		return end ;
-		
-	}
-	
-	public static Date parseDate(String dayFormat, String format){
-		if( dayFormat == null || format == null || "".equals(format)){
-			return null;
+		if(null != countResult && countResult.isSuccess() && null != countResult.getValue()){
+			return countResult.getValue();
 		}
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-		try {
-			return simpleDateFormat.parse(dayFormat);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return 0;
 	}
+	
 }

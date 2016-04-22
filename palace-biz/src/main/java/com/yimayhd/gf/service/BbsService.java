@@ -8,7 +8,6 @@ import com.yimayhd.snscenter.client.domain.SnsPostsDO;
 import com.yimayhd.snscenter.client.dto.PostsResultDTO;
 import com.yimayhd.snscenter.client.query.SnsMasterPageQuery;
 import com.yimayhd.snscenter.client.query.SnsModulePageQuery;
-import com.yimayhd.snscenter.client.query.SnsPostsQuery;
 import com.yimayhd.snscenter.client.result.BaseResult;
 
 public interface BbsService {
@@ -38,5 +37,7 @@ public interface BbsService {
 	BaseResult<SnsPostsDO> getPostsDetail(long postsId);
 
 	BaseResult<Boolean> updatePostsStatus(SnsPostsDO bbsPostsDO);
+
+	int masterCountByName(String name);
 
 }
