@@ -107,14 +107,14 @@
                     #foreach($order in $result)
                     <tr></tr>
                     <tr>
-                        <td><input class="subChecked" type="checkbox" value="$!order.bizOrderDO.bizOrderId"></td>
+                        <td><input class="subChecked" type="checkbox" value="$!order.jiuxiuTcBizOrder.bizOrderId"></td>
                         <td colspan="8" align="left">
 
-                            订单编号：$!order.bizOrder.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)
+                            订单编号：$!order.jiuxiuTcBizOrder.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.jiuxiuTcBizOrder.createTime)
                         </td>
                     </tr>
 
-                        #foreach($subOrder in $order.detailOrders)
+                        #foreach($subOrder in $order.jiuxiuTcDetailOrders)
                         <tr>
                             <td></td>
                             <td>
@@ -136,27 +136,27 @@
 
                             <td>
                                 <div class="order-number">
-                                    $!subOrder.bizOrder.buyAmount
+                                    $!subOrder.jiuxiuTcBizOrder.buyAmount
                                 </div>
                             </td>
                             
                             <td>
                             	<div class="">
-	                                #if( $!order.bizOrder.orderType == 3100)
+	                                #if( $!order.jiuxiuTcBizOrder.orderType == 3100)
 	                                    跟团游
-	                                #elseif( $!order.bizOrder.orderType == 3200)
+	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 3200)
 	                                    自由行
-	                                #elseif( $!order.bizOrder.orderType == 3300)
+	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 3300)
 	                                    同城活动
-	                                #elseif( $!order.bizOrder.orderType == 200)
+	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 200)
 	                                    特产商品
 	                                #end
 	                            </div>
                         #end
                         <td>
                             <div>
-                                <div class="txt">$!order.bizOrder.buyerNick</div>
-                                <div class="txt">$!order.user.mobileNo</div>
+                                <div class="txt">$!order.jiuxiuTcBizOrder.buyerNick</div>
+                                <div class="txt">$!order.jiuxiuTcBizOrder.buyerPhone</div>
                             </div>
                         </td>
                         <td>
@@ -166,20 +166,20 @@
                         </td>
                         <td>
                             <div class="order-number">
-                               $!order.bizOrder.sellerId
+                               $!order.jiuxiuTcBizOrder.sellerId
                             </div>
                         </td>
                         <td>
                             <div class="">
-                                #if( $!order.bizOrder.orderStatus == 2)
+                                #if( $!order.jiuxiuTcBizOrder.orderStatus == 2)
                                     待付款
-                                #elseif( $!order.bizOrder.orderStatus == 3)
+                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 3)
                                     待发货
-                                #elseif( $!order.bizOrder.orderStatus == 6)
+                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 6)
                                      待收货
-                                #elseif( $!order.bizOrder.orderStatus == 10)
+                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 10)
                                     已完成
-                                #elseif( $!order.bizOrder.orderStatus == 8)
+                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 8)
                                     交易关闭
                                 #end
                             </div>
@@ -191,7 +191,7 @@
                             </div>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrder.bizOrderId">详情</button>
+                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.jiuxiuTcBizOrder.bizOrderId">详情</button>
                         </td>
                     </tr>
                     #end

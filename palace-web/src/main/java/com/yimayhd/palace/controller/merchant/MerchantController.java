@@ -19,12 +19,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.jiuxiu.helper.JiuxiuHelper;
+import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
+import com.yimayhd.palace.util.Common;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
@@ -326,5 +330,38 @@ public class MerchantController extends BaseController {
 		//userMerchantServiceRef.
 		return bizResult;
 		
+	}
+	
+	
+	
+	/**
+	 * 商家列表
+	 * 
+	 * @return 商家列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/merchantList", method = RequestMethod.GET)
+	public String goodsOrderList(Model model, JiuxiuMerchantListQuery jiuxiuMerchantListQuery) throws Exception {
+		try {
+			MerchantPageQuery merchantPageQuery = new MerchantPageQuery();
+			JiuxiuHelper.fillMerchantListQuery(merchantPageQuery, jiuxiuMerchantListQuery);
+			BasePageResult<MerchantUserDTO> result = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
+			List<MerchantUserDTO> merchantUserList = new ArrayList<MerchantUserDTO>();
+			int totalCount = 0;
+			if(result.isSuccess() && null!=result.getList() && result.getList().size()>0){
+				totalCount = (int)result.getTotalCount();
+				merchantUserList = result.getList();
+			}
+			PageVO<MerchantUserDTO> orderPageVO = new PageVO<MerchantUserDTO>(jiuxiuMerchantListQuery.getPageNumber(),jiuxiuMerchantListQuery.getPageSize(),
+					totalCount,merchantUserList);
+			model.addAttribute("pageVo", orderPageVO);
+			model.addAttribute("result", result.getList());
+			model.addAttribute("jiuxiuMerchantListQuery", jiuxiuMerchantListQuery);
+			
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			e.printStackTrace();
+		}
+		return "/system/merchant/merchantList";
 	}
 }

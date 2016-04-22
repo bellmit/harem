@@ -38,7 +38,7 @@
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>联系电话：</label></td>
-			<td>$!merchant.merchantPrincipalTel</td>
+			<td>$!merchant.serviceTel</td>
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>营业时间：</label></td>
@@ -57,7 +57,8 @@
 		  #elseif ($!option.code == "4")<label class="ck"> 包厢  </label>    
 		  #elseif ($!option.code == "5") <label class="ck"> 露天位  </label>  
 		 #elseif ($!option.code == "6")<label class="ck"> 吸烟区  </label>  
-		  #elseif ($!option.code == "7") <label class="ck"> 支付宝  </label>  #end  #end</td>
+		  #elseif ($!option.code == "7") <label class="ck"> 支付宝  </label>  
+		  #elseif ($!option.code == "8") <label class="ck"> 无烟区  </label>  #end  #end</td>
 		</tr>
 		<tr>
 			<td class="tit"><span>*</span><label>商家住址：</label></td>

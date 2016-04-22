@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
+import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 
 /**
@@ -16,6 +17,6 @@ public interface JiuxiuOrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	BatchBizQueryResult getOrderList(JiuxiuOrderListQuery jiuxiuOrderListQuery)
+	BatchJiuxiuOrderResult getOrderList(JiuxiuOrderListQuery jiuxiuOrderListQuery)
 			throws Exception;
 }
