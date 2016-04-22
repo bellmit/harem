@@ -164,8 +164,11 @@
             return "请选择商品";
         }
         var msg = '';
-        $('.dataSelectTr[isDel != "true"]').each(function(){
-            if($(this).attr('pricey') * 100 <= $(this).find('.priceY').val() * 100){
+        var dataSelectTrs = $('.dataSelectTr[isDel != "true"]') ;
+        $(dataSelectTrs).each(function(){
+        	var pricey = $(this).attr('pricey') * 100 ;
+        	var priceY = $(this).find('.priceY').val() * 100 ;
+            if(pricey  <= priceY){
                 if(!msg){
                     msg = "直降后价格不能为负值";
                 }
