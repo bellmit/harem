@@ -6,7 +6,9 @@ import java.util.List;
 import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
+import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
@@ -59,9 +61,7 @@ public class JiuxiuOrderManageController extends BaseController {
 		opt.setNeedExtFeature(true);
 		TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
 		if(result.isSuccess() && null!=result.getTcMainOrder()){
-			if(null!= result.getTcMainOrder().getBizOrder() && (sessionManager.getUserId() == result.getTcMainOrder().getBizOrder().getSellerId())){
-				model.addAttribute("order", result.getTcMainOrder());
-			}
+			model.addAttribute("order", result.getTcMainOrder());
 		}
 		return "/system/order/orderInfo";
 	}
@@ -75,26 +75,17 @@ public class JiuxiuOrderManageController extends BaseController {
 	@RequestMapping(value = "/goodsOrderList", method = RequestMethod.GET)
 	public String goodsOrderList(Model model, JiuxiuOrderListQuery jiuxiuOrderListQuery) throws Exception {
 		try {
-			BatchBizQueryResult result = jiuxiuOrderService.getOrderList(jiuxiuOrderListQuery);
+			BatchJiuxiuOrderResult result = jiuxiuOrderService.getOrderList(jiuxiuOrderListQuery);
 			int totalCount = 0;
-			List<TcMainOrder> tcMainOrderList = new ArrayList<TcMainOrder>();
-			if(null != result && null != result.getBizOrderDOList()){
+			List<JiuxiuTcMainOrder> tcMainOrderList = new ArrayList<JiuxiuTcMainOrder>();
+			if(null != result && null != result.getJiuxiuTcMainOrders()){
 				totalCount = (int)result.getTotalCount();
-				tcMainOrderList = result.getBizOrderDOList();
-//				for(int i=0;i<result.getBizOrderDOList().size();i++){
-//					TcMainOrder tcMainOrder = result.getBizOrderDOList().get(i);
-//					for(int j=0;j<tcMainOrder.getDetailOrders().size();j++){
-//						TcDetailOrder tcDetailOrder = tcMainOrder.getDetailOrders().get(j);
-//						tcDetailOrder.setStartDate(DateUtil.parseDate(SkuUtils.getPropertyValue(tcDetailOrder.getBizOrder().getSkuInfo(), PropertyType.START_DATE.getType())));
-//						tcDetailOrder.setLinePackage(SkuUtils.getPropertyValue(tcDetailOrder.getBizOrder().getSkuInfo(), PropertyType.LINE_PACKAGE.getType()));
-//						tcDetailOrder.setPersonType(SkuUtils.getPropertyValue(tcDetailOrder.getBizOrder().getSkuInfo(), PropertyType.PERSON_TYPE.getType()));
-//					}
-//				}
+				tcMainOrderList = result.getJiuxiuTcMainOrders();
 			}
-			PageVO<TcMainOrder> orderPageVO = new PageVO<TcMainOrder>(jiuxiuOrderListQuery.getPageNumber(),jiuxiuOrderListQuery.getPageSize(),
+			PageVO<JiuxiuTcMainOrder> orderPageVO = new PageVO<JiuxiuTcMainOrder>(jiuxiuOrderListQuery.getPageNumber(),jiuxiuOrderListQuery.getPageSize(),
 					totalCount,tcMainOrderList);
 			model.addAttribute("pageVo", orderPageVO);
-			model.addAttribute("result", result.getBizOrderDOList());
+			model.addAttribute("result", result.getJiuxiuTcMainOrders());
 			model.addAttribute("orderListQuery", jiuxiuOrderListQuery);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
