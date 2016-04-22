@@ -78,6 +78,7 @@ public class OrderConverter {
                 e.printStackTrace();
             }
         }
+        
         //订单状态
         String orderState = orderListQuery.getOrderStat();
         if (StringUtils.isNotEmpty(orderState)){
