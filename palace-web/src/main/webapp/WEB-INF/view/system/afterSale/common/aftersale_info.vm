@@ -1,21 +1,28 @@
 		<div class = "title distance">
-			<div class = "info-tit">仅退款信息</div>
+			<div class = "info-tit">
+				#if($refundOrderDO.bizType == 1)
+					仅退款信息
+				#else
+					退货退款信息
+				#end
+			</div>
+			<input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
+            <br>
+            <input type="hidden"  value="$!refundOrderDO.id"  id="tkdid">
 			<p class = "info first">
 				<em>退款原因：</em>
 				
 					#if($!refundOrderDO.refundReasonType==1)
-						收到商品少件/破损等
+						多拍/拍错/不想要了
 					#elseif($!refundOrderDO.refundReasonType==2)
-						假冒品牌
+						快递无跟踪记录
 					#elseif($!refundOrderDO.refundReasonType==3)
-					 	拍错/效果不好/不喜欢
+					 	未按约定时间发货
 					#elseif($!refundOrderDO.refundReasonType==4)
-						颜色/款式/外貌与描述不符
+						快递一直未送货
 					#elseif($!refundOrderDO.refundReasonType==5)
-						卖家发错货
+						空包裹/少货
 					#elseif($!refundOrderDO.refundReasonType==6)
-						生产日期/保质期描述不符
-					#else
 						其他
 			        #end
 				
@@ -23,7 +30,11 @@
 			<div class = "info">
 				<em><label>*</label>实退金额：</em>
 				
-					#set($refundActualFee = $!utilNum.moneyTransform($!refundOrderDO.refundActualFee))
+					#if($refundOrderDO.refundActualFee > 0)
+						#set($refundActualFee = $!utilNum.moneyTransform($!refundOrderDO.refundActualFee))
+					#else
+						#set($refundActualFee = $!utilNum.moneyTransform($!refundOrderDO.refundFee))
+					#end
 					#if( $approve )
 						<input type="text" class="inpControl name" id="stjeId" name="stje"  value="$!refundActualFee">
 					#else
