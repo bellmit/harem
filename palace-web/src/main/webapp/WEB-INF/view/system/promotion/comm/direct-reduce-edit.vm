@@ -1,0 +1,54 @@
+                    
+                    
+<form action="" method="post" class="form form-horizontal" id="demoform-1">
+	<input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$!promotionType">
+    <input type="hidden" name="actActivityVO.entityType" class="entityType" value="$!entityType">
+    
+	<div class="row">
+		<label class="form-label col-sm-1"><span class="spColor">*</span>优惠名称：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" name="actActivityVO.title" class="input-text radius" value="$!actActivityEditVO.actActivityVO.title" placeholder="优惠券名称" autocomplete="off">
+		</div>
+	</div>
+	<div class="row">
+		<label class="form-label col-sm-1"><span class="spColor">*</span>优惠描述：</label>
+		<div class="formControls col-sm-9">
+			<input type="text" name="actActivityVO.description" class="description" value="$!actActivityEditVO.actActivityVO.summary"  autocomplete="off" placeholder="描述">
+		</div>
+	</div>
+	<div class="row">
+		<label class="form-label col-sm-1"><span class="spColor">*</span>优惠设置</label>
+		<div class="formControls col-sm-9">
+			 #if($promotionType == "SUM_REDUCE")
+		                         满
+                <input type="text" name="actActivityVO.requirement" class="input-text radius requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">
+               	减
+               	<input type="text" name="" class="input-text radius allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">
+               	元
+            #elseif($promotionType == "DIRECT_REDUCE")
+		                        直降
+                <input type="text" name="" class="input-text radius allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}" initValue="$!{actActivityEditVO.actActivityVO.valueY}">
+            	元
+            #end
+		</div>
+	</div>
+	<div class="row">
+		<label class="form-label col-sm-1"><span class="spColor">*</span>优惠时间</label>
+		<div class="formControls col-sm-9">
+			<input type="text" class='form-date startDate' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
+            <span class="fix-border fix-padding dateInpCenter">至</span>
+            <input type="text" class='form-date endDate' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")">
+		</div>
+	</div>
+	
+	#parse("/system/promotion/comm/direct-reduce-item.vm")
+	
+	#if(!$actActivityEditVO || $actActivityEditVO.actActivityVO.status == 1)
+        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+        <div class="row cl">
+			<div class="col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<button type="button" class="btn btn-primary"  id="btnSubmit" >保存</button>
+			</div>
+		</div>
+    #end
+</form>

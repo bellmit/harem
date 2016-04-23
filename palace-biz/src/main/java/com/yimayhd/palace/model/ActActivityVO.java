@@ -6,13 +6,19 @@ import com.yimayhd.activitycenter.domain.ActActivityDO;
  * Created by czf on 2016/2/6.
  */
 public class ActActivityVO extends ActActivityDO {
+	private static final long serialVersionUID = 1L;
 
-    private int entityType;
+	private int entityType;
 
     private int entityId;//店铺优惠用
-
+    /**
+     * 满
+     */
     private double requirementY;
 
+    /**
+     * 减或折的数字
+     */
     private double valueY;
 
     private int promotionType;

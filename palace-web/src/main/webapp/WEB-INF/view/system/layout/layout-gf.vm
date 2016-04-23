@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+	<meta charset="utf-8">
+	
+	<link href="$root_path/resources/zui/css/zui.min.css" rel="stylesheet">
+	#if( $styles )
+		#foreach($style in $!styles)
+			<link href="$!style?t=$!v" rel="stylesheet">
+		#end 
+	#end
+	#if( $!title )
+		<title>$!title</title>
+	#end
+
+</head>
+<body>
+    $screen_content
+    
+    
+    #if( $jss )
+		#foreach($js in $!jss)
+			<script src="$!js" type="text/javascript"></script>
+		#end 
+	#end
+    
+   
+</body>
+</html>
+

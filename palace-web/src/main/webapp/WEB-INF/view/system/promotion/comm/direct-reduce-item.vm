@@ -1,0 +1,35 @@
+
+<table class="table table-hover dataTableSelected">
+    <tr>
+        <th>商品编码</th>
+        <th>sku编码</th>
+        <th>商品名称</th>
+        <th>单价</th>
+        <th>状态</th>
+        #*<th>总库存</th>*#
+        #if($promotionType == 6)
+            <th>直降金额</th>
+            <th>优惠价</th>
+        #end
+        <th>操作</th>
+    </tr>
+    #foreach($promotionVO in $actActivityEditVO.promotionVOList)
+       <tr class="dataSelectTr" promotionId="$promotionVO.id" entityId="$promotionVO.entityId" entityType="$promotionVO.entityType" priceY="$!promotionVO.priceY" isDel="$!promotionVO.isDel" isModify="$!promotionVO.isModify">
+        <td commId="$promotionVO.itemId">$promotionVO.itemId</td>
+        <td skuId="$promotionVO.itemSkuId">
+            #if($promotionVO.itemSkuId != 0)
+                $promotionVO.itemSkuId
+            #end
+        </td>
+        <td>$!promotionVO.itemTitle</td>
+        <td>$promotionVO.priceY</td>
+        <td>#COMMODITY_STATUS($!promotionVO.itemStatus)</td>
+           #if($promotionType == 6)
+               <td>￥<input class="priceY" type="text" value="$promotionVO.valueY" initValue="$promotionVO.valueY"></td>
+               #set($afterPromotionPriceY = $promotionVO.priceY - $promotionVO.valueY)
+               <td class="afterPromotionPriceY">$afterPromotionPriceY</td>
+           #end
+        <td><button type="button" class="btn btn-primary delBtn">删除</button></td>
+        </tr>
+    #end
+</table>
