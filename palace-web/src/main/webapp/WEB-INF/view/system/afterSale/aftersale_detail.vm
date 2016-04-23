@@ -1,6 +1,7 @@
 #set($layout = "/system/layout/layout-jiuxiu.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "售后详情页面")
+
 <link href="$root_path/resources/zui/css/zui.min.css" rel="stylesheet">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/aftersale/look.css?t=5">
 
@@ -28,4 +29,5 @@
 
 	
 	#parse("/system/layout/layout-jiuxiu-js.vm")
+	<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 	<script src="$rs_js_css_path_jiuxiu/js/aftersale/details.js?t=1"></script>

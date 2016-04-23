@@ -57,14 +57,25 @@
      <div class="buyerInfo">
      	<div class="lType">备注</div>
         <div>买家备注：#if("$!order.otherInfo" == "") 无 #else $!order.otherInfo  #end</div>
-        <div>卖家备注：没有</div>
+        <div>卖家备注：#if("$!sellerMsg" == "") 无 #else $!sellerMsg  #end</div>
     </div>
     <br><br>
     <!-- 买家信息 -->
     <div class="buyerInfo">
+    	<div class="lType">卖家信息</div>
+        <div>
+        	#if("$!talent" != "")  
+        	<span>昵称：$!talent</span>
+        	#end
+        	
+        	#if("$!merchant" != "")  
+        	<span>店铺名称：$!merchant</span>
+        	#end
+        </div>
+        
         <div class="lType">买家信息</div>
         <div>
-            <span>手机号：没有</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp    
+            <span>手机号：$!phone</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp    
             <span>昵称：$!order.bizOrder.buyerNick</span>
         </div>
     </div>
@@ -79,13 +90,19 @@
                 <td>下单时间：</td>
                 <td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.createTime)})}</td>
                 <td>出发日期：</td>
-                <td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.departTime)})}</td>
+                <td> $!date.format('yyyy-MM-dd',$!startDate)</td>
             </tr>
             <tr>
                 <td>付款时间：</td>
                 <td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.payTime)})}</td>
                 <td>付款方式：</td>
-                <td>没有</td>
+                <td>
+	                #if("$!order.payChannel" == "0") 支付宝条码  
+	                #elseif("$!order.payChannel" == "2") 支付宝网页 
+	                #elseif("$!order.payChannel" == "3") 支付宝手机 
+	                #elseif("$!order.payChannel" == "4") 微信支付
+	                 #end
+                 </td>
             </tr>
         </table>
     </div>

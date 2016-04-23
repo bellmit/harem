@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -136,7 +137,7 @@ public class AfterSaleManageController {
         String tkje = request.getParameter("stje");
         String shdz = request.getParameter("shdz");
         String auditorRemark = request.getParameter("auditorRemark");
-        String[] pictures = request.getParameterValues("pictures");
+        String pictures = request.getParameter("pictures");
 
         UserDO user = sessionManager.getUser();
         if(null == user){
@@ -152,8 +153,13 @@ public class AfterSaleManageController {
         if(StringUtils.isNotEmpty(tkje) ){//&& NumberUtils.isNumber(tkje)
             ero.setRefundActualFee( NumUtil.doubleToLong(Double.parseDouble(tkje)));//NumberUtils.toLong(tkje)
         }
-        if(null != pictures && pictures.length>0){
-            ero.setPictures(Arrays.asList(pictures));
+        if(StringUtils.isNotBlank(pictures)){
+        	String[] picArr = pictures.split(",");
+        	System.out.println(picArr);
+        	
+        	List<String> asList = Arrays.asList(picArr);
+        	System.out.println(asList);
+            ero.setPictures(Arrays.asList(picArr));
         }
         ExamineRefundOrderResult result = afterSaleService.examineRefundOrder(ero);
         if(null == result ){

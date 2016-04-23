@@ -371,7 +371,7 @@
 
 #macro(REFUND_STATUS $status)
     #if($!status==1)
-        未审批
+        待审核
     #elseif($!status==2)
         客户取消申请
     #elseif($!status==3)

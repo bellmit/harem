@@ -39,6 +39,8 @@ public class JiuxiuHelper {
 	}
 	
 	public static void fillMerchantListQuery(MerchantPageQuery merchantPageQuery,JiuxiuMerchantListQuery jiuxiuMerchantListQuery){
+		merchantPageQuery.setPageNo(jiuxiuMerchantListQuery.getPageNumber());
+		merchantPageQuery.setPageSize(jiuxiuMerchantListQuery.getPageSize());
 		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
 		long option = MerchantOption.addOption(MerchantOption.MERCHANT,MerchantOption.TALENT);
 		if("4".equals(jiuxiuMerchantListQuery.getMerchantType())){
