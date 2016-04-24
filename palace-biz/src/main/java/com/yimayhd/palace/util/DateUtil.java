@@ -79,6 +79,12 @@ public class DateUtil {
 		}
 		return result.toString();
 	}
+	public static String date2String(long time) {
+		StringBuffer result = new StringBuffer();
+			SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+			result.append(format.format(new Date(time)));
+		return result.toString();
+	}
 
 	/**
 	 * 日期格式化成字符串 输入：日期对象 输出：如：2012-10-11

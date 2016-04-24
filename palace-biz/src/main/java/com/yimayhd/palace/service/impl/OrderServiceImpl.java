@@ -1,5 +1,6 @@
 package com.yimayhd.palace.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
 import com.yimayhd.lgcenter.client.result.BaseResult;
@@ -85,6 +86,7 @@ public class OrderServiceImpl implements OrderService {
 		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
 		if (orderQueryDTO!=null){
 			BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
+//			System.err.println(JSON.toJSONString(batchQueryResult));
 			if (batchQueryResult.isSuccess()){
 				//订单信息
 				List<BizOrderDO> bizOrderDOList = batchQueryResult.getBizOrderDOList();
@@ -163,7 +165,7 @@ public class OrderServiceImpl implements OrderService {
 				}
 				if (mainOrder.getBizOrderDO()!=null){
 					long buyerId = mainOrder.getBizOrderDO().getBuyerId();
-					UserDO buyer = userServiceRef.getUserDOById(buyerId);
+					UserDO buyer = userServiceRef.getUserDOById(buyerId, false);
 					orderDetails.setBuyerName(buyer.getName());
 					orderDetails.setBuyerNiceName(buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
@@ -219,7 +221,7 @@ public class OrderServiceImpl implements OrderService {
 
 				//物流信息
 				TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
-				//TODO 此处为测试信息。需要改为正式信息。
+				//FIXME 此处为测试信息。需要改为正式信息。
 				taskInfoRequestDTO.setNumber("227326133769");
 				taskInfoRequestDTO.setCompany("shentong");
 				BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);

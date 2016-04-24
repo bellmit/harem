@@ -26,4 +26,6 @@ public class Constant {
 	public static final int SHOWCASE_SHOE_TYPE_ITEM_DETAIL = 3;//详情
 	public static final int SHOWCASE_SHOE_TYPE_THEME = 4;//主题
 	public static final int SHOWCASE_SHOE_TYPE_ITEM_LIST = 5;//商品列表
+	
+	public static final String DOT = ".";
 }

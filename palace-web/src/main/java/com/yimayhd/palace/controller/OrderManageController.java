@@ -307,7 +307,7 @@ public class OrderManageController extends BaseController {
 			model.addAttribute("pageVo", pageVo);
 			model.addAttribute("orderList", pageVo.getItemList());
 			model.addAttribute("orderListQuery", orderListQuery);
-			return "/system/order/gfOrderList";
+			return "/system/order/gf/gfOrderList";
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("gfOrderList|parameter="+ JSON.toJSONString(orderListQuery)+"|||exception="+e);
@@ -326,7 +326,11 @@ public class OrderManageController extends BaseController {
 		OrderDetails orderDetails = orderService.getOrderById(id);
 		model.addAttribute("logistics",orderDetails.getExpress());
 		model.addAttribute("order", orderDetails);
-		return "/system/order/gfOrderInfo";
+		MainOrder mainOrder = orderDetails.getMainOrder();
+		if( mainOrder != null  ){
+			model.addAttribute("lgOrder", mainOrder.getLogisticsOrderDO());
+		}
+		return "/system/order/gf/gfOrderInfo";
 	}
 
 

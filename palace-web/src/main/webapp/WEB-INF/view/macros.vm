@@ -392,7 +392,19 @@
 #end
 
 
-
+#macro(LOGISTICS_STATUS $status)
+    #if($!status == 1)
+       未发货
+    #elseif($!status == 2)
+        已发货
+    #elseif($!status == 3)
+        已收货
+    #elseif($!status == 4)
+        没创建外部物流订单
+    #elseif($!status == 6)
+        退款
+    #end
+#end
 
 #macro(ORDERS_STATUS $status)
     #if($!status == 1)

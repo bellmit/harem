@@ -4,27 +4,38 @@
 	#parse("/system/layout/layout-jiuxiu-meta.vm")
 
 	<meta charset="utf-8">
-	
-	<link href="$root_path/resources/zui/css/zui.min.css" rel="stylesheet">
-	#if( $styles )
-		#foreach($style in $!styles)
-			<link href="$!style?t=$!v" rel="stylesheet">
-		#end 
-	#end
 	#if( $!title )
 		<title>$!title</title>
 	#end
+	
+	<link href="$root_path/resources/zui/css/zui.min.css" rel="stylesheet"/>
+	#if( $styles )
+		#foreach($style in $!styles)
+			<link href="$!style?t=$!v" rel="stylesheet"/>
+		#end 
+	#end
 
+	<script type="text/javascript" src="$root_path/resources/js/jquery.js?t=$!v"></script>
+    <script type="text/javascript" src="$root_path/resources/zui/js/zui.min.js?t=$!v"></script>
+    <script type="text/javascript" src="$root_path/resources/js/respond.js?t=$!v"></script>
+    <script type="text/javascript" src="$root_path/resources/js/common.js?t=$!v"></script>
+    <script type="text/javascript" src="$root_path/resources/layer-v2.1/layer.js?t=$!v"></script>
+	<script type="text/javascript" src="$root_path/resources/js/jquery-form.js?t=$!v"></script>
+    <script type="text/javascript" src="$root_path/resources/js/jquery.validate.min.js?t=$!v"></script>
+    <script type="text/javascript" src="$root_path/resources/js/JQ_verify.js?t=$!v"></script>
+    <script type="text/javascript" src="$root_path/resources/js/jquery.metadata.js?t=$!v"></script>
+	<script type="text/javascript" src="$root_path/resources/validate/messages_zh.min.js?t=$!v"></script>
+	#if( $jses )
+		#foreach($js in $!jses)
+			<script src="$!js" type="text/javascript"></script>
+		#end 
+	#end
 </head>
 <body>
     $screen_content
     
     
-    #if( $jses )
-		#foreach($js in $!jses)
-			<script src="$!js" type="text/javascript"></script>
-		#end 
-	#end
+   
     
    
 </body>
