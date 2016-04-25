@@ -136,6 +136,8 @@
 
         //处理可选择的radio
         $("#opId").on('change', function(){
+            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
+            $("#operationIds").val(operationId);
             var showType="";
             var radioHtml="";
             var paramTypes = [];
@@ -166,6 +168,7 @@
                 radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
             });
             $("#radioId").html(radioHtml)
+
             console.log(radioHtml);
         });
 
@@ -223,13 +226,20 @@
                 operationContent = $("#addsecontentId").val();
             }
             var operationId= $("#operationIds").val();
-            if(isNaN(serialNo)){
+
+            console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo+" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl+" operationContent="+operationContent+" operationId="+operationId);
+
+            if(null == serialNo || ""==serialNo || isNaN(serialNo)){
                 var msg = new $.zui.Messager('权重请输入数字', {placement: 'center',type:'warning',time:'1000'});
                 msg.show();
                 return ;
             }
-            console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo+" info="+info+" title="+title
-                    +" summary="+summary+" imgUrl="+imgUrl+" operationContent="+operationContent+" operationId="+operationId);
+            if(null == operationId || "" == operationId){
+                var msg = new $.zui.Messager('请选择跳转类型', {placement: 'center',type:'warning',time:'1000'});
+                msg.show();
+                return ;
+            }
+
             //跳转类型
             //var id=;//选择主题目的地之类型
             //var id=;//选择后的id
@@ -247,7 +257,7 @@
                             msg.show();
                         }
                         setTimeout(function(){
-                            window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=1';
+                            // window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=1';
                         },2000);
                     })
         });

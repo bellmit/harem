@@ -1,7 +1,12 @@
+<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/jquery.js"></script>
+
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
       rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
+
+
+
 #parse("/system/layout/empty.vm")
 
 <!-- 位置 -->
