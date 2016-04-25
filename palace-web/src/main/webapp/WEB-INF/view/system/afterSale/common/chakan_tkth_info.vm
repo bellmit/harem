@@ -34,12 +34,12 @@
         #if($!orderShowState !=9 )
             <div>
         <span>审核结果：
-            #REFUND_STATUS($!orderShowState)
+            #REFUND_STATUS($!orderShowState $!bizType)
         </span>
                 <br>
                 <br>
         <span>当前状态：
-            #REFUND_STATUS($!orderShowState)
+            #REFUND_STATUS($!orderShowState $!bizType)
         </span>
                 <br>
         <span>审核时间：
@@ -70,10 +70,10 @@
             $!as.refundStatus ==6 || $!as.refundStatus ==7)
             <div>
             <span>审核结果：
-                #REFUND_STATUS($!as.refundStatus)
+                #REFUND_STATUS($!as.refundStatus $!bizType)
             </span><br>
             <span>当前状态：
-                #REFUND_STATUS($!as.refundStatus)
+                #REFUND_STATUS($!as.refundStatus $!bizType)
             </span><br>
             <span>审核时间：
                 $!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
