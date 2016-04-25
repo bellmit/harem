@@ -31,42 +31,44 @@
             #end
         #end
         <br><br> <br> <br><br>
-        #if($!orderShowState !=9 )
+        ========AAASSS$orderShowState ---
+        <!-- 待审核 用户已撤销 退款完成不展示 -->
+        #if($!orderShowState !=9 || $!orderShowState !=1 )
             <div>
-        <span>审核结果：
-            #REFUND_STATUS($!orderShowState $!bizType)
-        </span>
+                <span>审核结果：
+                    #REFUND_STATUS($!orderShowState $!bizType)
+                </span>
                 <br>
                 <br>
-        <span>当前状态：
-            #REFUND_STATUS($!orderShowState $!bizType)
-        </span>
+                <span>当前状态：
+                    #REFUND_STATUS($!orderShowState $!bizType)
+                </span>
                 <br>
-        <span>审核时间：
-            $!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.refundOperationRecordDOList.get(0).auditorTime)
-            </span><br>
+                <span>审核时间：
+                    $!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.refundOperationRecordDOList.get(0).auditorTime)
+                    </span><br>
                 <span>审核备注：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</span><br>
                 <span>审核人：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</span><br>
-        <span>卖家举证：
-            #foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
-                #if($!rimgs)
-                    <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                #end
-            #end
-        </span>
+                <span>卖家举证：
+                    #foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
+                        #if($!rimgs)
+                            <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                        #end
+                    #end
+                </span>
             </div>
         #end
 
     </div>
     <br><br><br><br>
+
     审核历史：
-    <br>
+    <!-- 审核通过，不通过 -->
     <br>
     #*#if($!refundOrderDO.refundStatus != 2) #end 用户没有取消*#
     #foreach($as in $!refundOrderDO.refundOperationRecordDOList)
         #if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
-            $!as.refundStatus ==5 ||
             $!as.refundStatus ==6 || $!as.refundStatus ==7)
             <div>
             <span>审核结果：

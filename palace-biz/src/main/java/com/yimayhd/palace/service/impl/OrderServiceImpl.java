@@ -166,9 +166,9 @@ public class OrderServiceImpl implements OrderService {
 				if (mainOrder.getBizOrderDO()!=null){
 					long buyerId = mainOrder.getBizOrderDO().getBuyerId();
 					UserDO buyer = userServiceRef.getUserDOById(buyerId, false);
-					orderDetails.setBuyerName(buyer.getName());
-					orderDetails.setBuyerNiceName(buyer.getNickname());
-					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+					orderDetails.setBuyerName(null ==buyer ? "":buyer.getName());
+					orderDetails.setBuyerNiceName(null ==buyer ? "":buyer.getNickname());
+					orderDetails.setBuyerPhoneNum(null ==buyer ? "":buyer.getMobileNo());
 					//订单来源
 					int payChannel = BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.ORDER_SOURCE);
 					if (payChannel == OrderSourceType.PC.getBizType()){
@@ -232,6 +232,7 @@ public class OrderServiceImpl implements OrderService {
 				return orderDetails;
 			}
 		}catch (Exception e){
+			e.printStackTrace();
 			log.error("public OrderDetails getOrderById(long id);" + e);
 			return null;
 		}
