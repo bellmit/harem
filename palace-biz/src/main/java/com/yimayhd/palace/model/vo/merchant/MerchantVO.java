@@ -105,8 +105,9 @@ public class MerchantVO extends MerchantDTO {
 		
 	}
 	private long getAvgPrice(float averagePrice) {
-		
-		return (long)(averagePrice*100);
+		long l = (long)averagePrice;
+		long f =(long)( (averagePrice-l)*100);
+		return (l*100+f);
 	}
 	
 	private String getName(String merchantName) {

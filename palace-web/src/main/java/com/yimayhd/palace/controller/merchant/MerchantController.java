@@ -141,12 +141,20 @@ public class MerchantController extends BaseController {
 		//BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
+//			if (merchantDO.getName().contains("\"")) {
+//				//merchantDO.setName(merchantDO.getName().replace("\"", "\\\""));
+//				model.addAttribute("nameResult", true);
+//			}else {
+//				model.addAttribute("nameResult", false);
+//				
+//			}
+			
 			long serviceFacility = merchantDO.getServiceFacility();
 			if (serviceFacility >= 0 ) {
 				List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
 				model.addAttribute("containedOptions",containedOptions);
 			}
-			model.addAttribute("merchant",merchant.getValue() );
+			model.addAttribute("merchant",merchantDO );
 			
 			
 		}
