@@ -1,6 +1,18 @@
 package com.yimayhd.palace.service.impl;
 
-import com.alibaba.dubbo.common.json.JSONToken;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
@@ -28,16 +40,15 @@ import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.NumUtil;
+import com.yimayhd.promotion.client.domain.PromotionDO;
+import com.yimayhd.promotion.client.dto.BaseItemDTO;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 import com.yimayhd.promotion.client.enums.EntityType;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.*;
+import com.yimayhd.promotion.client.enums.PromotionType;
+import com.yimayhd.promotion.client.result.ItemPromotionQueryResult;
+import com.yimayhd.promotion.client.result.PcBaseItem;
+import com.yimayhd.promotion.client.result.PromotionDTO;
+import com.yimayhd.promotion.client.service.PromotionQueryService;
 
 /**
  * Created by czf on 2016/1/19.
@@ -46,6 +57,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     @Autowired
     private ActivityPromotionService activityPromotionServiceRef;
+    @Autowired
+    private PromotionQueryService promotionQueryService;
 
     @Autowired
     private ItemQueryService itemQueryServiceRef;
@@ -84,7 +97,12 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         }
 
         ActPromotionEditDTO actPromotionEditDTO = ActPromotionEditDTOConverter.getActPromotionEditDTO(actActivityEditVO);
-
+        List<PromotionDO> addPromotionDOList = actPromotionEditDTO.getAddPromotionDOList() ;
+        boolean exist = isItemSkuHasDirectReduce(addPromotionDOList);
+        if( exist ){
+        	throw new BaseException("存在已拥有直降优惠的商品或者sku了，不能重复添加");
+        }
+        
         ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
         if(baseResult == null){
             log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
@@ -94,10 +112,75 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             throw new BaseException(baseResult.getMsg());
         }
     }
+    
+    private boolean isItemSkuHasDirectReduce(List<PromotionDO> addPromotionDOList){
+    	
+    	if( org.springframework.util.CollectionUtils.isEmpty(addPromotionDOList) ){
+    		return false;
+    	}
+//    	List<Long> itemIds = new ArrayList<Long>();
+//    	List<Long> skuIds = new ArrayList<Long>();
+//    	for( PromotionDO promotionDO : addPromotionDOList ){
+//    		int entityType =promotionDO.getEntityType() ;
+//    		long entityId = promotionDO.getEntityId() ;
+//    		if( EntityType.ITEM.getType() == entityType ){
+//    			itemIds.add(entityId) ;
+//    		}else{
+//    			skuIds.add(entityId) ;
+//    		}
+//    	}
+    	//FIMXE
+    	for( PromotionDO promotionDO : addPromotionDOList ){
+    		int entityType =promotionDO.getEntityType() ;
+    		long entityId = promotionDO.getEntityId() ;
+    		BaseItemDTO baseItemDTO = new BaseItemDTO() ;
+    		if( EntityType.ITEM.getType() == entityType ){
+    			baseItemDTO.setItemId(entityId);
+    		}else{
+    			baseItemDTO.setItemSkuId(entityId);
+    		}
+    		//FIXME
+//    		ItemPromotionQueryResult queryResult = promotionQueryService.getAvailableItemPromotions(baseItemDTO) ;
+//    		if( queryResult == null || !queryResult.isSuccess() || queryResult.getPcBaseItem() == null){
+//        		log.error("getAvailableItemPromotions failed!  dto={},  result={}", JSON.toJSONString(baseItemDTO), JSON.toJSONString(queryResult));
+//        		return false;
+//        	}
+//    		boolean exit = existDirectReducePromotion(queryResult);
+//    		if( exit ){
+//    			return true ;
+//    		}
+    	}
+    	return false;
+    }
+    
+    private boolean existDirectReducePromotion(ItemPromotionQueryResult queryResult){
+    	if( queryResult == null || !queryResult.isSuccess() || queryResult.getPcBaseItem() == null){
+    		return false;
+    	}
+    	PcBaseItem baseItem = queryResult.getPcBaseItem();
+    	List<PromotionDTO> promotionDTOs = baseItem.getPromotionDTOList();
+    	if( CollectionUtils.isEmpty(promotionDTOs) ){
+    		return false;
+    	}
+    	for( PromotionDTO dto : promotionDTOs ){
+    		int type = dto.getType() ;
+    		if( PromotionType.DIRECT_REDUCE.getType() == type && dto.isAvailable() ){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
 
     @Override
     public boolean add(ActActivityEditVO actActivityEditVO) throws Exception {
         PromotionEditDTO promotionEditDTO = PromotionEditDTOConverter.getPromotionEditDTO(actActivityEditVO);
+        List<PromotionDO> addPromotionDOList = promotionEditDTO.getAddPromotionDOList() ;
+        boolean exist = isItemSkuHasDirectReduce(addPromotionDOList);
+        if( exist ){
+        	throw new BaseException("存在已拥有直降优惠的商品或者sku了，不能重复添加");
+        }
+        
         ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
 //        System.err.println(JSON.toJSONString(promotionEditDTO));
 //        System.err.println(JSON.toJSONString(baseResult));
@@ -176,8 +259,21 @@ public class PromotionCommServiceImpl implements PromotionCommService {
                         ItemSkuDO itemSkuDO = itemSkuMixDTO.getItemSkuDO();
                         promotionVO.setItemId(itemDO.getId());
                         promotionVO.setItemTitle(itemDO.getTitle());
-                        promotionVO.setPriceY(NumUtil.moneyTransformDouble(itemDO.getPrice()));
                         promotionVO.setItemStatus(itemDO.getStatus());
+                        int stock = 0 ;
+                        long price =  0 ;
+                        if(EntityType.ITEM.getType() == promotionVO.getEntityType()){
+                        	price = itemDO.getPrice();
+                        	stock = itemDO.getStockNum();
+                        }else if(EntityType.SKU.getType() == promotionVO.getEntityType()){
+                        	stock = itemSkuDO.getStockNum() ;
+                        	promotionVO.setSkuTitle(itemSkuDO.getTitle());
+                        	price = itemSkuDO.getPrice() ;
+                        }
+                        promotionVO.setPriceY(NumUtil.moneyTransformDouble(price));
+                        promotionVO.setStockNum(stock);
+                        promotionVO.setTitle( itemDO.getTitle() );
+                        promotionVO.setResultPriceY(NumUtil.moneyTransformDouble( price-promotionVO.getValue()));
                         if(itemSkuDO != null){
                             promotionVO.setItemSkuId(itemSkuDO.getId());
                             if (StringUtils.isNotEmpty(itemSkuDO.getTitle())){
@@ -203,10 +299,30 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     }
 
     @Override
-    public boolean checkActivityName(String name, int type) {
-        ActActivityDO actActivityDO = new ActActivityDO();
-        actActivityDO.setTitle(name);
-        actActivityDO.setType(type);
-        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);
+    public boolean isActivityNameRepeat(String name, int type, long activityId) {
+    	com.yimayhd.activitycenter.query.ActPromotionPageQuery actPromotionPageQuery = new com.yimayhd.activitycenter.query.ActPromotionPageQuery() ;
+    	actPromotionPageQuery.setType(type);
+    	actPromotionPageQuery.setTitle(name);
+    	ActPageResult<ActActivityDO> queryResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQuery);
+    	if( queryResult == null || !queryResult.isSuccess() ){
+    		log.error("queryActPromotions failed!  query={}  result={}",JSON.toJSONString(actPromotionPageQuery), JSON.toJSONString(queryResult));
+    		return false;
+    	}
+    	List<ActActivityDO> actActivityDOs = queryResult.getList();
+    	if( org.springframework.util.CollectionUtils.isEmpty( actActivityDOs ) ){
+    		return false;
+    	}
+    	if( activityId > 0 ){
+    		for( ActActivityDO actActivityDO : actActivityDOs ){
+    			if( actActivityDO.getId() == activityId ){
+    				return false;
+    			}
+    		}
+    	}
+    	return true ;
+//        ActActivityDO actActivityDO = new ActActivityDO();
+//        actActivityDO.setTitle(name);
+//        actActivityDO.setType(type);
+//        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);
     }
 }

@@ -75,6 +75,8 @@ public class ActActivityEditVOConverter {
                     if(PromotionType.DIRECT_REDUCE.getType() != promotionDO.getPromotionType()) {
                         actActivityVO.setRequirementY(NumUtil.moneyTransformDouble(promotionDO.getRequirement()));
                         actActivityVO.setValueY(NumUtil.moneyTransformDouble(promotionDO.getValue()));
+                    }else{
+                    	actActivityVO.setValueY(NumUtil.moneyTransformDouble(promotionDO.getValue()));
                     }
 //                promotionVO.setItemId();
 //                promotionVO.setItemSkuId();

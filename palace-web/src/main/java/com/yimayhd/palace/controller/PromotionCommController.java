@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
 import com.yimayhd.palace.base.BaseController;
@@ -62,9 +63,11 @@ public class PromotionCommController extends BaseController {
     	PromotionType type = PromotionType.getByType(promotionType);
     	if( type == null ){
     		//FIXME wuzhengfei
-    		return null;
+    		throw new Exception("无法识别的促销类型") ;
+//    		return null;
     	}
-        model.addAttribute("promotionType",type.name());
+        model.addAttribute("promotionType",type.getType());
+        model.addAttribute("promotionName",type.name());
         model.addAttribute("entityType",EntityType.ITEM.getType());
         return "/system/promotion/comm/edit";
     }
@@ -80,17 +83,22 @@ public class PromotionCommController extends BaseController {
         ActActivityEditVO actActivityEditVO = promotionCommService.getById(id);
         //TODO
         int promotionType = 6;
+        PromotionType promotionType2 = PromotionType.getByType(promotionType);
         model.addAttribute("actActivityEditVO",actActivityEditVO);
         model.addAttribute("promotionType",promotionType);
+        if( promotionType2 != null ){
+        	model.addAttribute("promotionName", promotionType2.name());
+        }
         model.addAttribute("entityType",EntityType.ITEM.getType());
         return "/system/promotion/comm/edit";
     }
 
     @RequestMapping(value = "/checkActivityName", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo checkActivityName(String name, int type) throws Exception {
-        boolean res = promotionCommService.checkActivityName(name, type);
-        if (res){
+    public ResponseVo checkActivityName(String name, int type, Long activityId) throws Exception {
+    	long id = activityId == null ? 0 : activityId.longValue() ;
+        boolean repeat = promotionCommService.isActivityNameRepeat(name, type, id);
+        if ( repeat ){
             return new ResponseVo(ResponseStatus.ERROR);
         }
         return ResponseVo.success();

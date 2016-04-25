@@ -7,6 +7,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.helper.PromotionHelper;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.service.PromotionCommService;
@@ -46,7 +47,7 @@ public class PromotionShopController extends BaseController {
     public String list(Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
         actPromotionPageQuery.setLotteryType(EntityType.SHOP.getType());
         PageVO<ActActivityDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
-        List<PromotionType> promotionTypeList = Arrays.asList(PromotionType.values());
+        List<PromotionType> promotionTypeList = PromotionHelper.getAvaiableShopPromotionTypes();
         List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());
         model.addAttribute("promotionListQuery",actPromotionPageQuery);
         model.addAttribute("pageVo",pageVO);

@@ -86,7 +86,7 @@
                     <td>#COMMODITY_STATUS($!commodity.status)</td>
                     <td>$!commodity.stockNum</td>
                     <td>$!utilDate.dateToString($!commodity.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
-                    <td>
+                    <td>$commodity.status
                         <button type="button" class="btn btn-primary commodityDetail" commodityId="$commodity.id" itemType="$commodity.itemType" categoryId="$!commodity.categoryId" outId="$!commodity.outId">查看</button>
                         <button type="button" class="btn btn-primary commodityBtn"  commodityId="$commodity.id" status="$commodity.status">#if($commodity.status == 2) 停用 #else 启用 #end </button>
                     </td>

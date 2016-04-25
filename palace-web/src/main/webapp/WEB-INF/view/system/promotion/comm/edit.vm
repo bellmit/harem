@@ -3,15 +3,23 @@
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "新建、编辑单品直降")
 #set($styles = ["$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.css", "$!rs_js_css_path_jiuxiu/css/promotion/edit.css"])
-#set($jses = ["$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js","$!rs_js_css_path_jiuxiu/js/promotion/edit.js"])
+#set($jses = [
+		"$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js",
+		"$!rs_js_css_path_jiuxiu/js/other/promotion/edit.js",
+		"$!rs_js_css_path_jiuxiu/js/other/promotion/edit-itemlist.js"
+		])
 
-	
+	<div class="hidden">
+		<input type="hidden" id="promotionType" value="$!promotionType">
+		<input type="hidden" id="promotionName" value="$!promotionName">
+	</div>
 	<div class="edit-container">
 		#parse("/system/promotion/comm/direct-reduce-edit.vm")
-		<div>
-		    #parse("/system/promotion/commList.vm")
-		    #selectItem()
-		</div>
+		<br/>
+		<br/>
+		<br/>
+	    #parse("/system/promotion/comm/item-list.vm")
+	    #selectItem()
 	</div>
 
 

@@ -12,4 +12,10 @@ public class PromotionHelper {
 		promotionTypes.add(PromotionType.DIRECT_REDUCE);
 		return promotionTypes ;
 	}
+	public static List<PromotionType> getAvaiableShopPromotionTypes(){
+		List<PromotionType> promotionTypes = new ArrayList<PromotionType>() ;
+//		promotionTypes.add(PromotionType.SUM_REDUCE);
+		promotionTypes.add(PromotionType.SUM_REDUCE);
+		return promotionTypes ;
+	}
 }

@@ -27,7 +27,7 @@
 	<script type="text/javascript" src="$root_path/resources/validate/messages_zh.min.js?t=$!v"></script>
 	#if( $jses )
 		#foreach($js in $!jses)
-			<script src="$!js" type="text/javascript"></script>
+			<script src="$!js?t=$!v" type="text/javascript"></script>
 		#end 
 	#end
 </head>

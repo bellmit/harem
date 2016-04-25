@@ -49,7 +49,7 @@
                     <button class="btn btn-default" type="button">优惠类型：</button>
                 </span>
             <select class="form-control addPromotionType">
-                <option value="">请选择优惠类型</option>
+                ##<option value="">请选择优惠类型</option>
                 #foreach($promotionType in $promotionTypeList)
                     <option value="$!promotionType.type" #if($!promotionListQuery.promotionType == $!promotionType.type) selected #end>$!promotionType.desc</option>
                 #end

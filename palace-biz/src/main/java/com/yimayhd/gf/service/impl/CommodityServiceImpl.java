@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -284,7 +285,7 @@ public class CommodityServiceImpl implements CommodityService {
             //商品名称
             itemDB.setTitle(itemVO.getTitle());
             //价格
-            itemDB.setPrice((long) (itemVO.getPriceY() * 100));
+            itemDB.setPrice(itemVO.getPriceLong());
             //商品库存
             itemDB.setStockNum(itemVO.getStockNum());
             //商品图片
