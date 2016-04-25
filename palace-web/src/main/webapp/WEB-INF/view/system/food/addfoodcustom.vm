@@ -27,7 +27,9 @@
 	<tr>
 		
 		<td class="tit"><span>*</span><label>商家名称：</label></td>
-		<td><input class="busname" maxlength="30"  name="merchantName" value="$!merchant.name" placeholder="请输入商家名称"><input type="hidden" name="id" value="#if($!merchant.id) $!merchant.id #else 0 #end"></td>
+		<td><input class="busname" maxlength="30"  name="merchantName"  value="$!merchant.name" placeholder="请输入商家名称">
+		<input type="hidden" name="id" value="#if($!merchant.id) $!merchant.id #else 0 #end"></td>
+	
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>商家图片：</label></td>
@@ -58,7 +60,7 @@
 	<tr>
 		<td class="tit"><span>*</span><label>联系电话：</label></td>
 		<td><input placeholder="请输入电话或手机号"  class="tel" value="$!merchant.serviceTel" name="serviceTel">
-		<label class="gray9"> 例如：13355454487 或 073183188599 或 0731-83188599或83188599</label></td>
+		<label class="gray9"> 例如：13355454487 或 073183188599 或 0731-83188599</label></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>营业时间：</label></td>
@@ -67,7 +69,7 @@
 	<tr>
 		<td class="tit"><span>*</span><label>人均消费：</label></td>
 		#set($result = $!merchant.avgprice/100.00 )
-		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="$!result" name="averagePrice">
+		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="$!numberHelper.formatNumber($!merchant.avgprice)" name="averagePrice">
 		<label class="gray9">最多输入两位小数</label></td>
 	</tr>
 	<tr>

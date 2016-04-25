@@ -1,12 +1,14 @@
 package com.yimayhd.palace.model.vo.merchant;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.glassfish.grizzly.utils.ServiceFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +32,14 @@ public class MerchantVO extends MerchantDTO {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	private String merchantName;
-	
+//	private String cityInfo;
+//	public String[] getCityInfo() {
+//		String[] cityInfoArr = cityInfo.split(",");
+//		return cityInfoArr;
+//	}
+//	public void setCityInfo(String cityInfo) {
+//		this.cityInfo = cityInfo;
+//	}
 	public String getMerchantName() {
 		return merchantName;
 	}
@@ -59,12 +68,12 @@ public class MerchantVO extends MerchantDTO {
 	public void setService(String service) {
 		this.service = service;
 	}
-	public float averagePrice;
+	public double averagePrice;
 	
-	public float getAveragePrice() {
+	public double getAveragePrice() {
 		return averagePrice;
 	}
-	public void setAveragePrice(float averagePrice) {
+	public void setAveragePrice(double averagePrice) {
 		this.averagePrice = averagePrice;
 	}
 	public MerchantDTO getMerchantDTO(MerchantVO vo) {
@@ -76,9 +85,12 @@ public class MerchantVO extends MerchantDTO {
 		MerchantDTO dto =  new MerchantDTO();
 		try {
 			BeanUtils.copyProperties(dto, vo);
+			
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
 			String name = getName(vo.getMerchantName());
 			dto.setName(name);
+//			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
+//			dto.setCityName(getCityInfo()[0]);
 			//dto.setId(userId);
 			dto.setAvgprice(getAvgPrice(vo.getAveragePrice()));
 			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
@@ -104,9 +116,12 @@ public class MerchantVO extends MerchantDTO {
 		return dto;
 		
 	}
-	private long getAvgPrice(float averagePrice) {
-		
-		return (long)(averagePrice*100);
+	private long getAvgPrice(double averagePrice) {
+		long l = (long)averagePrice;
+		DecimalFormat df = new DecimalFormat(".##");
+		long f = (long)Double.parseDouble(df.format((averagePrice-l)*100));
+		//long f =(long)( (Double.parseDouble(df.format(averagePrice))-l)*100);
+		return (l*100+f);
 	}
 	
 	private String getName(String merchantName) {
@@ -115,6 +130,8 @@ public class MerchantVO extends MerchantDTO {
 		}
 		return StringHelper.replaceBlank(merchantName);
 	}
+	
+	
 	public MerchantDO getMerchantDO(MerchantVO vo,long userId) {
 		if (vo == null || userId <= 0 ) {
 			log.error("merchantVO get merchantDO error and params:vo={}"+JSON.toJSONString(vo)+"and userId="+userId);
@@ -123,6 +140,8 @@ public class MerchantVO extends MerchantDTO {
 		MerchantDO merchantDO = new MerchantDO();
 		try {
 			BeanUtils.copyProperties(merchantDO, vo);
+//			merchantDO.setCityCode(Integer.parseInt(getCityInfo()[0]));
+//			merchantDO.setCityName(getCityInfo()[0]);
 			String name = getName(vo.getMerchantName());
 			merchantDO.setName(name);
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);

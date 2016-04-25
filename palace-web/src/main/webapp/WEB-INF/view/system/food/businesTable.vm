@@ -3,12 +3,12 @@
 <table class="tbgrid">
 		<thead>
 			<th class="tl" style="width:60px;"><label><input type="checkbox" class="all_ck"> 全选</label></th>
-			<th style="width:100px;">编号</th>
+			<th style="width:50px;">编号</th>
 			<th >商户名称</th>
-			<th style="width:100px;">城市</th>
+			<th style="width:120px;">城市</th>
 			<th >商家地址</th>
 			<th style="width:100px;">联系电话</th>
-			<th style="width:100px;">状态</th>
+			<th style="width:50px;">状态</th>
 			<th style="width:160px;">操作</th>
 		</thead>
 		<tbody>

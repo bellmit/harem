@@ -17,11 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
+import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.service.ComTagCenterService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.jiuxiu.helper.JiuxiuHelper;
 import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
@@ -34,7 +39,9 @@ import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
+import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.dto.CityDTO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.enums.MerchantStatus;
@@ -42,6 +49,7 @@ import com.yimayhd.user.client.enums.ServiceFacilityOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.DataCacheService;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.session.manager.SessionManager;
 /**
@@ -63,6 +71,12 @@ public class MerchantController extends BaseController {
 	private SessionManager sessionManager;
 	@Autowired
 	private RegionClientService regionClientServiceRef;
+//	@Autowired
+//	private ComTagCenterService comTagCenterServiceRef;
+//	@Autowired
+//	private DataCacheService dataCacheService;
+//	@Autowired
+//	private CityDataCacheClient cityCacheClient;
 //	@RequestMapping(value="toAddDeliciousFood",method=RequestMethod.GET)
 //	public String toAddDeliciousFood(Model model) {
 //		
@@ -76,10 +90,28 @@ public class MerchantController extends BaseController {
 		query.setPageSize(Constant.PAGE_SIZE);
 		query.setType(RegionType.JIUXIU_REGION.getType());
 		query.setStatus(Constant.PAGEQUERY_STATUS);
+//		TagRelationDomainDTO dto = new TagRelationDomainDTO();
+//		dto.setDomain(Constant.DOMAIN_JIUXIU); 
+//		dto.setOutType(TagType.DESTPLACE.name());
+//		com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> tagList = comTagCenterServiceRef.getTagListByTagType(dto);
 		RCPageResult<RegionDO> cities = regionClientServiceRef.pageQuery(query);
-		if (cities.isSuccess() && cities.getList() != null) {
+		if (cities.isSuccess() ) {
 			return cities.getList();
 		}
+//		if (tagList != null && tagList.isSuccess() ) {
+//			//return tagList.getValue();
+//			List<RegionDO> cityList = new ArrayList<>();
+//			for (ComTagDO tagDo : tagList.getValue()) {
+//				List<String> codeList = new ArrayList<>();
+//				codeList.add(tagDo.getName());
+//				CityDTO cityDTO = cityCacheClient.getCities(codeList).get(tagDo.getName());
+//				RegionDO regionDO = new RegionDO();
+//				regionDO.setCityCode(Integer.parseInt(tagDo.getName()));
+//				regionDO.setCityName(cityDTO.getName());
+//				cityList.add(regionDO);
+//			}
+//			return cityList;
+//		}
 		return null;
 	}
 	
@@ -141,16 +173,25 @@ public class MerchantController extends BaseController {
 		//BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
+//			if (merchantDO.getName().contains("\"")) {
+//				//merchantDO.setName(merchantDO.getName().replace("\"", "\\\""));
+//				model.addAttribute("nameResult", true);
+//			}else {
+//				model.addAttribute("nameResult", false);
+//				
+//			}
+			
 			long serviceFacility = merchantDO.getServiceFacility();
 			if (serviceFacility >= 0 ) {
 				List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
 				model.addAttribute("containedOptions",containedOptions);
 			}
-			model.addAttribute("merchant",merchant.getValue() );
+			model.addAttribute("merchant",merchantDO );
 			
 			
 		}
 
+		model.addAttribute("numberHelper",new NumberFormatHelper() );
 		return "system/food/addfoodcustom";
 		
 	}
@@ -175,6 +216,7 @@ public class MerchantController extends BaseController {
 			
 			
 		}
+		model.addAttribute("numberHelper",new NumberFormatHelper() );
 		
 		return "/system/food/foodcustomdt";
 		
