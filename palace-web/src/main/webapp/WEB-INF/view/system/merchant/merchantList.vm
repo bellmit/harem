@@ -10,19 +10,19 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商户名称</button>
                     </span>
-                <input type="text" class="form-control" name="merchantName" value="$!jiuxiuMerchantListQuery.merchantName">
+                <input type="text" class="form-control queryRt" name="merchantName" value="$!jiuxiuMerchantListQuery.merchantName">
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商户编号</button>
                     </span>
-                <input type="text" class="form-control" name="merchantNo" value="$!jiuxiuMerchantListQuery.merchantNo">
+                <input type="text" class="form-control queryRt" name="merchantNo" value="$!jiuxiuMerchantListQuery.merchantNo">
             </div>
             <div class="input-group inpSingle ">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商户类型</button>
                     </span>
-                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="merchantType">
+                <select data-placeholder="请选择..." class="chosen-select form-control queryRt" tabindex="2" name="merchantType">
                     <option value="">全部</option>
                     <option value="4" #if($!jiuxiuMerchantListQuery.merchantType == '4') selected #end>达人</option>
                     <option value="8" #if($!jiuxiuMerchantListQuery.merchantType == '8') selected #end>商家</option>
@@ -32,14 +32,14 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">负责人</button>
                     </span>
-                <input type="text" class="form-control" name="merchantPrincipal" value="$!jiuxiuMerchantListQuery.merchantPrincipal">
+                <input type="text" class="form-control queryRt" name="merchantPrincipal" value="$!jiuxiuMerchantListQuery.merchantPrincipal">
 
             </div>
              <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">手机号码</button>
                     </span>
-                <input type="text" class="form-control" name="merchantPrincipalTel" value="$!jiuxiuMerchantListQuery.merchantPrincipalTel">
+                <input type="text" class="form-control queryRt" name="merchantPrincipalTel" value="$!jiuxiuMerchantListQuery.merchantPrincipalTel">
 
             </div>
            
@@ -47,7 +47,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">状态</button>
                     </span>
-                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="status">
+                <select data-placeholder="请选择..." class="chosen-select form-control queryRt" tabindex="2" name="status">
                     <option value="">全部</option>
                     <option value="3" #if($!jiuxiuMerchantListQuery.status == '3') selected #end>启用</option>
                     <option value="2" #if($!jiuxiuMerchantListQuery.status == '2') selected #end>禁用</option>
@@ -58,7 +58,7 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary" >重置</button>
+                <button type="button" id="resetBt" class="btn btn-primary" >重置</button>
             </div>
 
         </div>
@@ -163,6 +163,9 @@
             });
 
     $(function () {
+    	$("#resetBt").click(function () {
+           $(".queryRt").val("");
+        });
        #* $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
             window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/orderManage/goodsOrder/"+orderId, 2, "商品订单详情");
