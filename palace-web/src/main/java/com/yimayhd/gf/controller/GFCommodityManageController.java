@@ -51,11 +51,11 @@ public class GFCommodityManageController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
 		//FIXME 伍正飞
-		if( commodityListQuery != null && StringUtils.isNotEmpty(commodityListQuery.getCommName() )){
-			String name = commodityListQuery.getCommName() ;
-			name = new String(name.getBytes("iso-8859-1"),"utf-8") ;
-			commodityListQuery.setCommName(name);
-		}
+//		if( commodityListQuery != null && StringUtils.isNotEmpty(commodityListQuery.getCommName() )){
+//			String name = commodityListQuery.getCommName() ;
+//			name = new String(name.getBytes("iso-8859-1"),"utf-8") ;
+//			commodityListQuery.setCommName(name);
+//		}
 		PageVO<ItemVO> pageVO = gfCommodityService.getList(commodityListQuery);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
