@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 单品优惠管理
  * @author czf
@@ -41,7 +43,7 @@ public class PromotionCommController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
+    public String list(HttpServletRequest request, Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
         actPromotionPageQuery.setLotteryType(EntityType.ITEM.getType());
         PageVO<ActActivityDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
         List<PromotionType> promotionTypeList = PromotionHelper.getAvaiableItemPromotionTypes();
