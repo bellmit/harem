@@ -32,8 +32,14 @@
                          <option value="6" #if($!theme.outType == 6) selected = "selected" #end>
 								酒店
                         </option>
-                         <option value="7" #if($!theme.outType == 7) selected = "selected" #end>
+                        <option value="7" #if($!theme.outType == 7) selected = "selected" #end>
 								线路
+                        </option>
+                        <option value="13" #if($!theme.outType == 13) selected = "selected" #end>
+								线路商品
+                        </option>
+                        <option value="14" #if($!theme.outType == 14) selected = "selected" #end>
+								城市活动
                         </option>
                      </select>
 				</td>

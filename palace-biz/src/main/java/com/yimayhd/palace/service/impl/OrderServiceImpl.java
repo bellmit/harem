@@ -166,9 +166,11 @@ public class OrderServiceImpl implements OrderService {
 				if (mainOrder.getBizOrderDO()!=null){
 					long buyerId = mainOrder.getBizOrderDO().getBuyerId();
 					UserDO buyer = userServiceRef.getUserDOById(buyerId, false);
-					orderDetails.setBuyerName(buyer.getName());
-					orderDetails.setBuyerNiceName(buyer.getNickname());
-					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+					if( buyer != null ){
+						orderDetails.setBuyerName(buyer.getName());
+						orderDetails.setBuyerNiceName(buyer.getNickname());
+						orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+					}
 					//订单来源
 					int payChannel = BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.ORDER_SOURCE);
 					if (payChannel == OrderSourceType.PC.getBizType()){
