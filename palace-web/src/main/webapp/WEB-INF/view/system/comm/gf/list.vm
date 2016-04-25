@@ -114,10 +114,12 @@
     
         $('.submitBtn').click(function(){
         	var itemId =  $("#commodityListForm item-id").val();
-        	itemId = parseInt(itemId) ;
-        	if( isNaN(itemId) ){
-        		alert("查询参数非法");
-        		return false;
+        	if( itemId != null && itemId != "" ){
+	        	itemId = parseInt(itemId) ;
+	        	if( isNaN(itemId) ){
+	        		alert("查询参数非法");
+	        		return false;
+	        	}
         	}
         	$("#commodityListForm item-id").val( itemId );
         	
