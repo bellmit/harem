@@ -129,6 +129,10 @@ public class UploadController extends BaseController {
 			if (StringUtils.isBlank(suffix)) {
 				suffix = ".jpg";
 			}
+			long size = multipartFile.getSize();
+			if (size > MAX_LENGTH) {
+				new ResponseVo(ResponseStatus.FILE_TO_BIG);
+			}
 			
 			String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
 			if(StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
@@ -157,6 +161,11 @@ public class UploadController extends BaseController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		Iterator<String> iterator = multipartRequest.getFileNames();
 		MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
+		long size = multipartFile.getSize();
+		if (size > MAX_LENGTH) {
+			new ResponseVo(ResponseStatus.FILE_TO_BIG);
+		}
+		
 		String tfsName = WebResourceConfigUtil.getTfsRootPath()
 				+ tfsManager.saveFile(multipartFile.getBytes(), null, null);
 		return tfsName;

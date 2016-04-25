@@ -50,6 +50,7 @@
 						</div>
 						<input type="hidden" name="loopImageStr" value="$!merchant.logo">
 					</div>
+
 					
 				</div>
 		</td>
@@ -77,7 +78,8 @@
 		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "4")  checked="checked"  #end #end value="4" type="checkbox">包厢</label>
 		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "5")  checked="checked"  #end #end value="5" type="checkbox">露天位</label>
 		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "6")  checked="checked"  #end #end value="6" type="checkbox">吸烟区</label>
-		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "7")  checked="checked"  #end #end value="7" type="checkbox">支付宝</label></td>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "7")  checked="checked"  #end #end value="7" type="checkbox">支付宝</label>
+		<label class="ck"><input name="service" #foreach ($option in $containedOptions) #if ($!option.code == "8")  checked="checked"  #end #end value="8" type="checkbox">无烟区</label></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>商家住址：</label></td>

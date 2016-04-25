@@ -7,7 +7,9 @@
         <tool key="utilWebconfig" class="com.yimayhd.palace.util.WebResourceConfigUtil"></tool>
         <tool key="utilPhone" class="com.yimayhd.palace.util.PhoneUtil"></tool>
         <tool key="utilItem" class="com.yimayhd.palace.util.ItemUtil"></tool>
+        <tool key="imageUtil" class="com.yimayhd.palace.util.ImageUtil"></tool>
         <tool key="utilMoney" class="com.yimayhd.palace.util.MoneyUtil"></tool>
+        <tool key="jsonUtil" class="com.yimayhd.palace.util.JsonUtil"></tool>
     </toolbox>
 
 </tools>

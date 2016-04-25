@@ -46,7 +46,7 @@ public class WebResourceConfigUtil {
         return ResourceConfig.getInstance().getValueByKey(ACTION_UPLOAD_FILES_PATH_KEY);
     }
     public static String getResourceVersion(){
-        return "20151227";
+        return "8";
     }
     public static String getItemImgUrlPath(){
     	return ResourceConfig.getInstance().getValueByKey(ITEM_IMG_URI_PATH);

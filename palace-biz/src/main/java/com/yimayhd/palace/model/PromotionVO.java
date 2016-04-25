@@ -15,10 +15,12 @@ public class PromotionVO extends PromotionDO {
     private long itemId;
     private long itemSkuId;
     private double priceY;
+    private double resultPriceY ;
     private String itemTitle;
     private String skuTitle;
     private long stockNum;
     private int itemStatus;
+    
 
     public static PromotionVO getPromotionVO(PromotionDO promotionDO){
         PromotionVO promotionVO = new PromotionVO();
@@ -106,4 +108,12 @@ public class PromotionVO extends PromotionDO {
     public void setSkuTitle(String skuTitle) {
         this.skuTitle = skuTitle;
     }
+
+	public double getResultPriceY() {
+		return resultPriceY;
+	}
+
+	public void setResultPriceY(double resultPriceY) {
+		this.resultPriceY = resultPriceY;
+	}
 }

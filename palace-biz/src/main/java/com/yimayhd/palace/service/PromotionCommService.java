@@ -57,5 +57,5 @@ public interface PromotionCommService {
      */
     boolean close(long id)throws Exception;
 
-    boolean checkActivityName(String name, int type);
+    boolean isActivityNameRepeat(String name, int type, long activityId);
 }

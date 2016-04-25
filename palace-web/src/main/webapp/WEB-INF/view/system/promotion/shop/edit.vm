@@ -59,6 +59,7 @@
             </table>
             <input type="hidden" name="promotionVOListStr" class="promotionVOListStr" value="">
         </form>
+        #*
         <div class="tableGroup whole">
 
             <table class="table table-hover dataTableSelected">
@@ -68,7 +69,6 @@
                     <th>商品名称</th>
                     <th>单价</th>
                     <th>状态</th>
-                    #*<th>总库存</th>*#
                     #if($promotionType == 6)
                         <th>直降金额</th>
                         <th>优惠价</th>
@@ -96,6 +96,7 @@
                 #end
             </table>
         </div>
+        *#
     </div>
     </div>
     #if(!$actActivityEditVO || $actActivityEditVO.actActivityVO.status == 1)
@@ -103,11 +104,12 @@
     #end
 </div>
 
+#*
 <div>
     #parse("/system/promotion/commList.vm")
     #selectItem()
 </div>
-
+*#
 
 <script>
     var promotionType = $promotionType;

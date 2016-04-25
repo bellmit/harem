@@ -1,0 +1,46 @@
+                    
+                    
+<form action="" method="post" class="form form-horizontal" id="actActivityForm" >
+	<input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$!promotionType">
+	<input type="hidden" class="activityId" value="$!actActivityEditVO.actActivityVO.id">
+    <input type="hidden" name="actActivityVO.entityType" class="entityType" value="$!entityType">
+    <input type="hidden" name="promotionVOListStr" class="promotionVOListStr" value="$!actActivityVO.promotionVOListStr">
+    
+	<div class="reduce-info-row">
+		<label class="reduce-info-label"><span class="spColor">*</span>促销优惠名称：</label>
+		<div class="reduce-info-value">
+			<input type="text" name="actActivityVO.title" class="form-control title" value="$!actActivityEditVO.actActivityVO.title" placeholder="优惠券名称" autocomplete="off">
+		</div>
+	</div>
+	<div class="reduce-info-row">
+		<label class="reduce-info-label"><span class="spColor">*</span>促销描述：</label>
+		<div class="reduce-info-value">
+			<input type="text" name="actActivityVO.description" class="form-control description" value="$!actActivityEditVO.actActivityVO.summary"  autocomplete="off" placeholder="描述">
+		</div>
+	</div>
+	<div class="reduce-info-row">
+		<label class="reduce-info-label"><span class="spColor">*</span>优惠设置：</label>
+		<div class="reduce-info-value reduce-info">
+			#set($reducePrice = $!{actActivityEditVO.actActivityVO.valueY} )
+			 #if($promotionName == "DIRECT_REDUCE")
+		                        直降
+                <input type="text" name="actActivityVO.valueY" id="reduce_price" class="form-control" value="$!reducePrice" initValue="$!reducePrice">
+            	元
+            #end
+		</div>
+	</div>
+	<div class="reduce-info-row">
+		<label class="reduce-info-label"><span class="spColor">*</span>优惠时间：</label>
+		<div class="reduce-info-value">
+			<input type="text" class='form-control form-date startDate' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
+            <span class="fix-border fix-padding dateInpCenter">至</span>
+            <input type="text" class='form-control form-date endDate' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")">
+		</div>
+	</div>
+	
+	#parse("/system/promotion/comm/direct-reduce-item.vm")
+	
+	#if(!$actActivityEditVO || $actActivityEditVO.actActivityVO.status == 1)
+		<button type="button" class="btn btn-primary reduce-save-btn"  id="btnSubmit" >保存</button>
+    #end
+</form>

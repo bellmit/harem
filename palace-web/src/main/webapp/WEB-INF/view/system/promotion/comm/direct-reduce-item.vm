@@ -1,0 +1,46 @@
+
+<table class="table table-hover dataTableSelected">
+    <tr>
+        <th>商品编码</th>
+        <th>sku编码</th>
+        <th>商品名称</th>
+        <th>状态</th>
+        <th>库存</th>
+        <th>原价</th>
+        #if($promotionName == "DIRECT_REDUCE")
+            <th>直降金额</th>
+            <th>优惠价</th>
+        #end
+        <th>操作</th>
+    </tr>
+    #foreach($promotionVO in $actActivityEditVO.promotionVOList)
+    	
+    	#if( $!{promotionVO.entityType} ==1 )
+    		 #set($skuId = $!promotionVO.entityId )
+    	#else
+    		 #set($itemId = $!promotionVO.entityId )
+    	#end
+    	#set($entity = {"id":"$!{promotionVO.id}", "entityId":"!${promotionVO.entityId}", "entityType":"$!{promotionVO.entityType}", "orgPrice":"$!{promotionVO.priceY}", "skuId":$!skuId, "itemId":$!itemId} )
+		<tr class="dataSelectTr" data='$jsonUtil.toJsonString($!entity)' promotionId="$promotionVO.id" entityId="$promotionVO.entityId" entityType="$promotionVO.entityType" priceY="$!promotionVO.priceY" isDel="$!promotionVO.isDel" isModify="$!promotionVO.isModify">
+	        <td commId="$promotionVO.itemId">$promotionVO.itemId</td>
+	        <td skuId="$promotionVO.itemSkuId">
+                $!promotionVO.itemSkuId
+	        </td>
+	        <td>
+	        	$!promotionVO.itemTitle 
+	        </td>
+	        <td>#COMMODITY_STATUS($!promotionVO.itemStatus)</td>
+	        <td>$promotionVO.stockNum</td>
+	        <td class='org-price'>￥$promotionVO.priceY</td>
+           #if( $promotionName == "DIRECT_REDUCE" )
+               <td class="reduce-price">￥ <input class="single-item-reduce-price" value="$promotionVO.valueY" initValue="$promotionVO.valueY"></input></td>
+               <td class="result-price">￥$!promotionVO.resultPriceY </td>
+           #end
+	        <td>
+	           #if($actActivityEditVO.actActivityVO.status == 1)
+			        <button type="button" class="btn btn-primary delBtn">删除</button>
+	           #end
+	        </td>
+		</tr>
+    #end
+</table>

@@ -1,0 +1,46 @@
+<div class = "title distance">
+	<div class = "info-tit">商品信息</div>
+	#set($orderId = $!refundOrderDetail.mainOrder.bizOrderDO.bizOrderId)
+	<p class = "info first"><span>订单编号：</span><a href="$!root_path/B2C/orderManage/gfOrder/$orderId">$orderId</a></p>
+	<table width= "95%">
+		<thead>
+			<th>商品</th>
+			<th>单价</th>
+			<th>数量</th>
+			<th>小计</th>
+		</thead>
+		<tbody>
+				
+			#foreach($subOrder in $!refundOrderDetail.mainOrder.subOrderList)
+	            <tr>
+	                <td class = "infotd" width= "328">
+	                	<ul>
+							<li class = "img"><img width="80" height="80" class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic"></li>
+							<li class= "name">
+								<span>
+									<div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
+		                            <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
+	                            </span>
+                            </li>
+						</ul>
+	                </td>
+	                <td align = "center" width= "200">
+	                	<s>$!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)</s><br><span <span class = "spe">$!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)</span>
+	                </td>
+	                <td align = "center" width= "200">
+                        $!subOrder.bizOrderDO.buyAmount
+	                </td>
+	                <td align = "center" width= "200">
+	                	<p>
+	                		<span class = "spe">
+	                        	$utilNum.totalFee($subOrder.bizOrderDO.buyAmount,$subOrder.bizOrderDO.itemPrice)
+	                		</span>
+	                		</br>(包邮)
+	                	</p>
+	                </td>
+	            </tr>
+	        #end
+				
+		</tbody>
+	</table>
+</div>

@@ -78,6 +78,7 @@ public class OrderConverter {
                 e.printStackTrace();
             }
         }
+        
         //订单状态
         String orderState = orderListQuery.getOrderStat();
         if (StringUtils.isNotEmpty(orderState)){
@@ -99,6 +100,7 @@ public class OrderConverter {
                 int [] logisticsStatuses = {LogisticsStatus.DELIVERED.getStatus()};
                 orderQueryDTO.setPayStatuses(payStatus);
                 orderQueryDTO.setLogisticsStatuses(logisticsStatuses);
+//                orderQueryDTO.setBizOrderStatus(BizOrderStatus.s);
             }else if (orderState.equals(PayStatus.NOT_PAY_CLOSE.toString())){
                 int [] payStatus = {PayStatus.NOT_PAY_CLOSE.getStatus(),PayStatus.REFUNDED.getStatus()};
                 orderQueryDTO.setPayStatuses(payStatus);
@@ -132,8 +134,12 @@ public class OrderConverter {
             }else{
                 mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
             }
-        }else if (RefundStatus.REFUND_SUCCESS.getStatus() == refundStatus || RefundStatus.REFUNDING.getStatus() == refundStatus){
-            mainOrder.setOrderShowState(OrderShowStatus.REFUNDED.getStatus());//已退款
+        }else if ( RefundStatus.REFUNDING.getStatus() == refundStatus){
+        	//退款中
+        	mainOrder.setOrderShowState(OrderShowStatus.FINISH.getStatus());
+        }else if (RefundStatus.REFUND_SUCCESS.getStatus() == refundStatus ){
+        	//已退款
+        	mainOrder.setOrderShowState(OrderShowStatus.REFUNDED.getStatus());
         }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.NO_LG_ORDER.getStatus() == logisticsStatus && RefundStatus.NOT_REFUND.getStatus() == refundStatus){
             mainOrder.setOrderShowState(OrderShowStatus.PAID.getStatus());//待发货|已付款
             mainOrder.setOrderActionStates(OrderActionStatus.AFFIRM_REFUND.getStatus());

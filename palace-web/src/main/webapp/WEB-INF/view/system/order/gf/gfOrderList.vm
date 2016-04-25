@@ -1,0 +1,106 @@
+#set($layout = "/system/layout/layout-gf.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "GF订单管理")
+#set($styles = [
+	"$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.css", 
+	"$!root_path/resources/css/common.css", 
+	"$!rs_js_css_path_jiuxiu/css/order/gf/gforder.css"
+	])
+#set($jses = [
+	"$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js",
+	"$!rs_js_css_path_jiuxiu/js/other/order/gf/list.js"
+	])
+
+	
+<div>
+    <form class="form-signin" id="tradeListForm" name="tradeListForm"
+          action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList" method="GET" role="form">
+        #parse("/system/order/gf/gfOrderQuery.vm")
+        
+        
+        <div class="tableGroup whole order-list-items">
+            <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <th width="3%"><input class="allChecked" name="allChecked" type="checkbox">全选</th>
+                    <th width="10%"></th>
+                    <th width="27%">商品</th>
+                    <th width="5%">单价</th>
+                    <th width="5%">数量</th>
+                    <th width="10%">买家</th>
+                    <th width="10%">交易状态</th>
+                    <th width="10%">订单金额</th>
+                    <th width="10%">操作</th>
+                </tr>
+                #foreach($order in $orderList)
+                	#set($bizOrder = $!order.bizOrderDO )
+                    <tr></tr>
+                    <tr class="order-item-label">
+                        <td><input class="subChecked" type="checkbox" value="$!bizOrder.bizOrderId"></td>
+                        <td colspan="8" align="left">
+                        	订单编号：<span class="order-summary-info">$!bizOrder.bizOrderId</span>
+                        	下单时间：<span class="order-summary-info">$!date.format('yyyy-MM-dd HH:mm:ss',$!bizOrder.gmtCreated)<span>
+                        </td>
+                    </tr>
+
+					#set($size = $order.subOrderList.size() )
+                    #foreach($subOrder in $order.subOrderList)
+                    
+	                    <tr>
+	                    	#if( $velocityCount == 1 )
+	                        	<td rowspan="$size"></td>
+	                        #end
+	                        <td>
+	                            <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$imageUtil.getImgUrl($!subOrder.bizOrderDO.itemPic, 80)">
+	                        </td>
+	                        <td class="order-item-title">
+	                            <div class="item-title">$!subOrder.bizOrderDO.itemTitle</div>
+	                            <div class="item-subtitle">$!subOrder.bizOrderDO.itemSubTitle</div>
+	                        </td>
+	                        <td>
+	                            	￥$!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
+	                        </td>
+	                        <td>
+	                            $!subOrder.bizOrderDO.buyAmount
+	                        </td>
+	                        #if( $velocityCount == 1 )
+	                        	<td rowspan="$size">
+		                            <div class="txt">$!order.user.nickname</div>
+		                            <div class="txt">$!order.user.mobileNo</div>
+		                        </td>
+	                            <td rowspan="$size">
+	                            	#ORDERS_STATUS($!order.orderShowState)
+	                            	
+	                            </td>
+	                            <td rowspan="$size">
+	                            	￥$!utilNum.moneyTransform($!bizOrder.actualTotalFee)
+	                            </td>
+	                            <td rowspan="$size">
+		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
+		                            #if($order.orderShowState == 2)
+		                            	#if( $test )
+			                                <button type="button" class="btn btn-primary affirm"
+			                                        data-target="#affirmModal" orderId="$!bizOrder.bizOrderId">确认
+			                                </button>
+		                                #end
+		                            #elseif($order.orderShowState == 3)
+		                                <button type="button" class="btn btn-primary finish"
+		                                        data-target="#finishModal" orderId="$!bizOrder.bizOrderId">完成
+		                                </button>
+		                            #end
+		                        </td>
+	                        #end
+	                    #end
+	                </tr>
+                #end
+            </tbody>
+            </table>
+        </div>
+    #*分页*#
+        #parse("/page.vm")
+        #pageStyle("tradeListForm")
+    </form>
+
+    </div>
+
+</div>

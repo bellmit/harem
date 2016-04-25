@@ -46,6 +46,7 @@
 		<property name="dubbo.registry.url" defaultValue="192.168.1.202:2181" description="#" />
 		<property name="dubbo.retries" defaultValue="0" description="#" />
 		<property name="consumer.dubbo.timeout" defaultValue="4000" description="#" />
+		<property name="consumer.dubbo.check" defaultValue="false" description="#" />
 
 		<property name="consumer.dubbo.item.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.item.version" defaultValue="1.0.0.test" description="#" />
@@ -92,6 +93,8 @@
 
 		<property name="consumer.dubbo.refundQuery.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.refundQuery.version" defaultValue="1.0.0.test" description="#" />
+		
+		<property name="consumer.dubbo.promotion.version" defaultValue="1.0.0.test" description="#" />
 
 	</group>
 

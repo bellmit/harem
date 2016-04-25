@@ -1,6 +1,14 @@
 package com.yimayhd.palace.model.trade;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
+import com.yimayhd.palace.util.NumUtil;
+import com.yimayhd.palace.util.OrderUtil;
+import com.yimayhd.promotion.client.enums.PromotionType;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 
 /**
  * Created by zhaozhaonan on 2015/12/22.
@@ -67,5 +75,31 @@ public class SubOrder {
 
     public void setvTxt(String vTxt) {
         this.vTxt = vTxt;
+    }
+    
+    public String getPromotionInfoTitle(){
+    	if( bizOrderDO == null ){
+    		return null;
+    	}
+    	PromotionInfo info = (PromotionInfo) bizOrderDO.getExtFeature(BizOrderExtFeatureKey.SUB_ORDER_USE_PROMOTION) ;
+    	if( info == null ){
+    		return null;
+    	}
+    	int type = info.getType() ;
+    	if( PromotionType.DIRECT_REDUCE.getType() == type ){
+    		long reduceFee = info.getDiscountFee() ;
+    		if( reduceFee > 0 ){
+    			//FIXME 伍正飞 修改
+    			return "直降"+ NumUtil.moneyTrans(reduceFee)+"元";
+    		}
+    	}
+    	String title = info.getTitle();
+    	return title ;
+    }
+    
+    
+    public long getSumFee(){
+    	long fee = OrderUtil.getOrderFee(bizOrderDO, BizOrderFeatureKey.SUB_ORDER_TOTAL_FEE) ;
+    	return fee ;
     }
 }

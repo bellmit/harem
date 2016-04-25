@@ -16,6 +16,8 @@ import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
 import com.yimayhd.palace.service.CategoryService;
 import com.yimayhd.user.session.manager.SessionManager;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +50,12 @@ public class GFCommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
+		//FIXME 伍正飞
+		if( commodityListQuery != null && StringUtils.isNotEmpty(commodityListQuery.getCommName() )){
+			String name = commodityListQuery.getCommName() ;
+			name = new String(name.getBytes("iso-8859-1"),"utf-8") ;
+			commodityListQuery.setCommName(name);
+		}
 		PageVO<ItemVO> pageVO = gfCommodityService.getList(commodityListQuery);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);

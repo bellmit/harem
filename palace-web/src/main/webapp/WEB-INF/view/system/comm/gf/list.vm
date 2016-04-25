@@ -1,6 +1,7 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<form class="form-signin" id="commodityListForm" name="commodityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/commodityManage/list" method="GET" role="form">
+<form class="form-signin" id="commodityListForm" name="commodityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/commodityManage/list" method="GET" role="form"   
+        accept-charset="utf-8">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -12,7 +13,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商品编码</button>
                     </span>
-            <input type="text" class="form-control" name="id" value="$!commodityListQuery.id">
+            <input type="text" class="form-control" name="id" class="item-id" value="$!commodityListQuery.id" />
         </div>
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -60,7 +61,7 @@
             </tr>
                 #foreach($commodity in $commodityList)
                 <tr class="subCheckedTR">
-                    <td><input class="subChecked" type="checkbox" value="$!commodity.id"></td>
+                    <td><input class="subChecked item-checkbox" type="checkbox" value="$!commodity.id"></td>
                     <td>$velocityCount</td>
                     <td>
                         <p><img class="uploadImgFile" src="#if($!commodity.smallListPic && $!commodity.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!commodity.smallListPic) #end"></p>
@@ -107,7 +108,19 @@
         a.click();
     }
     $(function(){
+    	$(".item-checkbox").click(function(event){
+            event.stopPropagation();
+        }) ;
+    
         $('.submitBtn').click(function(){
+        	var itemId =  $("#commodityListForm item-id").val();
+        	itemId = parseInt(itemId) ;
+        	if( isNaN(itemId) ){
+        		alert("查询参数非法");
+        		return false;
+        	}
+        	$("#commodityListForm item-id").val( itemId );
+        	
             $('#commodityListForm').submit();
         });
         $('.commodityDetail').each(function(){

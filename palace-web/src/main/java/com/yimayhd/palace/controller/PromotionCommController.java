@@ -1,11 +1,13 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.helper.PromotionHelper;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.service.PromotionCommService;
@@ -42,7 +44,7 @@ public class PromotionCommController extends BaseController {
     public String list(Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
         actPromotionPageQuery.setLotteryType(EntityType.ITEM.getType());
         PageVO<ActActivityDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
-        List<PromotionType> promotionTypeList = Arrays.asList(PromotionType.values());
+        List<PromotionType> promotionTypeList = PromotionHelper.getAvaiableItemPromotionTypes();
         List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());
         model.addAttribute("promotionListQuery",actPromotionPageQuery);
         model.addAttribute("pageVo",pageVO);
@@ -58,7 +60,14 @@ public class PromotionCommController extends BaseController {
      */
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public String toAdd(Model model,int promotionType) throws Exception {
-        model.addAttribute("promotionType",promotionType);
+    	PromotionType type = PromotionType.getByType(promotionType);
+    	if( type == null ){
+    		//FIXME wuzhengfei
+    		throw new Exception("无法识别的促销类型") ;
+//    		return null;
+    	}
+        model.addAttribute("promotionType",type.getType());
+        model.addAttribute("promotionName",type.name());
         model.addAttribute("entityType",EntityType.ITEM.getType());
         return "/system/promotion/comm/edit";
     }
@@ -74,17 +83,22 @@ public class PromotionCommController extends BaseController {
         ActActivityEditVO actActivityEditVO = promotionCommService.getById(id);
         //TODO
         int promotionType = 6;
+        PromotionType promotionType2 = PromotionType.getByType(promotionType);
         model.addAttribute("actActivityEditVO",actActivityEditVO);
         model.addAttribute("promotionType",promotionType);
+        if( promotionType2 != null ){
+        	model.addAttribute("promotionName", promotionType2.name());
+        }
         model.addAttribute("entityType",EntityType.ITEM.getType());
         return "/system/promotion/comm/edit";
     }
 
     @RequestMapping(value = "/checkActivityName", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo checkActivityName(String name, int type) throws Exception {
-        boolean res = promotionCommService.checkActivityName(name, type);
-        if (res){
+    public ResponseVo checkActivityName(String name, int type, Long activityId) throws Exception {
+    	long id = activityId == null ? 0 : activityId.longValue() ;
+        boolean repeat = promotionCommService.isActivityNameRepeat(name, type, id);
+        if ( repeat ){
             return new ResponseVo(ResponseStatus.ERROR);
         }
         return ResponseVo.success();

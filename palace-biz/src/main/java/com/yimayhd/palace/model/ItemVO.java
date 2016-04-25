@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -346,6 +347,11 @@ public class ItemVO extends ItemDO {
         this.itemSkuVOList = itemSkuVOList;
     }
 
+    public long getPriceLong(){
+    	 BigDecimal price = new BigDecimal(priceY).multiply(new BigDecimal(100)) ;
+         long p = price.setScale(2, BigDecimal.ROUND_HALF_UP).longValue();
+         return p ;
+    }
     public double getPriceY() {
         return priceY;
     }
