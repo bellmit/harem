@@ -28,4 +28,5 @@ public class Constant {
 	public static final int SHOWCASE_SHOE_TYPE_ITEM_LIST = 5;//商品列表
 	
 	public static final String DOT = ".";
+	public static final String COMMA = ",";
 }

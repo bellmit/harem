@@ -1,10 +1,9 @@
-#set($layout = "/system/layout/layout-jiuxiu.vm")
+#set($layout = "/system/layout/layout-gf.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "售后详情页面")
 
-<link href="$root_path/resources/zui/css/zui.min.css" rel="stylesheet">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/aftersale/look.css?t=5">
-
+#set($styles = ["$!root_path/resources/zui/css/zui.min.css", "$!rs_js_css_path_jiuxiu/css/aftersale/look.css"])
+#set($jses = ["$!rs_js_css_path_jiuxiu/js/plugin/layerModal.js", "$!rs_js_css_path_jiuxiu/js/other/aftersale/gf/aftersaledetail.js"])
 
 	<div class = "" id = "details">
 		<div class = "path">
