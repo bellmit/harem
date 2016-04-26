@@ -102,8 +102,8 @@ public class MerchantVO extends MerchantDTO {
 			BeanUtils.copyProperties(dto, vo);
 			
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
-			String name = getName(vo.getMerchantName());
-			dto.setName(name);
+			//String name = getName(vo.getMerchantName());
+			dto.setName(getName(vo.getMerchantName()));
 			dto.setAddress(getName(vo.getMerchantAddress()));
 			dto.setServiceTime(getName(vo.getOpenTime()));
 //			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
