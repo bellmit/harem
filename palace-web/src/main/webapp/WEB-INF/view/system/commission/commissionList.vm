@@ -54,7 +54,7 @@
         						#if($disableFlag) 
          							disabled="disabled" 
          						#end  
-        						onclick="showTran('$!amountTotalDTO.userId','$!amountTotalDTO.userName','$!amountTotalDTO.commissionAmt','$!amountTotalDTO.pdcBankUser','$!amountTotalDTO.pdcBankNo');"/>
+        						onclick="showTran('$!amountTotalDTO.userId',$!velocityCount,'$!amountTotalDTO.commissionAmt','$!amountTotalDTO.pdcBankUser','$!amountTotalDTO.pdcBankNo');"/>
       						<input id="viewRecordBtn" type="button" class="btn btn-primary" value="转账记录" onclick="viewRecord('$!{amountTotalDTO.userId}','$!{amountTotalDTO.userName}');" />
       					</div>
                     </td>
@@ -76,12 +76,13 @@
 	});
 	var data = {},layerIndex,submitIndex = 0;
 	//显示转账pannel
-	function showTran(userId,userName,commissionAmt,pdcBankUser,pdcBankNo){
+	function showTran(userId,index,commissionAmt,pdcBankUser,pdcBankNo){
 		layerIndex = layer.open({
 		    type: 1,
 		    title : '转账',
 		    content: $('#pannel')
 		});
+		var userName = $(".table-hover tr:eq(" + index + ") td:first").text();
 		data.userId = userId;
 		data.userName = userName;
 		data.payeeAccount = pdcBankNo;
