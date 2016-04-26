@@ -27,8 +27,8 @@
 	<tr>
 		
 		<td class="tit"><span>*</span><label>商家名称：</label></td>
-		<td><input class="busname" maxlength="30"  name="merchantName"  value="$!merchant.name" placeholder="请输入商家名称">
-		<input type="hidden" name="id" value="#if($!merchant.id) $!merchant.id #else 0 #end"></td>
+		<td><input class="busname" maxlength="30"  name="merchantName"  value="$!nameResult" placeholder="请输入商家名称">
+		<input type="hidden"  name="id" value="#if($!merchant.id) $!merchant.id #else 0 #end"></td>
 	
 	</tr>
 	<tr>
@@ -64,7 +64,7 @@
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>营业时间：</label></td>
-		<td><input placeholder="请输入营业时间" maxlength="30" class="datepicker" value="$!merchant.serviceTime" name="openTime"></td>
+		<td><input placeholder="请输入营业时间" maxlength="30" class="datepicker" value="$!timeResult" name="openTime"></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>人均消费：</label></td>
@@ -89,7 +89,7 @@
 			#foreach ($city in $cities)
 				<option #if ($!merchant.cityCode == $!city.cityCode) selected="selected" #end value="$!city.cityCode">$!city.cityName</option>
 			#end
-		</select>&nbsp;&nbsp;<input maxlength="30" name="merchantAddress" value="$!merchant.address" class="address" placeholder="请输入商家住址"></td>
+		</select>&nbsp;&nbsp;<input maxlength="30" name="merchantAddress" value="$!addResult" class="address" placeholder="请输入商家住址"></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>商家地图：</label></td>

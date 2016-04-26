@@ -12,4 +12,5 @@
         <property name="check" value="${consumer.dubbo.comment.check}"/>
         <property name="version" value="${consumer.dubbo.comment.version}"/>
     </bean>
+    
 </beans>
