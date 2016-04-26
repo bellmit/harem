@@ -257,7 +257,7 @@
                             msg.show();
                         }
                         setTimeout(function(){
-                            // window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=1';
+                             window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=1';
                         },2000);
                     })
         });
