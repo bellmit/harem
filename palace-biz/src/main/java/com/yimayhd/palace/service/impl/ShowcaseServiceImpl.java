@@ -317,7 +317,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 int type = (itemQryDTO.getItemTypes())[0];
                 sc.setShowType(ItemType.get(type).getText());//显示类别
             }
-            sc.setSalerName(io.getIcMerchantInfoInfo().getMerchantName());//卖家名称
+            sc.setSalerName(null==io.getIcMerchantInfoInfo()?"":io.getIcMerchantInfoInfo().getMerchantName());//卖家名称
             long pric = NumUtil.doubleToLong(io.getItemDTO().getPrice());
             sc.setPrice(String.valueOf(pric));//单价
             sc.setShowStatus(ItemStatus.get(io.getItemDTO().getStatus()).getText()); //显示状态

@@ -26,9 +26,9 @@ public class CommissionAmoutConvert {
 		repoDTO.setDomainId((int)query.getDomainId());
 		repoDTO.setPageNo(query.getPageNumber());
 		repoDTO.setPageSize(query.getPageSize());
-		repoDTO.setTelNum(query.getTelNum());
 		repoDTO.setUserName(query.getUserName());
-		repoDTO.setPayeeCountName(query.getPayeeAccountName());
+		repoDTO.setPdcBankUser(query.getPdcBankUser());
+		repoDTO.setPdcBankPhone(query.getPdcBankPhone());
 	}
 	
 	public static void extractConvert(final ExtractDTO srcDTO, final AmountObtainDTO desDTO){
@@ -57,19 +57,32 @@ public class CommissionAmoutConvert {
 			if(userId <= 0){
 				continue ;
 			}
-			String payeeAccount = totalDTO.getPayeeAccount();
-			String payeeAccountName = totalDTO.getPayeeAccountName();
-			String telNum = totalDTO.getTelNum();
 			String userName = totalDTO.getUserName();
-			if(StringUtils.isNotBlank(payeeAccount) || StringUtils.isNotBlank(payeeAccountName) ||
-					StringUtils.isNotBlank(telNum) || StringUtils.isNotBlank(userName)){
+			String pdcBankName = totalDTO.getPdcBankName();
+			String pdcBankNo = totalDTO.getPdcBankNo();
+			String pdcBankUser = totalDTO.getPdcBankUser();
+			String pdcBankPhone = totalDTO.getPdcBankPhone();
+			String memberIdNo = totalDTO.getMemberIdNo();
+			if(
+					   StringUtils.isNotBlank(userName)
+					|| StringUtils.isNotBlank(pdcBankName) 
+					|| StringUtils.isNotBlank(pdcBankNo)
+					|| StringUtils.isNotBlank(pdcBankUser)
+					|| StringUtils.isNotBlank(pdcBankPhone)
+					|| StringUtils.isNotBlank(memberIdNo)
+				){
+				
 				UserInfoDTO userInfoDTO = new UserInfoDTO();
 				userInfoDTO.setDomainId((int)domainId);
-				userInfoDTO.setPayeeAccount(payeeAccount);
-				userInfoDTO.setPayeeAccountName(payeeAccountName);
-				userInfoDTO.setTelNum(telNum);
 				userInfoDTO.setUserId(userId);
 				userInfoDTO.setUserName(userName);
+				
+				userInfoDTO.setPdcBankName(pdcBankName);
+				userInfoDTO.setPdcBankNo(pdcBankNo);
+				userInfoDTO.setPdcBankUser(pdcBankUser);
+				userInfoDTO.setPdcBankPhone(pdcBankPhone);
+				userInfoDTO.setMemberIdNo(memberIdNo);
+				
 				desList.add(userInfoDTO);
 			}
 		}

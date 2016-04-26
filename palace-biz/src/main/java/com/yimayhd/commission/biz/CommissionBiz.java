@@ -123,9 +123,12 @@ public class CommissionBiz {
 							for (UserInfoResult userInfoResult : userInfoList) {
 								if (amountTotalDTO.getUserId() == userInfoResult.getUserId()) {
 									
-									amountTotalDTO.setPayeeAccount( userInfoResult.getAlipayAccount());
-									amountTotalDTO.setPayeeAccountName(userInfoResult.getAlipayAccountName());
-									amountTotalDTO.setTelNum(userInfoResult.getAlipayAccountPhone());
+									//银行账户信息
+									amountTotalDTO.setPdcBankName(userInfoResult.getPdcBankName());
+									amountTotalDTO.setPdcBankNo(userInfoResult.getPdcBankNo());
+									amountTotalDTO.setPdcBankUser(userInfoResult.getPdcBankUser());
+									amountTotalDTO.setPdcBankPhone(userInfoResult.getPdcBankPhone());
+									amountTotalDTO.setMemberIdNo(userInfoResult.getMemberIdNo());
 									
 									break;
 								}
@@ -175,9 +178,7 @@ public class CommissionBiz {
 		}
 		List<Long> userIdList = new ArrayList<Long>();
 		for(AmountTotalDTO dto : list){
-			if(StringUtils.isBlank(dto.getPayeeAccount()) || StringUtils.isBlank(dto.getPayeeAccountName()) || StringUtils.isBlank(dto.getTelNum())){
-				userIdList.add(dto.getUserId());
-			}
+			userIdList.add(dto.getUserId());
 		}
 		return userIdList;
 	} 

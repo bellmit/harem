@@ -15,15 +15,15 @@
                 <br>
                 <span>邮编：$!refundOrderDetail.mainOrder.logisticsOrderDO.post</span><br>
                 <span>收货地址：
-                    #if($!refundOrderDetail.mainOrder.logisticsOrderDO.prov)
-                        $!refundOrderDetail.mainOrder.logisticsOrderDO.prov &nbsp;-&nbsp;
-                    #elseif($!refundOrderDetail.mainOrder.logisticsOrderDO.city)
-                        $!refundOrderDetail.mainOrder.logisticsOrderDO.city &nbsp;-&nbsp;
-                    #elseif($!refundOrderDetail.mainOrder.logisticsOrderDO.area)
-                        $!refundOrderDetail.mainOrder.logisticsOrderDO.area &nbsp;-&nbsp;
-                    #else
-                        $!refundOrderDetail.mainOrder.logisticsOrderDO.address
-                    #end
+                    =$!refundOrderDetail.mainOrder.logisticsOrderDO.prov
+                    - $!refundOrderDetail.mainOrder.logisticsOrderDO.city
+                    =$!refundOrderDetail.mainOrder.logisticsOrderDO.area
+                    -$!refundOrderDetail.mainOrder.logisticsOrderDO.address
+
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.prov &nbsp;-&nbsp;
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.city &nbsp;-&nbsp;
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.area &nbsp;-&nbsp;
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.address
                 </span><br>
             </div>
         </div>

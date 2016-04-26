@@ -45,6 +45,9 @@ import com.yimayhd.promotion.client.dto.BaseItemDTO;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
+import com.yimayhd.promotion.client.query.EntityQueryPair;
+import com.yimayhd.promotion.client.query.PromotionPageQuery;
+import com.yimayhd.promotion.client.result.BasePageResult;
 import com.yimayhd.promotion.client.result.ItemPromotionQueryResult;
 import com.yimayhd.promotion.client.result.PcBaseItem;
 import com.yimayhd.promotion.client.result.PromotionDTO;
@@ -118,39 +121,79 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     	if( org.springframework.util.CollectionUtils.isEmpty(addPromotionDOList) ){
     		return false;
     	}
-//    	List<Long> itemIds = new ArrayList<Long>();
-//    	List<Long> skuIds = new ArrayList<Long>();
-//    	for( PromotionDO promotionDO : addPromotionDOList ){
-//    		int entityType =promotionDO.getEntityType() ;
-//    		long entityId = promotionDO.getEntityId() ;
-//    		if( EntityType.ITEM.getType() == entityType ){
-//    			itemIds.add(entityId) ;
-//    		}else{
-//    			skuIds.add(entityId) ;
-//    		}
-//    	}
-    	//FIMXE
+    	
+    	List<Long> itemIds = new ArrayList<Long>();
+    	List<Long> skuIds = new ArrayList<Long>();
     	for( PromotionDO promotionDO : addPromotionDOList ){
     		int entityType =promotionDO.getEntityType() ;
     		long entityId = promotionDO.getEntityId() ;
-    		BaseItemDTO baseItemDTO = new BaseItemDTO() ;
     		if( EntityType.ITEM.getType() == entityType ){
-    			baseItemDTO.setItemId(entityId);
+    			itemIds.add(entityId) ;
     		}else{
-    			baseItemDTO.setItemSkuId(entityId);
+    			skuIds.add(entityId) ;
     		}
-    		//FIXME
-//    		ItemPromotionQueryResult queryResult = promotionQueryService.getAvailableItemPromotions(baseItemDTO) ;
-//    		if( queryResult == null || !queryResult.isSuccess() || queryResult.getPcBaseItem() == null){
-//        		log.error("getAvailableItemPromotions failed!  dto={},  result={}", JSON.toJSONString(baseItemDTO), JSON.toJSONString(queryResult));
-//        		return false;
-//        	}
-//    		boolean exit = existDirectReducePromotion(queryResult);
-//    		if( exit ){
-//    			return true ;
-//    		}
     	}
-    	return false;
+    	List<EntityQueryPair> entityQueryPairList = new ArrayList<EntityQueryPair>();
+    	if( CollectionUtils.isNotEmpty(itemIds) ){
+    		EntityQueryPair pair = new EntityQueryPair();
+    		pair.setEntityIds(itemIds);
+    		pair.setEntityType(EntityType.ITEM.getType());
+    		entityQueryPairList.add(pair) ;
+    	}
+    	if( CollectionUtils.isNotEmpty(skuIds) ){
+    		EntityQueryPair pair = new EntityQueryPair();
+    		pair.setEntityIds(skuIds);
+    		pair.setEntityType(EntityType.SKU.getType());;
+    		entityQueryPairList.add(pair) ;
+    	}
+    	List<Integer>  statusList = new ArrayList<Integer>() ;
+    	statusList.add(PromotionStatus.BEING.getStatus()) ;
+    	statusList.add(PromotionStatus.NOTBEING.getStatus()) ;
+    	
+    	List<Integer> promotionTypeList = new ArrayList<Integer>();
+    	promotionTypeList.add(PromotionType.DIRECT_REDUCE.getType()) ;
+    	
+    	PromotionPageQuery promotionPageQuery = new PromotionPageQuery() ;
+    	promotionPageQuery.setEntityQueryPairList(entityQueryPairList);
+    	promotionPageQuery.setStatusList(statusList);
+    	promotionPageQuery.setPromotionTypeList(promotionTypeList);
+    	BasePageResult<PromotionDO> queryResult = promotionQueryService.queryPromotions(promotionPageQuery);
+    	if( queryResult == null || !queryResult.isSuccess() ){
+    		log.error("queryPromotions failed!  query={},  Result={}", JSON.toJSONString(promotionPageQuery), JSON.toJSONString(queryResult));
+    		//查询出错，认为已经有直降优惠了，不创建成功
+    		return true;
+    	}
+    	List<PromotionDO> promotionDOs = queryResult.getList() ;
+    	if( CollectionUtils.isEmpty(promotionDOs) ){
+    		return false;
+    	}
+//    	for( PromotionDO promotionDO : promotionDOs ){
+//    		
+//    	}
+    	return true;
+//    	
+//    	//FIMXE
+//    	for( PromotionDO promotionDO : addPromotionDOList ){
+//    		int entityType =promotionDO.getEntityType() ;
+//    		long entityId = promotionDO.getEntityId() ;
+//    		BaseItemDTO baseItemDTO = new BaseItemDTO() ;
+//    		if( EntityType.ITEM.getType() == entityType ){
+//    			baseItemDTO.setItemId(entityId);
+//    		}else{
+//    			baseItemDTO.setItemSkuId(entityId);
+//    		}
+//    		//FIXME
+////    		ItemPromotionQueryResult queryResult = promotionQueryService.getAvailableItemPromotions(baseItemDTO) ;
+////    		if( queryResult == null || !queryResult.isSuccess() || queryResult.getPcBaseItem() == null){
+////        		log.error("getAvailableItemPromotions failed!  dto={},  result={}", JSON.toJSONString(baseItemDTO), JSON.toJSONString(queryResult));
+////        		return false;
+////        	}
+////    		boolean exit = existDirectReducePromotion(queryResult);
+////    		if( exit ){
+////    			return true ;
+////    		}
+//    	}
+//    	return false;
     }
     
     private boolean existDirectReducePromotion(ItemPromotionQueryResult queryResult){

@@ -29,6 +29,7 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.RefundOrderVO;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.service.AfterSaleService;
+import com.yimayhd.palace.util.CommonUtil;
 import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
 import com.yimayhd.refund.client.enums.RefundType;
@@ -100,7 +101,7 @@ public class AfterSaleManageController {
 
     //详情
     @RequestMapping(value = "/refund/detail", method = RequestMethod.GET)
-    public String detail(Model model, OrderListQuery orderListQuery,int type,int bizType) {
+    public String detail(Model model, OrderListQuery orderListQuery,Integer type,int bizType) {
         String orderNO = orderListQuery.getOrderNO();
         if (StringUtils.isEmpty(orderNO)) {
             return "error";
@@ -108,6 +109,12 @@ public class AfterSaleManageController {
         RefundOrderVO refundOrderVO = afterSaleService.querySingRefundOrder(Long.parseLong(orderNO));
         if (null == refundOrderVO) {
             return "error";
+        }
+        RefundOrderDO refundOrderDO = refundOrderVO.getRefundOrderDO();
+        if( refundOrderDO != null ){
+        	List<String> pictures = refundOrderDO.getPictures() ;
+//        	String pics = CommonUtil.list2String(pictures);
+        	model.addAttribute("refundPics", JSON.toJSON(pictures));
         }
         model.addAttribute("bizType", bizType);
         model.addAttribute("orderShowState", refundOrderVO.getRefundOrderDO().getRefundStatus());
@@ -128,6 +135,8 @@ public class AfterSaleManageController {
             }
             model.addAttribute("approve", true);
         }
+        
+//        $!refundOrderDO.pictures
         return "/system/afterSale/aftersale_detail";
     }
     //审核

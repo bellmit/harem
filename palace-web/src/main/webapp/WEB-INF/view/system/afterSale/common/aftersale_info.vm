@@ -52,12 +52,12 @@
 				<div class="img-view-container">
 					#foreach($imgs in $!refundOrderDO.pictures)
 			            #if($!imgs)
-			            	<div class="img-item">
+			            	<div class="img-item" data="$velocityCount">
 				            	<div>
 				                	<img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!imgs">
 				                </div>
 				                <div class="img-item-view">
-				                	<a href="#" class="view">预览</a>
+				                	<a href="#" class="view" data='$!refundPics'>预览</a>
 				                </div>
 			                </div>
 			            #end

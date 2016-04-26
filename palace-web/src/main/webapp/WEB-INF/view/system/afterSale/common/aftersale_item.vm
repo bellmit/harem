@@ -1,7 +1,7 @@
 <div class = "title distance">
 	<div class = "info-tit">商品信息</div>
 	#set($orderId = $!refundOrderDetail.mainOrder.bizOrderDO.bizOrderId)
-	<p class = "info first"><span>订单编号：</span><a href="$!root_path/B2C/orderManage/gfOrder/$orderId">$orderId</a></p>
+	<p class = "info first"><span>订单编号：</span><a href="$!root_path/B2C/orderManage/gfOrder/$orderId">$!orderId</a></p>
 	<table width= "95%">
 		<thead>
 			<th>商品</th>
