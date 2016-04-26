@@ -6,7 +6,6 @@ target
 .project
 /palace-client/bin
 /palace-web/bin
-/run/
 /build.bat
 id_rsa
 id_rsa.pub
