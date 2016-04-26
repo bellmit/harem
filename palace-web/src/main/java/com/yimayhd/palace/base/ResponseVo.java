@@ -80,6 +80,11 @@ public class ResponseVo implements Serializable {
 		return responseVo;
 	}
 
+	public static ResponseVo error() {
+		ResponseVo responseVo = new ResponseVo(ResponseStatus.INVALID_DATA);
+		return responseVo;
+	}
+	
 	public static ResponseVo success() {
 		return new ResponseVo();
 	}
