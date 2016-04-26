@@ -180,7 +180,10 @@ public class MerchantController extends BaseController {
 //				model.addAttribute("nameResult", false);
 //				
 //			}
-			
+			merchantDO.setName(merchantDO.getName().replaceAll("\"", "&quot;"));
+			merchantDO.setServiceTime(merchantDO.getServiceTime().replaceAll("\"", "&quot;"));
+			merchantDO.setAddress(merchantDO.getAddress().replaceAll("\"", "&quot;"));
+			//System.out.println(merchantDO.getName().replaceAll("\"", "'"+'\"'+"'"));
 			long serviceFacility = merchantDO.getServiceFacility();
 			if (serviceFacility >= 0 ) {
 				List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
