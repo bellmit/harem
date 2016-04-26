@@ -3,8 +3,9 @@
     <div class='input-group'>
 		<input type='hidden' id="id" value="$!tag.id" class='form-control'/>
 		<span class='input-group-addon'>*标签名称：</span>
-		<input type='text' id="name" value="$!tag.name" class='form-control'/>
+		<input type='text' id="name" value="$!tag.name" class='form-control'  onblur="check()"/>
 		<span class='input-group-addon'>请输入4字以内</span>
+		<span id="ret" style="color:red" class='input-group-addon'><span>
 	</div>
 	<div class='input-group'>
 		<span class='input-group-addon'>*序号：</span>
@@ -20,4 +21,18 @@
 			score: $("#score").val()||0
 		};
 	}
+	
+	//校验标签名称是否已经存在
+    function check(){
+    	var name = $("#name").val();
+    	$.post("/B2C/themeManage/checkTagName",{name:name},function(data){
+    		if(data.data == 'faile'){
+    			$("#ret").html('');
+    			$("#ret").append("<b>该名称已经存在</b>");
+    		}else {
+    			$("#ret").html('');
+    		}
+    	});
+    }
+    
 </script>
