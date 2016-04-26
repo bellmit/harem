@@ -163,6 +163,7 @@ public class MerchantVO extends MerchantDTO {
 			merchantDO.setServiceTime(filterBlankChar(vo.getOpenTime()));
 			//String name = getName(vo.getMerchantName());
 			merchantDO.setName(filterBlankChar(vo.getMerchantName()));
+			System.out.println(JSON.toJSON(merchantDO));
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
 			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
@@ -173,7 +174,7 @@ public class MerchantVO extends MerchantDTO {
 			//merchantDO.setFeature("{merchantPrincipalTel:"+vo.getMerchantPrincipalTel()+"},{serviceTime:"+vo.getServiceTime()+"}");
 			//merchantDO.setFeature(",{serviceTime:"+vo.getServiceTime()+"}");
 			merchantDO.setMerchantPrincipalTel(vo.getMerchantPrincipalTel());
-			merchantDO.setServiceTime(vo.getServiceTime());
+			//merchantDO.setServiceTime(vo.getServiceTime());
 			if (imgList != null && imgList.size()>0) {
 				//merchantDO.setPicUrls(imgList.get(0));
 				merchantDO.setLogo(imgList.get(0));
