@@ -99,7 +99,7 @@
 		<td colspan="2" class="save"><button  class="save_btn">确定</button></td>
 	</tr>
 </table>
-<script type="text/javascript" src="http://$rs_js_css_path_jiuxiu/js/common.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/common.js"></script>
 
 <script>
 	var mapCallback = function (data) {
