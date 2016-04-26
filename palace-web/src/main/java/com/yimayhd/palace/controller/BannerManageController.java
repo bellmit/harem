@@ -224,9 +224,9 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/showcase/chooseContents")
     public @ResponseBody ResponseVo ChooseContent(HttpServletRequest request) throws Exception {
         String code = request.getParameter("code");
-        int type = StringUtils.isEmpty(request.getParameter("type"))?1:Integer.parseInt(request.getParameter("type"));
-        int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber"))?Constant.DEFAULT_PAGE_NO:Integer.parseInt(request.getParameter("pageNumber"));
-        int pageSize = StringUtils.isEmpty(request.getParameter("pageSize"))?Constant.DEFAULT_PAGE_SIZE_TEN:Integer.parseInt(request.getParameter("pageSize"));
+        int type = StringUtils.isEmpty(request.getParameter("type")) ? Constant.SHOWCASE_SHOE_TYPE_KEYWORD:Integer.parseInt(request.getParameter("type"));
+        int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? Constant.DEFAULT_PAGE_NO:Integer.parseInt(request.getParameter("pageNumber"));
+        int pageSize = StringUtils.isEmpty(request.getParameter("pageSize")) ? Constant.DEFAULT_PAGE_SIZE_TEN:Integer.parseInt(request.getParameter("pageSize"));
         String keyWord = request.getParameter("tags");
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
             keyWord = (new String(keyWord.getBytes("ISO-8859-1"),"utf-8")).trim();
@@ -240,7 +240,7 @@ public class BannerManageController extends BaseController {
             RegionQuery rq = new RegionQuery();
             rq.setNeedCount(true);
             rq.setPageNo(pageNumber);
-            rq.setPageSize(0  ==  pageSize? Constant.DEFAULT_PAGE_MAX_SIZE:pageSize);
+            rq.setPageSize(0  ==  pageSize ? Constant.DEFAULT_PAGE_MAX_SIZE:pageSize);
             rq.setType(RegionType.JIUXIU_REGION.getType());
             PageVO page = showcaseService.getRegionDOListByType(rq);
             result.put("pageVo", page);
