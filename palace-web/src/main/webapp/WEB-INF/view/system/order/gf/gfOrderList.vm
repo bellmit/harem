@@ -78,11 +78,13 @@
 	                            <td rowspan="$size">
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
 		                            #if($order.orderShowState == 2)
+		                            #*
 		                            	#if( $test )
 			                                <button type="button" class="btn btn-primary affirm"
 			                                        data-target="#affirmModal" orderId="$!bizOrder.bizOrderId">确认
 			                                </button>
 		                                #end
+		                                *#
 		                            #elseif($order.orderShowState == 3)
 		                                <button type="button" class="btn btn-primary finish"
 		                                        data-target="#finishModal" orderId="$!bizOrder.bizOrderId">完成
