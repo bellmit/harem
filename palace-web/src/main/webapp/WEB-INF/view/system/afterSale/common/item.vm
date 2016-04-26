@@ -15,31 +15,31 @@
             <th>数量</th>
             <th>小计</th>
         </tr>
-        #foreach($subOrder in $!refundOrderDetail.mainOrder.subOrderList)
+        #foreach($itemRefundOrder in $!refundOrderDO.refundOrderDetailDOList)
             <tr>
                 <td>
                     <div class="goods-item">
                         <div class="t-img">
-                            <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic">
+                        	#set($pictures = $!itemRefundOrder.pictures )
+                            <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!pictures[0]">
                         </div>
                         <div class="t-msg">
-                            <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-                            <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
+                            <div class="t-name">$!itemRefundOrder.itemTitle</div>
+                            <div class="t-userType">$!itemRefundOrder.itemSkuTitle</div>
                         </div>
                     </div>
                 </td>
                 <td>
-                    $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
+                    $!utilNum.moneyTransform($!itemRefundOrder.itemPrice)
                 </td>
                 <td>
                     <div class="order-price">
-                        $!subOrder.bizOrderDO.buyAmount
+                        $!itemRefundOrder.itemNum
                     </div>
                 </td>
                 <td>
                     <div class="order-number">
-                        $utilNum.totalFee($subOrder.bizOrderDO.buyAmount,$subOrder.bizOrderDO.itemPrice)
-                       #* $utilNum.moneyTransform()*#
+                        	$utilNum.totalFee($itemRefundOrder.itemNum,$itemRefundOrder.actualTotalFee)
                     </div>
                 </td>
             </tr>

@@ -11,29 +11,30 @@
 		</thead>
 		<tbody>
 				
-			#foreach($subOrder in $!refundOrderDetail.mainOrder.subOrderList)
+			#foreach($itemRefundOrder in $!refundOrderDO.refundOrderDetailDOList)
 	            <tr>
 	                <td class = "infotd" width= "328">
 	                	<ul>
-							<li class = "img"><img width="80" height="80" class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic"></li>
+	                		#set($pictures = $!itemRefundOrder.pictures )
+							<li class = "img"><img width="80" height="80" class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!pictures[0]"></li>
 							<li class= "name">
 								<span>
-									<div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
-		                            <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
+									<div class="t-name">$!itemRefundOrder.itemTitle</div>
+		                            <div class="t-userType">$!itemRefundOrder.itemSkuTitle</div>
 	                            </span>
                             </li>
 						</ul>
 	                </td>
 	                <td align = "center" width= "200">
-	                	<s>$!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)</s><br><span <span class = "spe">$!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)</span>
+	                	<s>$!utilNum.moneyTransform($!itemRefundOrder.itemPrice)</s><br><span <span class = "spe">$!utilNum.moneyTransform($!itemRefundOrder.itemPrice)</span>
 	                </td>
 	                <td align = "center" width= "200">
-                        $!subOrder.bizOrderDO.buyAmount
+                        $!itemRefundOrder.itemNum
 	                </td>
 	                <td align = "center" width= "200">
 	                	<p>
 	                		<span class = "spe">
-	                        	$utilNum.totalFee($subOrder.bizOrderDO.buyAmount,$subOrder.bizOrderDO.itemPrice)
+	                        	$utilNum.totalFee($itemRefundOrder.itemNum,$itemRefundOrder.actualTotalFee)
 	                		</span>
 	                		</br>(包邮)
 	                	</p>
