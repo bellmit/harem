@@ -103,9 +103,9 @@ public class MerchantVO extends MerchantDTO {
 			
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
 			//String name = getName(vo.getMerchantName());
-			dto.setName(getName(vo.getMerchantName()));
-			dto.setAddress(getName(vo.getMerchantAddress()));
-			dto.setServiceTime(getName(vo.getOpenTime()));
+			dto.setName(filterBlankChar(vo.getMerchantName()));
+			dto.setAddress(filterBlankChar(vo.getMerchantAddress()));
+			dto.setServiceTime(filterBlankChar(vo.getOpenTime()));
 //			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
 //			dto.setCityName(getCityInfo()[0]);
 			//dto.setId(userId);
@@ -141,11 +141,11 @@ public class MerchantVO extends MerchantDTO {
 		return (l*100+f);
 	}
 	
-	private String getName(String merchantName) {
-		if (merchantName == null) {
+	private String filterBlankChar(String str) {
+		if (str == null) {
 			return "";
 		}
-		return StringHelper.replaceBlank(merchantName);
+		return StringHelper.replaceBlank(str);
 	}
 	
 	
@@ -159,10 +159,10 @@ public class MerchantVO extends MerchantDTO {
 			BeanUtils.copyProperties(merchantDO, vo);
 //			merchantDO.setCityCode(Integer.parseInt(getCityInfo()[0]));
 //			merchantDO.setCityName(getCityInfo()[0]);
-			merchantDO.setAddress(getName(vo.getMerchantAddress()));
-			merchantDO.setServiceTime(getName(vo.getOpenTime()));
+			merchantDO.setAddress(filterBlankChar(vo.getMerchantAddress()));
+			merchantDO.setServiceTime(filterBlankChar(vo.getOpenTime()));
 			//String name = getName(vo.getMerchantName());
-			merchantDO.setName(getName(vo.getMerchantName()));
+			merchantDO.setName(filterBlankChar(vo.getMerchantName()));
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
 			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
