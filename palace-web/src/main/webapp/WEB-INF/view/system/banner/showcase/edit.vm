@@ -67,10 +67,8 @@
                                 <td>选择页面：</td>
                                 <td>
                                     <select class="selectpages" id="opId">
-
                                     </select>
-                                    <span  id="radioId">
-                                    </span>
+                                    <span  id="radioId"></span>
                                 </td>
                             </tr>
                             <tr class="selectcontent">
@@ -144,8 +142,10 @@
             //获取选择的select的id
             var strParam = $('.selectpages option:selected').attr('paramtypes');
             if(strParam == 'null' || strParam == null){
+                $("#radioId").hide();//隐藏
                 return
             }
+            $("#radioId").show();
             paramTypes=strParam.split(",");
             console.log(paramTypes)
             $.each(paramTypes, function(a, b) {
@@ -155,7 +155,7 @@
                 }else if(b== "CHOOSE_DESTINATION"){
                     showType="2";
                     showName="目的地";
-                }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"){
+                }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"||b=="NORMAL"){
                     showType="3";
                     showName="详情";
                 }else if(b == "CITYACTIVITY"){
@@ -168,7 +168,6 @@
                 radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
             });
             $("#radioId").html(radioHtml)
-
             console.log(radioHtml);
         });
 
@@ -195,10 +194,16 @@
             if(null == code || ""==code){
                 return false;
             }
+            var isRegion = false;
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
                 var sce = win.getItems();
                 $("#choId").val(sce.name);
-                $("#chosId").val(sce.id);
+                if(type==2){
+                    $("#chosId").val(sce.cityCode);
+                }else{
+                    $("#chosId").val(sce.id);
+                }
+
                 //如果选了内容就不能填下面的内容了
                 if(null != sce ){
                     $("#addsecontentId").hide();//隐藏
