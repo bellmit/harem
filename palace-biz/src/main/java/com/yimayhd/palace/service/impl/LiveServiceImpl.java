@@ -268,7 +268,7 @@ public class LiveServiceImpl implements LiveService {
 		if(0 != subjectInfoAddVO.getTagId()) {
 			TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 			tagRelationInfoDTO.setOutId(baseResult.getValue().getId());
-			tagRelationInfoDTO.setTagType(TagType.LIVESUPTAG.getType());
+			tagRelationInfoDTO.setOutType(TagType.LIVESUPTAG.getType());
 			List<Long> tagIdList = new ArrayList<Long>();
 			tagIdList.add(subjectInfoAddDTO.getTagId());
 			tagRelationInfoDTO.setList(tagIdList);
