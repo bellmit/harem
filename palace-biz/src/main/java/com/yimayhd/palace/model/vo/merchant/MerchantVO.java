@@ -40,6 +40,21 @@ public class MerchantVO extends MerchantDTO {
 //	public void setCityInfo(String cityInfo) {
 //		this.cityInfo = cityInfo;
 //	}
+	private String openTime;
+	private String merchantAddress;
+	
+	public String getOpenTime() {
+		return openTime;
+	}
+	public void setOpenTime(String openTime) {
+		this.openTime = openTime;
+	}
+	public String getMerchantAddress() {
+		return merchantAddress;
+	}
+	public void setMerchantAddress(String merchantAddress) {
+		this.merchantAddress = merchantAddress;
+	}
 	public String getMerchantName() {
 		return merchantName;
 	}
@@ -89,6 +104,8 @@ public class MerchantVO extends MerchantDTO {
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
 			String name = getName(vo.getMerchantName());
 			dto.setName(name);
+			dto.setAddress(getName(vo.getMerchantAddress()));
+			dto.setServiceTime(getName(vo.getOpenTime()));
 //			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
 //			dto.setCityName(getCityInfo()[0]);
 			//dto.setId(userId);
@@ -142,8 +159,10 @@ public class MerchantVO extends MerchantDTO {
 			BeanUtils.copyProperties(merchantDO, vo);
 //			merchantDO.setCityCode(Integer.parseInt(getCityInfo()[0]));
 //			merchantDO.setCityName(getCityInfo()[0]);
-			String name = getName(vo.getMerchantName());
-			merchantDO.setName(name);
+			merchantDO.setAddress(getName(vo.getMerchantAddress()));
+			merchantDO.setServiceTime(getName(vo.getOpenTime()));
+			//String name = getName(vo.getMerchantName());
+			merchantDO.setName(getName(vo.getMerchantName()));
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
 			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));

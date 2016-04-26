@@ -23,7 +23,7 @@
 				<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 				#end
 				<label>$!merchant.name</label></td>
-				<td id="$!merchant.cityCode" class="ct">$!merchant.cityCode</td>
+				<td id="$!merchant.cityCode" class="ct"></td>
 				<td>$!merchant.address</td>
 				<td>$!merchant.serviceTel</td>
 				<td>
