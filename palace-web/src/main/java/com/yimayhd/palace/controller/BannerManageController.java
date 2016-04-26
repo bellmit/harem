@@ -31,7 +31,7 @@ import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.enums.CacheType;
-import com.yimayhd.resourcecenter.model.enums.OperationType;
+import com.yimayhd.palace.constant.OperationType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
@@ -295,28 +295,31 @@ public class BannerManageController extends BaseController {
     		
     		for (OperationType type : OperationType.values()) {
     			if( code.equals(type.name())) {
-    				if (OperationType.FREE_TOUR_LIST == type || OperationType.PACKAGE_TOUR_LIST == type || OperationType.AROUND_FUN_LIST == type) {
-    					// 选择目的地、选择路线标签
+    				if (OperationType.FREE_TOUR_LIST == type    ||
+                        OperationType.PACKAGE_TOUR_LIST == type ||
+                        OperationType.AROUND_FUN_LIST == type) {// 选择目的地、选择路线标签
     					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_LINE };
     					vo.setParamTypes(types);
-    				} else if (OperationType.CITY_ACTIVITY_LIST == type) {
-    					// 选择目的地、选择活动标签
+    				} else if (OperationType.CITY_ACTIVITY_LIST == type) {// 选择目的地、选择活动标签
     					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_ACTIVITY };
     					vo.setParamTypes(types);
-    				} else if (OperationType.PACKAGE_TOUR_DETAIL == type
-    						|| OperationType.JIUXIU_BUY_DETAIL == type || OperationType.AROUND_FUN_DETAIL == type
-    						|| OperationType.CITY_ACTIVITY_DETAIL == type) {
-    					// 选择商品
+    				} else if (// 选择商品 周边玩乐详情
+    					OperationType.AROUND_FUN_DETAIL == type) {
     					String[] types = { OperationParamConstant.ITEM_DETAIL };
     					vo.setParamTypes(types);
     				}else if(OperationType.FREE_TOUR_DETAIL == type){//自由行
                         String[] types = { OperationParamConstant.ITEM_DETAIL_FREE_LINE };
                         vo.setParamTypes(types);
-                    }/*else if(OperationType.FREE_TOUR_DETAIL == type){////跟团游
+                    }else if(OperationType.PACKAGE_TOUR_DETAIL == type){////跟团游
                         String[] types = { OperationParamConstant.ITEM_DETAIL_TOUR_LINE };
-                    }else if(OperationType.FREE_TOUR_DETAIL == type){//同城活动
-                            String[] types = { OperationParamConstant.ITEM_DETAIL_CITY_ACTIVITY };
-                    }*/
+                        vo.setParamTypes(types);
+                    }else if(OperationType.CITY_ACTIVITY_DETAIL == type){//同城活动
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_CITY_ACTIVITY };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.JIUXIU_BUY_DETAIL == type ){//实物商品详情
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_NORMAL };
+                        vo.setParamTypes(types);
+                    }
     				break;
     			}
     		}

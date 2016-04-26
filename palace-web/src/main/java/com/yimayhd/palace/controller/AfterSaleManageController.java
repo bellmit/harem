@@ -86,7 +86,6 @@ public class AfterSaleManageController {
             log.error("gfOrderList|parameter="+ JSON.toJSONString(refundOrderQuery)+"|||exception="+e);
         }
         return "/error";
-
     }
 
     public PageVO getPageVo(RefundOrderQuery refundOrderQuery) throws Exception{
@@ -103,13 +102,9 @@ public class AfterSaleManageController {
     @RequestMapping(value = "/refund/detail", method = RequestMethod.GET)
     public String detail(Model model, OrderListQuery orderListQuery,Integer type,int bizType) {
         String orderNO = orderListQuery.getOrderNO();
-        if (StringUtils.isEmpty(orderNO)) {
-            return "error";
-        }
+        if (StringUtils.isEmpty(orderNO)) {return "error";}
         RefundOrderVO refundOrderVO = afterSaleService.querySingRefundOrder(Long.parseLong(orderNO));
-        if (null == refundOrderVO) {
-            return "error";
-        }
+        if (null == refundOrderVO) {return "error";}
         RefundOrderDO refundOrderDO = refundOrderVO.getRefundOrderDO();
         if( refundOrderDO != null ){
         	List<String> pictures = refundOrderDO.getPictures() ;
@@ -135,8 +130,6 @@ public class AfterSaleManageController {
             }
             model.addAttribute("approve", true);
         }
-        
-//        $!refundOrderDO.pictures
         return "/system/afterSale/aftersale_detail";
     }
     //审核

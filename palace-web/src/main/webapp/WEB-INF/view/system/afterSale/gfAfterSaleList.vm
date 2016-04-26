@@ -7,6 +7,17 @@
     <form class="form-signin" id="tradeListForm1" name="tradeListForm1"
           action="$!utilWebconfig.getActionDefaultFontPath()/GF/aftersale/refund/list?bizType=$!bizType" method="get" role="form">
         <input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
+
+        <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">售后单号</button>
+                    </span>
+
+            <input type="text" class="form-control" name="id" #if($!orderListQuery.id != 0) value="$!orderListQuery.id" #else value="" #end >
+        </div>
+
+
+
         <div class="inputGroup whole">
             <div class="input-group inpSingle ">
                     <span class="input-group-btn">

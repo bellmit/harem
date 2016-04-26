@@ -39,5 +39,6 @@ public class OperationParamConstant {
 	public static final String ITEM_DETAIL_TOUR_LINE = "TOUR_LINE";//跟团游
 	public static final String ITEM_DETAIL_FREE_LINE = "FREE_LINE";//自由行
 	public static final String ITEM_DETAIL_CITY_ACTIVITY = "CITY_ACTIVITY";//同城活动
+	public static final String ITEM_DETAIL_NORMAL = "NORMAL";//实物商品
 
 }
