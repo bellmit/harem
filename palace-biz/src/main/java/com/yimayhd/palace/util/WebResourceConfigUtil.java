@@ -19,6 +19,7 @@ public class WebResourceConfigUtil {
     private final static String RESOURCE_PATH_JIUXIU = "resource.path.jiuxiu";
     private final static String ENV = "env";
     private final static String ROOT_PATH = "root.path";
+    private final static String FILEGW_URL = "filegw.url";
     
     public static String getTfsRootPath() {
         return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
@@ -50,6 +51,9 @@ public class WebResourceConfigUtil {
     }
     public static String getItemImgUrlPath(){
     	return ResourceConfig.getInstance().getValueByKey(ITEM_IMG_URI_PATH);
+    }
+    public static String getFilegwUrl(){
+    	return ResourceConfig.getInstance().getValueByKey(FILEGW_URL);
     }
     public static boolean isTestMode(){
     	String e = ResourceConfig.getInstance().getValueByKey(ENV) ;

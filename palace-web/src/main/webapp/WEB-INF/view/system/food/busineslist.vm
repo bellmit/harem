@@ -3,7 +3,7 @@
 
 <div class="loading">
 	<div class="bgmeng"></div>
-	<div class="dlgcont"><img src="http://s0.test.jiuxiulvxing.com/yunying/img/loading.gif"><label>请稍后。。。</label></div>
+	<div class="dlgcont"><img src="$!rs_path_jiuxiu/img/loading.gif"><label>请稍后。。。</label></div>
 </div>
 <div class="msg">
 <div class="bgmeng"></div>

@@ -37,6 +37,7 @@
 		<property name="item.img.uri" defaultValue="http://markting.gellefreres.com/data/upload/shop/store/goods/" description="分销商品图片地址" />
 		<property name="resource.path.jiuxiu" defaultValue="http://s0.test.jiuxiulvxing.com/yunying" description="" />
 		<property name="root.path" defaultValue="http://console.test.yimayholiday.com/palace-web" description="" />
+		<property name="filegw.url" defaultValue="http://filegw.test.jiuxiulvxing.com/filegw/file/upload_string" description="" />
 		<property name="env" defaultValue="test" description="" />
 	</group>
 
