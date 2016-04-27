@@ -29,4 +29,5 @@
 	
 	#parse("/system/layout/layout-jiuxiu-js.vm")
 	<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+	<!-- 注意： js有修改，请发布一下 -->
 	<script src="$rs_js_css_path_jiuxiu/js/aftersale/details.js?t=1"></script>

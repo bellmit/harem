@@ -27,6 +27,7 @@
 				#set($refundActualFee = $!utilNum.moneyTransform($!refundOrderDO.refundFee))
 			#end
             <input type="text" class="inpControl name" id="stjeId" name="stje" value="$!refundActualFee">
+            <input type="hidden" class="inpControl name" id="xtjsjeId"  value="$!utilNum.moneyTransform($!refundOrderDO.refundFee)">
         </span>
         <br><br>
         <span>系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)</span>
@@ -74,9 +75,14 @@
         var stje= $("#stjeId").val();
         var shdz = $('input[name="options"]:checked ').next().text();
         console.log("shdz="+shdz);
-
-        if(isNaN(stje)){
+        var xtjsje= $("#xtjsjeId").val();
+        if(null == stje || "" == stje || "0" == stje || isNaN(stje) || parseFloat(stje) == 0 ){//空，或不是数字，或是等于0
             var msg = new $.zui.Messager('输入非法', {placement: 'center',type:'error',time:'2000'});
+            msg.show();
+            return false;
+        }
+        if(stje>xtjsje){
+            var msg = new $.zui.Messager('金额必须小于系统计算出的金额', {placement: 'center',type:'error',time:'2000'});
             msg.show();
             return false;
         }

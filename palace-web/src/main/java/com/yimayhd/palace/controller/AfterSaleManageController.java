@@ -69,9 +69,14 @@ public class AfterSaleManageController {
     public String list(HttpServletRequest request, Model model, RefundOrderQuery refundOrderQuery){
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? 1 : Integer.parseInt(request.getParameter("pageNumber")) ;
         String bizOrderIdBak = request.getParameter("bizOrderIdBak");
+        String refundOrderIdBak = request.getParameter("refundOrderIdBak");
         if(StringUtils.isNotEmpty(bizOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
             bizOrderIdBak=bizOrderIdBak.trim();
             refundOrderQuery.setBizOrderId(Long.parseLong(bizOrderIdBak));
+        }
+        if(StringUtils.isNotEmpty(refundOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
+            refundOrderIdBak=refundOrderIdBak.trim();
+            refundOrderQuery.setRefundOrderId(Long.parseLong(refundOrderIdBak));
         }
         try {
             refundOrderQuery.setPageNo(pageNumber);

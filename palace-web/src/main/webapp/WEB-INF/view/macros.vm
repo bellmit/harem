@@ -385,7 +385,6 @@
         #else
             收货审核未通过，退货退款关闭
         #end
-
     #elseif($!status==5)
         客户退货给卖家
     #elseif($!status==6)
@@ -393,12 +392,7 @@
     #elseif($!status==7)
         收货审核未通过，退货退款关闭
     #elseif($!status==8)
-        #if($!bizType==1)
-            审核未通过，退款关闭
-        #else
-            审核通过，退款中
-        #end
-
+        退款中
     #elseif($!status==9)
         #if($!bizType==1)
             退款完成
