@@ -19,6 +19,34 @@ public class BaseQuery implements Serializable {
 	public Integer pageNumber = DEFAULT_PAGE;
 	protected Integer pageSize = DEFAULT_SIZE;
 
+	private long boothId;//it
+	private String boothCode;//code
+	private String boothName;//name
+
+	public long getBoothId() {
+		return boothId;
+	}
+
+	public void setBoothId(long boothId) {
+		this.boothId = boothId;
+	}
+
+	public String getBoothCode() {
+		return boothCode;
+	}
+
+	public void setBoothCode(String boothCode) {
+		this.boothCode = boothCode;
+	}
+
+	public String getBoothName() {
+		return boothName;
+	}
+
+	public void setBoothName(String boothName) {
+		this.boothName = boothName;
+	}
+
 	public Integer getPageNumber() {
 		return pageNumber;
 	}
