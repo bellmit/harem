@@ -309,7 +309,8 @@
 			createId:$("#createIdId").val(),
 			userPhoto:$("#userPhotoId").val(),
 			nickName:$("#nickNameId").val(),
-			imgContentJson:$("#imgContentJsonId").val()
+			imgContentJson:$("#imgContentJsonId").val(),
+			domain:$("#domain").val()
 		};
        console.log(params);
         $('#clubForm').attr('action',actionUrl);

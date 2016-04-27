@@ -69,6 +69,7 @@
 		                            <div class="txt">$!order.user.mobileNo</div>
 		                        </td>
 	                            <td rowspan="$size">
+									##$!order.orderShowState
 	                            	#ORDERS_STATUS($!order.orderShowState)
 	                            	
 	                            </td>

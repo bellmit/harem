@@ -121,8 +121,46 @@ public class OrderConverter {
         }
         return orderQueryDTO;
     }
-
+    
+    
+    
+    
+    
     public static MainOrder mainOrderStatusConverter(MainOrder mainOrder,BizOrderDO bizOrderDO) {
+        int payStatus = bizOrderDO.getPayStatus();
+        int logisticsStatus = bizOrderDO.getLogisticsStatus();
+        int refundStatus = bizOrderDO.getRefundStatus();
+
+        if (payStatus == PayStatus.NOT_PAY.getStatus()){
+            mainOrder.setOrderShowState(OrderShowStatus.NOTING.getStatus());//待付款
+            if(bizOrderDO.getBizType() == OrderBizType.NORMAL.getBizType()){
+                mainOrder.setOrderActionStates(OrderActionStatus.UPDATE_ADDRESS_CANCEL.getStatus());
+            }else{
+                mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
+            }
+        }else if (RefundStatus.REFUND_SUCCESS.getStatus() == refundStatus ){
+        	//已退款
+        	mainOrder.setOrderShowState(OrderShowStatus.REFUNDED.getStatus());
+        }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.NO_LG_ORDER.getStatus() == logisticsStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.PAID.getStatus());//待发货|已付款
+            mainOrder.setOrderActionStates(OrderActionStatus.AFFIRM_REFUND.getStatus());
+        }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.CONSIGNED.getStatus() == logisticsStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.SHIPPED.getStatus());//待收货|已发货
+            if(bizOrderDO.getBizType() == OrderBizType.NORMAL.getBizType()){
+                mainOrder.setOrderActionStates(OrderActionStatus.OVERTIME.getStatus());
+            }else{
+                mainOrder.setOrderActionStates(OrderActionStatus.FINISH_REFUND.getStatus());
+            }
+        }else if (PayStatus.SUCCESS.getStatus() == payStatus){
+            mainOrder.setOrderShowState(OrderShowStatus.FINISH.getStatus());//已完成
+            mainOrder.setOrderActionStates(OrderActionStatus.REFUND.getStatus());
+        }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
+            mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
+        }
+        return mainOrder;
+    }
+
+    public static MainOrder mainOrderStatusConverter_bak(MainOrder mainOrder,BizOrderDO bizOrderDO) {
         int payStatus = bizOrderDO.getPayStatus();
         int logisticsStatus = bizOrderDO.getLogisticsStatus();
         int refundStatus = bizOrderDO.getRefundStatus();

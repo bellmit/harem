@@ -34,7 +34,17 @@ public class TravelOfficial extends BaseModel {
     private String nickName;
     private String createUserName;
     
-    public String getPreface() {
+    private int domain;
+    
+    public int getDomain() {
+		return domain;
+	}
+
+	public void setDomain(int domain) {
+		this.domain = domain;
+	}
+
+	public String getPreface() {
 		return preface;
 	}
 
