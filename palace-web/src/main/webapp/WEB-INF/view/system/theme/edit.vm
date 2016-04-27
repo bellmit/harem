@@ -36,7 +36,7 @@
 								线路
                         </option>
                         <option value="13" #if($!theme.outType == 13) selected = "selected" #end>
-								线路商品
+								普通商品
                         </option>
                         <option value="14" #if($!theme.outType == 14) selected = "selected" #end>
 								城市活动
@@ -48,10 +48,10 @@
             	<td><span class="spColor">*</span>数据域</td>
             	<td>
 					<select class="form-control" name="domain" >
-                        <option value="1000"  #if($!theme.outType == 1) selected = "selected" #end>
+                        <option value="1000"  #if($!theme.domain == 1000) selected = "selected" #end>
 								B2C
                         </option>
-                        <option value="1200" #if($!theme.outType == 2) selected = "selected" #end>
+                        <option value="1200" #if($!theme.domain == 1200) selected = "selected" #end>
 								九休
                         </option>
                      </select>

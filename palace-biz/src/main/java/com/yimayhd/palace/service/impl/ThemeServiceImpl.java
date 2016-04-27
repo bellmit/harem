@@ -82,6 +82,7 @@ public class ThemeServiceImpl implements ThemeService {
 			themeVo.setOutType(res.getValue().getOutType());
 			themeVo.setScore(res.getValue().getScore());
 			themeVo.setStatus(res.getValue().getStatus());
+			themeVo.setDomain(res.getValue().getDomain());
 			return themeVo;
 		}
 		log.error("comCenterService.selectByPrimaryKey failure,result="+JSON.toJSONString(res)+"|paramenter="+id);
