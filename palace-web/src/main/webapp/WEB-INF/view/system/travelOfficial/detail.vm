@@ -27,7 +27,15 @@
                             <textarea name="preface" id="prefaceId" value="$!travelOfficial.preface"  class="form-control" rows="5">$!travelOfficial.preface</textarea>
                           </td>
                         </tr>
-
+						<tr>
+						   <td>所属域</td>
+						   <td>
+						        <select class="form-control" name="domain" id="domain">
+							        <option value="1000">B2C</option>
+							        <option value="1200">九休</option>
+						        </select>
+						    </td>
+						</tr>
                         <tr>
                             <td><span class="spColor">*</span>发布时间</td>
                             <td><input type="text" class='form-control form-date dateInp' placeholder='' readonly id="publishDateId" name="publishDate" value="$!utilDate.dateToString($!travelOfficial.publishDate,"yyyy-MM-dd HH:mm:ss")"></td>
