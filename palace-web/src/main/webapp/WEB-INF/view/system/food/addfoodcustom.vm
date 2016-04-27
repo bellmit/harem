@@ -7,7 +7,6 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
 <style type="text/css">
     .demo {width: 850px;margin: 20px auto;display: none;}
     #l-map {height: 400px;width: 600px;float: left;border: 1px solid #bcbcbc;}
@@ -100,7 +99,6 @@
 		<td colspan="2" class="save"><button  class="save_btn">确定</button></td>
 	</tr>
 </table>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/zui.min.js"></script>
 
 
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/common.js"></script>
