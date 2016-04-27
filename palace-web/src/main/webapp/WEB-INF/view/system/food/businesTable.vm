@@ -31,11 +31,11 @@
 					#elseif ($!merchant.status == 2)下架
 					 #end
 				</td>
-				<td><a href="" class="exam">查看</a>
+				<td><a href="" class="exam viewBtn">查看</a>
 				<input type="hidden" id="viewPath" value="$root_path/jiuxiu/merchant/toViewDeliciousFood">
 				&nbsp;&nbsp;
 				#if($!merchant.status != 3)
-				<a href="" class="exam">编辑</a>
+				<a href="" class="exam editBtn">编辑</a>
 				
 				&nbsp;&nbsp;
 				#end
