@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
+import com.yimayhd.commentcenter.client.dto.TagNameTypeDTO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.LiveTagVO;
 import com.yimayhd.palace.service.LiveTagService;
+import com.yimayhd.palace.service.ThemeService;
 
 /**
  * 直播（标签）话题管理
@@ -30,6 +33,8 @@ public class LiveTagManageController extends BaseController {
 	@Autowired
 	private LiveTagService liveTagService;
 
+	@Autowired
+	private ThemeService themeService;
 	/**
 	 * 直播管理列表
 	 * 
@@ -58,6 +63,14 @@ public class LiveTagManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo save(LiveTagVO liveTagVO) throws Exception {
 		try {
+			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
+			tagNameTypeDTO.setDomain(1200);
+			tagNameTypeDTO.setName(liveTagVO.getName());
+			tagNameTypeDTO.setOutType("LIVESUPTAG");
+			ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
+			if( comTagDO != null ){
+				return ResponseVo.error();
+			}
 			liveTagService.save(liveTagVO);
 			return ResponseVo.success();
 		} catch (Exception e) {

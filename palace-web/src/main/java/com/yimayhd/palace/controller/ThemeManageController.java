@@ -170,6 +170,14 @@ public class ThemeManageController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(ThemeVo themeVo){
 		try {
+			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
+			tagNameTypeDTO.setDomain(themeVo.getDomain());
+			tagNameTypeDTO.setName(themeVo.getName());
+			tagNameTypeDTO.setOutType("LIVESUPTAG");
+			ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
+			if( comTagDO != null ){
+				return "/error";
+			}
 			ThemeVo dbThemeVo = themeService.saveOrUpdate(themeVo);
 			if(null != dbThemeVo){
 				return "/success";
