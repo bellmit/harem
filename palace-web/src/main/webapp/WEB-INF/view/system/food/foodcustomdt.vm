@@ -69,7 +69,7 @@
 			<td><label>经度：</label>$!merchant.lon&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label>$!merchant.lat</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="save"><a href="javascript:history.go(-1)" class="abtn">返回</a></td>
+			<td colspan="2" class="save"><a href="" class="abtn backBtn">返回</a></td>
 		</tr>
 	</table>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>

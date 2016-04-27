@@ -54,7 +54,7 @@
 		<button class="groupdelete">批量删除</button>
 	</div>
 	<div class="fr">
-		<a class="abtn" href="">添加</a><input type="hidden" id="addPath" value="$root_path/jiuxiu/merchant/toAddDeliciousFood">
+		<a class="abtn addBtn" href="">添加</a><input type="hidden" id="addPath" value="$root_path/jiuxiu/merchant/toAddDeliciousFood">
 	</div>
 </div>
 <div class="gridbox">
