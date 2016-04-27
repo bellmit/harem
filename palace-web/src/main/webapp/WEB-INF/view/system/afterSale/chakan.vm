@@ -1,4 +1,4 @@
-<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/jquery.js"></script>
+<script src="$!rs_path_jiuxiu/src/js/jquery.js"></script>
 
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
       rel="stylesheet">

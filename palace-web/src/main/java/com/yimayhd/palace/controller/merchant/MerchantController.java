@@ -163,7 +163,7 @@ public class MerchantController extends BaseController {
 	}
 	@RequestMapping(value="toAddDeliciousFood",method=RequestMethod.GET)
 	public String toEditDeliciousFood(Model model,HttpServletRequest request,Long id) {
-		model.addAttribute("dmid", getRemoteHost(request));
+//		model.addAttribute("dmid", getRemoteHost(request));
 		model.addAttribute("cities", getMerchantRegions());
 		if (id == null || id <= 0 ) {
 			

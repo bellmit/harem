@@ -15,14 +15,13 @@
 </style>
 <div class="loading">
 	<div class="bgmeng"></div>
-	<div class="dlgcont"><img src="http://s0.test.jiuxiulvxing.com/yunying/img/loading.gif"><label>请稍后。。。</label></div>
+	<div class="dlgcont"><img src="$!rs_path_jiuxiu/img/loading.gif"><label>请稍后。。。</label></div>
 </div>
 <div class="msg">
 	<div class="bgmeng"></div>
 	<div class="dlgcont"><label></label></div>
 </div>
-<input type="hidden" id="dmid" value="$!dmid">
-<input type="hidden" id="upldpath" value="http://filegw.test.$!dmid/filegw/file/upload_string">
+<input type="hidden" id="upldpath" value="$!filegw_url">
 <table class="addfood">
 		
 	<tr>
