@@ -93,6 +93,6 @@
 <!-- 尾部结束 -->
 	#parse("/system/layout/layout-jiuxiu-js.vm")
 	
-	<script src="$rs_js_css_path_jiuxiu/js/apply/apply2.js?t=6"></script>
+	<script src="$rs_js_css_path_jiuxiu/js/apply/settled.js?t=6"></script>
 	
 </script>
