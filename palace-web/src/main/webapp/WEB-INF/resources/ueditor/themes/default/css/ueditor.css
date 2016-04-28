@@ -211,6 +211,7 @@ div.edui-box {
 }
 
 .edui-default .edui-editor-bottomContainer td {
+	margin-right: 300px !important;
     white-space: nowrap;
     border-top: 1px solid #ccc;
     line-height: 20px;
