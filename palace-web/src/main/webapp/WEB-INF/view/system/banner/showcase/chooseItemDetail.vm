@@ -78,11 +78,11 @@
             var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
             tr.append($("<td>"+item.id+"</td>"));
             tr.append($("<td><img src='$utilWebconfig.getTfsRootPath()"+item.imgUrl+"' width='100' height='100'></td>"));
-            tr.append($("<td>"+item.name+"</td>"));
-            tr.append($("<td>"+item.showType+"</td>"));
-            tr.append($("<td>"+item.salerName+"</td>"));
+            tr.append($("<td>"+ item.name.replace(/<[^<>]+?>/g,'')+"</td>"));
+            tr.append($("<td>"+ item.showType+"</td>"));
+            tr.append($("<td>"+ item.salerName.replace(/<[^<>]+?>/g,'')+"</td>"));
             tr.append($("<td>"+item.destination+"</td>"));
-            tr.append($("<td>"+item.price+"</td>"));
+            tr.append($("<td>"+ item.price+"</td>"));
             tr.append($("<td>"+item.showStatus+"</td>"));
             tr.append($("<td>"+item.pushDate+"</td>"));
             tbody.append(tr);

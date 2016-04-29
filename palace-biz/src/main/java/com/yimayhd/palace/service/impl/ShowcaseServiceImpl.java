@@ -318,8 +318,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 sc.setShowType(ItemType.get(type).getText());//显示类别
             }
             sc.setSalerName(null==io.getIcMerchantInfoInfo()?"":io.getIcMerchantInfoInfo().getMerchantName());//卖家名称
-            long pric = NumUtil.doubleToLong(io.getItemDTO().getPrice());
-            sc.setPrice(String.valueOf(pric));//单价
+            String displayPrice = NumUtil.moneyTransform(io.getItemDTO().getPrice());
+            sc.setPrice(displayPrice);//单价
             sc.setShowStatus(ItemStatus.get(io.getItemDTO().getStatus()).getText()); //显示状态
             if(null !=io.getItemDTO().getGmtCreated()){
                 sc.setPushDate(DateFormat.dateFormat(io.getItemDTO().getGmtCreated(),"yyyy-MM-dd"));//发布时间

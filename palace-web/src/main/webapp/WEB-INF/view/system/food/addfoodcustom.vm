@@ -7,7 +7,6 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
 <style type="text/css">
     .demo {width: 850px;margin: 20px auto;display: none;}
     #l-map {height: 400px;width: 600px;float: left;border: 1px solid #bcbcbc;}
@@ -15,14 +14,13 @@
 </style>
 <div class="loading">
 	<div class="bgmeng"></div>
-	<div class="dlgcont"><img src="http://s0.test.jiuxiulvxing.com/yunying/img/loading.gif"><label>请稍后。。。</label></div>
+	<div class="dlgcont"><img src="$!rs_path_jiuxiu/img/loading.gif"><label>请稍后。。。</label></div>
 </div>
 <div class="msg">
 	<div class="bgmeng"></div>
 	<div class="dlgcont"><label></label></div>
 </div>
-<input type="hidden" id="dmid" value="$!dmid">
-<input type="hidden" id="upldpath" value="http://filegw.test.$!dmid/filegw/file/upload_string">
+<input type="hidden" id="upldpath" value="$!filegw_url">
 <table class="addfood">
 		
 	<tr>
@@ -61,7 +59,7 @@
 	<tr>
 		<td class="tit"><span>*</span><label>联系电话：</label></td>
 		<td><input placeholder="请输入电话或手机号"  class="tel" value="$!merchant.serviceTel" name="serviceTel">
-		<label class="gray9"> 例如：13355454487 或 073183188599 或 0731-83188599</label></td>
+		<label class="gray9"> 例如：13355454487  或 0731-83188599</label></td>
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>营业时间：</label></td>
@@ -69,7 +67,7 @@
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>人均消费：</label></td>
-		#set($result = $!merchant.avgprice/100.00 )
+		
 		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="$!numberHelper.formatNumber($!merchant.avgprice)" name="averagePrice">
 		<label class="gray9">最多输入两位小数</label></td>
 	</tr>
@@ -100,10 +98,8 @@
 		<td colspan="2" class="save"><button  class="save_btn">确定</button></td>
 	</tr>
 </table>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/zui.min.js"></script>
 
 
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/common.js"></script>
 
 <script>
 	var mapCallback = function (data) {

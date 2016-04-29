@@ -1,2 +1,5 @@
+ <script src="$rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>
+
+ <script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/common.js"></script>
     $screen_content
 

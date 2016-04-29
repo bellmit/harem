@@ -46,12 +46,17 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 	public BatchJiuxiuOrderResult getOrderList(JiuxiuOrderListQuery jiuxiuOrderListQuery) throws Exception {
 		OrderQueryDTO dto = new OrderQueryDTO();
 		dto.setDomain(Constant.DOMAIN_JIUXIU);
+		dto.setPageNo(jiuxiuOrderListQuery.getPageNumber());
+		dto.setPageSize(jiuxiuOrderListQuery.getPageSize());
 //		dto.setSellerId(sessionManager.getUserId());
 		//商品类型
 		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getItemType())){
 			dto.setOrderBizTypes(new int[]{Integer.parseInt(jiuxiuOrderListQuery.getItemType())});
 		}
-		dto.setItemName(jiuxiuOrderListQuery.getItemName());
+		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getItemName())){
+			dto.setItemName(jiuxiuOrderListQuery.getItemName());
+		}
+		
 		//订单编号
 		List<Long> bizOrderIds = new ArrayList<Long>();
 		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getOrderNO()) && Common.regularMatches("[0-9]{1,}", jiuxiuOrderListQuery.getOrderNO().trim())){
@@ -74,13 +79,19 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
                 e.printStackTrace();
             }
         }
-		dto.setPhone(jiuxiuOrderListQuery.getBuyerPhone());
-		dto.setBuyerNick(jiuxiuOrderListQuery.getBuyerName());
+		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getBuyerPhone())){
+			dto.setPhone(jiuxiuOrderListQuery.getBuyerPhone());
+		}
+		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getBuyerName())){
+			dto.setBuyerNick(jiuxiuOrderListQuery.getBuyerName());
+		}
 		//订单状态
 		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getOrderStat())){
 			dto.setBizOrderStatus(Integer.parseInt(jiuxiuOrderListQuery.getOrderStat()));
 		}
-		dto.setMerchantName(jiuxiuOrderListQuery.getMerchantName());
+		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantName())){
+			dto.setMerchantName(jiuxiuOrderListQuery.getMerchantName());
+		}
 		//商户编号
 		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantNo())){
 			dto.setSellerId(Long.parseLong(jiuxiuOrderListQuery.getMerchantNo()));

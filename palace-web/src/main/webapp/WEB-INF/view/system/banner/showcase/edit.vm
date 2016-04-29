@@ -1,18 +1,16 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-#*<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/jquery.js"></script>
-<script src="http://s0.test.jiuxiulvxing.com/yunying/src/js/module/md.adconfig.js"></script>*#
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
 
-
+#parse("/system/layout/layout-jiuxiu-meta.vm")
 
 
 <meta charset="UTF-8">
 <title>广告位配置内容编辑</title>
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/style.css"/>
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/yunying/src/css/adconfig.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/style.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/adconfig.css"/>
 <div>
     <div id="adediter">
         <form name="addShowcase" id="showcaseForm"
