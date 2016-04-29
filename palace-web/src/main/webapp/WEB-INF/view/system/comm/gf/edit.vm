@@ -303,8 +303,8 @@
                         var ue = UE.getEditor('editor');
                     });
                 </script>
-                #set($wxContentHtml=$!commodity.detailUrl)
-                <script id="editor" type="text/plain" name="detailUrl" style="width: 100%; height:350px">$!wxContentHtml</script>
+                #set($pcContentHtml=$!commodity.detailUrl)
+                <script id="editor" type="text/plain" name="detailUrl" style="width: 100%; height:350px">$!pcContentHtml</script>
             </div>
             <div class="tab-pane" id="tab3">
                 <script type="text/javascript">
@@ -313,8 +313,8 @@
                         var ue = UE.getEditor('editorPC');
                     });
                 </script>
-                #set($pcContentHtml=$!commodity.detailUrl)
-                <script id="editorPC" type="text/plain" name="pcDetail" style="width: 100%; height:350px">$!commodity.pcDetail</script>
+                #set($wapContentHtml=$!commodity.pcDetail)
+                <script id="editorPC" type="text/plain" name="pcDetail" style="width: 100%; height:350px">$!wapContentHtml</script>
             </div>
         <div>
         <div class="clubBotBtn">
