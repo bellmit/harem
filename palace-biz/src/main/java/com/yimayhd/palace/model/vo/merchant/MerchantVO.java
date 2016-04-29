@@ -31,7 +31,10 @@ import com.yimayhd.user.client.enums.ServiceFacilityOption;
 public class MerchantVO extends MerchantDTO {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
+	public static final  double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 	private String merchantName;
+	private double longitude;
+	private double latitude;
 //	private String cityInfo;
 //	public String[] getCityInfo() {
 //		String[] cityInfoArr = cityInfo.split(",");
@@ -196,5 +199,57 @@ public class MerchantVO extends MerchantDTO {
 		return merchantDO;
 		
 	}
+	public double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	public double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	//const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+	 /**
+	  * 将GCJ-02坐标系转换成BD-02坐标系
+	  * @param gg_lat
+	  * @param gg_lon
+	  * @param bd_lat
+	  * @param bd_lon
+	  */
+	public void bd_encrypt(double gg_lat, double gg_lon,MerchantDO merchantDO) {
+	    double x = gg_lon, y = gg_lat;
+	    double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+	    double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+	    //return theta;
+	    merchantDO.setLon(z * Math.cos(theta) + 0.0065);
+	    merchantDO.setLat(z * Math.sin(theta) + 0.006);
+	}
+	/**
+	  * 将BD-09坐标系转换成GCJ-02坐标系
+	  * @param bd_lat
+	  * @param bd_lon
+	  * @param gg_lat
+	  * @param gg_lon
+	  */
+	public void bd_decrypt(double latitude, double longitude,Object obj) {
+	    double x = longitude - 0.0065, y = latitude - 0.006;
+	    double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);
+	    double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
+	   // return theta;
+	    if (obj instanceof MerchantDO) {
+			MerchantDO merchantDO = (MerchantDO)obj;
+			merchantDO.setLon(z * Math.cos(theta));
+			merchantDO.setLat(z * Math.sin(theta));
+		}
+	    if (obj instanceof MerchantDTO) {
+	    	MerchantDTO dto = (MerchantDTO)obj;
+	    	dto.setLon(z * Math.cos(theta));
+	    	dto.setLat(z * Math.sin(theta));
+	    }
+	}
+
 	
 }
