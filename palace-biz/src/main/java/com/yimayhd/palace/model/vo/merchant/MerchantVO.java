@@ -31,6 +31,7 @@ import com.yimayhd.user.client.enums.ServiceFacilityOption;
 public class MerchantVO extends MerchantDTO {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
+	public static final double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 	private String merchantName;
 //	private String cityInfo;
 //	public String[] getCityInfo() {
@@ -71,6 +72,9 @@ public class MerchantVO extends MerchantDTO {
 	}
 	private String service;//服务设施
 	private int status;
+	private double longitude;
+	private double latitude;
+	
 	public int getStatus() {
 		return status;
 	}
@@ -109,6 +113,10 @@ public class MerchantVO extends MerchantDTO {
 //			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
 //			dto.setCityName(getCityInfo()[0]);
 			//dto.setId(userId);
+			bd_decrypt(vo.getLatitude(), vo.getLongitude(),dto);
+//			dto.setLat(z * Math.sin(bd_decrypt(vo.getLatitude(), vo.getLongitude())));
+//			setLon(z * Math.cos(theta));
+//		    setLat(z * Math.sin(theta));
 			dto.setAvgprice(getAvgPrice(vo.getAveragePrice()));
 			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
@@ -166,6 +174,7 @@ public class MerchantVO extends MerchantDTO {
 			System.out.println(JSON.toJSON(merchantDO));
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
+			bd_decrypt(vo.getLatitude(), vo.getLongitude(),merchantDO);
 			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
 			//merchantDO.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			merchantDO.setStatus(MerchantStatus.OFFLINE.getCode());
@@ -196,5 +205,56 @@ public class MerchantVO extends MerchantDTO {
 		return merchantDO;
 		
 	}
-	
+
+	public double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	public double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	//const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+	 /**
+	  * 将GCJ-02坐标系转换成BD-02坐标系
+	  * @param gg_lat
+	  * @param gg_lon
+	  * @param bd_lat
+	  * @param bd_lon
+	  */
+	public void bd_encrypt(double gg_lat, double gg_lon,MerchantDO merchantDO) {
+	    double x = gg_lon, y = gg_lat;
+	    double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+	    double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+	    //return theta;
+	    merchantDO.setLon(z * Math.cos(theta) + 0.0065);
+	    merchantDO.setLat(z * Math.sin(theta) + 0.006);
+	}
+	/**
+	  * 将BD-09坐标系转换成GCJ-02坐标系
+	  * @param bd_lat
+	  * @param bd_lon
+	  * @param gg_lat
+	  * @param gg_lon
+	  */
+	public void bd_decrypt(double latitude, double longitude,Object obj) {
+	    double x = longitude - 0.0065, y = latitude - 0.006;
+	    double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);
+	    double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
+	   // return theta;
+	    if (obj instanceof MerchantDO) {
+			MerchantDO merchantDO = (MerchantDO)obj;
+			merchantDO.setLon(z * Math.cos(theta));
+			merchantDO.setLat(z * Math.sin(theta));
+		}
+	    if (obj instanceof MerchantDTO) {
+	    	MerchantDTO dto = (MerchantDTO)obj;
+	    	dto.setLon(z * Math.cos(theta));
+	    	dto.setLat(z * Math.sin(theta));
+	    }
+	}
 }
