@@ -140,7 +140,18 @@
                     <td>$!tourist.contactName</td>
                     <td>$!tourist.contactPhone</td>
                     <td>$!tourist.certificatesNum</td>
-                    <td>没有</td>
+                    <td>
+                    	#if($!tourist.certificatesType == 1 )
+	               		     身份证
+	               		#elseif($!tourist.certificatesType == 2 )
+	               		护照
+	               		#elseif($!tourist.certificatesType == 3 )
+	               		军人证
+	               		#elseif($!tourist.certificatesType == 4 )
+	               		港澳通行证
+	               		#end
+                    </td> 
+                    
                 </tr>
                 #end
         </table>
