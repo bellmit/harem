@@ -392,7 +392,11 @@
     #elseif($!status==7)
         收货审核未通过，退货退款关闭
     #elseif($!status==8)
-        退款中
+        #if($!bizType==1)
+           	审核通过，退款中
+        #else
+ 			收货审核通过，退款中
+        #end
     #elseif($!status==9)
         #if($!bizType==1)
             退款完成
