@@ -82,7 +82,7 @@
             tr.append($("<td>"+ item.showType+"</td>"));
             tr.append($("<td>"+ item.salerName.replace(/<[^<>]+?>/g,'')+"</td>"));
             tr.append($("<td>"+item.destination+"</td>"));
-            tr.append($("<td>"+item.price.replace+"</td>"));
+            tr.append($("<td>"+ item.price+"</td>"));
             tr.append($("<td>"+item.showStatus+"</td>"));
             tr.append($("<td>"+item.pushDate+"</td>"));
             tbody.append(tr);
