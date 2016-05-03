@@ -9,7 +9,7 @@
                 <td><span class="spColor">*</span>品类名称</td>
                 <td>
                 <input type="text" class="form-control" placeholder="请输入5个字以内" name="name" value="$!theme.name">
-                <input type="hidden"  name="parentId" value="$!parentId">
+                <input type="hidden"  name="parentId" value="$!theme.parentId">
                 </td>
             </tr>
             

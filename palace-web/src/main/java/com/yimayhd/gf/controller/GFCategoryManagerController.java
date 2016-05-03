@@ -62,7 +62,9 @@ public class GFCategoryManagerController {
 	@RequestMapping(value = "/toAddCategory", method = RequestMethod.GET)
 	public String toAddCategory(ModelMap modelMap,HttpServletRequest request){
 		String parentId = request.getParameter("parentId");
-		modelMap.put("parentId", parentId);
+		GFCategoryVo categoryVo = new GFCategoryVo();
+		categoryVo.setParentId(Integer.parseInt(parentId));
+		modelMap.put("theme", categoryVo);
 		return "/system/gfCategory/edit";
 	}
 	

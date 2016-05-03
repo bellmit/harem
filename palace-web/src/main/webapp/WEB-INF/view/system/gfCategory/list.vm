@@ -92,21 +92,24 @@
 		isParent = e.data.isParent,
 		nodes = zTree.getSelectedNodes(),
 		treeNode = nodes[0];
-//		alert("isParent="+isParent);
+//		alert("isParent="+treeNode.isParent);
 //		alert("nodes="+nodes);
 //		alert("treeNode="+treeNode);
-		if (treeNode) {
-//			treeNode = zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, isParent:isParent, name:"new node" + (newCount++)});
-			var actionUrl = actionDefaultPath +'/GF/CategoryManager/toAddCategory?parentId='+treeNode.id;
-			location.href = actionUrl;
-		} else {
-//			treeNode = zTree.addNodes(null, {id:(100 + newCount), pId:0, isParent:isParent, name:"new node" + (newCount++)});
-		}
+//		alert("treeNode.id="+treeNode.id);
 		if (treeNode) {
 			zTree.editName(treeNode[0]);
 		} else {
 			alert("请选择所属一级类别!");
 //			alert("叶子节点被锁定，无法增加子节点");
+		}
+		if (treeNode.isParent) {
+//			treeNode = zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, isParent:isParent, name:"new node" + (newCount++)});
+			var actionUrl = actionDefaultPath +'/GF/CategoryManager/toAddCategory?parentId='+treeNode.id;
+			location.href = actionUrl;
+		} else {
+//			treeNode = zTree.addNodes(null, {id:(100 + newCount), pId:0, isParent:isParent, name:"new node" + (newCount++)});
+			var actionUrl = actionDefaultPath +'/GF/CategoryManager/toAddCategory?parentId='+treeNode.pId;
+			location.href = actionUrl;
 		}
 	};
 	function edit() {
@@ -114,10 +117,12 @@
 		nodes = zTree.getSelectedNodes(),
 		treeNode = nodes[0];
 		if (nodes.length == 0) {
-			alert("请先选择一个节点");
+			alert("请先选择一个品类");
 			return;
 		}
-		zTree.editName(treeNode);
+		var actionUrl = actionDefaultPath +'/GF/CategoryManager/toEditCategory/'+treeNode.id;
+		location.href = actionUrl;
+//		zTree.editName(treeNode);
 	};
 	function remove(e) {
 		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
@@ -166,11 +171,11 @@
     <div class="btn-group">
     	<a id="edit" href="#" title="编辑名称" onclick="return false;"><button type="reset" class="btn btn-primary">修改品类</button></a>
     </div>
-    <div class="btn-group">
+    <!--<div class="btn-group">
     	<a id="remove" href="#" title="删除节点" onclick="return false;"><button type="reset" class="btn btn-primary">删除品类</button></a>
 	</div>
 	<div class="btn-group">
 		<a id="clearChildren" href="#" title="清空子节点" onclick="return false;"><button type="reset" class="btn btn-primary">清空子节点</button></a>
-	</div>
+	</div>-->
 </div>
   
