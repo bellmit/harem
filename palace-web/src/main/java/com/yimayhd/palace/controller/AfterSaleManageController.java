@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.palace.model.enums.AfterSaleAuditStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -116,6 +117,8 @@ public class AfterSaleManageController {
 //        	String pics = CommonUtil.list2String(pictures);
         	model.addAttribute("refundPics", JSON.toJSON(pictures));
         }
+        AfterSaleAuditStatus as = refundOrderVO.getAfterSaleAuditStatus();
+        model.addAttribute("afterSaleAuditStatusDesc", as==null?"":as.getDes());
         model.addAttribute("bizType", bizType);
         model.addAttribute("orderShowState", refundOrderVO.getRefundOrderDO().getRefundStatus());
         model.addAttribute("refundOrderDO", refundOrderVO.getRefundOrderDO());

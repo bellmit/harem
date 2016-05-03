@@ -16,9 +16,13 @@
             <br><br><br><br>
         #parse("/system/afterSale/common/shenhe_tuihuo_info.vm")
             <br><br><br><br>
+
+            #parse("/system/afterSale/common/aftersale_info_ck.vm")
+            <br><br><br><br>
+
         #parse("/system/afterSale/common/item.vm")
             <br><br><br><br>
-            
+
 		#parse("/system/afterSale/common/aftersale_receiving.vm")
     </div>
 </div>

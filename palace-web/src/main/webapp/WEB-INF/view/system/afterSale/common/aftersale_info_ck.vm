@@ -6,27 +6,8 @@
 					退货退款信息
 				#end
 			</div>
-			<input type="hidden" id = "bizTypeId" name="bizType" value="$!bizType">
             <br>
-            <input type="hidden"  value="$!refundOrderDO.id"  id="tkdid">
-			<p class = "info first">
-				<em>退款原因：</em>
-				
-					#if($!refundOrderDO.refundReasonType==1)
-						多拍/拍错/不想要了
-					#elseif($!refundOrderDO.refundReasonType==2)
-						快递无跟踪记录
-					#elseif($!refundOrderDO.refundReasonType==3)
-					 	未按约定时间发货
-					#elseif($!refundOrderDO.refundReasonType==4)
-						快递一直未送货
-					#elseif($!refundOrderDO.refundReasonType==5)
-						空包裹/少货
-					#elseif($!refundOrderDO.refundReasonType==6)
-						其他
-			        #end
-				
-			</p>
+			<p class = "info first"><em>退款原因：</em>#REFUNDREASONTYPE($!refundOrderDO.refundReasonType)</p>
 			<div class = "info">
 				<em><label>*</label>实退金额：</em>
 					#if($refundOrderDO.refundActualFee > 0)
@@ -39,10 +20,7 @@
 					#else
 						$!refundActualFee
 					#end
-				
 			</div>
-			<div class="acculate-fee">系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)元</div>
-            <input type="hidden" class="inpControl name" id="xtjsjeId"  value="$!utilNum.moneyTransform($!refundOrderDO.refundFee)">
 			<p class = "info">
 				<em>退款说明：</em>
 				$!refundOrderDO.refundDesc
@@ -63,111 +41,12 @@
 			            #end
 			        #end
 				</div>
-		        <div class="clear"></div>
 			</p>
-			#if( $approve )
-				#if($!bizType==2)
-		            #parse("/system/afterSale/common/shouhuo_address.vm")
-		        #end
-				<p class = "info note-container">
-					<em>卖家备注：</em>
-					<textarea rows="4" cols="80" class="form-control" type="text" id="mjbz" placeholder="卖家备注"></textarea>50字以内
-				</p>
-				<p class = "info approve">
-				        <button type="button" class="btn btn-primary pass" refundStatus="3" >审核通过</button>
-				        <button type="button" class="btn btn-primary pass" refundStatus="4" >审核不通过</button>
-				</p>
-			#else
-				#* 判断审核状态 不是待审核下 orderShowState*#
-				#if($!orderShowState != 1)
-                    <p class = "info">
-                        <em>审核结果：</em>
-						#REFUND_STATUS($!orderShowState)
-                    </p>
-                    <p class = "info">
-                        <em>当前状态：</em>
-						#REFUND_STATUS($!orderShowState)
-                    </p>
-					#if($!orderShowState != 2)
-                        <p class = "info"><em>审核时间：</em>$!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.refundOperationRecordDOList.get(0).auditorTime)</p>
-                        <p class = "info"><em>审核备注：</em>$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</p>
-                        <p class = "info"><em>审核人：</em>$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</p>
-                        <p class = "info">
-							#if($!bizType == 2 )
-                                <em>卖家举证：</em>
-								#foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
-									#if($!rimgs)
-                                        <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-									#end
-								#end
-							#end
-                        </p>
-                    <p class = "info">
-                        <em>审核历史：</em>
-
-						#foreach($as in $!refundOrderDO.refundOperationRecordDOList)
-							#if($!bizType == 1 )
-								#if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
-									$!as.refundStatus ==8 )
-                                    <div>
-					            <span>审核结果：
-									#REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>当前状态：
-									#REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>审核时间：
-									$!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
-					                </span><br>
-                                        <span>审核备注：$!as.auditorRemark</span><br>
-                                        <span>审核人：$!as.auditorName</span><br>
-					            <span>买家举证：
-									#foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
-										#if($!arimgs)
-                                            <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
-										#end
-									#end
-					            </span>
-                                        <br>
-                                        ----------------------------------------------------------------------------
-                                        <br>
-                                    </div>
-								#end
-							#elseif($!bizType == 2)
-								#if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
-									$!as.refundStatus ==5 || $!as.refundStatus ==6 ||
-									$!as.refundStatus ==7
-								)
-                                    <div>
-					            <span>审核结果：
-									#REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>当前状态：
-									#REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>审核时间：
-									$!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
-					                </span><br>
-                                        <span>审核备注：$!as.auditorRemark</span><br>
-                                        <span>审核人：$!as.auditorName</span><br>
-					            <span>买家举证：
-									#foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
-										#if($!arimgs)
-                                            <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
-										#end
-									#end
-					            </span>
-                                        <br>
-                                        ----------------------------------------------------------------------------
-                                        <br>
-                                    </div>
-								#end
-							#end
-						#end
-					#end
-				#end
-			</p>
+			#if($!orderShowState != 1)
+                <p class = "info"><em>审核结果：</em>$!afterSaleAuditStatusDesc</p>
+                <p class = "info"><em>当前状态：</em>#REFUND_STATUS($!orderShowState $!bizType)</p>
+                <p class = "info"><em>审核时间：</em>$!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.refundOperationRecordDOList.get(0).auditorTime)</p>
+                <p class = "info"><em>审核备注：</em>$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</p>
+                <p class = "info"><em>审核人：</em>$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</p>
 			#end
-			
-		</div>
+        </div>

@@ -31,12 +31,12 @@
             #end
         #end
         <br><br> <br> <br><br>
-        ========AAASSS$orderShowState ---
         <!-- 待审核 用户已撤销 退款完成不展示 -->
         #if($!orderShowState !=9 || $!orderShowState !=1 )
             <div>
                 <span>审核结果：
-                    #REFUND_STATUS($!orderShowState $!bizType)
+                    $!afterSaleAuditStatusDesc
+                    #*#REFUND_STATUS($!orderShowState $!bizType)*#
                 </span>
                 <br>
                 <br>
@@ -49,14 +49,17 @@
                     </span><br>
                 <span>审核备注：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</span><br>
                 <span>审核人：$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</span><br>
-                <span>卖家举证：
-                    #foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
-                        #if($!rimgs)
-                            <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
+                #if($!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
+                    <span>卖家举证：
+                        #foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
+                            #if($!rimgs)
+                                <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
                             &nbsp;&nbsp;&nbsp;&nbsp;
+                            #end
                         #end
-                    #end
                 </span>
+                #end
+
             </div>
         #end
 
