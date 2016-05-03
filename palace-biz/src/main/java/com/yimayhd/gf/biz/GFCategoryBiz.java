@@ -43,6 +43,15 @@ public class GFCategoryBiz {
 				return baseResult;
 			}
 			
+			if(gfCategoryVo.getParentId()!=null){
+				
+				gfCategoryVo.setLevel(1);
+				gfCategoryVo.setLeaf(0);
+			}else{
+				gfCategoryVo.setLevel(2);
+				gfCategoryVo.setLeaf(1);
+			}
+			
 			baseResult = gfCategoryRepo.saveCategoryDO(gfCategoryVo);
 			if(baseResult.isSuccess()){
 				return baseResult;

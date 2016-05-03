@@ -20,7 +20,7 @@ public class GFCategoryVo extends BaseQuery {
 
     private int leaf;
 
-    private long parentId;
+    private Integer parentId;
 
     private int priority;
 
@@ -77,11 +77,11 @@ public class GFCategoryVo extends BaseQuery {
 		this.leaf = leaf;
 	}
 
-	public long getParentId() {
+	public Integer getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(long parentId) {
+	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
 

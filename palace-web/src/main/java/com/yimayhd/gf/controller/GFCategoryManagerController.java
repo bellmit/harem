@@ -2,6 +2,8 @@ package com.yimayhd.gf.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,9 @@ public class GFCategoryManagerController {
 	 * @Description: 添加商品品类跳转
 	 */
 	@RequestMapping(value = "/toAddCategory", method = RequestMethod.GET)
-	public String toAddCategory(){
+	public String toAddCategory(ModelMap modelMap,HttpServletRequest request){
+		String parentId = request.getParameter("parentId");
+		modelMap.put("parentId", parentId);
 		return "/system/gfCategory/edit";
 	}
 	

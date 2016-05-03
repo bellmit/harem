@@ -4,30 +4,26 @@
 <div class="createClubTable whole">
     <form name="addTheme" id="themeForm" action="" method="post" themeId="$!theme.id">
         <table class="table">
+	        
             <tr>
-                <td><span class="spColor">*</span>标签名称</td>
+                <td><span class="spColor">*</span>品类名称</td>
                 <td>
                 <input type="text" class="form-control" placeholder="请输入5个字以内" name="name" value="$!theme.name">
+                <input type="hidden"  name="parentId" value="$!parentId">
                 </td>
             </tr>
             
-            <!--<tr>
-                <td><span class="spColor">*</span>是否显示 </td>
+            <tr>
+                <td><span class="spColor">*</span>状态 </td>
                 <td>
-					<select class="form-control" name="outType" >
-                        <option value="1"  #if($!theme.outType == 1) checked #end>
-								是
-                        </option>
-                        <option value="2" #if($!theme.outType == 2) checked #end>
-								否
-                        </option>
-                     </select>
+                <label class='radio-inline'> <input class="reduceType" type="radio" name="status" value="1"  #if($!theme.status == 1) checked #end>正常</label>
+                <label class='radio-inline'> <input class="reduceType" type="radio" name="status" value="2"  #if($!theme.status == 2) checked #end>删除</label>
 				</td>
-            </tr>-->
+            </tr>
             
             <tr>
                 <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入不超过100数字，数字越大排序靠后" name="score" value="$!theme.score"></td>
+                <td><input type="text" class="form-control" placeholder="请输入不超过100数字，数字越大排序靠后" name="priority" value="$!theme.priority"></td>
             </tr>
         </table>
         <div class="clubBotBtn">
@@ -56,7 +52,10 @@
                     required: true,
                     maxlength:4
                 },
-                 'score': {
+                'status': {
+                    required: true
+                },
+                 'priority': {
                     required: true,
                     digits: true,
                     min:1,
@@ -69,7 +68,10 @@
                required:"请输入标签名称",
                maxlength:"标签大小不超过四个字"
                },
-               "score":{
+               "status":{
+                   required:"请选择状态"
+                   },
+               "priority":{
                     required: "请输入排序数字",
                     digits: "排序必须为零或正整数",
                     min:"排序最大值的下限为1",
@@ -90,13 +92,13 @@
 	            $(this).prop('disabled',true);
 	            var actionUrl;
 	            var themeId = $('#themeForm').attr('themeId');
-				//alert("themeId="+themeId);
+//				alert("themeId="+themeId);
 	            if(themeId){
-	                actionUrl = '/GF/TagManager/editTag/'+themeId;
+	                actionUrl = actionDefaultPath +'/GF/CategoryManager/editCategory/'+themeId;
 	            }else{
-	                actionUrl = '/GF/TagManager/addTag';
+	                actionUrl = actionDefaultPath +'/GF/CategoryManager/addCategory';
 	            }
-	            //alert("actionUrl="+actionUrl);
+//	            alert("actionUrl="+actionUrl);
                 var options = {
                     url: actionUrl,
                     type: "post",
@@ -109,7 +111,7 @@
                         });
                         setTimeout(function () {
                         	 $("#clubCategorySubmit").attr("disabled", false);
-                      	  location.href = actionDefaultPath + "/GF/TagManager/list";
+                      	  location.href = actionDefaultPath + "/GF/CategoryManager/list";
                         },1500);
                            
                             
@@ -120,7 +122,7 @@
                         });
                          setTimeout(function () {
                         $("#clubCategorySubmit").attr("disabled", false);
-                      	  location.href = actionDefaultPath + "/GF/TagManager/list";
+                      	  location.href = actionDefaultPath + "/GF/CategoryManager/list";
                         },1500);
                         }
                     }
@@ -139,9 +141,9 @@
             var themeId = $('#themeForm').attr('themeId');
 			//alert("themeId="+themeId);
             if(themeId){
-                actionUrl = '/GF/TagManager/editTag/'+themeId;
+                actionUrl = actionDefaultPath +'/GF/CategoryManager/editTag/'+themeId;
             }else{
-                actionUrl = '/GF/TagManager/addTag';
+                actionUrl = actionDefaultPath +'/GF/CategoryManager/addTag';
             }
             layer.alert(actionUrl);
             $('#themeForm').attr('action',actionUrl);

@@ -2,6 +2,7 @@ package com.yimayhd.gf.repo;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class GFCategoryRepo {
 			CategorySaveDTO categorySaveDTO = new CategorySaveDTO();
 			
 			categorySaveDTO.setDomain(DomainAndAppId.APP_DOMAIN_ID_GF_WEB.getDomainId());
+			
 			categorySaveDTO.setLeaf(gfCategoryVo.getLeaf());
 			categorySaveDTO.setLevel(gfCategoryVo.getLevel());
 			categorySaveDTO.setName(gfCategoryVo.getName());
