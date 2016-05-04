@@ -135,7 +135,7 @@
 
                             <td>
                                 <div class="order-number">
-                                    $!subOrder.jiuxiuTcBizOrder.buyAmount
+                                    $!subOrder.bizOrder.buyAmount
                                 </div>
                             </td>
                             

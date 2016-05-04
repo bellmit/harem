@@ -70,6 +70,7 @@
                     <th>商户名称</th>
                     <th>商户编号</th>
                     <th>负责人</th>
+                    <th>负责人手机号</th>
                     <th>注册手机</th>
                     <th>创建日期</th>
                     <th>状态</th>
@@ -107,6 +108,12 @@
                             <td>
                                 <div class="order-number">
                                     $!merchant.merchantDO.merchantPrincipalTel
+                                </div>
+                            </td>
+                            
+                             <td>
+                                <div class="order-number">
+                                    $!merchant.regisPhone
                                 </div>
                             </td>
                             
