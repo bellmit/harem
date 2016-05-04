@@ -21,6 +21,9 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
@@ -29,6 +32,7 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.jiuxiu.helper.JiuxiuHelper;
 import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
+import com.yimayhd.palace.model.vo.merchant.MerchantUserVo;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
@@ -51,6 +55,7 @@ import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.DataCacheService;
 import com.yimayhd.user.client.service.MerchantService;
+import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
 /**
  * 美食
@@ -71,6 +76,10 @@ public class MerchantController extends BaseController {
 	private SessionManager sessionManager;
 	@Autowired
 	private RegionClientService regionClientServiceRef;
+	@Autowired
+	private UserService userServiceRef;
+	@Autowired
+	private ExamineDealService examineDealServiceRef;
 //	@Autowired
 //	private ComTagCenterService comTagCenterServiceRef;
 //	@Autowired
@@ -402,7 +411,19 @@ public class MerchantController extends BaseController {
 			PageVO<MerchantUserDTO> orderPageVO = new PageVO<MerchantUserDTO>(jiuxiuMerchantListQuery.getPageNumber(),jiuxiuMerchantListQuery.getPageSize(),
 					totalCount,merchantUserList);
 			model.addAttribute("pageVo", orderPageVO);
-			model.addAttribute("result", result.getList());
+			if(null!=result.getList()){
+				List<MerchantUserVo> merchantUserVos = new ArrayList<MerchantUserVo>();
+				for(int i=0;i<result.getList().size();i++){
+					MerchantUserDTO merchantUserDTO = result.getList().get(i);
+					MerchantUserVo merchantUserVo = new MerchantUserVo();
+					merchantUserVo.setRegisPhone(userServiceRef.getUserDOById(merchantUserDTO.getMerchantDO().getSellerId()).getMobileNo());
+					merchantUserVo.setUserDO(merchantUserDTO.getUserDO());
+					merchantUserVo.setMerchantDO(merchantUserDTO.getMerchantDO());
+					merchantUserVos.add(merchantUserVo);
+				}
+				model.addAttribute("result", merchantUserVos);
+			}
+			
 			model.addAttribute("jiuxiuMerchantListQuery", jiuxiuMerchantListQuery);
 			
 		} catch (Exception e) {
@@ -410,5 +431,27 @@ public class MerchantController extends BaseController {
 			e.printStackTrace();
 		}
 		return "/system/merchant/merchantList";
+	}
+	
+	/**
+	 * 商家详情
+	 * 
+	 * @return 商家详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value="detail")
+	public String getMerchantDetail(Model model,long id){
+		try {
+			MemResult<ExamineInfoDTO> result = examineDealServiceRef.queryMerchantExamineInfoById(id);
+			if(result.isSuccess() && null !=result.getValue()){
+				model.addAttribute("examineInfo", result.getValue());
+				model.addAttribute("type", result.getValue().getType());
+				model.addAttribute("status", result.getValue().getExaminStatus());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			e.printStackTrace();
+		}
+		return "/system/merchant/merchantDetail";
 	}
 }

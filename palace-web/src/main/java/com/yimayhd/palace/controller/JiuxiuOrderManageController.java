@@ -78,10 +78,11 @@ public class JiuxiuOrderManageController extends BaseController {
 						boolean isUserTalent = UserOptions.USER_TALENT.has(seller.getOptions());
 						boolean isCommercialTenant = UserOptions.COMMERCIAL_TENANT.has(seller.getOptions());
 						if(isUserTalent){
-							model.addAttribute("talent", tcMainOrder.getBizOrder()==null?"": tcMainOrder.getBizOrder().getSellerNick());
+							//model.addAttribute("talent", tcMainOrder.getBizOrder()==null?"": tcMainOrder.getBizOrder().getSellerNick());
+							model.addAttribute("talent", seller.getNickname());
 						}
 						if(isCommercialTenant){
-							model.addAttribute("merchant", seller.getNickname());
+							model.addAttribute("merchant", tcMainOrder.getMerchantInfo() == null? "" : tcMainOrder.getMerchantInfo().getMerchantName());
 						}
 					}
 					//获取卖家备注
