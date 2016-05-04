@@ -153,6 +153,12 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         if(null == sv){
             throw  new Exception("查询无数据");
         }
+        //FIXME 余生伟 此处的逻辑有些乱
+        
+        
+        
+        sv.setTitle(entity.getTitle());
+        
         RcResult<Boolean> rcResult = showcaseClientServer.update(entity);
         if(null == rcResult || !rcResult.isSuccess()){
             LOGGER.error("saveOrUpdate|showcaseClientServer.update result is " + JSON.toJSONString(rcResult) +",parameter is "+JSON.toJSONString(entity));
