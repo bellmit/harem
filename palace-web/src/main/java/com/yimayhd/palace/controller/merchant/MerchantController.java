@@ -21,6 +21,9 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
@@ -75,6 +78,8 @@ public class MerchantController extends BaseController {
 	private RegionClientService regionClientServiceRef;
 	@Autowired
 	private UserService userServiceRef;
+	@Autowired
+	private ExamineDealService examineDealServiceRef;
 //	@Autowired
 //	private ComTagCenterService comTagCenterServiceRef;
 //	@Autowired
@@ -426,5 +431,27 @@ public class MerchantController extends BaseController {
 			e.printStackTrace();
 		}
 		return "/system/merchant/merchantList";
+	}
+	
+	/**
+	 * 商家详情
+	 * 
+	 * @return 商家详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value="detail")
+	public String getMerchantDetail(Model model,long id){
+		try {
+			MemResult<ExamineInfoDTO> result = examineDealServiceRef.queryMerchantExamineInfoById(id);
+			if(result.isSuccess() && null !=result.getValue()){
+				model.addAttribute("examineInfo", result.getValue());
+				model.addAttribute("type", result.getValue().getType());
+				model.addAttribute("status", result.getValue().getExaminStatus());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			e.printStackTrace();
+		}
+		return "/system/merchant/merchantDetail";
 	}
 }
