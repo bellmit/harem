@@ -153,6 +153,12 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         if(null == sv){
             throw  new Exception("查询无数据");
         }
+        //FIXME 余生伟 此处的逻辑有些乱
+        
+        
+        
+        sv.setTitle(entity.getTitle());
+        
         RcResult<Boolean> rcResult = showcaseClientServer.update(entity);
         if(null == rcResult || !rcResult.isSuccess()){
             LOGGER.error("saveOrUpdate|showcaseClientServer.update result is " + JSON.toJSONString(rcResult) +",parameter is "+JSON.toJSONString(entity));
@@ -318,8 +324,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 sc.setShowType(ItemType.get(type).getText());//显示类别
             }
             sc.setSalerName(null==io.getIcMerchantInfoInfo()?"":io.getIcMerchantInfoInfo().getMerchantName());//卖家名称
-            long pric = NumUtil.doubleToLong(io.getItemDTO().getPrice());
-            sc.setPrice(String.valueOf(pric));//单价
+            String displayPrice = NumUtil.moneyTransform(io.getItemDTO().getPrice());
+            sc.setPrice(displayPrice);//单价
             sc.setShowStatus(ItemStatus.get(io.getItemDTO().getStatus()).getText()); //显示状态
             if(null !=io.getItemDTO().getGmtCreated()){
                 sc.setPushDate(DateFormat.dateFormat(io.getItemDTO().getGmtCreated(),"yyyy-MM-dd"));//发布时间

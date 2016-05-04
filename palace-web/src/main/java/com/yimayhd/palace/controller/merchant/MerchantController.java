@@ -181,6 +181,7 @@ public class MerchantController extends BaseController {
 //				model.addAttribute("nameResult", false);
 //				
 //			}
+			new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
 			merchantDO.setName(merchantDO.getName().replaceAll("\"", "&quot;"));
 			merchantDO.setServiceTime(merchantDO.getServiceTime().replaceAll("\"", "&quot;"));
 			merchantDO.setAddress(merchantDO.getAddress().replaceAll("\"", "&quot;"));

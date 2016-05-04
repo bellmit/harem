@@ -17,6 +17,8 @@
 #set( $v = $utilWebconfig.getResourceVersion())
 
 
+<input type="hidden" id="rs_js_css_path_jiuxiu" value="$rs_js_css_path_jiuxiu">
+<input type="hidden" id="test" value="$test">
 <input type="hidden" id="root_path" value="$root_path">
 <input type="hidden" id="tfs" value="$tfs">
 <input type="hidden" id="filegw_url" value="$filegw_url">

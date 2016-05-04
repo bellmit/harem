@@ -21,14 +21,15 @@
 			
 				#if($!refundOrderDetail.mainOrder.logisticsOrderDO.prov)
                     $!refundOrderDetail.mainOrder.logisticsOrderDO.prov &nbsp;-&nbsp;
-                #elseif($!refundOrderDetail.mainOrder.logisticsOrderDO.city)
+				#end
+                #if($!refundOrderDetail.mainOrder.logisticsOrderDO.city)
                     $!refundOrderDetail.mainOrder.logisticsOrderDO.city &nbsp;-&nbsp;
-                #elseif($!refundOrderDetail.mainOrder.logisticsOrderDO.area)
-                    $!refundOrderDetail.mainOrder.logisticsOrderDO.area &nbsp;-&nbsp;
-                #else
-                    $!refundOrderDetail.mainOrder.logisticsOrderDO.address
                 #end
-			
+			    #if($!refundOrderDetail.mainOrder.logisticsOrderDO.area)
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.area &nbsp;-&nbsp;
+                #end
+                    $!refundOrderDetail.mainOrder.logisticsOrderDO.address
+
 		</p>
 	</div>
 </div>

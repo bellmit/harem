@@ -35,6 +35,8 @@ public class BoothServiceImpl implements BoothService {
         BoothQuery boothQuery = new BoothQuery();
         boothQuery.setPageSize(baseQuery.getPageSize());
         boothQuery.setPageNo(baseQuery.getPageNumber());
+        boothQuery.setCode(baseQuery.getBoothCode());
+        boothQuery.setName(baseQuery.getBoothName());
         RCPageResult<BoothDO> result = boothClientServerRef.getBoothResult(boothQuery);
         if(null == result){
             log.error("boothClientServerRef.getBoothResult result is null and parame: " + JSON.toJSONString(boothQuery));
