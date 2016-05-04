@@ -31,7 +31,7 @@
                     <option value="3" #if($!orderListQuery.refundStatus == '3') selected #end>卖家同意</option>
                     <option value="4" #if($!orderListQuery.refundStatus == '4') selected #end>卖家拒绝</option>
                     <option value="5" #if($!orderListQuery.refundStatus == '5') selected #end>初审审核通过，等待买家退货</option>
-                    <option value="6" #if($!orderListQuery.refundStatus == '6') selected #end>收货审核通过，退款中</option>
+                    ##<option value="6" #if($!orderListQuery.refundStatus == '6') selected #end>收货审核通过，退款中</option>
 
                     #if($!bizType==1)
                         <option value="7" #if($!orderListQuery.refundStatus == '7') selected #end>审核未通过，退款关闭</option>

@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
+	<bean id="gfCategoryRepo" class="com.yimayhd.gf.repo.GFCategoryRepo" />
 	<bean id="hotelRepo" class="com.yimayhd.palace.repo.HotelRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.TagRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.LineRepo"></bean>
