@@ -79,7 +79,7 @@
 				</p>
 			
 			#else
-				<p class = "info">
+				#*<p class = "info">
 					<em>审核结果：</em>
 					#REFUND_STATUS($!orderShowState)
 				</p>
@@ -100,10 +100,8 @@
 			                #end
 			            #end
 					
-				</p>
+				</p>*#
 				<p class = "info">
-					<em>审核历史：</em>
-					
 						#foreach($as in $!refundOrderDO.refundOperationRecordDOList)
 					        #if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
 					            $!as.refundStatus ==5 ||
@@ -120,20 +118,20 @@
 					                </span><br>
 					                <span>审核备注：$!as.auditorRemark</span><br>
 					                <span>审核人：$!as.auditorName</span><br>
-					            <span>买家举证：
-					                #foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
-					                    #if($!arimgs)
-					                        <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
-					                    #end
-					                #end
+								#if($!as.refundStatus ==7 && $!bizType ==2)
+                                    <span>
+									卖家举证：
+										#foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
+											#if($!arimgs)
+                                                <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+											#end
+										#end
 					            </span>
-					                <br>
-					                ----------------------------------------------------------------------------
-					                <br>
+								#end
+								<br>----------------------------------------------------------------------------<br>
 					            </div>
 					        #end
 					    #end
-					
 				</p>
 				
 			#end
