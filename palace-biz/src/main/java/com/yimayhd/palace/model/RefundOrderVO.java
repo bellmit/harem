@@ -18,8 +18,7 @@ public class RefundOrderVO implements Serializable{
     String signId;
     RefundOrderDO refundOrderDO;
     OrderDetails orderDetails;
-    //审核状态，审核通过，审核不通过，初审审核通过，初审审核不通过，收货审核通过，收货审核不通过
-    AfterSaleAuditStatus afterSaleAuditStatus;
+    AfterSaleAuditStatus afterSaleAuditStatus;//审核状态，审核通过，审核不通过，初审审核通过，初审审核不通过，收货审核通过，收货审核不通过
 
     public String getSignId() {
         return signId;
