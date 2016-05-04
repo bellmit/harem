@@ -132,7 +132,6 @@
                 <th>姓名</th>
                 <th>手机号</th>
                 <th>证件号</th>
-                <th>类型</th>
             </tr>
                 #foreach($tourist in $order.touristList)
                 <tr>
@@ -152,10 +151,6 @@
 	               		
                    	 	$!tourist.certificatesNum
                    	</td>
-                    <td>
-                    	暂时没有~
-                    </td> 
-                    
                 </tr>
                 #end
         </table>
