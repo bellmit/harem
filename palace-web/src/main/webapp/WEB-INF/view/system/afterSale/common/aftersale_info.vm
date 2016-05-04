@@ -120,10 +120,14 @@
 					                <span>审核人：$!as.auditorName</span><br>
 								#if($!as.refundStatus ==7 && $!bizType ==2)
                                     <span>
-									卖家举证：
-										#foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
-											#if($!arimgs)
-                                                <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+										#foreach($!rdoList in $!refundOrderDO.refundOperationRecordDOList)
+											#if($!rdoList.refundStatus == 7 )
+                                                卖家举证：
+												#foreach($!arimgs in $!rdoList.pictures)
+													#if($!arimgs)
+                                                        <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+													#end
+												#end
 											#end
 										#end
 					            </span>
