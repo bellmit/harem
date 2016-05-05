@@ -11,6 +11,7 @@ import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
@@ -18,7 +19,10 @@ import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -50,6 +54,8 @@ public class JiuxiuOrderManageController extends BaseController {
     private SessionManager sessionManager;
 	@Autowired
 	private UserService userServiceRef;
+	@Autowired
+	private MerchantService userMerchantServiceRef;
 
 	
 	/**
@@ -67,6 +73,13 @@ public class JiuxiuOrderManageController extends BaseController {
 			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
 			if(result.isSuccess() && null!=result.getTcMainOrder()){
 				TcMainOrder tcMainOrder = result.getTcMainOrder();
+				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(tcMainOrder.getBizOrder().getSellerId(), Constant.DOMAIN_JIUXIU);
+				TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
+				if(null!= merchantUserDTO.getValue() && null!= merchantUserDTO.getValue().getMerchantDO()){
+					tcMerchantInfo.setMerchantName(merchantUserDTO.getValue().getMerchantDO().getName());
+					tcMerchantInfo.setMerchantId(merchantUserDTO.getValue().getMerchantDO().getId());
+				}
+				tcMainOrder.setMerchantInfo(tcMerchantInfo);
 				model.addAttribute("order", tcMainOrder);
 				UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
 				model.addAttribute("phone", buyer.getMobileNo());
@@ -91,6 +104,7 @@ public class JiuxiuOrderManageController extends BaseController {
 					bizOrderDO.setBizOrderId(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBizOrderId());
 					model.addAttribute("sellerMsg", BizOrderUtil.getSellerMemo(bizOrderDO));
 				}
+				
 			}
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
