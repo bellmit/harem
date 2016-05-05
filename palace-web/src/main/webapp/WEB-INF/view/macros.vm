@@ -383,7 +383,7 @@
         #if($!bizType==1)
             审核未通过，退款关闭
         #else
-            收货审核未通过，退货退款关闭
+            初审审核未通过，退货退款关闭
         #end
     #elseif($!status==5)
         客户退货给卖家
@@ -446,4 +446,22 @@
     #elseif($status == '20')
     下架
     #end
+#end
+
+
+#macro(REFUNDREASONTYPE $type)
+    #if($!type==1)
+    多拍/拍错/不想要了
+    #elseif($!type==2)
+    快递无跟踪记录
+    #elseif($!type==3)
+    未按约定时间发货
+    #elseif($!type==4)
+    快递一直未送货
+    #elseif($!type==5)
+    空包裹/少货
+    #elseif($!type==6)
+    其他
+    #end
+
 #end

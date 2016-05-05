@@ -3,7 +3,7 @@
     <div>
         <span>物流公司：$!refundOrderDO.logisticsCompanyName</span><br>
         <span>物流单号：$!refundOrderDO.logisticsNumber</span><br>
-        <span>提交时间：$!date.format('yyyy-MM-dd',$!refundOrderDO.logisticsNumber.gmtCreated)
+        <span>提交时间：$!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.logisticsTime)
         </span><br>
     </div>
 </div>
