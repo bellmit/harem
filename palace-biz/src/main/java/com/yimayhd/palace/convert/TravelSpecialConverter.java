@@ -14,7 +14,7 @@ public class TravelSpecialConverter {
 
 	public static List<SnsTravelSpecialtyVO> TravelSpecialtyDOToVoConveter(List<SnsTravelSpecialtyDO> specialDoList,Map<Long, UserDO> map){
 		List<SnsTravelSpecialtyVO> list = new ArrayList<SnsTravelSpecialtyVO>();
-		if(CollectionUtils.isEmpty(specialDoList) || map.size() == 0){
+		if(CollectionUtils.isEmpty(specialDoList) || map == null || map.size() == 0){
 			return list;
 		}
 		for(SnsTravelSpecialtyDO snsTravelSpecialtyDO : specialDoList){

@@ -56,6 +56,9 @@ public class BaseQuery implements Serializable {
 	}
 
 	public Integer getPageSize() {
+		if( pageSize <=0 ){
+			pageSize = 10 ;
+		}
 		return pageSize;
 	}
 
