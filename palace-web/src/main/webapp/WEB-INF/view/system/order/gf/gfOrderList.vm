@@ -45,8 +45,8 @@
 
 					#set($size = $order.subOrderList.size() )
                     #foreach($subOrder in $order.subOrderList)
-                    
-	                    <tr>
+
+	                    <tr class="chooseTr" >
 	                    	#if( $velocityCount == 1 )
 	                        	<td rowspan="$size"></td>
 	                        #end

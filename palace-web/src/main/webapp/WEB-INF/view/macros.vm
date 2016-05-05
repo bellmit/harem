@@ -424,7 +424,7 @@
 
 #macro(ORDERS_STATUS $status)
     #if($!status == 1)
-        未付款
+        待付款
     #elseif($!status == 2)
         已付款
     #elseif($!status == 3)
@@ -437,6 +437,8 @@
         待处理
     #elseif($!status == 7)
         已退款
+    #elseif($!status == 8)
+        待评价
     #end
 #end
 

@@ -26,11 +26,28 @@
         <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
             <option value="0">全部</option>
             <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>待付款</option>
-            <option value="NO_LG_ORDER" #if($!orderListQuery.orderStat == 'NO_LG_ORDER') selected #end>待发货</option>
+            <option value="PAID" #if($!orderListQuery.orderStat == 'PAID') selected #end>待发货</option>
             <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>待收货</option>
-            <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>交易成功</option>
+            <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>已完成</option>
             <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>交易关闭</option>
         </select>
+        #*<select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
+            <option value="0">全部</option>
+            <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>待付款</option>
+            <option value="NO_LG_ORDER" #if($!orderListQuery.orderStat == 'NO_LG_ORDER') selected #end>待发货</option>
+            <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>待收货</option>
+            <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>已完成</option>
+            <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>交易关闭</option>
+        </select>*#
+        #*<select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
+            <option value="0">全部</option>
+            <option value="NOTING" #if($!orderListQuery.orderStat == 'NOTING') selected #end>待付款</option>
+            <option value="PAID" #if($!orderListQuery.orderStat == 'PAID') selected #end>待发货</option>
+            <option value="SHIPPED" #if($!orderListQuery.orderStat == 'SHIPPED') selected #end>待收货</option>
+            <option value="FINISH" #if($!orderListQuery.orderStat == 'FINISH') selected #end>已完成</option>
+            <option value="WAITING_EVALUATION" #if($!orderListQuery.orderStat == 'WAITING_EVALUATION') selected #end>待评价</option>
+            <option value="TRADE_CLOSE" #if($!orderListQuery.orderStat == 'TRADE_CLOSE') selected #end>交易关闭</option>
+        </select>*#
     </div>
 
     <div class="input-group inpSingle">
