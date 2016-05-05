@@ -129,6 +129,7 @@ public class UploadController extends BaseController {
 			if (StringUtils.isBlank(suffix)) {
 				suffix = ".jpg";
 			}
+			suffix = suffix.toLowerCase();
 			long size = multipartFile.getSize();
 			if (size > MAX_LENGTH) {
 				new ResponseVo(ResponseStatus.FILE_TO_BIG);
@@ -249,6 +250,7 @@ public class UploadController extends BaseController {
 		if (StringUtils.isBlank(suffix)) {
 			suffix = ".jpg";
 		}
+		suffix = suffix.toLowerCase();
 		String tfsName = null;
 		try {
 			if (size > MAX_LENGTH) {
