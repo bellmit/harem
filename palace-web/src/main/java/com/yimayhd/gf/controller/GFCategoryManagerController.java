@@ -1,6 +1,9 @@
 package com.yimayhd.gf.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.CategoryDO;
+import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.gf.biz.GFCategoryBiz;
 import com.yimayhd.gf.model.query.GFCategoryVo;
@@ -46,8 +51,33 @@ public class GFCategoryManagerController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String gfCategoryList(Model model){
 		try {
-			BaseResult<List<CategoryDO>> baseResult = gfCategoryBiz.getCategoryList();
-			model.addAttribute("themeList", baseResult.getValue());
+			BasePageResult<CategoryDO> baseResult = gfCategoryBiz.pageQueryCategory();
+			
+			List<CategoryDO> categoryList = baseResult.getList();
+			
+			ArrayList<Map<Object,Object>> arrayList = new ArrayList<Map<Object,Object>>();
+			
+			for (int i = 0; i < categoryList.size(); i++) {
+				Map<Object, Object> map = new HashMap<Object,Object>();
+				
+				CategoryDO categoryDO = categoryList.get(i);
+				
+				map.put("id", categoryDO.getId());
+				map.put("pId", categoryDO.getParentId());
+				map.put("name", categoryDO.getName());
+				if(categoryDO.getParentId()==0){
+					map.put("open", true);
+				}
+				arrayList.add(map);
+				
+			}
+			
+			String jsonObject = JSONObject.toJSONString(arrayList);
+			
+			LOGGER.info("jsonObject:"+jsonObject);
+			System.out.println("jsonObject:"+jsonObject);
+			
+			model.addAttribute("themeList", jsonObject);
 			return "/system/gfCategory/list";
 		} catch (Exception e) {
 			return "/error";

@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.CategoryDO;
 import com.yimayhd.commentcenter.client.domain.CategoryItemRelationDO;
 import com.yimayhd.commentcenter.client.errorcode.ComCenterReturnCodes;
+import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.gf.model.query.GFCategoryVo;
 import com.yimayhd.gf.repo.GFCategoryRepo;
@@ -35,6 +36,17 @@ public class GFCategoryBiz {
 		
 	}
 	
+	public BasePageResult<CategoryDO> pageQueryCategory() {
+		BasePageResult<CategoryDO> baseResult =  new BasePageResult<CategoryDO>();
+		try {
+			baseResult = gfCategoryRepo.pageQueryCategory();
+		} catch (Exception e) {
+			baseResult.setErrorCode(ComCenterReturnCodes.READ_DB_FAILED);
+			return baseResult;
+		}
+		return baseResult;
+	}
+	
 	public BaseResult<CategoryDO> saveCategoryDO(GFCategoryVo gfCategoryVo){
 		BaseResult<CategoryDO> baseResult = new BaseResult<CategoryDO>();
 		try {
@@ -45,11 +57,11 @@ public class GFCategoryBiz {
 			
 			if(gfCategoryVo.getParentId()!=null){
 				
-				gfCategoryVo.setLevel(1);
-				gfCategoryVo.setLeaf(0);
-			}else{
 				gfCategoryVo.setLevel(2);
 				gfCategoryVo.setLeaf(1);
+			}else{
+				gfCategoryVo.setLevel(1);
+				gfCategoryVo.setLeaf(2);
 			}
 			
 			baseResult = gfCategoryRepo.saveCategoryDO(gfCategoryVo);
@@ -128,4 +140,5 @@ public class GFCategoryBiz {
 		}
 		return baseResult;
 	}
+
 }

@@ -93,7 +93,7 @@
 	            var actionUrl;
 	            var themeId = $('#themeForm').attr('themeId');
 //				alert("themeId="+themeId);
-	            if(themeId){
+	            if(themeId>0){
 	                actionUrl = actionDefaultPath +'/GF/CategoryManager/editCategory/'+themeId;
 	            }else{
 	                actionUrl = actionDefaultPath +'/GF/CategoryManager/addCategory';
