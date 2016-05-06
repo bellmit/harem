@@ -263,7 +263,6 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
 
-
         //修改的时候要先取出来，在更新
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
         ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
@@ -284,6 +283,8 @@ public class CommodityServiceImpl implements CommodityService {
             ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
             //商品名称
             itemDB.setTitle(itemVO.getTitle());
+            //商品编码
+            itemDB.setCode(itemVO.getCode());
             //价格
             itemDB.setPrice(itemVO.getPriceLong());
             //商品库存

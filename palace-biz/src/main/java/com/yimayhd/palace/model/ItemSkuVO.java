@@ -24,7 +24,9 @@ public class ItemSkuVO extends ItemSkuDO {
     private String mainPic;//sku主图
     private String pcMainPic;//PC版sku主图
     
-    public static ItemSkuDO getItemSkuDO(ItemVO itemVO,ItemSkuVO itemSkuVO){
+    private String itemSkuCode = ""; //sku编码
+
+	public static ItemSkuDO getItemSkuDO(ItemVO itemVO,ItemSkuVO itemSkuVO){
         ItemSkuDO itemSkuDO = new ItemSkuDO();
         BeanUtils.copyProperties(itemSkuVO, itemSkuDO);
         //个性化转换
@@ -53,8 +55,8 @@ public class ItemSkuVO extends ItemSkuDO {
             itemSkuFeature.put(ItemSkuFeatureKey.MAIN_PIC,itemSkuVO.getMainPic());
             itemSkuFeature.put(ItemSkuFeatureKey.PC_MAIN_PIC,itemSkuVO.getMainPic());
         }
-
-
+        
+        itemSkuFeature.put(ItemSkuFeatureKey.ITEM_SKU_CODE, itemSkuVO.getItemSkuCode());
 
         return itemSkuDO;
     }
@@ -70,9 +72,11 @@ public class ItemSkuVO extends ItemSkuDO {
         //分转元
         itemSkuVO.setPriceY(NumUtil.moneyTransformDouble(itemSkuVO.getPrice()));
         //sku主图和PC版sku主图
-        if(itemSkuDO.getItemSkuFeature() != null) {
-            itemSkuVO.setMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
-            itemSkuVO.setPcMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
+        ItemSkuFeature itemSkuFeatrue = itemSkuDO.getItemSkuFeature();
+        if(itemSkuFeatrue != null) {
+            itemSkuVO.setMainPic(itemSkuFeatrue.getMainPic());
+            itemSkuVO.setPcMainPic(itemSkuFeatrue.getMainPic());
+            itemSkuVO.setItemSkuCode(itemSkuFeatrue.getItemSkuCode());
         }
         return itemSkuVO;
     }
@@ -126,6 +130,14 @@ public class ItemSkuVO extends ItemSkuDO {
     public void setPcMainPic(String pcMainPic) {
         this.pcMainPic = pcMainPic;
     }
+    
+	public String getItemSkuCode() {
+		return itemSkuCode;
+	}
+
+	public void setItemSkuCode(String itemSkuCode) {
+		this.itemSkuCode = itemSkuCode;
+	}
 
     public static class ItemSkuVOSort implements Comparator<ItemSkuVO>{
         public int compare(ItemSkuVO o1, ItemSkuVO o2) {
