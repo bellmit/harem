@@ -76,7 +76,7 @@ public class GFCategoryManagerController {
 			String jsonObject = JSONObject.toJSONString(arrayList);
 			
 			LOGGER.info("jsonObject:"+jsonObject);
-			System.out.println("jsonObject:"+jsonObject);
+//			System.out.println("jsonObject:"+jsonObject);
 			
 			model.addAttribute("themeList", jsonObject);
 			return "/system/gfCategory/list";
