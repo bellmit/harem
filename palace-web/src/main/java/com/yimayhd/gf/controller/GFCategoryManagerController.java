@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,12 @@ public class GFCategoryManagerController {
 	public String toAddCategory(ModelMap modelMap,HttpServletRequest request){
 		String parentId = request.getParameter("parentId");
 		GFCategoryVo categoryVo = new GFCategoryVo();
-		categoryVo.setParentId(Integer.parseInt(parentId));
+		if(StringUtils.isNotBlank(parentId)){
+			categoryVo.setParentId(Integer.parseInt(parentId));
+		}else{
+			categoryVo.setParentId(0);
+		}
+		
 		modelMap.put("theme", categoryVo);
 		return "/system/gfCategory/edit";
 	}

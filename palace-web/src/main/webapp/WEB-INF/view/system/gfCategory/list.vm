@@ -97,6 +97,7 @@
 //		alert("nodes="+nodes);
 //		alert("treeNode="+treeNode);
 //		alert("treeNode.id="+treeNode.id);
+//		alert("treeNode.pId="+treeNode.pId);
 		if (treeNode) {
 			zTree.editName(treeNode[0]);
 		} else {
@@ -109,7 +110,11 @@
 			location.href = actionUrl;
 		} else {
 //			treeNode = zTree.addNodes(null, {id:(100 + newCount), pId:0, isParent:isParent, name:"new node" + (newCount++)});
-			var actionUrl = actionDefaultPath +'/GF/CategoryManager/toAddCategory?parentId='+treeNode.pId;
+			if(treeNode.pId==null){
+				var actionUrl = actionDefaultPath +'/GF/CategoryManager/toAddCategory?parentId='+treeNode.id;
+			}else{
+				var actionUrl = actionDefaultPath +'/GF/CategoryManager/toAddCategory?parentId='+treeNode.pId;
+			}
 			location.href = actionUrl;
 		}
 	};
