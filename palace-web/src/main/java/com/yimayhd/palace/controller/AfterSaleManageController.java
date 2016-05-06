@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.palace.model.enums.AfterSaleAuditStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -69,9 +70,14 @@ public class AfterSaleManageController {
     public String list(HttpServletRequest request, Model model, RefundOrderQuery refundOrderQuery){
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? 1 : Integer.parseInt(request.getParameter("pageNumber")) ;
         String bizOrderIdBak = request.getParameter("bizOrderIdBak");
+        String refundOrderIdBak = request.getParameter("refundOrderIdBak");
         if(StringUtils.isNotEmpty(bizOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
             bizOrderIdBak=bizOrderIdBak.trim();
             refundOrderQuery.setBizOrderId(Long.parseLong(bizOrderIdBak));
+        }
+        if(StringUtils.isNotEmpty(refundOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
+            refundOrderIdBak=refundOrderIdBak.trim();
+            refundOrderQuery.setRefundOrderId(Long.parseLong(refundOrderIdBak));
         }
         try {
             refundOrderQuery.setPageNo(pageNumber);
@@ -111,6 +117,8 @@ public class AfterSaleManageController {
 //        	String pics = CommonUtil.list2String(pictures);
         	model.addAttribute("refundPics", JSON.toJSON(pictures));
         }
+        AfterSaleAuditStatus as = refundOrderVO.getAfterSaleAuditStatus();
+        model.addAttribute("afterSaleAuditStatusDesc", as==null?"":as.getDes());
         model.addAttribute("bizType", bizType);
         model.addAttribute("orderShowState", refundOrderVO.getRefundOrderDO().getRefundStatus());
         model.addAttribute("refundOrderDO", refundOrderVO.getRefundOrderDO());

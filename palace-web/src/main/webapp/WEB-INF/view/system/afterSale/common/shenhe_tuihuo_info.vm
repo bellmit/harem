@@ -12,7 +12,7 @@
                     <button type="button" class="btn btn-success">选择图片</button>
                     <input type="file"  name="file" class="fileInp" multiple="multiple" id="FMUploadFileSH" accept="image/png,image/gif">
                     <input type="hidden" name="coverURL" value=""  id="travelBGImgSH">
-                    <p>注：两张以上图片，图片大小不超过4M,<br /></p>
+                    <p>每张图片大小不超过4M，最多5张，支持JPG、PNG、JPEG格式<br /></p>
                 </div>
                 <br><br><br><br>
                 <div id="travelImgIdSH">

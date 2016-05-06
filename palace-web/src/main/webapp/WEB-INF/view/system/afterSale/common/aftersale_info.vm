@@ -79,7 +79,7 @@
 				</p>
 			
 			#else
-				<p class = "info">
+				#*<p class = "info">
 					<em>审核结果：</em>
 					#REFUND_STATUS($!orderShowState)
 				</p>
@@ -100,11 +100,22 @@
 			                #end
 			            #end
 					
-				</p>
+				</p>*#
 				<p class = "info">
-					<em>审核历史：</em>
-					
 						#foreach($as in $!refundOrderDO.refundOperationRecordDOList)
+#*
+							#if($!bizType == 1 )
+								#if($!as.refundStatus ==3 || $!as.refundStatus ==4 || $!as.refundStatus ==8 )
+                                    <div>
+					            <span>审核结果：
+									#REFUND_STATUS($!as.refundStatus)
+					            </span><br>
+					            <span>当前状态：
+									#REFUND_STATUS($!as.refundStatus)
+					            </span><br>
+					            <span>审核时间：
+									$!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
+*#
 					        #if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
 					            $!as.refundStatus ==5 ||
 					            $!as.refundStatus ==6 || $!as.refundStatus ==7)
@@ -120,22 +131,31 @@
 					                </span><br>
 					                <span>审核备注：$!as.auditorRemark</span><br>
 					                <span>审核人：$!as.auditorName</span><br>
-					            <span>买家举证：
-					                #foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
-					                    #if($!arimgs)
-					                        <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
-					                    #end
-					                #end
+								#if($!as.refundStatus ==7 && $!bizType ==2)
+                                    <span>
+#*
+									卖家举证：
+										#foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
+											#if($!arimgs)
+                                                <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+*#
+										#foreach($!rdoList in $!refundOrderDO.refundOperationRecordDOList)
+											#if($!rdoList.refundStatus == 7 )
+                                                卖家举证：
+												#foreach($!arimgs in $!rdoList.pictures)
+													#if($!arimgs)
+                                                        <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+													#end
+												#end
+											#end
+										#end
 					            </span>
-					                <br>
-					                ----------------------------------------------------------------------------
-					                <br>
+								#end
+								<br>----------------------------------------------------------------------------<br>
 					            </div>
 					        #end
 					    #end
-					
 				</p>
-				
 			#end
 			
 		</div>

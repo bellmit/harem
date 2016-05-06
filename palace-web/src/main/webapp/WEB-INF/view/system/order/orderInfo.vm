@@ -132,15 +132,25 @@
                 <th>姓名</th>
                 <th>手机号</th>
                 <th>证件号</th>
-                <th>类型</th>
             </tr>
                 #foreach($tourist in $order.touristList)
                 <tr>
                     <td>$velocityCount</td>
                     <td>$!tourist.contactName</td>
                     <td>$!tourist.contactPhone</td>
-                    <td>$!tourist.certificatesNum</td>
-                    <td>没有</td>
+                    <td>
+                    	#if($!tourist.certificatesType == 1 )
+	               		     身份证
+	               		#elseif($!tourist.certificatesType == 2 )
+	               		护照
+	               		#elseif($!tourist.certificatesType == 3 )
+	               		军人证
+	               		#elseif($!tourist.certificatesType == 4 )
+	               		港澳通行证
+	               		#end
+	               		
+                   	 	$!tourist.certificatesNum
+                   	</td>
                 </tr>
                 #end
         </table>
@@ -168,8 +178,8 @@
                                 <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                             </div>
                             <div class="t-msg">
-                                <div class="t-name">$!subOrderitemTitle</div>
-                                <div class="t-userType">$!subOrder.itemSubTitle</div>
+                                <div class="t-name">$!subOrder.itemTitle</div>
+                                <div class="t-userType">#if("$!subOrder.startDate" == "")  #else  $!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发  #end | $!subOrder.linePackage | $!subOrder.personType</div>
                             </div>
                         </div>
                     </td>

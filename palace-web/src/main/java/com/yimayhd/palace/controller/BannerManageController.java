@@ -71,8 +71,12 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
+//        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
+//            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
+//        }
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
+        model.addAttribute("query",baseQuery);
         return "/system/banner/booth/list";
     }
 
@@ -96,7 +100,7 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/add", method = RequestMethod.POST)
     public String boothAdd(Model model,BoothVO boothVO) throws Exception {
-        boothService.add(boothVO);
+        //boothService.add(boothVO);
         return "success";
     }
 
@@ -266,9 +270,8 @@ public class BannerManageController extends BaseController {
             }else{
                 query.setName(keyWord);
             }
-            //商品详情这里不确定
-            if(null != ItemType.getByName(code)){
-                query.setItemType(ItemType.getByName(code).getValue());
+            if(null != ItemType.getByName(code)){ //商品详情这里不确定
+                query.setItemType(null == ItemType.getByName(code) ? 0 : ItemType.getByName(code).getValue());
             }
             PageVO<ShowCaseItem> page = showcaseService.getItemByItemOptionDTO(query);
             result.put("pageVo", page);

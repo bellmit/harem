@@ -113,7 +113,6 @@
                             订单编号：$!order.jiuxiuTcBizOrder.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.jiuxiuTcBizOrder.createTime)
                         </td>
                     </tr>
-
                         #foreach($subOrder in $order.jiuxiuTcDetailOrders)
                         <tr>
                             <td></td>
@@ -136,7 +135,7 @@
 
                             <td>
                                 <div class="order-number">
-                                    $!subOrder.jiuxiuTcBizOrder.buyAmount
+                                    $!subOrder.bizOrder.buyAmount
                                 </div>
                             </td>
                             

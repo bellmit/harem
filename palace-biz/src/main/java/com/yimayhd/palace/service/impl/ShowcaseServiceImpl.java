@@ -65,6 +65,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -143,20 +144,21 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Override
     public ShowcaseVO saveOrUpdate(ShowcaseVO entity) throws Exception {
         BizResult<ShowcaseVO> result = new BizResult<ShowcaseVO>() ;
-        if(null == entity){
-            throw  new Exception("参数不能为空");
-        }else if(null == entity.getId()){
+        if(null == entity){throw  new Exception("参数不能为空");}
+        ShowcaseDO dbShowcase = null;
+        if(null != entity.getId() ){
+            dbShowcase = getById(entity.getId());
+        }
+        if(null == entity.getId() || null == dbShowcase ){
             entity.setStatus(ShowcaseStauts.OFFLINE.getStatus());//默认下架
             return add(entity);
         }
-        ShowcaseVO sv = getById(entity.getId());
-        if(null == sv){
-            throw  new Exception("查询无数据");
-        }
-        RcResult<Boolean> rcResult = showcaseClientServer.update(entity);
+        //FIXME 余生伟 此处的逻辑有些乱 //dbShowcaseVO.setTitle(entity.getTitle());
+        dbShowcase =  showcaseVoToShowcaseDo(entity,dbShowcase);
+        RcResult<Boolean> rcResult = showcaseClientServer.update(dbShowcase);
         if(null == rcResult || !rcResult.isSuccess()){
             LOGGER.error("saveOrUpdate|showcaseClientServer.update result is " + JSON.toJSONString(rcResult) +",parameter is "+JSON.toJSONString(entity));
-           return null;
+            return null;
         }
         return entity;
     }
@@ -228,12 +230,12 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
     @Override
     public List<OperationDO> getAllOperactions(){
-    	RcResult<List<OperationDO>> result = operationClientServer.getAllOperactions() ;
-    	if( result == null || !result.isSuccess() ){
-    		LOGGER.error("getAllOperactions failed!  result={}",JSON.toJSONString(result));;
-    		return null;
-    	}
-    	return result.getT() ;
+        RcResult<List<OperationDO>> result = operationClientServer.getAllOperactions() ;
+        if( result == null || !result.isSuccess() ){
+            LOGGER.error("getAllOperactions failed!  result={}",JSON.toJSONString(result));;
+            return null;
+        }
+        return result.getT() ;
     }
 
     public PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO)throws Exception{
@@ -318,8 +320,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 sc.setShowType(ItemType.get(type).getText());//显示类别
             }
             sc.setSalerName(null==io.getIcMerchantInfoInfo()?"":io.getIcMerchantInfoInfo().getMerchantName());//卖家名称
-            long pric = NumUtil.doubleToLong(io.getItemDTO().getPrice());
-            sc.setPrice(String.valueOf(pric));//单价
+            String displayPrice = NumUtil.moneyTransform(io.getItemDTO().getPrice());
+            sc.setPrice(displayPrice);//单价
             sc.setShowStatus(ItemStatus.get(io.getItemDTO().getStatus()).getText()); //显示状态
             if(null !=io.getItemDTO().getGmtCreated()){
                 sc.setPushDate(DateFormat.dateFormat(io.getItemDTO().getGmtCreated(),"yyyy-MM-dd"));//发布时间
@@ -330,5 +332,33 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         }
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(itemQryDTO.getPageNo(), itemQryDTO.getPageSize(), result.getTotalCount(), list);
         return page;
+    }
+
+    private ShowcaseDO showcaseVoToShowcaseDo(ShowcaseVO sw,ShowcaseDO sd){
+        if(null == sd ){sd = new ShowcaseDO();}
+        sd.setId(sw.getId());
+        sd.setInfo(sw.getInfo());
+        sd.setTitle(sw.getTitle());
+        sd.setBusinessCode(sw.getBusinessCode());
+        sd.setSummary(sw.getSummary());
+        //sd.setStatus(sw.getStatus());//状态是手动改的
+        //sd.setBoothId(sw.getBoothId());
+        sd.setBoothContent(sw.getBoothContent());
+        sd.setOperationId(sw.getOperationId());
+        sd.setOperationContent(sw.getOperationContent());
+        sd.setContent(sw.getContent());
+        //sd.setShowType(sw.getShowType());
+        sd.setImgUrl(sw.getImgUrl());
+        sd.setSerialNo(sw.getSerialNo());
+        sd.setFeature(sw.getFeature());
+        //sd.setVersion(sw.getVersion());
+        //sd.setAppVersionCode(sw.getAppVersionCode());
+        //sd.setTimingOnDate(sw.getTimingOnDate());
+        //sd.setTimingOffDate(sw.getTimingOffDate());
+        sd.setOnOffTime(sw.getOnOffTime());
+        //sd.setGmtCreated();
+        sd.setGmtModified(new Date());
+        sd.setShowcaseFeature(sw.getShowcaseFeature());
+        return sd;
     }
 }

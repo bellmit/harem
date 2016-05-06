@@ -3,7 +3,6 @@ package com.yimayhd.palace.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
@@ -11,19 +10,19 @@ import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
-import com.yimayhd.palace.util.Common;
-import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
-import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
-import com.yimayhd.tradecenter.client.util.SkuUtils;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -55,6 +54,8 @@ public class JiuxiuOrderManageController extends BaseController {
     private SessionManager sessionManager;
 	@Autowired
 	private UserService userServiceRef;
+	@Autowired
+	private MerchantService userMerchantServiceRef;
 
 	
 	/**
@@ -72,6 +73,13 @@ public class JiuxiuOrderManageController extends BaseController {
 			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
 			if(result.isSuccess() && null!=result.getTcMainOrder()){
 				TcMainOrder tcMainOrder = result.getTcMainOrder();
+				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(tcMainOrder.getBizOrder().getSellerId(), Constant.DOMAIN_JIUXIU);
+				TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
+				if(null!= merchantUserDTO.getValue() && null!= merchantUserDTO.getValue().getMerchantDO()){
+					tcMerchantInfo.setMerchantName(merchantUserDTO.getValue().getMerchantDO().getName());
+					tcMerchantInfo.setMerchantId(merchantUserDTO.getValue().getMerchantDO().getId());
+				}
+				tcMainOrder.setMerchantInfo(tcMerchantInfo);
 				model.addAttribute("order", tcMainOrder);
 				UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
 				model.addAttribute("phone", buyer.getMobileNo());
@@ -83,10 +91,11 @@ public class JiuxiuOrderManageController extends BaseController {
 						boolean isUserTalent = UserOptions.USER_TALENT.has(seller.getOptions());
 						boolean isCommercialTenant = UserOptions.COMMERCIAL_TENANT.has(seller.getOptions());
 						if(isUserTalent){
-							model.addAttribute("talent", tcMainOrder.getBizOrder()==null?"": tcMainOrder.getBizOrder().getSellerNick());
+							//model.addAttribute("talent", tcMainOrder.getBizOrder()==null?"": tcMainOrder.getBizOrder().getSellerNick());
+							model.addAttribute("talent", seller.getNickname());
 						}
 						if(isCommercialTenant){
-							model.addAttribute("merchant", seller.getNickname());
+							model.addAttribute("merchant", tcMainOrder.getMerchantInfo() == null? "" : tcMainOrder.getMerchantInfo().getMerchantName());
 						}
 					}
 					//获取卖家备注
@@ -95,6 +104,7 @@ public class JiuxiuOrderManageController extends BaseController {
 					bizOrderDO.setBizOrderId(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBizOrderId());
 					model.addAttribute("sellerMsg", BizOrderUtil.getSellerMemo(bizOrderDO));
 				}
+				
 			}
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
