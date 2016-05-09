@@ -34,7 +34,6 @@
                 </tr>
                 #foreach($order in $orderList)
                 	#set($bizOrder = $!order.bizOrderDO )
-                    <tr></tr>
                     <tr class="order-item-label">
                         <td><input class="subChecked" type="checkbox" value="$!bizOrder.bizOrderId"></td>
                         <td colspan="8" align="left">
@@ -45,8 +44,8 @@
 
 					#set($size = $order.subOrderList.size() )
                     #foreach($subOrder in $order.subOrderList)
-
 	                    <tr class="chooseTr" >
+						<!-- 这里是判断子订单的-->
 	                    	#if( $velocityCount == 1 )
 	                        	<td rowspan="$size"></td>
 	                        #end
@@ -69,13 +68,13 @@
 		                            <div class="txt">$!order.user.mobileNo</div>
 		                        </td>
 	                            <td rowspan="$size">
-									##$!order.orderShowState
-	                            	#ORDERS_STATUS($!order.orderShowState)
-	                            	
-	                            </td>
-	                            <td rowspan="$size">
-	                            	￥$!utilNum.moneyTransform($!bizOrder.actualTotalFee)
-	                            </td>
+									#if(0 != $!subOrder.bizOrderDO.refundStatus )
+										#GFTRADEREFUNDSTATUS($!subOrder.bizOrderDO.refundStatus)
+                                    #else
+										#ORDERS_STATUS($!order.orderShowState)
+									#end
+								</td>
+								<td rowspan="$size">￥$!utilNum.moneyTransform($!bizOrder.actualTotalFee)</td>
 	                            <td rowspan="$size">
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
 		                            #if($order.orderShowState == 2)
@@ -92,9 +91,9 @@
 		                                </button>
 		                            #end
 		                        </td>
+							</tr>
 	                        #end
 	                    #end
-	                </tr>
                 #end
             </tbody>
             </table>

@@ -35,4 +35,5 @@ public class Constant {
 	public static final String AFTERSALE_PIC_POSTFIX_ERR = "仅支持jpg，png，jpeg格式图片";
 	public static final String[] AFTERSALE_PIC_POSTFIX = new String[]{"jpg","jpeg","png","JPG","JPEG","PNG"};
 
+	public static final String GF_ORDER_CLOSE = "CLOSE" ;
 }
