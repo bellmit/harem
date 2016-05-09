@@ -1,5 +1,6 @@
 package com.yimayhd.palace.convert;
 
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.enums.OrderActionStatus;
 import com.yimayhd.palace.model.enums.OrderShowStatus;
 import com.yimayhd.palace.model.query.OrderListQuery;
@@ -104,6 +105,13 @@ public class OrderConverter {
             }else if (orderState.equals(PayStatus.NOT_PAY_CLOSE.toString())){
                 int [] payStatus = {PayStatus.NOT_PAY_CLOSE.getStatus(),PayStatus.REFUNDED.getStatus()};
                 orderQueryDTO.setPayStatuses(payStatus);
+            }else if(Constant.GF_ORDER_CLOSE.equals(orderListQuery.getOrderStat())){//处理GF的交易关闭
+                orderQueryDTO.setPayStatuses(new int[]{PayStatus.REFUNDED.getStatus(),PayStatus.SUCCESS.getStatus(),PayStatus.NOT_PAY_CLOSE.getStatus()});
+            }else if(PayStatus.PAID.toString().equals(orderListQuery.getOrderStat())){//待发货
+                int [] payStatus = {PayStatus.PAID.getStatus()};//2
+                int [] logisticsStatuses = {LogisticsStatus.UNCONSIGNED.getStatus(),LogisticsStatus.NO_LG_ORDER.getStatus()};//1,4
+                orderQueryDTO.setPayStatuses(payStatus);
+                orderQueryDTO.setLogisticsStatuses(logisticsStatuses);
             }
         }
         //买家userId
