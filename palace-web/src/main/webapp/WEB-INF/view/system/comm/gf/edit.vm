@@ -545,8 +545,8 @@
         var trBody = '';
 
         for(var i = 0;i < skuPropertyShowAll.length;i++){
-           
-            trBody += '<td><input class="itemSkuCode" type="text" value="'+ skuPropertyShowAll[i]['itemSkuCode'] +'"></td>';
+            trBody += '<tr class="skuTbEdit" skuTrId="' + skuPropertyShowAll[i]['id'] + '">';
+            
             for(var j = 0;j < skuPropertyShowAll[i]['itemSkuPVPairList'].length; j++){
                 if(i % tdRowSpanNumArr[j] === 0){
                     trBody += '<td rowspan="' + tdRowSpanNumArr[j] + '"><span>' + skuPropertyShowAll[i]['itemSkuPVPairList'][j]["vTxt"] + '</span></td>';
@@ -554,7 +554,8 @@
             }
             trBody += '<td><input class="price" type="text" value="' + skuPropertyShowAll[i]['priceY'] + '"></td>';
             trBody += '<td><input class="stock" type="text" value="' + skuPropertyShowAll[i]['stockNum'] + '"></td>';
-            trBody += '<tr class="skuTbEdit" skuTrId="' + skuPropertyShowAll[i]['id'] + '">';
+            trBody += '<td><input class="itemSkuCode" type="text" value="'+ skuPropertyShowAll[i]['itemSkuCode'] +'"></td>';
+            
             var imgUrl = '';
             var imgVal = '';
             if(skuPropertyShowAll[i]['mainPic']){
@@ -612,19 +613,6 @@
                 }
             });
         })
-        $(document).delegate(".itemSkuCode",'change',function(){
-            var index = $(this).parents('.skuTbEdit').index();
-            var i = 0;
-            for(var j = 0; j < skuPropertyAll.length;j++){
-                if(skuPropertyAll[j]['checked']){
-                    i += 1;
-                    if(i == index + 1){
-                        skuPropertyAll[j]['itemSkuCode'] = $(this).val();
-                        skuPropertyAll[j]['modifyStatus'] = true;
-                    }
-                }
-            }
-        })
         $(document).delegate(".stock",'change',function(){
             var index = $(this).parents('.skuTbEdit').index();
             var i = 0;
@@ -652,6 +640,19 @@
                 }
             }
 
+        })
+        $(document).delegate(".itemSkuCode",'change',function(){
+            var index = $(this).parents('.skuTbEdit').index();
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['itemSkuCode'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
         })
 
         //初始化时构建sku属性数组
