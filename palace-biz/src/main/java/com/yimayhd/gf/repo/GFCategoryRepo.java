@@ -106,7 +106,7 @@ public class GFCategoryRepo {
 			categoryUpdateDTO.setPriority(gfCategoryVo.getPriority());
 			categoryUpdateDTO.setSellerId(gfCategoryVo.getSellerId());
 			categoryUpdateDTO.setStatus(gfCategoryVo.getStatus());
-			
+			categoryUpdateDTO.setParentId(gfCategoryVo.getParentId());
 			baseResult = comCategoryService.updateCategory(categoryUpdateDTO);
 			if(baseResult.isSuccess()){
 				return baseResult;

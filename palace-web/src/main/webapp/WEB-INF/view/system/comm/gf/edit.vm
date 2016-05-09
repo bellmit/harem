@@ -61,6 +61,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><span class="spColor">*</span>商品编码</td>
+                        <td>
+                            <input class="code" type="text" name="code" value="$!commodity.code">
+                        </td>
+                    </tr>
+                    <tr>
                         <td><span class="spColor">*</span>商品价格</td>
                         <td>
                             <input class="priceY" type="text" name="priceY" value="$!commodity.priceY">
@@ -234,9 +240,9 @@
                         #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
                             <th><span>$!sellCategoryProperty.categoryPropertyVO.text</span></th>
                         #end
-
                             <th><span>价格</span></th>
                             <th><span>数量</span></th>
+                            <th><span>商品编码</span></th>
                             <th><span>图片</span></th>
                         </thead>
                         #foreach($itemSkuVO in $commodity.itemSkuVOList)
@@ -251,6 +257,7 @@
                                 #end
                                 <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
                                 <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
+                                <td><input class="itemSkuCode" type="text" value="$!itemSkuVO.itemSkuCode"></td>
                                 <td>
                                     <label>选择图片</label>
                                     <input class="uploadMainPicFile" type="file">
@@ -356,6 +363,17 @@
         if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';
         }
+        
+        $('.code').each(function(){
+        	var codeVal = $(this).val();
+            if(!codeVal || !/[0-9a-zA-Z]{20}/.test(codeVal)){
+            	msg = '商品编码为20位字母及数字-1';
+            }
+            if(/[0-9]{20}/.test(codeVal) || /[a-zA-Z]{20}/.test(codeVal)){
+            	msg = '商品编码为20位字母及数字-2';
+            }
+        });
+        
         if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
             return '请输入正确的库存';
         }
@@ -400,6 +418,17 @@
         if(!skuTableShowFlag){
             return '您需要选择所有的销售属性，才能组合成完整的规格信息。';
         }
+        
+        $('.itemSkuCode').each(function(){
+        	var skuCodeVal = $(this).val();
+            if(!skuCodeVal || !/[0-9a-zA-Z]{20}/.test(skuCodeVal)){
+            	msg = '商品编码为20位字母及数字';
+            }
+            if(/[0-9]{20}/.test(skuCodeVal) || /[a-zA-Z]{20}/.test(skuCodeVal)){
+            	msg = '商品编码为20位字母及数字';
+            }
+        });
+        
         $('.price').each(function(){
             if(!$(this).val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($(this).val())){
                 msg = '请检查sku价格格式';
@@ -508,14 +537,16 @@
             titleTrBody += '<th><span>' +skuProperty[i]["pTxt"]+ '</span></th>';
         }
         titleTrBody += '<th><span>价格</span></th>';
-        titleTrBody += '<th><span>数量</span></th>'
-        titleTrBody += '<th><span>图片</span></th>'
+        titleTrBody += '<th><span>数量</span></th>';
+        titleTrBody += '<th><span>商品编码</span></th>';
+        titleTrBody += '<th><span>图片</span></th>';
         titleTrBody += '</thead>';
         titleTrBody += '</tr>';
         var trBody = '';
 
         for(var i = 0;i < skuPropertyShowAll.length;i++){
             trBody += '<tr class="skuTbEdit" skuTrId="' + skuPropertyShowAll[i]['id'] + '">';
+            
             for(var j = 0;j < skuPropertyShowAll[i]['itemSkuPVPairList'].length; j++){
                 if(i % tdRowSpanNumArr[j] === 0){
                     trBody += '<td rowspan="' + tdRowSpanNumArr[j] + '"><span>' + skuPropertyShowAll[i]['itemSkuPVPairList'][j]["vTxt"] + '</span></td>';
@@ -523,6 +554,8 @@
             }
             trBody += '<td><input class="price" type="text" value="' + skuPropertyShowAll[i]['priceY'] + '"></td>';
             trBody += '<td><input class="stock" type="text" value="' + skuPropertyShowAll[i]['stockNum'] + '"></td>';
+            trBody += '<td><input class="itemSkuCode" type="text" value="'+ skuPropertyShowAll[i]['itemSkuCode'] +'"></td>';
+            
             var imgUrl = '';
             var imgVal = '';
             if(skuPropertyShowAll[i]['mainPic']){
@@ -607,6 +640,19 @@
                 }
             }
 
+        })
+        $(document).delegate(".itemSkuCode",'change',function(){
+            var index = $(this).parents('.skuTbEdit').index();
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['itemSkuCode'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
         })
 
         //初始化时构建sku属性数组

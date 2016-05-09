@@ -424,19 +424,21 @@
 
 #macro(ORDERS_STATUS $status)
     #if($!status == 1)
-        未付款
+        待付款
     #elseif($!status == 2)
-        已付款
+        待发货
     #elseif($!status == 3)
-        已发货
+       待收货
     #elseif($!status == 4)
-        交易成功
+        已完成
     #elseif($!status == 5)
         交易关闭
     #elseif($!status == 6)
         待处理
     #elseif($!status == 7)
         已退款
+    #elseif($!status == 8)
+        待评价
     #end
 #end
 
@@ -462,6 +464,27 @@
     空包裹/少货
     #elseif($!type==6)
     其他
+    #end
+
+#end
+
+
+
+#macro(GFTRADEREFUNDSTATUS $status)
+    #if($!status==0)
+        未退款
+    #elseif($!status==1)
+        退款已申请
+    #elseif($!status==2)
+        退款中
+    #elseif($!status==3)
+        退款失败
+    #elseif($!status==4)
+        退款成功
+    #elseif($!status==5)
+        退款退货中
+    #elseif($!status==6)
+        用户已撤销售后申请
     #end
 
 #end
