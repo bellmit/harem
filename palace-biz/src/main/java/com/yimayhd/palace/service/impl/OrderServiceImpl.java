@@ -131,7 +131,8 @@ public class OrderServiceImpl implements OrderService {
 				for (BizOrderDO bizOrderDO : list) {
 					MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
 					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
-					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId());
+					//FIXME
+					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId(), false);
 					mo.setUser(user);
 					mainOrderList.add(mo);
 				}
