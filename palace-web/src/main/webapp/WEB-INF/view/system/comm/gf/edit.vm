@@ -242,7 +242,7 @@
                         #end
                             <th><span>价格</span></th>
                             <th><span>数量</span></th>
-                            <th><span>商品编码</span></th>
+                            <th><span class="spColor">*</span><span>商品编码</span></th>
                             <th><span>图片</span></th>
                         </thead>
                         #foreach($itemSkuVO in $commodity.itemSkuVOList)
@@ -360,19 +360,14 @@
         }else if($('.title').val().length > 20){
             return '商品名称不能超过20个字';
         }
+
+        if(!$('.code').val() || !/^[0-9a-zA-Z]{1,20}$/.test($('.code').val())){
+        	return '商品编码为20位以内的字母或数字';
+        }
+        
         if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';
         }
-        
-        $('.code').each(function(){
-        	var codeVal = $(this).val();
-            if(!codeVal || !/[0-9a-zA-Z]{20}/.test(codeVal)){
-            	msg = '商品编码为20位字母及数字-1';
-            }
-            if(/[0-9]{20}/.test(codeVal) || /[a-zA-Z]{20}/.test(codeVal)){
-            	msg = '商品编码为20位字母及数字-2';
-            }
-        });
         
         if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
             return '请输入正确的库存';
@@ -420,12 +415,8 @@
         }
         
         $('.itemSkuCode').each(function(){
-        	var skuCodeVal = $(this).val();
-            if(!skuCodeVal || !/[0-9a-zA-Z]{20}/.test(skuCodeVal)){
-            	msg = '商品编码为20位字母及数字';
-            }
-            if(/[0-9]{20}/.test(skuCodeVal) || /[a-zA-Z]{20}/.test(skuCodeVal)){
-            	msg = '商品编码为20位字母及数字';
+            if(!$(this).val() || !/^[0-9a-zA-Z]{1,20}$/.test($(this).val())){
+            	msg = '商品编码为20位以内的字母或数字';
             }
         });
         
@@ -538,7 +529,7 @@
         }
         titleTrBody += '<th><span>价格</span></th>';
         titleTrBody += '<th><span>数量</span></th>';
-        titleTrBody += '<th><span>商品编码</span></th>';
+        titleTrBody += '<th><span class="spColor">*</span><span>商品编码</span></th>';
         titleTrBody += '<th><span>图片</span></th>';
         titleTrBody += '</thead>';
         titleTrBody += '</tr>';
