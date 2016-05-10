@@ -130,6 +130,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 			if (!CollectionUtils.isEmpty(list)){
 				for (BizOrderDO bizOrderDO : list) {
+					//TODO:这里转换的话，需要判断查询条件传过来的订单状态是什么，然后过滤掉相应的数据
 					MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
 					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
 					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId());

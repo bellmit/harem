@@ -108,6 +108,7 @@ public class OrderConverter {
             }else if(Constant.GF_ORDER_CLOSE.equals(orderListQuery.getOrderStat())){//处理GF的交易关闭
                 orderQueryDTO.setPayStatuses(new int[]{PayStatus.REFUNDED.getStatus(),PayStatus.SUCCESS.getStatus(),PayStatus.NOT_PAY_CLOSE.getStatus()});
             }else if(PayStatus.PAID.toString().equals(orderListQuery.getOrderStat())){//待发货
+                orderQueryDTO.setRefundStatuses(new int[]{RefundStatus.NOT_REFUND.getStatus()});
                 int [] payStatus = {PayStatus.PAID.getStatus()};//2
                 int [] logisticsStatuses = {LogisticsStatus.UNCONSIGNED.getStatus(),LogisticsStatus.NO_LG_ORDER.getStatus()};//1,4
                 orderQueryDTO.setPayStatuses(payStatus);
