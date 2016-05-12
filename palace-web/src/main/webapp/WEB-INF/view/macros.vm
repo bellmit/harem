@@ -465,26 +465,38 @@
     #elseif($!type==6)
     其他
     #end
-
 #end
 
-
+#macro(TcPayChannel $type)
+    #if($!type==1)
+        支付宝条码
+    #elseif($!type==2)
+        支付宝网页
+    #elseif($!type==3)
+        支付宝手机
+    #elseif($!type==4)
+        微信支付
+    #elseif($!type==5)
+        支付宝WAP
+    #elseif($!type==6)
+        其他
+    #end
+#end
 
 #macro(GFTRADEREFUNDSTATUS $status)
     #if($!status==0)
-        未退款
+    未退款
     #elseif($!status==1)
-        退款已申请
+    退款已申请
     #elseif($!status==2)
-        退款中
+    退款中
     #elseif($!status==3)
-        退款失败
+    退款失败
     #elseif($!status==4)
-        退款成功
+    退款成功
     #elseif($!status==5)
-        退款退货中
+    退款退货中
     #elseif($!status==6)
-        用户已撤销售后申请
+    用户已撤销
     #end
-
 #end
