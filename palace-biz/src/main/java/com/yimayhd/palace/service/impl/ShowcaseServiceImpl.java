@@ -143,17 +143,20 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Override
     public ShowcaseVO saveOrUpdate(ShowcaseVO entity) throws Exception {
-        BizResult<ShowcaseVO> result = new BizResult<ShowcaseVO>() ;
-        if(null == entity){throw  new Exception("参数不能为空");}
-        ShowcaseDO dbShowcase = null;
-        if(null != entity.getId() ){
-            dbShowcase = getById(entity.getId());
+
+        if(null == entity){
+            throw  new Exception("参数不能为空");
         }
-        if(null == entity.getId() || null == dbShowcase ){
+
+        if(null == entity.getId() ){
             entity.setStatus(ShowcaseStauts.OFFLINE.getStatus());//默认下架
             return add(entity);
         }
-        //FIXME 余生伟 此处的逻辑有些乱 //dbShowcaseVO.setTitle(entity.getTitle());
+
+        ShowcaseDO dbShowcase =  getById(entity.getId());
+        if(null == dbShowcase ){
+            throw  new Exception("查询无数据");
+        }
         dbShowcase =  showcaseVoToShowcaseDo(entity,dbShowcase);
         RcResult<Boolean> rcResult = showcaseClientServer.update(dbShowcase);
         if(null == rcResult || !rcResult.isSuccess()){
@@ -336,29 +339,47 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     private ShowcaseDO showcaseVoToShowcaseDo(ShowcaseVO sw,ShowcaseDO sd){
         if(null == sd ){sd = new ShowcaseDO();}
-        sd.setId(sw.getId());
-        sd.setInfo(sw.getInfo());
-        sd.setTitle(sw.getTitle());
-        sd.setBusinessCode(sw.getBusinessCode());
-        sd.setSummary(sw.getSummary());
-        //sd.setStatus(sw.getStatus());//状态是手动改的
-        //sd.setBoothId(sw.getBoothId());
-        sd.setBoothContent(sw.getBoothContent());
+        if(StringUtils.isNotEmpty(sw.getInfo())){
+            sd.setInfo(sw.getInfo());
+        }
+        if(StringUtils.isNotEmpty(sw.getTitle())){
+            sd.setTitle(sw.getTitle());
+        }
+        if(StringUtils.isNotEmpty(sw.getBusinessCode())){
+            sd.setBusinessCode(sw.getBusinessCode());
+        }
+        if(StringUtils.isNotEmpty(sw.getSummary())){
+            sd.setSummary(sw.getSummary());
+        }
+        if(StringUtils.isNotEmpty(sw.getBoothContent())){
+            sd.setBoothContent(sw.getBoothContent());
+        }
+        if(StringUtils.isNotEmpty(sw.getOperationContent())){
+            sd.setOperationContent(sw.getOperationContent());
+        }
+        if(StringUtils.isNotEmpty(sw.getImgUrl())){
+            sd.setImgUrl(sw.getImgUrl());
+        }
+        if(StringUtils.isNotEmpty(sw.getFeature())){
+            sd.setFeature(sw.getFeature());
+        }
+        if(StringUtils.isNotEmpty(sw.getContent())){
+            sd.setContent(sw.getContent());
+        }
+        sd.setShowcaseFeature(sw.getShowcaseFeature());
+        sd.setStatus(sw.getStatus());//状态是手动改的
         sd.setOperationId(sw.getOperationId());
-        sd.setOperationContent(sw.getOperationContent());
-        sd.setContent(sw.getContent());
-        //sd.setShowType(sw.getShowType());
-        sd.setImgUrl(sw.getImgUrl());
         sd.setSerialNo(sw.getSerialNo());
-        sd.setFeature(sw.getFeature());
+        sd.setGmtModified(new Date());
+        //sd.setId(sw.getId());
+        //sd.setShowType(sw.getShowType());
+        //sd.setBoothId(sw.getBoothId());
         //sd.setVersion(sw.getVersion());
         //sd.setAppVersionCode(sw.getAppVersionCode());
         //sd.setTimingOnDate(sw.getTimingOnDate());
         //sd.setTimingOffDate(sw.getTimingOffDate());
-        sd.setOnOffTime(sw.getOnOffTime());
+        //sd.setOnOffTime(sw.getOnOffTime());
         //sd.setGmtCreated();
-        sd.setGmtModified(new Date());
-        sd.setShowcaseFeature(sw.getShowcaseFeature());
         return sd;
     }
 }

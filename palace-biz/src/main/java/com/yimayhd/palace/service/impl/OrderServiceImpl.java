@@ -227,6 +227,7 @@ public class OrderServiceImpl implements OrderService {
 				//FIXME 此处为测试信息。需要改为正式信息。
 				taskInfoRequestDTO.setNumber("227326133769");
 				taskInfoRequestDTO.setCompany("shentong");
+
 				BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
 				if (lgResult.isSuccess() && lgResult.getValue()!=null){
 					orderDetails.setExpress(lgResult.getValue());
