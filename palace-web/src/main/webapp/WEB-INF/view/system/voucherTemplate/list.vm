@@ -17,6 +17,18 @@
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
                     <input type="text" class='form-control form-date endDate dateInp' readonly name="endDate" value="$!voucherListQuery.endDate">
                 </div>
+                
+                 <div class="input-group inpSingle">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">发放方式：</button>
+                        </span>
+                        <select class="form-control" name="issueType">
+                            <option value="">请选择</option>
+                            <option value="1" #if($!voucherListQuery.issueType == 1) selected #end>绑定生成</option>
+                            <option value="2" #if($!voucherListQuery.issueType == 2) selected #end>预先生成</option>
+                        </select>
+                </div>
+                
                 <div class="input-group inpSingle">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">状态：</button>
@@ -44,11 +56,13 @@
             <table class="table table-hover">
                 <tr>
                     <th>序号</th>
-                    <th>优惠券标题</th>
-                    <th>优惠券类型</th>
-                    <th>券金额</th>
-                    <th>有效期</th>
+                    <th>优惠劵批次</th>
+                    <th>类型</th>
+                    <th>生成状态</th>
+                    <th>发劵方式</th>
+                    <th>金额</th>
                     <th>状态</th>
+                    <th>有效期</th>
                     <th>创建时间</th>
                     <th>操作人</th>
                     <th>操作</th>
@@ -58,16 +72,48 @@
                         <td>$!velocityCount</td>
                         <td>$!voucher.title</td>
                         <td>#VOUCHER_TYPE($!voucher.voucherType)</td>
-                        <td>￥$!voucher.value</td>
-                        <td>$!utilDate.dateToString($!voucher.startTime,"yyyy-MM-dd") 至 $!utilDate.dateToString($!voucher.endTime,"yyyy-MM-dd")</td>
                         <td>#VOUCHER_STATUS($!voucher.status)</td>
+                        <td>
+                        	#if($!voucher.issueType == "1")
+                        	绑定生成
+                        	#elseif($!voucher.issueType == "2")
+                        	预先生成
+                        	#end
+						</td>
+                        <td>￥$!voucher.value</td>
+                        <td>
+                        	#if($!voucher.status == "1")
+                        	初始化
+                        	#elseif($!voucher.status == "2")
+                        	上架
+                        	#elseif($!voucher.status == "3")
+                        	下架
+                        	#elseif($!voucher.status == "4")
+                        	已领完
+                        	#elseif($!voucher.status == "5")
+                        	已过期
+                        	#elseif($!voucher.status == "6")
+                        	生成中
+                        	#end
+                        </td>
+                        <td>$!utilDate.dateToString($!voucher.startTime,"yyyy-MM-dd") 至 $!utilDate.dateToString($!voucher.endTime,"yyyy-MM-dd")</td>
+                       
                         <td>$!utilDate.dateToString($!voucher.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>$!voucher.operator</td>
                         <td>
-                            <button type="button" class="btn btn-primary themeStop" joinStatus="$voucher.status" tripId="$voucher.id">
-                                #if($!voucher.status == 3) 上架  #elseif($!voucher.status == 2)  下架  #end
-                            </button>
-                            <button type="button" class="btn btn-primary themeDetail" themeId="$voucher.id">编辑</button></td>
+                       		 #if($!voucher.status == 3 || $!voucher.status == 2 || $!voucher.status == 1)
+	                            <button type="button" class="btn btn-primary themeStop" joinStatus="$voucher.status" tripId="$voucher.id">
+	                                #if($!voucher.status == 3 || $!voucher.status == 1) 上架  #elseif($!voucher.status == 2)  下架  #end
+	                            </button>
+	                         #end
+                            #if($!voucher.status == 1)
+                            	<button type="button" class="btn btn-primary themeDetail" themeId="$voucher.id">编辑</button>
+                            #end
+                            <button type="button" class="btn btn-primary themeSee" themeId="$voucher.id">查看</button>
+                            #if($!voucher.issueType == 2 && $!voucher.status == 2 )
+                            	<button type="button" class="btn btn-primary themeExport" themeId="$voucher.id">导出</button>
+                            #end
+                        </td>
                     </tr>
                     #end
             </table>
@@ -101,6 +147,13 @@
             top.tabsAdd("",url,2,$(this).text());
         });
     });
+    
+     $('.themeSee').each(function(){
+        $(this).click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/voucherManage/edit/'+ $(this).attr('themeId')+'?edit=0';
+            top.tabsAdd("",url,2,$(this).text());
+        });
+    });
 
     $(".form-date").datetimepicker(
             {
@@ -122,6 +175,13 @@
     });
 
     $(function(){
+    	$('.themeExport').each(function(){
+	        $(this).click(function(){
+	            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/voucherManage/export/'+ $(this).attr('themeId');
+	            window.location = url;
+	        });
+	    });
+    	
         $('#btnSubmit').click(function(){
             if($('.startDate').val() && $('.endDate').val()){
                 if($('.startDate').val() > $('.endDate').val()){

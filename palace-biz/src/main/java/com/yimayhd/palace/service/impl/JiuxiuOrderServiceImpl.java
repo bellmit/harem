@@ -45,57 +45,6 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 	@Override
 	public BatchJiuxiuOrderResult getOrderList(JiuxiuOrderListQuery jiuxiuOrderListQuery) throws Exception {
 		OrderQueryDTO dto = new OrderQueryDTO();
-		dto.setDomain(Constant.DOMAIN_JIUXIU);
-		dto.setPageNo(jiuxiuOrderListQuery.getPageNumber());
-		dto.setPageSize(jiuxiuOrderListQuery.getPageSize());
-//		dto.setSellerId(sessionManager.getUserId());
-		//商品类型
-		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getItemType())){
-			dto.setOrderBizTypes(new int[]{Integer.parseInt(jiuxiuOrderListQuery.getItemType())});
-		}
-		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getItemName())){
-			dto.setItemName(jiuxiuOrderListQuery.getItemName());
-		}
-		
-		//订单编号
-		List<Long> bizOrderIds = new ArrayList<Long>();
-		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getOrderNO()) && Common.regularMatches("[0-9]{1,}", jiuxiuOrderListQuery.getOrderNO().trim())){
-			bizOrderIds.add(Long.parseLong(jiuxiuOrderListQuery.getOrderNO().trim()));
-			dto.setBizOrderIds(bizOrderIds);
-		}
-		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getBeginDate())){
-            try {
-            	dto.setStartDate(DateUtil.convertStringToDate(jiuxiuOrderListQuery.getBeginDate()));
-            } catch (ParseException e) {
-            	log.error("dto.setStartDate(DateUtil.convertStringToDate(jiuxiuOrderListQuery.getBeginDate())); Exception:" + e);
-                e.printStackTrace();
-            }
-        }
-		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getEndDate())){
-            try {
-            	dto.setEndDate(DateUtil.convertStringToDate(jiuxiuOrderListQuery.getEndDate()));
-            } catch (ParseException e) {
-            	log.error("dto.setStartDate(DateUtil.convertStringToDate(jiuxiuOrderListQuery.getBeginDate())); Exception:" + e);
-                e.printStackTrace();
-            }
-        }
-		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getBuyerPhone())){
-			dto.setPhone(jiuxiuOrderListQuery.getBuyerPhone());
-		}
-		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getBuyerName())){
-			dto.setBuyerNick(jiuxiuOrderListQuery.getBuyerName());
-		}
-		//订单状态
-		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getOrderStat())){
-			dto.setBizOrderStatus(Integer.parseInt(jiuxiuOrderListQuery.getOrderStat()));
-		}
-		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantName())){
-			dto.setMerchantName(jiuxiuOrderListQuery.getMerchantName());
-		}
-		//商户编号
-		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantNo())){
-			dto.setSellerId(Long.parseLong(jiuxiuOrderListQuery.getMerchantNo()));
-		}
 		
 		JiuxiuHelper.fillOrderQueryDTO(dto, jiuxiuOrderListQuery);
 		
