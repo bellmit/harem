@@ -231,7 +231,7 @@ public class OrderServiceImpl implements OrderService {
 				if(null != log && StringUtils.isNotEmpty(log.getExpressNo()) ){
 					TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
 					taskInfoRequestDTO.setNumber(log.getExpressNo());
-					taskInfoRequestDTO.setCompany(log.getExpressCompany());
+					taskInfoRequestDTO.setCompany(StringUtils.isEmpty(log.getExpressCompany()) ? "" : log.getExpressCompany());
 					BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
 					if (lgResult.isSuccess() && lgResult.getValue()!=null){
 						orderDetails.setExpress(lgResult.getValue());
