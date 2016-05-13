@@ -8,6 +8,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.enums.AfterSaleAuditStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -116,6 +119,8 @@ public class AfterSaleManageController {
 //        	String pics = CommonUtil.list2String(pictures);
         	model.addAttribute("refundPics", JSON.toJSON(pictures));
         }
+        AfterSaleAuditStatus as = refundOrderVO.getAfterSaleAuditStatus();
+        model.addAttribute("afterSaleAuditStatusDesc", as==null?"":as.getDes());
         model.addAttribute("bizType", bizType);
         model.addAttribute("orderShowState", refundOrderVO.getRefundOrderDO().getRefundStatus());
         model.addAttribute("refundOrderDO", refundOrderVO.getRefundOrderDO());
@@ -144,13 +149,23 @@ public class AfterSaleManageController {
         String tkje = request.getParameter("stje");
         String shdz = request.getParameter("shdz");
         String auditorRemark = request.getParameter("auditorRemark");
-        String pictures = request.getParameter("pictures");
-
+        String pictures[] = request.getParameterValues("pictures[]");
         UserDO user = sessionManager.getUser();
         if(null == user){
             return new ResponseVo(ResponseStatus.UNAUTHORIZED);
         }
         ExamineRefundOrderDTO ero = new ExamineRefundOrderDTO();
+        if(null != pictures  ){
+            if(pictures.length > 5){
+                return new ResponseVo(Constant.ERROR_STATUS,Constant.AFTERSALE_PIC_MAX_ERR);
+            }
+            for (String str:pictures) {//TODO:这里是不太好的，文件已经上传上去了，在filegw里面就应该处理好，传图片的就只能传图片
+                if(!Arrays.asList(Constant.AFTERSALE_PIC_POSTFIX).contains(str)){//文件后缀不匹配
+                    return new ResponseVo(Constant.ERROR_STATUS,Constant.AFTERSALE_PIC_POSTFIX_ERR);
+                }
+            }
+            ero.setPictures(Arrays.asList(pictures));
+        }
         ero.setRefundStatus(refundStatus);
         ero.setAuditorId(user.getId());
         ero.setAuditorName(user.getName());
@@ -159,14 +174,6 @@ public class AfterSaleManageController {
         ero.setAuditorRemark(auditorRemark);
         if(StringUtils.isNotEmpty(tkje) ){//&& NumberUtils.isNumber(tkje)
             ero.setRefundActualFee( NumUtil.doubleToLong(Double.parseDouble(tkje)));//NumberUtils.toLong(tkje)
-        }
-        if(StringUtils.isNotBlank(pictures)){
-        	String[] picArr = pictures.split(",");
-        	System.out.println(picArr);
-        	
-        	List<String> asList = Arrays.asList(picArr);
-        	System.out.println(asList);
-            ero.setPictures(Arrays.asList(picArr));
         }
         ExamineRefundOrderResult result = afterSaleService.examineRefundOrder(ero);
         if(null == result ){

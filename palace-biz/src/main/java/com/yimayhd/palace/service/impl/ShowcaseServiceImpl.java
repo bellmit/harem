@@ -65,6 +65,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -142,27 +143,25 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Override
     public ShowcaseVO saveOrUpdate(ShowcaseVO entity) throws Exception {
-        BizResult<ShowcaseVO> result = new BizResult<ShowcaseVO>() ;
+
         if(null == entity){
             throw  new Exception("参数不能为空");
-        }else if(null == entity.getId()){
+        }
+
+        if(null == entity.getId() ){
             entity.setStatus(ShowcaseStauts.OFFLINE.getStatus());//默认下架
             return add(entity);
         }
-        ShowcaseVO sv = getById(entity.getId());
-        if(null == sv){
+
+        ShowcaseDO dbShowcase =  getById(entity.getId());
+        if(null == dbShowcase ){
             throw  new Exception("查询无数据");
         }
-        //FIXME 余生伟 此处的逻辑有些乱
-        
-        
-        
-        sv.setTitle(entity.getTitle());
-        
-        RcResult<Boolean> rcResult = showcaseClientServer.update(entity);
+        dbShowcase =  showcaseVoToShowcaseDo(entity,dbShowcase);
+        RcResult<Boolean> rcResult = showcaseClientServer.update(dbShowcase);
         if(null == rcResult || !rcResult.isSuccess()){
             LOGGER.error("saveOrUpdate|showcaseClientServer.update result is " + JSON.toJSONString(rcResult) +",parameter is "+JSON.toJSONString(entity));
-           return null;
+            return null;
         }
         return entity;
     }
@@ -234,12 +233,12 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
     @Override
     public List<OperationDO> getAllOperactions(){
-    	RcResult<List<OperationDO>> result = operationClientServer.getAllOperactions() ;
-    	if( result == null || !result.isSuccess() ){
-    		LOGGER.error("getAllOperactions failed!  result={}",JSON.toJSONString(result));;
-    		return null;
-    	}
-    	return result.getT() ;
+        RcResult<List<OperationDO>> result = operationClientServer.getAllOperactions() ;
+        if( result == null || !result.isSuccess() ){
+            LOGGER.error("getAllOperactions failed!  result={}",JSON.toJSONString(result));;
+            return null;
+        }
+        return result.getT() ;
     }
 
     public PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO)throws Exception{
@@ -336,5 +335,51 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         }
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(itemQryDTO.getPageNo(), itemQryDTO.getPageSize(), result.getTotalCount(), list);
         return page;
+    }
+
+    private ShowcaseDO showcaseVoToShowcaseDo(ShowcaseVO sw,ShowcaseDO sd){
+        if(null == sd ){sd = new ShowcaseDO();}
+        if(StringUtils.isNotEmpty(sw.getInfo())){
+            sd.setInfo(sw.getInfo());
+        }
+        if(StringUtils.isNotEmpty(sw.getTitle())){
+            sd.setTitle(sw.getTitle());
+        }
+        if(StringUtils.isNotEmpty(sw.getBusinessCode())){
+            sd.setBusinessCode(sw.getBusinessCode());
+        }
+        if(StringUtils.isNotEmpty(sw.getSummary())){
+            sd.setSummary(sw.getSummary());
+        }
+        if(StringUtils.isNotEmpty(sw.getBoothContent())){
+            sd.setBoothContent(sw.getBoothContent());
+        }
+        if(StringUtils.isNotEmpty(sw.getOperationContent())){
+            sd.setOperationContent(sw.getOperationContent());
+        }
+        if(StringUtils.isNotEmpty(sw.getImgUrl())){
+            sd.setImgUrl(sw.getImgUrl());
+        }
+        if(StringUtils.isNotEmpty(sw.getFeature())){
+            sd.setFeature(sw.getFeature());
+        }
+        if(StringUtils.isNotEmpty(sw.getContent())){
+            sd.setContent(sw.getContent());
+        }
+        sd.setShowcaseFeature(sw.getShowcaseFeature());
+        sd.setStatus(sw.getStatus());//状态是手动改的
+        sd.setOperationId(sw.getOperationId());
+        sd.setSerialNo(sw.getSerialNo());
+        sd.setGmtModified(new Date());
+        //sd.setId(sw.getId());
+        //sd.setShowType(sw.getShowType());
+        //sd.setBoothId(sw.getBoothId());
+        //sd.setVersion(sw.getVersion());
+        //sd.setAppVersionCode(sw.getAppVersionCode());
+        //sd.setTimingOnDate(sw.getTimingOnDate());
+        //sd.setTimingOffDate(sw.getTimingOffDate());
+        //sd.setOnOffTime(sw.getOnOffTime());
+        //sd.setGmtCreated();
+        return sd;
     }
 }

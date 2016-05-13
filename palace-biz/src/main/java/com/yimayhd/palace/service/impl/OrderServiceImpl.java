@@ -6,6 +6,7 @@ import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
 import com.yimayhd.lgcenter.client.result.BaseResult;
 import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.OrderConverter;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
@@ -129,9 +130,11 @@ public class OrderServiceImpl implements OrderService {
 			}
 			if (!CollectionUtils.isEmpty(list)){
 				for (BizOrderDO bizOrderDO : list) {
+					//TODO:这里转换的话，需要判断查询条件传过来的订单状态是什么，然后过滤掉相应的数据
 					MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
 					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
-					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId());
+					//FIXME
+					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId(), false);
 					mo.setUser(user);
 					mainOrderList.add(mo);
 				}
@@ -224,6 +227,7 @@ public class OrderServiceImpl implements OrderService {
 				//FIXME 此处为测试信息。需要改为正式信息。
 				taskInfoRequestDTO.setNumber("227326133769");
 				taskInfoRequestDTO.setCompany("shentong");
+
 				BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
 				if (lgResult.isSuccess() && lgResult.getValue()!=null){
 					orderDetails.setExpress(lgResult.getValue());

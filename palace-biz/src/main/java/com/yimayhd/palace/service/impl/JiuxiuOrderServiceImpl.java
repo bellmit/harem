@@ -19,11 +19,15 @@ import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
 import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -41,6 +45,8 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 	private TcBizQueryService tcBizQueryServiceRef;
 	@Autowired
 	private UserService userServiceRef;
+	@Autowired
+	private MerchantService userMerchantServiceRef;
 
 	@Override
 	public BatchJiuxiuOrderResult getOrderList(JiuxiuOrderListQuery jiuxiuOrderListQuery) throws Exception {
@@ -78,7 +84,13 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 				jiuxiuTcMainOrder.setTotalFee(tcMainOrder.getTotalFee());
 				jiuxiuTcMainOrder.setJiuxiuTcBizOrder(jiuxiuTcBizOrder);
 				jiuxiuTcMainOrder.setJiuxiuTcDetailOrders(jiuxiuTcDetailOrders);
-				jiuxiuTcMainOrder.setMerchantInfo(tcMainOrder.getMerchantInfo());
+				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(tcMainOrder.getBizOrder().getSellerId(), Constant.DOMAIN_JIUXIU);
+				TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
+				if(null!= merchantUserDTO.getValue() && null!= merchantUserDTO.getValue().getMerchantDO()){
+					tcMerchantInfo.setMerchantName(merchantUserDTO.getValue().getMerchantDO().getName());
+					tcMerchantInfo.setMerchantId(merchantUserDTO.getValue().getMerchantDO().getId());
+				}
+				jiuxiuTcMainOrder.setMerchantInfo(tcMerchantInfo);
 				jiuxiuTcMainOrders.add(jiuxiuTcMainOrder);
 			}
 		}

@@ -70,10 +70,11 @@
                     <th>商户名称</th>
                     <th>商户编号</th>
                     <th>负责人</th>
+                    <th>负责人手机号</th>
                     <th>注册手机</th>
                     <th>创建日期</th>
                     <th>状态</th>
-                    <th>操作</th>
+                    #*<th>操作</th>*#
                 </tr>
                     #foreach($merchant in $result)
                         <tr>
@@ -110,6 +111,12 @@
                                 </div>
                             </td>
                             
+                             <td>
+                                <div class="order-number">
+                                    $!merchant.regisPhone
+                                </div>
+                            </td>
+                            
                             <td>
                                 <div class="order-number">
                                     $!date.format('yyyy-MM-dd',$!merchant.merchantDO.gmtCreated)
@@ -128,9 +135,9 @@
                                 </div>
                             </td>
     
-	                        <td>
-	                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrder.bizOrderId">详情</button>
-	                        </td>
+	                        #*<td>
+	                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!merchant.merchantDO.id">详情</button>
+	                        </td>*#
                     </tr>
                     #end
                 </tbody>
@@ -166,10 +173,10 @@
     	$("#resetBt").click(function () {
            $(".queryRt").val("");
         });
-       #* $(".detail").click(function () {
+        $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/orderManage/goodsOrder/"+orderId, 2, "商品订单详情");
-        });*#
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/merchant/detail?id="+orderId, 2, "商家详情");
+        });
         
     });
 </script>

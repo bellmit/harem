@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.CategoryDO;
 import com.yimayhd.commentcenter.client.domain.CategoryItemRelationDO;
+import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.CategoryRelationDTO;
 import com.yimayhd.commentcenter.client.dto.CategorySaveDTO;
 import com.yimayhd.commentcenter.client.dto.CategoryUpdateDTO;
 import com.yimayhd.commentcenter.client.errorcode.ComCenterReturnCodes;
+import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCategoryService;
 import com.yimayhd.gf.model.query.GFCategoryVo;
@@ -37,6 +39,23 @@ public class GFCategoryRepo {
 		
 	}
 	
+	public BasePageResult<CategoryDO> pageQueryCategory() {
+		BasePageResult<CategoryDO> baseResult =  new BasePageResult<CategoryDO>();
+		try {
+			
+			CategoryQueryDTO categoryQueryDTO = new CategoryQueryDTO();
+			
+			categoryQueryDTO.setDomain(DomainAndAppId.APP_DOMAIN_ID_GF_WEB.getDomainId());
+			//由于使用ztree 故暂时不用分页  这里先写死
+			categoryQueryDTO.setPageSize(1000);
+			//baseResult = comCategoryService.pageQueryCategory(categoryQueryDTO);
+		} catch (Exception e) {
+			baseResult.setErrorCode(ComCenterReturnCodes.READ_DB_FAILED);
+			return baseResult;
+		}
+		return baseResult;
+	}
+	
 	public BaseResult<CategoryDO> saveCategoryDO(GFCategoryVo gfCategoryVo){
 		BaseResult<CategoryDO> baseResult = new BaseResult<CategoryDO>();
 		try {
@@ -53,6 +72,8 @@ public class GFCategoryRepo {
 			categorySaveDTO.setName(gfCategoryVo.getName());
 			categorySaveDTO.setPriority(gfCategoryVo.getPriority());
 			categorySaveDTO.setSellerId(gfCategoryVo.getSellerId());
+			categorySaveDTO.setStatus(gfCategoryVo.getStatus());
+			categorySaveDTO.setParentId(gfCategoryVo.getParentId());
 			
 			baseResult = comCategoryService.saveCategoryDO(categorySaveDTO);
 			if(baseResult.isSuccess()){
@@ -84,7 +105,8 @@ public class GFCategoryRepo {
 			categoryUpdateDTO.setName(gfCategoryVo.getName());
 			categoryUpdateDTO.setPriority(gfCategoryVo.getPriority());
 			categoryUpdateDTO.setSellerId(gfCategoryVo.getSellerId());
-			
+			categoryUpdateDTO.setStatus(gfCategoryVo.getStatus());
+			categoryUpdateDTO.setParentId(gfCategoryVo.getParentId());
 			baseResult = comCategoryService.updateCategory(categoryUpdateDTO);
 			if(baseResult.isSuccess()){
 				return baseResult;
@@ -146,5 +168,6 @@ public class GFCategoryRepo {
 		}
 		return baseResult;
 	}
+
 	
 }
