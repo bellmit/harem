@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.yimayhd.palace.interceptor.LoginInterceptor;
+
 public class CSVUtils {
 	
 	
@@ -290,5 +292,14 @@ public class CSVUtils {
 		//deleteFiles(path);
 		//System.out.println("删除文件夹成功");
 
+	}
+	
+	public static String getContextRealPath()  
+	{  
+	    String path = LoginInterceptor.class.getClassLoader().getResource("")  
+	            .getPath();  
+	    int end = path.length() - "WEB-INF/classes/".length();  
+	    path = path.substring(1, end);  
+	    return path;  
 	}
 }

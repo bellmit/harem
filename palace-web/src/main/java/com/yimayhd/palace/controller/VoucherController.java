@@ -206,16 +206,16 @@ public class VoucherController extends BaseController {
 		LinkedHashMap map = new LinkedHashMap();
 		map.put("1", "优惠劵码");
 
-
-		String path = "D:\\export6\\";
-		String fileName = "cecececece";
-		File file = CSVUtils.createCSVFile(exportData, map, path, fileName);
+		String sPath = CSVUtils.getContextRealPath();
+		//String path = "D:\\export2\\";
+		String fileName = "export";
+		File file = CSVUtils.createCSVFile(exportData, map, sPath, fileName);
 		String fileName2 = file.getName();
 		System.out.println("文件名称：" + fileName2);
 		
-		CSVUtils.exportFile(response, path, fileName2);
+		CSVUtils.exportFile(response, sPath, fileName2);
 		
-		CSVUtils.deleteFile(path, fileName2);
+		CSVUtils.deleteFile(sPath, fileName2);
 				
 		System.out.println("删除文件成功");
 		return "";
