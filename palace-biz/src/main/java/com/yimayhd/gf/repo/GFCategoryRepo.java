@@ -48,7 +48,7 @@ public class GFCategoryRepo {
 			categoryQueryDTO.setDomain(DomainAndAppId.APP_DOMAIN_ID_GF_WEB.getDomainId());
 			//由于使用ztree 故暂时不用分页  这里先写死
 			categoryQueryDTO.setPageSize(1000);
-			baseResult = comCategoryService.pageQueryCategory(categoryQueryDTO);
+			//baseResult = comCategoryService.pageQueryCategory(categoryQueryDTO);
 		} catch (Exception e) {
 			baseResult.setErrorCode(ComCenterReturnCodes.READ_DB_FAILED);
 			return baseResult;
