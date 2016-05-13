@@ -1,6 +1,5 @@
 package com.yimayhd.palace.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -13,22 +12,17 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.voucher.client.domain.VoucherDO;
 import com.yimayhd.voucher.client.enums.EntityType;
-import com.yimayhd.voucher.client.enums.VoucherStatus;
 import com.yimayhd.voucher.client.enums.VoucherTemplateStatus;
 import com.yimayhd.voucher.client.enums.VoucherType;
 import com.yimayhd.voucher.client.param.VoucherDTO;
 import com.yimayhd.voucher.client.query.VoucherPageQuery;
 import com.yimayhd.voucher.client.result.VcBasePageResult;
-import com.yimayhd.voucher.client.result.VcBaseResult;
-import com.yimayhd.voucher.client.result.VcResultSupport;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 import java.io.File;
 import java.text.ParseException;
@@ -193,20 +187,12 @@ public class VoucherController extends BaseController {
 			pageNo++;
 		} while (result.isSuccess() && result.isHasNext());
 		
-		
-		
-//		Map row1 = new LinkedHashMap<String, String>();
-//		row1.put("1", "1111111111");
-//		exportData.add(row1);
-//		for(int i=0;i<9999;i++){
-//			row1 = new LinkedHashMap<String, String>();
-//			row1.put("1", "2111111111");
-//			exportData.add(row1);
-//		}
 		LinkedHashMap map = new LinkedHashMap();
 		map.put("1", "优惠劵码");
-
+		
 		String sPath = CSVUtils.getContextRealPath();
+		//String sPath = request.getRealPath("/");
+		System.out.println("111111111:"+sPath);
 		//String path = "D:\\export2\\";
 		String fileName = "export";
 		File file = CSVUtils.createCSVFile(exportData, map, sPath, fileName);

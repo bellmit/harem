@@ -56,7 +56,7 @@ public class CSVUtils {
 			}
 			// 定义文件名格式并创建
 			csvFile = File.createTempFile(fileName, ".csv",
-					new File(outPutPath));
+					file);
 			System.out.println("csvFile：" + csvFile);
 			// UTF-8使正确读取分隔符","
 			csvFileOutputStream = new BufferedWriter(new OutputStreamWriter(
