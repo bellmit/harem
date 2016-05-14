@@ -135,6 +135,13 @@
                         <td class="order-info-label">确认收货时间：</td>
                         <td class="order-info-value">$utilDate.date2String($!order.mainOrder.bizOrderDO.endTime)</td>
                     </tr>
+                    <tr>
+                        <td class="order-info-label">付款单号：</td>
+                        <td class="order-info-value">$!order.mainOrder.bizOrderDO.payOrderId</td>
+
+                        <td class="order-info-label"></td>
+                        <td class="order-info-value"></td>
+                    </tr>
                 </table>
             </div>
             <br><br>
