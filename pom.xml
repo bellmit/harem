@@ -34,7 +34,7 @@
 		<logback.version>1.1.1</logback.version>
 		<commons.io.version>2.4</commons.io.version>
 		<commission.version>3.0-SNAPSHOT</commission.version>
-		<voucher.client.version>0.0.6-SNAPSHOT</voucher.client.version>
+		<voucher.client.version>0.1.1-SNAPSHOT</voucher.client.version>
 		<promotion.client.version>1.0.0-SNAPSHOT</promotion.client.version>
 		<spread.version>1.0.9-SNAPSHOT</spread.version>
 		<tair.version>2.3.4.3</tair.version>
