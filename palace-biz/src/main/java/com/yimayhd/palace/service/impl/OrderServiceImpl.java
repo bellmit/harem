@@ -154,6 +154,7 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDetails getOrderById(long id) throws Exception {
 		OrderQueryOption orderQueryOption = new OrderQueryOption();
 		orderQueryOption.setAll();
+		orderQueryOption.setNeedLogisticsOrder(true);
 		try {
 			SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(id,orderQueryOption);
 			if (singleQueryResult.isSuccess()){
@@ -223,16 +224,19 @@ public class OrderServiceImpl implements OrderService {
 				}
 
 				//物流信息
-				TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
 				//FIXME 此处为测试信息。需要改为正式信息。
-				taskInfoRequestDTO.setNumber("227326133769");
-				taskInfoRequestDTO.setCompany("shentong");
-
-				BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
-				if (lgResult.isSuccess() && lgResult.getValue()!=null){
-					orderDetails.setExpress(lgResult.getValue());
+				//taskInfoRequestDTO.setNumber("227326133769");
+				//taskInfoRequestDTO.setCompany("shentong");
+				LogisticsOrderDO log = mainOrder.getLogisticsOrderDO();
+				if(null != log && StringUtils.isNotEmpty(log.getExpressNo()) ){
+					TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
+					taskInfoRequestDTO.setNumber(log.getExpressNo());
+					taskInfoRequestDTO.setCompany(StringUtils.isEmpty(log.getExpressCompany()) ? "" : log.getExpressCompany());
+					BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
+					if (lgResult.isSuccess() && lgResult.getValue()!=null){
+						orderDetails.setExpress(lgResult.getValue());
+					}
 				}
-
 				return orderDetails;
 			}
 		}catch (Exception e){
