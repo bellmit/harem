@@ -202,8 +202,8 @@ public class GFCategoryManagerController {
 	 * @date : 2016年5月10日 下午2:48:29
 	 * @Description: 添加绑定的商品跳转
 	 */
-	@RequestMapping(value = "/toAddProduct/{id}", method = RequestMethod.GET)
-	public String toAddProduct(Model model, @PathVariable(value = "id") long id,CommodityListQuery commodityListQuery){
+	@RequestMapping(value = "/toAddProduct/{id}/{parentId}", method = RequestMethod.GET)
+	public String toAddProduct(Model model, @PathVariable(value = "id") long id,@PathVariable(value = "parentId") long parentId,CommodityListQuery commodityListQuery){
 		try {
 			//查询所有商品
 			PageVO<ItemVO> pageVO = gfCategoryBiz.getItemList(commodityListQuery);
@@ -213,7 +213,8 @@ public class GFCategoryManagerController {
 			model.addAttribute("themeItemList", pageVO.getItemList());
 			model.addAttribute("commodityListQuery", commodityListQuery);
 			model.addAttribute("id", id);
-			return "/system/gfCategory/pro_list";
+			model.addAttribute("parentId", parentId);
+			return "/system/gfCategory/pro_add_list";
 		} catch (Exception e) {
 			LOGGER.error("toEditCategory:id={}",id, e);
 			return "/error";
@@ -234,7 +235,7 @@ public class GFCategoryManagerController {
 			model.addAttribute("commodityListQuery", commodityListQuery);
 			model.addAttribute("id", id);
 			model.addAttribute("pageVo", pageVO);
-			return "/system/gfCategory/pro_list";
+			return "/system/gfCategory/pro_add_list";
 		} catch (Exception e) {
 			LOGGER.error("toEditCategory:id={}",id, e);
 			return "/error";
@@ -295,8 +296,8 @@ public class GFCategoryManagerController {
 	 * @date : 2016年5月16日 下午2:48:57
 	 * @Description: 查看绑定商品
 	 */
-	@RequestMapping(value = "/findBoundProduct/{id}", method = RequestMethod.POST)
-	public String findBoundProduct(Model model, @PathVariable(value = "id") long id,CommodityListQuery commodityListQuery){
+	@RequestMapping(value = "/findBoundProduct/{id}/{parentId}", method = RequestMethod.GET)
+	public String findBoundProduct(Model model, @PathVariable(value = "id") long id,@PathVariable(value = "parentId") long parentId,CommodityListQuery commodityListQuery){
 		try {
 			//查询所有商品
 			commodityListQuery.setId(id);
@@ -304,8 +305,9 @@ public class GFCategoryManagerController {
 			model.addAttribute("themeItemList", pageVO.getItemList());
 			model.addAttribute("commodityListQuery", commodityListQuery);
 			model.addAttribute("id", id);
+			model.addAttribute("parentId", parentId);
 			model.addAttribute("pageVo", pageVO);
-			return "/system/gfCategory/pro_list";
+			return "/system/gfCategory/pro_del_list";
 		} catch (Exception e) {
 			LOGGER.error("toEditCategory:id={}",id, e);
 			return "/error";

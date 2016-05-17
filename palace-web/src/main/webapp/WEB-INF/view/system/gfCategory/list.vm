@@ -14,8 +14,9 @@
                     <button class="btn btn-default" type="button">显示状态：</button>
                 </span>
                 <select class="form-control" name="status">
-                    <option value="1" #if($!gfTagVoQuery.status == 1) selected #end>正常</option>
-                    <option value="2" #if($!gfTagVoQuery.status == 2) selected #end>禁用</option>
+                	<option value="0" #if($!GFCategoryVo.status || $!GFCategoryVo.status == 0) selected #end>全部</option>
+                    <option value="1" #if($!GFCategoryVo.status == 1) selected #end>正常</option>
+                    <option value="2" #if($!GFCategoryVo.status == 2) selected #end>禁用</option>
                 </select>
             </div>
             <div class="btn-group">
@@ -53,9 +54,9 @@
                         <td>$!theme.priority</td>
                         <td>
                         <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">编辑</button>
-                    	<button type="button" class="btn btn-primary enableStatus"  themeId="$theme.id">查看商品   </button>
+                    	<button type="button" class="btn btn-primary viewProduct"  themeId="$theme.id" parentId="$theme.parentId">查看商品   </button>
                     	#if($!theme.parentId != 0)
-                    	<button type="button" class="btn btn-primary addProduct"  themeId="$theme.id">添加商品  </button>
+                    	<button type="button" class="btn btn-primary addProduct"  themeId="$theme.id" parentId="$theme.parentId">添加商品  </button>
                     	#end
                         </td>
                     </tr>
@@ -146,7 +147,12 @@
         });
         //添加商品
         $('.addProduct').click(function(){
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/CategoryManager/toAddProduct/'+ $(this).attr('themeId');
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/CategoryManager/toAddProduct/'+ $(this).attr('themeId')+'/'+$(this).attr('parentId');
+            top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+        });
+      //查看商品
+        $('.viewProduct').click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/CategoryManager/findBoundProduct/'+ $(this).attr('themeId')+'/'+$(this).attr('parentId');
             top.tabsAdd("addCommodityBtn",url,2,$(this).text())
         });
 

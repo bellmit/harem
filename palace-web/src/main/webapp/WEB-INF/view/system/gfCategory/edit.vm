@@ -74,8 +74,8 @@
             },
             messages: {
                "name":{
-               required:"请输入品类名称",
-               maxlength:"品类大小不超过十个字"
+               required:"品类名称不能为空!",
+               maxlength:"品类名称不能超过10个字!"
                },
                "status":{
                    required:"请选择状态"
