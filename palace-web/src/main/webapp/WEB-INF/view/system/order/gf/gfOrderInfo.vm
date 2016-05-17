@@ -137,7 +137,7 @@
                     </tr>
                     <tr>
                         <td class="order-info-label">付款单号：</td>
-                        <td class="order-info-value">$!order.mainOrder.bizOrderDO.payOrderId</td>
+                        <td class="order-info-value">$!order.mainOrder.payOrderDO.tradeNo</td>
 
                         <td class="order-info-label"></td>
                         <td class="order-info-value"></td>

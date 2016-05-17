@@ -11,7 +11,10 @@ import com.yimayhd.palace.convert.OrderConverter;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.palace.repo.PayRepo;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderService;
+import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
@@ -56,6 +59,8 @@ public class OrderServiceImpl implements OrderService {
 	private UserService userServiceRef;
 	@Autowired
 	private LgService lgService;
+	@Autowired
+	private PayRepo payRepo ;
 
 	@Override
 	public PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception {
@@ -221,6 +226,13 @@ public class OrderServiceImpl implements OrderService {
 					if (consignTime!=null){
 						orderDetails.setConsignTime(consignTime);
 					}
+				}
+				
+				long bizOrderId = mainOrder.getBizOrderDO().getBizOrderId() ;
+				BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId);
+				if( queryPayOrderResult == null || !queryPayOrderResult.isSuccess() ){
+					PayOrderDO payOrderDO = queryPayOrderResult.getValue();
+					mainOrder.setPayOrderDO(payOrderDO);
 				}
 
 				//物流信息
