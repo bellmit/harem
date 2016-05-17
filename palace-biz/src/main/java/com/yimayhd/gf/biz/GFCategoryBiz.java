@@ -275,6 +275,7 @@ public class GFCategoryBiz {
 		CategoryRelationDTO categoryRelationDTO = new CategoryRelationDTO();
 		
         categoryRelationDTO.setDomain(B2CConstant.GF_DOMAIN);
+        categoryRelationDTO.setId(commodityListQuery.getId());
         categoryRelationDTO.setPageNo(commodityListQuery.getPageNumber());
         categoryRelationDTO.setPageSize(commodityListQuery.getPageSize());
 //        ItemPageResult itemPageResult = gfCategoryRepo.getItemList(itemQryDTO);

@@ -53,9 +53,9 @@
                         <td>$!theme.priority</td>
                         <td>
                         <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">编辑</button>
-                    	<button type="button" class="btn btn-primary enableStatus"  themeId="$theme.id">查看商品   </button>
+                    	<button type="button" class="btn btn-primary viewProduct"  themeId="$theme.id" parentId="$theme.parentId">查看商品   </button>
                     	#if($!theme.parentId != 0)
-                    	<button type="button" class="btn btn-primary addProduct"  themeId="$theme.id">添加商品  </button>
+                    	<button type="button" class="btn btn-primary addProduct"  themeId="$theme.id" parentId="$theme.parentId">添加商品  </button>
                     	#end
                         </td>
                     </tr>
@@ -146,7 +146,12 @@
         });
         //添加商品
         $('.addProduct').click(function(){
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/CategoryManager/toAddProduct/'+ $(this).attr('themeId');
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/CategoryManager/toAddProduct/'+ $(this).attr('themeId')+'/'+$(this).attr('parentId');
+            top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+        });
+      //查看商品
+        $('.viewProduct').click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/CategoryManager/findBoundProduct/'+ $(this).attr('themeId')+'/'+$(this).attr('parentId');
             top.tabsAdd("addCommodityBtn",url,2,$(this).text())
         });
 
