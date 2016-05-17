@@ -227,7 +227,7 @@ public class VoucherController extends BaseController {
 			toClient.flush();
 			toClient.close();
 		} catch (Exception e) {
-			log.error("error",e);
+			log.error(e.getMessage(),e);
 			e.printStackTrace();
 		} 
 
