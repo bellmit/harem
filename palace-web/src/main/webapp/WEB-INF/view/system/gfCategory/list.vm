@@ -14,8 +14,9 @@
                     <button class="btn btn-default" type="button">显示状态：</button>
                 </span>
                 <select class="form-control" name="status">
-                    <option value="1" #if($!gfTagVoQuery.status == 1) selected #end>正常</option>
-                    <option value="2" #if($!gfTagVoQuery.status == 2) selected #end>禁用</option>
+                	<option value="0" #if($!GFCategoryVo.status || $!GFCategoryVo.status == 0) selected #end>全部</option>
+                    <option value="1" #if($!GFCategoryVo.status == 1) selected #end>正常</option>
+                    <option value="2" #if($!GFCategoryVo.status == 2) selected #end>禁用</option>
                 </select>
             </div>
             <div class="btn-group">

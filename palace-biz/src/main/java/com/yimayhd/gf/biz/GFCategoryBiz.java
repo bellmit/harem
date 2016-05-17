@@ -64,11 +64,13 @@ public class GFCategoryBiz {
 			
 			categoryQueryDTO.setDomain(DomainAndAppId.APP_DOMAIN_ID_GF_WEB.getDomainId());
 			categoryQueryDTO.setPageSize(gfCategoryVo.getPageSize());
+			if(!StringUtils.isBlank(gfCategoryVo.getName())) {
+				categoryQueryDTO.setName(gfCategoryVo.getName());
+	        }
 			categoryQueryDTO.setPageNo(gfCategoryVo.getPageNumber());
-			categoryQueryDTO.setName(gfCategoryVo.getName());
-			categoryQueryDTO.setStatus(gfCategoryVo.getStatus());
-//			categoryQueryDTO.setNeedCount(true);
-//			categoryQueryDTO.setHasNextMod(true);
+			if(0 != gfCategoryVo.getStatus()){
+				categoryQueryDTO.setStatus(gfCategoryVo.getStatus());
+	        }
 			
 			BasePageResult<CategoryResult> basePageResult = gfCategoryRepo.pageQueryCategory(categoryQueryDTO);
 			if(null != basePageResult && basePageResult.isSuccess() && CollectionUtils.isNotEmpty(basePageResult.getList())){//res.getValue()
