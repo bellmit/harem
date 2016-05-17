@@ -357,8 +357,8 @@
     var validate = function(){
         if(!$('.title').val()){
             return '请输入商品名称';
-        }else if($('.title').val().length > 20){
-            return '商品名称不能超过20个字';
+        }else if($('.title').val().length > 60){
+            return '商品名称不能超过60个字';
         }
 
         if(!$('.code').val() || !/^[0-9a-zA-Z]{1,20}$/.test($('.code').val())){
@@ -391,8 +391,8 @@
             if($(this).find('.propertySelect').val() == '0' && !$(this).find('.propertyInput').val()){
                 msg = '请填写必填属性' + $(this).attr('pTxt');
                 return false;
-            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
-                msg = $(this).attr('pTxt') + '长度不能超过30个字';
+            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 60){
+                msg = $(this).attr('pTxt') + '长度不能超过60个字';
                 return false;
             }
         });
