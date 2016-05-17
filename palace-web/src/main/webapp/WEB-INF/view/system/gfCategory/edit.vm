@@ -4,15 +4,24 @@
 <div class="createClubTable whole">
     <form name="addTheme" id="themeForm" action="" method="post" themeId="$!theme.id">
         <table class="table">
-	        
             <tr>
                 <td><span class="spColor">*</span>品类名称</td>
                 <td>
-                <input type="text" class="form-control" placeholder="请输入5个字以内" name="name" value="$!theme.name">
-                <input type="hidden"  name="parentId" value="$!theme.parentId">
+                <input type="text" class="form-control" placeholder="请输入10个字以内" name="name" value="$!theme.name">
+                <!--<input type="hidden"  name="parentId" value="$!theme.parentId">-->
                 </td>
             </tr>
-            
+            <tr>
+	            <td><span class="spColor">*</span>上级分类</td>
+	            <td>
+		            <select class="form-control" name="parentId">
+		                <option value="0">无</option>
+						#foreach($module in $categoryList)
+							<option #if($theme.parentId == $module.id) selected #end value="$!{module.id}">$!{module.name}</option>
+						#end
+		            </select>
+	            </td>
+	        </tr>
             <tr>
                 <td><span class="spColor">*</span>状态 </td>
                 <td>
@@ -50,7 +59,7 @@
             rules: {
                 'name': {
                     required: true,
-                    maxlength:8
+                    maxlength:10
                 },
                 'status': {
                     required: true
@@ -65,8 +74,8 @@
             },
             messages: {
                "name":{
-               required:"请输入标签名称",
-               maxlength:"标签大小不超过八个字"
+               required:"请输入品类名称",
+               maxlength:"品类大小不超过十个字"
                },
                "status":{
                    required:"请选择状态"

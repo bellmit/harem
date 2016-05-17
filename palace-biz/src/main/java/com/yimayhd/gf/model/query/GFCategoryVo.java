@@ -36,6 +36,8 @@ public class GFCategoryVo extends BaseQuery {
 
     //子节点
     private List<CategoryDO> nodeCategoryList;
+    
+    private List<Long> itemIdList; //商品id集合
 
 	public long getId() {
 		return id;
@@ -140,6 +142,15 @@ public class GFCategoryVo extends BaseQuery {
 	public void setNodeCategoryList(List<CategoryDO> nodeCategoryList) {
 		this.nodeCategoryList = nodeCategoryList;
 	}
+
+	public List<Long> getItemIdList() {
+		return itemIdList;
+	}
+
+	public void setItemIdList(List<Long> itemIdList) {
+		this.itemIdList = itemIdList;
+	}
+	
 	
 	 
 	
