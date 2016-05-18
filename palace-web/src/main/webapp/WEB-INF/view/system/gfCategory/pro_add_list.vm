@@ -19,11 +19,10 @@
                     <th>全选 <input class="allChecked" name="allChecked" type="checkbox"></th>
                     <th>商品名称</th>
                     <th>创建时间</th>
-                    <th>操作</th>
                 </tr>
                     #foreach($theme in $themeItemList)
                     <tr class="subCheckedTR">
-                        <td>$!velocityCount  <input class="subChecked" type="checkbox" value="$!{theme.id}"></td>
+                        <td><input class="subChecked" type="checkbox" value="$!{theme.id}"></td>
                         <td>
                         	<p><img class="uploadImgFile" src="#if($!theme.smallListPic && $!theme.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!theme.smallListPic) #end"></p>
 	                        $!theme.title
@@ -80,7 +79,7 @@
                       time: 2000
                   })
 	          }else{
-	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/batchBoundProduct/$!id',{themeIdList:arr},function(data){
+	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/batchBoundProduct/$!id/$!parentId',{themeIdList:arr},function(data){
 	                 if(data&&data.status == 200){
 	                     layer.alert('操作成功', {
 	                         icon: 1,
