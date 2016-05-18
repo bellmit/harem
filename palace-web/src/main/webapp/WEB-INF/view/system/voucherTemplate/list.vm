@@ -80,7 +80,7 @@
                         	预先生成
                         	#end
 						</td>
-                        <td>￥$!voucher.value</td>
+                        <td>￥$!voucher.value_</td>
                         <td>
                         	#if($!voucher.status == "1")
                         	初始化

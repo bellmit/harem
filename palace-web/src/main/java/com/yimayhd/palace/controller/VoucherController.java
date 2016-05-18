@@ -94,6 +94,7 @@ public class VoucherController extends BaseController {
 				.setValue(Math.round(voucherTemplateVO.getValue() / 100));
 		model.addAttribute("voucherDO", voucherTemplateVO);
 		model.addAttribute("edit", edit);
+		model.addAttribute("choose", "false");
 		return "/system/voucherTemplate/edit";
 	}
 
@@ -116,7 +117,7 @@ public class VoucherController extends BaseController {
 		voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO
 				.getRequirement() * 100));
 		voucherTemplateVO
-				.setValue(Math.round(voucherTemplateVO.getValue() * 100));
+				.setValue(Math.round(voucherTemplateVO.getValue_() * 100));
 		// voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
 		voucherTemplateVO
 				.setEndTime(getEndTime(voucherTemplateVO.getEndTime()));
