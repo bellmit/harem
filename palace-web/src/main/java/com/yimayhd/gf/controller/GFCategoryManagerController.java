@@ -159,7 +159,7 @@ public class GFCategoryManagerController {
 			//查询所有列表
 			BaseResult<List<CategoryDO>> baseResult = gfCategoryBiz.getPrimaryCategoryList();
 			List<CategoryDO> categoryList = baseResult.getValue();
-			modelMap.put("categoryList", categoryList);
+			modelMap.addAttribute("categoryList", categoryList);
 			
 			BaseResult<CategoryDO> baseResult2 = gfCategoryBiz.getCategoryById(id);
 			model.addAttribute("theme", baseResult2.getValue());
@@ -248,11 +248,12 @@ public class GFCategoryManagerController {
 	 * @Description: 商品绑定操作  包括批量
 	 * 
 	 */
-	@RequestMapping(value = "/batchBoundProduct/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/batchBoundProduct/{id}/{parentId}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchBoundProduct(@PathVariable(value = "id") long id,@RequestParam("themeIdList[]") ArrayList<Long> themeIdList,GFCategoryVo gfCategoryVo) throws Exception {
+	public ResponseVo batchBoundProduct(@PathVariable(value = "id") long id,@PathVariable(value = "parentId") int parentId,@RequestParam("themeIdList[]") ArrayList<Long> themeIdList,GFCategoryVo gfCategoryVo) throws Exception {
 		try {
 			gfCategoryVo.setId(id);
+			gfCategoryVo.setParentId(parentId);
 			gfCategoryVo.setItemIdList(themeIdList);
 			BaseResult<Boolean> baseResult = gfCategoryBiz.batchBoundProduct(gfCategoryVo);
 			if(baseResult.isSuccess()){
@@ -272,11 +273,12 @@ public class GFCategoryManagerController {
 	 * @date : 2016年5月16日 下午3:07:36
 	 * @Description: 批量移除商品管理
 	 */
-	@RequestMapping(value = "/batchDelProduct/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/batchDelProduct/{id}/{parentId}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchDelProduct(@PathVariable(value = "id") long id,@RequestParam("themeIdList[]") ArrayList<Long> themeIdList,GFCategoryVo gfCategoryVo) throws Exception {
+	public ResponseVo batchDelProduct(@PathVariable(value = "id") long id,@PathVariable(value = "parentId") int parentId,@RequestParam("themeIdList[]") ArrayList<Long> themeIdList,GFCategoryVo gfCategoryVo) throws Exception {
 		try {
 			gfCategoryVo.setId(id);
+			gfCategoryVo.setParentId(parentId);
 			gfCategoryVo.setItemIdList(themeIdList);
 			BaseResult<Boolean> baseResult = gfCategoryBiz.batchDelProduct(gfCategoryVo);
 			if(baseResult.isSuccess()){

@@ -207,35 +207,19 @@ public class GFCategoryBiz {
         if(!StringUtils.isBlank(commodityListQuery.getCommName())) {
             itemQryDTO.setName(commodityListQuery.getCommName());
         }
-//        if(null != commodityListQuery.getId()) {
-//            itemQryDTO.setId(commodityListQuery.getId());
-//        }
-//        if(!StringUtils.isBlank(commodityListQuery.getBeginDate())) {
-//            Date beginTime = DateUtil.formatMinTimeForDate(commodityListQuery.getBeginDate());
-//            itemQryDTO.setBeginDate(beginTime);
-//        }
-//        if(!StringUtils.isBlank(commodityListQuery.getEndDate())) {
-//            Date endTime = DateUtil.formatMaxTimeForDate(commodityListQuery.getEndDate());
-//            itemQryDTO.setEndDate(endTime);
-//        }
         List<Integer> status = new ArrayList<Integer>();
         if(0 != commodityListQuery.getCommStatus()){
             status.add(commodityListQuery.getCommStatus());
         }else{
             status.add(ItemStatus.create.getValue());
             status.add(ItemStatus.valid.getValue());
-            status.add(ItemStatus.invalid.getValue());
+//            status.add(ItemStatus.invalid.getValue());下降的商品不出现在列表里面
         }
         itemQryDTO.setStatus(status);
         //
         if (commodityListQuery.getItemType() != 0) {
             itemQryDTO.setItemType(commodityListQuery.getItemType());
         }
-        //TODO
-        //分类 暂时没想好怎么做
-
-        //暂时用不着
-        //itemQryDTO.setSellerId();
 
         ItemPageResult itemPageResult = gfCategoryRepo.getItemList(itemQryDTO);
         if(null == itemPageResult){
@@ -305,11 +289,6 @@ public class GFCategoryBiz {
         	
 		}
         
-//        List<ItemDO> itemDOList = itemPageResult.getItemDOList();
-//        for(ItemDO itemDO:itemDOList){
-//            itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
-//        }
-
         PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),basePageResult.getTotalCount(),itemVOList);
         return pageVO;
 	}

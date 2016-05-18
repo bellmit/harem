@@ -73,7 +73,7 @@
         	  var confirmText = "确定将商品从品类中移除吗?";
 	      		
 	      		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
-	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/batchDelProduct/$!id',{themeIdList:arr},function(data){
+	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/batchDelProduct/$!id/$!parentId',{themeIdList:arr},function(data){
 	                 if(data&&data.status == 200){
 	                     layer.alert('操作成功', {
 	                         icon: 1,

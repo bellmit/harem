@@ -15,7 +15,7 @@
                 </span>
                 <select class="form-control" name="status">
                 	<option value="0" #if($!GFCategoryVo.status || $!GFCategoryVo.status == 0) selected #end>全部</option>
-                    <option value="1" #if($!GFCategoryVo.status == 1) selected #end>正常</option>
+                    <option value="1" #if($!GFCategoryVo.status == 1) selected #end>启用</option>
                     <option value="2" #if($!GFCategoryVo.status == 2) selected #end>禁用</option>
                 </select>
             </div>
@@ -50,7 +50,7 @@
                     		<td>$!theme.praentCategoryDO.name</td>
                     	#end
                         <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
-                        <td>#if($!theme.status == 1) 正常  #else 禁用  #end </td>
+                        <td>#if($!theme.status == 1) 启用  #else 禁用  #end </td>
                         <td>$!theme.priority</td>
                         <td>
                         <button type="button" class="btn btn-primary themeDetail" themeId="$theme.id">编辑</button>

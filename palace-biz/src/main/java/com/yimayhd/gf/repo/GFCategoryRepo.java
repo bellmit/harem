@@ -196,7 +196,7 @@ public class GFCategoryRepo {
 			categoryRelationSaveDTO.setCategoryId(gfCategoryVo.getId());
 			categoryRelationSaveDTO.setDomain(B2CConstant.GF_DOMAIN);
 			categoryRelationSaveDTO.setStatus(BaseStatus.AVAILABLE.getType());
-			
+			categoryRelationSaveDTO.setParentId(gfCategoryVo.getParentId());
 			baseResult = comCategoryService.batchSaveCateRelation(categoryRelationSaveDTO);
 			if(!baseResult.isSuccess()){
 				LOGGER.error("batchEnableStatus return value is null !returnValue :"+ JSON.toJSONString(gfCategoryVo));
@@ -263,7 +263,7 @@ public class GFCategoryRepo {
 			categoryRelationDelDTO.setDomain(B2CConstant.GF_DOMAIN);
 			categoryRelationDelDTO.setCategoryId(gfCategoryVo.getId());;
 			categoryRelationDelDTO.setIdList(gfCategoryVo.getItemIdList());
-			
+			categoryRelationDelDTO.setParentId(gfCategoryVo.getParentId());
 			
 			baseResult = comCategoryService.delCateRelation(categoryRelationDelDTO);
 			if(!baseResult.isSuccess()){
