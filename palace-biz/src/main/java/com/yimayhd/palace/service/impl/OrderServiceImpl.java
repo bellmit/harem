@@ -228,8 +228,10 @@ public class OrderServiceImpl implements OrderService {
 					}
 				}
 				
-				long bizOrderId = mainOrder.getBizOrderDO().getBizOrderId() ;
-				BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId);
+				BizOrderDO bizOrderDO = mainOrder.getBizOrderDO() ;
+				long bizOrderId = bizOrderDO.getBizOrderId() ;
+				int domainId = bizOrderDO.getDomain() ;
+				BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId, domainId);
 				if( queryPayOrderResult == null || !queryPayOrderResult.isSuccess() ){
 					PayOrderDO payOrderDO = queryPayOrderResult.getValue();
 					mainOrder.setPayOrderDO(payOrderDO);
