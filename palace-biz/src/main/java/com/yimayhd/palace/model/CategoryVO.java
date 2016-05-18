@@ -1,17 +1,20 @@
 package com.yimayhd.palace.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
+
+import com.alibaba.druid.sql.ast.statement.SQLGrantStatement.ObjectType;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.BeanUtils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by czf on 2015/12/19.
@@ -19,8 +22,19 @@ import java.util.List;
 public class CategoryVO extends CategoryDO {
     private List<CategoryPropertyValueVO> sellCategoryPropertyVOs;
     private List<ItemSkuVO> itemSkuVOListAll;//所有组合的list
+    public int getItemType() {
+    	CategoryFeature categoryFeature = getCategoryFeature();
+    	if( categoryFeature != null ){
+    		Integer itemType = categoryFeature.getItemType();
+    		if( itemType != null ){
+    			return itemType;
+    		}
+    	}
+		return 0;
+	}
 
-    /**
+
+	/**
      * 根据categoryDO转化为categoryVO
      * @param categoryDO
      * @return

@@ -6,12 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
+import com.yimayhd.ic.client.model.enums.CategoryFeatureKey;
+import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.palace.model.CategoryVO;
 import com.yimayhd.palace.service.CategoryService;
 import com.yimayhd.palace.util.RepoUtils;
-import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
-import com.yimayhd.ic.client.model.result.item.CategoryResult;
 
 /**
  * Created by Administrator on 2015/11/25.
