@@ -55,7 +55,7 @@
                 <tr>
                 	 <td align="left" width="10%"><span class="spColor">*</span>类型：</td>
                     <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
-                        <span class="spColor">*</span>减 <input type="text" name="value_" class="value" value="$!{voucherDO.value}"> 元
+                        <span class="spColor">*</span>减 <input type="text" name="value_" class="value" value="$!{voucherDO.value_}"> 元
                     </td>
                 </tr>
                 <tr>
@@ -184,7 +184,9 @@
         if(!$('.voucherCount').val() || !/^\+?[1-9][0-9]*$/.test($('.voucherCount').val())){
             return '请输入可领取数量';
         }
-        if($('.totalNum').val()+0 < $('.voucherCount').val()+0 ){
+        var voucherCount_ = parseInt($('.voucherCount').val(),10);
+        var totalNum_ = parseInt($('.totalNum').val(),10);
+        if(voucherCount_>totalNum_){
             return "可领取数量不能超过券数量";
         }
     }
