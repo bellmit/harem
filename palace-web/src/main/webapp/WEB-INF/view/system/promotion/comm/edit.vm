@@ -19,7 +19,7 @@
 		<br/>
 		<br/>
 	    #parse("/system/promotion/comm/item-list.vm")
-	    #selectItem()
+	    
 	</div>
 
 

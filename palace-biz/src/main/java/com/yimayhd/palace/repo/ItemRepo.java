@@ -1,22 +1,29 @@
 package com.yimayhd.palace.repo;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.ic.client.model.enums.ItemSkuStatus;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuQueryDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
-import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.service.item.ItemBizQueryService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
+import com.yimayhd.ic.client.service.item.ItemSkuService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.util.RepoUtils;
@@ -27,6 +34,9 @@ public class ItemRepo {
 	private ItemBizQueryService itemBizQueryServiceRef;
 	@Autowired
 	private ItemPublishService itemPublishServiceRef;
+	@Autowired
+	private ItemSkuService itemSkuService ;
+	
 
 	public ICPageResult<ItemInfo> getItemList(ItemQryDTO itemQryDTO) {
 		if (itemQryDTO == null) {
@@ -99,4 +109,29 @@ public class ItemRepo {
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchDelete);
 	}
 
+	/**
+	 * 获取item sku的库存，（所有sku的库存之和）
+	 * @return
+	 */
+	public int getItemSkuSumStock(long itemId){
+		 List<ItemSkuDO> skus = getItemSkus(itemId);
+		 int stock = 0 ;
+		 if( !CollectionUtils.isEmpty(skus) ){
+			 for( ItemSkuDO sku : skus ){
+				 stock += sku.getStockNum() ;
+			 }
+		 }
+		 return stock ;
+	}
+	
+	public List<ItemSkuDO> getItemSkus(long itemId){
+		ItemSkuQueryDTO itemSkuQueryDTO = new ItemSkuQueryDTO() ;
+		itemSkuQueryDTO.setItemId(itemId);
+		itemSkuQueryDTO.setStatus(ItemSkuStatus.valid.getValue());
+		ICPageResult<ItemSkuDO> queryResult = itemSkuService.getItemSkuPage(itemSkuQueryDTO);
+		if( queryResult == null || !queryResult.isSuccess() ){
+			return null;
+		}
+		return queryResult.getList() ;
+	}
 }
