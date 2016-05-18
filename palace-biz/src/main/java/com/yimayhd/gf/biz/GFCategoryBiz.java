@@ -232,6 +232,10 @@ public class GFCategoryBiz {
         List<ItemDO> itemDOList = itemPageResult.getItemDOList();
         List<ItemVO> itemVOList = new ArrayList<ItemVO>();
         for(ItemDO itemDO:itemDOList){
+        	
+        	long id2 = itemDO.getId();
+        	
+        	
             itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
         }
 
