@@ -64,21 +64,21 @@
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">营业执照副本正面：</li>
+				<li class = "first">营业执照副本复印件正面：</li>
 				<li><img src = "$!tfs$!examineInfo.businessLicense"></li>
 			</ul>
 			<ul class = "clearfix">
-				<li class = "first">组织机构代码证正面：</li>
+				<li class = "first">组织机构代码证复印件正面：</li>
 				<li><img src = "$!tfs$!examineInfo.orgCard"></li>
 			</ul>
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">税务登记证正面：</li>
+				<li class = "first">税务登记证复印件正面（国税、地税均可）：</li>
 				<li><img src = "$!tfs$!examineInfo.affairsCard"></li>
 			</ul>
 			<ul class = "clearfix">
-				<li class = "first">开户许可证正面：</li>
+				<li class = "first">开户许可证复印件正面：</li>
 				<li><img src = "$!tfs$!examineInfo.openCard"></li>
 			</ul>
 		</div>
@@ -87,11 +87,11 @@
 		
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">旅行社业务经营许可证正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
+				<li class = "first">旅行社业务经营许可证：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travingCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travingCard" #end></li>
 			</ul>
 			<ul class = "clearfix">
-				<li class = "first">旅行社责任险证明正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
+				<li class = "first">旅行社责任险保险单：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travelAgencyInsurance" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travelAgencyInsurance" #end></li>
 				
 			</ul>
@@ -113,7 +113,7 @@
 		
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">旅行社业务经营许可证正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
+				<li class = "first">旅行社业务经营许可证：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travingCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travingCard" #end></li>
 				
 			</ul>
