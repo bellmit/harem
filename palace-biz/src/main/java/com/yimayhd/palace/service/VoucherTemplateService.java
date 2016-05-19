@@ -3,6 +3,12 @@ package com.yimayhd.palace.service;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
+import com.yimayhd.voucher.client.domain.VoucherDO;
+import com.yimayhd.voucher.client.param.VoucherDTO;
+import com.yimayhd.voucher.client.query.VoucherPageQuery;
+import com.yimayhd.voucher.client.result.VcBasePageResult;
+import com.yimayhd.voucher.client.result.VcBaseResult;
+import com.yimayhd.voucher.client.result.VcResultSupport;
 
 /**
  * Created by czf on 2016/1/11.
@@ -34,7 +40,7 @@ public interface VoucherTemplateService {
      *            数据实体
      * @throws Exception
      */
-    boolean add(VoucherTemplateVO entity) throws Exception;
+    VcBaseResult<Long> add(VoucherTemplateVO entity) throws Exception;
 
     /**
      * 根据主键获取优惠券模板
@@ -44,4 +50,23 @@ public interface VoucherTemplateService {
      * @throws Exception
      */
     VoucherTemplateVO getById(long id) throws Exception;
+    /**
+     * 上架优惠劵
+     * @param voucherDTO
+     * @return
+     */
+    VcResultSupport enableVoucher(VoucherDTO voucherDTO);
+    /**
+     * 下架优惠劵
+     * @param voucherDTO
+     * @return
+     */
+    VcResultSupport disableVoucher(VoucherDTO voucherDTO);
+    
+    /**
+     * 分页导出模版下所有券
+     * @param voucherTemplateId
+     * @return
+     */
+    VcBasePageResult<VoucherDO> exportAllVouchers(VoucherPageQuery voucherPageQuery);
 }

@@ -6,6 +6,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemOptions;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.*;
@@ -21,6 +22,7 @@ import com.yimayhd.palace.model.ItemResultVO;
 import com.yimayhd.palace.model.ItemSkuVO;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
+import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -46,6 +48,8 @@ public class CommodityServiceImpl implements CommodityService {
     private ItemPublishService itemPublishServiceRef;
     @Autowired
     private TfsService tfsService;
+    @Autowired
+    private ItemRepo itemRepo ;
     @Override
     public PageVO<ItemVO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
@@ -99,13 +103,24 @@ public class CommodityServiceImpl implements CommodityService {
         List<ItemDO> itemDOList = itemPageResult.getItemDOList();
         List<ItemVO> itemVOList = new ArrayList<ItemVO>();
         for(ItemDO itemDO:itemDOList){
-            itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
+        	long itemId = itemDO.getId();
+        	ItemVO itemVO = ItemVO.getItemVO(itemDO,new CategoryVO());
+        	boolean hasSku = ItemOptions.HAS_SKU.has(itemDO.getOptions());
+        	int stock = 0 ;
+        	if( hasSku ){
+        		stock = itemRepo.getItemSkuSumStock(itemId);
+        	}else{
+        		stock = itemDO.getStockNum() ;
+        	}
+        	itemVO.setStockNum(stock);
+        	itemVOList.add(itemVO);
         }
 
         PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
         return pageVO;
     }
-
+    
+    
     @Override
     public ItemResultVO getCommodityById(long id) throws Exception {
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();

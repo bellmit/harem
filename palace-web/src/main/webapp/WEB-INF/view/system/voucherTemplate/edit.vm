@@ -1,8 +1,46 @@
+#set($layout = "/system/layout/empty.vm")
+#set($title = "优惠劵")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 
-
+	<div class="dialog">
+		<div class="bgmeng"></div>
+		<div class="dlgcont">
+			<label style="color:red; text-align:center;display:block;" >请再次确认信息是否填写无误！</label>
+			<table>
+				<tr>
+					<td class="tit">批次名称：</td>
+					<td id="title_"></td>
+				</tr>
+				<tr>
+					<td class="tit">类型：</td>
+					<td id="voucherType_"></td>
+				</tr>
+				<tr>
+					<td class="tit">有效期：</td>
+					<td id="time_"></td>
+				</tr>
+				<tr>
+					<td class="tit">发放数量：</td>
+					<td id="totalNum_"></td>
+				</tr>
+				<tr>
+					<td class="tit">发放方式：</td>
+					<td id="issueType_"></td>
+				</tr>
+				<tr>
+					<td class="tit">领取限制：</td>
+					<td id="voucherCount_"></td>
+				</tr>
+			</table>
+			<div class="boxbtn">
+				<button class="ok">确定</button>
+				<button class="cancel">取消</button>
+			</div>
+		</div>
+	</div>
 
 <form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!voucherDO.id">
 <div class="tab-content grogInfoWrap"  style="">
@@ -15,31 +53,30 @@
                 </tr>
 
                 <tr>
-                    <td align="left" width="10%"><span class="spColor">*</span>券类型：</td>
-                    <td align="left" width="10%">
-                            <select class="voucherType" name="voucherType">
-                                <option value="1" #if($!voucherDO.voucherType == 1) selected #end>满减券</option>
-##                                <option value="2" #if($!voucherDO.voucherType == 2) selected #end >满折券</option>
-##                                <option value="3" #if($!voucherDO.voucherType == 3) selected #end >兑换券</option>
-                            </select>
-                    </td>
+                	 <td align="left" width="10%"><span class="spColor">*</span>类型：</td>
                     <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
-                        <span class="spColor">*</span>减 <input type="text" name="value" class="value" value="$!{voucherDO.value}"> 元
+                        <span class="spColor">*</span>减 <input type="text" name="value_" class="value" value="$!{voucherDO.value_}"> 元
                     </td>
                 </tr>
                 <tr>
-    <td>
-        <span class="spColor">*</span>有效期：
-    </td>
-    <td width="15%">
-        <div class="input-group">
-            <input type="text" class='form-control form-date dateInp startTime' placeholder='' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd")">
-            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-            <input type="text" class='form-control form-date dateInp endTime' placeholder='' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd")">
-        </div>
-    </td>
-
-
+				    <td>
+				        <span class="spColor">*</span>有效期：
+				    </td>
+				    <td width="15%">
+				        <div class="input-group">
+				            <input type="text" class='form-control form-date dateInp startTime' placeholder='' readonly name="startTime" value="$!utilDate.dateToString($!{voucherDO.startTime},"yyyy-MM-dd")">
+				            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+				            <input type="text" class='form-control form-date dateInp endTime' placeholder='' readonly name="endTime" value="$!utilDate.dateToString($!{voucherDO.endTime},"yyyy-MM-dd")">
+				        </div>
+				    </td>
+				</tr>
+                <tr>
+				 	<td><span class="spColor">*</span>生成方式</td>
+                    <td>
+                        <input type="radio" name="issueType"  value="1" checked="checked" #if($!choose == "false") disabled #end/>绑定发放 $!edit
+                        <input type="radio" name="issueType" value="2"  #if($!choose == "false") disabled #end/>预先生成
+                    </td>
+                    
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>发放数量：限量</td>
@@ -63,7 +100,9 @@
             </table>
         </div>
     </div>
+    #if($!edit != 0)
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+    #end
 </div>
 </form>
 
@@ -101,16 +140,19 @@
         if($('.title').val().length > 60){
             return '字数不能超过60';
         }
-        if(!$('.requirement').val() || !/^\+?[1-9][0-9]*$/.test($('.requirement').val())){
-            return '请输入满值';
+        if(!$('.requirement').val() || !/^\d{0,4}(\.\d{0,2})?$/.test($('.requirement').val())){
+            return '请输入正确的优惠金额';
         }
-        if(!$('.value').val() || !/^\+?[1-9][0-9]*$/.test($('.value').val())){
-            return '请输入优惠券金额';
+        if(!$('.value').val() || !/^\d{0,4}(\.\d{0,2})?$/.test($('.value').val())){
+            return '请输入正确的优惠券金额';
         }
         var v1 = parseInt($('.value').val(),10);
         var v2 = parseInt($('.requirement').val(),10);
         if(v1 > v2){
             return '优惠券金额必须小于满值';
+        }
+         if(9999 < $('.requirement').val()){
+            return '优惠金额不能超过9999';
         }
         if(9999 < $('.value').val()){
             return '优惠券金额不能超过9999';
@@ -126,40 +168,124 @@
                 return "结束日期必须大于开始日期!";
             }
         }
-        if($('.startTime').val() <= getNowFormat()){
-            return "开始时间必须大于当前时间";
+        if($('.endTime').val() <= getNowFormat()){
+            return "结束时间必须大于当前时间";
         }
+       #* if($('.startTime').val() <= getNowFormat()){
+            return "开始时间必须大于当前时间";
+        }*#
 
         if(!$('.totalNum').val() || !/^\+?[1-9][0-9]*$/.test($('.totalNum').val())){
             return '请输入券数量';
         }
+        if($('.totalNum').val() > 10000 && $('input[name="issueType"]:checked').val()==2){
+            return '预先生成时的优惠劵同一批次发放数量最大不能超过1万张';
+        }
         if(!$('.voucherCount').val() || !/^\+?[1-9][0-9]*$/.test($('.voucherCount').val())){
             return '请输入可领取数量';
         }
-        if($('.voucherCount').val() > $('.totalNum').val()){
+        var voucherCount_ = parseInt($('.voucherCount').val(),10);
+        var totalNum_ = parseInt($('.totalNum').val(),10);
+        if(voucherCount_>totalNum_){
             return "可领取数量不能超过券数量";
         }
     }
+    
+   
+     $('.requirement').on('blur',function(){
+     	 if(!/^\d{0,4}(\.\d{0,2})?$/.test(this.value)){
+            alert('请输入正确的优惠金额');
+            return false;
+        }
+     });
+     $('.value').on('blur',function(){
+     	 if(!/^\d{0,4}(\.\d{0,2})?$/.test(this.value)){
+            alert('请输入正确的优惠劵金额');
+            return false;
+        }
+     });
 
- 	//保存的
+ 	//保存确认
  	$('#btnSubmit').click(function(){
-            var msg = validate();
-            if(msg){
-                layer.msg(msg, {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-            var actionUrl = "";
-            var recommendedId = $('#hotelForm').attr('recommendedId');
-            if(recommendedId){
-               actionUrl = actionDefaultPath + '/GF/voucherManage/edit/'+recommendedId;
-            }else{
-               actionUrl = actionDefaultPath + '/GF/voucherManage/add';
-            }
-            $('#hotelForm').attr('action',actionUrl);
-            $('#hotelForm').submit();
+ 		var msg = validate();
+ 		
+        if(msg){
+            layer.msg(msg, {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
+	    $("#title_").text($('.title').val());
+	    $("#voucherType_").text("满"+ $('.requirement').val() + "减" + $('.value').val());
+	    $("#time_").text($('.startTime').val()+"-"+$('.endTime').val());
+	    var type = $('input[name="issueType"]:checked').val()
+	    if(type == 1){
+	    	 $("#issueType_").text("绑定生成");
+	    }
+	    if(type == 2){
+	    	 $("#issueType_").text("预先生成");
+	    }
+	   
+	    $("#totalNum_").text($('.totalNum').val()+"张");
+	    $("#voucherCount_").text("同一批次可领"+$('.voucherCount').val()+"张");
+	    
+	    
+ 		$('.dialog').fadeIn();
    });
+   
+   
+   	$('.cancel,.bgmeng').click(function(){$('.dialog').hide();});
+
+	//确认保存
+	$('.ok').click(function(){
+		 
+        var actionUrl = "";
+        var recommendedId = $('#hotelForm').attr('recommendedId');
+        if(recommendedId){
+           actionUrl = actionDefaultPath + '/GF/voucherManage/edit/'+recommendedId;
+        }else{
+           actionUrl = actionDefaultPath + '/GF/voucherManage/add';
+        }
+        $('#hotelForm').attr('action',actionUrl);
+        $('#hotelForm').submit();
+        
+        $('.dialog').hide();
+		$('.loading').show();
+	
+	
+	
+	
+	#*	var id=$("#recordId").val();
+		var pass = $('input[name="pass"]:checked').val() ;
+		var reason = $('#reason').val() ;
+		var data = {id:id, pass:pass, reason:reason} ;
+		var url = site_path+"/jiuxiu/apply/approve";
+		if(pass=='false'&&reason==''){
+			alert('请填写审核不通过原因！');
+			return;
+		}
+		$('.dialog').hide();
+		$('.loading').show();
+		//修改状态
+		$.post(url,data,function(data){
+            	$('.loading').fadeOut();
+				if( !data.success ){
+					if( data.errorCode = '22000000' ){
+						toLoginPage();
+						return false;
+					}
+                	$common.msgdialog('error','保存失败！');
+				}else
+                	$common.msgdialog('success','保存成功！');
+                	
+                top.freshPrevFrame(function(){
+                    setTimeout(function(){
+                        top.$('#myTabList .active i').trigger('click');
+                    },1500); 
+                });
+			}
+		); *#
+	});
 
 </script>

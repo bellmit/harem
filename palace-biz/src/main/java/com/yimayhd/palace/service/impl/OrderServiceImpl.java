@@ -11,7 +11,10 @@ import com.yimayhd.palace.convert.OrderConverter;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.palace.repo.PayRepo;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderService;
+import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
@@ -56,6 +59,8 @@ public class OrderServiceImpl implements OrderService {
 	private UserService userServiceRef;
 	@Autowired
 	private LgService lgService;
+	@Autowired
+	private PayRepo payRepo ;
 
 	@Override
 	public PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception {
@@ -154,6 +159,7 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDetails getOrderById(long id) throws Exception {
 		OrderQueryOption orderQueryOption = new OrderQueryOption();
 		orderQueryOption.setAll();
+		orderQueryOption.setNeedLogisticsOrder(true);
 		try {
 			SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(id,orderQueryOption);
 			if (singleQueryResult.isSuccess()){
@@ -221,18 +227,30 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setConsignTime(consignTime);
 					}
 				}
-
-				//物流信息
-				TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
-				//FIXME 此处为测试信息。需要改为正式信息。
-				taskInfoRequestDTO.setNumber("227326133769");
-				taskInfoRequestDTO.setCompany("shentong");
-
-				BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
-				if (lgResult.isSuccess() && lgResult.getValue()!=null){
-					orderDetails.setExpress(lgResult.getValue());
+				
+				BizOrderDO bizOrderDO = mainOrder.getBizOrderDO() ;
+				long bizOrderId = bizOrderDO.getBizOrderId() ;
+				int domainId = bizOrderDO.getDomain() ;
+				BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId, domainId);
+				if( queryPayOrderResult != null && queryPayOrderResult.isSuccess() ){
+					PayOrderDO payOrderDO = queryPayOrderResult.getValue();
+					mainOrder.setPayOrderDO(payOrderDO);
 				}
 
+				//物流信息
+				//FIXME 此处为测试信息。需要改为正式信息。
+				//taskInfoRequestDTO.setNumber("227326133769");
+				//taskInfoRequestDTO.setCompany("shentong");
+				LogisticsOrderDO log = mainOrder.getLogisticsOrderDO();
+				if(null != log && StringUtils.isNotEmpty(log.getExpressNo()) ){
+					TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
+					taskInfoRequestDTO.setNumber(log.getExpressNo());
+					taskInfoRequestDTO.setCompany(StringUtils.isEmpty(log.getExpressCompany()) ? "" : log.getExpressCompany());
+					BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
+					if (lgResult.isSuccess() && lgResult.getValue()!=null){
+						orderDetails.setExpress(lgResult.getValue());
+					}
+				}
 				return orderDetails;
 			}
 		}catch (Exception e){
