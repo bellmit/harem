@@ -167,11 +167,15 @@
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
 				<li class = "first">负责人身份证正面：</li>
-				<li><img src = "$!tfs$!examineInfo.principleCardUp"></li>
+				<li><img src = "$!tfs/$!examineInfo.principleCardUp"></li>
 			</ul>
 			<ul class = "clearfix">
 				<li class = "first">负责人身份证反面：</li>
-				<li><img src = "$!tfs$!examineInfo.principleCardDown"></li>
+				<li><img src = "$!tfs/$!examineInfo.principleCardDown"></li>
+			</ul>
+			<ul class = "clearfix">
+				<li class = "first">手持身份证照片：</li>
+				<li><img src = "$!tfs/$!examineInfo.cardInHand"></li>
 			</ul>
 		</div>
 		<div class = "info">
