@@ -112,7 +112,8 @@ public class MerchantVO extends MerchantDTO {
 //			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
 //			dto.setCityName(getCityInfo()[0]);
 			//dto.setId(userId);
-			dto.setAvgprice(getAvgPrice(vo.getAveragePrice()));
+			//dto.setAvgprice(getAvgPrice(vo.getAveragePrice()));
+			dto.setAvgprice(Math.round(vo.getAveragePrice()*100));
 			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
 			if (imgList != null && imgList.size()>0) {
@@ -136,13 +137,12 @@ public class MerchantVO extends MerchantDTO {
 		return dto;
 		
 	}
-	private long getAvgPrice(double averagePrice) {
-		long l = (long)averagePrice;
-		DecimalFormat df = new DecimalFormat(".##");
-		long f = (long)Double.parseDouble(df.format((averagePrice-l)*100));
-		//long f =(long)( (Double.parseDouble(df.format(averagePrice))-l)*100);
-		return (l*100+f);
-	}
+//	private long getAvgPrice(double averagePrice) {
+//		long l = (long)averagePrice;
+//		DecimalFormat df = new DecimalFormat(".##");
+//		long f = (long)Double.parseDouble(df.format((averagePrice-l)*100));
+//		return (l*100+f);
+//	}
 	
 	private String filterBlankChar(String str) {
 		if (str == null) {
@@ -169,7 +169,8 @@ public class MerchantVO extends MerchantDTO {
 			System.out.println(JSON.toJSON(merchantDO));
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
-			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
+//			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
+			merchantDO.setAvgprice(Math.round(vo.getAveragePrice()*100));
 			//merchantDO.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			merchantDO.setStatus(MerchantStatus.OFFLINE.getCode());
 			merchantDO.setOption(MerchantOption.EAT.getOption());

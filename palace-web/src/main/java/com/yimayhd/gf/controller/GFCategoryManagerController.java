@@ -195,7 +195,7 @@ public class GFCategoryManagerController {
 		}
 	}
 	
-	/*华丽的分割线==================================================================*/
+	/*===================================  华丽的分割线  ===============================*/
 	
 	/**
 	 * @author : zhangchao
@@ -205,6 +205,8 @@ public class GFCategoryManagerController {
 	@RequestMapping(value = "/toAddProduct/{id}/{parentId}", method = RequestMethod.GET)
 	public String toAddProduct(Model model, @PathVariable(value = "id") long id,@PathVariable(value = "parentId") long parentId,CommodityListQuery commodityListQuery){
 		try {
+			//获取绑定商品的品类ID
+			commodityListQuery.setCategory_id(id);
 			//查询所有商品
 			PageVO<ItemVO> pageVO = gfCategoryBiz.getItemList(commodityListQuery);
 			List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
