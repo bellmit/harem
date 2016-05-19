@@ -137,7 +137,7 @@
             if(data.status == 200){
                 layer.alert('操作成功', {
                     icon: 1,
-                    time: 3000
+                    time: 30000
                 }, function(){
                     window.location.href = window.location.href;
                 });
