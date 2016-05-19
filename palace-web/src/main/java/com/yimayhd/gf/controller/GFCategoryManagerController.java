@@ -120,6 +120,7 @@ public class GFCategoryManagerController {
 		BaseResult<List<CategoryDO>> baseResult = gfCategoryBiz.getPrimaryCategoryList();
 		
 		List<CategoryDO> categoryList = baseResult.getValue();
+		modelMap.put("parentId", 0);
 		modelMap.put("categoryList", categoryList);
 		
 		return "/system/gfCategory/edit";
@@ -228,14 +229,17 @@ public class GFCategoryManagerController {
 	 * @date : 2016年5月10日 下午3:55:55
 	 * @Description: 商品查询
 	 */
-	@RequestMapping(value = "/listProSearch/{id}", method = RequestMethod.POST)
-	public String listProSearch(Model model, @PathVariable(value = "id") long id,CommodityListQuery commodityListQuery){
+	@RequestMapping(value = "/listProSearch/{id}/{parentId}", method = RequestMethod.POST)
+	public String listProSearch(Model model, @PathVariable(value = "id") long id,@PathVariable(value = "parentId") long parentId,CommodityListQuery commodityListQuery){
 		try {
+			//获取绑定商品的品类ID
+			commodityListQuery.setCategory_id(id);
 			//查询所有商品
 			PageVO<ItemVO> pageVO = gfCategoryBiz.getItemList(commodityListQuery);
 			model.addAttribute("themeItemList", pageVO.getItemList());
 			model.addAttribute("commodityListQuery", commodityListQuery);
 			model.addAttribute("id", id);
+			model.addAttribute("parentId", parentId);
 			model.addAttribute("pageVo", pageVO);
 			return "/system/gfCategory/pro_add_list";
 		} catch (Exception e) {

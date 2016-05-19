@@ -255,7 +255,11 @@ public class GFCategoryBiz {
     	for(ItemDO itemDO:itemDOList){
         	long itemId = itemDO.getId();
         	Boolean check = map.get(itemId);
-        	itemDO.setCanClose(check);
+        	if(check){
+        		itemDO.setSource(1);
+        	}else{
+        		itemDO.setSource(0);
+        	}
             itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
         }
 
