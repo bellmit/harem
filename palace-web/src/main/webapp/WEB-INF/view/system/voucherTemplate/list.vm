@@ -1,4 +1,12 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<style type="text/css">
+	.remark_voucher{margin-left:97px;}
+	.remark_voucher a{
+		display:block;
+		color:blue;
+	}
+	.remark_voucher a:hover{text-decoration:none;}
+</style>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
     <form class="form-signin" id="payListForm" name="payListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/voucherManage/list" method="GET" role="form">
         <div class="inputGroup whole">
@@ -50,6 +58,12 @@
         <div class="inputGroup whole">
             <div class="btn-group">
                 <button type="submit" class="btn btn-add">新增优惠券</button>
+                <div class="remark_voucher">
+                	<a>注：</a>
+                	<a>1.导出的Csv文件请使用Txt文本打开，将优惠券码复制；</a>
+                	<a>2.打开一个Excel文件，选中将要粘贴的列，右键选中设置单元格格式，在“分类”下选择“文本”后保存；</a>
+                	<a>3.将复制的内容粘贴到更改为文本格式的列中，这样可以保证0开头的券码显示完整。</a>
+                </div>
             </div>
         </div>
         <div class="tableGroup whole">
