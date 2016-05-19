@@ -2,6 +2,7 @@ package com.yimayhd.gf.biz;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.CategoryDO;
 import com.yimayhd.commentcenter.client.domain.CategoryItemRelationDO;
+import com.yimayhd.commentcenter.client.dto.CategoryCheckDTO;
 import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.CategoryRelationDTO;
 import com.yimayhd.commentcenter.client.errorcode.ComCenterReturnCodes;
@@ -231,7 +233,29 @@ public class GFCategoryBiz {
         }
         List<ItemDO> itemDOList = itemPageResult.getItemDOList();
         List<ItemVO> itemVOList = new ArrayList<ItemVO>();
+        List<Long> listLongs = new ArrayList<Long>();
+        
+        
+        //拼装商品列表的ID集合  去关系表中查询是否已经存在  以便回显
         for(ItemDO itemDO:itemDOList){
+        	long itemId = itemDO.getId();
+        	listLongs.add(itemId);
+        }
+        CategoryCheckDTO categoryCheckDTO = new CategoryCheckDTO();
+        categoryCheckDTO.setDomain(B2CConstant.GF_DOMAIN);
+        categoryCheckDTO.setIdList(listLongs);
+    	categoryCheckDTO.setCategoryId(commodityListQuery.getCategory_id());
+    	BaseResult<Map<Long, Boolean>> baseResult = gfCategoryRepo.checkItemAndCateRelaByitemIds(categoryCheckDTO);
+    	if(null==baseResult||!baseResult.isSuccess()){
+    		LOGGER.error("gfCategoryRepo.checkItemAndCateRelaByitemIds error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(categoryCheckDTO));
+            throw new BaseException(itemPageResult.getResultMsg());
+    	}
+    	Map<Long, Boolean> map = baseResult.getValue();
+    	
+    	for(ItemDO itemDO:itemDOList){
+        	long itemId = itemDO.getId();
+        	Boolean check = map.get(itemId);
+        	itemDO.setCanClose(check);
             itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
         }
 
