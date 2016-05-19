@@ -53,14 +53,14 @@
 			#end
 		</div>
 		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
+			#*<ul class = "clearfix first">
 				<li class = "first">法人身份证正面：</li>
 				<li><img src = "$!tfs$!examineInfo.legralCardUp"></li>
 			</ul>
 			<ul class = "clearfix">
 				<li class = "first">法人身份证反面：</li>
 				<li><img src = "$!tfs$!examineInfo.legralCardDown"></li>
-			</ul>
+			</ul>*#
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
@@ -102,11 +102,11 @@
 				<li><img #if("$!examineInfo.touchProve" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.touchProve" #end></li>
 				
 			</ul>
-			<ul class = "clearfix">
+			#*<ul class = "clearfix">
 				<li class = "first">旅行社授权书：</br><p class = "spe"><a>*</a>仅限旅行社分社上传<p></li>
 				<li><img #if("$!examineInfo.travelAgencyAuthorization" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travelAgencyAuthorization" #end></li>
 				
-			</ul>
+			</ul>*#
 		</div>
 		
 		#elseif($!type == 1)
