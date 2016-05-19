@@ -22,7 +22,7 @@
                 </tr>
                     #foreach($theme in $themeItemList)
                     <tr class="subCheckedTR">
-                        <td><input class="subChecked" type="checkbox" value="$!{theme.id}"></td>
+                        <td>$!{theme.isCanClose}<input class="subChecked" type="checkbox" value="$!{theme.id}"></td>
                         <td>
                         	<p><img class="uploadImgFile" src="#if($!theme.smallListPic && $!theme.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!theme.smallListPic) #end"></p>
 	                        $!theme.title
