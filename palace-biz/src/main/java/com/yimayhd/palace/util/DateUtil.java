@@ -1070,7 +1070,7 @@ public class DateUtil {
 		return (end.getTime() - begin.getTime())/(24*60*60*1000);
 	}
 	public static void main(String[] args) {
-		System.out.println(dateToString(new Date(), "yyyy-MM-dd"));
+		System.out.println(dateToString(new Date(), "yyyy/MM/dd"));
 		Calendar calendar = Calendar.getInstance();
 		Calendar calendar2 = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, -2);
