@@ -232,7 +232,7 @@ public class OrderServiceImpl implements OrderService {
 				long bizOrderId = bizOrderDO.getBizOrderId() ;
 				int domainId = bizOrderDO.getDomain() ;
 				BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId, domainId);
-				if( queryPayOrderResult == null || !queryPayOrderResult.isSuccess() ){
+				if( queryPayOrderResult != null && queryPayOrderResult.isSuccess() ){
 					PayOrderDO payOrderDO = queryPayOrderResult.getValue();
 					mainOrder.setPayOrderDO(payOrderDO);
 				}

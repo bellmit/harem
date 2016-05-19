@@ -73,6 +73,8 @@ public class GFCommodityManageController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/selectList", method = RequestMethod.GET)
 	public ResponseVo listAjax(CommodityListQuery commodityListQuery) throws Exception {
+
+		commodityListQuery.setPageSize(5);
 		PageVO<ItemVO> pageVO = gfCommodityService.getList(commodityListQuery);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("pageVo", pageVO);

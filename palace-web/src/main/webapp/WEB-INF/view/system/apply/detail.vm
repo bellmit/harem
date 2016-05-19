@@ -173,6 +173,10 @@
 				<li class = "first">负责人身份证反面：</li>
 				<li><img src = "$!tfs$!examineInfo.principleCardDown"></li>
 			</ul>
+			<ul class = "clearfix">
+				<li class = "first">手持身份证照片：</li>
+				<li><img src = "$!tfs$!examineInfo.cardInHand"></li>
+			</ul>
 		</div>
 		<div class = "info">
 			<h3>财务信息</h3>
@@ -181,33 +185,7 @@
 			<p><em>财务结算账号</em><strong>$!examineInfo.accountNum</strong></p>
 			<p><em>财务结算开户行</em><strong id="$!examineInfo.accountBankProvinceCode" class="s_province"> </strong> <strong id="$!examineInfo.accountBankCityCode" class="s_city"></strong> <strong>  $!examineInfo.accountBankName</strong></p>
 		</div>
-		<h3>合作合同</h3>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同1：</li>
-				<li><img #if("$!examineInfo.cooperation1" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation1" #end></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">合作合同2：</li>
-				<li><img #if("$!examineInfo.cooperation2" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation2" #end></li>
-			</ul>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同3：</li>
-				<li><img #if("$!examineInfo.cooperation3" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation3" #end></li>	
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">合作合同4：</li>
-				<li><img #if("$!examineInfo.cooperation4" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation4" #end></li>	
-			</ul>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同5：</li>
-				<li><img #if("$!examineInfo.cooperation5" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation5" #end></li>	
-			</ul>
-		</div>
+		
 		<div class = "btnInfo">
 			<button class="btn btn-primary" type="button" id="$!examineInfo.id">审核</button>
 		</div>
