@@ -43,9 +43,10 @@
                         </span>
                         <select class="form-control" name="status">
                             <option value="0">全部</option>
+                            <option value="1" #if($!voucherListQuery.status == 1) selected #end>待上架</option>
                             <option value="2" #if($!voucherListQuery.status == 2) selected #end>上架</option>
                             <option value="3" #if($!voucherListQuery.status == 3) selected #end>下架</option>
-                            <option value="4" #if($!voucherListQuery.status == 4) selected #end>已领完</option>
+                            <option value="6" #if($!voucherListQuery.status == 6) selected #end>生成中</option>
                         </select>
                 </div>
                 <div class="btn-group">
