@@ -25,13 +25,13 @@
                     <option value="2" #if($!orderListQuery.refundStatus == '2') selected #end>用户已撤销</option>
                     #if($!bizType=="2")
                         <option value="5" #if($!orderListQuery.refundStatus == '5') selected #end>初审审核通过，等待买家退货</option>
-                        <option value="6" #if($!orderListQuery.refundStatus == '6') selected #end>收货审核通过，退款中</option>
+                       #* <option value="6" #if($!orderListQuery.refundStatus == '6') selected #end>收货审核通过，退款中</option>*#
                     #end
                     <option value="7" #if($!orderListQuery.refundStatus == '7') selected #end>
                         #if($!bizType=="1")
                             审核未通过，退款关闭
                         #else
-                            初审审核未通过，退货退款关闭
+                            收货审核未通过，退货退款关闭
                         #end
                     </option>
                     #if($!bizType=="1")
