@@ -143,17 +143,17 @@
 #*支付方式*#
 #macro(PAY_CHANNEL $type)
     #if($type == '1')
-    支付宝条码
+        支付宝条码
     #elseif($type == '2')
-    支付宝网页
+        支付宝网页
     #elseif($type == '3')
-    支付宝手机
+        支付宝手机
     #elseif($type == '4')
-    微信扫码
+        微信支付
     #elseif($type == '5')
-    微信JS
+        支付宝WAP支付
     #else
-    其他
+        其他
     #end
 #end
 #*交易状态*#

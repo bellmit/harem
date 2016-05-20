@@ -14,8 +14,9 @@
             <tr>
 	            <td><span class="spColor">*</span>上级品类</td>
 	            <td>
-		            <select class="form-control" name="parentId">
-		                <option value="0">无</option>
+		            <select class="form-control" name="parentId" #if($theme.parentId == 0) onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;" #end>
+		                #if($theme.parentId == 0)<option value="0">无</option>#end
+		                #if($parentId==0)<option value="0">无</option>#end
 						#foreach($module in $categoryList)
 							<option #if($theme.parentId == $module.id) selected #end value="$!{module.id}">$!{module.name}</option>
 						#end
