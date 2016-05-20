@@ -160,7 +160,9 @@ public class AfterSaleManageController {
                 return new ResponseVo(Constant.ERROR_STATUS,Constant.AFTERSALE_PIC_MAX_ERR);
             }
             for (String str:pictures) {//TODO:这里是不太好的，文件已经上传上去了，在filegw里面就应该处理好，传图片的就只能传图片
-                if(!Arrays.asList(Constant.AFTERSALE_PIC_POSTFIX).contains(str)){//文件后缀不匹配
+                //看后缀
+                String aix = str.substring(str.lastIndexOf(".")+1,str.length());
+                if(!Arrays.asList(Constant.AFTERSALE_PIC_POSTFIX).contains(aix)){//文件后缀不匹配
                     return new ResponseVo(Constant.ERROR_STATUS,Constant.AFTERSALE_PIC_POSTFIX_ERR);
                 }
             }
