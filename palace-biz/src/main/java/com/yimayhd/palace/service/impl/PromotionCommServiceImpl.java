@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.druid.sql.visitor.functions.Now;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
@@ -35,8 +36,10 @@ import com.yimayhd.palace.convert.ActActivityEditVOConverter;
 import com.yimayhd.palace.convert.ActPromotionEditDTOConverter;
 import com.yimayhd.palace.convert.PromotionEditDTOConverter;
 import com.yimayhd.palace.model.ActActivityEditVO;
+import com.yimayhd.palace.model.ActActivityVO;
 import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
+import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.NumUtil;
@@ -100,12 +103,12 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         }
 
         ActPromotionEditDTO actPromotionEditDTO = ActPromotionEditDTOConverter.getActPromotionEditDTO(actActivityEditVO);
-        List<PromotionDO> addPromotionDOList = actPromotionEditDTO.getAddPromotionDOList() ;
-        boolean exist = isItemSkuHasDirectReduce(addPromotionDOList);
-        if( exist ){
-        	throw new BaseException("存在已拥有直降优惠的商品或者sku了，不能重复添加");
-        }
-        
+//        List<PromotionDO> addPromotionDOList = actPromotionEditDTO.getAddPromotionDOList() ;
+//		String tips = getItemSkuHasDirectReduceTip(addPromotionDOList);
+//        if( StringUtils.isNotBlank(tips) ){
+//        	throw new BaseException(tips);
+//        }
+//        
         ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
         if(baseResult == null){
             log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
@@ -116,10 +119,55 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         }
     }
     
-    private boolean isItemSkuHasDirectReduce(List<PromotionDO> addPromotionDOList){
+    private boolean existDirectReducePromotion(ItemPromotionQueryResult queryResult){
+    	if( queryResult == null || !queryResult.isSuccess() || queryResult.getPcBaseItem() == null){
+    		return false;
+    	}
+    	PcBaseItem baseItem = queryResult.getPcBaseItem();
+    	List<PromotionDTO> promotionDTOs = baseItem.getPromotionDTOList();
+    	if( CollectionUtils.isEmpty(promotionDTOs) ){
+    		return false;
+    	}
+    	for( PromotionDTO dto : promotionDTOs ){
+    		int type = dto.getType() ;
+    		if( PromotionType.DIRECT_REDUCE.getType() == type && dto.isAvailable() ){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+
+    @Override
+    public boolean add(ActActivityEditVO actActivityEditVO) throws Exception {
+        PromotionEditDTO promotionEditDTO = PromotionEditDTOConverter.getPromotionEditDTO(actActivityEditVO);
+//        List<PromotionDO> addPromotionDOList = promotionEditDTO.getAddPromotionDOList() ;
+//        String tips = getItemSkuHasDirectReduceTip(addPromotionDOList);
+//        if( StringUtils.isNotBlank(tips) ){
+//        	throw new BaseException(tips);
+//        }
+        
+        ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+        if(baseResult == null){
+            log.error("PromotionCommService.add error: " + promotionEditDTO);
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.add error:" + promotionEditDTO);
+            throw new BaseException(baseResult.getMsg());
+        }
+        return true;
+    }
+
+    @Override
+	public BizResultSupport check(ActActivityEditVO actActivityEditVO) {
+    	BizResultSupport result = new BizResultSupport() ;
+    	ActActivityDO actActivityDO = actActivityEditVO.getActActivityVO() ;
+    	PromotionEditDTO promotionEditDTO = PromotionEditDTOConverter.getPromotionEditDTO(actActivityEditVO);
+        List<PromotionDO> addPromotionDOList = promotionEditDTO.getAddPromotionDOList() ;
+//    	String tips = getItemSkuHasDirectReduceTip(addPromotionDOList);
     	
     	if( org.springframework.util.CollectionUtils.isEmpty(addPromotionDOList) ){
-    		return false;
+    		return result;
     	}
     	
     	List<Long> itemIds = new ArrayList<Long>();
@@ -147,8 +195,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     		entityQueryPairList.add(pair) ;
     	}
     	List<Integer>  statusList = new ArrayList<Integer>() ;
-    	statusList.add(PromotionStatus.BEING.getStatus()) ;
-    	statusList.add(PromotionStatus.NOTBEING.getStatus()) ;
+    	statusList.add(com.yimayhd.promotion.client.enums.PromotionStatus.valid.getValue()) ;
+    	statusList.add(com.yimayhd.promotion.client.enums.PromotionStatus.create.getValue()) ;
     	
     	List<Integer> promotionTypeList = new ArrayList<Integer>();
     	promotionTypeList.add(PromotionType.DIRECT_REDUCE.getType()) ;
@@ -157,87 +205,35 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     	promotionPageQuery.setEntityQueryPairList(entityQueryPairList);
     	promotionPageQuery.setStatusList(statusList);
     	promotionPageQuery.setPromotionTypeList(promotionTypeList);
+    	promotionPageQuery.setEndTime(new Date());
     	BasePageResult<PromotionDO> queryResult = promotionQueryService.queryPromotions(promotionPageQuery);
     	if( queryResult == null || !queryResult.isSuccess() ){
     		log.error("queryPromotions failed!  query={},  Result={}", JSON.toJSONString(promotionPageQuery), JSON.toJSONString(queryResult));
     		//查询出错，认为已经有直降优惠了，不创建成功
-    		return true;
+    		return result;
     	}
     	List<PromotionDO> promotionDOs = queryResult.getList() ;
     	if( CollectionUtils.isEmpty(promotionDOs) ){
-    		return false;
+    		return result;
     	}
-//    	for( PromotionDO promotionDO : promotionDOs ){
-//    		
-//    	}
-    	return true;
-//    	
-//    	//FIMXE
-//    	for( PromotionDO promotionDO : addPromotionDOList ){
-//    		int entityType =promotionDO.getEntityType() ;
-//    		long entityId = promotionDO.getEntityId() ;
-//    		BaseItemDTO baseItemDTO = new BaseItemDTO() ;
-//    		if( EntityType.ITEM.getType() == entityType ){
-//    			baseItemDTO.setItemId(entityId);
-//    		}else{
-//    			baseItemDTO.setItemSkuId(entityId);
+    	
+    	long activityId = actActivityDO.getId() ;
+    	String tips = null ;
+    	for( PromotionDO promotionDO : promotionDOs ){
+//    		if( activityId <=0 || ( activityId > 0 && promotionDO.getEntityId() != activityId) ){
+    			tips = "您选中的部分商品已经存在直降活动了，见直降活动【"+promotionDO.getTitle()+"】";
+    			break ;
 //    		}
-//    		//FIXME
-////    		ItemPromotionQueryResult queryResult = promotionQueryService.getAvailableItemPromotions(baseItemDTO) ;
-////    		if( queryResult == null || !queryResult.isSuccess() || queryResult.getPcBaseItem() == null){
-////        		log.error("getAvailableItemPromotions failed!  dto={},  result={}", JSON.toJSONString(baseItemDTO), JSON.toJSONString(queryResult));
-////        		return false;
-////        	}
-////    		boolean exit = existDirectReducePromotion(queryResult);
-////    		if( exit ){
-////    			return true ;
-////    		}
-//    	}
-//    	return false;
-    }
-    
-    private boolean existDirectReducePromotion(ItemPromotionQueryResult queryResult){
-    	if( queryResult == null || !queryResult.isSuccess() || queryResult.getPcBaseItem() == null){
-    		return false;
     	}
-    	PcBaseItem baseItem = queryResult.getPcBaseItem();
-    	List<PromotionDTO> promotionDTOs = baseItem.getPromotionDTOList();
-    	if( CollectionUtils.isEmpty(promotionDTOs) ){
-    		return false;
-    	}
-    	for( PromotionDTO dto : promotionDTOs ){
-    		int type = dto.getType() ;
-    		if( PromotionType.DIRECT_REDUCE.getType() == type && dto.isAvailable() ){
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-
-    @Override
-    public boolean add(ActActivityEditVO actActivityEditVO) throws Exception {
-        PromotionEditDTO promotionEditDTO = PromotionEditDTOConverter.getPromotionEditDTO(actActivityEditVO);
-        List<PromotionDO> addPromotionDOList = promotionEditDTO.getAddPromotionDOList() ;
-        boolean exist = isItemSkuHasDirectReduce(addPromotionDOList);
-        if( exist ){
-        	throw new BaseException("存在已拥有直降优惠的商品或者sku了，不能重复添加");
+    	
+        if( StringUtils.isNotBlank(tips) ){
+        	 result.setMsg(tips);
+        	 result.setSuccess(false);
         }
-        
-        ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
-//        System.err.println(JSON.toJSONString(promotionEditDTO));
-//        System.err.println(JSON.toJSONString(baseResult));
-        if(baseResult == null){
-            log.error("PromotionCommService.add error: " + promotionEditDTO);
-            throw new BaseException("返回结果错误");
-        } else if(!baseResult.isSuccess()){
-            log.error("PromotionCommService.add error:" + promotionEditDTO);
-            throw new BaseException(baseResult.getMsg());
-        }
-        return true;
-    }
+		return result;
+	}
 
-    @Override
+	@Override
     public ActActivityEditVO getById(long id) throws Exception {
 
         ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);

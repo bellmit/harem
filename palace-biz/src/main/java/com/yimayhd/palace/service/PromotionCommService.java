@@ -4,6 +4,7 @@ import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
+import com.yimayhd.palace.result.BizResultSupport;
 
 /**
  * Created by czf on 2016/1/19.
@@ -35,6 +36,9 @@ public interface PromotionCommService {
      * @throws Exception
      */
     boolean add(ActActivityEditVO entity) throws Exception;
+    
+    
+    BizResultSupport check(ActActivityEditVO entity) ;
 
     /**
      * 根据主键获取优惠

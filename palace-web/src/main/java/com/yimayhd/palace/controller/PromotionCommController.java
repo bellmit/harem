@@ -1,6 +1,18 @@
 package com.yimayhd.palace.controller;
 
-import com.alibaba.fastjson.JSON;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
 import com.yimayhd.palace.base.BaseController;
@@ -10,21 +22,10 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.helper.PromotionHelper;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
+import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 单品优惠管理
@@ -117,6 +118,16 @@ public class PromotionCommController extends BaseController {
         promotionCommService.add(actActivityEditVO);
         return "/success";
     }
+    
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    @ResponseBody
+    public BizResultSupport promotionCheck(ActActivityEditVO actActivityEditVO) throws Exception {
+    	//promotionVO.setEntityType(EntityType.SHOP.getType());
+    	BizResultSupport result = promotionCommService.check(actActivityEditVO);
+    	return result;
+    }
+    
+    
 
     /**
      * 根据优惠ID修改优惠
