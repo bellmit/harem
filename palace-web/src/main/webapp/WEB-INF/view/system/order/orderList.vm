@@ -12,10 +12,12 @@
                     </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="itemType" id="itemType">
                     <option value="">全部</option>
-                    <option value="3100" #if($!orderListQuery.itemType == '3100') selected #end>跟团游</option>
-                    <option value="3200" #if($!orderListQuery.itemType == '3200') selected #end>自由行</option>
-                    <option value="3300" #if($!orderListQuery.itemType == '3300') selected #end>同城活动</option>
-                    <option value="200" #if($!orderListQuery.itemType == '200') selected #end>特产商品</option>
+                    <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>跟团游</option>
+                    <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>自由行</option>
+                    <option value="3300" #if($!orderListQuery.itemType == 3300) selected #end>同城活动</option>
+                    <option value="1200" #if($!orderListQuery.itemType == 1200) selected #end>景区门票</option>
+                    <option value="1100" #if($!orderListQuery.itemType == 1100) selected #end>酒店</option>
+                    <option value="200" #if($!orderListQuery.itemType == 200) selected #end>特产商品</option>
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -62,10 +64,12 @@
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
                     <option value="">全部</option>
                     <option value="2" #if($!orderListQuery.orderStat == '2') selected #end>待付款</option>
-                    <option value="3" #if($!orderListQuery.orderStat == '3') selected #end>已付款</option>
-                    <option value="6" #if($!orderListQuery.orderStat == '6') selected #end>待出行</option>
+                    <option value="3" #if($!orderListQuery.orderStat == '3') selected #end>处理中/待确认</option>
+                    <option value="6" #if($!orderListQuery.orderStat == '6') selected #end>待出行/待使用/预定成功</option>
+                    <option value="11" #if($!orderListQuery.orderStat == '11') selected #end>酒店（未入住）</option>
                     <option value="10" #if($!orderListQuery.orderStat == '10') selected #end>已完成</option>
                     <option value="8" #if($!orderListQuery.orderStat == '8') selected #end>已取消</option>
+                    
                 </select>
             </div>
             <div class="input-group inpSingle">
@@ -118,12 +122,36 @@
                             <td></td>
                             <td>
                                 <div class="goods-item">
+                                
                                     <div class="t-img">
                                         <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                                     </div>
                                     <div class="t-msg">
-                                        <div class="t-name">$!subOrder.itemTitle</div>
-                                        <div class="t-userType">#if("$!subOrder.startDate" == "")  #else  $!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发  #end | $!subOrder.linePackage | $!subOrder.personType</div>
+                                    	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200)
+                                           	<div class="t-name">$!subOrder.itemTitle</div>
+                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
+                                            <div class="t-userType">$!subOrder.itemSubTitle</div>
+                                            <div class="t-userType">$!subOrder.personType</div>
+                                        #end
+                                        
+                                        #if($!subOrder.bizOrder.orderType == 1200 )
+                                        	<div class="t-name">$!order.jiuxiuTcMainOrders.scenicTitle</div>
+                                        	<div class="t-name">$!subOrder.itemTitle</div>
+                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 入园</div>
+                                            <div class="t-userType">$!order.jiuxiuTcMainOrders.ticketTitle</div>
+                                        #end
+                                        
+                                         #if($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
+                                        	<div class="t-name">$!order.jiuxiuTcMainOrders.hotelTitle</div>
+                                        	<div class="t-name">$!subOrder.itemTitle</div>
+                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate)</div>
+                                            <div class="t-userType">$!order.jiuxiuTcMainOrders.roomTitle</div>
+                                            #if($!subOrder.bizOrder.orderType == 1400)
+                                            	<div class="t-userType">在线付</div>
+                                            #elseif($!subOrder.bizOrder.orderType == 3400)
+                                            	<div class="t-userType">到店付</div>
+                                            #end
+                                        #end
                                     </div>
                                 </div>
                             </td>
@@ -149,6 +177,12 @@
 	                                    同城活动
 	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 200)
 	                                    特产商品
+	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 1200)
+	                                    景区门票
+                                    #elseif( $!order.jiuxiuTcBizOrder.orderType == 1200)
+	                                    酒店（在线付）
+                                    #elseif( $!order.jiuxiuTcBizOrder.orderType == 3400)
+	                                    酒店（到店付）
 	                                #end
 	                            </div>
                         #end
@@ -170,16 +204,46 @@
                         </td>
                         <td>
                             <div class="">
-                                #if( $!order.jiuxiuTcBizOrder.orderStatus == 2)
-                                    待付款
-                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 3)
-                                    已付款
-                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 6)
-                                     待出行
-                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 10)
-                                    已完成
-                                #elseif( $!order.jiuxiuTcBizOrder.orderStatus == 8)
-                                    已取消
+                                
+                                #if($!order.jiuxiuTcBizOrder.orderType == 3100 || $!order.jiuxiuTcBizOrder.orderType == 3200 
+	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3300 || $!order.jiuxiuTcBizOrder.orderType == 200)
+                                	    #if($!order.jiuxiuTcBizOrder.orderStatus == 2)
+                                      		待付款
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 3)
+                                           	 处理中
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 6)
+                                          	  待出行
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 10)
+                                          	  已完成
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 8)
+                                           	 已取消
+                                        #end
+                                #elseif($!order.jiuxiuTcBizOrder.orderType == 1200)
+                                   		#if($!order.jiuxiuTcBizOrder.orderStatus == 2)
+                                      		待付款
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 3)
+                                           	待确认
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 6)
+                                          	  待使用
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 10)
+                                          	  已完成
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 8)
+                                           	 已取消
+                                        #end
+                                #elseif($!order.jiuxiuTcBizOrder.orderType == 1100 || $!order.jiuxiuTcBizOrder.orderType == 3400)
+                                		#if($!order.jiuxiuTcBizOrder.orderStatus == 2)
+                                      		待付款
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 3)
+                                           	待确认
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 6)
+                                          	 预订成功
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 10)
+                                          	  已完成
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 8)
+                                           	 已取消
+                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 11)
+                                           	 未入住
+                                        #end
                                 #end
                             </div>
                         </td>

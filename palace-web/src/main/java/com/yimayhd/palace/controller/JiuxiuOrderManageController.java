@@ -73,7 +73,8 @@ public class JiuxiuOrderManageController extends BaseController {
 			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
 			if(result.isSuccess() && null!=result.getTcMainOrder()){
 				TcMainOrder tcMainOrder = result.getTcMainOrder();
-				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(tcMainOrder.getBizOrder().getSellerId(), Constant.DOMAIN_JIUXIU);
+				long sellerId = tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getSellerId();
+				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId, Constant.DOMAIN_JIUXIU);
 				TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
 				if(null!= merchantUserDTO.getValue() && null!= merchantUserDTO.getValue().getMerchantDO()){
 					tcMerchantInfo.setMerchantName(merchantUserDTO.getValue().getMerchantDO().getName());
