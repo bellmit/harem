@@ -23,7 +23,7 @@
             </div>
 		#end
 		<!--状态是用户发货的话，需要展示物流信息 -->
-        #if($!bizType == 2 && $!orderShowState == 5)#* *#
+        #if($!bizType == 2 && $!orderShowState >= 5)#* *#
 			#parse("/system/afterSale/common/logistics.vm")
 		#end
 		#parse("/system/afterSale/common/aftersale_info.vm")
