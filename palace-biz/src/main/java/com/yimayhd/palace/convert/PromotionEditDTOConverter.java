@@ -14,6 +14,8 @@ import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -23,11 +25,17 @@ import java.util.List;
  * Created by czf on 2016/2/18.
  */
 public class PromotionEditDTOConverter {
-    public static PromotionEditDTO getPromotionEditDTO(ActActivityEditVO actActivityEditVO) throws Exception {
+	private static final Logger logger = LoggerFactory.getLogger("PromotionEditDTOConverter");
+    public static PromotionEditDTO getPromotionEditDTO(ActActivityEditVO actActivityEditVO) {
         ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
         //活动能够时间格式转换
-        actActivityVO.setStartDate(DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT));
-        actActivityVO.setEndDate(DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT));
+        try {
+			actActivityVO.setStartDate(DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT));
+			actActivityVO.setEndDate(DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT));
+		} catch (Exception e) {
+			logger.error("date parse error!  vo={}",JSON.toJSONString(actActivityEditVO), e);
+			return null ;
+		}
 
         PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
         List<PromotionVO> promotionVOList = null;

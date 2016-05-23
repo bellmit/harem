@@ -38,6 +38,12 @@ public class UserRepo {
 		}
 		return userServiceRef.getUserDOById(userId);
 	}
+	public UserDO getUser(long userId, boolean maskMobile) {
+		if (userId <= 0) {
+			return null;
+		}
+		return userServiceRef.getUserDOById(userId, maskMobile);
+	}
 
 	/**
 	 * 根据手机号码查询用户

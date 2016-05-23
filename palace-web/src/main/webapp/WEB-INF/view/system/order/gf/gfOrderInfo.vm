@@ -103,8 +103,8 @@
 	                    <tr>
 	                        <td class="order-info-label">手机号：</td>
 	                        <td class="order-info-value">$!order.buyerPhoneNum</td>
-                            #*<td class="order-info-label">昵称：</td>
-                            <td class="order-info-value">$!order.buyerName</td>*#
+                            <td class="order-info-label">昵称：</td>
+                            <td class="order-info-value">$!order.buyerName</td>
 	                    </tr>
 	                </table>
                 </div>
