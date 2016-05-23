@@ -78,8 +78,12 @@
                             </td>
 	                        #if( $velocityCount == 1 )
 	                        	<td rowspan="$size">
-		                            <div class="txt">$!order.user.nickname</div>
-		                            <div class="txt">$!order.user.mobileNo</div>
+									#if($order.user.nickname)
+                                        <div class="txt">$!order.user.nickname</div>
+									#end
+									#if($order.user.mobileNo)
+                                        <div class="txt">$!order.user.mobileNo</div>
+									#end
 		                        </td>
 
 								<td rowspan="$size">￥$!utilNum.moneyTransform($!bizOrder.actualTotalFee)</td>

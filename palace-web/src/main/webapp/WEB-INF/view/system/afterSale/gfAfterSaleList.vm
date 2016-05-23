@@ -250,6 +250,8 @@
 
         $("#clean_btn").click(function(){
             $('#tradeListForm1 div:eq(0)').find('input').val("");
+            /*$('#tradeListForm1 div:eq(0)').children("select").find("option[index = '0']").attr("selected","selected")*///下拉框默认选第一个
+            $('#tradeListForm1 div:eq(0)').find('select').children().eq(0);
         });
 
     });
