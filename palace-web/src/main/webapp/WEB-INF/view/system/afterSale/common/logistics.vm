@@ -3,6 +3,6 @@
     <div class = "cont cont1a">
         <p class = "info first"><em>物流公司：</em>$!refundOrderDO.logisticsCompanyName</p>
         <p class = "info"><em>物流单号：</em>$!refundOrderDO.logisticsNumber</p>
-        <p class = "info last"><em>提交时间：</em>$!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.logisticsTime)</p>
+        <p class = "info last"><em>提交时间：</em>$!date.format('yyyy-MM-dd HH:mm:ss',$!refundOrderDO.logisticsTime)</p>
     </div>
 </div>
