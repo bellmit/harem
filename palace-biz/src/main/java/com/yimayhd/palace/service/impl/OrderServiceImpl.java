@@ -160,6 +160,7 @@ public class OrderServiceImpl implements OrderService {
 		OrderQueryOption orderQueryOption = new OrderQueryOption();
 		orderQueryOption.setAll();
 		orderQueryOption.setNeedLogisticsOrder(true);
+		orderQueryOption.setNeedExtFeature(true);
 		try {
 			SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(id,orderQueryOption);
 			if (singleQueryResult.isSuccess()){
