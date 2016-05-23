@@ -116,40 +116,42 @@
 					            <span>审核时间：
 									$!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
 *#
+
 					        #if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
 					            $!as.refundStatus ==5 ||
 					            $!as.refundStatus ==6 || $!as.refundStatus ==7)
-					            <div>
-					            <span>审核结果：
-					                #REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>当前状态：
-					                #REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>审核时间：
-					                $!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
-					                </span><br>
-					                <span>审核备注：$!as.auditorRemark</span><br>
-					                <span>审核人：$!as.auditorName</span><br>
-								#if($!as.refundStatus ==7 && $!bizType ==2)
-                                    <span>
-#*
-									卖家举证：
-										#foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
-											#if($!arimgs)
-                                                <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
-*#
-										#foreach($!rdoList in $!refundOrderDO.refundOperationRecordDOList)
-											#if($!rdoList.refundStatus == 7 )
-                                                卖家举证：
-												#foreach($!arimgs in $!rdoList.pictures)
-													#if($!arimgs)
-                                                        <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+					            <div class="shenhe_info" style="padding-left: 30px">
+									<span>审核结果：
+										#REFUND_STATUS($!as.refundStatus)
+									</span><br>
+									<span>当前状态：
+										#REFUND_STATUS($!as.refundStatus)
+									</span><br>
+									<span>审核时间：
+										$!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
+									</span><br>
+									<span>审核备注：$!as.auditorRemark</span><br>
+									<span>审核人：$!as.auditorName</span><br>
+
+									#if($!as.refundStatus ==7 && $!bizType ==2)
+                                    <span class="juzheng">
+										#*
+										卖家举证：
+											#foreach($arimgs in $!refundOrderDO.refundOperationRecordDOList.pictures)
+												#if($!arimgs)
+													<img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+										*#
+											#foreach($!rdoList in $!refundOrderDO.refundOperationRecordDOList)
+												#if($!rdoList.refundStatus == 7 )
+													卖家举证：
+													#foreach($!arimgs in $!rdoList.pictures)
+														#if($!arimgs)
+															<img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+														#end
 													#end
 												#end
 											#end
-										#end
-					            </span>
+					            	</span>
 								#end
 								<br>
 								<br>
