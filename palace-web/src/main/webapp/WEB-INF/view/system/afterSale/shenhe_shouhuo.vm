@@ -1,20 +1,25 @@
+<!--
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
       rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
+-->        
+#set($layout = "/system/layout/layout-gf.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "退款退货审核页面")
+
 
 #set($styles = ["$!root_path/resources/zui/css/zui.min.css", "$!rs_js_css_path_jiuxiu/css/aftersale/look.css"])
 #set($jses = ["$!rs_js_css_path_jiuxiu/js/plugin/layerModal.js", "$!rs_js_css_path_jiuxiu/js/other/aftersale/gf/aftersaledetail.js"])
 
 
 <!-- 位置 -->
-<div class="position">
-    <div>您所在的位置： 售后管理>退款退货审核页面</div>
-</div>
+	<div class = "" id = "details">
+		<div class = "path">
+			<p>您所在的位置是：售后管理>退款退货审核页面</p>
+		</div>
 
-<div class="tab-content grogInfoWrap" style="">
 
-    <div class="tab-pane active" id="orderInfo">
         #* 物流*#
         #parse("/system/afterSale/common/logistics.vm")
         #* 卖家备注*#
@@ -24,10 +29,8 @@
 
             #parse("/system/afterSale/common/aftersale_info_ck.vm")
             <br><br><br><br>
-
-        #parse("/system/afterSale/common/item.vm")
-            <br><br><br><br>
-
+		
+		#parse("/system/afterSale/common/aftersale_item.vm")
 		#parse("/system/afterSale/common/aftersale_receiving.vm")
-    </div>
+		
 </div>

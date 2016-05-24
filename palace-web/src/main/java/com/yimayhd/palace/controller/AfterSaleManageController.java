@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.yimayhd.palace.model.RefundOrderVO;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.service.AfterSaleService;
 import com.yimayhd.palace.util.CommonUtil;
+import com.yimayhd.palace.util.ImageUtil;
 import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
 import com.yimayhd.refund.client.enums.RefundType;
@@ -117,7 +119,15 @@ public class AfterSaleManageController {
         if( refundOrderDO != null ){
         	List<String> pictures = refundOrderDO.getPictures() ;
 //        	String pics = CommonUtil.list2String(pictures);
-        	model.addAttribute("refundPics", JSON.toJSON(pictures));
+        	//FIXME wuzhengfei
+        	List<String> imgs = new ArrayList<>();
+        	if( !org.springframework.util.CollectionUtils.isEmpty(pictures) ){
+        		for( String picture : pictures ){
+        			String img = ImageUtil.getImgUrl(picture, 800);
+        			imgs.add(img);
+        		}
+        	}
+        	model.addAttribute("refundPics", JSON.toJSONString(imgs));
         }
         AfterSaleAuditStatus as = refundOrderVO.getAfterSaleAuditStatus();
         model.addAttribute("afterSaleAuditStatusDesc", as==null?"":as.getDes());
