@@ -88,7 +88,7 @@
                         <td>$!voucher.title</td>
                         <td>#VOUCHER_TYPE($!voucher.voucherType)</td>
                         <td>
-                        	#if($!voucher.issueType == "2" && $!voucher.status== "1")
+                        	#if($!voucher.issueType == "2" && $!voucher.status== "6")
                         	生成中
                         	#else
                         	已生成
