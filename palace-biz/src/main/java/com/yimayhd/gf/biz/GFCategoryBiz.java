@@ -213,7 +213,7 @@ public class GFCategoryBiz {
         if(0 != commodityListQuery.getCommStatus()){
             status.add(commodityListQuery.getCommStatus());
         }else{
-            status.add(ItemStatus.create.getValue());
+//            status.add(ItemStatus.create.getValue());
             status.add(ItemStatus.valid.getValue());
 //            status.add(ItemStatus.invalid.getValue());下降的商品不出现在列表里面
         }
