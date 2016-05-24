@@ -28,6 +28,7 @@
 	                <td align = "center" width= "200">
 						#set($itemPrice=$!itemRefundOrder.itemPrice)
 						#set($discountFee=$!itemRefundOrder.discountFee)
+
 						#set($count=$!itemPrice - $discountFee)
 	                	<s>$!utilNum.moneyTransform($!itemRefundOrder.itemPrice)</s><br>
 						<span class = "spe">$!utilNum.moneyTransform($count)</span>
@@ -38,7 +39,7 @@
 	                <td align = "center" width= "200">
 	                	<p>
 	                		<span class = "spe">
-	                        	$utilNum.totalFee($itemRefundOrder.itemNum,$itemRefundOrder.actualTotalFee)
+	                        	$utilNum.totalFee($itemRefundOrder.itemNum,$itemRefundOrder.itemPrice)
 	                		</span>
 	                		</br>(包邮)
 	                	</p>
