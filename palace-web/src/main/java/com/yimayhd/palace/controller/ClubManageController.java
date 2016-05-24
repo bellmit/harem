@@ -31,9 +31,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/B2C/clubManage")
 public class ClubManageController extends BaseController {
-	
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	
 	@Autowired
 	private ClubService clubService;
 
