@@ -147,6 +147,10 @@
             <br><br>
             <!-- 订单商品信息 -->
             <div class="orderInfo">
+                <!-- 如果有优惠的话展示优惠信息 -->
+                #if($!order.promotionInfoDesc)
+                    全场促销优惠：$!order.promotionInfoDesc
+                #end
                 <table class="table table-hover order-items">
                     <tr>
                         <th width="15%">商品图片</th>
@@ -194,20 +198,21 @@
                             </td>*#
                             #if( $velocityCount == 1 )
 	                            <td rowspan="$size">
-	                            	￥$!utilNum.moneyTransform( $!order.totalFee )
+	                            	#*￥$!utilNum.moneyTransform( $!order.totalFee )*#
+                                    $!utilNum.moneyTransform($!order.mainOrder.bizOrderDO.actualTotalFee)
 	                            </td>
                             #end
                         </tr>
                         #end
                 </table>
                 <div class="order-fee-container">
-                	#if( $!order.promotionFee > 0  )
-	                	<span class="order-fee">促销共优惠：-￥ $!utilNum.moneyTransform($!order.promotionFee)</span>
+                	#if( $!order.orderPromotionFee > 0  )
+	                	<span class="order-fee">促销共优惠：- ￥ $!utilNum.moneyTransform($!order.orderPromotionFee)</span>
                 	#end
-                	#if( $!order.voucherFee > 0  )
-	                	<span class="order-fee">优惠券优惠：-￥ $!utilNum.moneyTransform($!order.voucherFee)</span>
+                	#if( $!order.orderVoucherFee > 0  )
+	                	<span class="order-fee">优惠券优惠：- ￥ $!utilNum.moneyTransform($!order.orderVoucherFee)</span>
                 	#end
-                	<span class="order-fee">总计：￥ $!utilNum.moneyTransform($!order.mainOrder.bizOrderDO.actualTotalFee)</span>
+                	#*<span class="order-fee">总计：￥ $!utilNum.moneyTransform($!order.mainOrder.bizOrderDO.actualTotalFee)</span>*#
                 </div>
             </div>
 
