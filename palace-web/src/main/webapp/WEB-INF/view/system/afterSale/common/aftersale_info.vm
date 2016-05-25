@@ -66,7 +66,8 @@
 		        <div class="clear"></div>
 			</p>
 			#if( $approve )
-				#if($!bizType==2)
+				<!-- 退货退款待审核下出现收货地址-->
+				#if($!bizType==2 && $!orderShowState==1)
 		            #parse("/system/afterSale/common/shouhuo_address.vm")
 		        #end
 				<p class = "info note-container">
@@ -96,18 +97,14 @@
 									</span><br>
 									<span>审核备注：$!as.auditorRemark</span><br>
 									<span>审核人：$!as.auditorName</span><br>
-
 									#if($!as.refundStatus >=6 && $!bizType ==2)
-                                    <span class="juzheng">
-											#foreach($!rdoList in $!refundOrderDO.refundOperationRecordDOList)
-												#if($!rdoList.refundStatus == 7 )
-													卖家举证：
+                                    <span class="juzheng">卖家举证：
+										#foreach($!rdoList in $!refundOrderDO.refundOperationRecordDOList)
 													#foreach($!arimgs in $!rdoList.pictures)
 														#if($!arimgs)
 															<img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
 														#end
 													#end
-												#end
 											#end
 					            	</span>
 								#end

@@ -75,11 +75,11 @@ public class AfterSaleManageController {
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? 1 : Integer.parseInt(request.getParameter("pageNumber")) ;
         String bizOrderIdBak = request.getParameter("bizOrderIdBak");
         String refundOrderIdBak = request.getParameter("refundOrderIdBak");
-        if(StringUtils.isNotEmpty(bizOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
+        if(StringUtils.isNotEmpty(bizOrderIdBak) && NumberUtils.isNumber(bizOrderIdBak.trim()) ){//&& NumberUtils.isNumber(bizOrderIdBak)
             bizOrderIdBak=bizOrderIdBak.trim();
             refundOrderQuery.setBizOrderId(Long.parseLong(bizOrderIdBak));
         }
-        if(StringUtils.isNotEmpty(refundOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
+        if(StringUtils.isNotEmpty(refundOrderIdBak) && NumberUtils.isNumber(refundOrderIdBak.trim()) ){//&& NumberUtils.isNumber(bizOrderIdBak)
             refundOrderIdBak=refundOrderIdBak.trim();
             refundOrderQuery.setRefundOrderId(Long.parseLong(refundOrderIdBak));
         }

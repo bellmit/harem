@@ -13,6 +13,7 @@ import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.repo.PayRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderService;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -263,7 +264,8 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setOrderPromotionInfo(promotionInfo);
 					PromotionTypes orderPromotion = PromotionTypes.getByType(promotionInfo.getType());
 					if(null != orderPromotion){//只针对全场满减的
-						String desc = orderPromotion.getDesc() + promotionInfo.getRequirement()+orderPromotion.getDesc_suffix()+promotionInfo.getValue();
+						String desc = orderPromotion.getDesc() + NumUtil.moneyTransform( promotionInfo.getRequirement() )
+								+ orderPromotion.getDesc_suffix() + NumUtil.moneyTransform( promotionInfo.getValue() );
 						orderDetails.setPromotionInfoDesc(desc);
 					}
 				}
