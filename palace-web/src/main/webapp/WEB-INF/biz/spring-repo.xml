@@ -8,6 +8,7 @@
 	<bean class="com.yimayhd.palace.repo.TagRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.LineRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.RestaurantRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.PictureTextRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.ScenicRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.PictureRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.ResourceRepo"></bean>

@@ -116,6 +116,16 @@
    停用
     #end
 #end
+#*景区状态二期*#
+#macro(ITEMSCENIC_STATUS_TWO $type)
+    #if($type == '1')
+    未启用
+    #elseif($type == '2')
+    启用
+    #elseif($type == '3')
+   停用
+    #end
+#end
 #*景点级别 1-五星级 2-四星级 3-三星级 4-连锁酒店*#
 #macro(SCENIC_LEVEL $type)
     #if($type == '5')
