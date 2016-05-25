@@ -16,7 +16,6 @@
                       <option value="" >全部</option>
                       <option value="1" #if($!scenicPageQuery.itemStatus == 1) selected #end>未启用</option>
                       <option value="2" #if($!scenicPageQuery.itemStatus == 2) selected #end>启用</option>
-                      <option value="3" #if($!scenicPageQuery.itemStatus == 3) selected #end>停用</option>
                    
                 </select>
             </div>
@@ -94,19 +93,15 @@
                         <td>$utilDate.dateToString(${scenic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
                         <td>#ITEMSCENIC_STATUS_TWO($!scenic.itemStatus)</td>
                         <td>
-                        #if($scenic.itemStatus ==3)
+                        #if($scenic.itemStatus == 1)
                         	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">查看/编辑</button>
                         	<button type="button" class="btn btn-primary enableStatus"  scenicId="$scenic.id">启用   </button>
                         #elseif($scenic.itemStatus == 2)
                         	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">查看/编辑</button>
-                        	<button type="button" class="btn btn-primary disableStatus"  scenicId="$scenic.id">停用  </button>
                         	#*
                         		<button type="button" class="btn btn-primary toView" scenicId="$scenic.id">查看/编辑</button>
                         		<button type="button" class="btn btn-primary disableStatus"  scenicId="$scenic.id">停用  </button>
                         	*#
-                        #elseif($scenic.itemStatus == 1)
-                        	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">查看/编辑</button>
-                        	<button type="button" class="btn btn-primary enableStatus"  scenicId="$scenic.id">启用   </button>
                         #end
                         </td>
                     </tr>

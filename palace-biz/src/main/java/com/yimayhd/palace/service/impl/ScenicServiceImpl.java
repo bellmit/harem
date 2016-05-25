@@ -28,13 +28,16 @@ import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicAddDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicDTO;
+import com.yimayhd.ic.client.model.param.item.ScenicUpdateDTO;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ResourcePublishService;
+import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.PictureVO;
@@ -66,6 +69,8 @@ public class ScenicServiceImpl implements ScenicService {
 	private CommentRepo		commentRepo;
 	@Autowired
 	private PictureTextRepo	pictureTextRepo;
+	@Autowired
+	private ScenicPublishService scenicPublishService;
 
 	@Override
 	public PageVO<ScenicDO> getList(ScenicListQuery scenicListQuery) throws Exception {
@@ -209,7 +214,6 @@ public class ScenicServiceImpl implements ScenicService {
 		
 		List<TicketVO> ticketVOList = ScenicAddVO.transformTicketVOList(scenicDTO.getTicketDOList());
 		scenicAddVO.setTicketVOList(ticketVOList);
-		
 		// 图文详情
 		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.ITEM);
 		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
@@ -223,6 +227,17 @@ public class ScenicServiceImpl implements ScenicService {
 		ItemPubResult result = resourcePublishServiceRef.enableScenicItem(id);
 		if(!result.isSuccess()){
 			log.error("enableScenicItem return value is null !returnValue :"
+					+ JSON.toJSONString(result));
+		}
+		return result.isSuccess();
+		
+	}
+	
+	public boolean enableScenic(long id) throws Exception {
+		
+		ItemPubResult result = scenicPublishService.enableScenic(id);
+		if(!result.isSuccess()){
+			log.error("enableScenic return value is null !returnValue :"
 					+ JSON.toJSONString(result));
 		}
 		return result.isSuccess();
@@ -435,33 +450,31 @@ public class ScenicServiceImpl implements ScenicService {
 			return null;
 		}
 		
-		ICResult<ScenicDO> addScenicNew = null;
+		ICResult<ScenicDO> result = new ICResult<ScenicDO>();
 		
 		ScenicVO scenicVO = scenicAddVO.getScenicVO();
-		
-		ScenicAddDTO scenicAddDTO = new ScenicAddDTO();
 		ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
-		scenicAddDTO.setScenic(scenicDO);
 		
-		List<TicketVO> ticketVOList = ScenicAddVO.transFormToTicketVOList(scenicAddVO.getTicketListStr());
-		scenicAddVO.setTicketVOList(ticketVOList);
-		
-		List<TicketDO> ticketDOList = ScenicAddVO.transformTicketDOList(scenicAddVO.getTicketVOList());
-		scenicAddDTO.setTicketDOList(ticketDOList);
+		List<TicketDO> ticketDOList = ScenicAddVO.transformTicketDOList(scenicAddVO.getTicketListStr());
 		
 		if (0 == scenicVO.getId()) {
-
-			addScenicNew = resourcePublishServiceRef.addScenic(scenicAddDTO);
-			if(null == addScenicNew){
-				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew result is null and parame: " + JSON.toJSONString(scenicAddDTO));
+			
+			ScenicAddDTO scenicAddDTO = new ScenicAddDTO();
+			scenicAddDTO.setScenic(scenicDO);
+			scenicAddDTO.setTicketDOList(ticketDOList);
+			
+			ICResult<ScenicDO> addResult = scenicPublishService.addScenic(scenicAddDTO);
+			if(null == addResult){
+				log.error("ScenicServiceImpl.save-ScenicPublishService.addScenic result is null and parame: " + JSON.toJSONString(scenicAddDTO));
 				throw new BaseException("修改返回结果为空,修改失败");
-			} else if(!addScenicNew.isSuccess()){
-				log.error("ScenicServiceImpl.save-ResourcePublishService.addScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(scenicAddDTO) + "and scenicAddVO:" + JSON.toJSONString(scenicAddVO));
-				throw new BaseException(addScenicNew.getResultMsg());
+			} else if(!addResult.isSuccess()){
+				log.error("ScenicServiceImpl.save-ScenicPublishService.addScenic error:" + JSON.toJSONString(addResult) + "and parame: " + JSON.toJSONString(scenicAddDTO) + "and scenicAddVO:" + JSON.toJSONString(scenicAddVO));
+				throw new BaseException(addResult.getResultMsg());
 			}
 			
+			result = addResult;
 		} else {
-			ICResult<ScenicDO> icResult = itemQueryService.getScenic(scenicVO.getId());
+			ICResult<ScenicDTO> icResult = itemQueryService.getScenicDetail(scenicVO.getId());
 			if(null == icResult){
 				log.error("ScenicServiceImpl.save-itemQueryService.getScenic result is null and parame: " + scenicVO.getId());
 				throw new BaseException("查询结果为空,修改失败 ");
@@ -469,83 +482,48 @@ public class ScenicServiceImpl implements ScenicService {
 				log.error("ScenicServiceImpl.save-itemQueryService.getScenic error:" + JSON.toJSONString(icResult) + "and parame: " + scenicVO.getId());
 				throw new BaseException(icResult.getResultMsg());
 			}
-			ScenicDO scenicDB = icResult.getModule();
+			
+			ScenicDTO scenicDTO = icResult.getModule();
+			if(scenicDTO == null){
+				throw new BaseException("查询结果为空,修改失败 ");
+			}
+			
+			ScenicDO scenicDB = icResult.getModule().getScenic();
 			if(scenicDB == null){
 				log.error("ScenicServiceImpl.save-itemQueryService.getScenic result.getModule is null and parame: " + scenicVO.getId());
+				throw new BaseException("查询结果为空,修改失败 ");
 			}
-			ScenicAddNewDTO addNewDTO = new ScenicAddNewDTO();
-			addNewDTO.setScenic(scenicDO);
-			scenicDO.setMemberPrice(scenicDO.getPrice());
-			//NeedKnowOb
-			if(null !=scenicVO.getNeedKnowOb()){
-				List<TextItem> frontNeedKnow = scenicVO.getNeedKnowOb().getFrontNeedKnow();
-				List<TextItem> newFrontNeedKnow =new ArrayList<TextItem>();
-				if(frontNeedKnow!=null&&!frontNeedKnow.isEmpty()){
-					for (int i = 0; i < frontNeedKnow.size(); i++) {
-						if(StringUtils.isNotBlank(frontNeedKnow.get(i).getTitle())||StringUtils.isNotBlank(frontNeedKnow.get(i).getContent())){
-							newFrontNeedKnow.add(frontNeedKnow.get(i));
-						}
-					}
-					scenicVO.getNeedKnowOb().setFrontNeedKnow(newFrontNeedKnow);
-				}
-				addNewDTO.setNeedKnow(scenicVO.getNeedKnowOb());
-				//购买须知存tfs
-				if(org.apache.commons.lang.StringUtils.isNotBlank(scenicVO.getNeedKnowOb().getExtraInfoUrl())) {
-					addNewDTO.getNeedKnow().setExtraInfoUrl(tfsService.publishHtml5(scenicVO.getNeedKnowOb().getExtraInfoUrl()));
-				}
-			}else{
-				addNewDTO.setNeedKnow(null);
-			}
-			scenicDO.setRecommend(scenicVO.getMasterRecommend());
 			
-			//TODO 修改项处理
-			addScenicNew = resourcePublishServiceRef.updateScenicNew(addNewDTO);
-			if(null == addScenicNew){
-				log.error("ScenicServiceImpl.save-ResourcePublishService.updateScenicNew result is null and parame: " + JSON.toJSONString(addNewDTO));
+			ScenicUpdateDTO updateDTO = new ScenicUpdateDTO();
+			updateDTO.setId(scenicDO.getId());
+			updateDTO.setLocationProvinceId(scenicDO.getLocationProvinceId());
+			updateDTO.setLocationCityId(scenicDO.getLocationCityId());
+			updateDTO.setLocationTownId(scenicDO.getLocationTownId());
+			updateDTO.setLocationText(scenicDO.getLocationText());
+			updateDTO.setLocationX(scenicDO.getLocationX());
+			updateDTO.setLocationY(scenicDO.getLocationY());
+			updateDTO.setTicketDOList(ticketDOList);
+			updateDTO.setLevel(scenicDO.getLevel());
+			updateDTO.setScenicFeature(scenicDO.getScenicFeature());
+			updateDTO.setLogoUrl(scenicDO.getLogoUrl());
+			updateDTO.setPictures(scenicDO.getPictures());
+			updateDTO.setOpenTime(scenicDO.getOpenTime());
+			
+			ICResultSupport updateResult = scenicPublishService.updateScenic(updateDTO);
+			if(null == updateResult){
+				log.error("ScenicServiceImpl.save-ScenicPublishService.updateScenic result is null and parame: " + JSON.toJSONString(updateDTO));
 				throw new BaseException("修改返回结果为空,修改失败");
-			} else if(!addScenicNew.isSuccess()){
-				log.error("ScenicServiceImpl.save-ResourcePublishService.updateScenicNew error:" + JSON.toJSONString(addScenicNew) + "and parame: " + JSON.toJSONString(addNewDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
-				throw new BaseException(addScenicNew.getResultMsg());
-			}
-			if(StringUtils.isNotBlank(scenicVO.getPicListStr())){
-				scenicVO.setPictureList(JSON.parseArray(scenicVO.getPicListStr(),PictureVO.class));
-			if(CollectionUtils.isNotEmpty(scenicVO.getPictureList())) {
-				//获取图片
-				PicturesPageQuery picturesPageQuery = new PicturesPageQuery();
-				picturesPageQuery.setOutId(scenicVO.getId());
-				picturesPageQuery.setPageNo(PIC_PAGE_NO);
-				picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
-				picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
-				ICPageResult<PicturesDO> icPageResult = itemQueryService.queryPictures(picturesPageQuery);
-				if (icPageResult == null) {
-					log.error("ScenicServiceImpl.updateScenic-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
-					throw new BaseException("返回结果为空，获取景区资源图片失败");
-				} else if (!icPageResult.isSuccess()) {
-					log.error("ScenicServiceImpl.updateScenic-itemQueryService.queryPictures error:" + JSON.toJSONString(icPageResult) + "and parame: " + JSON.toJSONString(picturesPageQuery) + "and id:" + scenicVO.getId());
-					throw new BaseException("返回结果错误，获取景区资源图片失败，" + icPageResult.getResultMsg());
-				}
-				List<PicturesDO> picturesDOList = icPageResult.getList();
-				//图片集合处理
-				PictureUpdateDTO pictureUpdateDTO = new PictureUpdateDTO();
-				if(PictureVO.setPictureListPictureUpdateDTO(scenicVO.getId(),PictureOutType.SCENIC,pictureUpdateDTO, picturesDOList,scenicVO.getPictureList()) != null){
-					ICResult<Boolean> updatePictrueResult = resourcePublishServiceRef.updatePictures(pictureUpdateDTO);
-					if(null == updatePictrueResult){
-						log.error("ScenicServiceImpl.updateScenic-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
-						throw new BaseException("景区资源保存成功，图片集保存返回结果为空，保存失败");
-					} else if(!updatePictrueResult.isSuccess()){
-						log.error("ScenicServiceImpl.updateScenic-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
-						throw new BaseException("景区资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
-					}
-				}
-			}
+			} else if(!updateResult.isSuccess()){
+				log.error("ScenicServiceImpl.save-ScenicPublishService.updateScenic error:" + JSON.toJSONString(updateResult) + "and parame: " + JSON.toJSONString(updateDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+				throw new BaseException(updateResult.getResultMsg());
 			}
 			
-			
-			
-			
-			
+			scenicVO.setId(scenicDB.getId());
+			result.setSuccess(updateResult.isSuccess());
+			result.setResultMsg(updateResult.getResultMsg());
+			result.setModule(scenicVO);
 		}
-		return addScenicNew;
+		return result;
 	}
 
 	@Override

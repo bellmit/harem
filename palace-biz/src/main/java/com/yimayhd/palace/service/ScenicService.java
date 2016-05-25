@@ -6,6 +6,7 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
@@ -42,6 +43,15 @@ public interface ScenicService {
 	 * @throws Exception
 	 */
 	boolean enableScenicItem(long id) throws Exception;
+	
+	/**
+	 * 修改景区状态
+	 * 
+	 * @param id
+	 * @param scenicStatus
+	 * @throws Exception
+	 */
+	boolean enableScenic(long id) throws Exception;
 	
 
 	/**

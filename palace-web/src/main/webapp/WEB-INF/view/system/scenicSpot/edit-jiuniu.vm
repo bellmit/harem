@@ -43,10 +43,16 @@
                     <tr>
                         <td><span class="spColor">*</span>景区名称</td>
                         <td>
-                            #if($!{VO.id})
-                                <input type="hidden" name="scenicVO.id" value="$!{VO.id}">
-                            #end
-                            <input type="text" class="inpCtlBlock" name="scenicVO.name" placeholder="请填写景区全称，1-20个字" maxlength="20" value="$!{VO.scenicVO.name}">
+                        	#set($scenicVOId=0)
+                        	#if($VO.scenicVO.id)
+                        		#set($scenicVOId=$VO.scenicVO.id)
+                        	#end
+                        	<input type="hidden" id="scenicId" name="scenicVO.id" value="$!{scenicVOId}">
+                            <input type="text" class="inpCtlBlock" name="scenicVO.name" 
+                            	#if($VO.scenicVO.id)
+                            		disabled="disabled" 
+                            	#end
+                            placeholder="请填写景区全称，1-20个字" maxlength="20" value="$!{VO.scenicVO.name}">
                         </td>
                     </tr>
                     <tr>
@@ -80,9 +86,9 @@
                         <td><span class="spColor">*</span>地址经纬度</td>
                         <td>
                             <span>经度</span>
-                            <input type="text" name="scenicVO.locationX" id="locationX" class="inpControl getAddress" value="$!{VO.scenicVO.locationX}" placeholder="示例:116.40461,限数字" />
+                            <input type="text" name="scenicVO.locationX" id="locationX" class="inpControl getAddress locationX" value="$!{VO.scenicVO.locationX}" placeholder="示例:116.40461,限数字" />
                             <span>维度</span>
-                            <input type="text" name="scenicVO.locationY" id="locationY" class="inpControl getAddress" value="$!{VO.scenicVO.locationY}" placeholder="示例:39.910921,限数字" />
+                            <input type="text" name="scenicVO.locationY" id="locationY" class="inpControl getAddress locationY" value="$!{VO.scenicVO.locationY}" placeholder="示例:39.910921,限数字" />
                             <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                             #*<code>点击查找经纬度可自动获取</code>*#
                         </td>
@@ -91,10 +97,9 @@
                         <td><span class="spColor">*</span>景区票型</td>
                         <td>
                         	<div class="ticketTypeList">
-                        		${VO.ticketVOList}
-                        		#foreach($ticket in ${VO.ticketVOList})
+                        		#foreach($ticket in $VO.ticketVOList)
 		                            <p>
-										<span status="$!{$ticket.status}" >$!{$ticket.title}</span>
+										<span status="$!{ticket.status}" >$!{ticket.title}</span>
 									</p>	
 	                            #end
                         	</div>
@@ -122,8 +127,16 @@
                         <td><span class="spColor">*</span>景区主题</td>
                         <td>
                             #foreach($theme in $themes)
+                            	
+                            	#set( $checked = '')
+                            	#foreach($subjectId in $VO.scenicVO.scenicFeature.getSubjectIds())
+	                            	#if($theme.id == $subjectId)
+	                            		#set( $checked = 'checked="checked"')
+	                            	#end
+                            	#end
+                            	
                             	<span class="theme">
-                            		<input type="checkbox" class="themeCheckBox" value="${theme.id}" >
+                            		<input type="checkbox" class="themeCheckBox" value="${theme.id}" ${checked} />
 	                            	${theme.name}
 	                            </span>	
                             #end
@@ -147,6 +160,7 @@
                             		<img  class="img-square uploadImgFile dimg" imgUrl="$!{VO.scenicVO.logoUrl}" src="$utilWebconfig.getTfsRootPath()$!{VO.scenicVO.logoUrl}" />	
                             	#end
 		            		</div>
+                            <p>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</p>
                         </td>
                      </tr>
                      <tr>
@@ -164,19 +178,19 @@
 	   								</div>		
 	                            #end
                             </div>
+                            <input class="coverPics" type="hidden" name="scenicVO.coverPics" value="">
+                        	<label class="coverPicsTip" style="display:none;">最少上传一张景区图片</label>
                         </td>
-                        <input class="coverPics" type="hidden" name="scenicVO.coverPics" value="">
-                        <label class="coverPicsTip" style="display:none;">最少上传一张景区图片</label>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>景区开放时间</td>
-                        <td><input type="text" class="inpCtlBlock" name="scenicVO.openTime" placeholder="请输入1-20个字" value="$!{VO.openTime}"></td>
+                        <td><input type="text" class="inpCtlBlock" name="scenicVO.openTime" placeholder="请输入1-20个字" value="$!{VO.scenicVO.openTime}"></td>
                     </tr>
                     
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-info savePrev">保存并下一步</button>
+            <button type="submit" class="btn btn-info saveNext">保存并下一步</button>
         </div>
         <div class="tab-pane" id="scenicImgs" style="width:95%; margin:15px auto;">
             #parse("/system/scenicSpot/pictureText.vm")
@@ -195,9 +209,13 @@
     function operateTicketType(){
     	//添加票型
     	$(".addTicketType").click(function(){
+    		
+    		if(!$("#ticketTypeText").val() && !$("#ticketTypeText").val().trim()){
+    			return;
+    		}
 			var ticketTypeHTML = [];
 			ticketTypeHTML.push('<p>');
-				ticketTypeHTML.push('<span status="1" >'+ $("#ticketTypeText").val() +'</span>');
+				ticketTypeHTML.push('<span status="1" class="ticketSpan" >'+ $("#ticketTypeText").val() +'</span>');
 				ticketTypeHTML.push('<label class="delTicketType" >x</label>');
 			ticketTypeHTML.push('</p>');	
 			
@@ -207,15 +225,16 @@
 		
 		//删除票型
 		$(document).delegate(".delTicketType", 'click', function(){
-			var p = $(this).prev();
-			p.css("display", "none");
-			p.attr("status", "2");
+			var s = $(this).prev();
+			s.attr("status", "2");
+			$(this).parent().css("display", "none");
+			
 		});
     }
     
     function getTicketTypeArr(){
     	var arr = [];
-    	$(".ticketTypeList").find("span").each(function(){
+    	$(".ticketTypeList").find("span[class='ticketSpan']").each(function(){
     		var ticket = {
     			"title": $(this).text(),
     			"status": $(this).attr("status")
@@ -416,7 +435,7 @@
         /*提交**/
         $("#saveScenicSpot").validate({
             rules: {
-                'name': {
+                'scenicVO.name': {
                     required: true
                 },
                 'locationProvinceId': {
@@ -428,16 +447,19 @@
                 'locationTownId': {
                     required: true
                 },
-                'locationText': {
+                'scenicVO.locationText': {
                     required: true
                 },
-                'locationX': {
+                'scenicVO.locationX': {
                     required: true
-                },'locationY': {
+                },
+                'scenicVO.locationY': {
                     required: true
-                },'level': {
+                },
+                'scenicVO.level': {
                     required: true
-                },'openTime':{
+                },
+                'scenicVO.openTime':{
                 	required: true
                 }
             },
@@ -506,30 +528,13 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.status == 200) {
-                            layer.msg('操作成功', {
-	                            icon: 1,
-	                            time: 1500
-                        	});
-                        	/**
-	                        setTimeout(function () {
-	                        	 $("#clubCategorySubmit").attr("disabled", false);
-	                      	  location.href = actionDefaultPath + "/jiuniu/scenicSpotManage/list";
-	                        },1500);
-	                        **/
-	                        
+                        	$("#scenicId").val(data.data.id);       
 	                        $("#scenicImgId").trigger("click");
-
                         } else {
                             layer.msg('操作失败', {
 	                            icon: 2,
 	                            time: 2000
 	                        });
-	                        /**
-	                        setTimeout(function () {
-	                        	$("#clubCategorySubmit").attr("disabled", false);
-	                      	  	location.href = actionDefaultPath + "/jiuniu/scenicSpotManage/list";
-	                        },1500);
-	                        **/
                         }
                     }
                 };
@@ -541,36 +546,35 @@
             }
         });
         
+        $.validator.addMethod("locationX",function(value,element){
+        	var lngRe=/^[-]?(\d|([1-9]\d)|(1[0-7]\d)|(180))(\.\d*)?$/g;
+            return lngRe.test(value);
+        }, "请输入正确的坐标");
+        
+        $.validator.addMethod("locationY",function(value,element){
+        	var latRe=/^[-]?(\d|([1-8]\d)|(90))(\.\d*)?$/g;
+            return latRe.test(value);
+        }, "请输入正确的坐标");
+        
          $(".saveAll").click(function(){
 	    	var pictureText = getPictureText();
-	    	alert(JSON.stringify(pictureText));
 	    	
 	    	var params = {
 				json:JSON.stringify(pictureText)
 			};
-	    	var url = location.href = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/1122";
+			
+	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ $("#scenicId").val();
 	    	$.post(url, params, function(data){
-	    		
-	    		layer.alert(data.resultMsg, {
-					icon : 2
-				});
-	    		
-				if(data.success) {
-					/**
+				if(data.status == 200) {
+				
 					layer.alert('保存成功', {
 		                time: 0 //不自动关闭
 		                ,yes: function(index){
-		                    
-		                    //layer.close(index);
-							//// 刷新父页面
-							//top.freshPrevFrame();
-							//top.tabTopClose(this);
-							window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/item/list"; 
+							window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/jiuniu/scenicSpotManage/list"; 
 		                }
 		            });
-		            **/
 				} else {
-					layer.alert(data.resultMsg, {
+					layer.alert(data.message, {
 						icon : 2
 					});
 				}

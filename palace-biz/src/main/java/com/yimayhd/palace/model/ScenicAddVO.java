@@ -20,20 +20,12 @@ public class ScenicAddVO {
 	private String ticketListStr;
 	private PictureTextVO	pictureText; // 图文详情
 		
-	public static List<TicketDO> transformTicketDOList(List<TicketVO> ticketVOList){
-		
-		if(ticketVOList == null){
-			return null;
-		}
+	public static List<TicketDO> transformTicketDOList(String ticketListStr){
 		
 		List<TicketDO> list = new ArrayList<TicketDO>();
-		
-		TicketVO ticketVO = null;
-		for(int i = 0; i < ticketVOList.size(); i++){
-			ticketVO = ticketVOList.get(i);
-			list.add(TicketVO.getScenicDO(ticketVO));
-		}
-		
+		if(StringUtils.isNotBlank(ticketListStr)) {
+	        list = JSON.parseArray(ticketListStr, TicketDO.class);
+	    }
 		return list;
 	}
 	

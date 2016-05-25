@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -109,13 +110,12 @@ public class JiuniuScenicManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo save(ScenicAddVO scenicAddVO) throws Exception {
 		try {
-			ICResult<ScenicDO> result =scenicSpotService.save(scenicAddVO);
-			return  ResponseVo.success(result.getResultMsg());
+			ICResult<ScenicDO> result = scenicSpotService.save(scenicAddVO);
+			return  ResponseVo.success(result.getModule());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
 		}
-		
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class JiuniuScenicManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo enableStatus(@PathVariable("id") long id) throws Exception {
 		try {
-			boolean enableScenicItem = scenicSpotService.enableScenicItem(id);
+			boolean enableScenicItem = scenicSpotService.enableScenic(id);
 			return ResponseVo.success(enableScenicItem);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -204,5 +204,4 @@ public class JiuniuScenicManageController extends BaseController {
 		}
 	}
 	
-
 }

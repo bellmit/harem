@@ -59,5 +59,15 @@
 		<property name="check" value="${consumer.dubbo.item.check}"/>
 		<property name="version" value="${consumer.dubbo.item.version}"/>
 	</bean>
+	
+	<bean id="scenicPublishService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+    	<property name="interface" value="com.yimayhd.ic.client.service.item.ScenicPublishService"/>
+    	<property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="4000"/>
+        <property name="check" value="false"/>
+        <property name="version" value="1.0.0.test"/>
+        <property name="retries" value="0"/>   	
+    </bean>
 
 </beans>
