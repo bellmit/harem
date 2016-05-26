@@ -10,85 +10,114 @@ public class ScenicListQuery extends BaseQuery {
 	 * 
 	 */
 	private static final long serialVersionUID = -3522270147472331376L;
-	  	private Integer status;
+		
+	private String name;
 
-	    private Integer level;
+  	private Integer status;
 
-	    private Long regionId;
+    private Integer level;
 
-	    private Integer itemStatus;
+    private Long regionId;
 
-	    private Long subjectId;
+    private Integer itemStatus;
 
-	    private String tags;
-	    
-	    private String startTime;
-	    
-	    private String endTime;
+    private Long subjectId;
+    
+	private String tags;
+    
+    private String startTime;
+    
+    private String endTime;
+    
+    private Long locationProvinceId;
 
-		public Integer getStatus() {
-			return status;
-		}
+	private Long locationCityId;
+		
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Integer getStatus() {
+		return status;
+	}
 
-		public void setStatus(Integer status) {
-			this.status = status;
-		}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-		public Integer getLevel() {
-			return level;
-		}
+	public Integer getLevel() {
+		return level;
+	}
 
-		public void setLevel(Integer level) {
-			this.level = level;
-		}
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
 
-		public Long getRegionId() {
-			return regionId;
-		}
+	public Long getRegionId() {
+		return regionId;
+	}
 
-		public void setRegionId(Long regionId) {
-			this.regionId = regionId;
-		}
+	public void setRegionId(Long regionId) {
+		this.regionId = regionId;
+	}
 
-		public Integer getItemStatus() {
-			return itemStatus;
-		}
+	public Integer getItemStatus() {
+		return itemStatus;
+	}
 
-		public void setItemStatus(Integer itemStatus) {
-			this.itemStatus = itemStatus;
-		}
+	public void setItemStatus(Integer itemStatus) {
+		this.itemStatus = itemStatus;
+	}
 
-		public Long getSubjectId() {
-			return subjectId;
-		}
+	public Long getSubjectId() {
+		return subjectId;
+	}
 
-		public void setSubjectId(Long subjectId) {
-			this.subjectId = subjectId;
-		}
+	public void setSubjectId(Long subjectId) {
+		this.subjectId = subjectId;
+	}
 
-		public String getTags() {
-			return tags;
-		}
+	public String getTags() {
+		return tags;
+	}
 
-		public void setTags(String tags) {
-			this.tags = tags;
-		}
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 
-		public String getStartTime() {
-			return startTime;
-		}
+	public String getStartTime() {
+		return startTime;
+	}
 
-		public void setStartTime(String startTime) {
-			this.startTime = startTime;
-		}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
 
-		public String getEndTime() {
-			return endTime;
-		}
+	public String getEndTime() {
+		return endTime;
+	}
 
-		public void setEndTime(String endTime) {
-			this.endTime = endTime;
-		}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	public Long getLocationProvinceId() {
+		return locationProvinceId;
+	}
 
+	public void setLocationProvinceId(Long locationProvinceId) {
+		this.locationProvinceId = locationProvinceId;
+	}
+
+	public Long getLocationCityId() {
+		return locationCityId;
+	}
+
+	public void setLocationCityId(Long locationCityId) {
+		this.locationCityId = locationCityId;
+	}
 	    
 }
