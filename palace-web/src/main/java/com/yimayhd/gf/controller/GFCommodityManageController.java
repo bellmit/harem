@@ -1,5 +1,6 @@
 package com.yimayhd.gf.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.gf.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
@@ -18,6 +19,8 @@ import com.yimayhd.palace.service.CategoryService;
 import com.yimayhd.user.session.manager.SessionManager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +34,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/GF/commodityManage")
 public class GFCommodityManageController extends BaseController {
+	private static final Logger logger = LoggerFactory.getLogger("GFCommodityManageController");
 
 	@Autowired
 	private CommodityService gfCommodityService;
@@ -155,6 +159,7 @@ public class GFCommodityManageController extends BaseController {
 	public String addCommon(ItemVO itemVO) throws Exception {
 		long sellerId = B2CConstant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
+		logger.info("addCommon  itemVO={}", JSON.toJSONString(itemVO));
 		gfCommodityService.addCommonItem(itemVO);
 		return "/success";
 	}
@@ -193,6 +198,7 @@ public class GFCommodityManageController extends BaseController {
 		itemVO.setId(itemId);
 		long sellerId = B2CConstant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
+		logger.info("editCommon  itemVO={}", JSON.toJSONString(itemVO));
 		gfCommodityService.modifyCommonItem(itemVO);
 		return "/success";
 	}
