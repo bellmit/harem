@@ -18,7 +18,16 @@ public class HotelListQuery extends BaseQuery {
 	private String BeginDate;// 开始创建时间
 	private String endDate;// 结束创建时间
 	private Integer pageBegin;
+	private int domain;
 	
+	public int getDomain() {
+		return domain;
+	}
+
+	public void setDomain(int domain) {
+		this.domain = domain;
+	}
+
 	public int getHotelStatus() {
 		return hotelStatus;
 	}

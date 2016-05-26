@@ -91,12 +91,12 @@
                         </td>
                         <td>$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}</td>
                         <td>$utilDate.dateToString(${scenic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
-                        <td>#ITEMSCENIC_STATUS_TWO($!scenic.itemStatus)</td>
+                        <td>#ITEMSCENIC_STATUS_TWO($!scenic.status)</td>
                         <td>
-                        #if($scenic.itemStatus == 1)
+                        #if($scenic.status == 1)
                         	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">查看/编辑</button>
                         	<button type="button" class="btn btn-primary enableStatus"  scenicId="$scenic.id">启用   </button>
-                        #elseif($scenic.itemStatus == 2)
+                        #elseif($scenic.status == 2)
                         	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">查看/编辑</button>
                         	#*
                         		<button type="button" class="btn btn-primary toView" scenicId="$scenic.id">查看/编辑</button>

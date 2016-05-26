@@ -32,7 +32,17 @@ public class ScenicListQuery extends BaseQuery {
     private Long locationProvinceId;
 
 	private Long locationCityId;
+	
+	private int domain;
 		
+	public int getDomain() {
+		return domain;
+	}
+
+	public void setDomain(int domain) {
+		this.domain = domain;
+	}
+
 	public String getName() {
 		return name;
 	}

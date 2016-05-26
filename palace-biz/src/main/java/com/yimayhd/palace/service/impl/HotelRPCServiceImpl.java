@@ -87,6 +87,10 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			hotelPageQuery.setEndTime(DateUtil.add23Hours(endTime));
 		}
 		
+		if (hotelListQuery.getDomain() != 0) {			
+			hotelPageQuery.setDomain(hotelListQuery.getDomain());
+		}
+		
 		ICPageResult<HotelDO> icPageResult = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
     	List<HotelDO> hotelDOList = icPageResult.getList();
     	

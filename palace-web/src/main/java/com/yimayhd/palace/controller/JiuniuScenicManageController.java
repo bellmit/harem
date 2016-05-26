@@ -19,10 +19,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
@@ -50,6 +50,8 @@ public class JiuniuScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, ScenicListQuery scenicListQuery) throws Exception {
+		
+		scenicListQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		PageVO<ScenicDO> pageVo = scenicSpotService.getList(scenicListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("scenicPageQuery", scenicListQuery);

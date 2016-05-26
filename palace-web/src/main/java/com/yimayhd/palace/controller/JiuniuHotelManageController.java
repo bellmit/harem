@@ -1,5 +1,22 @@
 package com.yimayhd.palace.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.palace.base.AreaService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
@@ -10,18 +27,7 @@ import com.yimayhd.palace.model.HotelFacilityVO;
 import com.yimayhd.palace.model.HotelVO;
 import com.yimayhd.palace.model.query.HotelListQuery;
 import com.yimayhd.palace.service.HotelRPCService;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.result.ICResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.yimayhd.palace.constant.Constant;
 
 /**
  * 酒店管理（资源）
@@ -43,7 +49,8 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, HotelListQuery hotelListQuery) throws Exception {
-
+		
+		hotelListQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		List<HotelDO> hotelDOList = pageVo.getItemList();
 

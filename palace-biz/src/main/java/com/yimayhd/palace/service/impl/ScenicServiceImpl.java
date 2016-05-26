@@ -40,6 +40,7 @@ import com.yimayhd.ic.client.service.item.ResourcePublishService;
 import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.PictureVO;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
@@ -116,6 +117,10 @@ public class ScenicServiceImpl implements ScenicService {
 		//景区等级
 		if (null!=scenicListQuery.getLevel()) {			
 			pageQuery.setLevel(scenicListQuery.getLevel() );
+		}
+		
+		if (scenicListQuery.getDomain() != 0) {			
+			pageQuery.setDomain(scenicListQuery.getDomain());
 		}
 		
 		List<ScenicDO> itemList = new ArrayList<ScenicDO>();
@@ -454,6 +459,7 @@ public class ScenicServiceImpl implements ScenicService {
 		
 		ScenicVO scenicVO = scenicAddVO.getScenicVO();
 		ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
+		scenicDO.setDomain(Constant.DOMAIN_JIUXIU);
 		
 		List<TicketDO> ticketDOList = ScenicAddVO.transformTicketDOList(scenicAddVO.getTicketListStr());
 		
