@@ -6,16 +6,21 @@ import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.ScopeItemCategoryDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.BusinessScopeService;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.membercenter.client.service.ScopeItemCategoryService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.biz.ApplyBiz;
+import com.yimayhd.palace.checker.apply.AllocationChecker;
 import com.yimayhd.palace.checker.apply.ApplyApproveChecker;
 import com.yimayhd.palace.checker.apply.ApplyQueryChecker;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.query.apply.ApplyQuery;
+import com.yimayhd.palace.model.vo.apply.AllocationVO;
 import com.yimayhd.palace.model.vo.apply.ApplyVO;
 import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.palace.result.BizPageResult;
@@ -48,6 +53,8 @@ public class ApplyApprovalController extends BaseController{
     private CategoryService categoryService;
     @Autowired
     private BusinessScopeService businessScopeService;
+    @Autowired
+    private MerchantItemCategoryService merchantItemCategoryService;
 
     @RequestMapping(value="/list")
     public String applyApproval(Model model){
@@ -101,15 +108,11 @@ public class ApplyApprovalController extends BaseController{
 
     /**
      * 跳转分配产品类目页面
-     * @param applyQuery
+     * @param id
      * @return
      */
-    @RequestMapping(value = "/routeApprove")
-    public String routeApprove(ApplyQuery applyQuery,Model model){
-        BizResultSupport checkResult = ApplyQueryChecker.checkSellerVO(applyQuery);
-        if (!checkResult.isSuccess()) {
-            return "";
-        }
+    @RequestMapping(value = "/allocation")
+    public String allocation(long id,Model model){
         // 找到商户的经营范围
         MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(1200,new long[]{1});
         long[] businessScopeIds = new long[businessScopeMemResult.getValue().size()];
@@ -120,7 +123,7 @@ public class ApplyApprovalController extends BaseController{
                 result.put(businessScopeMemResult.getValue().get(i).getName(), new ArrayList<CategoryDO>());
             }
         }
-        MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(1200,new long[]{1});
+        MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(1200,businessScopeIds);
         if(scopeItemCategoryMemResult.getValue().isEmpty()) {
             return "";
         }
@@ -134,6 +137,22 @@ public class ApplyApprovalController extends BaseController{
             }
         }
         model.addAttribute("scopeCategories", result);
-        return "/system/apply/category";
+        return "/system/apply/allocation";
+    }
+
+    @RequestMapping(value = "editAllocation")
+    public @ResponseBody BizResultSupport editAllocation(AllocationVO allocationVO) {
+        BizResultSupport bizResultSupport = AllocationChecker.checkAllocationVO(allocationVO);
+        if(!bizResultSupport.isSuccess()) {
+            return bizResultSupport;
+        }
+        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategoriesByMerchant(1200, allocationVO.getExamineId(),allocationVO.getCategoryIds());
+        if(!memResultSupport.isSuccess()) {
+            bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MERCHANT_BIND_FAILED);
+            return bizResultSupport;
+        }
+
+        return new BizResultSupport();
+
     }
 }
