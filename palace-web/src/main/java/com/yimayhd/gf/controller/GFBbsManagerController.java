@@ -1,14 +1,19 @@
 package com.yimayhd.gf.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.gf.model.BbsPostsQueryVO;
 import com.yimayhd.gf.service.BbsService;
 import com.yimayhd.palace.base.PageVO;
@@ -26,9 +31,13 @@ import com.yimayhd.snscenter.client.result.BaseResult;
 @RequestMapping("/GF/bbs")
 public class GFBbsManagerController {
 	
+	private static final Logger logger = LoggerFactory.getLogger("GFBbsManagerController");
+	
 	@Autowired
 	private BbsService bbsService;
 	
+	@Autowired
+	private TfsManager tfsManager;
 	
 	@RequestMapping("/module/index")
 	public String loadMOdel(SnsModulePageQuery bbsModulePageQuery,Integer pageNumber,Model model){
@@ -294,5 +303,52 @@ public class GFBbsManagerController {
 
 
 		 return ajaxResponse;
+	}
+	
+	@RequestMapping("/posts/data")
+	@ResponseBody
+	public ResponseVo postsConvert(){
+		ResponseVo ajaxResponse = new ResponseVo(true);
+		
+		BaseResult<List<SnsPostsDO>> posts = bbsService.getPosts();
+		String content = null;
+		String wxContent = null;
+		if(posts != null){
+			List<SnsPostsDO> postsList = posts.getValue();
+			for (SnsPostsDO snsPostsDO : postsList) {
+				String tfsFileName = snsPostsDO.getContent();
+				String tfsWxFileName = snsPostsDO.getWxContent();
+				try {
+					ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+					boolean result=tfsManager.fetchFile(tfsFileName,null,outputStream);
+					if(result){
+						byte[] bytes = outputStream.toByteArray();
+						content = new String(bytes, "utf-8") ;
+					}
+					
+					ByteArrayOutputStream wxoutputStream=new ByteArrayOutputStream();
+					boolean wxresult=tfsManager.fetchFile(tfsWxFileName,null,wxoutputStream);
+					if(wxresult){
+						byte[] wxbytes = wxoutputStream.toByteArray();
+						wxContent = new String(wxbytes, "utf-8") ;
+					}
+					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				snsPostsDO.setContent(content);
+				snsPostsDO.setWxContent(wxContent);
+				
+				BaseResult<SnsPostsDO> updatePostsResult = bbsService.updatePosts(snsPostsDO);
+				
+				if(!updatePostsResult.isSuccess()){
+					logger.info("update posts is error postsId = " + snsPostsDO.getId());
+				}
+			}
+		}
+		
+		return ajaxResponse;
 	}
 }
