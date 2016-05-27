@@ -1,7 +1,9 @@
 package com.yimayhd.palace.model.trade;
 
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
+import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -37,6 +39,46 @@ public class OrderDetails {
     private Date consignTime;
 
     private ExpressVO express;
+
+    private long orderPromotionFee;
+
+    private long orderVoucherFee;
+
+    private PromotionInfo orderPromotionInfo;
+
+    private String promotionInfoDesc;
+
+    public long getOrderPromotionFee() {
+        return orderPromotionFee;
+    }
+
+    public void setOrderPromotionFee(long orderPromotionFee) {
+        this.orderPromotionFee = orderPromotionFee;
+    }
+
+    public long getOrderVoucherFee() {
+        return orderVoucherFee;
+    }
+
+    public void setOrderVoucherFee(long orderVoucherFee) {
+        this.orderVoucherFee = orderVoucherFee;
+    }
+
+    public PromotionInfo getOrderPromotionInfo() {
+        return orderPromotionInfo;
+    }
+
+    public void setOrderPromotionInfo(PromotionInfo orderPromotionInfo) {
+        this.orderPromotionInfo = orderPromotionInfo;
+    }
+
+    public String getPromotionInfoDesc() {
+        return promotionInfoDesc;
+    }
+
+    public void setPromotionInfoDesc(String promotionInfoDesc) {
+        this.promotionInfoDesc = promotionInfoDesc;
+    }
 
     public MainOrder getMainOrder() {
         return mainOrder;

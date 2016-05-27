@@ -1,24 +1,29 @@
 package com.yimayhd.palace.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
 import com.yimayhd.lgcenter.client.result.BaseResult;
 import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.OrderConverter;
+import com.yimayhd.palace.enums.PromotionTypes;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.repo.PayRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderService;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
+import com.yimayhd.promotion.client.enums.PromotionType;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
-import com.yimayhd.tradecenter.client.model.enums.*;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
+import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
+import com.yimayhd.tradecenter.client.model.enums.OrderSourceType;
 import com.yimayhd.tradecenter.client.model.param.order.*;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
@@ -239,9 +244,6 @@ public class OrderServiceImpl implements OrderService {
 				}
 
 				//物流信息
-				//FIXME 此处为测试信息。需要改为正式信息。
-				//taskInfoRequestDTO.setNumber("227326133769");
-				//taskInfoRequestDTO.setCompany("shentong");
 				LogisticsOrderDO log = mainOrder.getLogisticsOrderDO();
 				if(null != log && StringUtils.isNotEmpty(log.getExpressNo()) ){
 					TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
@@ -252,6 +254,22 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setExpress(lgResult.getValue());
 					}
 				}
+				//优惠
+				long orderPromotionFee = BizOrderUtil.getOrderPromotionFee(mainOrder.getBizOrderDO());
+				long orderVoucherFee = BizOrderUtil.getOrderVoucherFee(mainOrder.getBizOrderDO());
+				orderDetails.setOrderPromotionFee(orderPromotionFee);
+				orderDetails.setOrderVoucherFee(orderVoucherFee);
+				PromotionInfo promotionInfo = BizOrderUtil.getPromotionInfo(mainOrder.getBizOrderDO());
+				if(null != promotionInfo){
+					orderDetails.setOrderPromotionInfo(promotionInfo);
+					PromotionTypes orderPromotion = PromotionTypes.getByType(promotionInfo.getType());
+					if(null != orderPromotion){//只针对全场满减的
+						String desc = orderPromotion.getDesc() + NumUtil.moneyTransform( promotionInfo.getRequirement() )
+								+ orderPromotion.getDesc_suffix() + NumUtil.moneyTransform( promotionInfo.getValue() );
+						orderDetails.setPromotionInfoDesc(desc);
+					}
+				}
+
 				return orderDetails;
 			}
 		}catch (Exception e){

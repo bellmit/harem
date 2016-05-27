@@ -13,7 +13,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商品编码</button>
                     </span>
-            <input type="text" class="form-control" name="id" class="item-id" value="$!commodityListQuery.id" />
+            <input type="text" class="form-control" id="item-id-query" name="id" class="item-id" value="$!commodityListQuery.id" />
         </div>
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -113,7 +113,7 @@
         }) ;
     
         $('.submitBtn').click(function(){
-        	var itemId =  $("#commodityListForm item-id").val();
+        	var itemId =  $("#item-id-query").val();
         	if( itemId != null && itemId != "" ){
 	        	itemId = parseInt(itemId) ;
 	        	if( isNaN(itemId) ){
