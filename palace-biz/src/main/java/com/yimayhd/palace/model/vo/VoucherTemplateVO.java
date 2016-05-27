@@ -8,6 +8,16 @@ import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
  */
 public class VoucherTemplateVO extends VoucherTemplateDO {
 	private double value_;
+	
+	private double requirement_;
+
+	public double getRequirement_() {
+		return requirement_;
+	}
+
+	public void setRequirement_(double requirement_) {
+		this.requirement_ = requirement_;
+	}
 
 	public double getValue_() {
 		return value_;

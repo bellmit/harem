@@ -54,7 +54,7 @@
 
                 <tr>
                 	 <td align="left" width="10%"><span class="spColor">*</span>类型：</td>
-                    <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
+                    <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement_" class="requirement" value="$!{voucherDO.requirement_}">
                         <span class="spColor">*</span>减 <input type="text" name="value_" class="value" value="$!{voucherDO.value_}"> 元
                     </td>
                 </tr>
