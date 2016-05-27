@@ -165,7 +165,7 @@
             return '请输入结束有效期';
         }
         if($('.startTime').val() && $('.endTime').val()){
-            if($('.startTime').val() > $('.endTime').val()){
+            if($('.endTime').val() < $('.startTime').val()){
                 return "结束日期必须大于开始日期!";
             }
         }
