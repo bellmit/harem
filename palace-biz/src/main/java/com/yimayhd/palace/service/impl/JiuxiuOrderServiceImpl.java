@@ -61,6 +61,7 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		if(result.isSuccess() && null!=result.getBizOrderDOList()){
 			for(int i=0;i<result.getBizOrderDOList().size();i++){
 				TcMainOrder tcMainOrder = result.getBizOrderDOList().get(i);
+				//主订单JiuxiuTcMainOrder
 				JiuxiuTcMainOrder jiuxiuTcMainOrder = new JiuxiuTcMainOrder();
 				List<TcDetailOrder> tcDetailOrders = tcMainOrder.getDetailOrders();
 				List<JiuxiuTcDetailOrder> jiuxiuTcDetailOrders = new ArrayList<JiuxiuTcDetailOrder>();
@@ -69,6 +70,15 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 				if(null!=tcMainOrder){
 					//封装订单基本信息
 					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(), userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo());
+					
+					jiuxiuTcMainOrder.setTotalFee(tcMainOrder.getTotalFee());
+					jiuxiuTcMainOrder.setHotelTitle(tcMainOrder.getHotelTitle());
+					jiuxiuTcMainOrder.setRoomTitle(tcMainOrder.getRoomTitle());
+					jiuxiuTcMainOrder.setScenicTitle(tcMainOrder.getScenicTitle());
+					jiuxiuTcMainOrder.setTicketTitle(tcMainOrder.getTicketTitle());
+					jiuxiuTcMainOrder.setScenicEnterTime(tcMainOrder.getScenicEnterTime());
+					jiuxiuTcMainOrder.setCheckInTime(tcMainOrder.getCheckInTime());
+					jiuxiuTcMainOrder.setCheckOutTime(tcMainOrder.getCheckOutTime());
 				}
 				if(null!=tcDetailOrders && tcDetailOrders.size()>0){
 					for(int j=0;j<tcDetailOrders.size();j++){
@@ -81,7 +91,6 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 						jiuxiuTcDetailOrders.add(jiuxiuTcDetailOrder);
 					}
 				}
-				jiuxiuTcMainOrder.setTotalFee(tcMainOrder.getTotalFee());
 				jiuxiuTcMainOrder.setJiuxiuTcBizOrder(jiuxiuTcBizOrder);
 				jiuxiuTcMainOrder.setJiuxiuTcDetailOrders(jiuxiuTcDetailOrders);
 				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(tcMainOrder.getBizOrder().getSellerId(), Constant.DOMAIN_JIUXIU);

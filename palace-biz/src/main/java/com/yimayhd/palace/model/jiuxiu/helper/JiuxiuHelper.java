@@ -15,6 +15,7 @@ import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
@@ -87,7 +88,13 @@ public class JiuxiuHelper {
 //		dto.setSellerId(sessionManager.getUserId());
 		//商品类型
 		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getItemType())){
-			dto.setOrderBizTypes(new int[]{Integer.parseInt(jiuxiuOrderListQuery.getItemType())});
+			int[] orderBizTypes;
+			if(jiuxiuOrderListQuery.getItemType().equals(OrderBizType.HOTEL.getBizType()+"")){
+				orderBizTypes = new int[]{OrderBizType.HOTEL.getBizType(),OrderBizType.HOTEL_OFFLINE.getBizType()};
+				dto.setOrderBizTypes(orderBizTypes);
+			}else{
+				dto.setOrderBizTypes(new int[]{Integer.parseInt(jiuxiuOrderListQuery.getItemType())});
+			}
 		}
 		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getItemName())){
 			dto.setItemName(jiuxiuOrderListQuery.getItemName());
