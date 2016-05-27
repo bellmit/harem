@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,21 +14,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.item.HotelFeature;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.RoomExtraBed;
+import com.yimayhd.ic.client.model.enums.RoomNetwork;
+import com.yimayhd.ic.client.model.enums.RoomWindow;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.AreaService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.AreaVO;
+import com.yimayhd.palace.model.DestinationVO;
 import com.yimayhd.palace.model.HotelFacilityVO;
 import com.yimayhd.palace.model.HotelVO;
+import com.yimayhd.palace.model.RoomVO;
+import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
+import com.yimayhd.palace.model.query.DestinationQuery;
 import com.yimayhd.palace.model.query.HotelListQuery;
+import com.yimayhd.palace.service.DestinationRPCService;
 import com.yimayhd.palace.service.HotelRPCService;
-import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.resourcecenter.domain.DestinationDO;
+import com.yimayhd.resourcecenter.model.enums.DestinationLevel;
+import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.user.client.enums.DestinationOutType;
 
 /**
  * 酒店管理（资源）
@@ -40,6 +56,9 @@ public class JiuniuHotelManageController extends BaseController {
 
 	@Autowired
 	private HotelRPCService hotelRPCService;
+	
+	@Autowired
+	private DestinationRPCService destinationRPCService;
 
 	/**
 	 * 酒店（资源）列表
@@ -92,12 +111,16 @@ public class JiuniuHotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(HotelVO hotelVO) throws Exception {
-
-
-		hotelRPCService.addHotel(hotelVO);
-
-		return "/success";
+	@ResponseBody
+	public ResponseVo add(HotelVO hotelVO) throws Exception {
+		hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
+		try {
+			ICResult<HotelVO> result = hotelRPCService.addHotelV2(hotelVO);
+			return  ResponseVo.success(result.getModule());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -154,14 +177,47 @@ public class JiuniuHotelManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 
-		HotelVO hotelVO = hotelRPCService.getHotel(id);
+		HotelVO hotelVO = hotelRPCService.getHotelV2(id);
 		if (hotelVO == null) {
 
 		}
-		MasterRecommend recommend = hotelVO.getRecommend();
+		
+		/**
 		long roomFacility = hotelVO.getRoomFacility();
 		long hotelFacility = hotelVO.getHotelFacility();
 		long roomService = hotelVO.getRoomService();
+		**/
+		
+		HotelFeature feature = hotelVO.getFeature();
+		
+		if(feature != null && feature.getTradeArea() != null){
+			hotelVO.setTradeAreaList(feature.getTradeArea());
+		}
+		
+		List<Long> list = null;
+		long roomFacility = 0;
+		if(feature != null){
+			list = feature.getRoomFacility();
+			if(list != null && list.size() > 0){
+				roomFacility = list.get(0);
+			}
+		}
+		
+		long hotelFacility = 0;
+		if(feature != null){
+			list = feature.getHotelFacility();
+			if(list != null && list.size() > 0){
+				hotelFacility = list.get(0);
+			}
+		}
+		
+		long roomService = 0;
+		if(feature != null){
+			list = feature.getRoomFacility();
+			if(list != null && list.size() > 0){
+				roomService = list.get(0);
+			}
+		}
 
 		/**
 		 * 处理酒店设施 开始
@@ -205,7 +261,6 @@ public class JiuniuHotelManageController extends BaseController {
 		List<AreaVO> townList= AreaService.getInstance().getAreaByIDAndType("COUNTY", String.valueOf(hotelVO.getLocationCityId()));
 
 		model.addAttribute("hotel", hotelVO);
-		model.addAttribute("recommend", recommend);
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
@@ -214,7 +269,7 @@ public class JiuniuHotelManageController extends BaseController {
 		model.addAttribute("cityList", cityList);
 		model.addAttribute("townList", townList);
 		model.addAttribute("pictureList", hotelVO.getPictureList());
-		return "/system/hotel/edit";
+		return "/system/hotel/edit-jiuniu";
 	}
 
 
@@ -245,10 +300,17 @@ public class JiuniuHotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String edit(HotelVO hotelVO, @PathVariable("id") long id) throws Exception {
-		hotelVO.setId(id);
-		hotelRPCService.updateHotel(hotelVO);
-		return "/success";
+	@ResponseBody
+	public ResponseVo edit(HotelVO hotelVO, @PathVariable("id") long id) throws Exception {
+		try {
+			hotelVO.setId(id);
+			hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
+			hotelRPCService.updateHotelV2(hotelVO);
+			return  ResponseVo.success(hotelVO);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -264,5 +326,176 @@ public class JiuniuHotelManageController extends BaseController {
 		hotelRPCService.setHotelStatusList(hotelIdList, hotelStatus);
 		return new ResponseVo();
 	}
+	
+	/**
+	 * 根据城市获得商圈
+	 * @param areaType
+	 * @param areaParentCode
+	 * @return
+	 */
+	@RequestMapping(value = "/destination", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo getDestination(DestinationQuery destinationQuery) {
+		
+		try {
+			destinationQuery.setLevel(DestinationLevel.COMMERCIAL_AREA.getCode());
+			destinationQuery.setOutType(DestinationOutType.HOTEL.getCode());
+			RcResult<List<DestinationDO>> result = destinationRPCService.queryDestinationList(destinationQuery);
+			
+			List<DestinationVO> VOList = new ArrayList<DestinationVO>();
+			if(result != null){
+				VOList = DestinationVO.getDestinationVO(result.getT());
+			}
+			return  ResponseVo.success(VOList);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+	}
+	
+	/**
+	 * 酒店（资源）列表
+	 * 
+	 * @return 酒店（资源）列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/roomList/{hotelId}", method = RequestMethod.GET)
+	public String roomList(Model model, @PathVariable(value = "hotelId") long hotelId) throws Exception {
+				
+		ICResult<List<RoomDO>> result = hotelRPCService.queryAllRoom(hotelId);
+		if(result != null){
+			model.addAttribute("roomList", result.getModule());
+		}
+		model.addAttribute("hotelId", hotelId);
+		return "/system/hotel/room-list";
+	}
+	
+	/**
+	 * 新增酒店（资源）
+	 * 
+	 * @return 酒店（资源）详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/toAddRoom", method = RequestMethod.GET)
+	public String toAddRoom(Model model, long hotelId) throws Exception {
+		
+		model.addAttribute("hotelId", hotelId);
+		model.addAttribute("network", RoomNetwork.values());
+		model.addAttribute("window", RoomWindow.values());
+		model.addAttribute("extraBed", RoomExtraBed.values());
+		
+		
+		return "/system/hotel/room-edit";
+	}
+	
+	/**
+	 * 新增酒店房型（资源）
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/addRoom", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo addRoom(RoomVO roomVO) throws Exception {
+		try {
+			roomVO.setDomain(Constant.DOMAIN_JIUXIU);
+			ICResult<RoomDO> result = hotelRPCService.addRoom(roomVO);
+			return  ResponseVo.success(result.getModule());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+	}
+	
+	/**
+	 * 编辑酒店（资源）
+	 * 
+	 * @return 酒店（资源）编辑
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/editRoom/{id}", method = RequestMethod.GET)
+	public String toEditRoom(Model model, @PathVariable(value = "id") long id) throws Exception {
+		
+		model.addAttribute("network", RoomNetwork.values());
+		model.addAttribute("window", RoomWindow.values());
+		model.addAttribute("extraBed", RoomExtraBed.values());
+		
+		ICResult<RoomVO> result = hotelRPCService.getRoom(id);
+		
+		if(result.isSuccess()){
+			model.addAttribute("room", result.getModule());
+			model.addAttribute("hotelId", result.getModule().getHotelId());
+		}
+		return "/system/hotel/room-edit";
+	}
+	
+	/**
+	 * 编辑酒店房型（资源）
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/editRoom/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo editRoom(RoomVO roomVO, @PathVariable("id") long id) throws Exception {
+		try {	
+			roomVO.setId(id);
+			ICResultSupport result = hotelRPCService.updateRoom(roomVO);
+			return  ResponseVo.success(result.getResultMsg());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+	}
+	
+	/**
+	 * 酒店房型（资源）状态变更
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/setRoomStatus/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo setRoomStatus(@PathVariable("id") long id, int status) throws Exception {
 
+		RoomVO roomVO = new RoomVO();
+		roomVO.setId(id);
+		roomVO.setStatus(status);
+
+		ICResultSupport icResult = hotelRPCService.updateRoomStatus(roomVO);
+
+		ResponseVo responseVo = new ResponseVo();
+		if (icResult == null || !icResult.isSuccess()) {
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+
+		return responseVo;
+	}
+	
+	/**
+	 * 保存景区图文详情（资源）
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/savePictureText/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo savePictureText(@PathVariable("id") long id, String json) throws Exception {
+		try {
+			
+			if (StringUtils.isBlank(json)) {
+				log.warn("json is null");
+				return ResponseVo.error();
+			}
+			
+			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+			PictureTextVO pictureTextVO = (PictureTextVO) JSONObject.parseObject(json, PictureTextVO.class);
+			
+			hotelRPCService.savePictureText(id, pictureTextVO);
+			return  ResponseVo.success();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+	}
 }

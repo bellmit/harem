@@ -1,0 +1,78 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+    
+<button type="button" class="btn btn-primary addRoomBtn">添加房型</button>
+<div class="tableGroup whole">
+    <table class="table table-hover">
+        <tr>
+            <th>ID</th>
+            <th>房型名称</th>
+            <th>床型</th>
+            <th>创建时间</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+            #foreach($room in $roomList)
+            <tr class="subCheckedTR">
+                <td>$!{room.id}</td>
+                <td>$!{room.name}</td>
+                <td>$!{room.feature.getBed()}</td>
+                <td>$utilDate.dateToString(${room.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
+                <td>#ROOM_STATUS($!room.status)</td>
+                <td>
+                    <button type="button" class="btn btn-primary roomDetail" roomId="$room.id">查看</button>
+                    #if($room.status == 1)
+                    	<button type="button" class="btn btn-primary roomBtn" roomId="$room.id" status="2">启用</button>
+                    #end
+                    </button>
+                </td>
+            </tr>
+            #end
+    </table>
+</div>
+    
+<script>
+   
+    $(function(){
+    	
+        //新建
+        $('.addRoomBtn').click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuniu/hotelManage/toAddRoom?hotelId=$hotelId';
+			window.parent.tabsAdd("addRoom", url, 2, "添加房型");
+        });
+        
+        $('.roomDetail').each(function(){
+            $(this).click(function(){
+                var url = actionDefaultPath + '/jiuniu/hotelManage/editRoom/'+ $(this).attr('roomId');
+                top.tabsAdd("",url,2,"查看房型");
+            });
+
+        });
+        
+        //单个启用停用
+        $('.roomBtn').each(function(){
+            $(this).click(function(){
+                $(this).prop('disabled',true);
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/jiuniu/hotelManage/setRoomStatus/' + $(this).attr('roomId') ,{'status':$(this).attr('status')} ,function(data){
+                    if(data.status == 200){
+                        layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1500);
+                    }else{
+                        layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                        $(this).prop('disabled',false);
+
+                    }
+                })
+            });
+        });
+        
+    });
+</script>

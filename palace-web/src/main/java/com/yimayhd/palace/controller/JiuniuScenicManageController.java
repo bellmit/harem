@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
@@ -28,6 +30,8 @@ import com.yimayhd.palace.model.ScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.ScenicListQuery;
 import com.yimayhd.palace.service.ScenicService;
+import com.yimayhd.palace.tair.TcCacheManager;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 景区管理（资源）
@@ -40,6 +44,10 @@ public class JiuniuScenicManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(ScenicManageController.class);
 	@Autowired
 	private ScenicService scenicSpotService;
+	@Autowired
+	private TcCacheManager	tcCacheManager;
+	@Autowired
+	private SessionManager sessionManager;
 	
 
 	/**
@@ -69,6 +77,8 @@ public class JiuniuScenicManageController extends BaseController {
 		
 		List<ComTagDO> allLineThemes = scenicSpotService.getAllLineThemes();
 		put("themes", allLineThemes);
+		put("UUIDScenic", UUID.randomUUID().toString());
+		put("UUIDPicText", UUID.randomUUID().toString());
 		return "/system/scenicSpot/edit-jiuniu";
 	}
 	
@@ -99,6 +109,9 @@ public class JiuniuScenicManageController extends BaseController {
 		
 		List<ComTagDO> allLineThemes = scenicSpotService.getAllLineThemes();
 		put("themes", allLineThemes);
+		
+		put("UUIDScenic", UUID.randomUUID().toString());
+		put("UUIDPicText", UUID.randomUUID().toString());
 		return "/system/scenicSpot/edit-jiuniu";
 	}
 
@@ -110,14 +123,20 @@ public class JiuniuScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo save(ScenicAddVO scenicAddVO) throws Exception {
-		try {
-			ICResult<ScenicDO> result = scenicSpotService.save(scenicAddVO);
-			return  ResponseVo.success(result.getModule());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+	public ResponseVo save(ScenicAddVO scenicAddVO, String uuidScenic) throws Exception {
+		
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidScenic;
+		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			try {
+				ICResult<ScenicDO> result = scenicSpotService.save(scenicAddVO);
+				return  ResponseVo.success(result.getModule());
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+				return ResponseVo.error(e);
+			}
 		}
+		return ResponseVo.error(new BaseException("请不要重复提交"));
 	}
 
 	/**
@@ -187,23 +206,27 @@ public class JiuniuScenicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/savePictureText/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo savePictureText(@PathVariable("id") long id, String json) throws Exception {
-		try {
-			
-			if (StringUtils.isBlank(json)) {
-				log.warn("json is null");
-				return ResponseVo.error();
+	public ResponseVo savePictureText(@PathVariable("id") long id, String json, String uuidPicText) throws Exception {
+		
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidPicText;
+		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			try {
+				if (StringUtils.isBlank(json)) {
+					log.warn("json is null");
+					return ResponseVo.error();
+				}
+				json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+				PictureTextVO pictureTextVO = (PictureTextVO) JSONObject.parseObject(json, PictureTextVO.class);
+				
+				scenicSpotService.savePictureText(id, pictureTextVO);
+				return  ResponseVo.success();
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+				return ResponseVo.error(e);
 			}
-			
-			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
-			PictureTextVO pictureTextVO = (PictureTextVO) JSONObject.parseObject(json, PictureTextVO.class);
-			
-			scenicSpotService.savePictureText(id, pictureTextVO);
-			return  ResponseVo.success();
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
 		}
+		return ResponseVo.error(new BaseException("请不要重复提交"));
 	}
 	
 }

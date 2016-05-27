@@ -12,6 +12,8 @@ public class Constant {
 	public static final String TEST = "TEST";
 	
 	public static int DOMAIN_JIUXIU = 1200 ;
+	
+	public static String APP = "palace";
 
 	//pageQuery对象字段
 	public static int PAGEQUERY_STATUS = 1 ;

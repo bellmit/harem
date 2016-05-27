@@ -84,12 +84,44 @@
     #end
 #end
 
+#*酒店（资源）类型*#
+#macro(HOTEL_TYPE $type)
+    #if($type == '1')
+    酒店
+    #elseif($type == '2')
+    客栈
+    #else
+    未知
+    #end
+#end
+
 #*酒店（资源）状态*#
 #macro(HOTEL_STATUS $type)
     #if($type == '1')
     启用
     #elseif($type == '2')
     停用
+    #else
+    未知
+    #end
+#end
+#*酒店（资源）状态 二期*#
+#macro(HOTEL_STATUS_TWO $type)
+    #if($type == '1')
+    未启用
+    #elseif($type == '2')
+    启用
+    #else
+    未知
+    #end
+#end
+
+#*酒店房型（资源）状态 二期*#
+#macro(ROOM_STATUS $type)
+    #if($type == '1')
+    未启用
+    #elseif($type == '2')
+    启用
     #else
     未知
     #end

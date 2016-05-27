@@ -31,6 +31,9 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 <div class="example whole">
 <form id="saveScenicSpot">
+	<input type="hidden" name="uuidScenic" value="$!{UUIDScenic}" />
+	<input type="hidden" id="uuidPicText" value="$!{UUIDPicText}" />
+	
     <ul id="myTab" class="nav nav-tabs">
         <li class="active"><a href="#scenicInfo" data-toggle="tab">基本信息</a></li>
         <li><a id="scenicImgId" href="#scenicImgs" data-toggle="tab">图文详情</a></li>
@@ -429,7 +432,7 @@
 		//上传头图
 		uploadLogo(tfsPath);
 		
-    	var imgList = new ImgList("imgList", tfsPath, 3);
+    	var imgList = new ImgList("imgList", tfsPath, 20);
 		
 		
         /*提交**/
@@ -531,7 +534,7 @@
                         	$("#scenicId").val(data.data.id);       
 	                        $("#scenicImgId").trigger("click");
                         } else {
-                            layer.msg('操作失败', {
+                            layer.msg(data.message, {
 	                            icon: 2,
 	                            time: 2000
 	                        });
@@ -560,13 +563,13 @@
 	    	var pictureText = getPictureText();
 	    	
 	    	var params = {
-				json:JSON.stringify(pictureText)
+				json: JSON.stringify(pictureText),
+				uuidPicText: $("#uuidPicText").val()
 			};
 			
 	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ $("#scenicId").val();
 	    	$.post(url, params, function(data){
 				if(data.status == 200) {
-				
 					layer.alert('保存成功', {
 		                time: 0 //不自动关闭
 		                ,yes: function(index){

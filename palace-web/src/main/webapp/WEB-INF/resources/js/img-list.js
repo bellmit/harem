@@ -1,6 +1,6 @@
 
 
-var ImgList = function(id, tfsPath, limitNum){
+var ImgList = function(id, tfsPath, limitNum, isHide){
 	this.id = "#" + id;
 	
 	this.uploadBtnSelector = this.id + "UploadBtn";
@@ -10,6 +10,7 @@ var ImgList = function(id, tfsPath, limitNum){
 	
 	this.picWrapSelector = "."+ id + "PicWrap";
 	this.btnDelPicSelector = "."+ id + "BtnDelPic";
+	this.isHide = isHide;
 	
 	this.limitNum = limitNum;
 	this.tfsPath = tfsPath;
@@ -45,7 +46,7 @@ ImgList.prototype = {
 	   				var path =  dataVal.data[key];
    					var picWrapContent = [];
    					picWrapContent.push('<div class="pic-wrap '+ _self.picWrapClass +'">');
-   						picWrapContent.push('<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="'+ path +'" src="'+ tfsRootPath + path +'" />');
+   						picWrapContent.push('<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="'+ path +'" isdel="false" src="'+ tfsRootPath + path +'" />');
    						picWrapContent.push('<button type="button" class="btn btn-del-pic '+ _self.btnDelPicClass +'" style="display:none;width:116px;">删除</button>');
    					picWrapContent.push('</div>');
    					
@@ -57,7 +58,13 @@ ImgList.prototype = {
     bindDelPicEvent: function() {
     	var _self = this;
     	$(_self.id).delegate(_self.btnDelPicSelector, 'click', function(){
-        	$(this).parent().remove();
+    		
+    		if(_self.isHide){
+    			$(this).parent().css("display", "none");
+    			$(this).prev().attr("isdel", true);
+    		}else{
+    			$(this).parent().remove();
+    		}
     	});
     },
     bindPicWrapEvent: function(){
@@ -83,6 +90,20 @@ ImgList.prototype = {
     	var _self = this;
     	$(_self.picWrapSelector).each(function(){
     		picUrls.push($(this).find("img").attr("imgUrl"));
+    	});
+    	return picUrls;
+    },
+    getPicUrls2: function(){	
+    	var picUrls = [];
+    	var _self = this;
+    	$(_self.picWrapSelector).each(function(){
+    		var img = $(this).find("img");
+    		var obj = {
+    			"id": $(img).attr("pid") ? $(img).attr("pid") : 0,
+    			"value": $(img).attr("imgUrl"), 	
+    			"isdel": $(img).attr("isdel") 
+    		};
+    		picUrls.push(obj);
     	});
     	return picUrls;
     }
