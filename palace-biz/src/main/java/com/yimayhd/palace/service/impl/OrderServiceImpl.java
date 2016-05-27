@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
 		if (orderQueryDTO!=null){
 			BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
 //			System.err.println(JSON.toJSONString(batchQueryResult));
-			if (batchQueryResult.isSuccess()){
+			if (null != batchQueryResult && batchQueryResult.isSuccess()){
 				//订单信息
 				List<BizOrderDO> bizOrderDOList = batchQueryResult.getBizOrderDOList();
 				//如果使用名称查询，查询出的全部是子订单，需要把子订单放入父订单中。
