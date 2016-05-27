@@ -1,5 +1,7 @@
 package com.yimayhd.palace.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -1068,6 +1070,17 @@ public class DateUtil {
 		Date begin = DateUtil.formatMinTimeForDate(beginDate);
 		Date end = DateUtil.formatMaxTimeForDate(endDate);
 		return (end.getTime() - begin.getTime())/(24*60*60*1000);
+	}
+
+	public static String addHHmmss(String dateStr,boolean isBegin){
+		if(StringUtils.isNotEmpty(dateStr) && dateStr.length()<=10){//判断长度，长度不够加后缀
+			if(isBegin){
+				dateStr = dateStr+DateUtil.DAY_BEGIN;
+			}else{
+				dateStr = dateStr+DateUtil.DAY_END;
+			}
+		}
+		return dateStr;
 	}
 	public static void main(String[] args) {
 		System.out.println(dateToString(new Date(), "yyyy/MM/dd"));
