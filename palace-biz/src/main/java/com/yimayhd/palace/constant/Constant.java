@@ -29,4 +29,6 @@ public class Constant {
 	
 	public static final String DOT = ".";
 	public static final String COMMA = ",";
+
+	public static final int ROUTE_ALLOCATIE_FORM = 0;
 }

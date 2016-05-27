@@ -18,6 +18,7 @@ import com.yimayhd.palace.biz.ApplyBiz;
 import com.yimayhd.palace.checker.apply.AllocationChecker;
 import com.yimayhd.palace.checker.apply.ApplyApproveChecker;
 import com.yimayhd.palace.checker.apply.ApplyQueryChecker;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.query.apply.ApplyQuery;
 import com.yimayhd.palace.model.vo.apply.AllocationVO;
@@ -65,12 +66,6 @@ public class ApplyApprovalController extends BaseController{
         return "/system/apply/list";
     }
 
-    @RequestMapping(value="/queryApplies")
-    public String getApplies(ApplyQuery applyQuery){
-        BizPageResult<ApplyVO> result = applyBiz.queryApplys(applyQuery);
-        return null;
-    }
-
     @RequestMapping(value="/query")
     @ResponseBody
     public BizPageResult<ApplyVO> queryApplies(ApplyQuery applyQuery){
@@ -84,6 +79,13 @@ public class ApplyApprovalController extends BaseController{
         BizResultSupport checkResult = ApplyApproveChecker.checkApproveVO(approveVO);
         if( !checkResult.isSuccess() ){
             return checkResult ;
+        }
+        // 如果审核通过,此处不做任何处理,将reason返回页面存入hidden控件,待商品类目分配完成后集中更新申请状态,新增申请明细,新增商户,新增商户与商品类目关系,发送短信
+        if (approveVO.isPass()) {
+            checkResult = new BizResultSupport();
+            checkResult.setCode(Constant.ROUTE_ALLOCATIE_FORM);
+            checkResult.setMsg(approveVO.getReason());
+            return checkResult;
         }
         long userId = sessionManager.getUserId();
         BizResultSupport result = applyBiz.approve(approveVO, userId);
@@ -140,6 +142,11 @@ public class ApplyApprovalController extends BaseController{
         return "/system/apply/allocation";
     }
 
+    /**
+     * 更新审批状态,新增审批明细,新增商户,绑定商户与商品类目关系,发送短信通知
+     * @param allocationVO
+     * @return
+     */
     @RequestMapping(value = "editAllocation")
     public @ResponseBody BizResultSupport editAllocation(AllocationVO allocationVO) {
         BizResultSupport bizResultSupport = AllocationChecker.checkAllocationVO(allocationVO);
