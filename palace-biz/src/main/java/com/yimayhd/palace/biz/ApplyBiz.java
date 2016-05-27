@@ -70,6 +70,8 @@ public class ApplyBiz {
 			return result ;
 		}
 		ExamineDealDTO examineDealDTO = ApplyHelper.getExamineDealDTO(approveVO, approverId);
+		examineDealDTO.setDomainId(dto.getDomainId());
+		examineDealDTO.setSellerId(dto.getSellerId());
 		examineDealDTO.setType(dto.getType());
 		result = examineDealRepo.approve(examineDealDTO);
 		return result ;
