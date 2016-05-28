@@ -47,9 +47,9 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">创建时间</button>
                     </span>
-                <input type="text" class='form-control form-date dateInp' placeholder=''  data-date-format="yyyy-mm-dd" readonly name="startTime" value="$!scenicPageQuery.startTime">
+                <input type="text" class='form-control form-date dateInp' placeholder=''  data-date-format="yyyy-mm-dd" readonly id="beginDate" name="startTime" value="$!scenicPageQuery.startTime">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date dateInp' placeholder=''  data-date-format="yyyy-mm-dd" readonly name="endTime" value="$!scenicPageQuery.endTime">
+                <input type="text" class='form-control form-date dateInp' placeholder=''  data-date-format="yyyy-mm-dd" readonly id="endDate" name="endTime" value="$!scenicPageQuery.endTime">
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary submitBtn">查询</button>
@@ -227,6 +227,22 @@
     	operateArea(selectedProvinceId, selectedCityId);
     	
         $('.submitBtn').click(function(){
+        	
+        	var beginDate = $("#beginDate").val();
+			var endDate = $("#endDate").val();
+			if(beginDate && endDate){
+				var startNum = parseInt(beginDate.replace(/-/g,''),10); 
+				var endNum = parseInt(endDate.replace(/-/g,''),10); 
+				
+				if(startNum>endNum){ 
+					layer.msg("创建时间：开始时间不能大于结束时间！", {
+	                    icon: 2,
+	                    time: 1500
+	                });
+	                return;
+				}
+			}
+        
             $('#scenicDOListForm').submit();
         });
         

@@ -172,6 +172,12 @@ public class HotelVO extends HotelDO implements Serializable {
             feature.setTradeArea(areaList);
         }
         
+        String phoneNumListStr = hotelVO.getPhoneNumListStr();
+        if(StringUtils.isNotBlank(phoneNumListStr) && !phoneNumListStr.equals("[]")){
+        	List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
+        	hotelDTO.setPhoneNum(phoneNumList);
+        }
+        
         return hotelDTO;
     }
     

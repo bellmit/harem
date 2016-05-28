@@ -33,4 +33,6 @@ public class Constant {
 	public static final String COMMA = ",";
 
 	public static final int ROUTE_ALLOCATIE_FORM = 0;
+	
+	public static final String UN_REPEAT_SUBMIT = "请不要重复提交";
 }

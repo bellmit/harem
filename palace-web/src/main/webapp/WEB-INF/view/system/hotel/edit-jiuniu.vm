@@ -39,6 +39,10 @@
 	 .commercialArea span{
 	 	margin-right: 5px;
 	 }
+	 
+	 .clear{
+	 	clear:both;
+	 }
 </style>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 <ul id="myTab" class="nav nav-tabs">
@@ -47,6 +51,10 @@
 </ul>
 
 <form name="addHotel" id="hotelForm" action="" method="post" hotelId="$!hotel.id">
+
+<input type="hidden" name="uuidHotel" value="$!{UUIDHotel}" />
+<input type="hidden" id="uuidPicText" value="$!{UUIDPicText}" />
+
 <div class="tab-content grogInfoWrap"  style="">
     <div class="tab-pane active" id="grogshopInfo">
         <div class="createHotrlTable">
@@ -60,11 +68,11 @@
 	                		#set($hotelVOId=$hotel.id)
 	                	#end
 	                	<input type="hidden" id="hotelId" name="id" value="$!{hotelVOId}">
-	                    <input type="text" class="inpCtlBlock" name="name" 
+	                    <input type="text" class="inpCtlBlock name" name="name"  
 	                    	#if($hotel.id)
 	                    		disabled="disabled" 
 	                    	#end
-	                    placeholder="请填写景区全称，1-20个字" maxlength="20" value="$!{hotel.name}">
+	                    placeholder="请填写酒店官方全称，1-20个字， 请勿包含如价格、房型、宣传等信息" maxlength="20" value="$!{hotel.name}">
 					</td>
                 </tr>
                 <tr>
@@ -100,18 +108,24 @@
                     <td>
                     	<div class="commercialArea">
                     	</div>
-                    	<input type="text" class="tradeAreaJson" name="tradeAreaJson" value="" />
+                    	<input type="hidden" class="tradeAreaJson" name="tradeAreaJson" value="" />
                     </td>
                 </tr>
                 <tr>
                 	<td><span class="spColor">*</span>详细地址</td>
                     <td>
-                    	<input type="text" class="inpControl locationText" name="locationText" id="locationText" placeholder="请输入街道门牌号" value="$!hotel.locationText">
+                    	<input type="text" class="inpCtlBlock locationText" name="locationText" id="locationText" placeholder="如果有详细的“XX路XX号XX大厦XX座XX层XX室”，请务必填写;如无,请详细描述地理位置。" value="$!hotel.locationText">
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>地址经纬度</td>
-                    <td><span>经度</span><input type="text" id="locationX" name="locationX" class="inpControl getAddress" value="$!hotel.locationX"><span>纬度</span><input type="text" id="locationY" name="locationY" class="inpControl getAddress" value="$!hotel.locationY"><button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button></td>
+                    <td>
+                    	<span>经度</span>
+                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字" class="inpControl getAddress" value="$!hotel.locationX">
+                    	<span>纬度</span>
+                    	<input type="text" id="locationY" name="locationY" placeholder="示例:116.40461,限数字" class="inpControl getAddress" value="$!hotel.locationY">
+                    	<button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
+                    </td>
                 </tr>
                 <tr>
                 	<td><span class="spColor">*</span>酒店类型</td>
@@ -133,12 +147,13 @@
                     	<input type="radio" name="level" value="9" #if($!hotel.level == 9) checked #end >高档型
                     	<input type="radio" name="level" value="8" #if($!hotel.level == 8) checked #end >舒适型
                     	<input type="radio" name="level" value="7" #if($!hotel.level == 7) checked #end >经济型
+                    	<label style="display:block;font-size:12px;color:#CBCBCB;">酒店有星级时选择星级，没有星级选择“豪华型”、“高档型”，“舒适型”或者“经济型”</label>
                     </td>
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>酒店电话</td>
                     <td>
-                        <input type="text" class="inpControl phoneNumListStr" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNumListStr" placeholder="请输入酒店电话,以逗号分割">
+                        <input type="text" class="inpCtlBlock phoneNumListStr" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNumListStr" placeholder="示例:18312345678或073182345678">
                     </td>
                 </tr>
                 <tr>
@@ -149,7 +164,7 @@
                         #foreach($!hotelFacility in $!hotelFacilityList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "hotelFacility" + $indexNo)
-                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl" #if($!hotelFacility.checked) checked value="1" #else value="0" #end>$hotelFacility.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl hotelFacilityCl" #if($!hotelFacility.checked) checked value="1" #else value="0" #end>$hotelFacility.name</span>
 							#if($!hotelFacility.number % 10 == 0)
 								<br/>
 							#end
@@ -164,7 +179,7 @@
                         #foreach($!roomService in $!roomServiceList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "roomService" + $indexNo)
-                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl" #if($!roomService.checked) checked value="1" #else value="0" #end>$roomService.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomService" #if($!roomService.checked) checked value="1" #else value="0" #end>$roomService.name</span>
 							#if($!roomService.number % 10 == 0)
 								<br/>
 							#end
@@ -191,7 +206,7 @@
 							#if($!roomFacility.number == 55)
 								<br/><span>其他服务</span><br/>
 							#end
-                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl" #if($!roomFacility.checked) checked value="1" #else value="0" #end>$roomFacility.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomFacilityCl" #if($!roomFacility.checked) checked value="1" #else value="0" #end>$roomFacility.name</span>
 							#if($!roomFacility.number % 10 == 0 
 								|| $!roomFacility.number == 33
 								|| $!roomFacility.number == 43
@@ -204,7 +219,7 @@
                <tr>
                    <td><span class="spColor">*</span>入离政策</td>
                    <td>
-                       <input type="text" name="openTime" value="$!hotel.openTime" class="inpControl openTime" >
+                       <input type="text" name="policy" value="$!hotel.policy" class="inpCtlBlock policy" placeholder="1-38个字" />
                    </td>
                </tr>
                <tr>
@@ -223,7 +238,7 @@
                         		<img  class="img-square uploadImgFile dimg" imgUrl="$!{hotel.logoUrl}" src="$utilWebconfig.getTfsRootPath()$!{hotel.logoUrl}" />	
                         	#end
 	            		</div>
-                        <p>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</p>
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</p>
                     </td>
                 </tr>                                        
                 <tr>
@@ -243,6 +258,7 @@
                         </div>
                         <input class="outlookPics" type="hidden" name="outlookPicListStr" value="">
                         <label class="outlookPicsTip" style="display:none;">最少上传一张景区图片</label>
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
 				   </td>
                 </tr>
                 <tr>
@@ -261,6 +277,7 @@
                             #end
                         </div>
                         <input class="inDoorPics" type="hidden" name="inDoorPicListStr" value="">
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
 				   </td>
                 </tr>
                 <tr>
@@ -279,6 +296,7 @@
                             #end
                         </div>
                         <input class="roomPics" type="hidden" name="roomPicListStr" value="">
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
 				   </td>
                 </tr>
                 <tr>
@@ -297,6 +315,7 @@
                             #end
                         </div>
                         <input class="otherPics" type="hidden" name="otherPicListStr" value="">
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
 				   </td>
                 </tr>
 				
@@ -331,68 +350,39 @@
         if(!$('.countySelect').val() || $('.countySelect').val() == '0'){
             return '地区不能为空';
         }
-        if($('.locationText').val() && $('.locationText').val().length > 30){
-            return '区域地址不能超过30个字';
+        if(!$('.locationText').val() || $('.locationText').val().length > 38){
+            return '详细地址请输入1到38个字';
+        }
+        if(!$('input[name="type"]:checked').val()){
+            return '请选择酒店类型';
+        }
+        if(!$('input[name="level"]:checked').val()){
+            return '请选择星级';
         }
         if(!$('#locationX').val() || !$('#locationY').val() || !/^[0-9]+.?[0-9]*$/.test($('#locationX').val()) || !/^[0-9]+.?[0-9]*$/.test($('#locationY').val())){
             return '地址经纬度格式不正确';
         }
-        if($('.phoneNumListStr').val() && $('.phoneNumListStr').val().length > 30){
-            return '酒店电话不能超过30个字';
+        var phoneReg = /^0\d{2,3}-?\d{7,8}$|^1[0-9]{10}$/;
+        if(!phoneReg.test($('.phoneNumListStr').val())){
+            return '酒店电话格式不正确';
         }
-        if(!$('#grogDescr').val()){
-            return '酒店简介不能为空';
-        }else if($('#grogDescr').val().length > 500){
-            return '酒店简介不能超过500个字';
+        if($('.hotelFacilityCl:checked').length <= 0){
+            return '酒店设施不能为空';
         }
-        if(!$('.oneword').val()){
-            return '特色描述不能为空';
-        }else if($('.oneword').val().length > 80){
-            return '特色描述不能超过80个字';
+        if($('.roomService:checked').length <= 0){
+            return '酒店服务不能为空';
         }
-        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
-            return '基础价格最多保留两位小数的正数';
-        }
-        if($('.contactPerson').val() && $('.contactPerson').val().length > 20){
-            return '酒店联系人姓名不能超过20个字';
-        }
-        if($('.contactPhone').val() && $('.contactPhone').val().length > 20){
-            return '酒店联系人电话不能超过20个字';
-        }
-        if($('.facilityCl:checked').length <= 0){
+        if($('.roomFacilityCl:checked').length <= 0){
             return '房间设施不能为空';
         }
-        if(!$('.openTime').val()){
-            return '入离时间不能为空';
-        }else if($('.openTime').val().length > 50){
-            return '入离时间不能超过50个字';
+        if(!$('.policy').val() || $('.policy').val().length > 38){
+            return '入离政策请输入1到38个字';
         }
-        if($('.needKnow').length <= 0){
-            return '入住须知不能为空';
-        }else{
-            var msg;
-            $('.needKnow').each(function(){
-                if(!$(this).find('.extra-info-item-title').val() || !$(this).find('.extra-info-item-text').val()){
-                    msg = '入住须知不能为空';
-                }else if($(this).find('.extra-info-item-title').val().length > 10){
-                    msg = '入住须知标题不能超过10个字';
-                }else if($(this).find('.extra-info-item-text').val().length > 500){
-                    msg = '入住须知内容不能超过500个字';
-                }
-                return;
-            });
-            if(msg){
-                return msg;
-            }
+        if(!$('#logoUrl').val()){
+            return '请上传列表头图';
         }
-        if($('.recommend_description').val() && $('.recommend_description').val().length > 300){
-            return '大咖推荐理由不能超过300个字';
-        }
-        if(!$('#logoUrlUploadFileReturnImg').attr('src')){
-            return '列表页展示图不能为空';
-        }
-        if($('.hotelPicUrlsTd .uploadImgFile').length <= 0){
-            return '详情页展示图不能为空';
+        if($('.outlookPicWrap').length <= 0){
+            return '请上传外观图片';
         }
     }
     //表单验
@@ -471,7 +461,7 @@
           		}
           		
           		commAreaHTML.push('<span>');
-					commAreaHTML.push('<input class="commArea" type="checkbox" '+ checked +' code="'+ dest.id +'" value="'+ dest.name +'"/>'+ dest.name);
+					commAreaHTML.push('<input class="commArea" name="commArea" type="radio" '+ checked +' code="'+ dest.id +'" value="'+ dest.name +'"/>'+ dest.name);
           		commAreaHTML.push('</span>');
           	}
           	$(".commercialArea").html(commAreaHTML.join(""));
@@ -584,7 +574,6 @@
 
 		$('#btnSubmit').click(function(){
             //非空验证
-            /**
             var msg = validate();
             if(msg){
                 layer.msg(msg, {
@@ -593,7 +582,6 @@
                 });
                 return false;
             }
-            **/
             
             //商圈
             setDestination();
@@ -683,13 +671,11 @@
                 type: "post",
                 dataType: "json",
                 success: function (data) {
-                	console.log(JSON.stringify(data));
                     if (data.status == 200) {
-                   	 	console.log(data.data.id);
                     	$("#hotelId").val(data.data.id);       
                         $("#hotelImgId").trigger("click");
                     } else {
-                        layer.msg('操作失败', {
+                        layer.msg(data.message, {
                             icon: 2,
                             time: 2000
                         });
@@ -705,24 +691,22 @@
     	var pictureText = getPictureText();
     	
     	var params = {
-			json:JSON.stringify(pictureText)
+			json:JSON.stringify(pictureText),
+			uuidPicText: $("#uuidPicText").val()
 		};
 		
     	var url = actionDefaultPath + "/jiuniu/hotelManage/savePictureText/"+ $('#hotelId').val();
     	$.post(url, params, function(data){
 			if(data.status == 200) {
-			
-				layer.alert('保存成功', {
-	                time: 0 //不自动关闭
-	                ,yes: function(index){
-						window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/jiuniu/hotelManage/list"; 
-	                }
-	            });
+				closeAndFreshPrevFrame();
 			} else {
-				layer.alert(data.message, {
-					icon : 2
+				layer.msg(data.message, {
+					icon : 2,
+                    time: 2000
 				});
 			}
 	    },"json");
     });
+    
+    
 </script>

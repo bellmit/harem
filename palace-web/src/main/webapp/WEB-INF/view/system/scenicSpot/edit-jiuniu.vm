@@ -25,6 +25,10 @@
     	cursor:pointer;
     	margin-left:5px;
     }
+    
+    .clear{
+	 	clear:both;
+	 }
  
 </style>
 
@@ -163,7 +167,7 @@
                             		<img  class="img-square uploadImgFile dimg" imgUrl="$!{VO.scenicVO.logoUrl}" src="$utilWebconfig.getTfsRootPath()$!{VO.scenicVO.logoUrl}" />	
                             	#end
 		            		</div>
-                            <p>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</p>
+                            <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</p>
                         </td>
                      </tr>
                      <tr>
@@ -183,6 +187,7 @@
                             </div>
                             <input class="coverPics" type="hidden" name="scenicVO.coverPics" value="">
                         	<label class="coverPicsTip" style="display:none;">最少上传一张景区图片</label>
+                        	<p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
                         </td>
                     </tr>
                     <tr>
@@ -570,12 +575,7 @@
 	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ $("#scenicId").val();
 	    	$.post(url, params, function(data){
 				if(data.status == 200) {
-					layer.alert('保存成功', {
-		                time: 0 //不自动关闭
-		                ,yes: function(index){
-							window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/jiuniu/scenicSpotManage/list"; 
-		                }
-		            });
+					closeAndFreshPrevFrame();
 				} else {
 					layer.alert(data.message, {
 						icon : 2

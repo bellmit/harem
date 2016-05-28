@@ -20,7 +20,7 @@
                 <td>$utilDate.dateToString(${room.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
                 <td>#ROOM_STATUS($!room.status)</td>
                 <td>
-                    <button type="button" class="btn btn-primary roomDetail" roomId="$room.id">查看</button>
+                    <button type="button" class="btn btn-primary roomDetail" roomId="$room.id">查看/编辑</button>
                     #if($room.status == 1)
                     	<button type="button" class="btn btn-primary roomBtn" roomId="$room.id" status="2">启用</button>
                     #end

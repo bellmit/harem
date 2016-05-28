@@ -136,7 +136,7 @@ public class JiuniuScenicManageController extends BaseController {
 				return ResponseVo.error(e);
 			}
 		}
-		return ResponseVo.error(new BaseException("请不要重复提交"));
+		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class JiuniuScenicManageController extends BaseController {
 				return ResponseVo.error(e);
 			}
 		}
-		return ResponseVo.error(new BaseException("请不要重复提交"));
+		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 	
 }

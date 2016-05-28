@@ -36,6 +36,9 @@
 	 }
 </style>
 <form name="addRoom" id="roomForm" action="" method="post" hotelId="$!hotelId">
+
+<input type="hidden" name="uuid" value="$!{UUID}" />
+
 <div class="tab-content grogInfoWrap"  style="">
     <div class="createHotrlTable">
         <table class="table">
@@ -48,7 +51,7 @@
                 		#set($roomVOId=$room.id)
                 	#end
                 	<input type="hidden" id="roomId" name="id" value="$!{roomVOId}">
-                    <input type="text" class="inpCtlBlock" name="name" 
+                    <input type="text" class="inpCtlBlock name" name="name" 
                     	#if($room.id)
                     		disabled="disabled" 
                     	#end
@@ -58,13 +61,13 @@
             <tr>
                 <td><span class="spColor">*</span>床型</td>
                 <td>
-                    <input type="text" class="inpCtlBlock" name="bed" value="$!room.bed">
+                    <input type="text" class="inpCtlBlock bed" name="bed" value="$!room.bed" placeholder="最多8个字符" maxlength="8" />
                 </td>
             </tr>
             <tr>
             	<td><span class="spColor">*</span>面积</td>
                 <td>
-                	<input type="text" class="inpCtlBlock" name="area" value="$!room.area">
+                	<input type="text" class="inpCtlBlock area" name="area" value="$!room.area">
                 </td>
             </tr>
             <tr>
@@ -87,7 +90,7 @@
             	<td>是否有窗</td>
                 <td>
                 	#foreach($!win in $!window)
-						<input type="radio" name="window" value="$win.type" #if($!room.window == $win.type) checked #end  />$win.desc	
+						<input type="radio" name="window" class="type" value="$win.type" #if($!room.window == $win.type) checked #end  />$win.desc	
 					#end
                 </td>
             </tr>
@@ -95,20 +98,20 @@
             	<td>加床</td>
                 <td>
                 	#foreach($!bed in $!extraBed)
-						<input type="radio" name="extraBed" value="$bed.type" #if($!room.extraBed == $bed.type) checked #end />$bed.desc	
+						<input type="radio" name="extraBed" class="extraBed" value="$bed.type" #if($!room.extraBed == $bed.type) checked #end />$bed.desc	
 					#end
                 </td>
             </tr>
             <tr>
             	<td>楼层</td>
                 <td>
-                	<input type="text" class="inpCtlBlock" name="floor" value="$!room.floor">
+                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor">
                 </td>
             </tr>
             <tr>
             	<td>最大可住人数</td>
                 <td>
-		            <select class="form-control" name="people">
+		            <select class="form-control people" name="people">
 	                    <option value="0"  >全部</option>
 	                    <option value="1" #if($!room.people == 1) selected="selected" #end >1</option>
 	                    <option value="2" #if($!room.people == 2) selected="selected" #end >2</option>
@@ -157,77 +160,22 @@
         }else if($('.name').val().length > 20){
             return '酒店名称不能超过20个字';
         }
-        if(!$('.provinceSelect').val() || $('.provinceSelect').val() == '0'){
-            return '省份不能为空';
+        if(!$('.bed').val()){
+            return '床型不能为空';
         }
-        if(!$('.citySelect').val() || $('.citySelect').val() == '0'){
-            return '城市不能为空';
+        if(!$('.area').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.area').val())){
+            return '面积格式不正确';
         }
-        if(!$('.countySelect').val() || $('.countySelect').val() == '0'){
-            return '地区不能为空';
+        
+        var networks = $(".network:checked");
+        if(networks.length == 0){
+            return '请选择网络';
         }
-        if($('.locationText').val() && $('.locationText').val().length > 30){
-            return '区域地址不能超过30个字';
+        if(networks.length > 2){
+            return '网络最多选择两个';
         }
-        if(!$('#locationX').val() || !$('#locationY').val() || !/^[0-9]+.?[0-9]*$/.test($('#locationX').val()) || !/^[0-9]+.?[0-9]*$/.test($('#locationY').val())){
-            return '地址经纬度格式不正确';
-        }
-        if($('.phoneNumListStr').val() && $('.phoneNumListStr').val().length > 30){
-            return '酒店电话不能超过30个字';
-        }
-        if(!$('#grogDescr').val()){
-            return '酒店简介不能为空';
-        }else if($('#grogDescr').val().length > 500){
-            return '酒店简介不能超过500个字';
-        }
-        if(!$('.oneword').val()){
-            return '特色描述不能为空';
-        }else if($('.oneword').val().length > 80){
-            return '特色描述不能超过80个字';
-        }
-        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
-            return '基础价格最多保留两位小数的正数';
-        }
-        if($('.contactPerson').val() && $('.contactPerson').val().length > 20){
-            return '酒店联系人姓名不能超过20个字';
-        }
-        if($('.contactPhone').val() && $('.contactPhone').val().length > 20){
-            return '酒店联系人电话不能超过20个字';
-        }
-        if($('.facilityCl:checked').length <= 0){
-            return '房间设施不能为空';
-        }
-        if(!$('.openTime').val()){
-            return '入离时间不能为空';
-        }else if($('.openTime').val().length > 50){
-            return '入离时间不能超过50个字';
-        }
-        if($('.needKnow').length <= 0){
-            return '入住须知不能为空';
-        }else{
-            var msg;
-            $('.needKnow').each(function(){
-                if(!$(this).find('.extra-info-item-title').val() || !$(this).find('.extra-info-item-text').val()){
-                    msg = '入住须知不能为空';
-                }else if($(this).find('.extra-info-item-title').val().length > 10){
-                    msg = '入住须知标题不能超过10个字';
-                }else if($(this).find('.extra-info-item-text').val().length > 500){
-                    msg = '入住须知内容不能超过500个字';
-                }
-                return;
-            });
-            if(msg){
-                return msg;
-            }
-        }
-        if($('.recommend_description').val() && $('.recommend_description').val().length > 300){
-            return '大咖推荐理由不能超过300个字';
-        }
-        if(!$('#logoUrlUploadFileReturnImg').attr('src')){
-            return '列表页展示图不能为空';
-        }
-        if($('.hotelPicUrlsTd .uploadImgFile').length <= 0){
-            return '详情页展示图不能为空';
+        if($('.roomPicWrap').length <= 0){
+            return '请上传房型图片';
         }
     }
     //表单验
@@ -238,7 +186,7 @@
         
 		$('#btnSubmit').click(function(){
             //非空验证
-            /**
+            
             var msg = validate();
             if(msg){
                 layer.msg(msg, {
@@ -247,7 +195,6 @@
                 });
                 return false;
             }
-            **/
             
             var roomUrls = room.getPicUrls();
         	if(roomUrls.length > 0){
@@ -276,14 +223,9 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.status == 200) {
-						layer.alert('保存成功', {
-			                time: 0 //不自动关闭
-			                ,yes: function(index){
-								window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/jiuniu/hotelManage/roomList/"+ hotelId; 
-			                }
-			            });
+						closeAndFreshPrevFrame();
                     } else {
-                        layer.msg('操作失败', {
+                        layer.msg(data.message, {
                             icon: 2,
                             time: 2000
                         });

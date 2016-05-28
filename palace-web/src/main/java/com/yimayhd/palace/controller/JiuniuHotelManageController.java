@@ -3,6 +3,7 @@ package com.yimayhd.palace.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.AreaService;
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
@@ -40,10 +42,12 @@ import com.yimayhd.palace.model.query.DestinationQuery;
 import com.yimayhd.palace.model.query.HotelListQuery;
 import com.yimayhd.palace.service.DestinationRPCService;
 import com.yimayhd.palace.service.HotelRPCService;
+import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.model.enums.DestinationLevel;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.user.client.enums.DestinationOutType;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 酒店管理（资源）
@@ -59,6 +63,11 @@ public class JiuniuHotelManageController extends BaseController {
 	
 	@Autowired
 	private DestinationRPCService destinationRPCService;
+	
+	@Autowired
+	private TcCacheManager	tcCacheManager;
+	@Autowired
+	private SessionManager sessionManager;
 
 	/**
 	 * 酒店（资源）列表
@@ -101,6 +110,9 @@ public class JiuniuHotelManageController extends BaseController {
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
 		model.addAttribute("provinceList", provinceList);
+		model.addAttribute("UUIDHotel", UUID.randomUUID().toString());
+		model.addAttribute("UUIDPicText", UUID.randomUUID().toString());
+		
 		return "/system/hotel/edit-jiuniu";
 	}
 
@@ -112,15 +124,21 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo add(HotelVO hotelVO) throws Exception {
-		hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
-		try {
-			ICResult<HotelVO> result = hotelRPCService.addHotelV2(hotelVO);
-			return  ResponseVo.success(result.getModule());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+	public ResponseVo add(HotelVO hotelVO, String uuidHotel) throws Exception {
+		
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidHotel;
+		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			try {
+				hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
+				ICResult<HotelVO> result = hotelRPCService.addHotelV2(hotelVO);
+				return  ResponseVo.success(result.getModule());
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+				return ResponseVo.error(e);
+			}
 		}
+		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 
 	/**
@@ -179,7 +197,7 @@ public class JiuniuHotelManageController extends BaseController {
 
 		HotelVO hotelVO = hotelRPCService.getHotelV2(id);
 		if (hotelVO == null) {
-
+			return "/system/hotel/edit-jiuniu";
 		}
 		
 		/**
@@ -251,8 +269,6 @@ public class JiuniuHotelManageController extends BaseController {
 		checkInit(roomServiceList, roomServiceArr);
 		checkInit(hotelFacilityList, hotelFacilityArr);
 
-		NeedKnow needKnow = hotelVO.getNeedKnow();
-
 		//省
 		List<AreaVO> provinceList= AreaService.getInstance().getAreaByIDAndType("PROVINCE", null);
 		//市
@@ -264,11 +280,12 @@ public class JiuniuHotelManageController extends BaseController {
 		model.addAttribute("roomFacilityList", roomFacilityList);
 		model.addAttribute("roomServiceList", roomServiceList);
 		model.addAttribute("hotelFacilityList", hotelFacilityList);
-		model.addAttribute("needKnow", needKnow);
 		model.addAttribute("provinceList", provinceList);
 		model.addAttribute("cityList", cityList);
 		model.addAttribute("townList", townList);
 		model.addAttribute("pictureList", hotelVO.getPictureList());
+		model.addAttribute("UUIDHotel", UUID.randomUUID().toString());
+		model.addAttribute("UUIDPicText", UUID.randomUUID().toString());
 		return "/system/hotel/edit-jiuniu";
 	}
 
@@ -301,16 +318,21 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo edit(HotelVO hotelVO, @PathVariable("id") long id) throws Exception {
-		try {
-			hotelVO.setId(id);
-			hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
-			hotelRPCService.updateHotelV2(hotelVO);
-			return  ResponseVo.success(hotelVO);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+	public ResponseVo edit(HotelVO hotelVO, @PathVariable("id") long id, String uuidHotel) throws Exception {
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidHotel;
+		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			try {
+				hotelVO.setId(id);
+				hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
+				hotelRPCService.updateHotelV2(hotelVO);
+				return  ResponseVo.success(hotelVO);
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+				return ResponseVo.error(e);
+			}
 		}
+		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 
 	/**
@@ -383,7 +405,7 @@ public class JiuniuHotelManageController extends BaseController {
 		model.addAttribute("network", RoomNetwork.values());
 		model.addAttribute("window", RoomWindow.values());
 		model.addAttribute("extraBed", RoomExtraBed.values());
-		
+		model.addAttribute("UUID", UUID.randomUUID().toString());
 		
 		return "/system/hotel/room-edit";
 	}
@@ -396,15 +418,20 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/addRoom", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo addRoom(RoomVO roomVO) throws Exception {
-		try {
-			roomVO.setDomain(Constant.DOMAIN_JIUXIU);
-			ICResult<RoomDO> result = hotelRPCService.addRoom(roomVO);
-			return  ResponseVo.success(result.getModule());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+	public ResponseVo addRoom(RoomVO roomVO, String uuid) throws Exception {
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuid;
+		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			try {
+				roomVO.setDomain(Constant.DOMAIN_JIUXIU);
+				ICResult<RoomDO> result = hotelRPCService.addRoom(roomVO);
+				return  ResponseVo.success(result.getModule());
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+				return ResponseVo.error(e);
+			}
 		}
+		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 	
 	/**
@@ -419,6 +446,7 @@ public class JiuniuHotelManageController extends BaseController {
 		model.addAttribute("network", RoomNetwork.values());
 		model.addAttribute("window", RoomWindow.values());
 		model.addAttribute("extraBed", RoomExtraBed.values());
+		model.addAttribute("UUID", UUID.randomUUID().toString());
 		
 		ICResult<RoomVO> result = hotelRPCService.getRoom(id);
 		
@@ -426,6 +454,7 @@ public class JiuniuHotelManageController extends BaseController {
 			model.addAttribute("room", result.getModule());
 			model.addAttribute("hotelId", result.getModule().getHotelId());
 		}
+		
 		return "/system/hotel/room-edit";
 	}
 	
@@ -437,15 +466,20 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/editRoom/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo editRoom(RoomVO roomVO, @PathVariable("id") long id) throws Exception {
-		try {	
-			roomVO.setId(id);
-			ICResultSupport result = hotelRPCService.updateRoom(roomVO);
-			return  ResponseVo.success(result.getResultMsg());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+	public ResponseVo editRoom(RoomVO roomVO, @PathVariable("id") long id, String uuid) throws Exception {
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuid;
+		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			try {	
+				roomVO.setId(id);
+				ICResultSupport result = hotelRPCService.updateRoom(roomVO);
+				return  ResponseVo.success(result.getResultMsg());
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+				return ResponseVo.error(e);
+			}
 		}
+		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 	
 	/**
@@ -480,22 +514,28 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/savePictureText/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo savePictureText(@PathVariable("id") long id, String json) throws Exception {
-		try {
-			
-			if (StringUtils.isBlank(json)) {
-				log.warn("json is null");
-				return ResponseVo.error();
+	public ResponseVo savePictureText(@PathVariable("id") long id, String json, String uuidPicText) throws Exception {
+		
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidPicText;
+		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			try {
+				
+				if (StringUtils.isBlank(json)) {
+					log.warn("json is null");
+					return ResponseVo.error();
+				}
+				
+				json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+				PictureTextVO pictureTextVO = (PictureTextVO) JSONObject.parseObject(json, PictureTextVO.class);
+				
+				hotelRPCService.savePictureText(id, pictureTextVO);
+				return  ResponseVo.success();
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+				return ResponseVo.error(e);
 			}
-			
-			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
-			PictureTextVO pictureTextVO = (PictureTextVO) JSONObject.parseObject(json, PictureTextVO.class);
-			
-			hotelRPCService.savePictureText(id, pictureTextVO);
-			return  ResponseVo.success();
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
 		}
+		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 }
