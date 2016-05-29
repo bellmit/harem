@@ -17,6 +17,8 @@ public class CommodityListQuery extends BaseQuery {
     private int commStatus;//状态
     private String BeginDate;//发布开始时间
     private String endDate;//发布结束时间
+	private long outId;//商家编码
+	private int outType;//商家类型
 
     public long getCategory_id() {
         return category_id;
@@ -73,4 +75,19 @@ public class CommodityListQuery extends BaseQuery {
     public void setItemType(int itemType) {
         this.itemType = itemType;
     }
+    public long getOutId() {
+		return outId;
+	}
+
+	public void setOutId(long outId) {
+		this.outId = outId;
+	}
+
+	public int getOutType() {
+		return outType;
+	}
+
+	public void setOutType(int outType) {
+		this.outType = outType;
+	}
 }

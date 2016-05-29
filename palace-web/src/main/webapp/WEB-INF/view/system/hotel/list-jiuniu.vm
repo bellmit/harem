@@ -96,7 +96,8 @@
 	                        	<button type="button" class="btn btn-primary hotelBtn" hotelId="$hotel.id" status="2">启用</button>
 	                        #end
 	                        </button>
-	                        <button type="button" class="btn btn-primary roomList" hotelId="$hotel.id">房型列表</button>
+	                        <button type="button" class="btn btn-primary roomList" hotelId="$hotel.id">房型</button>
+	                        <button type="button" class="btn btn-primary itemList" hotelId="$hotel.id">查看商品</button>
                         </td>
                     </tr>
                     #end
@@ -251,6 +252,13 @@
             $(this).click(function(){
                 var url = actionDefaultPath + '/jiuniu/hotelManage/roomList/'+ $(this).attr('hotelId');
                 top.tabsAdd("",url,2,"房型列表");
+            });
+
+        });
+        $('.itemList').each(function(){
+            $(this).click(function(){
+                var url = actionDefaultPath + '/B2C/commodityManage/list?outType=1&outId='+ $(this).attr('hotelId');
+                top.tabsAdd("",url,2,"商品列表");
             });
 
         });
