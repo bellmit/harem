@@ -227,7 +227,16 @@
             var summary= $("#summaryId").val();
             var imgUrl= $("#travelBGImgSH").val();
             //内容这里 判断有没有选择内容，无则找有没有添加内容
-            var operationContent= $("#chosId").val();
+            //景区单独处理。
+            var operationContent = null;
+            var radioVal = $("input[name='jump']:checked").val();
+            var selectVal = $(".selectpages").find("option:selected").val();
+
+            if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题
+                operationContent = $("#choId").val();
+            }else{
+                operationContent = $("#chosId").val();
+            }
             if(null == operationContent || ""==operationContent){
                 operationContent = $("#addsecontentId").val();
             }
