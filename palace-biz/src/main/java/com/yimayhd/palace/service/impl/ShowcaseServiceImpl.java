@@ -378,10 +378,13 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         if(CollectionUtils.isNotEmpty(result.getList())){
             String cityName = "";
             for (MerchantUserDTO mu :result.getList()){
+                if(null == mu.getMerchantDO() || StringUtils.isEmpty(mu.getMerchantDO().getName())){
+                   continue;
+                }
                 ShowCaseItem sc = new ShowCaseItem();
-                sc.setId(null == mu.getUserDO()?0:mu.getUserDO().getId());
-                sc.setName(null == mu.getUserDO()?"":mu.getUserDO().getName());
-                cityName = (null == mu.getMerchantDO()?"":mu.getMerchantDO().getCityName());
+                sc.setId(mu.getMerchantDO().getId());
+                sc.setName(mu.getMerchantDO().getName());
+                cityName = (StringUtils.isEmpty(mu.getMerchantDO().getCityName())?"":mu.getMerchantDO().getCityName());
                 sc.setDestination(Arrays.asList(cityName));
                 list.add(sc);
             }
