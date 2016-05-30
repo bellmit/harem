@@ -45,13 +45,13 @@
 				<option value="" #if(!$itemListQuery.itemType) selected #end>全部</option>
 				#foreach($itemType in $itemTypeList)
 					#set($itemTypeText = $itemType.text)
-					#if($itemTypeText == '普通商品交易' || $itemTypeText == '跟团游' ||
+			#*		#if($itemTypeText == '普通商品交易' || $itemTypeText == '跟团游' ||
 							$itemTypeText == '自由行' || $itemTypeText == '同城活动')
 						#if($itemTypeText == '普通商品交易')
 							#set($itemTypeText = '特产商品')	
-						#end
+						#end*#
 						<option value="$!{itemType.value}" #if($itemListQuery.itemType == $itemType.value) selected #end >$!{itemTypeText}</option>
-					#end
+					#*#end*#
 				#end
             </select>
         </div>

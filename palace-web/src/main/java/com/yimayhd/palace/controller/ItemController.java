@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller;
 
 import java.util.Arrays;
 
+import com.yimayhd.palace.enums.BizItemType;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,7 +59,7 @@ public class ItemController extends BaseController {
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("itemList", pageVO.getItemList());
 		model.addAttribute("itemListQuery", itemListQuery);
-		model.addAttribute("itemTypeList", ItemType.values());
+		model.addAttribute("itemTypeList", BizItemType.values());
 		model.addAttribute("itemStatusList", ItemStatus.values());
 		return "/system/comm/itemList";
 	}
