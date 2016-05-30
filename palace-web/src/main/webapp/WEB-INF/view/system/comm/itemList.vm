@@ -101,7 +101,18 @@
                     <td>
                     	<img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="160" height="90" />
                     </td>
-                    <td>$!item.name</td>
+                    <td>
+						#if($item.type==3)
+						$!{itemInfo.hotelVO.name}<br>
+							$!{itemInfo.roomVO.name}<br>
+						#elseif($item.type==4)
+                            $!{itemInfo.scenicVO.name}<br>
+                            $!{itemInfo.ticketVO.title}<br>
+						#end
+						$!item.name
+
+
+					</td>
 					<td>
 					#*	#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
 							特产商品

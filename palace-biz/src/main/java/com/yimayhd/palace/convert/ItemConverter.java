@@ -4,15 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.TicketDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.domain.person.IcMerchantInfo;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.palace.model.ItemListQuery;
-import com.yimayhd.palace.model.item.IcMerchantVO;
-import com.yimayhd.palace.model.item.ItemInfoVO;
-import com.yimayhd.palace.model.item.ItemVO;
+import com.yimayhd.palace.model.item.*;
 import com.yimayhd.palace.util.ItemUtil;
 
 /**
@@ -81,10 +83,31 @@ public class ItemConverter {
 			icMerchantVO.setMerchantName(icMerchantInfo.getMerchantName());
 			icMerchantVO.setMerchantLogo(icMerchantInfo.getMerchantLogo());
 		}
-		
+
 		ItemInfoVO itemInfoVo = new ItemInfoVO();
 		itemInfoVo.setItemVO(itemVO);
 		itemInfoVo.setIcMerchantVO(icMerchantVO);
+
+		//酒店信息
+		HotelDO hotelDO= itemInfo.getHotelDO();
+		RoomDO roomDO= itemInfo.getRoomDO();
+		TicketDO ticketDO= itemInfo.getTicketDO();
+		if(hotelDO!=null){
+			itemInfoVo.setHotelVO(new HotelVO().setName(hotelDO.getName()));
+		}
+		//房间型号
+		if(roomDO!=null){
+			itemInfoVo.setRoomVO(new RoomVO().setName(roomDO.getName()));
+		}
+		//景区门票信息
+		if(ticketDO!=null){
+			itemInfoVo.setTicketVO(new TicketVO().setTitle(ticketDO.getTitle()));
+		}
+		// 景区信息
+		ScenicDO scenicDO =  itemInfo.getScenicDO();
+		if(scenicDO!=null){
+			itemInfoVo.setScenicVO(new ScenicVO().setName(scenicDO.getName()));
+		}
 		
 		return itemInfoVo;
 	}
