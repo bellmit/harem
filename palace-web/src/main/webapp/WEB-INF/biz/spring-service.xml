@@ -26,6 +26,7 @@
 	<bean class="com.yimayhd.palace.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ScenicServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.DestinationRPCServiceImpl"></bean>
 	<!-- <bean id="config" class="com.yimayhd.palacee.config.ResourceConfig" init-method="init">
 		</bean> -->
 

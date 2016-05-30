@@ -1,0 +1,712 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/editer.css"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/img-list.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+<script charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
+
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+<style type="text/css">
+    .demo {
+        width: 850px;
+        margin: 20px auto;
+        display: none;
+    }
+
+    #l-map {
+        height: 400px;
+        width: 600px;
+        float: left;
+        border: 1px solid #bcbcbc;
+    }
+
+    #r-result {
+        height: 400px;
+        width: 230px;
+        float: right;
+    }
+    
+    .imgWrap {
+	    float: none;
+	    margin-bottom: 5px;
+	    padding-top: 5px;
+	 }
+	 
+	 .commercialArea span{
+	 	margin-right: 5px;
+	 }
+	 
+	 .clear{
+	 	clear:both;
+	 }
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#grogshopInfo" data-toggle="tab">酒店信息</a></li>
+    <li><a id="hotelImgId" href="#hotelImgs" data-toggle="tab">图文详情</a></li>
+</ul>
+
+<form name="addHotel" id="hotelForm" action="" method="post" hotelId="$!hotel.id">
+
+<input type="hidden" name="uuidHotel" value="$!{UUIDHotel}" />
+<input type="hidden" id="uuidPicText" value="$!{UUIDPicText}" />
+
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+            <table class="table">
+				<tbody>
+               <tr>
+                    <td><span class="spColor">*</span>酒店名称</td>
+                    <td>
+						#set($hotelVOId=0)
+	                	#if($hotel.id)
+	                		#set($hotelVOId=$hotel.id)
+	                	#end
+	                	<input type="hidden" id="hotelId" name="id" value="$!{hotelVOId}">
+	                    <input type="text" class="inpCtlBlock name" name="name"  
+	                    	#if($hotel.id)
+	                    		disabled="disabled" 
+	                    	#end
+	                    placeholder="请填写酒店官方全称，1-20个字， 请勿包含如价格、房型、宣传等信息" maxlength="20" value="$!{hotel.name}">
+					</td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>所在城市</td>
+                    <td>
+                        <div class="selectList">
+                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!hotel.locationProvinceName">
+                            <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
+                                <option value="0">请选择省份</option>
+                                #foreach($province in $provinceList)
+                                    <option #if($province.code ==  $!hotel.locationProvinceId) selected #end value="$province.code">$province.name</option>
+                                #end
+                            </select>
+                            <input type="hidden" id="citySelectName" name="locationCityName" value="$!hotel.locationCityName">
+                            <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
+                                <option value="0">请选择城市</option>
+                                #foreach($city in $cityList)
+                                    <option #if($city.code == $!hotel.locationCityId) selected #end value="$city.code">$city.name</option>
+                                #end
+                            </select>
+							<input type="hidden" id="countySelectName" name="locationTownName" value="$!hotel.locationTownName">
+                            <select id="countyId" class="selCity inpControl countySelect" name="locationTownId" areaType="COUNTY">
+                                <option value="0">请选择区域</option>
+                                #foreach($town in $townList)
+                                    <option #if($town.code == $!hotel.locationTownId) selected #end value="$town.code">$town.name</option>
+                                #end
+                            </select>			
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                	<td>所属商圈</td>
+                    <td>
+                    	<div class="commercialArea">
+                    	</div>
+                    	<input type="hidden" class="tradeAreaJson" name="tradeAreaJson" value="" />
+                    </td>
+                </tr>
+                <tr>
+                	<td><span class="spColor">*</span>详细地址</td>
+                    <td>
+                    	<input type="text" class="inpCtlBlock locationText" name="locationText" id="locationText" placeholder="如果有详细的“XX路XX号XX大厦XX座XX层XX室”，请务必填写;如无,请详细描述地理位置。" value="$!hotel.locationText">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>地址经纬度</td>
+                    <td>
+                    	<span>经度</span>
+                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字" class="inpControl getAddress" value="$!hotel.locationX">
+                    	<span>纬度</span>
+                    	<input type="text" id="locationY" name="locationY" placeholder="示例:116.40461,限数字" class="inpControl getAddress" value="$!hotel.locationY">
+                    	<button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
+                    </td>
+                </tr>
+                <tr>
+                	<td><span class="spColor">*</span>酒店类型</td>
+                    <td>
+                    	
+                    	<input type="radio" name="type" value="1" #if($!hotel.type == 1) checked #end /> 客栈
+                    	<input type="radio" name="type" value="2" #if($!hotel.type == 2) checked #end/>景区
+                    	
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>星级</td>
+                    <td>
+                        <input type="radio" name="level" value="2" #if($!hotel.level == 2) checked #end >二星级及以下
+                    	<input type="radio" name="level" value="3" #if($!hotel.level == 3) checked #end >三星级
+                    	<input type="radio" name="level" value="4" #if($!hotel.level == 4) checked #end >四星级
+                    	<input type="radio" name="level" value="5" #if($!hotel.level == 5) checked #end >五星级
+                    	<input type="radio" name="level" value="10" #if($!hotel.level == 10) checked #end >豪华型
+                    	<input type="radio" name="level" value="9" #if($!hotel.level == 9) checked #end >高档型
+                    	<input type="radio" name="level" value="8" #if($!hotel.level == 8) checked #end >舒适型
+                    	<input type="radio" name="level" value="7" #if($!hotel.level == 7) checked #end >经济型
+                    	<label style="display:block;font-size:12px;color:#CBCBCB;">酒店有星级时选择星级，没有星级选择“豪华型”、“高档型”，“舒适型”或者“经济型”</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店电话</td>
+                    <td>
+                        <input type="text" class="inpCtlBlock phoneNumListStr" name="phoneNumListStr" id="phoneNum" value="$!hotel.phoneNumListStr" placeholder="示例:18312345678或073182345678">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店设施</td>
+					<input id="hotelFacilityStrId" type="hidden" name="hotelFacilityStr"/>
+                    <td  class="grogCheckSel">
+						#set($indexNo = 0)
+                        #foreach($!hotelFacility in $!hotelFacilityList)
+							#set($indexNo = $indexNo + 1)
+							#set($indexNoId = "hotelFacility" + $indexNo)
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl hotelFacilityCl" #if($!hotelFacility.checked) checked value="1" #else value="0" #end>$hotelFacility.name</span>
+							#if($!hotelFacility.number % 10 == 0)
+								<br/>
+							#end
+						#end
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>酒店服务</td>
+					<input id="roomServiceStrId" type="hidden" name="roomServiceStr"/>
+                    <td  class="grogCheckSel">
+						#set($indexNo = 0)
+                        #foreach($!roomService in $!roomServiceList)
+							#set($indexNo = $indexNo + 1)
+							#set($indexNoId = "roomService" + $indexNo)
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomService" #if($!roomService.checked) checked value="1" #else value="0" #end>$roomService.name</span>
+							#if($!roomService.number % 10 == 0)
+								<br/>
+							#end
+						#end
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>房间设施</td>
+					<input id="roomFacilityStrId" type="hidden" name="roomFacilityStr" />
+                    <td class="grogCheckSel">
+						#set($indexNo = 0)
+                        #foreach($!roomFacility in $!roomFacilityList)
+							#set($indexNo = $indexNo + 1)
+							#set($indexNoId = "roomFacility" + $indexNo)
+							#if($!roomFacility.number == 1)
+								<span>房间设施</span><br/>
+							#end
+							#if($!roomFacility.number == 34)
+								<br/><span>浴室</span><br/>
+							#end
+							#if($!roomFacility.number == 44)
+								<br/><span>室外景观</span><br/>
+							#end
+							#if($!roomFacility.number == 55)
+								<br/><span>其他服务</span><br/>
+							#end
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomFacilityCl" #if($!roomFacility.checked) checked value="1" #else value="0" #end>$roomFacility.name</span>
+							#if($!roomFacility.number % 10 == 0 
+								|| $!roomFacility.number == 33
+								|| $!roomFacility.number == 43
+								|| $!roomFacility.number == 54) 
+								<br/>
+							#end
+						#end
+                    </td>
+               </tr>
+               <tr>
+                   <td><span class="spColor">*</span>入离政策</td>
+                   <td>
+                       <input type="text" name="policy" value="$!hotel.policy" class="inpCtlBlock policy" placeholder="1-38个字" />
+                   </td>
+               </tr>
+               <tr>
+                   <td><span class="spColor">*</span>列表头图</td>
+                    <td>
+                        <div class="imgWrap fileImgWrap">
+                            <button type="button" class="btn btn-success">上传图片</button>
+                            <input type="file" name="file" class="fileInp" id="logoUrlUploadFile" style="margin-top:-15px;">
+                            <input type="hidden" id="logoUrl" name="logoUrl" value="$!{hotel.logoUrl}" >
+                            <label class="logoUrlTip" style="display:none;">请上传列表头图</label>
+                        </div>
+                        <div class="logoView">
+                        	#if(! $hotel.logoUrl)
+                        		<img  class="img-square uploadImgFile dimg" imgUrl="$!{hotel.logoUrl}" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
+                        	#else
+                        		<img  class="img-square uploadImgFile dimg" imgUrl="$!{hotel.logoUrl}" src="$utilWebconfig.getTfsRootPath()$!{hotel.logoUrl}" />	
+                        	#end
+	            		</div>
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</p>
+                    </td>
+                </tr>                                        
+                <tr>
+				   <td><span class="spColor">*</span>外观</td>
+				   <td>
+				       <div id="outlook" class="imgWrap fileImgWrap">
+                    		<div class="upload-btn-wrap">
+								<button type="button" class="btn btn-success">上传图片</button>
+								<input id="outlookUploadBtn" type="file" multiple="multiple" class="fileInp" style="margin-top:-15px;">
+							</div>
+							#foreach($picture in ${hotel.outlookPicList})
+                            	<div class="pic-wrap outlookPicWrap">
+   									<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="$!{picture.value}" isdel="$!{picture.isdel}" pid="$!{picture.id}" src="$utilWebconfig.getTfsRootPath()$!{picture.value}" />
+   									<button type="button" class="btn btn-del-pic outlookBtnDelPic" style="display:none;width:116px;">删除</button>
+   								</div>		
+                            #end
+                        </div>
+                        <input class="outlookPics" type="hidden" name="outlookPicListStr" value="">
+                        <label class="outlookPicsTip" style="display:none;">最少上传一张景区图片</label>
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
+				   </td>
+                </tr>
+                <tr>
+				   <td>内景</td>
+				   <td>
+				       <div id="inDoor" class="imgWrap fileImgWrap">
+                    		<div class="upload-btn-wrap">
+								<button type="button" class="btn btn-success">上传图片</button>
+								<input id="inDoorUploadBtn" type="file" multiple="multiple" class="fileInp" style="margin-top:-15px;">
+							</div>
+							#foreach($picture in ${hotel.inDoorPicList})
+                            	<div class="pic-wrap inDoorPicWrap">
+   									<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="$!{picture.value}" isdel="$!{picture.isdel}" pid="$!{picture.id}" src="$utilWebconfig.getTfsRootPath()$!{picture.value}" />
+   									<button type="button" class="btn btn-del-pic inDoorBtnDelPic" style="display:none;width:116px;">删除</button>
+   								</div>		
+                            #end
+                        </div>
+                        <input class="inDoorPics" type="hidden" name="inDoorPicListStr" value="">
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
+				   </td>
+                </tr>
+                <tr>
+				   <td>房间</td>
+				   <td>
+				       <div id="room" class="imgWrap fileImgWrap">
+                    		<div class="upload-btn-wrap">
+								<button type="button" class="btn btn-success">上传图片</button>
+								<input id="roomUploadBtn" type="file" multiple="multiple" class="fileInp" style="margin-top:-15px;">
+							</div>
+							#foreach($picture in ${hotel.roomPicList})
+                            	<div class="pic-wrap roomPicWrap">
+   									<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="$!{picture.value}" isdel="$!{picture.isdel}" pid="$!{picture.id}" src="$utilWebconfig.getTfsRootPath()$!{picture.value}" />
+   									<button type="button" class="btn btn-del-pic roomBtnDelPic" style="display:none;width:116px;">删除</button>
+   								</div>		
+                            #end
+                        </div>
+                        <input class="roomPics" type="hidden" name="roomPicListStr" value="">
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
+				   </td>
+                </tr>
+                <tr>
+				   <td>其他</td>
+				   <td>
+				       <div id="other" class="imgWrap fileImgWrap">
+                    		<div class="upload-btn-wrap">
+								<button type="button" class="btn btn-success">上传图片</button>
+								<input id="otherUploadBtn" type="file" multiple="multiple" class="fileInp" style="margin-top:-15px;">
+							</div>
+							#foreach($picture in ${hotel.otherPicList})
+                            	<div class="pic-wrap otherPicWrap">
+   									<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="$!{picture.value}" isdel="$!{picture.isdel}" pid="$!{picture.id}" src="$utilWebconfig.getTfsRootPath()$!{picture.value}" />
+   									<button type="button" class="btn btn-del-pic otherBtnDelPic" style="display:none;width:116px;">删除</button>
+   								</div>		
+                            #end
+                        </div>
+                        <input class="otherPics" type="hidden" name="otherPicListStr" value="">
+                        <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
+				   </td>
+                </tr>
+				
+				</tbody>
+            </table>
+        </div>
+        <button type="button" class="btn btn-info" id="btnSubmit">保存并下一步</button>
+    </div>
+    <div class="tab-pane" id="hotelImgs" style="width:95%; margin:15px auto;">
+        #parse("/system/hotel/pictureText.vm")
+        <button type="button" class="btn btn-info saveAll">全部保存</button>
+    </div>
+</div>
+</form>
+<script charset="utf-8" src="$utilWebconfig.getStaticResourcesPath()/resources/js/editer.js"></script>
+<script charset="utf-8" src="$utilWebconfig.getStaticResourcesPath()/resources/js/img-list.js"></script>
+<script>
+	
+    //验证
+    var validate = function(){
+        if(!$('.name').val()){
+            return '酒店名称不能为空';
+        }else if($('.name').val().length > 20){
+            return '酒店名称不能超过20个字';
+        }
+        if(!$('.provinceSelect').val() || $('.provinceSelect').val() == '0'){
+            return '省份不能为空';
+        }
+        if(!$('.citySelect').val() || $('.citySelect').val() == '0'){
+            return '城市不能为空';
+        }
+        if(!$('.countySelect').val() || $('.countySelect').val() == '0'){
+            return '地区不能为空';
+        }
+        if(!$('.locationText').val() || $('.locationText').val().length > 38){
+            return '详细地址请输入1到38个字';
+        }
+        if(!$('input[name="type"]:checked').val()){
+            return '请选择酒店类型';
+        }
+        if(!$('input[name="level"]:checked').val()){
+            return '请选择星级';
+        }
+        if(!$('#locationX').val() || !$('#locationY').val() || !/^[0-9]+.?[0-9]*$/.test($('#locationX').val()) || !/^[0-9]+.?[0-9]*$/.test($('#locationY').val())){
+            return '地址经纬度格式不正确';
+        }
+        var phoneReg = /^0\d{2,3}-?\d{7,8}$|^1[0-9]{10}$/;
+        if(!phoneReg.test($('.phoneNumListStr').val())){
+            return '酒店电话格式不正确';
+        }
+        if($('.hotelFacilityCl:checked').length <= 0){
+            return '酒店设施不能为空';
+        }
+        if($('.roomService:checked').length <= 0){
+            return '酒店服务不能为空';
+        }
+        if($('.roomFacilityCl:checked').length <= 0){
+            return '房间设施不能为空';
+        }
+        if(!$('.policy').val() || $('.policy').val().length > 38){
+            return '入离政策请输入1到38个字';
+        }
+        if(!$('#logoUrl').val()){
+            return '请上传列表头图';
+        }
+        if($('.outlookPicWrap').length <= 0){
+            return '请上传外观图片';
+        }
+    }
+    //表单验
+	var provinceFlag = false;
+	var cityFlag = false;
+	var areaFlag = false;
+
+	var mapCallback = function (data) {
+        if (data) {
+            $("#locationX").val(data['pointX']);
+            $("#locationY").val(data['pointY']);
+        }
+    }
+    
+    function uploadLogo(tfsPath){
+    	$(document).delegate('#logoUrlUploadFile','change',function(){
+    		
+    		var _self = this;
+            fileUpload('#logoUrlUploadFile',1,function(data){
+            	
+                if(data && data.status==200){
+                	
+                	var imgUrl = tfsPath + data.data;
+                	
+                	var count = $(".logoView").length;
+                	if(count == 0){
+		            	var content = [];
+		            	content.push('<div class="logoView">');
+		            		content.push('<img  class="img-square uploadImgFile dimg" imgUrl="'+ data.data +'" src="'+ imgUrl +'" />');
+		            	content.push('</div>');
+		            	$(_self).parent().parent().append(content.join(""));
+                	}else{
+                		$(".logoView").find("img").attr({
+                			"src": imgUrl,
+                			"imgUrl": data.data
+                		});
+                	}
+                	
+                    $("#logoUrl").val(data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });
+    };
+    
+    
+    function getDestination(checkedArea){
+    	
+    	var cityId = $("#cityId").val();
+    	if(!cityId || cityId == 0){
+    		return;
+    	}
+    	
+    	var param = {
+    		"parentCode":$("#cityId").val()
+    	}
+    	$.get(actionDefaultPath + '/jiuniu/hotelManage/destination', param,function(data){
+          	console.log(JSON.stringify(data));
+          	
+          	if(data.status != 200){
+          		return;
+          	}
+          	
+          	var commAreaHTML = [];
+          	var destArr = data.data;
+          	for(var i = 0; i < destArr.length; i++){
+          		var dest = destArr[i];
+          		
+          		var checked = '';
+          		for(var j = 0; j < checkedArea.length; j++){
+          			if(checkedArea[j] == dest.id){
+          				checked = 'checked="checked"';
+          				break;
+          			}
+          		}
+          		
+          		commAreaHTML.push('<span>');
+					commAreaHTML.push('<input class="commArea" name="commArea" type="radio" '+ checked +' code="'+ dest.id +'" value="'+ dest.name +'"/>'+ dest.name);
+          		commAreaHTML.push('</span>');
+          	}
+          	$(".commercialArea").html(commAreaHTML.join(""));
+        });
+    }
+    
+    function setDestination(){
+    
+    	var destArr = [];
+    	$(".commArea:checked").each(function(){
+    		var dest = {
+    			code: $(this).attr("code"),
+    			name: $(this).val()
+    		};
+    		destArr.push(dest)		
+    	});
+		$('.tradeAreaJson').val(JSON.stringify(destArr));
+    }
+	
+    $(function(){
+        
+        var outlook = new ImgList("outlook", tfsRootPath, 20, true);
+        var inDoor = new ImgList("inDoor", tfsRootPath, 20, true);
+        var room = new ImgList("room", tfsRootPath, 20, true);
+        var other = new ImgList("other", tfsRootPath, 20, true);
+        
+        uploadLogo(tfsRootPath);
+        
+		$('.locationXYSelectBtn').click(function () {
+			//alert("HelloWorld!!!!!!!!!");
+            openBaiduMap(115.727899, 37.723961, mapCallback);
+        });
+
+
+		$(".facilityCl").click(function() {
+			if($(this).prop('checked')) {
+				$(this).val("1");
+			} else {
+				$(this).val("0");
+			}
+		});
+
+        //地址选择
+        //省
+        $('.provinceSelect').change(function(){
+            if($('.provinceSelect option:selected')){
+                $('#provinceSelectName').val($('.provinceSelect option:selected').text());
+            }
+            $.get(actionDefaultPath + '/AREA/list/',{'areaType': $('.citySelect').attr("areaType"),'areaParentCode':$('.provinceSelect').val()},function(data){
+                $('.citySelect option').remove();
+                var optionList = '';
+                if(data && data.status == 200){
+                    $('.citySelect').append('<option value="0">请选择城市</option>');
+                    for(var region in data.data){
+                        optionList += "<option value=" + data.data[region].code + ">" + data.data[region].name + "</option>";
+                    }
+                    $('.citySelect').append(optionList);
+                }else{
+                    layer.msg('市级地址加载失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+
+            });
+        });
+        //市
+        $('.citySelect').change(function(event, isTrigger){
+        	console.log("isTrigger:"+ isTrigger);
+        	if(isTrigger != true){
+        		console.log("ccccccccccccc");
+        		if($('.citySelect option:selected')){
+	                $('#citySelectName').val($('.citySelect option:selected').text());
+	            }
+	            $.get(actionDefaultPath + '/AREA/list/',{'areaType': $('.countySelect').attr("areaType"),'areaParentCode':$('.citySelect').val()},function(data){
+	                $('.countySelect option').remove();
+	                var optionList = '';
+	                if(data && data.status == 200){
+	                    $('.countySelect').append('<option value="0">请选择区域</option>');
+	                    for(var region in data.data){
+	                        optionList += "<option value=" + data.data[region].code + ">" + data.data[region].name + "</option>";
+	                    }
+	                    $('.countySelect').append(optionList);
+	                }else{
+	                    layer.msg('市级地址加载失败', {
+	                        icon: 2,
+	                        time: 2000
+	                    });
+	                }
+	            });
+        	}
+            getDestination(checkedArea);
+        });
+        //区
+        $('.countySelect').change(function(){
+            if($('.countySelect option:selected').val()){
+                $('#countySelectName').val($('.countySelect option:selected').text());
+            }
+        });
+        
+        var checkedArea = [];
+		#foreach($tradeArea in $hotel.getTradeAreaList())
+			checkedArea.push($!tradeArea.code); 
+	    #end
+        
+        if($("#cityId").val() != 0){
+        	console.log($("#cityId").val());
+			$("#cityId").trigger("change", true);
+		}
+
+		$('#btnSubmit').click(function(){
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            
+            //商圈
+            setDestination();
+            
+            // 房间设施 roomFacility
+            var facilityId = 1;
+            var roomFacilityStr = '';
+            while (true) {
+
+                if ($("#roomFacility"+facilityId).length == 0) {
+                    facilityId = 1;
+                    break;
+                } else {
+                    roomFacilityStr += $("#roomFacility"+facilityId).val();
+                    facilityId ++;
+                }
+
+            }
+            $("#roomFacilityStrId").attr('value', roomFacilityStr);
+
+            // 特色服务 roomService
+            var roomServiceStr = '';
+            while (true) {
+
+                if ($("#roomService"+facilityId).length == 0) {
+                    facilityId = 1;
+                    break;
+                } else {
+                    roomServiceStr += $("#roomService"+facilityId).val();
+                    facilityId ++;
+                }
+
+            }
+
+            $("#roomServiceStrId").val(roomServiceStr);
+
+            // 酒店设施 roomFacility
+            var hotelFacilityStr = '';
+            while (true) {
+
+                if ($("#hotelFacility"+facilityId).length == 0) {
+                    facilityId = 1;
+                    break;
+                } else {
+                    hotelFacilityStr += $("#hotelFacility"+facilityId).val();
+                    facilityId ++;
+                }
+
+            }
+            $("#hotelFacilityStrId").val(hotelFacilityStr);
+            
+            //外观图片
+        	var outlookUrls = outlook.getPicUrls2();
+        	if(outlookUrls.length < 1){
+        		$(".outlookPicsTip").css({"color":"red", "display":""});
+        		return;
+        	}else{
+        		$(".outlookPicsTip").css({"display":"none"});
+        		$('.outlookPics').val(JSON.stringify(outlookUrls));
+        	}
+
+        	var inDoorUrls = inDoor.getPicUrls2();
+        	if(inDoorUrls.length > 0){
+        		$('.inDoorPics').val(JSON.stringify(inDoorUrls));
+        	}
+        	
+        	var roomUrls = room.getPicUrls2();
+        	if(roomUrls.length > 0){
+        		$('.roomPics').val(JSON.stringify(roomUrls));
+        	}
+        	
+        	var otherUrls = other.getPicUrls2();
+        	if(otherUrls.length > 0){
+        		$('.otherPics').val(JSON.stringify(otherUrls));
+        	}
+        	
+            var actionUrl;
+            var hotelId = $('#hotelForm').attr('hotelId');
+            if (hotelId) {
+                actionUrl = actionDefaultPath + '/jiuniu/hotelManage/edit/' + $('#hotelForm').attr('hotelId');
+            } else {
+                actionUrl = actionDefaultPath + '/jiuniu/hotelManage/add';
+            }
+            
+            var options = {
+                url: actionUrl,
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 200) {
+                    	$("#hotelId").val(data.data.id);       
+                        $("#hotelImgId").trigger("click");
+                    } else {
+                        layer.msg(data.message, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            };
+
+            $("#hotelForm").ajaxSubmit(options);
+        });
+    });
+    
+    $(".saveAll").click(function(){
+    	var pictureText = getPictureText();
+    	
+    	var params = {
+			json:JSON.stringify(pictureText),
+			uuidPicText: $("#uuidPicText").val()
+		};
+		
+    	var url = actionDefaultPath + "/jiuniu/hotelManage/savePictureText/"+ $('#hotelId').val();
+    	$.post(url, params, function(data){
+			if(data.status == 200) {
+				closeAndFreshPrevFrame();
+			} else {
+				layer.msg(data.message, {
+					icon : 2,
+                    time: 2000
+				});
+			}
+	    },"json");
+    });
+    
+    
+</script>

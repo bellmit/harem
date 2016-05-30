@@ -1,0 +1,239 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/img-list.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+<script charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
+
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+<style type="text/css">
+    .demo {
+        width: 850px;
+        margin: 20px auto;
+        display: none;
+    }
+
+    #l-map {
+        height: 400px;
+        width: 600px;
+        float: left;
+        border: 1px solid #bcbcbc;
+    }
+
+    #r-result {
+        height: 400px;
+        width: 230px;
+        float: right;
+    }
+    
+    .imgWrap {
+	    float: none;
+	    margin-bottom: 5px;
+	    padding-top: 5px;
+	 }
+</style>
+<form name="addRoom" id="roomForm" action="" method="post" hotelId="$!hotelId">
+
+<input type="hidden" name="uuid" value="$!{UUID}" />
+
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="createHotrlTable">
+        <table class="table">
+			<tbody>
+           <tr>
+                <td><span class="spColor">*</span>房型名称</td>
+                <td>
+					#set($roomVOId=0)
+                	#if($room.id)
+                		#set($roomVOId=$room.id)
+                	#end
+                	<input type="hidden" id="roomId" name="id" value="$!{roomVOId}">
+                    <input type="text" class="inpCtlBlock name" name="name" 
+                    	#if($room.id)
+                    		disabled="disabled" 
+                    	#end
+                    placeholder="请填写房型全称，1-20个字" maxlength="20" value="$!{room.name}">
+				</td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>床型</td>
+                <td>
+                    <input type="text" class="inpCtlBlock bed" name="bed" value="$!room.bed" placeholder="最多8个字符" maxlength="8" />
+                </td>
+            </tr>
+            <tr>
+            	<td><span class="spColor">*</span>面积</td>
+                <td>
+                	<input type="text" class="inpCtlBlock area" name="area" value="$!room.area">
+                </td>
+            </tr>
+            <tr>
+            	<td><span class="spColor">*</span>网络</td>
+                <td>
+                	#foreach($!net in $!network)
+						<input type="checkbox" class="network" value="$net.type"
+						#foreach($!net2 in $!room.networkList)
+							$net
+							#if($net.type == $net2)
+								checked
+							#end
+						#end
+						/>$net.desc
+					#end
+					<input type="hidden" id="networkStr" name="networkStr" value="" />
+                </td>
+            </tr>
+            <tr>
+            	<td>是否有窗</td>
+                <td>
+                	#foreach($!win in $!window)
+						<input type="radio" name="window" class="type" value="$win.type" #if($!room.window == $win.type) checked #end  />$win.desc	
+					#end
+                </td>
+            </tr>
+            <tr>
+            	<td>加床</td>
+                <td>
+                	#foreach($!bed in $!extraBed)
+						<input type="radio" name="extraBed" class="extraBed" value="$bed.type" #if($!room.extraBed == $bed.type) checked #end />$bed.desc	
+					#end
+                </td>
+            </tr>
+            <tr>
+            	<td>楼层</td>
+                <td>
+                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor">
+                </td>
+            </tr>
+            <tr>
+            	<td>最大可住人数</td>
+                <td>
+		            <select class="form-control people" name="people">
+	                    <option value="0"  >全部</option>
+	                    <option value="1" #if($!room.people == 1) selected="selected" #end >1</option>
+	                    <option value="2" #if($!room.people == 2) selected="selected" #end >2</option>
+	                    <option value="3" #if($!room.people == 3) selected="selected" #end >3</option>
+	                    <option value="4" #if($!room.people == 4) selected="selected" #end >4</option>
+	                    <option value="5" #if($!room.people == 5) selected="selected" #end >5</option>
+	                    <option value="6" #if($!room.people == 6) selected="selected" #end >6</option>
+	                    <option value="7" #if($!room.people == 7) selected="selected" #end >7</option>
+	                    <option value="8" #if($!room.people == 8) selected="selected" #end >8</option>
+	                    <option value="9" #if($!room.people == 9) selected="selected" #end >9</option>
+		            </select>
+                </td>
+            </tr>
+            <tr>
+			   <td><span class="spColor">*</span>房型图片</td>
+			   <td>
+			       <div id="room" class="imgWrap fileImgWrap">
+                		<div class="upload-btn-wrap">
+							<button type="button" class="btn btn-success">上传图片</button>
+							<input id="roomUploadBtn" type="file" multiple="multiple" class="fileInp" style="margin-top:-15px;">
+						</div>
+                        #foreach($pic in ${room.pics})
+                        	<div class="pic-wrap roomPicWrap">
+								<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="$!{pic}" src="$utilWebconfig.getTfsRootPath()$!{pic}" />
+								<button type="button" class="btn btn-del-pic roomBtnDelPic" style="display:none;width:116px;">删除</button>
+							</div>		
+                        #end
+                    </div>
+                    <input class="roomPics" type="hidden" name="picListStr" value="">
+                    <label class="roomPicsTip" style="display:none;">最少上传一张景区图片</label>
+			   </td>
+            </tr>
+			</tbody>
+        </table>
+    </div>
+    <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+</div>
+</form>
+<script charset="utf-8" src="$utilWebconfig.getStaticResourcesPath()/resources/js/img-list.js"></script>
+<script>
+	
+    //验证
+    var validate = function(){
+        if(!$('.name').val()){
+            return '酒店名称不能为空';
+        }else if($('.name').val().length > 20){
+            return '酒店名称不能超过20个字';
+        }
+        if(!$('.bed').val()){
+            return '床型不能为空';
+        }
+        if(!$('.area').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.area').val())){
+            return '面积格式不正确';
+        }
+        
+        var networks = $(".network:checked");
+        if(networks.length == 0){
+            return '请选择网络';
+        }
+        if(networks.length > 2){
+            return '网络最多选择两个';
+        }
+        if($('.roomPicWrap').length <= 0){
+            return '请上传房型图片';
+        }
+    }
+    //表单验
+    
+    $(function(){
+        
+        var room = new ImgList("room", tfsRootPath, 4);
+        
+		$('#btnSubmit').click(function(){
+            //非空验证
+            
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            
+            var roomUrls = room.getPicUrls();
+        	if(roomUrls.length > 0){
+        		$('.roomPics').val(roomUrls.join("|"));
+        	}
+        	
+        	var networkArr = [];
+        	$(".network:checked").each(function(){
+        		networkArr.push($(this).val());
+        	});
+        	
+        	$("#networkStr").val(networkArr.join("|"));
+        	
+            var roomId = $('#roomId').val();
+            var hotelId = $('#roomForm').attr('hotelId');
+            var actionUrl;
+            if (roomId != 0) {
+                actionUrl = actionDefaultPath + '/jiuniu/hotelManage/editRoom/' + roomId;
+            } else {
+                actionUrl = actionDefaultPath + '/jiuniu/hotelManage/addRoom?hotelId='+ hotelId;
+            }
+            
+            var options = {
+                url: actionUrl,
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 200) {
+						closeAndFreshPrevFrame();
+                    } else {
+                        layer.msg(data.message, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            };
+
+            $("#roomForm").ajaxSubmit(options);
+        });
+    });
+</script>

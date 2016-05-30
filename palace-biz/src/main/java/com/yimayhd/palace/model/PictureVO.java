@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.yimayhd.ic.client.model.domain.PictureFeature;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
@@ -24,6 +25,7 @@ public class PictureVO {
 	private boolean isTop;// 是否置顶
 	private boolean modify = false;// 是否修改
 	private boolean isdel = false;// 是否删除
+	private int tag;//图片类型  PictureTag枚举
 
 	/**
 	 * 修改提交时设置pictureList
@@ -160,6 +162,19 @@ public class PictureVO {
 			picturesDO.setName(name.substring(0, length));
 		}
 		picturesDO.setIsTop(this.isTop);
+		if(this.tag > 0){
+			PictureFeature feature = new PictureFeature(null);
+			feature.setPictureTag(this.tag);
+			picturesDO.setPictureFeature(feature);
+		}
+		
 		return picturesDO;
+	}
+	public int getTag() {
+		return tag;
+	}
+
+	public void setTag(int tag) {
+		this.tag = tag;
 	}
 }

@@ -15,10 +15,24 @@ public class HotelListQuery extends BaseQuery {
 	private long regionId;// 区域ID
 	private String regionName;// 区域名称
 	private String hotelNameOrTel;// 酒店联系电话
-	private String BeginDate;// 开始创建时间
+	private String beginDate;// 开始创建时间
 	private String endDate;// 结束创建时间
 	private Integer pageBegin;
+	private int domain;
+	private long locationProvinceId;
+	private long locationCityId;
+	private int type;
 	
+	
+
+	public int getDomain() {
+		return domain;
+	}
+
+	public void setDomain(int domain) {
+		this.domain = domain;
+	}
+
 	public int getHotelStatus() {
 		return hotelStatus;
 	}
@@ -44,11 +58,11 @@ public class HotelListQuery extends BaseQuery {
 	}
 
 	public String getBeginDate() {
-		return BeginDate;
+		return beginDate;
 	}
 
 	public void setBeginDate(String beginDate) {
-		BeginDate = beginDate;
+		this.beginDate = beginDate;
 	}
 
 	public String getEndDate() {
@@ -81,5 +95,28 @@ public class HotelListQuery extends BaseQuery {
 
 	public void setPageBegin(Integer pageBegin) {
 		this.pageBegin = pageBegin;
+	}
+	public long getLocationProvinceId() {
+		return locationProvinceId;
+	}
+
+	public void setLocationProvinceId(long locationProvinceId) {
+		this.locationProvinceId = locationProvinceId;
+	}
+
+	public long getLocationCityId() {
+		return locationCityId;
+	}
+
+	public void setLocationCityId(long locationCityId) {
+		this.locationCityId = locationCityId;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

@@ -1,14 +1,17 @@
 package com.yimayhd.palace.model;
 
-import com.yimayhd.palace.util.NumUtil;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import java.util.Arrays;
-import java.util.List;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.item.ScenicFeature;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.ScenicFeatureKey;
+import com.yimayhd.palace.util.NumUtil;
 
 /**
  * Created by czf on 2015/12/25.
@@ -20,11 +23,16 @@ public class ScenicVO extends ScenicDO {
     private double priceY;//价格元
     private String coverPics;//封面大图String
     private List<PictureVO> pictureList;//图片集
+	private String themeIdStr; //主题
 
     private NeedKnow needKnowOb;
 
     public static ScenicDO getScenicDO(ScenicVO scenicVO){
         ScenicDO scenicDO = new ScenicVO();
+        if(scenicVO == null){
+        	return scenicDO;
+        }
+        
         BeanUtils.copyProperties(scenicVO, scenicDO);
         //pictures
         if(StringUtils.isNotBlank(scenicVO.getPicturesStr())){
@@ -39,6 +47,13 @@ public class ScenicVO extends ScenicDO {
         //图片集处理(因为有outId还是,只处理新增的)
         //元转分
         scenicDO.setPrice(NumUtil.doubleToLong(scenicVO.getPriceY()));
+        
+        if(StringUtils.isNotBlank(scenicVO.themeIdStr)){
+        	List<String> subjectIds = Arrays.asList(scenicVO.getThemeIdStr().split("\\|"));
+            ScenicFeature scenicFeature = new ScenicFeature(null);
+    		scenicFeature.put(ScenicFeatureKey.SUBJECT_IDS, subjectIds);
+            scenicDO.setScenicFeature(scenicFeature);
+        }
 
         return scenicDO;
     }
@@ -99,8 +114,11 @@ public class ScenicVO extends ScenicDO {
 	public void setPictureList(List<PictureVO> pictureList) {
 		this.pictureList = pictureList;
 	}
-    
+	public String getThemeIdStr() {
+		return themeIdStr;
+	}
+	public void setThemeIdStr(String themeIdStr) {
+		this.themeIdStr = themeIdStr;
+	}
 	
-	
-    
 }

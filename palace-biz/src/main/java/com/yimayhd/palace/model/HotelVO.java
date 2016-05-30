@@ -1,17 +1,26 @@
 package com.yimayhd.palace.model;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.palace.util.NumUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.item.HotelFeature;
+import com.yimayhd.ic.client.model.domain.item.TradeArea;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.domain.share_json.TextItem;
+import com.yimayhd.ic.client.model.enums.PictureTag;
+import com.yimayhd.ic.client.model.param.item.HotelDTO;
+import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
+import com.yimayhd.palace.util.NumUtil;
 
 /**
  * Created by Administrator on 2015/11/20.
@@ -35,8 +44,22 @@ public class HotelVO extends HotelDO implements Serializable {
     private String hotelFacilityStr;
 
     private String needKnowFrontNeedKnowStr;//须知json字符串
-
-    public HotelVO(){
+    
+	private String outlookPicListStr;//外观图片的str
+	private String inDoorPicListStr;//内景图片的str
+    private String roomPicListStr;//房间图片的str
+    private String otherPicListStr;//其他图片的str
+    
+    private List<PictureVO> outlookPicList;//外观
+	private List<PictureVO> inDoorPicList;//内景
+    private List<PictureVO> roomPicList;//房间
+    private List<PictureVO> otherPicList;//其他
+    
+    private String tradeAreaJson;
+	private List<TradeArea> tradeAreaList;
+	private PictureTextVO	pictureText; // 图文详情
+  
+	public HotelVO(){
 
     }
     public static HotelVO getHotelVO(HotelDO hotelDO) throws Exception {
@@ -92,9 +115,19 @@ public class HotelVO extends HotelDO implements Serializable {
             List<TextItem> frontNeedKnow = JSON.parseArray(hotelVO.getNeedKnowFrontNeedKnowStr(),TextItem.class);
             hotelVO.getNeedKnow().setFrontNeedKnow(frontNeedKnow);
         }
+        
         hotelVO.setRoomFacility(roomFacility);
         hotelVO.setRoomService(roomService);
         hotelVO.setHotelFacility(hotelFacility);
+        
+        /*
+        HotelFeature hotelFeature = new HotelFeature();
+        hotelFeature.setRoomFacility(roomFacility);
+        hotelFeature.setHotelService(roomService);
+        hotelFeature.setHotelFacility(hotelFacility);
+        hotelVO.setFeature(hotelFeature);
+         */
+        
         //电话处理
         if(StringUtils.isNotBlank(hotelVO.getPhoneNumListStr())){
             List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
@@ -116,7 +149,71 @@ public class HotelVO extends HotelDO implements Serializable {
         hotelDO.setPrice(NumUtil.doubleToLong(hotelVO.getPriceY()));
         return hotelDO;
     }
-
+    
+    public static HotelDTO getHotelDTO(HotelVO hotelVO) throws Exception {
+    	
+    	HotelDTO hotelDTO = new HotelDTO();
+    	BeanUtils.copyProperties(hotelVO, hotelDTO);
+    	
+    	long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
+        long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
+        long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
+        
+    	
+    	HotelFeature feature = new HotelFeature();
+    	feature.setRoomFacility(roomFacility);
+    	feature.setHotelService(roomService);
+    	feature.setHotelFacility(hotelFacility);
+        hotelDTO.setFeature(feature);
+        
+        String tradeAreaJson = hotelVO.getTradeAreaJson(); 
+        if(StringUtils.isNotBlank(tradeAreaJson) && !tradeAreaJson.equals("[]")){
+            List<TradeArea> areaList = JSONArray.parseArray(hotelVO.getTradeAreaJson(), TradeArea.class);
+            feature.setTradeArea(areaList);
+        }
+        
+        String phoneNumListStr = hotelVO.getPhoneNumListStr();
+        if(StringUtils.isNotBlank(phoneNumListStr) && !phoneNumListStr.equals("[]")){
+        	List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
+        	hotelDTO.setPhoneNum(phoneNumList);
+        }
+        
+        return hotelDTO;
+    }
+    
+    public static List<PictureVO> transFromToPicturesList(HotelVO hotelVO) throws Exception {
+    	
+    	List<PictureVO> allList = new ArrayList<PictureVO>();
+    	
+    	List<PictureVO> partList = transFromToPicturesList(hotelVO.getOutlookPicListStr(), PictureTag.OUTLOOK.getValue());
+    	allList.addAll(partList);
+    	
+		partList = transFromToPicturesList(hotelVO.getInDoorPicListStr(), PictureTag.INDOOR.getValue());
+    	allList.addAll(partList);
+	
+		partList = transFromToPicturesList(hotelVO.getRoomPicListStr(), PictureTag.ROOM.getValue());
+    	allList.addAll(partList);
+	
+		partList = transFromToPicturesList(hotelVO.getOtherPicListStr(), PictureTag.OTHER.getValue());
+    	allList.addAll(partList);
+    	
+    	return allList;
+    }
+    
+    public static List<PictureVO> transFromToPicturesList(String picListStr, int picTag) throws Exception {
+    	
+    	List<PictureVO> list = new ArrayList<PictureVO>();
+    	if(StringUtils.isBlank(picListStr)){
+    		return list;
+    	}
+    	
+		list = JSON.parseArray(picListStr, PictureVO.class);
+		for(int i = 0; i < list.size(); i++){
+			list.get(i).setTag(picTag);
+		}
+    	return list;
+    }
+    
     public List<String> getPhoneNumList() {
         return phoneNumList;
     }
@@ -232,4 +329,70 @@ public class HotelVO extends HotelDO implements Serializable {
     public void setNeedKnowFrontNeedKnowStr(String needKnowFrontNeedKnowStr) {
         this.needKnowFrontNeedKnowStr = needKnowFrontNeedKnowStr;
     }
+    public String getOutlookPicListStr() {
+		return outlookPicListStr;
+	}
+	public void setOutlookPicListStr(String outlookPicListStr) {
+		this.outlookPicListStr = outlookPicListStr;
+	}
+	public String getInDoorPicListStr() {
+		return inDoorPicListStr;
+	}
+	public void setInDoorPicListStr(String inDoorPicListStr) {
+		this.inDoorPicListStr = inDoorPicListStr;
+	}
+	public String getRoomPicListStr() {
+		return roomPicListStr;
+	}
+	public void setRoomPicListStr(String roomPicListStr) {
+		this.roomPicListStr = roomPicListStr;
+	}
+	public String getOtherPicListStr() {
+		return otherPicListStr;
+	}
+	public void setOtherPicListStr(String otherPicListStr) {
+		this.otherPicListStr = otherPicListStr;
+	}
+	public List<PictureVO> getOutlookPicList() {
+		return outlookPicList;
+	}
+	public void setOutlookPicList(List<PictureVO> outlookPicList) {
+		this.outlookPicList = outlookPicList;
+	}
+	public List<PictureVO> getInDoorPicList() {
+		return inDoorPicList;
+	}
+	public void setInDoorPicList(List<PictureVO> inDoorPicList) {
+		this.inDoorPicList = inDoorPicList;
+	}
+	public List<PictureVO> getRoomPicList() {
+		return roomPicList;
+	}
+	public void setRoomPicList(List<PictureVO> roomPicList) {
+		this.roomPicList = roomPicList;
+	}
+	public List<PictureVO> getOtherPicList() {
+		return otherPicList;
+	}
+	public void setOtherPicList(List<PictureVO> otherPicList) {
+		this.otherPicList = otherPicList;
+	}
+	public PictureTextVO getPictureText() {
+		return pictureText;
+	}
+	public void setPictureText(PictureTextVO pictureText) {
+		this.pictureText = pictureText;
+	}
+	public String getTradeAreaJson() {
+		return tradeAreaJson;
+	}
+	public void setTradeAreaJson(String tradeAreaJson) {
+		this.tradeAreaJson = tradeAreaJson;
+	}
+	public List<TradeArea> getTradeAreaList() {
+		return tradeAreaList;
+	}
+	public void setTradeAreaList(List<TradeArea> tradeAreaList) {
+		this.tradeAreaList = tradeAreaList;
+	}
 }

@@ -38,3 +38,17 @@ function freshPrevFrame(callback){
         }
     })
 }
+
+function closeAndFreshPrevFrame(){
+	var tabId = top.$(".tab-pane.active").attr("id");
+    top.$("#myTabList li").each(function(){
+        if($(this).attr("dataid") == tabId){
+            $(this).prev().addClass("active");
+            $(this).remove();
+        }
+    });
+    top.freshPrevFrame();
+    top.$("#"+tabId).prev().addClass("active");
+    top.$("#"+tabId).prev().show();
+    top.$("#"+tabId).remove();
+}
