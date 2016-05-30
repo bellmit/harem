@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model.trade;
 
 import com.yimayhd.palace.util.OrderUtil;
+import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
@@ -29,6 +30,8 @@ public class MainOrder {
     private int orderShowState;
 
     private UserDO user;
+    
+    private PayOrderDO payOrderDO;
 
     public BizOrderDO getBizOrderDO() {
         return bizOrderDO;
@@ -132,5 +135,13 @@ public class MainOrder {
     	 String info = (String) bizOrderDO.getExtFeature(BizOrderExtFeatureKey.BUYER_MEMO) ;
     	 return  info ;
      }
+
+	public PayOrderDO getPayOrderDO() {
+		return payOrderDO;
+	}
+
+	public void setPayOrderDO(PayOrderDO payOrderDO) {
+		this.payOrderDO = payOrderDO;
+	}
      
 }

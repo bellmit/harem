@@ -73,15 +73,18 @@ public class JiuxiuOrderManageController extends BaseController {
 			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
 			if(result.isSuccess() && null!=result.getTcMainOrder()){
 				TcMainOrder tcMainOrder = result.getTcMainOrder();
+
 				long sellerId = tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getSellerId();
 				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId, Constant.DOMAIN_JIUXIU);
 				TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
 				if(null!= merchantUserDTO.getValue() && null!= merchantUserDTO.getValue().getMerchantDO()){
 					tcMerchantInfo.setMerchantName(merchantUserDTO.getValue().getMerchantDO().getName());
 					tcMerchantInfo.setMerchantId(merchantUserDTO.getValue().getMerchantDO().getId());
+
+					tcMainOrder.setMerchantInfo(tcMerchantInfo);
 				}
-				tcMainOrder.setMerchantInfo(tcMerchantInfo);
 				model.addAttribute("order", tcMainOrder);
+				//根据userId获取用户信息
 				UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
 				model.addAttribute("phone", buyer.getMobileNo());
 				if(null!=tcMainOrder.getDetailOrders()){

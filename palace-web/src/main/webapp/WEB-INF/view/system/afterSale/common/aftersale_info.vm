@@ -66,7 +66,8 @@
 		        <div class="clear"></div>
 			</p>
 			#if( $approve )
-				#if($!bizType==2)
+				<!-- 退货退款待审核下出现收货地址-->
+				#if($!bizType==2 && $!orderShowState==1)
 		            #parse("/system/afterSale/common/shouhuo_address.vm")
 		        #end
 				<p class = "info note-container">
@@ -79,65 +80,40 @@
 				</p>
 			
 			#else
-				#*<p class = "info">
-					<em>审核结果：</em>
-					#REFUND_STATUS($!orderShowState)
-				</p>
-				<p class = "info">
-					<em>当前状态：</em>
-					 #REFUND_STATUS($!orderShowState)
-				</p>
-				<p class = "info"><em>审核时间：</em>$!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.refundOperationRecordDOList.get(0).auditorTime)</p>
-				<p class = "info"><em>审核备注：</em>$!refundOrderDO.refundOperationRecordDOList.get(0).auditorRemark</p>
-				<p class = "info"><em>审核人：</em>$!refundOrderDO.refundOperationRecordDOList.get(0).auditorName</p>
-				<p class = "info">
-					<em>卖家举证：</em>
-					
-						#foreach($rimgs in $!refundOrderDO.refundOperationRecordDOList.get(0).pictures)
-			                #if($!rimgs)
-			                    <img width='200' height='200' src="$utilWebconfig.getTfsRootPath()$!rimgs">
-			                    &nbsp;&nbsp;&nbsp;&nbsp;
-			                #end
-			            #end
-					
-				</p>*#
 				<p class = "info">
 						#foreach($as in $!refundOrderDO.refundOperationRecordDOList)
 					        #if($!as.refundStatus ==3 || $!as.refundStatus ==4 ||
 					            $!as.refundStatus ==5 ||
 					            $!as.refundStatus ==6 || $!as.refundStatus ==7)
-					            <div>
-					            <span>审核结果：
-					                #REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>当前状态：
-					                #REFUND_STATUS($!as.refundStatus)
-					            </span><br>
-					            <span>审核时间：
-					                $!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
-					                </span><br>
-					                <span>审核备注：$!as.auditorRemark</span><br>
-					                <span>审核人：$!as.auditorName</span><br>
-								#if($!as.refundStatus ==7 && $!bizType ==2)
-                                    <span>
+					            <div class="shenhe_info" style="padding-left: 30px">
+									<span>审核结果：
+										#REFUND_STATUS($!as.refundStatus)
+									</span><br>
+									<span>当前状态：
+										#REFUND_STATUS($!as.refundStatus)
+									</span><br>
+									<span>审核时间：
+										$!date.format('yyyy-MM-dd hh:mm:ss',$!as.auditorTime)
+									</span><br>
+									<span>审核备注：$!as.auditorRemark</span><br>
+									<span>审核人：$!as.auditorName</span><br>
+									#if($!as.refundStatus >=6 && $!bizType ==2)
+                                    <span class="juzheng">卖家举证：
 										#foreach($!rdoList in $!refundOrderDO.refundOperationRecordDOList)
-											#if($!rdoList.refundStatus == 7 )
-                                                卖家举证：
-												#foreach($!arimgs in $!rdoList.pictures)
-													#if($!arimgs)
-                                                        <img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+													#foreach($!arimgs in $!rdoList.pictures)
+														#if($!arimgs)
+															<img width='200' height='200'src="$utilWebconfig.getTfsRootPath()$!arimgs">
+														#end
 													#end
-												#end
 											#end
-										#end
-					            </span>
+					            	</span>
 								#end
-								<br>----------------------------------------------------------------------------<br>
+								<br>
+								<br>
 					            </div>
 					        #end
 					    #end
 				</p>
-				
 			#end
 			
 		</div>

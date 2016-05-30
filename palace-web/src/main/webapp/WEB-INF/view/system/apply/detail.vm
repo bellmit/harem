@@ -53,32 +53,32 @@
 			#end
 		</div>
 		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
+			#*<ul class = "clearfix first">
 				<li class = "first">法人身份证正面：</li>
 				<li><img src = "$!tfs$!examineInfo.legralCardUp"></li>
 			</ul>
 			<ul class = "clearfix">
 				<li class = "first">法人身份证反面：</li>
 				<li><img src = "$!tfs$!examineInfo.legralCardDown"></li>
-			</ul>
+			</ul>*#
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">营业执照副本正面：</li>
+				<li class = "first">营业执照副本复印件正面：</li>
 				<li><img src = "$!tfs$!examineInfo.businessLicense"></li>
 			</ul>
 			<ul class = "clearfix">
-				<li class = "first">组织机构代码证正面：</li>
+				<li class = "first">组织机构代码证复印件正面：</li>
 				<li><img src = "$!tfs$!examineInfo.orgCard"></li>
 			</ul>
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">税务登记证正面：</li>
+				<li class = "first">税务登记证复印件正面（国税、地税均可）：</li>
 				<li><img src = "$!tfs$!examineInfo.affairsCard"></li>
 			</ul>
 			<ul class = "clearfix">
-				<li class = "first">开户许可证正面：</li>
+				<li class = "first">开户许可证复印件正面：</li>
 				<li><img src = "$!tfs$!examineInfo.openCard"></li>
 			</ul>
 		</div>
@@ -87,11 +87,11 @@
 		
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">旅行社业务经营许可证正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
+				<li class = "first">旅行社业务经营许可证：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travingCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travingCard" #end></li>
 			</ul>
 			<ul class = "clearfix">
-				<li class = "first">旅行社责任险证明正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
+				<li class = "first">旅行社责任险保险单：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travelAgencyInsurance" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travelAgencyInsurance" #end></li>
 				
 			</ul>
@@ -102,18 +102,18 @@
 				<li><img #if("$!examineInfo.touchProve" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.touchProve" #end></li>
 				
 			</ul>
-			<ul class = "clearfix">
+			#*<ul class = "clearfix">
 				<li class = "first">旅行社授权书：</br><p class = "spe"><a>*</a>仅限旅行社分社上传<p></li>
 				<li><img #if("$!examineInfo.travelAgencyAuthorization" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travelAgencyAuthorization" #end></li>
 				
-			</ul>
+			</ul>*#
 		</div>
 		
 		#elseif($!type == 1)
 		
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">旅行社业务经营许可证正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
+				<li class = "first">旅行社业务经营许可证：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travingCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travingCard" #end></li>
 				
 			</ul>
@@ -136,12 +136,20 @@
 				<li>摄影证</li>
 				<li>登山证</li>
 			</ul>
-			
 			<a><img #if("$!examineInfo.touristCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.touristCard" #end alt="" width="200"></a>
 			<a><img #if("$!examineInfo.drivingLinence" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.drivingLinence" #end alt="" width="200"></a>
 			<a><img #if("$!examineInfo.divingLinence" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.divingLinence" #end alt="" width="200"></a>
 			<a><img #if("$!examineInfo.photographyCertificate" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.photographyCertificate" #end alt="" width="200"></a>
 			<a><img #if("$!examineInfo.climbingCertificate" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.climbingCertificate" #end alt="" width="200"></a>
+			<ul class = "clearfix">
+				<li>健身教练证</li>
+				<li>教师证</li>
+				<li>美术证</li>
+			</ul>
+			
+			<a><img #if("$!examineInfo.trainingCertificate" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.trainingCertificate" #end alt="" width="200"></a>
+			<a><img #if("$!examineInfo.teacherCertificate" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.teacherCertificate" #end alt="" width="200"></a>
+			<a><img #if("$!examineInfo.artCertificate" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.artCertificate" #end alt="" width="200"></a>
 		</div>
 		#end
 		<div class = "info">
@@ -177,6 +185,10 @@
 				<li class = "first">手持身份证照片：</li>
 				<li><img src = "$!tfs/$!examineInfo.cardInHand"></li>
 			</ul>
+			<ul class = "clearfix">
+				<li class = "first">手持身份证照片：</li>
+				<li><img src = "$!tfs$!examineInfo.cardInHand"></li>
+			</ul>
 		</div>
 		<div class = "info">
 			<h3>财务信息</h3>
@@ -185,33 +197,7 @@
 			<p><em>财务结算账号</em><strong>$!examineInfo.accountNum</strong></p>
 			<p><em>财务结算开户行</em><strong id="$!examineInfo.accountBankProvinceCode" class="s_province"> </strong> <strong id="$!examineInfo.accountBankCityCode" class="s_city"></strong> <strong>  $!examineInfo.accountBankName</strong></p>
 		</div>
-		<h3>合作合同</h3>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同1：</li>
-				<li><img #if("$!examineInfo.cooperation1" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation1" #end></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">合作合同2：</li>
-				<li><img #if("$!examineInfo.cooperation2" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation2" #end></li>
-			</ul>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同3：</li>
-				<li><img #if("$!examineInfo.cooperation3" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation3" #end></li>	
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">合作合同4：</li>
-				<li><img #if("$!examineInfo.cooperation4" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation4" #end></li>	
-			</ul>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同5：</li>
-				<li><img #if("$!examineInfo.cooperation5" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation5" #end></li>	
-			</ul>
-		</div>
+		
 		<div class = "btnInfo">
 			<button class="btn btn-primary" type="button" id="$!examineInfo.id">审核</button>
 		</div>

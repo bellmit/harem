@@ -182,6 +182,7 @@ public class MerchantController extends BaseController {
 		//BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
+			new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
 //			if (merchantDO.getName().contains("\"")) {
 //				//merchantDO.setName(merchantDO.getName().replace("\"", "\\\""));
 //				model.addAttribute("nameResult", true);

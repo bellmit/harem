@@ -1,10 +1,7 @@
 package com.yimayhd.gf.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.gf.model.BbsPostsQueryVO;
@@ -157,6 +154,11 @@ public class BbsServiceImpl implements BbsService{
 			return countResult.getValue();
 		}
 		return 0;
+	}
+	@Override
+	public BaseResult<List<SnsPostsDO>> getPosts() {
+		
+		return snsPostsService.getPostsList();
 	}
 	
 }

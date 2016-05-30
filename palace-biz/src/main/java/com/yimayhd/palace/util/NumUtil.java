@@ -55,4 +55,8 @@ public class NumUtil {
         double realPrice = Double.parseDouble(decimalFormat.format(((double)price) / 100));
         return num * realPrice;
     }
+
+    public static void main(String[] args){
+        System.out.println(totalFee(2,100));
+    }
 }

@@ -8,7 +8,7 @@
 	])
 #set($jses = [
 	"$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js",
-	#"$!rs_js_css_path_jiuxiu/js/other/order/gf/list.js"
+	"$!rs_js_css_path_jiuxiu/js/other/order/gf/list.js"
 	])
 
 
@@ -38,9 +38,9 @@
                     #if($order.mainOrder.orderShowState == 1)
                         <span>
                             未付款
-                            <button type="button" class="btn btn-primary cancel"
+                            #*<button type="button" class="btn btn-primary cancel"
                                     data-target="#cancelModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">取消订单
-                            </button>
+                            </button>*#
                         </span>
                     #elseif($order.mainOrder.orderShowState == 2)
                         <span>
@@ -57,9 +57,9 @@
                     #elseif($order.mainOrder.orderShowState == 3)
                         <span>
                             已发货
-                            <button type="button" class="btn btn-primary finish"
+                           #* <button type="button" class="btn btn-primary finish"
                                  data-target="#finishModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
-                            </button>
+                            </button>*#
         ##                    <button type="button" class="btn btn-primary refund"
         ##                        data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
         ##                    </button>
@@ -101,18 +101,10 @@
                 <div>
                     <table class="table table-hover">
 	                    <tr>
-	                        <td class="order-info-label">手机号：</td>
+	                        <td class="order-info-label">账户名：</td>
 	                        <td class="order-info-value">$!order.buyerPhoneNum</td>
-	                        <td class="order-info-label">昵称：</td>
-	                        <td class="order-info-value">$!order.buyerNiceName</td>
-	                    </tr>
-	                    <tr>
-	                        <td class="order-info-label">姓名：</td>
-	                        <td class="order-info-value">$!order.buyerName</td>
-	                        <td class="order-info-label">
-	                        </td>
-	                        <td class="order-info-value">
-	                        </td>
+                            #*<td class="order-info-label">昵称：</td>
+                            <td class="order-info-value">$!order.buyerName</td>*#
 	                    </tr>
 	                </table>
                 </div>
@@ -122,37 +114,43 @@
             <br><br>
             <!-- 订单基础信息 -->
             <div class="orderBaseInfo">
-                <div class="order-info-title">订单基础信息</div>
+                <div class="order-info-title">订单信息</div>
                 <table class="table table-hover">
                     <tr>
                         <td class="order-info-label">订单编号：</td>
                         <td class="order-info-value">$!order.mainOrder.bizOrderDO.bizOrderId</td>
                         <td class="order-info-label">付款方式：</td>
-                        <td class="order-info-value">$!order.payChannel</td>
-                    </tr>
-                    <tr>
-                        <td class="order-info-label">付款时间：</td>
-                        <td class="order-info-value">$utilDate.date2String($!order.mainOrder.bizOrderDO.payTime)</td>
-                        <td class="order-info-label">买家备注：</td>
-                        <td class="order-info-value">$!order.buyerMemo</td>
+                        <td class="order-info-value">#TcPayChannel($!order.payChannel) </td>
                     </tr>
                     <tr>
                         <td class="order-info-label">下单时间：</td>
                         <td class="order-info-value">$utilDate.date2String($!order.mainOrder.bizOrderDO.gmtCreated)</td>
-                        <td class="order-info-label">客服备注：</td>
-                        <td class="order-info-value">$!order.customerServiceNote</td>
+                        <td class="order-info-label">买家备注：</td>
+                        <td class="order-info-value">$!order.buyerMemo</td>
                     </tr>
                     <tr>
+                        <td class="order-info-label">付款时间：</td>
+                        <td class="order-info-value">$utilDate.date2String($!order.mainOrder.bizOrderDO.payTime)</td>
+
                         <td class="order-info-label">确认收货时间：</td>
-                        <td class="order-info-value">$utilDate.date2String($!order.consignTime)</td>
-                        <td class="order-info-label">发票：</td>
-                        <td class="order-info-value">$!order.invoice</td>
+                        <td class="order-info-value">$utilDate.date2String($!order.mainOrder.bizOrderDO.endTime)</td>
+                    </tr>
+                    <tr>
+                        <td class="order-info-label">付款单号：</td>
+                        <td class="order-info-value">$!order.mainOrder.payOrderDO.tradeNo</td>
+
+                        <td class="order-info-label"></td>
+                        <td class="order-info-value"></td>
                     </tr>
                 </table>
             </div>
             <br><br>
             <!-- 订单商品信息 -->
             <div class="orderInfo">
+                <!-- 如果有优惠的话展示优惠信息 -->
+                #if($!order.promotionInfoDesc)
+                    全场促销优惠：$!order.promotionInfoDesc
+                #end
                 <table class="table table-hover order-items">
                     <tr>
                         <th width="15%">商品图片</th>
@@ -161,7 +159,8 @@
                         <th width="10%">数量</th>
                         <th width="5%">小计</th>
                         <th width="15%">优惠信息</th>
-                        <th width="5%">状态</th>
+                        <th width="5%">交易状态</th>
+                        #*<th width="5%">售后状态</th>*#
                         <th width="15%">订单金额</th>
                     </tr>
                         #set($size = $order.mainOrder.subOrderList.size() )
@@ -187,24 +186,33 @@
                                 $!subOrder.promotionInfoTitle
                             </td>
                             <td>
-                            	#ORDERS_STATUS($order.mainOrder.orderShowState)
+                            	#ORDERS_STATUS($!order.mainOrder.orderShowState)
                             </td>
+                            #*<td>
+                                ==$!order.mainOrder.refundStatus===
+                                #if(0 == $!order.mainOrder.refundStatus)
+                                    -
+                                #else
+                                    #GFTRADEREFUNDSTATUS($!order.mainOrder.refundStatus)
+                                #end
+                            </td>*#
                             #if( $velocityCount == 1 )
 	                            <td rowspan="$size">
-	                            	￥$!utilNum.moneyTransform( $!order.totalFee )
+	                            	#*￥$!utilNum.moneyTransform( $!order.totalFee )*#
+                                    $!utilNum.moneyTransform($!order.mainOrder.bizOrderDO.actualTotalFee)
 	                            </td>
                             #end
                         </tr>
                         #end
                 </table>
                 <div class="order-fee-container">
-                	#if( $!order.promotionFee > 0  )
-	                	<span class="order-fee">促销共优惠：-￥ $!utilNum.moneyTransform($!order.promotionFee)</span>
+                	#if( $!order.orderPromotionFee > 0  )
+	                	<span class="order-fee">促销共优惠：- ￥ $!utilNum.moneyTransform($!order.orderPromotionFee)</span>
                 	#end
-                	#if( $!order.voucherFee > 0  )
-	                	<span class="order-fee">优惠券优惠：-￥ $!utilNum.moneyTransform($!$order.voucherFee)</span>
+                	#if( $!order.orderVoucherFee > 0  )
+	                	<span class="order-fee">优惠券优惠：- ￥ $!utilNum.moneyTransform($!order.orderVoucherFee)</span>
                 	#end
-                	<span class="order-fee">总计：￥ $!utilNum.moneyTransform($!$order.mainOrder.bizOrderDO.actualTotalFee)</span>
+                	#*<span class="order-fee">总计：￥ $!utilNum.moneyTransform($!order.mainOrder.bizOrderDO.actualTotalFee)</span>*#
                 </div>
             </div>
 

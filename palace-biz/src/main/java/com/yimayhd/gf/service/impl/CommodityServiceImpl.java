@@ -1,11 +1,14 @@
 package com.yimayhd.gf.service.impl;
 
+import com.alibaba.dubbo.common.json.JSONToken;
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.gf.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemOptions;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.*;
@@ -21,6 +24,7 @@ import com.yimayhd.palace.model.ItemResultVO;
 import com.yimayhd.palace.model.ItemSkuVO;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
+import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -46,6 +50,8 @@ public class CommodityServiceImpl implements CommodityService {
     private ItemPublishService itemPublishServiceRef;
     @Autowired
     private TfsService tfsService;
+    @Autowired
+    private ItemRepo itemRepo ;
     @Override
     public PageVO<ItemVO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
@@ -99,13 +105,24 @@ public class CommodityServiceImpl implements CommodityService {
         List<ItemDO> itemDOList = itemPageResult.getItemDOList();
         List<ItemVO> itemVOList = new ArrayList<ItemVO>();
         for(ItemDO itemDO:itemDOList){
-            itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
+        	long itemId = itemDO.getId();
+        	ItemVO itemVO = ItemVO.getItemVO(itemDO,new CategoryVO());
+        	boolean hasSku = ItemOptions.HAS_SKU.has(itemDO.getOptions());
+        	int stock = 0 ;
+        	if( hasSku ){
+        		stock = itemRepo.getItemSkuSumStock(itemId);
+        	}else{
+        		stock = itemDO.getStockNum() ;
+        	}
+        	itemVO.setStockNum(stock);
+        	itemVOList.add(itemVO);
         }
 
         PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
         return pageVO;
     }
-
+    
+    
     @Override
     public ItemResultVO getCommodityById(long id) throws Exception {
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
@@ -198,6 +215,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 
     @Override
+    @MethodLogger
     public void addCommonItem(ItemVO itemVO) throws Exception {
         //参数类型匹配
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
@@ -250,7 +268,9 @@ public class CommodityServiceImpl implements CommodityService {
         commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 
+        
         ItemPubResult itemPubResult = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
+        log.info("publishCommonItem   dto={}, result={}", JSON.toJSONString(commonItemPublishDTO), JSON.toJSONString(itemPubResult));
         if(null == itemPubResult){
             log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
             throw new BaseException("返回结果错误,新增失败 ");
@@ -261,8 +281,8 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    @MethodLogger
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
-
 
         //修改的时候要先取出来，在更新
         ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
@@ -284,6 +304,8 @@ public class CommodityServiceImpl implements CommodityService {
             ItemVO.setItemSkuDOListCommonItemPublishDTO(commonItemPublishDTO, itemVO);
             //商品名称
             itemDB.setTitle(itemVO.getTitle());
+            //商品编码
+            itemDB.setCode(itemVO.getCode());
             //价格
             itemDB.setPrice(itemVO.getPriceLong());
             //商品库存
@@ -314,6 +336,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 //            System.err.println(JSON.toJSONString(commonItemPublishDTO));
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
+            log.info("updatePublishCommonItem   dto={}, result={}", JSON.toJSONString(commonItemPublishDTO), JSON.toJSONString(itemPubResult));
 //            System.err.println(JSON.toJSONString(itemPubResult));
             if(null == itemPubResult){
                 log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));

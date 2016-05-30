@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model.query;
 
 import com.yimayhd.palace.base.BaseQuery;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by Administrator on 2015/10/27.
@@ -22,6 +23,9 @@ public class OrderListQuery extends BaseQuery {
 		return orderNO;
 	}
 	public void setOrderNO(String orderNO) {
+		if(StringUtils.isNotEmpty(orderNO)){
+			orderNO = orderNO.trim();
+		}
 		this.orderNO = orderNO;
 	}
 	public String getOrderStat() {

@@ -6,10 +6,17 @@ import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.vo.VoucherTemplateVO;
 import com.yimayhd.palace.service.VoucherTemplateService;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.voucher.client.domain.VoucherDO;
 import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
+import com.yimayhd.voucher.client.enums.IssueType;
+import com.yimayhd.voucher.client.param.VoucherDTO;
+import com.yimayhd.voucher.client.query.VoucherPageQuery;
 import com.yimayhd.voucher.client.query.VoucherTemplateQuery;
-import com.yimayhd.voucher.client.result.BasePageResult;
+import com.yimayhd.voucher.client.result.VcBasePageResult;
+import com.yimayhd.voucher.client.result.VcBaseResult;
+import com.yimayhd.voucher.client.result.VcResultSupport;
 import com.yimayhd.voucher.client.service.VoucherClientService;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +48,21 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setPageNo(voucherListQuery.getPageNumber());
         voucherTemplateQuery.setDomain(1100);
         voucherTemplateQuery.setNeedCount(true);
+        //发卷方式
+        if(!StringUtils.isEmpty(voucherListQuery.getIssueType())){
+        	voucherTemplateQuery.setIssueType(Integer.parseInt(voucherListQuery.getIssueType()));
+        }
+        
 
-        BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
+        VcBasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
         List<VoucherTemplateVO> voucherTemplateVOs = Lists.newArrayList();
         PageVO<VoucherTemplateVO> pageVO = null;
         if (result != null && result.isSuccess() && !CollectionUtils.isEmpty(result.getList())){
             for (VoucherTemplateDO voucherTemplateDO : result.getList()) {
                 VoucherTemplateVO voucherVO = new VoucherTemplateVO();
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
-                voucherVO.setValue(Math.round(voucherVO.getValue() / 100));
+               // voucherVO.setValue(Math.round(voucherVO.getValue() / 100));
+                voucherVO.setValue_((double)voucherVO.getValue() / 100);
                 voucherTemplateVOs.add(voucherVO);
             }
             pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
@@ -68,7 +81,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
     }
 
     @Override
-    public boolean add(VoucherTemplateVO entity) throws Exception {
+    public VcBaseResult<Long> add(VoucherTemplateVO entity) throws Exception {
         return voucherClientServiceRef.publishVoucherTemplate(entity);
     }
 
@@ -78,4 +91,19 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         BeanUtils.copyProperties(voucherClientServiceRef.getVoucherTemplateById(id), voucherTemplateVO);
         return voucherTemplateVO;
     }
+
+	@Override
+	public VcResultSupport enableVoucher(VoucherDTO voucherDTO) {
+		return voucherClientServiceRef.enableVoucher(voucherDTO);
+	}
+
+	@Override
+	public VcResultSupport disableVoucher(VoucherDTO voucherDTO) {
+		return voucherClientServiceRef.disableVoucher(voucherDTO);
+	}
+
+	@Override
+	public VcBasePageResult<VoucherDO> exportAllVouchers(VoucherPageQuery voucherPageQuery) {
+		return voucherClientServiceRef.exportAllVouchers(voucherPageQuery);
+	}
 }

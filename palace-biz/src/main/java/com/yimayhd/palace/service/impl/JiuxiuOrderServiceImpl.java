@@ -25,6 +25,7 @@ import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
+import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
@@ -67,8 +68,9 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 				List<JiuxiuTcDetailOrder> jiuxiuTcDetailOrders = new ArrayList<JiuxiuTcDetailOrder>();
 				JiuxiuTcBizOrder jiuxiuTcBizOrder =new JiuxiuTcBizOrder();
 				
-				if(null!=tcMainOrder){
+				if(null!=tcMainOrder && null !=tcMainOrder.getBizOrder()){
 					//封装订单基本信息
+
 					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(), userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo());
 					
 					jiuxiuTcMainOrder.setTotalFee(tcMainOrder.getTotalFee());
@@ -79,25 +81,32 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 					jiuxiuTcMainOrder.setScenicEnterTime(tcMainOrder.getScenicEnterTime());
 					jiuxiuTcMainOrder.setCheckInTime(tcMainOrder.getCheckInTime());
 					jiuxiuTcMainOrder.setCheckOutTime(tcMainOrder.getCheckOutTime());
+
+					String phone =  userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo();
+					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(),phone);
+
 				}
 				if(null!=tcDetailOrders && tcDetailOrders.size()>0){
 					for(int j=0;j<tcDetailOrders.size();j++){
 						TcDetailOrder tcDetailOrder = tcDetailOrders.get(j);
 						JiuxiuTcDetailOrder jiuxiuTcDetailOrder = new JiuxiuTcDetailOrder();
-						
-						//子订单详情下添加子订单基本信息
-						JiuxiuHelper.fillDetailOrder(jiuxiuTcDetailOrder, tcDetailOrder.getBizOrder(), tcDetailOrder);
+						if(null!=tcDetailOrder.getBizOrder()){
+							//子订单详情下添加子订单基本信息
+							JiuxiuHelper.fillDetailOrder(jiuxiuTcDetailOrder, tcDetailOrder.getBizOrder(), tcDetailOrder);
+						}
 						
 						jiuxiuTcDetailOrders.add(jiuxiuTcDetailOrder);
 					}
 				}
 				jiuxiuTcMainOrder.setJiuxiuTcBizOrder(jiuxiuTcBizOrder);
 				jiuxiuTcMainOrder.setJiuxiuTcDetailOrders(jiuxiuTcDetailOrders);
+				//根据sellerid查询店铺与用户信息
 				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(tcMainOrder.getBizOrder().getSellerId(), Constant.DOMAIN_JIUXIU);
 				TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
 				if(null!= merchantUserDTO.getValue() && null!= merchantUserDTO.getValue().getMerchantDO()){
-					tcMerchantInfo.setMerchantName(merchantUserDTO.getValue().getMerchantDO().getName());
-					tcMerchantInfo.setMerchantId(merchantUserDTO.getValue().getMerchantDO().getId());
+					MerchantDO merchantDO = merchantUserDTO.getValue().getMerchantDO();
+					tcMerchantInfo.setMerchantName(merchantDO.getName());
+					tcMerchantInfo.setMerchantId(merchantDO.getId());
 				}
 				jiuxiuTcMainOrder.setMerchantInfo(tcMerchantInfo);
 				jiuxiuTcMainOrders.add(jiuxiuTcMainOrder);

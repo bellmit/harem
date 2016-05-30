@@ -13,6 +13,7 @@
         <property name="version" value="${consumer.dubbo.comment.version}"/>
     </bean>
     
+
     <bean id="comPictureTextService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.commentcenter.client.service.ComPictureTextService"/>
         <property name="application" ref="dubboApplicationConfig"/>
@@ -22,5 +23,15 @@
         <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.comment.version}"/>
     </bean> 
+
+    <bean id="comCategoryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.commentcenter.client.service.ComCategoryService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.comment.check}"/>
+        <property name="version" value="${consumer.dubbo.comment.version}"/>
+    </bean>
+
     
 </beans>

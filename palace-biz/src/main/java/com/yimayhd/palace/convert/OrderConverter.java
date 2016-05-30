@@ -1,5 +1,6 @@
 package com.yimayhd.palace.convert;
 
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.enums.OrderActionStatus;
 import com.yimayhd.palace.model.enums.OrderShowStatus;
 import com.yimayhd.palace.model.query.OrderListQuery;
@@ -52,9 +53,11 @@ public class OrderConverter {
             }
         }
         //下单开始日期
-        if (StringUtils.isNotEmpty(orderListQuery.getBeginDate())){
+        String beginDate = orderListQuery.getBeginDate();
+        if (StringUtils.isNotEmpty(beginDate)){
+            beginDate = DateUtil.addHHmmss(beginDate,true);
             try {
-                orderQueryDTO.setStartDate(DateUtil.convertStringToDate(orderListQuery.getBeginDate()));
+                orderQueryDTO.setStartDate(DateUtil.convertStringToDate(DateUtil.DATE_TIME_FORMAT,beginDate));
             } catch (ParseException e) {
                 LOG.error("orderQueryDTO.setStartDate(DateUtil.convertStringToDate(orderListQuery.getBeginDate())); Exception:" + e);
                 e.printStackTrace();
@@ -70,9 +73,11 @@ public class OrderConverter {
 //            }
         }
         //下单结束日期
-        if (StringUtils.isNotEmpty(orderListQuery.getBeginDate())){
+        String endDate = orderListQuery.getEndDate();
+        if (StringUtils.isNotEmpty(endDate)){
             try {
-                orderQueryDTO.setEndDate(DateUtil.convertStringToDate(orderListQuery.getEndDate()));
+                endDate = DateUtil.addHHmmss(endDate,false);
+                orderQueryDTO.setEndDate(DateUtil.convertStringToDate(DateUtil.DATE_TIME_FORMAT,endDate));
             } catch (ParseException e) {
                 LOG.error("orderQueryDTO.setEndDate(DateUtil.convertStringToDate(orderListQuery.getEndDate())); Exception:" + e);
                 e.printStackTrace();
@@ -104,6 +109,14 @@ public class OrderConverter {
             }else if (orderState.equals(PayStatus.NOT_PAY_CLOSE.toString())){
                 int [] payStatus = {PayStatus.NOT_PAY_CLOSE.getStatus(),PayStatus.REFUNDED.getStatus()};
                 orderQueryDTO.setPayStatuses(payStatus);
+            }else if(Constant.GF_ORDER_CLOSE.equals(orderListQuery.getOrderStat())){//处理GF的交易关闭
+                orderQueryDTO.setPayStatuses(new int[]{PayStatus.REFUNDED.getStatus(),PayStatus.SUCCESS.getStatus(),PayStatus.NOT_PAY_CLOSE.getStatus()});
+            }else if(PayStatus.PAID.toString().equals(orderListQuery.getOrderStat())){//待发货
+                orderQueryDTO.setRefundStatuses(new int[]{RefundStatus.NOT_REFUND.getStatus()});
+                int [] payStatus = {PayStatus.PAID.getStatus()};//2
+                int [] logisticsStatuses = {LogisticsStatus.UNCONSIGNED.getStatus(),LogisticsStatus.NO_LG_ORDER.getStatus()};//1,4
+                orderQueryDTO.setPayStatuses(payStatus);
+                orderQueryDTO.setLogisticsStatuses(logisticsStatuses);
             }
         }
         //买家userId

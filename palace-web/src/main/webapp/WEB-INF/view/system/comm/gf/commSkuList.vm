@@ -30,8 +30,42 @@
                 resultValue.push(sku);
             });
             top.resultValue = resultValue;
+            
+            
+			updateSelectAllStatus();
         }
+        
+        function updateSelectAllStatus(){
+        	var nodes = $(".subChecked");
+        	if( nodes == null || nodes.length == 0 ){
+        		return ;
+        	}
+        	var num = nodes.length ;
+        	var selected = 0 ;
+        	var notSelected = 0 ;
+        	for( var i= 0 ;i<num ; i++ ){
+        		var node = nodes[i];
+        		var checked = $(node).is(':checked') ;
+        		if( checked ){
+        			selected ++ ;
+        		}else{
+        			notSelected ++ ;
+        		}
+        	}
+        	if( selected == num ){
+        		$(".allChecked").prop("checked",true);
+        	}
+        	if( notSelected == num ){
+        		$(".allChecked").removeAttr("checked");
+        	}
+        }
+        
         $(function(){
+
+			$('.subChecked').bind("click",function(event){
+				  event.stopPropagation();    //  阻止事件冒泡
+				  selSkuList();
+			 })
 
             $('.allChecked').click(function(){
                 $('.subChecked').prop('checked',$(this).prop('checked'));
@@ -41,6 +75,9 @@
                 $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
                 selSkuList();
             });
+            
+            
+            
         });
 
     </script>

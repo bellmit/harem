@@ -31,8 +31,10 @@ import com.yimayhd.user.client.enums.ServiceFacilityOption;
 public class MerchantVO extends MerchantDTO {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	public static final double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+	public static final  double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 	private String merchantName;
+	private double longitude;
+	private double latitude;
 //	private String cityInfo;
 //	public String[] getCityInfo() {
 //		String[] cityInfoArr = cityInfo.split(",");
@@ -72,9 +74,6 @@ public class MerchantVO extends MerchantDTO {
 	}
 	private String service;//服务设施
 	private int status;
-	private double longitude;
-	private double latitude;
-	
 	public int getStatus() {
 		return status;
 	}
@@ -113,10 +112,14 @@ public class MerchantVO extends MerchantDTO {
 //			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
 //			dto.setCityName(getCityInfo()[0]);
 			//dto.setId(userId);
+
 			bd_decrypt(vo.getLatitude(), vo.getLongitude(),dto);
 //			dto.setLat(z * Math.sin(bd_decrypt(vo.getLatitude(), vo.getLongitude())));
 //			setLon(z * Math.cos(theta));
 //		    setLat(z * Math.sin(theta));
+
+			//dto.setAvgprice(getAvgPrice(vo.getAveragePrice()));
+
 			dto.setAvgprice(Math.round(vo.getAveragePrice()*100));
 			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
@@ -145,7 +148,10 @@ public class MerchantVO extends MerchantDTO {
 //		long l = (long)averagePrice;
 //		DecimalFormat df = new DecimalFormat(".##");
 //		long f = (long)Double.parseDouble(df.format((averagePrice-l)*100));
+
 //		//long f =(long)( (Double.parseDouble(df.format(averagePrice))-l)*100);
+
+
 //		return (l*100+f);
 //	}
 	
@@ -174,7 +180,11 @@ public class MerchantVO extends MerchantDTO {
 			System.out.println(JSON.toJSON(merchantDO));
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
+
 			bd_decrypt(vo.getLatitude(), vo.getLongitude(),merchantDO);
+
+//			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
+
 			merchantDO.setAvgprice(Math.round(vo.getAveragePrice()*100));
 			//merchantDO.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			merchantDO.setStatus(MerchantStatus.OFFLINE.getCode());
@@ -205,7 +215,6 @@ public class MerchantVO extends MerchantDTO {
 		return merchantDO;
 		
 	}
-
 	public double getLongitude() {
 		return longitude;
 	}
@@ -257,4 +266,6 @@ public class MerchantVO extends MerchantDTO {
 	    	dto.setLat(z * Math.sin(theta));
 	    }
 	}
+
+	
 }

@@ -1,4 +1,12 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<style type="text/css">
+	.remark_voucher{margin-left:97px;}
+	.remark_voucher a{
+		display:block;
+		color:blue;
+	}
+	.remark_voucher a:hover{text-decoration:none;}
+</style>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
     <form class="form-signin" id="payListForm" name="payListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/voucherManage/list" method="GET" role="form">
         <div class="inputGroup whole">
@@ -17,15 +25,28 @@
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
                     <input type="text" class='form-control form-date endDate dateInp' readonly name="endDate" value="$!voucherListQuery.endDate">
                 </div>
+                
+                 <div class="input-group inpSingle">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">发放方式：</button>
+                        </span>
+                        <select class="form-control" name="issueType">
+                            <option value="">请选择</option>
+                            <option value="1" #if($!voucherListQuery.issueType == 1) selected #end>绑定生成</option>
+                            <option value="2" #if($!voucherListQuery.issueType == 2) selected #end>预先生成</option>
+                        </select>
+                </div>
+                
                 <div class="input-group inpSingle">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">状态：</button>
                         </span>
                         <select class="form-control" name="status">
                             <option value="0">全部</option>
+                            <option value="1" #if($!voucherListQuery.status == 1) selected #end>待上架</option>
                             <option value="2" #if($!voucherListQuery.status == 2) selected #end>上架</option>
                             <option value="3" #if($!voucherListQuery.status == 3) selected #end>下架</option>
-                            <option value="4" #if($!voucherListQuery.status == 4) selected #end>已领完</option>
+                            <option value="6" #if($!voucherListQuery.status == 6) selected #end>生成中</option>
                         </select>
                 </div>
                 <div class="btn-group">
@@ -38,17 +59,25 @@
         <div class="inputGroup whole">
             <div class="btn-group">
                 <button type="submit" class="btn btn-add">新增优惠券</button>
+                <div class="remark_voucher">
+                	<a>注：</a>
+                	<a>1.导出的Csv文件请使用Txt文本打开，将优惠券码复制；</a>
+                	<a>2.打开一个Excel文件，选中将要粘贴的列，右键选中设置单元格格式，在“分类”下选择“文本”后保存；</a>
+                	<a>3.将复制的内容粘贴到更改为文本格式的列中，这样可以保证0开头的券码显示完整。</a>
+                </div>
             </div>
         </div>
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
                     <th>序号</th>
-                    <th>优惠券标题</th>
-                    <th>优惠券类型</th>
-                    <th>券金额</th>
-                    <th>有效期</th>
+                    <th>优惠劵批次</th>
+                    <th>类型</th>
+                    <th>生成状态</th>
+                    <th>发劵方式</th>
+                    <th>金额</th>
                     <th>状态</th>
+                    <th>有效期</th>
                     <th>创建时间</th>
                     <th>操作人</th>
                     <th>操作</th>
@@ -58,16 +87,54 @@
                         <td>$!velocityCount</td>
                         <td>$!voucher.title</td>
                         <td>#VOUCHER_TYPE($!voucher.voucherType)</td>
-                        <td>￥$!voucher.value</td>
+                        <td>
+                        	#if($!voucher.issueType == "2" && $!voucher.status== "6")
+                        	生成中
+                        	#else
+                        	已生成
+                        	#end
+                        </td>
+                        <td>
+                        	#if($!voucher.issueType == "1")
+                        	绑定生成
+                        	#elseif($!voucher.issueType == "2")
+                        	预先生成
+                        	#end
+						</td>
+                        <td>￥$!voucher.value_</td>
+                        <td>
+                        	#if($!voucher.status == "1")
+                        	待上架
+                        	#elseif($!voucher.status == "2")
+                        	上架
+                        	#elseif($!voucher.status == "3")
+                        	下架
+                        	#elseif($!voucher.status == "4")
+                        	已领完
+                        	#elseif($!voucher.status == "5")
+                        	已过期
+                        	#elseif($!voucher.status == "6")
+                        	生成中
+                        	#end
+                        </td>
                         <td>$!utilDate.dateToString($!voucher.startTime,"yyyy-MM-dd") 至 $!utilDate.dateToString($!voucher.endTime,"yyyy-MM-dd")</td>
-                        <td>#VOUCHER_STATUS($!voucher.status)</td>
+                       
                         <td>$!utilDate.dateToString($!voucher.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>$!voucher.operator</td>
                         <td>
-                            <button type="button" class="btn btn-primary themeStop" joinStatus="$voucher.status" tripId="$voucher.id">
-                                #if($!voucher.status == 3) 上架  #elseif($!voucher.status == 2)  下架  #end
-                            </button>
-                            <button type="button" class="btn btn-primary themeDetail" themeId="$voucher.id">编辑</button></td>
+                       		 #if($!voucher.status == 3 || $!voucher.status == 2 || $!voucher.status == 1)
+	                            <button type="button" class="btn btn-primary themeStop" joinStatus="$voucher.status" tripId="$voucher.id">
+	                                #if($!voucher.status == 3 || $!voucher.status == 1) 上架  #elseif($!voucher.status == 2)  下架  #end
+	                            </button>
+	                         #end
+                            #if($!voucher.status == 1)
+                            	<button type="button" class="btn btn-primary themeDetail" themeId="$voucher.id">编辑</button>
+                            #end
+                            <button type="button" class="btn btn-primary themeSee" themeId="$voucher.id">查看</button>
+                            #if($!voucher.issueType == 2 && $!voucher.status == 2 )
+                            	<button type="button" class="btn btn-primary themeExport" themeId="$voucher.id">导出</button>
+                            #end
+                        </td>
                     </tr>
                     #end
             </table>
@@ -85,7 +152,7 @@
             if(data.status == 200){
                 layer.alert('操作成功', {
                     icon: 1,
-                    time: 3000
+                    time: 30000
                 }, function(){
                     window.location.href = window.location.href;
                 });
@@ -98,6 +165,13 @@
     $('.themeDetail').each(function(){
         $(this).click(function(){
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/voucherManage/edit/'+ $(this).attr('themeId');
+            top.tabsAdd("",url,2,$(this).text());
+        });
+    });
+    
+     $('.themeSee').each(function(){
+        $(this).click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/voucherManage/edit/'+ $(this).attr('themeId')+'?edit=0';
             top.tabsAdd("",url,2,$(this).text());
         });
     });
@@ -122,6 +196,13 @@
     });
 
     $(function(){
+    	$('.themeExport').each(function(){
+	        $(this).click(function(){
+	            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/GF/voucherManage/export/'+ $(this).attr('themeId');
+	            window.location = url;
+	        });
+	    });
+    	
         $('#btnSubmit').click(function(){
             if($('.startDate').val() && $('.endDate').val()){
                 if($('.startDate').val() > $('.endDate').val()){
@@ -141,6 +222,7 @@
     });
     $("#clean_btn").click(function(){
         $('#payListForm div:eq(0)').find('input').val("").end().find('select')[0].selectedIndex = 0;
+        $('#payListForm div:eq(0)').find('select')[1].selectedIndex = 0;
         //$('#tradeListForm div:eq(0)').find('select')[0].selectedIndex = 0;
     });
 </script>

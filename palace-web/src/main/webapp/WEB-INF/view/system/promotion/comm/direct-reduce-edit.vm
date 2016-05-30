@@ -9,7 +9,7 @@
 	<div class="reduce-info-row">
 		<label class="reduce-info-label"><span class="spColor">*</span>促销优惠名称：</label>
 		<div class="reduce-info-value">
-			<input type="text" name="actActivityVO.title" class="form-control title" value="$!actActivityEditVO.actActivityVO.title" placeholder="优惠券名称" autocomplete="off">
+			<input type="text" name="actActivityVO.title" class="form-control title" value="$!actActivityEditVO.actActivityVO.title" placeholder="促销优惠名称" autocomplete="off">
 		</div>
 	</div>
 	<div class="reduce-info-row">
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	<div class="reduce-info-row">
-		<label class="reduce-info-label"><span class="spColor">*</span>优惠时间：</label>
+		<label class="reduce-info-label"><span class="spColor">*</span>活动时间：</label>
 		<div class="reduce-info-value">
 			<input type="text" class='form-control form-date startDate' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
             <span class="fix-border fix-padding dateInpCenter">至</span>

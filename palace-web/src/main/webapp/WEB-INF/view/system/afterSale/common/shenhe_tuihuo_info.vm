@@ -51,9 +51,21 @@
                 var id = $("#tkdid").val();
                 var auditorRemark= $("#mjbz").val();
                 var refundStatus = $(this).attr('refundStatus');
-                var pictures = $("#travelBGImgSH").val();
+               /* var pictures = $("#travelBGImgSH").val();*/
+                //从新获取src元素放数组中
+                var pictures = [];
+                var picturesImg = $("#travelImgIdSH").children("img");
+                if(null != picturesImg){
+                    var pic = "";
+                    $(picturesImg).each(function(n,v){
+                        pic = $(this).attr("src")
+                        pic = pic.substring(pic.lastIndexOf("/")+1,pic.length);
+                        pictures.push(pic);
+                        pic = "";
+                    })
+                }
+                console.log("pictures="+pictures);
                 var bizType = $("#bizTypeId").val();
-
                 if(auditorRemark.length>50){
                     var msg = new $.zui.Messager('长度超过限制', {placement: 'center',type:'error',time:'2000'});
                     msg.show();
@@ -74,10 +86,14 @@
                          'pictures':pictures}
                 ,function(data){
                     if(data.status == 200){
-                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'2000'});
                         msg.show();
                     }else{
-                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        var msg = data.message;
+                        if(null == msg || "" == msg ){
+                            msg = "操作失败";
+                        }
+                        var msg = new $.zui.Messager(msg, {placement: 'center',type:'warning',time:'2000'});
                         msg.show();
                     }
                     setTimeout(function(){
@@ -100,7 +116,7 @@
                         imgArr.push(val);
                     });
                     $("#travelBGImgSH").val(imgArr);
-                    $("#travelImgIdSH").html(imgHtml);
+                    $("#travelImgIdSH").append(imgHtml);
                 }else{
                     layer.msg('图片上传失败，请重试', {icon: 2});
                 }

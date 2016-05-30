@@ -185,17 +185,17 @@
 #*支付方式*#
 #macro(PAY_CHANNEL $type)
     #if($type == '1')
-    支付宝条码
+        支付宝条码
     #elseif($type == '2')
-    支付宝网页
+        支付宝网页
     #elseif($type == '3')
-    支付宝手机
+        支付宝手机
     #elseif($type == '4')
-    微信扫码
+        微信支付
     #elseif($type == '5')
-    微信JS
+        支付宝WAP支付
     #else
-    其他
+        其他
     #end
 #end
 #*交易状态*#
@@ -431,6 +431,7 @@
         客户退货给卖家
     #elseif($!status==6)
         收货审核通过，退款中
+        #* 6这个状态只是做展示，查根据8查*#
     #elseif($!status==7)
         收货审核未通过，退货退款关闭
     #elseif($!status==8)
@@ -466,19 +467,21 @@
 
 #macro(ORDERS_STATUS $status)
     #if($!status == 1)
-        未付款
+        待付款
     #elseif($!status == 2)
-        已付款
+        待发货
     #elseif($!status == 3)
-        已发货
+       待收货
     #elseif($!status == 4)
-        交易成功
+        已完成
     #elseif($!status == 5)
         交易关闭
     #elseif($!status == 6)
         待处理
     #elseif($!status == 7)
         已退款
+    #elseif($!status == 8)
+        待评价
     #end
 #end
 
@@ -505,5 +508,38 @@
     #elseif($!type==6)
     其他
     #end
+#end
 
+#macro(TcPayChannel $type)
+    #if($!type==1)
+        支付宝条码
+    #elseif($!type==2)
+        支付宝网页
+    #elseif($!type==3)
+        支付宝手机
+    #elseif($!type==4)
+        微信支付
+    #elseif($!type==5)
+        支付宝WAP
+    #elseif($!type==6)
+        其他
+    #end
+#end
+
+#macro(GFTRADEREFUNDSTATUS $status)
+    #if($!status==0)
+    未退款
+    #elseif($!status==1)
+    退款已申请
+    #elseif($!status==2)
+    退款中
+    #elseif($!status==3)
+    退款失败
+    #elseif($!status==4)
+    退款成功
+    #elseif($!status==5)
+    退款退货中
+    #elseif($!status==6)
+    用户已撤销
+    #end
 #end

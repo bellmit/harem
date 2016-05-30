@@ -1,11 +1,8 @@
-<div class="orderInfo">
-    <div>退货物流信息</div>
-    <div>
-        <span>物流公司：$!refundOrderDO.logisticsCompanyName</span><br>
-        <span>物流单号：$!refundOrderDO.logisticsNumber</span><br>
-        <span>提交时间：$!date.format('yyyy-MM-dd hh:mm:ss',$!refundOrderDO.logisticsTime)
-        </span><br>
+<div class = "title distance disa">
+    <div class = "info-tit">退货物流信息</div>
+    <div class = "cont cont1a">
+        <p class = "info first"><em>物流公司：</em>$!refundOrderDO.logisticsCompanyName</p>
+        <p class = "info"><em>物流单号：</em>$!refundOrderDO.logisticsNumber</p>
+        <p class = "info last"><em>提交时间：</em>$!date.format('yyyy-MM-dd HH:mm:ss',$!refundOrderDO.logisticsTime)</p>
     </div>
 </div>
-
-

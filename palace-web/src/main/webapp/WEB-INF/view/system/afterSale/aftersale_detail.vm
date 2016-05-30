@@ -9,17 +9,23 @@
 		<div class = "path">
 			<p>您所在的位置是：售后管理>详情页面</p>
 		</div>
-		<div class = "title">
-			<p class = "tit-p">
-				#if($!orderShowState==2)
-				        用户已撤销售后申请
-				#elseif($!orderShowState==9 && $!bizType==1)#* 退款状态8的话*#
-				        退款完成
-				#elseif($!orderShowState==9 && $!bizType==2)#* 退款状态8的话*#
-				        退款退货完成
-				#end
-			</p>
-		</div>
+		#if(!$orderShowState)
+            <div class = "title">
+                <p class = "tit-p">
+					#if($!orderShowState==2)
+                        用户已撤销售后申请
+					#elseif($!orderShowState==9 && $!bizType==1)#* 退款状态8的话*#
+                        退款完成
+					#elseif($!orderShowState==9 && $!bizType==2)#* 退款状态8的话*#
+                        退款退货完成
+					#end
+                </p>
+            </div>
+		#end
+		<!--状态是用户发货的话，需要展示物流信息 -->
+        #if($!bizType == 2 && $!orderShowState >= 5)#* *#
+			#parse("/system/afterSale/common/logistics.vm")
+		#end
 		#parse("/system/afterSale/common/aftersale_info.vm")
 		#parse("/system/afterSale/common/aftersale_item.vm")
 		#parse("/system/afterSale/common/aftersale_receiving.vm")

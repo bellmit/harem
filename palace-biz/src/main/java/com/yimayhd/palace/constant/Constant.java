@@ -32,7 +32,15 @@ public class Constant {
 	public static final String DOT = ".";
 	public static final String COMMA = ",";
 
+
 	public static final int ROUTE_ALLOCATIE_FORM = 0;
 	
 	public static final String UN_REPEAT_SUBMIT = "请不要重复提交";
+
+	public static final int ERROR_STATUS = - 200 ;
+	public static final String AFTERSALE_PIC_MAX_ERR = "图片张数（1-5张）超过限制";
+	public static final String AFTERSALE_PIC_POSTFIX_ERR = "仅支持jpg，png，jpeg格式图片";
+	public static final String[] AFTERSALE_PIC_POSTFIX = new String[]{"jpg","jpeg","png","JPG","JPEG","PNG"};
+
+	public static final String GF_ORDER_CLOSE = "CLOSE" ;
 }

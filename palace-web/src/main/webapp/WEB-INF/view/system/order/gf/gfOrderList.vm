@@ -27,14 +27,15 @@
                     <th width="27%">商品</th>
                     <th width="5%">单价</th>
                     <th width="5%">数量</th>
-                    <th width="10%">买家</th>
                     <th width="10%">交易状态</th>
+                    <th width="10%">售后状态</th>
+                    <th width="10%">买家</th>
                     <th width="10%">订单金额</th>
                     <th width="10%">操作</th>
                 </tr>
                 #foreach($order in $orderList)
                 	#set($bizOrder = $!order.bizOrderDO )
-                    <tr></tr>
+					#set($count = $!velocityCount )
                     <tr class="order-item-label">
                         <td><input class="subChecked" type="checkbox" value="$!bizOrder.bizOrderId"></td>
                         <td colspan="8" align="left">
@@ -45,8 +46,8 @@
 
 					#set($size = $order.subOrderList.size() )
                     #foreach($subOrder in $order.subOrderList)
-                    
-	                    <tr>
+	                    <tr class="order-item-label_$!count" >
+						<!-- 这里是判断子订单的-->
 	                    	#if( $velocityCount == 1 )
 	                        	<td rowspan="$size"></td>
 	                        #end
@@ -63,38 +64,41 @@
 	                        <td>
 	                            $!subOrder.bizOrderDO.buyAmount
 	                        </td>
+                            <td >
+								#*$subOrder.bizOrderDO.refundStatus - $order.orderShowState <>*#
+								#ORDERS_STATUS($!order.orderShowState)
+                            </td>
+                            <td >
+								#*$subOrder.bizOrderDO.refundStatus - $order.orderShowState <>*#
+								#if(0 == $!subOrder.bizOrderDO.refundStatus)
+									-
+								#else
+									#GFTRADEREFUNDSTATUS($!subOrder.bizOrderDO.refundStatus)
+								#end
+                            </td>
 	                        #if( $velocityCount == 1 )
 	                        	<td rowspan="$size">
-		                            <div class="txt">$!order.user.nickname</div>
-		                            <div class="txt">$!order.user.mobileNo</div>
+									#if($order.user.nickname)
+                                        <div class="txt">$!order.user.nickname</div>
+									#end
+									#if($order.user.mobileNo)
+                                        <div class="txt">$!order.user.mobileNo</div>
+									#end
 		                        </td>
-	                            <td rowspan="$size">
-									##$!order.orderShowState
-	                            	#ORDERS_STATUS($!order.orderShowState)
-	                            	
-	                            </td>
-	                            <td rowspan="$size">
-	                            	￥$!utilNum.moneyTransform($!bizOrder.actualTotalFee)
-	                            </td>
+
+								<td rowspan="$size">￥$!utilNum.moneyTransform($!bizOrder.actualTotalFee)</td>
 	                            <td rowspan="$size">
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
-		                            #if($order.orderShowState == 2)
-		                            #*
-		                            	#if( $test )
-			                                <button type="button" class="btn btn-primary affirm"
-			                                        data-target="#affirmModal" orderId="$!bizOrder.bizOrderId">确认
-			                                </button>
-		                                #end
-		                                *#
+		                           #* #if($order.orderShowState == 2)
 		                            #elseif($order.orderShowState == 3)
 		                                <button type="button" class="btn btn-primary finish"
 		                                        data-target="#finishModal" orderId="$!bizOrder.bizOrderId">完成
 		                                </button>
-		                            #end
+		                            #end*#
 		                        </td>
-	                        #end
-	                    #end
-	                </tr>
+							#end
+						</tr>
+	                #end
                 #end
             </tbody>
             </table>
