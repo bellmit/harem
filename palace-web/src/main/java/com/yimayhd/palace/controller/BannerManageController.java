@@ -283,6 +283,7 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/operation/list")
     @ResponseBody
     public ResponseVo operationList() throws Exception {
+        //TODO:rc_oper表加个type,把乱七八糟的类型过滤一下，不要在这里显示出来了
     	ResponseVo rs = null;
     	List<OperationDO> operationDOs = showcaseService.getAllOperactions();
         if( CollectionUtils.isEmpty(operationDOs) ){
@@ -300,7 +301,8 @@ public class BannerManageController extends BaseController {
     			if( code.equals(type.name())) {
     				if (OperationType.FREE_TOUR_LIST == type    ||
                         OperationType.PACKAGE_TOUR_LIST == type ||
-                        OperationType.AROUND_FUN_LIST == type) {// 选择目的地、选择路线标签
+                        OperationType.AROUND_FUN_LIST == type ||
+                        OperationType.SCENIC_TAG_LIST == type    ) {// 选择目的地、选择路线标签
     					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_LINE };
     					vo.setParamTypes(types);
     				} else if (OperationType.CITY_ACTIVITY_LIST == type) {// 选择目的地、选择活动标签
@@ -321,6 +323,12 @@ public class BannerManageController extends BaseController {
                         vo.setParamTypes(types);
                     }else if(OperationType.JIUXIU_BUY_DETAIL == type ){//实物商品详情
                         String[] types = { OperationParamConstant.ITEM_DETAIL_NORMAL };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.HOTEL_DETAIL == type ){//酒店详情
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_HOTEL };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.SCENIC_DETAIL == type ){//景区详情
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_SPOTS };
                         vo.setParamTypes(types);
                     }
     				break;

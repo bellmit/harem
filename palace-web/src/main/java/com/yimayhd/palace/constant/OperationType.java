@@ -39,7 +39,18 @@ public enum OperationType {
     JIUXIU_BUY_DETAIL("JIUXIU_BUY_DETAIL","实物商品详情"),
     AROUND_FUN_DETAIL("AROUND_FUN_DETAIL","周边玩乐详情"),
     //    MUST_BUY_LIST("MUST_BUY_LIST","必买商品列表"),
-    CITY_ACTIVITY_LIST("CITY_ACTIVITY_LIST","同城活动列表")
+    CITY_ACTIVITY_LIST("CITY_ACTIVITY_LIST","同城活动列表"),
+
+
+    //yusw -add
+    SCENIC_HOME("SCENIC_HOME","景区首页"),
+    HOTEL_HOME("HOTEL_HOME","酒店首页"),
+
+    HOTEL_DETAIL("HOTEL_DETAIL","酒店详情"),
+    SCENIC_DETAIL("SCENIC_DETAIL","景区详情"),
+
+    SCENIC_TAG_LIST("SCENIC_TAG_LIST","景区列表")
+
     ;
 
 

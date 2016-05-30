@@ -153,7 +153,7 @@
                 }else if(b== "CHOOSE_DESTINATION"){
                     showType="2";
                     showName="目的地";
-                }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"||b=="NORMAL"){
+                }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"||b=="NORMAL"||b=="HOTEL"||b=="SPOTS" ){
                     showType="3";
                     showName="详情";
                 }else if(b == "CITYACTIVITY"){
@@ -162,6 +162,9 @@
                 }else if(b == "LINETAG"){
                     showType="4";
                     showName="线路主题";
+                }else if(b == "SCENIC_TAG_LIST"){
+                    showType="4";
+                    showName="景区主题";
                 }
                 radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
             });
