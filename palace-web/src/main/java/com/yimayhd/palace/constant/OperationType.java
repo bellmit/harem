@@ -49,7 +49,10 @@ public enum OperationType {
     HOTEL_DETAIL("HOTEL_DETAIL","酒店详情"),
     SCENIC_DETAIL("SCENIC_DETAIL","景区详情"),
 
-    SCENIC_TAG_LIST("SCENIC_TAG_LIST","景区列表")
+    SCENIC_TAG_LIST("SCENIC_TAG_LIST","景区列表"),
+
+    JIUXIU_FOOD_DETAIL("JIUXIU_FOOD_DETAIL","美食店铺页"),
+    MASTER_DETAIL("MASTER_DETAIL","达人详情")
 
     ;
 

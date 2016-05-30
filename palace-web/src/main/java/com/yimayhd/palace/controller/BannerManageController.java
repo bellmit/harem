@@ -37,6 +37,8 @@ import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.query.MerchantPageQuery;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -218,8 +220,10 @@ public class BannerManageController extends BaseController {
             return "/system/banner/showcase/chooseTheme";//选目主题
         }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_LIST==type){
             return "/system/banner/showcase/chooseItemList";//选商品列表
-        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL==type){
+        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL == type){
             return "/system/banner/showcase/chooseItemDetail";//选商品详情
+        }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){
+            return "/system/banner/showcase/chooseDaRenMeiShiDetail";//选达人或美食
         }
         return "error";
     }
@@ -274,6 +278,15 @@ public class BannerManageController extends BaseController {
                 query.setItemType(null == ItemType.getByName(code) ? 0 : ItemType.getByName(code).getValue());
             }
             PageVO<ShowCaseItem> page = showcaseService.getItemByItemOptionDTO(query);
+            result.put("pageVo", page);
+        }else if (Constant.SHOWCASE_SHOE_TYPE_MASTER  ==  type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL  ==  type){//达人的，美食的
+            MerchantPageQuery merchantQuery = new MerchantPageQuery();
+            MerchantOption option = MerchantOption.valueOfName(code);
+            merchantQuery.setDomainId(1200);
+            if(null != option){
+                merchantQuery.setOption(option.getOption());
+            }
+            PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery);
             result.put("pageVo", page);
         }
         return new ResponseVo(result);
@@ -330,7 +343,14 @@ public class BannerManageController extends BaseController {
                     }else if(OperationType.SCENIC_DETAIL == type ){//景区详情
                         String[] types = { OperationParamConstant.ITEM_DETAIL_SPOTS };
                         vo.setParamTypes(types);
+                    }else if(OperationType.JIUXIU_FOOD_DETAIL == type ){//美食店铺页
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_EAT };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.MASTER_DETAIL == type ){//达人详情
+                        String[] types = { OperationParamConstant.ITEM_TALENT };
+                        vo.setParamTypes(types);
                     }
+
     				break;
     			}
     		}

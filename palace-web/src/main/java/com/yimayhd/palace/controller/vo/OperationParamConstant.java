@@ -43,5 +43,10 @@ public class OperationParamConstant {
 	public static final String ITEM_DETAIL_HOTEL = "HOTEL";//酒店商品
 	public static final String ITEM_DETAIL_SPOTS = "SPOTS";//景区门票
 
+	public static final String ITEM_TALENT = "TALENT";//达人
+	public static final String ITEM_DETAIL_EAT = "EAT";//美食
+
+
+
 
 }
