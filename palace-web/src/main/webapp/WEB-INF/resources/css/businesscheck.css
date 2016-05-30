@@ -1,0 +1,38 @@
+/*-----------------------商家入驻审核-------------------------*/
+*{color: inherit;}
+.red{color: #f00;}
+#lightboxModal i.icon,#lightboxModal i.icon-remove{color: #fff;}
+
+.checkmsgcon{margin-bottom: 30px;min-width: 1000px;}
+.checkmsgcon .check-table th{border-bottom: none;}
+.checkmsgcon .check-table td{border-bottom: none;}
+.checkmsgcon > .check-table > tbody > tr >td:first-child{width: 180px;text-align: right;}
+
+.checkmsgcon table td .borderbox{padding:10px;border: 1px solid #ddd;}
+
+	.borderbox .table-inner td{border-bottom: none;}
+	.borderbox .table-inner tr > td:nth-child(odd){width: 180px;text-align: right;}
+	.borderbox .table-inner td .inputval{display: inline-block;width: 500px;background: #eee;}
+	.borderbox .table-inner td img{width: 120px;max-width: 122px; height: 90px;}
+	.borderbox .table-inner td.tdlab label{display: inline-block;margin-right: 20px;font-weight: 400;}
+.checkmsgcon .btn-box{text-align:center;}
+
+	/*-----------------------审核弹出层-------------------*/
+/*
+.modal .btn-box{margin-bottom: 15px;text-align: center;}
+.modal .btn-box .btn-yes{margin-right: 30px;}
+.back-layer{position: fixed;top:0;right:0;bottom:0;left:0;z-index:2000; background: #000;filter:alpha(opacity=40);opacity: .4;}
+.front-layer{position:fixed;top:100px;left:500px;z-index:2001;width: 300px;padding:20px;background-color:#fff;text-align: center;box-shadow:1px 1px 50px rgba(100,100,100,1);}
+.front-layer .icon-close{position: absolute;top: 10px;right: 10px;width: 20px;height: 20px;overflow:hidden;background: url(../../img/icon24x24.png) no-repeat 0 -150px;}
+.front-layer .ask-text{margin-bottom: 20px;text-align: center;}
+.front-layer .btn-box{margin-bottom:20px;text-align: center;}
+.front-layer .btn-box .btn-yes{margin-right: 30px;}*/
+
+/*----------为商家配置商品类目---------------*/
+.setproductbox{padding: 30px;}
+.setproductbox .set-header{margin-bottom:10px;font-size: 20px;font-weight: 700;}
+.setproductbox .set-body .set-table td{border-bottom: none;}
+.setproductbox .set-body .set-table>tbody>tr>td:first-child{width: 150px;text-align: right;} 
+.setproductbox .set-body .set-table tbody tr td label{display: inline-block;margin: 0 10px;font-weight: 400;}
+.setproductbox .set-body .set-table tbody tr td.tips{width: 120px; color: #999;}
+.setproductbox .btn-box{text-align:center;}
