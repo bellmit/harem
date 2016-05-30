@@ -283,6 +283,7 @@ public class BannerManageController extends BaseController {
             MerchantPageQuery merchantQuery = new MerchantPageQuery();
             MerchantOption option = MerchantOption.valueOfName(code);
             merchantQuery.setDomainId(1200);
+            merchantQuery.setPageNo(pageNumber);
             if(null != option){
                 merchantQuery.setOption(option.getOption());
             }
