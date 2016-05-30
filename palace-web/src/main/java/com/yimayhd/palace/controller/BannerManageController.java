@@ -286,6 +286,11 @@ public class BannerManageController extends BaseController {
             if(null != option){
                 merchantQuery.setOption(option.getOption());
             }
+            if(NumberUtils.isNumber(keyWord)){
+                merchantQuery.setCityCode(Integer.parseInt(keyWord));
+            }else{
+                merchantQuery.setName(keyWord);
+            }
             PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery);
             result.put("pageVo", page);
         }
