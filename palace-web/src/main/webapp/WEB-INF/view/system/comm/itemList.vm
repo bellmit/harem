@@ -103,11 +103,11 @@
                     </td>
                     <td>$!item.name</td>
 					<td>
-						#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
+					#*	#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
 							特产商品
-						#else
+						#else*#
 							$!{utilItem.getItemTypeName($item.type)}
-						#end
+						#*#end*#
 					</td>
 					<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
                     <td>$!merchant.merchantName</td>
