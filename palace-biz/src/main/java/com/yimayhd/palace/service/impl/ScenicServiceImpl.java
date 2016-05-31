@@ -93,8 +93,8 @@ public class ScenicServiceImpl implements ScenicService {
 			pageQuery.setName(scenicListQuery.getName());			
 		}
 		//景区状态
-		if (scenicListQuery.getItemStatus() != null) {			
-			pageQuery.setItemStatus(scenicListQuery.getItemStatus());
+		if (scenicListQuery.getStatus() != null) {			
+			pageQuery.setStatus(scenicListQuery.getStatus());
 		}
 		//区域-省
 		if (scenicListQuery.getLocationProvinceId() != null) {		

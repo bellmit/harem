@@ -24,6 +24,7 @@ import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.enums.PictureTag;
+import com.yimayhd.ic.client.model.param.item.FacilityQueryDTO;
 import com.yimayhd.ic.client.model.param.item.HotelDTO;
 import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.RoomDTO;
@@ -518,6 +519,30 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	public List<HotelFacilityVO> queryFacilities(int type) throws Exception{
 		
 		ICPageResult<FacilityIconDO> icPageResult = itemQueryServiceRef.queryFacilities(type);
+		List<FacilityIconDO> list = icPageResult.getList();		
+		List<HotelFacilityVO> resultList = new ArrayList<HotelFacilityVO>();
+		Iterator<FacilityIconDO> it = list.iterator();
+		
+		while (it.hasNext()) {			
+			FacilityIconDO temp = it.next();
+			HotelFacilityVO vTemp = new HotelFacilityVO();
+			vTemp.setName(temp.getName());
+			vTemp.setNumber(temp.getNumber());
+			resultList.add(vTemp);
+		}
+		
+		return resultList;
+	}
+	
+	@Override
+	public List<HotelFacilityVO> queryFacilitiesV2(int type) throws Exception{
+		
+		FacilityQueryDTO queryDTO = new FacilityQueryDTO();
+		queryDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		queryDTO.setStatus(BaseStatus.AVAILABLE.getType());
+		queryDTO.setType(type);
+		
+		ICPageResult<FacilityIconDO> icPageResult = itemQueryServiceRef.queryFacilities(queryDTO);
 		List<FacilityIconDO> list = icPageResult.getList();		
 		List<HotelFacilityVO> resultList = new ArrayList<HotelFacilityVO>();
 		Iterator<FacilityIconDO> it = list.iterator();

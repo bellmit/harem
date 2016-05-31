@@ -1,5 +1,6 @@
 package com.yimayhd.palace.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,8 +25,9 @@ public class ScenicVO extends ScenicDO {
     private String coverPics;//封面大图String
     private List<PictureVO> pictureList;//图片集
 	private String themeIdStr; //主题
-
-    private NeedKnow needKnowOb;
+	private String themeNameStr; //主题名称
+ 
+	private NeedKnow needKnowOb;
 
     public static ScenicDO getScenicDO(ScenicVO scenicVO){
         ScenicDO scenicDO = new ScenicVO();
@@ -52,7 +54,11 @@ public class ScenicVO extends ScenicDO {
         	List<String> subjectIds = Arrays.asList(scenicVO.getThemeIdStr().split("\\|"));
             ScenicFeature scenicFeature = new ScenicFeature(null);
     		scenicFeature.put(ScenicFeatureKey.SUBJECT_IDS, subjectIds);
-            scenicDO.setScenicFeature(scenicFeature);
+    		
+    		List<String> subjectNames = Arrays.asList(scenicVO.getThemeNameStr().split("\\|"));
+    		scenicFeature.put(ScenicFeatureKey.SUBJECT_NAMES, subjectNames);
+    		
+    		scenicDO.setScenicFeature(scenicFeature);
         }
 
         return scenicDO;
@@ -120,5 +126,10 @@ public class ScenicVO extends ScenicDO {
 	public void setThemeIdStr(String themeIdStr) {
 		this.themeIdStr = themeIdStr;
 	}
-	
+    public String getThemeNameStr() {
+		return themeNameStr;
+	}
+	public void setThemeNameStr(String themeNameStr) {
+		this.themeNameStr = themeNameStr;
+	}
 }

@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.ic.client.model.domain.item.HotelFeature;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.FacilityIconType;
 import com.yimayhd.ic.client.model.enums.RoomExtraBed;
 import com.yimayhd.ic.client.model.enums.RoomNetwork;
 import com.yimayhd.ic.client.model.enums.RoomWindow;
@@ -256,13 +256,13 @@ public class JiuniuHotelManageController extends BaseController {
 		char[] roomServiceArr = roomServiceStr.toCharArray();
 
 		// 房间设施
-		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilitiesV2(FacilityIconType.ROOM_FACILITY.getType());
 		Collections.sort(roomFacilityList);
 		// 特色服务
-		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
+		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilitiesV2(FacilityIconType.HOTEL_SERVICE.getType());
 		Collections.sort(roomServiceList);
 		// 酒店设施
-		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilitiesV2(FacilityIconType.HOTEL_FACILITY.getType());
 		Collections.sort(hotelFacilityList);
 
 		checkInit(roomFacilityList, roomFacilityArr);

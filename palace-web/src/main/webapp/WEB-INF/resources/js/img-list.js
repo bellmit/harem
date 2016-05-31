@@ -29,17 +29,13 @@ ImgList.prototype = {
 		var _self = this;
 		
     	$(_self.id).delegate(_self.uploadBtnSelector, 'change', function(){
-    		console.log("aa");
-    		var uploadNum = $(_self.picWrapSelector).length;
-    		
-    		if(uploadNum == _self.limitNum){
-    			layer.alert('最多上传'+ _self.limitNum +'张图片');
-    			return;
-    		}
-    		
 	   		fileUpload(_self.uploadBtnSelector, 2, function(dataVal){
 	   			
-	   			console.log($(_self.picWrapSelector));
+	   			var uploadNum = $(_self.picWrapSelector).length;
+	    		if(uploadNum == _self.limitNum){
+	    			layer.alert('最多上传'+ _self.limitNum +'张图片');
+	    			return;
+	    		}
 	   			
 	   			for(var key in dataVal.data){
 	   				
@@ -52,7 +48,7 @@ ImgList.prototype = {
    					
 					$(_self.id).append(picWrapContent.join(""));
 		        }
-	   		});
+	   		}, 500);
     	});
     },
     bindDelPicEvent: function() {
@@ -70,7 +66,6 @@ ImgList.prototype = {
     bindPicWrapEvent: function(){
     	var _self = this;
 		$(_self.id).delegate(_self.picWrapSelector, 'mouseover mouseout', function(e){
-			console.log("cc");
 			var imgUrl = $(this).find("img").attr("imgUrl");
 		    if(!imgUrl){
     			return;

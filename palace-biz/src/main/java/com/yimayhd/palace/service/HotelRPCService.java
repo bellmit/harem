@@ -34,6 +34,8 @@ public interface HotelRPCService {
 	public HotelVO getHotelV2(long id)throws Exception;
 
 	public List<HotelFacilityVO> queryFacilities(int type)throws Exception;
+	
+	public List<HotelFacilityVO> queryFacilitiesV2(int type)throws Exception;
 
 	void setHotelStatusList(List<Long> idList, int hotelStatus) throws Exception;
 

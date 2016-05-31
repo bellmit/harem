@@ -121,9 +121,9 @@
                     <td><span class="spColor">*</span>地址经纬度</td>
                     <td>
                     	<span>经度</span>
-                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字" class="inpControl getAddress" value="$!hotel.locationX">
+                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" value="$!hotel.locationX">
                     	<span>纬度</span>
-                    	<input type="text" id="locationY" name="locationY" placeholder="示例:116.40461,限数字" class="inpControl getAddress" value="$!hotel.locationY">
+                    	<input type="text" id="locationY" name="locationY" placeholder="示例:116.40461,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" value="$!hotel.locationY">
                     	<button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                     </td>
                 </tr>
@@ -194,23 +194,8 @@
                         #foreach($!roomFacility in $!roomFacilityList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "roomFacility" + $indexNo)
-							#if($!roomFacility.number == 1)
-								<span>房间设施</span><br/>
-							#end
-							#if($!roomFacility.number == 34)
-								<br/><span>浴室</span><br/>
-							#end
-							#if($!roomFacility.number == 44)
-								<br/><span>室外景观</span><br/>
-							#end
-							#if($!roomFacility.number == 55)
-								<br/><span>其他服务</span><br/>
-							#end
                             <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomFacilityCl" #if($!roomFacility.checked) checked value="1" #else value="0" #end>$roomFacility.name</span>
-							#if($!roomFacility.number % 10 == 0 
-								|| $!roomFacility.number == 33
-								|| $!roomFacility.number == 43
-								|| $!roomFacility.number == 54) 
+							#if($!roomFacility.number % 10 == 0) 
 								<br/>
 							#end
 						#end
@@ -219,7 +204,7 @@
                <tr>
                    <td><span class="spColor">*</span>入离政策</td>
                    <td>
-                       <input type="text" name="policy" value="$!hotel.policy" class="inpCtlBlock policy" placeholder="1-38个字" />
+                       <input type="text" name="policy" value="$!hotel.policy" class="inpCtlBlock policy" placeholder="入住时间：14：00以后   离店时间：13：00以前" />
                    </td>
                </tr>
                <tr>
@@ -359,10 +344,13 @@
         if(!$('input[name="level"]:checked').val()){
             return '请选择星级';
         }
-        if(!$('#locationX').val() || !$('#locationY').val() || !/^[0-9]+.?[0-9]*$/.test($('#locationX').val()) || !/^[0-9]+.?[0-9]*$/.test($('#locationY').val())){
-            return '地址经纬度格式不正确';
+        if(!$('#locationX').val() || !$('#locationY').val()){
+            return '经纬度不能为空';
         }
-        var phoneReg = /^0\d{2,3}-?\d{7,8}$|^1[0-9]{10}$/;
+        if(!/^[0-9]+.?[0-9]*$/.test($('#locationX').val()) || !/^[0-9]+.?[0-9]*$/.test($('#locationY').val())){
+            return '经纬度格式不正确';
+        }
+        var phoneReg = /^0\d{2,3}\d{7,8}$|^1[0-9]{10}$/;
         if(!phoneReg.test($('.phoneNumListStr').val())){
             return '酒店电话格式不正确';
         }
@@ -441,7 +429,6 @@
     		"parentCode":$("#cityId").val()
     	}
     	$.get(actionDefaultPath + '/jiuniu/hotelManage/destination', param,function(data){
-          	console.log(JSON.stringify(data));
           	
           	if(data.status != 200){
           		return;
@@ -530,9 +517,7 @@
         });
         //市
         $('.citySelect').change(function(event, isTrigger){
-        	console.log("isTrigger:"+ isTrigger);
         	if(isTrigger != true){
-        		console.log("ccccccccccccc");
         		if($('.citySelect option:selected')){
 	                $('#citySelectName').val($('.citySelect option:selected').text());
 	            }
@@ -568,7 +553,6 @@
 	    #end
         
         if($("#cityId").val() != 0){
-        	console.log($("#cityId").val());
 			$("#cityId").trigger("change", true);
 		}
 

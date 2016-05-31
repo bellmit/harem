@@ -1,16 +1,19 @@
 //不是插件
-var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data
+var fileUpload = function(id,type,callBack,fileSize){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data，fileSize：限制上传大小
     var oFiles = document.querySelector(id).files;
-    uploadSenedFile(oFiles,type,callBack);
+    uploadSenedFile(oFiles,type,callBack,fileSize);
 }
 
-var uploadSenedFile = function(files,type,callBack){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data
+var uploadSenedFile = function(files,type,callBack,fileSize){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data，fileSize：限制上传大小
     var oFiles = files;
     // 实例化一个表单数据对象
     var formData = new FormData();
     // 遍历文件列表，插入到表单数据中
     for (var i = 0, file; file = oFiles[i]; i++) {
-        if(file.size > 2000 * 1024){
+    	if(fileSize && file.size > fileSize * 1024){
+    		layer.msg('图片不能大于'+ fileSize +'K',{icon:2});
+            return;
+    	}else if(file.size > 2000 * 1024){
             layer.msg('图片不能大于2M',{icon:2});
             return;
         }

@@ -12,10 +12,10 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-                <select class="form-control" name="itemStatus">
+                <select class="form-control" name="status">
                       <option value="" >全部</option>
-                      <option value="1" #if($!scenicPageQuery.itemStatus == 1) selected #end>未启用</option>
-                      <option value="2" #if($!scenicPageQuery.itemStatus == 2) selected #end>启用</option>
+                      <option value="1" #if($!scenicPageQuery.status == 1) selected #end>未启用</option>
+                      <option value="2" #if($!scenicPageQuery.status == 2) selected #end>启用</option>
                    
                 </select>
             </div>
@@ -45,7 +45,7 @@
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">创建时间</button>
+                        <button class="btn btn-default" type="button">更新时间</button>
                     </span>
                 <input type="text" class='form-control form-date dateInp' placeholder=''  data-date-format="yyyy-mm-dd" readonly id="beginDate" name="startTime" value="$!scenicPageQuery.startTime">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
@@ -73,7 +73,7 @@
                     -->
                     <th>景区名称</th>
                     <th>区域</th>
-                    <th>发布时间</th>
+                    <th>更新时间</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -90,7 +90,9 @@
                             <p style="padding-left:10px;">商品编码:$!scenic.id</p>
                         </td>
                         <td>$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}</td>
-                        <td>$utilDate.dateToString(${scenic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
+                        <td> 
+                        	$utilDate.dateToString(${scenic.gmtModified},'yyyy-MM-dd HH:mm:ss')
+                        </td>
                         <td>#ITEMSCENIC_STATUS_TWO($!scenic.status)</td>
                         <td>
                         #if($scenic.status == 1)

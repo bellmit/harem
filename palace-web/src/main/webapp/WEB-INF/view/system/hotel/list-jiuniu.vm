@@ -37,7 +37,7 @@
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">创建时间</button>
+                        <button class="btn btn-default" type="button">更新时间</button>
                     </span>
                 <input type="text" class='form-control form-date dateInp' placeholder='' readonly id="beginDate" name="beginDate" value="$!hotelListQuery.beginDate">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
@@ -72,7 +72,7 @@
                     <th>酒店名称</th>
                     <th>类型</th>
                     <th>区域</th>
-                    <th>发布时间</th>
+                    <th>更新时间</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -88,7 +88,9 @@
                         </td>
                         <td>#HOTEL_TYPE($!{hotel.type})</td>
                         <td>$!{hotel.locationProvinceName} $!{hotel.locationCityName} $!{hotel.locationTownName}</td>
-                        <td>$utilDate.dateToString(${hotel.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
+                        <td>
+                        	$utilDate.dateToString(${hotel.gmtModified},'yyyy-MM-dd HH:mm:ss')
+                        </td>
                         <td>#HOTEL_STATUS_TWO($!hotel.status)</td>
                         <td>
 	                        <button type="button" class="btn btn-primary hotelDetail" hotelId="$hotel.id">编辑</button>

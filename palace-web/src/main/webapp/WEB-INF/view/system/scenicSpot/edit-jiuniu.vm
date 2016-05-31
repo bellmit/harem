@@ -67,15 +67,15 @@
                         <td>
                             <div class="selectList">
                                 <input type="hidden" id="provinceSelectName" name="scenicVO.locationProvinceName" value="$!{VO.scenicVO.locationProvinceName}">
-                                <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
+                                <select id="provinceId" class="selCity inpControl provinceSelect" name="scenicVO.locationProvinceId" areaType="PROVINCE">
                                     <option value="$!{VO.scenicVO.locationProvinceId}">#if(! $VO.scenicVO.locationProvinceName)请选择省份#else$!{VO.scenicVO.locationProvinceName}#end</option>
                                 </select>
                                 <input type="hidden" id="citySelectName" name="scenicVO.locationCityName" value="$!{VO.scenicVO.locationCityName}">
-                                <select id="cityId" class="selCity inpControl citySelect" name="locationCityId" areaType="CITY">
+                                <select id="cityId" class="selCity inpControl citySelect" name="scenicVO.locationCityId" areaType="CITY">
                                     <option value="$!{VO.scenicVO.locationCityId}">#if(! $VO.scenicVO.locationCityName)请选择城市#else$!{VO.scenicVO.locationCityName}#end</option>
                                 </select>
                                 <input type="hidden" id="countySelectName" name="scenicVO.locationTownName" value="$!{VO.locationTownName}">
-                                <select id="countyId" class="selCity inpControl countySelect" name="locationTownId" areaType="COUNTY">
+                                <select id="countyId" class="selCity inpControl countySelect" name="scenicVO.locationTownId" areaType="COUNTY">
                                     <option value="$!{VO.scenicVO.locationTownId}">#if(! $VO.scenicVO.locationTownName)请选择区县#else$!{VO.scenicVO.locationTownName}#end</option>
                                 </select>
                             </div>
@@ -93,9 +93,9 @@
                         <td><span class="spColor">*</span>地址经纬度</td>
                         <td>
                             <span>经度</span>
-                            <input type="text" name="scenicVO.locationX" id="locationX" class="inpControl getAddress locationX" value="$!{VO.scenicVO.locationX}" placeholder="示例:116.40461,限数字" />
+                            <input type="text" name="scenicVO.locationX" id="locationX" class="inpControl getAddress locationX" value="$!{VO.scenicVO.locationX}" placeholder="示例:116.40461,限数字,请注意不要有空格" style="width:260px;" />
                             <span>纬度</span>
-                            <input type="text" name="scenicVO.locationY" id="locationY" class="inpControl getAddress locationY" value="$!{VO.scenicVO.locationY}" placeholder="示例:39.910921,限数字" />
+                            <input type="text" name="scenicVO.locationY" id="locationY" class="inpControl getAddress locationY" value="$!{VO.scenicVO.locationY}" placeholder="示例:39.910921,限数字,请注意不要有空格" style="width:260px;" />
                             <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                             #*<code>点击查找经纬度可自动获取</code>*#
                         </td>
@@ -143,12 +143,13 @@
                             	#end
                             	
                             	<span class="theme">
-                            		<input type="checkbox" class="themeCheckBox" value="${theme.id}" ${checked} />
+                            		<input type="checkbox" class="themeCheckBox" value="${theme.id}" ${checked} themeName="${theme.name}" />
 	                            	${theme.name}
 	                            </span>	
                             #end
                             <label class="themeTip" style="display:none;">景区主题选1-3个</label>
-							<input class="themeVal" type="hidden" name="scenicVO.themeIdStr" value="" />
+							<input class="themeIdsVal" type="hidden" name="scenicVO.themeIdStr" value="" />
+							<input class="themeNamesVal" type="hidden" name="scenicVO.themeNameStr" value="" />
                         </td>
                     </tr>
                     <tr>
@@ -446,13 +447,13 @@
                 'scenicVO.name': {
                     required: true
                 },
-                'locationProvinceId': {
+                'scenicVO.locationProvinceId': {
                     required: true
                 },
-                'locationCityId': {
+                'scenicVO.locationCityId': {
                     required: true
                 },
-                'locationTownId': {
+                'scenicVO.locationTownId': {
                     required: true
                 },
                 'scenicVO.locationText': {
@@ -499,16 +500,19 @@
             	}
             	
             	//景区主题
-            	var theme = [];
+            	var themeIds = [];
+            	var themeNames = [];
             	$(".themeCheckBox:checked").each(function(){
-            		theme.push($(this).val());
+            		themeIds.push($(this).val());
+            		themeNames.push($(this).attr("themeName"));
             	});
-            	if(theme.length < 1 || theme.length > 3){
+            	if(themeIds.length < 1 || themeIds.length > 3){
             		$(".themeTip").css({"color":"red", "display":""});
             		return;
             	}else{
             		$(".themeTip").css({"display":"none"});
-            		$(".themeVal").val(theme.join("|"));
+            		$(".themeIdsVal").val(themeIds.join("|"));
+            		$(".themeNamesVal").val(themeNames.join("|"));
             	}
             	
             	//景区头图
