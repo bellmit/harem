@@ -86,6 +86,15 @@
                                     <input type="text" name="addsecontent" class="secontent" value="$!showcase.operationContent" id="addsecontentId" >
                                 </td>
                             </tr>
+                            <tr class="addInfoId" style="display: none">
+                                <td>
+                                    添加SKU：
+                                </td>
+                                <td>
+                                    <input type="text" name="content" class="secontent" value="$!showcase.content" id="addcontentJsonId" >
+                                </td>
+                            </tr>
+
                         </table>
                     </div>
                 </td>
@@ -137,44 +146,56 @@
             var showType="";
             var radioHtml="";
             var paramTypes = [];
-            //获取选择的select的id
-            var strParam = $('.selectpages option:selected').attr('paramtypes');
-            if(strParam == 'null' || strParam == null){
-                $("#radioId").hide();//隐藏
-                return
-            }
             $("#radioId").show();
-            paramTypes=strParam.split(",");
-            console.log(paramTypes)
-            $.each(paramTypes, function(a, b) {
-                if(b== "KEYWORD"){
-                    showType="1";
-                    showName="关键字";
-                }else if(b== "CHOOSE_DESTINATION"){
-                    showType="2";
-                    showName="目的地";
-                }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"||b=="NORMAL"||b=="HOTEL"
-                        ||b=="SPOTS" ){
-                    showType="3";
-                    showName="详情";
-                }else if(b == "CITYACTIVITY"){
-                    showType="4";
-                    showName="城市活动主题";
-                }else if(b == "LINETAG"){
-                    showType="4";
-                    showName="线路主题";
-                }else if(b=="TALENT" ){
-                    showType="6";
-                    showName="详情";
-                }else if( b=="EAT"){
-                    showType="7";
-                    showName="详情";
+            //加载gf的sku
+            var strValue = $('.selectpages option:selected').attr('value');
+            if(strValue == 'null' || strValue == null){
+                $(".addInfoId").css('display','none');;//隐藏
+                return
+            }else if(strValue == "GF_URL" || strValue=="GF_ITEM"){
+                $(".addInfoId").css('display','block');//显示
+            }else if(strValue == "MASTER_LIST" ){ //如果是达人专题，直接出服务选项
+                radioHtml+="<input name='chooseService' type='radio' showType='3' value='1' /> 结伴邀约";
+                radioHtml+="<input name='chooseService' type='radio' showType='3' value='2' /> 出行服务";
+                radioHtml+="<input name='chooseService' type='radio' showType='3' value='3' /> 在线咨询";
+                radioHtml+="<input name='chooseService' type='radio' showType='3' value='4' /> 行程规划";
+                $("#radioId").html(radioHtml)
+            }else{
+                //获取选择的select的id
+                var strParam = $('.selectpages option:selected').attr('paramtypes');
+                if(strParam == 'null' || strParam == null){
+                    $("#radioId").hide();//隐藏
+                    return
                 }
-
-                radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
-            });
-            $("#radioId").html(radioHtml)
-            console.log(radioHtml);
+                paramTypes=strParam.split(",");
+                $.each(paramTypes, function(a, b) {
+                    if(b== "KEYWORD"){
+                        showType="1";
+                        showName="关键字";
+                    }else if(b== "CHOOSE_DESTINATION"){
+                        showType="2";
+                        showName="目的地";
+                    }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"||b=="NORMAL"||b=="HOTEL"
+                            ||b=="SPOTS" ){
+                        showType="3";
+                        showName="详情";
+                    }else if(b == "CITYACTIVITY"){
+                        showType="4";
+                        showName="城市活动主题";
+                    }else if(b == "LINETAG"){
+                        showType="4";
+                        showName="线路主题";
+                    }else if(b=="TALENT" ){
+                        showType="6";
+                        showName="详情";
+                    }else if( b=="EAT"){
+                        showType="7";
+                        showName="详情";
+                    }
+                    radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
+                });
+                $("#radioId").html(radioHtml)
+            }
         });
 
         //处理添加内容的时候把operationid赋值
@@ -191,12 +212,9 @@
         //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
         $('.selecontent').click(function(){
             var type= $('input:radio:checked').attr("showType")
-            //var code = $("#opId").find("option:selected").val();//获取选择的select的code
             var code = $('input:radio:checked').val();//获取选择的select的code
             var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
             $("#operationIds").val(operationId);
-            console.log("code="+code);
-            console.log("type="+type);
             if(null == code || ""==code){
                 return false;
             }
@@ -236,6 +254,8 @@
             var operationContent = null;
             var radioVal = $("input[name='jump']:checked").val();
             var selectVal = $(".selectpages").find("option:selected").val();
+            var content = $("#addcontentJsonId").val();
+            var talentServiceVal = $("input[name='chooseService']:checked").val();
 
             if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题
                 operationContent = $("#choId").val();
@@ -244,6 +264,9 @@
             }
             if(null == operationContent || ""==operationContent){
                 operationContent = $("#addsecontentId").val();
+            }
+            if(talentServiceVal !="" && talentServiceVal != null){
+                operationContent = talentServiceVal;
             }
             var operationId= $("#operationIds").val();
 
@@ -267,7 +290,7 @@
             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add',
                     {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
                         'title':title,'summary':summary, 'imgUrl':imgUrl,'operationContent':operationContent,
-                        'operationId':operationId
+                        'content':content, 'operationId':operationId
                     } ,function(data){
                         if(data.status == 200){
                             var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});

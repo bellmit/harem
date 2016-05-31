@@ -292,7 +292,7 @@ public class BannerManageController extends BaseController {
             }else{
                 merchantQuery.setName(keyWord);
             }
-            PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery);
+            PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery,option);
             result.put("pageVo", page);
         }
         return new ResponseVo(result);
@@ -355,8 +355,13 @@ public class BannerManageController extends BaseController {
                     }else if(OperationType.MASTER_DETAIL == type ){//达人详情
                         String[] types = { OperationParamConstant.ITEM_TALENT };
                         vo.setParamTypes(types);
-                    }
-
+                    }else if(OperationType.MASTER_LIST == type ){//达人专题列表
+                        String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
+                        vo.setParamTypes(types);
+                    }/*else if(OperationType.JIUXIU_MASTER == type ){//达人列表
+                        String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
+                        vo.setParamTypes(types);
+                    }*/
     				break;
     			}
     		}

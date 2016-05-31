@@ -27,7 +27,6 @@ public enum OperationType {
 //    JIUXIU_FOOD("JIUXIU_FOOD","九休美食首页"),
 //    JIUXIU_BUY("JIUXIU_BUY","九休必买首页"),
     CITY_ACTIVITY_DETAIL("CITY_ACTIVITY_DETAIL","活动详情"),
-    MASTER_LIST("MASTER_LIST","达人列表"),
 //    MASTER_DETAIL("MASTER_DETAIL","达人详情"),
     FREE_TOUR_LIST("FREE_TOUR_LIST","自由行列表页"),
     AROUND_FUN_LIST("AROUND_FUN_LIST","周边玩乐列表页"),
@@ -52,8 +51,10 @@ public enum OperationType {
     SCENIC_TAG_LIST("SCENIC_TAG_LIST","景区列表"),
 
     JIUXIU_FOOD_DETAIL("JIUXIU_FOOD_DETAIL","美食店铺页"),
-    MASTER_DETAIL("MASTER_DETAIL","达人详情")
-
+    MASTER_DETAIL("MASTER_DETAIL","达人详情"),
+   /* MASTER_LIST("MASTER_LIST","达人列表"),*/
+    MASTER_LIST("MASTER_LIST","达人专题列表"),//带达人的服务描述，如，出行服务
+    JIUXIU_MASTER("JIUXIU_MASTER","达人列表")
     ;
 
 

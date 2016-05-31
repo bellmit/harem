@@ -42,6 +42,7 @@ import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.dto.CityDTO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
+import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.service.MerchantService;
 import org.apache.commons.lang3.StringUtils;
@@ -368,7 +369,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return sd;
     }
 
-    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery){
+    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption){
         com.yimayhd.user.client.result.BasePageResult<MerchantUserDTO> result = merchantService.getMerchantUserList(merchantPageQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getMerchants|merchantService.getMerchantUserList result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(merchantPageQuery));
@@ -377,14 +378,22 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(result.getList())){
             String cityName = "";
+            /*List<MerchantOption> optionList = null;*/
+             /*optionList  = MerchantOption.getContainedMerchantOptions(merchantPageQuery.getOption());*/
             for (MerchantUserDTO mu :result.getList()){
                 if(null == mu.getMerchantDO() || StringUtils.isEmpty(mu.getMerchantDO().getName())){
                    continue;
                 }
                 ShowCaseItem sc = new ShowCaseItem();
-                sc.setId(mu.getMerchantDO().getId());
-                sc.setName(mu.getMerchantDO().getName());
-                cityName = (StringUtils.isEmpty(mu.getMerchantDO().getCityName())?"":mu.getMerchantDO().getCityName());
+                if(null != merchantOption && MerchantOption.TALENT.name().equals(merchantOption.name())){
+                    sc.setId(mu.getUserDO().getId());
+                    sc.setName(mu.getUserDO().getName());
+                    cityName = (StringUtils.isEmpty(mu.getUserDO().getCity())?"":mu.getUserDO().getCity());
+                }else{
+                    sc.setId(mu.getMerchantDO().getSellerId());
+                    sc.setName(mu.getMerchantDO().getName());
+                    cityName = (StringUtils.isEmpty(mu.getMerchantDO().getCityName())?"":mu.getMerchantDO().getCityName());
+                }
                 sc.setDestination(Arrays.asList(cityName));
                 list.add(sc);
             }
