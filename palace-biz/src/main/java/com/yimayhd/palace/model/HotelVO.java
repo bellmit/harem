@@ -150,6 +150,31 @@ public class HotelVO extends HotelDO implements Serializable {
         return hotelDO;
     }
     
+    public static HotelDO getHotelDOV2(HotelVO hotelVO) throws Exception {
+        HotelDO hotelDO = hotelVO;
+        //个性化转换
+        //hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
+        long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
+        long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
+        long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
+
+        HotelFeature hotelFeature = new HotelFeature();
+        hotelFeature.setRoomFacility(roomFacility);
+        hotelFeature.setHotelService(roomService);
+        hotelFeature.setHotelFacility(hotelFacility);
+        hotelVO.setFeature(hotelFeature);
+        
+        //电话处理
+        if(StringUtils.isNotBlank(hotelVO.getPhoneNumListStr())){
+            List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));
+            hotelDO.setPhoneNum(phoneNumList);
+        }
+       
+        //列表长图片处理
+        hotelDO.setPicturesString(hotelVO.getPicturesStr());
+        return hotelDO;
+    }
+    
     public static HotelDTO getHotelDTO(HotelVO hotelVO) throws Exception {
     	
     	HotelDTO hotelDTO = new HotelDTO();

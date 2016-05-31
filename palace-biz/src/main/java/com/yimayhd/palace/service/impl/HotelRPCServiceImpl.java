@@ -95,6 +95,11 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			hotelPageQuery.setStatus(hotelListQuery.getHotelStatus());
 		}
 		
+		//酒店类型
+		if(hotelListQuery.getType() != 0){
+			hotelPageQuery.setType(hotelListQuery.getType());
+		}
+		
 		//区域-省
 		if(hotelListQuery.getLocationProvinceId() != 0){
 			hotelPageQuery.setLocationProvinceId(hotelListQuery.getLocationProvinceId());
@@ -192,7 +197,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 
 		ICResult<HotelVO> result = new ICResult<HotelVO>();
 
-		HotelDO hotelDO = HotelVO.getHotelDO(hotelVO);
+		HotelDO hotelDO = HotelVO.getHotelDOV2(hotelVO);
 		ICResult<HotelDO> icResult = hotelServiceRef.addHotel(hotelDO);
 		if(icResult == null){
 			log.error("HotelRPCServiceImpl.addHotel-hotelService.addHotel result is null and parame: " + JSON.toJSONString(hotelDO));

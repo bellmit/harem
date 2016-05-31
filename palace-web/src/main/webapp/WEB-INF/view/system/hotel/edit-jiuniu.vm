@@ -131,8 +131,8 @@
                 	<td><span class="spColor">*</span>酒店类型</td>
                     <td>
                     	
-                    	<input type="radio" name="type" value="1" #if($!hotel.type == 1) checked #end /> 客栈
-                    	<input type="radio" name="type" value="2" #if($!hotel.type == 2) checked #end/>景区
+                    	<input type="radio" name="type" value="1" #if($!hotel.type == 1) checked #end />酒店
+                    	<input type="radio" name="type" value="2" #if($!hotel.type == 2) checked #end/>客栈
                     	
                     </td>
                 </tr>
