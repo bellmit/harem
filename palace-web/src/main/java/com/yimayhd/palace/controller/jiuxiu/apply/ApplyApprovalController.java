@@ -88,13 +88,14 @@ public class ApplyApprovalController extends BaseController {
         if (!checkResult.isSuccess()) {
             return checkResult;
         }
-        // 如果审核通过,此处不做任何处理,将reason返回页面存入hidden控件,待商品类目分配完成后集中更新申请状态,新增申请明细,新增商户,新增商户与商品类目关系,发送短信
-        if (approveVO.isPass()) {
+        MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(approveVO.getId());
+        int type = examineInfoDTOResult.getValue().getType();
+        // 如果审核通过并且身份是商户,此处不做任何处理,待商品类目分配完成后集中更新申请状态,新增申请明细,新增商户,新增商户与商品类目关系,发送短信
+        if (approveVO.isPass() && type == 2) {
             checkResult = new BizResultSupport();
-            checkResult.setCode(Constant.ROUTE_ALLOCATIE_FORM);
-            checkResult.setMsg(approveVO.getReason());
             return checkResult;
         }
+        // 驳回,身份为达人进行直接执行1期的审批驳回动作
         long userId = sessionManager.getUserId();
         BizResultSupport result = applyBiz.approve(approveVO, userId);
         return result;
@@ -221,8 +222,7 @@ public class ApplyApprovalController extends BaseController {
         // 找到商户的经营范围
         BusinessScopeDO businessScopeDOQuery = new BusinessScopeDO();
         businessScopeDOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-        businessScopeDOQuery.setIdList(scopeIds);
-        MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(businessScopeDOQuery);
+        MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(businessScopeDOQuery, scopeIds);
         long[] businessScopeIds = new long[businessScopeMemResult.getValue().size()];
         Map<String, List<CategoryVO>> result = new LinkedHashMap<>();
         for (int i = 0; i < businessScopeMemResult.getValue().size(); i++) {
@@ -257,6 +257,7 @@ public class ApplyApprovalController extends BaseController {
                 }
             }
         }
+        model.addAttribute("examineId", id);
         model.addAttribute("scopeCategories", result);
         return "/system/apply/allocation";
     }
@@ -275,7 +276,12 @@ public class ApplyApprovalController extends BaseController {
         if (!bizResultSupport.isSuccess()) {
             return bizResultSupport;
         }
-        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(1200, allocationVO.getExamineId(), allocationVO.getCategoryIds());
+        String[] array = allocationVO.getCategoryIds().split(",");
+        long[] categoryIds = new long[array.length];
+        for (int i = 0; i < array.length; i++) {
+            categoryIds[i] = Long.parseLong(array[i]);
+        }
+        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(1200, allocationVO.getExamineId(), categoryIds);
         if (!memResultSupport.isSuccess()) {
             bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MERCHANT_BIND_FAILED);
             return bizResultSupport;
