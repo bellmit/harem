@@ -105,6 +105,7 @@ public class ItemConverter {
 		// 景区信息
 		ScenicDO scenicDO =  itemInfo.getScenicDO();
 		if(scenicDO!=null){
+			itemVO.setPicture(scenicDO.getLogoUrl());
 			itemInfoVo.setScenicVO(new ScenicVO().setName(scenicDO.getName()));
 		}
 		itemInfoVo.setItemVO(itemVO);
