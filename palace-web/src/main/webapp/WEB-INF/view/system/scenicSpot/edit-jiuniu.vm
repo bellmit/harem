@@ -55,7 +55,7 @@
                         		#set($scenicVOId=$VO.scenicVO.id)
                         	#end
                         	<input type="hidden" id="scenicId" name="scenicVO.id" value="$!{scenicVOId}">
-                            <input type="text" class="inpCtlBlock" name="scenicVO.name" 
+                            <input type="text" class="inpCtlBlock scenicName" name="scenicVO.name" 
                             	#if($VO.scenicVO.id)
                             		disabled="disabled" 
                             	#end
@@ -421,7 +421,7 @@
                 }else{
                     layer.alert('上传失败');
                 }
-            });
+            }, 500);
         });
     }
     
@@ -557,6 +557,27 @@
                 return false;
             }
         });
+        
+        $.validator.addMethod("scenicName",function(value,element){
+        	if(!value.trim()){
+        		return false;
+        	}
+        	return true;
+        }, "不能为空");
+        
+        $.validator.addMethod("locationText",function(value,element){
+        	if(!value.trim()){
+        		return false;
+        	}
+        	return true;
+        }, "不能为空");
+        
+        $.validator.addMethod("openTime",function(value,element){
+        	if(!value.trim()){
+        		return false;
+        	}
+        	return true;
+        }, "不能为空");
         
         $.validator.addMethod("locationX",function(value,element){
         	var lngRe=/^[-]?(\d|([1-9]\d)|(1[0-7]\d)|(180))(\.\d*)?$/g;

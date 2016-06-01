@@ -89,7 +89,9 @@
                             <p style="padding-left:10px;">$!scenic.name</p>
                             <p style="padding-left:10px;">商品编码:$!scenic.id</p>
                         </td>
-                        <td>$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}</td>
+                        <td>
+                        	$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}
+                        </td>
                         <td> 
                         	$utilDate.dateToString(${scenic.gmtModified},'yyyy-MM-dd HH:mm:ss')
                         </td>
@@ -105,6 +107,7 @@
                         		<button type="button" class="btn btn-primary disableStatus"  scenicId="$scenic.id">停用  </button>
                         	*#
                         #end
+                       <button type="button" class="btn btn-primary itemList" scenicId="$scenic.id">查看商品</button>
                         </td>
                     </tr>
                     #end
@@ -164,11 +167,10 @@
                     }
                     provinceFlag = true;
                     
-                    if(selectedCityId){
-			    		$("#provinceId").change();
-			    	}
+			    	$("#provinceId").change();
+			    	
                 } else {
-                    layer.alert('操作失败', {
+                    layer.msg('操作失败', {
                         icon: 2,
                         time: 2000
                     }, function() {
@@ -257,6 +259,10 @@
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuniu/scenicSpotManage/edit/'+ $(this).attr('scenicId');
                 top.tabsAdd("",url,2,$(this).text());
                 //window.openwin(url);
+        });
+        $('.itemList').click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuniu/item/list?outType=2&outId='+ $(this).attr('scenicId');
+                top.tabsAdd("",url,2,"商品列表");
         });
 
         $('.enableStatus').click(function(){

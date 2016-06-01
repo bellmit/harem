@@ -164,11 +164,9 @@
 			    		$("#provinceId").change();
 			    	}
                 } else {
-                    layer.alert('操作失败', {
+                    layer.msg('操作失败', {
                         icon: 2,
                         time: 2000
-                    }, function() {
-
                     });
                 }
         	}
@@ -259,7 +257,7 @@
         });
         $('.itemList').each(function(){
             $(this).click(function(){
-                var url = actionDefaultPath + '/B2C/commodityManage/list?outType=1&outId='+ $(this).attr('hotelId');
+                var url = actionDefaultPath + '/jiuniu/item/list?outType=1&outId='+ $(this).attr('hotelId');
                 top.tabsAdd("",url,2,"商品列表");
             });
 
