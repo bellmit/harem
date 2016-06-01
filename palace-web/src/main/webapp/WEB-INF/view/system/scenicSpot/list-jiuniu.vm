@@ -107,6 +107,7 @@
                         		<button type="button" class="btn btn-primary disableStatus"  scenicId="$scenic.id">停用  </button>
                         	*#
                         #end
+                       <button type="button" class="btn btn-primary itemList" scenicId="$scenic.id">查看商品</button>
                         </td>
                     </tr>
                     #end
@@ -258,6 +259,10 @@
                 var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuniu/scenicSpotManage/edit/'+ $(this).attr('scenicId');
                 top.tabsAdd("",url,2,$(this).text());
                 //window.openwin(url);
+        });
+        $('.itemList').click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuniu/item/list?outType=2&outId='+ $(this).attr('scenicId');
+                top.tabsAdd("",url,2,"商品列表");
         });
 
         $('.enableStatus').click(function(){

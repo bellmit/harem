@@ -257,7 +257,7 @@
         });
         $('.itemList').each(function(){
             $(this).click(function(){
-                var url = actionDefaultPath + '/B2C/commodityManage/list?outType=1&outId='+ $(this).attr('hotelId');
+                var url = actionDefaultPath + '/jiuniu/item/list?outType=1&outId='+ $(this).attr('hotelId');
                 top.tabsAdd("",url,2,"商品列表");
             });
 
