@@ -5,6 +5,7 @@ import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.ScopeItemCategoryDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
@@ -24,6 +25,7 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.controller.vo.BusinessScopeVO;
 import com.yimayhd.palace.controller.vo.MerchantCategoryVO;
 import com.yimayhd.palace.error.PalaceReturnCode;
+import com.yimayhd.palace.model.CategoryVO;
 import com.yimayhd.palace.model.query.apply.ApplyQuery;
 import com.yimayhd.palace.model.vo.apply.AllocationVO;
 import com.yimayhd.palace.model.vo.apply.ApplyVO;
@@ -38,7 +40,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/jiuxiu/apply")
@@ -101,14 +106,11 @@ public class ApplyApprovalController extends BaseController {
             MemResult<ExamineInfoDTO> result = examineDealServiceRef.queryMerchantExamineInfoById(id);
             if (result.isSuccess() && null != result.getValue()) {
                 model.addAttribute("examineInfo", result.getValue());
-                MemResult<List<MerchantScopeDO>> scopeResult = applyService.getMerchantScopeBySellerId(result.getValue().getSellerId(), Constant.DOMAIN_JIUXIU);
-                if (scopeResult.isSuccess() && null != scopeResult.getValue() && !scopeResult.getValue().isEmpty()) {
-                    List<MerchantScopeDO> merchantScopeDOs = scopeResult.getValue();
-                    List<Long> ids = new ArrayList<>();
-                    for (MerchantScopeDO merchantScopeDO : merchantScopeDOs) {
-                        ids.add(merchantScopeDO.getBusinessScopeId());
-                    }
-                    MemResult<List<BusinessScopeDO>> businessScopeResult = applyService.getBusinessScopesByIds(Constant.DOMAIN_JIUXIU, ids);
+                MerchantScopeDO merchantScopeDOQuery = new MerchantScopeDO();
+                merchantScopeDOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+                merchantScopeDOQuery.setSellerId(result.getValue().getSellerId());
+                MemResult<List<BusinessScopeDO>> businessScopeResult = applyService.getBusinessScopesBySellerId(merchantScopeDOQuery);
+                if (businessScopeResult != null && businessScopeResult.isSuccess() && !businessScopeResult.getValue().isEmpty()) {
                     List<BusinessScopeVO> businessScopeVOs = new ArrayList<>();
                     for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
                         BusinessScopeVO vo = new BusinessScopeVO();
@@ -121,21 +123,24 @@ public class ApplyApprovalController extends BaseController {
                     model.addAttribute("scope", businessScopeVOs);
                 }
 //                MemResult<MerchantCategoryDO> merchantCategoryResult = applyService.getMerchantCategory(Constant.DOMAIN_JIUXIU, result.getValue().getMerchantCategoryId());
-                MemResult<MerchantCategoryDO> merchantCategoryResult = applyService.getMerchantCategory(Constant.DOMAIN_JIUXIU, 12l);
-                if (null != merchantCategoryResult && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null) {
-                    MerchantCategoryDO merchantCategoryDO = merchantCategoryResult.getValue();
+                MerchantCategoryDO merchantCategoryDOQuery = new MerchantCategoryDO();
+                merchantCategoryDOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+                merchantCategoryDOQuery.setId(12l);
+                MemResult<List<MerchantCategoryDO>> merchantCategoryResult = applyService.getMerchantCategory(merchantCategoryDOQuery);
+                if (null != merchantCategoryResult && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null && !merchantCategoryResult.getValue().isEmpty()) {
+                    MerchantCategoryDO merchantCategoryDO = merchantCategoryResult.getValue().get(0);
                     long parentId = merchantCategoryDO.getParentId();
                     StringBuilder builder = new StringBuilder();
                     List<String> names = new ArrayList<>();
                     while (parentId > 0) {
-                        MemResult<MerchantCategoryDO> temp = applyService.getMerchantCategory(Constant.DOMAIN_JIUXIU, parentId);
-                        if (!temp.isSuccess() && null == temp.getValue()) {
-                            break;
+                        merchantCategoryDOQuery.setId(parentId);
+                        MemResult<List<MerchantCategoryDO>> temp = applyService.getMerchantCategory(merchantCategoryDOQuery);
+                        if (temp.isSuccess() && temp != null && temp.getValue() != null && !temp.getValue().isEmpty()) {
+                            names.add(temp.getValue().get(0).getName());
+                            parentId = temp.getValue().get(0).getParentId();
                         }
-                        names.add(temp.getValue().getName());
-                        parentId = temp.getValue().getParentId();
                     }
-                    for(int i = names.size() - 1;i >= 0;i--) {
+                    for (int i = names.size() - 1; i >= 0; i--) {
                         builder.append(names.get(i)).append(" ");
                     }
                     builder.append(merchantCategoryDO.getName());
@@ -151,6 +156,50 @@ public class ApplyApprovalController extends BaseController {
                 model.addAttribute("feature", "直营店");
                 model.addAttribute("type", result.getValue().getType());
                 model.addAttribute("status", result.getValue().getExaminStatus());
+
+                // 根据sellerId查询商家的商品类目
+                MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesByExamineId(Constant.DOMAIN_JIUXIU, id);
+                Map<String, List<CategoryVO>> itemCategoryMap = new LinkedHashMap<>();
+                if (merchantItemCategoryResult != null && merchantItemCategoryResult.isSuccess() && !merchantItemCategoryResult.getValue().isEmpty()) {
+
+                    // 加载商品类目id
+                    long[] categoryIds = new long[merchantItemCategoryResult.getValue().size()];
+                    List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryResult.getValue();
+                    for (int i = 0; i < merchantItemCategoryDOs.size(); i++) {
+                        categoryIds[i] = merchantItemCategoryDOs.get(i).getItemCategoryId();
+                    }
+
+
+//                    for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
+//                        if(!itemCategoryMap.containsKey(businessScopeDO.getName())) {
+//                            itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
+//                        }
+//                    }
+
+                    MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryResult = scopeItemCategoryService.findScopeItemCategoriesByCategory(Constant.DOMAIN_JIUXIU, categoryIds);
+                    outer:
+                    for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryResult.getValue()) {
+                        List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
+                        List<CategoryVO> categoryVOs = new ArrayList<>();
+                        for (CategoryDO categoryDO : categoryDOs) {
+                            CategoryVO vo = new CategoryVO();
+                            vo.setName(categoryDO.getName());
+                            categoryVOs.add(vo);
+                        }
+                        for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
+                            if (!itemCategoryMap.containsKey(businessScopeDO.getName())) {
+                                itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
+                            }
+                            if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
+                                itemCategoryMap.get(businessScopeDO.getName()).addAll(categoryVOs);
+                                continue outer;
+                            }
+                        }
+                    }
+                    model.addAttribute("itemCategory", itemCategoryMap);
+                }
+
+
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -170,14 +219,17 @@ public class ApplyApprovalController extends BaseController {
         List<Long> scopeIds = new ArrayList<>();
         scopeIds.add(1L);
         // 找到商户的经营范围
-        MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(Constant.DOMAIN_JIUXIU, scopeIds);
+        BusinessScopeDO businessScopeDOQuery = new BusinessScopeDO();
+        businessScopeDOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+        businessScopeDOQuery.setIdList(scopeIds);
+        MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(businessScopeDOQuery);
         long[] businessScopeIds = new long[businessScopeMemResult.getValue().size()];
-        Map<String, List<CategoryDO>> result = new LinkedHashMap<>();
+        Map<String, List<CategoryVO>> result = new LinkedHashMap<>();
         for (int i = 0; i < businessScopeMemResult.getValue().size(); i++) {
             businessScopeIds[i] = businessScopeMemResult.getValue().get(i).getId();
-            if (!result.containsKey(businessScopeMemResult.getValue().get(i).getName())) {
-                result.put(businessScopeMemResult.getValue().get(i).getName(), new ArrayList<CategoryDO>());
-            }
+//            if (!result.containsKey(businessScopeMemResult.getValue().get(i).getName())) {
+//                result.put(businessScopeMemResult.getValue().get(i).getName(), new ArrayList<CategoryDO>());
+//            }
         }
         MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(1200, businessScopeIds);
         if (scopeItemCategoryMemResult.getValue().isEmpty()) {
@@ -186,9 +238,21 @@ public class ApplyApprovalController extends BaseController {
         outer:
         for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryMemResult.getValue()) {
             List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
+            List<CategoryVO> categoryVOs = new ArrayList<>();
+            for (CategoryDO categoryDO : categoryDOs) {
+                CategoryVO vo = new CategoryVO();
+                vo.setId(categoryDO.getId());
+                vo.setName(categoryDO.getName());
+                vo.setParentId(categoryDO.getParent().getId());
+                vo.setStatus(categoryDO.getStatus());
+                categoryVOs.add(vo);
+            }
             for (BusinessScopeDO businessScopeDO : businessScopeMemResult.getValue()) {
+                if (!result.containsKey(businessScopeDO.getName())) {
+                    result.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
+                }
                 if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
-                    result.get(businessScopeDO.getName()).addAll(categoryDOs);
+                    result.get(businessScopeDO.getName()).addAll(categoryVOs);
                     break outer;
                 }
             }
@@ -211,7 +275,7 @@ public class ApplyApprovalController extends BaseController {
         if (!bizResultSupport.isSuccess()) {
             return bizResultSupport;
         }
-        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategoriesByMerchant(1200, allocationVO.getExamineId(), allocationVO.getCategoryIds());
+        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(1200, allocationVO.getExamineId(), allocationVO.getCategoryIds());
         if (!memResultSupport.isSuccess()) {
             bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MERCHANT_BIND_FAILED);
             return bizResultSupport;

@@ -83,16 +83,15 @@ public class ItemConverter {
 			icMerchantVO.setMerchantName(icMerchantInfo.getMerchantName());
 			icMerchantVO.setMerchantLogo(icMerchantInfo.getMerchantLogo());
 		}
-
 		ItemInfoVO itemInfoVo = new ItemInfoVO();
-		itemInfoVo.setItemVO(itemVO);
-		itemInfoVo.setIcMerchantVO(icMerchantVO);
+
 
 		//酒店信息
 		HotelDO hotelDO= itemInfo.getHotelDO();
 		RoomDO roomDO= itemInfo.getRoomDO();
 		TicketDO ticketDO= itemInfo.getTicketDO();
 		if(hotelDO!=null){
+			itemVO.setPicture(hotelDO.getLogoUrl());
 			itemInfoVo.setHotelVO(new HotelVO().setName(hotelDO.getName()));
 		}
 		//房间型号
@@ -106,9 +105,11 @@ public class ItemConverter {
 		// 景区信息
 		ScenicDO scenicDO =  itemInfo.getScenicDO();
 		if(scenicDO!=null){
+			itemVO.setPicture(scenicDO.getLogoUrl());
 			itemInfoVo.setScenicVO(new ScenicVO().setName(scenicDO.getName()));
 		}
-		
+		itemInfoVo.setItemVO(itemVO);
+		itemInfoVo.setIcMerchantVO(icMerchantVO);
 		return itemInfoVo;
 	}
 }
