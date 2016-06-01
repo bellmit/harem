@@ -89,7 +89,9 @@
                             <p style="padding-left:10px;">$!scenic.name</p>
                             <p style="padding-left:10px;">商品编码:$!scenic.id</p>
                         </td>
-                        <td>$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}</td>
+                        <td>
+                        	$!{scenic.locationProvinceName} $!{scenic.locationCityName} $!{scenic.locationTownName}
+                        </td>
                         <td> 
                         	$utilDate.dateToString(${scenic.gmtModified},'yyyy-MM-dd HH:mm:ss')
                         </td>
@@ -164,11 +166,10 @@
                     }
                     provinceFlag = true;
                     
-                    if(selectedCityId){
-			    		$("#provinceId").change();
-			    	}
+			    	$("#provinceId").change();
+			    	
                 } else {
-                    layer.alert('操作失败', {
+                    layer.msg('操作失败', {
                         icon: 2,
                         time: 2000
                     }, function() {

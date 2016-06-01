@@ -164,11 +164,9 @@
 			    		$("#provinceId").change();
 			    	}
                 } else {
-                    layer.alert('操作失败', {
+                    layer.msg('操作失败', {
                         icon: 2,
                         time: 2000
-                    }, function() {
-
                     });
                 }
         	}

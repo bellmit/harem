@@ -155,7 +155,7 @@
 	
     //验证
     var validate = function(){
-        if(!$('.name').val()){
+        if(!$('.name').val() || !$('.name').val().trim()){
             return '房型名称不能为空';
         }else if($('.name').val().length > 20){
             return '房型名称不能超过20个字';

@@ -88,7 +88,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		
 		//酒店名称
 		if (!StringUtils.isBlank(hotelListQuery.getName())) {
-			hotelPageQuery.setTags(hotelListQuery.getName());			
+			hotelPageQuery.setTags(hotelListQuery.getName().trim());			
 		}
 		
 		//酒店状态

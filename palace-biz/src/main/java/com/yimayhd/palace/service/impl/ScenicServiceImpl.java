@@ -90,7 +90,7 @@ public class ScenicServiceImpl implements ScenicService {
 		}
 		//景区名称
 		if (!StringUtils.isBlank(scenicListQuery.getName())) {
-			pageQuery.setName(scenicListQuery.getName());			
+			pageQuery.setName(scenicListQuery.getName().trim());			
 		}
 		//景区状态
 		if (scenicListQuery.getStatus() != null) {			
