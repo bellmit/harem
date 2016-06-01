@@ -19,6 +19,8 @@ public class ItemListQuery extends BaseQuery {
 	private Date BeginDate;// 发布开始时间
 	private Date endDate;// 发布结束时间
 	private String merchantName; //店铺名称
+	private Long outId;//外部id
+	private Integer outType;//外部类型 参考 ResourceType
 
 	public String getMerchantName() {
 		return merchantName;
@@ -74,5 +76,23 @@ public class ItemListQuery extends BaseQuery {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Long getOutId() {
+		return outId;
+	}
+
+	public ItemListQuery setOutId(Long outId) {
+		this.outId = outId;
+		return this;
+	}
+
+	public Integer getOutType() {
+		return outType;
+	}
+
+	public ItemListQuery setOutType(Integer outType) {
+		this.outType = outType;
+		return this;
 	}
 }
