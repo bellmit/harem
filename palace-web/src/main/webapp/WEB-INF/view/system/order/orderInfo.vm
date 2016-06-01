@@ -22,7 +22,8 @@
     <div class="orderState">
         <div>
 			<span class="lType">订单状态：<span>
-	            #if($order.bizOrder.orderType == 3100 || $order.bizOrder.orderType == 3200 || $order.bizOrder.orderType == 3300 || $order.bizOrder.orderType == 200)
+	            #if($order.bizOrder.orderType == 3100 || $order.bizOrder.orderType == 3200 || $order.bizOrder.orderType == 3300 || $order.bizOrder.orderType == 200 
+	            || $order.bizOrder.orderType == 3500 || $order.bizOrder.orderType == 3600)
 		            #if($order.bizOrder.orderStatus == 2)
 		                <span>
 		                   	 待付款；
@@ -340,7 +341,8 @@
                                 <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                             </div>
                             <div class="t-msg">
-                            	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200)
+                            	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200 
+                            	|| $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
                                    	<div class="t-name">$!subOrder.itemTitle</div>
                                     <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
                                     <div class="t-userType">$!subOrder.itemSubTitle</div>
@@ -381,7 +383,8 @@
                     <td>
                         <div class="">
                             #if($!subOrder.bizOrder.orderType == 3100 || $!subOrder.bizOrder.orderType == 3200 
-                             	|| $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200)
+                             	|| $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200 
+                             	|| $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
                             	    #if($subOrder.bizOrder.orderStatus == 2)
                                   		待付款
                                     #elseif($subOrder.bizOrder.orderStatus == 3)

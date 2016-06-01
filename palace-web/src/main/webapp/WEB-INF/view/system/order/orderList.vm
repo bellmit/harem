@@ -12,11 +12,13 @@
                     </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="itemType" id="itemType">
                     <option value="">全部</option>
-                    <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>跟团游</option>
-                    <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>自由行</option>
+                    <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>国内跟团游</option>
+                    <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>国内自由行</option>
+                    <option value="3500" #if($!orderListQuery.itemType == 3500) selected #end>境外跟团游</option>
+                    <option value="3600" #if($!orderListQuery.itemType == 3600) selected #end>境外自由行</option>
+                    <option value="1100" #if($!orderListQuery.itemType == 1100) selected #end>酒店客栈</option>
+                    <option value="1200" #if($!orderListQuery.itemType == 1200) selected #end>国内景区门票</option>
                     <option value="3300" #if($!orderListQuery.itemType == 3300) selected #end>同城活动</option>
-                    <option value="1200" #if($!orderListQuery.itemType == 1200) selected #end>景区门票</option>
-                    <option value="1100" #if($!orderListQuery.itemType == 1100) selected #end>酒店</option>
                     <option value="200" #if($!orderListQuery.itemType == 200) selected #end>特产商品</option>
                 </select>
             </div>
@@ -127,7 +129,8 @@
                                         <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                                     </div>
                                     <div class="t-msg">
-                                    	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200)
+                                    	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200
+                                    	 || $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
                                            	<div class="t-name">$!subOrder.itemTitle</div>
                                             <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
                                             <div class="t-userType">$!subOrder.itemSubTitle</div>
@@ -170,19 +173,23 @@
                             <td>
                             	<div class="">
 	                                #if( $!order.jiuxiuTcBizOrder.orderType == 3100)
-	                                    跟团游
+	                                    国内跟团游
 	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 3200)
-	                                    自由行
+	                                    国内自由行
+                                     #elseif( $!order.jiuxiuTcBizOrder.orderType == 3500)
+	                                   境外跟团游
+                                     #elseif( $!order.jiuxiuTcBizOrder.orderType == 3600)
+	                                   境外自由行
 	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 3300)
 	                                    同城活动
 	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 200)
 	                                    特产商品
 	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 1200)
-	                                    景区门票
+	                                    国内景区门票
                                     #elseif( $!order.jiuxiuTcBizOrder.orderType == 1200)
-	                                    酒店（在线付）
+	                                    酒店客栈（在线付）
                                     #elseif( $!order.jiuxiuTcBizOrder.orderType == 3400)
-	                                    酒店（到店付）
+	                                    酒店客栈（到店付）
 	                                #end
 	                            </div>
                         #end
@@ -205,8 +212,9 @@
                         <td>
                             <div class="">
                                 
-                                #if($!order.jiuxiuTcBizOrder.orderType == 3100 || $!order.jiuxiuTcBizOrder.orderType == 3200 
-	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3300 || $!order.jiuxiuTcBizOrder.orderType == 200)
+                                #if($!order.jiuxiuTcBizOrder.orderType == 3100 || $!order.jiuxiuTcBizOrder.orderType == 3200  
+	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3300 || $!order.jiuxiuTcBizOrder.orderType == 200 
+	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3500 || $!order.jiuxiuTcBizOrder.orderType == 3600)
                                 	    #if($!order.jiuxiuTcBizOrder.orderStatus == 2)
                                       		待付款
                                         #elseif($!order.jiuxiuTcBizOrder.orderStatus == 3)
