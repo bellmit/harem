@@ -237,7 +237,7 @@
 				var endNum = parseInt(endDate.replace(/-/g,''),10); 
 				
 				if(startNum>endNum){ 
-					layer.msg("创建时间：开始时间不能大于结束时间！", {
+					layer.msg("更新时间：开始时间不能大于结束时间！", {
 	                    icon: 2,
 	                    time: 1500
 	                });

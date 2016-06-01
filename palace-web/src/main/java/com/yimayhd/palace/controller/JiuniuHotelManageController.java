@@ -25,6 +25,7 @@ import com.yimayhd.ic.client.model.enums.RoomNetwork;
 import com.yimayhd.ic.client.model.enums.RoomWindow;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.AreaService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
@@ -68,6 +69,8 @@ public class JiuniuHotelManageController extends BaseController {
 	private TcCacheManager	tcCacheManager;
 	@Autowired
 	private SessionManager sessionManager;
+	@Autowired
+    private ItemQueryService itemQueryServiceRef;
 
 	/**
 	 * 酒店（资源）列表
@@ -383,7 +386,15 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/roomList/{hotelId}", method = RequestMethod.GET)
 	public String roomList(Model model, @PathVariable(value = "hotelId") long hotelId) throws Exception {
-				
+		//获取酒店资源
+		ICResult<HotelDO> icResultDB = itemQueryServiceRef.getHotel(hotelId);
+		if(icResultDB != null){
+			HotelDO hotelDO = icResultDB.getModule();
+			if(hotelDO != null){
+				model.addAttribute("hotelName", hotelDO.getName());
+			}
+		}
+		
 		ICResult<List<RoomDO>> result = hotelRPCService.queryAllRoom(hotelId);
 		if(result != null){
 			model.addAttribute("roomList", result.getModule());

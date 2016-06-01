@@ -60,6 +60,10 @@ public class ScenicVO extends ScenicDO {
     		
     		scenicDO.setScenicFeature(scenicFeature);
         }
+        
+        //处理经纬度
+        scenicDO.setLatitude(scenicVO.getLocationY());
+        scenicDO.setLongitude(scenicVO.getLocationX());
 
         return scenicDO;
     }

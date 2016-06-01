@@ -105,14 +105,14 @@
             <tr>
             	<td>楼层</td>
                 <td>
-                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor">
+                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor" placeholder="“12”或“2-13” ，最多8个字符" />
                 </td>
             </tr>
             <tr>
             	<td>最大可住人数</td>
                 <td>
 		            <select class="form-control people" name="people">
-	                    <option value="0"  >全部</option>
+	                    <option value="0"  >请选择</option>
 	                    <option value="1" #if($!room.people == 1) selected="selected" #end >1</option>
 	                    <option value="2" #if($!room.people == 2) selected="selected" #end >2</option>
 	                    <option value="3" #if($!room.people == 3) selected="selected" #end >3</option>
@@ -156,23 +156,35 @@
     //验证
     var validate = function(){
         if(!$('.name').val()){
-            return '酒店名称不能为空';
+            return '房型名称不能为空';
         }else if($('.name').val().length > 20){
-            return '酒店名称不能超过20个字';
+            return '房型名称不能超过20个字';
         }
         if(!$('.bed').val()){
             return '床型不能为空';
         }
-        if(!$('.area').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.area').val())){
+        if(!$('.area').val()){
+            return '面积不能为空';
+        }
+        if(!/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.area').val())){
             return '面积格式不正确';
         }
-        
         var networks = $(".network:checked");
         if(networks.length == 0){
             return '请选择网络';
         }
         if(networks.length > 2){
             return '网络最多选择两个';
+        }
+        
+        var floor = $('.floor').val();
+        if(floor){
+        	if(floor.length > 8){
+	            return '楼层最多输入8个字符';
+	        }
+	        if(!/^[-]?([1-9]+)[-]?([1-9]+)$/.test(floor)){
+	            return '楼层格式不正确';
+	        }
         }
         if($('.roomPicWrap').length <= 0){
             return '请上传房型图片';

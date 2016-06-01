@@ -172,6 +172,11 @@ public class HotelVO extends HotelDO implements Serializable {
        
         //列表长图片处理
         hotelDO.setPicturesString(hotelVO.getPicturesStr());
+        
+        //处理经纬度
+        hotelDO.setLatitude(hotelVO.getLocationY());
+        hotelDO.setLongitude(hotelVO.getLocationX());
+        
         return hotelDO;
     }
     
@@ -179,6 +184,9 @@ public class HotelVO extends HotelDO implements Serializable {
     	
     	HotelDTO hotelDTO = new HotelDTO();
     	BeanUtils.copyProperties(hotelVO, hotelDTO);
+    	
+    	hotelDTO.setLatitude(hotelVO.getLocationY());
+        hotelDTO.setLongitude(hotelVO.getLocationX());
     	
     	long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
         long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
