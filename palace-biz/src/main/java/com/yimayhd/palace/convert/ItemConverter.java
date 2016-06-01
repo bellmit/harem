@@ -48,8 +48,12 @@ public class ItemConverter {
 		itemQryDTO.setPageNo(query.getPageNumber());
 		itemQryDTO.setPageSize(query.getPageSize());
 		itemQryDTO.setMerchantName(query.getMerchantName());
-		itemQryDTO.setOutId(query.getOutId());
-		itemQryDTO.setOutType(query.getOutType());
+		if(query.getOutId()!=null) {
+			itemQryDTO.setOutId(query.getOutId());
+		}
+		if(query.getOutType()!=null) {
+			itemQryDTO.setOutType(query.getOutType());
+		}
 		return itemQryDTO;
 	}
 
