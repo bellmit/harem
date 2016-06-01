@@ -261,7 +261,7 @@
                 //window.openwin(url);
         });
         $('.itemList').click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuniu/item/list?outType=2&outId='+ $(this).attr('scenicId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuxiu/item/list?outType=2&outId='+ $(this).attr('scenicId');
                 top.tabsAdd("",url,2,"商品列表");
         });
 
