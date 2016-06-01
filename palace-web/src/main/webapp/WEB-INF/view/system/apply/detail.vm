@@ -225,42 +225,29 @@
             </td>
         </tr>
         <!-----------------这块内容在审核通过后查看详情才有start----------------------->
+        #if($itemCategory)
         <tr>
             <td>商家商品类目：</td>
             <td>
                 <div class="borderbox">
                     <table class="table table-inner">
                         <tbody>
-                        <tr>
-                            <td>度假线路 国内游：</td>
-                            <td class="tdlab">
-                                <label>国内当地玩乐</label>
-                                <label>国内自由行</label>
-                                <label>国内跟团游</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>度假线路 出境游：</td>
-                            <td class="tdlab">
-                                <label>境外当地玩乐</label>
-                                <label>境外自由行</label>
-                                <label>境外跟团游</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>酒店：</td>
-                            <td class="tdlab">
-                                <label>酒店客栈</label>
-                            </td>
-                        </tr>
+                            #foreach($key in $itemCategory.keySet())
+                                <tr>
+                                    <td>
+                                        $key
+                                    </td>
+                                    <td class="tdlab">
+                                        $!itemCategory.get($key)
+                                    </td>
+                                </tr>
+                            #end
                         </tbody>
                     </table>
-                    <div class="btn-box">
-                        <button type="button" class="btn btn-primary">编辑商品类目</button>
-                    </div>
                 </div>
             </td>
         </tr>
+        #end
         <!-----------------这块内容在审核通过后查看详情才有end----------------------->
         </tbody>
     </table>
