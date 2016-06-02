@@ -30,7 +30,7 @@ public class ItemConverter {
 			return null;
 		}
 		ItemQryDTO itemQryDTO = new ItemQryDTO();
-		itemQryDTO.setName(query.getName());
+		itemQryDTO.setName(query.getName()!=null? query.getName().trim():query.getName());
 		if (query.getItemId() != null) {
 			itemQryDTO.setId(query.getItemId());
 		}
@@ -47,7 +47,9 @@ public class ItemConverter {
 		itemQryDTO.setEndDate(query.getEndDate());
 		itemQryDTO.setPageNo(query.getPageNumber());
 		itemQryDTO.setPageSize(query.getPageSize());
-		itemQryDTO.setMerchantName(query.getMerchantName());
+		if(query.getMerchantName()!=null) {
+			itemQryDTO.setMerchantName(query.getMerchantName()!=null? query.getMerchantName().trim():query.getMerchantName());
+		}
 		if(query.getOutId()!=null) {
 			itemQryDTO.setOutId(query.getOutId());
 		}

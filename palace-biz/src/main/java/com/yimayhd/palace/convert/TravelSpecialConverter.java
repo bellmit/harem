@@ -14,14 +14,17 @@ public class TravelSpecialConverter {
 
 	public static List<SnsTravelSpecialtyVO> TravelSpecialtyDOToVoConveter(List<SnsTravelSpecialtyDO> specialDoList,Map<Long, UserDO> map){
 		List<SnsTravelSpecialtyVO> list = new ArrayList<SnsTravelSpecialtyVO>();
-		if(CollectionUtils.isEmpty(specialDoList) || map == null || map.size() == 0){
+		//if(CollectionUtils.isEmpty(specialDoList) || map == null || map.size() == 0){
+		if (CollectionUtils.isEmpty(specialDoList)) {
 			return list;
 		}
 		for(SnsTravelSpecialtyDO snsTravelSpecialtyDO : specialDoList){
 			SnsTravelSpecialtyVO specialtyVO = TravelSpecialConverter.getBySpecialtyDO(snsTravelSpecialtyDO);
-			UserDO userDO = map.get(snsTravelSpecialtyDO.getCreateId());
-			if( null != userDO ){
-				specialtyVO.setNickName(map.get(snsTravelSpecialtyDO.getCreateId()).getNickname());
+			if(map!=null) {
+				UserDO userDO = map.get(snsTravelSpecialtyDO.getCreateId());
+				if (null != userDO) {
+					specialtyVO.setNickName(map.get(snsTravelSpecialtyDO.getCreateId()).getNickname());
+				}
 			}
 			list.add(specialtyVO);
 		}
