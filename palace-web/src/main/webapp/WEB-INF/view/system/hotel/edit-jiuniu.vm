@@ -353,7 +353,7 @@
         if(!$('input[name="level"]:checked').val()){
             return '请选择星级';
         }
-        var phoneReg = /^0\d{2,3}\d{7,8}$|^1[0-9]{10}$/;
+        var phoneReg = /^0\d{10}$|^1[0-9]{10}$/;
         if(!phoneReg.test($('.phoneNumListStr').val())){
             return '酒店电话格式不正确';
         }
@@ -482,7 +482,7 @@
         
 		$('.locationXYSelectBtn').click(function () {
 			//alert("HelloWorld!!!!!!!!!");
-            openBaiduMap(115.727899, 37.723961, mapCallback);
+            openBaiduMap(84.945442,41.811374, mapCallback);
         });
 
 

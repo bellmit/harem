@@ -105,7 +105,7 @@
             <tr>
             	<td>楼层</td>
                 <td>
-                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor" placeholder="“12”或“2-13” ，最多8个字符" />
+                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor" placeholder="最多8个字符" maxlength="8"/>
                 </td>
             </tr>
             <tr>
@@ -177,15 +177,6 @@
             return '网络最多选择两个';
         }
         
-        var floor = $('.floor').val();
-        if(floor){
-        	if(floor.length > 8){
-	            return '楼层最多输入8个字符';
-	        }
-	        if(!/^[-]?([1-9]+)[-]?([1-9]+)$/.test(floor)){
-	            return '楼层格式不正确';
-	        }
-        }
         if($('.roomPicWrap').length <= 0){
             return '请上传房型图片';
         }

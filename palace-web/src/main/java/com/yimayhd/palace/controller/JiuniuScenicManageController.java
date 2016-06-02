@@ -125,18 +125,36 @@ public class JiuniuScenicManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo save(ScenicAddVO scenicAddVO, String uuidScenic) throws Exception {
 		
-		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidScenic;
-		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
-		if(rs){
-			try {
-				ICResult<ScenicDO> result = scenicSpotService.save(scenicAddVO);
-				return  ResponseVo.success(result.getModule());
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
-				return ResponseVo.error(e);
-			}
+		if(scenicAddVO == null){
+			return ResponseVo.success(Constant.ILLEGAL_PARAMETER);
 		}
-		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
+		
+		ScenicVO scenicVO = scenicAddVO.getScenicVO();
+		if(scenicVO == null){
+			return ResponseVo.success(Constant.ILLEGAL_PARAMETER);
+		}
+		
+		//添加的时候防重复提交
+		if(scenicVO.getId() == 0){
+			String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidScenic;
+			boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
+			if(rs){
+				return save(scenicAddVO);
+			}
+			return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
+		}else{
+			return save(scenicAddVO);
+		}
+	}
+	
+	public ResponseVo save(ScenicAddVO scenicAddVO) throws Exception {
+		try {
+			ICResult<ScenicDO> result = scenicSpotService.save(scenicAddVO);
+			return  ResponseVo.success(result.getModule());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**

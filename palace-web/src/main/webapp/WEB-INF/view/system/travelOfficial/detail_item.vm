@@ -28,7 +28,7 @@
                                             <div class="fileImgWrap img-upload-container">
                                                 <button type="button" class="btn btn-success">选择图片</button>
                                                 <input type="file"  name="file" class="file-selector" multiple="multiple" id="FMUploadFile_$!{velocityCount}" accept="image/png,image/jpg,image/jpeg,image/gif">
-                                               <span>注：图片大小不超过5M；建议尺寸：687*237</span>
+                                               <span>注：图片大小不超过500K；建议尺寸：687*237</span>
                                             </div>
                                             <input type="hidden" name="travelBGImg" class="img-values" value="$!travelOfficial.travelImg">
                                         	<div class="form-control img-view-container" >
@@ -56,7 +56,7 @@
                                         <div class="fileImgWrap img-upload-container">
                                             <button type="button" class="btn btn-success">选择图片</button>
                                             <input type="file"  name="file" class="file-selector" multiple="multiple" id="FMUploadFile_1" accept="image/png,image/jpg,image/jpeg,image/gif">
-                                            <span>注：图片大小不超过5M；建议尺寸：687*237</span>
+                                            <span>注：图片大小不超过500K；建议尺寸：687*237</span>
                                         </div>
                                         <input type="hidden" name="travelBGImg" value=""  class="img-values">
                                         <!--图片预览容器-->
@@ -113,7 +113,7 @@
 		 } 
 		 var data = $(tr).attr("data");
 		 $("#item_index").val(data);
-	     fileUpload("#"+id,1,pictureUploadCallBack);
+	     fileUpload("#"+id,1,pictureUploadCallBack,500);
 	 })
 		
  	var pictureUploadCallBack = function(data,id){

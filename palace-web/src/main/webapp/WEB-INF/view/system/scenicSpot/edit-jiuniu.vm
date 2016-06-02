@@ -85,7 +85,7 @@
                         <td><span class="spColor">*</span>地址</td>
                         <td>
                             <div class="selectList">
-                                <input type="text" class="inpCtlBlock" name="scenicVO.locationText" id="locationText" placeholder="请填写详细地址，如**路**号，1-40个字" value="$!{VO.scenicVO.locationText}" />
+                                <input type="text" class="inpCtlBlock" name="scenicVO.locationText" id="locationText" placeholder="请填写详细地址，如**路**号，1-40个字" value="$!{VO.scenicVO.locationText}" maxlength="40" />
                             </div>
                         </td>
                     </tr>
@@ -112,7 +112,7 @@
                         	</div>
                         	<input type="hidden" class="ticketListStr" name="ticketListStr" />
                         	
-                            <input type="text" class="inpControl" id="ticketTypeText" placeholder="请输入1-10个字" />
+                            <input type="text" class="inpControl" id="ticketTypeText" placeholder="请输入1-10个字" maxlength="10"/>
 	                        <button type="button" class="btn btn-info addTicketType" >添加</button>
 	                        <label class="ticketTypeTip" style="display:none;">至少添加一个票型</label>
                         </td>
@@ -218,8 +218,12 @@
     function operateTicketType(){
     	//添加票型
     	$(".addTicketType").click(function(){
-    		
-    		if(!$("#ticketTypeText").val() && !$("#ticketTypeText").val().trim()){
+    		if(!$("#ticketTypeText").val() || !$("#ticketTypeText").val().trim()){
+    			
+    			layer.msg("请填写票型", {
+                    icon: 2,
+                    time: 1500
+                });
     			return;
     		}
 			var ticketTypeHTML = [];
@@ -256,7 +260,7 @@
     function operateMap(){
     
 	    $('.locationXYSelectBtn').click(function () {
-            openBaiduMap(115.727899, 37.723961, function(data){
+            openBaiduMap(84.945442,41.811374, function(data){
             	if (data) {
 		            $("#locationX").val(data['pointX']);
 		            $("#locationY").val(data['pointY']);

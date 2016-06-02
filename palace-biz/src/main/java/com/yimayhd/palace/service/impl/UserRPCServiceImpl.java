@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.user.client.result.BaseResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -167,7 +168,9 @@ public class UserRPCServiceImpl implements UserRPCService {
 		for(SnsTravelSpecialtyDO snsTravelSpecialtyDO : specialDoList){
 			ids.add(snsTravelSpecialtyDO.getCreateId());
 		}
-		List<UserDO> userDOList = userServiceRef.getUserInfoList(ids);
+//		List<UserDO> userDOList = userServiceRef.getUserInfoList(ids);
+		BaseResult<List<UserDO>> baseResult =  userServiceRef.getUserDOList(ids);
+		List<UserDO> userDOList = baseResult.getValue();
 		if(CollectionUtils.isEmpty(userDOList)){
 			return null;
 		}
