@@ -260,7 +260,7 @@
     function operateMap(){
     
 	    $('.locationXYSelectBtn').click(function () {
-            openBaiduMap(115.727899, 37.723961, function(data){
+            openBaiduMap(84.945442,41.811374, function(data){
             	if (data) {
 		            $("#locationX").val(data['pointX']);
 		            $("#locationY").val(data['pointY']);
