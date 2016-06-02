@@ -64,7 +64,7 @@
                                     <button type="button" class="btn btn-success">选择图片</button>
                                     <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
                                     <input type="hidden" name="logoUrl" value="$!travelOfficial.backImg" id="logoUrlUploadFileReturnInput" >
-                                    <p>注：图片大小不超过5M,建议尺寸：300*300</p>
+                                    <p>注：图片大小不超过500K,建议尺寸：300*300</p>
                                 </div>
                                 <div class="logoView">
                                     <img name="backImg" src="#if($travelOfficial.backImg) $utilWebconfig.getTfsRootPath()$!travelOfficial.backImg #end" class="img-circle" id="logoUrlUploadFileReturnImg">
@@ -113,7 +113,7 @@
 
     //上传图片
     $(document).delegate("#logoUrlUploadFile",'change',function(){
-        fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack);
+        fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack,500);
     })
 
     var LogoPicloadCallBack = function(data){
