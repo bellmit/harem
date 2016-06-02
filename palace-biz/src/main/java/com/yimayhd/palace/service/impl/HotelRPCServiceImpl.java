@@ -508,7 +508,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		hotelVO.setOtherPicList(picVOList);
 		
 		// 图文详情
-		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.ITEM);
+		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.HOTEL);
 		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
 		hotelVO.setPictureText(pictureTextVO);;
 		
@@ -676,7 +676,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 
 	@Override
 	public void savePictureText(long id, PictureTextVO pictureTextVO) throws Exception {
-		ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(id, PictureText.ITEM, pictureTextVO);
+		ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(id, PictureText.HOTEL, pictureTextVO);
 		pictureTextRepo.editPictureText(comentEditDTO);
 	}
 	

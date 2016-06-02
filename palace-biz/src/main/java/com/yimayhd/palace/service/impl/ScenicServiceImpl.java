@@ -220,7 +220,7 @@ public class ScenicServiceImpl implements ScenicService {
 		List<TicketVO> ticketVOList = ScenicAddVO.transformTicketVOList(scenicDTO.getTicketDOList());
 		scenicAddVO.setTicketVOList(ticketVOList);
 		// 图文详情
-		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.ITEM);
+		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.SCENIC);
 		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
 		scenicAddVO.setPictureText(pictureTextVO);;
 		
@@ -573,7 +573,7 @@ public class ScenicServiceImpl implements ScenicService {
 
 	@Override
 	public void savePictureText(long id, PictureTextVO pictureTextVO)throws Exception {
-		ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(id, PictureText.ITEM, pictureTextVO);
+		ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(id, PictureText.SCENIC, pictureTextVO);
 		pictureTextRepo.editPictureText(comentEditDTO);
 	}
 }
