@@ -65,8 +65,15 @@ public class JiuxiuHelper {
 		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantName())){
 			merchantPageQuery.setName(jiuxiuMerchantListQuery.getMerchantName().trim());
 		}
-		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantNo()) && Common.regularMatches("[0-9]{1,}", jiuxiuMerchantListQuery.getMerchantNo())){
-			merchantPageQuery.setSellerId(Long.parseLong(jiuxiuMerchantListQuery.getMerchantNo()));
+//		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantNo()) && Common.regularMatches("[0-9]{1,}", jiuxiuMerchantListQuery.getMerchantNo())){
+//			merchantPageQuery.setSellerId(Long.parseLong(jiuxiuMerchantListQuery.getMerchantNo().trim()));
+//		}
+		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantNo())){
+			if(!Common.regularMatches("[0-9]{1,}", jiuxiuMerchantListQuery.getMerchantNo().trim())){
+				merchantPageQuery.setSellerId(Long.MAX_VALUE);
+			}else{
+				merchantPageQuery.setSellerId(Long.parseLong(jiuxiuMerchantListQuery.getMerchantNo().trim()));
+			}
 		}
 		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantPrincipal())){
 			merchantPageQuery.setMerchantPrincipalLike(jiuxiuMerchantListQuery.getMerchantPrincipal().trim());
