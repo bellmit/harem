@@ -31,6 +31,7 @@ import com.yimayhd.ic.client.model.param.item.ScenicDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicUpdateDTO;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.query.TicketQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
@@ -201,8 +202,10 @@ public class ScenicServiceImpl implements ScenicService {
 	
 	@Override
 	public ScenicAddVO getDetailById(long id) throws Exception {
-		
-		ICResult<ScenicDTO> scenic = itemQueryService.getScenicDetail(id);
+		TicketQuery query = new TicketQuery();
+		query.setScenicId(id);
+		query.setStatus(BaseStatus.AVAILABLE.getType());
+		ICResult<ScenicDTO> scenic = itemQueryService.getScenicDetail(query);
 		if(scenic == null){
 			log.error("ScenicServiceImpl.getById-itemQueryService.getScenic result is null and parame: " + id);
 			throw new BaseException("返回结果为空，获取景区资源失败");
@@ -480,7 +483,10 @@ public class ScenicServiceImpl implements ScenicService {
 			
 			result = addResult;
 		} else {
-			ICResult<ScenicDTO> icResult = itemQueryService.getScenicDetail(scenicVO.getId());
+			TicketQuery query = new TicketQuery();
+			query.setScenicId(scenicVO.getId());
+			query.setStatus(BaseStatus.AVAILABLE.getType());
+			ICResult<ScenicDTO> icResult = itemQueryService.getScenicDetail(query);
 			if(null == icResult){
 				log.error("ScenicServiceImpl.save-itemQueryService.getScenic result is null and parame: " + scenicVO.getId());
 				throw new BaseException("查询结果为空,修改失败 ");
