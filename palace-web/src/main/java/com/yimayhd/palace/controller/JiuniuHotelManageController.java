@@ -322,20 +322,15 @@ public class JiuniuHotelManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo edit(HotelVO hotelVO, @PathVariable("id") long id, String uuidHotel) throws Exception {
-		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidHotel;
-		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
-		if(rs){
-			try {
-				hotelVO.setId(id);
-				hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
-				hotelRPCService.updateHotelV2(hotelVO);
-				return  ResponseVo.success(hotelVO);
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
-				return ResponseVo.error(e);
-			}
+		try {
+			hotelVO.setId(id);
+			hotelVO.setDomain(Constant.DOMAIN_JIUXIU);
+			hotelRPCService.updateHotelV2(hotelVO);
+			return  ResponseVo.success(hotelVO);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
 		}
-		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
 
 	/**
