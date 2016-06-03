@@ -17,8 +17,15 @@ var uploadSenedFile = function(files,type,callBack,fileSize){//id：上传控件
             layer.msg('图片不能大于2M',{icon:2});
             return;
         }
+    	
+    	var fileName = file.name; 
+    	var fileType = (fileName.substring(fileName.lastIndexOf(".")+1,fileName.length)).toLowerCase();
+        if(fileType != "jpg" && fileType != "jpeg" && fileType != "png"){
+        	layer.msg('图片格式为JPG,JPEG,PNG',{icon:2});
+        	return;
+        }
         // 文件名称，文件对象
-        formData.append(file.name, file);
+        formData.append(fileName, file);
     }
     var xhr = new XMLHttpRequest();
     xhr.onload = function(data) {

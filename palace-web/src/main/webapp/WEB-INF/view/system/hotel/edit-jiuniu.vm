@@ -685,12 +685,21 @@
             return;
     	}
     	
+    	var hotelId = $("#hotelId").val();
+    	if(hotelId == 0){
+    		layer.msg("请优先添加基本信息", {
+                icon: 2,
+                time: 1500
+            });
+            return;
+    	}
+    	
     	var params = {
 			json:JSON.stringify(pictureText),
 			uuidPicText: $("#uuidPicText").val()
 		};
 		
-    	var url = actionDefaultPath + "/jiuniu/hotelManage/savePictureText/"+ $('#hotelId').val();
+    	var url = actionDefaultPath + "/jiuniu/hotelManage/savePictureText/"+ hotelId;
     	$.post(url, params, function(data){
 			if(data.status == 200) {
 				layer.msg("添加成功", {

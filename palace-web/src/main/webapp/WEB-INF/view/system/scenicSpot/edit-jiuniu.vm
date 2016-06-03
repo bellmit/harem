@@ -101,10 +101,14 @@
                     <tr>
                         <td><span class="spColor">*</span>地址经纬度</td>
                         <td>
-                            <span>经度</span>
-                            <input type="text" name="scenicVO.locationX" id="locationX" class="inpControl getAddress locationX" value="$!{VO.scenicVO.locationX}" placeholder="示例:116.40461,限数字,请注意不要有空格" style="width:260px;" />
-                            <span>纬度</span>
-                            <input type="text" name="scenicVO.locationY" id="locationY" class="inpControl getAddress locationY" value="$!{VO.scenicVO.locationY}" placeholder="示例:39.910921,限数字,请注意不要有空格" style="width:260px;" />
+                        	<div style="float:left;">
+	                            <span>经度</span>
+	                            <input type="text" name="scenicVO.locationX" id="locationX" class="inpControl getAddress locationX" value="$!{VO.scenicVO.locationX}" placeholder="示例:116.40461,限数字,请注意不要有空格" style="width:260px;" />
+                            </div>
+                            <div style="float:left;">
+	                            <span>纬度</span>
+	                            <input type="text" name="scenicVO.locationY" id="locationY" class="inpControl getAddress locationY" value="$!{VO.scenicVO.locationY}" placeholder="示例:39.910921,限数字,请注意不要有空格" style="width:260px;" />
+                            </div>
                             <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                             #*<code>点击查找经纬度可自动获取</code>*#
                         </td>
@@ -613,12 +617,21 @@
 	            return;
 	    	}
 	    	
+	    	var scenicId = $("#scenicId").val();
+	    	if(scenicId == 0){
+	    		layer.msg("请优先添加基本信息", {
+	                icon: 2,
+	                time: 1500
+	            });
+	            return;
+	    	}
+	    	
 	    	var params = {
 				json: JSON.stringify(pictureText),
 				uuidPicText: $("#uuidPicText").val()
 			};
 			
-	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ $("#scenicId").val();
+	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ scenicId;
 	    	$.post(url, params, function(data){
 				if(data.status == 200) {
 					layer.msg("添加成功", {
