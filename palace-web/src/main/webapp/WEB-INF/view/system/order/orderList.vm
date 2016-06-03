@@ -147,7 +147,7 @@
                                          #if($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
                                         	<div class="t-name">$!order.hotelTitle</div>
                                         	<div class="t-name">$!subOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!order.checkInTime)</div>
+                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate)</div>
                                             <div class="t-userType">$!order.roomTitle</div>
                                             #if($!subOrder.bizOrder.orderType == 1400)
                                             	<div class="t-userType">在线付</div>
