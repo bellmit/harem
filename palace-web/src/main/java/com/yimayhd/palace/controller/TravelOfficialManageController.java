@@ -110,7 +110,9 @@ public class TravelOfficialManageController extends BaseController {
 				for( String img : imgs){
 					if( StringUtils.isNoneBlank(img) ){
 						img = img.replace("[", "").replace("]", "") ;
-						rs.add(img);
+						if(StringUtils.isNoneBlank(img)) {
+							rs.add(img);
+						}
 					}
 				}
 				travelJsonDO.setTravelImg(rs);
