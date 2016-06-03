@@ -617,12 +617,21 @@
 	            return;
 	    	}
 	    	
+	    	var scenicId = $("#scenicId").val();
+	    	if(scenicId == 0){
+	    		layer.msg("请优先添加基本信息", {
+	                icon: 2,
+	                time: 1500
+	            });
+	            return;
+	    	}
+	    	
 	    	var params = {
 				json: JSON.stringify(pictureText),
 				uuidPicText: $("#uuidPicText").val()
 			};
 			
-	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ $("#scenicId").val();
+	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ scenicId;
 	    	$.post(url, params, function(data){
 				if(data.status == 200) {
 					layer.msg("添加成功", {
