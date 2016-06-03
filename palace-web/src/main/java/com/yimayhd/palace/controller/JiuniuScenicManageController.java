@@ -20,11 +20,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.palace.base.AreaService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.AreaVO;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
@@ -109,6 +111,18 @@ public class JiuniuScenicManageController extends BaseController {
 		
 		List<ComTagDO> allLineThemes = scenicSpotService.getAllLineThemes();
 		put("themes", allLineThemes);
+		
+		if(scenicAddVO != null){
+			ScenicVO scenicVO = scenicAddVO.getScenicVO();
+			if(scenicVO != null){
+				List<AreaVO> provinceList= AreaService.getInstance().getAreaByIDAndType("PROVINCE", null);
+				List<AreaVO> cityList= AreaService.getInstance().getAreaByIDAndType("CITY", String.valueOf(scenicVO.getLocationProvinceId()));
+				List<AreaVO> townList= AreaService.getInstance().getAreaByIDAndType("COUNTY", String.valueOf(scenicVO.getLocationCityId()));
+				model.addAttribute("provinceList", provinceList);
+				model.addAttribute("cityList", cityList);
+				model.addAttribute("townList", townList);
+			}
+		}
 		
 		put("UUIDScenic", UUID.randomUUID().toString());
 		put("UUIDPicText", UUID.randomUUID().toString());
