@@ -11,6 +11,7 @@
                     	<button type="button" class="btn btn-default" id="gaikuang" onclick="addItemCall()">增加条目</button>
         	            <table class="table bigTables travel-item-table">
                             <input type="hidden" id="imgContentJsonId"  name="imgContentJson" value="$!travelOfficial.imgContentJson">
+                            <input type="hidden" id="checkImgContentJsonId"  name="imgContentJson" value="$!{travelOfficial.listTravelJsonDO.size()}">
                             <tr>
                                 <th width="40%">内容（500个字以内）</th>
                                 <th width="40%">图片（最多6张）</th>
@@ -30,12 +31,15 @@
                                                 <input type="file"  name="file" class="file-selector" multiple="multiple" id="FMUploadFile_$!{velocityCount}" accept="image/png,image/jpg,image/jpeg,image/gif">
                                                <span>注：图片大小不超过500K；建议尺寸：687*237</span>
                                             </div>
-                                            <input type="hidden" name="travelBGImg" class="img-values" value="$!travelOfficial.travelImg">
+                                            <input type="hidden" name="travelBGImg" class="img-values" value="$!{travelOfficial.travelImg}">
                                         	<div class="form-control img-view-container" >
 	                                            #foreach($imgUrl in $!travelOfficial.travelImg)
-	                                                #if( $!imgUrl )
-	                                                    <img width='50' height='50'  class='view-img' src="$utilWebconfig.getTfsRootPath()$!imgUrl"  data='$!imgUrl'/>
-	                                                #end
+                                                    #if($!imgUrl != "")
+                                                        <img width='50' height='50'  class='view-img' src="$utilWebconfig.getTfsRootPath()$!{imgUrl}"  data='$!{imgUrl}'/>
+                                                    #end
+	                                          #*      #if( $!{imgUrl})
+	                                                    <img width='50' height='50'  class='view-img' src="$utilWebconfig.getTfsRootPath()$!{imgUrl}"  data='$!{imgUrl}'/>
+	                                                #end*#
 	                                            #end
 	                                        </div>
                                         </td>
@@ -258,102 +262,155 @@
         obj=obj.replace(new RegExp("\\]",'g'),"");
         return obj;
     }
-
- 	//保存的
- 	$('#btnSubmit').click(function(){
-
-       $(this).prop('disabled', true);
-        var count = $(".bigTables tr").length-1;
-        var parts=[];
-        
-        var trs = $("tr.item-tr");
-        if( !trs ){
-        	return ;
+    (function($){
+        $.isBlank = function(obj){
+            return(!obj || $.trim(obj) === "");
+        };
+    })(jQuery);
+    function alertText(text) {
+        layer.alert(text, {
+            icon: 2
+        });
+    }
+	//form 验证
+	function validateForm() {
+		var titleId = $("#titleId").val();
+        var prefaceId = $("#prefaceId").val();
+        var publishDateId = $("#publishDateId").val();
+        var createId = $("#createIdId").val();
+        var logoUrlUploadFileReturnImg = $("#logoUrlUploadFileReturnInput").val();
+        var imgContentJsonId = $("#checkImgContentJsonId").val();
+		if($.isBlank(titleId)){
+			alertText("游记标题不能为空");
+			return false;
+		}
+		if(titleId.length>20){
+            alertText("游记标题请输入20个字以内");
+            return false;
+		}
+        if($.isBlank(prefaceId)){
+            alertText("前言不能为空");
+            return false;
         }
-        for(var i=0 ; i<trs.length; i++){
-        	var tr = trs[i] ;
-        	
-        	var travelDes = $(tr).find("textarea.trave-desc").val() ;
-        	var node = $(tr).find("input.img-values") ;
+        if($.isBlank(publishDateId)){
+            alertText("发布时间不能为空");
+            return false;
+        }
+        if($.isBlank(createId)){
+            alertText("作者信息不能为空");
+            return false;
+        }
+        if($.isBlank(logoUrlUploadFileReturnImg)){
+            alertText("游记封面不能为空");
+            return false;
+        }
+        if($.isBlank(imgContentJsonId)){
+            alertText("游记不能为空");
+            return false;
+        }
+		return true;
+    }
+    //保存的
+    $('#btnSubmit').click(function (e) {
+
+        var count = $(".bigTables tr").length - 1;
+        var parts = [];
+
+        var trs = $("tr.item-tr");
+        if (!trs) {
+            return;
+        }
+        for (var i = 0; i < trs.length; i++) {
+            var tr = trs[i];
+
+            var travelDes = $(tr).find("textarea.trave-desc").val();
+            var node = $(tr).find("input.img-values");
             var imgs = $(tr).find("input.img-values").val();
-        	imgs = imgs.split(",") ;
-        	var extraInfo = $(tr).find("textarea.trave-extra-info").val() ;
-        	
-        	
-        	var travelJsonDO={
-        		travelDes : travelDes ,
-        		travelImg : imgs ,
-        		detail : extraInfo
-        	};
-            parts.push(travelJsonDO);	
-        	
+            imgs = imgs.split(",");
+            var extraInfo = $(tr).find("textarea.trave-extra-info").val();
+
+
+            var travelJsonDO = {
+                travelDes: travelDes,
+                travelImg: imgs,
+                detail: extraInfo
+            };
+            parts.push(travelJsonDO);
+            if(!$.isBlank(travelDes)||!$.isBlank(imgs)||!$.isBlank(extraInfo)){
+                $("#checkImgContentJsonId").val(true);
+            }
         }
 
         var json = JSON.stringify(parts); //可以将json对象转换成json对符串
-        console.log(json);
+        //console.log(json);
         $("#imgContentJsonId").val(json);
 
         var actionUrl;
-        var clubId = $('#clubForm').attr('clubId');
-        if(clubId){
-            actionUrl = actionDefaultPath + '/B2C/travelOfficialManage/edit/'+clubId;
-        }else{
+        var clubId = $('#addTravelOfficalForm').attr('clubId');
+        if (clubId) {
+            actionUrl = actionDefaultPath + '/B2C/travelOfficialManage/edit/' + clubId;
+        } else {
             actionUrl = actionDefaultPath + '/B2C/travelOfficialManage/add';
         }
-        var img= $("#logoUrlUploadFileReturnInput").val();
-       var params = {
-    		backImg:img,
-    		preface:$("#prefaceId").val(),
-			title:$("#titleId").val(),
-			publishDate:$("#publishDateId").val(),
-			createId:$("#createIdId").val(),
-			userPhoto:$("#userPhotoId").val(),
-			nickName:$("#nickNameId").val(),
-			imgContentJson:$("#imgContentJsonId").val(),
-			domain:$("#domain").val()
-		};
-       console.log(params);
-        $('#clubForm').attr('action',actionUrl);
-        $.post(actionUrl,params,function(data){
-            if(data.status == 200){
-            	var currentTab = $("#grogshopInfo").parents(".tab-pane");
-            	var currentTabId = $(currentTab).attr("id");
-            	var tabs =  $(".tab-pane");
-            	if( !tabs ){
-            		return ;
-            	}
-            	var index = null;
-            	for( var i=0; i< tabs.length ; i++ ){
-            		var tab = tabs[i];
-            		var hasActive = $(tab).hasClass("active");
-            		if( hasActive ){
-            			index = i ;
-            			break;
-            		}
-            	}
-            
-                layer.alert('操作成功', {
-                    icon: 1
-                  //  time: 3000
-                }, function(){
-                	layer.close(index);
-					// 刷新父页面
-					top.freshPrevFrame();
-					top.tabTopClose(this);
-					
-                    //window.location.reload();
-                });
-            }else{
-                layer.msg('操作失败', {
-                    icon: 2
-                  //  time: 3000
-                });
-                $(this).prop('disabled',false);
-            }
-        });
+        var img = $("#logoUrlUploadFileReturnInput").val();
+        var params = {
+            backImg: img,
+            preface: $("#prefaceId").val(),
+            title: $("#titleId").val(),
+            publishDate: $("#publishDateId").val(),
+            createId: $("#createIdId").val(),
+            userPhoto: $("#userPhotoId").val(),
+            nickName: $("#nickNameId").val(),
+            imgContentJson: $("#imgContentJsonId").val(),
+            domain: $("#domain").val()
+        };
 
+        console.log(params);
+        //return false;
+        //验证
+        if (validateForm()) {
+            $(this).prop('disabled', true);
+            $('#addTravelOfficalForm').attr('action', actionUrl);
+            $.post(actionUrl, params, function (data) {
+                if (data.status == 200) {
+                    var currentTab = $("#grogshopInfo").parents(".tab-pane");
+                    var currentTabId = $(currentTab).attr("id");
+                    var tabs = $(".tab-pane");
+                    if (!tabs) {
+                        return;
+                    }
+                    var index = null;
+                    for (var i = 0; i < tabs.length; i++) {
+                        var tab = tabs[i];
+                        var hasActive = $(tab).hasClass("active");
+                        if (hasActive) {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    layer.alert('操作成功', {
+                        icon: 1
+                        //  time: 3000
+                    }, function () {
+                        layer.close(index);
+                        // 刷新父页面
+                        top.freshPrevFrame();
+                        top.tabTopClose(this);
+
+                        //window.location.reload();
+                    });
+                } else {
+                    layer.msg('操作失败', {
+                        icon: 2
+                        //  time: 3000
+                    });
+                    $(this).prop('disabled', false);
+                }
+            });
+        }
     });
-        
+
     	$("#cityId").focus( function(){
     	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"3"} ,function(data){
 	    	if(data.status == 200){

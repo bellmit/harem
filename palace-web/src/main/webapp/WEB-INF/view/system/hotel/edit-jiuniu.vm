@@ -677,15 +677,38 @@
     $(".saveAll").click(function(){
     	var pictureText = getPictureText();
     	
+    	if(pictureText.pictureTextItems.length == 0){
+    		layer.msg("请添加至少一段图文详情", {
+                icon: 2,
+                time: 1500
+            });
+            return;
+    	}
+    	
+    	var hotelId = $("#hotelId").val();
+    	if(hotelId == 0){
+    		layer.msg("请优先添加基本信息", {
+                icon: 2,
+                time: 1500
+            });
+            return;
+    	}
+    	
     	var params = {
 			json:JSON.stringify(pictureText),
 			uuidPicText: $("#uuidPicText").val()
 		};
 		
-    	var url = actionDefaultPath + "/jiuniu/hotelManage/savePictureText/"+ $('#hotelId').val();
+    	var url = actionDefaultPath + "/jiuniu/hotelManage/savePictureText/"+ hotelId;
     	$.post(url, params, function(data){
 			if(data.status == 200) {
-				closeAndFreshPrevFrame();
+				layer.msg("添加成功", {
+	                icon: 1,
+	                time: 1000
+	            });
+	            setTimeout(function(){ 
+	            	closeAndFreshPrevFrame();	
+	            },1000)
 			} else {
 				layer.msg(data.message, {
 					icon : 2,

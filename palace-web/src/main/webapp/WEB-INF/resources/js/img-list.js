@@ -31,13 +31,13 @@ ImgList.prototype = {
     	$(_self.id).delegate(_self.uploadBtnSelector, 'change', function(){
 	   		fileUpload(_self.uploadBtnSelector, 2, function(dataVal){
 	   			
-	   			var uploadNum = $(_self.picWrapSelector).length;
-	    		if(uploadNum == _self.limitNum){
-	    			layer.alert('最多上传'+ _self.limitNum +'张图片');
-	    			return;
-	    		}
-	   			
 	   			for(var key in dataVal.data){
+	   				
+	   				var uploadNum = $(_self.picWrapSelector).length;
+		    		if(uploadNum == _self.limitNum){
+		    			layer.alert('最多上传'+ _self.limitNum +'张图片');
+		    			return;
+		    		}
 	   				
 	   				var path =  dataVal.data[key];
    					var picWrapContent = [];
