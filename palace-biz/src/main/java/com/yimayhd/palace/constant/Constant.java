@@ -30,6 +30,8 @@ public class Constant {
 	public static final int SHOWCASE_SHOE_TYPE_FOOD_DETAIL = 7;//美食
 	/*public static final int SHOWCASE_TALENT_SERVICE = 8;//达人专题*/
 
+	public static final int SHOWCASE_HOTEL_LIST = 9;//酒店列表
+	public static final int SHOWCASE_SCENIC_LIST = 10;//景区列表
 
 	
 	public static final String DOT = ".";

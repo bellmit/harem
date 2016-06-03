@@ -32,7 +32,7 @@ public enum OperationType {
     AROUND_FUN_LIST("AROUND_FUN_LIST","周边玩乐列表页"),
     PACKAGE_TOUR_LIST("PACKAGE_TOUR_LIST","跟团游列表"),
     //    TAG("TAG","标签"),
-//    SHOP_HOME_PAGE("SHOP_HOME_PAGE","店铺首页"),
+    SHOP_HOME_PAGE("SHOP_HOME_PAGE","店铺首页"),
     FREE_TOUR_DETAIL("FREE_TOUR_DETAIL","自由行线路详情"),
     PACKAGE_TOUR_DETAIL("PACKAGE_TOUR_DETAIL","跟团游详情"),
     JIUXIU_BUY_DETAIL("JIUXIU_BUY_DETAIL","实物商品详情"),

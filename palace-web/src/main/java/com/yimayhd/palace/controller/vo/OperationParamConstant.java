@@ -46,6 +46,7 @@ public class OperationParamConstant {
 	public static final String ITEM_TALENT = "TALENT";//达人
 	public static final String ITEM_DETAIL_EAT = "EAT";//美食
 	public static final String ITEM_TALENT_SERVICE = "TALENT_SERVICE";//达人专题
+	public static final String ITEM_MERCHANT = "MERCHANT";//商家
 
 
 
