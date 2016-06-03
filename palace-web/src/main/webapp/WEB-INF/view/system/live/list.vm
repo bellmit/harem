@@ -128,6 +128,7 @@
             });
 
         });
+
         //单个启用停用
         $('.liveBtn').each(function(){
             $(this).click(function(){
@@ -161,6 +162,9 @@
         //全选
         $('.allChecked').click(function(){
             $('.subChecked').prop('checked',$(this).prop('checked'));
+        });
+        $(".subChecked").click( function(){
+            event.stopPropagation(); // do something
         });
         //单选
         $('.subCheckedTR').click(function(){

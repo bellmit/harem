@@ -12,7 +12,7 @@
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">商品编号：</button>
             </span>
-            <input type="text"  class="form-control" name="itemId" value="$!itemListQuery.itemId"/>
+            <input type="text"  class="form-control" id="itemId" name="itemId" value="$!itemListQuery.itemId"/>
         </div>
         <div class="input-group inpSingle">
             <span class="input-group-btn">
@@ -59,7 +59,7 @@
             <button type="submit" class="btn btn-primary form-submit">查询</button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary form-clear">重置</button>
+            <button type="button" class="btn btn-primary form-clear">清空</button>
         </div>
     </div>
     <div class="inputGroup whole">
@@ -150,7 +150,27 @@
 </form>
 
 <script>
+	function validateItemId(itemId,e) {
+        var s = /^[0-9]*$/;
+        if(s.test(itemId)){
+            return;
+        }
+        e.preventDefault();
+        layer.alert('商品编号输入不正确', {
+            icon : 2
+        });
 
+    }
+    $(function() {
+        //$("#itemListForm").validate();
+     /*   $("#itemListForm").validate({
+            debug:true
+        });*/
+        $("#itemListForm").submit(function (e) {
+			var itemId= $("#itemId").val();
+			 validateItemId(itemId,e);
+        });
+    });
 	$(".form-clear").click(function() {
 		$(".form-control").val("");
 	});
