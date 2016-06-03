@@ -108,15 +108,15 @@
                         </tr>
                         <tr>
                             <td><span class="red">*</span>法定代表人身份证：</td>
-                            <td><span class="inputval">********</span></td>
+                            <td><span class="inputval">$!examineInfo.lawPersonCard</span></td>
                         </tr>
                         <tr>
                             <td><span class="red">*</span>营业执照号码：</td>
-                            <td><span class="inputval">********</span></td>
+                            <td><span class="inputval">$!examineInfo.saleLicenseNumber</span></td>
                         </tr>
                         <tr>
                             <td><span class="red">*</span>税务登记号码：</td>
-                            <td><span class="inputval">********</span></td>
+                            <td><span class="inputval">$!examineInfo.taxRegisterNumber</span></td>
                         </tr>
                         <tr>
                             <td><span class="red">*</span>营业地址：</td>
