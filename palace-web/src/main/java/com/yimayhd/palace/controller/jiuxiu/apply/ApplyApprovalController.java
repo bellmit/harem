@@ -160,7 +160,7 @@ public class ApplyApprovalController extends BaseController {
                     model.addAttribute("status", result.getValue().getExaminStatus());
 
                     // 根据sellerId查询商家的商品类目
-                    MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesByExamineId(Constant.DOMAIN_JIUXIU, id);
+                    MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, result.getValue().getSellerId());
                     Map<String, List<CategoryVO>> itemCategoryMap = new LinkedHashMap<>();
                     if (merchantItemCategoryResult != null && merchantItemCategoryResult.isSuccess() && !merchantItemCategoryResult.getValue().isEmpty()) {
 
