@@ -155,7 +155,7 @@ public class ApplyApprovalController extends BaseController {
                         vo.setStatus(merchantCategoryDO.getStatus());
                         model.addAttribute("category", vo);
                     }
-                    model.addAttribute("feature", result.getValue().getIsDirectSale() == 0 ? ExamineCharacter.DIRECT_SALE : ExamineCharacter.BOUTIQUE);
+                    model.addAttribute("feature", result.getValue().getIsDirectSale() == 0 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
                     model.addAttribute("type", result.getValue().getType());
                     model.addAttribute("status", result.getValue().getExaminStatus());
 
@@ -218,7 +218,7 @@ public class ApplyApprovalController extends BaseController {
     @RequestMapping(value = "/allocation")
     public String allocation(long id, Model model) {
         MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(id);
-        if(!examineInfoDTOResult.isSuccess()) {
+        if(null == examineInfoDTOResult || !examineInfoDTOResult.isSuccess() || null == examineInfoDTOResult.getValue()) {
             // TODO 跳转错误页面处理
             return "";
         }
@@ -239,7 +239,7 @@ public class ApplyApprovalController extends BaseController {
         BusinessScopeDO businessScopeDOQuery = new BusinessScopeDO();
         businessScopeDOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
         MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(businessScopeDOQuery, scopeIds);
-        if(!businessScopeMemResult.isSuccess()) {
+        if(null == businessScopeMemResult || !businessScopeMemResult.isSuccess() || null == businessScopeMemResult.getValue() || businessScopeMemResult.getValue().isEmpty()) {
             // TODO 跳转错误页面处理
             return "";
         }
@@ -253,7 +253,7 @@ public class ApplyApprovalController extends BaseController {
 //            }
         }
         MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(Constant.DOMAIN_JIUXIU, businessScopeIds);
-        if (scopeItemCategoryMemResult.getValue().isEmpty()) {
+        if (null == scopeItemCategoryMemResult || !scopeItemCategoryMemResult.isSuccess() || null == scopeItemCategoryMemResult.getValue() || scopeItemCategoryMemResult.getValue().isEmpty()) {
             // TODO 跳转错误页面处理
             return "";
         }
@@ -275,7 +275,7 @@ public class ApplyApprovalController extends BaseController {
                 }
                 if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
                     result.get(businessScopeDO.getName()).addAll(categoryVOs);
-                    break outer;
+                    continue outer;
                 }
             }
         }
