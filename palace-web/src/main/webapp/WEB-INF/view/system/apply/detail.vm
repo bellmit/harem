@@ -176,24 +176,18 @@
             <td>
                 <div class="borderbox">
                     <table class="table table-inner">
-                        <tbody>
                             #foreach($merchantQualification in $qualificationPictures)
                                 #set($idx = $velocityCount % 2)
-                                #if($idx == 1)
-                                    <tr>
+                                #if( $idx == 1 )
+                                	<tr>
                                 #end
-        xxx
-                                <td>
-                                    <a href="$!tfs$!merchantQualification.url" data-group="group200" data-toggle="lightbox" data-caption="$!merchantQualification.title">
-                                        <img src="$!tfs$!examineInfo.url" alt="图片加载失败"/>
-                                    </a>
-                                </td>
+	                                <td>
+	                                    <a href="$!tfs$!merchantQualification.url" data-group="group200" data-toggle="lightbox" data-caption="$!merchantQualification.title">
+	                                        <img src="$!tfs$!examineInfo.url" alt="图片加载失败"/>
+	                                    </a>
+	                                </td>
 
-                                #if($idx == 1)
-                                    </tr>
-                                #end
                             #end
-                        </tbody>
                     </table>
                 </div>
             </td>
