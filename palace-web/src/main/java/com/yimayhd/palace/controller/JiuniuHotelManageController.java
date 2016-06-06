@@ -99,13 +99,13 @@ public class JiuniuHotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model) throws Exception {
-
+		
 		// 房间设施
-		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilities(1);
+		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilitiesV2(FacilityIconType.ROOM_FACILITY.getType());
 		// 特色服务
-		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilities(2);
+		List<HotelFacilityVO> roomServiceList = hotelRPCService.queryFacilitiesV2(FacilityIconType.HOTEL_SERVICE.getType());
 		// 酒店设施
-		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilities(3);
+		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilitiesV2(FacilityIconType.HOTEL_FACILITY.getType());
 		//省
 		List<AreaVO> provinceList= AreaService.getInstance().getAreaByIDAndType("PROVINCE", null);
 
