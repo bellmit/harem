@@ -68,11 +68,7 @@
 	                		#set($hotelVOId=$hotel.id)
 	                	#end
 	                	<input type="hidden" id="hotelId" name="id" value="$!{hotelVOId}">
-	                    <input type="text" class="inpCtlBlock name" name="name"  
-	                    	#if($hotel.id)
-	                    		disabled="disabled" 
-	                    	#end
-	                    placeholder="请填写酒店官方全称，1-20个字， 请勿包含如价格、房型、宣传等信息" maxlength="20" value="$!{hotel.name}">
+	                    <input type="text" class="inpCtlBlock name" name="name" placeholder="请填写酒店官方全称，1-20个字， 请勿包含如价格、房型、宣传等信息" maxlength="20" value="$!{hotel.name}">
 					</td>
                 </tr>
                 <tr>

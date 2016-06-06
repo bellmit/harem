@@ -51,11 +51,7 @@
                 		#set($roomVOId=$room.id)
                 	#end
                 	<input type="hidden" id="roomId" name="id" value="$!{roomVOId}">
-                    <input type="text" class="inpCtlBlock name" name="name" 
-                    	#if($room.id)
-                    		disabled="disabled" 
-                    	#end
-                    placeholder="请填写房型全称，1-20个字" maxlength="20" value="$!{room.name}">
+                    <input type="text" class="inpCtlBlock name" name="name" placeholder="请填写房型全称，1-20个字" maxlength="20" value="$!{room.name}">
 				</td>
             </tr>
             <tr>
