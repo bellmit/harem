@@ -55,11 +55,7 @@
                         		#set($scenicVOId=$VO.scenicVO.id)
                         	#end
                         	<input type="hidden" id="scenicId" name="scenicVO.id" value="$!{scenicVOId}">
-                            <input type="text" class="inpCtlBlock scenicName" name="scenicVO.name" 
-                            	#if($VO.scenicVO.id)
-                            		disabled="disabled" 
-                            	#end
-                            placeholder="请填写景区全称，1-20个字" maxlength="20" value="$!{VO.scenicVO.name}">
+                            <input type="text" class="inpCtlBlock scenicName" name="scenicVO.name" placeholder="请填写景区全称，1-20个字" maxlength="20" value="$!{VO.scenicVO.name}">
                         </td>
                     </tr>
                     <tr>

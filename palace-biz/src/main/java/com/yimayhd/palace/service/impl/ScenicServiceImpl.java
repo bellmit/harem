@@ -508,6 +508,7 @@ public class ScenicServiceImpl implements ScenicService {
 			
 			ScenicUpdateDTO updateDTO = new ScenicUpdateDTO();
 			updateDTO.setId(scenicDO.getId());
+			updateDTO.setName(scenicDO.getName());
 			updateDTO.setLocationProvinceId(scenicDO.getLocationProvinceId());
 			updateDTO.setLocationProvinceName(scenicDO.getLocationProvinceName());
 			updateDTO.setLocationCityId(scenicDO.getLocationCityId());
