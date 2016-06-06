@@ -4,17 +4,17 @@ package com.yimayhd.palace.controller.jiuxiu.apply;
 import com.sun.tools.internal.jxc.apt.Const;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
-import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
-import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
-import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
-import com.yimayhd.membercenter.client.domain.merchant.ScopeItemCategoryDO;
+import com.yimayhd.membercenter.client.domain.merchant.*;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.QualificationDTO;
 import com.yimayhd.membercenter.client.query.BusinessScopeQueryDTO;
 import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
+import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.BusinessScopeService;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
+import com.yimayhd.membercenter.client.service.QualificationService;
 import com.yimayhd.membercenter.client.service.ScopeItemCategoryService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
@@ -45,10 +45,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/jiuxiu/apply")
@@ -69,6 +66,8 @@ public class ApplyApprovalController extends BaseController {
     private MerchantItemCategoryService merchantItemCategoryService;
     @Autowired
     private MerchantApplyService merchantApplyService;
+    @Autowired
+    private QualificationService qualificationService;
 
     @RequestMapping(value = "/list")
     public String applyApproval(Model model) {
@@ -112,6 +111,40 @@ public class ApplyApprovalController extends BaseController {
             MemResult<ExamineInfoDTO> result = examineDealServiceRef.queryMerchantExamineInfoById(id);
             if (result.isSuccess() && null != result.getValue()) {
                 model.addAttribute("examineInfo", result.getValue());
+
+                // 查询资质,展示资质图片
+                QualificationQueryDTO qualificationQueryDTO = new QualificationQueryDTO();
+                qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+                qualificationQueryDTO.setSellerId(result.getValue().getSellerId());
+                MemResult<List<MerchantQualificationDO>> merchantQualificationResult = qualificationService.getMerchantQualification(qualificationQueryDTO);
+                if(merchantQualificationResult != null && merchantQualificationResult.isSuccess() && merchantQualificationResult.getValue() != null && !merchantQualificationResult.getValue().isEmpty()) {
+                    List<Long> ids = new ArrayList<>();
+                    for(MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
+                        ids.add(merchantQualificationDO.getQulificationId());
+                    }
+                    qualificationQueryDTO = new QualificationQueryDTO();
+                    qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+                    qualificationQueryDTO.getIdSet().addAll(ids);
+                    MemResult<List<QualificationDO>> qualificationResult = qualificationService.getQualification(qualificationQueryDTO);
+                    if(qualificationResult != null && qualificationResult.isSuccess() && qualificationResult.getValue() != null && !qualificationResult.getValue().isEmpty()) {
+                        List<Map<String,String>> qualificationPictures = new ArrayList<>();
+                        outer : for(QualificationDO qualificationDO : qualificationResult.getValue()) {
+                            for(MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
+                                if(qualificationDO.getId() == merchantQualificationDO.getQulificationId()) {
+                                    Map<String,String> map = new HashMap<>();
+                                    map.put("url", merchantQualificationDO.getContent());
+                                    map.put("title", qualificationDO.getTitle());
+                                    qualificationPictures.add(map);
+                                    continue outer;
+                                }
+                            }
+
+                        }
+                        model.addAttribute("qualificationPictures", qualificationPictures);
+
+                    }
+                    result.getValue().setMerchantQualifications(merchantQualificationResult.getValue());
+                }
                 BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
                 businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
                 businessScopeQueryDTOQUery.setSellerId(result.getValue().getSellerId());

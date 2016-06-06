@@ -60,4 +60,12 @@
         <property name="version" value="${consumer.dubbo.voucher.version}"/>
         <property name="check" value="${consumer.dubbo.voucher.check}"/>
     </bean>
+    <bean id="qualificationService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.membercenter.client.service.QualificationService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="version" value="${consumer.dubbo.voucher.version}"/>
+        <property name="check" value="${consumer.dubbo.voucher.check}"/>
+    </bean>
 </beans>
