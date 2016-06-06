@@ -2,7 +2,6 @@ package com.yimayhd.palace.controller.jiuxiu.apply;
 
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
