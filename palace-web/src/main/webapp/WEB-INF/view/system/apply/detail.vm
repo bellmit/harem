@@ -298,4 +298,3 @@
 <!-- 尾部结束 -->
 #parse("/system/layout/layout-jiuxiu-js.vm")
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.mandandetail.js?t="${date}></script>
-	
