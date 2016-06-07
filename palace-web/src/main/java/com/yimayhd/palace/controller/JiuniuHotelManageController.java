@@ -46,8 +46,8 @@ import com.yimayhd.palace.service.HotelRPCService;
 import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.model.enums.DestinationLevel;
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.resourcecenter.model.result.RcResult;
-import com.yimayhd.user.client.enums.DestinationOutType;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
