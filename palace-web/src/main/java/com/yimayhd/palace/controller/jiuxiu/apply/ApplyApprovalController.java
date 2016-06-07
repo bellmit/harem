@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.membercenter.enums.CertificateType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -192,6 +193,8 @@ public class ApplyApprovalController extends BaseController {
                                 if (temp.isSuccess() && temp != null && temp.getValue() != null && !temp.getValue().isEmpty()) {
                                     names.add(temp.getValue().get(0).getName());
                                     parentId = temp.getValue().get(0).getParentId();
+                                } else {
+                                    break;
                                 }
                             }
                             for (int i = names.size() - 1; i >= 0; i--) {
@@ -210,6 +213,15 @@ public class ApplyApprovalController extends BaseController {
                         model.addAttribute("feature", result.getValue().getIsDirectSale() == 0 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
                         model.addAttribute("type", result.getValue().getType());
                         model.addAttribute("status", result.getValue().getExaminStatus());
+                        if(CertificateType.IDCARD.getType().equals(result.getValue().getPrincipleCard())) {
+                            model.addAttribute("certificateType",CertificateType.IDCARD.getName());
+                        } else if(CertificateType.CAR_LICENSE.getType().equals(result.getValue().getPrincipleCard())) {
+                            model.addAttribute("certificateType",CertificateType.CAR_LICENSE.getName());
+                        }else if(CertificateType.PASSPORT.getType().equals(result.getValue().getPrincipleCard())) {
+                            model.addAttribute("certificateType",CertificateType.PASSPORT.getName());
+                        }else if(CertificateType.GUIDE_LICENSE.getType().equals(result.getValue().getPrincipleCard())) {
+                            model.addAttribute("certificateType",CertificateType.GUIDE_LICENSE.getName());
+                        }
 
                         // 根据sellerId查询商家的商品类目
                         MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, result.getValue().getSellerId());
@@ -236,7 +248,7 @@ public class ApplyApprovalController extends BaseController {
                                         categoryVOs.add(vo);
                                     }
                                     for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
-                                        if (!itemCategoryMap.containsKey(businessScopeDO.getName())) {
+                                        if (!itemCategoryMap.containsKey(businessScopeDO.getName()) && businessScopeDO.getStatus() != 2) {
                                             itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
                                         }
                                         if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
@@ -302,8 +314,7 @@ public class ApplyApprovalController extends BaseController {
             }
             MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(Constant.DOMAIN_JIUXIU, businessScopeIds);
             if (null == scopeItemCategoryMemResult || !scopeItemCategoryMemResult.isSuccess() || null == scopeItemCategoryMemResult.getValue() || scopeItemCategoryMemResult.getValue().isEmpty()) {
-                // TODO 跳转错误页面处理
-                return "";
+                return "/system/apply/allocation";
             }
             outer:
             for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryMemResult.getValue()) {
@@ -332,7 +343,7 @@ public class ApplyApprovalController extends BaseController {
                     categoryVOs.add(vo);
                 }
                 for (BusinessScopeDO businessScopeDO : businessScopeMemResult.getValue()) {
-                    if (!result.containsKey(businessScopeDO.getName())) {
+                    if (!result.containsKey(businessScopeDO.getName()) && businessScopeDO.getStatus() != 2) {
                         result.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
                     }
                     if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {

@@ -53,7 +53,7 @@
                         </tr>
                         <tr>
                             <td><span class="red">*</span>负责人证件类型：</td>
-                            <td><span class="inputval">$!examineInfo.principleCard</span></td>
+                            <td><span class="inputval">$!certificateType</span></td>
                         </tr>
                         <tr>
                             <td><span class="red">*</span>负责人证件号：</td>
