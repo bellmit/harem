@@ -176,50 +176,18 @@
             <td>
                 <div class="borderbox">
                     <table class="table table-inner">
-                        <tbody>
-                        <tr>
-                            <td><span class="red">*</span>法人身份证正面：</td>
-                            <td>
-                                <a href="$!tfs$!examineInfo.legralCardUp" data-group="group200" data-toggle="lightbox" data-caption="法人身份证正面">
-                                    <img src="$!tfs$!examineInfo.legralCardUp" alt="图片加载失败"/>
-                                </a>
-                            </td>
-                            <td><span class="red">*</span>法人身份证反面：</td>
-                            <td>
-                                <a href="$!tfs$!examineInfo.legralCardDown" data-group="group200" data-toggle="lightbox" data-caption="法人身份证反面">
-                                    <img src="$!tfs$!examineInfo.legralCardDown" alt="图片加载失败"/>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="red">*</span>营业执照副本正面：</td>
-                            <td>
-                                <a href="$!tfs$!examineInfo.businessLicense" data-group="group200" data-toggle="lightbox" data-caption="营业执照副本正面">
-                                    <img src="$!tfs$!examineInfo.businessLicense" alt="图片加载失败"/>
-                                </a>
-                            </td>
-                            <td><span class="red">*</span>组织机构证正面：</td>
-                            <td>
-                                <a href="$!tfs$!examineInfo.orgCard" data-group="group200" data-toggle="lightbox" data-caption="组织机构证正面">
-                                    <img src="$!tfs$!examineInfo.orgCard" alt="图片加载失败"/>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="red">*</span>税务登记证正面：</td>
-                            <td>
-                                <a href="$!tfs$!examineInfo.affairsCard" data-group="group200" data-toggle="lightbox" data-caption="税务登记证正面">
-                                    <img src="$!tfs$!examineInfo.affairsCard" alt="图片加载失败"/>
-                                </a>
-                            </td>
-                            <td><span class="red">*</span>开户许可证正面：</td>
-                            <td>
-                                <a href="$!tfs$!examineInfo.openCard" data-group="group200" data-toggle="lightbox" data-caption="开户许可证正面">
-                                    <img src="$!tfs$!examineInfo.openCard" alt="图片加载失败"/>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
+                            #foreach($merchantQualification in $qualificationPictures)
+                                #set($idx = $velocityCount % 2)
+                                #if( $idx == 1 )
+                                	<tr>
+                                #end
+	                                <td>
+	                                    <a href="$!tfs$!merchantQualification.url" data-group="group200" data-toggle="lightbox" data-caption="$!merchantQualification.title">
+	                                        <img src="$!tfs$!examineInfo.url" alt="图片加载失败"/>
+	                                    </a>
+	                                </td>
+
+                            #end
                     </table>
                 </div>
             </td>
@@ -298,4 +266,3 @@
 <!-- 尾部结束 -->
 #parse("/system/layout/layout-jiuxiu-js.vm")
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.mandandetail.js?t="${date}></script>
-	

@@ -1,18 +1,35 @@
 package com.yimayhd.palace.controller.jiuxiu.apply;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
+import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.ScopeItemCategoryDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.BusinessScopeQueryDTO;
 import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
+import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.BusinessScopeService;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
+import com.yimayhd.membercenter.client.service.QualificationService;
 import com.yimayhd.membercenter.client.service.ScopeItemCategoryService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
@@ -36,16 +53,6 @@ import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.CategoryService;
 import com.yimayhd.user.session.manager.SessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/jiuxiu/apply")
@@ -66,6 +73,8 @@ public class ApplyApprovalController extends BaseController {
     private MerchantItemCategoryService merchantItemCategoryService;
     @Autowired
     private MerchantApplyService merchantApplyService;
+    @Autowired
+    private QualificationService qualificationService;
 
     @RequestMapping(value = "/list")
     public String applyApproval(Model model) {
@@ -109,97 +118,136 @@ public class ApplyApprovalController extends BaseController {
             MemResult<ExamineInfoDTO> result = examineDealServiceRef.queryMerchantExamineInfoById(id);
             if (result.isSuccess() && null != result.getValue()) {
                 model.addAttribute("examineInfo", result.getValue());
-                BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
-                businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
-                businessScopeQueryDTOQUery.setSellerId(result.getValue().getSellerId());
-                MemResult<List<BusinessScopeDO>> businessScopeResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQUery);
-                if (businessScopeResult != null && businessScopeResult.isSuccess() && businessScopeResult != null && !businessScopeResult.getValue().isEmpty()) {
-                    List<BusinessScopeVO> businessScopeVOs = new ArrayList<>();
-                    for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
-                        BusinessScopeVO vo = new BusinessScopeVO();
-                        vo.setId(businessScopeDO.getId());
-                        vo.setName(businessScopeDO.getName());
-                        vo.setParentId(businessScopeDO.getParentId());
-                        vo.setStatus(businessScopeDO.getStatus());
-                        businessScopeVOs.add(vo);
+
+                // 查询资质,展示资质图片
+                QualificationQueryDTO qualificationQueryDTO = new QualificationQueryDTO();
+                qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+                qualificationQueryDTO.setSellerId(result.getValue().getSellerId());
+                MemResult<List<MerchantQualificationDO>> merchantQualificationResult = qualificationService.getMerchantQualification(qualificationQueryDTO);
+                if(merchantQualificationResult != null && merchantQualificationResult.isSuccess() && merchantQualificationResult.getValue() != null && !merchantQualificationResult.getValue().isEmpty()) {
+                    List<Long> ids = new ArrayList<>();
+                    for(MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
+                        ids.add(merchantQualificationDO.getQulificationId());
                     }
-                    model.addAttribute("scope", businessScopeVOs);
-
-
-                    MerchantCategoryQueryDTO merchantCategoryQueryDTOQuery = new MerchantCategoryQueryDTO();
-                    merchantCategoryQueryDTOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-                    merchantCategoryQueryDTOQuery.setId(result.getValue().getMerchantCategoryId());
-                    MemResult<List<MerchantCategoryDO>> merchantCategoryResult = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
-                    if (merchantCategoryResult != null && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null && !merchantCategoryResult.getValue().isEmpty()) {
-                        MerchantCategoryDO merchantCategoryDO = merchantCategoryResult.getValue().get(0);
-                        long parentId = merchantCategoryDO.getParentId();
-                        StringBuilder builder = new StringBuilder();
-                        List<String> names = new ArrayList<>();
-                        while (parentId > 0) {
-                            merchantCategoryQueryDTOQuery.setId(parentId);
-                            MemResult<List<MerchantCategoryDO>> temp = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
-                            if (temp.isSuccess() && temp != null && temp.getValue() != null && !temp.getValue().isEmpty()) {
-                                names.add(temp.getValue().get(0).getName());
-                                parentId = temp.getValue().get(0).getParentId();
-                            }
-                        }
-                        for (int i = names.size() - 1; i >= 0; i--) {
-                            builder.append(names.get(i)).append(" ");
-                        }
-                        builder.append(merchantCategoryDO.getName());
-                        MerchantCategoryVO vo = new MerchantCategoryVO();
-                        vo.setId(merchantCategoryDO.getId());
-                        vo.setParentId(merchantCategoryDO.getParentId());
-                        vo.setName(builder.toString());
-                        vo.setPic(merchantCategoryDO.getPic());
-                        vo.setType(merchantCategoryDO.getType());
-                        vo.setStatus(merchantCategoryDO.getStatus());
-                        model.addAttribute("category", vo);
-                    }
-                    model.addAttribute("feature", result.getValue().getIsDirectSale() == 0 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
-                    model.addAttribute("type", result.getValue().getType());
-                    model.addAttribute("status", result.getValue().getExaminStatus());
-
-                    // 根据sellerId查询商家的商品类目
-                    MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, result.getValue().getSellerId());
-                    Map<String, List<CategoryVO>> itemCategoryMap = new LinkedHashMap<>();
-                    if (merchantItemCategoryResult != null && merchantItemCategoryResult.isSuccess() && !merchantItemCategoryResult.getValue().isEmpty()) {
-
-                        // 加载商品类目id
-                        long[] categoryIds = new long[merchantItemCategoryResult.getValue().size()];
-                        List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryResult.getValue();
-                        for (int i = 0; i < merchantItemCategoryDOs.size(); i++) {
-                            categoryIds[i] = merchantItemCategoryDOs.get(i).getItemCategoryId();
-                        }
-
-
-//                    for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
-//                        if(!itemCategoryMap.containsKey(businessScopeDO.getName())) {
-//                            itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
-//                        }
-//                    }
-
-                        MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryResult = scopeItemCategoryService.findScopeItemCategoriesByCategory(Constant.DOMAIN_JIUXIU, categoryIds);
-                        outer:
-                        for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryResult.getValue()) {
-                            List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
-                            List<CategoryVO> categoryVOs = new ArrayList<>();
-                            for (CategoryDO categoryDO : categoryDOs) {
-                                CategoryVO vo = new CategoryVO();
-                                vo.setName(categoryDO.getName());
-                                categoryVOs.add(vo);
-                            }
-                            for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
-                                if (!itemCategoryMap.containsKey(businessScopeDO.getName())) {
-                                    itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
-                                }
-                                if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
-                                    itemCategoryMap.get(businessScopeDO.getName()).addAll(categoryVOs);
+                    qualificationQueryDTO = new QualificationQueryDTO();
+                    qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+                    qualificationQueryDTO.getIdSet().addAll(ids);
+                    MemResult<List<QualificationDO>> qualificationResult = qualificationService.getQualification(qualificationQueryDTO);
+                    if(qualificationResult != null && qualificationResult.isSuccess() && qualificationResult.getValue() != null && !qualificationResult.getValue().isEmpty()) {
+                        List<Map<String,String>> qualificationPictures = new ArrayList<>();
+                        outer : for(QualificationDO qualificationDO : qualificationResult.getValue()) {
+                            for(MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
+                                if(qualificationDO.getId() == merchantQualificationDO.getQulificationId()) {
+                                    Map<String,String> map = new HashMap<>();
+                                    map.put("url", merchantQualificationDO.getContent());
+                                    map.put("title", qualificationDO.getTitle());
+                                    qualificationPictures.add(map);
                                     continue outer;
                                 }
                             }
+
                         }
-                        model.addAttribute("itemCategory", itemCategoryMap);
+                        model.addAttribute("qualificationPictures", qualificationPictures);
+
+                    }
+                    result.getValue().setMerchantQualifications(merchantQualificationResult.getValue());
+                }
+                BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
+                businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
+                businessScopeQueryDTOQUery.setSellerId(result.getValue().getSellerId());
+                MemResult<List<MerchantScopeDO>> merchantScopeResult = businessScopeService.getMerchantScope(businessScopeQueryDTOQUery);
+                if (merchantScopeResult != null && merchantScopeResult.isSuccess() && merchantScopeResult != null && !merchantScopeResult.getValue().isEmpty()) {
+                    List<Long> scopeIds = new ArrayList<>();
+                    for (MerchantScopeDO merchantScopeDO : merchantScopeResult.getValue()) {
+                        scopeIds.add(merchantScopeDO.getBusinessScopeId());
+                    }
+                    if(!scopeIds.isEmpty()) {
+                        businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
+                        businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
+                        businessScopeQueryDTOQUery.getIdSet().addAll(scopeIds);
+                        MemResult<List<BusinessScopeDO>> businessScopeResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQUery);
+
+                        List<BusinessScopeVO> businessScopeVOs = new ArrayList<>();
+                        for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
+                            BusinessScopeVO vo = new BusinessScopeVO();
+                            vo.setId(businessScopeDO.getId());
+                            vo.setName(businessScopeDO.getName());
+                            vo.setParentId(businessScopeDO.getParentId());
+                            vo.setStatus(businessScopeDO.getStatus());
+                            businessScopeVOs.add(vo);
+                        }
+                        model.addAttribute("scope", businessScopeVOs);
+                        MerchantCategoryQueryDTO merchantCategoryQueryDTOQuery = new MerchantCategoryQueryDTO();
+                        merchantCategoryQueryDTOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+                        merchantCategoryQueryDTOQuery.setId(result.getValue().getMerchantCategoryId());
+                        MemResult<List<MerchantCategoryDO>> merchantCategoryResult = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
+                        if (merchantCategoryResult != null && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null && !merchantCategoryResult.getValue().isEmpty()) {
+                            MerchantCategoryDO merchantCategoryDO = merchantCategoryResult.getValue().get(0);
+                            long parentId = merchantCategoryDO.getParentId();
+                            StringBuilder builder = new StringBuilder();
+                            List<String> names = new ArrayList<>();
+                            while (parentId > 0) {
+                                merchantCategoryQueryDTOQuery.setId(parentId);
+                                MemResult<List<MerchantCategoryDO>> temp = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
+                                if (temp.isSuccess() && temp != null && temp.getValue() != null && !temp.getValue().isEmpty()) {
+                                    names.add(temp.getValue().get(0).getName());
+                                    parentId = temp.getValue().get(0).getParentId();
+                                }
+                            }
+                            for (int i = names.size() - 1; i >= 0; i--) {
+                                builder.append(names.get(i)).append(" ");
+                            }
+                            builder.append(merchantCategoryDO.getName());
+                            MerchantCategoryVO vo = new MerchantCategoryVO();
+                            vo.setId(merchantCategoryDO.getId());
+                            vo.setParentId(merchantCategoryDO.getParentId());
+                            vo.setName(builder.toString());
+                            vo.setPic(merchantCategoryDO.getPic());
+                            vo.setType(merchantCategoryDO.getType());
+                            vo.setStatus(merchantCategoryDO.getStatus());
+                            model.addAttribute("category", vo);
+                        }
+                        model.addAttribute("feature", result.getValue().getIsDirectSale() == 0 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
+                        model.addAttribute("type", result.getValue().getType());
+                        model.addAttribute("status", result.getValue().getExaminStatus());
+
+                        // 根据sellerId查询商家的商品类目
+                        MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, result.getValue().getSellerId());
+
+                        if (merchantItemCategoryResult != null && merchantItemCategoryResult.isSuccess() && !merchantItemCategoryResult.getValue().isEmpty()) {
+
+                            // 加载商品类目id
+                            long[] categoryIds = new long[merchantItemCategoryResult.getValue().size()];
+                            List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryResult.getValue();
+                            for (int i = 0; i < merchantItemCategoryDOs.size(); i++) {
+                                categoryIds[i] = merchantItemCategoryDOs.get(i).getItemCategoryId();
+                            }
+
+                            MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryResult = scopeItemCategoryService.findScopeItemCategoriesByCategory(Constant.DOMAIN_JIUXIU, categoryIds);
+                            if(scopeItemCategoryResult != null && scopeItemCategoryResult.isSuccess() && scopeItemCategoryResult.getValue() != null && !scopeItemCategoryResult.getValue().isEmpty()) {
+                                Map<String, List<CategoryVO>> itemCategoryMap = new LinkedHashMap<>();
+                                outer:
+                                for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryResult.getValue()) {
+                                    List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
+                                    List<CategoryVO> categoryVOs = new ArrayList<>();
+                                    for (CategoryDO categoryDO : categoryDOs) {
+                                        CategoryVO vo = new CategoryVO();
+                                        vo.setName(categoryDO.getName());
+                                        categoryVOs.add(vo);
+                                    }
+                                    for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
+                                        if (!itemCategoryMap.containsKey(businessScopeDO.getName())) {
+                                            itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
+                                        }
+                                        if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
+                                            itemCategoryMap.get(businessScopeDO.getName()).addAll(categoryVOs);
+                                            continue outer;
+                                        }
+                                    }
+                                }
+                                model.addAttribute("itemCategory", itemCategoryMap);
+                            }
+                        }
                     }
                 }
             }
@@ -227,62 +275,73 @@ public class ApplyApprovalController extends BaseController {
         BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
         businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
         businessScopeQueryDTOQUery.setSellerId(examineInfoDTOResult.getValue().getSellerId());
-        MemResult<List<BusinessScopeDO>> businessScopeResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQUery);
-        if(!businessScopeResult.isSuccess()) {
+        MemResult<List<MerchantScopeDO>> merchantScopeResult = businessScopeService.getMerchantScope(businessScopeQueryDTOQUery);
+        if(!merchantScopeResult.isSuccess()) {
             // TODO 跳转错误页面处理
             return "";
         }
         List<Long> scopeIds = new ArrayList<>();
-        for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
-            scopeIds.add(businessScopeDO.getId());
+        for (MerchantScopeDO merchantScopeDO : merchantScopeResult.getValue()) {
+            scopeIds.add(merchantScopeDO.getBusinessScopeId());
         }
-        // 找到商户的经营范围
-        BusinessScopeQueryDTO businessScopeQueryDTOQuery = new BusinessScopeQueryDTO();
-        businessScopeQueryDTOQuery.getIdSet().addAll(scopeIds);
-        businessScopeQueryDTOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-        MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQuery);
-        if(null == businessScopeMemResult || !businessScopeMemResult.isSuccess() || null == businessScopeMemResult.getValue() || businessScopeMemResult.getValue().isEmpty()) {
-            // TODO 跳转错误页面处理
-            return "";
+        if(!scopeIds.isEmpty()) {
+            // 找到商户的经营范围
+            BusinessScopeQueryDTO businessScopeQueryDTOQuery = new BusinessScopeQueryDTO();
+            businessScopeQueryDTOQuery.getIdSet().addAll(scopeIds);
+            businessScopeQueryDTOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+            MemResult<List<BusinessScopeDO>> businessScopeMemResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQuery);
+            if(null == businessScopeMemResult || !businessScopeMemResult.isSuccess() || null == businessScopeMemResult.getValue() || businessScopeMemResult.getValue().isEmpty()) {
+                // TODO 跳转错误页面处理
+                return "";
+            }
+
+            long[] businessScopeIds = new long[businessScopeMemResult.getValue().size()];
+            Map<String, List<CategoryVO>> result = new LinkedHashMap<>();
+            for (int i = 0; i < businessScopeMemResult.getValue().size(); i++) {
+                businessScopeIds[i] = businessScopeMemResult.getValue().get(i).getId();
+            }
+            MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(Constant.DOMAIN_JIUXIU, businessScopeIds);
+            if (null == scopeItemCategoryMemResult || !scopeItemCategoryMemResult.isSuccess() || null == scopeItemCategoryMemResult.getValue() || scopeItemCategoryMemResult.getValue().isEmpty()) {
+                // TODO 跳转错误页面处理
+                return "";
+            }
+            outer:
+            for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryMemResult.getValue()) {
+                List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
+                if(categoryDOs.isEmpty()) {
+                    try {
+                        CategoryDO categoryDO = categoryService.getCategoryDOById(scopeItemCategoryDO.getItemCategoryId());
+                        categoryDOs.add(categoryDO);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                        // TODO 跳转错误页面处理
+                        return "";
+                    }
+                }
+
+                List<CategoryVO> categoryVOs = new ArrayList<>();
+                for (CategoryDO categoryDO : categoryDOs) {
+                    CategoryVO vo = new CategoryVO();
+                    vo.setId(categoryDO.getId());
+                    vo.setName(categoryDO.getName());
+                    vo.setParentId(categoryDO.getParent().getId());
+                    vo.setStatus(categoryDO.getStatus());
+                    categoryVOs.add(vo);
+                }
+                for (BusinessScopeDO businessScopeDO : businessScopeMemResult.getValue()) {
+                    if (!result.containsKey(businessScopeDO.getName())) {
+                        result.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
+                    }
+                    if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
+                        result.get(businessScopeDO.getName()).addAll(categoryVOs);
+                        continue outer;
+                    }
+                }
+            }
+            model.addAttribute("examineId", id);
+            model.addAttribute("scopeCategories", result);
         }
 
-        long[] businessScopeIds = new long[businessScopeMemResult.getValue().size()];
-        Map<String, List<CategoryVO>> result = new LinkedHashMap<>();
-        for (int i = 0; i < businessScopeMemResult.getValue().size(); i++) {
-            businessScopeIds[i] = businessScopeMemResult.getValue().get(i).getId();
-//            if (!result.containsKey(businessScopeMemResult.getValue().get(i).getName())) {
-//                result.put(businessScopeMemResult.getValue().get(i).getName(), new ArrayList<CategoryDO>());
-//            }
-        }
-        MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(Constant.DOMAIN_JIUXIU, businessScopeIds);
-        if (null == scopeItemCategoryMemResult || !scopeItemCategoryMemResult.isSuccess() || null == scopeItemCategoryMemResult.getValue() || scopeItemCategoryMemResult.getValue().isEmpty()) {
-            // TODO 跳转错误页面处理
-            return "";
-        }
-        outer:
-        for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryMemResult.getValue()) {
-            List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
-            List<CategoryVO> categoryVOs = new ArrayList<>();
-            for (CategoryDO categoryDO : categoryDOs) {
-                CategoryVO vo = new CategoryVO();
-                vo.setId(categoryDO.getId());
-                vo.setName(categoryDO.getName());
-                vo.setParentId(categoryDO.getParent().getId());
-                vo.setStatus(categoryDO.getStatus());
-                categoryVOs.add(vo);
-            }
-            for (BusinessScopeDO businessScopeDO : businessScopeMemResult.getValue()) {
-                if (!result.containsKey(businessScopeDO.getName())) {
-                    result.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
-                }
-                if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
-                    result.get(businessScopeDO.getName()).addAll(categoryVOs);
-                    continue outer;
-                }
-            }
-        }
-        model.addAttribute("examineId", id);
-        model.addAttribute("scopeCategories", result);
         return "/system/apply/allocation";
     }
 
