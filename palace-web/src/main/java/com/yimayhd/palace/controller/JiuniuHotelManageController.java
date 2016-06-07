@@ -138,7 +138,9 @@ public class JiuniuHotelManageController extends BaseController {
 				return  ResponseVo.success(result.getModule());
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
-				return ResponseVo.error(e);
+				ResponseVo resVO = ResponseVo.error(e);
+				resVO.setData(UUID.randomUUID().toString());
+				return resVO;
 			}
 		}
 		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
@@ -526,7 +528,6 @@ public class JiuniuHotelManageController extends BaseController {
 		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
 		if(rs){
 			try {
-				
 				if (StringUtils.isBlank(json)) {
 					log.warn("json is null");
 					return ResponseVo.error();
@@ -539,7 +540,9 @@ public class JiuniuHotelManageController extends BaseController {
 				return  ResponseVo.success();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
-				return ResponseVo.error(e);
+				ResponseVo resVO = ResponseVo.error(e);
+				resVO.setData(UUID.randomUUID().toString());
+				return resVO;
 			}
 		}
 		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
