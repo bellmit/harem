@@ -26,6 +26,7 @@ public class ItemVO {
 	private int status;
 	private Date publishDate;
 	private List<String> operates;
+	private Date gmtModified;
 
 	public long getId() {
 		return id;
@@ -122,5 +123,14 @@ public class ItemVO {
 			return false;
 		}
 		return getOperates().contains(code.toUpperCase());
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public ItemVO setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+		return this;
 	}
 }

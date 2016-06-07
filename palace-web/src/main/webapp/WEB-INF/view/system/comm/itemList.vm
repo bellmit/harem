@@ -88,6 +88,7 @@
 					<th data-width="160">单价</th>
 					<th data-width="160">店铺名称</th>
 					<th data-col-class="text-center" data-width="70">状态</th>
+                    <th data-col-class="text-center" data-width="40">最后修改时间</th>
 					<th data-col-class="text-center" data-width="60">操作</th>
                 </tr>
             </thead>
@@ -129,6 +130,7 @@
                     		$!{utilItem.getItemStatusName($item.status)}	
                     	#end
                     </td>
+                    <td>$!{utilDate.date2String($item.gmtModified)}</td>
                     <td>
                     	#*
 						#if($item.containsOperate('SHELVE'))
