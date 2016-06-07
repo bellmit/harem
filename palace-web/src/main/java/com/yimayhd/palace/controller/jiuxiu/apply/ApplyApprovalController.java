@@ -308,10 +308,13 @@ public class ApplyApprovalController extends BaseController {
             outer:
             for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryMemResult.getValue()) {
                 List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
-                if(categoryDOs.isEmpty()) {
+                if(null == categoryDOs || categoryDOs.isEmpty()) {
+                    categoryDOs = new ArrayList<>();
                     try {
                         CategoryDO categoryDO = categoryService.getCategoryDOById(scopeItemCategoryDO.getItemCategoryId());
-                        categoryDOs.add(categoryDO);
+                        if (categoryDO != null) {
+                            categoryDOs.add(categoryDO);
+                        }
                     } catch (Exception e) {
                         log.error(e.getMessage(), e);
                         // TODO 跳转错误页面处理

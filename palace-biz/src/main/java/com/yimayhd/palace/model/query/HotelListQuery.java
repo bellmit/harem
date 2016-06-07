@@ -11,7 +11,7 @@ public class HotelListQuery extends BaseQuery {
 	 */
 	private static final long serialVersionUID = -3522270147472331376L;
 	private String name;// 酒店名称
-	private int hotelStatus;// 状态
+	private Integer hotelStatus;// 状态
 	private long regionId;// 区域ID
 	private String regionName;// 区域名称
 	private String hotelNameOrTel;// 酒店联系电话
@@ -19,11 +19,9 @@ public class HotelListQuery extends BaseQuery {
 	private String endDate;// 结束创建时间
 	private Integer pageBegin;
 	private int domain;
-	private long locationProvinceId;
-	private long locationCityId;
-	private int type;
-	
-	
+	private Long locationProvinceId;
+	private Long locationCityId;
+	private Integer type;
 
 	public int getDomain() {
 		return domain;
@@ -31,14 +29,6 @@ public class HotelListQuery extends BaseQuery {
 
 	public void setDomain(int domain) {
 		this.domain = domain;
-	}
-
-	public int getHotelStatus() {
-		return hotelStatus;
-	}
-
-	public void setHotelStatus(int hotelStatus) {
-		this.hotelStatus = hotelStatus;
 	}
 
 	public long getRegionId() {
@@ -88,6 +78,14 @@ public class HotelListQuery extends BaseQuery {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public Integer getHotelStatus() {
+		return hotelStatus;
+	}
+
+	public void setHotelStatus(Integer hotelStatus) {
+		this.hotelStatus = hotelStatus;
+	}
 
 	public Integer getPageBegin() {
 		return pageBegin;
@@ -96,27 +94,26 @@ public class HotelListQuery extends BaseQuery {
 	public void setPageBegin(Integer pageBegin) {
 		this.pageBegin = pageBegin;
 	}
-	public long getLocationProvinceId() {
+	public Long getLocationProvinceId() {
 		return locationProvinceId;
 	}
 
-	public void setLocationProvinceId(long locationProvinceId) {
+	public void setLocationProvinceId(Long locationProvinceId) {
 		this.locationProvinceId = locationProvinceId;
 	}
 
-	public long getLocationCityId() {
+	public Long getLocationCityId() {
 		return locationCityId;
 	}
 
-	public void setLocationCityId(long locationCityId) {
+	public void setLocationCityId(Long locationCityId) {
 		this.locationCityId = locationCityId;
 	}
-
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 }

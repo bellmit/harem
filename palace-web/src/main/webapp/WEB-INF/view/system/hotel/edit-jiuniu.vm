@@ -52,7 +52,7 @@
 
 <form name="addHotel" id="hotelForm" action="" method="post" hotelId="$!hotel.id">
 
-<input type="hidden" name="uuidHotel" value="$!{UUIDHotel}" />
+<input type="hidden" id="uuidHotel" name="uuidHotel" value="$!{UUIDHotel}" />
 <input type="hidden" id="uuidPicText" value="$!{UUIDPicText}" />
 
 <div class="tab-content grogInfoWrap"  style="">
@@ -662,6 +662,7 @@
                             icon: 2,
                             time: 2000
                         });
+                        $("#uuidHotel").val(data.data);
                     }
                 }
             };
@@ -710,6 +711,7 @@
 					icon : 2,
                     time: 2000
 				});
+				$("#uuidPicText").val(data.data);
 			}
 	    },"json");
     });

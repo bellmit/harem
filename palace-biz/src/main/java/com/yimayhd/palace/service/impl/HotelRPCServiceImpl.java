@@ -92,22 +92,22 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		}
 		
 		//酒店状态
-		if (hotelListQuery.getHotelStatus() != 0) {			
+		if (hotelListQuery.getHotelStatus() != null && hotelListQuery.getHotelStatus() != 0) {			
 			hotelPageQuery.setStatus(hotelListQuery.getHotelStatus());
 		}
 		
 		//酒店类型
-		if(hotelListQuery.getType() != 0){
+		if(hotelListQuery.getType() != null && hotelListQuery.getType() != 0){
 			hotelPageQuery.setType(hotelListQuery.getType());
 		}
 		
 		//区域-省
-		if(hotelListQuery.getLocationProvinceId() != 0){
+		if(hotelListQuery.getLocationProvinceId() != null && hotelListQuery.getLocationProvinceId() != 0){
 			hotelPageQuery.setLocationProvinceId(hotelListQuery.getLocationProvinceId());
 		}
 		
 		//区域-市
-		if(hotelListQuery.getLocationCityId() != 0){
+		if(hotelListQuery.getLocationCityId() != null && hotelListQuery.getLocationCityId() != 0){
 			hotelPageQuery.setLocationCityId(hotelListQuery.getLocationCityId());
 		}
 		

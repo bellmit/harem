@@ -167,7 +167,9 @@ public class JiuniuScenicManageController extends BaseController {
 			return  ResponseVo.success(result.getModule());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+			ResponseVo resVO = ResponseVo.error(e);
+			resVO.setData(UUID.randomUUID().toString());
+			return resVO;
 		}
 	}
 
@@ -255,7 +257,9 @@ public class JiuniuScenicManageController extends BaseController {
 				return  ResponseVo.success();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
-				return ResponseVo.error(e);
+				ResponseVo resVO = ResponseVo.error(e);
+				resVO.setData(UUID.randomUUID().toString());
+				return resVO;
 			}
 		}
 		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));

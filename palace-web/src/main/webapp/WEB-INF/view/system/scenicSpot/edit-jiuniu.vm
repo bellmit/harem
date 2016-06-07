@@ -35,7 +35,7 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 <div class="example whole">
 <form id="saveScenicSpot">
-	<input type="hidden" name="uuidScenic" value="$!{UUIDScenic}" />
+	<input type="hidden" id="uuidScenic" name="uuidScenic" value="$!{UUIDScenic}" />
 	<input type="hidden" id="uuidPicText" value="$!{UUIDPicText}" />
 	
     <ul id="myTab" class="nav nav-tabs">
@@ -560,6 +560,7 @@
 	                            icon: 2,
 	                            time: 2000
 	                        });
+	                        $("#uuidScenic").val(data.data);
                         }
                     }
                 };
@@ -643,6 +644,7 @@
 						icon : 2,
 						time: 2000
 					});
+					$("#uuidPicText").val(data.data);
 				}
 		    },"json");
 	    });

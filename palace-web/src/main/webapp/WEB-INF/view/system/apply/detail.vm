@@ -75,14 +75,22 @@
                         <tr>
                             <td><span class="red">*</span>负责人身份证正面：</td>
                             <td>
-                                <a href="$!tfs$!examineInfo.legralCardUp" data-group="group100" data-toggle="lightbox" data-caption="负责人身份证正面">
-                                    <img src="$!tfs$!examineInfo.legralCardUp" alt="图片加载失败"/>
+                                <a href="$!tfs$!examineInfo.principleCardUp" data-group="group100" data-toggle="lightbox" data-caption="负责人身份证正面">
+                                    <img src="$!tfs$!examineInfo.principleCardUp" alt="图片加载失败"/>
                                 </a>
                             </td>
                             <td><span class="red">*</span>负责人身份证反面：</td>
                             <td>
-                                <a href="$!tfs$!examineInfo.legralCardDown" data-group="group100" data-toggle="lightbox" data-caption="负责人身份证反面">
-                                    <img src="$!tfs$!examineInfo.legralCardDown" alt="图片加载失败"/>
+                                <a href="$!tfs$!examineInfo.principleCardDown" data-group="group100" data-toggle="lightbox" data-caption="负责人身份证反面">
+                                    <img src="$!tfs$!examineInfo.principleCardDown" alt="图片加载失败"/>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="red">*</span>手持身份证照片：</td>
+                            <td colspan="3">
+                                <a href="$!tfs$!examineInfo.cardInHand" data-group="group100" data-toggle="lightbox" data-caption="手持身份证照片">
+                                    <img src="$!tfs$!examineInfo.cardInHand" alt="图片加载失败"/>
                                 </a>
                             </td>
                         </tr>
@@ -176,18 +184,19 @@
             <td>
                 <div class="borderbox">
                     <table class="table table-inner">
+                        <tbody>
                             #foreach($merchantQualification in $qualificationPictures)
-                                #set($idx = $velocityCount % 2)
-                                #if( $idx == 1 )
-                                	<tr>
+                                #if($velocityCount % 2 == 1)
+                                    <tr>
                                 #end
-	                                <td>
-	                                    <a href="$!tfs$!merchantQualification.url" data-group="group200" data-toggle="lightbox" data-caption="$!merchantQualification.title">
-	                                        <img src="$!tfs$!examineInfo.url" alt="图片加载失败"/>
-	                                    </a>
-	                                </td>
-
+                                <td><span class="red">*</span>$!merchantQualification.title：</td>
+                                <td>
+                                    <a href="$!tfs$!merchantQualification.url" data-group="group100" data-toggle="lightbox" data-caption="$!merchantQualification.title">
+                                        <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
+                                    </a>
+                                </td>
                             #end
+                        </tbody>
                     </table>
                 </div>
             </td>
