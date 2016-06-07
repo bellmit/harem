@@ -8,7 +8,7 @@
         <div class="inputGroup whole">
         	 <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">商户名称</button>
+                        <button class="btn btn-default" type="button">店铺名称</button>
                     </span>
                 <input type="text" class="form-control queryRt" name="merchantName" value="$!jiuxiuMerchantListQuery.merchantName">
             </div>
@@ -67,7 +67,7 @@
                 <tbody>
                 <tr>
                     <th>商户类型</th>
-                    <th>商户名称</th>
+                    <th>店铺名称</th>
                     <th>商户编号</th>
                     <th>负责人</th>
                     <th>负责人手机号</th>
