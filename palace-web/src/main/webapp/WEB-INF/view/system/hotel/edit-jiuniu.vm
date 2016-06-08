@@ -135,7 +135,7 @@
                 <tr>
                     <td><span class="spColor">*</span>星级</td>
                     <td>
-                        <input type="radio" name="level" value="2" #if($!hotel.level == 2) checked #end >二星级及以下
+                        <input type="radio" name="level" value="2" #if($!hotel.level == 2) checked #end >二星及以下
                     	<input type="radio" name="level" value="3" #if($!hotel.level == 3) checked #end >三星级
                     	<input type="radio" name="level" value="4" #if($!hotel.level == 4) checked #end >四星级
                     	<input type="radio" name="level" value="5" #if($!hotel.level == 5) checked #end >五星级
