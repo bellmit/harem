@@ -9,6 +9,7 @@
 <![endif]-->
 <div class="checkmsgcon">
     <input type="hidden" id="id" value="$!examineInfo.id"/>
+    <input type="hidden" id="type" value="$!examineInfo.type"/>
     <h2>#if($!type == 1)达人 #elseif($!type == 2)商户 #end详情页</h2>
     <table class="table check-table">
         <tbody>
@@ -26,7 +27,7 @@
             <td>
                 <div class="borderbox">
                     #foreach( $item in $scope )
-                        ${item.name}
+                        ${item.name}<br/>
                     #end
                 </div>
             </td>
@@ -189,7 +190,11 @@
                                 #if($velocityCount % 2 == 1)
                                     <tr>
                                 #end
-                                <td><span class="red">*</span>$!merchantQualification.title：</td>
+                                <td>
+                                #if($merchantQualification.required)
+                                    <span class="red">*</span>
+                                #end
+                                    $!merchantQualification.title：</td>
                                 <td>
                                     <a href="$!tfs$!merchantQualification.url" data-group="group100" data-toggle="lightbox" data-caption="$!merchantQualification.title">
                                         <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
@@ -228,10 +233,11 @@
         <!-----------------这块内容在审核通过后查看详情才有end----------------------->
         </tbody>
     </table>
-
+    #if($examineInfo.examinStatus == 2)
     <div class="btn-box">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">审核</button>
     </div>
+    #end
 </div>
 
 <!------------------------------------------------阴影层----------------------------------------->

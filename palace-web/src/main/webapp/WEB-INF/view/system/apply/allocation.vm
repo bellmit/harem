@@ -24,6 +24,9 @@
                         <label><input type="checkbox" name="categoryId" value="$item.id" />$item.name</label>
                     #end
                     </td>
+                    <td class="tdcheckall">
+                        <label><input type="checkbox" name="" class="input-all"/>全选</label>
+                    </td>
                     <td class="tips">至少选择一项</td>
                 </tr>
                 #end
