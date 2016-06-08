@@ -97,7 +97,7 @@ public class ApplyApprovalController extends BaseController {
             checkResult = new BizResultSupport();
             return checkResult;
         }
-        // 驳回,身份为达人进行直接执行1期的审批驳回动作
+        // 1,驳回;2,身份为达人进行直接执行1期的审批操作
         long userId = sessionManager.getUserId();
         BizResultSupport result = applyBiz.approve(approveVO, userId);
         return result;
@@ -174,11 +174,7 @@ public class ApplyApprovalController extends BaseController {
                             outer:
                             for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
                                 String[] urls = merchantQualificationDO.getContent().split(",");
-                                int index = 0;
                                 for (String url : urls) {
-                                    if (++index > 5) {
-                                        continue outer;
-                                    }
                                     qualificationQueryDTO = new QualificationQueryDTO();
                                     qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
                                     qualificationQueryDTO.getIdSet().add(merchantQualificationDO.getQulificationId());

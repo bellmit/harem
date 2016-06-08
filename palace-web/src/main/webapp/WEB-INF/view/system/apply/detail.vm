@@ -9,6 +9,7 @@
 <![endif]-->
 <div class="checkmsgcon">
     <input type="hidden" id="id" value="$!examineInfo.id"/>
+    <input type="hidden" id="type" value="$!examineInfo.type"/>
     <h2>#if($!type == 1)达人 #elseif($!type == 2)商户 #end详情页</h2>
     <table class="table check-table">
         <tbody>
@@ -232,10 +233,11 @@
         <!-----------------这块内容在审核通过后查看详情才有end----------------------->
         </tbody>
     </table>
-
+    #if($examineInfo.examinStatus == 2)
     <div class="btn-box">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">审核</button>
     </div>
+    #end
 </div>
 
 <!------------------------------------------------阴影层----------------------------------------->
