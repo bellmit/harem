@@ -26,7 +26,7 @@
             <td>
                 <div class="borderbox">
                     #foreach( $item in $scope )
-                        ${item.name}
+                        ${item.name}<br/>
                     #end
                 </div>
             </td>
@@ -53,7 +53,7 @@
                         </tr>
                         <tr>
                             <td><span class="red">*</span>负责人证件类型：</td>
-                            <td><span class="inputval">$!examineInfo.principleCard</span></td>
+                            <td><span class="inputval">$!certificateType</span></td>
                         </tr>
                         <tr>
                             <td><span class="red">*</span>负责人证件号：</td>
@@ -189,7 +189,11 @@
                                 #if($velocityCount % 2 == 1)
                                     <tr>
                                 #end
-                                <td><span class="red">*</span>$!merchantQualification.title：</td>
+                                <td>
+                                #if($merchantQualification.required)
+                                    <span class="red">*</span>
+                                #end
+                                    $!merchantQualification.title：</td>
                                 <td>
                                     <a href="$!tfs$!merchantQualification.url" data-group="group100" data-toggle="lightbox" data-caption="$!merchantQualification.title">
                                         <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
