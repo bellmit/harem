@@ -23,7 +23,6 @@
                 <input type="hidden" name="boothId" id="boothId" value="$!boothId">
                 <input type="hidden" name="boothCode" id="boothCodeId" value="$!boothCode">
                 <input type="hidden" name="showcaseId" id="showcaseId" value="$!showcase.id">
-                <input type="hidden" name="operationId" id="operationId" value="$!showcase.operationId">
                 <td><label>权重：</label><input name='serialNo' id='serialNoId'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
                     <span class="prompt">请填写整数</span></td>
             </tr>
@@ -66,6 +65,15 @@
                                 <td>选择页面：</td>
                                 <td>
                                     <select class="selectpages" id="opId">
+                                        #foreach($!operations in $operationDOs)
+                                            #foreach($!listDetail in $!operations.listOperationDetail)
+                                            ##先把单选框渲染出来，然后直接用就行了
+                                               #if($!listDetail.showType ==1)
+                                                   #set($radioHtml="<input name='chooseService' type='radio' id='radio_$!listDetail.operationId' showtype='$!listDetail.jumpType' value='$!listDetail.showValue'>$!listDetail.showName")
+                                                #end
+                                            #end
+                                            <option radioHtml="$!radioHtml" id="$!operations.operactio.id" showType="$!operations.operactio.showType" value="$!operations.operactio.code" operationid="$!operations.operactio.id">$!operations.operactio.name</option>
+                                        #end
                                     </select>
                                     <span  id="radioId"></span>
                                 </td>
@@ -119,31 +127,6 @@
         $(document).ready(function(){
             //选择内容，添加内容加载隐藏，if 点选择内容就不能添加内容，反之。
             $("#choId").hide();//隐藏
-            //获取跳转的下拉列表
-            var operactionId=$("#operationId").val();
-
-            $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/operation/list', {} ,function(data){
-                if(data.status == 200){
-                    var showName="";
-                    var showType="";
-                    var radioArr = []
-                    var radioHtml="";
-                    var optionHtml="<option value='0'>请选择</option>";
-                    $.each(data.data, function(n, val) {
-                        optionHtml+="<option paramTypes='"+val.paramTypes+"' operationId='"+val.operationId+"' value='"+val.operationCode+"' ";
-                        if(operactionId == val.operationId){
-                            optionHtml+= "selected = 'selected' ";
-                        }
-                        optionHtml+=">"+val.operationName+"</option>";
-                        radioArr = val.paramTypes;
-                    });
-                    //console.log(optionHtml);
-                    $("#opId").html(optionHtml)
-                }else{
-                    var msg = new $.zui.Messager('获取跳转类型失败', {placement: 'center',type:'warning',time:'1000'});
-                    msg.show();
-                }
-            })
         });
 
         //处理可选择的radio
@@ -154,20 +137,6 @@
             var radioHtml="";
             var paramTypes = [];
             $("#radioId").show();
-            //加载gf的sku
-            var strValue = $('.selectpages option:selected').attr('value');
-            if(strValue == 'null' || strValue == null){
-                $(".addInfoId").css('display','none');;//隐藏
-                return
-            }else if(strValue == "GF_URL" || strValue=="GF_ITEM"){
-                $(".addInfoId").css('display','block');//显示
-            }else if(strValue == "MASTER_LIST" ){ //如果是达人专题，直接出服务选项
-                radioHtml+="<input name='chooseService' type='radio' showType='3' value='1' /> 结伴邀约";
-                radioHtml+="<input name='chooseService' type='radio' showType='3' value='2' /> 出行服务";
-                radioHtml+="<input name='chooseService' type='radio' showType='3' value='3' /> 在线咨询";
-                radioHtml+="<input name='chooseService' type='radio' showType='3' value='4' /> 行程规划";
-                $("#radioId").html(radioHtml)
-            }else{
                 //获取选择的select的id
                 var strParam = $('.selectpages option:selected').attr('paramtypes');
                 if(strParam == 'null' || strParam == null){
@@ -209,7 +178,7 @@
                     radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
                 });
                 $("#radioId").html(radioHtml)
-            }
+
         });
 
         //处理添加内容的时候把operationid赋值
