@@ -9,13 +9,18 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.query.HotelPageQuery;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemBizQueryService;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
@@ -32,6 +37,7 @@ import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
@@ -75,6 +81,9 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Autowired CityDataCacheClient cityDataCacheClient;
 
     @Autowired MerchantService merchantService;
+
+    @Autowired ItemQueryService itemQueryService;
+
 
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
@@ -325,33 +334,33 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     private ShowcaseDO showcaseVoToShowcaseDo(ShowcaseVO sw,ShowcaseDO sd){
         if(null == sd ){sd = new ShowcaseDO();}
-        if(StringUtils.isNotEmpty(sw.getInfo())){
+        //if(StringUtils.isNotEmpty(sw.getInfo())){
             sd.setInfo(sw.getInfo());
-        }
-        if(StringUtils.isNotEmpty(sw.getTitle())){
+        //}
+        //if(StringUtils.isNotEmpty(sw.getTitle())){
             sd.setTitle(sw.getTitle());
-        }
+        //}
         if(StringUtils.isNotEmpty(sw.getBusinessCode())){
             sd.setBusinessCode(sw.getBusinessCode());
         }
-        if(StringUtils.isNotEmpty(sw.getSummary())){
+        //if(StringUtils.isNotEmpty(sw.getSummary())){
             sd.setSummary(sw.getSummary());
-        }
+        //}
         if(StringUtils.isNotEmpty(sw.getBoothContent())){
             sd.setBoothContent(sw.getBoothContent());
         }
-        if(StringUtils.isNotEmpty(sw.getOperationContent())){
+        //if(StringUtils.isNotEmpty(sw.getOperationContent())){
             sd.setOperationContent(sw.getOperationContent());
-        }
+        //}
         if(StringUtils.isNotEmpty(sw.getImgUrl())){
             sd.setImgUrl(sw.getImgUrl());
         }
         if(StringUtils.isNotEmpty(sw.getFeature())){
             sd.setFeature(sw.getFeature());
         }
-        if(StringUtils.isNotEmpty(sw.getContent())){
+        //if(StringUtils.isNotEmpty(sw.getContent())){
             sd.setContent(sw.getContent());
-        }
+        //}
         sd.setShowcaseFeature(sw.getShowcaseFeature());
         sd.setStatus(sw.getStatus());//状态是手动改的
         sd.setOperationId(sw.getOperationId());
@@ -401,4 +410,59 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(merchantPageQuery.getPageNo(), merchantPageQuery.getPageSize(), result.getTotalCount(), list);
         return page;
     }
+
+    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) throws Exception {
+        ICPageResult<HotelDO> result = itemQueryService.pageQueryHotel(hotelPageQuery);
+        if(null == result || !result.isSuccess()){
+            //log
+            return null;
+        }
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
+        ShowCaseItem sc = null;
+        List<HotelDO> listHotelDO = result.getList();
+        for (HotelDO ho :listHotelDO) {
+
+            sc.setId(ho.getId());
+            sc.setName(ho.getName());
+            list.add(sc);
+        }
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(hotelPageQuery.getPageNo(), hotelPageQuery.getPageSize(), result.getTotalCount(), list);
+        return page;
+    }
+
+    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery scenicPageQuery) throws Exception{
+        ICPageResult<ScenicDO> result = itemQueryService.pageQueryScenic(scenicPageQuery);
+        if(null == result || !result.isSuccess()){
+            //log
+            return null;
+        }
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
+        ShowCaseItem sc = null;
+        List<ScenicDO> listScenicDO = result.getList();
+        for (ScenicDO ho :listScenicDO) {
+            sc = new ShowCaseItem();
+            sc.setId(ho.getId());
+            sc.setName(ho.getName());
+            list.add(sc);
+        }
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(scenicPageQuery.getPageNo(), scenicPageQuery.getPageSize(), result.getTotalCount(), list);
+        return page;
+    }
+
+    //new---------
+    public List<OperactionVO> getAllOperations(){
+        try {
+            RcResult<List<OperactionVO>> result = operationClientServer.getAllOperations() ;
+            if( result == null || !result.isSuccess() ){
+                LOGGER.error("getAllOperations failed!  result={}",JSON.toJSONString(result));;
+                return null;
+            }
+            return result.getT() ;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

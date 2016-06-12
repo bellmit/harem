@@ -2,18 +2,12 @@ package com.yimayhd.palace.service;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
-import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
-import com.yimayhd.commentcenter.client.result.BaseResult;
-import com.yimayhd.ic.client.model.domain.item.ItemInfo;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.query.HotelPageQuery;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
-import com.yimayhd.palace.model.ItemVO;
-import com.yimayhd.palace.model.Region;
-import com.yimayhd.palace.model.query.CommodityListQuery;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
-import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
@@ -22,7 +16,7 @@ import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
-import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
@@ -96,6 +90,13 @@ public interface ShowcaseService {
     //商品列表
     public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception ;
 
+    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) throws Exception ;
+
+    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery ccenicPageQuery) throws Exception ;
+
+
     //达人 美食
     public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption) throws Exception ;
+
+    public List<OperactionVO> getAllOperations() ;
 }
