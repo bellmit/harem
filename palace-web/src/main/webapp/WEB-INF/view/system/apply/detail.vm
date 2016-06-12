@@ -215,14 +215,16 @@
                     <table class="table table-inner">
                         <tbody>
                             #foreach($key in $itemCategory.keySet())
-                                <tr>
-                                    <td>
-                                        $key
-                                    </td>
-                                    <td class="tdlab">
-                                        $!itemCategory.get($key)
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    $key：
+                                </td>
+                                <td>
+                                    #foreach($item in $!itemCategory.get($key))
+                                        <label>$item.name</label>
+                                    #end
+                                </td>
+                            </tr>
                             #end
                         </tbody>
                     </table>

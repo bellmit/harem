@@ -272,10 +272,27 @@ public class ApplyApprovalController extends BaseController {
                                 outer:
                                 for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryResult.getValue()) {
                                     List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
+                                    if (null == categoryDOs || categoryDOs.isEmpty()) {
+                                        categoryDOs = new ArrayList<>();
+                                        try {
+                                            CategoryDO categoryDO = categoryService.getCategoryDOById(scopeItemCategoryDO.getItemCategoryId());
+                                            if (categoryDO != null) {
+                                                categoryDOs.add(categoryDO);
+                                            }
+                                        } catch (Exception e) {
+                                            log.error(e.getMessage(), e);
+                                            // TODO 跳转错误页面处理
+                                            return "";
+                                        }
+                                    }
+
                                     List<CategoryVO> categoryVOs = new ArrayList<>();
                                     for (CategoryDO categoryDO : categoryDOs) {
                                         CategoryVO vo = new CategoryVO();
+                                        vo.setId(categoryDO.getId());
                                         vo.setName(categoryDO.getName());
+                                        vo.setParentId(categoryDO.getParent().getId());
+                                        vo.setStatus(categoryDO.getStatus());
                                         categoryVOs.add(vo);
                                     }
                                     for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
