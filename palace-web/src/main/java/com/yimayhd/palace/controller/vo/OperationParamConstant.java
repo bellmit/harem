@@ -40,5 +40,14 @@ public class OperationParamConstant {
 	public static final String ITEM_DETAIL_FREE_LINE = "FREE_LINE";//自由行
 	public static final String ITEM_DETAIL_CITY_ACTIVITY = "CITY_ACTIVITY";//同城活动
 	public static final String ITEM_DETAIL_NORMAL = "NORMAL";//实物商品
+	public static final String ITEM_DETAIL_HOTEL = "HOTEL";//酒店商品
+	public static final String ITEM_DETAIL_SPOTS = "SPOTS";//景区门票
+
+	public static final String ITEM_TALENT = "TALENT";//达人
+	public static final String ITEM_DETAIL_EAT = "EAT";//美食
+	public static final String ITEM_TALENT_SERVICE = "TALENT_SERVICE";//达人专题
+
+
+
 
 }
