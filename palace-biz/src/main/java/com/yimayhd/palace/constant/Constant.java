@@ -50,4 +50,10 @@ public class Constant {
 	public static final String[] AFTERSALE_PIC_POSTFIX = new String[]{"jpg","jpeg","png","JPG","JPEG","PNG"};
 
 	public static final String GF_ORDER_CLOSE = "CLOSE" ;
+
+	public static final int showTypeRadio = 1;//1单选框
+	public static final int showTypeCheckBox = 2;//2复选框
+	public static final int showTypeSelect = 3;//3下拉框
+
+
 }
