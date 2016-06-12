@@ -24,6 +24,8 @@ import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.query.MerchantPageQuery;
 
 import java.util.List;
 
@@ -93,4 +95,7 @@ public interface ShowcaseService {
 
     //商品列表
     public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception ;
+
+    //达人 美食
+    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption) throws Exception ;
 }

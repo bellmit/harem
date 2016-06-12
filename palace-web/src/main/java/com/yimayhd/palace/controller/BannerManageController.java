@@ -37,6 +37,8 @@ import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.query.MerchantPageQuery;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -218,8 +220,10 @@ public class BannerManageController extends BaseController {
             return "/system/banner/showcase/chooseTheme";//选目主题
         }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_LIST==type){
             return "/system/banner/showcase/chooseItemList";//选商品列表
-        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL==type){
+        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL == type){
             return "/system/banner/showcase/chooseItemDetail";//选商品详情
+        }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){
+            return "/system/banner/showcase/chooseDaRenMeiShiDetail";//选达人或美食
         }
         return "error";
     }
@@ -275,6 +279,21 @@ public class BannerManageController extends BaseController {
             }
             PageVO<ShowCaseItem> page = showcaseService.getItemByItemOptionDTO(query);
             result.put("pageVo", page);
+        }else if (Constant.SHOWCASE_SHOE_TYPE_MASTER  ==  type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL  ==  type){//达人的，美食的
+            MerchantPageQuery merchantQuery = new MerchantPageQuery();
+            MerchantOption option = MerchantOption.valueOfName(code);
+            merchantQuery.setDomainId(1200);
+            merchantQuery.setPageNo(pageNumber);
+            if(null != option){
+                merchantQuery.setOption(option.getOption());
+            }
+            if(NumberUtils.isNumber(keyWord)){
+                merchantQuery.setCityCode(Integer.parseInt(keyWord));
+            }else{
+                merchantQuery.setName(keyWord);
+            }
+            PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery,option);
+            result.put("pageVo", page);
         }
         return new ResponseVo(result);
     }
@@ -283,6 +302,7 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/operation/list")
     @ResponseBody
     public ResponseVo operationList() throws Exception {
+        //TODO:rc_oper表加个type,把乱七八糟的类型过滤一下，不要在这里显示出来了
     	ResponseVo rs = null;
     	List<OperationDO> operationDOs = showcaseService.getAllOperactions();
         if( CollectionUtils.isEmpty(operationDOs) ){
@@ -300,7 +320,8 @@ public class BannerManageController extends BaseController {
     			if( code.equals(type.name())) {
     				if (OperationType.FREE_TOUR_LIST == type    ||
                         OperationType.PACKAGE_TOUR_LIST == type ||
-                        OperationType.AROUND_FUN_LIST == type) {// 选择目的地、选择路线标签
+                        OperationType.AROUND_FUN_LIST == type ||
+                        OperationType.SCENIC_TAG_LIST == type    ) {// 选择目的地、选择路线标签
     					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_LINE };
     					vo.setParamTypes(types);
     				} else if (OperationType.CITY_ACTIVITY_LIST == type) {// 选择目的地、选择活动标签
@@ -322,7 +343,25 @@ public class BannerManageController extends BaseController {
                     }else if(OperationType.JIUXIU_BUY_DETAIL == type ){//实物商品详情
                         String[] types = { OperationParamConstant.ITEM_DETAIL_NORMAL };
                         vo.setParamTypes(types);
-                    }
+                    }else if(OperationType.HOTEL_DETAIL == type ){//酒店详情
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_HOTEL };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.SCENIC_DETAIL == type ){//景区详情
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_SPOTS };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.JIUXIU_FOOD_DETAIL == type ){//美食店铺页
+                        String[] types = { OperationParamConstant.ITEM_DETAIL_EAT };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.MASTER_DETAIL == type ){//达人详情
+                        String[] types = { OperationParamConstant.ITEM_TALENT };
+                        vo.setParamTypes(types);
+                    }else if(OperationType.MASTER_LIST == type ){//达人专题列表
+                        String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
+                        vo.setParamTypes(types);
+                    }/*else if(OperationType.JIUXIU_MASTER == type ){//达人列表
+                        String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
+                        vo.setParamTypes(types);
+                    }*/
     				break;
     			}
     		}

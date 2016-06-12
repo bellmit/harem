@@ -1,40 +1,24 @@
 package com.yimayhd.palace.service.impl;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
-import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
-import com.yimayhd.ic.client.model.result.item.ItemPageResult;
-import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.ItemBizQueryService;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
-import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
-import com.yimayhd.palace.error.PalaceReturnCode;
-import com.yimayhd.palace.model.ItemVO;
-import com.yimayhd.palace.model.query.CommodityListQuery;
-import com.yimayhd.palace.model.vo.VoucherTemplateVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
-import com.yimayhd.palace.result.BizResult;
-import com.yimayhd.palace.result.BizResultSupport;
-import com.yimayhd.palace.service.CommodityService;
-import com.yimayhd.palace.service.RegionService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.palace.util.NumUtil;
@@ -42,7 +26,6 @@ import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
-import com.yimayhd.resourcecenter.entity.Booth;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
@@ -58,16 +41,17 @@ import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.dto.CityDTO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
+import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.query.MerchantPageQuery;
+import com.yimayhd.user.client.service.MerchantService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2016/4/13.
@@ -89,6 +73,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Autowired ItemBizQueryService itemBizQueryService;
 
     @Autowired CityDataCacheClient cityDataCacheClient;
+
+    @Autowired MerchantService merchantService;
 
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
@@ -381,5 +367,38 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         //sd.setOnOffTime(sw.getOnOffTime());
         //sd.setGmtCreated();
         return sd;
+    }
+
+    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption){
+        com.yimayhd.user.client.result.BasePageResult<MerchantUserDTO> result = merchantService.getMerchantUserList(merchantPageQuery);
+        if(null == result || !result.isSuccess()){
+            LOGGER.error("getMerchants|merchantService.getMerchantUserList result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(merchantPageQuery));
+            return null;
+        }
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isNotEmpty(result.getList())){
+            String cityName = "";
+            /*List<MerchantOption> optionList = null;*/
+             /*optionList  = MerchantOption.getContainedMerchantOptions(merchantPageQuery.getOption());*/
+            for (MerchantUserDTO mu :result.getList()){
+                if(null == mu.getMerchantDO() || StringUtils.isEmpty(mu.getMerchantDO().getName())){
+                   continue;
+                }
+                ShowCaseItem sc = new ShowCaseItem();
+                if(null != merchantOption && MerchantOption.TALENT.name().equals(merchantOption.name())){
+                    sc.setId(mu.getUserDO().getId());
+                    sc.setName(mu.getUserDO().getName());
+                    cityName = (StringUtils.isEmpty(mu.getUserDO().getCity())?"":mu.getUserDO().getCity());
+                }else{
+                    sc.setId(mu.getMerchantDO().getSellerId());
+                    sc.setName(mu.getMerchantDO().getName());
+                    cityName = (StringUtils.isEmpty(mu.getMerchantDO().getCityName())?"":mu.getMerchantDO().getCityName());
+                }
+                sc.setDestination(Arrays.asList(cityName));
+                list.add(sc);
+            }
+        }
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(merchantPageQuery.getPageNo(), merchantPageQuery.getPageSize(), result.getTotalCount(), list);
+        return page;
     }
 }
