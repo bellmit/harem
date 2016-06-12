@@ -23,6 +23,7 @@
                 <input type="hidden" name="boothId" id="boothId" value="$!boothId">
                 <input type="hidden" name="boothCode" id="boothCodeId" value="$!boothCode">
                 <input type="hidden" name="showcaseId" id="showcaseId" value="$!showcase.id">
+                <input type="hidden" name="operationId" id="operationId" value="$!showcase.operationId">
                 <td><label>权重：</label><input name='serialNo' id='serialNoId'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
                     <span class="prompt">请填写整数</span></td>
             </tr>
@@ -119,6 +120,8 @@
             //选择内容，添加内容加载隐藏，if 点选择内容就不能添加内容，反之。
             $("#choId").hide();//隐藏
             //获取跳转的下拉列表
+            var operactionId=$("#operationId").val();
+
             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/operation/list', {} ,function(data){
                 if(data.status == 200){
                     var showName="";
@@ -127,7 +130,11 @@
                     var radioHtml="";
                     var optionHtml="<option value='0'>请选择</option>";
                     $.each(data.data, function(n, val) {
-                        optionHtml+="<option paramTypes='"+val.paramTypes+"' operationId='"+val.operationId+"' value='"+val.operationCode+"' >"+val.operationName+"</option>";
+                        optionHtml+="<option paramTypes='"+val.paramTypes+"' operationId='"+val.operationId+"' value='"+val.operationCode+"' ";
+                        if(operactionId == val.operationId){
+                            optionHtml+= "selected = 'selected' ";
+                        }
+                        optionHtml+=">"+val.operationName+"</option>";
                         radioArr = val.paramTypes;
                     });
                     //console.log(optionHtml);
