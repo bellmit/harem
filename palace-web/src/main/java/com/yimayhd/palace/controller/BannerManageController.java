@@ -135,12 +135,22 @@ public class BannerManageController extends BaseController {
         return "/system/banner/showcase/list";
     }
 
-    @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
     public String showcaseToAdd(Model model,long boothId,String boothCode) throws Exception {
         model.addAttribute("boothId",boothId);
         model.addAttribute("boothCode",boothCode);
         return "/system/banner/showcase/edit";
+    }*/
+
+    @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
+    public String showcaseToNewAdd(Model model,long boothId,String boothCode) throws Exception {
+        model.addAttribute("boothId",boothId);
+        model.addAttribute("boothCode",boothCode);
+        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        model.addAttribute("operationDOs",operationDOs);
+        return "/system/banner/showcase/edit_new";
     }
+
 
     /**
      * 新增showcase提交
@@ -172,7 +182,10 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothId",null==showcase?0:showcase.getBoothId());
         model.addAttribute("showcase",showcase);
         model.addAttribute("boothCode",boothCode);
-        return "/system/banner/showcase/edit";
+        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        model.addAttribute("operationDOs",operationDOs);
+        return "/system/banner/showcase/edit_new";
+//        return "/system/banner/showcase/edit";
     }
 
     /**
@@ -219,18 +232,17 @@ public class BannerManageController extends BaseController {
         model.addAttribute("code",code);
         model.addAttribute("type",type);
         //根据type去判断跳转
-        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type){
-            return "/system/banner/showcase/chooseDestination";//选目的地
-        }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){
-            return "/system/banner/showcase/chooseTheme";//选目主题
+        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type){//选目的地
+            return "/system/banner/showcase/chooseDestination";
+        }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){//选目主题
+            return "/system/banner/showcase/chooseTheme";
         }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_LIST == type
-                || Constant.SHOWCASE_HOTEL_LIST == type
-                || Constant.SHOWCASE_SCENIC_LIST == type){
-            return "/system/banner/showcase/chooseItemList";//选商品列表
-        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL == type){
-            return "/system/banner/showcase/chooseItemDetail";//选商品详情
-        }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){
-            return "/system/banner/showcase/chooseDaRenMeiShiDetail";//选达人或美食
+                || Constant.SHOWCASE_HOTEL_LIST == type || Constant.SHOWCASE_SCENIC_LIST == type){//选商品列表
+            return "/system/banner/showcase/chooseItemList";
+        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL == type){//选商品详情
+            return "/system/banner/showcase/chooseItemDetail";
+        }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){//选达人或美食
+            return "/system/banner/showcase/chooseDaRenMeiShiDetail";
         }
         return "error";
     }
@@ -301,7 +313,6 @@ public class BannerManageController extends BaseController {
             query.setDomains(Arrays.asList(1200,1100));
             query.setPageNo(pageNumber);
             query.setPageSize(pageSize);
-            //判断keyWord是纯数字则放id，否则放title
             if(NumberUtils.isNumber(keyWord)){
                 query.setId(Long.parseLong(keyWord));
             }else{
@@ -331,7 +342,7 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(result);
     }
 
-    //获取选择页面的列表
+  /*  //获取选择页面的列表
     @RequestMapping(value = "/operation/list")
     @ResponseBody
     public ResponseVo operationList() throws Exception {
@@ -397,10 +408,10 @@ public class BannerManageController extends BaseController {
                     }
 
 
-                    /*else if(OperationType.JIUXIU_MASTER == type ){//达人列表
+                    *//*else if(OperationType.JIUXIU_MASTER == type ){//达人列表
                         String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
                         vo.setParamTypes(types);
-                    }*/
+                    }*//*
     				break;
     			}
     		}
@@ -408,26 +419,18 @@ public class BannerManageController extends BaseController {
     	}
         return new ResponseVo(vos);
     }
-    
+    */
 /**
 1、从operation中查询所有跳转方式
 2、定义需要特殊处理的OperationType（选目的地、主题）
 3、从operaction表中查询出所有的跳转配置，然后和operactionType比较，如果是需要特殊处理，那么跳转的radio
 4、选择目的地；主题（使用tagType中的主题）
 5、
-
-
 OperationType.FREE_TOUR_LIST ,  OperationType.PACKAGE_TOUR_LIST , OperationType.AROUND_FUN_LISL
-
-
-
-
-
  */
 
 
-    //TODO:新版本的showcase操作，选择的operation从数据库加载出来
-    @RequestMapping(value = "/new/operation/list")
+    /*@RequestMapping(value = "/new/operation/list")
     @ResponseBody
     public ResponseVo newOperationList() throws Exception {
         try {
@@ -441,17 +444,30 @@ OperationType.FREE_TOUR_LIST ,  OperationType.PACKAGE_TOUR_LIST , OperationType.
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseVo(123L);
+        return new ResponseVo(ResponseStatus.ERROR);
+    }
+*/
+    @RequestMapping(value = "/operation/list", method = RequestMethod.GET)
+    public String operationList(Model model,BaseQuery baseQuery) throws Exception {
+        PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
+        model.addAttribute("pageVo",pageVO);
+        model.addAttribute("query",baseQuery);
+        return "/system/banner/booth/list";
     }
 
-    @RequestMapping(value = "/showcase/new/toAdd", method = RequestMethod.GET)
-    public String showcaseToNewAdd(Model model,long boothId,String boothCode) throws Exception {
-        model.addAttribute("boothId",boothId);
-        model.addAttribute("boothCode",boothCode);
-        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
-        model.addAttribute("operationDOs",operationDOs);
-        return "/system/banner/showcase/edit_new";
+    @RequestMapping(value = "/operation/add", method = RequestMethod.GET)
+    public String operationtoAdd(Model model) throws Exception {
+        return "/system/banner/operation/edit";
     }
+
+
+    @RequestMapping(value = "/operation/add", method = RequestMethod.POST)
+    public String operationAdd(Model model) throws Exception {
+
+        return "/system/banner/booth/list";
+    }
+
+
 
 
 

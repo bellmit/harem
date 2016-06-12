@@ -1,0 +1,186 @@
+<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<div class="clubDynamicPage whole">
+    <form name="editForm" id="editForm" action="" method="post">
+        <table class="table">
+                <tr>
+                    <td><span class="spColor">*</span>code：</td>
+                    <td> <input type="text" class="inpCtlBlock code" name="code"  id="codeId" value=""></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>名称：</td>
+                    <td> <input type="text" class="inpCtlBlock name" name="name"   id="nameId" value=""></td>
+                </tr>
+        </table>
+
+        <table >
+            <tr>
+                <td width="6%"><span class="spColor">*</span>详情</td>
+                <td width="94%">
+                    <button type="button" class="btn btn-default" id="gaikuang" onclick="addItemCall()">增加条目</button>
+                    <table class="table bigTables travel-item-table">
+                        <tr>
+                            <th width="20%">选择类型</th>
+                            <th width="20%">跳转类型</th>
+                            <th width="30%">显示名称</th>
+                            <th width="30%">值</th>
+                            <th></th>
+                        </tr>
+                        #if($travelOfficial.listTravelJsonDO)
+                            #foreach($travelOfficial in $!travelOfficial.listTravelJsonDO)
+                                <tr class="item-tr" data="$!{velocityCount}" >
+                                    <td>
+                                        <input  type='radio' id='show_type1'  value='1'> 单选框
+                                        <input  type='radio' id='show_type2'  value='2'> 复选框
+                                        <input  type='radio' id='show_type3'  value='3'> 下拉框
+                                    </td>
+                                    <td>
+                                        <div class="fileImgWrap img-upload-container">
+                                            <input  type='radio' id='jump_type1'  value='1'> 目的地
+                                            <input  type='radio' id='jump_type2'  value='2'> 主题
+                                            <input  type='radio' id='jump_type3'  value='3'> 列表
+                                            <input  type='radio' id='jump_type4'  value='4'> 详情
+                                            <input  type='radio' id='jump_type5'  value='5'> 达人专题
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control trave-extra-info" name="show_name" id="show_name" ></input>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control trave-extra-info" name="show_value" id="show_value" ></input>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-link" onclick="deleteItemTr(this)">删除</button>
+                                    </td>
+                                </tr>
+                            #end
+                        #else
+                            <tr class="item-tr" data="1" >
+                                <td>
+                                    <input  type='radio' id='show_type1'  value='1'> 单选框
+                                    <input  type='radio' id='show_type2'  value='2'> 复选框
+                                    <input  type='radio' id='show_type3'  value='3'> 下拉框
+                                </td>
+                                <td>
+                                    <div class="fileImgWrap img-upload-container">
+                                        <input  type='radio' id='jump_type1'  value='1'> 目的地
+                                        <input  type='radio' id='jump_type2'  value='2'> 主题
+                                        <input  type='radio' id='jump_type3'  value='3'> 列表
+                                        <input  type='radio' id='jump_type4'  value='4'> 详情
+                                        <input  type='radio' id='jump_type5'  value='5'> 达人专题
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control trave-extra-info" name="show_name" id="show_name" ></input>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control trave-extra-info" name="show_value" id="show_value" ></input>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-link" onclick="deleteItemTr(this)">删除</button>
+                                </td>
+                            </tr>
+                        #end
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+    </form>
+</div>
+<script>
+     //非空验证
+     var validate = function(){
+         if(!$('.code').val()){
+             return 'code不能为空';
+         }else if($('.code').val().length > 100){
+            return 'code不能超过200字';
+         }
+         if(!$('.name').val()){
+             return '名称不能为空';
+         }else if($('.name').val().length > 100){
+             return '名称不能超过20字';
+         }
+        /* if($('.description').val() && $('.description').val().length > 200){
+             return '描述不能超过200字';
+         }*/
+     }
+    $(function(){
+        $('#btnSubmit').click(function(){
+            //非空验证
+            /*var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var actionUrl = actionDefaultPath + '/banner/operation/add';
+            $('#editForm').attr('action',actionUrl)
+            $('#editForm').submit();*/
+            var code = $("#codeId").val();
+            var name = $("#nameId").val();
+
+            var parts = [];
+            var trs = $("tr.item-tr");
+            if (!trs) {
+                return;
+            }
+            for (var i = 0; i < trs.length; i++) {
+                var tr = trs[i];
+
+                var travelDes = $(tr).find("textarea.trave-desc").val();
+                var node = $(tr).find("input.img-values");
+                var extraInfo = $(tr).find("textarea.trave-extra-info").val();
+                var detail = {
+                    travelDes: travelDes,
+                    travelImg: imgs,
+                    detail: extraInfo
+                };
+                parts.push(travelJsonDO);
+            }
+
+            var json = JSON.stringify(parts);
+
+        });
+    });
+
+    //
+     var addItemCall = function () {
+         var trs = $("tr.item-tr");
+         if( !trs ){
+             return ;
+         }
+         var tr = trs[trs.length-1];
+         var index = $(tr).attr("data") ;
+         index = parseInt(index)+1 ;
+         var newTr = "<tr class='item-tr' data='"+index+"' >"+$(tr).html()+"</tr>";
+         $(tr).after( newTr );
+
+
+         var trs = $("tr.item-tr");
+         newTr = trs[trs.length-1] ;
+
+         $(newTr).find("input.img-values").val("");
+         $(newTr).find("textarea").text("");
+         $(newTr).find(".img-view-container").empty();
+
+         var node = $(newTr).find(".file-selector") ;
+         $( node ).attr("id", "FMUploadFile_"+index) ;
+         console.log(  $(newTr).html() );
+     };
+
+     function deleteItemTr(obj){
+         var trs = $("tr.item-tr");
+         if( !trs ){
+             return ;
+         }
+         if( trs.length ==1 ){
+             alert("最后一条，不允许删除");
+             return ;
+         }
+         $(obj).parent().parent().remove();
+     }
+
+</script>

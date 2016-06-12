@@ -10,6 +10,7 @@
         <tool key="imageUtil" class="com.yimayhd.palace.util.ImageUtil"></tool>
         <tool key="utilMoney" class="com.yimayhd.palace.util.MoneyUtil"></tool>
         <tool key="jsonUtil" class="com.yimayhd.palace.util.JsonUtil"></tool>
+        <tool key="utilHtml" class="com.yimayhd.palace.util.HtmlUtil"></tool>
     </toolbox>
 
 </tools>
