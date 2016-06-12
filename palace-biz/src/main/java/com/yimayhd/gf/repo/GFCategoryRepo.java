@@ -1,6 +1,7 @@
 package com.yimayhd.gf.repo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.CategoryDO;
 import com.yimayhd.commentcenter.client.domain.CategoryItemRelationDO;
+import com.yimayhd.commentcenter.client.dto.CategoryCheckDTO;
 import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.CategoryRelationDTO;
 import com.yimayhd.commentcenter.client.dto.CategoryRelationDelDTO;
@@ -288,6 +290,19 @@ public class GFCategoryRepo {
 		singleItemQueryResult = itemQueryServiceRef.querySingleItem(itemId,itemOptionDTO);
 		RepoUtils.resultLog(LOGGER, "itemBizQueryServiceRef.querySingleItem", singleItemQueryResult);
 		return singleItemQueryResult;
+	}
+
+	public BaseResult<Map<Long, Boolean>> checkItemAndCateRelaByitemIds(
+			CategoryCheckDTO categoryCheckDTO) {
+		BaseResult<Map<Long, Boolean>> baseResult = new BaseResult<Map<Long,Boolean>>();
+		if (categoryCheckDTO == null) {
+			baseResult.setErrorCode(ComCenterReturnCodes.C_CONTENT_CAN_NOT_BE_NULL);
+			return baseResult;
+		}
+		RepoUtils.requestLog(LOGGER, "comCategoryService.checkItemAndCateRelaByitemIds", categoryCheckDTO);
+		baseResult = comCategoryService.checkItemAndCateRelaByitemIds(categoryCheckDTO);
+		RepoUtils.resultLog(LOGGER, "comCategoryService.checkItemAndCateRelaByitemIds", baseResult);
+		return baseResult;
 	}
 
 

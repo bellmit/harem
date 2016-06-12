@@ -1,6 +1,8 @@
 package com.yimayhd.gf.service.impl;
 
+import com.alibaba.dubbo.common.json.JSONToken;
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.gf.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
@@ -213,6 +215,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 
     @Override
+    @MethodLogger
     public void addCommonItem(ItemVO itemVO) throws Exception {
         //参数类型匹配
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
@@ -265,7 +268,9 @@ public class CommodityServiceImpl implements CommodityService {
         commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 
+        
         ItemPubResult itemPubResult = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
+        log.info("publishCommonItem   dto={}, result={}", JSON.toJSONString(commonItemPublishDTO), JSON.toJSONString(itemPubResult));
         if(null == itemPubResult){
             log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
             throw new BaseException("返回结果错误,新增失败 ");
@@ -276,6 +281,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    @MethodLogger
     public void modifyCommonItem(ItemVO itemVO) throws Exception {
 
         //修改的时候要先取出来，在更新
@@ -330,6 +336,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 //            System.err.println(JSON.toJSONString(commonItemPublishDTO));
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
+            log.info("updatePublishCommonItem   dto={}, result={}", JSON.toJSONString(commonItemPublishDTO), JSON.toJSONString(itemPubResult));
 //            System.err.println(JSON.toJSONString(itemPubResult));
             if(null == itemPubResult){
                 log.error("ItemPublishService.publishCommonItem result is null and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));

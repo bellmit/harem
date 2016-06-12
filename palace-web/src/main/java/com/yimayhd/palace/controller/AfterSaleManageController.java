@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.yimayhd.palace.model.RefundOrderVO;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.service.AfterSaleService;
 import com.yimayhd.palace.util.CommonUtil;
+import com.yimayhd.palace.util.ImageUtil;
 import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.refund.client.domain.RefundOrderDO;
 import com.yimayhd.refund.client.enums.RefundType;
@@ -73,11 +75,11 @@ public class AfterSaleManageController {
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? 1 : Integer.parseInt(request.getParameter("pageNumber")) ;
         String bizOrderIdBak = request.getParameter("bizOrderIdBak");
         String refundOrderIdBak = request.getParameter("refundOrderIdBak");
-        if(StringUtils.isNotEmpty(bizOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
+        if(StringUtils.isNotEmpty(bizOrderIdBak) && NumberUtils.isNumber(bizOrderIdBak.trim()) ){//&& NumberUtils.isNumber(bizOrderIdBak)
             bizOrderIdBak=bizOrderIdBak.trim();
             refundOrderQuery.setBizOrderId(Long.parseLong(bizOrderIdBak));
         }
-        if(StringUtils.isNotEmpty(refundOrderIdBak) ){//&& NumberUtils.isNumber(bizOrderIdBak)
+        if(StringUtils.isNotEmpty(refundOrderIdBak) && NumberUtils.isNumber(refundOrderIdBak.trim()) ){//&& NumberUtils.isNumber(bizOrderIdBak)
             refundOrderIdBak=refundOrderIdBak.trim();
             refundOrderQuery.setRefundOrderId(Long.parseLong(refundOrderIdBak));
         }
@@ -117,7 +119,15 @@ public class AfterSaleManageController {
         if( refundOrderDO != null ){
         	List<String> pictures = refundOrderDO.getPictures() ;
 //        	String pics = CommonUtil.list2String(pictures);
-        	model.addAttribute("refundPics", JSON.toJSON(pictures));
+        	//FIXME wuzhengfei
+        	List<String> imgs = new ArrayList<>();
+        	if( !org.springframework.util.CollectionUtils.isEmpty(pictures) ){
+        		for( String picture : pictures ){
+        			String img = ImageUtil.getImgUrl(picture, 800);
+        			imgs.add(img);
+        		}
+        	}
+        	model.addAttribute("refundPics", JSON.toJSONString(imgs));
         }
         AfterSaleAuditStatus as = refundOrderVO.getAfterSaleAuditStatus();
         model.addAttribute("afterSaleAuditStatusDesc", as==null?"":as.getDes());
@@ -160,7 +170,9 @@ public class AfterSaleManageController {
                 return new ResponseVo(Constant.ERROR_STATUS,Constant.AFTERSALE_PIC_MAX_ERR);
             }
             for (String str:pictures) {//TODO:这里是不太好的，文件已经上传上去了，在filegw里面就应该处理好，传图片的就只能传图片
-                if(!Arrays.asList(Constant.AFTERSALE_PIC_POSTFIX).contains(str)){//文件后缀不匹配
+                //看后缀
+                String aix = str.substring(str.lastIndexOf(".")+1,str.length());
+                if(!Arrays.asList(Constant.AFTERSALE_PIC_POSTFIX).contains(aix)){//文件后缀不匹配
                     return new ResponseVo(Constant.ERROR_STATUS,Constant.AFTERSALE_PIC_POSTFIX_ERR);
                 }
             }

@@ -1,5 +1,6 @@
 package com.yimayhd.palace.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.RefundOrderVO;
@@ -19,6 +20,7 @@ import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
+import com.yimayhd.user.client.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +85,11 @@ public class AfterSaleServiceImpl implements AfterSaleService {
        if(null ==result || !result.isSuccess()){
            recordLog("queryRefundOrder",var1,result);
        }
-       return new PageVO<RefundOrderDO >(var1.getPageNo(), var1.getPageSize(), result.getTotalCount(), result.getRefundOrderDOList());
+       List list = new ArrayList();
+       if(CollectionUtils.isNotEmpty(result.getRefundOrderDOList())){
+           list = result.getRefundOrderDOList();
+       }
+       return new PageVO<RefundOrderDO >(var1.getPageNo(), var1.getPageSize(),result.getTotalCount() , list);
 
    }
 

@@ -53,9 +53,11 @@ public class OrderConverter {
             }
         }
         //下单开始日期
-        if (StringUtils.isNotEmpty(orderListQuery.getBeginDate())){
+        String beginDate = orderListQuery.getBeginDate();
+        if (StringUtils.isNotEmpty(beginDate)){
+            beginDate = DateUtil.addHHmmss(beginDate,true);
             try {
-                orderQueryDTO.setStartDate(DateUtil.convertStringToDate(orderListQuery.getBeginDate()));
+                orderQueryDTO.setStartDate(DateUtil.convertStringToDate(DateUtil.DATE_TIME_FORMAT,beginDate));
             } catch (ParseException e) {
                 LOG.error("orderQueryDTO.setStartDate(DateUtil.convertStringToDate(orderListQuery.getBeginDate())); Exception:" + e);
                 e.printStackTrace();
@@ -71,9 +73,11 @@ public class OrderConverter {
 //            }
         }
         //下单结束日期
-        if (StringUtils.isNotEmpty(orderListQuery.getBeginDate())){
+        String endDate = orderListQuery.getEndDate();
+        if (StringUtils.isNotEmpty(endDate)){
             try {
-                orderQueryDTO.setEndDate(DateUtil.convertStringToDate(orderListQuery.getEndDate()));
+                endDate = DateUtil.addHHmmss(endDate,false);
+                orderQueryDTO.setEndDate(DateUtil.convertStringToDate(DateUtil.DATE_TIME_FORMAT,endDate));
             } catch (ParseException e) {
                 LOG.error("orderQueryDTO.setEndDate(DateUtil.convertStringToDate(orderListQuery.getEndDate())); Exception:" + e);
                 e.printStackTrace();

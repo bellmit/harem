@@ -126,7 +126,6 @@
 			<ul class = "clearfix">
 				<li class = "first">旅行社责任险保险单：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travelAgencyInsurance" == "")src = "$!defaultNoImg" #else src = "$!tfs$!examineInfo.travelAgencyInsurance" #end></li>
-				
 			</ul>
 		</div>
 		<div class = "clearfix showImg">
@@ -148,7 +147,6 @@
 			<ul class = "clearfix first">
 				<li class = "first">旅行社业务经营许可证：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
 				<li><img #if("$!examineInfo.travingCard" == "")src = "$!defaultNoImg" #else src = "$!tfs$!examineInfo.travingCard" #end></li>
-				
 			</ul>
 			<ul class = "clearfix">
 				<li class = "first">联系人变更证明：</br><p class = "spe"><a>*</a>仅限合同签署人与联系人不一致情形时上传<p></li>

@@ -1,6 +1,6 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-    <form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/listProSearch/$!id" method="POST" role="form">
+    <form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/listProSearch/$!id/$!parentId" method="POST" role="form">
         <div class="inputGroup whole">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -22,7 +22,7 @@
                 </tr>
                     #foreach($theme in $themeItemList)
                     <tr class="subCheckedTR">
-                        <td><input class="subChecked" type="checkbox" value="$!{theme.id}"></td>
+                        <td><input class="subChecked" type="checkbox" value="$!{theme.id}" #if($!theme.source == 1) disabled="disabled" checked="checked" #end ></td>
                         <td>
                         	<p><img class="uploadImgFile" src="#if($!theme.smallListPic && $!theme.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!theme.smallListPic) #end"></p>
 	                        $!theme.title

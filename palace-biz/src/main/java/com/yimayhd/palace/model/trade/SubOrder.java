@@ -9,6 +9,7 @@ import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
+import org.apache.velocity.tools.Toolbox;
 
 /**
  * Created by zhaozhaonan on 2015/12/22.
@@ -90,7 +91,9 @@ public class SubOrder {
     		long reduceFee = info.getDiscountFee() ;
     		if( reduceFee > 0 ){
     			//FIXME 伍正飞 修改
-    			return "直降"+ NumUtil.moneyTrans(reduceFee)+"元";
+    			/*return "直降"+ NumUtil.moneyTrans(reduceFee)+"元";*/
+               return "直降"+ NumUtil.totalFee(1,reduceFee)+"元";
+
     		}
     	}
     	String title = info.getTitle();

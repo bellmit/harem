@@ -48,13 +48,13 @@
         <div class="createHotrlTable">
             <table>
                 <tr>
-                    <td width="120"><span class="spColor">*</span>券标题：</td>
+                    <td width="120"><span class="spColor">*</span>优惠劵批次名称：</td>
                     <td> <input type="text" name="title" class="title" value="$!voucherDO.title"></td>
                 </tr>
 
                 <tr>
                 	 <td align="left" width="10%"><span class="spColor">*</span>类型：</td>
-                    <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement" class="requirement" value="$!{voucherDO.requirement}">
+                    <td align="left" width="50%"><span class="spColor">*</span>满 <input type="text" name="requirement_" class="requirement" value="$!{voucherDO.requirement_}">
                         <span class="spColor">*</span>减 <input type="text" name="value_" class="value" value="$!{voucherDO.value_}"> 元
                     </td>
                 </tr>
@@ -73,8 +73,8 @@
                 <tr>
 				 	<td><span class="spColor">*</span>生成方式</td>
                     <td>
-                        <input type="radio" name="issueType"  value="1" checked="checked" #if($!choose == "false") disabled #end/>绑定发放 $!edit
-                        <input type="radio" name="issueType" value="2"  #if($!choose == "false") disabled #end/>预先生成
+                        <input type="radio" name="issueType"  value="1" #if($!voucherDO.issueType == "1") checked="checked" #end #if($!choose == "false") disabled #end/>绑定发放 
+                        <input type="radio" name="issueType" value="2" #if($!voucherDO.issueType == "2") checked="checked" #end  #if($!choose == "false") disabled #end/>预先生成
                     </td>
                     
                 </tr>
@@ -103,6 +103,7 @@
     #if($!edit != 0)
     <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
     #end
+     <button type="button" class="btn btn-info" id="btnEx">返回</button>
 </div>
 </form>
 
@@ -134,8 +135,8 @@
     }
     //验证
     var validate = function(){
-        if(!$('.title').val()){
-            return '请输入券标题';
+        if(!/^[\u4E00-\u9FA5\uf900-\ufa2d\w\s]{1,60}$/.test($('.title').val())){
+            return '请输入正确的券标题';
         }
         if($('.title').val().length > 60){
             return '字数不能超过60';
@@ -164,7 +165,7 @@
             return '请输入结束有效期';
         }
         if($('.startTime').val() && $('.endTime').val()){
-            if($('.startTime').val() > $('.endTime').val()){
+            if($('.endTime').val() < $('.startTime').val()){
                 return "结束日期必须大于开始日期!";
             }
         }
@@ -218,7 +219,7 @@
         }
 	    $("#title_").text($('.title').val());
 	    $("#voucherType_").text("满"+ $('.requirement').val() + "减" + $('.value').val());
-	    $("#time_").text($('.startTime').val()+"-"+$('.endTime').val());
+	    $("#time_").text($('.startTime').val().replace("-","/").replace("-","/")+"-"+$('.endTime').val().replace("-","/").replace("-","/"));
 	    var type = $('input[name="issueType"]:checked').val()
 	    if(type == 1){
 	    	 $("#issueType_").text("绑定生成");
@@ -232,6 +233,11 @@
 	    
 	    
  		$('.dialog').fadeIn();
+   });
+   
+   //取消
+   $('#btnEx').click(function(){
+   		top.$('#myTabList .active i').trigger('click');
    });
    
    

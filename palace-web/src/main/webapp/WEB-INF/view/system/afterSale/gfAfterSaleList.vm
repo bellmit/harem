@@ -20,32 +20,34 @@
                             <button class="btn btn-default" type="button">当前状态</button>
                         </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="refundStatus">
-                    <option value="0">全部</option>
-                    <option value="1" #if($!orderListQuery.refundStatus == '1') selected #end>待审核</option>
-                    <option value="2" #if($!orderListQuery.refundStatus == '2') selected #end>用户已撤销</option>
-                    #if($!bizType=="2")
-                        <option value="5" #if($!orderListQuery.refundStatus == '5') selected #end>初审审核通过，等待买家退货</option>
-                        <option value="6" #if($!orderListQuery.refundStatus == '6') selected #end>收货审核通过，退款中</option>
-                    #end
-                    <option value="7" #if($!orderListQuery.refundStatus == '7') selected #end>
-                        #if($!bizType=="1")
-                            审核未通过，退款关闭
-                        #else
-                            初审审核未通过，退货退款关闭
-                        #end
-                    </option>
+                <option value="0">全部</option>
+                <option value="1" #if($!orderListQuery.refundStatus == '1') selected #end>待审核</option>
+                <option value="2" #if($!orderListQuery.refundStatus == '2') selected #end>用户已撤销</option>
+                #if($!bizType=="2")
+                    <option value="5" #if($!orderListQuery.refundStatus == '5') selected #end>初审审核通过，等待买家退货</option>
+                    <option value="4" #if($!orderListQuery.refundStatus == '5') selected #end>初审审核未通过，退货退款关闭</option>
+                #end
+                <option value="7" #if($!orderListQuery.refundStatus == '7') selected #end>
                     #if($!bizType=="1")
-                        <option value="8" #if($!orderListQuery.refundStatus == '8') selected #end>审核通过，退款中</option>
+                        审核未通过，退款关闭
                     #else
-                        <option value="8" #if($!orderListQuery.refundStatus == '8') selected #end>收货审核通过，退款中</option>
+                        收货审核未通过，退货退款关闭
                     #end
-                    <option value="9" #if($!orderListQuery.refundStatus == '9') selected #end>
-                        #if($!bizType=="1")
-                            退款完成
-                        #else
-                            退货退款完成
-                        #end
-                    </option>
+                </option>
+                <option value="8" #if($!orderListQuery.refundStatus == '8') selected #end>
+                    #if($!bizType=="1")
+                        审核通过，退款中
+                    #else
+                        收货审核通过，退款中
+                    #end
+                </option>
+                <option value="9" #if($!orderListQuery.refundStatus == '9') selected #end>
+                    #if($!bizType=="1")
+                        退款完成
+                    #else
+                        退货退款完成
+                    #end
+                </option>
                 </select>
             </div>
 
@@ -249,7 +251,7 @@
 
 
         $("#clean_btn").click(function(){
-            $('#tradeListForm1 div:eq(0)').find('input').val("");
+            $('#tradeListForm1 div:eq(0)').find('input').val("").end().find('select')[0].selectedIndex = 0;
         });
 
     });

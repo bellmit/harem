@@ -14,8 +14,9 @@
             <tr>
 	            <td><span class="spColor">*</span>上级品类</td>
 	            <td>
-		            <select class="form-control" name="parentId">
-		                <option value="0">无</option>
+		            <select class="form-control" name="parentId" #if($theme.parentId == 0) onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;" #end>
+		                #if($theme.parentId == 0)<option value="0">无</option>#end
+		                #if($parentId==0)<option value="0">无</option>#end
 						#foreach($module in $categoryList)
 							<option #if($theme.parentId == $module.id) selected #end value="$!{module.id}">$!{module.name}</option>
 						#end
@@ -24,7 +25,7 @@
 	        </tr>
 	        <tr>
                 <td><span class="spColor">*</span>序号</td>
-                <td><input type="text" class="form-control" placeholder="请输入不超过100数字，数字越小越靠前" name="priority" value="$!theme.priority"></td>
+                <td><input type="text" class="form-control" placeholder="请输入不超过1000数字，数字越小越靠前" name="priority" value="$!theme.priority"></td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>状态 </td>
@@ -67,7 +68,7 @@
                     required: true,
                     digits: true,
                     min:1,
-                    max:100
+                    max:1000
                 } 
               
             },
@@ -83,7 +84,7 @@
                     required: "请输入排序数字",
                     digits: "排序必须为零或正整数",
                     min:"排序最大值的下限为1",
-                    max:"排序最大值的上限为100"
+                    max:"排序最大值的上限为1000"
                 }
             },
             errorPlacement: function (error, element) { // 指定错误信息位置

@@ -244,7 +244,7 @@ public class BannerManageController extends BaseController {
             RegionQuery rq = new RegionQuery();
             rq.setNeedCount(true);
             rq.setPageNo(pageNumber);
-            rq.setPageSize(0  ==  pageSize ? Constant.DEFAULT_PAGE_MAX_SIZE:pageSize);
+            rq.setPageSize(0  ==  pageSize ? Constant.DEFAULT_PAGE_SIZE_TEN:pageSize);
             rq.setType(RegionType.JIUXIU_REGION.getType());
             PageVO page = showcaseService.getRegionDOListByType(rq);
             result.put("pageVo", page);

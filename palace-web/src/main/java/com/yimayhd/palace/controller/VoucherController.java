@@ -88,8 +88,7 @@ public class VoucherController extends BaseController {
 			String edit) throws Exception {
 		VoucherTemplateVO voucherTemplateVO = voucherTemplateService
 				.getById(id);
-		voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO
-				.getRequirement() / 100));
+		voucherTemplateVO.setRequirement_((double)voucherTemplateVO.getRequirement() / 100);
 		voucherTemplateVO
 				.setValue_((double)voucherTemplateVO.getValue() / 100);
 		model.addAttribute("voucherDO", voucherTemplateVO);
@@ -115,7 +114,7 @@ public class VoucherController extends BaseController {
 		voucherTemplateVO.setDomain(1100);
 		// 新增默认下架状态
 		voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO
-				.getRequirement() * 100));
+				.getRequirement_() * 100));
 		voucherTemplateVO
 				.setValue(Math.round(voucherTemplateVO.getValue_() * 100));
 		// voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
@@ -165,10 +164,14 @@ public class VoucherController extends BaseController {
 		voucherTemplateVO.setId(id);
 		voucherTemplateVO
 				.setEndTime(getEndTime(voucherTemplateVO.getEndTime()));
+//		voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO
+//				.getRequirement() * 100));
+//		voucherTemplateVO
+//				.setValue(Math.round(voucherTemplateVO.getValue() * 100));
 		voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO
-				.getRequirement() * 100));
+				.getRequirement_() * 100));
 		voucherTemplateVO
-				.setValue(Math.round(voucherTemplateVO.getValue() * 100));
+				.setValue(Math.round(voucherTemplateVO.getValue_() * 100));
 		voucherTemplateService.modify(voucherTemplateVO);
 		return "/success";
 	}

@@ -1,5 +1,7 @@
 package com.yimayhd.gf.service;
 
+import java.util.List;
+
 import com.yimayhd.gf.model.BbsPostsQueryVO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.snscenter.client.domain.SnsMasterDO;
@@ -39,5 +41,7 @@ public interface BbsService {
 	BaseResult<Boolean> updatePostsStatus(SnsPostsDO bbsPostsDO);
 
 	int masterCountByName(String name);
+
+	BaseResult<List<SnsPostsDO>> getPosts();
 
 }
