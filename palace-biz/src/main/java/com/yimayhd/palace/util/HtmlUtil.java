@@ -23,7 +23,7 @@ public class HtmlUtil {
         for (OperationDetailDO od :listOperationDetail) {
             sb.append("<input name='chooseService' id='").append(od.getId()).append("' ");
             if(isSingle || hitId == od.getId() ){
-                System.out.println("od.getId()="+od.getId() +"       hitId="+hitId);
+                /*System.out.println("od.getId()="+od.getId() +"       hitId="+hitId);*/
                 sb.append(" checked ");
             }
             if(Constant.showTypeRadio == od.getShowType()){
