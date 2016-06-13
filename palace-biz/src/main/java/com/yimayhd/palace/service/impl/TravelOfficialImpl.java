@@ -135,6 +135,7 @@ public class TravelOfficialImpl implements TravelOfficialService{
             travelOfficialData.setListTravelJsonDO(convertTravelJsonDO(snsTravelSpecialtyDO.getImgContentJson()));
             travelOfficialData.setCreateUserName(getUserName(snsTravelSpecialtyDO.getCreateId()));
             travelOfficialData.setCreateId(snsTravelSpecialtyDO.getCreateId());
+            travelOfficialData.setDomain(snsTravelSpecialtyDO.getDomain());
         }
         return travelOfficialData;
     }
