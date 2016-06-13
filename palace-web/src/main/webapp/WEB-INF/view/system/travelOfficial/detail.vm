@@ -31,8 +31,8 @@
 						   <td>所属域</td>
 						   <td>
 						        <select class="form-control" name="domain" id="domain">
-							        <option value="1000">B2C</option>
-							        <option value="1200">九休</option>
+							        <option value="1000" #if($travelOfficial.domain==1000)selected#end>B2C</option>
+							        <option value="1200" #if($travelOfficial.domain==1200)selected#end>九休</option>
 						        </select>
 						    </td>
 						</tr>

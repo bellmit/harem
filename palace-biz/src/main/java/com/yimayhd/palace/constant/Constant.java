@@ -31,7 +31,6 @@ public class Constant {
 	public static final int SHOWCASE_SHOE_TYPE_MASTER = 6;//达人
 	public static final int SHOWCASE_SHOE_TYPE_FOOD_DETAIL = 7;//美食
 	/*public static final int SHOWCASE_TALENT_SERVICE = 8;//达人专题*/
-
 	public static final int SHOWCASE_HOTEL_LIST = 9;//酒店列表
 	public static final int SHOWCASE_SCENIC_LIST = 10;//景区列表
 
@@ -51,4 +50,10 @@ public class Constant {
 	public static final String[] AFTERSALE_PIC_POSTFIX = new String[]{"jpg","jpeg","png","JPG","JPEG","PNG"};
 
 	public static final String GF_ORDER_CLOSE = "CLOSE" ;
+
+	public static final int showTypeRadio = 1;//1单选框
+	public static final int showTypeCheckBox = 2;//2复选框
+	public static final int showTypeSelect = 3;//3下拉框
+
+
 }

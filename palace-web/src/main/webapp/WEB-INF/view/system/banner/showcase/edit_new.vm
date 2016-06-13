@@ -66,13 +66,8 @@
                                 <td>
                                     <select class="selectpages" id="opId">
                                         #foreach($!operations in $operationDOs)
-                                            #foreach($!listDetail in $!operations.listOperationDetail)
-                                            ##先把单选框渲染出来，然后直接用就行了
-                                               #if($!listDetail.showType ==1)
-                                                   #set($radioHtml="<input name='chooseService' type='radio' id='radio_$!listDetail.operationId' showtype='$!listDetail.jumpType' value='$!listDetail.showValue'>$!listDetail.showName")
-                                                #end
-                                            #end
-                                            <option radioHtml="$!radioHtml" id="$!operations.operactio.id" showType="$!operations.operactio.showType" value="$!operations.operactio.code" operationid="$!operations.operactio.id">$!operations.operactio.name</option>
+                                            <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail)" id="$!operations.operactio.id" value="$!operations.operactio.code"
+                                                    operationid="$!operations.operactio.id" #if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end >$!operations.operactio.name</option>
                                         #end
                                     </select>
                                     <span  id="radioId"></span>
@@ -127,58 +122,16 @@
         $(document).ready(function(){
             //选择内容，添加内容加载隐藏，if 点选择内容就不能添加内容，反之。
             $("#choId").hide();//隐藏
+            var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
+            $("#radioId").html(radioHtml);
         });
 
         //处理可选择的radio
         $("#opId").on('change', function(){
             var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
             $("#operationIds").val(operationId);
-            var showType="";
-            var radioHtml="";
-            var paramTypes = [];
-            $("#radioId").show();
-                //获取选择的select的id
-                var strParam = $('.selectpages option:selected').attr('paramtypes');
-                if(strParam == 'null' || strParam == null){
-                    $("#radioId").hide();//隐藏
-                    return
-                }
-                paramTypes=strParam.split(",");
-                $.each(paramTypes, function(a, b) {
-                    if(b== "KEYWORD"){
-                        showType="1";
-                        showName="关键字";
-                    }else if(b== "CHOOSE_DESTINATION"){
-                        showType="2";
-                        showName="目的地";
-                    }else if(b== "ITEM_DETAIL" || b== "TOUR_LINE"||b== "FREE_LINE"||b== "CITY_ACTIVITY"||b=="NORMAL"
-                            ){
-                        showType="3";
-                        showName="详情";
-                    }else if(b == "CITYACTIVITY"){
-                        showType="4";
-                        showName="城市活动主题";
-                    }else if(b == "LINETAG"){
-                        showType="4";
-                        showName="线路主题";
-                    }else if(b=="TALENT" ){
-                        showType="6";
-                        showName="详情";
-                    }else if( b=="EAT" || b=="MERCHANT" ){
-                        showType="7";
-                        showName="详情";
-                    }else if(b=="SPOTS" ){
-                        showType="10";
-                        showName="详情";
-                    }else if(b=="HOTEL" ){
-                        showType="9";
-                        showName="详情";
-                    }
-
-                    radioHtml+="<input name='jump' type='radio' showType='"+showType+"' value='"+b+"' />"+showName;
-                });
-                $("#radioId").html(radioHtml)
-
+            var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
+            $("#radioId").html(radioHtml);
         });
 
         //处理添加内容的时候把operationid赋值
@@ -194,7 +147,7 @@
 
         //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
         $('.selecontent').click(function(){
-            var type= $('input:radio:checked').attr("showType")
+            var type= $('input:radio:checked').attr("jumpType")
             var code = $('input:radio:checked').val();//获取选择的select的code
             var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
             $("#operationIds").val(operationId);
@@ -205,7 +158,7 @@
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
                 var sce = win.getItems();
                 $("#choId").val(sce.name);
-                if(type==2){
+                if(type==2){//2是目的地
                     $("#chosId").val(sce.cityCode);
                 }else{
                     $("#chosId").val(sce.id);
@@ -235,10 +188,14 @@
             //内容这里 判断有没有选择内容，无则找有没有添加内容
             //景区单独处理。
             var operationContent = null;
-            var radioVal = $("input[name='jump']:checked").val();
-            var selectVal = $(".selectpages").find("option:selected").val();
-            var content = $("#addcontentJsonId").val();
-            var talentServiceVal = $("input[name='chooseService']:checked").val();
+            var radioVal = "";
+            radioVal = $("input[name='jump']:checked").val();
+            var selectVal = "";
+            selectVal = $(".selectpages").find("option:selected").val();
+            var content = "";
+            content = $("#addcontentJsonId").val();
+            var talentServiceVal = "";
+            talentServiceVal = $("input[name='chooseService']:checked").val();
 
             if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题
                 operationContent = $("#choId").val();
@@ -248,9 +205,10 @@
             if(null == operationContent || ""==operationContent){
                 operationContent = $("#addsecontentId").val();
             }
-            if(talentServiceVal !="" && talentServiceVal != null){
+            //这里是某一个operation存目的地的中文名
+            /*if(talentServiceVal !="" && talentServiceVal != null){
                 operationContent = talentServiceVal;
-            }
+            }*/
             var operationId= $("#operationIds").val();
 
             console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo+" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl+" operationContent="+operationContent+" operationId="+operationId);
