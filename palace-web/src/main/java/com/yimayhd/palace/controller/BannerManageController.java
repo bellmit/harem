@@ -81,6 +81,11 @@ public class BannerManageController extends BaseController {
 //        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
 //            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
 //        }
+        String boothName = baseQuery.getBoothName();
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(boothName)){
+            boothName = (new String(boothName.getBytes("ISO-8859-1"),"utf-8")).trim();
+        }
+        baseQuery.setBoothName(boothName);
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
