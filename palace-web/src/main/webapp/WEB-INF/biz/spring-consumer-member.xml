@@ -10,7 +10,7 @@
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
         <property name="check" value="${consumer.dubbo.member.check}"/>
-        <property name="version" value="${consumer.dubbo.member.version}"/>
+        <property name="version" value="1.0.0.hanlei"/>
     </bean>
     <bean id="travelKaServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.membercenter.client.service.TravelKaService"/>
@@ -18,7 +18,7 @@
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
         <property name="check" value="${consumer.dubbo.member.check}"/>
-        <property name="version" value="${consumer.dubbo.member.version}"/>
+        <property name="version" value="1.0.0.hanlei"/>
     </bean>
     <bean id="examineDealServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.membercenter.client.service.examine.ExamineDealService"/>
@@ -26,7 +26,7 @@
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
         <property name="check" value="${consumer.dubbo.member.check}"/>
-        <property name="version" value="${consumer.dubbo.member.version}"/>
+        <property name="version" value="1.0.0.hanlei"/>
     </bean>
     <bean id="scopeItemCategoryService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.membercenter.client.service.ScopeItemCategoryService"/>

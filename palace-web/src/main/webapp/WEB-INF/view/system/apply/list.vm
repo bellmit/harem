@@ -47,16 +47,8 @@
 				<td><input name="principleName" maxlength="30" /></td>
 				<td class="tit">负责人手机号：</td>
 				<td><input name="principleTel" maxlength="30" /></td>
-				<!--
-				<td class="tit">状态：</td>
-				<td><select name="status">
-					<option value="0">全部</option>
-					#foreach( $status in $statuses )
-						<option value="${status.status}">${status.name}</option>
-					#end
-				</select></td>
-				-->
-				<td align='center' ><button class="searchbtn">搜索</button><button type="reset">重置</button></td>
+
+				<td align='center' colspan="2"><button class="searchbtn">搜索</button><button type="reset">重置</button></td>
 			</tr>
 		</table>
 	</form>

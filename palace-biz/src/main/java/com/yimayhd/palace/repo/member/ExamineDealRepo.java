@@ -1,10 +1,5 @@
 package com.yimayhd.palace.repo.member;
 
-import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.dto.ExamineDealDTO;
@@ -17,14 +12,15 @@ import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExamineDealRepo {
 	private static final Logger logger = LoggerFactory.getLogger("ExamineDealRepo");
 	@Autowired
 	private ExamineDealService examineDealService;
-	@Autowired
-	private MerchantItemCategoryService merchantItemCategoryService;
-	
+
 	public BizPageResult<ExamineInfoDTO> queryExamineInfoDTOs(ExaminePageQueryDTO examinePageQueryDTO){
 		BizPageResult<ExamineInfoDTO> result = new BizPageResult<ExamineInfoDTO>();
 		if( examinePageQueryDTO == null ){
@@ -50,7 +46,7 @@ public class ExamineDealRepo {
 			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
 			return result;
 		}
-		MemResult<Boolean> approveResult = examineDealService.dealExamineInfo(examineDealDTO);
+		MemResult<Boolean> approveResult = examineDealService.refuseMerchantOrAuditTalent(examineDealDTO);
 		if( approveResult == null || !approveResult.isSuccess() || approveResult.getValue() == null || !approveResult.getValue()){
 			logger.error("dealExamineInfo   examineDealDTO={},  Result={}", JSON.toJSONString(examineDealDTO), JSON.toJSONString(approveResult) );
 			if( approveResult == null ){
