@@ -50,7 +50,7 @@ public class ExamineDealRepo {
 			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
 			return result;
 		}
-		/*MemResult<Boolean> approveResult = examineDealService.dealExamineInfo(examineDealDTO);
+		MemResult<Boolean> approveResult = examineDealService.dealExamineInfo(examineDealDTO);
 		if( approveResult == null || !approveResult.isSuccess() || approveResult.getValue() == null || !approveResult.getValue()){
 			logger.error("dealExamineInfo   examineDealDTO={},  Result={}", JSON.toJSONString(examineDealDTO), JSON.toJSONString(approveResult) );
 			if( approveResult == null ){
@@ -65,7 +65,7 @@ public class ExamineDealRepo {
 				}
 			}
 			return result;
-		}*/
+		}
 		return result ;
 	}
 	
