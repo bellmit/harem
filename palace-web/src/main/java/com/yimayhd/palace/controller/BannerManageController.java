@@ -185,7 +185,6 @@ public class BannerManageController extends BaseController {
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
         return "/system/banner/showcase/edit_new";
-//        return "/system/banner/showcase/edit";
     }
 
     /**

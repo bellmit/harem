@@ -66,7 +66,7 @@
                                 <td>
                                     <select class="selectpages" id="opId">
                                         #foreach($!operations in $operationDOs)
-                                            <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail)" id="$!operations.operactio.id" value="$!operations.operactio.code"
+                                            <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!showcase.operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
                                                     operationid="$!operations.operactio.id" #if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end >$!operations.operactio.name</option>
                                         #end
                                     </select>
@@ -87,7 +87,7 @@
                                     添加内容：
                                 </td>
                                 <td>
-                                    <input type="text" name="addsecontent" class="secontent" value="$!showcase.operationContent" id="addsecontentId" >
+                                    <input type="text" name="addsecontent" class="secontent" value="$!showcase.operationContentZH" id="addsecontentId" >
                                 </td>
                             </tr>
                             <tr class="addInfoId" style="display: none">
@@ -178,26 +178,29 @@
 
         //保存
         $('#saveId').click(function(){
-            var showcaseId= $("#showcaseId").val();
-            var boothId= $("#boothId").val();
-            var serialNo= $("#serialNoId").val();
-            var info= $("#infoId").val();
-            var title= $("#titleId").val();
-            var summary= $("#summaryId").val();
-            var imgUrl= $("#travelBGImgSH").val();
+            var operationId = $("#operationIds").val();
+            var showcaseId = $("#showcaseId").val();
+            var boothId = $("#boothId").val();
+            var serialNo = $("#serialNoId").val();
+            var info = $("#infoId").val();
+            var title = $("#titleId").val();
+            var summary = $("#summaryId").val();
+            var imgUrl = $("#travelBGImgSH").val();
             //内容这里 判断有没有选择内容，无则找有没有添加内容
-            //景区单独处理。
-            var operationContent = null;
+            var operationContentZH = "";//选择内容的中文
+                operationContentZH = $("#choId").val();
             var radioVal = "";
-            radioVal = $("input[name='jump']:checked").val();
-            var selectVal = "";
-            selectVal = $(".selectpages").find("option:selected").val();
-            var content = "";
-            content = $("#addcontentJsonId").val();
-            var talentServiceVal = "";
-            talentServiceVal = $("input[name='chooseService']:checked").val();
+                radioVal = $("input[name='chooseService']:checked").val();
+            var radioIdVal = "";
+                radioIdVal = $("input[name='chooseService']:checked").attr("id");
 
-            if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题
+            var selectVal = "";
+                selectVal = $(".selectpages").find("option:selected").val();
+            var content = "";
+                content = $("#addcontentJsonId").val();
+
+            var operationContent = "";
+            if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题,存中文名
                 operationContent = $("#choId").val();
             }else{
                 operationContent = $("#chosId").val();
@@ -206,12 +209,17 @@
                 operationContent = $("#addsecontentId").val();
             }
             //这里是某一个operation存目的地的中文名
-            /*if(talentServiceVal !="" && talentServiceVal != null){
+            /*
+             var talentServiceVal = "";
+            talentServiceVal = $("input[name='chooseService']:checked").val();
+            if(talentServiceVal !="" && talentServiceVal != null){
                 operationContent = talentServiceVal;
             }*/
-            var operationId= $("#operationIds").val();
 
-            console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo+" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl+" operationContent="+operationContent+" operationId="+operationId);
+            console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo
+                      +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
+                      +" operationContent="+operationContent+" operationId="+operationId
+                      +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH);
 
             if(null == serialNo || ""==serialNo || isNaN(serialNo)){
                 var msg = new $.zui.Messager('权重请输入数字', {placement: 'center',type:'warning',time:'1000'});
@@ -231,7 +239,8 @@
             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add',
                     {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
                         'title':title,'summary':summary, 'imgUrl':imgUrl,'operationContent':operationContent,
-                        'content':content, 'operationId':operationId
+                        'content':content, 'operationId':operationId,'operationDetailId':radioIdVal,
+                        'operationContentZH':operationContentZH
                     } ,function(data){
                         if(data.status == 200){
                             var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
