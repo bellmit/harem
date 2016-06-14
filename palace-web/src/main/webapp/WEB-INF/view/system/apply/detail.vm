@@ -61,31 +61,83 @@
                     </div>
                 </td>
             </tr>
-            
+
             <tr>
                 <td>上传的资质：</td>
                 <td>
                     <div class="borderbox">
                         <table class="table table-inner">
-                            <tbody>
-                                #foreach($merchantQualification in $qualificationPictures)
-                                    #if($velocityCount % 2 == 1)
-                                    <tr>
-                                    #end
-                                    <td>
-                                        #if($merchantQualification.required)
-                                            <span class="red">*</span>
-                                        #end
-                                        $!merchantQualification.title：
-                                    </td>
-                                    <td>
-                                        <a href="$!tfs$!merchantQualification.url" data-group="group100"
-                                           data-toggle="lightbox" data-caption="$!merchantQualification.title">
-                                            <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
-                                        </a>
-                                    </td>
-                                #end
-                            </tbody>
+				            <tbody>
+				            <tr>
+				                <td>法人身份证正面：</td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.legralCardUp" data-group="group100" data-toggle="lightbox"
+				                       data-caption="法人身份证正面">
+				                        <img src="$!tfs$!examineInfo.legralCardUp" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				                <td>法人身份证反面：</td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.legralCardDown" data-group="group100" data-toggle="lightbox"
+				                       data-caption="法人身份证反面">
+				                        <img src="$!tfs$!examineInfo.legralCardDown" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				            </tr>
+				            <tr>
+				                <td>营业执照副本正面：</td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.businessLicense" data-group="group100" data-toggle="lightbox"
+				                       data-caption="营业执照副本正面">
+				                        <img src="$!tfs$!examineInfo.businessLicense" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				                <td>组织机构代码证正面：</td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.orgCard" data-group="group100" data-toggle="lightbox"
+				                       data-caption="组织机构代码证正面">
+				                        <img src="$!tfs$!examineInfo.orgCard" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				            </tr>
+				            <tr>
+				                <td>税务登记证正面：</td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.affairsCard" data-group="group100" data-toggle="lightbox"
+				                       data-caption="税务登记证正面">
+				                        <img src="$!tfs$!examineInfo.affairsCard" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				                <td>开户许可证正面：</td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.openCard" data-group="group100" data-toggle="lightbox"
+				                       data-caption="开户许可证正面">
+				                        <img src="$!tfs$!examineInfo.openCard" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				            </tr>
+				            <tr>
+				                <td>旅行社业务经营许可证正面：<br/>
+				                    *旅行社必填
+				                </td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.travingCard" data-group="group100" data-toggle="lightbox"
+				                       data-caption="旅行社业务经营许可证正面">
+				                        <img src="$!tfs$!examineInfo.travingCard" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				                <td>联系人变更证明：<br/>
+				                    *仅限合同签署人<br/>与联系人不一致<br/>情形时上传
+				                </td>
+				                <td>
+				                    <a href="$!tfs$!examineInfo.touchProve" data-group="group100"
+				                       data-toggle="lightbox"
+				                       data-caption="联系人变更证明">
+				                        <img src="$!tfs$!examineInfo.touchProve" alt="图片加载失败"/>
+				                    </a>
+				                </td>
+				            </tr>
+				            </tbody>
                         </table>
                     </div>
                 </td>
@@ -94,15 +146,6 @@
             <tr>
                 <td>达人资质证明：</td>
                 <td>
-		        <!--#foreach($merchantQualification in $qualificationPictures)
-		            <div style="float: left;margin-left: 10px;">
-		                $!merchantQualification.title <br/>
-		                <a href="$!tfs$!merchantQualification.url" data-group="group100"
-		                   data-toggle="lightbox" data-caption="$!merchantQualification.title">
-		                    <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
-		                </a>
-		            </div>
-		        #end-->
                     <div class="borderbox">
                         <table class="table table-inner">
                             <tbody>
@@ -176,15 +219,6 @@
                                     </a>
                                 </td>
                             </tr>
-                            <!--<tr>
-                                <td><span class="red">*</span>手持身份证照片：</td>
-                                <td colspan="3">
-                                    <a href="$!tfs$!examineInfo.cardInHand" data-group="group300" data-toggle="lightbox"
-                                       data-caption="手持身份证照片">
-                                        <img src="$!tfs$!examineInfo.cardInHand" alt="图片加载失败"/>
-                                    </a>
-                                </td>
-                            </tr>-->
                             </tbody>
                         </table>
                     </div>
