@@ -152,11 +152,10 @@ public class HotelVO extends HotelDO implements Serializable {
     
     public static HotelDO getHotelDOV2(HotelVO hotelVO) throws Exception {
         HotelDO hotelDO = hotelVO;
-        //个性化转换
-        //hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
-        long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
-        long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
-        long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
+
+        List<Integer> roomFacility = transformFacilities(hotelVO.getRoomFacilityStr());
+        List<Integer> roomService = transformFacilities(hotelVO.getRoomServiceStr()); 
+        List<Integer> hotelFacility = transformFacilities(hotelVO.getHotelFacilityStr());
 
         HotelFeature hotelFeature = new HotelFeature();
         hotelFeature.setRoomFacility(roomFacility);
@@ -180,6 +179,20 @@ public class HotelVO extends HotelDO implements Serializable {
         return hotelDO;
     }
     
+    public static List<Integer> transformFacilities(String roomFacilityStr){
+    	
+    	List<Integer> list = new ArrayList<Integer>();
+        if(StringUtils.isBlank(roomFacilityStr)){
+        	return list;
+        }
+        
+    	String[] arr = roomFacilityStr.split("\\|");
+    	for(int i = 0; i < arr.length; i++){
+    		list.add(Integer.parseInt(arr[i]));
+    	}
+    	return list;
+    }
+    
     public static HotelDTO getHotelDTO(HotelVO hotelVO) throws Exception {
     	
     	HotelDTO hotelDTO = new HotelDTO();
@@ -188,10 +201,9 @@ public class HotelVO extends HotelDO implements Serializable {
     	hotelDTO.setLatitude(hotelVO.getLocationY());
         hotelDTO.setLongitude(hotelVO.getLocationX());
     	
-    	long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
-        long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
-        long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
-        
+        List<Integer> roomFacility = transformFacilities(hotelVO.getRoomFacilityStr());
+        List<Integer> roomService = transformFacilities(hotelVO.getRoomServiceStr()); 
+        List<Integer> hotelFacility = transformFacilities(hotelVO.getHotelFacilityStr());
     	
     	HotelFeature feature = new HotelFeature();
     	feature.setRoomFacility(roomFacility);

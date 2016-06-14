@@ -156,7 +156,7 @@
         }else if($('.name').val().length > 20){
             return '房型名称不能超过20个字';
         }
-        if(!$('.bed').val()){
+        if(!$('.bed').val() || !$('.bed').val().trim()){
             return '床型不能为空';
         }
         if(!$('.area').val()){
