@@ -15,185 +15,215 @@
         <table class="table check-table">
             <tbody>
             <tr>
-                <td><span class="red">*</span>商户名称：</td>
-                <td><span class="inputval">$!examineInfo.sellerName</span></td>
+                <td>商家选择的身份：</td>
+                <td>
+                    <div class="borderbox">
+                        $!category.name
+                    </div>
+                </td>
             </tr>
             <tr>
-                <td><span class="red">*</span>法定代表人姓名：</td>
-                <td><span class="inputval">$!examineInfo.legralName</span></td>
+                <td>商户信息：</td>
+                <td>
+                    <div class="borderbox">
+                        <table class="table table-inner">
+                            <tbody>
+                            <tr>
+                                <td><span class="red">*</span>商户名称：</td>
+                                <td><span class="inputval">$!examineInfo.sellerName</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>法定代表人姓名：</td>
+                                <td><span class="inputval">$!examineInfo.legralName</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>法定代表人身份证：</td>
+                                <td><span class="inputval">$!examineInfo.lawPersonCard</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>营业执照号码：</td>
+                                <td><span class="inputval">$!examineInfo.saleLicenseNumber</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>税务登记号码：</td>
+                                <td><span class="inputval">$!examineInfo.taxRegisterNumber</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>营业地址：</td>
+                                <td><span class="inputval">$!examineInfo.address</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>经营范围：</td>
+                                <td><span class="inputval">$!examineInfo.saleScope</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
             </tr>
+            
             <tr>
-                <td><span class="red">*</span>法定代表人身份证：</td>
-                <td><span class="inputval">$!examineInfo.lawPersonCard</span></td>
+                <td>上传的资质：</td>
+                <td>
+                    <div class="borderbox">
+                        <table class="table table-inner">
+                            <tbody>
+                                #foreach($merchantQualification in $qualificationPictures)
+                                    #if($velocityCount % 2 == 1)
+                                    <tr>
+                                    #end
+                                    <td>
+                                        #if($merchantQualification.required)
+                                            <span class="red">*</span>
+                                        #end
+                                        $!merchantQualification.title：
+                                    </td>
+                                    <td>
+                                        <a href="$!tfs$!merchantQualification.url" data-group="group100"
+                                           data-toggle="lightbox" data-caption="$!merchantQualification.title">
+                                            <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
+                                        </a>
+                                    </td>
+                                #end
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
             </tr>
+            
             <tr>
-                <td><span class="red">*</span>营业执照号码：</td>
-                <td><span class="inputval">$!examineInfo.saleLicenseNumber</span></td>
-            </tr>
+                <td>达人资质证明：</td>
+                <td>
+		        <!--#foreach($merchantQualification in $qualificationPictures)
+		            <div style="float: left;margin-left: 10px;">
+		                $!merchantQualification.title <br/>
+		                <a href="$!tfs$!merchantQualification.url" data-group="group100"
+		                   data-toggle="lightbox" data-caption="$!merchantQualification.title">
+		                    <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
+		                </a>
+		            </div>
+		        #end-->
+                    <div class="borderbox">
+                        <table class="table table-inner">
+                            <tbody>
+                                #foreach($merchantQualification in $qualificationPictures)
+                                    #if($velocityCount % 2 == 1)
+                                    <tr>
+                                    #end
+                                    <td>
+                                        #if($merchantQualification.required)
+                                            <span class="red">*</span>
+                                        #end
+                                        $!merchantQualification.title：
+                                    </td>
+                                    <td>
+                                        <a href="$!tfs$!merchantQualification.url" data-group="group200"
+                                           data-toggle="lightbox" data-caption="$!merchantQualification.title">
+                                            <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
+                                        </a>
+                                    </td>
+                                #end
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr> 
+            
             <tr>
-                <td><span class="red">*</span>税务登记号码：</td>
-                <td><span class="inputval">$!examineInfo.taxRegisterNumber</span></td>
-            </tr>
+                <td>负责人信息：</td>
+                <td>
+                    <div class="borderbox">
+                        <table class="table table-inner">
+                            <tbody>
+                            <tr>
+                                <td><span class="red">*</span>姓名：</td>
+                                <td><span class="inputval">$!examineInfo.principleName</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>证件类型：</td>
+                                <td><span class="inputval">$!certificateType</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>证件号码：</td>
+                                <td><span class="inputval">$!examineInfo.principleCardId</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>手机号码：</td>
+                                <td><span class="inputval">$!examineInfo.principleTel</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>邮箱：</td>
+                                <td><span class="inputval">$!examineInfo.principleMail</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-inner">
+                            <tbody>
+                            <tr>
+                                <td><span class="red">*</span>身份证正面：</td>
+                                <td>
+                                    <a href="$!tfs$!examineInfo.principleCardUp" data-group="group300"
+                                       data-toggle="lightbox" data-caption="身份证正面">
+                                        <img src="$!tfs$!examineInfo.principleCardUp" alt="图片加载失败"/>
+                                    </a>
+                                </td>
+                                <td><span class="red">*</span>身份证反面：</td>
+                                <td>
+                                    <a href="$!tfs$!examineInfo.principleCardDown" data-group="group300"
+                                       data-toggle="lightbox" data-caption="身份证反面">
+                                        <img src="$!tfs$!examineInfo.principleCardDown" alt="图片加载失败"/>
+                                    </a>
+                                </td>
+                            </tr>
+                            <!--<tr>
+                                <td><span class="red">*</span>手持身份证照片：</td>
+                                <td colspan="3">
+                                    <a href="$!tfs$!examineInfo.cardInHand" data-group="group300" data-toggle="lightbox"
+                                       data-caption="手持身份证照片">
+                                        <img src="$!tfs$!examineInfo.cardInHand" alt="图片加载失败"/>
+                                    </a>
+                                </td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr> 
+            
             <tr>
-                <td><span class="red">*</span>营业地址：</td>
-                <td><span class="inputval">$!examineInfo.address</span></td>
+                <td>财务信息：</td>
+                <td>
+                    <div class="borderbox">
+                        <table class="table table-inner">
+                            <tbody>
+                            <tr>
+                                <td><span class="red">*</span>开户银行：</td>
+                                <td><span class="inputval">$!examineInfo.financeOpenBankName</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>开户名称：</td>
+                                <td><span class="inputval">$!examineInfo.financeOpenName</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>结算账号：</td>
+                                <td><span class="inputval">$!examineInfo.accountNum</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>结算开户行：</td>
+                                <td>
+                                	<span class="inputval">$!examineInfo.accountBankProvince $!examineInfo.accountBankCity $!examineInfo.accountBankName</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
             </tr>
-            <tr>
-                <td><span class="red">*</span>经营范围：</td>
-                <td><span class="inputval">$!examineInfo.saleScope</span></td>
-            </tr>
+            
             </tbody>
         </table>
 
-        <table class="table check-table">
-            <tbody>
-            <tr>
-                <td>法人身份证正面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.legralCardUp" data-group="group100" data-toggle="lightbox"
-                       data-caption="法人身份证正面">
-                        <img src="$!tfs$!examineInfo.legralCardUp" alt="图片加载失败"/>
-                    </a>
-                </td>
-                <td>法人身份证反面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.legralCardDown" data-group="group100" data-toggle="lightbox"
-                       data-caption="法人身份证反面">
-                        <img src="$!tfs$!examineInfo.legralCardDown" alt="图片加载失败"/>
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>营业执照副本正面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.businessLicense" data-group="group100" data-toggle="lightbox"
-                       data-caption="营业执照副本正面">
-                        <img src="$!tfs$!examineInfo.businessLicense" alt="图片加载失败"/>
-                    </a>
-                </td>
-                <td>组织机构代码证正面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.orgCard" data-group="group100" data-toggle="lightbox"
-                       data-caption="组织机构代码证正面">
-                        <img src="$!tfs$!examineInfo.orgCard" alt="图片加载失败"/>
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>税务登记证正面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.affairsCard" data-group="group100" data-toggle="lightbox"
-                       data-caption="税务登记证正面">
-                        <img src="$!tfs$!examineInfo.affairsCard" alt="图片加载失败"/>
-                    </a>
-                </td>
-                <td>开户许可证正面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.openCard" data-group="group100" data-toggle="lightbox"
-                       data-caption="开户许可证正面">
-                        <img src="$!tfs$!examineInfo.openCard" alt="图片加载失败"/>
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>旅行社业务经营许可证正面：<br/>
-                    *旅行社必填
-                </td>
-                <td>
-                    <a href="$!tfs$!examineInfo.travingCard" data-group="group100" data-toggle="lightbox"
-                       data-caption="旅行社业务经营许可证正面">
-                        <img src="$!tfs$!examineInfo.travingCard" alt="图片加载失败"/>
-                    </a>
-                </td>
-                <td>联系人变更证明：<br/>
-                    *仅限合同签署人<br/>与联系人不一致<br/>情形时上传
-                </td>
-                <td>
-                    <a href="$!tfs$!examineInfo.touchProve" data-group="group100"
-                       data-toggle="lightbox"
-                       data-caption="联系人变更证明">
-                        <img src="$!tfs$!examineInfo.touchProve" alt="图片加载失败"/>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <h4>达人资质证明:</h4>
-        #foreach($merchantQualification in $qualificationPictures)
-            <div style="float: left;margin-left: 10px;">
-                $!merchantQualification.title <br/>
-                <a href="$!tfs$!merchantQualification.url" data-group="group100"
-                   data-toggle="lightbox" data-caption="$!merchantQualification.title">
-                    <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
-                </a>
-            </div>
-        #end
-        <h4>负责人信息</h4>
-        <table class="table check-table">
-            <tbody>
-            <tr>
-                <td>姓名：</td>
-                <td><span class="inputval">$!examineInfo.principleName</span></td>
-            </tr>
-            <tr>
-                <td>证件类型：</td>
-                <td><span class="inputval">$!certificateType</span></td>
-            </tr>
-            <tr>
-                <td>证件号：</td>
-                <td><span class="inputval">$!examineInfo.principleCardId</span></td>
-            </tr>
-            <tr>
-                <td>手机号：</td>
-                <td><span class="inputval">$!examineInfo.principleTel</span></td>
-            </tr>
-            <tr>
-                <td>邮箱：</td>
-                <td><span class="inputval">$!examineInfo.principleMail</span></td>
-            </tr>
-            <tr>
-                <td><span class="red">*</span>负责人身份证正面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.principleCardUp" data-group="group100"
-                       data-toggle="lightbox" data-caption="负责人身份证正面">
-                        <img src="$!tfs$!examineInfo.principleCardUp" alt="图片加载失败"/>
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td><span class="red">*</span>负责人身份证反面：</td>
-                <td>
-                    <a href="$!tfs$!examineInfo.principleCardDown" data-group="group100"
-                       data-toggle="lightbox" data-caption="负责人身份证反面">
-                        <img src="$!tfs$!examineInfo.principleCardDown" alt="图片加载失败"/>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <h4>财务信息</h4>
-        <table class="table check-table">
-            <tr>
-                <td><span class="red">*</span>开户银行：</td>
-                <td><span class="inputval">$!examineInfo.financeOpenBankName</span></td>
-            </tr>
-            <tr>
-                <td><span class="red">*</span>开户名称：</td>
-                <td><span class="inputval">$!examineInfo.financeOpenName</span></td>
-            </tr>
-            <tr>
-                <td><span class="red">*</span>结算账号：</td>
-                <td><span class="inputval">$!examineInfo.accountNum</span></td>
-            </tr>
-            <tr>
-                <td><span class="red">*</span>结算开户行：</td>
-                <td><span
-                        class="inputval">$!examineInfo.accountBankProvince $!examineInfo.accountBankCity $!examineInfo.accountBankName</span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        </fieldset>
 
     #elseif($!type == 2)
         <table class="table check-table">
