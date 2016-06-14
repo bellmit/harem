@@ -2,6 +2,8 @@ package com.yimayhd.palace.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.yimayhd.palace.base.BaseController;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -209,4 +211,21 @@ public class ThemeManageController extends BaseController {
 		response.setData("faile");
 		return response;
 	} 
+	
+	/**
+	 * 下架主题
+	 * @param themeId
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/themeOff", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo themeOff(long themeId, HttpServletRequest request) throws Exception {
+		boolean flag = themeService.themeOff(themeId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
 }

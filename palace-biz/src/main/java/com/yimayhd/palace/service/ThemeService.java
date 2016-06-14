@@ -61,4 +61,11 @@ public interface ThemeService {
     void delete(long id)throws Exception;
     
     public ComTagDO getTagByName(TagNameTypeDTO tagNameTypeDTO);
+    
+    /**
+     * 下架主题
+     * @param themeId
+     * @return
+     */
+	boolean themeOff(long themeId);
 }
