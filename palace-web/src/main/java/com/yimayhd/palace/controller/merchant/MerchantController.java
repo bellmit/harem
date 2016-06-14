@@ -80,47 +80,16 @@ public class MerchantController extends BaseController {
 	private UserService userServiceRef;
 	@Autowired
 	private ExamineDealService examineDealServiceRef;
-//	@Autowired
-//	private ComTagCenterService comTagCenterServiceRef;
-//	@Autowired
-//	private DataCacheService dataCacheService;
-//	@Autowired
-//	private CityDataCacheClient cityCacheClient;
-//	@RequestMapping(value="toAddDeliciousFood",method=RequestMethod.GET)
-//	public String toAddDeliciousFood(Model model) {
-//		
-//		model.addAttribute("cities", getMerchantRegions());
-//		return "system/deliciousFood/addfoodcustom";
-//		
-//	}
 
 	private List<RegionDO> getMerchantRegions() {
 		RegionQuery query = new RegionQuery();
 		query.setPageSize(Constant.PAGE_SIZE);
 		query.setType(RegionType.JIUXIU_REGION.getType());
 		query.setStatus(Constant.PAGEQUERY_STATUS);
-//		TagRelationDomainDTO dto = new TagRelationDomainDTO();
-//		dto.setDomain(Constant.DOMAIN_JIUXIU); 
-//		dto.setOutType(TagType.DESTPLACE.name());
-//		com.yimayhd.commentcenter.client.result.BaseResult<List<ComTagDO>> tagList = comTagCenterServiceRef.getTagListByTagType(dto);
 		RCPageResult<RegionDO> cities = regionClientServiceRef.pageQuery(query);
 		if (cities.isSuccess() ) {
 			return cities.getList();
 		}
-//		if (tagList != null && tagList.isSuccess() ) {
-//			//return tagList.getValue();
-//			List<RegionDO> cityList = new ArrayList<>();
-//			for (ComTagDO tagDo : tagList.getValue()) {
-//				List<String> codeList = new ArrayList<>();
-//				codeList.add(tagDo.getName());
-//				CityDTO cityDTO = cityCacheClient.getCities(codeList).get(tagDo.getName());
-//				RegionDO regionDO = new RegionDO();
-//				regionDO.setCityCode(Integer.parseInt(tagDo.getName()));
-//				regionDO.setCityName(cityDTO.getName());
-//				cityList.add(regionDO);
-//			}
-//			return cityList;
-//		}
 		return null;
 	}
 	
@@ -141,7 +110,6 @@ public class MerchantController extends BaseController {
 					result.initSuccess(saveResult.getMsg());
 					result.setValue("/jiuxiu/merchant/toMerchantList");
 				} else {
-					//result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
 					String errorMsg = saveResult.getPalaceReturnCode() == null ? null
 							: saveResult.getPalaceReturnCode().getErrorMsg();
 					result.init(false, -1,
@@ -160,8 +128,6 @@ public class MerchantController extends BaseController {
 				result.initSuccess(saveResult.getMsg());
 				result.setValue("/jiuxiu/merchant/toMerchantList");
 			}else {
-				//result.setPalaceReturnCode(saveResult.getPalaceReturnCode());
-				//saveResult
 				String errorMsg = saveResult.getPalaceReturnCode() == null?null:saveResult.getPalaceReturnCode().getErrorMsg();
 				result.init(false, -1, StringUtils.isBlank(errorMsg)?"保存失败":errorMsg);
 			}
@@ -172,29 +138,19 @@ public class MerchantController extends BaseController {
 	}
 	@RequestMapping(value="toAddDeliciousFood",method=RequestMethod.GET)
 	public String toEditDeliciousFood(Model model,HttpServletRequest request,Long id) {
-//		model.addAttribute("dmid", getRemoteHost(request));
 		model.addAttribute("cities", getMerchantRegions());
 		if (id == null || id <= 0 ) {
 			
 			return "system/food/addfoodcustom";
 		}
 		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
-		//BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
 			new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
-//			if (merchantDO.getName().contains("\"")) {
-//				//merchantDO.setName(merchantDO.getName().replace("\"", "\\\""));
-//				model.addAttribute("nameResult", true);
-//			}else {
-//				model.addAttribute("nameResult", false);
-//				
-//			}
 			new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
 			merchantDO.setName(merchantDO.getName().replaceAll("\"", "&quot;"));
 			merchantDO.setServiceTime(merchantDO.getServiceTime().replaceAll("\"", "&quot;"));
 			merchantDO.setAddress(merchantDO.getAddress().replaceAll("\"", "&quot;"));
-			//System.out.println(merchantDO.getName().replaceAll("\"", "'"+'\"'+"'"));
 			long serviceFacility = merchantDO.getServiceFacility();
 			if (serviceFacility >= 0 ) {
 				List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
@@ -218,7 +174,6 @@ public class MerchantController extends BaseController {
 			return "/system/food/foodcustomdt";
 		}
 		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
-		//BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
 			new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
@@ -245,32 +200,10 @@ public class MerchantController extends BaseController {
 		return sb;
 	}
 
-	/*@RequestMapping(value="updateDeliciousFood",method=RequestMethod.POST)
-	public BizResult<String> updateDeliciousFoodMerchant(MerchantVO vo,Model model) {
-		BizResult<String> result = new BizResult<String>();
-		BizResultSupport updateDeliciousFoodResult = merchantBiz.updateDeliciousFood(vo);
-		if (updateDeliciousFoodResult.isSuccess()) {
-			result.initSuccess(updateDeliciousFoodResult.getMsg());
-		}else {
-			result.setPalaceReturnCode(updateDeliciousFoodResult.getPalaceReturnCode());
-		}
-		
-		return result;
-		
-	}*/
 	@RequestMapping(value="toMerchantList",method=RequestMethod.GET)
 	public String toMerchantList(Model model) {
 		try {
-//			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
-//			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
-//				
-//				return "system/businessManage/busineslist";
-//			}
-//			model.addAttribute("merchant", merchantUserList.getList());
 			model.addAttribute("cities", getMerchantRegions());
-			//model.addAttribute("merchantQuery", merchantPageQuery);
-			
-			//return "system/food/busineslist";
 		} catch (Exception e) {
 			log.error("get merchant list error, ",e);
 		}
@@ -278,7 +211,6 @@ public class MerchantController extends BaseController {
 		
 	}
 	@RequestMapping(value="getMerchantList",method=RequestMethod.GET)
-	//@ResponseBody
 	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
 		BizPageResult<MerchantVO> result = new BizPageResult<>() ;
 				
@@ -294,8 +226,6 @@ public class MerchantController extends BaseController {
 				
 				return null;
 			}
-			//model.addAttribute("cities", getMerchantRegions());
-			//model.addAttribute("merchantQuery", merchantPageQuery);
 			System.out.println(JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty));
 			List<MerchantVO> merchantList = new ArrayList<>();
 			for (MerchantUserDTO merchant : merchantUserList.getList()) {
@@ -304,16 +234,12 @@ public class MerchantController extends BaseController {
 				vo.setName(merchant.getMerchantDO().getName());
 				vo.setAddress(merchant.getMerchantDO().getAddress());
 				vo.setCityName(merchant.getMerchantDO().getCityName());
-				//vo.setMerchantPrincipalTel(merchant.getMerchantDO().getMerchantPrincipalTel());
 				vo.setServiceTel(merchant.getMerchantDO().getServiceTel());
 				vo.setStatus(merchant.getMerchantDO().getStatus());
 				vo.setCityCode(merchant.getMerchantDO().getCityCode());
 				vo.setLogoImage(merchant.getMerchantDO().getLogo());
 				merchantList.add(vo);
 			}
-//			result.setList(merchantList);
-//			result.setTotalCount(merchantUserList.getTotalCount());
-//			return result ;
 			model.addAttribute("merchantList", merchantList);
 			int totalPage = 0;
 			if (merchantUserList.getTotalCount()%merchantPageQuery.getPageSize() > 0) {
@@ -325,9 +251,6 @@ public class MerchantController extends BaseController {
 			model.addAttribute("totalPage", totalPage);
 			model.addAttribute("pageNo", merchantUserList.getPageNo());
 			model.addAttribute("totalCount", merchantUserList.getTotalCount());
-			//model.addAttribute("pageSize", merchantUserList.getTotalCount());
-//			return "/system/food/businesTable";
-//			return "{'total':'"+merchantUserList.getList().size()+"','rows':'"+JSON.toJSONString(merchantList, SerializerFeature.WriteNullStringAsEmpty)+"'}";
 		} catch (Exception e) {
 			log.error("get merchant list error, ",e);
 		}
@@ -342,49 +265,15 @@ public class MerchantController extends BaseController {
 		}
 		BizResult<String> bizResult = new BizResult<String>();
 		String[] idArr = ids.split(",");
-//		if (idArr.length < 2 ) {
-//			MerchantVO  vo = new MerchantVO();
-//			if (status == 1) {
-//				vo.setStatus(MerchantStatus.INVALID.getCode());
-//				vo.setId(Integer.parseInt(idArr[0]));
-//			}else if (status == 2) {
-//				//MerchantVO  vo = new MerchantVO();
-//				vo.setStatus(MerchantStatus.OFFLINE.getCode());
-//				vo.setId(Integer.parseInt(idArr[0]));
-//				
-//			}else if (status == 3) {
-//				//MerchantVO  vo = new MerchantVO();
-//				
-//			}
-//			vo.setStatus(status);
-//			vo.setId(Integer.parseInt(idArr[0]));
-//			
-//			BizResultSupport updateResult = merchantBiz.updateDeliciousFood(vo);
-//			if (updateResult == null || !updateResult.isSuccess()) {
-//				String msg = updateResult == null?"操作失败":updateResult.getMsg();
-//				bizResult.init(false, -1, msg);
-//			}
-//			return bizResult;
-//			}
 		List<Long> idList = new ArrayList<>();
 		for (String s : idArr) {
 			idList.add(Long.parseLong(s));
 		}
-		//BizResultSupport resultSupport = null;
-//		if (status == 1) {
-//			
-//			//resultSupport = merchantBiz.batchUpdateMerchant(idList, MerchantStatus.INVALID.getCode());
-//		}else if (status == 2) {
-//			//resultSupport = merchantBiz.batchUpdateMerchant(idList, MerchantStatus.OFFLINE.getCode());
-//		}else if (status == 3) {
-//			
-//		}
 		BizResultSupport resultSupport = merchantBiz.batchUpdateMerchant(idList, status);
 		if (resultSupport == null || !resultSupport.isSuccess()) {
 			String msg = resultSupport == null?"操作失败":resultSupport.getMsg();
 			bizResult.init(false, -1, msg);
 		}
-		//userMerchantServiceRef.
 		return bizResult;
 		
 	}
@@ -429,7 +318,6 @@ public class MerchantController extends BaseController {
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			e.printStackTrace();
 		}
 		return "/system/merchant/merchantList";
 	}
@@ -451,7 +339,6 @@ public class MerchantController extends BaseController {
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			e.printStackTrace();
 		}
 		return "/system/merchant/merchantDetail";
 	}
