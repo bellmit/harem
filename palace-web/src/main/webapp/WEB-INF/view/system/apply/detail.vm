@@ -94,14 +94,6 @@
             <tr>
                 <td>达人资质证明：</td>
                 <td>
-		        <!--#foreach($merchantQualification in $qualificationPictures)
-		            <div style="float: left;margin-left: 10px;">
-		                $!merchantQualification.title <br/>
-		                <a href="$!tfs$!merchantQualification.url" data-group="group100"
-		                   data-toggle="lightbox" data-caption="$!merchantQualification.title">
-		                    <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
-		                </a>
-		            </div>
 		        #end-->
                     <div class="borderbox">
                         <table class="table table-inner">
@@ -176,15 +168,6 @@
                                     </a>
                                 </td>
                             </tr>
-                            <!--<tr>
-                                <td><span class="red">*</span>手持身份证照片：</td>
-                                <td colspan="3">
-                                    <a href="$!tfs$!examineInfo.cardInHand" data-group="group300" data-toggle="lightbox"
-                                       data-caption="手持身份证照片">
-                                        <img src="$!tfs$!examineInfo.cardInHand" alt="图片加载失败"/>
-                                    </a>
-                                </td>
-                            </tr>-->
                             </tbody>
                         </table>
                     </div>
