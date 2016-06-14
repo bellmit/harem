@@ -63,7 +63,7 @@
             <tr>
             	<td><span class="spColor">*</span>面积</td>
                 <td>
-                	<input type="text" class="inpCtlBlock area" name="area" value="$!room.area">
+                	<input type="text" class="inpCtlBlock area" style="display:inline-block;width:96%;" name="area" value="$!room.area">㎡
                 </td>
             </tr>
             <tr>
