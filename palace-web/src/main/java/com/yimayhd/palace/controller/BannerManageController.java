@@ -78,9 +78,9 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
-//        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
-//            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
-//        }
+        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
+            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
+       }
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
@@ -185,7 +185,6 @@ public class BannerManageController extends BaseController {
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
         return "/system/banner/showcase/edit_new";
-//        return "/system/banner/showcase/edit";
     }
 
     /**

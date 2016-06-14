@@ -45,12 +45,14 @@ import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.OperationClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.resourcecenter.util.FeatureUtil;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.dto.CityDTO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.service.MerchantService;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,10 +121,11 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             LOGGER.error("getById|showcaseClientServer.getShowcaseResult result is " + JSON.toJSONString(result) +",parameter is "+id);
             return null;
         }
-        //TODO:父类不能转子类，这里用BeanUtils.copyProperties，可改进
         ShowcaseDO sdo = result.getT().getShowcaseDO();
         ShowcaseVO svo = new ShowcaseVO();
         BeanUtils.copyProperties(sdo, svo);
+        svo.setOperationContentZHs(svo.getFeature());
+        svo.setOperationDetailIds(svo.getFeature());
         return svo;
     }
 
@@ -334,38 +337,29 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     private ShowcaseDO showcaseVoToShowcaseDo(ShowcaseVO sw,ShowcaseDO sd){
         if(null == sd ){sd = new ShowcaseDO();}
-        //if(StringUtils.isNotEmpty(sw.getInfo())){
-            sd.setInfo(sw.getInfo());
-        //}
-        //if(StringUtils.isNotEmpty(sw.getTitle())){
-            sd.setTitle(sw.getTitle());
-        //}
-        if(StringUtils.isNotEmpty(sw.getBusinessCode())){
-            sd.setBusinessCode(sw.getBusinessCode());
-        }
-        //if(StringUtils.isNotEmpty(sw.getSummary())){
-            sd.setSummary(sw.getSummary());
-        //}
-        if(StringUtils.isNotEmpty(sw.getBoothContent())){
-            sd.setBoothContent(sw.getBoothContent());
-        }
-        //if(StringUtils.isNotEmpty(sw.getOperationContent())){
-            sd.setOperationContent(sw.getOperationContent());
-        //}
-        if(StringUtils.isNotEmpty(sw.getImgUrl())){
-            sd.setImgUrl(sw.getImgUrl());
-        }
-        if(StringUtils.isNotEmpty(sw.getFeature())){
-            sd.setFeature(sw.getFeature());
-        }
-        //if(StringUtils.isNotEmpty(sw.getContent())){
-            sd.setContent(sw.getContent());
-        //}
+        sd.setInfo(sw.getInfo());
+        sd.setTitle(sw.getTitle());
+        sd.setSummary(sw.getSummary());
+        sd.setBoothContent(sw.getBoothContent());
+        sd.setOperationContent(sw.getOperationContent());
+
+        sd.setContent(sw.getContent());
         sd.setShowcaseFeature(sw.getShowcaseFeature());
         sd.setStatus(sw.getStatus());//状态是手动改的
         sd.setOperationId(sw.getOperationId());
         sd.setSerialNo(sw.getSerialNo());
         sd.setGmtModified(new Date());
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("operationContentZH",sw.getOperationContentZH());
+        map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
+        //sw.setFeature(FeatureUtil.toString(map));
+        sd.setFeature(FeatureUtil.toString(map));
+        if(StringUtils.isNotEmpty(sw.getBusinessCode())){
+            sd.setBusinessCode(sw.getBusinessCode());
+        }
+        if(StringUtils.isNotEmpty(sw.getImgUrl())){
+            sd.setImgUrl(sw.getImgUrl());
+        }
         //sd.setId(sw.getId());
         //sd.setShowType(sw.getShowType());
         //sd.setBoothId(sw.getBoothId());
