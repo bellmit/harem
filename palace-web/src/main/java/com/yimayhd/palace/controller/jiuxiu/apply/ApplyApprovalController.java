@@ -37,7 +37,11 @@ import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.CategoryService;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.query.MerchantQuery;
+import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.DataCacheService;
+import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +75,8 @@ public class ApplyApprovalController extends BaseController {
     private QualificationService qualificationService;
     @Autowired
     private CityDataCacheClient cityDataCacheClient;
+    @Autowired
+    private MerchantService merchantService;
 
     @RequestMapping(value = "/list")
     public String applyApproval(Model model) {
@@ -118,13 +124,13 @@ public class ApplyApprovalController extends BaseController {
                 model.addAttribute("feature", result.getValue().getIsDirectSale() == 1 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
                 model.addAttribute("type", result.getValue().getType());
                 model.addAttribute("status", result.getValue().getExaminStatus());
-                if(!StringUtils.isEmpty(result.getValue().getAccountBankProvinceCode())) {
+                if (!StringUtils.isEmpty(result.getValue().getAccountBankProvinceCode())) {
                     String provinceName = cityDataCacheClient.getCityByCode(result.getValue().getAccountBankProvinceCode()).getName();
-                    model.addAttribute("provinceName",provinceName);
+                    model.addAttribute("provinceName", provinceName);
                 }
-                if(!StringUtils.isEmpty(result.getValue().getAccountBankCityCode())) {
+                if (!StringUtils.isEmpty(result.getValue().getAccountBankCityCode())) {
                     String cityName = cityDataCacheClient.getCityByCode(result.getValue().getAccountBankCityCode()).getName();
-                    model.addAttribute("cityName",cityName);
+                    model.addAttribute("cityName", cityName);
                 }
 
                 if (CertificateType.IDCARD.getType().equals(result.getValue().getPrincipleCard())) {
@@ -137,51 +143,68 @@ public class ApplyApprovalController extends BaseController {
                     model.addAttribute("certificateType", CertificateType.GUIDE_LICENSE.getName());
                 }
 
-                if(result.getValue().getType() == 1) { // 达人
-                    // 查询资质,展示资质图片
-                    QualificationQueryDTO qualificationQueryDTO = new QualificationQueryDTO();
-                    qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-                    qualificationQueryDTO.setSellerId(result.getValue().getSellerId());
-                    MemResult<List<MerchantQualificationDO>> merchantQualificationResult = qualificationService.getMerchantQualification(qualificationQueryDTO);
-                    if (merchantQualificationResult != null && merchantQualificationResult.isSuccess() && merchantQualificationResult.getValue() != null && !merchantQualificationResult.getValue().isEmpty()) {
-                        List<Long> ids = new ArrayList<>();
-                        for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
-                            ids.add(merchantQualificationDO.getQulificationId());
-                        }
-
-                        List<Map<String, Object>> qualificationPictures = new ArrayList<>();
-                        outer:
-                        for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
-                            String[] urls = merchantQualificationDO.getContent().split(",");
-                            for (String url : urls) {
-                                qualificationQueryDTO = new QualificationQueryDTO();
-                                qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-                                qualificationQueryDTO.getIdSet().add(merchantQualificationDO.getQulificationId());
-                                MemResult<List<QualificationDO>> qualificationResult = qualificationService.getQualification(qualificationQueryDTO);
-                                if (qualificationResult != null && qualificationResult.isSuccess() && qualificationResult.getValue() != null && !qualificationResult.getValue().isEmpty()) {
-                                    Map<String, Object> map = new HashMap<>();
-                                    map.put("url", url);
-                                    map.put("title", qualificationResult.getValue().get(0).getTitle());
-                                    qualificationQueryDTO = new QualificationQueryDTO();
-                                    qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-                                    qualificationQueryDTO.setMerchantCategoryId(result.getValue().getMerchantCategoryId());
-                                    qualificationQueryDTO.setQualificationId(merchantQualificationDO.getQulificationId());
-                                    qualificationQueryDTO.setDirectSale(result.getValue().getIsDirectSale());
-                                    MemResult<Boolean> booleanMemResult = qualificationService.getQualificationRequired(qualificationQueryDTO);
-                                    if (booleanMemResult != null && booleanMemResult.isSuccess() && booleanMemResult.getValue() != null) {
-                                        map.put("required", booleanMemResult.getValue());
-                                    } else {
-                                        map.put("required", false);
-                                    }
-                                    qualificationPictures.add(map);
-                                }
-                            }
-                        }
-                        model.addAttribute("qualificationPictures", qualificationPictures);
-                        result.getValue().setMerchantQualifications(merchantQualificationResult.getValue());
+                if (result.getValue().getType() == 1) { // 达人
+                    List<Map<String, Object>> qualificationPictures = new ArrayList<>();
+                    Map<String,Object> touristCardMap = new HashMap<>();
+                    if(!StringUtils.isEmpty(result.getValue().getTouristCard())) {
+                        touristCardMap.put("title","导游证");
+                        touristCardMap.put("url",result.getValue().getTouristCard());
+                        qualificationPictures.add(touristCardMap);
                     }
 
-                }else { // 商户
+                    if(!StringUtils.isEmpty(result.getValue().getDrivingLinence())) {
+                        Map<String,Object> drivingLinenceMap = new HashMap<>();
+                        touristCardMap.put("title","行驶证");
+                        drivingLinenceMap.put("url",result.getValue().getDrivingLinence());
+                        qualificationPictures.add(drivingLinenceMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getDivingLinence())) {
+                        Map<String,Object> divingLinenceMap = new HashMap<>();
+                        touristCardMap.put("title","潜水证");
+                        divingLinenceMap.put("url",result.getValue().getDivingLinence());
+                        qualificationPictures.add(divingLinenceMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getPhotographyCertificate())) {
+                        Map<String,Object> photographyCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","摄影证");
+                        photographyCertificateMap.put("url",result.getValue().getPhotographyCertificate());
+                        qualificationPictures.add(photographyCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getClimbingCertificate())) {
+                        Map<String,Object> climbingCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","登山证");
+                        climbingCertificateMap.put("url",result.getValue().getClimbingCertificate());
+                        qualificationPictures.add(climbingCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getTrainingCertificate())) {
+                        Map<String,Object> trainingCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","健身教练证");
+                        trainingCertificateMap.put("url",result.getValue().getTrainingCertificate());
+                        qualificationPictures.add(trainingCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getTeacherCertificate())) {
+                        Map<String,Object> teacherCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","教师证");
+                        teacherCertificateMap.put("url",result.getValue().getTeacherCertificate());
+                        qualificationPictures.add(teacherCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getArtCertificate())) {
+                        Map<String,Object> artCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","美术证");
+                        artCertificateMap.put("url",result.getValue().getArtCertificate());
+                        qualificationPictures.add(artCertificateMap);
+                    }
+
+
+                    model.addAttribute("qualificationPictures", qualificationPictures);
+
+                } else { // 商户
                     BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
                     businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
                     businessScopeQueryDTOQUery.setSellerId(result.getValue().getSellerId());
@@ -390,6 +413,15 @@ public class ApplyApprovalController extends BaseController {
     public String allocation(long id, Model model) {
         MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(id);
         if (null == examineInfoDTOResult || !examineInfoDTOResult.isSuccess() || null == examineInfoDTOResult.getValue()) {
+            // TODO 跳转错误页面处理
+            return "";
+        }
+        String sellerName = examineInfoDTOResult.getValue().getSellerName();
+        MerchantQuery merchantQuery = new MerchantQuery();
+        merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+        merchantQuery.setName(sellerName);
+        BaseResult<List<MerchantDO>> merchantDOs = merchantService.getMerchantList(merchantQuery);
+        if (!merchantDOs.isSuccess() || !merchantDOs.getValue().isEmpty()) {
             // TODO 跳转错误页面处理
             return "";
         }

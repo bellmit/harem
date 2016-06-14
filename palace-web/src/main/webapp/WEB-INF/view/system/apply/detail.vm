@@ -61,22 +61,6 @@
                         <table class="table table-inner">
 				            <tbody>
 				            <tr>
-				                <td>法人身份证正面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.legralCardUp" data-group="group100" data-toggle="lightbox"
-				                       data-caption="法人身份证正面">
-				                        <img src="$!tfs$!examineInfo.legralCardUp" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				                <td>法人身份证反面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.legralCardDown" data-group="group100" data-toggle="lightbox"
-				                       data-caption="法人身份证反面">
-				                        <img src="$!tfs$!examineInfo.legralCardDown" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				            </tr>
-				            <tr>
 				                <td>营业执照副本正面：</td>
 				                <td>
 				                    <a href="$!tfs$!examineInfo.businessLicense" data-group="group100" data-toggle="lightbox"
@@ -146,9 +130,6 @@
                                     <tr>
                                     #end
                                     <td>
-                                        #if($merchantQualification.required)
-                                            <span class="red">*</span>
-                                        #end
                                         $!merchantQualification.title：
                                     </td>
                                     <td>
@@ -208,6 +189,15 @@
                                     <a href="$!tfs$!examineInfo.principleCardDown" data-group="group300"
                                        data-toggle="lightbox" data-caption="身份证反面">
                                         <img src="$!tfs$!examineInfo.principleCardDown" alt="图片加载失败"/>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>手持身份证照片：</td>
+                                <td colspan="3">
+                                    <a href="$!tfs$!examineInfo.cardInHand" data-group="group100" data-toggle="lightbox"
+                                       data-caption="手持身份证照片">
+                                        <img src="$!tfs$!examineInfo.cardInHand" alt="图片加载失败"/>
                                     </a>
                                 </td>
                             </tr>
