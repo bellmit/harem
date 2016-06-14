@@ -67,8 +67,9 @@ public class EvaluationServiceImpl implements EvaluationService {
                 log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile result is null and parame: " + evaluationListQuery.getTel());
                 throw new BaseException("查询用户失败");
             } else if(!userResult.isSuccess()){
-                log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile error:" + JSON.toJSONString(userResult) + "and parame: " + evaluationListQuery.getTel());
-                throw new BaseException("查询用户失败," + userResult.getResultMsg());
+            	return comCommentVOPageVO;
+//                log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile error:" + JSON.toJSONString(userResult) + "and parame: " + evaluationListQuery.getTel());
+//                throw new BaseException("查询用户失败," + userResult.getResultMsg());
             }
             if(userResult.getValue() != null && userResult.getValue().getId() != 0){
                 userIdList.add(userResult.getValue().getId());
