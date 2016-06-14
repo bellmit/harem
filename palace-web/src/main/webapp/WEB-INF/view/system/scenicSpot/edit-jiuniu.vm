@@ -301,11 +301,9 @@
                     }
                     provinceFlag = true;
                 } else {
-                    layer.alert('操作失败', {
+                    layer.msg('省份加载失败', {
                         icon: 2,
                         time: 2000
-                    }, function() {
-
                     });
                 }
         	}
@@ -347,12 +345,10 @@
                         }
                         provinceFlag = true;
                     } else {
-                        layer.alert('操作失败', {
-                            icon: 2,
-                            time: 2000
-                        }, function() {
-
-                        });
+                       layer.msg('市级地址加载失败', {
+	                        icon: 2,
+	                        time: 2000
+	                   });
                     }
                 }
             );
@@ -387,12 +383,10 @@
                         }
                         provinceFlag = true;
                     } else {
-                        layer.alert('操作失败', {
-                            icon: 2,
-                            time: 2000
-                        }, function() {
-
-                        });
+                       layer.msg('区域加载失败', {
+	                        icon: 2,
+	                        time: 2000
+	                    });
                     }
                 }
 			);
