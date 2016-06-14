@@ -219,6 +219,8 @@ public class MerchantController extends BaseController {
 		if (StringUtils.isBlank(merchantPageQuery.getName())) {
 			
 			merchantPageQuery.setName(null);
+		}else {
+			merchantPageQuery.setName(merchantPageQuery.getName().trim());
 		}
 		try {
 			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
@@ -226,7 +228,7 @@ public class MerchantController extends BaseController {
 				
 				return null;
 			}
-			System.out.println(JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty));
+			//System.out.println(JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty));
 			List<MerchantVO> merchantList = new ArrayList<>();
 			for (MerchantUserDTO merchant : merchantUserList.getList()) {
 				MerchantVO vo = new MerchantVO();
