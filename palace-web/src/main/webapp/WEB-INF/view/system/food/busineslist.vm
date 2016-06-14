@@ -69,7 +69,7 @@
 		<option value="20">20</option>
 		<option value="30">30</option>
 		</select><label> 条</label>
-		<label> 共：</label><label class='total'>20</label><label>页</label></div>
+		<label> 共：</label><label class='total'>20</label><label>条</label></div>
 	</div>
 
 </div>

@@ -47,4 +47,4 @@
 			#end
 		</tbody>
 	</table>
-	<input type="hidden" class="totalCount" value="$!totalCount">
+	<input type="hidden" class="totalCount" value="$!{totalCount}">
