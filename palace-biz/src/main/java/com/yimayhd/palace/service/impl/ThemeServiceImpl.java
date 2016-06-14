@@ -144,7 +144,7 @@ public class ThemeServiceImpl implements ThemeService {
 	public boolean themeOff(long themeId) {
 		TagUpdateStatusDTO tagUpdateStatusDTO = new TagUpdateStatusDTO();
 		tagUpdateStatusDTO.setId(themeId);
-		tagUpdateStatusDTO.setStatus("1");
+		tagUpdateStatusDTO.setStatus("DELETED");
 		BaseResult<Boolean> result = comTagCenterService.updateTagStatusById(tagUpdateStatusDTO);
 		if(null != result && result.isSuccess() && null!=result.getValue()){
 			return result.getValue();
