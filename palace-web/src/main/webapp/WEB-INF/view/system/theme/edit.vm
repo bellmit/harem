@@ -84,7 +84,7 @@
         });
     }
     //form 验证
-    function validateForm() {
+    function validateForm(checkTagName) {
         var name = $("#name").val();
         var score= $("#score").val();
 
@@ -96,13 +96,15 @@
             alertText("主题名称请输入2-4个字以内");
             return false;
         }
-        if($.isBlank(score)){
-            alertText("排序不能为空");
-            return false;
-        }
-        if(!/^[1-9]\d*|0$/.test(score)){
-            alertText("排序请输入数字");
-            return false;
+        if(!checkTagName) {
+            if ($.isBlank(score)) {
+                alertText("排序不能为空");
+                return false;
+            }
+            if (!/^[1-9]\d*|0$/.test(score)) {
+                alertText("排序请输入数字");
+                return false;
+            }
         }
         return true;
     }
@@ -113,7 +115,7 @@
         })
 
         $('#btnSubmit').click(function(){
-            if(validateForm()) {
+            if(validateForm(false)) {
                 $(this).prop('disabled', true);
                 var actionUrl;
                 var themeId = $('#themeForm').attr('themeId');
@@ -132,7 +134,7 @@
     
     //校验标签名称是否已经存在
     function check() {
-        if (validateForm()) {
+        if (validateForm(true)) {
             var name = $("#name").val();
             $.post("/B2C/themeManage/checkTagName", {name: name}, function (data) {
                 if (data.data == 'faile') {
