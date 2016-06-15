@@ -22,7 +22,7 @@ public class RoomVO extends RoomDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String bed;
-	private double area;
+	private String area;
 	private String networkStr;
 	private List<Integer> networkList;
 	private int window;
@@ -141,11 +141,11 @@ public class RoomVO extends RoomDO implements Serializable {
 		this.bed = bed;
 	}
 
-	public double getArea() {
+	public String getArea() {
 		return area;
 	}
 
-	public void setArea(double area) {
+	public void setArea(String area) {
 		this.area = area;
 	}
 
