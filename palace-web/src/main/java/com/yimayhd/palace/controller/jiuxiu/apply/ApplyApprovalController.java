@@ -171,14 +171,14 @@ public class ApplyApprovalController extends BaseController {
                 if(!StringUtils.isEmpty(result.getValue().getTravingCard())) {
                     Map<String,String> picture5 = new HashMap<>();
                     picture5.put("title","旅行社业务经营许可证正面");
-                    picture5.put("subTitle","<br/>*旅行社必填");
+                    picture5.put("subTitle","*旅行社必填");
                     picture5.put("url",result.getValue().getTravingCard());
                     pictures.add(picture5);
                 }
                 if(!StringUtils.isEmpty(result.getValue().getTouchProve())) {
                     Map<String,String> picture6 = new HashMap<>();
                     picture6.put("title","联系人变更证明");
-                    picture6.put("subTitle","<br/>*仅限合同签署人<br/>与联系人不一致<br/>情形时上传");
+                    picture6.put("subTitle","*仅限合同签署人与联系人不一致情形时上传");
                     picture6.put("url",result.getValue().getTouchProve());
                     pictures.add(picture6);
                 }
