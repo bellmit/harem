@@ -98,12 +98,12 @@
                         <td><span class="spColor">*</span>地址经纬度</td>
                         <td>
                         	<div style="float:left;">
-	                            <span>经度</span>
-	                            <input type="text" name="scenicVO.locationX" id="locationX" class="inpControl getAddress locationX" value="$!{VO.scenicVO.locationX}" placeholder="示例:116.40461,限数字,请注意不要有空格" style="width:260px;" />
+	                            <span>经度</span>	                            
+	                            <input type="text" name="scenicVO.locationX" id="locationX" readonly="readonly" class="inpControl getAddress locationX" value="$!numberFormatHelper.formatDoubleNumber($!VO.scenicVO.locationX)" placeholder="示例:116.40461,限数字,请注意不要有空格" style="width:260px;" />
                             </div>
                             <div style="float:left;">
 	                            <span>纬度</span>
-	                            <input type="text" name="scenicVO.locationY" id="locationY" class="inpControl getAddress locationY" value="$!{VO.scenicVO.locationY}" placeholder="示例:39.910921,限数字,请注意不要有空格" style="width:260px;" />
+	                            <input type="text" name="scenicVO.locationY" id="locationY" readonly="readonly" class="inpControl getAddress locationY" value="$!numberFormatHelper.formatDoubleNumber($!VO.scenicVO.locationY)" placeholder="示例:39.910921,限数字,请注意不要有空格" style="width:260px;" />
                             </div>
                             <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                             #*<code>点击查找经纬度可自动获取</code>*#
