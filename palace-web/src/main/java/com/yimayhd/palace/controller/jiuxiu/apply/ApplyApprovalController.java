@@ -416,15 +416,6 @@ public class ApplyApprovalController extends BaseController {
             // TODO 跳转错误页面处理
             return "";
         }
-        String sellerName = examineInfoDTOResult.getValue().getSellerName();
-        MerchantQuery merchantQuery = new MerchantQuery();
-        merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-        merchantQuery.setName(sellerName);
-        BaseResult<List<MerchantDO>> merchantDOs = merchantService.getMerchantList(merchantQuery);
-        if (!merchantDOs.isSuccess() || !merchantDOs.getValue().isEmpty()) {
-            // TODO 跳转错误页面处理
-            return "";
-        }
 
         BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
         businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -518,6 +509,19 @@ public class ApplyApprovalController extends BaseController {
     BizResultSupport editAllocation(AllocationVO allocationVO) {
         BizResultSupport bizResultSupport = AllocationChecker.checkAllocationVO(allocationVO);
         if (!bizResultSupport.isSuccess()) {
+            return bizResultSupport;
+        }
+
+        MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(allocationVO.getExamineId());
+
+        // 判断重名
+        String sellerName = examineInfoDTOResult.getValue().getSellerName();
+        MerchantQuery merchantQuery = new MerchantQuery();
+        merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+        merchantQuery.setName(sellerName);
+        BaseResult<List<MerchantDO>> merchantDOs = merchantService.getMerchantList(merchantQuery);
+        if (!merchantDOs.isSuccess() || !merchantDOs.getValue().isEmpty()) {
+            bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
             return bizResultSupport;
         }
         String[] array = allocationVO.getCategoryIds().split(",");
