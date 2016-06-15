@@ -169,8 +169,8 @@
                 return "结束日期必须大于开始日期!";
             }
         }
-        if($('.endTime').val() <= getNowFormat()){
-            return "结束时间必须大于当前时间";
+        if($('.endTime').val() < getNowFormat()){
+            return "结束时间必须大于等于当前时间";
         }
        #* if($('.startTime').val() <= getNowFormat()){
             return "开始时间必须大于当前时间";
