@@ -195,7 +195,7 @@
                             <tr>
                                 <td><span class="red">*</span>手持身份证照片：</td>
                                 <td colspan="3">
-                                    <a href="$!tfs$!examineInfo.cardInHand" data-group="group100" data-toggle="lightbox"
+                                    <a href="$!tfs$!examineInfo.cardInHand" data-group="group300" data-toggle="lightbox"
                                        data-caption="手持身份证照片">
                                         <img src="$!tfs$!examineInfo.cardInHand" alt="图片加载失败"/>
                                     </a>
@@ -228,7 +228,7 @@
                             <tr>
                                 <td><span class="red">*</span>结算开户行：</td>
                                 <td>
-                                	<span class="inputval">$!provinceName $!cityName $!examineInfo.accountBankName</span>
+                                	<span class="inputval">$provinceName $cityName $!examineInfo.accountBankName</span>
                                 </td>
                             </tr>
                             </tbody>
@@ -396,7 +396,7 @@
                             <tr>
                                 <td><span class="red">*</span>结算开户行：</td>
                                 <td><span
-                                        class="inputval">$!examineInfo.accountBankProvince $!examineInfo.accountBankCity $!examineInfo.accountBankName</span>
+                                        class="inputval">$provinceName $cityName $!examineInfo.accountBankName</span>
                                 </td>
                             </tr>
                             </tbody>

@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td><span class="spColor">*</span>排序</td>
-                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="score" value="$!theme.score"></td>
+                <td><input type="text" class="form-control" placeholder="请输入数字，数字越大排序靠后" name="score" id="score" value="$!theme.score"></td>
             </tr>
         </table>
         <div class="clubBotBtn">
@@ -73,7 +73,41 @@
     </form>
 </div>
 <script>
-    
+    (function($){
+        $.isBlank = function(obj){
+            return(!obj || $.trim(obj) === "");
+        };
+    })(jQuery);
+    function alertText(text) {
+        layer.alert(text, {
+            icon: 2
+        });
+    }
+    //form 验证
+    function validateForm(checkTagName) {
+        var name = $("#name").val();
+        var score= $("#score").val();
+
+        if($.isBlank(name)){
+            alertText("主题名称不能为空");
+            return false;
+        }
+        if(name.length>4||name.length<2){
+            alertText("主题名称请输入2-4个字以内");
+            return false;
+        }
+        if(!checkTagName) {
+            if ($.isBlank(score)) {
+                alertText("排序不能为空");
+                return false;
+            }
+            if (!/^[1-9]\d*|0$/.test(score)) {
+                alertText("排序请输入数字");
+                return false;
+            }
+        }
+        return true;
+    }
     $(function(){
         $('.selectUserBtn').click(function(){
             '$!utilWebconfig.getActionDefaultFontPath()',
@@ -81,33 +115,37 @@
         })
 
         $('#btnSubmit').click(function(){
-            $(this).prop('disabled',true);
-            var actionUrl;
-            var themeId = $('#themeForm').attr('themeId');
-			//alert("themeId="+themeId);
-            if(themeId){
-                actionUrl = actionDefaultPath + '/B2C/themeManage/edit/'+themeId;
-            }else{
-                actionUrl =actionDefaultPath + '/B2C/themeManage/add';
-            }
+            if(validateForm(false)) {
+                $(this).prop('disabled', true);
+                var actionUrl;
+                var themeId = $('#themeForm').attr('themeId');
+                //alert("themeId="+themeId);
+                if (themeId) {
+                    actionUrl = actionDefaultPath + '/B2C/themeManage/edit/' + themeId;
+                } else {
+                    actionUrl = actionDefaultPath + '/B2C/themeManage/add';
+                }
 
-            $('#themeForm').attr('action',actionUrl);
-			$('#themeForm').submit();
+                $('#themeForm').attr('action', actionUrl);
+                $('#themeForm').submit();
+            }
         });
     });
     
     //校验标签名称是否已经存在
-    function check(){
-    	var name = $("#name").val();
-    	$.post("/B2C/themeManage/checkTagName",{name:name},function(data){
-    		if(data.data == 'faile'){
-    			$("#ret").html('');
-    			$("#ret").append("<b>该名称已经存在</b>");
-    			$("#btnSubmit").attr("disabled","true");
-    		}else {
-    			$("#ret").html('');
-    			$("#btnSubmit").removeAttr("disabled");
-    		}
-    	});
+    function check() {
+        if (validateForm(true)) {
+            var name = $("#name").val();
+            $.post("/B2C/themeManage/checkTagName", {name: name}, function (data) {
+                if (data.data == 'faile') {
+                    $("#ret").html('');
+                    $("#ret").append("<b>该名称已经存在</b>");
+                    $("#btnSubmit").attr("disabled", "true");
+                } else {
+                    $("#ret").html('');
+                    $("#btnSubmit").removeAttr("disabled");
+                }
+            });
+        }
     }
 </script>
