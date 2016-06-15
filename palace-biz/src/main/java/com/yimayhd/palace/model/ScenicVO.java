@@ -78,7 +78,7 @@ public class ScenicVO extends ScenicDO {
         //分转元
         scenicVO.setPriceY(NumUtil.moneyTransformDouble(scenicVO.getPrice()));
         
-        Coordinate cdt = Common.bdEncrypt(scenicVO.getLocationY(), scenicVO.getLocationX());
+        Coordinate cdt = Common.bdDecrypt(scenicVO.getLocationY(), scenicVO.getLocationX());
         scenicVO.setLongitude(cdt.getLongitude());
         scenicVO.setLatitude(cdt.getLatitude());
         return scenicVO;

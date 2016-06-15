@@ -91,7 +91,7 @@ public class HotelVO extends HotelDO implements Serializable {
             hotelVO.getNeedKnow().setFrontNeedKnow(frontNeedKnow);
         }
         
-        Coordinate cdt = Common.bdEncrypt(hotelVO.getLocationY(), hotelVO.getLocationX());
+        Coordinate cdt = Common.bdDecrypt(hotelVO.getLocationY(), hotelVO.getLocationX());
         hotelVO.setLongitude(cdt.getLongitude());
         hotelVO.setLatitude(cdt.getLatitude());
         

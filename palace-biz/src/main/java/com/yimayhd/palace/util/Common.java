@@ -400,7 +400,7 @@ public class Common {
 	
 	
 	public static void main(String[] args) {
-		Coordinate aa = Common.bdEncrypt(12, 12);
+		Coordinate aa = Common.bdEncrypt(39.9145, 116.42453);
 		System.out.println(aa.getLongitude());
 		System.out.println(aa.getLatitude());
 		
