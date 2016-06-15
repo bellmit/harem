@@ -20,6 +20,7 @@ import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.enums.PictureTag;
 import com.yimayhd.ic.client.model.param.item.HotelDTO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
+import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.NumUtil;
 
 /**
@@ -90,13 +91,10 @@ public class HotelVO extends HotelDO implements Serializable {
             hotelVO.getNeedKnow().setFrontNeedKnow(frontNeedKnow);
         }
         
-        //hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
-        //hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
-        //hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));
-        //FacilityIconServiceImpl facilityIconService = new FacilityIconServiceImpl();
-        //hotelVO.setRoomFacilityList(BitUtil.convertFacility(hotelDO.getRoomFacility(),facilityIconService.getMapByType(1),0));
-        //hotelVO.setRoomServiceList(BitUtil.convertFacility(hotelDO.getRoomService(), facilityIconService.getMapByType(2), 0));
-        //hotelVO.setHotelFacilityList(BitUtil.convertFacility(hotelDO.getHotelFacility(), facilityIconService.getMapByType(3), 0));
+        Coordinate cdt = Common.bdEncrypt(hotelVO.getLocationY(), hotelVO.getLocationX());
+        hotelVO.setLongitude(cdt.getLongitude());
+        hotelVO.setLatitude(cdt.getLatitude());
+        
         return hotelVO;
     }
     public static HotelDO getHotelDO(HotelVO hotelVO) throws Exception {
@@ -179,8 +177,12 @@ public class HotelVO extends HotelDO implements Serializable {
         hotelDO.setPicturesString(hotelVO.getPicturesStr());
         
         //处理经纬度
-        hotelDO.setLatitude(hotelVO.getLocationY());
-        hotelDO.setLongitude(hotelVO.getLocationX());
+        //hotelDO.setLatitude(hotelVO.getLocationY());
+        //hotelDO.setLongitude(hotelVO.getLocationX());
+        
+        Coordinate cdt = Common.bdEncrypt(hotelVO.getLocationY(), hotelVO.getLocationX());
+        hotelDO.setLongitude(cdt.getLongitude());
+        hotelDO.setLatitude(cdt.getLatitude());
         
         return hotelDO;
     }
@@ -204,9 +206,13 @@ public class HotelVO extends HotelDO implements Serializable {
     	HotelDTO hotelDTO = new HotelDTO();
     	BeanUtils.copyProperties(hotelVO, hotelDTO);
     	
-    	hotelDTO.setLatitude(hotelVO.getLocationY());
-        hotelDTO.setLongitude(hotelVO.getLocationX());
+    	//hotelDTO.setLatitude(hotelVO.getLocationY());
+        //hotelDTO.setLongitude(hotelVO.getLocationX());
     	
+    	Coordinate cdt = Common.bdEncrypt(hotelVO.getLocationY(), hotelVO.getLocationX());
+    	hotelDTO.setLongitude(cdt.getLongitude());
+        hotelDTO.setLatitude(cdt.getLatitude());
+        
         List<Integer> roomFacility = transformFacilities(hotelVO.getRoomFacilityStr());
         List<Integer> roomService = transformFacilities(hotelVO.getRoomServiceStr()); 
         List<Integer> hotelFacility = transformFacilities(hotelVO.getHotelFacilityStr());

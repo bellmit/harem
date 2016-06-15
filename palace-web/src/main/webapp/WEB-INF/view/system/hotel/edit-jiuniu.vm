@@ -117,9 +117,10 @@
                     <td><span class="spColor">*</span>地址经纬度</td>
                     <td>
                     	<span>经度</span>
-                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" value="$!hotel.locationX">
+                    	
+                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" readonly="readonly" value="$!numberFormatHelper.formatDoubleNumber($!hotel.locationX)">
                     	<span>纬度</span>
-                    	<input type="text" id="locationY" name="locationY" placeholder="示例:39.910921,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" value="$!hotel.locationY">
+                    	<input type="text" id="locationY" name="locationY" placeholder="示例:39.910921,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" readonly="readonly" value="$!numberFormatHelper.formatDoubleNumber($!hotel.locationY)">
                     	<button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                     </td>
                 </tr>
