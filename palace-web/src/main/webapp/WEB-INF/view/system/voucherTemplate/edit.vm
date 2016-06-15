@@ -7,7 +7,7 @@
 
 	<div class="dialog">
 		<div class="bgmeng"></div>
-		<div class="dlgcont">
+		<div class="dlgcont" style="top: 30%;">
 			<label style="color:red; text-align:center;display:block;" >请再次确认信息是否填写无误！</label>
 			<table>
 				<tr>
