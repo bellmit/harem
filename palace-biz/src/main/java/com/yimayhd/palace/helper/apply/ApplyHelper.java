@@ -12,6 +12,7 @@ import com.yimayhd.palace.model.query.apply.ApplyQuery;
 import com.yimayhd.palace.model.vo.apply.ApplyVO;
 import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.user.client.domain.UserDO;
+import org.springframework.util.StringUtils;
 
 public class ApplyHelper {
 	
@@ -21,12 +22,13 @@ public class ApplyHelper {
 		if( applyQuery == null ){
 			return examinePageQueryDTO;
 		}
+
 		examinePageQueryDTO.setPageNo(applyQuery.getPageNumber());
 //		examinePageQueryDTO.setPageSize(Constant.DEFAULT_PAGE_SIZE);
 		examinePageQueryDTO.setPageSize(10);
-		examinePageQueryDTO.setMerchantName(applyQuery.getMerchantName());
-		examinePageQueryDTO.setPrincipleName(applyQuery.getPrincipleName());
-		examinePageQueryDTO.setPrincipleTel(applyQuery.getPrincipleTel());
+		examinePageQueryDTO.setMerchantName(StringUtils.trimAllWhitespace(applyQuery.getMerchantName()));
+		examinePageQueryDTO.setPrincipleName(StringUtils.trimAllWhitespace(applyQuery.getPrincipleName()));
+		examinePageQueryDTO.setPrincipleTel(StringUtils.trimAllWhitespace(applyQuery.getPrincipleTel()));
 		examinePageQueryDTO.setSellerId(applyQuery.getSellerId());
 		examinePageQueryDTO.setType(applyQuery.getType());
 		//FIXME wuzhengfei

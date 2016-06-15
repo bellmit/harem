@@ -163,6 +163,12 @@ public class HotelVO extends HotelDO implements Serializable {
         hotelFeature.setHotelFacility(hotelFacility);
         hotelVO.setFeature(hotelFeature);
         
+        String tradeAreaJson = hotelVO.getTradeAreaJson(); 
+        if(StringUtils.isNotBlank(tradeAreaJson) && !tradeAreaJson.equals("[]")){
+            List<TradeArea> areaList = JSONArray.parseArray(hotelVO.getTradeAreaJson(), TradeArea.class);
+            hotelFeature.setTradeArea(areaList);
+        }
+        
         //电话处理
         if(StringUtils.isNotBlank(hotelVO.getPhoneNumListStr())){
             List<String> phoneNumList = Arrays.asList(hotelVO.getPhoneNumListStr().split(","));

@@ -15,14 +15,6 @@
         <table class="table check-table">
             <tbody>
             <tr>
-                <td>商家选择的身份：</td>
-                <td>
-                    <div class="borderbox">
-                        $!category.name
-                    </div>
-                </td>
-            </tr>
-            <tr>
                 <td>商户信息：</td>
                 <td>
                     <div class="borderbox">
@@ -68,22 +60,6 @@
                     <div class="borderbox">
                         <table class="table table-inner">
 				            <tbody>
-				            <tr>
-				                <td>法人身份证正面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.legralCardUp" data-group="group100" data-toggle="lightbox"
-				                       data-caption="法人身份证正面">
-				                        <img src="$!tfs$!examineInfo.legralCardUp" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				                <td>法人身份证反面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.legralCardDown" data-group="group100" data-toggle="lightbox"
-				                       data-caption="法人身份证反面">
-				                        <img src="$!tfs$!examineInfo.legralCardDown" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				            </tr>
 				            <tr>
 				                <td>营业执照副本正面：</td>
 				                <td>
@@ -154,9 +130,6 @@
                                     <tr>
                                     #end
                                     <td>
-                                        #if($merchantQualification.required)
-                                            <span class="red">*</span>
-                                        #end
                                         $!merchantQualification.title：
                                     </td>
                                     <td>
@@ -219,6 +192,15 @@
                                     </a>
                                 </td>
                             </tr>
+                            <tr>
+                                <td><span class="red">*</span>手持身份证照片：</td>
+                                <td colspan="3">
+                                    <a href="$!tfs$!examineInfo.cardInHand" data-group="group100" data-toggle="lightbox"
+                                       data-caption="手持身份证照片">
+                                        <img src="$!tfs$!examineInfo.cardInHand" alt="图片加载失败"/>
+                                    </a>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -246,7 +228,7 @@
                             <tr>
                                 <td><span class="red">*</span>结算开户行：</td>
                                 <td>
-                                	<span class="inputval">$!examineInfo.accountBankProvince $!examineInfo.accountBankCity $!examineInfo.accountBankName</span>
+                                	<span class="inputval">$provinceName $cityName $!examineInfo.accountBankName</span>
                                 </td>
                             </tr>
                             </tbody>
@@ -414,7 +396,7 @@
                             <tr>
                                 <td><span class="red">*</span>结算开户行：</td>
                                 <td><span
-                                        class="inputval">$!examineInfo.accountBankProvince $!examineInfo.accountBankCity $!examineInfo.accountBankName</span>
+                                        class="inputval">$provinceName $cityName $!examineInfo.accountBankName</span>
                                 </td>
                             </tr>
                             </tbody>
