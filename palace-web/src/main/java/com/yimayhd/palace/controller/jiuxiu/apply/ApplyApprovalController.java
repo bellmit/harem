@@ -143,6 +143,47 @@ public class ApplyApprovalController extends BaseController {
                     model.addAttribute("certificateType", CertificateType.GUIDE_LICENSE.getName());
                 }
 
+                List<Map<String,String>> pictures = new ArrayList<>();
+                if(!StringUtils.isEmpty(result.getValue().getBusinessLicense())) {
+                    Map<String,String> picture1 = new HashMap<>();
+                    picture1.put("title","营业执照副本正面");
+                    picture1.put("url",result.getValue().getBusinessLicense());
+                    pictures.add(picture1);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getOrgCard())) {
+                    Map<String,String> picture2 = new HashMap<>();
+                    picture2.put("title","组织机构代码证正面");
+                    picture2.put("url",result.getValue().getOrgCard());
+                    pictures.add(picture2);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getAffairsCard())) {
+                    Map<String,String> picture3 = new HashMap<>();
+                    picture3.put("title","税务登记证正面");
+                    picture3.put("url",result.getValue().getAffairsCard());
+                    pictures.add(picture3);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getTravingCard())) {
+                    Map<String,String> picture4 = new HashMap<>();
+                    picture4.put("title","开户许可证正面");
+                    picture4.put("url",result.getValue().getOpenCard());
+                    pictures.add(picture4);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getTravingCard())) {
+                    Map<String,String> picture5 = new HashMap<>();
+                    picture5.put("title","旅行社业务经营许可证正面");
+                    picture5.put("subTitle","<br/>*旅行社必填");
+                    picture5.put("url",result.getValue().getTravingCard());
+                    pictures.add(picture5);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getTouchProve())) {
+                    Map<String,String> picture6 = new HashMap<>();
+                    picture6.put("title","联系人变更证明");
+                    picture6.put("subTitle","<br/>*仅限合同签署人<br/>与联系人不一致<br/>情形时上传");
+                    picture6.put("url",result.getValue().getTouchProve());
+                    pictures.add(picture6);
+                }
+                model.addAttribute("pictures", pictures);
+
                 if (result.getValue().getType() == 1) { // 达人
                     List<Map<String, Object>> qualificationPictures = new ArrayList<>();
                     Map<String,Object> touristCardMap = new HashMap<>();
@@ -269,6 +310,9 @@ public class ApplyApprovalController extends BaseController {
                                 for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
                                     String[] urls = merchantQualificationDO.getContent().split(",");
                                     for (String url : urls) {
+                                        if(StringUtils.isEmpty(url)) {
+                                            continue ;
+                                        }
                                         qualificationQueryDTO = new QualificationQueryDTO();
                                         qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
                                         qualificationQueryDTO.getIdSet().add(merchantQualificationDO.getQulificationId());

@@ -60,59 +60,23 @@
                     <div class="borderbox">
                         <table class="table table-inner">
 				            <tbody>
-				            <tr>
-				                <td>营业执照副本正面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.businessLicense" data-group="group100" data-toggle="lightbox"
-				                       data-caption="营业执照副本正面">
-				                        <img src="$!tfs$!examineInfo.businessLicense" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				                <td>组织机构代码证正面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.orgCard" data-group="group100" data-toggle="lightbox"
-				                       data-caption="组织机构代码证正面">
-				                        <img src="$!tfs$!examineInfo.orgCard" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				            </tr>
-				            <tr>
-				                <td>税务登记证正面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.affairsCard" data-group="group100" data-toggle="lightbox"
-				                       data-caption="税务登记证正面">
-				                        <img src="$!tfs$!examineInfo.affairsCard" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				                <td>开户许可证正面：</td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.openCard" data-group="group100" data-toggle="lightbox"
-				                       data-caption="开户许可证正面">
-				                        <img src="$!tfs$!examineInfo.openCard" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				            </tr>
-				            <tr>
-				                <td>旅行社业务经营许可证正面：<br/>
-				                    *旅行社必填
-				                </td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.travingCard" data-group="group100" data-toggle="lightbox"
-				                       data-caption="旅行社业务经营许可证正面">
-				                        <img src="$!tfs$!examineInfo.travingCard" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				                <td>联系人变更证明：<br/>
-				                    *仅限合同签署人<br/>与联系人不一致<br/>情形时上传
-				                </td>
-				                <td>
-				                    <a href="$!tfs$!examineInfo.touchProve" data-group="group100"
-				                       data-toggle="lightbox"
-				                       data-caption="联系人变更证明">
-				                        <img src="$!tfs$!examineInfo.touchProve" alt="图片加载失败"/>
-				                    </a>
-				                </td>
-				            </tr>
+                                #foreach($picture in $pictures)
+                                    #if($velocityCount % 2 == 1)
+                                    <tr>
+                                    #end
+                                    <td>
+                                        $!picture.title：
+                                        #if($picture.subTitle)
+                                            $!picture.subTitle：
+                                        #end
+                                    </td>
+                                    <td>
+                                        <a href="$!tfs$!picture.url" data-group="group200"
+                                           data-toggle="lightbox" data-caption="$!picture.title">
+                                            <img src="$!tfs$!picture.url" alt="图片加载失败"/>
+                                        </a>
+                                    </td>
+                                #end
 				            </tbody>
                         </table>
                     </div>

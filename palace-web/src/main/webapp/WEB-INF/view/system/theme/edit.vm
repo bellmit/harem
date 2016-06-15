@@ -136,7 +136,7 @@
     function check() {
         if (validateForm(true)) {
             var name = $("#name").val();
-            $.post("/B2C/themeManage/checkTagName", {name: name}, function (data) {
+            $.post(actionDefaultPath+"/B2C/themeManage/checkTagName", {name: name}, function (data) {
                 if (data.data == 'faile') {
                     $("#ret").html('');
                     $("#ret").append("<b>该名称已经存在</b>");
