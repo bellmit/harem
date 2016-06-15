@@ -368,7 +368,7 @@ public class Common {
 	  * @param bd_lat
 	  * @param bd_lon
 	  */
-	public static Coordinate bdEncrypt(double latitude, double longitude) {
+	public static Coordinate gcjToBd(double latitude, double longitude) {
 
 	    double x = longitude, y = latitude;
 	    double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * Constant.X_PI);
@@ -387,7 +387,7 @@ public class Common {
 	  * @param gg_lat
 	  * @param gg_lon
 	  */
-	public static Coordinate bdDecrypt(double latitude, double longitude) {
+	public static Coordinate bdToGcj(double latitude, double longitude) {
 	    double x = longitude - 0.0065, y = latitude - 0.006;
 	    double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * Constant.X_PI);
 	    double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * Constant.X_PI);
@@ -400,11 +400,11 @@ public class Common {
 	
 	
 	public static void main(String[] args) {
-		Coordinate aa = Common.bdEncrypt(39.9145, 116.42453);
+		Coordinate aa = Common.bdToGcj(39.9145, 116.424494);
 		System.out.println(aa.getLongitude());
 		System.out.println(aa.getLatitude());
 		
-		aa = Common.bdDecrypt(aa.getLatitude(), aa.getLongitude());
+		aa = Common.gcjToBd(aa.getLatitude(), aa.getLongitude());
 		System.out.println(aa.getLongitude());
 		System.out.println(aa.getLatitude());
 		
