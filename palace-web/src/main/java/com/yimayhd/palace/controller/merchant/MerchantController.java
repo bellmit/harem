@@ -21,7 +21,9 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.palace.base.BaseController;
@@ -45,6 +47,7 @@ import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.CityDTO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
@@ -416,8 +419,13 @@ public class MerchantController extends BaseController {
 				List<MerchantUserVo> merchantUserVos = new ArrayList<MerchantUserVo>();
 				for(int i=0;i<result.getList().size();i++){
 					MerchantUserDTO merchantUserDTO = result.getList().get(i);
+					MerchantDO merchantDO = merchantUserDTO.getMerchantDO();
 					MerchantUserVo merchantUserVo = new MerchantUserVo();
-					merchantUserVo.setRegisPhone(userServiceRef.getUserDOById(merchantUserDTO.getMerchantDO().getSellerId()).getMobileNo());
+					long sellerId = merchantDO==null ? 0 : merchantDO.getSellerId();
+					UserDO userDO = userServiceRef.getUserDOById(sellerId);
+					if(null!=userDO){
+						merchantUserVo.setRegisPhone(userDO.getMobileNo());
+					}
 					merchantUserVo.setUserDO(merchantUserDTO.getUserDO());
 					merchantUserVo.setMerchantDO(merchantUserDTO.getMerchantDO());
 					merchantUserVos.add(merchantUserVo);
@@ -441,18 +449,53 @@ public class MerchantController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="detail")
-	public String getMerchantDetail(Model model,long id){
-		try {
-			MemResult<ExamineInfoDTO> result = examineDealServiceRef.queryMerchantExamineInfoById(id);
-			if(result.isSuccess() && null !=result.getValue()){
-				model.addAttribute("examineInfo", result.getValue());
-				model.addAttribute("type", result.getValue().getType());
-				model.addAttribute("status", result.getValue().getExaminStatus());
+	public String getMerchantDetail(Model model,long id,long option){
+		UserDO user = sessionManager.getUser();
+		model.addAttribute("nickName", user.getNickname());
+		if(MerchantOption.MERCHANT.getOption()==option){
+			BaseResult<MerchantDO> meResult = merchantBiz.getMerchantBySellerId(id);
+			model.addAttribute("id", meResult.getValue().getId());
+			model.addAttribute("name",meResult.getValue().getName());
+			model.addAttribute("address",meResult.getValue().getAddress());
+			if(null != meResult.getValue().getBackgroudImage()){
+				model.addAttribute("ttImage", meResult.getValue().getBackgroudImage());
 			}
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			e.printStackTrace();
+			if(null != meResult.getValue().getLogo()){
+				model.addAttribute("dbImage", meResult.getValue().getLogo());
+			}
+			model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
+			model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
+			model.addAttribute("result", meResult.getValue());
+			return "/system/merchant/merchantDetail";
+		}else if(MerchantOption.TALENT.getOption()==option){
+//			MemResult<List<CertificatesDO>> serviceTypes = merchantBiz.getServiceTypes();
+//			if(serviceTypes.isSuccess() && serviceTypes.getValue().size()>0){
+//				model.addAttribute("serviceTypes", serviceTypes);
+//			}
+//			WebResult<TalentInfoDTO> dtoResult = merchantBiz.queryTalentInfoByUserId();
+//			if (dtoResult == null) {
+//				return "/system/error/500";
+//			}
+//			if (dtoResult.isSuccess()) {
+//				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
+//				if (talentInfoDTO == null || talentInfoDTO.getTalentInfoDO() == null) {
+//					return "/system/error/500";
+//				}
+//				List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+//				if (pictures == null ) {
+//					pictures = new ArrayList<String>();
+//				}
+//				//填充店铺头图集合
+//				while (pictures.size() < 5) {
+//					pictures.add("");
+//				}
+//				model.addAttribute("talentInfo", talentInfoDTO);
+//			}
+				
+			return "/system/merchant/talentDetail";
+		}else{
+			return null;
 		}
-		return "/system/merchant/merchantDetail";
+		
 	}
 }

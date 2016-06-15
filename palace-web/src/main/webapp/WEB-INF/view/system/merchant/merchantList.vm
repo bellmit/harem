@@ -136,7 +136,7 @@
                             </td>
     
 	                        <td>
-	                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!merchant.merchantDO.id">详情</button>
+	                            <button type="button" class="btn btn-primary addRefund detail" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">详情</button>
 	                        </td>
                     </tr>
                     #end
@@ -174,8 +174,9 @@
            $(".queryRt").val("");
         });
         $(".detail").click(function () {
-            var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/merchant/detail?id="+orderId, 2, "商家详情");
+            var userId = $(this).attr("userId");
+            var option = $(this).attr("option");
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/merchant/detail?id="+userId+"&option="+option, 2, "商家详情");
         });
         
     });

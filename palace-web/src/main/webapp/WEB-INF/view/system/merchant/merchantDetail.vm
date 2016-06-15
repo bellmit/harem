@@ -16,201 +16,28 @@
 		<div class="dlgcont"><label></label></div>
 	</div>
 
-	<div class="dialog">
-		<div class="bgmeng"></div>
-		<div class="dlgcont">
-			<input type="hidden" id="recordId">
-			<table>
-				<tr>
-					<td class="tit">是否通过：</td>
-					<td>
-						<label><input type="radio" name="pass" value="true" checked="checked">：是</label>
-						<label><input type="radio" name="pass" value="false">：否</label>
-					</td>
-				</tr>
-				<tr>
-					<td class="tit">备注：</td>
-					<td><textarea id="reason" name="reason"></textarea></td>
-				</tr>
-			</table>
-			<div class="boxbtn">
-				<button class="ok">确定</button>
-				<button class="cancel">取消</button>
-			</div>
-		</div>
-	</div>
-
-
 	<div id = "details" class = "details">
-		<h2>#if($!type == 1)达人 #elseif($!type == 2)商户 #end详情页</h2>
 		<div class = "info">
-			<p><em>商户名称</em><strong>$!examineInfo.sellerName</strong></p>
-			<p><em>法人姓名</em><strong>$!examineInfo.legralName</strong></p>
-			<p><em>营业地址</em><strong>$!examineInfo.address</strong></p>
-			<p><em>经营范围</em><strong>$!examineInfo.saleScope</strong></p>
-			#if($!type == 2)
-			<p><em>店铺名称</em><strong>$!examineInfo.merchantName</strong></p>
-			#end
+			<p><em>昵称</em><strong>$!nickName</strong></p>
+			<p><em>店铺负责人电话</em><strong>$!result.merchantPrincipalTel</strong></p>
+			<p><em>客服电话</em><strong>$!result.serviceTel</strong></p>
+			<p><em>店铺地址</em><strong>$!result.address</strong></p>
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">法人身份证正面：</li>
-				<li><img src = "$!tfs$!examineInfo.legralCardUp"></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">法人身份证反面：</li>
-				<li><img src = "$!tfs$!examineInfo.legralCardDown"></li>
+				<li class = "first">店铺头图：</li>
+				<li><img src = "$!tfs$!result.backgroudImage"></li>
 			</ul>
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
-				<li class = "first">营业执照副本正面：</li>
-				<li><img src = "$!tfs$!examineInfo.businessLicense"></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">组织机构代码证正面：</li>
-				<li><img src = "$!tfs$!examineInfo.orgCard"></li>
+				<li class = "first">店铺店标：</li>
+				<li><img src = "$!tfs$!result.logo"></li>
 			</ul>
 		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">税务登记证正面：</li>
-				<li><img src = "$!tfs$!examineInfo.affairsCard"></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">开户许可证正面：</li>
-				<li><img src = "$!tfs$!examineInfo.openCard"></li>
-			</ul>
+		<div class = "btnInfo">
+			<button class="btn btn-primary" type="button" id="$!result.id">查看审核信息</button>
 		</div>
-		
-		#if($!type == 2)
-		
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">旅行社业务经营许可证正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
-				<li><img #if("$!examineInfo.travingCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travingCard" #end></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">旅行社责任险证明正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
-				<li><img #if("$!examineInfo.travelAgencyInsurance" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travelAgencyInsurance" #end></li>
-				
-			</ul>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">联系人变更证明：</br><p class = "spe"><a>*</a>仅限合同签署人与联系人不一致情形时上传<p></li>
-				<li><img #if("$!examineInfo.touchProve" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.touchProve" #end></li>
-				
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">旅行社授权书：</br><p class = "spe"><a>*</a>仅限旅行社分社上传<p></li>
-				<li><img #if("$!examineInfo.travelAgencyAuthorization" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travelAgencyAuthorization" #end></li>
-				
-			</ul>
-		</div>
-		
-		#elseif($!type == 1)
-		
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">旅行社业务经营许可证正面：</br><p class = "spe"><a>*</a>旅行社必填项<p></li>
-				<li><img #if("$!examineInfo.travingCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.travingCard" #end></li>
-				
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">联系人变更证明：</br><p class = "spe"><a>*</a>仅限合同签署人与联系人不一致情形时上传<p></li>
-				<li><img #if("$!examineInfo.touchProve" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.touchProve" #end></li>
-				
-			</ul>
-		</div>
-		
-		#end
-		
-		#if($!type == 1)
-		<div class = "imgInfo">
-			<h3>达人资质证明：</h3>
-			<ul class = "clearfix">
-				<li class = "first">导游证</li>
-				<li>驾驶证</li>
-				<li>潜水证</li>
-				<li>摄影证</li>
-				<li>登山证</li>
-			</ul>
-			
-			<a><img #if("$!examineInfo.touristCard" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.touristCard" #end alt="" width="200"></a>
-			<a><img #if("$!examineInfo.drivingLinence" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.drivingLinence" #end alt="" width="200"></a>
-			<a><img #if("$!examineInfo.divingLinence" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.divingLinence" #end alt="" width="200"></a>
-			<a><img #if("$!examineInfo.photographyCertificate" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.photographyCertificate" #end alt="" width="200"></a>
-			<a><img #if("$!examineInfo.climbingCertificate" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.climbingCertificate" #end alt="" width="200"></a>
-		</div>
-		#end
-		<div class = "info">
-			<h3>负责人信息</h3>
-			<p><em>商户负责人姓名</em><strong>$!examineInfo.principleName</strong></p>
-			<p><em>负责人证件类型</em>
-				<strong>
-				#if("$!examineInfo.principleCard" == "0")
-				身份证
-				#elseif("$!examineInfo.principleCard" == "1")
-				驾驶证
-				#elseif("$!examineInfo.principleCard" == "2")
-				护照
-				#elseif("$!examineInfo.principleCard" == "3")
-				导游证
-				#end
-				</strong>
-			</p>
-			<p><em>负责人证件号码</em><strong>$!examineInfo.principleCardId</strong></p>
-			<p><em>负责人手机号码</em><strong>$!examineInfo.principleTel</strong></p>
-			<p><em>负责人邮箱</em><strong>$!examineInfo.principleMail</strong></p>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">负责人身份证正面：</li>
-				<li><img src = "$!tfs$!examineInfo.principleCardUp"></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">负责人身份证反面：</li>
-				<li><img src = "$!tfs$!examineInfo.principleCardDown"></li>
-			</ul>
-		</div>
-		<div class = "info">
-			<h3>财务信息</h3>
-			<p><em>财务开户银行</em><strong>$!examineInfo.financeOpenBankName</strong></p>
-			<p><em>财务开户名称</em><strong>$!examineInfo.financeOpenName</strong></p>
-			<p><em>财务结算账号</em><strong>$!examineInfo.accountNum</strong></p>
-			<p><em>财务结算开户行</em><strong id="$!examineInfo.accountBankProvinceCode" class="s_province"> </strong> <strong id="$!examineInfo.accountBankCityCode" class="s_city"></strong> <strong>  $!examineInfo.accountBankName</strong></p>
-		</div>
-		<h3>合作合同</h3>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同1：</li>
-				<li><img #if("$!examineInfo.cooperation1" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation1" #end></li>
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">合作合同2：</li>
-				<li><img #if("$!examineInfo.cooperation2" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation2" #end></li>
-			</ul>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同3：</li>
-				<li><img #if("$!examineInfo.cooperation3" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation3" #end></li>	
-			</ul>
-			<ul class = "clearfix">
-				<li class = "first">合作合同4：</li>
-				<li><img #if("$!examineInfo.cooperation4" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation4" #end></li>	
-			</ul>
-		</div>
-		<div class = "clearfix showImg">
-			<ul class = "clearfix first">
-				<li class = "first">合作合同5：</li>
-				<li><img #if("$!examineInfo.cooperation5" == "")src = "$rs_path_jiuxiu/img/no.png" #else src = "$!tfs$!examineInfo.cooperation5" #end></li>	
-			</ul>
-		</div>
-		#*<div class = "btnInfo">
-			<button class="btn btn-primary" type="button" id="$!examineInfo.id">审核</button>
-		</div>*#
 	</div>
 <!--[if lt IE 9]>
   <script src="$rs_js_css_path_jiuxiu/js/ieonly/html5shiv.js"></script>
