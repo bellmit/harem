@@ -78,9 +78,9 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
-        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
-            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
-       }
+//        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
+//            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
+//       }
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
@@ -144,11 +144,16 @@ public class BannerManageController extends BaseController {
 
     @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
     public String showcaseToNewAdd(Model model,long boothId,String boothCode) throws Exception {
+//        model.addAttribute("boothId",boothId);
+//        model.addAttribute("boothCode",boothCode);
+//        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+//        model.addAttribute("operationDOs",operationDOs);
+//        return "/system/banner/showcase/edit_new";
+        
+        
         model.addAttribute("boothId",boothId);
         model.addAttribute("boothCode",boothCode);
-        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
-        model.addAttribute("operationDOs",operationDOs);
-        return "/system/banner/showcase/edit_new";
+        return "/system/banner/showcase/edit";
     }
 
 
@@ -341,7 +346,7 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(result);
     }
 
-  /*  //获取选择页面的列表
+  //获取选择页面的列表
     @RequestMapping(value = "/operation/list")
     @ResponseBody
     public ResponseVo operationList() throws Exception {
@@ -407,10 +412,10 @@ public class BannerManageController extends BaseController {
                     }
 
 
-                    *//*else if(OperationType.JIUXIU_MASTER == type ){//达人列表
+                    /*else if(OperationType.JIUXIU_MASTER == type ){//达人列表
                         String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
                         vo.setParamTypes(types);
-                    }*//*
+                    }*/
     				break;
     			}
     		}
@@ -418,7 +423,7 @@ public class BannerManageController extends BaseController {
     	}
         return new ResponseVo(vos);
     }
-    */
+    
 /**
 1、从operation中查询所有跳转方式
 2、定义需要特殊处理的OperationType（选目的地、主题）
