@@ -14,6 +14,9 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.Coordinate;
+
 /**
  * 通用的工具类 包括字符串、文件、 日期等用到时可自行添加完善
  * @author xusq
@@ -357,9 +360,54 @@ public class Common {
 		}
 		return "";
 	}
+	
+	/**
+	  * 将GCJ-02坐标系转换成BD-02坐标系
+	  * @param gg_lat
+	  * @param gg_lon
+	  * @param bd_lat
+	  * @param bd_lon
+	  */
+	public static Coordinate bdEncrypt(double latitude, double longitude) {
 
+	    double x = longitude, y = latitude;
+	    double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * Constant.X_PI);
+	    double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * Constant.X_PI);
+	    
+	    Coordinate cdt = new Coordinate();
+	    cdt.setLongitude(z * Math.cos(theta) + 0.0065);
+	    cdt.setLatitude(z * Math.sin(theta) + 0.006);
+	    return cdt;
+	}
+	
+	/**
+	  * 将BD-09坐标系转换成GCJ-02坐标系
+	  * @param bd_lat
+	  * @param bd_lon
+	  * @param gg_lat
+	  * @param gg_lon
+	  */
+	public static Coordinate bdDecrypt(double latitude, double longitude) {
+	    double x = longitude - 0.0065, y = latitude - 0.006;
+	    double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * Constant.X_PI);
+	    double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * Constant.X_PI);
+
+	    Coordinate cdt = new Coordinate();
+	    cdt.setLongitude(z * Math.cos(theta));
+	    cdt.setLatitude(z * Math.sin(theta));
+	    return cdt;
+	}
+	
 	
 	public static void main(String[] args) {
-
+		Coordinate aa = Common.bdEncrypt(12, 12);
+		System.out.println(aa.getLongitude());
+		System.out.println(aa.getLatitude());
+		
+		aa = Common.bdDecrypt(aa.getLatitude(), aa.getLongitude());
+		System.out.println(aa.getLongitude());
+		System.out.println(aa.getLatitude());
+		
+		
 	}
 }
