@@ -184,11 +184,13 @@
         });
 
         //选择跳转详细按钮时判断要不要加载弹出内容框
-        $('#radioId').click(function(){ //判断，假如是showtype8的时候，不选择详情了
-            var type = "";
-            type = $('input:radio:checked').attr("jumpType")
+        $('#radioId').click(function(){ //判断，假如是showtype 11的时候，不选择详情了
+            var type = $('input:radio:checked').attr("jumpType");
+            var value = $('input:radio:checked').attr("value");
             if(type == 11 ){
                 $(".selectcontent").hide();
+                $("#choId").val(value);
+                $("#chosId").val(value);
             }else{
                 $(".selectcontent").show();
             }
@@ -221,7 +223,6 @@
             var content = "";
                 content = $("#addcontentJsonId").val();
 
-            var operationContent = "";
             if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题,存中文名
                 operationContent = $("#choId").val();
             }else{
