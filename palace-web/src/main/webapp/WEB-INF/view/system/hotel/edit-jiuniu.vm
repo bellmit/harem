@@ -117,9 +117,10 @@
                     <td><span class="spColor">*</span>地址经纬度</td>
                     <td>
                     	<span>经度</span>
-                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" value="$!hotel.locationX">
+                    	
+                    	<input type="text" id="locationX" name="locationX" placeholder="示例:116.40461,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" readonly="readonly" value="$!numberFormatHelper.formatDoubleNumber($!hotel.locationX)">
                     	<span>纬度</span>
-                    	<input type="text" id="locationY" name="locationY" placeholder="示例:39.910921,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" value="$!hotel.locationY">
+                    	<input type="text" id="locationY" name="locationY" placeholder="示例:39.910921,限数字,请注意不要有空格" class="inpControl getAddress" style="width:260px;" readonly="readonly" value="$!numberFormatHelper.formatDoubleNumber($!hotel.locationY)">
                     	<button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                     </td>
                 </tr>
@@ -160,7 +161,7 @@
                         #foreach($!hotelFacility in $!hotelFacilityList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "hotelFacility" + $indexNo)
-                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl hotelFacilityCl" #if($!hotelFacility.checked) checked value="1" #else value="0" #end>$hotelFacility.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl hotelFacilityCl" #if($!hotelFacility.checked) checked #end value="$!hotelFacility.number" >$hotelFacility.name</span>
 							#if($!hotelFacility.number % 10 == 0)
 								<br/>
 							#end
@@ -175,7 +176,7 @@
                         #foreach($!roomService in $!roomServiceList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "roomService" + $indexNo)
-                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomService" #if($!roomService.checked) checked value="1" #else value="0" #end>$roomService.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomService" #if($!roomService.checked) checked #end value="$!roomService.number">$roomService.name</span>
 							#if($!roomService.number % 10 == 0)
 								<br/>
 							#end
@@ -190,7 +191,7 @@
                         #foreach($!roomFacility in $!roomFacilityList)
 							#set($indexNo = $indexNo + 1)
 							#set($indexNoId = "roomFacility" + $indexNo)
-                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomFacilityCl" #if($!roomFacility.checked) checked value="1" #else value="0" #end>$roomFacility.name</span>
+                            <span><input type="checkbox" id="$!indexNoId" class="facilityCl roomFacilityCl" #if($!roomFacility.checked) checked #end value="$!roomFacility.number">$roomFacility.name</span>
 							#if($!roomFacility.number % 10 == 0) 
 								<br/>
 							#end
@@ -481,15 +482,6 @@
             openBaiduMap(84.945442,41.811374, mapCallback);
         });
 
-
-		$(".facilityCl").click(function() {
-			if($(this).prop('checked')) {
-				$(this).val("1");
-			} else {
-				$(this).val("0");
-			}
-		});
-
         //地址选择
         //省
         $('.provinceSelect').change(function(){
@@ -530,7 +522,7 @@
 	                    }
 	                    $('.countySelect').append(optionList);
 	                }else{
-	                    layer.msg('市级地址加载失败', {
+	                    layer.msg('区域加载失败', {
 	                        icon: 2,
 	                        time: 2000
 	                    });
@@ -569,52 +561,27 @@
             //商圈
             setDestination();
             
-            // 房间设施 roomFacility
+            // 房间设施 hotelFacility
             var facilityId = 1;
-            var roomFacilityStr = '';
-            while (true) {
-
-                if ($("#roomFacility"+facilityId).length == 0) {
-                    facilityId = 1;
-                    break;
-                } else {
-                    roomFacilityStr += $("#roomFacility"+facilityId).val();
-                    facilityId ++;
-                }
-
-            }
-            $("#roomFacilityStrId").attr('value', roomFacilityStr);
+            var roomFacilityStr = [];
+            $('.roomFacilityCl:checked').each(function(){
+            	roomFacilityStr.push($(this).val());
+            });
+            $("#roomFacilityStrId").attr('value', roomFacilityStr.join("|"));
 
             // 特色服务 roomService
-            var roomServiceStr = '';
-            while (true) {
+            var roomServiceStr = [];
+            $('.roomService:checked').each(function(){
+            	roomServiceStr.push($(this).val());
+            });
+            $("#roomServiceStrId").val(roomServiceStr.join("|"));
 
-                if ($("#roomService"+facilityId).length == 0) {
-                    facilityId = 1;
-                    break;
-                } else {
-                    roomServiceStr += $("#roomService"+facilityId).val();
-                    facilityId ++;
-                }
-
-            }
-
-            $("#roomServiceStrId").val(roomServiceStr);
-
-            // 酒店设施 roomFacility
-            var hotelFacilityStr = '';
-            while (true) {
-
-                if ($("#hotelFacility"+facilityId).length == 0) {
-                    facilityId = 1;
-                    break;
-                } else {
-                    hotelFacilityStr += $("#hotelFacility"+facilityId).val();
-                    facilityId ++;
-                }
-
-            }
-            $("#hotelFacilityStrId").val(hotelFacilityStr);
+            // 酒店设施 hotelFacilityCl
+            var hotelFacilityStr = [];
+            $('.hotelFacilityCl:checked').each(function(){
+            	hotelFacilityStr.push($(this).val());
+            });
+            $("#hotelFacilityStrId").val(hotelFacilityStr.join("|"));
             
             //外观图片
         	var outlookUrls = outlook.getPicUrls2();

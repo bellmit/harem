@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.enums.AfterSaleAuditStatus;
+import com.yimayhd.refund.client.enums.ErrorCode;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -187,6 +188,15 @@ public class AfterSaleManageController {
         if(StringUtils.isNotEmpty(tkje) ){//&& NumberUtils.isNumber(tkje)
             ero.setRefundActualFee( NumUtil.doubleToLong(Double.parseDouble(tkje)));//NumberUtils.toLong(tkje)
         }
+        //校验退款金额是否大于计算的金额
+        RefundOrderVO ref = afterSaleService.querySingRefundOrder(refundOrderId);
+        if(null == ref || null == ref.getRefundOrderDO()){
+            return new ResponseVo(ResponseStatus.NOT_FOUND);
+        }
+        if(ero.getRefundActualFee() > ref.getRefundOrderDO().getRefundFee()){
+            new ResponseVo(ResponseStatus.INVALID_DATA);
+        }
+
         ExamineRefundOrderResult result = afterSaleService.examineRefundOrder(ero);
         if(null == result ){
             return new ResponseVo(ResponseStatus.ERROR);

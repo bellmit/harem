@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
@@ -24,6 +25,9 @@ public class PictureRepo {
 
 	public PageVO<PicturesDO> pageQueryPictures(PicturesPageQuery query) {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.queryPictures", query);
+		if( query != null ){
+			query.setDomain(Constant.DOMAIN_JIUXIU);
+		}
 		ICPageResult<PicturesDO> queryPicturesResult = itemQueryServiceRef.queryPictures(query);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.queryPictures", queryPicturesResult);
 		int totalCount = queryPicturesResult.getTotalCount();

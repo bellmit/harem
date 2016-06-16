@@ -25,6 +25,7 @@ tair.palace.namespace  = ${tair.palace.namespace}
 tair.timeout    = ${tair.timeout}
 
 session.tair.namespace=${session.tair.namespace}
+session.tair.timeout=${session.tair.timeout}
 
 #tair.config.port        = 5198
 #tair.config.server      = 192.168.1.209

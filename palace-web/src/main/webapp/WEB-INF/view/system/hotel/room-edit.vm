@@ -63,7 +63,8 @@
             <tr>
             	<td><span class="spColor">*</span>面积</td>
                 <td>
-                	<input type="text" class="inpCtlBlock area" name="area" value="$!room.area">
+                	<input type="text" class="inpCtlBlock area" style="display:inline-block;width:96%;" name="area" value="$!room.area" placeholder="‘12’或‘2-13’ ，最多8个字符" maxlength="8" />
+                	㎡
                 </td>
             </tr>
             <tr>
@@ -101,7 +102,7 @@
             <tr>
             	<td>楼层</td>
                 <td>
-                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor" placeholder="最多8个字符" maxlength="8"/>
+                	<input type="text" class="inpCtlBlock floor" name="floor" value="$!room.floor" placeholder="‘12’或‘2-13’ ，最多8个字符" maxlength="8"/>
                 </td>
             </tr>
             <tr>
@@ -156,14 +157,11 @@
         }else if($('.name').val().length > 20){
             return '房型名称不能超过20个字';
         }
-        if(!$('.bed').val()){
+        if(!$('.bed').val() || !$('.bed').val().trim()){
             return '床型不能为空';
         }
-        if(!$('.area').val()){
+        if(!$('.area').val() || !$('.area').val().trim()){
             return '面积不能为空';
-        }
-        if(!/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.area').val())){
-            return '面积格式不正确';
         }
         var networks = $(".network:checked");
         if(networks.length == 0){

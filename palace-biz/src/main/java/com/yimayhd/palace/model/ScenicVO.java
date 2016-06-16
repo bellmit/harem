@@ -12,6 +12,7 @@ import com.yimayhd.ic.client.model.domain.item.ScenicFeature;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.enums.ScenicFeatureKey;
+import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.NumUtil;
 
 /**
@@ -62,8 +63,12 @@ public class ScenicVO extends ScenicDO {
         }
         
         //处理经纬度
-        scenicDO.setLatitude(scenicVO.getLocationY());
-        scenicDO.setLongitude(scenicVO.getLocationX());
+        //scenicDO.setLongitude(scenicVO.getLocationX());
+        //scenicDO.setLatitude(scenicVO.getLocationY());
+        
+        Coordinate cdt = Common.bdToGcj(scenicVO.getLocationY(), scenicVO.getLocationX());
+        scenicDO.setLongitude(cdt.getLongitude());
+        scenicDO.setLatitude(cdt.getLatitude());
 
         return scenicDO;
     }
@@ -72,6 +77,10 @@ public class ScenicVO extends ScenicDO {
         BeanUtils.copyProperties(scenicDO,scenicVO);
         //分转元
         scenicVO.setPriceY(NumUtil.moneyTransformDouble(scenicVO.getPrice()));
+        
+        Coordinate cdt = Common.gcjToBd(scenicVO.getLocationY(), scenicVO.getLocationX());
+        scenicVO.setLongitude(cdt.getLongitude());
+        scenicVO.setLatitude(cdt.getLatitude());
         return scenicVO;
     }
 

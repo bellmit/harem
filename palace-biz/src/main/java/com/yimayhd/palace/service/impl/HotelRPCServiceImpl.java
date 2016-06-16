@@ -48,6 +48,7 @@ import com.yimayhd.palace.model.RoomVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.HotelListQuery;
 import com.yimayhd.palace.repo.PictureTextRepo;
+import com.yimayhd.palace.repo.ResourceRepo;
 import com.yimayhd.palace.service.HotelRPCService;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.DateUtil;
@@ -72,6 +73,8 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	
 	@Autowired
 	private PictureTextRepo	pictureTextRepo;
+	@Autowired
+	private ResourceRepo resourceRepo;
 
 	@Override
 	public PageVO<HotelDO> pageQueryHotel(HotelListQuery hotelListQuery)throws Exception {
@@ -319,6 +322,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 			picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 			picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+			picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 			ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 			if (icPageResult == null) {
 				log.error("HotelRPCServiceImpl.updateHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -379,6 +383,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 			picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 			picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+			picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 			ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 			if (icPageResult == null) {
 				log.error("HotelRPCServiceImpl.updateHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -391,13 +396,19 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			//图片集合处理
 			PictureUpdateDTO pictureUpdateDTO = new PictureUpdateDTO();
 			if(PictureVO.setPictureListPictureUpdateDTO(hotelVO.getId(),PictureOutType.HOTEL,pictureUpdateDTO, picturesDOList,hotelVO.getPictureList()) != null){
-				ICResult<Boolean> updatePictrueResult = resourcePublishServiceRef.updatePictures(pictureUpdateDTO);
-				if(null == updatePictrueResult){
-					log.error("HotelRPCServiceImpl.save-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
-					throw new BaseException("酒店资源保存成功，图片集保存返回结果为空，保存失败");
-				} else if(!updatePictrueResult.isSuccess()){
-					log.error("HotelRPCServiceImpl.save-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
-					throw new BaseException("酒店资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
+				
+//				ICResult<Boolean> updatePictrueResult = resourcePublishServiceRef.updatePictures(pictureUpdateDTO);
+//				if(null == updatePictrueResult){
+//					log.error("HotelRPCServiceImpl.save-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
+//					throw new BaseException("酒店资源保存成功，图片集保存返回结果为空，保存失败");
+//				} else if(!updatePictrueResult.isSuccess()){
+//					log.error("HotelRPCServiceImpl.save-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+//					throw new BaseException("酒店资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
+//				}
+				boolean rs = resourceRepo.updatePictures(pictureUpdateDTO) ;
+				if(!rs){
+					log.error("HotelRPCServiceImpl.save-ResourcePublishService.updatePictures error:" + rs + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and hotelVO:" + JSON.toJSONString(hotelVO));
+					throw new BaseException("酒店资源保存成功，图片集保存失败");
 				}
 			}
 		}
@@ -423,6 +434,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 		picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 		picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+		picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 		if(icPageResult == null){
 			log.error("HotelRPCServiceImpl.getHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -481,6 +493,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 		picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 		picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+		picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 		if(icPageResult == null){
 			log.error("HotelRPCServiceImpl.getHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));

@@ -172,6 +172,7 @@ public class ItemVO extends ItemDO {
     public static ItemVO getItemVO(ItemDO itemDO,CategoryVO categoryVO)throws Exception{
         ItemVO itemVO = new ItemVO();
         BeanUtils.copyProperties(itemDO, itemVO);
+        itemVO.setTitle(null == itemVO.getTitle()?"":itemVO.getTitle().replaceAll(" ",""));
         //分转元
         itemVO.setPriceY(NumUtil.moneyTransformDouble(itemVO.getPrice()));
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuDOList())){
