@@ -559,10 +559,10 @@ public class ApplyApprovalController extends BaseController {
         MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(allocationVO.getExamineId());
 
         // 判断重名
-        String sellerName = examineInfoDTOResult.getValue().getSellerName();
+        String merchantName = examineInfoDTOResult.getValue().getMerchantName();
         MerchantQuery merchantQuery = new MerchantQuery();
         merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-        merchantQuery.setName(sellerName);
+        merchantQuery.setName(merchantName);
         BaseResult<List<MerchantDO>> merchantDOs = merchantService.getMerchantList(merchantQuery);
         if (!merchantDOs.isSuccess() || !merchantDOs.getValue().isEmpty()) {
             bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
