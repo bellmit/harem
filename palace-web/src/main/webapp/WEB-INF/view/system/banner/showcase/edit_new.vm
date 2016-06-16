@@ -68,7 +68,7 @@
                                 <td>
                                     <select class="selectpages" id="opId">
                                         #foreach($!operations in $operationDOs)
-                                            <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!showcase.operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
+                                            <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
                                                     operationid="$!operations.operactio.id" #if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end >$!operations.operactio.name</option>
                                         #end
                                     </select>
