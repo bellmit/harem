@@ -169,6 +169,7 @@ public class ScenicServiceImpl implements ScenicService {
 			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 			picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 			picturesPageQuery.setOutType(PictureOutType.SCENIC.getValue());
+			picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 			ICPageResult<PicturesDO> icPageResult = itemQueryService.queryPictures(picturesPageQuery);
 			if(icPageResult == null){
 				log.error("ScenicServiceImpl.getById-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -419,6 +420,7 @@ public class ScenicServiceImpl implements ScenicService {
 				picturesPageQuery.setPageNo(PIC_PAGE_NO);
 				picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 				picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
+				picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 				ICPageResult<PicturesDO> icPageResult = itemQueryService.queryPictures(picturesPageQuery);
 				if (icPageResult == null) {
 					log.error("ScenicServiceImpl.updateScenic-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));

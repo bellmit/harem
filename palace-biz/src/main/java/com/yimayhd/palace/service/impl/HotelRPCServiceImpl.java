@@ -319,6 +319,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 			picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 			picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+			picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 			ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 			if (icPageResult == null) {
 				log.error("HotelRPCServiceImpl.updateHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -379,6 +380,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 			picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 			picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+			picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 			ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 			if (icPageResult == null) {
 				log.error("HotelRPCServiceImpl.updateHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -423,6 +425,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 		picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 		picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+		picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 		if(icPageResult == null){
 			log.error("HotelRPCServiceImpl.getHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
@@ -481,6 +484,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		picturesPageQuery.setPageSize(PIC_PAGE_SIZE);
 		picturesPageQuery.setStatus(BaseStatus.AVAILABLE.getType());
 		picturesPageQuery.setOutType(PictureOutType.HOTEL.getValue());
+		picturesPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		ICPageResult<PicturesDO> icPageResult = itemQueryServiceRef.queryPictures(picturesPageQuery);
 		if(icPageResult == null){
 			log.error("HotelRPCServiceImpl.getHotel-itemQueryService.queryPictures result is null and parame: " + JSON.toJSONString(picturesPageQuery));
