@@ -62,13 +62,14 @@ public class EvaluationServiceImpl implements EvaluationService {
         //电话
         if(StringUtils.isNotBlank(evaluationListQuery.getTel())){
             // 查询用户
-            BaseResult<UserDO> userResult =  userServiceRef.getUserDOByMobile(evaluationListQuery.getTel());
+            BaseResult<UserDO> userResult =  userServiceRef.getUserDOByMobile(evaluationListQuery.getTel().trim());
             if(null == userResult){
                 log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile result is null and parame: " + evaluationListQuery.getTel());
                 throw new BaseException("查询用户失败");
             } else if(!userResult.isSuccess()){
-                log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile error:" + JSON.toJSONString(userResult) + "and parame: " + evaluationListQuery.getTel());
-                throw new BaseException("查询用户失败," + userResult.getResultMsg());
+            	return comCommentVOPageVO;
+//                log.error("EvaluationServiceImpl.getList-userService.getUserDOByMobile error:" + JSON.toJSONString(userResult) + "and parame: " + evaluationListQuery.getTel());
+//                throw new BaseException("查询用户失败," + userResult.getResultMsg());
             }
             if(userResult.getValue() != null && userResult.getValue().getId() != 0){
                 userIdList.add(userResult.getValue().getId());

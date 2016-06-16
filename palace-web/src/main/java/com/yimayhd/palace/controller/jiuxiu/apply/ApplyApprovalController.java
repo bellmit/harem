@@ -36,7 +36,14 @@ import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.CategoryService;
+import com.yimayhd.user.client.cache.CityDataCacheClient;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.query.MerchantQuery;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.DataCacheService;
+import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.session.manager.SessionManager;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,6 +73,10 @@ public class ApplyApprovalController extends BaseController {
     private MerchantApplyService merchantApplyService;
     @Autowired
     private QualificationService qualificationService;
+    @Autowired
+    private CityDataCacheClient cityDataCacheClient;
+    @Autowired
+    private MerchantService merchantService;
 
     @RequestMapping(value = "/list")
     public String applyApproval(Model model) {
@@ -110,206 +121,324 @@ public class ApplyApprovalController extends BaseController {
             if (result.isSuccess() && null != result.getValue()) {
 
                 model.addAttribute("examineInfo", result.getValue());
+                model.addAttribute("feature", result.getValue().getIsDirectSale() == 1 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
+                model.addAttribute("type", result.getValue().getType());
+                model.addAttribute("status", result.getValue().getExaminStatus());
+                if (!StringUtils.isEmpty(result.getValue().getAccountBankProvinceCode())) {
+                    String provinceName = cityDataCacheClient.getCityByCode(result.getValue().getAccountBankProvinceCode()).getName();
+                    model.addAttribute("provinceName", provinceName);
+                }
+                if (!StringUtils.isEmpty(result.getValue().getAccountBankCityCode())) {
+                    String cityName = cityDataCacheClient.getCityByCode(result.getValue().getAccountBankCityCode()).getName();
+                    model.addAttribute("cityName", cityName);
+                }
 
-                BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
-                businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
-                businessScopeQueryDTOQUery.setSellerId(result.getValue().getSellerId());
-                MemResult<List<MerchantScopeDO>> merchantScopeResult = businessScopeService.getMerchantScope(businessScopeQueryDTOQUery);
-                if (merchantScopeResult != null && merchantScopeResult.isSuccess() && merchantScopeResult != null && !merchantScopeResult.getValue().isEmpty()) {
-                    List<Long> scopeIds = new ArrayList<>();
-                    for (MerchantScopeDO merchantScopeDO : merchantScopeResult.getValue()) {
-                        scopeIds.add(merchantScopeDO.getBusinessScopeId());
+                if (CertificateType.IDCARD.getType().equals(result.getValue().getPrincipleCard())) {
+                    model.addAttribute("certificateType", CertificateType.IDCARD.getName());
+                } else if (CertificateType.CAR_LICENSE.getType().equals(result.getValue().getPrincipleCard())) {
+                    model.addAttribute("certificateType", CertificateType.CAR_LICENSE.getName());
+                } else if (CertificateType.PASSPORT.getType().equals(result.getValue().getPrincipleCard())) {
+                    model.addAttribute("certificateType", CertificateType.PASSPORT.getName());
+                } else if (CertificateType.GUIDE_LICENSE.getType().equals(result.getValue().getPrincipleCard())) {
+                    model.addAttribute("certificateType", CertificateType.GUIDE_LICENSE.getName());
+                }
+
+                List<Map<String,String>> pictures = new ArrayList<>();
+                if(!StringUtils.isEmpty(result.getValue().getBusinessLicense())) {
+                    Map<String,String> picture1 = new HashMap<>();
+                    picture1.put("title","营业执照副本正面");
+                    picture1.put("url",result.getValue().getBusinessLicense());
+                    pictures.add(picture1);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getOrgCard())) {
+                    Map<String,String> picture2 = new HashMap<>();
+                    picture2.put("title","组织机构代码证正面");
+                    picture2.put("url",result.getValue().getOrgCard());
+                    pictures.add(picture2);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getAffairsCard())) {
+                    Map<String,String> picture3 = new HashMap<>();
+                    picture3.put("title","税务登记证正面");
+                    picture3.put("url",result.getValue().getAffairsCard());
+                    pictures.add(picture3);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getTravingCard())) {
+                    Map<String,String> picture4 = new HashMap<>();
+                    picture4.put("title","开户许可证正面");
+                    picture4.put("url",result.getValue().getOpenCard());
+                    pictures.add(picture4);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getTravingCard())) {
+                    Map<String,String> picture5 = new HashMap<>();
+                    picture5.put("title","旅行社业务经营许可证正面");
+                    picture5.put("subTitle","*旅行社必填");
+                    picture5.put("url",result.getValue().getTravingCard());
+                    pictures.add(picture5);
+                }
+                if(!StringUtils.isEmpty(result.getValue().getTouchProve())) {
+                    Map<String,String> picture6 = new HashMap<>();
+                    picture6.put("title","联系人变更证明");
+                    picture6.put("subTitle","*仅限合同签署人与联系人不一致情形时上传");
+                    picture6.put("url",result.getValue().getTouchProve());
+                    pictures.add(picture6);
+                }
+                model.addAttribute("pictures", pictures);
+
+                if (result.getValue().getType() == 1) { // 达人
+                    List<Map<String, Object>> qualificationPictures = new ArrayList<>();
+                    Map<String,Object> touristCardMap = new HashMap<>();
+                    if(!StringUtils.isEmpty(result.getValue().getTouristCard())) {
+                        touristCardMap.put("title","导游证");
+                        touristCardMap.put("url",result.getValue().getTouristCard());
+                        qualificationPictures.add(touristCardMap);
                     }
-                    if (!scopeIds.isEmpty()) {
-                        businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
-                        businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
-                        businessScopeQueryDTOQUery.getIdSet().addAll(scopeIds);
-                        MemResult<List<BusinessScopeDO>> businessScopeResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQUery);
 
-                        List<BusinessScopeVO> businessScopeVOs = new ArrayList<>();
-                        Map<Long, String> nameMap = new LinkedHashMap<>();
-                        for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
-                            if (businessScopeDO.getParentId() > 0) {
-                                if (!nameMap.containsKey(businessScopeDO.getParentId())) {
-                                    String name = null;
-                                    businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
-                                    businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
-                                    businessScopeQueryDTOQUery.getIdSet().add(businessScopeDO.getParentId());
-                                    MemResult<List<BusinessScopeDO>> parentResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQUery);
-                                    if (parentResult != null && parentResult.isSuccess() && parentResult.getValue() != null && !parentResult.getValue().isEmpty()) {
-                                        name = parentResult.getValue().get(0).getName();
-                                    }
-                                    if (name != null) {
-                                        name += " " + businessScopeDO.getName();
+                    if(!StringUtils.isEmpty(result.getValue().getDrivingLinence())) {
+                        Map<String,Object> drivingLinenceMap = new HashMap<>();
+                        touristCardMap.put("title","行驶证");
+                        drivingLinenceMap.put("url",result.getValue().getDrivingLinence());
+                        qualificationPictures.add(drivingLinenceMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getDivingLinence())) {
+                        Map<String,Object> divingLinenceMap = new HashMap<>();
+                        touristCardMap.put("title","潜水证");
+                        divingLinenceMap.put("url",result.getValue().getDivingLinence());
+                        qualificationPictures.add(divingLinenceMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getPhotographyCertificate())) {
+                        Map<String,Object> photographyCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","摄影证");
+                        photographyCertificateMap.put("url",result.getValue().getPhotographyCertificate());
+                        qualificationPictures.add(photographyCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getClimbingCertificate())) {
+                        Map<String,Object> climbingCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","登山证");
+                        climbingCertificateMap.put("url",result.getValue().getClimbingCertificate());
+                        qualificationPictures.add(climbingCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getTrainingCertificate())) {
+                        Map<String,Object> trainingCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","健身教练证");
+                        trainingCertificateMap.put("url",result.getValue().getTrainingCertificate());
+                        qualificationPictures.add(trainingCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getTeacherCertificate())) {
+                        Map<String,Object> teacherCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","教师证");
+                        teacherCertificateMap.put("url",result.getValue().getTeacherCertificate());
+                        qualificationPictures.add(teacherCertificateMap);
+                    }
+
+                    if(!StringUtils.isEmpty(result.getValue().getArtCertificate())) {
+                        Map<String,Object> artCertificateMap = new HashMap<>();
+                        touristCardMap.put("title","美术证");
+                        artCertificateMap.put("url",result.getValue().getArtCertificate());
+                        qualificationPictures.add(artCertificateMap);
+                    }
+
+
+                    model.addAttribute("qualificationPictures", qualificationPictures);
+
+                } else { // 商户
+                    BusinessScopeQueryDTO businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
+                    businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
+                    businessScopeQueryDTOQUery.setSellerId(result.getValue().getSellerId());
+                    MemResult<List<MerchantScopeDO>> merchantScopeResult = businessScopeService.getMerchantScope(businessScopeQueryDTOQUery);
+                    if (merchantScopeResult != null && merchantScopeResult.isSuccess() && merchantScopeResult != null && !merchantScopeResult.getValue().isEmpty()) {
+                        List<Long> scopeIds = new ArrayList<>();
+                        for (MerchantScopeDO merchantScopeDO : merchantScopeResult.getValue()) {
+                            scopeIds.add(merchantScopeDO.getBusinessScopeId());
+                        }
+                        if (!scopeIds.isEmpty()) {
+                            businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
+                            businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
+                            businessScopeQueryDTOQUery.getIdSet().addAll(scopeIds);
+                            MemResult<List<BusinessScopeDO>> businessScopeResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQUery);
+
+                            List<BusinessScopeVO> businessScopeVOs = new ArrayList<>();
+                            Map<Long, String> nameMap = new LinkedHashMap<>();
+                            for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
+                                if (businessScopeDO.getParentId() > 0) {
+                                    if (!nameMap.containsKey(businessScopeDO.getParentId())) {
+                                        String name = null;
+                                        businessScopeQueryDTOQUery = new BusinessScopeQueryDTO();
+                                        businessScopeQueryDTOQUery.setDomainId(Constant.DOMAIN_JIUXIU);
+                                        businessScopeQueryDTOQUery.getIdSet().add(businessScopeDO.getParentId());
+                                        MemResult<List<BusinessScopeDO>> parentResult = businessScopeService.findBusinessScopesByScope(businessScopeQueryDTOQUery);
+                                        if (parentResult != null && parentResult.isSuccess() && parentResult.getValue() != null && !parentResult.getValue().isEmpty()) {
+                                            name = parentResult.getValue().get(0).getName();
+                                        }
+                                        if (name != null) {
+                                            name += " " + businessScopeDO.getName();
+                                        } else {
+                                            name = businessScopeDO.getName();
+                                        }
+                                        nameMap.put(businessScopeDO.getParentId(), name);
                                     } else {
-                                        name = businessScopeDO.getName();
+                                        nameMap.put(businessScopeDO.getParentId(), nameMap.get(businessScopeDO.getParentId()).concat(" ").concat(businessScopeDO.getName()));
                                     }
-                                    nameMap.put(businessScopeDO.getParentId(), name);
                                 } else {
-                                    nameMap.put(businessScopeDO.getParentId(), nameMap.get(businessScopeDO.getParentId()).concat(" ").concat(businessScopeDO.getName()));
+                                    nameMap.put(businessScopeDO.getId(), businessScopeDO.getName());
                                 }
-                            } else {
-                                nameMap.put(businessScopeDO.getId(), businessScopeDO.getName());
                             }
-                        }
-                        for (Map.Entry<Long, String> entry : nameMap.entrySet()) {
-                            BusinessScopeVO vo = new BusinessScopeVO();
-                            vo.setName(entry.getValue());
-                            businessScopeVOs.add(vo);
-                        }
-                        model.addAttribute("scope", businessScopeVOs);
-
-                        // 查询资质,展示资质图片
-                        QualificationQueryDTO qualificationQueryDTO = new QualificationQueryDTO();
-                        qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-                        qualificationQueryDTO.setSellerId(result.getValue().getSellerId());
-                        MemResult<List<MerchantQualificationDO>> merchantQualificationResult = qualificationService.getMerchantQualification(qualificationQueryDTO);
-                        if (merchantQualificationResult != null && merchantQualificationResult.isSuccess() && merchantQualificationResult.getValue() != null && !merchantQualificationResult.getValue().isEmpty()) {
-                            List<Long> ids = new ArrayList<>();
-                            for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
-                                ids.add(merchantQualificationDO.getQulificationId());
+                            for (Map.Entry<Long, String> entry : nameMap.entrySet()) {
+                                BusinessScopeVO vo = new BusinessScopeVO();
+                                vo.setName(entry.getValue());
+                                businessScopeVOs.add(vo);
                             }
+                            model.addAttribute("scope", businessScopeVOs);
 
-                            List<Map<String, Object>> qualificationPictures = new ArrayList<>();
-                            outer:
-                            for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
-                                String[] urls = merchantQualificationDO.getContent().split(",");
-                                for (String url : urls) {
-                                    qualificationQueryDTO = new QualificationQueryDTO();
-                                    qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-                                    qualificationQueryDTO.getIdSet().add(merchantQualificationDO.getQulificationId());
-                                    MemResult<List<QualificationDO>> qualificationResult = qualificationService.getQualification(qualificationQueryDTO);
-                                    if (qualificationResult != null && qualificationResult.isSuccess() && qualificationResult.getValue() != null && !qualificationResult.getValue().isEmpty()) {
-                                        Map<String, Object> map = new HashMap<>();
-                                        map.put("url", url);
-                                        map.put("title", qualificationResult.getValue().get(0).getTitle());
+                            // 查询资质,展示资质图片
+                            QualificationQueryDTO qualificationQueryDTO = new QualificationQueryDTO();
+                            qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+                            qualificationQueryDTO.setSellerId(result.getValue().getSellerId());
+                            MemResult<List<MerchantQualificationDO>> merchantQualificationResult = qualificationService.getMerchantQualification(qualificationQueryDTO);
+                            if (merchantQualificationResult != null && merchantQualificationResult.isSuccess() && merchantQualificationResult.getValue() != null && !merchantQualificationResult.getValue().isEmpty()) {
+                                List<Long> ids = new ArrayList<>();
+                                for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
+                                    ids.add(merchantQualificationDO.getQulificationId());
+                                }
+
+                                List<Map<String, Object>> qualificationPictures = new ArrayList<>();
+                                outer:
+                                for (MerchantQualificationDO merchantQualificationDO : merchantQualificationResult.getValue()) {
+                                    String[] urls = merchantQualificationDO.getContent().split(",");
+                                    for (String url : urls) {
+                                        if(StringUtils.isEmpty(url)) {
+                                            continue ;
+                                        }
                                         qualificationQueryDTO = new QualificationQueryDTO();
                                         qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-                                        qualificationQueryDTO.setMerchantCategoryId(result.getValue().getMerchantCategoryId());
-                                        qualificationQueryDTO.setQualificationId(merchantQualificationDO.getQulificationId());
-                                        qualificationQueryDTO.setDirectSale(result.getValue().getIsDirectSale());
-                                        MemResult<Boolean> booleanMemResult = qualificationService.getQualificationRequired(qualificationQueryDTO);
-                                        if (booleanMemResult != null && booleanMemResult.isSuccess() && booleanMemResult.getValue() != null) {
-                                            map.put("required", booleanMemResult.getValue());
-                                        } else {
-                                            map.put("required", false);
-                                        }
-                                        qualificationPictures.add(map);
-                                    }
-                                }
-                            }
-                            model.addAttribute("qualificationPictures", qualificationPictures);
-                            result.getValue().setMerchantQualifications(merchantQualificationResult.getValue());
-                        }
-
-
-                        MerchantCategoryQueryDTO merchantCategoryQueryDTOQuery = new MerchantCategoryQueryDTO();
-                        merchantCategoryQueryDTOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-                        merchantCategoryQueryDTOQuery.setId(result.getValue().getMerchantCategoryId());
-                        MemResult<List<MerchantCategoryDO>> merchantCategoryResult = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
-                        if (merchantCategoryResult != null && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null && !merchantCategoryResult.getValue().isEmpty()) {
-                            MerchantCategoryDO merchantCategoryDO = merchantCategoryResult.getValue().get(0);
-                            long parentId = merchantCategoryDO.getParentId();
-                            StringBuilder builder;
-                            if (merchantCategoryDO.getType() == 7) { // 旅行社时,前面添加旅游企业
-
-                                builder = new StringBuilder("旅游企业 : ");
-                            } else {
-                                builder = new StringBuilder();
-                            }
-                            List<String> names = new ArrayList<>();
-                            while (parentId > 0) {
-                                merchantCategoryQueryDTOQuery.setId(parentId);
-                                MemResult<List<MerchantCategoryDO>> temp = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
-                                if (temp.isSuccess() && temp != null && temp.getValue() != null && !temp.getValue().isEmpty()) {
-                                    names.add(temp.getValue().get(0).getName());
-                                    parentId = temp.getValue().get(0).getParentId();
-                                } else {
-                                    break;
-                                }
-                            }
-                            for (int i = names.size() - 1; i >= 0; i--) {
-                                builder.append(names.get(i)).append(" ");
-                            }
-                            builder.append(merchantCategoryDO.getName());
-                            MerchantCategoryVO vo = new MerchantCategoryVO();
-                            vo.setId(merchantCategoryDO.getId());
-                            vo.setParentId(merchantCategoryDO.getParentId());
-                            vo.setName(builder.toString());
-                            vo.setPic(merchantCategoryDO.getPic());
-                            vo.setType(merchantCategoryDO.getType());
-                            vo.setStatus(merchantCategoryDO.getStatus());
-                            model.addAttribute("category", vo);
-                        }
-                        model.addAttribute("feature", result.getValue().getIsDirectSale() == 1 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
-                        model.addAttribute("type", result.getValue().getType());
-                        model.addAttribute("status", result.getValue().getExaminStatus());
-                        if (CertificateType.IDCARD.getType().equals(result.getValue().getPrincipleCard())) {
-                            model.addAttribute("certificateType", CertificateType.IDCARD.getName());
-                        } else if (CertificateType.CAR_LICENSE.getType().equals(result.getValue().getPrincipleCard())) {
-                            model.addAttribute("certificateType", CertificateType.CAR_LICENSE.getName());
-                        } else if (CertificateType.PASSPORT.getType().equals(result.getValue().getPrincipleCard())) {
-                            model.addAttribute("certificateType", CertificateType.PASSPORT.getName());
-                        } else if (CertificateType.GUIDE_LICENSE.getType().equals(result.getValue().getPrincipleCard())) {
-                            model.addAttribute("certificateType", CertificateType.GUIDE_LICENSE.getName());
-                        }
-
-                        // 根据sellerId查询商家的商品类目
-                        MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, result.getValue().getSellerId());
-
-                        if (merchantItemCategoryResult != null && merchantItemCategoryResult.isSuccess() && !merchantItemCategoryResult.getValue().isEmpty()) {
-
-                            // 加载商品类目id
-                            long[] categoryIds = new long[merchantItemCategoryResult.getValue().size()];
-                            List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryResult.getValue();
-                            for (int i = 0; i < merchantItemCategoryDOs.size(); i++) {
-                                categoryIds[i] = merchantItemCategoryDOs.get(i).getItemCategoryId();
-                            }
-
-                            MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryResult = scopeItemCategoryService.findScopeItemCategoriesByCategory(Constant.DOMAIN_JIUXIU, categoryIds);
-                            if (scopeItemCategoryResult != null && scopeItemCategoryResult.isSuccess() && scopeItemCategoryResult.getValue() != null && !scopeItemCategoryResult.getValue().isEmpty()) {
-                                Map<String, List<CategoryVO>> itemCategoryMap = new LinkedHashMap<>();
-                                outer:
-                                for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryResult.getValue()) {
-                                    List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
-                                    if (null == categoryDOs || categoryDOs.isEmpty()) {
-                                        categoryDOs = new ArrayList<>();
-                                        try {
-                                            CategoryDO categoryDO = categoryService.getCategoryDOById(scopeItemCategoryDO.getItemCategoryId());
-                                            if (categoryDO != null) {
-                                                categoryDOs.add(categoryDO);
+                                        qualificationQueryDTO.getIdSet().add(merchantQualificationDO.getQulificationId());
+                                        MemResult<List<QualificationDO>> qualificationResult = qualificationService.getQualification(qualificationQueryDTO);
+                                        if (qualificationResult != null && qualificationResult.isSuccess() && qualificationResult.getValue() != null && !qualificationResult.getValue().isEmpty()) {
+                                            Map<String, Object> map = new HashMap<>();
+                                            map.put("url", url);
+                                            map.put("title", qualificationResult.getValue().get(0).getTitle());
+                                            qualificationQueryDTO = new QualificationQueryDTO();
+                                            qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+                                            qualificationQueryDTO.setMerchantCategoryId(result.getValue().getMerchantCategoryId());
+                                            qualificationQueryDTO.setQualificationId(merchantQualificationDO.getQulificationId());
+                                            qualificationQueryDTO.setDirectSale(result.getValue().getIsDirectSale());
+                                            MemResult<Boolean> booleanMemResult = qualificationService.getQualificationRequired(qualificationQueryDTO);
+                                            if (booleanMemResult != null && booleanMemResult.isSuccess() && booleanMemResult.getValue() != null) {
+                                                map.put("required", booleanMemResult.getValue());
+                                            } else {
+                                                map.put("required", false);
                                             }
-                                        } catch (Exception e) {
-                                            log.error(e.getMessage(), e);
-                                            // TODO 跳转错误页面处理
-                                            return "";
-                                        }
-                                    }
-
-                                    List<CategoryVO> categoryVOs = new ArrayList<>();
-                                    for (CategoryDO categoryDO : categoryDOs) {
-                                        CategoryVO vo = new CategoryVO();
-                                        vo.setId(categoryDO.getId());
-                                        vo.setName(categoryDO.getName());
-                                        vo.setParentId(categoryDO.getParent().getId());
-                                        vo.setStatus(categoryDO.getStatus());
-                                        categoryVOs.add(vo);
-                                    }
-                                    for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
-                                        if (!itemCategoryMap.containsKey(businessScopeDO.getName()) && businessScopeDO.getStatus() != 2) {
-                                            itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
-                                        }
-                                        if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
-                                            itemCategoryMap.get(businessScopeDO.getName()).addAll(categoryVOs);
-                                            continue outer;
+                                            qualificationPictures.add(map);
                                         }
                                     }
                                 }
-                                model.addAttribute("itemCategory", itemCategoryMap);
+                                model.addAttribute("qualificationPictures", qualificationPictures);
+                                result.getValue().setMerchantQualifications(merchantQualificationResult.getValue());
+                            }
+
+
+                            MerchantCategoryQueryDTO merchantCategoryQueryDTOQuery = new MerchantCategoryQueryDTO();
+                            merchantCategoryQueryDTOQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+                            merchantCategoryQueryDTOQuery.setId(result.getValue().getMerchantCategoryId());
+                            MemResult<List<MerchantCategoryDO>> merchantCategoryResult = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
+                            if (merchantCategoryResult != null && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null && !merchantCategoryResult.getValue().isEmpty()) {
+                                MerchantCategoryDO merchantCategoryDO = merchantCategoryResult.getValue().get(0);
+                                long parentId = merchantCategoryDO.getParentId();
+                                StringBuilder builder;
+                                if (merchantCategoryDO.getType() == 7) { // 旅行社时,前面添加旅游企业
+
+                                    builder = new StringBuilder("旅游企业 : ");
+                                } else {
+                                    builder = new StringBuilder();
+                                }
+                                List<String> names = new ArrayList<>();
+                                while (parentId > 0) {
+                                    merchantCategoryQueryDTOQuery.setId(parentId);
+                                    MemResult<List<MerchantCategoryDO>> temp = merchantApplyService.getMerchantCategory(merchantCategoryQueryDTOQuery);
+                                    if (temp.isSuccess() && temp != null && temp.getValue() != null && !temp.getValue().isEmpty()) {
+                                        names.add(temp.getValue().get(0).getName());
+                                        parentId = temp.getValue().get(0).getParentId();
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                for (int i = names.size() - 1; i >= 0; i--) {
+                                    builder.append(names.get(i)).append(" ");
+                                }
+                                builder.append(merchantCategoryDO.getName());
+                                MerchantCategoryVO vo = new MerchantCategoryVO();
+                                vo.setId(merchantCategoryDO.getId());
+                                vo.setParentId(merchantCategoryDO.getParentId());
+                                vo.setName(builder.toString());
+                                vo.setPic(merchantCategoryDO.getPic());
+                                vo.setType(merchantCategoryDO.getType());
+                                vo.setStatus(merchantCategoryDO.getStatus());
+                                model.addAttribute("category", vo);
+                            }
+
+
+                            // 根据sellerId查询商家的商品类目
+                            MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, result.getValue().getSellerId());
+
+                            if (merchantItemCategoryResult != null && merchantItemCategoryResult.isSuccess() && !merchantItemCategoryResult.getValue().isEmpty()) {
+
+                                // 加载商品类目id
+                                long[] categoryIds = new long[merchantItemCategoryResult.getValue().size()];
+                                List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryResult.getValue();
+                                for (int i = 0; i < merchantItemCategoryDOs.size(); i++) {
+                                    categoryIds[i] = merchantItemCategoryDOs.get(i).getItemCategoryId();
+                                }
+
+                                MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryResult = scopeItemCategoryService.findScopeItemCategoriesByCategory(Constant.DOMAIN_JIUXIU, categoryIds);
+                                if (scopeItemCategoryResult != null && scopeItemCategoryResult.isSuccess() && scopeItemCategoryResult.getValue() != null && !scopeItemCategoryResult.getValue().isEmpty()) {
+                                    Map<String, List<CategoryVO>> itemCategoryMap = new LinkedHashMap<>();
+                                    outer:
+                                    for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryResult.getValue()) {
+                                        List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
+                                        if (null == categoryDOs || categoryDOs.isEmpty()) {
+                                            categoryDOs = new ArrayList<>();
+                                            try {
+                                                CategoryDO categoryDO = categoryService.getCategoryDOById(scopeItemCategoryDO.getItemCategoryId());
+                                                if (categoryDO != null) {
+                                                    categoryDOs.add(categoryDO);
+                                                }
+                                            } catch (Exception e) {
+                                                log.error(e.getMessage(), e);
+                                                // TODO 跳转错误页面处理
+                                                return "";
+                                            }
+                                        }
+
+                                        List<CategoryVO> categoryVOs = new ArrayList<>();
+                                        for (CategoryDO categoryDO : categoryDOs) {
+                                            CategoryVO vo = new CategoryVO();
+                                            vo.setId(categoryDO.getId());
+                                            vo.setName(categoryDO.getName());
+                                            vo.setParentId(categoryDO.getParent().getId());
+                                            vo.setStatus(categoryDO.getStatus());
+                                            categoryVOs.add(vo);
+                                        }
+                                        for (BusinessScopeDO businessScopeDO : businessScopeResult.getValue()) {
+                                            if (!itemCategoryMap.containsKey(businessScopeDO.getName()) && businessScopeDO.getStatus() != 2) {
+                                                itemCategoryMap.put(businessScopeDO.getName(), new ArrayList<CategoryVO>());
+                                            }
+                                            if (businessScopeDO.getId() == scopeItemCategoryDO.getBusinessScopeId()) {
+                                                itemCategoryMap.get(businessScopeDO.getName()).addAll(categoryVOs);
+                                                continue outer;
+                                            }
+                                        }
+                                    }
+                                    model.addAttribute("itemCategory", itemCategoryMap);
+                                }
                             }
                         }
                     }
                 }
+
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -355,15 +484,20 @@ public class ApplyApprovalController extends BaseController {
                 return "";
             }
 
-            long[] businessScopeIds = new long[businessScopeMemResult.getValue().size()];
-            Map<String, List<CategoryVO>> result = new LinkedHashMap<>();
-            for (int i = 0; i < businessScopeMemResult.getValue().size(); i++) {
-                businessScopeIds[i] = businessScopeMemResult.getValue().get(i).getId();
+            List<ScopeItemCategoryDO> scopeItemCategoryDOs = new ArrayList<>();
+            for (BusinessScopeDO businessScopeDO : businessScopeMemResult.getValue()) {
+                ScopeItemCategoryDO scopeItemCategoryDO = new ScopeItemCategoryDO();
+                scopeItemCategoryDO.setDomainId(Constant.DOMAIN_JIUXIU);
+                scopeItemCategoryDO.setBusinessScopeId(businessScopeDO.getId());
+                scopeItemCategoryDO.setMerchantCategoryId(examineInfoDTOResult.getValue().getMerchantCategoryId());
+                scopeItemCategoryDOs.add(scopeItemCategoryDO);
             }
-            MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategoriesByMerchantScope(Constant.DOMAIN_JIUXIU, businessScopeIds);
+            MemResult<List<ScopeItemCategoryDO>> scopeItemCategoryMemResult = scopeItemCategoryService.findScopeItemCategories(Constant.DOMAIN_JIUXIU, scopeItemCategoryDOs);
             if (null == scopeItemCategoryMemResult || !scopeItemCategoryMemResult.isSuccess() || null == scopeItemCategoryMemResult.getValue() || scopeItemCategoryMemResult.getValue().isEmpty()) {
                 return "/system/apply/allocation";
             }
+
+            Map<String, List<CategoryVO>> result = new LinkedHashMap<>();
             outer:
             for (ScopeItemCategoryDO scopeItemCategoryDO : scopeItemCategoryMemResult.getValue()) {
                 List<CategoryDO> categoryDOs = categoryService.getCategoryDOList(scopeItemCategoryDO.getItemCategoryId());
@@ -419,6 +553,19 @@ public class ApplyApprovalController extends BaseController {
     BizResultSupport editAllocation(AllocationVO allocationVO) {
         BizResultSupport bizResultSupport = AllocationChecker.checkAllocationVO(allocationVO);
         if (!bizResultSupport.isSuccess()) {
+            return bizResultSupport;
+        }
+
+        MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(allocationVO.getExamineId());
+
+        // 判断重名
+        String merchantName = examineInfoDTOResult.getValue().getMerchantName();
+        MerchantQuery merchantQuery = new MerchantQuery();
+        merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+        merchantQuery.setName(merchantName);
+        BaseResult<List<MerchantDO>> merchantDOs = merchantService.getMerchantList(merchantQuery);
+        if (!merchantDOs.isSuccess() || !merchantDOs.getValue().isEmpty()) {
+            bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
             return bizResultSupport;
         }
         String[] array = allocationVO.getCategoryIds().split(",");
