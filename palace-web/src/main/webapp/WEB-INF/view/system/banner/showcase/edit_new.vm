@@ -130,6 +130,7 @@
             $("#choId").hide();//隐藏
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
+
         });
 
         //处理可选择的radio
@@ -181,6 +182,21 @@
                 return true;
             });
         });
+
+        //选择跳转详细按钮时判断要不要加载弹出内容框
+        $('#radioId').click(function(){ //判断，假如是showtype8的时候，不选择详情了
+            var type = "";
+            type = $('input:radio:checked').attr("jumpType")
+            if(type == 11 ){
+                $(".selectcontent").hide();
+            }else{
+                $(".selectcontent").show();
+            }
+
+        });
+
+
+
 
         //保存
         $('#saveId').click(function(){
