@@ -408,14 +408,14 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) throws Exception {
         ICPageResult<HotelDO> result = itemQueryService.pageQueryHotel(hotelPageQuery);
         if(null == result || !result.isSuccess()){
-            //log
+            LOGGER.error("getHotelList|itemQueryService.pageQueryHotel result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(hotelPageQuery));
             return null;
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         ShowCaseItem sc = null;
         List<HotelDO> listHotelDO = result.getList();
         for (HotelDO ho :listHotelDO) {
-
+            sc = new ShowCaseItem();
             sc.setId(ho.getId());
             sc.setName(ho.getName());
             list.add(sc);
@@ -427,7 +427,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery scenicPageQuery) throws Exception{
         ICPageResult<ScenicDO> result = itemQueryService.pageQueryScenic(scenicPageQuery);
         if(null == result || !result.isSuccess()){
-            //log
+            LOGGER.error("getScenicList|itemQueryService.pageQueryScenic result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(scenicPageQuery));
             return null;
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
