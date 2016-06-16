@@ -151,7 +151,10 @@
             }
             $("#operationIds").val(operationId);
         });
-
+        $('.selecontent').click(function(){
+            myinit();
+        });
+        myinit();
         //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
         $('.selecontent').click(function(){
             var type= $('input:radio:checked').attr("jumpType")
@@ -179,24 +182,28 @@
                     //$("#choId").hide();//隐藏
                     $("#addsecontentId").show();//显示
                 }
+                myinit();
                 return true;
             });
         });
 
-        //选择跳转详细按钮时判断要不要加载弹出内容框
-        $('#radioId').click(function(){ //判断，假如是showtype 11的时候，不选择详情了
-            var type = $('input:radio:checked').attr("jumpType");
-            var value = $('input:radio:checked').attr("value");
-            if(type == 11 ){
+        function myinit(){
+            var obj=$('input[name="chooseService"]:checked');
+            if(obj.attr('jumptype') == 11 ){
                 $(".selectcontent").hide();
-                $("#choId").val(value);
-                $("#chosId").val(value);
+                $("#choId").val(obj.val());
+                $("#chosId").val(obj.val());
             }else{
                 $(".selectcontent").show();
             }
+        }
 
+        //选择跳转详细按钮时判断要不要加载弹出内容框
+        $('#radioId').click(function(){ //判断，假如是showtype 11的时候，不选择详情了
+            myinit();
         });
 
+        $(function(){myinit();});
 
 
 
