@@ -12,7 +12,7 @@
 	<bean class="com.yimayhd.palace.repo.PictureTextRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.ScenicRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.PictureRepo"></bean>
-	<bean class="com.yimayhd.palace.repo.ResourceRepo"></bean>
+	<bean id="resourceRepo" class="com.yimayhd.palace.repo.ResourceRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.ActivityRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.TravelKaRepo"></bean>
 	<bean id="examineDealRepo" class="com.yimayhd.palace.repo.member.ExamineDealRepo"/>

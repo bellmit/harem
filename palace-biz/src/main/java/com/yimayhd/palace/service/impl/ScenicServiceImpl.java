@@ -50,6 +50,7 @@ import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.ScenicListQuery;
 import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.PictureTextRepo;
+import com.yimayhd.palace.repo.ResourceRepo;
 import com.yimayhd.palace.service.ScenicService;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.DateUtil;
@@ -73,6 +74,8 @@ public class ScenicServiceImpl implements ScenicService {
 	private PictureTextRepo	pictureTextRepo;
 	@Autowired
 	private ScenicPublishService scenicPublishService;
+	@Autowired
+	private ResourceRepo resourceRepo;
 
 	@Override
 	public PageVO<ScenicDO> getList(ScenicListQuery scenicListQuery) throws Exception {
@@ -433,14 +436,20 @@ public class ScenicServiceImpl implements ScenicService {
 				//图片集合处理
 				PictureUpdateDTO pictureUpdateDTO = new PictureUpdateDTO();
 				if(PictureVO.setPictureListPictureUpdateDTO(scenicVO.getId(),PictureOutType.SCENIC,pictureUpdateDTO, picturesDOList,scenicVO.getPictureList()) != null){
-					ICResult<Boolean> updatePictrueResult = resourcePublishServiceRef.updatePictures(pictureUpdateDTO);
-					if(null == updatePictrueResult){
-						log.error("ScenicServiceImpl.updateScenic-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
-						throw new BaseException("景区资源保存成功，图片集保存返回结果为空，保存失败");
-					} else if(!updatePictrueResult.isSuccess()){
-						log.error("ScenicServiceImpl.updateScenic-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
-						throw new BaseException("景区资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
+					boolean rs = resourceRepo.updatePictures(pictureUpdateDTO) ;
+					if(!rs){
+						log.error("ScenicServiceImpl.updateScenic-ResourcePublishService.updatePictures error:" + rs + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+						throw new BaseException("景区资源保存成功，图片集保存失败");
 					}
+					
+//					ICResult<Boolean> updatePictrueResult = resourcePublishServiceRef.updatePictures(pictureUpdateDTO);
+//					if(null == updatePictrueResult){
+//						log.error("ScenicServiceImpl.updateScenic-ResourcePublishService.updatePictures result is null and parame: " + JSON.toJSONString(pictureUpdateDTO));
+//						throw new BaseException("景区资源保存成功，图片集保存返回结果为空，保存失败");
+//					} else if(!updatePictrueResult.isSuccess()){
+//						log.error("ScenicServiceImpl.updateScenic-ResourcePublishService.updatePictures error:" + JSON.toJSONString(updatePictrueResult) + "and parame: " + JSON.toJSONString(pictureUpdateDTO) + "and scenicVO:" + JSON.toJSONString(scenicVO));
+//						throw new BaseException("景区资源保存成功，图片集保存失败" + updatePictrueResult.getResultMsg());
+//					}
 				}
 			}
 			}
