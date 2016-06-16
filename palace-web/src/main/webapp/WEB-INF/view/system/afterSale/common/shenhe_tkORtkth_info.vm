@@ -30,7 +30,7 @@
             <input type="hidden" class="inpControl name" id="xtjsjeId"  value="$!utilNum.moneyTransform($!refundOrderDO.refundFee)">
         </span>
         <br><br>
-        <span>系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)</span>
+        <span id="xtjsje">系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)</span>
         <br><br>
         <span>退款说明：$!refundOrderDO.refundDesc</span>
         <br><br>

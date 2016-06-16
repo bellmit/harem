@@ -42,7 +42,11 @@
 					#end
 				
 			</div>
-			<div class="acculate-fee">系统计算退款金额：$!utilNum.moneyTransform($!refundOrderDO.refundFee)元</div>
+			<div class="acculate-fee">系统计算退款金额：
+				<span id="xtjsje">
+				$!utilNum.moneyTransform($!refundOrderDO.refundFee)
+				</span>
+				元</div>
 			<p class = "info">
 				<em>退款说明：</em>
 				$!refundOrderDO.refundDesc
