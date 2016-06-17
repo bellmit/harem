@@ -15,6 +15,7 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
@@ -149,35 +150,43 @@ public class MerchantRepo {
 		}
 	}
 	
-	public MemResult<List<CertificatesDO>> getServiceTypes() {
+	public BizResult<List<CertificatesDO>> getServiceTypes() {
+		BizResult<List<CertificatesDO>> bizResult = new BizResult<List<CertificatesDO>>();
 		try {
 			MemResult<List<CertificatesDO>> serviceTypes = talentInfoDealService.queryTalentServiceType();
-			if (serviceTypes == null) {
-				return null;
+			if (serviceTypes == null || !serviceTypes.isSuccess() || null==serviceTypes.getValue()) {
+				bizResult.setPalaceReturnCode(PalaceReturnCode.REMOTE_CALL_FAILED);
+				//log.error("params :");
+				return bizResult;
 			}else{
-				return serviceTypes;
+				bizResult.setValue(serviceTypes.getValue());
+				return bizResult;
 			}
 		} catch (Exception e) {
 			log.error("queryTalentServiceType error");
-			return null;
+			return bizResult;
 		}
 	}
 	
-	public MemResult<TalentInfoDTO> queryTalentInfoByUserId(long userId,int domainId) {
+	public BizResult<TalentInfoDTO> queryTalentInfoByUserId(long userId,int domainId) {
+		BizResult<TalentInfoDTO> bizResult = new BizResult<TalentInfoDTO>();
 		if (userId <= 0 || domainId <= 0) {
 			log.error("params error : userId={},domainId={}",userId,domainId);
 			return null;
 		}
 		try {
-			 MemResult<TalentInfoDTO> queryResult = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
-			if (queryResult == null ) {
-				return null;
+			MemResult<TalentInfoDTO> queryResult = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
+			if (queryResult == null || !queryResult.isSuccess() || null==queryResult.getValue()) {
+				bizResult.setPalaceReturnCode(PalaceReturnCode.REMOTE_CALL_FAILED);
+				log.error("params : userId={},domainId={} error:{}",userId,domainId);
+				return bizResult;
 			}else{
-				return queryResult;
+				bizResult.setValue(queryResult.getValue());
+				return bizResult;
 			}
 		} catch (Exception e) {
 			log.error("params : userId={},domainId={} error:{}",userId,domainId,e);
-			return null;
+			return bizResult;
 		}
 	}
 	

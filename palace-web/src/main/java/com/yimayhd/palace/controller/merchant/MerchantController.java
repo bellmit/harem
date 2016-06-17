@@ -359,29 +359,30 @@ public class MerchantController extends BaseController {
 			model.addAttribute("result", meResult.getValue());
 			return "/system/merchant/merchantDetail";
 		}else if(MerchantOption.TALENT.getOption()==option){
-//			MemResult<List<CertificatesDO>> serviceTypes = merchantBiz.getServiceTypes();
-//			if(serviceTypes.isSuccess() && serviceTypes.getValue().size()>0){
-//				model.addAttribute("serviceTypes", serviceTypes);
-//			}
-//			WebResult<TalentInfoDTO> dtoResult = merchantBiz.queryTalentInfoByUserId();
-//			if (dtoResult == null) {
-//				return "/system/error/500";
-//			}
-//			if (dtoResult.isSuccess()) {
-//				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
-//				if (talentInfoDTO == null || talentInfoDTO.getTalentInfoDO() == null) {
-//					return "/system/error/500";
-//				}
-//				List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
-//				if (pictures == null ) {
-//					pictures = new ArrayList<String>();
-//				}
-//				//填充店铺头图集合
-//				while (pictures.size() < 5) {
-//					pictures.add("");
-//				}
-//				model.addAttribute("talentInfo", talentInfoDTO);
-//			}
+			BizResult<List<CertificatesDO>> serviceTypes = merchantBiz.getServiceTypes();
+			if(serviceTypes.isSuccess() && serviceTypes.getValue().size()>0){
+				model.addAttribute("serviceTypes", serviceTypes);
+			}
+			
+			BizResult<TalentInfoDTO> dtoResult = merchantBiz.queryTalentInfoByUserId(sessionManager.getUserId(),Constant.DOMAIN_JIUXIU);
+			if (dtoResult == null) {
+				return "/system/error/500";
+			}
+			if (dtoResult.isSuccess()) {
+				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
+				if (talentInfoDTO == null || talentInfoDTO.getTalentInfoDO() == null) {
+					return "/system/error/500";
+				}
+				List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+				if (pictures == null ) {
+					pictures = new ArrayList<String>();
+				}
+				//填充店铺头图集合
+				while (pictures.size() < 5) {
+					pictures.add("");
+				}
+				model.addAttribute("talentInfo", talentInfoDTO);
+			}
 				
 			return "/system/merchant/talentDetail";
 		}else{
