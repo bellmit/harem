@@ -350,10 +350,20 @@
         if(!$('input[name="level"]:checked').val()){
             return '请选择星级';
         }
-        var phoneReg = /^0\d{8,11}$|^1[0-9]{10}$/;
-        if(!phoneReg.test($('.phoneNumListStr').val())){
+        
+        var phoneNum = $('.phoneNumListStr').val();
+        var phoneReg = /^\d{8,12}$/;
+        if(!phoneReg.test(phoneNum)){
             return '酒店电话格式不正确';
         }
+        
+        if(phoneNum.substr(0,1) == 1){
+        	phoneReg = /^1[0-9]{10}$/;
+	        if(!phoneReg.test($('.phoneNumListStr').val())){
+	            return '酒店电话格式不正确';
+	        }	
+        }
+        
         if($('.hotelFacilityCl:checked').length <= 0){
             return '酒店设施不能为空';
         }
