@@ -20,6 +20,7 @@ import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.enums.PictureTag;
 import com.yimayhd.ic.client.model.param.item.HotelDTO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
+import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.NumUtil;
 
 /**
@@ -90,13 +91,10 @@ public class HotelVO extends HotelDO implements Serializable {
             hotelVO.getNeedKnow().setFrontNeedKnow(frontNeedKnow);
         }
         
-        //hotelVO.setPhoneNumList(JSON.parseArray(hotelDO.getPhoneNum(), String.class));
-        //hotelVO.setPictureList(JSON.parseArray(hotelDO.getPictures(), Picture.class));
-        //hotelVO.setOpenTimeList(JSON.parseArray(hotelDO.getOpenTime(), String.class));
-        //FacilityIconServiceImpl facilityIconService = new FacilityIconServiceImpl();
-        //hotelVO.setRoomFacilityList(BitUtil.convertFacility(hotelDO.getRoomFacility(),facilityIconService.getMapByType(1),0));
-        //hotelVO.setRoomServiceList(BitUtil.convertFacility(hotelDO.getRoomService(), facilityIconService.getMapByType(2), 0));
-        //hotelVO.setHotelFacilityList(BitUtil.convertFacility(hotelDO.getHotelFacility(), facilityIconService.getMapByType(3), 0));
+        Coordinate cdt = Common.gcjToBd(hotelVO.getLocationY(), hotelVO.getLocationX());
+        hotelVO.setLongitude(cdt.getLongitude());
+        hotelVO.setLatitude(cdt.getLatitude());
+        
         return hotelVO;
     }
     public static HotelDO getHotelDO(HotelVO hotelVO) throws Exception {
@@ -152,17 +150,22 @@ public class HotelVO extends HotelDO implements Serializable {
     
     public static HotelDO getHotelDOV2(HotelVO hotelVO) throws Exception {
         HotelDO hotelDO = hotelVO;
-        //个性化转换
-        //hotelDO.setRecommend(JSON.toJSONString(hotelVO.getMasterRecommend()));
-        long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
-        long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
-        long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
+
+        List<Integer> roomFacility = transformFacilities(hotelVO.getRoomFacilityStr());
+        List<Integer> roomService = transformFacilities(hotelVO.getRoomServiceStr()); 
+        List<Integer> hotelFacility = transformFacilities(hotelVO.getHotelFacilityStr());
 
         HotelFeature hotelFeature = new HotelFeature();
         hotelFeature.setRoomFacility(roomFacility);
         hotelFeature.setHotelService(roomService);
         hotelFeature.setHotelFacility(hotelFacility);
         hotelVO.setFeature(hotelFeature);
+        
+        String tradeAreaJson = hotelVO.getTradeAreaJson(); 
+        if(StringUtils.isNotBlank(tradeAreaJson) && !tradeAreaJson.equals("[]")){
+            List<TradeArea> areaList = JSONArray.parseArray(hotelVO.getTradeAreaJson(), TradeArea.class);
+            hotelFeature.setTradeArea(areaList);
+        }
         
         //电话处理
         if(StringUtils.isNotBlank(hotelVO.getPhoneNumListStr())){
@@ -174,10 +177,28 @@ public class HotelVO extends HotelDO implements Serializable {
         hotelDO.setPicturesString(hotelVO.getPicturesStr());
         
         //处理经纬度
-        hotelDO.setLatitude(hotelVO.getLocationY());
-        hotelDO.setLongitude(hotelVO.getLocationX());
+        //hotelDO.setLatitude(hotelVO.getLocationY());
+        //hotelDO.setLongitude(hotelVO.getLocationX());
+        
+        Coordinate cdt = Common.bdToGcj(hotelVO.getLocationY(), hotelVO.getLocationX());
+        hotelDO.setLongitude(cdt.getLongitude());
+        hotelDO.setLatitude(cdt.getLatitude());
         
         return hotelDO;
+    }
+    
+    public static List<Integer> transformFacilities(String roomFacilityStr){
+    	
+    	List<Integer> list = new ArrayList<Integer>();
+        if(StringUtils.isBlank(roomFacilityStr)){
+        	return list;
+        }
+        
+    	String[] arr = roomFacilityStr.split("\\|");
+    	for(int i = 0; i < arr.length; i++){
+    		list.add(Integer.parseInt(arr[i]));
+    	}
+    	return list;
     }
     
     public static HotelDTO getHotelDTO(HotelVO hotelVO) throws Exception {
@@ -185,13 +206,16 @@ public class HotelVO extends HotelDO implements Serializable {
     	HotelDTO hotelDTO = new HotelDTO();
     	BeanUtils.copyProperties(hotelVO, hotelDTO);
     	
-    	hotelDTO.setLatitude(hotelVO.getLocationY());
-        hotelDTO.setLongitude(hotelVO.getLocationX());
+    	//hotelDTO.setLatitude(hotelVO.getLocationY());
+        //hotelDTO.setLongitude(hotelVO.getLocationX());
     	
-    	long roomFacility = Long.parseLong(new StringBuilder(hotelVO.getRoomFacilityStr()).reverse().toString(), 2);
-        long roomService = Long.parseLong(new StringBuilder(hotelVO.getRoomServiceStr()).reverse().toString(), 2);
-        long hotelFacility = Long.parseLong(new StringBuilder(hotelVO.getHotelFacilityStr()).reverse().toString(), 2);
+    	Coordinate cdt = Common.bdToGcj(hotelVO.getLocationY(), hotelVO.getLocationX());
+    	hotelDTO.setLongitude(cdt.getLongitude());
+        hotelDTO.setLatitude(cdt.getLatitude());
         
+        List<Integer> roomFacility = transformFacilities(hotelVO.getRoomFacilityStr());
+        List<Integer> roomService = transformFacilities(hotelVO.getRoomServiceStr()); 
+        List<Integer> hotelFacility = transformFacilities(hotelVO.getHotelFacilityStr());
     	
     	HotelFeature feature = new HotelFeature();
     	feature.setRoomFacility(roomFacility);

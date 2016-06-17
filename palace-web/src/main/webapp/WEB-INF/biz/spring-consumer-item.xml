@@ -65,10 +65,10 @@
     	<property name="interface" value="com.yimayhd.ic.client.service.item.ScenicPublishService"/>
     	<property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="4000"/>
-        <property name="check" value="false"/>
-        <property name="version" value="1.0.0.test"/>
-        <property name="retries" value="0"/>   	
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.item.check}"/>
+        <property name="version" value="${consumer.dubbo.item.version}"/>
+        <property name="retries" value="${dubbo.retries}"/>   	
     </bean>
 
 	<bean id="itemSkuServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">

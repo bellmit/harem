@@ -29,24 +29,24 @@
                             #foreach($travelOfficial in $!travelOfficial.listTravelJsonDO)
                                 <tr class="item-tr" data="$!{velocityCount}" >
                                     <td>
-                                        <input  type='radio' id='show_type1'  value='1'> 单选框
-                                        <input  type='radio' id='show_type2'  value='2'> 复选框
-                                        <input  type='radio' id='show_type3'  value='3'> 下拉框
+                                        <input class="showTypeClass"  name="showtypes$!{velocityCount}" type='radio'   value='1'> 单选框
+                                        <input class="showTypeClass"  name="showtypes$!{velocityCount}" type='radio'   value='2'> 复选框
+                                        <input class="showTypeClass"  name="showtypes$!{velocityCount}" type='radio'   value='3'> 下拉框
                                     </td>
                                     <td>
                                         <div class="fileImgWrap img-upload-container">
-                                            <input  type='radio' id='jump_type1'  value='1'> 目的地
-                                            <input  type='radio' id='jump_type2'  value='2'> 主题
-                                            <input  type='radio' id='jump_type3'  value='3'> 列表
-                                            <input  type='radio' id='jump_type4'  value='4'> 详情
-                                            <input  type='radio' id='jump_type5'  value='5'> 达人专题
+                                            <input class="jumpTypeClass" type='radio' name="jumptypes$!{velocityCount}"   value='1'> 目的地
+                                            <input class="jumpTypeClass" type='radio' name="jumptypes$!{velocityCount}"  value='2'> 主题
+                                            <input class="jumpTypeClass" type='radio' name="jumptypes$!{velocityCount}"  value='3'> 列表
+                                            <input class="jumpTypeClass" type='radio' name="jumptypes$!{velocityCount}" value='4'> 详情
+                                            <input class="jumpTypeClass" type='radio' name="jumptypes$!{velocityCount}"  value='5'> 达人专题
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control trave-extra-info" name="show_name" id="show_name" ></input>
+                                        <input type="text" class="form-control trave-extra-info show_name" name="show_name" id="show_name" ></input>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control trave-extra-info" name="show_value" id="show_value" ></input>
+                                        <input type="text" class="form-control trave-extra-info show_value" name="show_value" id="show_value" ></input>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-link" onclick="deleteItemTr(this)">删除</button>
@@ -56,24 +56,24 @@
                         #else
                             <tr class="item-tr" data="1" >
                                 <td>
-                                    <input  type='radio' id='show_type1'  value='1'> 单选框
-                                    <input  type='radio' id='show_type2'  value='2'> 复选框
-                                    <input  type='radio' id='show_type3'  value='3'> 下拉框
+                                    <input class="showTypeClass stype" type='radio' name="showtypes"   value='1'> 单选框
+                                    <input class="showTypeClass stype" type='radio' name="showtypes"  value='2'> 复选框
+                                    <input class="showTypeClass stype" type='radio' name="showtypes"  value='3'> 下拉框
                                 </td>
                                 <td>
                                     <div class="fileImgWrap img-upload-container">
-                                        <input  type='radio' id='jump_type1'  value='1'> 目的地
-                                        <input  type='radio' id='jump_type2'  value='2'> 主题
-                                        <input  type='radio' id='jump_type3'  value='3'> 列表
-                                        <input  type='radio' id='jump_type4'  value='4'> 详情
-                                        <input  type='radio' id='jump_type5'  value='5'> 达人专题
+                                        <input class="jumpTypeClass jump" type='radio' name="jumptypes"  value='1'> 目的地
+                                        <input class="jumpTypeClass jump" type='radio' name="jumptypes"  value='2'> 主题
+                                        <input class="jumpTypeClass jump" type='radio' name="jumptypes"  value='3'> 列表
+                                        <input class="jumpTypeClass jump" type='radio' name="jumptypes"  value='4'> 详情
+                                        <input class="jumpTypeClass jump" type='radio' name="jumptypes"  value='5'> 达人专题
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control trave-extra-info" name="show_name" id="show_name" ></input>
+                                    <input type="text" class="form-control trave-extra-info show_name" name="shownames" id="show_name" ></input>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control trave-extra-info" name="show_value" id="show_value" ></input>
+                                    <input type="text" class="form-control trave-extra-info show_value" name="showvalues" id="show_value" ></input>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-link" onclick="deleteItemTr(this)">删除</button>
@@ -130,19 +130,22 @@
             for (var i = 0; i < trs.length; i++) {
                 var tr = trs[i];
 
-                var travelDes = $(tr).find("textarea.trave-desc").val();
-                var node = $(tr).find("input.img-values");
-                var extraInfo = $(tr).find("textarea.trave-extra-info").val();
+                var showType = $(tr).find('input:radio:checked').val();
+                var jumpType = $(tr).find('input:radio:checked').val();
+                var showName = $(tr).find('.show_name').val();
+                var showValue= $(tr).find('.show_value').val();
+
+
                 var detail = {
-                    travelDes: travelDes,
-                    travelImg: imgs,
-                    detail: extraInfo
+                    travelDes: showType,
+                    travelImg: showType,
+                    detail: showType
                 };
-                parts.push(travelJsonDO);
+                parts.push(detail);
             }
 
             var json = JSON.stringify(parts);
-
+            console.log("json="+json);
         });
     });
 
@@ -155,6 +158,20 @@
          var tr = trs[trs.length-1];
          var index = $(tr).attr("data") ;
          index = parseInt(index)+1 ;
+         var localHtml= $(tr).html();
+         if(localHtml.indexOf('name="showtypes"')){
+            localHtml.replace('name="showtypes"','name="showtypes"'+index);
+         }
+         if(localHtml.indexOf('name="jumptypes"')){
+             localHtml.replace('name="jumptypes"','name="jumptypes"'+index);
+         }
+         if(localHtml.indexOf('name="shownames"')){
+             localHtml.replace('name="shownames"','name="shownames"'+index);
+         }
+         if(localHtml.indexOf('name="showvalues"')){
+             localHtml.replace('name="showvalues"','name="showvalues"'+index);
+         }
+
          var newTr = "<tr class='item-tr' data='"+index+"' >"+$(tr).html()+"</tr>";
          $(tr).after( newTr );
 

@@ -169,26 +169,18 @@ public class JiuniuHotelManageController extends BaseController {
 
 		return responseVo;
 	}
-
+	
 	/**
 	 * 检查设施是否被选中
 	 */
-	private void checkInit(List<HotelFacilityVO> list, char[] arr) {
-
+	private void checkInit(List<HotelFacilityVO> list, List<Integer> facilities) {
+		
+		HotelFacilityVO vo = null;
 		for (int i = 0; i < list.size(); i++) {
-
-			if (i <= arr.length - 1) {
-
-				char tempChar = arr[i];
-				boolean tempResult = (tempChar == '1');
-				list.get(i).setChecked(tempResult);
-
-			} else {
-				continue;
-			}
-
+			vo = list.get(i);
+			boolean tempResult = facilities.contains(vo.getNumber());
+			vo.setChecked(tempResult);
 		}
-
 	}
 
 	/**
@@ -205,60 +197,26 @@ public class JiuniuHotelManageController extends BaseController {
 			return "/system/hotel/edit-jiuniu";
 		}
 		
-		/**
-		long roomFacility = hotelVO.getRoomFacility();
-		long hotelFacility = hotelVO.getHotelFacility();
-		long roomService = hotelVO.getRoomService();
-		**/
-		
 		HotelFeature feature = hotelVO.getFeature();
 		
 		if(feature != null && feature.getTradeArea() != null){
 			hotelVO.setTradeAreaList(feature.getTradeArea());
 		}
 		
-		List<Long> list = null;
-		long roomFacility = 0;
+		List<Integer> roomFacility = null;
 		if(feature != null){
-			list = feature.getRoomFacility();
-			if(list != null && list.size() > 0){
-				roomFacility = list.get(0);
-			}
+			roomFacility = feature.getRoomFacility();
 		}
 		
-		long hotelFacility = 0;
+		List<Integer> hotelFacility = null;
 		if(feature != null){
-			list = feature.getHotelFacility();
-			if(list != null && list.size() > 0){
-				hotelFacility = list.get(0);
-			}
+			hotelFacility = feature.getHotelFacility();
 		}
 		
-		long roomService = 0;
+		List<Integer> roomService = null;
 		if(feature != null){
-			list = feature.getRoomFacility();
-			if(list != null && list.size() > 0){
-				roomService = list.get(0);
-			}
+			roomService = feature.getHotelService();
 		}
-
-		/**
-		 * 处理酒店设施 开始
-		 */
-		String roomFacilityStr = Long.toBinaryString(roomFacility);
-		String hotelFacilityStr = Long.toBinaryString(hotelFacility);
-		String roomServiceStr = Long.toBinaryString(roomService);
-
-		roomFacilityStr = new StringBuffer(roomFacilityStr).reverse().toString();
-		hotelFacilityStr = new StringBuffer(hotelFacilityStr).reverse().toString();
-		roomServiceStr = new StringBuffer(roomServiceStr).reverse().toString();
-		/**
-		 * 处理酒店设施 结束
-		 */
-
-		char[] roomFacilityArr = roomFacilityStr.toCharArray();
-		char[] hotelFacilityArr = hotelFacilityStr.toCharArray();
-		char[] roomServiceArr = roomServiceStr.toCharArray();
 
 		// 房间设施
 		List<HotelFacilityVO> roomFacilityList = hotelRPCService.queryFacilitiesV2(FacilityIconType.ROOM_FACILITY.getType());
@@ -270,9 +228,9 @@ public class JiuniuHotelManageController extends BaseController {
 		List<HotelFacilityVO> hotelFacilityList = hotelRPCService.queryFacilitiesV2(FacilityIconType.HOTEL_FACILITY.getType());
 		Collections.sort(hotelFacilityList);
 
-		checkInit(roomFacilityList, roomFacilityArr);
-		checkInit(roomServiceList, roomServiceArr);
-		checkInit(hotelFacilityList, hotelFacilityArr);
+		checkInit(roomFacilityList, roomFacility);
+		checkInit(roomServiceList, roomService);
+		checkInit(hotelFacilityList, hotelFacility);
 
 		//省
 		List<AreaVO> provinceList= AreaService.getInstance().getAreaByIDAndType("PROVINCE", null);
