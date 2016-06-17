@@ -38,6 +38,7 @@
              <table class="table datatable">
 				<thead>
                     <tr>
+                        <th width="4%"><input class="allChecked" name="allChecked" type="checkbox">全选</th>
                         <th>排序</th>
                         <th>名称</th>
 						<th>类型</th>
@@ -48,6 +49,7 @@
 				<tbody >
                     #foreach($item in $pageVo.itemList)
                     <tr id="item_$!{item.id}" item-id="$!item.id">
+                        <td><input class="subChecked" type="checkbox" value="$!{item.id}"></td>
                         <td>$!item.score</td>
                         <td>$!item.name</td>
 						<td>#TAG_TYPE($!item.type)</td>
@@ -72,7 +74,7 @@
 </div>
 <script>
 	var checkedIdList=[];
-	$('table.datatable').datatable({
+	/*$('table.datatable').datatable({
 		checkable: true,
 		checksChanged: function(event) {
 			var temp = [];
@@ -82,7 +84,7 @@
 			});
 			checkedIdList = temp;
         }
-	});
+	});*/
 	//新增
     $('.add-tag').click(function(){
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toAdd','添加标签',function(win,index) {
@@ -128,10 +130,26 @@
 			}
 		},"json");
 	}
+    $('.allChecked').click(function(){
+        $('.subChecked').prop('checked',$(this).prop('checked'));
+    });
+    $(".subChecked").click( function(){
+        event.stopPropagation(); // do something
+    });
+    //单选
+    $('.subCheckedTR').click(function(){
+        $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
+    });
 	//批量启用
     $('.batch-enable').click(function(){
-		if(checkedIdList.length > 0) {
+        var checkedIdList = new Array();
+        $('.subChecked:checked').each(function(){
+            checkedIdList.push($(this).val());
+        });
+
+        if(checkedIdList.length > 0) {
     		var param = {ids:checkedIdList};
+            layer.confirm('确定批量启用直播标签吗?', {btn: ['确定','取消'], title:"提示"}, function(){
     		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toBatchEnable",param,function(result) {
     			if(result.status == 200) {
     				window.location.reload();
@@ -141,6 +159,7 @@
     				});
     			}
     		},"json");
+            });
 		} else {
 			layer.msg('请选择标签', {
 				icon : 2,
@@ -150,8 +169,14 @@
     });
 	//批量停用
     $('.batch-disable').click(function(){
-		if(checkedIdList.length > 0) {
+        var checkedIdList = new Array();
+        $('.subChecked:checked').each(function(){
+            checkedIdList.push($(this).val());
+        });
+
+        if(checkedIdList.length > 0) {
     		var param = {ids:checkedIdList};
+            layer.confirm('确定批量停用直播标签吗?', {btn: ['确定','取消'], title:"提示"}, function(){
     		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toBatchDisable",param,function(result) {
     			if(result.status == 200) {
     				window.location.reload();
@@ -161,6 +186,7 @@
     				});
     			}
     		},"json");
+            });
 		}  else {
 			layer.msg('请选择标签', {
 				icon : 2,
@@ -171,6 +197,7 @@
 	// 启用
 	$('.item-enable').click(function(){
 		var id = $(this).attr("item-id");
+        layer.confirm('确定启用直播标签吗?', {btn: ['确定','取消'], title:"提示"}, function(){
 		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toEnable/"+id,{},function(result) {
 			if(result.status == 200) {
 				window.location.reload();
@@ -181,10 +208,12 @@
     			});
 			}
 		},"json");
+        });
     });
 	// 停用
 	$('.item-disable').click(function(){
 		var id = $(this).attr("item-id");
+        layer.confirm('确定停用直播标签吗?', {btn: ['确定','取消'], title:"提示"}, function(){
 		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toDisable/"+id,{},function(result) {
 			if(result.status == 200) {
 				window.location.reload();
@@ -195,5 +224,6 @@
     			});
 			}
 		},"json");
+        });
     });
 </script>

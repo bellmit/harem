@@ -18,6 +18,7 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.checker.RestaurantChecker;
 import com.yimayhd.palace.checker.result.CheckResult;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.PictureVO;
 import com.yimayhd.palace.model.RestaurantVO;
 import com.yimayhd.palace.model.query.RestaurantListQuery;
@@ -108,6 +109,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 					PicturesDO picturesDO = pictureVO.toPicturesDO();
 					picturesDO.setOutId(addedRestaurant.getId());
 					picturesDO.setOutType(PictureOutType.RESTAURANT.getValue());
+					picturesDO.setDomain(Constant.DOMAIN_JIUXIU);
 					picList.add(picturesDO);
 				}
 				if (CollectionUtils.isNotEmpty(picList)) {

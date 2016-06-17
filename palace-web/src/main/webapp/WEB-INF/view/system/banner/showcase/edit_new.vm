@@ -68,7 +68,7 @@
                                 <td>
                                     <select class="selectpages" id="opId">
                                         #foreach($!operations in $operationDOs)
-                                            <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!showcase.operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
+                                            <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
                                                     operationid="$!operations.operactio.id" #if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end >$!operations.operactio.name</option>
                                         #end
                                     </select>
@@ -130,6 +130,7 @@
             $("#choId").hide();//隐藏
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
+
         });
 
         //处理可选择的radio
@@ -150,7 +151,10 @@
             }
             $("#operationIds").val(operationId);
         });
-
+        $('.selecontent').click(function(){
+            myinit();
+        });
+        myinit();
         //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
         $('.selecontent').click(function(){
             var type= $('input:radio:checked').attr("jumpType")
@@ -178,9 +182,30 @@
                     //$("#choId").hide();//隐藏
                     $("#addsecontentId").show();//显示
                 }
+                myinit();
                 return true;
             });
         });
+
+        function myinit(){
+            var obj=$('input[name="chooseService"]:checked');
+            if(obj.attr('jumptype') == 11 ){
+                $(".selectcontent").hide();
+                $("#choId").val(obj.val());
+                $("#chosId").val(obj.val());
+            }else{
+                $(".selectcontent").show();
+            }
+        }
+
+        //选择跳转详细按钮时判断要不要加载弹出内容框
+        $('#radioId').click(function(){ //判断，假如是showtype 11的时候，不选择详情了
+            myinit();
+        });
+
+        $(function(){myinit();});
+
+
 
         //保存
         $('#saveId').click(function(){
@@ -205,7 +230,6 @@
             var content = "";
                 content = $("#addcontentJsonId").val();
 
-            var operationContent = "";
             if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题,存中文名
                 operationContent = $("#choId").val();
             }else{
