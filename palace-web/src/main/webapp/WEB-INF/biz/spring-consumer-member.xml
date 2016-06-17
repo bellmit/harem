@@ -75,6 +75,6 @@
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
         <property name="check" value="${consumer.dubbo.member.check}"/>
-        <property name="version" value="1.0.0.hanlei"/>
+        <property name="version" value="${consumer.dubbo.member.version}"/>
     </bean>
 </beans>
