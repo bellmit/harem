@@ -289,6 +289,7 @@ public class BannerManageController extends BaseController {
             result.put("pageVo", page);
         }else if(Constant.SHOWCASE_HOTEL_LIST  ==  type){ //酒店列表
             HotelPageQuery sp = new HotelPageQuery();
+            sp.setNeedCount(true);
             sp.setPageNo(pageNumber);
             sp.setPageSize(pageSize);
             sp.setDomain(1200);
@@ -302,6 +303,7 @@ public class BannerManageController extends BaseController {
             result.put("pageVo", page);
         }else if(Constant.SHOWCASE_SCENIC_LIST  ==  type){ //选景区列表
             ScenicPageQuery sp = new ScenicPageQuery();
+            sp.setNeedCount(true);
             sp.setPageNo(pageNumber);
             sp.setPageSize(pageSize);
             sp.setDomain(1200);
