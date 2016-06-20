@@ -364,7 +364,7 @@ public class MerchantController extends BaseController {
 				model.addAttribute("serviceTypes", serviceTypes);
 			}
 			
-			BizResult<TalentInfoDTO> dtoResult = merchantBiz.queryTalentInfoByUserId(sessionManager.getUserId(),Constant.DOMAIN_JIUXIU);
+			BizResult<TalentInfoDTO> dtoResult = merchantBiz.queryTalentInfoByUserId(id,Constant.DOMAIN_JIUXIU);
 			if (dtoResult == null) {
 				return "/system/error/500";
 			}

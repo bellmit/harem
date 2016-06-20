@@ -18,10 +18,10 @@
 
 	<div id = "details" class = "details">
 		<div class = "info">
-			<p><em>昵称</em><strong>$!nickName</strong></p>
-			<p><em>店铺负责人电话</em><strong>$!result.merchantPrincipalTel</strong></p>
-			<p><em>客服电话</em><strong>$!result.serviceTel</strong></p>
-			<p><em>店铺地址</em><strong>$!result.address</strong></p>
+			<p><em>昵称:</em><strong>$!nickName</strong></p>
+			<p><em>店铺负责人电话:</em><strong>$!result.merchantPrincipalTel</strong></p>
+			<p><em>客服电话:</em><strong>$!result.serviceTel</strong></p>
+			<p><em>店铺地址:</em><strong>$!result.address</strong></p>
 		</div>
 		<div class = "clearfix showImg">
 			<ul class = "clearfix first">
