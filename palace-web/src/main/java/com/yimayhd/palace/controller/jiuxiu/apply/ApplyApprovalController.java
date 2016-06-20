@@ -186,60 +186,68 @@ public class ApplyApprovalController extends BaseController {
 
                 if (result.getValue().getType() == 1) { // 达人
                     List<Map<String, Object>> qualificationPictures = new ArrayList<>();
-                    Map<String,Object> touristCardMap = new HashMap<>();
+                    Map<String,Object> certificateMap = new HashMap<>();
                     if(!StringUtils.isEmpty(result.getValue().getTouristCard())) {
-                        touristCardMap.put("title","导游证");
-                        touristCardMap.put("url",result.getValue().getTouristCard());
-                        qualificationPictures.add(touristCardMap);
+//                    	certificateMap.put("touristCard","导游证");
+//                    	certificateMap.put("touristCard_url",result.getValue().getTouristCard());
+                    	certificateMap.put("导游证",result.getValue().getTouristCard());
+                        qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getDrivingLinence())) {
                         Map<String,Object> drivingLinenceMap = new HashMap<>();
-                        touristCardMap.put("title","行驶证");
-                        drivingLinenceMap.put("url",result.getValue().getDrivingLinence());
-                        qualificationPictures.add(drivingLinenceMap);
+//                        certificateMap.put("drivingLinence","行驶证");
+//                        certificateMap.put("drivingLinence_url",result.getValue().getDrivingLinence());
+                        certificateMap.put("行驶证",result.getValue().getDrivingLinence());
+                        qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getDivingLinence())) {
                         Map<String,Object> divingLinenceMap = new HashMap<>();
-                        touristCardMap.put("title","潜水证");
-                        divingLinenceMap.put("url",result.getValue().getDivingLinence());
-                        qualificationPictures.add(divingLinenceMap);
+//                        certificateMap.put("divingLinence","潜水证");
+//                        certificateMap.put("divingLinence_url",result.getValue().getDivingLinence());
+                        certificateMap.put("潜水证",result.getValue().getDivingLinence());
+                        qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getPhotographyCertificate())) {
                         Map<String,Object> photographyCertificateMap = new HashMap<>();
-                        touristCardMap.put("title","摄影证");
-                        photographyCertificateMap.put("url",result.getValue().getPhotographyCertificate());
-                        qualificationPictures.add(photographyCertificateMap);
+//                        certificateMap.put("title","摄影证");
+//                        certificateMap.put("url",result.getValue().getPhotographyCertificate());
+                        certificateMap.put("摄影证",result.getValue().getPhotographyCertificate());
+                        qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getClimbingCertificate())) {
                         Map<String,Object> climbingCertificateMap = new HashMap<>();
-                        touristCardMap.put("title","登山证");
-                        climbingCertificateMap.put("url",result.getValue().getClimbingCertificate());
-                        qualificationPictures.add(climbingCertificateMap);
+//                        certificateMap.put("climbingCertificate","登山证");
+//                        certificateMap.put("climbingCertificate_url",result.getValue().getClimbingCertificate());
+                        certificateMap.put("登山证",result.getValue().getClimbingCertificate());
+                        qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getTrainingCertificate())) {
                         Map<String,Object> trainingCertificateMap = new HashMap<>();
-                        touristCardMap.put("title","健身教练证");
-                        trainingCertificateMap.put("url",result.getValue().getTrainingCertificate());
-                        qualificationPictures.add(trainingCertificateMap);
+//                        certificateMap.put("trainingCertificate","健身教练证");
+//                        certificateMap.put("trainingCertificate_url",result.getValue().getTrainingCertificate());
+                        certificateMap.put("健身教练证",result.getValue().getTrainingCertificate());
+                        qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getTeacherCertificate())) {
                         Map<String,Object> teacherCertificateMap = new HashMap<>();
-                        touristCardMap.put("title","教师证");
-                        teacherCertificateMap.put("url",result.getValue().getTeacherCertificate());
-                        qualificationPictures.add(teacherCertificateMap);
+//                        certificateMap.put("teacherCertificate","教师证");
+//                        certificateMap.put("teacherCertificate_url",result.getValue().getTeacherCertificate());
+                        certificateMap.put("教师证",result.getValue().getTeacherCertificate());
+                        qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getArtCertificate())) {
                         Map<String,Object> artCertificateMap = new HashMap<>();
-                        touristCardMap.put("title","美术证");
-                        artCertificateMap.put("url",result.getValue().getArtCertificate());
-                        qualificationPictures.add(artCertificateMap);
+//                        certificateMap.put("artCertificate","美术证");
+//                        certificateMap.put("artCertificate_url",result.getValue().getArtCertificate());
+                        certificateMap.put("美术证",result.getValue().getArtCertificate());
+                        qualificationPictures.add(certificateMap);
                     }
 
 

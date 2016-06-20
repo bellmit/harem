@@ -90,18 +90,22 @@
                         <table class="table table-inner">
                             <tbody>
                                 #foreach($merchantQualification in $qualificationPictures)
+								#foreach($q in $merchantQualification.entrySet())
                                     #if($velocityCount % 2 == 1)
                                     <tr>
                                     #end
                                     <td>
-                                        $!merchantQualification.title：
+                                        $!q.getKey()：
                                     </td>
                                     <td>
-                                        <a href="$!tfs$!merchantQualification.url" data-group="group200"
-                                           data-toggle="lightbox" data-caption="$!merchantQualification.title">
-                                            <img src="$!tfs$!merchantQualification.url" alt="图片加载失败"/>
+                                        <a href="$!tfs$!{q.getValue()}" data-group="group200"
+                                           data-toggle="lightbox" data-caption="$!{q.getValue()}">
+                                            <img src="$!tfs$!{q.getValue()}" alt="图片加载失败"/>
                                         </a>
                                     </td>
+				   					#end
+                                    #break
+				   					
                                 #end
                             </tbody>
                         </table>
