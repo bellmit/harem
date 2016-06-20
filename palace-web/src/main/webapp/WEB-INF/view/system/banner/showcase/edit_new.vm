@@ -230,7 +230,7 @@
             var content = "";
                 content = $("#addcontentJsonId").val();
 
-            if(radioVal == "LINETAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题,存中文名
+            if(radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题,存中文名
                 operationContent = $("#choId").val();
             }else{
                 operationContent = $("#chosId").val();
