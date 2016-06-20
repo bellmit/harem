@@ -581,7 +581,7 @@ public class ApplyApprovalController extends BaseController {
         for (int i = 0; i < array.length; i++) {
             categoryIds[i] = Long.parseLong(array[i]);
         }
-        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(1200, allocationVO.getExamineId(), categoryIds);
+        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(Constant.DOMAIN_JIUXIU, allocationVO.getExamineId(), categoryIds);
         if (!memResultSupport.isSuccess()) {
             bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MERCHANT_BIND_FAILED);
             return bizResultSupport;
