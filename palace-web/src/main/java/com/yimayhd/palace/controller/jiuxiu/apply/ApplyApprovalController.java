@@ -6,6 +6,7 @@ import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.*;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.BusinessScopeQueryDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
@@ -43,6 +44,7 @@ import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.DataCacheService;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.session.manager.SessionManager;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -115,9 +117,17 @@ public class ApplyApprovalController extends BaseController {
     }
 
     @RequestMapping(value = "detail")
-    public String getMerchantDetail(Model model, long id) {
+    public String getMerchantDetail(Model model, long id ,String sellerId) {
         try {
-            MemResult<ExamineInfoDTO> result = examineDealServiceRef.queryMerchantExamineInfoById(id);
+        	MemResult<ExamineInfoDTO> result = null;
+        	if(id !=0){
+        		result = examineDealServiceRef.queryMerchantExamineInfoById(id);
+        	}else if(!StringUtils.isEmpty(sellerId)){
+        		InfoQueryDTO info = new InfoQueryDTO();
+        		info.setDomainId(Constant.DOMAIN_JIUXIU);
+        		info.setSellerId(Long.parseLong(sellerId));
+        		result = examineDealServiceRef.queryMerchantExamineInfoBySellerId(info);
+        	}
             if (result.isSuccess() && null != result.getValue()) {
 
                 model.addAttribute("examineInfo", result.getValue());

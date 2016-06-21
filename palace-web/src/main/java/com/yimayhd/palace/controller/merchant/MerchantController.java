@@ -360,7 +360,7 @@ public class MerchantController extends BaseController {
 			return "/system/merchant/merchantDetail";
 		}else if(MerchantOption.TALENT.getOption()==option){
 			BizResult<List<CertificatesDO>> serviceTypes = merchantBiz.getServiceTypes();
-			if(serviceTypes.isSuccess() && serviceTypes.getValue().size()>0){
+			if(null!=serviceTypes && serviceTypes.isSuccess() && serviceTypes.getValue().size()>0){
 				model.addAttribute("serviceTypes", serviceTypes);
 			}
 			
@@ -383,7 +383,7 @@ public class MerchantController extends BaseController {
 				}
 				model.addAttribute("talentInfo", talentInfoDTO);
 			}
-				
+			model.addAttribute("sellerId", id);
 			return "/system/merchant/talentDetail";
 		}else{
 			return null;

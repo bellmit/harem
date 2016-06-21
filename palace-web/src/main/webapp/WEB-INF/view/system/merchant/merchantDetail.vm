@@ -36,7 +36,7 @@
 			</ul>
 		</div>
 		<div class = "btnInfo">
-			<button class="btn btn-primary" type="button" id="$!result.id">查看审核信息</button>
+			<button class="btn btn-primary detail" type="button" sellerId="$!result.sellerId">查看审核信息</button>
 		</div>
 	</div>
 <!--[if lt IE 9]>
@@ -52,4 +52,12 @@
 <!-- 尾部结束 -->
 #parse("/system/layout/layout-jiuxiu-js.vm")
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.mandandetail.js?t="${date}></script>
+<script type="text/javascript" >
+	$(function(){
+		$(".detail").click(function(){
+            var sellerId = $(this).attr("sellerId");
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/apply/detail?sellerId="+sellerId+"&id=0", 2, "商家详情");
+		});
+	});
+</script>
 	
