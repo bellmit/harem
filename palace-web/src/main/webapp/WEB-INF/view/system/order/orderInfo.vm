@@ -200,7 +200,7 @@
      <div class="buyerInfo">
      	<div class="lType">备注</div>
         <div>买家备注：#if("$!order.otherInfo" == "") 无 #else $!order.otherInfo  #end</div>
-        <div>卖家备注：#if("$!sellerMsg" == "") 无 #else $!sellerMsg  #end</div>
+        <div>卖家备注：#if("$!order.sellerMemo" == "") 无 #else $!order.sellerMemo  #end</div>
     </div>
     <br><br>
     <!-- 买家信息 -->
@@ -240,7 +240,7 @@
                 <td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.payTime)})}</td>
                 <td>付款方式：</td>
                 <td>
-	                #if("$!order.payChannel" == "0") 支付宝条码  
+	                #if("$!order.payChannel" == "1") 支付宝条码  
 	                #elseif("$!order.payChannel" == "2") 支付宝网页 
 	                #elseif("$!order.payChannel" == "3") 支付宝手机 
 	                #elseif("$!order.payChannel" == "4") 微信支付
@@ -279,7 +279,13 @@
                 #foreach($tourist in $order.touristList)
                 <tr>
                     <td>$velocityCount</td>
-                    <td>$!tourist.contactName</td>
+                    <td>
+                    	#if($order.bizOrder.orderType == 3500 || $order.bizOrder.orderType == 3600)
+                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
+                    	#else
+                    		$!tourist.contactName
+                    	#end
+                    </td>
                     <td>$!tourist.contactPhone</td>
                     <td>
                     	#if($!tourist.certificatesType == 1 )
