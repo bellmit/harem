@@ -125,7 +125,7 @@
         function checkLengthGT(str,length){
             if(parseInt(str.length)>parseInt(length)){
 				return true;
-			}else if(parseInt(str.length)<=5){
+			}else if(parseInt(str.length)<=10){
                 return true;
 			}else{
 				return false;
