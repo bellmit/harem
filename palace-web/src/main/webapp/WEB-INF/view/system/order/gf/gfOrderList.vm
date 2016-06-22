@@ -89,7 +89,11 @@
 								<td rowspan="$size">￥$!utilNum.moneyTransform($!bizOrder.actualTotalFee)</td>
 	                            <td rowspan="$size">
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
-		                           #* #if($order.orderShowState == 2)
+                                    <br>
+									#if(2==$!order.orderShowState)
+                                        <button type="button" class="btn btn-primary addRefund sendGoods" queryOrderState="$!orderListQuery.orderStat" orderId="$!bizOrder.bizOrderId">手动发货</button>
+									#end
+								#* #if($order.orderShowState == 2)
 		                            #elseif($order.orderShowState == 3)
 		                                <button type="button" class="btn btn-primary finish"
 		                                        data-target="#finishModal" orderId="$!bizOrder.bizOrderId">完成
@@ -111,3 +115,82 @@
     </div>
 
 </div>
+
+	<script>
+
+		function check(str){
+            return /^[\da-z]+$/i.test(str);
+        }
+
+        function checkLengthGT(str,length){
+            if(parseInt(str.length)>parseInt(length)){
+				return true;
+			}else if(parseInt(str.length)<=5){
+                return true;
+			}else{
+				return false;
+			}
+        }
+
+		$(function () {
+			$(".sendGoods").click(function(){
+				var bizOrderId = $(this).attr("orderId");
+                var queryOrderState =$(this).attr("queryOrderState");
+                layer.open({
+                    type: 2,
+                    btn: ['提交', '取消'],
+                    title: '<label style="color:red;">仅针对无法返回订单状态及物流信息的订单使用，提交后不可更改，请谨慎操作！</label>',
+                    fix: false,
+                    shadeClose: true,
+                    maxmin: true,
+                    area: ['800px', '200px'],
+                    content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfSendGoods?bizOrderId='+bizOrderId,
+                    yes: function(index){
+                        console.log(frames == window);
+						var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
+
+                        var bizOrderId = dilog_iframe.find("#bizOrderId").val();
+                        var wlgs= dilog_iframe.find("#choosewlId option:selected").val();
+                        var wldh = dilog_iframe.find("#wldhId").val();
+                        console.log(bizOrderId);
+                        console.log(wlgs);
+                        console.log(wldh);
+
+						if("" == wlgs || null == wlgs || 0==wlgs){
+                            layer.alert("请选择物流公司");
+                            return ;
+                        }else if(""==wldh||null == wldh ){
+                            layer.alert("请选择物流单号");
+                            return ;
+                        }else if(!check(wldh)){
+                            layer.alert("物流单号由10-20位字母或数字组成");
+                            return ;
+						}else if(checkLengthGT(wldh,20)){
+                            layer.alert("物流单号由10-20位字母或数字组成");
+                            return ;
+						}
+						else{
+                            console.log(bizOrderId);
+                            console.log(wlgs);
+                            console.log(wldh);
+
+                            $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/gfSendGoods/',
+									{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+                                if(data.status == 200){
+                                    layer.alert("操作成功");
+                                }else{
+                                    layer.alert("操作失败");
+                                }
+								setTimeout(function(){
+									var url =  "$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList?orderStat="+queryOrderState;
+									window.location.href =url;
+								},2000);
+
+                            })
+
+                        }
+                    }
+                });
+			});
+		});
+	</script>
