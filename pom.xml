@@ -19,7 +19,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<palace.version>1.0.1-SNAPSHOT</palace.version>
-		<itemcenter.client.version>1.0.8-SNAPSHOT</itemcenter.client.version>
+		<itemcenter.client.version>1.0.10-SNAPSHOT</itemcenter.client.version>
 
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.7.0-SNAPSHOT</session.manager.version>
@@ -38,7 +38,7 @@
 		<logback.version>1.1.1</logback.version>
 		<commons.io.version>2.4</commons.io.version>
 		<commission.version>3.0-SNAPSHOT</commission.version>
-		<voucher.client.version>0.1.1-SNAPSHOT</voucher.client.version>
+		<voucher.client.version>0.1.2-SNAPSHOT</voucher.client.version>
 		<promotion.client.version>1.0.0-SNAPSHOT</promotion.client.version>
 		<spread.version>1.0.9-SNAPSHOT</spread.version>
 		<tair.version>2.3.4.3</tair.version>

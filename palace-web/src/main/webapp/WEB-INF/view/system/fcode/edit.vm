@@ -1,0 +1,184 @@
+#set($layout = "/system/layout/empty.vm")
+#set($title = "优惠劵")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+
+<div class="dialog">
+    <div class="bgmeng"></div>
+    <div class="dlgcont" style="top: 30%;">
+        <label style="color:red; text-align:center;display:block;" >请再次确认信息是否填写无误！</label>
+        <table>
+            <tr>
+                <td class="tit">活动名称：</td>
+                <td id="title_"></td>
+            </tr>
+            <tr>
+                <td class="tit">制定商品ID：</td>
+                <td id="entityId_"></td>
+            </tr>
+            <tr>
+                <td class="tit">生成方式：</td>
+                <td id="issueType_"></td>
+            </tr>
+            <tr>
+                <td class="tit">生成总量：</td>
+                <td id="totalNum_"></td>
+            </tr>
+            <tr>
+                <td class="tit" colspan="2">
+                    说明：凭F码下单每单只能购买一件商品；参与F码活动的商品，不能使用优惠券或参与全场满减等活动。
+                </td>
+            </tr>
+
+        </table>
+        <div class="boxbtn">
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </div>
+</div>
+
+<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!fCodeDO.id">
+    <div class="tab-content grogInfoWrap"  style="">
+        <div class="tab-pane active" id="grogshopInfo">
+            <div class="createHotrlTable">
+                <table>
+                    <tr>
+                        <td width="120"><span class="spColor">*</span>活动名称:</td>
+                        <td> <input type="text" name="title" class="title" value="$!fCodeDO.title"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品编码:</td>
+                        <td>
+                            <input type="text" name="entityId" class="entityId" value="$!{fCodeDO.itemId}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>生成总量:</td>
+                        <td>
+                            <input type="text" name="totalNum" class="totalNum" value="$!{fCodeDO.totalNum}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            说明：凭F码下单每单只能购买一件商品；参与F码活动的商品，不能使用优惠券或参与全场满减等活动。
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        #if($!edit != 0)
+            <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+        #end
+        <button type="button" class="btn btn-info" id="btnEx">返回</button>
+    </div>
+</form>
+
+
+
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+
+    var getNowFormat = function(){
+        var date = new Date();
+        return date.getFullYear() + '-' + fullStr(date.getMonth() + 1) + '-' + fullStr(date.getDate());
+    }
+    var fullStr  = function(num){
+        if(num >= 10){
+            return num;
+        }
+        return '0' + num;
+    }
+    //验证
+    var validate = function(){
+        if(!/^[\u4E00-\u9FA5\uf900-\ufa2d\w\s]{1,60}$/.test($('.title').val())){
+            return '请输入正确的F码活动标题';
+        }
+        if($('.title').val().length > 60){
+            return '字数不能超过60';
+        }
+        if(!$('.entityId').val() || !/^\+?[1-9][0-9]*$/.test($('.entityId').val())){
+            return '请输入商品ID';
+        }
+        if(!$('.totalNum').val() || !/^\+?[1-9][0-9]*$/.test($('.totalNum').val())){
+            return '请输入F码数量';
+        }
+        if($('.totalNum').val() > 50000 && $('input[name="issueType"]:checked').val()==2){
+            return '预先生成时的F码同一批次发放数量最大不能超过5万个';
+        }
+    }
+
+
+    $('.requirement').on('blur',function(){
+        if(!/^\d{0,4}(\.\d{0,2})?$/.test(this.value)){
+            alert('请输入正确的优惠金额');
+            return false;
+        }
+    });
+    $('.value').on('blur',function(){
+        if(!/^\d{0,4}(\.\d{0,2})?$/.test(this.value)){
+            alert('请输入正确的优惠劵金额');
+            return false;
+        }
+    });
+
+    //保存确认
+    $('#btnSubmit').click(function(){
+        var msg = validate();
+
+        if(msg){
+            layer.msg(msg, {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
+        $("#title_").text($('.title').val());
+        $("#entityId_").text($('.entityId').val());
+        $("#issueType_").text("随机F码");
+        $("#totalNum_").text($('.totalNum').val()+"个");
+
+        $('.dialog').fadeIn();
+    });
+
+    //取消
+    $('#btnEx').click(function(){
+        top.$('#myTabList .active i').trigger('click');
+    });
+
+
+    $('.cancel,.bgmeng').click(function(){$('.dialog').hide();});
+
+    //确认保存
+    $('.ok').click(function(){
+
+        var actionUrl = "";
+        var recommendedId = $('#hotelForm').attr('recommendedId');
+        if(recommendedId){
+            actionUrl = actionDefaultPath + '/GF/fcodeManage/edit/'+recommendedId;
+        }else{
+            actionUrl = actionDefaultPath + '/GF/fcodeManage/add';
+        }
+        $('#hotelForm').attr('action',actionUrl);
+        $('#hotelForm').submit();
+
+        $('.dialog').hide();
+        $('.loading').show();
+
+    });
+
+</script>
