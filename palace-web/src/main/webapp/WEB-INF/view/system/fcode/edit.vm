@@ -167,12 +167,9 @@
     $('.ok').click(function(){
 
         var actionUrl = "";
-        var recommendedId = $('#hotelForm').attr('recommendedId');
-        if(recommendedId){
-            actionUrl = actionDefaultPath + '/GF/fcodeManage/edit/'+recommendedId;
-        }else{
-            actionUrl = actionDefaultPath + '/GF/fcodeManage/add';
-        }
+
+        actionUrl = actionDefaultPath + '/GF/fcodeManage/add';
+
         $('#hotelForm').attr('action',actionUrl);
         $('#hotelForm').submit();
 

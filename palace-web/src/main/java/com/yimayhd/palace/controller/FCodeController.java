@@ -117,7 +117,6 @@ public class FCodeController extends BaseController {
         voucherTemplateVO.setStartTime(new Date());
         voucherTemplateVO.setEndTime(getEndTime());
 
-        voucherTemplateVO.setStatus(VoucherTemplateStatus.INIT.getStatus());
         VcBaseResult<Long> vcBaseResult = voucherTemplateService.add(voucherTemplateVO);
         if(!vcBaseResult.isSuccess()) {
             return "/error";
