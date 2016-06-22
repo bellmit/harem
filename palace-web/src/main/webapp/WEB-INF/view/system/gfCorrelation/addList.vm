@@ -8,7 +8,7 @@
 				<div class = "add-cont2">
 					<ul>
 						<li>&nbsp;</li>
-						<li><font>商品ID：</font>$!masterItem.ID</li>
+						<li><font>商品ID：</font>$!masterItem.id</li>
 						<li><font>商品名称：</font>$!masterItem.title</li>
 						<li><font>商品价格：</font>￥ $utilNum.moneyTransform($!masterItem.price)</li>
 					</ul>
@@ -56,11 +56,12 @@
                 </tr>
                     #foreach($theme in $themeItemList)
                     <tr class="subCheckedTR">
-                        <td>#if($!theme.source == 0)<input class="subChecked"  type="checkbox" value="$!{theme.id}"  >#end$!{theme.id}</td>
+                        <td><input class="subChecked_$!theme.source"  type="checkbox" #if($!theme.source == 1) disabled checked #end value="$!{theme.id}" ></td>
                         
                         <td>
                         	<p><img class="uploadImgFile" src="#if($!theme.smallListPic && $!theme.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!theme.smallListPic) #end"></p>
-	                        $!theme.title
+	                        $!theme.title<br/>
+							商品编码：$!theme.id
                         </td>
                         <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
                     </tr>
@@ -103,14 +104,14 @@
     $(function(){
         //全选
         $('.allChecked').click(function(){
-            $('.subChecked').prop('checked',$(this).prop('checked'));
+            $('.subChecked_0').prop('checked',$(this).prop('checked'));
 			checkedCount();
         });
          //批量
         $('.commodityBatchBtn').click(function(){
         	var count = 0;
         	var arr = new Array();
-            $('.subChecked:checked').each(function(){
+            $('.subChecked_0:checked').each(function(){
     				count++;
                     arr.push($(this).val());
             });
@@ -128,10 +129,12 @@
                       time: 2000
                   })
 			  }else{
+			  	var oldArr = new Array();
         		  $('.recommendChecked').each(function(){
-                        arr.push($(this).val());
+                        oldArr.push($(this).val());
                     });
-	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/correlationManager/batchBindProduct/$!id',{themeIdList:arr},function(data){
+				var submitArr = arr.concat(oldArr);
+	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/correlationManager/batchBindProduct/$!id',{themeIdList:submitArr},function(data){
 	                 if(data&&data.status == 200){
 	                     layer.alert('操作成功', {
 	                         icon: 1,
@@ -154,14 +157,14 @@
             
            
         });
-		 $("table tr td").find(".subChecked").click(function(){
+		 $("table tr td").find(".subChecked_0").click(function(){
 	   		checkedCount();
 	   	 })
        });
 	   
 	   
 	   function checkedCount(){
-	   		var count = $('.subChecked:checked').length;
+	   		var count = $('.subChecked_0:checked').length;
 			count = count + Number($("#count").val());
 			$(".num").text(count);
 	   }

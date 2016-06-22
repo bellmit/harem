@@ -1,7 +1,6 @@
 package com.yimayhd.gf.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,13 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.gf.biz.GFCorrelationBiz;
 import com.yimayhd.gf.model.CorrelationResultVO;
 import com.yimayhd.gf.model.CorrelationVO;
-import com.yimayhd.gf.model.query.GFCategoryVo;
-import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ItemVO;

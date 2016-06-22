@@ -17,29 +17,36 @@
 				<div class = "add-btn"><button type="button" class="btn btn-primary addItemBtn" >添加关联商品</button></div>
 			</div>
 			<p class = "tip">关联推荐商品：<font>（请选择 4 个商品作为推荐商品，此 4 件商品将显示在主商品的单品详情页中。）</font></p>
-            <table class="table table-hover">
-                <tr>
-                    <th>全选 <input class="allChecked" name="allChecked" type="checkbox"></th>
-                    <th>商品名称</th>
-                    <th>创建时间</th>
-                    <th>操作</th>
-                </tr>
-                    #foreach($theme in $themeItemList)
-                    <tr class="subCheckedTR">
-                        <td><input class="subChecked" type="checkbox" value="$!{theme.outId}"></td>
-                        <td>
-                        	<p><img class="uploadImgFile" src="#if($!theme.smallListPic && $!theme.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!theme.smallListPic) #end"></p>
-	                        $!theme.title
-                        </td>
-                        <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
-                        <td><button type="button" class="btn btn-primary delRecommend"  recommendId="$theme.outId">移除 </button> </td>
+			#if($themeItemList)
+                <table class="table table-hover">
+                    <tr>
+                        <th>全选 <input class="allChecked" name="allChecked" type="checkbox"></th>
+                        <th>商品名称</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
                     </tr>
-                    #end
-            </table>
+                        #foreach($theme in $themeItemList)
+                        <tr class="subCheckedTR">
+                            <td><input class="subChecked" type="checkbox" value="$!{theme.outId}"></td>
+                            <td>
+                            	<p><img class="uploadImgFile" src="#if($!theme.smallListPic && $!theme.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!theme.smallListPic) #end"></p>
+    	                        $!theme.title<br>
+								商品编码：$!theme.id
+                            </td>
+                            <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
+                            <td><button type="button" class="btn btn-primary delRecommend"  recommendId="$theme.outId">移除 </button> </td>
+                        </tr>
+                        #end
+                </table>
+			#else
+                <center>此商品还没有添加关联推荐商品</center>
+			#end
         </div>
     </form>
 	<div class="btnBottomMargin addListBtn">
-		<button type="button" class="btn btn-primary commodityBatchBtn">移除选中商品</button>
+		#if($themeItemList)
+			<button type="button" class="btn btn-primary commodityBatchBtn">移除选中商品</button>
+		#end
         <a href="$!utilWebconfig.getActionDefaultFontPath()/GF/commodityManage/list"><button type="button" class="btn btn-primary" >返回</button></a>
     </div>
 <script>
@@ -71,13 +78,13 @@
 		
 		 $('.delRecommend').each(function(){
             $(this).click(function(){
-                $(this).prop('disabled',true);
 				
 				var arr = new Array();
                 arr.push($(this).attr("recommendId"));
         	  var confirmText = "确定移除此推荐商品?";
 	      		
 	      		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
+				$(this).prop('disabled',true);
 	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/correlationManager/batchDelItem',{themeIdList:arr},function(data){
 	                  if(data.status == 200){
                         layer.msg('操作成功', {
@@ -116,6 +123,7 @@
         	  var confirmText = "确定移除选中推荐商品?";
 	      		
 	      		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
+				$(this).prop('disabled',true);
 	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/correlationManager/batchDelItem',{themeIdList:arr},function(data){
 	                 if(data&&data.status == 200){
 	                     layer.alert('操作成功', {
@@ -142,7 +150,7 @@
         });
 		
 		 $(".addItemBtn").click(function(){
-                var url = actionDefaultPath + '/GF/correlationManager/toAddItem/$!{masterItem.id}';
+                var url = actionDefaultPath + '/GF/correlationManager/toAddItem/$!{masterItem.id}?commStatus=2';
                 //TODO
                 //window.openwin(url);
                 top.tabsAdd("",url,2,$(this).text());

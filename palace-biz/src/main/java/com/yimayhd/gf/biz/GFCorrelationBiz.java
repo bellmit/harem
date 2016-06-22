@@ -1,7 +1,10 @@
 package com.yimayhd.gf.biz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -41,6 +44,11 @@ public class GFCorrelationBiz {
 	private GFCorrelationRepo correlationRepo;
 
 	public CorrelationResultVO getItemList(CommodityListQuery commodityListQuery,long id) throws Exception {
+		
+		String log = "UUID="+UUID.randomUUID()+" id="+id;
+		long start = System.currentTimeMillis() ;
+		LOGGER.info(log);
+		
 		ItemQryDTO itemQryDTO = new ItemQryDTO();
         List<Integer> domainList = new ArrayList<Integer>();
         domainList.add(B2CConstant.GF_DOMAIN);
@@ -77,6 +85,10 @@ public class GFCorrelationBiz {
         	LOGGER.error("GFCorrelationBiz.getItemList-ItemQueryService.getItemList error:" + JSON.toJSONString(itemPageResult) + "and parame: " + JSON.toJSONString(itemQryDTO));
             throw new BaseException(itemPageResult.getResultMsg());
         }
+        
+        LOGGER.info(log+"  correlationRepo.getItemList  cost="+(System.currentTimeMillis()-start));
+
+        
         List<ItemDO> itemDOList = itemPageResult.getItemDOList();
         List<ItemVO> itemVOList = new ArrayList<ItemVO>();
         
@@ -87,7 +99,7 @@ public class GFCorrelationBiz {
         correlationQuery.setStatus(StatusType.ON_SHELF.getValue());
         
 		RcResult<RecommendDTO> recommendDTOResult = correlationRepo.getRecommendItem(correlationQuery );
-        
+		LOGGER.info(log+"  correlationRepo.getRecommendItem  cost="+(System.currentTimeMillis()-start));
         if(null == recommendDTOResult || !recommendDTOResult.isSuccess()){
         	LOGGER.error("correlationRepo.getRecommendItem is error:" + JSON.toJSONString(recommendDTOResult) + "and parame: " + JSON.toJSONString(correlationQuery));
             throw new BaseException(recommendDTOResult.getResultMsg());
@@ -113,6 +125,7 @@ public class GFCorrelationBiz {
         		itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
         	}
     	}
+    	LOGGER.info(log+"  foreach  cost="+(System.currentTimeMillis()-start));
         PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
         
         CorrelationResultVO correlationResultVO = new CorrelationResultVO();
@@ -126,7 +139,7 @@ public class GFCorrelationBiz {
 			correlationResultVO.setMasterItemVO(masterItemVO );
         }
         
-        
+        LOGGER.info(log+"  correlationRepo.querySingleItem  cost="+(System.currentTimeMillis()-start));
         
         return correlationResultVO;
 	}
@@ -170,25 +183,32 @@ public class GFCorrelationBiz {
     			LOGGER.error("correlationRepo.getItemList is error:" + JSON.toJSONString(recommendDTOResult) + "and parame: " + JSON.toJSONString(itemQryDTO));
                 throw new BaseException(recommendDTOResult.getResultMsg());
     		}
-    		List<ItemDO> itemDOList = itemListResult.getItemDOList();
     		
-    		if(CollectionUtils.isNotEmpty(itemDOList)){
-    			for (ItemDO itemDO : itemDOList) {
-    				for (RecommendDO recommendItem : recommendList) {
-    					if(Long.valueOf(recommendItem.getRecommendContent()) == itemDO.getId()){
-							itemDO.setOutId(recommendItem.getId());
-							break;
-						}
-					}
-    				itemVOList.add(ItemVO.getItemVO(itemDO, new CategoryVO()));
-    			}
-    		}
+			Map<String, ItemVO> iteVOMap = getItemDOMap(itemListResult.getItemDOList());
+	
+			for (RecommendDO recommendItem : recommendList) {
+				ItemVO itemVO = iteVOMap.get(recommendItem.getRecommendContent());
+				itemVO.setOutId(recommendItem.getId());
+				itemVOList.add(itemVO);
+			}
         }
         
 		
         return itemVOList;
 	}
 	
+
+	private Map<String, ItemVO> getItemDOMap(List<ItemDO> itemDOList) throws Exception {
+		
+		Map<String, ItemVO> map = new HashMap<String, ItemVO>();
+		
+		for (ItemDO itemDO : itemDOList) {
+			
+			map.put(itemDO.getId() + "", ItemVO.getItemVO(itemDO, new CategoryVO()));
+		}
+		
+		return map;
+	}
 
 	private List<Long> getRecommendIds(List<RecommendDO> recommendList) {
 		

@@ -246,7 +246,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>palace-web</finalName>
+		<finalName>palace</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
