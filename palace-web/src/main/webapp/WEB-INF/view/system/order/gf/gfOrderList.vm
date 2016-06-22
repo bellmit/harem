@@ -160,7 +160,7 @@
                             layer.alert("请选择物流公司");
                             return ;
                         }else if(""==wldh||null == wldh ){
-                            layer.alert("请选择物流单号");
+                            layer.alert("请填写物流单号");
                             return ;
                         }else if(!check(wldh)){
                             layer.alert("物流单号由10-20位字母或数字组成");
