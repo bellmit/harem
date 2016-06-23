@@ -91,7 +91,7 @@
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
                                     <br>
 									#if(2==$!order.orderShowState)
-                                        <button type="button" class="btn btn-primary addRefund sendGoods" queryOrderState="$!orderListQuery.orderStat" orderId="$!bizOrder.bizOrderId">手动发货</button>
+                                        <button type="button" class="btn btn-primary addRefund sendGoods1" queryOrderState="$!orderListQuery.orderStat" orderId="$!bizOrder.bizOrderId">手动发货</button>
 									#end
 								#* #if($order.orderShowState == 2)
 		                            #elseif($order.orderShowState == 3)
@@ -131,6 +131,26 @@
 				return false;
 			}
         }
+
+        //简单的发货
+        $(".sendGoods1").click(function(){
+            var queryOrderState =$(this).attr("queryOrderState");
+            $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods',
+                    {'orderId':$(this).attr('orderId')} ,function(data){
+                if(data.status == 200){
+                    var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                    msg.show();
+                }else{
+                    var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                    msg.show();
+                }
+                //TODO暂时先刷新页面
+                setTimeout(function(){
+                    var url =  "$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList?orderStat="+queryOrderState;
+                    window.location.href =url;
+                },2000);
+            })
+        });
 
 		$(function () {
 			$(".sendGoods").click(function(){
