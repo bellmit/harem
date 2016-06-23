@@ -47,18 +47,26 @@
                 <table>
                     <tr>
                         <td width="120"><span class="spColor">*</span>活动名称:</td>
-                        <td> <input type="text" name="title" class="title" value="$!fCodeDO.title"></td>
+                        <td>
+                            <div class="form-control">
+                                <input type="text" name="title" class="title" value="$!fCodeDO.title">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品编码:</td>
                         <td>
-                            <input type="text" name="entityId" class="entityId" value="$!{fCodeDO.itemId}">
+                            <div class="form-control">
+                                <input type="text" name="entityId" class="entityId" value="$!{fCodeDO.itemId}">
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>生成总量:</td>
                         <td>
-                            <input type="text" name="totalNum" class="totalNum" value="$!{fCodeDO.totalNum}">
+                            <div class="form-control">
+                                <input type="text" name="totalNum" class="totalNum" value="$!{fCodeDO.totalNum}">
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -108,8 +116,8 @@
         if(!/^[\u4E00-\u9FA5\uf900-\ufa2d\w\s]{1,60}$/.test($('.title').val())){
             return '请输入正确的F码活动标题';
         }
-        if($('.title').val().length > 60){
-            return '字数不能超过60';
+        if($('.title').val().length > 20){
+            return '字数不能超过20';
         }
         if(!$('.entityId').val() || !/^\+?[1-9][0-9]*$/.test($('.entityId').val())){
             return '请输入商品ID';
@@ -117,7 +125,7 @@
         if(!$('.totalNum').val() || !/^\+?[1-9][0-9]*$/.test($('.totalNum').val())){
             return '请输入F码数量';
         }
-        if($('.totalNum').val() > 50000 && $('input[name="issueType"]:checked').val()==2){
+        if($('.totalNum').val() > 50000){
             return '预先生成时的F码同一批次发放数量最大不能超过5万个';
         }
     }
