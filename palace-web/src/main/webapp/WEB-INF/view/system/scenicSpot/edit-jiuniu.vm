@@ -65,27 +65,35 @@
                         <td><span class="spColor">*</span>所在城市</td>
                         <td>
                             <div class="selectList">
-                                <input type="hidden" id="provinceSelectName" name="scenicVO.locationProvinceName" value="$!{VO.scenicVO.locationProvinceName}">
-                                <select id="provinceId" class="selCity inpControl provinceSelect" name="scenicVO.locationProvinceId" areaType="PROVINCE">
-                                    <option value="0">请选择省份</option>
-	                                #foreach($province in $provinceList)
-	                                    <option #if($province.code ==  $!VO.scenicVO.locationProvinceId) selected #end value="$province.code">$province.name</option>
-	                                #end
-                                </select>
-                                <input type="hidden" id="citySelectName" name="scenicVO.locationCityName" value="$!{VO.scenicVO.locationCityName}">
-                                <select id="cityId" class="selCity inpControl citySelect" name="scenicVO.locationCityId" areaType="CITY">
-                                    <option value="0">请选择城市</option>
-	                                #foreach($city in $cityList)
-	                                    <option #if($city.code == $!VO.scenicVO.locationCityId) selected #end value="$city.code">$city.name</option>
-	                                #end
-                                </select>
-                                <input type="hidden" id="countySelectName" name="scenicVO.locationTownName" value="$!{VO.locationTownName}">
-                                <select id="countyId" class="selCity inpControl countySelect" name="scenicVO.locationTownId" areaType="COUNTY">
-                                    <option value="0">请选择区域</option>
-	                                #foreach($town in $townList)
-	                                    <option #if($town.code == $!VO.scenicVO.locationTownId) selected #end value="$town.code">$town.name</option>
-	                                #end
-                                </select>
+                            	<div style="float:left;">
+	                                <input type="hidden" id="provinceSelectName" name="scenicVO.locationProvinceName" value="$!{VO.scenicVO.locationProvinceName}">
+	                                <select id="provinceId" class="selCity inpControl provinceSelect" name="scenicVO.locationProvinceId" areaType="PROVINCE">
+	                                    <option value="0">请选择省份</option>
+		                                #foreach($province in $provinceList)
+		                                    <option #if($province.code ==  $!VO.scenicVO.locationProvinceId) selected #end value="$province.code">$province.name</option>
+		                                #end
+	                                </select>
+                                </div>
+                                
+                                <div style="float:left;">
+	                                <input type="hidden" id="citySelectName" name="scenicVO.locationCityName" value="$!{VO.scenicVO.locationCityName}">
+	                                <select id="cityId" class="selCity inpControl citySelect" name="scenicVO.locationCityId" areaType="CITY">
+	                                    <option value="0">请选择城市</option>
+		                                #foreach($city in $cityList)
+		                                    <option #if($city.code == $!VO.scenicVO.locationCityId) selected #end value="$city.code">$city.name</option>
+		                                #end
+	                                </select>
+                                </div>
+                                
+                                <div style="float:left;">
+	                                <input type="hidden" id="countySelectName" name="scenicVO.locationTownName" value="$!{VO.locationTownName}">
+	                                <select id="countyId" class="selCity inpControl countySelect" name="scenicVO.locationTownId" areaType="COUNTY">
+	                                    <option value="0">请选择区域</option>
+		                                #foreach($town in $townList)
+		                                    <option #if($town.code == $!VO.scenicVO.locationTownId) selected #end value="$town.code">$town.name</option>
+		                                #end
+	                                </select>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -205,7 +213,7 @@
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>景区开放时间</td>
-                        <td><input type="text" class="inpCtlBlock" name="scenicVO.openTime" placeholder="请输入1-20个字" value="$!{VO.scenicVO.openTime}" maxlength="20" /></td>
+                        <td><input type="text" class="inpCtlBlock" name="scenicVO.openTime" placeholder="请输入1-38个字" value="$!{VO.scenicVO.openTime}" maxlength="38" /></td>
                     </tr>
                     
                     </tbody>
@@ -315,24 +323,18 @@
         	}
         );
 		
-        
         //根据省份选择城市
         $('.provinceSelect').change(function(){
         
-        	//设置省份隐藏域
-			if($('.provinceSelect option:selected')){
-                $('#provinceSelectName').val($('.provinceSelect option:selected').text());
-            }
-			
 			//清空所有子元素
 			if (parseInt($("#cityId").children().length) > 0) {
 				$("#cityId").empty();
-				$("#cityId").append('<option value="">请选择城市</option>');
+				$("#cityId").append('<option value="0">请选择城市</option>');
 			}
             //清空所有子元素
 			if (parseInt($("#countyId").children().length) > 0) {
 				$("#countyId").empty();
-				$("#countyId").append('<option value="">请选择城市</option>');
+				$("#countyId").append('<option value="0">请选择城市</option>');
 			}
 			
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
@@ -363,15 +365,10 @@
 		//根据城市选择区域
         $('.citySelect').change(function(){
         
-        	//设置城市隐藏域
-            if($('.citySelect option:selected')){
-                $('#citySelectName').val($('.citySelect option:selected').text());
-            }
-            
             //清空所有子元素
 			if (parseInt($("#countyId").children().length) > 1) {
 				$("#countyId").empty();
-				$("#countyId").append('<option value="">请选择城市</option>');
+				$("#countyId").append('<option value="0">请选择城市</option>');
 			}
 			
 			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
@@ -397,13 +394,6 @@
                 }
 			);
         });
-        
-        //设置区的隐藏域
-        $('.countySelect').change(function(){
-			if($('.countySelect option:selected')){
-                $('#countySelectName').val($('.countySelect option:selected').text());
-            }		
-        });	
     }
     
     function uploadLogo(tfsPath){
@@ -460,15 +450,6 @@
                 'scenicVO.name': {
                     required: true
                 },
-                'scenicVO.locationProvinceId': {
-                    required: true
-                },
-                'scenicVO.locationCityId': {
-                    required: true
-                },
-                'scenicVO.locationTownId': {
-                    required: true
-                },
                 'scenicVO.locationText': {
                     required: true
                 },
@@ -499,6 +480,11 @@
                 }
             },
             submitHandler: function (form) {
+            	
+            	//设置省、市、区 名称
+            	$("#provinceSelectName").val($("#provinceId option:selected").text());
+            	$("#citySelectName").val($("#cityId option:selected").text());
+            	$("#countySelectName").val($("#countyId option:selected").text());
             	
             	//景区票型
             	var tickets = $(".ticketTypeList").find("span");
@@ -571,6 +557,27 @@
                 return false;
             }
         });
+        
+        $.validator.addMethod("provinceSelect",function(value,element){
+        	if(value == 0){
+        		return false;
+        	}
+        	return true;
+        }, "必须选择");
+        
+        $.validator.addMethod("citySelect",function(value,element){
+        	if(value == 0){
+        		return false;
+        	}
+        	return true;
+        }, "必须选择");
+        
+        $.validator.addMethod("countySelect",function(value,element){
+        	if(value == 0){
+        		return false;
+        	}
+        	return true;
+        }, "必须选择");
         
         $.validator.addMethod("scenicName",function(value,element){
         	if(!value.trim()){
