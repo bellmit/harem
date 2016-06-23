@@ -118,6 +118,7 @@ public class MerchantController extends BaseController {
 					result.setMsg(saveResult.getMsg());
 					result.setSuccess(false);
 				}
+			log.error("saveResult:{}",JSON.toJSONString(saveResult));
 			
 		}else {
 			vo.setId(id);
@@ -134,6 +135,7 @@ public class MerchantController extends BaseController {
 				result.setMsg(saveResult.getMsg());
 				result.setSuccess(false);
 			}
+			log.error("saveResult:{}",JSON.toJSONString(saveResult));
 		}
 		
 		return result;

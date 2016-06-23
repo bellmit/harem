@@ -70,6 +70,7 @@ public class MerchantRepo {
 				resultSupport.setSuccess(false);
 				
 			}
+			log.error("result is ===============",JSON.toJSONString(saveMerchantResult));
 		} catch (Exception e) {
 			log.error("add merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception:{} "+e);
 			resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
@@ -98,6 +99,7 @@ public class MerchantRepo {
 				resultSupport.setMsg(updateMerchantResult.getErrorMsg());
 				resultSupport.setSuccess(false);
 			}
+			log.error("result is ===============",JSON.toJSONString(updateMerchantResult));
 		} catch (Exception e) {
 			log.error("update merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception is "+e);
 			resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
