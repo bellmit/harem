@@ -31,6 +31,7 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.jiuxiu.helper.JiuxiuHelper;
 import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
@@ -105,34 +106,33 @@ public class MerchantController extends BaseController {
 			
 			saveResult = merchantBiz.addDeliciousFood(vo);
 				if (saveResult == null) {
-					result.init(false, -1,
-							 "保存失败");
+					result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
 					return result;
 				}
 				if (saveResult.isSuccess()) {
 					result.initSuccess(saveResult.getMsg());
 					result.setValue("/jiuxiu/merchant/toMerchantList");
 				} else {
-					String errorMsg = saveResult.getPalaceReturnCode() == null ? null
-							: saveResult.getPalaceReturnCode().getErrorMsg();
-					result.init(false, -1,
-							StringUtils.isBlank(errorMsg) ? "保存失败" : errorMsg);
+					
+					result.setCode(saveResult.getCode());
+					result.setMsg(saveResult.getMsg());
+					result.setSuccess(false);
 				}
 			
 		}else {
 			vo.setId(id);
 			saveResult = merchantBiz.updateDeliciousFood(vo);
 			if (saveResult == null) {
-				result.init(false, -1,
-						 "保存失败");
+				result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
 				return result;
 			}
 			if (saveResult.isSuccess()) {
 				result.initSuccess(saveResult.getMsg());
 				result.setValue("/jiuxiu/merchant/toMerchantList");
 			}else {
-				String errorMsg = saveResult.getPalaceReturnCode() == null?null:saveResult.getPalaceReturnCode().getErrorMsg();
-				result.init(false, -1, StringUtils.isBlank(errorMsg)?"保存失败":errorMsg);
+				result.setCode(saveResult.getCode());
+				result.setMsg(saveResult.getMsg());
+				result.setSuccess(false);
 			}
 		}
 		
@@ -143,7 +143,7 @@ public class MerchantController extends BaseController {
 	public String toEditDeliciousFood(Model model,HttpServletRequest request,Long id) {
 		model.addAttribute("cities", getMerchantRegions());
 		if (id == null || id <= 0 ) {
-			
+			log.error("params error:id={}",id);
 			return "system/food/addfoodcustom";
 		}
 		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
@@ -164,7 +164,6 @@ public class MerchantController extends BaseController {
 			
 		}
 
-		model.addAttribute("numberHelper",new NumberFormatHelper() );
 		return "system/food/addfoodcustom";
 		
 	}
@@ -173,7 +172,7 @@ public class MerchantController extends BaseController {
 		model.addAttribute("dmid", getRemoteHost(request));
 		model.addAttribute("cities", getMerchantRegions());
 		if (id == null || id <= 0 ) {
-			
+			log.error("params error:id={}",id);
 			return "/system/food/foodcustomdt";
 		}
 		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
@@ -189,7 +188,6 @@ public class MerchantController extends BaseController {
 			
 			
 		}
-		model.addAttribute("numberHelper",new NumberFormatHelper() );
 		
 		return "/system/food/foodcustomdt";
 		
@@ -208,7 +206,7 @@ public class MerchantController extends BaseController {
 		try {
 			model.addAttribute("cities", getMerchantRegions());
 		} catch (Exception e) {
-			log.error("get merchant list error, ",e);
+			log.error("get merchant list error:{}, ",e);
 		}
 		return "system/food/busineslist";
 		
@@ -229,9 +227,8 @@ public class MerchantController extends BaseController {
 			BasePageResult<MerchantUserDTO> merchantUserList = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
 			if (merchantUserList == null || !merchantUserList.isSuccess() || merchantUserList.getList() == null) {
 				
-				return null;
+				return "/error";
 			}
-			//System.out.println(JSON.toJSONString(merchantUserList.getList(), SerializerFeature.WriteNullStringAsEmpty));
 			List<MerchantVO> merchantList = new ArrayList<>();
 			for (MerchantUserDTO merchant : merchantUserList.getList()) {
 				MerchantVO vo = new MerchantVO();
@@ -257,27 +254,32 @@ public class MerchantController extends BaseController {
 			model.addAttribute("pageNo", merchantUserList.getPageNo());
 			model.addAttribute("totalCount", merchantUserList.getTotalCount());
 		} catch (Exception e) {
-			log.error("get merchant list error, ",e);
+			log.error("params:MerchantPageQuery={}  error:{}, ",JSON.toJSONString(merchantPageQuery),e);
 		}
 		return "/system/food/businesTable";
 	}
 	@RequestMapping(value="updateStatus",method=RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> updateStatus(String ids,Integer status) {
-		if (ids == null || status == null) {
-			log.error("params error and params is "+ids);
-			throw new BaseException("参数错误");
-		}
 		BizResult<String> bizResult = new BizResult<String>();
+		if (ids == null || status == null) {
+			log.error("params error :ids={} status={} ",ids,status);
+			bizResult.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return bizResult;
+		}
 		String[] idArr = ids.split(",");
 		List<Long> idList = new ArrayList<>();
 		for (String s : idArr) {
 			idList.add(Long.parseLong(s));
 		}
 		BizResultSupport resultSupport = merchantBiz.batchUpdateMerchant(idList, status);
-		if (resultSupport == null || !resultSupport.isSuccess()) {
-			String msg = resultSupport == null?"操作失败":resultSupport.getMsg();
-			bizResult.init(false, -1, msg);
+		if (resultSupport == null ) {
+			bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+			
+		}else if (!resultSupport.isSuccess()) {
+			bizResult.setCode(resultSupport.getCode());
+			bizResult.setMsg(resultSupport.getMsg());
+			bizResult.setSuccess(false);
 		}
 		return bizResult;
 		
