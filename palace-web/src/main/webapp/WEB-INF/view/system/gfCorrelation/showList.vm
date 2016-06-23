@@ -22,7 +22,7 @@
                     <tr>
                         <th>全选 <input class="allChecked" name="allChecked" type="checkbox"></th>
                         <th>商品名称</th>
-                        <th>创建时间</th>
+                        <th>商品状态</th>
                         <th>操作</th>
                     </tr>
                         #foreach($theme in $themeItemList)
@@ -33,7 +33,7 @@
     	                        $!theme.title<br>
 								商品编码：$!theme.id
                             </td>
-                            <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
+                            <td>#COMMODITY_STATUS($!theme.status) </td>
                             <td><button type="button" class="btn btn-primary delRecommend"  recommendId="$theme.outId">移除 </button> </td>
                         </tr>
                         #end
