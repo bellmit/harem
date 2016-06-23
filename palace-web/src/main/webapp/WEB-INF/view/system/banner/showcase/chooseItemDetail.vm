@@ -25,4 +25,7 @@
                 $("#itemName").val(query);
                 showData(pageVo.itemList);
             });
+    $(".search").click(function() {
+        pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
+    });
 </script>

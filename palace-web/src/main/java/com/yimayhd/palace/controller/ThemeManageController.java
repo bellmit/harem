@@ -171,24 +171,33 @@ public class ThemeManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(ThemeVo themeVo){
+	@ResponseBody
+	public ResponseVo add(ThemeVo themeVo) {
+		ResponseVo response = new ResponseVo();
 		try {
 			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
 			tagNameTypeDTO.setDomain(themeVo.getDomain());
 			tagNameTypeDTO.setName(themeVo.getName());
 			tagNameTypeDTO.setOutType("LIVESUPTAG");
 			ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
-			if( comTagDO != null ){
-				return "/error";
+			if (comTagDO != null) {
+				//return "/error";
+				response.setMessage("数据重复！");
+				response.setStatus(ResponseStatus.ERROR.VALUE);
+				return response;
 			}
 			ThemeVo dbThemeVo = themeService.saveOrUpdate(themeVo);
-			if(null != dbThemeVo){
-				return "/success";
+			if (null != dbThemeVo) {
+				//return "/success";
+				response.setMessage("添加成功！");
+				response.setStatus(ResponseStatus.SUCCESS.VALUE);
+				return response;
 			}
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
+			return ResponseVo.error(e);
 		}
-			return "/error";
+		return response;
 	}
 	
 	@RequestMapping(value = "/checkTagName", method = RequestMethod.POST)
