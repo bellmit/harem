@@ -198,9 +198,10 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	
 	@Override
 	public ICResult<HotelVO> addHotelV2(HotelVO hotelVO)throws Exception{
-
-		ICResult<HotelVO> result = new ICResult<HotelVO>();
-
+		
+		//判断酒店是否存在
+		this.judgeExist(hotelVO);
+		
 		HotelDO hotelDO = HotelVO.getHotelDOV2(hotelVO);
 		ICResult<HotelDO> icResult = hotelServiceRef.addHotel(hotelDO);
 		if(icResult == null){
@@ -239,6 +240,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			}
 		}
 		
+		ICResult<HotelVO> result = new ICResult<HotelVO>();
 		result.setModule(HotelVO.getHotelVO(icResult.getModule()));
 		return result;
 	}
@@ -350,6 +352,10 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	
 	@Override
 	public ICResult<Boolean> updateHotelV2(HotelVO hotelVO)throws Exception {
+		
+		//判断酒店是否存在
+		this.judgeExist(hotelVO);
+		
 		//获取酒店资源
 		ICResult<HotelDO> icResultDB = itemQueryServiceRef.getHotel(hotelVO.getId());
 		if(icResultDB == null){
@@ -693,4 +699,40 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		pictureTextRepo.editPictureText(comentEditDTO);
 	}
 	
+	public void judgeExist(HotelVO hotelVO) throws Exception{
+		
+		if(hotelVO == null){
+			return;
+		}
+		
+		HotelListQuery query = new HotelListQuery();
+		query.setDomain(Constant.DOMAIN_JIUXIU);
+		query.setName(hotelVO.getName());
+		PageVO<HotelDO> pageVo = this.pageQueryHotel(query);
+		if(pageVo == null){
+			return;
+		}
+		
+		List<HotelDO> list = pageVo.getItemList();
+		if(list == null || list.size() == 0){
+			return;
+		}
+		
+		String hotelName = hotelVO.getName();
+		if(StringUtils.isBlank(hotelName)){
+			return;
+		}
+		
+		HotelDO hotelDO = null;
+		for(int i = 0; i < list.size(); i++){
+			hotelDO = list.get(i);
+			if(!hotelName.equals(hotelDO.getName())){
+				continue;
+			}
+			
+			if(hotelVO.getId() != hotelDO.getId()){
+				throw new BaseException("该酒店已存在，不需要重复录入！");
+			}
+		}
+	}
 }

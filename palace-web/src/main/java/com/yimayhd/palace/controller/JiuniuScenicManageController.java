@@ -163,6 +163,7 @@ public class JiuniuScenicManageController extends BaseController {
 	
 	public ResponseVo save(ScenicAddVO scenicAddVO) throws Exception {
 		try {
+			
 			ICResult<ScenicDO> result = scenicSpotService.save(scenicAddVO);
 			return  ResponseVo.success(result.getModule());
 		} catch (Exception e) {
