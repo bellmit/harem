@@ -24,6 +24,7 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ThemeVo;
 import com.yimayhd.palace.model.query.ThemeVoQuery;
 import com.yimayhd.palace.service.ThemeService;
+import com.yimayhd.commentcenter.client.enums.TagType;
 
 /** 
 * @ClassName: ThemeManageController 
@@ -54,6 +55,9 @@ public class ThemeManageController extends BaseController {
 	public String list(Model model, ThemeVoQuery query){
 		try {
 			PageVO<ComTagDO> pageVo = themeService.getPageTheme(query);
+			TagType[] tagTypeList = TagType.values();
+			put("tagTypeList", tagTypeList);
+	        model.addAttribute("themeVoQuery", query);
 			model.addAttribute("themeList", pageVo.getItemList());
 			model.addAttribute("pageVo", pageVo);
 			return "/system/theme/list";
