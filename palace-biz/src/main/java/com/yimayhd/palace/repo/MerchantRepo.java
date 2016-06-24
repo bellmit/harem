@@ -42,14 +42,14 @@ public class MerchantRepo {
 	private UserService userServiceRef;
 	@Autowired
 	private TalentInfoDealService talentInfoDealService;
-	
 	public BizResultSupport addDeliciousFood(MerchantVO vo) {
-		if (vo == null) {
-			return null;
-		}
 		BizResultSupport resultSupport = new BizResultSupport();
+		if (vo == null) {
+			log.error("params is "+JSON.toJSONString(vo));
+			resultSupport.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return resultSupport;
+		}
 		try {
-			log.error("params is "+vo);
 			RegisterDTO registerDTO = new RegisterDTO();
 			registerDTO.setRegisterType(RegisterType.NO_ACCOUNT);
 			registerDTO.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -59,24 +59,21 @@ public class MerchantRepo {
 				throw new BaseException("生产注册美食商家id失败");
 			}
 			BaseResult<MerchantDO> saveMerchantResult = userMerchantServiceRef.saveMerchant(vo.getMerchantDO(vo,registerWithoutAccount.getValue().getId()));
-			log.error("error is "+saveMerchantResult);
 			if (saveMerchantResult == null) {
-				resultSupport.init(false, -1, "保存失败");
+				resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
 				return resultSupport;
 			}
-			log.error("info is "+saveMerchantResult.getErrorMsg()+saveMerchantResult.getErrorCode()+saveMerchantResult.isSuccess());
-			log.error("info is "+resultSupport);
 			if (!saveMerchantResult.isSuccess()) {
-				log.error("info is "+saveMerchantResult.getErrorMsg()+saveMerchantResult.getErrorCode()+saveMerchantResult.isSuccess());
-				log.error("info is "+resultSupport);
-				resultSupport.init(false, saveMerchantResult.getErrorCode(), saveMerchantResult.getErrorMsg());
-				//resultSupport.setPalaceReturnCode(PalaceReturnCode.ADD_MERCHANT_ERROR);
+				log.error("result:{} "+JSON.toJSONString(saveMerchantResult));
+				resultSupport.setCode(saveMerchantResult.getErrorCode());
+				resultSupport.setMsg(saveMerchantResult.getErrorMsg());
+				resultSupport.setSuccess(false);
+				
 			}
-			log.error("info is "+resultSupport);
-			//return resultSupport;
+			log.error("result is ===============",JSON.toJSONString(saveMerchantResult));
 		} catch (Exception e) {
-			log.error("add merchant of food error and params:"+JSON.toJSONString(vo)+"and exception is "+e);
-			resultSupport.setPalaceReturnCode(PalaceReturnCode.ADD_MERCHANT_ERROR);
+			log.error("add merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception:{} "+e);
+			resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
 			
 		}
 		return resultSupport;
@@ -84,32 +81,27 @@ public class MerchantRepo {
 		
 	}
 	public BizResultSupport updateDeliciousFood(MerchantVO vo) {
-		if (vo == null) {
-			return null;
-		}
 		BizResultSupport resultSupport = new BizResultSupport();
+		if (vo == null) {
+			log.error("params is "+JSON.toJSONString(vo));
+			resultSupport.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return resultSupport;
+		}
 		try {
-			//MerchantDTO dto = new MerchantDTO();
-			//dto.sets
-			log.error("params is "+vo);
 			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(vo.getMerchantDTO(vo));
-			log.error("error is "+updateMerchantResult);
 			if (updateMerchantResult == null) {
-				resultSupport.init(false, -1, "保存失败");
+				resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
 				return resultSupport;
 			}
-			log.error("info is "+updateMerchantResult.getErrorMsg()+updateMerchantResult.getErrorCode()+updateMerchantResult.isSuccess());
-			log.error("info is "+resultSupport);
 			if (!updateMerchantResult.isSuccess()) {
-				log.error("info is "+updateMerchantResult.getErrorMsg()+updateMerchantResult.getErrorCode()+updateMerchantResult.isSuccess());
-				log.error("info is "+resultSupport);
-				//resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
-				resultSupport.init(false, updateMerchantResult.getErrorCode(), updateMerchantResult.getErrorMsg());
+				log.error("result :{} "+JSON.toJSONString(updateMerchantResult));
+				resultSupport.setCode(updateMerchantResult.getErrorCode());
+				resultSupport.setMsg(updateMerchantResult.getErrorMsg());
+				resultSupport.setSuccess(false);
 			}
-			log.error("info is "+resultSupport);
-			//return resultSupport;
+			log.error("result is ===============",JSON.toJSONString(updateMerchantResult));
 		} catch (Exception e) {
-			log.error("update merchant of food error and params:"+JSON.toJSONString(vo)+"and exception is "+e.getMessage());
+			log.error("update merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception is "+e);
 			resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
 			
 		}
@@ -117,20 +109,28 @@ public class MerchantRepo {
 		
 	}
 	public BizResultSupport batchUpdateMerchant(List<Long> idList,int status) {
-		if (idList == null || status <= 0) {
-			return null;
-		}
 		BizResultSupport bizSupport = new BizResultSupport();
+		if (idList == null || status <= 0) {
+			log.error("params is:idList={} status= "+JSON.toJSONString(idList),status);
+			bizSupport.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return bizSupport;
+		}
 		try {
 			BaseResult<Boolean> updateResult = userMerchantServiceRef.updateMerchantListStatus(idList, status);
-			if (!updateResult.isSuccess()) {
-				bizSupport.init(false, updateResult.getErrorCode(), updateResult.getErrorMsg());
+			if (updateResult == null || !updateResult.isSuccess()) {
+				bizSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+				return bizSupport;
+			}else if (!updateResult.isSuccess()) {
+				bizSupport.setCode(updateResult.getErrorCode());
+				bizSupport.setMsg(updateResult.getErrorMsg());
+				bizSupport.setSuccess(false);
 			}
-			return bizSupport;
 		} catch (Exception e) {
-			log.error("batch update merchant of food  error and params:"+JSON.toJSONString(idList)+"and status ="+status);
-			return null;
+			log.error("batch update merchant of food  error and params:idList={}"+JSON.toJSONString(idList)+"and status ="+status);
+			bizSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
 		}
+		return bizSupport;
+		
 	}
 	
 	public BaseResult<MerchantDO> getMerchantBySellerId(long userId) {

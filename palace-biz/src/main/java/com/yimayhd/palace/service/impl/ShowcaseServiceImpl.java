@@ -451,7 +451,13 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 LOGGER.error("getAllOperations failed!  result={}",JSON.toJSONString(result));;
                 return null;
             }
-            return result.getT() ;
+            List<OperactionVO> list = result.getT();
+            Collections.sort(list, new Comparator<OperactionVO>() {
+                public int compare(OperactionVO arg0, OperactionVO arg1) {
+                    return arg0.getOperactio().getName().compareTo(arg1.getOperactio().getName());
+                }
+            });
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
