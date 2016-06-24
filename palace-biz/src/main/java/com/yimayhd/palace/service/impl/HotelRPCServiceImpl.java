@@ -718,15 +718,12 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			return;
 		}
 		
-		String hotelName = hotelVO.getName();
-		if(StringUtils.isBlank(hotelName)){
-			return;
-		}
-		
+		String hotelName = hotelVO.getName().trim();
+
 		HotelDO hotelDO = null;
 		for(int i = 0; i < list.size(); i++){
 			hotelDO = list.get(i);
-			if(!hotelName.equals(hotelDO.getName())){
+			if(!hotelName.equals(hotelDO.getName().trim())){
 				continue;
 			}
 			

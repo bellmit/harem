@@ -620,15 +620,12 @@ public class ScenicServiceImpl implements ScenicService {
 			return;
 		}
 		
-		String scenicName = scenicVO.getName();
-		if(StringUtils.isBlank(scenicName)){
-			return;
-		}
+		String scenicName = scenicVO.getName().trim();
 		
 		ScenicDO scenicDO = null;
 		for(int i = 0; i < list.size(); i++){
 			scenicDO = list.get(i);
-			if(!scenicName.equals(scenicDO.getName())){
+			if(!scenicName.equals(scenicDO.getName().trim())){
 				continue;
 			}
 			
