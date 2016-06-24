@@ -19,24 +19,24 @@
                 </tr>
                 <tr>
                     <td class="order-info-label">物流公司名称：</td>
-                    <td class="order-info-value">$!order.mainOrder.logisticsOrderDO.expressCompany</td>
+                    <td class="order-info-value">$!logistics.name</td>
                 </tr>
                 <tr>
                     <td class="order-info-label">运单号：</td>
-                    <td class="order-info-value">$!order.mainOrder.logisticsOrderDO.expressNo</td>
+                    <td class="order-info-value">$!logistics.numbers</td>
                 </tr>
                 <tr>
                     <td class="order-info-label">发货时间：</td>
-                    <td class="order-info-value">$!utilDate.date2String( $!order.mainOrder.logisticsOrderDO.gmtCreated )</td>
+                    <td class="order-info-value">$!utilDate.date2String( $!logistics.gmtCreated )</td>
                 </tr>
-               #* <tr>
+                <tr>
                     <td class="order-info-label">发货状态：</td>
-                    <td class="order-info-value">#LOGISTICS_STATUS($!logistics.logisticsStatus)</td>
+                    <td class="order-info-value">#LOGISTICS_STATUS($!logistics.state)</td>
                 </tr>
                 <tr>
                     <td class="order-info-label">发货备注：</td>
                     <td class="order-info-value">$!order.mainOrder.bueryMemo</td>
-                </tr>*#
+                </tr>
             </table>
 		</div>
         <br><br>
