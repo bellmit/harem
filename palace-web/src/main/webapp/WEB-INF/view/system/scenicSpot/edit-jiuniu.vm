@@ -261,10 +261,7 @@
 		
 		//删除票型
 		$(document).delegate(".delTicketType", 'click', function(){
-			var s = $(this).prev();
-			s.attr("status", "2");
-			$(this).parent().css("display", "none");
-			
+			$(this).parent().remove();
 		});
     }
     
@@ -496,6 +493,8 @@
             		
             		var ticketTypeArr = getTicketTypeArr();
             		$(".ticketListStr").val(JSON.stringify(ticketTypeArr));
+            		
+            		console.log(JSON.stringify(ticketTypeArr));
             	}
             	
             	//景区主题
