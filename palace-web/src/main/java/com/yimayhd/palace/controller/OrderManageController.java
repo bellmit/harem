@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commission.client.enums.Domain;
+import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -11,7 +12,10 @@ import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.service.LogisticsService;
 import com.yimayhd.palace.service.OrderService;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
+import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 订单管理
@@ -39,6 +46,7 @@ public class OrderManageController extends BaseController {
 	private OrderService orderService;
 	@Autowired
 	LogisticsService logisticsService;
+	@Autowired private SessionManager sessionManager;
 
 	/**
 	 * 退款
@@ -333,5 +341,34 @@ public class OrderManageController extends BaseController {
 		return "/system/order/gf/gfOrderInfo";
 	}
 
+	@RequestMapping(value = "/gfSendGoods", method = RequestMethod.GET)
+	public String toGfSendGoods(Model model,long bizOrderId){
+		List<ExpressCodeRelationDO> list = orderService.selectAllExpressCode();//查询物流公司接口
+		model.addAttribute("listExpress",list);
+		model.addAttribute("bizOrderId",bizOrderId);
+		return "/system/order/gf/gfSendGoods";
+	}
+
+	@RequestMapping(value = "/gfSendGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo gfSendGoods(long bizOrderId,String expressCompany,String expressNo){
+		if(0==bizOrderId || StringUtils.isEmpty(expressCompany) || StringUtils.isEmpty(expressNo)){
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
+		}
+		long userId = sessionManager.getUserId();
+		StringBuilder sb = new StringBuilder();
+		sb.append(" time=").append(DateUtil.dateToString(new Date(),DateUtil.DATE_TIME_FORMAT))
+		  .append(" userid=").append(userId)
+		  .append(" bizOrderId=").append(bizOrderId)
+		  .append(" expressCompany=").append(expressCompany)
+		  .append(" expressNo=").append(expressNo);
+		LOG.info(sb.toString());
+		SellerSendGoodsDTO sg = new SellerSendGoodsDTO();
+		sg.setBizOrderId(bizOrderId);
+		sg.setExpressCompany(expressCompany);
+		sg.setExpressNo(expressNo);
+		boolean flag = orderService.sellerSendGoods(sg);
+		return new ResponseVo(flag);
+	}
 
 }

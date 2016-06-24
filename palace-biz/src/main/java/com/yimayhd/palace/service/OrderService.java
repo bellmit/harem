@@ -1,9 +1,13 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
+
+import java.util.List;
 
 /**
  * 订单服务接口
@@ -33,8 +37,14 @@ public interface OrderService {
 
 	boolean sellerSendGoods(long id);
 
+	boolean sellerSendGoods(SellerSendGoodsDTO sellerSendGoodsDTO);
+
+	List<ExpressCodeRelationDO> selectAllExpressCode();
+
 	boolean refundOrder(long id);
 
 	boolean closeOrder(long id);
+
+
 
 }
