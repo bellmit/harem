@@ -1,5 +1,5 @@
 #set($layout = "/system/layout/empty.vm")
-#set($title = "入驻申请-运营后台")
+#set($title = "商家详情")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/mandandetail.css?t="${date}>
