@@ -48,25 +48,19 @@
                     <tr>
                         <td width="120"><span class="spColor">*</span>活动名称:</td>
                         <td>
-                            <div class="form-control">
-                                <input type="text" name="title" class="title" value="$!fCodeDO.title">
-                            </div>
+                            <input type="text" name="title" class="title" value="$!fCodeDO.title">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品编码:</td>
                         <td>
-                            <div class="form-control">
-                                <input type="text" name="entityId" class="entityId" value="$!{fCodeDO.itemId}">
-                            </div>
+                            <input type="text" name="entityId" class="entityId" value="$!{fCodeDO.itemId}">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>生成总量:</td>
                         <td>
-                            <div class="form-control">
-                                <input type="text" name="totalNum" class="totalNum" value="$!{fCodeDO.totalNum}">
-                            </div>
+                            <input type="text" name="totalNum" class="totalNum" value="$!{fCodeDO.totalNum}">
                         </td>
                     </tr>
                     <tr>

@@ -81,8 +81,8 @@
                     <td>$!fCode.title</td>
                     <td>$!fCode.entityId</td>
                     <td>#VOUCHER_TYPE($!fCode.voucherType)</td>
-                    <td>$!fCode.totalNum</td>
-                    <td>$!fCode.sendNum</td>
+                    <td class="formatNum">$!fCode.totalNum</td>
+                    <td class="formatNum">$!fCode.sendNum</td>
                     <td>
                         #if($!fCode.status == "1")
                             待上架
@@ -101,8 +101,11 @@
                     <td>$!utilDate.dateToString($!fCode.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>$!fCode.operator</td>
                     <td>
-                        #if($!fCode.issueType == 2 && $!fCode.status == 2 )
+                        #if($!fCode.status == 2 )
                             <button type="button" class="btn btn-primary themeExport" themeId="$fCode.id">导出</button>
+                        #end
+                        #if($!fCode.status == 6 )
+                            <button type="button" class="btn themeExport" themeId="$fCode.id" disabled>导出</button>
                         #end
                     </td>
                 </tr>
@@ -114,7 +117,17 @@
     #pageStyle("payListForm")
 </form>
 <script>
-
+    Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
+        places = !isNaN(places = Math.abs(places)) ? places : 2;
+        symbol = symbol !== undefined ? symbol : "$";
+        thousand = thousand || ",";
+        decimal = decimal || ".";
+        var number = this,
+                negative = number < 0 ? "-" : "",
+                i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+                j = (j = i.length) > 3 ? j % 3 : 0;
+        return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+    };
     $('.themeStop').click(function(){
         var id=$(this).attr('tripId');
         var status = $(this).attr('joinStatus');
@@ -155,5 +168,9 @@
     $("#clean_btn").click(function(){
         $('#payListForm div:eq(0)').find('input').val("").end().find('select')[0].selectedIndex = 0;
         $('#payListForm div:eq(0)').find('select')[1].selectedIndex = 0;
+    });
+    $(".formatNum").each(function(i, n){
+        var num = new Number($(n).text());
+        $(n).html(num.formatMoney(0, ""));
     });
 </script>
