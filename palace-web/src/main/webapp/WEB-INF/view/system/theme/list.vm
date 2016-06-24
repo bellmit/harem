@@ -30,7 +30,7 @@
             *#
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">状态：</button>
+                    <button class="btn btn-default" type="button">类别：</button>
                 </span>
                 <select class="form-control" name="type">
 					<option value="0" #if(!$themeVoQuery.type) selected #end>全部</option>
