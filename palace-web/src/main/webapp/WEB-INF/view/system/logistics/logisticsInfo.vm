@@ -19,19 +19,34 @@
                 </tr>
                 <tr>
                     <td class="order-info-label">物流公司名称：</td>
-                    <td class="order-info-value">$!logistics.name</td>
+                    #if($!logistics.name)
+                        <td class="order-info-value">$!logistics.name</td>
+                    #else
+                        <td class="order-info-value">$!order.mainOrder.logisticsOrderDO.expressCompany</td>
+                    #end
+
                 </tr>
                 <tr>
                     <td class="order-info-label">运单号：</td>
-                    <td class="order-info-value">$!logistics.numbers</td>
+                    #if($!logistics.numbers)
+                        <td class="order-info-value">$!logistics.numbers</td>
+                    #else
+                        <td class="order-info-value">$!order.mainOrder.logisticsOrderDO.expressNo</td>
+                    #end
+
                 </tr>
                 <tr>
-                    <td class="order-info-label">发货时间：</td>
-                    <td class="order-info-value">$!utilDate.date2String( $!logistics.gmtCreated )</td>
+                    #if($!logistics.gmtCreated)
+                        <td class="order-info-label">发货时间：</td>
+                        <td class="order-info-value">$!utilDate.date2String( $!logistics.gmtCreated )</td>
+                    #end
+
                 </tr>
                 <tr>
-                    <td class="order-info-label">发货状态：</td>
-                    <td class="order-info-value">#LOGISTICS_STATUS($!logistics.state)</td>
+                    #if($!logistics.state)
+                        <td class="order-info-label">发货状态：</td>
+                        <td class="order-info-value">#LOGISTICS_STATUS($!logistics.state)</td>
+                    #end
                 </tr>
                 <tr>
                     <td class="order-info-label">发货备注：</td>
