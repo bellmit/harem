@@ -133,7 +133,7 @@
         }
 
         //简单的发货
-        $(".sendGoods1").click(function(){
+        $(".sendGoods").click(function(){
             var queryOrderState =$(this).attr("queryOrderState");
             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods',
                     {'orderId':$(this).attr('orderId')} ,function(data){
@@ -153,7 +153,7 @@
         });
 
 		$(function () {
-			$(".sendGoods").click(function(){
+			$(".sendGoods1").click(function(){
 				var bizOrderId = $(this).attr("orderId");
                 var queryOrderState =$(this).attr("queryOrderState");
                 layer.open({
