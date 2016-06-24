@@ -43,7 +43,6 @@
 		                  	  待出行；
 		                </span>
 		                <span>
-		                    $!order.deliveryTime
 		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
 		                </span>
 		            #elseif($order.bizOrder.orderStatus == 10)
@@ -85,7 +84,6 @@
 		                  	  待使用；
 		                </span>
 		                <span>
-		                    $!order.deliveryTime
 		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
 		                </span>
 		            #elseif($order.bizOrder.orderStatus == 10)
@@ -127,7 +125,6 @@
 		                  	  预订成功；
 		                </span>
 		                <span>
-		                    $!order.deliveryTime
 		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
 		                </span>
 		            #elseif($order.bizOrder.orderStatus == 10)
@@ -155,14 +152,13 @@
 		                    	待确认；
 		                </span>
 		                <span>
-		                   	 付款时间：#if($!order.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.payTime)#end
+		                   	下单时间：#if($!order.bizOrder.createTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)#end
 		                </span>
 		            #elseif($order.bizOrder.orderStatus == 6)
 		                <span>
 		                  	  预订成功；
 		                </span>
 		                <span>
-		                    $!order.deliveryTime
 		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
 		                </span>
 		             #elseif($order.bizOrder.orderStatus == 11)
@@ -170,7 +166,6 @@
 		                  	  未入住；
 		                </span>
 		                <span>
-		                    $!order.deliveryTime
 		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
 		                </span>
 		            #elseif($order.bizOrder.orderStatus == 10)
