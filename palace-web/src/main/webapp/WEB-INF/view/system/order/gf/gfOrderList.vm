@@ -78,8 +78,8 @@
                             </td>
 	                        #if( $velocityCount == 1 )
 	                        	<td rowspan="$size">
-									#if($order.user.nickname)
-                                        <div class="txt">$!order.user.nickname</div>
+									#if($!order.bizOrderDO.buyerNick)
+                                        <div class="txt">$!order.bizOrderDO.buyerNick</div>
 									#end
 									#if($order.user.mobileNo)
                                         <div class="txt">$!order.user.mobileNo</div>
