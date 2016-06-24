@@ -371,4 +371,22 @@ public class LiveServiceImpl implements LiveService {
 			throw new BaseException(baseResult.getResultMsg());
 		}
 	}
+
+	@Override
+	public void delete(long id) {
+		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		List<Long> subjectList = new ArrayList<Long>();
+		subjectList.add(id);
+		subjectInfoDTO.setSubjectList(subjectList);
+		//subjectInfoDTO.setId(id);
+		subjectInfoDTO.setStatus(BaseStatus.DELETED.getType());
+		com.yimayhd.snscenter.client.result.BaseResult<Boolean> baseResult = snsCenterServiceRef.updateSubjectStatus(subjectInfoDTO);
+		if(null == baseResult){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException("查询返回结果为空");
+		} else if(!baseResult.isSuccess()){
+			log.error("LiveServiceImpl.regain-snsCenterService.updateSubjectStatus error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoDTO) + " and id:" + id);
+			throw new BaseException(baseResult.getResultMsg());
+		}
+	}
 }
