@@ -129,6 +129,8 @@
                                         <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                                     </div>
                                     <div class="t-msg">
+                                    	##orderType来自于OrderBizType枚举
+                                    	
                                     	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200
                                     	 || $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
                                            	<div class="t-name">$!subOrder.itemTitle</div>
@@ -172,25 +174,7 @@
                             
                             <td>
                             	<div class="">
-	                                #if( $!order.jiuxiuTcBizOrder.orderType == 3100)
-	                                    国内跟团游
-	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 3200)
-	                                    国内自由行
-                                     #elseif( $!order.jiuxiuTcBizOrder.orderType == 3500)
-	                                   境外跟团游
-                                     #elseif( $!order.jiuxiuTcBizOrder.orderType == 3600)
-	                                   境外自由行
-	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 3300)
-	                                    同城活动
-	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 200)
-	                                    特产商品
-	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 1200)
-	                                    国内景区门票
-                                    #elseif( $!order.jiuxiuTcBizOrder.orderType == 1100)
-	                                    酒店客栈（在线付）
-                                    #elseif( $!order.jiuxiuTcBizOrder.orderType == 3400)
-	                                    酒店客栈（到店付）
-	                                #end
+                            	 	#ORDER_BIZ_TYPES($!order.jiuxiuTcBizOrder.orderType)
 	                            </div>
                         #end
                         <td>
@@ -215,43 +199,12 @@
                                 #if($!order.jiuxiuTcBizOrder.orderType == 3100 || $!order.jiuxiuTcBizOrder.orderType == 3200  
 	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3300 || $!order.jiuxiuTcBizOrder.orderType == 200 
 	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3500 || $!order.jiuxiuTcBizOrder.orderType == 3600)
-                                	    #if($!order.jiuxiuTcBizOrder.orderStatus == 2)
-                                      		待付款
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 3)
-                                           	 处理中
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 6)
-                                          	  待出行
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 10)
-                                          	  已完成
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 8)
-                                           	 已取消
-                                        #end
+                            	    #ORDER_BIZ_STATUS_LINE($!order.jiuxiuTcBizOrder.orderStatus)
+                                	   
                                 #elseif($!order.jiuxiuTcBizOrder.orderType == 1200)
-                                   		#if($!order.jiuxiuTcBizOrder.orderStatus == 2)
-                                      		待付款
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 3)
-                                           	待确认
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 6)
-                                          	  待使用
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 10)
-                                          	  已完成
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 8)
-                                           	 已取消
-                                        #end
+                                	#ORDER_BIZ_STATUS_SPOTS($!order.jiuxiuTcBizOrder.orderStatus)
                                 #elseif($!order.jiuxiuTcBizOrder.orderType == 1100 || $!order.jiuxiuTcBizOrder.orderType == 3400)
-                                		#if($!order.jiuxiuTcBizOrder.orderStatus == 2)
-                                      		待付款
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 3)
-                                           	待确认
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 6)
-                                          	 预订成功
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 10)
-                                          	  已完成
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 8)
-                                           	 已取消
-                                        #elseif($!order.jiuxiuTcBizOrder.orderStatus == 11)
-                                           	 未入住
-                                        #end
+                                	#ORDER_BIZ_STATUS_HOTEL($!order.jiuxiuTcBizOrder.orderStatus)
                                 #end
                             </div>
                         </td>

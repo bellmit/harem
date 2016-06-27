@@ -10,8 +10,13 @@ import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
+import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
+import com.yimayhd.pay.client.model.param.pay.QuerySingleDTO;
+import com.yimayhd.pay.client.model.result.PayResultDTO;
+import com.yimayhd.pay.client.service.QueryPayOrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
+import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
@@ -56,6 +61,8 @@ public class JiuxiuOrderManageController extends BaseController {
 	private UserService userServiceRef;
 	@Autowired
 	private MerchantService userMerchantServiceRef;
+	@Autowired
+	private QueryPayOrderService queryPayOrderServiceRef;
 
 	
 	/**
@@ -72,6 +79,7 @@ public class JiuxiuOrderManageController extends BaseController {
 			opt.setNeedExtFeature(true);
 			opt.setNeedLogisticsOrder(true);
 			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
+			
 			if(result.isSuccess() && null!=result.getTcMainOrder()){
 				TcMainOrder tcMainOrder = result.getTcMainOrder();
 
@@ -111,6 +119,16 @@ public class JiuxiuOrderManageController extends BaseController {
 				}
 				
 			}
+			
+			//查询支付信息
+			QuerySingleDTO query = new QuerySingleDTO();
+			query.setDomain(Constant.DOMAIN_JIUXIU);
+			query.setBizOrderId(id);
+			PayResultDTO<PayOrderDO> payResult = queryPayOrderServiceRef.querySinglePayOrder(query);
+			if(payResult.isSuccess() && null!=payResult.getModule()){
+				model.addAttribute("tradeNo", payResult.getModule().getTradeNo());
+			}
+			model.addAttribute("OrderBizType", OrderBizType.values());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			e.printStackTrace();
