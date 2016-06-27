@@ -21,6 +21,7 @@ import com.yimayhd.membercenter.enums.CertificateType;
 import com.yimayhd.membercenter.enums.ExamineCharacter;
 import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.biz.ApplyBiz;
 import com.yimayhd.palace.checker.apply.AllocationChecker;
@@ -106,7 +107,7 @@ public class ApplyApprovalController extends BaseController {
         MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(approveVO.getId());
         int type = examineInfoDTOResult.getValue().getType();
         // 如果审核通过并且身份是商户,此处不做任何处理,待商品类目分配完成后集中更新申请状态,新增申请明细,新增商户,新增商户与商品类目关系,发送短信
-        if (approveVO.isPass() && type == 2) {
+        if (approveVO.isPass() && type == MerchantType.MERCHANT.getType()) {
             checkResult = new BizResultSupport();
             return checkResult;
         }
@@ -131,7 +132,7 @@ public class ApplyApprovalController extends BaseController {
             if (result.isSuccess() && null != result.getValue()) {
 
                 model.addAttribute("examineInfo", result.getValue());
-                model.addAttribute("feature", result.getValue().getIsDirectSale() == 1 ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
+                model.addAttribute("feature", result.getValue().getIsDirectSale() == ExamineCharacter.DIRECT_SALE.getType() ? ExamineCharacter.DIRECT_SALE.getName() : ExamineCharacter.BOUTIQUE.getName());
                 model.addAttribute("type", result.getValue().getType());
                 model.addAttribute("status", result.getValue().getExaminStatus());
                 if (!StringUtils.isEmpty(result.getValue().getAccountBankProvinceCode())) {
@@ -194,7 +195,7 @@ public class ApplyApprovalController extends BaseController {
                 }
                 model.addAttribute("pictures", pictures);
 
-                if (result.getValue().getType() == 1) { // 达人
+                if (result.getValue().getType() == MerchantType.TALENT.getType()) { // 达人
                     List<Map<String, Object>> qualificationPictures = new ArrayList<>();
                     Map<String,Object> certificateMap = new HashMap<>();
                     if(!StringUtils.isEmpty(result.getValue().getTouristCard())) {
@@ -367,7 +368,7 @@ public class ApplyApprovalController extends BaseController {
                                 MerchantCategoryDO merchantCategoryDO = merchantCategoryResult.getValue().get(0);
                                 long parentId = merchantCategoryDO.getParentId();
                                 StringBuilder builder;
-                                if (merchantCategoryDO.getType() == 7) { // 旅行社时,前面添加旅游企业
+                                if (merchantCategoryDO.getType() == MerchantType.TRAVEL_AGENCY.getType()) { // 旅行社时,前面添加旅游企业
 
                                     builder = new StringBuilder("旅游企业 : ");
                                 } else {
