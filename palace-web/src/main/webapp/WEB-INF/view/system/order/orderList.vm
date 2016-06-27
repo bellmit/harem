@@ -186,7 +186,7 @@
 	                                    特产商品
 	                                #elseif( $!order.jiuxiuTcBizOrder.orderType == 1200)
 	                                    国内景区门票
-                                    #elseif( $!order.jiuxiuTcBizOrder.orderType == 1200)
+                                    #elseif( $!order.jiuxiuTcBizOrder.orderType == 1100)
 	                                    酒店客栈（在线付）
                                     #elseif( $!order.jiuxiuTcBizOrder.orderType == 3400)
 	                                    酒店客栈（到店付）

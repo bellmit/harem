@@ -166,7 +166,7 @@
 		                  	  未入住；
 		                </span>
 		                <span>
-		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
 		                </span>
 		            #elseif($order.bizOrder.orderStatus == 10)
 		                <span>

@@ -70,6 +70,7 @@ public class JiuxiuOrderManageController extends BaseController {
 			OrderQueryOption opt = new OrderQueryOption();
 			opt.setNeedDetailOrder(true);
 			opt.setNeedExtFeature(true);
+			opt.setNeedLogisticsOrder(true);
 			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
 			if(result.isSuccess() && null!=result.getTcMainOrder()){
 				TcMainOrder tcMainOrder = result.getTcMainOrder();
