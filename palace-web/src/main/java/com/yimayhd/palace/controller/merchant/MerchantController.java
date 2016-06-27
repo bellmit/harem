@@ -345,9 +345,9 @@ public class MerchantController extends BaseController {
 	@RequestMapping(value="detail")
 	public String getMerchantDetail(Model model,long id,long option){
 		UserDO user = sessionManager.getUser();
-		model.addAttribute("nickName", user.getNickname());
 		if(MerchantOption.MERCHANT.getOption()==option){
 			BaseResult<MerchantDO> meResult = merchantBiz.getMerchantBySellerId(id);
+			model.addAttribute("nickName",meResult.getValue().getName());
 			model.addAttribute("id", meResult.getValue().getId());
 			model.addAttribute("name",meResult.getValue().getName());
 			model.addAttribute("address",meResult.getValue().getAddress());
@@ -386,6 +386,7 @@ public class MerchantController extends BaseController {
 					pictures.add("");
 				}
 				model.addAttribute("talentInfo", talentInfoDTO);
+				model.addAttribute("nickName",talentInfoDTO.getTalentInfoDO().getNickName());
 			}
 			model.addAttribute("sellerId", id);
 			return "/system/merchant/talentDetail";
