@@ -704,3 +704,15 @@
         </span>
     #end
 #end
+
+#macro(CERTIFICATES_TYPE $type)
+	#if($type == 1 )
+	     身份证
+	#elseif($type == 2 )
+	护照
+	#elseif($type == 3 )
+	军人证
+	#elseif($type == 4 )
+	港澳通行证
+	#end
+#end

@@ -137,15 +137,7 @@
                     </td>
                     <td>$!tourist.contactPhone</td>
                     <td>
-                    	#if($!tourist.certificatesType == 1 )
-	               		     身份证
-	               		#elseif($!tourist.certificatesType == 2 )
-	               		护照
-	               		#elseif($!tourist.certificatesType == 3 )
-	               		军人证
-	               		#elseif($!tourist.certificatesType == 4 )
-	               		港澳通行证
-	               		#end
+                    	#CERTIFICATES_TYPE($!tourist.certificatesType)
 	               		
                    	 	$!tourist.certificatesNum
                    	</td>
@@ -220,43 +212,12 @@
                             #if($!subOrder.bizOrder.orderType == 3100 || $!subOrder.bizOrder.orderType == 3200 
                              	|| $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200 
                              	|| $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
-                            	    #if($subOrder.bizOrder.orderStatus == 2)
-                                  		待付款
-                                    #elseif($subOrder.bizOrder.orderStatus == 3)
-                                       	 处理中
-                                    #elseif($subOrder.bizOrder.orderStatus == 6)
-                                      	  待出行
-                                    #elseif($subOrder.bizOrder.orderStatus == 10)
-                                      	  已完成
-                                    #elseif($subOrder.bizOrder.orderStatus == 8)
-                                       	 已取消
-                                    #end
+                             	
+                             	#ORDER_BIZ_STATUS_LINE($!subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1200)
-                               		#if($subOrder.bizOrder.orderStatus == 2)
-                                  		待付款
-                                    #elseif($subOrder.bizOrder.orderStatus == 3)
-                                       	待确认
-                                    #elseif($subOrder.bizOrder.orderStatus == 6)
-                                      	  待使用
-                                    #elseif($subOrder.bizOrder.orderStatus == 10)
-                                      	  已完成
-                                    #elseif($subOrder.bizOrder.orderStatus == 8)
-                                       	 已取消
-                                    #end
+                           		#ORDER_BIZ_STATUS_SPOTS($subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
-                            		#if($subOrder.bizOrder.orderStatus == 2)
-                                  		待付款
-                                    #elseif($subOrder.bizOrder.orderStatus == 3)
-                                       	待确认
-                                    #elseif($subOrder.bizOrder.orderStatus == 6)
-                                      	 预订成功
-                                    #elseif($subOrder.bizOrder.orderStatus == 10)
-                                      	  已完成
-                                    #elseif($subOrder.bizOrder.orderStatus == 8)
-                                       	 已取消
-                                    #elseif($subOrder.bizOrder.orderStatus == 11)
-                                       	 未入住
-                                    #end
+                           		#ORDER_BIZ_STATUS_HOTEL($subOrder.bizOrder.orderStatus)
                             #end
                         </div>
                     </td>
