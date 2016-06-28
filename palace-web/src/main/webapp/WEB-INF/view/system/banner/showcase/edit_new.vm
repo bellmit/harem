@@ -218,7 +218,8 @@
                 if(picUrl !== null || picUrl !== undefined || picUrl !== ''){
                     var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
                     $("#travelBGImgSH").val(picUrl);
-                    $("#imgId").attr("src",showPicUrl);
+                    //alert(showPicUrl);
+                    $("#travelImgIdSH img").attr("src",showPicUrl);
                 }
 
                 $("#addsecontentId").text(sce.name);
