@@ -129,34 +129,7 @@
                                         <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                                     </div>
                                     <div class="t-msg">
-                                    	##orderType来自于OrderBizType枚举
-                                    	
-                                    	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200
-                                    	 || $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
-                                           	<div class="t-name">$!subOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
-                                            <div class="t-userType">$!subOrder.itemSubTitle</div>
-                                            <div class="t-userType">$!subOrder.personType</div>
-                                        #end
-                                        
-                                        #if($!subOrder.bizOrder.orderType == 1200 )
-                                        	<div class="t-name">$!order.scenicTitle</div>
-                                        	<div class="t-name">$!subOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!order.scenicEnterTime) 入园</div>
-                                            <div class="t-userType">$!order.ticketTitle</div>
-                                        #end
-                                        
-                                         #if($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
-                                        	<div class="t-name">$!order.hotelTitle</div>
-                                        	<div class="t-name">$!subOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate)</div>
-                                            <div class="t-userType">$!order.roomTitle</div>
-                                            #if($!subOrder.bizOrder.orderType == 1400)
-                                            	<div class="t-userType">在线付</div>
-                                            #elseif($!subOrder.bizOrder.orderType == 3400)
-                                            	<div class="t-userType">到店付</div>
-                                            #end
-                                        #end
+                                    	#ROUTE_ORDER_LIST_SKU($!subOrder.bizOrder.orderType)
                                     </div>
                                 </div>
                             </td>

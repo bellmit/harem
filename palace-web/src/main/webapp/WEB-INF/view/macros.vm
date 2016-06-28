@@ -716,3 +716,34 @@
 	港澳通行证
 	#end
 #end
+
+##订单列表-展示的SKU信息
+#macro(ROUTE_ORDER_LIST_SKU $type)
+    #if($type == 3100 ||$type == 3200 || $type == 200
+	 || $type == 3500 || $type == 3600)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
+	    <div class="t-userType">$!subOrder.personType</div>
+	#elseif( $type == 3300)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
+	    <div class="t-userType">$!subOrder.activityTime</div>
+	    <div class="t-userType">$!subOrder.activityContent</div>
+	#elseif($type == 1200 )
+		<div class="t-name">$!order.scenicTitle</div>
+		<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-date">$!date.format('yyyy-MM-dd',$!order.scenicEnterTime) 入园</div>
+	    <div class="t-userType">$!order.ticketTitle</div>
+	#elseif($type == 1100 || $type == 3400)
+		<div class="t-name">$!order.hotelTitle</div>
+		<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate)</div>
+	    <div class="t-userType">$!order.roomTitle</div>
+	    #if($type == 1400)
+	    	<div class="t-userType">在线付</div>
+	    #elseif($type == 3400)
+	    	<div class="t-userType">到店付</div>
+	    #end
+	#end
+#end
