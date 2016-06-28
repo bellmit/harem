@@ -127,14 +127,33 @@
                 }
 
                 $('#themeForm').attr('action', actionUrl);
-                $('#themeForm').submit();
+                //$('#themeForm').submit();
+                var postData = $('#themeForm').serializeArray();
+                $.post(actionUrl, postData, function (data) {
+                    if (data.status == 500) {
+                        alertText(data.message);
+                        $("#btnSubmit").removeAttr("disabled");
+                    } else {
+                        //    $("#ret").html('');
+                        $("#btnSubmit").attr("disabled", "true");
+                        layer.msg(data.message, {
+                            icon: 1,
+                            time: 1000
+                        });
+                        setTimeout(function(){
+                            closeAndFreshPrevFrame();
+                        },1000)
+                    }
+
+                });
+
             }
         });
     });
     
     //校验标签名称是否已经存在
     function check() {
-        if (validateForm(true)) {
+       /* if (validateForm(true)) {
             var name = $("#name").val();
             $.post(actionDefaultPath+"/B2C/themeManage/checkTagName", {name: name}, function (data) {
                 if (data.data == 'faile') {
@@ -146,6 +165,6 @@
                     $("#btnSubmit").removeAttr("disabled");
                 }
             });
-        }
+        }*/
     }
 </script>

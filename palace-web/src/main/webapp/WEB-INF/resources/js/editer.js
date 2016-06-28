@@ -264,11 +264,7 @@
 		saveTextEvent : function(_self,_this){
 			var _parent = _this.closest("p");
 			var _value = _parent.find("textarea").val();
-			_value=_value.replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});		
-			//_value = _value.replace(/\s*/g, ""); 
-			//_value=(($val.replace(/<(.+?)>/gi,"&lt;$1&gt;")).replace(/ /gi,"&nbsp;")).replace(/\n/gi,"<br>");
-			_value = _value.replace(/\n/gi,"<br>").replace(/ /gi,"&nbsp;");
-			_parent.replaceWith('<p class="text"><font>'+_value+'</font></p>');
+			_parent.replaceWith('<p class="text"><font>'+ this.html_encode(_value) +'</font></p>');
 			_self.setContentData();
 		},
 		moveUpEvent : function(_self,_this){
@@ -337,7 +333,7 @@
 				var obj = {};
 				if($(this).hasClass(_textClassName)){
 					obj.type = "text";
-					obj.value = $(this).find("font").html();
+					obj.value = _self.html_decode($(this).find("font").html());
 				}
 				if($(this).hasClass(_picClassName)){
 					obj.type = "img";
@@ -396,6 +392,30 @@
 				$('#editers').css('border','1px solid #ddd');
 				return true;
 			}
+		},
+		html_encode : function(str){   
+		  var s = "";   
+		  if (str.length == 0) return "";   
+		  s = str.replace(/&/g, "&amp;");   
+		  s = s.replace(/</g, "&lt;");   
+		  s = s.replace(/>/g, "&gt;");   
+		  s = s.replace(/ /g, "&nbsp;");   
+		  s = s.replace(/\'/g, "&#39;");   
+		  s = s.replace(/\"/g, "&quot;");   
+		  s = s.replace(/\n|\r\n/g, "<br>");  
+		  return s;   
+		},
+		html_decode : function(str){
+		  var s = "";   
+		  if (str.length == 0) return "";   
+		  s = str.replace(/&amp;/g, "&");   
+		  s = s.replace(/&lt;/g, "<");   
+		  s = s.replace(/&gt;/g, ">");   
+		  s = s.replace(/&nbsp;/g, " ");   
+		  s = s.replace(/&#39;/g, "\'");   
+		  s = s.replace(/&quot;/g, "\"");   
+		  s = s.replace(/<br>/g, "\n");   
+		  return s;  
 		}
 	}
 	var editer_obj=new editer("#editers");

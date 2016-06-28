@@ -2,11 +2,8 @@ package com.yimayhd.palace.controller;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
-import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
-import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
@@ -18,24 +15,19 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.Constants;
+import com.yimayhd.palace.constant.OperationType;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.controller.vo.OperationParamConstant;
 import com.yimayhd.palace.controller.vo.OperationVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
-import com.yimayhd.palace.model.ItemVO;
-import com.yimayhd.palace.model.query.CommodityListQuery;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
-import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
-import com.yimayhd.resourcecenter.domain.RegionDO;
-import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.enums.CacheType;
-import com.yimayhd.palace.constant.OperationType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
@@ -78,9 +70,9 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
-//        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
-//            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
-//       }
+        /*if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
+            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
+       }*/
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
@@ -261,9 +253,9 @@ public class BannerManageController extends BaseController {
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? Constant.DEFAULT_PAGE_NO:Integer.parseInt(request.getParameter("pageNumber"));
         int pageSize = StringUtils.isEmpty(request.getParameter("pageSize")) ? Constant.DEFAULT_PAGE_SIZE_TEN:Integer.parseInt(request.getParameter("pageSize"));
         String keyWord = request.getParameter("tags");
-        if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
+        /*if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
             keyWord = (new String(keyWord.getBytes("ISO-8859-1"),"utf-8")).trim();
-        }
+        }*/
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", code);
         result.put("type", type);

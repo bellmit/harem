@@ -1,5 +1,7 @@
 package com.yimayhd.palace.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
 import com.yimayhd.lgcenter.client.result.BaseResult;
@@ -339,5 +341,19 @@ public class OrderServiceImpl implements OrderService {
 			log.error("tcTradeServiceRef.closeOrder(id);" + e);
 			return false;
 		}
+	}
+
+	public boolean sellerSendGoods(SellerSendGoodsDTO sellerSendGoodsDTO){
+		SellerSendGoodsResult result = tcTradeServiceRef.sellerSendGoods(sellerSendGoodsDTO);
+		if(null == result || !result.isSuccess()){
+			log.error("tcTradeServiceRef.sellerSendGoods is error;param=" + JSON.toJSONString(sellerSendGoodsDTO)+"|||result="+JSON.toJSONString(result));
+			return false;
+		}
+		return true;
+	}
+
+	public List<ExpressCodeRelationDO> selectAllExpressCode(){
+		List<ExpressCodeRelationDO> list = lgService.selectAllExpressCode();
+		return list;
 	}
 }

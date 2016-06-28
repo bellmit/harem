@@ -2,6 +2,8 @@ package com.yimayhd.palace.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.yimayhd.palace.base.BaseController;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -54,6 +56,7 @@ public class ThemeManageController extends BaseController {
 	public String list(Model model, ThemeVoQuery query){
 		try {
 			PageVO<ComTagDO> pageVo = themeService.getPageTheme(query);
+			model.addAttribute("themeListQuery", query);
 			model.addAttribute("themeList", pageVo.getItemList());
 			model.addAttribute("pageVo", pageVo);
 			return "/system/theme/list";
@@ -168,24 +171,33 @@ public class ThemeManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(ThemeVo themeVo){
+	@ResponseBody
+	public ResponseVo add(ThemeVo themeVo) {
+		ResponseVo response = new ResponseVo();
 		try {
 			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
 			tagNameTypeDTO.setDomain(themeVo.getDomain());
 			tagNameTypeDTO.setName(themeVo.getName());
 			tagNameTypeDTO.setOutType("LIVESUPTAG");
 			ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
-			if( comTagDO != null ){
-				return "/error";
+			if (comTagDO != null) {
+				//return "/error";
+				response.setMessage("数据重复！");
+				response.setStatus(ResponseStatus.ERROR.VALUE);
+				return response;
 			}
 			ThemeVo dbThemeVo = themeService.saveOrUpdate(themeVo);
-			if(null != dbThemeVo){
-				return "/success";
+			if (null != dbThemeVo) {
+				//return "/success";
+				response.setMessage("添加成功！");
+				response.setStatus(ResponseStatus.SUCCESS.VALUE);
+				return response;
 			}
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
+			return ResponseVo.error(e);
 		}
-			return "/error";
+		return response;
 	}
 	
 	@RequestMapping(value = "/checkTagName", method = RequestMethod.POST)
@@ -208,4 +220,21 @@ public class ThemeManageController extends BaseController {
 		response.setData("faile");
 		return response;
 	} 
+	
+	/**
+	 * 下架主题
+	 * @param themeId
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/themeOff", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo themeOff(long themeId, HttpServletRequest request) throws Exception {
+		boolean flag = themeService.themeOff(themeId);
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
 }
