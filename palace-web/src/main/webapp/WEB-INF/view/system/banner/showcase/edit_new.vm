@@ -47,7 +47,7 @@
                     <div class="imgbox">
                         <div id="travelImgIdSH" class="edimg">
                             #if($!showcase.imgUrl)
-                                <img src='$utilWebconfig.getTfsRootPath()$!showcase.imgUrl' class='dasda' width='200' height='200' ></img>
+                                <img id="imgId" src='$utilWebconfig.getTfsRootPath()$!showcase.imgUrl' class='dasda' width='200' height='200' ></img>
                             #end
                         </div>
                         <div class="fileImgWrap">
@@ -85,6 +85,7 @@
                                 </td>
                             </tr>
                             <tr class="addurl">
+                                <input type="hidden" name="operationDetail" id="operationDetailId" value="$!showcase.operationDetailId" class="secontent">
                                 <input type="hidden" name="chcontent" id="chosId" value="$!showcase.operationContent" class="secontent">
                                 <td>
                                     内容展示：
@@ -131,62 +132,30 @@
                     $("#chosId").val(value);
                     $("#addsecontentId").text(value);
                 });
-            }/*else if ( obj.length > 0 && "radio" == obj.attr("type")) {//下拉框选择的是景区列表，并且是线路主题,存中文名
-                obj.off().on('change',function(){
+                $("#operationDetailId").val(obj.attr("id"));
+            }else if ( obj.length > 0 && "radio" == obj.attr("type")) {
+                /*obj.off().on('change',function(){
                     var value = $('input[name=chooseService]:checked').parent().text();
                     $("#chosId").val(value);
                     $("#addsecontentId").text(value);
-                });
-            }*/
+                });*/
+                var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
+                $("#operationDetailId").val(radioIdVal);
+            }
         }
 
-        //处理可选择的radio
-        $("#opId").on('change', function(){
-            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
-            $("#operationIds").val(operationId);
-            var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
-            $("#radioId").html(radioHtml);
-            autotxt();
-        });
-
-        //处理添加内容的时候把operationid赋值
-        $("#addsecontentId").focus(function(){
-            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
-            if(null == operationId || ""==operationId ||0==operationId){
-                var msg = new $.zui.Messager('请选选择跳转类型', {placement: 'center',type:'warning',time:'1000'});
-                msg.show();
-                return false;
-            }
-            $("#operationIds").val(operationId);
-        });
-        $('.selecontent').click(function(){
-            myinit();
-        });
-        myinit();
-        //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
-        $('.selecontent').click(function(){
-            var type= $('input:radio:checked').attr("jumpType")
-            var code = $('input:radio:checked').val();//获取选择的select的code
-            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
-            $("#operationIds").val(operationId);
-            if(null == code || ""==code){
-                return false;
-            }
-            var isRegion = false;
-            openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
-                var sce = win.getItems();
-                $("#addsecontentId").text(sce.name);
-                if(type==2){//2是目的地
-                    $("#chosId").val(sce.cityCode);
-                }else{
-                    $("#chosId").val(sce.id);
-                }
-                myinit();
-                return true;
-            });
-        });
-
         function myinit(){
+            //只有类型是radio的时候才执行
+            var obj=$('input[name=chooseService]');
+            if ( obj.length > 0 && "text" == obj.attr("type")) {
+                //如果展示内容有数据，关键字输入框里面没有数据，将展示内容的数据给关键字输入框
+                var value=obj.val();
+                if(null == value || ""==value){
+                    var spanText = $("#addsecontentId").text();
+                    obj.val(spanText);
+                }
+                return;
+            }
             var obj=$('input[name="chooseService"]:checked');
             if(obj.attr('jumptype') == 11 ){
                 $(".selectcontent").hide();
@@ -205,8 +174,64 @@
             if(radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST"){
                 $("#chosId").val($("#addsecontentId").text());
             }
-
+            var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
+            $("#operationDetailId").val(radioIdVal);
         }
+
+        //处理可选择的radio
+        $("#opId").on('change', function(){
+            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
+            $("#operationIds").val(operationId);
+            var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
+            $("#radioId").html(radioHtml);
+            autotxt();
+        });
+
+       /* //处理添加内容的时候把operationid赋值
+        $("#addsecontentId").focus(function(){
+            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
+            if(null == operationId || ""==operationId ||0==operationId){
+                var msg = new $.zui.Messager('请选选择跳转类型', {placement: 'center',type:'warning',time:'1000'});
+                msg.show();
+                return false;
+            }
+            $("#operationIds").val(operationId);
+        });*/
+        $('.selecontent').click(function(){
+            myinit();
+        });
+        myinit();
+        //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
+        $('.selecontent').click(function(){
+            var type= $('input:radio:checked').attr("jumpType")
+            var code = $('input:radio:checked').val();//获取选择的select的code
+            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
+            $("#operationIds").val(operationId);
+            if(null == code || ""==code){
+                return false;
+            }
+            var isRegion = false;
+            openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
+                var sce = win.getItems();
+                console.log(sce);
+                var picUrl = sce.imgUrl;
+                if(picUrl !== null || picUrl !== undefined || picUrl !== ''){
+                    var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
+                    $("#travelBGImgSH").val(picUrl);
+                    $("#imgId").attr("src",showPicUrl);
+                }
+
+                $("#addsecontentId").text(sce.name);
+                if(type==2){//2是目的地
+                    $("#chosId").val(sce.cityCode);
+                }else{
+                    $("#chosId").val(sce.id);
+                }
+                myinit();
+                return true;
+            });
+        });
+
         //选择跳转详细按钮时判断要不要加载弹出内容框
         $('#radioId').click(function(){ //判断，假如是showtype 11的时候，不选择详情了
             myinit();
@@ -228,17 +253,16 @@
             var imgUrl = $("#travelBGImgSH").val();
             var content = "";
 
-            var radioVal = $("input[name='chooseService']:checked").val();
-            var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
+            var radioIdVal = $("#operationDetailId").val();
             var selectVal = $(".selectpages").find("option:selected").val();
             var operationContent    = $("#chosId").val();
             var operationContentZH  = $("#addsecontentId").text();//选择内容的中文
-            if("GF_ITEM"==selectVal){
+            if("GF_ITEM"==selectVal || "GF_URL" == selectVal){//gf外链和商品详情存在content里面
                 content = operationContent;
             }
             console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo
                       +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
-                      +" operationContent="+operationContent+" operationId="+operationId
+                      +" content="+content+" operationContent="+operationContent+" operationId="+operationId
                       +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH);
 
             if(null == serialNo || ""==serialNo || isNaN(serialNo)){
