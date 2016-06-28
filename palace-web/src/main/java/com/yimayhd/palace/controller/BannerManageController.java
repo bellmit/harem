@@ -28,6 +28,7 @@ import com.yimayhd.palace.service.ThemeService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.model.enums.CacheType;
+import com.yimayhd.resourcecenter.model.enums.RegionStatus;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
@@ -35,6 +36,7 @@ import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -127,13 +129,6 @@ public class BannerManageController extends BaseController {
         return "/system/banner/showcase/list";
     }
 
-    /*@RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
-    public String showcaseToAdd(Model model,long boothId,String boothCode) throws Exception {
-        model.addAttribute("boothId",boothId);
-        model.addAttribute("boothCode",boothCode);
-        return "/system/banner/showcase/edit";
-    }*/
-
     @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
     public String showcaseToNewAdd(Model model,long boothId,String boothCode) throws Exception {
         model.addAttribute("boothId",boothId);
@@ -143,10 +138,6 @@ public class BannerManageController extends BaseController {
         model.addAttribute("operationDOs",operationDOs);
         return "/system/banner/showcase/edit_new";
         
-        
-       /* model.addAttribute("boothId",boothId);
-        model.addAttribute("boothCode",boothCode);
-        return "/system/banner/showcase/edit";*/
     }
 
 
@@ -253,9 +244,6 @@ public class BannerManageController extends BaseController {
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? Constant.DEFAULT_PAGE_NO:Integer.parseInt(request.getParameter("pageNumber"));
         int pageSize = StringUtils.isEmpty(request.getParameter("pageSize")) ? Constant.DEFAULT_PAGE_SIZE_TEN:Integer.parseInt(request.getParameter("pageSize"));
         String keyWord = request.getParameter("tags");
-        /*if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
-            keyWord = (new String(keyWord.getBytes("ISO-8859-1"),"utf-8")).trim();
-        }*/
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", code);
         result.put("type", type);
@@ -265,6 +253,7 @@ public class BannerManageController extends BaseController {
             RegionQuery rq = new RegionQuery();
             rq.setNeedCount(true);
             rq.setPageNo(pageNumber);
+            rq.setStatus(RegionStatus.VALID.getStatus());
             rq.setPageSize(0  ==  pageSize ? Constant.DEFAULT_PAGE_SIZE_TEN:pageSize);
             rq.setType(RegionType.JIUXIU_REGION.getType());
             PageVO page = showcaseService.getRegionDOListByType(rq);
@@ -313,6 +302,7 @@ public class BannerManageController extends BaseController {
             query.setDomains(Arrays.asList(1200,1100));
             query.setPageNo(pageNumber);
             query.setPageSize(pageSize);
+            query.setStatus(Arrays.asList(ItemStatus.valid.getValue()));
             if(NumberUtils.isNumber(keyWord)){
                 query.setId(Long.parseLong(keyWord));
             }else{
@@ -329,6 +319,7 @@ public class BannerManageController extends BaseController {
             merchantQuery.setDomainId(1200);
             merchantQuery.setPageNo(pageNumber);
             merchantQuery.setNeedCount(true);
+            merchantQuery.setStatus(MerchantStatus.ONLINE.getCode());
             if(null != option){
                 merchantQuery.setOption(option.getOption());
             }
