@@ -55,6 +55,7 @@ public class Constant {
 	public static final int showTypeRadio = 1;//1单选框
 	public static final int showTypeCheckBox = 2;//2复选框
 	public static final int showTypeSelect = 3;//3下拉框
+	public static final int showTypeText = 4;//4下拉框
 	
 	public static final double X_PI = 3.14159265358979324 * 3000.0 / 180.0;
 

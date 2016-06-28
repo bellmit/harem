@@ -25,6 +25,7 @@
                 <input type="hidden" name="boothId" id="boothId" value="$!boothId">
                 <input type="hidden" name="boothCode" id="boothCodeId" value="$!boothCode">
                 <input type="hidden" name="showcaseId" id="showcaseId" value="$!showcase.id">
+                <input type="hidden" name="isEdit" id="isEditId" value="$!isEdit">
                 <td><label>权重：</label><input name='serialNo' id='serialNoId'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
                     <span class="prompt">请填写整数</span></td>
             </tr>
@@ -66,13 +67,14 @@
                             <tr>
                                 <td>选择页面：</td>
                                 <td>
-                                    <select class="selectpages" id="opId">
+                                    <select class="selectpages" id="opId" style="margin-left:0;margin-bottom: 5px;">
+                                        <option value="0">请选择</option>
                                         #foreach($!operations in $operationDOs)
                                             <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
                                                     operationid="$!operations.operactio.id" #if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end >$!operations.operactio.name</option>
                                         #end
                                     </select>
-                                    <span  id="radioId"></span>
+                                    <div  id="radioId"></div>
                                 </td>
                             </tr>
                             <tr class="selectcontent">
@@ -80,31 +82,21 @@
                                     <a href="javascript:void(0)" class="selecontent">选择内容</a>
                                 </td>
                                 <td>
-                                    <input type="text" name="secontent" id="choId" value="" class="secontent">
-                                    <input type="hidden" name="chcontent" id="chosId" value="" class="secontent">
                                 </td>
                             </tr>
                             <tr class="addurl">
+                                <input type="hidden" name="chcontent" id="chosId" value="$!showcase.operationContent" class="secontent">
                                 <td>
-                                    添加内容：
+                                    内容展示：
                                 </td>
                                 <td>
                                     #if($!showcase.operationContentZH)
-                                        <input type="text" name="addsecontent" class="secontent" value="$!showcase.operationContentZH" id="addsecontentId" >
+                                        <span id="addsecontentId" name="addsecontent" class="secontent">$!showcase.operationContentZH</span>
                                     #else
-                                        <input type="text" name="addsecontent" class="secontent" value="$!showcase.operationContent" id="addsecontentId" >
+                                        <span id="addsecontentId" name="addsecontent" class="secontent" >$!showcase.operationContent</span>
                                     #end
                                 </td>
                             </tr>
-                            <tr class="addInfoId" style="display: none">
-                                <td>
-                                    添加SKU：
-                                </td>
-                                <td>
-                                    <input type="text" name="content" class="secontent" value="$!showcase.content" id="addcontentJsonId" >
-                                </td>
-                            </tr>
-
                         </table>
                     </div>
                 </td>
@@ -126,12 +118,27 @@
 <script>
 
         $(document).ready(function(){
-            //选择内容，添加内容加载隐藏，if 点选择内容就不能添加内容，反之。
-            $("#choId").hide();//隐藏
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
-
+            autotxt();
         });
+
+        function autotxt(){  //如果是输入框的话，填什么 下面展示什么
+            var obj=$('input[name=chooseService]');
+            if ( obj.length > 0 && "text" == obj.attr("type")) {
+                obj.off().on('keyup',function(){
+                    var value = obj.val();
+                    $("#chosId").val(value);
+                    $("#addsecontentId").text(value);
+                });
+            }/*else if ( obj.length > 0 && "radio" == obj.attr("type")) {//下拉框选择的是景区列表，并且是线路主题,存中文名
+                obj.off().on('change',function(){
+                    var value = $('input[name=chooseService]:checked').parent().text();
+                    $("#chosId").val(value);
+                    $("#addsecontentId").text(value);
+                });
+            }*/
+        }
 
         //处理可选择的radio
         $("#opId").on('change', function(){
@@ -139,6 +146,7 @@
             $("#operationIds").val(operationId);
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
+            autotxt();
         });
 
         //处理添加内容的时候把operationid赋值
@@ -167,20 +175,11 @@
             var isRegion = false;
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
                 var sce = win.getItems();
-                $("#choId").val(sce.name);
+                $("#addsecontentId").text(sce.name);
                 if(type==2){//2是目的地
                     $("#chosId").val(sce.cityCode);
                 }else{
                     $("#chosId").val(sce.id);
-                }
-
-                //如果选了内容就不能填下面的内容了
-                if(null != sce ){
-                    $("#addsecontentId").hide();//隐藏
-                    $("#choId").show();//显示所选的
-                }else{
-                    //$("#choId").hide();//隐藏
-                    $("#addsecontentId").show();//显示
                 }
                 myinit();
                 return true;
@@ -191,13 +190,23 @@
             var obj=$('input[name="chooseService"]:checked');
             if(obj.attr('jumptype') == 11 ){
                 $(".selectcontent").hide();
-                $("#choId").val(obj.val());
                 $("#chosId").val(obj.val());
+                var value =$('input[name=chooseService]:checked').parent().text();
+                $("#addsecontentId").text(value);
             }else{
                 $(".selectcontent").show();
             }
-        }
+            //下拉框选择的是景区列表，并且是线路主题,存中文名
+            var radioVal  = $('input[name=chooseService]:checked').val();
+            var selectVal = $(".selectpages").find("option:selected").val();
+            console.log("radioVal="+radioVal);
+            console.log("selectVal="+selectVal);
 
+            if(radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST"){
+                $("#chosId").val($("#addsecontentId").text());
+            }
+
+        }
         //选择跳转详细按钮时判断要不要加载弹出内容框
         $('#radioId').click(function(){ //判断，假如是showtype 11的时候，不选择详情了
             myinit();
@@ -217,35 +226,16 @@
             var title = $("#titleId").val();
             var summary = $("#summaryId").val();
             var imgUrl = $("#travelBGImgSH").val();
-            //内容这里 判断有没有选择内容，无则找有没有添加内容
-            var operationContentZH = "";//选择内容的中文
-                operationContentZH = $("#choId").val();
-            var radioVal = "";
-                radioVal = $("input[name='chooseService']:checked").val();
-            var radioIdVal = "";
-                radioIdVal = $("input[name='chooseService']:checked").attr("id");
-
-            var selectVal = "";
-                selectVal = $(".selectpages").find("option:selected").val();
             var content = "";
-                content = $("#addcontentJsonId").val();
 
-            if(radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST" ){//下拉框选择的是景区列表，并且是线路主题,存中文名
-                operationContent = $("#choId").val();
-            }else{
-                operationContent = $("#chosId").val();
+            var radioVal = $("input[name='chooseService']:checked").val();
+            var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
+            var selectVal = $(".selectpages").find("option:selected").val();
+            var operationContent    = $("#chosId").val();
+            var operationContentZH  = $("#addsecontentId").text();//选择内容的中文
+            if("GF_ITEM"==selectVal){
+                content = operationContent;
             }
-            if(null == operationContent || ""==operationContent){
-                operationContent = $("#addsecontentId").val();
-            }
-            //这里是某一个operation存目的地的中文名
-            /*
-             var talentServiceVal = "";
-            talentServiceVal = $("input[name='chooseService']:checked").val();
-            if(talentServiceVal !="" && talentServiceVal != null){
-                operationContent = talentServiceVal;
-            }*/
-
             console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo
                       +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
                       +" operationContent="+operationContent+" operationId="+operationId
@@ -267,10 +257,6 @@
                 return ;
             }
 
-            //跳转类型
-            //var id=;//选择主题目的地之类型
-            //var id=;//选择后的id
-            // var id=;//添加内容
             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add',
                     {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
                         'title':title,'summary':summary, 'imgUrl':imgUrl,'operationContent':operationContent,

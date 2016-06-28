@@ -136,6 +136,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
+        model.addAttribute("isEdit",false);
         return "/system/banner/showcase/edit_new";
         
     }
@@ -174,6 +175,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("operationDetailId",showcase.getOperationDetailId());
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
+        model.addAttribute("isEdit",true);
         return "/system/banner/showcase/edit_new";
     }
 
