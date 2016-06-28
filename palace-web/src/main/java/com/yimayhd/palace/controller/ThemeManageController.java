@@ -177,7 +177,7 @@ public class ThemeManageController extends BaseController {
 		ResponseVo response = new ResponseVo();
 		try {
 			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
-			//tagNameTypeDTO.setDomain(themeVo.getDomain());
+			tagNameTypeDTO.setDomain(themeVo.getDomain());
 			tagNameTypeDTO.setName(themeVo.getName());
 			//tagNameTypeDTO.setOutType("LIVESUPTAG");
 			tagNameTypeDTO.setOutType(TagType.getByType( themeVo.getOutType()).name());
