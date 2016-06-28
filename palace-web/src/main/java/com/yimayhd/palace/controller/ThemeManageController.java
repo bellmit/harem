@@ -179,7 +179,8 @@ public class ThemeManageController extends BaseController {
 			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
 			tagNameTypeDTO.setDomain(themeVo.getDomain());
 			tagNameTypeDTO.setName(themeVo.getName());
-			tagNameTypeDTO.setOutType("LIVESUPTAG");
+			//tagNameTypeDTO.setOutType("LIVESUPTAG");
+			tagNameTypeDTO.setOutType(TagType.getByType( themeVo.getOutType()).name());
 			ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
 			if (comTagDO != null) {
 				//return "/error";
