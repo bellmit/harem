@@ -21,19 +21,20 @@ public class HtmlUtil {
             isSingle=true;
         }
         for (OperationDetailDO od :listOperationDetail) {
-            sb.append("<input name='chooseService' id='").append(od.getId()).append("' ");
+            sb.append("<label style='margin-right:10px;'>").append("<input name='chooseService' id='").append(od.getId()).append("' ");
             if(isSingle || hitId == od.getId() ){
-                /*System.out.println("od.getId()="+od.getId() +"       hitId="+hitId);*/
                 sb.append(" checked ");
             }
             if(Constant.showTypeRadio == od.getShowType()){
                 sb.append("type='radio' ");
             }else if (Constant.showTypeCheckBox == od.getShowType()){
                 sb.append("type='checkbox' ");
+            }else if (Constant.showTypeText == od.getShowType()){
+                sb.append("type='text' ");
             }
             sb.append("operationId='").append(od.getOperationId()).append("'")
               .append(" jumpType='").append(od.getJumpType()).append("'").append(" value='").append(od.getShowValue())
-              .append("'> ").append(od.getShowName()).append(" ");
+              .append("'> ").append(od.getShowName()).append(" ").append("</label>");
         }
         //System.out.println("html="+sb.toString());
         return sb.toString();
