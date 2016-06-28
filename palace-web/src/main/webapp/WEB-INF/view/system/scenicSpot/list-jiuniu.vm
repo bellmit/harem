@@ -266,23 +266,25 @@
         });
 
         $('.enableStatus').click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/jiuniu/scenicSpotManage/enableStatus/' + $(this).attr('scenicId')  ,function(data){
-                    if(data.status == 200){
-                        layer.msg('操作成功', {
-                            icon: 1,
-                            time: 1500
-                        });
-                        setTimeout(function () {
-                            window.location.href = window.location.href;
-                        },1500);
-                    }else{
-                        layer.msg('操作失败', {
-                            icon: 2,
-                            time: 2000
-                        });
-                        $(this).prop('disabled',false);
-                    }
-                });
+        	var that = this;
+            $(that).prop('disabled',true);
+            $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/jiuniu/scenicSpotManage/enableStatus/' + $(this).attr('scenicId')  ,function(data){
+                if(data.status == 200){
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    },1500);
+                }else{
+                    layer.msg(data.message, {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(that).prop('disabled',false);
+                }
+            });
 		});
         
 		$('.disableStatus').click(function(){

@@ -527,9 +527,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		hotelVO.setOtherPicList(picVOList);
 		
 		// 图文详情
-		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.HOTEL);
-		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
-		hotelVO.setPictureText(pictureTextVO);;
+		hotelVO.setPictureText(getPictureText(id));;
 		
 		return hotelVO;
 	}
@@ -699,6 +697,18 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		pictureTextRepo.editPictureText(comentEditDTO);
 	}
 	
+	@Override
+	public PictureTextVO getPictureText(long id) throws Exception {
+		if(id == 0){
+			return null;
+		}
+		
+		// 图文详情
+		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.HOTEL);
+		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
+		return pictureTextVO;
+	}
+	
 	public void judgeExist(HotelVO hotelVO) throws Exception{
 		
 		if(hotelVO == null){
@@ -732,4 +742,6 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 			}
 		}
 	}
+
+	
 }

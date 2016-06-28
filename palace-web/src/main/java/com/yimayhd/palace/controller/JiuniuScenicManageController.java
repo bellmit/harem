@@ -29,6 +29,7 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.AreaVO;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
+import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.ScenicListQuery;
 import com.yimayhd.palace.service.ScenicService;
@@ -184,6 +185,17 @@ public class JiuniuScenicManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo enableStatus(@PathVariable("id") long id) throws Exception {
 		try {
+			
+			ResponseVo responseVo = ResponseVo.error(new BaseException(Constant.UN_COMPLETE_DATA));
+			PictureTextVO picTextVO = scenicSpotService.getPictureText(id);
+			if(picTextVO == null){
+				return responseVo;
+			}
+			List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
+			if(list == null || list.size() ==0){
+				return responseVo;
+			}
+			
 			boolean enableScenicItem = scenicSpotService.enableScenic(id);
 			return ResponseVo.success(enableScenicItem);
 		} catch (Exception e) {
