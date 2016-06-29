@@ -37,6 +37,9 @@ public class ScenicVO extends ScenicDO {
         }
         
         BeanUtils.copyProperties(scenicVO, scenicDO);
+        
+        scenicDO.setName(scenicVO.getName().trim());
+        
         //pictures
         if(StringUtils.isNotBlank(scenicVO.getPicturesStr())){
             scenicDO.setPictures(Arrays.asList(scenicVO.getPicturesStr().split("\\|")));

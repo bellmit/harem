@@ -150,7 +150,8 @@ public class HotelVO extends HotelDO implements Serializable {
     
     public static HotelDO getHotelDOV2(HotelVO hotelVO) throws Exception {
         HotelDO hotelDO = hotelVO;
-
+        hotelDO.setName(hotelVO.getName().trim());
+        
         List<Integer> roomFacility = transformFacilities(hotelVO.getRoomFacilityStr());
         List<Integer> roomService = transformFacilities(hotelVO.getRoomServiceStr()); 
         List<Integer> hotelFacility = transformFacilities(hotelVO.getHotelFacilityStr());
