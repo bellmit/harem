@@ -117,11 +117,41 @@
             return false;
         } else {
             var actionUrl = "";
-
             actionUrl = actionDefaultPath + '/GF/fcodeManage/add';
-
-            $('#hotelForm').attr('action',actionUrl);
-            $('#hotelForm').submit();
+            var params = {
+                title: $(".title").val(),
+                entityId: $(".entityId").val(),
+                totalNum: $(".totalNum").val()
+            };
+            $.post(actionUrl,params,function (result) {
+                if(result){
+                    if(result.status==0){
+                        layer.msg(result.message, {
+                            icon: 1,
+                            time: 2000
+                        });
+                        setTimeout(function(){
+                            top.$('#myTabList .active i').trigger('click');
+                        }, 2000);
+                    } else if(result.status==1){
+                        layer.msg(result.message, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    } else {
+                        layer.msg("未知错误", {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                } else {
+                    layer.msg("返回异常,请到列表刷新查看", {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+                console.log(result);
+            }, "json");
         }
 
     });
