@@ -37,7 +37,7 @@
             </div>
              <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">手机号码</button>
+                        <button class="btn btn-default" type="button">负责人手机号</button>
                     </span>
                 <input type="text" class="form-control queryRt" name="merchantPrincipalTel" value="$!jiuxiuMerchantListQuery.merchantPrincipalTel">
 
@@ -74,7 +74,7 @@
                     <th>注册手机</th>
                     <th>创建日期</th>
                     <th>状态</th>
-                    #*<th>操作</th>*#
+                    <th>操作</th>
                 </tr>
                     #foreach($merchant in $result)
                         <tr>
@@ -135,9 +135,9 @@
                                 </div>
                             </td>
     
-	                        #*<td>
-	                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!merchant.merchantDO.id">详情</button>
-	                        </td>*#
+	                        <td>
+	                            <button type="button" class="btn btn-primary addRefund detail" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">详情</button>
+	                        </td>
                     </tr>
                     #end
                 </tbody>
@@ -174,8 +174,9 @@
            $(".queryRt").val("");
         });
         $(".detail").click(function () {
-            var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/merchant/detail?id="+orderId, 2, "商家详情");
+            var userId = $(this).attr("userId");
+            var option = $(this).attr("option");
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/merchant/detail?id="+userId+"&option="+option, 2, "商家详情");
         });
         
     });

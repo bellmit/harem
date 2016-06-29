@@ -73,10 +73,17 @@ public interface HotelRPCService {
     public ICResultSupport updateRoomStatus(RoomVO roomVO) throws Exception;
     
 	/**
-	 * 保存景区图文详情（资源）
+	 * 保存酒店图文详情（资源）
 	 * 
 	 * @return
 	 * @throws
 	 */
 	void savePictureText(long id, PictureTextVO pictureTextVO) throws Exception;
+	
+	/**
+	 * 读取图文详情
+	 * @param id
+	 * @throws Exception
+	 */
+	PictureTextVO getPictureText(long id) throws Exception;
 }

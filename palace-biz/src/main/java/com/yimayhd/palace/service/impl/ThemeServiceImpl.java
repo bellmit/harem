@@ -13,6 +13,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
 import com.yimayhd.commentcenter.client.dto.TagNameTypeDTO;
+import com.yimayhd.commentcenter.client.dto.TagUpdateStatusDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
@@ -137,6 +138,19 @@ public class ThemeServiceImpl implements ThemeService {
 			return null;
 		}
 		return baseResult.getValue();
+	}
+
+	@Override
+	public boolean themeOff(long themeId) {
+		TagUpdateStatusDTO tagUpdateStatusDTO = new TagUpdateStatusDTO();
+		tagUpdateStatusDTO.setId(themeId);
+		tagUpdateStatusDTO.setStatus("DELETED");
+		BaseResult<Boolean> result = comTagCenterService.updateTagStatusById(tagUpdateStatusDTO);
+		if(null != result && result.isSuccess() && null!=result.getValue()){
+			return result.getValue();
+		}else{
+			return false;
+		}
 	}
 
 }

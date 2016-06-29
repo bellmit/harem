@@ -1,0 +1,97 @@
+#set($layout = "/system/layout/empty.vm")
+#set($title = "商家详情")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/mandandetail.css?t="${date}>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css?t="${date}>
+<!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+	<div class="loading">
+		<div class="bgmeng"></div>
+		<div class="dlgcont"><img src="$rs_path_jiuxiu/img/loading.gif"><label>请稍后。。。</label></div>
+	</div>
+	<div class="msg">
+		<div class="bgmeng"></div>
+		<div class="dlgcont"><label></label></div>
+	</div>
+
+	<div id = "details" class = "details shoppID">
+		<p><em class = "first">店铺头图：</em>
+			#foreach($pic in $!talentInfo.talentInfoDO.pictures)
+				#if($pic != "")
+					<img class = "img" src="$!tfs/$pic">
+				#end
+			#end
+		</p>
+		<div class = "info">
+			<p><em>昵称:</em><strong>$!talentInfo.talentInfoDO.nickName</strong></p>
+			<p><em>真实姓名:</em><strong>$!talentInfo.talentInfoDO.reallyName</strong></p>
+			<p><em>所在城市:</em><strong>$!talentInfo.talentInfoDO.province $!talentInfo.talentInfoDO.city</strong></p>
+			<p><em>生日:</em><strong>$!utilDate.date2StringByDay($!talentInfo.talentInfoDO.birthday)</strong></p>
+			<p><em>性别:</em><strong>#if ($!talentInfo.talentInfoDO.gender == 2) 男 #elseif ($!talentInfo.talentInfoDO.gender == 3) 女 #end</strong></p>
+			<p><em>店铺负责人电话:</em><strong>$!{talentInfo.talentInfoDO.telNum}</strong></p>
+			<p><em>服务类型:</em>
+				<strong>  
+					#if ($!talentInfo.talentInfoDO.serviceTypes)
+						#foreach ($st in $talentInfo.talentInfoDO.serviceTypes)
+							#if($!{st.id} == "1")
+							结伴邀约
+							#elseif($!{st.id} == "3")
+							在线咨询
+							#elseif($!{st.id} == "4")
+							行程规划
+							#elseif($!{st.id} == "2")
+							出行服务
+							#end
+						#end
+					#end 
+					#foreach ($serviceType in $serviceTypes.value)
+						
+					#end
+				</strong>
+			</p>
+			<p><em>服务描述:</em><strong>$!talentInfo.talentInfoDO.serveDesc</strong></p>
+			<p><em>关于我:</em>
+				<strong>
+					#foreach ($info in $talentInfo.pictureTextDTO.picTexts)
+						#if ($info.type == 1)
+						 	#set( $contentHtml = $info.value.replaceAll("\n","<br/>") )
+							<p class="text"><font>$!contentHtml</font></p>
+						#elseif ($info.type == 2)
+							<p class="pic">
+							<img src="$!tfs/$!info.value" class = "infoImg">
+							</p>
+						#end
+					#end
+				</strong>
+			</p>
+		</div>
+		
+		<div class = "btnInfo">
+			<button class="btn btn-primary detail" type="button" sellerId="$!sellerId">查看审核信息</button>
+		</div>
+	</div>
+<!--[if lt IE 9]>
+  <script src="$rs_js_css_path_jiuxiu/js/ieonly/html5shiv.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+  <script src="$rs_js_css_path_jiuxiu/js/ieonly/respond.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+  <script src="$rs_js_css_path_jiuxiu/js/ieonly/excanvas.js"></script>
+<![endif]-->
+
+<!-- 尾部结束 -->
+#parse("/system/layout/layout-jiuxiu-js.vm")
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.mandandetail.js?t="${date}></script>
+<script type="text/javascript" >
+	$(function(){
+		$(".detail").click(function(){
+            var sellerId = $(this).attr("sellerId");
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/apply/detail?sellerId="+sellerId +"&id=0", 2, "商家详情");
+		});
+	});
+</script>
+>
+	

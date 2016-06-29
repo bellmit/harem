@@ -3,6 +3,28 @@
     <form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/themeManage/list" method="GET" role="form">
     
         <div class="inputGroup whole">
+        	<div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">类别：</button>
+                </span>
+                <select class="form-control" name="type">
+                	<option value="0" #if($!themeListQuery.type == 0) selected #end>全部</option>
+                    <option value="1" #if($!themeListQuery.type == 1) selected #end>直播</option>
+                    <option value="2" #if($!themeListQuery.type == 2) selected #end>活动</option>
+                    <option value="3" #if($!themeListQuery.type == 3) selected #end>俱乐部</option>
+                    <option value="4" #if($!themeListQuery.type == 4) selected #end>会员</option>
+                    <option value="5" #if($!themeListQuery.type == 5) selected #end>景区</option>
+                    <option value="6" #if($!themeListQuery.type == 6) selected #end>酒店</option>
+                    <option value="7" #if($!themeListQuery.type == 7) selected #end>线路</option>
+                    <option value="8" #if($!themeListQuery.type == 8) selected #end>GF商品</option>
+                    <option value="9" #if($!themeListQuery.type == 9) selected #end>兴趣爱好</option>
+                    <option value="10" #if($!themeListQuery.type == 10) selected #end>达人标签</option>
+                    <option value="11" #if($!themeListQuery.type == 11) selected #end>出发地</option>
+                    <option value="12" #if($!themeListQuery.type == 12) selected #end>目的地</option>
+                    <option value="13" #if($!themeListQuery.type == 13) selected #end>商品</option>
+                    <option value="14" #if($!themeListQuery.type == 14) selected #end>城市活动</option>
+                </select>
+            </div>
            #* <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">主题名称</button>
@@ -17,8 +39,17 @@
                 <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!themeListQuery.beginDate">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
                 <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!themeListQuery.endDate">
-            </div> 
+            </div>
             <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+                <select class="form-control" name="joinStatus">
+                    <option value="1" #if($!themeListQuery.type == 1) selected #end>俱乐部</option>
+                    <option value="2" #if($!themeListQuery.type == 2) selected #end>活动</option>
+                </select>
+            </div>
+                <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">前台显示：</button>
                 </span>
@@ -26,31 +57,20 @@
                         <option value="1" #if($!themeListQuery.showStatus == 1) selected #end>显示</option>
                         <option value="2" #if($!themeListQuery.showStatus == 2) selected #end>隐藏</option>
                     </select>
-            </div>
+                </div>
             *#
-            <div class="input-group inpSingle">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">类别：</button>
-                </span>
-                <select class="form-control" name="type">
-					<option value="0" #if(!$themeVoQuery.type) selected #end>全部</option>
-					#foreach($tagType in $tagTypeList)
-					<option value="$!{tagType.type}" #if($themeVoQuery.type == $tagType.type) selected #end >$!{utilTag.getComTagName($!tagType.type)}</option>
-					#end
-				</select>
-            </div>
-                
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary">查询</button>
-            </div>
-            <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button id="btnSubmit" class="btn btn-primary">查询</button>
             </div>
         </div>
 	
 	
 	<div class="btnBottomMargin">
             <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建主题</button>
+            #*
+            	<button type="button" class="btn btn-primary commodityBatchBtn batchUp" btnType="1">批量上架</button>
+            	<button type="button" class="btn btn-primary commodityBatchBtn batchDown" btnType="2">批量下架</button>
+            *#
     </div>
         
         <div class="tableGroup whole">
@@ -68,12 +88,45 @@
                     <tr>
                         <td>$!velocityCount</td>
                         <td>$!theme.name</td>
-                        <td>$!{utilTag.getComTagName($!theme.outType)}</td>
+                        <td>
+                        	#if($!theme.outType == "1")
+                        	直播
+                        	#elseif($!theme.outType == "2")
+                        	活动
+                        	#elseif($!theme.outType == "3")
+                        	俱乐部
+                        	#elseif($!theme.outType == "4")
+                        	会员
+                        	#elseif($!theme.outType == "5")
+                        	景区
+                        	#elseif($!theme.outType == "6")
+                        	酒店
+                        	#elseif($!theme.outType == "7")
+                        	线路
+                        	#elseif($!theme.outType == "8")
+                        	GF商品
+                        	#elseif($!theme.outType == "9")
+                        	兴趣爱好
+                        	#elseif($!theme.outType == "10")
+                        	达人标签
+                        	#elseif($!theme.outType == "11")
+                        	出发地
+                        	#elseif($!theme.outType == "12")
+                        	目的地
+                        	#elseif($!theme.outType == "13")
+                        	商品
+                        	#elseif($!theme.outType == "14")
+                        	城市活动
+                        	#end
+                        </td>
                         <td>#if($!theme.status == 1) 启用  #else 禁用  #end </td>
                         <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
                         <td>$!utilDate.dateToString($!theme.gmtModified,"yyyy-MM-dd HH:mm:ss") </td>
                         <td>
                         <button type="button" class="btn btn-primary themeEdit" themeId="$theme.id">修改</button>
+                        #if($!theme.status == 1)
+                        	<button type="button" class="btn btn-primary themeOff" themeId="$theme.id">下架</button>
+                        #end
                         </td>
                     </tr>
                     #end
@@ -112,6 +165,26 @@
                 top.tabsAdd("",url,2,$(this).text());
             });
 
+        });
+        //下架
+        $(".themeOff").click(function(){
+        	$.post('$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/themeManage/themeOff/',{'themeId':$(this).attr('themeId')},function(data){
+        		if (data.status == 200) {
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center', type: 'success', time: '1000'});
+                        msg.show();
+                    } else {
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center', type: 'warning', time: '1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    }, 1050);
+        	})
+        });
+        
+        $("#btnSubmit").click(function(){
+        	$("#themeListForm").submit();
         });
 
     });

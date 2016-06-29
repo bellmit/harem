@@ -35,6 +35,8 @@ public class JiuxiuHelper {
 		jiuxiuTcDetailOrder.setLinePackage(tcDetailOrder.getLinePackage());
 		jiuxiuTcDetailOrder.setPersonType(tcDetailOrder.getPersonType());
 		jiuxiuTcDetailOrder.setItemPrice(tcDetailOrder.getItemPrice());
+		jiuxiuTcDetailOrder.setActivityTime(tcDetailOrder.getActivityTime());
+		jiuxiuTcDetailOrder.setActivityContent(tcDetailOrder.getActivityContent());
 	}
 	
 	public static void fillBizOrder(JiuxiuTcBizOrder jiuxiuTcBizOrder,TcBizOrder tcBizOrder,String phone){

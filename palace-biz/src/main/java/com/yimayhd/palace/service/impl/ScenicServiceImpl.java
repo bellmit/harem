@@ -227,9 +227,7 @@ public class ScenicServiceImpl implements ScenicService {
 		List<TicketVO> ticketVOList = ScenicAddVO.transformTicketVOList(scenicDTO.getTicketDOList());
 		scenicAddVO.setTicketVOList(ticketVOList);
 		// 图文详情
-		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.SCENIC);
-		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
-		scenicAddVO.setPictureText(pictureTextVO);;
+		scenicAddVO.setPictureText(getPictureText(id));
 		
 		return scenicAddVO;
 	}
@@ -477,6 +475,9 @@ public class ScenicServiceImpl implements ScenicService {
 		
 		List<TicketDO> ticketDOList = ScenicAddVO.transformTicketDOList(scenicAddVO.getTicketListStr());
 		
+		//判断景区是否存在
+		this.judgeExist(scenicVO);
+		
 		if (0 == scenicVO.getId()) {
 			
 			ScenicAddDTO scenicAddDTO = new ScenicAddDTO();
@@ -596,5 +597,51 @@ public class ScenicServiceImpl implements ScenicService {
 	public void savePictureText(long id, PictureTextVO pictureTextVO)throws Exception {
 		ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(id, PictureText.SCENIC, pictureTextVO);
 		pictureTextRepo.editPictureText(comentEditDTO);
+	}
+	
+	@Override
+	public PictureTextVO getPictureText(long id) throws Exception {
+		if(id == 0){
+			return null;
+		}
+		
+		// 图文详情
+		PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.SCENIC);
+		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
+		return pictureTextVO;
+	}
+	
+	public void judgeExist(ScenicVO scenicVO) throws Exception{
+		
+		if(scenicVO == null){
+			return;
+		}
+		
+		ScenicListQuery query = new ScenicListQuery();
+		query.setDomain(Constant.DOMAIN_JIUXIU);
+		query.setName(scenicVO.getName());
+		PageVO<ScenicDO> pageVo = this.getList(query);
+		if(pageVo == null){
+			return;
+		}
+		
+		List<ScenicDO> list = pageVo.getItemList();
+		if(list == null || list.size() == 0){
+			return;
+		}
+		
+		String scenicName = scenicVO.getName().trim();
+		
+		ScenicDO scenicDO = null;
+		for(int i = 0; i < list.size(); i++){
+			scenicDO = list.get(i);
+			if(!scenicName.equals(scenicDO.getName().trim())){
+				continue;
+			}
+			
+			if(scenicVO.getId() != scenicDO.getId()){
+				throw new BaseException("该景区已存在，不需要重复录入！");
+			}
+		}
 	}
 }
