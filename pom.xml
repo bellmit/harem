@@ -26,7 +26,7 @@
 		<user.client.version>1.8.1-SNAPSHOT</user.client.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
-		<snscenter.client.version>1.0.3-SNAPSHOT</snscenter.client.version>
+		<snscenter.client.version>1.1.0-SNAPSHOT</snscenter.client.version>
 		<resourcecenter.client.version>1.0.6-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.2-SNAPSHOT</membercenter.client.version>
 

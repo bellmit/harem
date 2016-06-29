@@ -81,6 +81,9 @@
 	
 	<!-- 九休订单 -->
 	<bean class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
+	
+	<!-- 话题 -->
+	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
 
 
 </beans>
