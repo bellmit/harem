@@ -77,8 +77,7 @@ public class TopicServiceImpl implements TopicService {
 			totalCount = pageResult.getTotalCount();
 			List<TopicResult> resultItemList = pageResult.getItemList();
 			if (CollectionUtils.isNotEmpty(resultItemList)) {
-				itemList = TopicVO.getTopicVOList(resultItemList);
-				
+				itemList = TopicVO.getTopicVOList(resultItemList);	
 			}
 		} else {
 			log.error("topicRepo.getTopicPageList return value is null !returnValue :"
