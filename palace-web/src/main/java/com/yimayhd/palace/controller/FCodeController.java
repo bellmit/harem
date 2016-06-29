@@ -81,7 +81,7 @@ public class FCodeController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(VoucherTemplateVO voucherTemplateVO) throws Exception {
+    public String add(VoucherTemplateVO voucherTemplateVO, Model model) throws Exception {
         UserDO userDO = sessionManager.getUser();
         if (userDO != null) {
             voucherTemplateVO.setOperator(userDO.getNickname());
@@ -98,9 +98,11 @@ public class FCodeController extends BaseController {
         if(itemId != 0) {
             ItemPubResult result = itemPublishService.changeToFItem(itemId);
             if(!result.isSuccess()){
+                model.addAttribute("message", "商品编码不存在,请确认后提交");
                 return "/error";
             }
         } else {
+            model.addAttribute("message", "商品ID不正确,请确认后提交");
             return "/error";
         }
 
