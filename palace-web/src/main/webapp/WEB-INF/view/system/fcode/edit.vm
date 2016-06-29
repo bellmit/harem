@@ -70,7 +70,7 @@
             return '请输入商品ID';
         }
         if(!$('.entityId').val() || !/^\+?[1-9][0-9]*$/.test($('.entityId').val())){
-            return '请输入正确的商品ID';
+            return '商品ID存在错误，请重新核对后保存';
         }
         if(!$('.totalNum').val()) {
             return '请输入F码生成总量';
