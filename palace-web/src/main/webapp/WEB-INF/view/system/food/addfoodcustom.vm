@@ -67,8 +67,8 @@
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>人均消费：</label></td>
-		
-		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="$!numberHelper.formatNumber($!merchant.avgprice)" name="averagePrice">
+		#set($result = $!numberFormatHelper.formatNumber($!merchant.avgprice))
+		<td><input placeholder="请输入人均消费" maxlength="10" class="peplom" value="$!result" name="averagePrice">
 		<label class="gray9">最多输入两位小数</label></td>
 	</tr>
 	<tr>
@@ -92,7 +92,7 @@
 	</tr>
 	<tr>
 		<td class="tit"><span>*</span><label>商家地图：</label></td>
-		<td><label>经度：</label><input id="locationX" name="longitude" value="$!numberHelper.formatDoubleNumber($!merchant.lon)" >&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label><input id="locationY" value="$!numberHelper.formatDoubleNumber($!merchant.lat)" name="latitude">&nbsp;&nbsp;<button class="locationXYSelectBtn">查找经纬度</button></td>
+		<td><label>经度：</label><input id="locationX" readonly="readonly" name="longitude" value="$!numberFormatHelper.formatDoubleNumber($!merchant.lon)" >&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label><input id="locationY" readonly="readonly" value="$!numberFormatHelper.formatDoubleNumber($!merchant.lat)" name="latitude">&nbsp;&nbsp;<button class="locationXYSelectBtn">查找经纬度</button></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="save"><button  class="save_btn">确定</button></td>

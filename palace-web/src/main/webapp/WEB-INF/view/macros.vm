@@ -543,3 +543,207 @@
     用户已撤销
     #end
 #end
+
+#macro(ORDER_BIZ_TYPES $type)
+    #if( $type == 3100)
+                                    国内跟团游
+    #elseif( $type == 3200)
+        	国内自由行
+    #elseif( $type == 3500)
+      		 境外跟团游
+    #elseif( $type == 3600)
+      		 境外自由行
+    #elseif( $type == 3300)
+       		 同城活动
+    #elseif( $type == 200)
+      		  特产商品
+    #elseif( $type == 1200)
+      		  国内景区门票
+    #elseif( $type == 1100)
+    		酒店客栈（在线付）
+    #elseif( $type == 3400)
+        	酒店客栈（到店付）
+    #end
+#end
+
+#macro(ORDER_BIZ_STATUS_LINE $type)
+    #if($type == 2)
+  		待付款 
+    #elseif($type == 3)
+       	 处理中
+    #elseif($type == 6)
+      	  待出行
+    #elseif($type == 10)
+      	  已完成
+    #elseif($type == 8)
+       	 已取消
+    #end
+#end
+
+#macro(ORDER_BIZ_STATUS_SPOTS $type)
+   	#if($type == 2)
+  		待付款
+    #elseif($type == 3)
+       	待确认
+    #elseif($type == 6)
+      	  待使用
+    #elseif($type == 10)
+      	  已完成
+    #elseif($type == 8)
+       	 已取消
+    #end
+#end
+
+#macro(ORDER_BIZ_STATUS_HOTEL $type)
+   	#if($type == 2)
+  		待付款
+    #elseif($type == 3)
+       	待确认
+    #elseif($type == 6)
+      	 预订成功
+    #elseif($type == 10)
+      	  已完成
+    #elseif($type == 8)
+       	 已取消
+    #elseif($type == 11)
+       	 未入住
+    #end
+#end
+
+#macro(ORDER_BIZ_STATUS_M $type)
+   	#if($type == 2)
+        <span>
+           	 待付款；
+        </span>
+        <span>
+           	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)
+        </span>
+    #elseif($type == 3)
+        <span>
+        	#if($order.bizOrder.orderType == 1200 || $order.bizOrder.orderType == 1100)
+        	待确认；
+        	#else
+           	处理中；
+           	#end
+        </span>
+        <span>
+           	 付款时间：#if($!order.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.payTime)#end
+        </span>
+    #elseif($type == 6)
+        <span>
+        	#if($order.bizOrder.orderType == 1200)
+        	待使用；
+        	#elseif($order.bizOrder.orderType == 1100)
+        	预订成功；
+        	#else
+           	待出行；
+           	#end
+        </span>
+        <span>
+          	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+        </span>
+    #elseif($type == 10)
+        <span>
+            	已完成;
+        </span>
+        <span>
+           	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
+        </span>
+    #elseif($type == 8)
+        <span>
+            	已取消;
+        </span>
+        <span>
+           	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
+        </span>
+        <span>
+           	 取消原因：$!order.closeReason
+        </span>
+    #end
+#end
+
+
+#macro(ORDER_BIZ_STATUS_D_HOTEL $type)
+   	 #if($type == 3)
+        <span>
+            	待确认；
+        </span>
+        <span>
+           	下单时间：#if($!order.bizOrder.createTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)#end
+        </span>
+    #elseif($type == 6)
+        <span>
+          	  预订成功；
+        </span>
+        <span>
+          	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+        </span>
+     #elseif($type == 11)
+        <span>
+          	  未入住；
+        </span>
+        <span>
+          	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
+        </span>
+    #elseif($type == 10)
+        <span>
+            	已完成;
+        </span>
+        <span>
+           	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
+        </span>
+    #elseif($type == 8)
+        <span>
+            	已取消;
+        </span>
+        <span>
+           	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
+        </span>
+        <span>
+           	 取消原因：$!order.closeReason
+        </span>
+    #end
+#end
+
+#macro(CERTIFICATES_TYPE $type)
+	#if($type == 1 )
+	     身份证
+	#elseif($type == 2 )
+	护照
+	#elseif($type == 3 )
+	军人证
+	#elseif($type == 4 )
+	港澳通行证
+	#end
+#end
+
+##订单列表-展示的SKU信息
+#macro(ROUTE_ORDER_LIST_SKU $type)
+    #if($type == 3100 ||$type == 3200 || $type == 200
+	 || $type == 3500 || $type == 3600)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
+	    <div class="t-userType">$!subOrder.personType</div>
+	#elseif( $type == 3300)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
+	    <div class="t-userType">$!subOrder.activityTime</div>
+	    <div class="t-userType">$!subOrder.activityContent</div>
+	#elseif($type == 1200 )
+		<div class="t-name">$!order.scenicTitle</div>
+		<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-date">$!date.format('yyyy-MM-dd',$!order.scenicEnterTime) 入园</div>
+	    <div class="t-userType">$!order.ticketTitle</div>
+	#elseif($type == 1100 || $type == 3400)
+		<div class="t-name">$!order.hotelTitle</div>
+		<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate)</div>
+	    <div class="t-userType">$!order.roomTitle</div>
+	    #if($type == 1400)
+	    	<div class="t-userType">在线付</div>
+	    #elseif($type == 3400)
+	    	<div class="t-userType">到店付</div>
+	    #end
+	#end
+#end

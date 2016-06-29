@@ -38,6 +38,7 @@ import com.yimayhd.palace.model.DestinationVO;
 import com.yimayhd.palace.model.HotelFacilityVO;
 import com.yimayhd.palace.model.HotelVO;
 import com.yimayhd.palace.model.RoomVO;
+import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.DestinationQuery;
 import com.yimayhd.palace.model.query.HotelListQuery;
@@ -155,14 +156,24 @@ public class JiuniuHotelManageController extends BaseController {
 	@RequestMapping(value = "/setHotelStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo setHotelStatus(@PathVariable("id") long id, int hotelStatus) throws Exception {
-
+		
+		ResponseVo responseVo = ResponseVo.error(new BaseException(Constant.UN_COMPLETE_DATA));
+		PictureTextVO picTextVO = hotelRPCService.getPictureText(id);
+		if(picTextVO == null){
+			return responseVo;
+		}
+		List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
+		if(list == null || list.size() ==0){
+			return responseVo;
+		}
+		
 		HotelDO hotelDO = new HotelDO();
 		hotelDO.setId(id);
 		hotelDO.setStatus(hotelStatus);
 
 		ICResult<Boolean> icResult = hotelRPCService.updateHotelStatus(hotelDO);
 
-		ResponseVo responseVo = new ResponseVo();
+		responseVo = new ResponseVo();
 		if (icResult == null || !icResult.getModule()) {
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}

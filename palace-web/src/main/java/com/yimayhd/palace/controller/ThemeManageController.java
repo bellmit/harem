@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.palace.base.BaseController;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -178,7 +179,8 @@ public class ThemeManageController extends BaseController {
 			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
 			tagNameTypeDTO.setDomain(themeVo.getDomain());
 			tagNameTypeDTO.setName(themeVo.getName());
-			tagNameTypeDTO.setOutType("LIVESUPTAG");
+			//tagNameTypeDTO.setOutType("LIVESUPTAG");
+			tagNameTypeDTO.setOutType(TagType.getByType( themeVo.getOutType()).name());
 			ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
 			if (comTagDO != null) {
 				//return "/error";

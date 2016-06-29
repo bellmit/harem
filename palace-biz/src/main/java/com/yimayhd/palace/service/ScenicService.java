@@ -6,7 +6,6 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
@@ -85,4 +84,9 @@ public interface ScenicService {
 	 * @throws
 	 */
 	void savePictureText(long id, PictureTextVO pictureTextVO) throws Exception;
+	
+	/**
+	 * 读取图文详情
+	 */
+	PictureTextVO getPictureText(long id) throws Exception;
 }
