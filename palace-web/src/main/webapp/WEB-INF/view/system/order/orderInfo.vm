@@ -24,173 +24,16 @@
 			<span class="lType">订单状态：<span>
 	            #if($order.bizOrder.orderType == 3100 || $order.bizOrder.orderType == 3200 || $order.bizOrder.orderType == 3300 || $order.bizOrder.orderType == 200 
 	            || $order.bizOrder.orderType == 3500 || $order.bizOrder.orderType == 3600)
-		            #if($order.bizOrder.orderStatus == 2)
-		                <span>
-		                   	 待付款；
-		                </span>
-		                <span>
-		                   	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 3)
-		                <span>
-		                    	处理中；
-		                </span>
-		                <span>
-		                   	 付款时间：#if($!order.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.payTime)#end
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 6)
-		                <span>
-		                  	  待出行；
-		                </span>
-		                <span>
-		                    $!order.deliveryTime
-		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 10)
-		                <span>
-		                    	已完成;
-		                </span>
-		                <span>
-		                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 8)
-		                <span>
-		                    	已取消;
-		                </span>
-		                <span>
-		                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		                <span>
-		                   	 取消原因：$!order.closeReason
-		                </span>
-		            #end
+	            	#ORDER_BIZ_STATUS_M($!order.bizOrder.orderStatus)
+	            	
+		    	#elseif($order.bizOrder.orderType == 1200)
+		    		 #ORDER_BIZ_STATUS_M($!order.bizOrder.orderStatus)
 		            
-		    #elseif($order.bizOrder.orderType == 1200)
-		    		 #if($order.bizOrder.orderStatus == 2)
-		                <span>
-		                   	 待付款；
-		                </span>
-		                <span>
-		                   	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 3)
-		                <span>
-		                    	待确认；
-		                </span>
-		                <span>
-		                   	 付款时间：#if($!order.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.payTime)#end
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 6)
-		                <span>
-		                  	  待使用；
-		                </span>
-		                <span>
-		                    $!order.deliveryTime
-		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 10)
-		                <span>
-		                    	已完成;
-		                </span>
-		                <span>
-		                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 8)
-		                <span>
-		                    	已取消;
-		                </span>
-		                <span>
-		                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		                <span>
-		                   	 取消原因：$!order.closeReason
-		                </span>
-		            #end
+		     	#elseif($order.bizOrder.orderType == 1100)
+		    		 #ORDER_BIZ_STATUS_M($!order.bizOrder.orderStatus)
 		            
-		     #elseif($order.bizOrder.orderType == 1100)
-		    		 #if($order.bizOrder.orderStatus == 2)
-		                <span>
-		                   	 待付款；
-		                </span>
-		                <span>
-		                   	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 3)
-		                <span>
-		                    	待确认；
-		                </span>
-		                <span>
-		                   	 付款时间：#if($!order.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.payTime)#end
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 6)
-		                <span>
-		                  	  预订成功；
-		                </span>
-		                <span>
-		                    $!order.deliveryTime
-		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 10)
-		                <span>
-		                    	已完成;
-		                </span>
-		                <span>
-		                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 8)
-		                <span>
-		                    	已取消;
-		                </span>
-		                <span>
-		                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		                <span>
-		                   	 取消原因：$!order.closeReason
-		                </span>
-		            #end
-		            
-		       #elseif($order.bizOrder.orderType == 3400)
-		    		 #if($order.bizOrder.orderStatus == 3)
-		                <span>
-		                    	待确认；
-		                </span>
-		                <span>
-		                   	 付款时间：#if($!order.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.payTime)#end
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 6)
-		                <span>
-		                  	  预订成功；
-		                </span>
-		                <span>
-		                    $!order.deliveryTime
-		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
-		                </span>
-		             #elseif($order.bizOrder.orderStatus == 11)
-		                <span>
-		                  	  未入住；
-		                </span>
-		                <span>
-		                    $!order.deliveryTime
-		                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 10)
-		                <span>
-		                    	已完成;
-		                </span>
-		                <span>
-		                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		            #elseif($order.bizOrder.orderStatus == 8)
-		                <span>
-		                    	已取消;
-		                </span>
-		                <span>
-		                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.completionTime)
-		                </span>
-		                <span>
-		                   	 取消原因：$!order.closeReason
-		                </span>
-		            #end
+		       	#elseif($order.bizOrder.orderType == 3400)
+		    		#ORDER_BIZ_STATUS_D_HOTEL($!order.bizOrder.orderStatus)
 		   		#end
             <span>
         </div>
@@ -200,7 +43,7 @@
      <div class="buyerInfo">
      	<div class="lType">备注</div>
         <div>买家备注：#if("$!order.otherInfo" == "") 无 #else $!order.otherInfo  #end</div>
-        <div>卖家备注：#if("$!sellerMsg" == "") 无 #else $!sellerMsg  #end</div>
+        <div>卖家备注：#if("$!order.sellerMemo" == "") 无 #else $!order.sellerMemo  #end</div>
     </div>
     <br><br>
     <!-- 买家信息 -->
@@ -237,15 +80,21 @@
             </tr>
             <tr>
                 <td>付款时间：</td>
-                <td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.payTime)})}</td>
+                #if($order.bizOrder.orderType == 3400)
+            		<td></td>
+            	#else
+                	<td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.payTime)})}</td>
+                #end
                 <td>付款方式：</td>
                 <td>
-	                #if("$!order.payChannel" == "0") 支付宝条码  
+	                #if("$!order.payChannel" == "1") 支付宝条码  
 	                #elseif("$!order.payChannel" == "2") 支付宝网页 
 	                #elseif("$!order.payChannel" == "3") 支付宝手机 
 	                #elseif("$!order.payChannel" == "4") 微信支付
 	                 #end
-                 </td>
+                </td>
+                <td>支付流水号：</td>
+                <td>$!tradeNo</td>
             </tr>
         </table>
     </div>
@@ -279,18 +128,16 @@
                 #foreach($tourist in $order.touristList)
                 <tr>
                     <td>$velocityCount</td>
-                    <td>$!tourist.contactName</td>
+                    <td>
+                    	#if($order.bizOrder.orderType == 3500 || $order.bizOrder.orderType == 3600)
+                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
+                    	#else
+                    		$!tourist.contactName
+                    	#end
+                    </td>
                     <td>$!tourist.contactPhone</td>
                     <td>
-                    	#if($!tourist.certificatesType == 1 )
-	               		     身份证
-	               		#elseif($!tourist.certificatesType == 2 )
-	               		护照
-	               		#elseif($!tourist.certificatesType == 3 )
-	               		军人证
-	               		#elseif($!tourist.certificatesType == 4 )
-	               		港澳通行证
-	               		#end
+                    	#CERTIFICATES_TYPE($!tourist.certificatesType)
 	               		
                    	 	$!tourist.certificatesNum
                    	</td>
@@ -321,32 +168,7 @@
                                 <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                             </div>
                             <div class="t-msg">
-                            	#if($!subOrder.bizOrder.orderType == 3100 ||$!subOrder.bizOrder.orderType == 3200 || $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200 
-                            	|| $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
-                                   	<div class="t-name">$!subOrder.itemTitle</div>
-                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
-                                    <div class="t-userType">$!subOrder.itemSubTitle</div>
-                                    <div class="t-userType">$!subOrder.personType</div>
-                                #end
-                                
-                                #if($!subOrder.bizOrder.orderType == 1200 )
-                                	<div class="t-name">$!order.scenicTitle</div>
-                                	<div class="t-name">$!subOrder.itemTitle</div>
-                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!order.scenicEnterTime) 入园</div>
-                                    <div class="t-userType">$!order.ticketTitle</div>
-                                #end
-                                
-                                 #if($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
-                                	<div class="t-name">$!order.hotelTitle</div>
-                                	<div class="t-name">$!subOrder.itemTitle</div>
-                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate)</div>
-                                    <div class="t-userType">$!order.roomTitle</div>
-                                    #if($!subOrder.bizOrder.orderType == 1400)
-                                    	<div class="t-userType">在线付</div>
-                                    #elseif($!subOrder.bizOrder.orderType == 3400)
-                                    	<div class="t-userType">到店付</div>
-                                    #end
-                                #end
+                            	#ROUTE_ORDER_LIST_SKU($!subOrder.bizOrder.orderType)
                             </div>
                         </div>
                     </td>
@@ -365,43 +187,12 @@
                             #if($!subOrder.bizOrder.orderType == 3100 || $!subOrder.bizOrder.orderType == 3200 
                              	|| $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200 
                              	|| $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
-                            	    #if($subOrder.bizOrder.orderStatus == 2)
-                                  		待付款
-                                    #elseif($subOrder.bizOrder.orderStatus == 3)
-                                       	 处理中
-                                    #elseif($subOrder.bizOrder.orderStatus == 6)
-                                      	  待出行
-                                    #elseif($subOrder.bizOrder.orderStatus == 10)
-                                      	  已完成
-                                    #elseif($subOrder.bizOrder.orderStatus == 8)
-                                       	 已取消
-                                    #end
+                             	
+                             	#ORDER_BIZ_STATUS_LINE($!subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1200)
-                               		#if($subOrder.bizOrder.orderStatus == 2)
-                                  		待付款
-                                    #elseif($subOrder.bizOrder.orderStatus == 3)
-                                       	待确认
-                                    #elseif($subOrder.bizOrder.orderStatus == 6)
-                                      	  待使用
-                                    #elseif($subOrder.bizOrder.orderStatus == 10)
-                                      	  已完成
-                                    #elseif($subOrder.bizOrder.orderStatus == 8)
-                                       	 已取消
-                                    #end
+                           		#ORDER_BIZ_STATUS_SPOTS($subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
-                            		#if($subOrder.bizOrder.orderStatus == 2)
-                                  		待付款
-                                    #elseif($subOrder.bizOrder.orderStatus == 3)
-                                       	待确认
-                                    #elseif($subOrder.bizOrder.orderStatus == 6)
-                                      	 预订成功
-                                    #elseif($subOrder.bizOrder.orderStatus == 10)
-                                      	  已完成
-                                    #elseif($subOrder.bizOrder.orderStatus == 8)
-                                       	 已取消
-                                    #elseif($subOrder.bizOrder.orderStatus == 11)
-                                       	 未入住
-                                    #end
+                           		#ORDER_BIZ_STATUS_HOTEL($subOrder.bizOrder.orderStatus)
                             #end
                         </div>
                     </td>

@@ -58,6 +58,8 @@ public class Constant {
 	public static final int showTypeText = 4;//4下拉框
 	
 	public static final double X_PI = 3.14159265358979324 * 3000.0 / 180.0;
+	
+	public static final String UN_COMPLETE_DATA = "资料不完整，不能启用";
 
 
 }
