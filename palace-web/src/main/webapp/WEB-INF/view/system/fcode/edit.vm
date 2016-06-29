@@ -107,7 +107,7 @@
     }
     //验证
     var validate = function(){
-        if(!/^[\u4E00-\u9FA5\uf900-\ufa2d\w\s]{1,60}$/.test($('.title').val())){
+        if(!/^[\w]{1,60}$/.test($('.title').val())){
             return '请输入正确的F码活动标题';
         }
         if($('.title').val().length > 20){
