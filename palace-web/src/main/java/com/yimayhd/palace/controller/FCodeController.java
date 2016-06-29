@@ -98,11 +98,11 @@ public class FCodeController extends BaseController {
         if(itemId != 0) {
             ItemPubResult result = itemPublishService.changeToFItem(itemId);
             if(!result.isSuccess()){
-                model.addAttribute("message", "商品不存在");
+                model.addAttribute("message", "商品编码不存在,请确认后提交");
                 return "/error";
             }
         } else {
-            model.addAttribute("message", "商品不正确");
+            model.addAttribute("message", "商品ID不正确,请确认后提交");
             return "/error";
         }
 
