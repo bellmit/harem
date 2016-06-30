@@ -64,12 +64,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>直播视频：</td>
+                    <td>视频图片：</td>
                     <td class="picUrlsTd">
-                                <input id="batchUploadBtn" type="file" multiple="multiple" >
-                                <img class="picUrlsUrl uploadImgFile" src="$utilWebconfig.getTfsRootPath()$live.videoPicUrl">
-                            </td>
-                            <input class="picUrlsVal" type="hidden" name="picListStr" value="$live.videoPicUrl">
+                        <img class="picUrlsUrl uploadImgFile" src="$utilWebconfig.getTfsRootPath()$live.videoPicUrl">
+                    </td>
+                    <input class="picUrlsVal" type="hidden" name="picListStr" value="$live.videoPicUrl">
+                    </td>
+                </tr>
+                <tr>
+                    <td>播放视频：</td>
+                    <td class="picUrlsTd">
+                        <video width="320" height="240" controls autoplay>
+						  <source src="$utilWebconfig.getTfsRootPath()$live.videoUrl" type="video/mp4">
+							Your browser does not support video
+						</video>
+                    </td>
+                    <input class="picUrlsVal" type="hidden" name="picListStr" value="$live.videoUrl">
                     </td>
                 </tr>
 
