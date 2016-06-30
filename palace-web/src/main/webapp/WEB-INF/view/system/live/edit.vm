@@ -19,12 +19,15 @@
                 <tr>
                     <td>选择话题</td>
                     <td>
-                        <select class="form-control" name="tagId">
+                        #*<select class="form-control" name="tagId">
                             <option value="0">请选择话题</option>
                             #foreach($comTag in $comTagList)
                                 <option #if($comTag.id == $!live.tagId) selected #end value="$comTag.id">$!esc.html($!comTag.name)</option>
                             #end
-                        </select>
+                        </select>*#
+                        <span id="userName">$!esc.html($!live.userDO.nickname)</span>
+                        <button type="button" class="btn btn-info selectUser">选择话题</button>
+                        <input type="hidden" id="tagId" name="tagId" value="$comTag.id" >
                     </td>
                 </tr>
                  <tr>
