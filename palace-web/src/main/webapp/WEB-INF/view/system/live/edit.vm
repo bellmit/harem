@@ -17,10 +17,10 @@
                     <td><input type="text" class='form-control form-date dateInp gmtCreatedStr' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr" ></td>
                 </tr>
                 <tr>
-                    <td>直播标签</td>
+                    <td>选择话题</td>
                     <td>
                         <select class="form-control" name="tagId">
-                            <option value="0">请选择标签</option>
+                            <option value="0">请选择话题</option>
                             #foreach($comTag in $comTagList)
                                 <option #if($comTag.id == $!live.tagId) selected #end value="$comTag.id">$!esc.html($!comTag.name)</option>
                             #end
