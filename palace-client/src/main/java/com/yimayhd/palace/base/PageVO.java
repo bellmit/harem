@@ -22,6 +22,9 @@ public class PageVO<T> implements Serializable {
 	public PageVO(int pageNumber, int pageSize, int totalCount) {
 		this(pageNumber, pageSize, totalCount, new ArrayList<T>(0));
 	}
+	public PageVO() {//默认空PageVO，用于异常数据返回
+		this(1, 10, 0, new ArrayList<T>(0));
+	}
 
 	/**
 	 *

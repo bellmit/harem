@@ -275,7 +275,7 @@ public class BannerManageController extends BaseController {
             sp.setStatus(ItemStatus.valid.getValue());
             if(NumberUtils.isNumber(keyWord)){
                 sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 sp.setTags(keyWord);
             }
             PageVO<ShowCaseItem> page = showcaseService.getHotelList(sp);
@@ -289,7 +289,7 @@ public class BannerManageController extends BaseController {
             sp.setStatus(ItemStatus.valid.getValue());
             if(NumberUtils.isNumber(keyWord)){
                 sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 sp.setTags(keyWord);
             }
             PageVO<ShowCaseItem> page = showcaseService.getScenicList(sp);
@@ -298,12 +298,13 @@ public class BannerManageController extends BaseController {
         else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL  ==  type){//选商品详情
             ItemQryDTO query = new ItemQryDTO();
             query.setDomains(Arrays.asList(1200,1100));
+
             query.setPageNo(pageNumber);
             query.setPageSize(pageSize);
             query.setStatus(Arrays.asList(ItemStatus.valid.getValue()));
             if(NumberUtils.isNumber(keyWord)){
                 query.setId(Long.parseLong(keyWord));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 query.setName(keyWord);
             }
             if(null != ItemType.getByName(code)){ //商品详情这里不确定
@@ -323,7 +324,7 @@ public class BannerManageController extends BaseController {
             }
             if(NumberUtils.isNumber(keyWord)){
                 merchantQuery.setCityCode(Integer.parseInt(keyWord));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 merchantQuery.setName(keyWord);
             }
             PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery,option);
