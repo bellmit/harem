@@ -53,7 +53,6 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setStartTime(voucherListQuery.getBeginDate());
         voucherTemplateQuery.setTitle(voucherListQuery.getTitle());
         voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
-        voucherTemplateQuery.setUserId(voucherListQuery.getUserId());
 
         voucherTemplateQuery.setVoucherType(voucherListQuery.getVoucherType());
         voucherTemplateQuery.setPageSize(voucherListQuery.getPageSize());
@@ -64,19 +63,6 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         //发卷方式
         if(!StringUtils.isEmpty(voucherListQuery.getIssueType())){
         	voucherTemplateQuery.setIssueType(Integer.parseInt(voucherListQuery.getIssueType()));
-        }
-        if(!StringUtils.isEmpty(voucherListQuery.getUserName())) {
-            BaseResult<List<UserDO>> baseResult = userService.getUserByNickname(voucherListQuery.getUserName());
-            if(baseResult.isSuccess() && baseResult.getValue()!=null) {
-                List<UserDO> userDOList = baseResult.getValue();
-                if(userDOList.size()>0){
-                    UserDO userDO = userDOList.get(0);
-                    voucherTemplateQuery.setUserId(userDO.getId());
-                }
-            }
-            if(voucherTemplateQuery.getUserId()==0) {
-                voucherTemplateQuery.setUserId(1);
-            }
         }
 
         if(!StringUtils.isEmpty(voucherListQuery.getVid())){
