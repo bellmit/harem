@@ -548,9 +548,6 @@
             		$(".insertTicketListStr").val(JSON.stringify(ticketTypeArr));
             	}
             	
-            	console.log("updateTicketListStr: "+ $(".updateTicketListStr").val());
-            	console.log("insertTicketListStr: "+ $(".insertTicketListStr").val());
-            	
             	//景区主题
             	var themeIds = [];
             	var themeNames = [];
@@ -604,7 +601,7 @@
                     }
                 };
 
-                //$("#saveScenicSpot").ajaxSubmit(options);
+                $("#saveScenicSpot").ajaxSubmit(options);
             },
             invalidHandler: function (form, validator) { // 不通过回调
                 return false;
