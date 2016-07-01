@@ -64,10 +64,8 @@
                     <th width="8%">用户手机号</th>
                     <th width="30%">内容</th>
                     <th width="10%">标签</th>
-                    <th width="5%">来源</th>
                     <th width="3%">点赞数</th>
                     <th width="3%">评论数</th>
-                    <th width="3%">分享数</th>
                     <th width="5%">状态</th>
                     <th width="8%">发布时间</th>
                     <th width="13%">操作</th>
@@ -79,10 +77,8 @@
                         <td>$!live.userDO.mobileNo</td>
                         <td style="word-break: break-all;min-width: 40px;max-width: 349px;padding: 4px 4px !important;">$!esc.html($!live.textContent)</td>
                         <th>$!esc.html($!live.tag.name)</th>
-                        <th>暂未实现</th>
                         <th>$!live.supportNum</th>
                         <th>$!live.commentNum</th>
-                        <th>暂未实现</th>
                         <td>#TREND_STATUS($!live.status)</td>
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
