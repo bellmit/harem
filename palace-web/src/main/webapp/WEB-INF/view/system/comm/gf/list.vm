@@ -1,5 +1,8 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<style>
+    span{white-space:pre;}
+</style>
 <form class="form-signin" id="commodityListForm" name="commodityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/commodityManage/list" method="GET" role="form"   
         accept-charset="utf-8">
     <div class="inputGroup">
@@ -65,7 +68,7 @@
                     <td>$velocityCount</td>
                     <td>
                         <p><img class="uploadImgFile" src="#if($!commodity.smallListPic && $!commodity.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!commodity.smallListPic) #end"></p>
-                        <p>$!commodity.title</p>
+                        <span >$!commodity.title</span>
                         <p>商品编码:$!commodity.id</p>
                     </td>
                     <td>$!commodity.categoryId</td>
@@ -88,6 +91,7 @@
     #pageStyle("commodityListForm")
 </form>
 <script>
+
     $(".form-date").datetimepicker(
             {
                 language:  "zh-CN",
