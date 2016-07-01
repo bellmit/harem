@@ -145,7 +145,7 @@ public class TopicServiceImpl implements TopicService {
 		
 		TopicUpdateStatusDTO topicUpdateStatusDTO = new TopicUpdateStatusDTO();
 		topicUpdateStatusDTO.setId(id);
-		topicUpdateStatusDTO.setStatus(status);
+		//topicUpdateStatusDTO.setStatus(status);
 		BaseResult<Boolean> result = topicRepo.updateTopicStatus(topicUpdateStatusDTO);
 		if(null == result){
 			log.error("TopicServiceImpl.updateTopicStatus-topicRepo.updateTopicStatus result is null and parame: " + JSON.toJSONString(topicUpdateStatusDTO));
@@ -165,7 +165,7 @@ public class TopicServiceImpl implements TopicService {
 		
 		TopicSetDTO topicSetDTO = new TopicSetDTO();
 		topicSetDTO.setIdList(idList);
-		topicSetDTO.setStatus(status);
+		//topicSetDTO.setStatus(status);
 		BaseResult<Boolean> result = topicRepo.setTopic(topicSetDTO);
 		if(null == result){
 			log.error("TopicServiceImpl.addRecommendTopic-topicRepo.setTopic result is null and parame: " + JSON.toJSONString(topicSetDTO));

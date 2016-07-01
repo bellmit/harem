@@ -63,8 +63,8 @@ public class TopicRepo{
 
 	public BaseResult<SnsTopicDO> updateTopic(TopicInfoUpdateDTO topicInfoUpdateDTO) {
 		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.updateTopic", topicInfoUpdateDTO);
-		BaseResult<SnsTopicDO> result = snsTopicCenterServiceRef.updateTopic(topicInfoUpdateDTO);
-		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.updateTopic", result);
+		BaseResult<SnsTopicDO> result = null;//snsTopicCenterServiceRef.updateTopic(topicInfoUpdateDTO);
+//		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.updateTopic", result);
 		return result;
 	}
 	
@@ -87,7 +87,7 @@ public class TopicRepo{
      */
     public BaseResult<Boolean> updateTopicStatus(TopicUpdateStatusDTO topicUpdateStatusDTO){
     	RepoUtils.requestLog(log, "snsTopicCenterServiceRef.updateTopicStatus", topicUpdateStatusDTO);
-		BaseResult<Boolean> result = snsTopicCenterServiceRef.updateTopicStatus(topicUpdateStatusDTO);
+		BaseResult<Boolean> result = null;//snsTopicCenterServiceRef.updateTopicStatus(topicUpdateStatusDTO);
 		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.updateTopicStatus", result);
 		return result;
     }
