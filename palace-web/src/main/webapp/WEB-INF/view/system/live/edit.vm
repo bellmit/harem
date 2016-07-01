@@ -64,14 +64,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>视频图片：</td>
-                    <td class="picUrlsTd">
-                        <img class="picUrlsUrl uploadImgFile" src="$utilWebconfig.getTfsRootPath()$live.videoPicUrl">
-                    </td>
-                    <input class="picUrlsVal" type="hidden" name="picListStr" value="$live.videoPicUrl">
-                    </td>
-                </tr>
-                <tr>
                     <td>播放视频：</td>
                     <td class="picUrlsTd">
                         <video width="320" height="240" controls autoplay>
