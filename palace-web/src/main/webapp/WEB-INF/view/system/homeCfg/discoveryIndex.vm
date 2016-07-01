@@ -165,8 +165,8 @@
 						var tr = "";
                     	for(var i = 0;i<resultValue.length;i++){
                     		tr += "<tr><td>"+resultValue[i].name+"</td>"+
-							"<td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
-                    		"<input type='file' name='file' class='fileInp' id='itemImg_"+resultValue[i].id+"'><input type='hidden' id='url_itemImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
+							"<td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.150:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
+                    		"<input type='file' name='file' class='fileInp' id='itemImg_"+resultValue[i].id+"'><input type='hidden' id='url_itemImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.150:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
                     		"<td class='delItem'><a>删除</a></td></tr>";
                     		_uploadImg("itemImg_"+resultValue[i].id);
                     	}
@@ -197,8 +197,8 @@
                     console.log(resultValue);
 						var tr = "";
                     	for(var i = 0;i<resultValue.length;i++){
-                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
-                    		"<input type='file' name='file' class='fileInp' id='travelSpecialImg_"+resultValue[i].id+"'/><input type='hidden' id='url_travelSpecialImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
+                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.150:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
+                    		"<input type='file' name='file' class='fileInp' id='travelSpecialImg_"+resultValue[i].id+"'/><input type='hidden' id='url_travelSpecialImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.150:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
                     		"<td>"+resultValue[i].name+"</td>"+
                     		"<td>"+resultValue[i].name+"</td>"+
                     		"<td class='delItem'><a>删除</a></td></tr>";

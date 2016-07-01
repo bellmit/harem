@@ -9,8 +9,8 @@
           >
        <property name="configServerList">
             <list>
-                <value>192.168.1.209:5198</value>
-                <value>192.168.1.209:5198</value>
+                <value>192.168.1.150:5198</value>
+                <value>192.168.1.150:5198</value>
             </list>
         </property>
         <property name="groupName" value="group_1" />
