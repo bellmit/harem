@@ -492,6 +492,13 @@
     下架
     #end
 #end
+#macro(SOCKPUPPET_STATUS $status)
+    #if($status == '10')
+    有效
+    #elseif($status == '20')
+    无效
+    #end
+#end
 
 
 #macro(REFUNDREASONTYPE $type)

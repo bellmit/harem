@@ -1,7 +1,10 @@
 package com.yimayhd.palace.mapper;
 
+import java.util.List;
+
 import com.yimayhd.palace.base.BaseMapper;
 import com.yimayhd.palace.model.SockpuppetDO;
+import com.yimayhd.palace.model.query.SockpuppetListQuery;
 
 public interface SockpuppetMapper extends BaseMapper<SockpuppetDO>{
     /**
@@ -45,4 +48,8 @@ public interface SockpuppetMapper extends BaseMapper<SockpuppetDO>{
      * @param record
      */
     int updateByPrimaryKey(SockpuppetDO record);
+
+	List<SockpuppetDO> findPageResultByCondition(SockpuppetListQuery sockpuppetListQuery);
+
+	int getTotalCount(SockpuppetListQuery sockpuppetListQuery);
 }

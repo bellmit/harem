@@ -146,4 +146,32 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!-- 获得运营小号列表 -->
+	<select id="findPageResultByCondition" parameterType="com.yimayhd.palace.model.query.SockpuppetListQuery" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="Base_Column_List"/> 
+		FROM sockpuppet
+		<include refid="pageQueryManagerSqlString"/>
+		LIMIT #{pageNo},#{pageSize}
+	</select>
+	<!-- 根据条件获得记录数 -->
+	<select id="getTotalCount" parameterType="com.yimayhd.palace.model.query.SockpuppetListQuery" resultType="Integer">
+		SELECT 
+		count(id)
+		FROM sockpuppet
+		<include refid="pageQueryManagerSqlString"/>
+	</select>
+	<sql id="pageQueryManagerSqlString">
+        <where>
+            <if test="nickname != null">
+                AND
+                nickname = #{nickname}
+            </if>
+            <if test="mobile != null">
+                AND
+                mobile = #{mobile}
+            </if>
+        </where>
+    </sql>
 </mapper>
