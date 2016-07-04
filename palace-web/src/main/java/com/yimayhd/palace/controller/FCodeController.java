@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller;
 
 import com.yimayhd.ic.client.service.item.ItemPublishService;
+import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.voucher.client.result.VcBaseResult;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
@@ -80,13 +81,18 @@ public class FCodeController extends BaseController {
      * @return 新增F码活动
      * @throws Exception
      */
+    @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(VoucherTemplateVO voucherTemplateVO) throws Exception {
+    public ResponseVo add(VoucherTemplateVO voucherTemplateVO, Model model) throws Exception {
+        ResponseVo responseVo = new ResponseVo();
         UserDO userDO = sessionManager.getUser();
         if (userDO != null) {
             voucherTemplateVO.setOperator(userDO.getNickname());
             // 关联创建人iD
             voucherTemplateVO.setUserId(userDO.getId());
+        } else {
+            responseVo.setStatus(1);
+            responseVo.setMessage("未登录!");
         }
 
         // 随机F码
@@ -98,10 +104,14 @@ public class FCodeController extends BaseController {
         if(itemId != 0) {
             ItemPubResult result = itemPublishService.changeToFItem(itemId);
             if(!result.isSuccess()){
-                return "/error";
+                responseVo.setStatus(1);
+                responseVo.setMessage("商品编码不存在,请确认后提交!");
+                return responseVo;
             }
         } else {
-            return "/error";
+            responseVo.setStatus(1);
+            responseVo.setMessage("商品ID不正确,请确认后提交!");
+            return responseVo;
         }
 
         // 生成方式 预先生成
@@ -119,10 +129,13 @@ public class FCodeController extends BaseController {
 
         VcBaseResult<Long> vcBaseResult = voucherTemplateService.add(voucherTemplateVO);
         if(!vcBaseResult.isSuccess()) {
-            return "/error";
+            responseVo.setStatus(1);
+            responseVo.setMessage("创建F码活动失败!");
+            return responseVo;
         }
-
-        return "/success";
+        responseVo.setStatus(0);
+        responseVo.setMessage("活动创建成功!");
+        return responseVo;
     }
     private Date getEndTime() throws ParseException {
         Calendar calendar = Calendar.getInstance();

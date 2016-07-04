@@ -77,6 +77,7 @@
                     <td>
                         <button type="button" class="btn btn-primary commodityDetail" commodityId="$commodity.id" itemType="$commodity.itemType" categoryId="$!commodity.categoryId" outId="$!commodity.outId">查看</button>
                         <button type="button" class="btn btn-primary commodityBtn"  commodityId="$commodity.id" status="$commodity.status">#if($commodity.status == 2) 停用 #else 启用 #end </button>
+						<button type="button" class="btn btn-primary commodityRecommend"  commodityId="$commodity.id">关联售卖 </button>
                     </td>
                 </tr>
                 #end
@@ -128,6 +129,16 @@
         $('.commodityDetail').each(function(){
             $(this).click(function(){
                 var url = actionDefaultPath + '/GF/commodityManage/edit/'+ $(this).attr('commodityId') + '?itemType='+ $(this).attr('itemType') + '&categoryId=' + $(this).attr('categoryId') + '&outId=' + $(this).attr('outId');
+                //TODO
+                //window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
+            });
+
+        });
+		
+		 $('.commodityRecommend').each(function(){
+            $(this).click(function(){
+                var url = actionDefaultPath + '/GF/correlationManager/findItem/'+ $(this).attr('commodityId');
                 //TODO
                 //window.openwin(url);
                 top.tabsAdd("",url,2,$(this).text());
