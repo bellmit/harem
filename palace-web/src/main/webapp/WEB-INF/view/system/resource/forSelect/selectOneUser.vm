@@ -34,7 +34,6 @@
 					var str = this.split("_");
 					var rId = parseInt(str[1]);
 					var rName = str[2];
-					alert(rName)
 					if(parseInt(str[1]) != oId) {
 						nResources.push({rId:rId,rName:rName});
 					}
