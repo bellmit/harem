@@ -28,6 +28,11 @@ public class SockpuppetDO extends BaseModel implements Serializable{
     private Long mobile;
 
     /**
+     *  用户头像,所属表字段为sockpuppet.avatar
+     */
+    private String avatar;
+
+    /**
      *  状态（10：删除；20：正常）,所属表字段为sockpuppet.status
      */
     private Integer status;
@@ -106,13 +111,39 @@ public class SockpuppetDO extends BaseModel implements Serializable{
         this.mobile = mobile;
     }
 
+    /**
+     * 获取 用户头像 字段:sockpuppet.avatar
+     *
+     * @return sockpuppet.avatar, 用户头像
+     */
+    public String getAvatar() {
+        return avatar;
+    }
+
+    /**
+     * 设置 用户头像 字段:sockpuppet.avatar
+     *
+     * @param avatar sockpuppet.avatar, 用户头像
+     */
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
+    }
+
+    /**
+     * 获取 状态（10：删除；20：正常） 字段:sockpuppet.status
+     *
+     * @return sockpuppet.status, 状态（10：删除；20：正常）
+     */
+    public int getStatus() {
+        return status;
+    }
 
     /**
      * 设置 状态（10：删除；20：正常） 字段:sockpuppet.status
      *
      * @param status sockpuppet.status, 状态（10：删除；20：正常）
      */
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

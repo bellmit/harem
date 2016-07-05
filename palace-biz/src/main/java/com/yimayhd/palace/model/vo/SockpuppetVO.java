@@ -22,6 +22,7 @@ public class SockpuppetVO implements Serializable {
 	private Date gmtCreated;
 	private Date gmtModified;
 	private String statusText;
+    private String avatar;
 
 	public String getStatusText() {
 		return statusText;
@@ -86,4 +87,11 @@ public class SockpuppetVO implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
+    }
 }
