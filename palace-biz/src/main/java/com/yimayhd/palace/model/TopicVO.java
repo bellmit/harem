@@ -3,8 +3,10 @@ package com.yimayhd.palace.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.snscenter.client.domain.SnsTopicDO;
 import com.yimayhd.snscenter.client.result.topic.TopicResult;
 
@@ -67,10 +69,36 @@ public class TopicVO extends SnsTopicDO {
     	for(int i = 0; i < topicResultList.size(); i++){
     		topicVO = new TopicVO();
     		BeanUtils.copyProperties(topicResultList.get(i), topicVO);
+    		topicVO.setTitle(getTopicTitle2(topicVO.getTitle()));
     		topicVOList.add(topicVO);
     	}
         
         return topicVOList;
     }
-
+    
+    public static String getTopicTitle(String title){
+    	if(StringUtils.isBlank(title)){
+    		return "";
+    	}
+    	
+    	title = title.replaceAll("#", "");
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(Constant.TOPIC_PREFIX_SUFFIX);
+    	sb.append(title);
+    	sb.append(Constant.TOPIC_PREFIX_SUFFIX);
+    	return sb.toString();
+    }
+    
+    public static String getTopicTitle2(String title){
+    	if(StringUtils.isBlank(title)){
+    		return "";
+    	}
+    	
+    	title = title.replaceAll("#", "");
+    	return title;
+    }
+    
+    public static void main(String[] args){
+    	System.out.println(TopicVO.getTopicTitle("alkdsfjlka''as\"df## asdf"));
+    }
 }

@@ -3,6 +3,7 @@ package com.yimayhd.palace.service;
 import java.util.List;
 
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.SnsSugTopicVO;
 import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
 import com.yimayhd.palace.model.query.TopicListQuery;
@@ -15,10 +16,12 @@ public interface TopicService {
     
     TopicVO addTopic(TopicInfoVO topicInfoVO);
     
-    TopicVO updateTopic(TopicInfoVO topicInfoVO);
+    boolean updateTopic(TopicInfoVO topicInfoVO);
     
-    boolean updateTopicStatus(long id, String status);
+    boolean updateTopicStatus(long id, int type);
         
-    boolean setTopic(List<Long> idList, String status);
+    boolean setTopic(List<Long> idList, int status);
+    
+    public List<SnsSugTopicVO> getSugTopicList();
 
 }

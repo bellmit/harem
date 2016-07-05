@@ -754,3 +754,11 @@
 	    #end
 	#end
 #end
+#*话题状态*#
+#macro(TOPIC_STATUS $type)
+    #if($type == '0')
+		停用
+    #elseif($type == '1')
+		 启用   
+    #end
+#end

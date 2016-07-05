@@ -4,50 +4,106 @@
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/topiclist.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/validform.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/imgupload.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/topic.css"/>		
+
 
 <!--[if lt IE 8]>
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
-<div id="lablelist" class="container newtopic">
-    <form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/add" method="GET" role="form">
-        <label>
-        	<span class="iconred">*</span> 话题名称：
-        </label>
-        <input type="text" name="lable_name" placeholder="20个字符以内" class="lable_name" datatype="s">&nbsp;&nbsp;
-        <span>1/20字</span>&nbsp;&nbsp;<span class="checkValidform"></span><br>
-		<div class="clearfix content">
-			<div class="imagedetile PC_content">
-				<div class="clearfix">
-			        <p class="fl"><span class="iconred">*</span>话题配图:</p>
-			        <div class="fl rigthimgbox">
-			            <div class="imgbigbox">
-			                <div class="dimg">
-			                    <a href="javascript:void(0)" class="images"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="></a>
-			                </div>
-			                <div class="upimgbtn">
-			                    <a class="upl">上传图片<input type="file" name="picfile" class="picfile"  ></a>
-			                    <button class="del">删除图片</button>
-			                </div>
-			                <input type="hidden" name="pc_image">
-			            </div><br>
-			            <p class="tip">图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：</p>
-			        </div>
-			    </div>
-			    <div class="clearfix m-top">
-			        <p class="fl">话题描述:</p>
-			        <div class="fl">
-			            <textarea class="textlimit" placeholder="最多不超过200个字"></textarea>
-			        </div>
-			    </div>
-            </div>
-        </div>    
-    </form>
-	<div class="sure">
-		<a href="javascript:void(0)" class="save">保存</a>
-	</div>
+<div class="topicbox">
+	
+	#if($topic.id)
+		#set($submitURL=$utilWebconfig.getActionDefaultFontPath() +"/jiuxiu/topic/edit/"+ $topic.id)
+	#else
+		#set($submitURL=$utilWebconfig.getActionDefaultFontPath()+"/jiuxiu/topic/add")
+	#end
+	
+	
+	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!{submitURL}" method="POST" role="form">
+		<input type="hidden" id="uuid" name="uuid" value="$!{UUID}" />
+		
+		<table class="table topic-table">
+			<tbody>
+				<tr>
+					<td><span class="red">*</span>话题名称：</td>
+					<td>
+						<input class="form-control w500 in-bl" type="text" name="title" value="$!topic.title" 
+							maxlength="20" datatype="*1-20" nullmsg="话题不能为空" errormsg="话题1-20个字"
+							#if($topic.title)
+								readonly="readonly"
+							#end
+							/>
+						<span class="limit">1/20字</span>
+					</td>
+				</tr>
+				<tr>
+					<td>话题配图：</td>
+					<td>
+						<div class="imgallbox" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
+							<input type="hidden" class="uplurl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" />
+							<input type="hidden" class="srcurl" value="$!{utilWebconfig.getTfsRootPath()}" />
+							<div class="imgbox imgno">
+								<div class="imgcon">
+									#if(! $topic.pics)
+										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									#else
+										<img src="$utilWebconfig.getTfsRootPath()$!{topic.pics}" />	
+									#end
+									
+								</div>
+								<div class="imgwait"></div>
+								<div class="imgdelbtn">删除图片</div>
+								<a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
+								<input type="hidden" name="pics" value="$!{topic.pics}"/>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>话题描述：</td>
+					<td>
+						<textarea class="form-control" name="content" rows="3" maxlength="500" >$!topic.content</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="btn-center">
+			<button type="submit" class="btn btn-primary saveBtn" >保存</button>
+		</div>				
+	</form>
+	
 </div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
-<script>seajs.use("topiclist");</script>
+<script>seajs.use("topic");</script>
+<script type="text/javascript">
+		
+		$("#topicListForm").Validform({
+			ajaxPost: true,
+			callback: function(data){
+				console.log(JSON.stringify(data));
+				if(data.status == 200) {
+					layer.msg("操作成功", {
+		                icon: 1,
+		                time: 1000
+		            });
+		            setTimeout(function(){ 
+		            	closeAndFreshPrevFrame();	
+		            },1000)
+					
+				} else {
+					layer.msg(data.message, {
+						icon : 2,
+						time: 2000
+					});
+					$("#uuid").val(data.data);
+				}
+			}
+		});
+	
+</script>

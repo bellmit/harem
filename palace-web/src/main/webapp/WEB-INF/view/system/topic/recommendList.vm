@@ -1,212 +1,54 @@
-﻿
+
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/topiclist.css">
 
-<body>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/topic.css"/>
+
 <!--[if lt IE 8]>
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
-<div id="lablelist" class="container">
-  
-    <div class="addlable clearfix">
-    	<a href="#" class="addlablename">添加</a>
-    </div>
-    <div class="adconfig_bd">
-        <table class="tbgrid">
-            <thead>
-            <th>序号</th>
-            <th>话题名称</th>
-            <th>发起时间</th>
-            <th>参与人数</th>
-            <th>阅读数量</th>
-            <th>状态</th>
-            <th>操作</th>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td></td>
-                <td>2015-02-15 15:04:05:05</td>
-                <td></td>
-                <td></td>
-                <td>启用</td>
-                <td><a href="javascript:void(0)" class="edite disable">删除</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td></td>
-                <td>2015-02-15 15:04:05:05</td>
-                <td></td>
-                <td></td>
-                <td>启用</td>
-                <td><a href="javascript:void(0)" class="edite disable">删除</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td></td>
-                <td>2015-02-15 15:04:05:05</td>
-                <td></td>
-                <td></td>
-                <td>启用</td>
-                <td><a href="javascript:void(0)" class="edite disable">删除</a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td></td>
-                <td>2015-02-15 15:04:05:05</td>
-                <td></td>
-                <td></td>
-                <td>启用</td>
-                <td><a href="javascript:void(0)" class="edite disable">删除</a></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td></td>
-                <td>2015-02-15 15:04:05:05</td>
-                <td></td>
-                <td></td>
-                <td>启用</td>
-                <td><a href="javascript:void(0)" class="edite disable">删除</a></td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td></td>
-                <td>2015-02-15 15:04:05:05</td>
-                <td></td>
-                <td></td>
-                <td>启用</td>
-                <td><a href="javascript:void(0)" class="edite disable">删除</a></td>
-            </tr>
-            </tbody>
-        </table>
-	</div>
-</div>
-<div id="recommendlist" class="container">
-    <form class="form-signin" id="topicListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/recommendList" method="GET" role="form">
-       <div class="searchbox">
-            <table>
-                <tr>
-                    <td class="tit">话题名称：</td>
-                    <td><input name="aaa" maxlength="30" class="search_name" datatype="s"/></td>
-                </tr>
-                <tr>
-                    <td class="tit">发起时间：</td>
-                    <td class="aaa"><input type="text" class="form-control form-date dateInp" placeholder="" readonly="" name="startDateStr" value="2016-02-01 00:00"></td>
-                    <td><span >至</span></td>
-                    <td class="aaa"><input type="text" class="form-control form-date dateInp" placeholder="" readonly="" name="endDateStr" value="2016-04-25 18:00"></td>
-                    <td class="tit">状态：</td>
-                    <td>
-                        <select name="ccc">
-                            <option value="0">全部</option>
-                            <option value="1">启用</option>
-                            <option value="2">停用</option>
-                        </select>
-                    </td>
-                </tr>
-
-            </table>
-            <div class="button-group">
-                <a href="javascript:void(0)" class="search_btn">查询</a>
-                <a href="javascript:void(0)" class="reset">重置</a>
-           </div>
-        </div>     
-    </form>
-	<div class="adconfig_bd">
-	    <table class="tbgrid">
-	        <thead>
-	        <th></th>
-	        <th>话题名称</th>
-	        <th></th>
-	        <th></th>
-	        <th>发起时间</th>
-	        <th>参与人数</th>
-	        <th>阅读数量</th>
-	        <th>状态</th>
-	        </thead>
-	        <tbody>
-	        <tr>
-	            <td><input type="radio" name="status" value="1"></label> &nbsp;1</td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td>启用</td>
-	        </tr>
-	        <tr>
-	            <td><input type="radio" name="status" value="1"></label> &nbsp;2</td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	        </tr>
-	        <tr>
-	            <td><input type="radio" name="status" value="1"></label> &nbsp;3</td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	        </tr>
-	        <tr>
-	            <td><input type="radio" name="status" value="1"></label> &nbsp;4</td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	        </tr>
-	        <tr>
-	            <td><input type="radio" name="status" value="1"></label> &nbsp;5</td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	        </tr>
-	        <tr>
-	            <td><input type="radio" name="status" value="1"></label> &nbsp;6</td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	            <td></td>
-	        </tr>
-	        </tbody>
-	    </table>
-	</div>
-	<div class="button-group layerbtn">
-	    <a href="javascript:void(0)" class="confirmadd">确认添加</a>
-	    <a href="javascript:void(0)" class="cancel">取消</a>
-	</div>
+<div class="topicbox">
+	<form class="form-signin" id="topicListForm" name="topicListForm" action="" method="GET" role="form">
+		<div class="btn-single">
+			<input type="hidden"  id="addTopicUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list?isRecommendList=true" />
+			<button type="button" class="btn btn-primary btn-addtopic">添加</button>
+		</div>
+		<div class="tableGroup whole">
+			<table class="table table-hover">
+				<tbody>
+					<tr>
+						<th>序号</th>
+						<th>话题名称</th>
+						<th>发起时间</th>
+						<th>参与人数</th>
+						<th>阅读数量</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					#foreach($sugTopic in $sugTopiclist)
+						<tr>
+							<td>$!velocityCount</td>
+							<td>$!sugTopic.title</td>
+							<td>$!sugTopic.gmtCreated</td>
+							<td>$!sugTopic.talkNum</td>
+							<td>$!sugTopic.readNum</td>
+							<td>$!sugTopic.status</td>
+							<td>
+								<button type="button" class="btn btn-primary">删除</button>
+							</td>
+						</tr>	
+					#end
+				</tbody>
+			</table>
+		</div>	
+	</form>
+	
 </div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
-<script>seajs.use("recommendtopic");</script>
-<script type="text/javascript">
-	
-	(function(){
-		
-		
-		
-	})();
-	
-</script>
+<script>seajs.use("topic");</script>

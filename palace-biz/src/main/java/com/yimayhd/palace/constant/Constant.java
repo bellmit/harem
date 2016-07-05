@@ -63,6 +63,7 @@ public class Constant {
 	
 	public static final String TOPIC_STATUS_AVAILABLE = "AVAILABLE";
 	public static final String TOPIC_STATUS_DELETED = "DELETED";
+	public static final String TOPIC_PREFIX_SUFFIX = "#";
 
 
 }

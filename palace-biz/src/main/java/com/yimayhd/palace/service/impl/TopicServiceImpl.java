@@ -14,19 +14,20 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.SnsSugTopicVO;
 import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
 import com.yimayhd.palace.model.query.TopicListQuery;
 import com.yimayhd.palace.repo.TopicRepo;
 import com.yimayhd.palace.service.TopicService;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.snscenter.client.domain.SnsSugTopicDO;
 import com.yimayhd.snscenter.client.domain.SnsTopicDO;
 import com.yimayhd.snscenter.client.dto.topic.TopicInfoAddDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicInfoUpdateDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicSetDTO;
-import com.yimayhd.snscenter.client.dto.topic.TopicUpdateStatusDTO;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.result.topic.TopicResult;
 
@@ -122,10 +123,10 @@ public class TopicServiceImpl implements TopicService {
 	}
 	
 	@Override
-	public TopicVO updateTopic(TopicInfoVO topicInfoVO) {
+	public boolean updateTopic(TopicInfoVO topicInfoVO) {
 		
 		TopicInfoUpdateDTO topicInfoUpdateDTO = TopicInfoVO.getTopicInfoUpdateDTO(topicInfoVO);
-		BaseResult<SnsTopicDO> updateResult = topicRepo.updateTopic(topicInfoUpdateDTO);
+		BaseResult<Boolean> updateResult = topicRepo.updateTopic(topicInfoUpdateDTO);
 		
 		if(null == updateResult){
 			log.error("TopicServiceImpl.updateTopic-topicRepo.updateTopic result is null and parame: " + JSON.toJSONString(topicInfoUpdateDTO));
@@ -134,46 +135,69 @@ public class TopicServiceImpl implements TopicService {
 			log.error("TopicServiceImpl.updateTopic-topicRepo.updateTopic error:" + JSON.toJSONString(updateResult) + "and parame: " + JSON.toJSONString(topicInfoUpdateDTO));
 			throw new BaseException(updateResult.getResultMsg());
 		}
-		return TopicVO.getTopicVO(updateResult.getValue());
+		return updateResult.getValue();
 	}
 	
 	@Override
-	public boolean updateTopicStatus(long id, String status) {
-		if(!Constant.TOPIC_STATUS_AVAILABLE.equals(status) && !Constant.TOPIC_STATUS_DELETED.equals(status)){
-			return false;
-		}
+	public boolean updateTopicStatus(long id, int type) {
 		
-		TopicUpdateStatusDTO topicUpdateStatusDTO = new TopicUpdateStatusDTO();
-		topicUpdateStatusDTO.setId(id);
-		//topicUpdateStatusDTO.setStatus(status);
-		BaseResult<Boolean> result = topicRepo.updateTopicStatus(topicUpdateStatusDTO);
+		BaseResult<Boolean> result = topicRepo.updateTopicStatus(id, type);
 		if(null == result){
-			log.error("TopicServiceImpl.updateTopicStatus-topicRepo.updateTopicStatus result is null and parame: " + JSON.toJSONString(topicUpdateStatusDTO));
+			log.error("TopicServiceImpl.updateTopicStatus-topicRepo.updateTopicStatus result is null and parame: " + id +" "+ type);
 			throw new BaseException("修改返回结果为空,修改失败");
 		} else if(!result.isSuccess()){
-			log.error("TopicServiceImpl.updateTopicStatus-topicRepo.updateTopicStatus error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(topicUpdateStatusDTO));
+			log.error("TopicServiceImpl.updateTopicStatus-topicRepo.updateTopicStatus error:" + JSON.toJSONString(result) + "and parame: " + id +" "+ type);
 			throw new BaseException(result.getResultMsg());
 		}
-		return result.getValue();
+		boolean ret = false;
+		Boolean value = result.getValue();
+		if(value != null){
+			ret = value.booleanValue();
+		}
+		return ret;
 	}
 	
 	@Override
-	public boolean setTopic(List<Long> idList, String status){
+	public boolean setTopic(List<Long> idList, int status){
 		if(!Constant.TOPIC_STATUS_AVAILABLE.equals(status) && !Constant.TOPIC_STATUS_DELETED.equals(status)){
 			return false;
 		}
 		
 		TopicSetDTO topicSetDTO = new TopicSetDTO();
 		topicSetDTO.setIdList(idList);
-		//topicSetDTO.setStatus(status);
+		topicSetDTO.setStatus(status);
 		BaseResult<Boolean> result = topicRepo.setTopic(topicSetDTO);
 		if(null == result){
-			log.error("TopicServiceImpl.addRecommendTopic-topicRepo.setTopic result is null and parame: " + JSON.toJSONString(topicSetDTO));
+			log.error("TopicServiceImpl.setTopic-topicRepo.setTopic result is null and parame: " + JSON.toJSONString(topicSetDTO));
 			throw new BaseException("修改返回结果为空,修改失败");
 		} else if(!result.isSuccess()){
-			log.error("TopicServiceImpl.addRecommendTopic-topicRepo.setTopic error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(topicSetDTO));
+			log.error("TopicServiceImpl.setTopic-topicRepo.setTopic error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(topicSetDTO));
 			throw new BaseException(result.getResultMsg());
 		}
-		return result.getValue();
+		boolean ret = false;
+		Boolean value = result.getValue();
+		if(value != null){
+			ret = value.booleanValue();
+		}
+		return ret;
+	}
+
+	@Override
+	public List<SnsSugTopicVO> getSugTopicList() {
+		
+		BaseResult<List<SnsSugTopicDO>> result = topicRepo.getSugTopicList();
+		if(null == result){
+			log.error("TopicServiceImpl.getSugTopicList-topicRepo.getSugTopicList result is null");
+			throw new BaseException("修改返回结果为空,修改失败");
+		} else if(!result.isSuccess()){
+			log.error("TopicServiceImpl.getSugTopicList-topicRepo.getSugTopicList error:" + JSON.toJSONString(result));
+			throw new BaseException(result.getResultMsg());
+		}
+		
+		List<SnsSugTopicDO> list = result.getValue();
+		if(list == null){
+			list = new ArrayList<SnsSugTopicDO>();
+		}
+		return SnsSugTopicVO.getSugTopicVOList(list);
 	}
 }
