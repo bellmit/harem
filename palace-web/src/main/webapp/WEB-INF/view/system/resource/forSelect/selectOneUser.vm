@@ -34,6 +34,7 @@
 					var str = this.split("_");
 					var rId = parseInt(str[1]);
 					var rName = str[2];
+					alert(rName)
 					if(parseInt(str[1]) != oId) {
 						nResources.push({rId:rId,rName:rName});
 					}
@@ -73,7 +74,7 @@
 		for(i in itemList) {
 			var item = itemList[i];
 			resource_table[item.id] = item;
-			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
+			var tr = $("<tr id='resource_"+item.id+"_"+item.nickname+"'></tr>");
             tr.append($("<td>"+item.nickname+"</td>"));
 			tr.append($("<td>"+item.statusText+"</td>"));
             tbody.append(tr);
