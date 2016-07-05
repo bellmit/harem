@@ -64,6 +64,7 @@
                             <input class="picUrlsVal" type="hidden" name="picListStr" value="">
                     </td>
                 </tr>
+				#if($live)
                 <tr>
                     <td>播放视频：</td>
                     <td class="videoTd">
@@ -79,6 +80,7 @@
                     <input class="picUrlsVal" type="hidden" name="picListStr" value="$live.videoUrl">
                     </td>
                 </tr>
+				#end
 
         </table>
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
