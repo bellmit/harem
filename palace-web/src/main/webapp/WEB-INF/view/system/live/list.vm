@@ -63,7 +63,7 @@
                     <th width="8%">用户昵称</th>
                     <th width="8%">用户手机号</th>
                     <th width="30%">内容</th>
-                    <th width="10%">标签</th>
+                    <th width="10%">话题</th>
                     <th width="3%">点赞数</th>
                     <th width="3%">评论数</th>
                     <th width="5%">状态</th>
