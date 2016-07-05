@@ -17,25 +17,36 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">话题名称</button>
                 </span>
-				<input type="text" class="form-control" name="orderNO" value="">
+				<input type="text" class="form-control" name="title" value="$!topicListQuery.title">
 			</div>
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">发起时间</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="beginDate" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="startTime" value="$!topicListQuery.startTime">
 				<span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-				<input type="text" class="form-control form-date dateInp" readonly name="endDate" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="endTime" value="$!topicListQuery.endTime">
 			</div>
 
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="orderStat">
+                
+                
+                
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="status">
                     <option value="">全部</option>
-                    <option value="">启用</option>
-                    <option value="">停用</option>
+                    <option value="1"
+                    	#if($topicListQuery.status == $topicAvaliable)
+                    		selected="selected"
+                		#end
+                    >启用</option>
+                    <option value="0"
+                    	#if($topicListQuery.status == $topicUnavailable)
+                    		selected="selected"
+                		#end
+                    >停用</option>
                 </select>
 			</div>
 			<div class="btn-group">

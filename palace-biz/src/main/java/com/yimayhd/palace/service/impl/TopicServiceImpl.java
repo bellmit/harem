@@ -52,20 +52,20 @@ public class TopicServiceImpl implements TopicService {
 		}
 		
 		//话题名称
-		if (!StringUtils.isBlank(topicListQuery.getTitle())) {
+		if (StringUtils.isNotBlank(topicListQuery.getTitle())) {
 			pageQuery.setTitle(topicListQuery.getTitle());			
 		}
 		//景区状态
-		if (topicListQuery.getStatus() != null) {			
+		if (StringUtils.isNotBlank(topicListQuery.getStatus())) {			
 			pageQuery.setStatus(Integer.parseInt(topicListQuery.getStatus()));
 		}
 		//开始时间
-		if (!StringUtils.isBlank(topicListQuery.getStartTime())) {
+		if (StringUtils.isNotBlank(topicListQuery.getStartTime())) {
 			Date startTime = DateUtil.parseDate(topicListQuery.getStartTime());
 			pageQuery.setStartTime(startTime);
 		}
 		//结束时间
-		if (!StringUtils.isBlank(topicListQuery.getEndTime())) {
+		if (StringUtils.isNotBlank(topicListQuery.getEndTime())) {
 			Date endTime = DateUtil.parseDate(topicListQuery.getEndTime());
 			pageQuery.setEndTime(DateUtil.add23Hours(endTime));
 		}
