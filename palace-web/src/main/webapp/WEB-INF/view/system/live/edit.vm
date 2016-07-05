@@ -140,7 +140,7 @@
                 }
                 $("#userImg").attr('src',tfsRootPath + user.avatar);
                 $("#userId").val(user.id);
-                $("#userName").html(user.nickName);
+                $("#userName").html(user.nickname);
                 return true;
             });
         });
