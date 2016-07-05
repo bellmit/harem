@@ -5,8 +5,10 @@ import com.yimayhd.palace.model.query.SockpuppetListQuery;
 import com.yimayhd.palace.model.vo.SockpuppetVO;
 
 /**
- * 运行小号
- * @author xmn
+ * 运营小号
+ * @return
+ * date:2016年7月5日
+ * author:xmn
  */
 public interface SockpuppetService{
 

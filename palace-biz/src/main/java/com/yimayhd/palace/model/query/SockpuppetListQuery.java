@@ -4,9 +4,9 @@ import com.yimayhd.palace.base.BaseQuery;
 
 /**
  * 运营小号
- * 
- * @author xmn
- *
+ * @return
+ * date:2016年7月5日
+ * author:xmn
  */
 public class SockpuppetListQuery extends BaseQuery {
 	/**

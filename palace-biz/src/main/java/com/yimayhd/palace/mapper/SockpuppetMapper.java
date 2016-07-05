@@ -5,7 +5,12 @@ import java.util.List;
 import com.yimayhd.palace.base.BaseMapper;
 import com.yimayhd.palace.model.SockpuppetDO;
 import com.yimayhd.palace.model.query.SockpuppetListQuery;
-
+/**
+ * 运营小号
+ * @return
+ * date:2016年7月5日
+ * author:xmn
+ */
 public interface SockpuppetMapper extends BaseMapper<SockpuppetDO>{
     /**
      *  根据主键删除数据库的记录,sockpuppet

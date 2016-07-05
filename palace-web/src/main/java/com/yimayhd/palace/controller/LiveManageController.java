@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 直播管理
- * @author xzj
+ * 运营小号
+ * @return
+ * date:2016年7月5日
+ * author:xmn
  */
 @Controller
 @RequestMapping("/B2C/liveManage")

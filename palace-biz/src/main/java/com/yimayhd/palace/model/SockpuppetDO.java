@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.yimayhd.palace.base.BaseModel;
-
+/**
+ * 运营小号
+ * @return
+ * date:2016年7月5日
+ * author:xmn
+ */
 public class SockpuppetDO extends BaseModel implements Serializable{
 
     /**

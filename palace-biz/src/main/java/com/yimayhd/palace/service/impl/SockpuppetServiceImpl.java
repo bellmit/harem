@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.BaseServiceImpl;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.enums.SockpuppetStatusEnum;
@@ -23,10 +22,11 @@ import com.yimayhd.palace.service.SockpuppetService;
 import com.yimayhd.user.client.result.BasePageResult;
 
 /**
- * 角色表（菜单）
- * @author czf
+ * 运营小号
+ * @return
+ * date:2016年7月5日
+ * author:xmn
  */
-//@Service
 public class SockpuppetServiceImpl extends BaseServiceImpl<SockpuppetDO> implements SockpuppetService{
 	protected final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired

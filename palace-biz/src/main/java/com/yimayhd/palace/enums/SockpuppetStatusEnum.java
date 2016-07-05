@@ -1,10 +1,10 @@
 package com.yimayhd.palace.enums;
 
 /**
- * 九休商品类型
- * 
- * @author yebin
- *
+ * 运营小号
+ * @return
+ * date:2016年7月5日
+ * author:xmn
  */
 public enum SockpuppetStatusEnum {
 	EFFECTIVE(10, "有效"), INVALID(20, "停用");
