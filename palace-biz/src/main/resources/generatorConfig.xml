@@ -15,10 +15,14 @@
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
 		
+		<!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+			<!--connectionURL="jdbc:mysql://127.0.0.1:3306/seller_console?useUnicode=true&amp;amp;characterset=utf-8"-->
+            <!--userId="root"-->
+			<!--password="root" />-->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://127.0.0.1:3306/seller_console?useUnicode=true&amp;amp;characterset=utf-8"
-            userId="root"
-			password="root" />
+						connectionURL="jdbc:mysql://localhost:3306/seller_console?useUnicode=true&amp;amp;characterset=utf-8"
+						userId="root"
+						password="root" />
 		
 		<javaModelGenerator targetPackage="com.yimayhd.palace.model"
 			targetProject="../palace-client/src/main/java" />

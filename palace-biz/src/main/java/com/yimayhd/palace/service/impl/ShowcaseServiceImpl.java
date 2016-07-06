@@ -254,10 +254,11 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception {
+        PageVO<ShowCaseItem> page = new PageVO<ShowCaseItem>();
         ICPageResult<ItemInfo> result = itemBizQueryService.getItem(itemQryDTO);
         if(null == result || !result.isSuccess() || null == result.getList()){
             LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is " + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(itemQryDTO));
-            return null;
+            return page;
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         List<Long> idList = new ArrayList<Long>();
@@ -280,7 +281,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         BaseResult<Map<Long, List<ComTagDO>>> tagResult = comTagCenterService.getComTag(tag);
         if(null == tagResult || !tagResult.isSuccess()){
             LOGGER.error("getItemByItemOptionDTO|comTagCenterService.getComTag result is " + JSON.toJSONString(tagResult) +",parameter is "+JSON.toJSONString(tag));
-            return null;
+            return page;
         }
 
         //标签获取完了
@@ -331,7 +332,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             list.add(sc);
         }
-        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(itemQryDTO.getPageNo(), itemQryDTO.getPageSize(), result.getTotalCount(), list);
+        page  = new PageVO<ShowCaseItem>(itemQryDTO.getPageNo(), itemQryDTO.getPageSize(), result.getTotalCount(), list);
         return page;
     }
 

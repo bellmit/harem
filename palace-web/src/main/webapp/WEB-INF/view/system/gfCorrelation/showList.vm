@@ -1,0 +1,160 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/css/add.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+    <form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/listProSearch/$!id" method="POST" role="form">
+        <div class="tableGroup whole">
+			<div id = "addListID">
+				<h3>主商品：</h3>
+				<div class = "add-cont1"><img class="uploadImgFile" src="#if($!masterItem.smallListPic && $!masterItem.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!masterItem.smallListPic) #end"></div>
+				<div class = "add-cont2">
+					<ul>
+						<li>&nbsp;</li>
+						<li><font>商品ID：</font>$!masterItem.id</li>
+						<li><font>商品名称：</font>$!masterItem.title</li>
+						<li><font>商品价格：</font>￥ $utilNum.moneyTransform($!masterItem.price)</li>
+					</ul>
+				</div>
+				<div class = "add-btn"><button type="button" class="btn btn-primary addItemBtn" >添加关联商品</button></div>
+			</div>
+			<p class = "tip">关联推荐商品：<font>（请选择 4 个商品作为推荐商品，此 4 件商品将显示在主商品的单品详情页中。）</font></p>
+			#if($themeItemList)
+                <table class="table table-hover">
+                    <tr>
+                        <th>全选 <input class="allChecked" name="allChecked" type="checkbox"></th>
+                        <th>商品名称</th>
+                        <th>商品状态</th>
+                        <th>操作</th>
+                    </tr>
+                        #foreach($theme in $themeItemList)
+                        <tr class="subCheckedTR">
+                            <td><input class="subChecked" type="checkbox" value="$!{theme.outId}"></td>
+                            <td>
+                            	<p><img class="uploadImgFile" src="#if($!theme.smallListPic && $!theme.smallListPic != "")$!{utilWebconfig.getTfsRootPath()}$!utilText.getPicFirst($!theme.smallListPic) #end"></p>
+    	                        $!theme.title<br>
+								商品编码：$!theme.id
+                            </td>
+                            <td>#COMMODITY_STATUS($!theme.status) </td>
+                            <td><button type="button" class="btn btn-primary delRecommend"  recommendId="$theme.outId">移除 </button> </td>
+                        </tr>
+                        #end
+                </table>
+			#else
+                <center>此商品还没有添加关联推荐商品</center>
+			#end
+        </div>
+    </form>
+	<div class="btnBottomMargin addListBtn">
+		#if($themeItemList)
+			<button type="button" class="btn btn-primary commodityBatchBtn">移除选中商品</button>
+		#end
+        <a href="$!utilWebconfig.getActionDefaultFontPath()/GF/commodityManage/list"><button type="button" class="btn btn-primary" >返回</button></a>
+    </div>
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+    function openwin(url) {
+        var a = document.createElement("a");
+        a.setAttribute("href", url);
+        a.setAttribute("target", "_blank");
+        a.setAttribute("id", "camnpr");
+        document.body.appendChild(a);
+        a.click();
+    }
+    $(function(){
+        //全选
+        $('.allChecked').click(function(){
+            $('.subChecked').prop('checked',$(this).prop('checked'));
+        });
+		
+		 $('.delRecommend').each(function(){
+            $(this).click(function(){
+				
+				var arr = new Array();
+                arr.push($(this).attr("recommendId"));
+        	  var confirmText = "确定移除此推荐商品?";
+	      		
+	      		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
+				$(this).prop('disabled',true);
+	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/correlationManager/batchDelItem',{themeIdList:arr},function(data){
+	                  if(data.status == 200){
+                        layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                            window.location.href = window.location.href;
+                        },1500);
+                    }else{
+                        layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                        $(this).prop('disabled',false);
+                    }
+	            	 })
+	      		});	 
+            });
+        });
+		
+		
+         //批量
+        $('.commodityBatchBtn').click(function(){
+        	
+        	var arr = new Array();
+            $('.subChecked:checked').each(function(){
+                arr.push($(this).val());
+            });
+            if(arr==null||arr==""){
+          	  layer.alert('请选择需要移除的商品!', {
+                      icon: 2,
+                      time: 2000
+                  })
+	          }else{
+        	  var confirmText = "确定移除选中推荐商品?";
+	      		
+	      		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
+				$(this).prop('disabled',true);
+	        	 $.post('$!utilWebconfig.getActionDefaultFontPath()/GF/correlationManager/batchDelItem',{themeIdList:arr},function(data){
+	                 if(data&&data.status == 200){
+	                     layer.alert('操作成功', {
+	                         icon: 1,
+	                         time: 4500
+	                     }, function(){
+	                         window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/GF/correlationManager/findItem/$!{id}';
+	                          //window.location.reload();
+	                     });
+	                 }else{
+	                     layer.alert('操作失败', {
+	                         icon: 2,
+	                         time: 2000
+	                     }, function(){
+	                         $(this).prop('disabled',false);
+	                     });
+	                 }
+	            	 })
+	      		});	 
+	             	
+	          }
+            
+           
+        });
+		
+		 $(".addItemBtn").click(function(){
+                var url = actionDefaultPath + '/GF/correlationManager/toAddItem/$!{masterItem.id}?commStatus=2';
+                //TODO
+                //window.openwin(url);
+                top.tabsAdd("",url,2,$(this).text());
+            });
+    });
+    
+</script>

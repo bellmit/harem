@@ -58,6 +58,7 @@ public class VoucherController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, VoucherListQuery voucherListQuery)
 			throws Exception {
+		voucherListQuery.setVoucherType(VoucherType.SUM_REDUCE.getType());
 		PageVO<VoucherTemplateVO> pageVO = voucherTemplateService
 				.getList(voucherListQuery);
 		model.addAttribute("voucherListQuery", voucherListQuery);
