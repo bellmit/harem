@@ -59,7 +59,7 @@
     	});
 	}
 	// 初始化分页条
-	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/queryUserForSelect", function(query, pageVo){
+	pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/querySockpuppetForSelect", function(query, pageVo){
 		$("#nickname").val(query.nickname);
 		showData(pageVo.itemList);
 	});
@@ -67,16 +67,15 @@
 	function showData(itemList) {
 		$(".selectResourceTable").empty();
 		var table = $("<table class='table table-striped table-hover resourceTable'/>");
-		table.append("<thead><tr><th>昵称</th><th>姓名</th><th>状态</th></tr></thead>");
+		table.append("<thead><tr><th>昵称</th><th>状态</th></tr></thead>");
 		var tbody= $("<tbody/>");
 		table.append(tbody);
 		for(i in itemList) {
 			var item = itemList[i];
 			resource_table[item.id] = item;
-			var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
+			var tr = $("<tr id='resource_"+item.id+"_"+item.nickname+"'></tr>");
             tr.append($("<td>"+item.nickname+"</td>"));
-			tr.append($("<td>"+item.name+"</td>"));
-			tr.append($("<td>"+(item.status==1?'有效':'停用')+"</td>"));
+			tr.append($("<td>"+item.statusText+"</td>"));
             tbody.append(tr);
 		}
 		$(".selectResourceTable").append(table);

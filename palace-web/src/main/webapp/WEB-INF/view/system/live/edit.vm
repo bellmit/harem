@@ -135,7 +135,7 @@
 
         //选择大咖
         $('.selectUser').click(function(){
-            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser','选择用户',function() {
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectSockPuppetUser','选择用户',function() {
                 var user = win.getItem();
                 if(user == null){
                     return;
