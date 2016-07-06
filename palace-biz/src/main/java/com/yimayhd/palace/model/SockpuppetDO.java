@@ -30,7 +30,7 @@ public class SockpuppetDO extends BaseModel implements Serializable{
     /**
      *  手机号,所属表字段为sockpuppet.mobile
      */
-    private Long mobile;
+    private String mobile;
 
     /**
      *  用户头像,所属表字段为sockpuppet.avatar
@@ -103,7 +103,7 @@ public class SockpuppetDO extends BaseModel implements Serializable{
      *
      * @return sockpuppet.mobile, 手机号
      */
-    public Long getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
@@ -112,8 +112,8 @@ public class SockpuppetDO extends BaseModel implements Serializable{
      *
      * @param mobile sockpuppet.mobile, 手机号
      */
-    public void setMobile(Long mobile) {
-        this.mobile = mobile;
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     /**
