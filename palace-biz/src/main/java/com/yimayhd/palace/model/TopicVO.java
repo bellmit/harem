@@ -45,6 +45,11 @@ public class TopicVO extends SnsTopicDO {
 		
     	SnsTopicDO topicDO = new SnsTopicDO();
         BeanUtils.copyProperties(topicVO, topicDO);
+        String title = topicDO.getTitle();
+        if(title != null){
+        	topicDO.setTitle(title.trim());
+        }
+        
         return topicDO;
     }
     
@@ -55,6 +60,7 @@ public class TopicVO extends SnsTopicDO {
     	
         TopicVO topicVO = new TopicVO();
         BeanUtils.copyProperties(topicDO, topicVO);
+        topicVO.setTitle(getTopicTitle2(topicVO.getTitle()));
         return topicVO;
     }
     
@@ -81,10 +87,10 @@ public class TopicVO extends SnsTopicDO {
     		return "";
     	}
     	
-    	title = title.replaceAll("#", "");
+    	title = title.replaceAll(Constant.TOPIC_PREFIX_SUFFIX, "");
     	StringBuilder sb = new StringBuilder();
     	sb.append(Constant.TOPIC_PREFIX_SUFFIX);
-    	sb.append(title);
+    	sb.append(title.trim());
     	sb.append(Constant.TOPIC_PREFIX_SUFFIX);
     	return sb.toString();
     }
@@ -94,7 +100,7 @@ public class TopicVO extends SnsTopicDO {
     		return "";
     	}
     	
-    	title = title.replaceAll("#", "");
+    	title = title.replaceAll(Constant.TOPIC_PREFIX_SUFFIX, "");
     	return title;
     }
     

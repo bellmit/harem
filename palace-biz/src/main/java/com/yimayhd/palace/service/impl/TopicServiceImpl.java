@@ -87,7 +87,7 @@ public class TopicServiceImpl implements TopicService {
 		return new PageVO<TopicVO>(pageQuery.getPageNo(), pageQuery.getPageSize(), totalCount, itemList);
 	}
 	
-	public TopicVO getTopicDetailInfo(long id){
+	public TopicVO getTopicDetailInfo(long id) throws Exception {
 		
 		TopicQueryDTO query = new TopicQueryDTO();
 		query.setId(id);
@@ -106,7 +106,10 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public TopicVO addTopic(TopicInfoVO topicInfoVO) {
+	public TopicVO addTopic(TopicInfoVO topicInfoVO) throws Exception {
+		
+		//判断景区是否存在
+		this.judgeExist(topicInfoVO);
 		
 		TopicInfoAddDTO topicInfoAddDTO = TopicInfoVO.getTopicInfoAddDTO(topicInfoVO);
 		BaseResult<SnsTopicDO> addResult = topicRepo.addTopic(topicInfoAddDTO);
@@ -123,7 +126,7 @@ public class TopicServiceImpl implements TopicService {
 	}
 	
 	@Override
-	public boolean updateTopic(TopicInfoVO topicInfoVO) {
+	public boolean updateTopic(TopicInfoVO topicInfoVO) throws Exception {
 		
 		TopicInfoUpdateDTO topicInfoUpdateDTO = TopicInfoVO.getTopicInfoUpdateDTO(topicInfoVO);
 		BaseResult<Boolean> updateResult = topicRepo.updateTopic(topicInfoUpdateDTO);
@@ -139,7 +142,7 @@ public class TopicServiceImpl implements TopicService {
 	}
 	
 	@Override
-	public boolean updateTopicStatus(long id, int type) {
+	public boolean updateTopicStatus(long id, int type) throws Exception {
 		
 		BaseResult<Boolean> result = topicRepo.updateTopicStatus(id, type);
 		if(null == result){
@@ -158,10 +161,7 @@ public class TopicServiceImpl implements TopicService {
 	}
 	
 	@Override
-	public boolean setTopic(List<Long> idList, int status){
-		if(!Constant.TOPIC_STATUS_AVAILABLE.equals(status) && !Constant.TOPIC_STATUS_DELETED.equals(status)){
-			return false;
-		}
+	public boolean setTopic(List<Long> idList, int status) throws Exception {
 		
 		TopicSetDTO topicSetDTO = new TopicSetDTO();
 		topicSetDTO.setIdList(idList);
@@ -183,7 +183,7 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public List<SnsSugTopicVO> getSugTopicList() {
+	public List<SnsSugTopicVO> getSugTopicList() throws Exception {
 		
 		BaseResult<List<SnsSugTopicDO>> result = topicRepo.getSugTopicList();
 		if(null == result){
@@ -199,5 +199,38 @@ public class TopicServiceImpl implements TopicService {
 			list = new ArrayList<SnsSugTopicDO>();
 		}
 		return SnsSugTopicVO.getSugTopicVOList(list);
+	}
+	
+	public void judgeExist(TopicInfoVO topicInfoVO) throws Exception{
+		
+		if(topicInfoVO == null){
+			return;
+		}
+		
+		TopicListQuery query = new TopicListQuery();
+		query.setTitle(query.getTitle());
+		PageVO<TopicVO> pageVo = this.getTopicPageList(query);
+		if(pageVo == null){
+			return;
+		}
+		
+		List<TopicVO> list = pageVo.getItemList();
+		if(list == null || list.size() == 0){
+			return;
+		}
+		
+		String title = topicInfoVO.getTitle().trim();
+		
+		TopicVO topicVO = null;
+		for(int i = 0; i < list.size(); i++){
+			topicVO = list.get(i);
+			if(!title.equals(topicVO.getTitle().trim())){
+				continue;
+			}
+			
+			if(topicInfoVO.getId() != topicVO.getId()){
+				throw new BaseException(Constant.TOPIC_REPEAT);
+			}
+		}
 	}
 }

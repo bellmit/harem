@@ -37,7 +37,7 @@
 								readonly="readonly"
 							#end
 							/>
-						<span class="limit">1/20字</span>
+						<span class="limit">20字</span>
 					</td>
 				</tr>
 				<tr>

@@ -179,23 +179,24 @@ public class TopicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/setTopic", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setTopic(String idStr, String status) throws Exception {
+	public ResponseVo setTopic(String id, String status) throws Exception {
 		try {
-			if(StringUtils.isBlank(idStr) || StringUtils.isBlank(status)){
+			if(StringUtils.isBlank(id) || StringUtils.isBlank(status)){
 				return ResponseVo.error();
 			}
 			
 			List<Long> idList = new ArrayList<Long>();
-			String[] arr = idStr.split(",");
-			for(int i = 0; i < arr.length; i++){
-				idList.add(Long.parseLong(arr[i]));
+			try{
+				idList.add(Long.parseLong(id));
+			}catch(Exception e){
+				return ResponseVo.error();
 			}
 			
 			boolean isSuccess = topicService.setTopic(idList, Integer.parseInt(status));
 			if(isSuccess){
 				return ResponseVo.success();
 			}
-			return ResponseVo.error();
+			return ResponseVo.error(null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
