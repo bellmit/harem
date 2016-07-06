@@ -15,6 +15,19 @@
                     <td> <input type="text" class="inpCtlBlock description" name="desc"  value=""></td>
                 </tr>
                 <tr>
+                    <td>选择版本：</td>
+                    <td>
+                        <select class="form-control" name="appVersion" id="appvId" >
+                            <option value="0">请选择</option>
+                            #foreach($!appv in $listAppVersion)
+                                <option id="$!appv.id" value="$!appv.code"
+                                         #*#if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end*#
+                                >$!appv.description</option>
+                            #end
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>缓存类型</td>
                     <td>
                         <select class="form-control" name="isCache">

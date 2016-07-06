@@ -25,12 +25,11 @@ import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
+import com.yimayhd.resourcecenter.domain.AppVersionDO;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
-import com.yimayhd.resourcecenter.model.enums.CacheType;
-import com.yimayhd.resourcecenter.model.enums.RegionStatus;
-import com.yimayhd.resourcecenter.model.enums.RegionType;
-import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
+import com.yimayhd.resourcecenter.model.enums.*;
+import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
@@ -87,6 +86,9 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/booth/add", method = RequestMethod.GET)
     public String boothToAdd(Model model) throws Exception {
         model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
+        AppVersionQuery appvQuery = new AppVersionQuery();
+        appvQuery.setStatus(AppVersionStauts.ONLINE.getStatus());
+        model.addAttribute("listAppVersion", boothService.queryAppVersionList(appvQuery));
         return "/system/banner/booth/edit";
     }
 
@@ -98,7 +100,7 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/add", method = RequestMethod.POST)
     public String boothAdd(Model model,BoothVO boothVO) throws Exception {
-        //boothService.add(boothVO);
+        boothService.add(boothVO);
         return "success";
     }
 
@@ -116,20 +118,14 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothCode",boothCode);
         model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
-        //把boothid返回去。假如该booth没有showcase，那么在查一遍
-        if(CollectionUtils.isEmpty(page.getItemList())){
-            BoothDO db = showcaseService.getBoothInfoByBoothCode(boothCode);
-            if(null != db ){
-                model.addAttribute("boothId",db.getId());
-            }
-        }
         return "/system/banner/showcase/list";
     }
 
     @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
-    public String showcaseToNewAdd(Model model,long boothId,String boothCode) throws Exception {
-        model.addAttribute("boothId",boothId);
-        model.addAttribute("boothCode",boothCode);
+    public String showcaseToNewAdd(Model model,ShowcaseQuery showcaseQuery) throws Exception {
+        model.addAttribute("boothId",showcaseQuery.getBoothId());
+        model.addAttribute("boothCode",showcaseQuery.getBoothCode());
+        model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
@@ -169,6 +165,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothId",null==showcase?0:showcase.getBoothId());
         model.addAttribute("showcase",showcase);
         model.addAttribute("boothCode",boothCode);
+        model.addAttribute("appVersionCode",showcase.getAppVersionCode());
         model.addAttribute("operationDetailId",showcase.getOperationDetailId());
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);

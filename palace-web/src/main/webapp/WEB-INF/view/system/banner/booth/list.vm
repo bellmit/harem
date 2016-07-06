@@ -22,6 +22,7 @@
                     <th>序号</th>
                     <th>code</th>
                     <th>广告位</th>
+                    <th>版本</th>
                     <th>操作</th>
                 </tr>
                     #set($list = $pageVo.itemList)
@@ -30,8 +31,10 @@
                         <td>$velocityCount</td>
                         <td>$!entity.code</td>
                         <td>$!entity.name</td>
+                        <td>$!entity.appVersion</td>
                         <td>
-                            <button type="button" class="btn btn-primary entityDetail" entityCode="$!entity.code" entityId="$entity.id">详情</button>
+                            <button type="button" class="btn btn-primary entityDetail"
+                                    appVersion="$!entity.appVersion "  entityCode="$!entity.code" entityId="$entity.id">详情</button>
                         </td>
                     </tr>
                     #end
@@ -46,7 +49,11 @@
         //详情
         $('.entityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/banner/showcase/list/'+ $(this).attr('entityCode')+"?pageNumber=1";
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/banner/showcase/list/'
+                        + $(this).attr('entityCode')
+                        +"?boothId="+$(this).attr('entityId')
+                        +"&appVersionCode="+$(this).attr('appVersion')
+                        +"&pageNumber=1";
                 top.tabsAdd("",url,2,$(this).text());
             });
 
