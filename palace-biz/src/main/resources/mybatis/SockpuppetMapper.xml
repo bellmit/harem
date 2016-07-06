@@ -9,7 +9,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
-    <result column="mobile" property="mobile" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
@@ -49,7 +49,7 @@
       mobile, avatar, status, 
       gmt_created, gmt_modified)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=BIGINT}, #{avatar,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{mobile,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{gmtCreated,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yimayhd.palace.model.SockpuppetDO" >
@@ -95,7 +95,7 @@
         #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null" >
-        #{mobile,jdbcType=BIGINT},
+        #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null" >
         #{avatar,jdbcType=VARCHAR},
@@ -125,7 +125,7 @@
         nickname = #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null" >
-        mobile = #{mobile,jdbcType=BIGINT},
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null" >
         avatar = #{avatar,jdbcType=VARCHAR},
@@ -150,7 +150,7 @@
     update sockpuppet
     set user_id = #{userId,jdbcType=BIGINT},
       nickname = #{nickname,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=BIGINT},
+      mobile = #{mobile,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},

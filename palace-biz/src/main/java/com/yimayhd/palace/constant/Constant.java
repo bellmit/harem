@@ -61,10 +61,7 @@ public class Constant {
 	
 	public static final String UN_COMPLETE_DATA = "资料不完整，不能启用";
 	
-	
-	public static final String TOPIC_STATUS_AVAILABLE = "AVAILABLE";
-	public static final String TOPIC_STATUS_DELETED = "DELETED";
 	public static final String TOPIC_PREFIX_SUFFIX = "#";
-
+	public static final String TOPIC_REPEAT = "该话题已存在，不需要重复添加";
 
 }

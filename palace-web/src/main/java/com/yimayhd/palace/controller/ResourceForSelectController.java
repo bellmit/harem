@@ -283,6 +283,16 @@ public class ResourceForSelectController extends BaseController {
 	public String selectOneUser() {
 		return "/system/resource/forSelect/selectOneUser";
 	}
+	/**
+	 * 选择一个用户
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectSockPuppetUser")
+	public String selectSockPuppetUser() {
+		return "/system/resource/forSelect/selectSockPuppetUser";
+	}
 
 	/**
 	 * 选择用户

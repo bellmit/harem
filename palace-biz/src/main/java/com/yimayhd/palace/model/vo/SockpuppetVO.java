@@ -17,7 +17,7 @@ public class SockpuppetVO implements Serializable {
 	private Long id;
 	private Long userId;
 	private String nickname;
-	private Long mobile;
+	private String mobile;
 	private Integer status;
 	private Date gmtCreated;
 	private Date gmtModified;
@@ -50,14 +50,6 @@ public class SockpuppetVO implements Serializable {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname == null ? null : nickname.trim();
-	}
-
-	public Long getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(Long mobile) {
-		this.mobile = mobile;
 	}
 
 	public void setStatus(Integer status) {
@@ -94,4 +86,13 @@ public class SockpuppetVO implements Serializable {
     public void setAvatar(String avatar) {
         this.avatar = avatar == null ? null : avatar.trim();
     }
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+    
 }

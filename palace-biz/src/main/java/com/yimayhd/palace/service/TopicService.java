@@ -12,16 +12,16 @@ public interface TopicService {
 	
 	PageVO<TopicVO> getTopicPageList(TopicListQuery topicListQuery) throws Exception;
 	
-    TopicVO getTopicDetailInfo(long id);
+    TopicVO getTopicDetailInfo(long id) throws Exception ;
     
-    TopicVO addTopic(TopicInfoVO topicInfoVO);
+    TopicVO addTopic(TopicInfoVO topicInfoVO) throws Exception ;
     
-    boolean updateTopic(TopicInfoVO topicInfoVO);
+    boolean updateTopic(TopicInfoVO topicInfoVO) throws Exception ;
     
-    boolean updateTopicStatus(long id, int type);
+    boolean updateTopicStatus(long id, int type) throws Exception ;
         
-    boolean setTopic(List<Long> idList, int status);
+    boolean setTopic(List<Long> idList, int status) throws Exception ;
     
-    public List<SnsSugTopicVO> getSugTopicList();
+    public List<SnsSugTopicVO> getSugTopicList() throws Exception ;
 
 }

@@ -27,14 +27,20 @@
 				<span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
 				<input type="text" class="form-control form-date dateInp" readonly name="endTime" value="$!topicListQuery.endTime">
 			</div>
-
+			<div class="input-group inpSingle ">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">是否有描述</button>
+                </span>
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="">
+                    <option value="">全部</option>
+                    <option value="1" >是</option>
+                    <option value="0" >否</option>
+                </select>
+			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态</button>
                 </span>
-                
-                
-                
 				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="status">
                     <option value="">全部</option>
                     <option value="1"
@@ -180,9 +186,32 @@
 	    $('.confirmAdd').click(function(){
 	    	
 	    	console.log($("input[name='topicId']:checked").val());
-	    
-	    	parent.location.reload();
-	    	parent.layer.close(index);
+	    	
+	    	
+	    	var id = $("input[name='topicId']:checked").val();
+	    	var url = actionDefaultPath + '/jiuxiu/topic/setTopic';
+            var params = {
+            	id: id,
+            	status: 1
+            };
+            $.post(url, params, function(data){
+				if(data.status == 200) {
+					layer.msg("操作成功", {
+		                icon: 1,
+		                time: 1000
+		            });
+		            setTimeout(function(){ 
+		            	parent.location.reload();
+    					parent.layer.close(index);
+		            },1000)
+					
+				} else {
+					layer.msg(data.message, {
+						icon : 2,
+						time: 2000
+					});
+				}
+		    },"json");
 	    });
 	    
 	    $('.cancel').click(function(){
