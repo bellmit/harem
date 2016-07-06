@@ -9,27 +9,37 @@ import com.yimayhd.snscenter.client.dto.topic.TopicInfoUpdateDTO;
  * Created by hongfei.guo on 2016/06/27.
  */
 public class TopicInfoVO{
-
+	
 	private long id;
+
+	private String title;
 
     private String pics;
 
     private String content;
 
     public long getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
+	public void setId(long id) {
+		this.id = id;
+	}
+    
     public String getPics() {
         return pics;
     }
 
     public void setPics(String pics) {
         this.pics = pics;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
@@ -47,6 +57,8 @@ public class TopicInfoVO{
         	return topicInfoAddDTO;
         }
         BeanUtils.copyProperties(topicInfoVO, topicInfoAddDTO);
+        topicInfoAddDTO.setTitle(TopicVO.getTopicTitle(topicInfoAddDTO.getTitle()));
+        
         return topicInfoAddDTO;
     }
     
@@ -59,4 +71,6 @@ public class TopicInfoVO{
         BeanUtils.copyProperties(topicInfoVO, topicInfoUpdateDTO);
         return topicInfoUpdateDTO;
     }
+    
+    
 }

@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.util.RepoUtils;
+import com.yimayhd.snscenter.client.domain.SnsSugTopicDO;
 import com.yimayhd.snscenter.client.domain.SnsTopicDO;
 import com.yimayhd.snscenter.client.dto.topic.TopicInfoAddDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicInfoUpdateDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicSetDTO;
-import com.yimayhd.snscenter.client.dto.topic.TopicUpdateStatusDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.result.topic.TopicResult;
@@ -44,7 +44,6 @@ public class TopicRepo{
 			topicResultList = new ArrayList<TopicResult>();
 		}
 		return new PageVO<TopicResult>(query.getPageNo(), query.getPageSize(), totalCount, topicResultList);
-
 	}
 
 	public BaseResult<SnsTopicDO> getTopicDetailInfo(TopicQueryDTO topicQueryDTO) {
@@ -61,9 +60,9 @@ public class TopicRepo{
 		return result;
 	}
 
-	public BaseResult<SnsTopicDO> updateTopic(TopicInfoUpdateDTO topicInfoUpdateDTO) {
+	public BaseResult<Boolean> updateTopic(TopicInfoUpdateDTO topicInfoUpdateDTO) {
 		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.updateTopic", topicInfoUpdateDTO);
-		BaseResult<SnsTopicDO> result = snsTopicCenterServiceRef.updateTopic(topicInfoUpdateDTO);
+		BaseResult<Boolean> result = snsTopicCenterServiceRef.updateTopic(topicInfoUpdateDTO);
 		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.updateTopic", result);
 		return result;
 	}
@@ -85,10 +84,17 @@ public class TopicRepo{
      * @param topicUpdateStatusDTO
      * @return
      */
-    public BaseResult<Boolean> updateTopicStatus(TopicUpdateStatusDTO topicUpdateStatusDTO){
-    	RepoUtils.requestLog(log, "snsTopicCenterServiceRef.updateTopicStatus", topicUpdateStatusDTO);
-		BaseResult<Boolean> result = snsTopicCenterServiceRef.updateTopicStatus(topicUpdateStatusDTO);
+    public BaseResult<Boolean> updateTopicStatus(long id, int type){
+    	RepoUtils.requestLog(log, "snsTopicCenterServiceRef.updateTopicStatus", id, type);
+		BaseResult<Boolean> result = snsTopicCenterServiceRef.updateTopicStatus(id, type);
 		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.updateTopicStatus", result);
 		return result;
     }
+    
+    public BaseResult<List<SnsSugTopicDO>> getSugTopicList() {
+		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.getSugTopicList");
+		BaseResult<List<SnsSugTopicDO>> result = snsTopicCenterServiceRef.getSugTopicList();
+		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.getTopicPageList", result);
+		return result;
+	}
 }

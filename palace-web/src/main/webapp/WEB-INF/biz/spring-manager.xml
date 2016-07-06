@@ -14,4 +14,6 @@
 	<bean id="merchantBiz" class="com.yimayhd.palace.biz.MerchantBiz" />
 	<bean id="mallFansBiz" class="com.yimayhd.commission.biz.MallFansBiz" />
 	<bean id="levelBiz" class="com.yimayhd.commission.biz.LevelBiz" />
+	
+	<bean id="gfCorrelationBiz"      class="com.yimayhd.gf.biz.GFCorrelationBiz" />
 </beans>

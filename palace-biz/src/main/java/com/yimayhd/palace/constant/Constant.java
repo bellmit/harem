@@ -55,14 +55,13 @@ public class Constant {
 	public static final int showTypeRadio = 1;//1单选框
 	public static final int showTypeCheckBox = 2;//2复选框
 	public static final int showTypeSelect = 3;//3下拉框
+	public static final int showTypeText = 4;//4下拉框
 	
 	public static final double X_PI = 3.14159265358979324 * 3000.0 / 180.0;
 	
 	public static final String UN_COMPLETE_DATA = "资料不完整，不能启用";
 	
-	
-	public static final String TOPIC_STATUS_AVAILABLE = "AVAILABLE";
-	public static final String TOPIC_STATUS_DELETED = "DELETED";
-
+	public static final String TOPIC_PREFIX_SUFFIX = "#";
+	public static final String TOPIC_REPEAT = "该话题已存在，不需要重复添加";
 
 }

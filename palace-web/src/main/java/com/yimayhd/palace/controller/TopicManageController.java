@@ -18,12 +18,13 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.SnsSugTopicVO;
 import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
 import com.yimayhd.palace.model.query.TopicListQuery;
 import com.yimayhd.palace.service.TopicService;
 import com.yimayhd.palace.tair.TcCacheManager;
-import com.yimayhd.snscenter.client.result.topic.TopicResult;
+import com.yimayhd.snscenter.client.enums.TopicStatus;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /** 
@@ -49,10 +50,14 @@ public class TopicManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, TopicListQuery topicListQuery) throws Exception {
-//		PageVO<TopicResult> pageVo = topicService.getTopicPageList(topicListQuery);
-//		model.addAttribute("pageVo", pageVo);
+	public String list(Model model, TopicListQuery topicListQuery, Boolean isRecommendList) throws Exception {
+		PageVO<TopicVO> pageVo = topicService.getTopicPageList(topicListQuery);
+		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("topicListQuery", topicListQuery);
+		model.addAttribute("isRecommendList", isRecommendList);
+		model.addAttribute("topicAvaliable", TopicStatus.AVAILABLE.getType());
+		model.addAttribute("topicUnavailable", TopicStatus.UNAVAILABLE.getType());
+		
 		return "/system/topic/list";
 	}
 	
@@ -64,6 +69,8 @@ public class TopicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd() throws Exception {
+		
+		put("UUID", UUID.randomUUID().toString());
 		return "/system/topic/edit";
 	}
 	
@@ -75,9 +82,9 @@ public class TopicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo add(TopicInfoVO topicInfoVO, String uuidHotel) throws Exception {
+	public ResponseVo add(TopicInfoVO topicInfoVO, String uuid) throws Exception {
 		
-		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuidHotel;
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuid;
 		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
 		if(rs){
 			try {
@@ -102,8 +109,8 @@ public class TopicManageController extends BaseController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		
-//		TopicVO topicVO = topicService.getTopicDetailInfo(id);
-//		model.addAttribute("hotel", topicVO);
+		TopicVO topicVO = topicService.getTopicDetailInfo(id);
+		model.addAttribute("topic", topicVO);
 		return "/system/topic/edit";
 	}
 	
@@ -118,8 +125,8 @@ public class TopicManageController extends BaseController {
 	public ResponseVo edit(TopicInfoVO topicInfoVO, @PathVariable("id") long id, String uuidHotel) throws Exception {
 		try {
 			topicInfoVO.setId(id);
-			TopicVO topicVO = topicService.updateTopic(topicInfoVO);
-			return  ResponseVo.success(topicVO);
+			boolean ret = topicService.updateTopic(topicInfoVO);
+			return  ResponseVo.success(ret);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
@@ -134,13 +141,16 @@ public class TopicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/updateTopicStatus/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo updateTopicStatus(@PathVariable("id") long id, String status) throws Exception {
+	public ResponseVo updateTopicStatus(@PathVariable("id") long id, String type) throws Exception {
 		try {
-			boolean isSuccess = topicService.updateTopicStatus(id, status);
+			if(StringUtils.isBlank(type)){
+				return ResponseVo.error();
+			}
+			boolean isSuccess = topicService.updateTopicStatus(id, Integer.parseInt(type));
 			if(isSuccess){
 				return ResponseVo.success();
 			}
-			return ResponseVo.error();
+			return ResponseVo.error(null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
@@ -154,12 +164,10 @@ public class TopicManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/recommendList", method = RequestMethod.GET)
-	public String recommendList(Model model, TopicListQuery topicListQuery) throws Exception {
+	public String recommendList(Model model) throws Exception {
 		
-		topicListQuery.setStatus(Constant.TOPIC_STATUS_AVAILABLE);
-//		PageVO<TopicResult> pageVo = topicService.getTopicPageList(topicListQuery);
-//		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("topicListQuery", topicListQuery);
+		List<SnsSugTopicVO> sugTopiclist = topicService.getSugTopicList();
+		model.addAttribute("sugTopiclist", sugTopiclist);
 		return "/system/topic/recommendList";
 	}
 	
@@ -171,23 +179,24 @@ public class TopicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/setTopic", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setTopic(String idStr, String status) throws Exception {
+	public ResponseVo setTopic(String id, String status) throws Exception {
 		try {
-			if(StringUtils.isBlank(idStr) || StringUtils.isBlank(status)){
+			if(StringUtils.isBlank(id) || StringUtils.isBlank(status)){
 				return ResponseVo.error();
 			}
 			
 			List<Long> idList = new ArrayList<Long>();
-			String[] arr = idStr.split(",");
-			for(int i = 0; i < arr.length; i++){
-				idList.add(Long.parseLong(arr[i]));
+			try{
+				idList.add(Long.parseLong(id));
+			}catch(Exception e){
+				return ResponseVo.error();
 			}
 			
-			boolean isSuccess = topicService.setTopic(idList, status);
+			boolean isSuccess = topicService.setTopic(idList, Integer.parseInt(status));
 			if(isSuccess){
 				return ResponseVo.success();
 			}
-			return ResponseVo.error();
+			return ResponseVo.error(null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);

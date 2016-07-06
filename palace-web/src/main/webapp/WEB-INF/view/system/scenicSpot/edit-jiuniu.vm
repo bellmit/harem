@@ -29,6 +29,11 @@
     	margin-left:5px;
     }
     
+    .editTicketType{
+    	cursor:pointer;
+    	margin-left:5px;
+    }
+    
     .clear{
 	 	clear:both;
 	 }
@@ -125,12 +130,14 @@
                         <td>
                         	<div class="ticketTypeList">
                         		#foreach($ticket in $VO.ticketVOList)
-		                            <p>
-										<span status="$!{ticket.status}" >$!{ticket.title}</span>
+		                            <p tid="$!{ticket.id}">
+										<span class="updateTicketType">$!{ticket.title}</span>
+										<img class="editTicketType" src="$utilWebconfig.getStaticResourcesPath()/resources/img/edit.jpg"/>
 									</p>	
 	                            #end
                         	</div>
-                        	<input type="hidden" class="ticketListStr" name="ticketListStr" />
+                        	<input type="hidden" class="insertTicketListStr" name="insertTicketListStr" />
+                        	<input type="hidden" class="updateTicketListStr" name="updateTicketListStr" />
                         	
                             <input type="text" class="inpControl" id="ticketTypeText" placeholder="请输入1-10个字" maxlength="10"/>
 	                        <button type="button" class="btn btn-info addTicketType" >添加</button>
@@ -251,26 +258,63 @@
     		}
 			var ticketTypeHTML = [];
 			ticketTypeHTML.push('<p>');
-				ticketTypeHTML.push('<span status="1" class="ticketSpan" >'+ $("#ticketTypeText").val() +'</span>');
-				ticketTypeHTML.push('<label class="delTicketType" >x</label>');
+				ticketTypeHTML.push('<span class="insertTicketType" >'+ $("#ticketTypeText").val() +'</span>');
+				ticketTypeHTML.push('<img class="delTicketType" src="$utilWebconfig.getStaticResourcesPath()/resources/img/close.png"/>');
 			ticketTypeHTML.push('</p>');	
 			
 			$(".ticketTypeList").append(ticketTypeHTML.join(""));
 			$("#ticketTypeText").val("");
 		});
 		
+		//编辑票型
+    	$(document).delegate(".editTicketType", 'click', function(){
+			var content = [];
+			content.push('<input type="text" class="inpControl editTicketTypeInput" value="'+ $(this).prev().text() +'"/>&nbsp;');
+			content.push('<button type="button" class="btn btn-info saveTicketType" >确定</button>');
+			$(this).parent().html(content.join(""));
+		});
+		
+		$(document).delegate(".saveTicketType", 'click', function(){
+			
+			var text = $(this).prev().val();
+			if(!text){
+				layer.msg('票型不能为空', {
+                    icon: 2,
+                    time: 2000
+                });
+				return;
+			}
+		
+			var content = [];
+			content.push('<span class="updateTicketType " >'+ text +'</span>');
+			content.push('<img class="editTicketType" src="$utilWebconfig.getStaticResourcesPath()/resources/img/edit.jpg"/>');
+			$(this).parent().html(content.join(""));
+		});
+		
 		//删除票型
 		$(document).delegate(".delTicketType", 'click', function(){
 			$(this).parent().remove();
 		});
+		
     }
     
-    function getTicketTypeArr(){
+    function getInsertTicketTypeArr(){
     	var arr = [];
-    	$(".ticketTypeList").find("span[class='ticketSpan']").each(function(){
+    	$(".insertTicketType").each(function(){
     		var ticket = {
-    			"title": $(this).text(),
-    			"status": $(this).attr("status")
+    			"title": $(this).text()
+    		}
+    		arr.push(ticket);
+    	});
+    	return arr;
+    }
+    
+    function getUpdateTicketTypeArr(){
+    	var arr = [];
+    	$(".updateTicketType").each(function(){
+    		var ticket = {
+    			"id": $(this).parent().attr("tid"),
+    			"title": $(this).text().replace(/\"/g, "")
     		}
     		arr.push(ticket);
     	});
@@ -484,6 +528,15 @@
             	$("#countySelectName").val($("#countyId option:selected").text());
             	
             	//景区票型
+            	if($(".editTicketTypeInput").length > 0){
+            		layer.msg("请保存票型", {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return;
+            	};
+            	$(".updateTicketListStr").val(JSON.stringify(getUpdateTicketTypeArr()));
+            	
             	var tickets = $(".ticketTypeList").find("span");
             	if(!tickets || $(tickets).length < 1){
             		$(".ticketTypeTip").css({"color":"red", "display":""});
@@ -491,10 +544,8 @@
             	}else{
             		$(".ticketTypeTip").css({"display":"none"});
             		
-            		var ticketTypeArr = getTicketTypeArr();
-            		$(".ticketListStr").val(JSON.stringify(ticketTypeArr));
-            		
-            		console.log(JSON.stringify(ticketTypeArr));
+            		var ticketTypeArr = getInsertTicketTypeArr();
+            		$(".insertTicketListStr").val(JSON.stringify(ticketTypeArr));
             	}
             	
             	//景区主题

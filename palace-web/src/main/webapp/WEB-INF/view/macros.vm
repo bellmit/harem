@@ -492,6 +492,13 @@
     下架
     #end
 #end
+#macro(SOCKPUPPET_STATUS $status)
+    #if($status == '10')
+    有效
+    #elseif($status == '20')
+    无效
+    #end
+#end
 
 
 #macro(REFUNDREASONTYPE $type)
@@ -746,4 +753,12 @@
 	    	<div class="t-userType">到店付</div>
 	    #end
 	#end
+#end
+#*话题状态*#
+#macro(TOPIC_STATUS $type)
+    #if($type == '0')
+		停用
+    #elseif($type == '1')
+		 启用   
+    #end
 #end
