@@ -3,6 +3,8 @@ package com.yimayhd.palace.service;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
+import com.yimayhd.resourcecenter.domain.AppVersionDO;
+import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
 
 import java.util.List;
 
@@ -24,4 +26,8 @@ public interface BoothService {
      * @throws Exception
      */
     BoothVO add(BoothVO entity)throws Exception;
+
+    BoothVO saveOrUpdate(BoothVO entity)throws Exception;
+
+    List<AppVersionDO> queryAppVersionList(AppVersionQuery appVersionQuery);
 }

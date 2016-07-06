@@ -25,16 +25,17 @@ import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
+import com.yimayhd.resourcecenter.domain.AppVersionDO;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
-import com.yimayhd.resourcecenter.model.enums.CacheType;
-import com.yimayhd.resourcecenter.model.enums.RegionType;
-import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
+import com.yimayhd.resourcecenter.model.enums.*;
+import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -70,9 +71,6 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
-        /*if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
-            baseQuery.setBoothName(new String(baseQuery.getBoothName().getBytes("ISO-8859-1"),"utf-8").trim());
-       }*/
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
@@ -88,6 +86,9 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/booth/add", method = RequestMethod.GET)
     public String boothToAdd(Model model) throws Exception {
         model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
+        AppVersionQuery appvQuery = new AppVersionQuery();
+        appvQuery.setStatus(AppVersionStauts.ONLINE.getStatus());
+        model.addAttribute("listAppVersion", boothService.queryAppVersionList(appvQuery));
         return "/system/banner/booth/edit";
     }
 
@@ -99,7 +100,7 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/add", method = RequestMethod.POST)
     public String boothAdd(Model model,BoothVO boothVO) throws Exception {
-        //boothService.add(boothVO);
+        boothService.add(boothVO);
         return "success";
     }
 
@@ -117,36 +118,20 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothCode",boothCode);
         model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
-        //把boothid返回去。假如该booth没有showcase，那么在查一遍
-        if(CollectionUtils.isEmpty(page.getItemList())){
-            BoothDO db = showcaseService.getBoothInfoByBoothCode(boothCode);
-            if(null != db ){
-                model.addAttribute("boothId",db.getId());
-            }
-        }
         return "/system/banner/showcase/list";
     }
 
-    /*@RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
-    public String showcaseToAdd(Model model,long boothId,String boothCode) throws Exception {
-        model.addAttribute("boothId",boothId);
-        model.addAttribute("boothCode",boothCode);
-        return "/system/banner/showcase/edit";
-    }*/
-
     @RequestMapping(value = "/showcase/toAdd", method = RequestMethod.GET)
-    public String showcaseToNewAdd(Model model,long boothId,String boothCode) throws Exception {
-        model.addAttribute("boothId",boothId);
-        model.addAttribute("boothCode",boothCode);
+    public String showcaseToNewAdd(Model model,ShowcaseQuery showcaseQuery) throws Exception {
+        model.addAttribute("boothId",showcaseQuery.getBoothId());
+        model.addAttribute("boothCode",showcaseQuery.getBoothCode());
+        model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
+        model.addAttribute("isEdit",false);
         return "/system/banner/showcase/edit_new";
         
-        
-       /* model.addAttribute("boothId",boothId);
-        model.addAttribute("boothCode",boothCode);
-        return "/system/banner/showcase/edit";*/
     }
 
 
@@ -180,9 +165,11 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothId",null==showcase?0:showcase.getBoothId());
         model.addAttribute("showcase",showcase);
         model.addAttribute("boothCode",boothCode);
+        model.addAttribute("appVersionCode",showcase.getAppVersionCode());
         model.addAttribute("operationDetailId",showcase.getOperationDetailId());
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
+        model.addAttribute("isEdit",true);
         return "/system/banner/showcase/edit_new";
     }
 
@@ -228,8 +215,7 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/showcase/chooseContent",method = RequestMethod.GET)
     public String getChooseContent(Model model,String code,int type) throws Exception {
         model.addAttribute("code",code);
-        model.addAttribute("type",type);
-        //根据type去判断跳转
+        model.addAttribute("type",type); //根据type去判断跳转
         if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type){//选目的地
             return "/system/banner/showcase/chooseDestination";
         }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){//选目主题
@@ -253,9 +239,6 @@ public class BannerManageController extends BaseController {
         int pageNumber = StringUtils.isEmpty(request.getParameter("pageNumber")) ? Constant.DEFAULT_PAGE_NO:Integer.parseInt(request.getParameter("pageNumber"));
         int pageSize = StringUtils.isEmpty(request.getParameter("pageSize")) ? Constant.DEFAULT_PAGE_SIZE_TEN:Integer.parseInt(request.getParameter("pageSize"));
         String keyWord = request.getParameter("tags");
-        /*if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
-            keyWord = (new String(keyWord.getBytes("ISO-8859-1"),"utf-8")).trim();
-        }*/
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", code);
         result.put("type", type);
@@ -265,6 +248,7 @@ public class BannerManageController extends BaseController {
             RegionQuery rq = new RegionQuery();
             rq.setNeedCount(true);
             rq.setPageNo(pageNumber);
+            rq.setStatus(RegionStatus.VALID.getStatus());
             rq.setPageSize(0  ==  pageSize ? Constant.DEFAULT_PAGE_SIZE_TEN:pageSize);
             rq.setType(RegionType.JIUXIU_REGION.getType());
             PageVO page = showcaseService.getRegionDOListByType(rq);
@@ -288,7 +272,7 @@ public class BannerManageController extends BaseController {
             sp.setStatus(ItemStatus.valid.getValue());
             if(NumberUtils.isNumber(keyWord)){
                 sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 sp.setTags(keyWord);
             }
             PageVO<ShowCaseItem> page = showcaseService.getHotelList(sp);
@@ -302,7 +286,7 @@ public class BannerManageController extends BaseController {
             sp.setStatus(ItemStatus.valid.getValue());
             if(NumberUtils.isNumber(keyWord)){
                 sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 sp.setTags(keyWord);
             }
             PageVO<ShowCaseItem> page = showcaseService.getScenicList(sp);
@@ -311,11 +295,13 @@ public class BannerManageController extends BaseController {
         else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL  ==  type){//选商品详情
             ItemQryDTO query = new ItemQryDTO();
             query.setDomains(Arrays.asList(1200,1100));
+
             query.setPageNo(pageNumber);
             query.setPageSize(pageSize);
+            query.setStatus(Arrays.asList(ItemStatus.valid.getValue()));
             if(NumberUtils.isNumber(keyWord)){
                 query.setId(Long.parseLong(keyWord));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 query.setName(keyWord);
             }
             if(null != ItemType.getByName(code)){ //商品详情这里不确定
@@ -329,12 +315,13 @@ public class BannerManageController extends BaseController {
             merchantQuery.setDomainId(1200);
             merchantQuery.setPageNo(pageNumber);
             merchantQuery.setNeedCount(true);
+            merchantQuery.setStatus(MerchantStatus.ONLINE.getCode());
             if(null != option){
                 merchantQuery.setOption(option.getOption());
             }
             if(NumberUtils.isNumber(keyWord)){
                 merchantQuery.setCityCode(Integer.parseInt(keyWord));
-            }else{
+            }else if(StringUtils.isNotEmpty(keyWord)){
                 merchantQuery.setName(keyWord);
             }
             PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery,option);
@@ -343,112 +330,7 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(result);
     }
 
-  //获取选择页面的列表
-    @RequestMapping(value = "/operation/list")
-    @ResponseBody
-    public ResponseVo operationList() throws Exception {
-        //TODO:rc_oper表加个type,把乱七八糟的类型过滤一下，不要在这里显示出来了
-    	ResponseVo rs = null;
-    	List<OperationDO> operationDOs = showcaseService.getAllOperactions();
-        if( CollectionUtils.isEmpty(operationDOs) ){
-            return new ResponseVo(ResponseStatus.ERROR);
-        }
-        List<OperationVO> vos = new ArrayList<OperationVO>() ;
-        for( OperationDO operationDO : operationDOs ){
-    		String code = operationDO.getCode() ;
-    		OperationVO vo = new OperationVO();
-    		vo.setOperationId(operationDO.getId());
-    		vo.setOperationCode(code);
-    		vo.setOperationName(operationDO.getName());
-    		
-    		for (OperationType type : OperationType.values()) {
-    			if( code.equals(type.name())) {
-    				if (OperationType.FREE_TOUR_LIST == type    ||
-                        OperationType.PACKAGE_TOUR_LIST == type ||
-                        OperationType.AROUND_FUN_LIST == type ||
-                        OperationType.SCENIC_TAG_LIST == type    ) {// 选择目的地、选择路线标签
-    					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_LINE };
-    					vo.setParamTypes(types);
-    				} else if (OperationType.CITY_ACTIVITY_LIST == type) {// 选择目的地、选择活动标签
-    					String[] types = { OperationParamConstant.CHOOSE_DESTINATION, OperationParamConstant.THEM_ACTIVITY };
-    					vo.setParamTypes(types);
-    				} else if (// 选择商品 周边玩乐详情
-    					OperationType.AROUND_FUN_DETAIL == type) {
-    					String[] types = { OperationParamConstant.ITEM_DETAIL };
-    					vo.setParamTypes(types);
-    				}else if(OperationType.FREE_TOUR_DETAIL == type){//自由行
-                        String[] types = { OperationParamConstant.ITEM_DETAIL_FREE_LINE };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.PACKAGE_TOUR_DETAIL == type){////跟团游
-                        String[] types = { OperationParamConstant.ITEM_DETAIL_TOUR_LINE };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.CITY_ACTIVITY_DETAIL == type){//同城活动
-                        String[] types = { OperationParamConstant.ITEM_DETAIL_CITY_ACTIVITY };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.JIUXIU_BUY_DETAIL == type ){//实物商品详情
-                        String[] types = { OperationParamConstant.ITEM_DETAIL_NORMAL };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.HOTEL_DETAIL == type ){//酒店详情
-                        String[] types = { OperationParamConstant.ITEM_DETAIL_HOTEL };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.SCENIC_DETAIL == type ){//景区详情
-                        String[] types = { OperationParamConstant.ITEM_DETAIL_SPOTS };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.JIUXIU_FOOD_DETAIL == type ){//美食店铺页
-                        String[] types = { OperationParamConstant.ITEM_DETAIL_EAT };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.MASTER_DETAIL == type ){//达人详情
-                        String[] types = { OperationParamConstant.ITEM_TALENT };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.MASTER_LIST == type ){//达人专题列表
-                        String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
-                        vo.setParamTypes(types);
-                    }else if(OperationType.SHOP_HOME_PAGE == type ){////店铺首页
-                        String[] types = { OperationParamConstant.ITEM_MERCHANT };
-                        vo.setParamTypes(types);
-                    }
-
-
-                    /*else if(OperationType.JIUXIU_MASTER == type ){//达人列表
-                        String[] types = { OperationParamConstant.ITEM_TALENT_SERVICE };
-                        vo.setParamTypes(types);
-                    }*/
-    				break;
-    			}
-    		}
-    		vos.add(vo);
-    	}
-        return new ResponseVo(vos);
-    }
-
-/**
-1、从operation中查询所有跳转方式
-2、定义需要特殊处理的OperationType（选目的地、主题）
-3、从operaction表中查询出所有的跳转配置，然后和operactionType比较，如果是需要特殊处理，那么跳转的radio
-4、选择目的地；主题（使用tagType中的主题）
-5、
-OperationType.FREE_TOUR_LIST ,  OperationType.PACKAGE_TOUR_LIST , OperationType.AROUND_FUN_LISL
- */
-
-
-    /*@RequestMapping(value = "/new/operation/list")
-    @ResponseBody
-    public ResponseVo newOperationList() throws Exception {
-        try {
-            ResponseVo rs = null;
-            List<OperactionVO> operationDOs = showcaseService.getAllOperations();
-            if( CollectionUtils.isEmpty(operationDOs) ){
-                return new ResponseVo(ResponseStatus.ERROR);
-            }
-            System.out.println(JSON.toJSON(operationDOs));
-            return new ResponseVo(operationDOs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseVo(ResponseStatus.ERROR);
-    }
-*/
-    @RequestMapping(value = "/operation/list", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/operation/list", method = RequestMethod.GET)
     public String operationList(Model model,BaseQuery baseQuery) throws Exception {
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
@@ -466,7 +348,7 @@ OperationType.FREE_TOUR_LIST ,  OperationType.PACKAGE_TOUR_LIST , OperationType.
     public String operationAdd(Model model) throws Exception {
 
         return "/system/banner/booth/list";
-    }
+    }*/
 
 
 
