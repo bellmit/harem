@@ -17,27 +17,6 @@ public class TopicVO extends SnsTopicDO {
 
 	private static final long serialVersionUID = 1L;
 	
-	//阅读数
-    private long readNum;
-    //讨论数
-    private long talkNum;
-
-    public long getReadNum() {
-        return readNum;
-    }
-
-    public void setReadNum(long readNum) {
-        this.readNum = readNum;
-    }
-
-    public long getTalkNum() {
-        return talkNum;
-    }
-
-    public void setTalkNum(long talkNum) {
-        this.talkNum = talkNum;
-    }
-	
 	public static SnsTopicDO getTopicDO(TopicVO topicVO){
 		if(topicVO == null){
     		return null;

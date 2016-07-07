@@ -29,7 +29,7 @@
 						<th>状态</th>
 						<th>操作</th>
 					</tr>
-					#foreach($sugTopic in $sugTopiclist)
+					#foreach($sugTopic in $pageVo.itemList)
 						<tr>
 							<td>$!velocityCount</td>
 							<td>$!sugTopic.title</td>

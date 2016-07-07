@@ -88,7 +88,7 @@
 					<tr>
 						<td>
 							#if($isRecommendList == true) 
-								<input type="radio" name="topicId" value="12" />
+								<input type="radio" name="topicId" value="$!topic.id" />
 							#end
 							$!velocityCount
 						</td>
@@ -115,7 +115,7 @@
 			</table>
 		</div>
 		#parse("/page.vm")
-		#pageStyle("hotelDOListForm")
+		#pageStyle("topicListForm")
 	</form>
 	
 	#if($isRecommendList == true) 
@@ -189,10 +189,9 @@
 	    	
 	    	
 	    	var id = $("input[name='topicId']:checked").val();
-	    	var url = actionDefaultPath + '/jiuxiu/topic/setTopic';
+	    	var url = actionDefaultPath + '/jiuxiu/topic/addSugTopic';
             var params = {
-            	id: id,
-            	status: 1
+            	id: id
             };
             $.post(url, params, function(data){
 				if(data.status == 200) {

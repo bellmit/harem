@@ -11,11 +11,10 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.snscenter.client.domain.SnsSugTopicDO;
 import com.yimayhd.snscenter.client.domain.SnsTopicDO;
-import com.yimayhd.snscenter.client.dto.topic.TopicInfoAddDTO;
+import com.yimayhd.snscenter.client.dto.topic.SugTopicQueryListDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicInfoUpdateDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
-import com.yimayhd.snscenter.client.dto.topic.TopicSetDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.result.topic.TopicResult;
@@ -34,6 +33,11 @@ public class TopicRepo{
 	@Autowired
 	protected SnsTopicCenterService snsTopicCenterServiceRef;
 	
+	/**
+	 * 话题列表
+	 * @param query
+	 * @return
+	 */
 	public PageVO<TopicResult> getTopicPageList(TopicQueryListDTO query) {
 		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.getTopicPageList", query);
 		BasePageResult<TopicResult> pageResult = snsTopicCenterServiceRef.getTopicPageList(query);
@@ -45,21 +49,36 @@ public class TopicRepo{
 		}
 		return new PageVO<TopicResult>(query.getPageNo(), query.getPageSize(), totalCount, topicResultList);
 	}
-
+	
+	/**
+	 * 话题详情
+	 * @param topicQueryDTO
+	 * @return
+	 */
 	public BaseResult<SnsTopicDO> getTopicDetailInfo(TopicQueryDTO topicQueryDTO) {
 		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.getTopicDetailInfo", topicQueryDTO);
 		BaseResult<SnsTopicDO> result = snsTopicCenterServiceRef.getTopicDetailInfo(topicQueryDTO);
 		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.getTopicDetailInfo", result);
 		return result;
 	}
-
-	public BaseResult<SnsTopicDO> addTopic(TopicInfoAddDTO topicInfoAddDTO) {
-		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.addTopic", topicInfoAddDTO);
-		BaseResult<SnsTopicDO> result = snsTopicCenterServiceRef.addTopic(topicInfoAddDTO);
+	
+	/**
+	 * 添加话题
+	 * @param snsTopicDO
+	 * @return
+	 */
+	public BaseResult<SnsTopicDO> addTopic(SnsTopicDO snsTopicDO) {
+		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.addTopic", snsTopicDO);
+		BaseResult<SnsTopicDO> result = snsTopicCenterServiceRef.addTopic(snsTopicDO);
 		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.addTopic", result);
 		return result;
 	}
-
+	
+	/**
+	 * 修改话题
+	 * @param topicInfoUpdateDTO
+	 * @return
+	 */
 	public BaseResult<Boolean> updateTopic(TopicInfoUpdateDTO topicInfoUpdateDTO) {
 		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.updateTopic", topicInfoUpdateDTO);
 		BaseResult<Boolean> result = snsTopicCenterServiceRef.updateTopic(topicInfoUpdateDTO);
@@ -68,19 +87,7 @@ public class TopicRepo{
 	}
 	
 	/**
-     * 设置取消 推荐话题
-     * @param topicSetDTO
-     * @return
-     */
-	public BaseResult<Boolean> setTopic(TopicSetDTO topicSetDTO) {
-		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.setTopic", topicSetDTO);
-		BaseResult<Boolean> result = snsTopicCenterServiceRef.setTopic(topicSetDTO);
-		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.setTopic", result);
-		return result;
-	}
-	
-	/**
-     * 上下架 推荐话题
+     * 上下架 话题
      * @param topicUpdateStatusDTO
      * @return
      */
@@ -90,11 +97,50 @@ public class TopicRepo{
 		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.updateTopicStatus", result);
 		return result;
     }
-    
-    public BaseResult<List<SnsSugTopicDO>> getSugTopicList() {
-		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.getSugTopicList");
-		BaseResult<List<SnsSugTopicDO>> result = snsTopicCenterServiceRef.getSugTopicList();
-		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.getTopicPageList", result);
+	
+	/**
+     * 推荐话题列表
+     * @param pageQuery
+     * @return
+     */
+    public BasePageResult<SnsSugTopicDO> getSugTopicPageList(SugTopicQueryListDTO pageQuery) {
+		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.getSugTopicPageList", pageQuery);
+		BasePageResult<SnsSugTopicDO> result = snsTopicCenterServiceRef.getSugTopicPageList(pageQuery);
+		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.getSugTopicPageList", result);
 		return result;
 	}
+	
+	/**
+     * 增加推荐话题
+     * @param topicSetDTO
+     * @return
+     */
+	public BaseResult<Boolean> addSugTopic(List<Long> idList) {
+		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.addSugTopic", idList);
+		BaseResult<Boolean> result = snsTopicCenterServiceRef.addSugTopic(idList);
+		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.addSugTopic", result);
+		return result;
+	}
+	
+	/**
+     * 取消推荐话题
+     * @param topicSetDTO
+     * @return
+     */
+	public BaseResult<Boolean> removeSugTopic(List<Long> idList) {
+		RepoUtils.requestLog(log, "snsTopicCenterServiceRef.removeSugTopic", idList);
+		BaseResult<Boolean> result = snsTopicCenterServiceRef.removeSugTopic(idList);
+		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.removeSugTopic", result);
+		return result;
+	}
+	
+    /**
+     * 获取推荐的话题
+     */
+    public BaseResult<SnsSugTopicDO> getSugTopicById(long id){
+    	RepoUtils.requestLog(log, "snsTopicCenterServiceRef.getSugTopicById", id);
+    	BaseResult<SnsSugTopicDO> result = snsTopicCenterServiceRef.getSugTopicById(id);
+		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.getSugTopicById", result);
+		return result;
+    }
 }

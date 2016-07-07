@@ -13,8 +13,13 @@ public class TopicListQuery  extends BaseQuery {
     private String startTime;
 
 	private String endTime;
+	
+	 /**
+     * 是否有描述
+     */
+    private String hasContent;
 
-    public String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
@@ -44,5 +49,13 @@ public class TopicListQuery  extends BaseQuery {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+	
+	public String getHasContent() {
+		return hasContent;
+	}
+
+	public void setHasContent(String hasContent) {
+		this.hasContent = hasContent;
 	}
 }
