@@ -190,6 +190,11 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
+			if(arr.length<=0){
+				alert("请至少选择一项！");
+				$(this).prop('disabled',false);
+				return;
+			}
             $.post(actionDefaultPath +'/B2C/liveManage/batchViolation',{liveIdList:arr},function(data){
                 if(data && data.status == 200){
                     layer.msg('操作成功', {
