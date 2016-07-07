@@ -5,11 +5,14 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.SnsSubjectVO;
 import com.yimayhd.palace.model.SubjectInfoAddVO;
 import com.yimayhd.palace.model.query.LiveListQuery;
 import com.yimayhd.palace.repo.TagRepo;
 import com.yimayhd.palace.service.LiveService;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -133,11 +136,13 @@ public class LiveManageController extends BaseController {
      */
     @RequestMapping(value = "/batchViolation", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo batchPublish(@RequestParam("liveIdList[]") ArrayList<Long> liveIdList)
-            throws Exception {
-        liveService.batchViolation(liveIdList);
-        return new ResponseVo();
-    }
+	public ResponseVo batchPublish(@RequestParam("liveIdList[]") ArrayList<Long> liveIdList) {
+		if (CollectionUtils.isEmpty(liveIdList)) {
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
+		}
+		liveService.batchViolation(liveIdList);
+		return new ResponseVo();
+	}
 
     /**
      * 根据id获取动态图片列表
