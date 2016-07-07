@@ -31,13 +31,15 @@
 				<tr>
 					<td><span class="red">*</span>话题名称：</td>
 					<td>
-						<input class="form-control w500 in-bl" type="text" name="title" value="$!topic.title" 
+						<input class="form-control w500 in-bl wordCount" type="text" name="title" value="$!topic.title" 
 							maxlength="20" datatype="*1-20" nullmsg="话题不能为空" errormsg="话题1-20个字"
 							#if($topic.title)
 								readonly="readonly"
 							#end
 							/>
-						<span class="limit">20字</span>
+							<div class="word-num">
+								<span class="num-a">0</span>/<span class="num-b">20</span>字								
+							</div>
 					</td>
 				</tr>
 				<tr>
