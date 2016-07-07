@@ -67,7 +67,7 @@
 		                time: 1000
 		            });
 		            setTimeout(function(){ 
-		            	window.location.href = window.location.href;
+		            	$('#recommendTopicListForm').submit();
 		            },1000)
 					
 				} else {

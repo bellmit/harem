@@ -13,7 +13,7 @@
 <div class="topicbox">
 	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
 		
-		<input type="hidden" name="isRecommendList" value="$!isRecommendList" />
+		<input type="hidden" id="isRecommendList" name="isRecommendList" value="$!isRecommendList" />
 		
 		<div class="inputGroup whole">
 			<div class="input-group inpSingle">
@@ -81,7 +81,7 @@
 		#end
 		
 		<div class="tableGroup whole">
-			<table class="table table-hover">
+			<table class="table table-hover topicTable">
 				<tbody>
 					<tr>
 						<th>序号</th>
@@ -180,7 +180,7 @@
 			                time: 1000
 			            });
 			            setTimeout(function(){ 
-			            	window.location.href = window.location.href;
+			            	$('#topicListForm').submit();
 			            },1000)
 						
 					} else {
@@ -195,9 +195,6 @@
         });
 	    
 	    $('.confirmAdd').click(function(){
-	    	
-	    	console.log($("input[name='topicId']:checked").val());
-	    	
 	    	
 	    	var id = $("input[name='topicId']:checked").val();
 	    	var url = actionDefaultPath + '/jiuxiu/topic/addSugTopic';
@@ -227,5 +224,16 @@
 	    $('.cancel').click(function(){
 	    	parent.layer.close(index);
 	    });
+	    
+	    $('.topicTable tr').each(function(){
+	    	$(this).click(function(){
+	    		var first = $(this).children().get(0);
+	    		var redioBtn = $(first).find("input:radio");
+	    		if(redioBtn){
+	    			$(redioBtn).trigger('click');
+	    		}
+		    });
+	    });
+	    
 	})();
 </script>
