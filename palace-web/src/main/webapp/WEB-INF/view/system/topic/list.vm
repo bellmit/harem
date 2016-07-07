@@ -11,7 +11,10 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="" method="GET" role="form">
+	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+		
+		<input type="hidden" name="isRecommendList" value="$!isRecommendList" />
+		
 		<div class="inputGroup whole">
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
@@ -31,10 +34,18 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">是否有描述</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
                     <option value="">全部</option>
-                    <option value="1" >是</option>
-                    <option value="0" >否</option>
+                    <option value="true" 
+                    	#if($topicListQuery.hasContent == true)
+                    		selected="selected"
+                		#end
+                    >是</option>
+                    <option value="false" 
+                    	#if($topicListQuery.hasContent == false)
+                    		selected="selected"
+                		#end
+                    >否</option>
                 </select>
 			</div>
 			<div class="input-group inpSingle ">

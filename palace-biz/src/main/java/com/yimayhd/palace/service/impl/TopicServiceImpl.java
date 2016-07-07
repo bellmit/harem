@@ -62,8 +62,8 @@ public class TopicServiceImpl implements TopicService {
 			pageQuery.setStatus(Integer.parseInt(topicListQuery.getStatus()));
 		}
 		//是否有描述
-		if (StringUtils.isNotBlank(topicListQuery.getHasContent())) {			
-			pageQuery.setHasContent(Boolean.parseBoolean(topicListQuery.getHasContent()));
+		if (topicListQuery.getHasContent() != null) {			
+			pageQuery.setHasContent(topicListQuery.getHasContent());
 		}
 		//开始时间
 		if (StringUtils.isNotBlank(topicListQuery.getStartTime())) {

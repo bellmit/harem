@@ -203,15 +203,12 @@ public class TopicManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/removeSugTopic", method = RequestMethod.POST)
+	@RequestMapping(value = "/removeSugTopic/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo removeSugTopic(String id) throws Exception {
+	public ResponseVo removeSugTopic(@PathVariable(value = "id") long id) throws Exception {
 		try {
-			if(StringUtils.isBlank(id)){
-				return ResponseVo.error();
-			}
 			
-			boolean isSuccess = topicService.removeSugTopic(Long.parseLong(id));
+			boolean isSuccess = topicService.removeSugTopic(id);
 			if(isSuccess){
 				return ResponseVo.success();
 			}

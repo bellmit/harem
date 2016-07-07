@@ -42,7 +42,9 @@ public class SugTopicVO extends SnsSugTopicDO {
     	}
     	
     	for(int i = 0; i < sugTopicList.size(); i++){
-    		sugTopicVOList.add(getSugTopicVO(sugTopicList.get(i)));
+    		SugTopicVO sugTopicVO = getSugTopicVO(sugTopicList.get(i));
+    		sugTopicVO.setTitle(TopicVO.getTopicTitle2(sugTopicVO.getTitle()));
+    		sugTopicVOList.add(sugTopicVO);
     	}
         return sugTopicVOList;
     }

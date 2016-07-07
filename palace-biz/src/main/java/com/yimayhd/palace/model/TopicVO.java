@@ -17,6 +17,8 @@ public class TopicVO extends SnsTopicDO {
 
 	private static final long serialVersionUID = 1L;
 	
+	public String picVal;
+
 	public static SnsTopicDO getTopicDO(TopicVO topicVO){
 		if(topicVO == null){
     		return null;
@@ -24,6 +26,9 @@ public class TopicVO extends SnsTopicDO {
 		
     	SnsTopicDO topicDO = new SnsTopicDO();
         BeanUtils.copyProperties(topicVO, topicDO);
+        
+        topicDO.setPics(topicVO.getPicVal());
+        
         String title = topicDO.getTitle();
         if(title != null){
         	topicDO.setTitle(title.trim());
@@ -82,6 +87,14 @@ public class TopicVO extends SnsTopicDO {
     	title = title.replaceAll(Constant.TOPIC_PREFIX_SUFFIX, "");
     	return title;
     }
+    
+    public String getPicVal() {
+		return picVal;
+	}
+
+	public void setPicVal(String picVal) {
+		this.picVal = picVal;
+	}
     
     public static void main(String[] args){
     	System.out.println(TopicVO.getTopicTitle("alkdsfjlka''as\"df## asdf"));
