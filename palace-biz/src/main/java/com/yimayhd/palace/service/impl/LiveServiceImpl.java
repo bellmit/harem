@@ -105,7 +105,7 @@ public class LiveServiceImpl implements LiveService {
 		}else if(StringUtils.isNotBlank(liveListQuery.getNickName())){
 			// 查询用户
 			UserDOQuery userDOQuery = new UserDOQuery();
-			userDOQuery.setNickname(liveListQuery.getNickName());
+			userDOQuery.setNickname(liveListQuery.getNickName().trim());
 			com.yimayhd.user.client.result.BasePageResult<UserDO> userListResult =  userServiceRef.findByConditionNoPage(userDOQuery);
 			if(null == userListResult){
 				log.error("LiveServiceImpl.getList-userService.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userDOQuery));
