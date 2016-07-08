@@ -30,6 +30,7 @@ import com.yimayhd.user.client.domain.UserDOQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -269,7 +270,11 @@ public class LiveServiceImpl implements LiveService {
 		if(null == baseResult){
 			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo result is null and parame: " + JSON.toJSONString(subjectInfoAddDTO));
 			throw new BaseException("新增直播失败，返回结果为空");
-		} else if(!baseResult.isSuccess()){
+		} else if (baseResult.isSuccess() && null != baseResult.getValue()) {
+			SnsSubjectVO sockpuppetVO = new SnsSubjectVO();
+			BeanUtils.copyProperties(sockpuppetVO, baseResult.getValue());
+			return sockpuppetVO;
+		}else {
 			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoAddDTO));
 			throw new BaseException("新增直播失败，新增错误," + baseResult.getResultMsg());
 		}
@@ -291,8 +296,6 @@ public class LiveServiceImpl implements LiveService {
 //				throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
 //			}
 //		}
-
-		return null;
 	}
 
 	@Override
