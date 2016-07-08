@@ -32,4 +32,7 @@ public interface BoothService {
     List<AppVersionDO> queryAppVersionList(AppVersionQuery appVersionQuery);
 
     BoothVO get(long id)throws Exception;
+
+    PageVO<AppVersionDO> getAppVersionList(AppVersionQuery query)throws Exception;
+
 }
