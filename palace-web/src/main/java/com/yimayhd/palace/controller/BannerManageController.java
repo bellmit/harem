@@ -359,10 +359,10 @@ public class BannerManageController extends BaseController {
         return "/system/banner/booth/edit";
     }
 
-    @RequestMapping(value = "/booth/add", method = RequestMethod.GET)
-    public String boothToAdd(Model model,long id) throws Exception {
+    @RequestMapping(value = "/booth/edit", method = RequestMethod.POST)
+    public String boothEdit(Model model,long boothId) throws Exception {
         model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
-        model.addAttribute("currentBooth", boothService.get(id));
+        model.addAttribute("currentBooth", boothService.get(boothId));
         return "/system/banner/booth/edit";
     }
 
