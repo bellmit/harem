@@ -17,11 +17,11 @@
                 <tr>
                     <td>选择版本：</td>
                     <td>
-                        <select class="form-control" name="appVersion" id="appvId" >
+                        <select class="form-control appVersion" name="appVersion" id="appvId" >
                             <option value="0">请选择</option>
                             #foreach($!appv in $listAppVersion)
                                 <option id="$!appv.id" value="$!appv.code"
-                                         #*#if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end*#
+                                         #if($!currentBooth.appVersion == $!opeappvrations.appVersion) selected = 'selected' #end
                                 >$!appv.description</option>
                             #end
                         </select>
@@ -57,6 +57,9 @@
          }
          if($('.description').val() && $('.description').val().length > 200){
              return '描述不能超过200字';
+         }
+         if("" == $('.appVersion').val() || $('.appVersion').val() == 0){
+             return '请选择app版本号';
          }
      }
     $(function(){

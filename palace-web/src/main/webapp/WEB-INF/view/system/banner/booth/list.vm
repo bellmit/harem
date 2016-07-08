@@ -28,7 +28,7 @@
                     #set($list = $pageVo.itemList)
                     #foreach($entity in $list)
                     <tr class="subCheckedTR">
-                        <td>$velocityCount</td>
+                        <td>$velocityCount <input type="hidden" value="$entity.id"></td>
                         <td>$!entity.code</td>
                         <td>$!entity.name</td>
                         <td>$!entity.appVersion</td>

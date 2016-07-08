@@ -350,6 +350,21 @@ public class BannerManageController extends BaseController {
         return "/system/banner/booth/list";
     }*/
 
+    @RequestMapping(value = "/booth/edit", method = RequestMethod.GET)
+    public String boothToEdit(Model model,long boothId) throws Exception {
+        model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
+        AppVersionQuery appvQuery = new AppVersionQuery();
+        appvQuery.setStatus(AppVersionStauts.ONLINE.getStatus());
+        model.addAttribute("listAppVersion", boothService.queryAppVersionList(appvQuery));
+        return "/system/banner/booth/edit";
+    }
+
+    @RequestMapping(value = "/booth/add", method = RequestMethod.GET)
+    public String boothToAdd(Model model,long id) throws Exception {
+        model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
+        model.addAttribute("currentBooth", boothService.get(id));
+        return "/system/banner/booth/edit";
+    }
 
 
 

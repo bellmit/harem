@@ -30,4 +30,6 @@ public interface BoothService {
     BoothVO saveOrUpdate(BoothVO entity)throws Exception;
 
     List<AppVersionDO> queryAppVersionList(AppVersionQuery appVersionQuery);
+
+    BoothVO get(long id)throws Exception;
 }

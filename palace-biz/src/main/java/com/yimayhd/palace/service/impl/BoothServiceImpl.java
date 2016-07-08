@@ -16,6 +16,7 @@ import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.service.AppVersionClientService;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,5 +111,17 @@ public class BoothServiceImpl implements BoothService {
             }
             return entity;
         }
+    }
+
+    public BoothVO get(long id)throws Exception{
+        RcResult<BoothDO>  result = boothClientServerRef.getBoothById(id);
+        if(null == result || !result.isSuccess()){
+            log.error("boothClientServerRef.getBoothById result is null and parame: "+id+"|||result=" + JSON.toJSONString(result));
+            return null;
+        }
+        BoothDO boothDO = result.getT();
+        BoothVO boothVO = new BoothVO();
+        BeanUtils.copyProperties(boothVO,boothDO);
+        return boothVO;
     }
 }
