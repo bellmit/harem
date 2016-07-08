@@ -76,7 +76,11 @@
                         <td>$!live.userDO.nickname</td>
                         <td>$!live.userDO.mobileNo</td>
                         <td style="word-break: break-all;min-width: 40px;max-width: 349px;padding: 4px 4px !important;">$!esc.html($!live.textContent)</td>
-                        <th>$!esc.html($!live.tag.name)</th>
+                        <th> 
+							#foreach($title in $live.topicTitleList)
+								$!title
+							#end
+						</th>
                         <th>$!live.supportNum</th>
                         <th>$!live.commentNum</th>
                         <td>#TREND_STATUS($!live.status)</td>
@@ -186,6 +190,11 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
+			if(arr.length<=0){
+				alert("请至少选择一项！");
+				$(this).prop('disabled',false);
+				return;
+			}
             $.post(actionDefaultPath +'/B2C/liveManage/batchViolation',{liveIdList:arr},function(data){
                 if(data && data.status == 200){
                     layer.msg('操作成功', {

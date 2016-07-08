@@ -14,20 +14,22 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
-import com.yimayhd.palace.model.SnsSugTopicVO;
+import com.yimayhd.palace.model.SugTopicVO;
 import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
+import com.yimayhd.palace.model.query.SugTopicListQuery;
 import com.yimayhd.palace.model.query.TopicListQuery;
 import com.yimayhd.palace.repo.TopicRepo;
 import com.yimayhd.palace.service.TopicService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.snscenter.client.domain.SnsSugTopicDO;
 import com.yimayhd.snscenter.client.domain.SnsTopicDO;
-import com.yimayhd.snscenter.client.dto.topic.TopicInfoAddDTO;
+import com.yimayhd.snscenter.client.dto.topic.SugTopicQueryListDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicInfoUpdateDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
-import com.yimayhd.snscenter.client.dto.topic.TopicSetDTO;
+import com.yimayhd.snscenter.client.enums.TopicStatus;
+import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.result.topic.TopicResult;
 
@@ -59,6 +61,10 @@ public class TopicServiceImpl implements TopicService {
 		if (StringUtils.isNotBlank(topicListQuery.getStatus())) {			
 			pageQuery.setStatus(Integer.parseInt(topicListQuery.getStatus()));
 		}
+		//是否有描述
+		if (topicListQuery.getHasContent() != null) {			
+			pageQuery.setHasContent(topicListQuery.getHasContent());
+		}
 		//开始时间
 		if (StringUtils.isNotBlank(topicListQuery.getStartTime())) {
 			Date startTime = DateUtil.parseDate(topicListQuery.getStartTime());
@@ -69,6 +75,8 @@ public class TopicServiceImpl implements TopicService {
 			Date endTime = DateUtil.parseDate(topicListQuery.getEndTime());
 			pageQuery.setEndTime(DateUtil.add23Hours(endTime));
 		}
+		
+		pageQuery.setNeedCount(true);
 		
 		PageVO<TopicResult> pageResult = topicRepo.getTopicPageList(pageQuery);
 		
@@ -81,8 +89,7 @@ public class TopicServiceImpl implements TopicService {
 				itemList = TopicVO.getTopicVOList(resultItemList);	
 			}
 		} else {
-			log.error("topicRepo.getTopicPageList return value is null !returnValue :"
-					+ JSON.toJSONString(pageResult));
+			log.error("topicRepo.getTopicPageList return value is null !returnValue :" + JSON.toJSONString(pageResult));
 		}
 		return new PageVO<TopicVO>(pageQuery.getPageNo(), pageQuery.getPageSize(), totalCount, itemList);
 	}
@@ -106,19 +113,22 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public TopicVO addTopic(TopicInfoVO topicInfoVO) throws Exception {
+	public TopicVO addTopic(TopicVO topicVO) throws Exception {
 		
 		//判断景区是否存在
-		this.judgeExist(topicInfoVO);
+		this.judgeExist(topicVO);
 		
-		TopicInfoAddDTO topicInfoAddDTO = TopicInfoVO.getTopicInfoAddDTO(topicInfoVO);
-		BaseResult<SnsTopicDO> addResult = topicRepo.addTopic(topicInfoAddDTO);
+		SnsTopicDO topicDO = TopicVO.getTopicDO(topicVO);
+		topicDO.setStatus(TopicStatus.UNAVAILABLE.getType());
+		topicDO.setDomain(Constant.DOMAIN_JIUXIU);
+		
+		BaseResult<SnsTopicDO> addResult = topicRepo.addTopic(topicDO);
 		
 		if(null == addResult){
-			log.error("TopicServiceImpl.addTopic-topicRepo.addTopic result is null and parame: " + JSON.toJSONString(topicInfoAddDTO));
+			log.error("TopicServiceImpl.addTopic-topicRepo.addTopic result is null and parame: " + JSON.toJSONString(topicDO));
 			throw new BaseException("修改返回结果为空,修改失败");
 		} else if(!addResult.isSuccess()){
-			log.error("TopicServiceImpl.addTopic-topicRepo.addTopic error:" + JSON.toJSONString(addResult) + "and parame: " + JSON.toJSONString(topicInfoAddDTO));
+			log.error("TopicServiceImpl.addTopic-topicRepo.addTopic error:" + JSON.toJSONString(addResult) + "and parame: " + JSON.toJSONString(topicDO));
 			throw new BaseException(addResult.getResultMsg());
 		}
 		
@@ -152,56 +162,105 @@ public class TopicServiceImpl implements TopicService {
 			log.error("TopicServiceImpl.updateTopicStatus-topicRepo.updateTopicStatus error:" + JSON.toJSONString(result) + "and parame: " + id +" "+ type);
 			throw new BaseException(result.getResultMsg());
 		}
-		boolean ret = false;
-		Boolean value = result.getValue();
-		if(value != null){
-			ret = value.booleanValue();
-		}
-		return ret;
+		return result.getValue() != null ? result.getValue() : false;
 	}
 	
 	@Override
-	public boolean setTopic(List<Long> idList, int status) throws Exception {
+	public boolean addSugTopic(Long id) throws Exception {
 		
-		TopicSetDTO topicSetDTO = new TopicSetDTO();
-		topicSetDTO.setIdList(idList);
-		topicSetDTO.setStatus(status);
-		BaseResult<Boolean> result = topicRepo.setTopic(topicSetDTO);
+		if(id == null){
+			return false;
+		}
+		
+		boolean isExist = this.getSugTopicById(id);
+		if(isExist){
+			throw new BaseException(Constant.TOPIC_SUG_REPEAT);
+		}
+		
+		List<Long> idList = new ArrayList<Long>();
+		idList.add(id);
+		
+		BaseResult<Boolean> result = topicRepo.addSugTopic(idList);
 		if(null == result){
-			log.error("TopicServiceImpl.setTopic-topicRepo.setTopic result is null and parame: " + JSON.toJSONString(topicSetDTO));
+			log.error("TopicServiceImpl.addSugTopic-topicRepo.addSugTopic result is null and parame: " + JSON.toJSONString(idList));
 			throw new BaseException("修改返回结果为空,修改失败");
 		} else if(!result.isSuccess()){
-			log.error("TopicServiceImpl.setTopic-topicRepo.setTopic error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(topicSetDTO));
+			log.error("TopicServiceImpl.addSugTopic-topicRepo.addSugTopic error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(idList));
 			throw new BaseException(result.getResultMsg());
 		}
-		boolean ret = false;
-		Boolean value = result.getValue();
-		if(value != null){
-			ret = value.booleanValue();
+		return result.getValue() != null ? result.getValue() : false;
+	}
+	
+	@Override
+	public boolean removeSugTopic(Long id) throws Exception {
+		
+		if(id == null){
+			return false;
 		}
-		return ret;
+		
+		List<Long> idList = new ArrayList<Long>();
+		idList.add(id);
+		
+		BaseResult<Boolean> result = topicRepo.removeSugTopic(idList);
+		if(null == result){
+			log.error("TopicServiceImpl.removeSugTopic-topicRepo.removeSugTopic result is null and parame: " + JSON.toJSONString(idList));
+			throw new BaseException("修改返回结果为空,修改失败");
+		} else if(!result.isSuccess()){
+			log.error("TopicServiceImpl.removeSugTopic-topicRepo.removeSugTopic error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(idList));
+			throw new BaseException(result.getResultMsg());
+		}
+		return result.getValue() != null ? result.getValue() : false;
 	}
 
 	@Override
-	public List<SnsSugTopicVO> getSugTopicList() throws Exception {
+	public PageVO<SugTopicVO> getSugTopicPageList(SugTopicListQuery sugTopicListQuery) throws Exception {
 		
-		BaseResult<List<SnsSugTopicDO>> result = topicRepo.getSugTopicList();
-		if(null == result){
-			log.error("TopicServiceImpl.getSugTopicList-topicRepo.getSugTopicList result is null");
-			throw new BaseException("修改返回结果为空,修改失败");
-		} else if(!result.isSuccess()){
-			log.error("TopicServiceImpl.getSugTopicList-topicRepo.getSugTopicList error:" + JSON.toJSONString(result));
-			throw new BaseException(result.getResultMsg());
+		SugTopicQueryListDTO pageQuery = new SugTopicQueryListDTO();
+		if(sugTopicListQuery.getPageNumber() != null){
+			int pageNumber =sugTopicListQuery.getPageNumber();
+			int pageSize = sugTopicListQuery.getPageSize();
+			pageQuery.setPageNo(pageNumber);
+			pageQuery.setPageSize(pageSize);
 		}
+		pageQuery.setNeedCount(true);
 		
-		List<SnsSugTopicDO> list = result.getValue();
-		if(list == null){
-			list = new ArrayList<SnsSugTopicDO>();
+		BasePageResult<SnsSugTopicDO> pageResult = topicRepo.getSugTopicPageList(pageQuery);
+		
+		List<SugTopicVO> itemList = new ArrayList<SugTopicVO>();
+		int totalCount = 0;
+		if (pageResult != null) {
+			totalCount = pageResult.getTotalCount();
+			List<SnsSugTopicDO> resultItemList = pageResult.getList();
+			if (CollectionUtils.isNotEmpty(resultItemList)) {
+				itemList = SugTopicVO.getSugTopicVOList(resultItemList);	
+			}
+		} else {
+			log.error("topicRepo.getSugTopicPageList return value is null !returnValue :"
+					+ JSON.toJSONString(pageResult));
 		}
-		return SnsSugTopicVO.getSugTopicVOList(list);
+		return new PageVO<SugTopicVO>(pageQuery.getPageNo(), pageQuery.getPageSize(), totalCount, itemList);
 	}
 	
-	public void judgeExist(TopicInfoVO topicInfoVO) throws Exception{
+	@Override
+	public boolean getSugTopicById(long id) throws Exception {
+		
+		BaseResult<SnsSugTopicDO> sugTopicResult = topicRepo.getSugTopicById(id);
+		if(sugTopicResult == null){
+			log.error("TopicServiceImpl.getSugTopicById-topicRepo.getSugTopicById result is null and parame: " + id);
+			throw new BaseException("返回结果为空，获取景区资源失败");
+		}else if(!sugTopicResult.isSuccess()){
+			log.error("TopicServiceImpl.getSugTopicById-topicRepo.getSugTopicById error:" + JSON.toJSONString(sugTopicResult) + "and parame: " + id);
+			throw new BaseException("返回结果错误，获取景区资源失败，" + sugTopicResult.getResultMsg());
+		}	
+
+		SnsSugTopicDO sugTopicDO = sugTopicResult.getValue();
+		if(sugTopicDO != null && sugTopicDO.getId() != 0){
+			return true;
+		}
+		return false;
+	}
+	
+	public void judgeExist(TopicVO topicInfoVO) throws Exception{
 		
 		if(topicInfoVO == null){
 			return;
@@ -233,4 +292,6 @@ public class TopicServiceImpl implements TopicService {
 			}
 		}
 	}
+
+	
 }

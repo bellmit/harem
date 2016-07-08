@@ -11,7 +11,10 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="" method="GET" role="form">
+	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+		
+		<input type="hidden" id="isRecommendList" name="isRecommendList" value="$!isRecommendList" />
+		
 		<div class="inputGroup whole">
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
@@ -31,10 +34,18 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">是否有描述</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
                     <option value="">全部</option>
-                    <option value="1" >是</option>
-                    <option value="0" >否</option>
+                    <option value="true" 
+                    	#if($topicListQuery.hasContent == true)
+                    		selected="selected"
+                		#end
+                    >是</option>
+                    <option value="false" 
+                    	#if($topicListQuery.hasContent == false)
+                    		selected="selected"
+                		#end
+                    >否</option>
                 </select>
 			</div>
 			<div class="input-group inpSingle ">
@@ -70,7 +81,7 @@
 		#end
 		
 		<div class="tableGroup whole">
-			<table class="table table-hover">
+			<table class="table table-hover topicTable">
 				<tbody>
 					<tr>
 						<th>序号</th>
@@ -88,13 +99,13 @@
 					<tr>
 						<td>
 							#if($isRecommendList == true) 
-								<input type="radio" name="topicId" value="12" />
+								<input type="radio" name="topicId" value="$!topic.id" />
 							#end
 							$!velocityCount
 						</td>
 						<td>$!topic.title</td>
 						<td>$!topic.content</td>
-						<td>$utilDate.dateToString(${topic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
+						<td>$utilDate.dateToString(${topic.gmtModified},'yyyy-MM-dd HH:mm:ss')</td>
 						<td>$!topic.talkNum</td>
 						<td>$!topic.readNum</td>
 						<td>#TOPIC_STATUS($!{topic.status})</td>
@@ -115,7 +126,7 @@
 			</table>
 		</div>
 		#parse("/page.vm")
-		#pageStyle("hotelDOListForm")
+		#pageStyle("topicListForm")
 	</form>
 	
 	#if($isRecommendList == true) 
@@ -169,7 +180,7 @@
 			                time: 1000
 			            });
 			            setTimeout(function(){ 
-			            	window.location.href = window.location.href;
+			            	$('#topicListForm').submit();
 			            },1000)
 						
 					} else {
@@ -185,14 +196,10 @@
 	    
 	    $('.confirmAdd').click(function(){
 	    	
-	    	console.log($("input[name='topicId']:checked").val());
-	    	
-	    	
 	    	var id = $("input[name='topicId']:checked").val();
-	    	var url = actionDefaultPath + '/jiuxiu/topic/setTopic';
+	    	var url = actionDefaultPath + '/jiuxiu/topic/addSugTopic';
             var params = {
-            	id: id,
-            	status: 1
+            	id: id
             };
             $.post(url, params, function(data){
 				if(data.status == 200) {
@@ -217,5 +224,16 @@
 	    $('.cancel').click(function(){
 	    	parent.layer.close(index);
 	    });
+	    
+	    $('.topicTable tr').each(function(){
+	    	$(this).click(function(){
+	    		var first = $(this).children().get(0);
+	    		var redioBtn = $(first).find("input:radio");
+	    		if(redioBtn){
+	    			$(redioBtn).trigger('click');
+	    		}
+		    });
+	    });
+	    
 	})();
 </script>

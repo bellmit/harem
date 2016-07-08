@@ -10,11 +10,11 @@ import com.yimayhd.snscenter.client.domain.SnsSugTopicDO;
 /**
  * Created by hongfei.guo on 2016/06/27.
  */
-public class SnsSugTopicVO extends SnsSugTopicDO {
+public class SugTopicVO extends SnsSugTopicDO {
 
 	private static final long serialVersionUID = 1L;
 	
-	public static SnsSugTopicDO getSugTopicDO(SnsSugTopicVO sugTopicVO){
+	public static SnsSugTopicDO getSugTopicDO(SugTopicVO sugTopicVO){
 		if(sugTopicVO == null){
     		return null;
     	}
@@ -24,25 +24,27 @@ public class SnsSugTopicVO extends SnsSugTopicDO {
         return sugTopicDO;
     }
     
-    public static SnsSugTopicVO getSugTopicVO(SnsSugTopicDO sugTopicDO){
+    public static SugTopicVO getSugTopicVO(SnsSugTopicDO sugTopicDO){
     	if(sugTopicDO == null){
     		return null;
     	}
     	
-        SnsSugTopicVO sugTopicVO = new SnsSugTopicVO();
+        SugTopicVO sugTopicVO = new SugTopicVO();
         BeanUtils.copyProperties(sugTopicDO, sugTopicVO);
         return sugTopicVO;
     }
     
-    public static List<SnsSugTopicVO> getSugTopicVOList(List<SnsSugTopicDO> sugTopicList){
+    public static List<SugTopicVO> getSugTopicVOList(List<SnsSugTopicDO> sugTopicList){
     	
-    	List<SnsSugTopicVO> sugTopicVOList = new ArrayList<SnsSugTopicVO>();
+    	List<SugTopicVO> sugTopicVOList = new ArrayList<SugTopicVO>();
     	if(sugTopicList == null){
     		return sugTopicVOList;
     	}
     	
     	for(int i = 0; i < sugTopicList.size(); i++){
-    		sugTopicVOList.add(getSugTopicVO(sugTopicList.get(i)));
+    		SugTopicVO sugTopicVO = getSugTopicVO(sugTopicList.get(i));
+    		sugTopicVO.setTitle(TopicVO.getTopicTitle2(sugTopicVO.getTitle()));
+    		sugTopicVOList.add(sugTopicVO);
     	}
         return sugTopicVOList;
     }

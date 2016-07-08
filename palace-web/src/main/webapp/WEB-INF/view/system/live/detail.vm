@@ -31,7 +31,7 @@
                 <td>
                     <div id="layer-photos-demo">
                         #foreach($pictureUrl in $!trend.pictureUrlList)
-                            <img  layer-src="http://192.168.1.150:7500/v1/tfs/T1IthTByZT1RCvBVdK" src="$!utilWebconfig.getTfsRootPath()$pictureUrl" alt="图片" class="imgRectangular">
+                            <img  layer-src="http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK" src="$!utilWebconfig.getTfsRootPath()$pictureUrl" alt="图片" class="imgRectangular">
                         #end
                     </div>
                 </td>
@@ -105,7 +105,7 @@
                         pictureArr.push({
 ,                                            "alt": "图片名",
                                             "pid": 666, //图片id
-                                            "src": "http://192.168.1.150:7500/v1/tfs/T1IthTByZT1RCvBVdK",//data.data[picture], //原图地址
+                                            "src": "http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK",//data.data[picture], //原图地址
                                             "thumb": "" //缩略图地址
                                         });
 

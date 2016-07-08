@@ -12,7 +12,7 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="" method="GET" role="form">
+	<form class="form-signin" id="recommendTopicListForm" name="recommendTopicListForm" action="" method="GET" role="form">
 		<div class="btn-single">
 			<input type="hidden"  id="addTopicUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list?isRecommendList=true" />
 			<button type="button" class="btn btn-primary btn-addtopic">添加</button>
@@ -29,22 +29,24 @@
 						<th>状态</th>
 						<th>操作</th>
 					</tr>
-					#foreach($sugTopic in $sugTopiclist)
+					#foreach($sugTopic in $pageVo.itemList)
 						<tr>
 							<td>$!velocityCount</td>
 							<td>$!sugTopic.title</td>
-							<td>$!sugTopic.gmtCreated</td>
+							<td>$utilDate.dateToString(${sugTopic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
 							<td>$!sugTopic.talkNum</td>
 							<td>$!sugTopic.readNum</td>
-							<td>$!sugTopic.status</td>
+							<td>#TOPIC_STATUS($!{sugTopic.status})</td>
 							<td>
-								<button type="button" class="btn btn-primary">删除</button>
+								<button type="button" class="btn btn-primary delete" sugTopicId="$!sugTopic.id" >删除</button>
 							</td>
 						</tr>	
 					#end
 				</tbody>
 			</table>
 		</div>	
+		#parse("/page.vm")
+		#pageStyle("recommendTopicListForm")
 	</form>
 	
 </div>
@@ -52,3 +54,30 @@
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
 <script>seajs.use("topic");</script>
+<script type="text/javascript">
+
+	(function(){
+	
+        $('.delete').click(function(){
+            var url = actionDefaultPath + '/jiuxiu/topic/removeSugTopic/'+ $(this).attr('sugTopicId');
+            $.post(url, function(data){
+				if(data.status == 200) {
+					layer.msg("操作成功", {
+		                icon: 1,
+		                time: 1000
+		            });
+		            setTimeout(function(){ 
+		            	$('#recommendTopicListForm').submit();
+		            },1000)
+					
+				} else {
+					layer.msg(data.message, {
+						icon : 2,
+						time: 2000
+					});
+				}
+		    },"json");
+        });
+	    
+	})();
+</script>

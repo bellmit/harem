@@ -18,6 +18,8 @@ public class TopicInfoVO{
 
     private String content;
 
+	private String picVal;
+
     public long getId() {
 		return id;
 	}
@@ -50,17 +52,13 @@ public class TopicInfoVO{
         this.content = content;
     }
     
-    public static TopicInfoAddDTO getTopicInfoAddDTO(TopicInfoVO topicInfoVO){
-		
-		TopicInfoAddDTO topicInfoAddDTO = new TopicInfoAddDTO();
-        if(topicInfoVO == null){
-        	return topicInfoAddDTO;
-        }
-        BeanUtils.copyProperties(topicInfoVO, topicInfoAddDTO);
-        topicInfoAddDTO.setTitle(TopicVO.getTopicTitle(topicInfoAddDTO.getTitle()));
-        
-        return topicInfoAddDTO;
-    }
+    public String getPicVal() {
+		return picVal;
+	}
+
+	public void setPicVal(String picVal) {
+		this.picVal = picVal;
+	}
     
     public static TopicInfoUpdateDTO getTopicInfoUpdateDTO(TopicInfoVO topicInfoVO){
 		
@@ -69,6 +67,7 @@ public class TopicInfoVO{
         	return topicInfoUpdateDTO;
         }
         BeanUtils.copyProperties(topicInfoVO, topicInfoUpdateDTO);
+        topicInfoUpdateDTO.setPics(topicInfoVO.getPicVal());
         return topicInfoUpdateDTO;
     }
     

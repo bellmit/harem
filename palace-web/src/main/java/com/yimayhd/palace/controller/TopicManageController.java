@@ -1,7 +1,5 @@
 package com.yimayhd.palace.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,10 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
-import com.yimayhd.palace.model.SnsSugTopicVO;
+import com.yimayhd.palace.model.SugTopicVO;
 import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
+import com.yimayhd.palace.model.query.SugTopicListQuery;
 import com.yimayhd.palace.model.query.TopicListQuery;
 import com.yimayhd.palace.service.TopicService;
 import com.yimayhd.palace.tair.TcCacheManager;
@@ -82,13 +81,14 @@ public class TopicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo add(TopicInfoVO topicInfoVO, String uuid) throws Exception {
+	public ResponseVo add(TopicVO topicVO, String uuid) throws Exception {
 		
 		String key = Constant.APP+"_repeat_"+sessionManager.getUserId() + uuid;
 		boolean rs = tcCacheManager.addToTair(key, true , 2, 24*60*60);
 		if(rs){
 			try {
-				TopicVO result = topicService.addTopic(topicInfoVO);
+				topicVO.setOwnerId(sessionManager.getUserId());
+				TopicVO result = topicService.addTopic(topicVO);
 				return  ResponseVo.success(result);
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
@@ -164,35 +164,51 @@ public class TopicManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/recommendList", method = RequestMethod.GET)
-	public String recommendList(Model model) throws Exception {
+	public String recommendList(Model model, SugTopicListQuery sugTopicListQuery) throws Exception {
 		
-		List<SnsSugTopicVO> sugTopiclist = topicService.getSugTopicList();
-		model.addAttribute("sugTopiclist", sugTopiclist);
+		PageVO<SugTopicVO> pageVo = topicService.getSugTopicPageList(sugTopicListQuery);
+		model.addAttribute("pageVo", pageVo);
 		return "/system/topic/recommendList";
 	}
 	
 	/**
-	 * 添加到推荐列表、从推荐列表删除
+	 * 添加到推荐列表
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/setTopic", method = RequestMethod.POST)
+	@RequestMapping(value = "/addSugTopic", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo setTopic(String id, String status) throws Exception {
+	public ResponseVo addSugTopic(String id) throws Exception {
 		try {
-			if(StringUtils.isBlank(id) || StringUtils.isBlank(status)){
+			if(StringUtils.isBlank(id)){
 				return ResponseVo.error();
 			}
 			
-			List<Long> idList = new ArrayList<Long>();
-			try{
-				idList.add(Long.parseLong(id));
-			}catch(Exception e){
-				return ResponseVo.error();
+			boolean isSuccess = topicService.addSugTopic(Long.parseLong(id));
+			if(isSuccess){
+				return ResponseVo.success();
 			}
+			return ResponseVo.error(null);
 			
-			boolean isSuccess = topicService.setTopic(idList, Integer.parseInt(status));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+	}
+	
+	/**
+	 * 从推荐列表删除
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/removeSugTopic/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo removeSugTopic(@PathVariable(value = "id") long id) throws Exception {
+		try {
+			
+			boolean isSuccess = topicService.removeSugTopic(id);
 			if(isSuccess){
 				return ResponseVo.success();
 			}

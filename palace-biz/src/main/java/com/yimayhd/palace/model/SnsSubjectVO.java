@@ -6,6 +6,7 @@ import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.util.ListUtil;
 import com.yimayhd.user.client.domain.UserDO;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -15,10 +16,15 @@ import java.util.List;
  * Created by czf on 2015/12/31.
  */
 public class SnsSubjectVO extends SnsSubjectDO {
-    private UserDO userDO;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private UserDO userDO;
     private long tagId;
     private ComTagDO tag;
     private List<String> picList;
+	private List<String> topicTitleList;
     private String picListStr;
     private String gmtCreatedStr;//时间字符串(yyyy-MM-dd HH:mm)
     private Integer commentNum;//评论数
@@ -102,4 +108,13 @@ public class SnsSubjectVO extends SnsSubjectDO {
     public void setPicListStr(String picListStr) {
         this.picListStr = picListStr;
     }
+
+	public List<String> getTopicTitleList() {
+		return topicTitleList;
+	}
+
+	public void setTopicTitleList(List<String> topicTitleList) {
+		this.topicTitleList = topicTitleList;
+	}
+
 }
