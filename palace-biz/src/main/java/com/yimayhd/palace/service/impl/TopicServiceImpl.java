@@ -55,7 +55,7 @@ public class TopicServiceImpl implements TopicService {
 		
 		//话题名称
 		if (StringUtils.isNotBlank(topicListQuery.getTitle())) {
-			pageQuery.setTitle(topicListQuery.getTitle());			
+			pageQuery.setTitle(topicListQuery.getTitle().trim());			
 		}
 		//景区状态
 		if (StringUtils.isNotBlank(topicListQuery.getStatus())) {			
