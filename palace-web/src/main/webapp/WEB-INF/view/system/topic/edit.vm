@@ -50,12 +50,11 @@
 							<input type="hidden" class="srcurl" value="$!{utilWebconfig.getTfsRootPath()}" />
 							<div class="imgbox imgno">
 								<div class="imgcon">
-									#if(! $topic.pics)
-										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									#else
+									#if("$!topic.pics" != "")
 										<img src="$utilWebconfig.getTfsRootPath()$!{topic.pics}" />	
+									#else
+										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#end
-									
 								</div>
 								<div class="imgwait"></div>
 								<div class="imgdelbtn">删除图片</div>

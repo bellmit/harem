@@ -105,7 +105,7 @@
 						</td>
 						<td>$!topic.title</td>
 						<td>$!topic.content</td>
-						<td>$utilDate.dateToString(${topic.gmtModified},'yyyy-MM-dd HH:mm:ss')</td>
+						<td>$utilDate.dateToString(${topic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
 						<td>$!topic.talkNum</td>
 						<td>$!topic.readNum</td>
 						<td>#TOPIC_STATUS($!{topic.status})</td>
