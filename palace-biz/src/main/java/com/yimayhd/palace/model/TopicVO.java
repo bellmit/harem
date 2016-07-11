@@ -31,7 +31,7 @@ public class TopicVO extends SnsTopicDO {
         
         String title = topicDO.getTitle();
         if(title != null){
-        	topicDO.setTitle(title.trim());
+        	topicDO.setTitle(getTopicTitle(title));
         }
         
         return topicDO;

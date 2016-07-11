@@ -76,15 +76,6 @@ public class BoothServiceImpl implements BoothService {
         return entity;
     }
 
-    public List<AppVersionDO> queryAppVersionList(AppVersionQuery appVersionQuery){
-        RcResult<List<AppVersionDO>> result =  appVersionClientServiceRef.queryAppVersionList(appVersionQuery);
-        if(result == null || !result.isSuccess()){
-            log.error("appVersionClientServiceRef.queryAppVersionList result is null and parame: " + JSON.toJSONString(appVersionQuery) +"|||result="+JSON.toJSONString(result));
-            return null;
-        }
-        return result.getT();
-    }
-
     public BoothVO saveOrUpdate(BoothVO entity) throws Exception {
         RcResult<Long> result = null;
         long id = entity.getId();
@@ -124,4 +115,24 @@ public class BoothServiceImpl implements BoothService {
         BeanUtils.copyProperties(boothVO,boothDO);
         return boothVO;
     }
+
+    public List<AppVersionDO> queryAppVersionList(AppVersionQuery appVersionQuery){
+        RcResult<List<AppVersionDO>> result =  appVersionClientServiceRef.queryAppVersionList(appVersionQuery);
+        if(result == null || !result.isSuccess()){
+            log.error("appVersionClientServiceRef.queryAppVersionList result is null and parame: " + JSON.toJSONString(appVersionQuery) +"|||result="+JSON.toJSONString(result));
+            return null;
+        }
+        return result.getT();
+    }
+
+    public PageVO<AppVersionDO> getAppVersionList(AppVersionQuery query)throws Exception{
+        query.setNeedCount(true);
+        RCPageResult<AppVersionDO> result = appVersionClientServiceRef.getPageAppVersionResult(query);
+        if(result == null || !result.isSuccess()){
+            log.error("appVersionClientServiceRef.queryAppVersionList result is null and parame: " + JSON.toJSONString(query) +"|||result="+JSON.toJSONString(result));
+            return null;
+        }
+        return new PageVO<AppVersionDO>(query.getPageNo(),query.getPageSize(),result.getTotalCount(),result.getList());
+    }
+
 }

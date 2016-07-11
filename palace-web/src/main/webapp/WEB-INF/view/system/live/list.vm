@@ -163,8 +163,8 @@
         $('.allChecked').click(function(){
             $('.subChecked').prop('checked',$(this).prop('checked'));
         });
-        $(".subChecked").click( function(){
-            event.stopPropagation(); // do something
+        $(".subChecked").click( function(e){
+            e.stopPropagation(); // do something
         });
         //单选
         $('.subCheckedTR').click(function(){

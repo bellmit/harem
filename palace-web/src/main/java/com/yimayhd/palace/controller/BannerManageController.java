@@ -116,6 +116,8 @@ public class BannerManageController extends BaseController {
         PageVO<ShowCaseResult> page = showcaseService.getShowcaseResult(showcaseQuery);
         model.addAttribute("pageVo",page);
         model.addAttribute("boothCode",boothCode);
+        model.addAttribute("boothId",showcaseQuery.getBoothId());
+        model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
         return "/system/banner/showcase/list";
@@ -350,19 +352,24 @@ public class BannerManageController extends BaseController {
         return "/system/banner/booth/list";
     }*/
 
-    @RequestMapping(value = "/booth/edit", method = RequestMethod.GET)
-    public String boothToEdit(Model model,long boothId) throws Exception {
-        model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
-        AppVersionQuery appvQuery = new AppVersionQuery();
-        appvQuery.setStatus(AppVersionStauts.ONLINE.getStatus());
-        model.addAttribute("listAppVersion", boothService.queryAppVersionList(appvQuery));
-        return "/system/banner/booth/edit";
+
+    @RequestMapping(value = "/appversion/list", method = RequestMethod.GET)
+    public String list(Model model,AppVersionQuery query) throws Exception {
+        model.addAttribute("query",query);
+        model.addAttribute("appversionList",boothService.getAppVersionList(query));
+        return "/system/banner/appversion/list";
     }
 
-    @RequestMapping(value = "/booth/edit", method = RequestMethod.POST)
-    public String boothEdit(Model model,long boothId) throws Exception {
+
+    @RequestMapping(value = "/appversion/add", method = RequestMethod.GET)
+    public String appVersionToEdit(Model model,long boothId) throws Exception {
+        return "/system/banner/appversion/edit";
+    }
+
+    @RequestMapping(value = "/appversion/add", method = RequestMethod.POST)
+    public String appVersionEdit(Model model,long boothId) throws Exception {
         model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
-        model.addAttribute("currentBooth", boothService.get(boothId));
+
         return "/system/banner/booth/edit";
     }
 

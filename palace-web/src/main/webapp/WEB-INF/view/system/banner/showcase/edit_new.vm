@@ -291,7 +291,10 @@
                             return;
                         }
                         setTimeout(function(){
-                             window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?appVersionCode=$!appVersionCode&pageNumber=1';
+                            var url = "$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?appVersionCode=$!appVersionCode"
+                                    +"&boothId="+boothId+"&pageNumber=1";
+                            window.location.href =url;
+
                         },2000);
                     })
         });

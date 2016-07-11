@@ -30,6 +30,7 @@ import com.yimayhd.user.client.domain.UserDOQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class LiveServiceImpl implements LiveService {
 	@Autowired
 	private ComCenterService comCenterServiceRef;
 	@Autowired
-	private SnsTopicCenterService snsTopicCenterService;
+	private SnsTopicCenterService snsTopicCenterServiceRef;
 
 	@Override
 	public PageVO<SnsSubjectVO> getList(LiveListQuery liveListQuery) throws Exception {
@@ -105,7 +106,7 @@ public class LiveServiceImpl implements LiveService {
 		}else if(StringUtils.isNotBlank(liveListQuery.getNickName())){
 			// 查询用户
 			UserDOQuery userDOQuery = new UserDOQuery();
-			userDOQuery.setNickname(liveListQuery.getNickName());
+			userDOQuery.setNickname(liveListQuery.getNickName().trim());
 			com.yimayhd.user.client.result.BasePageResult<UserDO> userListResult =  userServiceRef.findByConditionNoPage(userDOQuery);
 			if(null == userListResult){
 				log.error("LiveServiceImpl.getList-userService.findByConditionNoPage result is null and parame: " + JSON.toJSONString(userDOQuery));
@@ -128,7 +129,7 @@ public class LiveServiceImpl implements LiveService {
 		}
 		//昵称（用户id列表）
 		subjectInfoDTO.setUserList(userIdList);
-		BasePageResult<UgcResult> basePageResult = snsTopicCenterService.getUgcPageList(subjectInfoDTO);
+		BasePageResult<UgcResult> basePageResult = snsTopicCenterServiceRef.getUgcPageList(subjectInfoDTO);
 //		BasePageResult<SnsSubjectDO> basePageResult = snsCenterServiceRef.getSubjectInfoPage(subjectInfoDTO);
 		if(null == basePageResult){
 			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and liveListQuery:" + JSON.toJSONString(liveListQuery));
@@ -269,7 +270,11 @@ public class LiveServiceImpl implements LiveService {
 		if(null == baseResult){
 			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo result is null and parame: " + JSON.toJSONString(subjectInfoAddDTO));
 			throw new BaseException("新增直播失败，返回结果为空");
-		} else if(!baseResult.isSuccess()){
+		} else if (baseResult.isSuccess() && null != baseResult.getValue()) {
+			SnsSubjectVO sockpuppetVO = new SnsSubjectVO();
+			BeanUtils.copyProperties(sockpuppetVO, baseResult.getValue());
+			return sockpuppetVO;
+		}else {
 			log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo error:" + JSON.toJSONString(baseResult) + "and parame: " + JSON.toJSONString(subjectInfoAddDTO));
 			throw new BaseException("新增直播失败，新增错误," + baseResult.getResultMsg());
 		}
@@ -291,8 +296,6 @@ public class LiveServiceImpl implements LiveService {
 //				throw new BaseException("新增直播失败，新增直播标签失败，" + addTagBaseResult.getResultMsg());
 //			}
 //		}
-
-		return null;
 	}
 
 	@Override
