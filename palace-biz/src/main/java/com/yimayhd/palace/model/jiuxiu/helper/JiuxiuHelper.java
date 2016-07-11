@@ -19,6 +19,7 @@ import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 
@@ -37,6 +38,8 @@ public class JiuxiuHelper {
 		jiuxiuTcDetailOrder.setItemPrice(tcDetailOrder.getItemPrice());
 		jiuxiuTcDetailOrder.setActivityTime(tcDetailOrder.getActivityTime());
 		jiuxiuTcDetailOrder.setActivityContent(tcDetailOrder.getActivityContent());
+		 //获取子订单实付金额
+		jiuxiuTcDetailOrder.setItemPrice_(BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO()));
 	}
 	
 	public static void fillBizOrder(JiuxiuTcBizOrder jiuxiuTcBizOrder,TcBizOrder tcBizOrder,String phone){

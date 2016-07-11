@@ -726,12 +726,14 @@
 
 ##订单列表-展示的SKU信息
 #macro(ROUTE_ORDER_LIST_SKU $type)
-    #if($type == 3100 ||$type == 3200 || $type == 200
-	 || $type == 3500 || $type == 3600)
+    #if($type == 3100 ||$type == 3200 || $type == 3500 || $type == 3600)
 	   	<div class="t-name">$!subOrder.itemTitle</div>
 	    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
 	    <div class="t-userType">$!subOrder.itemSubTitle</div>
 	    <div class="t-userType">$!subOrder.personType</div>
+	#elseif( $type == 200)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
 	#elseif( $type == 3300)
 	   	<div class="t-name">$!subOrder.itemTitle</div>
 	    <div class="t-userType">$!subOrder.itemSubTitle</div>
