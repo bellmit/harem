@@ -350,9 +350,11 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/appversion/list", method = RequestMethod.GET)
     public String list(Model model,AppVersionQuery query) throws Exception {
         String codeVal = request.getParameter("codeVal");
-        codeVal = codeVal.replaceAll("\\s*", "");
-        if(StringUtils.isNotEmpty(codeVal) && NumberUtils.isNumber(codeVal)){
-            query.setCode(Integer.parseInt(codeVal));
+        if(StringUtils.isNotEmpty(codeVal) ){
+            codeVal = codeVal.replaceAll("\\s*", "");
+            if(NumberUtils.isNumber(codeVal)){
+                query.setCode(Integer.parseInt(codeVal));
+            }
         }
         if(StringUtils.isNotEmpty(query.getName())){
             query.setName(query.getName().replaceAll("\\s*", ""));
