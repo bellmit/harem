@@ -15,7 +15,7 @@
         <div class="btn-group">
             <button type="submit" class="btn btn-primary">查询</button>
         </div>
-        #*<button type="button" class="btn btn-primary addBtn" id="addBtn">添加广告位</button>*#
+        <button type="button" class="btn btn-primary addBtn" id="addBtn">添加广告位</button>
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>

@@ -1,6 +1,5 @@
 package com.yimayhd.palace.controller;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
@@ -15,10 +14,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.Constants;
-import com.yimayhd.palace.constant.OperationType;
 import com.yimayhd.palace.constant.ResponseStatus;
-import com.yimayhd.palace.controller.vo.OperationParamConstant;
-import com.yimayhd.palace.controller.vo.OperationVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
@@ -26,8 +22,6 @@ import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
 import com.yimayhd.resourcecenter.domain.AppVersionDO;
-import com.yimayhd.resourcecenter.domain.BoothDO;
-import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.model.enums.*;
 import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
@@ -43,13 +37,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -355,22 +349,38 @@ public class BannerManageController extends BaseController {
 
     @RequestMapping(value = "/appversion/list", method = RequestMethod.GET)
     public String list(Model model,AppVersionQuery query) throws Exception {
+        String codeVal = request.getParameter("codeVal");
+        if(StringUtils.isNotEmpty(codeVal) ){
+            codeVal = codeVal.replaceAll("\\s*", "");
+            if(NumberUtils.isNumber(codeVal)){
+                query.setCode(Integer.parseInt(codeVal));
+            }
+        }
+        if(StringUtils.isNotEmpty(query.getName())){
+            query.setName(query.getName().replaceAll("\\s*", ""));
+        }
+        PageVO<AppVersionDO> page = boothService.getAppVersionList(query);
         model.addAttribute("query",query);
-        model.addAttribute("appversionList",boothService.getAppVersionList(query));
+        model.addAttribute("pageVo",page);
         return "/system/banner/appversion/list";
     }
 
 
     @RequestMapping(value = "/appversion/add", method = RequestMethod.GET)
-    public String appVersionToEdit(Model model,long boothId) throws Exception {
+    public String appVersionToAdd(Model model) throws Exception {
         return "/system/banner/appversion/edit";
     }
 
     @RequestMapping(value = "/appversion/add", method = RequestMethod.POST)
-    public String appVersionEdit(Model model,long boothId) throws Exception {
-        model.addAttribute("cacheType", Arrays.asList(CacheType.values()));
-
-        return "/system/banner/booth/edit";
+    public String appVersionAdd(Model model,String appId,AppVersionDO appVersionDO) throws Exception {
+        if(StringUtils.isNotEmpty(appId) && NumberUtils.isNumber(appId) ){
+            appVersionDO.setId(Long.parseLong(appId));
+        }
+        AppVersionDO ado = boothService.saveOrUpdateAppVersionDO(appVersionDO);
+        if(null == ado){
+            return "error";
+        }
+        return "success";
     }
 
 

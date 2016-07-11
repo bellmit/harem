@@ -38,7 +38,7 @@ public class SockpuppetDO extends BaseModel implements Serializable{
     private String avatar;
 
     /**
-     *  状态（10：删除；20：正常）,所属表字段为sockpuppet.status
+     *  状态（10：正常；20：删除）,所属表字段为sockpuppet.status
      */
     private Integer status;
 
