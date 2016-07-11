@@ -587,6 +587,20 @@
     #end
 #end
 
+#macro(ORDER_BIZ_STATUS_NORMAL $type)
+    #if($type == 2)
+  		待付款 
+    #elseif($type == 3)
+       	已付款
+    #elseif($type == 6)
+      	 已发货
+    #elseif($type == 10)
+      	  已完成
+    #elseif($type == 8)
+       	 已取消
+    #end
+#end
+
 #macro(ORDER_BIZ_STATUS_SPOTS $type)
    	#if($type == 2)
   		待付款
@@ -629,6 +643,8 @@
         <span>
         	#if($order.bizOrder.orderType == 1200 || $order.bizOrder.orderType == 1100)
         	待确认；
+        	#elseif($order.bizOrder.orderType == 200)
+        	已付款；
         	#else
            	处理中；
            	#end
@@ -642,12 +658,18 @@
         	待使用；
         	#elseif($order.bizOrder.orderType == 1100)
         	预订成功；
+        	#elseif($order.bizOrder.orderType == 200)
+        	已发货；
         	#else
            	待出行；
            	#end
         </span>
         <span>
-          	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+        	#if($order.bizOrder.orderType == 200)
+          	  	发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+          	#else
+          	 	 确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+          	#end
         </span>
     #elseif($type == 10)
         <span>
