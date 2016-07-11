@@ -73,4 +73,6 @@ public interface UserRPCService {
 	TravelKaVO getTravelKaById(long id);
 	
 	Map<Long,UserDO> getUserListByIds(List<SnsTravelSpecialtyDO> specialDoList);
+	
+	UserDO getUserByMobile(String mobile) throws Exception;
 }

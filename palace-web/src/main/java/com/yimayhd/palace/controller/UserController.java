@@ -94,4 +94,11 @@ public class UserController extends BaseController {
 		model.addAttribute("pageVo", pageVO);
 		return "/system/tradeUser/list";
 	}
+	
+	@RequestMapping(value = "/userManage/getUserByMobile", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo getUserByMobile(String mobile) throws Exception {
+		UserDO userDO = userService.getUserByMobile(mobile);
+		return ResponseVo.success(userDO);
+	}
 }
