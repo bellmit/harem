@@ -6,6 +6,7 @@ import java.util.List;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.jiuxiu.JiuxiuTcDetailOrder;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
@@ -15,6 +16,7 @@ import com.yimayhd.pay.client.model.param.pay.QuerySingleDTO;
 import com.yimayhd.pay.client.model.result.PayResultDTO;
 import com.yimayhd.pay.client.service.QueryPayOrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
@@ -33,6 +35,7 @@ import com.yimayhd.user.session.manager.SessionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,12 +95,25 @@ public class JiuxiuOrderManageController extends BaseController {
 
 					tcMainOrder.setMerchantInfo(tcMerchantInfo);
 				}
-				model.addAttribute("order", tcMainOrder);
+				JiuxiuTcMainOrder jiuxiuTcMainOrder = new JiuxiuTcMainOrder();
+				BeanUtils.copyProperties(tcMainOrder, jiuxiuTcMainOrder);
+				//添加主订单原价
+				jiuxiuTcMainOrder.setIteamPrice_(BizOrderUtil.getMainOrderTotalFee(tcMainOrder.getBizOrder().getBizOrderDO()));
+				//获取优惠劵优惠金额
+				VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrder.getBizOrder().getBizOrderDO());
+				if(null!=voucherInfo){
+					jiuxiuTcMainOrder.setRequirement(voucherInfo.getRequirement());
+					jiuxiuTcMainOrder.setValue(voucherInfo.getValue());
+				}
+				//获取使用的积分
+				jiuxiuTcMainOrder.setUserPointNum(BizOrderUtil.getUsePointNum(tcMainOrder.getBizOrder().getBizOrderDO()));
+				
 				//根据userId获取用户信息
 				UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
 				model.addAttribute("phone", buyer.getMobileNo());
 				if(null!=tcMainOrder.getDetailOrders()){
 					List<TcDetailOrder> tcDetailOrders = tcMainOrder.getDetailOrders();
+					
 					model.addAttribute("startDate", tcDetailOrders.get(0).getStartDate());
 					UserDO seller = userServiceRef.getUserDOById(tcDetailOrders.get(0).getBizOrder()==null?0:tcDetailOrders.get(0).getBizOrder().getSellerId());
 					if(null!=seller){
@@ -117,7 +133,22 @@ public class JiuxiuOrderManageController extends BaseController {
 					bizOrderDO.setBizOrderId(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBizOrderId());
 					model.addAttribute("sellerMsg", BizOrderUtil.getSellerMemo(bizOrderDO));
 				}
+				//复制详情到自定义详情中
+				List<JiuxiuTcDetailOrder> jiuxiuTcDetailOrderList= new ArrayList<JiuxiuTcDetailOrder>();
+				for (TcDetailOrder tcDetailOrder : jiuxiuTcMainOrder.getDetailOrders()) {
+					JiuxiuTcDetailOrder jiuxiuTcDetailOrder = new JiuxiuTcDetailOrder();
+					BeanUtils.copyProperties(tcDetailOrder, jiuxiuTcDetailOrder);
+					jiuxiuTcDetailOrderList.add(jiuxiuTcDetailOrder);
+				}
+				jiuxiuTcMainOrder.setJiuxiuTcDetailOrders(jiuxiuTcDetailOrderList);
 				
+				
+				for (JiuxiuTcDetailOrder jiuxiuTcDetailOrder : jiuxiuTcMainOrder.getJiuxiuTcDetailOrders()) {
+					//获取子订单实付金额
+					jiuxiuTcDetailOrder.setItemPrice_(BizOrderUtil.getSubOrderActualFee(jiuxiuTcDetailOrder.getBizOrder().getBizOrderDO()));
+				}
+				
+				model.addAttribute("order", jiuxiuTcMainOrder);
 			}
 			
 			//查询支付信息

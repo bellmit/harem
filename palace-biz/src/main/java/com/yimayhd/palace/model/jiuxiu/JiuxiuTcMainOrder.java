@@ -17,6 +17,14 @@ public class JiuxiuTcMainOrder extends TcMainOrder implements Serializable{
 	 /** 子订单列表 */
     private List<JiuxiuTcDetailOrder> jiuxiuTcDetailOrders;
     
+    private long requirement;
+
+    private long value; 
+    
+    private long iteamPrice_;
+    
+    private long userPointNum;
+    
 	public JiuxiuTcBizOrder getJiuxiuTcBizOrder() {
 		return jiuxiuTcBizOrder;
 	}
@@ -29,6 +37,30 @@ public class JiuxiuTcMainOrder extends TcMainOrder implements Serializable{
 	public void setJiuxiuTcDetailOrders(
 			List<JiuxiuTcDetailOrder> jiuxiuTcDetailOrders) {
 		this.jiuxiuTcDetailOrders = jiuxiuTcDetailOrders;
+	}
+	public long getRequirement() {
+		return requirement;
+	}
+	public void setRequirement(long requirement) {
+		this.requirement = requirement;
+	}
+	public long getValue() {
+		return value;
+	}
+	public void setValue(long value) {
+		this.value = value;
+	}
+	public long getIteamPrice_() {
+		return iteamPrice_;
+	}
+	public void setIteamPrice_(long iteamPrice_) {
+		this.iteamPrice_ = iteamPrice_;
+	}
+	public long getUserPointNum() {
+		return userPointNum;
+	}
+	public void setUserPointNum(long userPointNum) {
+		this.userPointNum = userPointNum;
 	}
     
     
