@@ -79,6 +79,7 @@
                     <th>#</th>
                     <th>主题名称</th>
                     <th>类别</th>
+                    <th>数据域</th>
                     <th>状态</th>
                     <th>创建时间</th>
                     <th>更新时间</th>
@@ -119,6 +120,7 @@
                         	城市活动
                         	#end
                         </td>
+                        <td>#if($!theme.domain == 1200) 九休 #elseif($!theme.domain == 1000) B2C #else $!theme.domain  #end </td>
                         <td>#if($!theme.status == 1) 启用  #else 禁用  #end </td>
                         <td>$!utilDate.dateToString($!theme.gmtCreated,"yyyy-MM-dd HH:mm:ss") </td>
                         <td>$!utilDate.dateToString($!theme.gmtModified,"yyyy-MM-dd HH:mm:ss") </td>
