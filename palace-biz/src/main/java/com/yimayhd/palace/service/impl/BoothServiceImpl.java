@@ -128,11 +128,49 @@ public class BoothServiceImpl implements BoothService {
     public PageVO<AppVersionDO> getAppVersionList(AppVersionQuery query)throws Exception{
         query.setNeedCount(true);
         RCPageResult<AppVersionDO> result = appVersionClientServiceRef.getPageAppVersionResult(query);
-        if(result == null || !result.isSuccess()){
+        if(result == null || !result.isSuccess() ){
             log.error("appVersionClientServiceRef.queryAppVersionList result is null and parame: " + JSON.toJSONString(query) +"|||result="+JSON.toJSONString(result));
             return null;
         }
-        return new PageVO<AppVersionDO>(query.getPageNo(),query.getPageSize(),result.getTotalCount(),result.getList());
+        if(CollectionUtils.isNotEmpty(result.getList())){
+            return new PageVO<AppVersionDO>(query.getPageNo(),query.getPageSize(),result.getTotalCount(),result.getList());
+        }
+        return new PageVO<AppVersionDO>();
     }
+
+    public AppVersionDO saveOrUpdateAppVersionDO(AppVersionDO entity)throws Exception{
+        long id = entity.getId();
+        if(0 == id){//add
+            //先查code存不存在
+            AppVersionQuery query = new AppVersionQuery();
+            query.setCode(entity.getCode());
+            RcResult<List<AppVersionDO>> queryResult = appVersionClientServiceRef.queryAppVersionList(query);
+            if(null == queryResult || !queryResult.isSuccess()){
+                throw new Exception("数据异常，新增失败");
+            }
+            if(CollectionUtils.isNotEmpty(queryResult.getT())){
+                throw new Exception("该版本号【"+query.getCode()+"】已经存在");
+            }
+            RcResult<Integer> integerRcResult = appVersionClientServiceRef.insert(entity);
+            if(null == integerRcResult || !integerRcResult.isSuccess() ||integerRcResult.getT() <=0){
+                throw new Exception("数据异常，新增失败");
+            }
+            return entity;
+        }
+        //update
+        RcResult<AppVersionDO>  appVersionDORcResult = appVersionClientServiceRef.selectById(id);
+        if(null == appVersionDORcResult || !appVersionDORcResult.isSuccess() || null == appVersionDORcResult.getT() ){
+            throw new Exception("数据异常，更新失败");
+        }
+        AppVersionDO dbAppVersionDO = appVersionDORcResult.getT();
+        BeanUtils.copyProperties(entity,dbAppVersionDO);
+        RcResult<Integer> integerRcResult = appVersionClientServiceRef.update(dbAppVersionDO);
+        if(null == integerRcResult || !integerRcResult.isSuccess() || integerRcResult.getT() <=0 ){
+            throw new Exception("数据异常，更新失败");
+        }
+        return dbAppVersionDO;
+    }
+
+
 
 }

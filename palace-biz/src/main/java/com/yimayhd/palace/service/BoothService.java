@@ -35,4 +35,6 @@ public interface BoothService {
 
     PageVO<AppVersionDO> getAppVersionList(AppVersionQuery query)throws Exception;
 
+    AppVersionDO saveOrUpdateAppVersionDO(AppVersionDO entity)throws Exception;
+
 }
