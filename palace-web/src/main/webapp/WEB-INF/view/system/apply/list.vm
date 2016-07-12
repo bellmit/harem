@@ -26,7 +26,7 @@
 		</div>
 	</div>
 </div>
-<div class="searchbox" style="width:980px;">
+<div class="searchbox">
 	<form id="fm">
 		<table>
 			<tr>
@@ -40,7 +40,8 @@
 					#foreach( $type in $types )
 						<option value="${type.type}">${type.name}</option>
 					#end
-				</select></td><td colspan="2"></td>
+				</select></td>
+				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<td class="tit">店铺负责人：</td>
@@ -55,8 +56,7 @@
 					<option value="2">未审核</option>
 					<option value="3">审核失败</option>
 					
-				</select></td><td colspan="2"></td>
-				
+				</select></td>				
 				<td align='center' colspan="2"><button class="searchbtn">搜索</button><button type="reset">重置</button></td>
 			</tr>
 		</table>
