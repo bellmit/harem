@@ -13,67 +13,50 @@ public class ArticleListQuery extends BaseQuery {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private long type;// 文章分类
-	private int liveStatus;// 状态
-	private String tel;// 用户手机号
-	private String nickName;// 用户昵称
-	private String content;// 内容
-	private String beginDate;
-	private String endDate;
+	private int type;// 文章分类
+	private int status;// 状态
+	private String title;// 内容
+	private String startTime;
+	private String endTime;
 
-	public long getTag() {
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getType() {
 		return type;
 	}
 
-	public void setTag(long tag) {
-		this.type = tag;
-	}
-
-	public int getLiveStatus() {
-		return liveStatus;
-	}
-
-	public void setLiveStatus(int liveStatus) {
-		this.liveStatus = liveStatus;
-	}
-
-	public String getTel() {
-		return tel;
-	}
-
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getBeginDate() {
-		return beginDate;
-	}
-
-	public void setBeginDate(String beginDate) {
-		this.beginDate = beginDate;
-	}
-
-	public String getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setType(int type) {
+		this.type = type;
 	}
 }

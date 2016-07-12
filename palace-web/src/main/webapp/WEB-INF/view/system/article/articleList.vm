@@ -1,94 +1,80 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
-    <form class="form-signin" id="liveListForm" name="liveListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/liveManage/list" method="GET" role="form">
+    <form class="form-signin" id="articleListForm" name="articleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/articleList" method="GET" role="form">
         <div class="inputGroup whole">
-            #*<div class="input-group inpSingle">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">直播标签：</button>
-                </span>
-                <select class="form-control" name="tag">
-                    <option value="0">全部</option>
-                    <option value="1" #if($!liveListQuery.joinStatus == 1) selected #end>标签1</option>
-                    <option value="2" #if($!liveListQuery.joinStatus == 2) selected #end>标签2</option>
-                </select>
-            </div>*#
-
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">发布时间：</button>
                     </span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!liveListQuery.beginDate">
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startTime" value="$!query.startTime">
                 <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!liveListQuery.endDate">
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endTime" value="$!query.endTime">
             </div>
 
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-                <select class="form-control" name="liveStatus">
-                    <option value="0">请选择</option>
-                    <option value="1" #if($!liveListQuery.liveStatus == 1) selected #end>正常</option>
-                    <option value="2" #if($!liveListQuery.liveStatus == 2) selected #end>违规</option>
-                </select>
+				 <select class="form-control" name="status">
+					<option value="0" #if(!$query.status) selected #end>全部</option>
+    					#foreach($articleStatus in $articleStautsList)
+    					<option value="$!{articleStatus.value}" #if($query.status == $articleStatus.value) selected #end >$!{articleUtil.getArticleStatus($articleStatus.value)}</option>
+    					#end
+				</select>
+            </div>
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">类型：</button>
+                </span>
+				 <select class="form-control" name="type">
+					<option value="0" #if(!$query.type) selected #end>全部</option>
+    					#foreach($articleType in $articleTypeList)
+    					<option value="$!{articleType.value}" #if($query.type == $articleType.value) selected #end >$!{articleUtil.getArticleTypeName($articleType.value)}</option>
+    					#end
+				</select>
             </div>
 
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">用户手机号</button>
+                        <button class="btn btn-default" type="button">标题</button>
                     </span>
-                <input type="text" class="form-control" name="tel" value="$!liveListQuery.tel">
+                <input type="text" class="form-control" name="title" value="$!query.title">
             </div>
 
-            <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">用户昵称</button>
-                    </span>
-                <input type="text" class="form-control" name="nickName" value="$!liveListQuery.nickName">
-            </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
-            <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+           <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-clean">重置</button>
             </div>
         </div>
-        <button type="button" class="btn btn-primary addLiveBtn" id="addLiveBtn">添加直播</button>
-        <button type="button" class="btn btn-primary liveBatchBtn">批量违规</button>
+        <button type="button" class="btn btn-primary addArticleBtn" id="addAiveBtn">添加文章</button>
+        <button type="button" class="btn btn-primary articleBatchBtn">批量违规</button>
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
                     <th width="4%"><input class="allChecked" name="allChecked" type="checkbox">全选</th>
-                    <th width="8%">用户昵称</th>
-                    <th width="8%">用户手机号</th>
-                    <th width="30%">内容</th>
-                    <th width="10%">标签</th>
-                    <th width="5%">来源</th>
-                    <th width="3%">点赞数</th>
-                    <th width="3%">评论数</th>
-                    <th width="3%">分享数</th>
+                    <th width="8%">封面</th>
+                    <th width="30%">标题</th>
+                    <th width="5%">创建时间</th>
+                    <th width="3%">阅读数</th>
+                    <th width="3%">类型</th>
                     <th width="5%">状态</th>
-                    <th width="8%">发布时间</th>
                     <th width="13%">操作</th>
                 </tr>
-                    #foreach($live in $liveList)
+                    #foreach($article in $articleList)
                     <tr class="subCheckedTR">
-                        <td><input class="subChecked" type="checkbox" value="$!{live.id}"></td>
-                        <td>$!live.userDO.nickname</td>
-                        <td>$!live.userDO.mobileNo</td>
-                        <td style="word-break: break-all;min-width: 40px;max-width: 349px;padding: 4px 4px !important;">$!esc.html($!live.textContent)</td>
-                        <th>$!esc.html($!live.tag.name)</th>
-                        <th>暂未实现</th>
-                        <th>$!live.supportNum</th>
-                        <th>$!live.commentNum</th>
-                        <th>暂未实现</th>
-                        <td>#TREND_STATUS($!live.status)</td>
-                        <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
+                        <td><input class="subChecked" type="checkbox" value="$!{article.id}"></td>
+                        <td>$!article.frontcover</td>
+                        <td>$!article.title</td>
+                        <td>$!utilDate.dateToString($!article.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
+						<td>$!article.pv</td>
+						<td>$!{articleUtil.getArticleTypeName($!article.type)}</td>
+						<td>$!{articleUtil.getArticleStatus($!article.status)}</td>
                         <td>
-                            <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>
-                            <button type="button" class="btn btn-primary livePicListBtn"  picListStr='$!live.picListStr' >图片</button>
-                            <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status">#if($!live.status == 1) 违规 #else 恢复 #end </button>
+                            <button type="button" class="btn btn-primary articleDetail" articleId="$article.id">编辑</button>
+                            <button type="button" class="btn btn-primary articleBtn"  articleId="$!article.id" status="$!article.status">#if($!article.status == 1) 违规 #else 恢复 #end </button>
                         </td>
                     </tr>
                     #end
@@ -96,7 +82,7 @@
         </div>
     #*分页*#
     #parse("/page.vm")
-    #pageStyle("liveListForm")
+    #pageStyle("articleListForm")
     </form>
 <script>
     $(".form-date").datetimepicker(
@@ -114,30 +100,30 @@
     $(function(){
         //查询
         $('.submitBtn').click(function(){
-            $('#liveListForm').submit();
+            $('#articleListForm').submit();
         });
         //新建
-        $('.addLiveBtn').click(function(){
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/liveManage/toAdd';
-            top.tabsAdd("addLiveBtn",url,2,$(this).text())
+        $('.addArticleBtn').click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/articleManage/toAdd';
+            top.tabsAdd("addArticleBtn",url,2,$(this).text())
         });
-        $('.liveDetail').each(function(){
+        $('.livarticleail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/liveManage/edit/'+ $(this).attr('liveId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/articleManage/edit/'+ $(this).attr('articleId');
                 top.tabsAdd("",url,2,$(this).text());
             });
 
         });
 
         //单个启用停用
-        $('.liveBtn').each(function(){
+        $('.articleBtn').each(function(){
             $(this).click(function(){
                 $(this).prop('disabled',true);
                 var url = '';
                 if($(this).attr('status') == 1){//状态1是正长状态，操作是改为违规
-                    url = actionDefaultPath + '/B2C/liveManage/violation/' + $(this).attr('liveId');
+                    url = actionDefaultPath + '/B2C/articleManage/violation/' + $(this).attr('articleId');
                 }else{
-                    url = actionDefaultPath + '/B2C/liveManage/regain/' + $(this).attr('liveId');
+                    url = actionDefaultPath + '/B2C/articleManage/regain/' + $(this).attr('articleId');
                 }
                 $.post(url ,function(data){
                     if(data.status == 200){
@@ -163,7 +149,7 @@
         $('.allChecked').click(function(){
             $('.subChecked').prop('checked',$(this).prop('checked'));
         });
-        $(".subChecked").click( function(){
+        $(".subChecked").click( function(event){
             event.stopPropagation(); // do something
         });
         //单选
@@ -171,7 +157,7 @@
             $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
         });
         //图片预览
-        $('.livePicListBtn').click(function(){
+        $('.articlePicListBtn').click(function(){
             var picListStr = $(this).attr('picListStr');
             if(picListStr){
                 showPic(JSON.parse(picListStr),0, "300px", "600px");
@@ -184,13 +170,13 @@
 
         });
         //批量违规
-        $('.liveBatchBtn').click(function(){
+        $('.articleBatchBtn').click(function(){
             $(this).prop('disabled',true);
             var arr = new Array();
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
-            $.post(actionDefaultPath +'/B2C/liveManage/batchViolation',{liveIdList:arr},function(data){
+            $.post(actionDefaultPath +'/B2C/articleManage/batchViolation',{articleIdList:arr},function(data){
                 if(data && data.status == 200){
                     layer.msg('操作成功', {
                         icon: 1,

@@ -35,6 +35,7 @@
 	<bean class="com.yimayhd.palace.service.impl.RcOperationServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.RcShowcaseServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PictureServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ArticleServiceImpl"></bean>
 	<!-- home config -->
 	<bean class="com.yimayhd.palace.service.impl.HomeCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PeripheryCfgServiceImpl"></bean>

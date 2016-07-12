@@ -2,7 +2,6 @@ package com.yimayhd.palace.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * H5文章
@@ -10,31 +9,28 @@ import java.util.List;
  * @author xiemingna
  *
  */
-public class ArticleVO implements Serializable {
-	/**
-	 * 
-	 */
+public class ArticleItemVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
-	private Long domainId;
+	private Long articleId;
+
+	private Integer type;
+
+	private String subType;
 
 	private String title;
 
-	private String frontcover;
+	private String content;
 
 	private Integer status;
-	
-	private Integer type;
 
-	private Long pv;
+	private Long sort;
 
 	private Date gmtCreated;
 
 	private Date gmtModified;
-	
-	private List<ArticleItemVO> articleItemList;
 
 	public Long getId() {
 		return id;
@@ -44,12 +40,28 @@ public class ArticleVO implements Serializable {
 		this.id = id;
 	}
 
-	public Long getDomainId() {
-		return domainId;
+	public Long getArticleId() {
+		return articleId;
 	}
 
-	public void setDomainId(Long domainId) {
-		this.domainId = domainId;
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public String getSubType() {
+		return subType;
+	}
+
+	public void setSubType(String subType) {
+		this.subType = subType == null ? null : subType.trim();
 	}
 
 	public String getTitle() {
@@ -60,12 +72,12 @@ public class ArticleVO implements Serializable {
 		this.title = title == null ? null : title.trim();
 	}
 
-	public String getFrontcover() {
-		return frontcover;
+	public String getContent() {
+		return content;
 	}
 
-	public void setFrontcover(String frontcover) {
-		this.frontcover = frontcover == null ? null : frontcover.trim();
+	public void setContent(String content) {
+		this.content = content == null ? null : content.trim();
 	}
 
 	public Integer getStatus() {
@@ -76,12 +88,12 @@ public class ArticleVO implements Serializable {
 		this.status = status;
 	}
 
-	public Long getPv() {
-		return pv;
+	public Long getSort() {
+		return sort;
 	}
 
-	public void setPv(Long pv) {
-		this.pv = pv;
+	public void setSort(Long sort) {
+		this.sort = sort;
 	}
 
 	public Date getGmtCreated() {
@@ -98,21 +110,5 @@ public class ArticleVO implements Serializable {
 
 	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
-	}
-
-	public List<ArticleItemVO> getArticleItems() {
-		return articleItemList;
-	}
-
-	public void setArticleItems(List<ArticleItemVO> articleItems) {
-		this.articleItemList = articleItems;
-	}
-
-	public Integer getType() {
-		return type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
 	}
 }

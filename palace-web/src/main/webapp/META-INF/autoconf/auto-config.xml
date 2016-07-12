@@ -57,7 +57,7 @@
 		<property name="dubbo.import.consumer.user.check" defaultValue="false" description="#" />
 
 		<property name="consumer.resources.dubbo.check" defaultValue="false" description="#" />
-		<property name="consumer.resource.dubbo.version" defaultValue="1.0.0.test" description="#" />
+		<property name="consumer.resource.dubbo.version" defaultValue="1.0.0.xmn" description="#" />
 
 		<property name="consumer.dubbo.member.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.member.version" defaultValue="1.0.0.test" description="#" />

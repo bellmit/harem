@@ -5,9 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.palace.util.RepoUtils;
-import com.yimayhd.resourcecenter.domain.ArticleDO;
+import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.service.ArticleClientService;
 
 /**
@@ -23,10 +24,17 @@ public class ArticleRepo {
 	@Autowired
 	private  ArticleClientService articleClientServiceRef;
 
-	public RCPageResult<ArticleDO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
+	public RCPageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.pageQueryArticles", articleQueryDTO);
-		RCPageResult<ArticleDO> result = articleClientServiceRef.queryArticleList(articleQueryDTO);
+		RCPageResult<ArticleDTO> result = articleClientServiceRef.queryArticleList(articleQueryDTO);
 		RepoUtils.resultLog(log, "articleClientServiceRef.pageQueryArticles", result);
+		return result;
+	}
+
+	public RcResult<Boolean> add(ArticleDTO articleDTO) {
+		RepoUtils.requestLog(log, "articleClientServiceRef.add", articleDTO);
+		RcResult<Boolean> result = articleClientServiceRef.add(articleDTO);
+		RepoUtils.resultLog(log, "articleClientServiceRef.add", result);
 		return result;
 	}
 }

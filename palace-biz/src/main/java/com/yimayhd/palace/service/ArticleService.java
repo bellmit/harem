@@ -5,7 +5,7 @@ import java.util.List;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
-import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
+import com.yimayhd.resourcecenter.model.result.RcResult;
 
 /**
  * H5文章
@@ -20,8 +20,9 @@ public interface ArticleService {
 	 * @param liveListQuery
 	 *            查询条件
 	 * @return H5列表
+	 * @throws Exception 
 	 */
-	PageVO<ArticleVO> getList(ArticleListQuery articleListQuery);
+	PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception;
 
 	/**
 	 * 获取H5详情
@@ -40,7 +41,7 @@ public interface ArticleService {
 	 * @return H5对象
 	 * @throws Exception
 	 */
-	ArticleVO add(ArticleVO articleVO) throws Exception;
+	RcResult add(ArticleVO articleVO) throws Exception;
 
 	/**
 	 * 修改H5
