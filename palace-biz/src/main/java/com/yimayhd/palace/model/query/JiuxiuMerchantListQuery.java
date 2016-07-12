@@ -1,5 +1,7 @@
 package com.yimayhd.palace.model.query;
 
+import java.util.Date;
+
 import com.yimayhd.palace.base.BaseQuery;
 
 /**
@@ -19,6 +21,15 @@ public class JiuxiuMerchantListQuery extends BaseQuery {
  	private String merchantPrincipalTel;// 店铺负责人电话
  	
  	private String status;
+ 	private Date gmtCreated;
+ 	
+	public Date getGmtCreated() {
+		return gmtCreated;
+	}
+
+	public void setGmtCreated(Date gmtCreated) {
+		this.gmtCreated = gmtCreated;
+	}
 
 	public String getMerchantName() {
 		return merchantName;
