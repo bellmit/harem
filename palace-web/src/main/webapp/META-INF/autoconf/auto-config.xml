@@ -40,6 +40,7 @@
 		<property name="root.path" defaultValue="http://console.test.yimayholiday.com/palace-web" description="" />
 		<property name="filegw.url" defaultValue="http://filegw.test.jiuxiulvxing.com/filegw/file/upload_string" description="" />
 		<property name="env" defaultValue="test" description="" />
+		<property name="resource.path.jiuxiu.app" defaultValue="http://m.jiuxiulvxing.com" description="" />
 	</group>
 
 	<group name="dubbo">
