@@ -170,10 +170,11 @@
                             <div class="">
                                 
                                 #if($!order.jiuxiuTcBizOrder.orderType == 3100 || $!order.jiuxiuTcBizOrder.orderType == 3200  
-	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3300 || $!order.jiuxiuTcBizOrder.orderType == 200 
+	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3300 
 	                                     	|| $!order.jiuxiuTcBizOrder.orderType == 3500 || $!order.jiuxiuTcBizOrder.orderType == 3600)
                             	    #ORDER_BIZ_STATUS_LINE($!order.jiuxiuTcBizOrder.orderStatus)
-                                	   
+                                #elseif($!order.jiuxiuTcBizOrder.orderType == 200)
+                                	#ORDER_BIZ_STATUS_NORMAL($!order.jiuxiuTcBizOrder.orderStatus)	   
                                 #elseif($!order.jiuxiuTcBizOrder.orderType == 1200)
                                 	#ORDER_BIZ_STATUS_SPOTS($!order.jiuxiuTcBizOrder.orderStatus)
                                 #elseif($!order.jiuxiuTcBizOrder.orderType == 1100 || $!order.jiuxiuTcBizOrder.orderType == 3400)

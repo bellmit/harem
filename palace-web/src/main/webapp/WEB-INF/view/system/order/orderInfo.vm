@@ -22,10 +22,12 @@
     <div class="orderState">
         <div>
 			<span class="lType">订单状态：<span>
-	            #if($order.bizOrder.orderType == 3100 || $order.bizOrder.orderType == 3200 || $order.bizOrder.orderType == 3300 || $order.bizOrder.orderType == 200 
+	            #if($order.bizOrder.orderType == 3100 || $order.bizOrder.orderType == 3200 || $order.bizOrder.orderType == 3300
 	            || $order.bizOrder.orderType == 3500 || $order.bizOrder.orderType == 3600)
 	            	#ORDER_BIZ_STATUS_M($!order.bizOrder.orderStatus)
-	            	
+	           	#elseif($order.bizOrder.orderType == 200)
+		    		 #ORDER_BIZ_STATUS_M($!order.bizOrder.orderStatus)
+	           	
 		    	#elseif($order.bizOrder.orderType == 1200)
 		    		 #ORDER_BIZ_STATUS_M($!order.bizOrder.orderStatus)
 		            
@@ -101,7 +103,11 @@
     <br><br>
     <!-- 联系人信息 -->
     <div class="contacts">
-        <div class="lType">联系人信息</div>
+    	#if($order.bizOrder.orderType == 200)
+        	<div class="lType">联系人信息</div>
+       	#else
+       		<div class="lType">收货人信息</div>
+       	#end
         <table class="table table-hover">
             <tr>
                 <th>姓名</th>
@@ -114,38 +120,58 @@
         </table>
     </div>
     <br><br>
-    <!-- 出行人信息 -->
-    <div class="turistInfo">
-        <div class="lType">出行人信息</div>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>序号</th>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>证件号</th>
-            </tr>
-                #foreach($tourist in $order.touristList)
-                <tr>
-                    <td>$velocityCount</td>
-                    <td>
-                    	#if($order.bizOrder.orderType == 3500 || $order.bizOrder.orderType == 3600)
-                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
-                    	#else
-                    		$!tourist.contactName
-                    	#end
-                    </td>
-                    <td>$!tourist.contactPhone</td>
-                    <td>
-                    	#CERTIFICATES_TYPE($!tourist.certificatesType)
-	               		
-                   	 	$!tourist.certificatesNum
-                   	</td>
-                </tr>
-                #end
-        </table>
-    </div>
-    <br><br>
+    ##如果是特产商品并且是已发货，则显示发货信息
+    #if($order.bizOrder.orderType == 200 && $!order.bizOrder.orderStatus == 6)
+		<div class="contacts">
+	    	<div class="lType">物流信息</div>
+	        <table class="table table-hover">
+	            <tr>
+	                <td>物流公司：</td>
+	                <td>$!order.logisticsOrderDO.expressCompany</td>
+	            </tr>
+	            <tr>
+	                <td>运单编号：</td>
+	                <td>$!order.logisticsOrderDO.expressNo</td>
+	            </tr>
+	        </table>
+	    </div>
+	    <br><br>
+    #else
+	    <!-- 出行人信息 -->
+	    <div class="turistInfo">
+	        <div class="lType">出行人信息</div>
+	        <table class="table table-hover">
+	            <thead>
+	            <tr>
+	                <th>序号</th>
+	                <th>姓名</th>
+	                <th>手机号</th>
+	                <th>证件号</th>
+	            </tr>
+	                #foreach($tourist in $order.touristList)
+	                <tr>
+	                    <td>$velocityCount</td>
+	                    <td>
+	                    	#if($order.bizOrder.orderType == 3500 || $order.bizOrder.orderType == 3600)
+	                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
+	                    	#else
+	                    		$!tourist.contactName
+	                    	#end
+	                    </td>
+	                    <td>$!tourist.contactPhone</td>
+	                    <td>
+	                    	#CERTIFICATES_TYPE($!tourist.certificatesType)
+		               		
+	                   	 	$!tourist.certificatesNum
+	                   	</td>
+	                </tr>
+	                #end
+	        </table>
+	    </div>
+	    <br><br>
+	#end
+	
+	
     <!-- 订单商品信息 -->
     <div class="orderInfo">
         <div class="lType">订单商品信息</div>
@@ -194,10 +220,12 @@
                     <td>
                         <div class="">
                             #if($!subOrder.bizOrder.orderType == 3100 || $!subOrder.bizOrder.orderType == 3200 
-                             	|| $!subOrder.bizOrder.orderType == 3300 || $!subOrder.bizOrder.orderType == 200 
+                             	|| $!subOrder.bizOrder.orderType == 3300 
                              	|| $!subOrder.bizOrder.orderType == 3500 || $!subOrder.bizOrder.orderType == 3600)
                              	
                              	#ORDER_BIZ_STATUS_LINE($!subOrder.bizOrder.orderStatus)
+                            #elseif($!subOrder.bizOrder.orderType == 200)
+                           		#ORDER_BIZ_STATUS_NORMAL($subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1200)
                            		#ORDER_BIZ_STATUS_SPOTS($subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
