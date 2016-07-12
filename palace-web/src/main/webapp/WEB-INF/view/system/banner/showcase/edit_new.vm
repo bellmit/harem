@@ -206,7 +206,7 @@
                 var sce = win.getItems();
                 console.log(sce);
                 var picUrl = sce.imgUrl;
-                if(picUrl !== null || picUrl !== undefined || picUrl !== ''){
+                if(picUrl !== null && picUrl !== undefined && picUrl !== '' && picUrl !== 'null'){
                     var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
                     $("#travelBGImgSH").val(picUrl);
                     //alert(showPicUrl);

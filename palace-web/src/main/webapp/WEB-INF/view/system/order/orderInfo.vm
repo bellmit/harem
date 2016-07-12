@@ -104,38 +104,58 @@
     <!-- 联系人信息 -->
     <div class="contacts">
     	#if($order.bizOrder.orderType == 200)
-        	<div class="lType">联系人信息</div>
+        	<div class="lType">收货人信息</div>
+	        <table class="table table-hover">
+	            <tr>
+	            	<td>序号</td>
+	                <td>姓名</td>
+	                <td>手机号</td>
+	                <td>邮编</td>
+	                <td>所在地区</td>
+	                <td>详细地址</td>
+	            </tr>
+	            <tr>
+	            	<td>1</td>
+	                <td>$!order.logisticsOrderDO.fullName</td>
+	                <td>$!order.logisticsOrderDO.mobilePhone</td>
+	                <td>$!order.logisticsOrderDO.post</td>
+	                <td>$!order.logisticsOrderDO.prov $!order.logisticsOrderDO.city</td>
+	                <td>$!order.logisticsOrderDO.address</td>
+	            </tr>
+	        </table>
        	#else
-       		<div class="lType">收货人信息</div>
+       		<div class="lType">联系人信息</div>
+	        <table class="table table-hover">
+	            <tr>
+	                <th>姓名</th>
+	                <th>手机号</th>
+	            </tr>
+	            <tr>
+	                <td>$!order.contactInfo.contactName</td>
+	                <td>$!order.contactInfo.contactPhone</td>
+	            </tr>
+	        </table>
        	#end
-        <table class="table table-hover">
-            <tr>
-                <th>姓名</th>
-                <th>手机号</th>
-            </tr>
-            <tr>
-                <td>$!order.contactInfo.contactName</td>
-                <td>$!order.contactInfo.contactPhone</td>
-            </tr>
-        </table>
     </div>
     <br><br>
     ##如果是特产商品并且是已发货，则显示发货信息
-    #if($order.bizOrder.orderType == 200 && $!order.bizOrder.orderStatus == 6)
-		<div class="contacts">
-	    	<div class="lType">物流信息</div>
-	        <table class="table table-hover">
-	            <tr>
-	                <td>物流公司：</td>
-	                <td>$!order.logisticsOrderDO.expressCompany</td>
-	            </tr>
-	            <tr>
-	                <td>运单编号：</td>
-	                <td>$!order.logisticsOrderDO.expressNo</td>
-	            </tr>
-	        </table>
-	    </div>
+    #if($order.bizOrder.orderType == 200)
+    	#if($!order.bizOrder.orderStatus == 6)
+			<div class="contacts">
+		    	<div class="lType">物流信息</div>
+		        <table class="table table-hover">
+		            <tr>
+		                <td>物流公司：</td>
+		                <td>$!order.logisticsOrderDO.expressCompany</td>
+		            </tr>
+		            <tr>
+		                <td>运单编号：</td>
+		                <td>$!order.logisticsOrderDO.expressNo</td>
+		            </tr>
+		        </table>
+		    </div>
 	    <br><br>
+	    #end
     #else
 	    <!-- 出行人信息 -->
 	    <div class="turistInfo">

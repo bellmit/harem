@@ -46,6 +46,7 @@ import com.yimayhd.resourcecenter.service.OperationClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 import com.yimayhd.resourcecenter.util.FeatureUtil;
+import com.yimayhd.snscenter.client.service.SnsTopicCenterService;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.dto.CityDTO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
@@ -85,6 +86,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Autowired MerchantService merchantService;
 
     @Autowired ItemQueryService itemQueryService;
+
+    /*@Autowired SnsTopicCenterService snsTopicCenterService;*/
 
 
 
@@ -351,7 +354,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setSerialNo(sw.getSerialNo());
         sd.setGmtModified(new Date());
         Map<String,String> map = new HashMap<String,String>();
-        map.put("operationContentZH",sw.getOperationContentZH());
+        map.put("operationContentZH",StringUtils.isEmpty(sw.getOperationContentZH())?" ":sw.getOperationContentZH().trim());
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));
         sd.setFeature(FeatureUtil.toString(map));
@@ -463,6 +466,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void dsa(){
+        //snsTopicCenterService
     }
 
 
