@@ -18,6 +18,13 @@ import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.domain.SnsTopicDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
+import com.yimayhd.snscenter.client.result.topic.TopicResult;
+import com.yimayhd.snscenter.client.result.ugc.UgcResult;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 
@@ -99,4 +106,34 @@ public interface ShowcaseService {
     public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption) throws Exception ;
 
     public List<OperactionVO> getAllOperations() ;
+
+    /**
+     * 分页查询UGC列表
+     * @param subjectInfoDTO 入参
+     * @return
+     */
+    public PageVO<UgcResult> getUgcPageList(SubjectInfoDTO subjectInfoDTO);
+
+    /**
+     * 分页查询话题列表
+     * @param topicQueryListDTO 入参
+     * @return
+     */
+    public PageVO<ShowCaseItem> getTopicPageList(TopicQueryListDTO topicQueryListDTO);
+
+    /**
+     * 查看话题详情
+     * @param topicQueryDTO
+     * @return
+     */
+    public SnsTopicDO getTopicDetailInfo(TopicQueryDTO topicQueryDTO);
+
+    /**
+     * 查询话题详情
+     * @parameter
+     * @return
+     * @throws
+     */
+    public SnsSubjectDO getSubjectInfo(SubjectInfoDTO subjectInfoDTO);
+
 }

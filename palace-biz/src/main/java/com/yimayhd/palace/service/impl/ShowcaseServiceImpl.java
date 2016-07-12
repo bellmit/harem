@@ -46,6 +46,13 @@ import com.yimayhd.resourcecenter.service.OperationClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
 import com.yimayhd.resourcecenter.util.FeatureUtil;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.domain.SnsTopicDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
+import com.yimayhd.snscenter.client.result.topic.TopicResult;
+import com.yimayhd.snscenter.client.result.ugc.UgcResult;
 import com.yimayhd.snscenter.client.service.SnsTopicCenterService;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.dto.CityDTO;
@@ -87,7 +94,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired ItemQueryService itemQueryService;
 
-    /*@Autowired SnsTopicCenterService snsTopicCenterService;*/
+    @Autowired SnsTopicCenterService snsTopicCenterService;
 
 
 
@@ -236,7 +243,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public List<OperationDO> getAllOperactions(){
         RcResult<List<OperationDO>> result = operationClientServer.getAllOperactions() ;
         if( result == null || !result.isSuccess() ){
-            LOGGER.error("getAllOperactions failed!  result={}",JSON.toJSONString(result));;
+            LOGGER.error("getAllOperactions failed!  result={}",JSON.toJSONString(result));
             return null;
         }
         return result.getT() ;
@@ -245,14 +252,16 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO)throws Exception{
         BasePageResult<ComTagDO> result = comTagCenterService.pageTagList(tagInfoPageDTO);
         if(null == result || !result.isSuccess()){
-            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is " + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(tagInfoPageDTO));
+            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is "
+                    + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(tagInfoPageDTO));
             return null;
         }
         List<ComTagDO> list = new ArrayList<ComTagDO>();
         if(CollectionUtils.isNotEmpty(result.getList())){
             list=result.getList();
         }
-        PageVO<ComTagDO> page  = new PageVO<ComTagDO>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(), result.getTotalCount(), list);
+        PageVO<ComTagDO> page  = new PageVO<ComTagDO>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(),
+                result.getTotalCount(), list);
         return page;
     }
 
@@ -260,7 +269,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         PageVO<ShowCaseItem> page = new PageVO<ShowCaseItem>();
         ICPageResult<ItemInfo> result = itemBizQueryService.getItem(itemQryDTO);
         if(null == result || !result.isSuccess() || null == result.getList()){
-            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is " + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(itemQryDTO));
+            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is "
+                    + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(itemQryDTO));
             return page;
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
@@ -345,8 +355,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setTitle(sw.getTitle());
         sd.setSummary(sw.getSummary());
         sd.setBoothContent(sw.getBoothContent());
-        sd.setOperationContent(sw.getOperationContent());
-
+        sd.setOperationContent(StringUtils.isEmpty(sw.getOperationContent())?"":sw.getOperationContent().trim());
         sd.setContent(sw.getContent());
         sd.setShowcaseFeature(sw.getShowcaseFeature());
         sd.setStatus(sw.getStatus());//状态是手动改的
@@ -413,7 +422,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         ICPageResult<HotelDO> result = itemQueryService.pageQueryHotel(hotelPageQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getHotelList|itemQueryService.pageQueryHotel result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(hotelPageQuery));
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         ShowCaseItem sc = null;
@@ -432,7 +441,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         ICPageResult<ScenicDO> result = itemQueryService.pageQueryScenic(scenicPageQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getScenicList|itemQueryService.pageQueryScenic result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(scenicPageQuery));
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         ShowCaseItem sc = null;
@@ -456,6 +465,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 return null;
             }
             List<OperactionVO> list = result.getT();
+            //按名称排序一下
             Collections.sort(list, new Comparator<OperactionVO>() {
                 public int compare(OperactionVO arg0, OperactionVO arg1) {
                     return arg0.getOperactio().getName().compareTo(arg1.getOperactio().getName());
@@ -468,8 +478,63 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         }
     }
 
-    public void dsa(){
-        //snsTopicCenterService
+
+    public PageVO<UgcResult> getUgcPageList(SubjectInfoDTO subjectInfoDTO){
+        com.yimayhd.snscenter.client.result.BasePageResult<UgcResult> result = snsTopicCenterService.getUgcPageList(subjectInfoDTO);
+        if( result == null || !result.isSuccess() ){
+            LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(subjectInfoDTO)+"|||result="+JSON.toJSONString(result));;
+            return new PageVO<UgcResult>();
+        }
+        List<UgcResult> list = result.getList();
+        if(CollectionUtils.isEmpty(list)){
+            return new PageVO<UgcResult>();
+        }
+        PageVO<UgcResult> page  = new PageVO<UgcResult>(result.getPageNo(), result.getPageSize(), result.getTotalCount(),list);
+        return page;
+    }
+
+    public PageVO<ShowCaseItem>  getTopicPageList(TopicQueryListDTO topicQueryListDTO){
+        com.yimayhd.snscenter.client.result.BasePageResult<TopicResult> result = snsTopicCenterService.getTopicPageList(topicQueryListDTO);
+        if( result == null || !result.isSuccess() ){
+            LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(topicQueryListDTO)
+                    +"|||result="+JSON.toJSONString(result));;
+            return new PageVO<ShowCaseItem>();
+        }
+        List<ShowCaseItem> list = topicResultToShowCaseItem(result.getList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(topicQueryListDTO.getPageNo(), topicQueryListDTO.getPageSize(), result.getTotalCount(),list);
+        return page;
+    }
+
+    public List<ShowCaseItem> topicResultToShowCaseItem(List<TopicResult> listTop){
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
+        for (TopicResult top:listTop ) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(top.getId());
+            sc.setName(top.getTitle());//标题
+            sc.setImgUrl(top.getPics());
+            list.add(sc);
+        }
+        return list;
+    }
+
+    public SnsTopicDO getTopicDetailInfo(TopicQueryDTO topicQueryDTO){
+        com.yimayhd.snscenter.client.result.BaseResult<SnsTopicDO> result = snsTopicCenterService.getTopicDetailInfo(topicQueryDTO);
+        if( result == null || !result.isSuccess() ){
+            LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(topicQueryDTO)
+                    +"|||result="+JSON.toJSONString(result));;
+            return null;
+        }
+        return result.getValue();
+    }
+
+    public SnsSubjectDO getSubjectInfo(SubjectInfoDTO subjectInfoDTO){
+        com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> result = snsTopicCenterService.getSubjectInfo(subjectInfoDTO);
+        if( result == null || !result.isSuccess() ){
+            LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(subjectInfoDTO)
+                    +"|||result="+JSON.toJSONString(result));;
+            return null;
+        }
+        return result.getValue();
     }
 
 

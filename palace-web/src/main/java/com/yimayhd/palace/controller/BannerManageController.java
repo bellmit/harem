@@ -28,6 +28,8 @@ import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
+import com.yimayhd.snscenter.client.result.topic.TopicResult;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.query.MerchantPageQuery;
@@ -216,10 +218,12 @@ public class BannerManageController extends BaseController {
             return "/system/banner/showcase/chooseDestination";
         }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){//选目主题
             return "/system/banner/showcase/chooseTheme";
-        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_LIST == type
-                || Constant.SHOWCASE_HOTEL_LIST == type || Constant.SHOWCASE_SCENIC_LIST == type){//选商品列表
+        }else if(Constant.SHOWCASE_ITEM_LIST == type
+                || Constant.SHOWCASE_HOTEL_LIST == type
+                || Constant.SHOWCASE_SCENIC_LIST == type
+                || Constant.SHOWCASE_VIEW_TOPIC_LIST == type ){//选列表
             return "/system/banner/showcase/chooseItemList";
-        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL == type){//选商品详情
+        }else if(Constant.SHOWCASE_ITEM_DETAIL == type || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type){//选详情
             return "/system/banner/showcase/chooseItemDetail";
         }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){//选达人或美食
             return "/system/banner/showcase/chooseDaRenMeiShiDetail";
@@ -288,7 +292,7 @@ public class BannerManageController extends BaseController {
             PageVO<ShowCaseItem> page = showcaseService.getScenicList(sp);
             result.put("pageVo", page);
         }
-        else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL  ==  type){//选商品详情,列表
+        else if(Constant.SHOWCASE_ITEM_DETAIL  ==  type){//选商品详情
             ItemQryDTO query = new ItemQryDTO();
             query.setDomains(Arrays.asList(1200,1100));
 
@@ -322,11 +326,22 @@ public class BannerManageController extends BaseController {
             }
             PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery,option);
             result.put("pageVo", page);
+        }else if(Constant.SHOWCASE_VIEW_TOPIC_LIST ==  type){//话题列表
+            TopicQueryListDTO topicQueryListDTO = new TopicQueryListDTO();
+            topicQueryListDTO.setNeedCount(true);
+            topicQueryListDTO.setPageNo(pageNumber);
+            if(NumberUtils.isNumber(keyWord)){
+                //topicQueryListDTO.setId(Long.parseLong(keyWord));
+            }else if(StringUtils.isNotEmpty(keyWord)){
+                topicQueryListDTO.setTitle(keyWord);
+            }
+            PageVO<ShowCaseItem> page = showcaseService.getTopicPageList(topicQueryListDTO);
+            result.put("pageVo", page);
         }
         return new ResponseVo(result);
     }
 
-    /*@RequestMapping(value = "/operation/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/operation/list", method = RequestMethod.GET)
     public String operationList(Model model,BaseQuery baseQuery) throws Exception {
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
@@ -339,12 +354,11 @@ public class BannerManageController extends BaseController {
         return "/system/banner/operation/edit";
     }
 
-
     @RequestMapping(value = "/operation/add", method = RequestMethod.POST)
     public String operationAdd(Model model) throws Exception {
 
         return "/system/banner/booth/list";
-    }*/
+    }
 
 
     @RequestMapping(value = "/appversion/list", method = RequestMethod.GET)
@@ -352,13 +366,9 @@ public class BannerManageController extends BaseController {
         String codeVal = request.getParameter("codeVal");
         if(StringUtils.isNotEmpty(codeVal) ){
             codeVal = codeVal.replaceAll("\\s*", "");
-            if(NumberUtils.isNumber(codeVal)){
-                query.setCode(Integer.parseInt(codeVal));
-            }
+            if(NumberUtils.isNumber(codeVal)){query.setCode(Integer.parseInt(codeVal));}
         }
-        if(StringUtils.isNotEmpty(query.getName())){
-            query.setName(query.getName().replaceAll("\\s*", ""));
-        }
+        if(StringUtils.isNotEmpty(query.getName())){query.setName(query.getName().replaceAll("\\s*", ""));}
         PageVO<AppVersionDO> page = boothService.getAppVersionList(query);
         model.addAttribute("query",query);
         model.addAttribute("pageVo",page);
