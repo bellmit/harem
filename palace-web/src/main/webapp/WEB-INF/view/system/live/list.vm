@@ -174,7 +174,7 @@
         $('.livePicListBtn').click(function(){
             var picListStr = $(this).attr('picListStr');
             if(picListStr){
-                showPic(JSON.parse(picListStr),0, "300px", "600px");
+                showPic(JSON.parse(picListStr),0, "300px", "auto");
             }else{
                 layer.msg('没有图片', {
                     icon: 6,
