@@ -36,10 +36,10 @@ public class ApplyHelper {
 		if( status > 0 ){
 			examinePageQueryDTO.setStatus(status);
 		}
-		if (applyQuery.getGmtCreated() != null) {
-			
-			examinePageQueryDTO.setGmtCreated(applyQuery.getGmtCreated());
-		}
+//		if (applyQuery.getGmtCreated() != null) {
+//			
+//			examinePageQueryDTO.setGmtCreated(applyQuery.getGmtCreated());
+//		}
 		return examinePageQueryDTO ;
 	}
 	
