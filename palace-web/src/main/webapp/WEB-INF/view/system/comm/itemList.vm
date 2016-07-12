@@ -132,7 +132,9 @@
                     </td>
                     <td>$!{utilDate.date2String($item.gmtModified)}</td>
                     <td>
-                    	<a type="button" class="btn btn-mini btn-link  commodityDetail" commodityId="$!item.id" appUrl="$utilWebconfig.getResourcePathJiuXiuApp()">详情</a>
+                    	#if($item.type == 21 || $item.type == 22 || $item.type == 24 || $item.type == 25)
+                			<a type="button" class="btn btn-mini btn-link  commodityDetail" commodityId="$!item.id" appUrl="$utilWebconfig.getResourcePathJiuXiuApp()">详情</a>
+                    	#end
                     	#*
 						#if($item.containsOperate('SHELVE'))
 						<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="SHELVE">上架</a><br/>
@@ -168,9 +170,8 @@
 		$('.commodityDetail').each(function(){
 	        $(this).click(function(){
 	            var url = $(this).attr('appUrl') + '/view/detail/detail.html?id='+ $(this).attr('commodityId');
-	            //TODO
-	            //window.openwin(url);
-	            top.tabsAdd("",url,2,$(this).text());
+	            window.openwin(url);
+	           // top.tabsAdd("",url,2,$(this).text());
 	        });
 	
 	    });
