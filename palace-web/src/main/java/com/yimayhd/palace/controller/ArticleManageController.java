@@ -1,5 +1,7 @@
 package com.yimayhd.palace.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -52,6 +56,17 @@ public class ArticleManageController extends BaseController {
 		}
 		return "/system/article/articleList";
 	}
+	
+    /**
+     * 新增H5文章跳转
+     * @throws Exception
+     */
+    @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
+    public String toAdd(Model model) throws Exception {
+		model.addAttribute("articleTypeList", ArticleType.values());
+		model.addAttribute("articleStautsList", ArticleStauts.values());
+        return "/system/article/articleEdit";
+    }
 
 	/**
 	 * 新增文章

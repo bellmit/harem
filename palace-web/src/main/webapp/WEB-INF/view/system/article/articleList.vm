@@ -49,15 +49,15 @@
                 <button type="button" class="btn btn-primary btn-clean">重置</button>
             </div>
         </div>
-        <button type="button" class="btn btn-primary addArticleBtn" id="addAiveBtn">添加文章</button>
-        <button type="button" class="btn btn-primary articleBatchBtn">批量违规</button>
+        <button type="button" class="btn btn-primary addArticleBtn" id="addArticleBtn">添加文章</button>
+        <button type="button" class="btn btn-primary articleBatchBtn">批量下架</button>
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tr>
                     <th width="4%"><input class="allChecked" name="allChecked" type="checkbox">全选</th>
                     <th width="8%">封面</th>
                     <th width="30%">标题</th>
-                    <th width="5%">创建时间</th>
+                    <th width="15%">创建时间</th>
                     <th width="3%">阅读数</th>
                     <th width="3%">类型</th>
                     <th width="5%">状态</th>
@@ -104,12 +104,12 @@
         });
         //新建
         $('.addArticleBtn').click(function(){
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/articleManage/toAdd';
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuxiu/articleManage/toAdd';
             top.tabsAdd("addArticleBtn",url,2,$(this).text())
         });
         $('.livarticleail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/articleManage/edit/'+ $(this).attr('articleId');
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuxiu/articleManage/edit/'+ $(this).attr('articleId');
                 top.tabsAdd("",url,2,$(this).text());
             });
 
@@ -121,9 +121,9 @@
                 $(this).prop('disabled',true);
                 var url = '';
                 if($(this).attr('status') == 1){//状态1是正长状态，操作是改为违规
-                    url = actionDefaultPath + '/B2C/articleManage/violation/' + $(this).attr('articleId');
+                    url = actionDefaultPath + '/jiuxiu/articleManage/violation/' + $(this).attr('articleId');
                 }else{
-                    url = actionDefaultPath + '/B2C/articleManage/regain/' + $(this).attr('articleId');
+                    url = actionDefaultPath + '/jiuxiu/articleManage/regain/' + $(this).attr('articleId');
                 }
                 $.post(url ,function(data){
                     if(data.status == 200){
@@ -176,7 +176,7 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
-            $.post(actionDefaultPath +'/B2C/articleManage/batchViolation',{articleIdList:arr},function(data){
+            $.post(actionDefaultPath +'/jiuxiu/articleManage/batchViolation',{articleIdList:arr},function(data){
                 if(data && data.status == 200){
                     layer.msg('操作成功', {
                         icon: 1,
