@@ -288,7 +288,7 @@ public class BannerManageController extends BaseController {
             PageVO<ShowCaseItem> page = showcaseService.getScenicList(sp);
             result.put("pageVo", page);
         }
-        else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL  ==  type){//选商品详情
+        else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL  ==  type){//选商品详情,列表
             ItemQryDTO query = new ItemQryDTO();
             query.setDomains(Arrays.asList(1200,1100));
 

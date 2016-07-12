@@ -21,8 +21,8 @@
                             <option value="0">请选择</option>
                             #foreach($!appv in $listAppVersion)
                                 <option id="$!appv.id" value="$!appv.code"
-                                         #if($!currentBooth.appVersion == $!opeappvrations.appVersion) selected = 'selected' #end
-                                >$!appv.description</option>
+                                         #if($!currentBooth.appVersion == $!appv.appVersion) selected = 'selected' #end
+                                >$!appv.name</option>
                             #end
                         </select>
                     </td>

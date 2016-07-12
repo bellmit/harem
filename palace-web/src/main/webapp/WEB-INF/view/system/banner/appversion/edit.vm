@@ -27,12 +27,18 @@
     </form>
 </div>
 <script>
+    function check(str){
+        return /^[\da-z]+$/i.test(str);
+    }
+
      //非空验证
      var validate = function(){
          if(!$('.code').val()){
              return '版本号不能为空';
-         }else if($('.code').val().length > 100){
-            return 'code不能超过5位数字';
+         }else if($('.code').val().length  != 5){
+            return '版本号长度为5位数字';
+         }else if(check($('.code').val())){
+             return '版本号只能输入5位数字';
          }
          if(!$('.name').val()){
              return '名称不能为空';
