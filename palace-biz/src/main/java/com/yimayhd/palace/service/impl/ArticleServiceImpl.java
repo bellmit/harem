@@ -89,23 +89,28 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public void modify(ArticleVO articleVO) throws Exception {
-
+	public RcResult<Boolean> modify(ArticleVO articleVO) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void regain(long id) throws Exception {
-
+	public RcResult<Boolean> regain(long id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void violation(long id) throws Exception {
-
+	public RcResult<Boolean> violation(long id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void batchViolation(List<Long> idList) {
-
+	public RcResult<Boolean> batchViolation(List<Long> idList) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 
 }

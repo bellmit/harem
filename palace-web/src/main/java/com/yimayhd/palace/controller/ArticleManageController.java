@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.palace.base.BaseController;
@@ -93,7 +94,7 @@ public class ArticleManageController extends BaseController {
 				articleItemList.add(articleItemVO);
 			}
 			articleVO.setArticleItems(articleItemList);
-			RcResult<?> result = articleService.add(articleVO);
+			RcResult<Boolean> result = articleService.add(articleVO);
 			if (result.isSuccess()) {
 				responseVo.setMessage("添加成功！");
 				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
@@ -119,8 +120,8 @@ public class ArticleManageController extends BaseController {
 		ArticleVO articleVO = articleService.getById(id);
 		model.addAttribute("articleTypeList", ArticleType.values());
 		model.addAttribute("articleStautsList", ArticleStauts.values());
-		model.addAttribute("live", articleVO);
-		return "/system/live/edit";
+		model.addAttribute("article", articleVO);
+		return "/system/article/articleEdit";
 	}
 
 	/**
@@ -129,9 +130,84 @@ public class ArticleManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String edit(@PathVariable(value = "id") long id, ArticleVO articleVO) throws Exception {
+	@ResponseBody
+	public ResponseVo edit(@PathVariable(value = "id") long id, ArticleVO articleVO) throws Exception {
+		ResponseVo responseVo = new ResponseVo();
 		articleVO.setId(id);
-		articleService.modify(articleVO);
-		return "/success";
+		RcResult<Boolean> result = articleService.modify(articleVO);
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		} else {
+			responseVo.setMessage(result.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+		return responseVo;
+	}
+
+	/**
+	 * 直播违规
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/violation/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
+		ResponseVo responseVo = new ResponseVo();
+		RcResult<Boolean> result = articleService.violation(id);
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		} else {
+			responseVo.setMessage(result.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+
+		return responseVo;
+	}
+
+	/**
+	 * 直播恢复
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/regain/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo close(@PathVariable("id") long id) throws Exception {
+		ResponseVo responseVo = new ResponseVo();
+		RcResult<Boolean> result = articleService.regain(id);
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		} else {
+			responseVo.setMessage(result.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+
+		return responseVo;
+	}
+
+	/**
+	 * 直播违规(批量)
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/batchViolation", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo batchPublish(@RequestParam("articleIdList[]") ArrayList<Long> articleIdList) throws Exception {
+		ResponseVo responseVo = new ResponseVo();
+		RcResult<Boolean> result = articleService.batchViolation(articleIdList);
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		} else {
+			responseVo.setMessage(result.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+		}
+
+		return responseVo;
 	}
 }

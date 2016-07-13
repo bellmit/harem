@@ -41,7 +41,7 @@ public interface ArticleService {
 	 * @return H5对象
 	 * @throws Exception
 	 */
-	RcResult add(ArticleVO articleVO) throws Exception;
+	RcResult<Boolean> add(ArticleVO articleVO) throws Exception;
 
 	/**
 	 * 修改H5
@@ -50,7 +50,7 @@ public interface ArticleService {
 	 *            H5内容
 	 * @throws Exception
 	 */
-	void modify(ArticleVO articleVO) throws Exception;
+	RcResult<Boolean> modify(ArticleVO articleVO) throws Exception;
 
 	/**
 	 * H5恢复
@@ -58,7 +58,7 @@ public interface ArticleService {
 	 * @param id
 	 *            H5ID
 	 */
-	void regain(long id) throws Exception;
+	RcResult<Boolean> regain(long id) throws Exception;
 
 	/**
 	 * H5违规
@@ -66,7 +66,7 @@ public interface ArticleService {
 	 * @param id
 	 *            H5ID
 	 */
-	void violation(long id) throws Exception;
+	RcResult<Boolean> violation(long id) throws Exception;
 
 	/**
 	 * H5违规（批量）
@@ -74,6 +74,6 @@ public interface ArticleService {
 	 * @param idList
 	 *            H5idList
 	 */
-	void batchViolation(List<Long> idList);
+	RcResult<Boolean> batchViolation(List<Long> idList);
 
 }
