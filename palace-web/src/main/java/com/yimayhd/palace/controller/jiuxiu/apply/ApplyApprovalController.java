@@ -173,7 +173,7 @@ public class ApplyApprovalController extends BaseController {
                     picture3.put("url",result.getValue().getAffairsCard());
                     pictures.add(picture3);
                 }
-                if(!StringUtils.isEmpty(result.getValue().getTravingCard())) {
+                if(!StringUtils.isEmpty(result.getValue().getOpenCard())) {
                     Map<String,String> picture4 = new HashMap<>();
                     picture4.put("title","开户许可证正面");
                     picture4.put("url",result.getValue().getOpenCard());
