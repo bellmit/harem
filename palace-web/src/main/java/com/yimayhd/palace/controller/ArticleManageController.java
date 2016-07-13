@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,8 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ArticleVO;
+import com.yimayhd.palace.model.SnsSubjectVO;
+import com.yimayhd.palace.model.SubjectInfoAddVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.entity.Article;
@@ -56,17 +59,17 @@ public class ArticleManageController extends BaseController {
 		}
 		return "/system/article/articleList";
 	}
-	
-    /**
-     * 新增H5文章跳转
-     * @throws Exception
-     */
-    @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
-    public String toAdd(Model model) throws Exception {
+
+	/**
+	 * 新增H5文章跳转
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
+	public String toAdd(Model model) throws Exception {
 		model.addAttribute("articleTypeList", ArticleType.values());
-		model.addAttribute("articleStautsList", ArticleStauts.values());
-        return "/system/article/articleEdit";
-    }
+		return "/system/article/articleEdit";
+	}
 
 	/**
 	 * 新增文章
@@ -95,4 +98,30 @@ public class ArticleManageController extends BaseController {
 		}
 	}
 
+	/**
+	 * 根据文章ID获取文章详情
+	 *
+	 * @return 文章详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/toEdit/{id}", method = RequestMethod.GET)
+	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
+		ArticleVO articleVO = articleService.getById(id);
+		model.addAttribute("articleTypeList", ArticleType.values());
+		model.addAttribute("articleStautsList", ArticleStauts.values());
+		model.addAttribute("live", articleVO);
+		return "/system/live/edit";
+	}
+
+	/**
+	 * 根据文章ID修改文章
+	 *
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String edit(@PathVariable(value = "id") long id, ArticleVO articleVO) throws Exception {
+		articleVO.setId(id);
+		articleService.modify(articleVO);
+		return "/success";
+	}
 }

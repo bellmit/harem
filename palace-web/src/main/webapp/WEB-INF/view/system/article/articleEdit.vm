@@ -29,14 +29,17 @@
                     </td>
                 </tr>
 				<tr>
-                    <td><span class="spColor">*</span>上传封面：</td>
-                    <td class="picUrlsTd">
-                                <input id="batchUploadBtn" type="file" multiple="multiple" >
-                                #foreach($pic in $article.picList)
-                                   <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
-                                #end
-                            </td>
-                            <input class="picUrlsVal" type="hidden" name="picListStr" value="">
+                    <td><span class="spColor">*</span>封面图</td>
+                    <td>
+                        <div class="fileImgWrap">
+                            <button type="button" id="batchUploadBtn" class="btn btn-success">选择图片</button>
+                            <input type="file"  name="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
+                            <input type="hidden" name="frontcover" value="$!article.frontcover"  id="FMReturnInput">
+                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                        </div>
+                        <div class="propagandaView">
+                            <img height="100" width="100" src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover  #end " id="FMReturnInputImg">
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -73,29 +76,25 @@
              return '发布时间不能为空';
          }
      }
-   var batchCallBack = function(dataVal){
-        for(var key in dataVal.data){
-             $('.picUrlsTd').append('<img class="picUrlsUrl uploadImgFile" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+	//上传图片
+	 $(document).delegate("#FMUploadFile",'change',function(){
+	     fileUpload('#FMUploadFile',1,pictureUploadCallBack);
+	 })
+		
+ 	var pictureUploadCallBack = function(data){
+    if(data && data.status == 200){
+		console.log(data.data);
+        $('#FMReturnInput').val(data.data);
+        $('#FMReturnInputImg').attr('src',tfsRootPath + data.data);
+	}else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
         }
     }
+	
     $(function(){
 		 $(document).delegate("#batchUploadBtn",'change',function(){
            		 fileUpload('#batchUploadBtn',2,batchCallBack);
          });
-
-        //选择大咖
-        $('.selectUser').click(function(){
-            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser','选择用户',function() {
-                var user = win.getItem();
-                if(user == null){
-                    return;
-                }
-                $("#userImg").attr('src',tfsRootPath + user.avatar);
-                $("#userId").val(user.id);
-                $("#userName").html(user.nickName);
-                return true;
-            });
-        });
 
         $('#btnSubmit').click(function(){
             //非空验证
