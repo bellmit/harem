@@ -6,51 +6,36 @@
 <div class="clubDynamicPage whole">
     <form name="liveForm" id="liveForm" action="" method="post" liveId="$!live.id">
         <table class="table">
-                <tr>
-                    <td><span class="spColor">*</span>直播内容：</td>
+				<tr>
+                    <td>文章类型</td>
                     <td>
-                         <textarea name="textContent" id="" rows="2" class="form-control summary textContent">$!live.textContent</textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>发布时间</td>
-                    <td><input type="text" class='form-control form-date dateInp gmtCreatedStr' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr" ></td>
-                </tr>
-                <tr>
-                    <td>直播标签</td>
-                    <td>
-                        <select class="form-control" name="tagId">
+                       #* <select class="form-control" name="tagId">
                             <option value="0">请选择标签</option>
                             #foreach($comTag in $comTagList)
                                 <option #if($comTag.id == $!live.tagId) selected #end value="$comTag.id">$!esc.html($!comTag.name)</option>
                             #end
-                        </select>
+                        </select> *#
+						<select class="form-control" name="type">
+            					#foreach($articleType in $articleTypeList)
+            					<option value="$!{articleType.value}" #if($query.type == $articleType.value) selected #end >$!{articleUtil.getArticleTypeName($articleType.value)}</option>
+            					#end
+        				</select>
                     </td>
                 </tr>
-                 <tr>
-                    <td>所属域</td>
+				<tr>
+                    <td><span class="spColor">*</span>标题：</td>
                     <td>
-                        <select class="form-control" name="domain">
-                            <option value="1000" #if($live.domain==1000)selected#end>B2C</option>
-                            <option value="1200" #if($live.domain==1200)selected#end>九休</option>
-                        </select>
+						 <input type="text" class="form-control summary title" name="title"  value="$!esc.html($!live.title)">
                     </td>
                 </tr>
-                <tr>
-                    <td><span class="spColor">*</span>直播地点</td>
-                    <td> <input type="text" class="inpCtlBlock snsPOIDetail" name="snsPOI.detail"  value="$!esc.html($!live.snsPOI.detail)"></td>
-                </tr>
-                <tr>
-                    <td>作者信息：</td>
+				<tr>
+                    <td><span class="spColor">*</span>初始阅读数：</td>
                     <td>
-                        <button type="button" class="btn btn-info selectUser">选择用户</button>
-                        <img src="#if($!live.userDO.avatar)$utilWebconfig.getTfsRootPath()$!live.userDO.avatar#end" alt="头像" class="img-circle grogUserLogo" id="userImg">
-                        <span id="userName">$!esc.html($!live.userDO.nickname)</span>
-                        <input type="hidden" id="userId" name="userId" value="$!live.userDO.id" >
+						 <input type="text" class="form-control summary pv" name="pv"  value="$!esc.html($!live.pv)">
                     </td>
                 </tr>
-                <tr>
-                    <td>直播图片：</td>
+				<tr>
+                    <td><span class="spColor">*</span>上传封面：</td>
                     <td class="picUrlsTd">
                                 <input id="batchUploadBtn" type="file" multiple="multiple" >
                                 #foreach($pic in $live.picList)
@@ -60,7 +45,10 @@
                             <input class="picUrlsVal" type="hidden" name="picListStr" value="">
                     </td>
                 </tr>
-
+                <tr>
+                    <td><span class="spColor">*</span>发布时间</td>
+                    <td><input type="text" class='form-control form-date dateInp gmtCreatedStr' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr" ></td>
+                </tr>
         </table>
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
     </form>
@@ -82,9 +70,9 @@
             });
      //非空验证
      var validate = function(){
-         if(!$('.textContent').val()){
+         if(!$('.title').val()){
              return '直播内容不能为空';
-         }else if($('.textContent').val().length > 200){
+         }else if($('.title').val().length > 200){
             return '直播内容不能超过200字';
          }
          if(!$('.gmtCreatedStr').val()){
