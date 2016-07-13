@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>发布时间</td>
-                    <td><input type="text" class='form-control form-date dateInp gmtCreatedStr' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr" ></td>
+                    <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!live.gmtCreated" ></td>
                 </tr>
         </table>
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
@@ -75,7 +75,7 @@
          }else if($('.title').val().length > 200){
             return '直播内容不能超过200字';
          }
-         if(!$('.gmtCreatedStr').val()){
+         if(!$('.gmtCreated').val()){
              return '发布时间不能为空';
          }
          if(!$('.snsPOIDetail').val()){
