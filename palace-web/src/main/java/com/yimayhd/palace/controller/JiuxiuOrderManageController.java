@@ -144,8 +144,13 @@ public class JiuxiuOrderManageController extends BaseController {
 				
 				
 				for (JiuxiuTcDetailOrder jiuxiuTcDetailOrder : jiuxiuTcMainOrder.getJiuxiuTcDetailOrders()) {
-					//获取子订单实付金额
-					jiuxiuTcDetailOrder.setItemPrice_(BizOrderUtil.getSubOrderActualFee(jiuxiuTcDetailOrder.getBizOrder().getBizOrderDO()));
+					//订单实付总额
+			        long total = BizOrderUtil.getSubOrderActualFee(jiuxiuTcDetailOrder.getBizOrder().getBizOrderDO());
+					 //获取子订单实付金额
+			        if(jiuxiuTcDetailOrder.getBizOrder().getBuyAmount() > 0){
+			        	long act = total/jiuxiuTcDetailOrder.getBizOrder().getBuyAmount();
+			        	jiuxiuTcDetailOrder.setItemPrice_(act);
+			        }
 				}
 				
 				model.addAttribute("order", jiuxiuTcMainOrder);

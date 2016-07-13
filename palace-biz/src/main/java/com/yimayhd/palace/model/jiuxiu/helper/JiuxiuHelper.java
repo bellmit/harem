@@ -38,8 +38,13 @@ public class JiuxiuHelper {
 		jiuxiuTcDetailOrder.setItemPrice(tcDetailOrder.getItemPrice());
 		jiuxiuTcDetailOrder.setActivityTime(tcDetailOrder.getActivityTime());
 		jiuxiuTcDetailOrder.setActivityContent(tcDetailOrder.getActivityContent());
+		//订单实付总额
+        long total = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());
 		 //获取子订单实付金额
-		jiuxiuTcDetailOrder.setItemPrice_(BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO()));
+        if(tcDetailOrder.getBizOrder().getBuyAmount() > 0){
+        	long act = total/tcDetailOrder.getBizOrder().getBuyAmount();
+        	jiuxiuTcDetailOrder.setItemPrice_(act);
+        }
 	}
 	
 	public static void fillBizOrder(JiuxiuTcBizOrder jiuxiuTcBizOrder,TcBizOrder tcBizOrder,String phone){
