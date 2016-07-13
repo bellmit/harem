@@ -74,7 +74,7 @@
 						<td>$!{articleUtil.getArticleStatus($!article.status)}</td>
                         <td>
                             <button type="button" class="btn btn-primary articleDetail" articleId="$article.id">编辑</button>
-                            <button type="button" class="btn btn-primary articleBtn"  articleId="$!article.id" status="$!article.status">#if($!article.status == 1) 违规 #else 恢复 #end </button>
+                            <button type="button" class="btn btn-primary articleBtn"  articleId="$!article.id" status="$!article.status">$!{articleUtil.getOption($!article.status)}</button>
                         </td>
                     </tr>
                     #end

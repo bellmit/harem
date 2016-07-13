@@ -20,6 +20,18 @@ public class ArticleUtil {
 		}
 		return "未知状态";
 	}
+	public static String getOption(int status) {
+		if (status <= 0) {
+			return null;
+		}
+		if (status==ArticleStauts.OFFLINE.getValue()) {
+			return ArticleStauts.ONLINE.getDesc();
+		}
+		if (status==ArticleStauts.ONLINE.getValue()) {
+			return ArticleStauts.OFFLINE.getDesc();
+		}
+		return "未知状态";
+	}
 	public static String getArticleTypeName(int type) {
 		if (type <= 0) {
 			return null;
