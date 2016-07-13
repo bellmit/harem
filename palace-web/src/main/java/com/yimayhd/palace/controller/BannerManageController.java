@@ -69,6 +69,12 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
+        if(StringUtils.isNotEmpty(baseQuery.getBoothCode())){
+            baseQuery.setBoothCode(baseQuery.getBoothCode().trim());
+        }
+        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
+            baseQuery.setBoothName(baseQuery.getBoothName().trim());
+        }
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
@@ -250,25 +256,25 @@ public class BannerManageController extends BaseController {
         result.put("pageSize", pageSize);
         switch (type){
             case Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION : //选目的地
-                result = getRegion(pageNumber,pageSize,result);
+                getRegion(pageNumber,pageSize,result);
                 break;
             case Constant.SHOWCASE_SHOE_TYPE_THEME : //选主题
-                result = getTagList(pageNumber,pageSize,result,code);
+                getTagList(pageNumber,pageSize,result,code);
                 break;
             case Constant.SHOWCASE_HOTEL_LIST : //选酒店列表
-                result = getHotelList(pageNumber,pageSize,result,keyWord);
+                getHotelList(pageNumber,pageSize,result,keyWord);
                 break;
             case Constant.SHOWCASE_SCENIC_LIST ://选景区列表
-                result = getScenicList(pageNumber,pageSize,result,keyWord);
+                getScenicList(pageNumber,pageSize,result,keyWord);
                 break;
             case Constant.SHOWCASE_ITEM_DETAIL ://选商品详情
-                result = getItem(pageNumber,pageSize,result,code,keyWord);
+                getItem(pageNumber,pageSize,result,code,keyWord);
                 break;
             case Constant.SHOWCASE_SHOE_TYPE_MASTER ://达人的，美食的,店铺首页
-                result = getMerchants(pageNumber,pageSize,result,code,keyWord);
+                getMerchants(pageNumber,pageSize,result,code,keyWord);
                 break;
             case Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL ://达人的，美食的,店铺首页
-                result = getMerchants(pageNumber,pageSize,result,code,keyWord);
+                getMerchants(pageNumber,pageSize,result,code,keyWord);
                 break;
             case Constant.SHOWCASE_VIEW_TOPIC_LIST ://话题列表
                 getTopicList(pageNumber,pageSize,result,keyWord);

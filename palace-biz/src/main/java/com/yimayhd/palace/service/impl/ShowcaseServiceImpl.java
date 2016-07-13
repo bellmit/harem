@@ -15,6 +15,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.OperationType;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -31,6 +32,7 @@ import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
+import com.yimayhd.resourcecenter.model.enums.OperationStatusType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
@@ -459,7 +461,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     //new---------
     public List<OperactionVO> getAllOperations(){
         try {
-            RcResult<List<OperactionVO>> result = operationClientServer.getAllOperations() ;
+            RcResult<List<OperactionVO>> result = operationClientServer.getAllOperations(OperationStatusType.ON_SHELF.getValue()) ;
             if( result == null || !result.isSuccess() ){
                 LOGGER.error("getAllOperations failed!  result={}",JSON.toJSONString(result));;
                 return null;
