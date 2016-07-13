@@ -1,5 +1,7 @@
 package com.yimayhd.palace.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
-import com.yimayhd.palace.model.SnsSubjectVO;
-import com.yimayhd.palace.model.SubjectInfoAddVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.service.ArticleService;
-import com.yimayhd.resourcecenter.entity.Article;
 import com.yimayhd.resourcecenter.model.enums.ArticleStauts;
+import com.yimayhd.resourcecenter.model.enums.ArticleSubType;
 import com.yimayhd.resourcecenter.model.enums.ArticleType;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 
@@ -82,8 +81,19 @@ public class ArticleManageController extends BaseController {
 	public ResponseVo add(ArticleVO articleVO) throws Exception {
 		try {
 			ResponseVo responseVo = new ResponseVo();
-
-			RcResult result = articleService.add(articleVO);
+			List<ArticleItemVO> articleItemList = new ArrayList<ArticleItemVO>();
+			for (int i = 0; i < 3; i++) {
+				ArticleItemVO articleItemVO = new ArticleItemVO();
+				articleItemVO.setContent("测试" + i);
+				articleItemVO.setGmtCreated(new Date());
+				articleItemVO.setType(ArticleType.EXPERTSTORY.getValue());
+				articleItemVO.setSubType(ArticleSubType.CITY_ACTIVITY.getType());
+				articleItemVO.setTitle("测试" + i);
+				articleItemVO.setSort(Long.valueOf(i));
+				articleItemList.add(articleItemVO);
+			}
+			articleVO.setArticleItems(articleItemList);
+			RcResult<?> result = articleService.add(articleVO);
 			if (result.isSuccess()) {
 				responseVo.setMessage("添加成功！");
 				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

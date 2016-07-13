@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
@@ -31,5 +32,20 @@ public class ArticleConverter {
 		}
 		articleVO.setArticleItems(articleItemVOList);
 		return articleVO;
+	}
+
+	public static ArticleDTO getArticleDTO(ArticleVO articleVO) {
+		ArticleDTO articleDTO = new ArticleDTO();
+		ArticleDO articleDO=new ArticleDO();
+		BeanUtils.copyProperties(articleVO, articleDO);
+		List<ArticleItemVO> articleItems = articleVO.getArticleItems();
+		List<ArticleItemDO> articleItemDOs=new ArrayList<ArticleItemDO>();
+		for (ArticleItemVO articleItemVO : articleItems) {
+			ArticleItemDO articleItemDO = new ArticleItemDO();
+			BeanUtils.copyProperties(articleItemVO, articleItemDO);
+			articleItemDOs.add(articleItemDO);
+		}
+		articleDTO.setArticleItemDOs(articleItemDOs);
+		return articleDTO;
 	}
 }

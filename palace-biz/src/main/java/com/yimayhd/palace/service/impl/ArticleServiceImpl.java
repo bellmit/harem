@@ -83,11 +83,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public RcResult<Boolean> add(ArticleVO articleVO) throws Exception {
-		ArticleDTO articleDTO = new ArticleDTO();
-		ArticleDO articleDO=new ArticleDO();
-		articleDTO.setArticleDO(articleDO);
-		List<ArticleItemDO> articleItemDOs=new ArrayList<ArticleItemDO>();
-		articleDTO.setArticleItemDOs(articleItemDOs);
+		ArticleDTO articleDTO=ArticleConverter.getArticleDTO(articleVO);
 		RcResult<Boolean> result=articleRepo.add(articleDTO);
 		return result;
 	}

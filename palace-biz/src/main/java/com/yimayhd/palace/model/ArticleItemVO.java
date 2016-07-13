@@ -18,7 +18,7 @@ public class ArticleItemVO implements Serializable {
 
 	private Integer type;
 
-	private String subType;
+	private Integer subType;
 
 	private String title;
 
@@ -54,14 +54,6 @@ public class ArticleItemVO implements Serializable {
 
 	public void setType(Integer type) {
 		this.type = type;
-	}
-
-	public String getSubType() {
-		return subType;
-	}
-
-	public void setSubType(String subType) {
-		this.subType = subType == null ? null : subType.trim();
 	}
 
 	public String getTitle() {
@@ -110,5 +102,13 @@ public class ArticleItemVO implements Serializable {
 
 	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
+	}
+
+	public Integer getSubType() {
+		return subType;
+	}
+
+	public void setSubType(Integer subType) {
+		this.subType = subType;
 	}
 }
