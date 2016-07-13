@@ -129,7 +129,7 @@ public class LiveServiceImpl implements LiveService {
 		}
 		//昵称（用户id列表）
 		subjectInfoDTO.setUserList(userIdList);
-		BasePageResult<UgcResult> basePageResult = snsTopicCenterServiceRef.getUgcPageList(subjectInfoDTO);
+		BasePageResult<SnsSubjectDO> basePageResult = snsTopicCenterServiceRef.getUgcPageList(subjectInfoDTO);
 //		BasePageResult<SnsSubjectDO> basePageResult = snsCenterServiceRef.getSubjectInfoPage(subjectInfoDTO);
 		if(null == basePageResult){
 			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and liveListQuery:" + JSON.toJSONString(liveListQuery));
