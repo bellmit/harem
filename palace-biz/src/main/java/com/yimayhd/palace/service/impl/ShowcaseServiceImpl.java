@@ -249,7 +249,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return result.getT() ;
     }
 
-    public PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO)throws Exception{
+    public PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO){
         BasePageResult<ComTagDO> result = comTagCenterService.pageTagList(tagInfoPageDTO);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is "
@@ -265,7 +265,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return page;
     }
 
-    public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception {
+    public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO){
         PageVO<ShowCaseItem> page = new PageVO<ShowCaseItem>();
         ICPageResult<ItemInfo> result = itemBizQueryService.getItem(itemQryDTO);
         if(null == result || !result.isSuccess() || null == result.getList()){
@@ -418,7 +418,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return page;
     }
 
-    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) throws Exception {
+    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery){
         ICPageResult<HotelDO> result = itemQueryService.pageQueryHotel(hotelPageQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getHotelList|itemQueryService.pageQueryHotel result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(hotelPageQuery));
@@ -437,7 +437,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return page;
     }
 
-    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery scenicPageQuery) throws Exception{
+    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery scenicPageQuery){
         ICPageResult<ScenicDO> result = itemQueryService.pageQueryScenic(scenicPageQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getScenicList|itemQueryService.pageQueryScenic result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(scenicPageQuery));
@@ -479,19 +479,32 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
 
-    public PageVO<UgcResult> getUgcPageList(SubjectInfoDTO subjectInfoDTO){
-        com.yimayhd.snscenter.client.result.BasePageResult<UgcResult> result = snsTopicCenterService.getUgcPageList(subjectInfoDTO);
+    public PageVO<ShowCaseItem> getUgcPageList(SubjectInfoDTO subjectInfoDTO){
+        com.yimayhd.snscenter.client.result.BasePageResult<SnsSubjectDO> result = snsTopicCenterService.getUgcPageList(subjectInfoDTO);
         if( result == null || !result.isSuccess() ){
             LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(subjectInfoDTO)+"|||result="+JSON.toJSONString(result));;
-            return new PageVO<UgcResult>();
+            return new PageVO<ShowCaseItem>();
         }
-        List<UgcResult> list = result.getList();
+        List<ShowCaseItem> list = UgcResultToShowCaseItem(result.getList());
         if(CollectionUtils.isEmpty(list)){
-            return new PageVO<UgcResult>();
+            return new PageVO<ShowCaseItem>();
         }
-        PageVO<UgcResult> page  = new PageVO<UgcResult>(result.getPageNo(), result.getPageSize(), result.getTotalCount(),list);
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(result.getPageNo(), result.getPageSize(), result.getTotalCount(),list);
         return page;
     }
+
+    public List<ShowCaseItem> UgcResultToShowCaseItem(List<SnsSubjectDO> listUgc){
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
+        for (SnsSubjectDO sns:listUgc ) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(sns.getId());
+            sc.setName(sns.getTextContent());//标题
+            sc.setImgUrl(sns.getPicContent());
+            list.add(sc);
+        }
+        return list;
+    }
+
 
     public PageVO<ShowCaseItem>  getTopicPageList(TopicQueryListDTO topicQueryListDTO){
         com.yimayhd.snscenter.client.result.BasePageResult<TopicResult> result = snsTopicCenterService.getTopicPageList(topicQueryListDTO);

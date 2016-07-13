@@ -87,7 +87,7 @@ public interface ShowcaseService {
 
     PageVO<RegionDO> getRegionDOListByType(RegionQuery regionQuery);
     //主题
-    PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO)throws Exception;
+    PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO);
 
 
     public List<OperationDO> getAllOperactions() ;
@@ -95,15 +95,15 @@ public interface ShowcaseService {
     public BoothDO getBoothInfoByBoothCode(String code) throws Exception;
 
     //商品列表
-    public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception ;
+    public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) ;
 
-    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) throws Exception ;
+    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) ;
 
-    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery ccenicPageQuery) throws Exception ;
+    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery ccenicPageQuery) ;
 
 
     //达人 美食
-    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption) throws Exception ;
+    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption) ;
 
     public List<OperactionVO> getAllOperations() ;
 
@@ -112,7 +112,7 @@ public interface ShowcaseService {
      * @param subjectInfoDTO 入参
      * @return
      */
-    public PageVO<UgcResult> getUgcPageList(SubjectInfoDTO subjectInfoDTO);
+    public PageVO<ShowCaseItem> getUgcPageList(SubjectInfoDTO subjectInfoDTO);
 
     /**
      * 分页查询话题列表

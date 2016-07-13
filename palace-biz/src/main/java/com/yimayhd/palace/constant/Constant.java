@@ -33,7 +33,7 @@ public class Constant {
 	//详情
 	public static final int SHOWCASE_ITEM_DETAIL = 3;//详情
 	public static final int SHOWCASE_MASTER_CIRCLE_DETAIL = 12;//达人圈详情
-	public static final int SHOWCASE_VIEW_TOPIC_DETAIL = 13;//达人圈详情
+	public static final int SHOWCASE_VIEW_TOPIC_DETAIL = 13;//话题详情
 
 	//列表类
 	public static final int SHOWCASE_HOTEL_LIST = 9;//酒店列表
