@@ -1,34 +1,9 @@
 package com.yimayhd.palace.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
-import com.yimayhd.commentcenter.client.enums.CommentType;
-import com.yimayhd.commentcenter.client.enums.SupportType;
-import com.yimayhd.commentcenter.client.enums.TagType;
-import com.yimayhd.commentcenter.client.service.ComCenterService;
-import com.yimayhd.palace.base.BaseException;
-import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.SnsSubjectVO;
-import com.yimayhd.palace.model.SubjectInfoAddVO;
-import com.yimayhd.palace.model.TopicVO;
-import com.yimayhd.palace.model.query.LiveListQuery;
-import com.yimayhd.palace.service.LiveService;
-import com.yimayhd.palace.util.DateUtil;
-import com.yimayhd.palace.util.PhoneUtil;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
-import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
-import com.yimayhd.snscenter.client.dto.SubjectInfoAddDTO;
-import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
-import com.yimayhd.snscenter.client.query.UgcTopicPageQuery;
-import com.yimayhd.snscenter.client.result.BasePageResult;
-import com.yimayhd.snscenter.client.result.ugc.UgcResult;
-import com.yimayhd.snscenter.client.service.SnsCenterService;
-import com.yimayhd.snscenter.client.service.SnsTopicCenterService;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.domain.UserDOQuery;
-import com.yimayhd.user.client.result.BaseResult;
-import com.yimayhd.user.client.service.UserService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -37,10 +12,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.CommentType;
+import com.yimayhd.commentcenter.client.enums.SupportType;
+import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
+import com.yimayhd.palace.base.BaseException;
+import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.SnsSubjectVO;
+import com.yimayhd.palace.model.SubjectInfoAddVO;
+import com.yimayhd.palace.model.query.LiveListQuery;
+import com.yimayhd.palace.service.LiveService;
+import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.PhoneUtil;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoAddDTO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.result.BasePageResult;
+import com.yimayhd.snscenter.client.service.SnsCenterService;
+import com.yimayhd.snscenter.client.service.SnsTopicCenterService;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.domain.UserDOQuery;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.UserService;
 
 /**
  * Created by Administrator on 2015/11/2.
@@ -129,7 +125,7 @@ public class LiveServiceImpl implements LiveService {
 		}
 		//昵称（用户id列表）
 		subjectInfoDTO.setUserList(userIdList);
-		BasePageResult<UgcResult> basePageResult = snsTopicCenterServiceRef.getUgcPageList(subjectInfoDTO);
+		BasePageResult<SnsSubjectDO> basePageResult = snsTopicCenterServiceRef.getUgcPageList(subjectInfoDTO);
 //		BasePageResult<SnsSubjectDO> basePageResult = snsCenterServiceRef.getSubjectInfoPage(subjectInfoDTO);
 		if(null == basePageResult){
 			log.error("LiveServiceImpl.getList-snsCenterService.getSubjectInfoPage result is null and parame: " + JSON.toJSONString(subjectInfoDTO) + " and liveListQuery:" + JSON.toJSONString(liveListQuery));
