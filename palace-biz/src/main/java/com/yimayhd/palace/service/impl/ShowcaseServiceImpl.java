@@ -487,15 +487,15 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(subjectInfoDTO)+"|||result="+JSON.toJSONString(result));;
             return new PageVO<ShowCaseItem>();
         }
-        List<ShowCaseItem> list = UgcResultToShowCaseItem(result.getList());
+        List<ShowCaseItem> list = ugcResultToShowCaseItem(result.getList());
         if(CollectionUtils.isEmpty(list)){
             return new PageVO<ShowCaseItem>();
         }
-        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(result.getPageNo(), result.getPageSize(), result.getTotalCount(),list);
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(subjectInfoDTO.getPageNo(), subjectInfoDTO.getPageSize(), result.getTotalCount(),list);
         return page;
     }
 
-    public List<ShowCaseItem> UgcResultToShowCaseItem(List<SnsSubjectDO> listUgc){
+    public List<ShowCaseItem> ugcResultToShowCaseItem(List<SnsSubjectDO> listUgc){
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         for (SnsSubjectDO sns:listUgc ) {
             ShowCaseItem sc = new ShowCaseItem();

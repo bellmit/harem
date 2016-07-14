@@ -470,6 +470,6 @@ public class BannerManageController extends BaseController {
         }
         return "success";
     }
-    
+
 
 }
