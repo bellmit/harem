@@ -342,7 +342,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setTitle(sw.getTitle());
         sd.setSummary(sw.getSummary());
         sd.setBoothContent(sw.getBoothContent());
-        sd.setOperationContent(sw.getOperationContent());
+        sd.setOperationContent(StringUtils.isEmpty(sw.getOperationContent())?"":sw.getOperationContent().trim());
 
         sd.setContent(sw.getContent());
         sd.setShowcaseFeature(sw.getShowcaseFeature());
@@ -351,7 +351,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setSerialNo(sw.getSerialNo());
         sd.setGmtModified(new Date());
         Map<String,String> map = new HashMap<String,String>();
-        map.put("operationContentZH",sw.getOperationContentZH());
+        map.put("operationContentZH",StringUtils.isEmpty(sw.getOperationContentZH())?"":sw.getOperationContentZH().trim());
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));
         sd.setFeature(FeatureUtil.toString(map));
