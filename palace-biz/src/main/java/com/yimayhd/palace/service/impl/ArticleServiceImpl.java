@@ -73,18 +73,25 @@ public class ArticleServiceImpl implements ArticleService {
 				articleList.add(ArticleConverter.getArticleVO(articleDTO));
 			}
 		}
-		return new PageVO<ArticleVO>(articleListQuery.getPageNumber(), articleListQuery.getPageSize(),totalCount, articleList);
+		return new PageVO<ArticleVO>(articleListQuery.getPageNumber(), articleListQuery.getPageSize(), totalCount,
+				articleList);
 	}
 
 	@Override
-	public ArticleVO getById(long id) throws Exception {
+	public ArticleVO getArticleById(long id) throws Exception {
+		RcResult<ArticleDTO> rcResult = articleRepo.getArticleById(id);
+		if (rcResult == null || !rcResult.isSuccess() || rcResult.getT() == null) {
+			return null;
+		}
+		ArticleDTO articleDTO = rcResult.getT();
+		// TODO 转换
 		return null;
 	}
 
 	@Override
 	public RcResult<Boolean> add(ArticleVO articleVO) throws Exception {
-		ArticleDTO articleDTO=ArticleConverter.getArticleDTO(articleVO);
-		RcResult<Boolean> result=articleRepo.add(articleDTO);
+		ArticleDTO articleDTO = ArticleConverter.getArticleDTO(articleVO);
+		RcResult<Boolean> result = articleRepo.add(articleDTO);
 		return result;
 	}
 
@@ -111,6 +118,5 @@ public class ArticleServiceImpl implements ArticleService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

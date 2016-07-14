@@ -117,7 +117,7 @@ public class ArticleManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toEdit/{id}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
-		ArticleVO articleVO = articleService.getById(id);
+		ArticleVO articleVO = articleService.getArticleById(id);
 		model.addAttribute("articleTypeList", ArticleType.values());
 		model.addAttribute("articleStautsList", ArticleStauts.values());
 		model.addAttribute("article", articleVO);

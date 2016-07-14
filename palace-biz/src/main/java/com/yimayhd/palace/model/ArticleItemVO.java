@@ -31,6 +31,7 @@ public class ArticleItemVO implements Serializable {
 	private Date gmtCreated;
 
 	private Date gmtModified;
+	private ArticleProductItemVO articleProductItemVO;
 
 	public Long getId() {
 		return id;
@@ -110,5 +111,13 @@ public class ArticleItemVO implements Serializable {
 
 	public void setSubType(Integer subType) {
 		this.subType = subType;
+	}
+
+	public ArticleProductItemVO getArticleProductItemVO() {
+		return articleProductItemVO;
+	}
+
+	public void setArticleProductItemVO(ArticleProductItemVO articleProductItemVO) {
+		this.articleProductItemVO = articleProductItemVO;
 	}
 }

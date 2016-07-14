@@ -21,6 +21,8 @@ public class ArticleVO implements Serializable {
 	private Long domainId;
 
 	private String title;
+	
+	private String subTitle;
 
 	private String frontcover;
 
@@ -114,5 +116,13 @@ public class ArticleVO implements Serializable {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
 	}
 }

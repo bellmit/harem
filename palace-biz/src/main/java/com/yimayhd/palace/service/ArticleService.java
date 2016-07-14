@@ -31,7 +31,7 @@ public interface ArticleService {
 	 *            H5ID
 	 * @return H5详情
 	 */
-	ArticleVO getById(long id) throws Exception;
+	ArticleVO getArticleById(long id) throws Exception;
 
 	/**
 	 * 新增H5

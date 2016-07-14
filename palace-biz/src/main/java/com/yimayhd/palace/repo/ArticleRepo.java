@@ -22,7 +22,7 @@ public class ArticleRepo {
 	public static final int STATUS_DISABLE = 2;
 	public static final int STATUS_ENABLE = 1;
 	@Autowired
-	private  ArticleClientService articleClientServiceRef;
+	private ArticleClientService articleClientServiceRef;
 
 	public RCPageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.pageQueryArticles", articleQueryDTO);
@@ -35,6 +35,13 @@ public class ArticleRepo {
 		RepoUtils.requestLog(log, "articleClientServiceRef.add", articleDTO);
 		RcResult<Boolean> result = articleClientServiceRef.add(articleDTO);
 		RepoUtils.resultLog(log, "articleClientServiceRef.add", result);
+		return result;
+	}
+
+	public RcResult<ArticleDTO> getArticleById(long id) {
+		RepoUtils.requestLog(log, "articleClientServiceRef.getArticleById", id);
+		RcResult<ArticleDTO> result = articleClientServiceRef.getArticleById(id);
+		RepoUtils.resultLog(log, "articleClientServiceRef.getArticleById", result);
 		return result;
 	}
 }
