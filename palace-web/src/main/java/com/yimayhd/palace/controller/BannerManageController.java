@@ -229,11 +229,11 @@ public class BannerManageController extends BaseController {
         }else if(Constant.SHOWCASE_ITEM_LIST == type
                 || Constant.SHOWCASE_HOTEL_LIST == type
                 || Constant.SHOWCASE_SCENIC_LIST == type
-                || Constant.SHOWCASE_VIEW_TOPIC_LIST == type ){//选列表
-            return "/system/banner/showcase/chooseItemList";
-        }else if(Constant.SHOWCASE_ITEM_DETAIL == type
+                || Constant.SHOWCASE_VIEW_TOPIC_LIST == type
                 || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type
-                || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type ){//选详情
+                || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type){//选列表
+            return "/system/banner/showcase/chooseItemList";
+        }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
             return "/system/banner/showcase/chooseItemDetail";
         }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){//选达人或美食
             return "/system/banner/showcase/chooseDaRenMeiShiDetail";
