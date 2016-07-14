@@ -86,6 +86,9 @@ public class JiuxiuHelper {
 		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getStatus())){
 			merchantPageQuery.setStatus(Integer.parseInt(jiuxiuMerchantListQuery.getStatus()));
 		}
+		if (jiuxiuMerchantListQuery.getGmtCreated() != null) {
+			
+		}
 	}
 	
 	public static void fillOrderQueryDTO(OrderQueryDTO dto, JiuxiuOrderListQuery jiuxiuOrderListQuery){

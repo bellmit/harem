@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.enums.ItemStatus;
-import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;

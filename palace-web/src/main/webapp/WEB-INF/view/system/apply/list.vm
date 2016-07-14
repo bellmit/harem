@@ -26,7 +26,7 @@
 		</div>
 	</div>
 </div>
-<div class="searchbox" style="width:980px;">
+<div class="searchbox">
 	<form id="fm">
 		<table>
 			<tr>
@@ -40,14 +40,23 @@
 					#foreach( $type in $types )
 						<option value="${type.type}">${type.name}</option>
 					#end
-				</select></td><td colspan="2"></td>
+				</select></td>
+				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<td class="tit">店铺负责人：</td>
 				<td><input name="principleName" maxlength="30" /></td>
 				<td class="tit">负责人手机号：</td>
 				<td><input name="principleTel" maxlength="30" /></td>
-
+				<td class="tit">审核状态：</td>
+				<td><select name="status">
+					<option value="0">全部</option>
+					
+					<option value="1">审核通过</option>
+					<option value="2">未审核</option>
+					<option value="3">审核失败</option>
+					
+				</select></td>				
 				<td align='center' colspan="2"><button class="searchbtn">搜索</button><button type="reset">重置</button></td>
 			</tr>
 		</table>
@@ -86,5 +95,5 @@
 	#parse("/system/layout/layout-jiuxiu-js.vm")
 	
 	<script src="$rs_js_css_path_jiuxiu/js/apply/settled.js?t=6"></script>
-	
+	 
 </script>
