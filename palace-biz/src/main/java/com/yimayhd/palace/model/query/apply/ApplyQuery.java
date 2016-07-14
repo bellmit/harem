@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model.query.apply;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,7 +24,14 @@ public class ApplyQuery extends BaseQuery implements Serializable {
      * 状态
      */
     private int status ;
-    
+    private Date gmtCreated;
+	
+	public Date getGmtCreated() {
+		return gmtCreated;
+	}
+	public void setGmtCreated(Date gmtCreated) {
+		this.gmtCreated = gmtCreated;
+	}
 	public String getMerchantName() {
 		return StringUtils.isBlank(merchantName) ? null : merchantName ;
 	}
