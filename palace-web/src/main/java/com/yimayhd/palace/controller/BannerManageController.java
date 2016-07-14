@@ -276,13 +276,13 @@ public class BannerManageController extends BaseController {
             case Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL ://达人的，美食的,店铺首页
                 getMerchants(pageNumber,pageSize,result,code,keyWord);
                 break;
-            case Constant.SHOWCASE_VIEW_TOPIC_LIST ://话题列表
+            case Constant.SHOWCASE_VIEW_TOPIC_DETAIL ://话题详情
                 getTopicList(pageNumber,pageSize,result,keyWord);
                 break;
             case Constant.SHOWCASE_MASTER_CIRCLE_DETAIL ://选达人圈详情
                 result = getUgcPageList(pageNumber,pageSize,result,keyWord);
                 break;
-            /*case Constant.SHOWCASE_VIEW_TOPIC_DETAIL ://选话题详情
+            /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);
                 break;*/
         }
