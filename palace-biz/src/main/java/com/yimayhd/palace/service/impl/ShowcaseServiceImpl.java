@@ -96,7 +96,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired ItemQueryService itemQueryService;
 
-    @Autowired SnsTopicCenterService snsTopicCenterService;
+    @Autowired SnsTopicCenterService snsTopicCenterServiceRef;
 
 
 
@@ -482,7 +482,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
 
     public PageVO<ShowCaseItem> getUgcPageList(SubjectInfoDTO subjectInfoDTO){
-        com.yimayhd.snscenter.client.result.BasePageResult<SnsSubjectDO> result = snsTopicCenterService.getUgcPageList(subjectInfoDTO);
+        com.yimayhd.snscenter.client.result.BasePageResult<SnsSubjectDO> result = snsTopicCenterServiceRef.getUgcPageList(subjectInfoDTO);
         if( result == null || !result.isSuccess() ){
             LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(subjectInfoDTO)+"|||result="+JSON.toJSONString(result));;
             return new PageVO<ShowCaseItem>();
@@ -509,7 +509,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
 
     public PageVO<ShowCaseItem>  getTopicPageList(TopicQueryListDTO topicQueryListDTO){
-        com.yimayhd.snscenter.client.result.BasePageResult<TopicResult> result = snsTopicCenterService.getTopicPageList(topicQueryListDTO);
+        com.yimayhd.snscenter.client.result.BasePageResult<TopicResult> result = snsTopicCenterServiceRef.getTopicPageList(topicQueryListDTO);
         if( result == null || !result.isSuccess() ){
             LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(topicQueryListDTO)
                     +"|||result="+JSON.toJSONString(result));;
@@ -533,7 +533,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public SnsTopicDO getTopicDetailInfo(TopicQueryDTO topicQueryDTO){
-        com.yimayhd.snscenter.client.result.BaseResult<SnsTopicDO> result = snsTopicCenterService.getTopicDetailInfo(topicQueryDTO);
+        com.yimayhd.snscenter.client.result.BaseResult<SnsTopicDO> result = snsTopicCenterServiceRef.getTopicDetailInfo(topicQueryDTO);
         if( result == null || !result.isSuccess() ){
             LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(topicQueryDTO)
                     +"|||result="+JSON.toJSONString(result));;
@@ -543,7 +543,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public SnsSubjectDO getSubjectInfo(SubjectInfoDTO subjectInfoDTO){
-        com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> result = snsTopicCenterService.getSubjectInfo(subjectInfoDTO);
+        com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> result = snsTopicCenterServiceRef.getSubjectInfo(subjectInfoDTO);
         if( result == null || !result.isSuccess() ){
             LOGGER.error("snsTopicCenterService.getUgcPageList failed! param="+JSON.toJSONString(subjectInfoDTO)
                     +"|||result="+JSON.toJSONString(result));;
