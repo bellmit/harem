@@ -16,7 +16,7 @@ public class ArticleProductItemVO implements Serializable {
 	private String merchantLogo;
 	private String itemType;
 	private String itemPic;
-	private String itemPicTitle;
+	private String itemTag;
 
 	public Float getItemPrice() {
 		return itemPrice;
@@ -66,12 +66,12 @@ public class ArticleProductItemVO implements Serializable {
 		this.itemPic = itemPic;
 	}
 
-	public String getItemPicTitle() {
-		return itemPicTitle;
+	public String getItemTag() {
+		return itemTag;
 	}
 
-	public void setItemPicTitle(String itemPicTitle) {
-		this.itemPicTitle = itemPicTitle;
+	public void setItemTag(String itemTag) {
+		this.itemTag = itemTag;
 	}
 
 }

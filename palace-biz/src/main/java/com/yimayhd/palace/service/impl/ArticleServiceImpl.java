@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.biz.ArticleBiz;
 import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
@@ -36,6 +37,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
 	@Autowired
 	private ArticleRepo articleRepo;
+	@Autowired
+	private ArticleBiz articleBiz;
 
 	@Override
 	public PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception {
@@ -84,8 +87,8 @@ public class ArticleServiceImpl implements ArticleService {
 			return null;
 		}
 		ArticleDTO articleDTO = rcResult.getT();
-		// TODO 转换
-		return null;
+		ArticleVO articleVO = articleBiz.getArticle(articleDTO);
+		return articleVO;
 	}
 
 	@Override
