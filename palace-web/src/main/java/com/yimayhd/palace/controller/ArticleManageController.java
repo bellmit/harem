@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -78,35 +79,29 @@ public class ArticleManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseVo add(ArticleVO articleVO) throws Exception {
-		try {
-			ResponseVo responseVo = new ResponseVo();
-			List<ArticleItemVO> articleItemList = new ArrayList<ArticleItemVO>();
-			for (int i = 0; i < 3; i++) {
-				ArticleItemVO articleItemVO = new ArticleItemVO();
-				articleItemVO.setContent("测试" + i);
-				articleItemVO.setGmtCreated(new Date());
-				articleItemVO.setType(ArticleType.EXPERTSTORY.getValue());
-				articleItemVO.setSubType(ArticleSubType.CITY_ACTIVITY.getType());
-				articleItemVO.setTitle("测试" + i);
-				articleItemVO.setSort(Long.valueOf(i));
-				articleItemList.add(articleItemVO);
-			}
-			articleVO.setArticleItems(articleItemList);
-			RcResult<Boolean> result = articleService.add(articleVO);
-			if (result.isSuccess()) {
-				responseVo.setMessage("添加成功！");
-				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-			} else {
-				responseVo.setMessage(result.getResultMsg());
-				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-			}
-			return responseVo;
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+	public String add(ArticleVO articleVO) throws Exception {
+		ResponseVo responseVo = new ResponseVo();
+		// List<ArticleItemVO> articleItemList = new ArrayList<ArticleItemVO>();
+		// for (int i = 0; i < 3; i++) {
+		// ArticleItemVO articleItemVO = new ArticleItemVO();
+		// articleItemVO.setContent("测试" + i);
+		// articleItemVO.setGmtCreated(new Date());
+		// articleItemVO.setType(ArticleType.EXPERTSTORY.getValue());
+		// articleItemVO.setSubType(ArticleSubType.CITY_ACTIVITY.getType());
+		// articleItemVO.setTitle("测试" + i);
+		// articleItemVO.setSort(Long.valueOf(i));
+		// articleItemList.add(articleItemVO);
+		// }
+		// articleVO.setArticleItems(articleItemList);
+		RcResult<Boolean> result = articleService.add(articleVO);
+		if (result.isSuccess()) {
+			responseVo.setMessage("添加成功！");
+			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+		} else {
+			responseVo.setMessage(result.getResultMsg());
+			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
+		return "/success";
 	}
 
 	/**
@@ -146,7 +141,7 @@ public class ArticleManageController extends BaseController {
 	}
 
 	/**
-	 * 直播违规
+	 * 文章违规
 	 *
 	 * @return
 	 * @throws Exception
@@ -168,7 +163,7 @@ public class ArticleManageController extends BaseController {
 	}
 
 	/**
-	 * 直播恢复
+	 * 文章恢复
 	 *
 	 * @return
 	 * @throws Exception
@@ -190,16 +185,17 @@ public class ArticleManageController extends BaseController {
 	}
 
 	/**
-	 * 直播违规(批量)
+	 * 文章违规(批量)
 	 *
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/batchViolation", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchPublish(@RequestParam("articleIdList[]") ArrayList<Long> articleIdList) throws Exception {
+	public ResponseVo batchViolation(@RequestParam("articleIdList[]") ArrayList<Long> articleIdList) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		RcResult<Boolean> result = articleService.batchViolation(articleIdList);
+		int status = ArticleStauts.OFFLINE.getValue();
+		RcResult<Boolean> result = articleService.batchViolation(articleIdList, status);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

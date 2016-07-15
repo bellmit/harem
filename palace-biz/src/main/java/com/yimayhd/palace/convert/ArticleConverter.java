@@ -36,15 +36,17 @@ public class ArticleConverter {
 
 	public static ArticleDTO getArticleDTO(ArticleVO articleVO) {
 		ArticleDTO articleDTO = new ArticleDTO();
-		ArticleDO articleDO=new ArticleDO();
+		ArticleDO articleDO = new ArticleDO();
 		BeanUtils.copyProperties(articleVO, articleDO);
+		articleDO.setDomainId(Long.valueOf(Constant.DOMAIN_JIUXIU));
 		List<ArticleItemVO> articleItems = articleVO.getArticleItems();
-		List<ArticleItemDO> articleItemDOs=new ArrayList<ArticleItemDO>();
+		List<ArticleItemDO> articleItemDOs = new ArrayList<ArticleItemDO>();
 		for (ArticleItemVO articleItemVO : articleItems) {
 			ArticleItemDO articleItemDO = new ArticleItemDO();
 			BeanUtils.copyProperties(articleItemVO, articleItemDO);
 			articleItemDOs.add(articleItemDO);
 		}
+		articleDTO.setArticleDO(articleDO);
 		articleDTO.setArticleItemDOs(articleItemDOs);
 		return articleDTO;
 	}

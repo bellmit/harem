@@ -97,26 +97,31 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public RcResult<Boolean> modify(ArticleVO articleVO) throws Exception {
+		ArticleDTO articleDTO = ArticleConverter.getArticleDTO(articleVO);
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RcResult<Boolean> regain(long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		RcResult<Boolean> result = articleRepo.updateByStatus(id);
+		return result;
 	}
 
 	@Override
 	public RcResult<Boolean> violation(long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		RcResult<Boolean> result = articleRepo.updateByStatus(id);
+		return result;
 	}
 
 	@Override
-	public RcResult<Boolean> batchViolation(List<Long> idList) {
-		// TODO Auto-generated method stub
-		return null;
+	public RcResult<Boolean> batchViolation(List<Long> idList, int status) {
+		RcResult<Boolean> result = new RcResult<Boolean>();
+		if (CollectionUtils.isEmpty(idList)) {
+			return result;
+		}
+		result = articleRepo.updateStatusByIdList(idList, status);
+		return result;
 	}
 
 }

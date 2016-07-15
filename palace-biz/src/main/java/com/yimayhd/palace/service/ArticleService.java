@@ -20,7 +20,7 @@ public interface ArticleService {
 	 * @param liveListQuery
 	 *            查询条件
 	 * @return H5列表
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception;
 
@@ -72,8 +72,9 @@ public interface ArticleService {
 	 * H5违规（批量）
 	 * 
 	 * @param idList
-	 *            H5idList
+	 * @param status
+	 * @return date:2016年7月15日 author:xmn
 	 */
-	RcResult<Boolean> batchViolation(List<Long> idList);
+	RcResult<Boolean> batchViolation(List<Long> idList, int status);
 
 }

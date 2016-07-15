@@ -23,6 +23,12 @@
                     </td>
                 </tr>
 				<tr>
+                    <td><span class="spColor">*</span>子标题：</td>
+                    <td>
+						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!article.subTitle">
+                    </td>
+                </tr>
+				<tr>
                     <td><span class="spColor">*</span>初始阅读数：</td>
                     <td>
 						 <input type="text" class="form-control summary pv" name="pv"  value="$!article.pv">
