@@ -130,6 +130,8 @@
             if ( obj.length > 0 && "text" == obj.attr("type")) {
                 obj.off().on('keyup',function(){
                     var value = obj.val();
+                    //去掉两头的空格
+                    value   =   value.replace(/^\s+|\s+$/g,"");
                     $("#chosId").val(value);
                     $("#addsecontentId").text(value);
                 });
@@ -172,7 +174,7 @@
             console.log("radioVal="+radioVal);
             console.log("selectVal="+selectVal);
 
-            if(radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST"){
+            if((radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST") || selectVal == "VIEW_TOPIC_DETAIL"){
                 $("#chosId").val($("#addsecontentId").text());
             }
             var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
