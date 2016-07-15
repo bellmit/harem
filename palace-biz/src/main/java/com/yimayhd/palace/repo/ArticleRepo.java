@@ -35,7 +35,7 @@ public class ArticleRepo {
 
 	public RcResult<Boolean> add(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.add", articleDTO);
-		RcResult<Boolean> result = articleClientServiceRef.add(articleDTO);
+		RcResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
 		RepoUtils.resultLog(log, "articleClientServiceRef.add", result);
 		return result;
 	}
@@ -58,6 +58,13 @@ public class ArticleRepo {
 		RepoUtils.requestLog(log, "articleClientServiceRef.updateListByStatus", idList);
 		RcResult<Boolean> result = articleClientServiceRef.updateStatusByIdList(idList, status);
 		RepoUtils.resultLog(log, "articleClientServiceRef.updateListByStatus", result);
+		return result;
+	}
+
+	public RcResult<Boolean> modify(ArticleDTO articleDTO) {
+		RepoUtils.requestLog(log, "articleClientServiceRef.modify", articleDTO);
+		RcResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
+		RepoUtils.resultLog(log, "articleClientServiceRef.modify", result);
 		return result;
 	}
 }

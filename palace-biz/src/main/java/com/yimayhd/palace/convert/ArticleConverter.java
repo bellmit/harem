@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
@@ -54,10 +55,12 @@ public class ArticleConverter {
 		articleDO.setDomainId(Long.valueOf(Constant.DOMAIN_JIUXIU));
 		List<ArticleItemVO> articleItems = articleVO.getArticleItems();
 		List<ArticleItemDO> articleItemDOs = new ArrayList<ArticleItemDO>();
-		for (ArticleItemVO articleItemVO : articleItems) {
-			ArticleItemDO articleItemDO = new ArticleItemDO();
-			BeanUtils.copyProperties(articleItemVO, articleItemDO);
-			articleItemDOs.add(articleItemDO);
+		if (CollectionUtils.isNotEmpty(articleItems)) {
+			for (ArticleItemVO articleItemVO : articleItems) {
+				ArticleItemDO articleItemDO = new ArticleItemDO();
+				BeanUtils.copyProperties(articleItemVO, articleItemDO);
+				articleItemDOs.add(articleItemDO);
+			}
 		}
 		articleDTO.setArticleDO(articleDO);
 		articleDTO.setArticleItemDOs(articleItemDOs);

@@ -101,8 +101,8 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public RcResult<Boolean> modify(ArticleVO articleVO) throws Exception {
 		ArticleDTO articleDTO = ArticleConverter.getArticleDTO(articleVO);
-		// TODO Auto-generated method stub
-		return null;
+		RcResult<Boolean> result = articleRepo.modify(articleDTO);
+		return result;
 	}
 
 	@Override

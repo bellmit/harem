@@ -125,19 +125,9 @@ public class ArticleManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseVo edit(@PathVariable(value = "id") long id, ArticleVO articleVO) throws Exception {
-		ResponseVo responseVo = new ResponseVo();
-		articleVO.setId(id);
-		RcResult<Boolean> result = articleService.modify(articleVO);
-		if (result.isSuccess()) {
-			responseVo.setMessage("添加成功！");
-			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-		} else {
-			responseVo.setMessage(result.getResultMsg());
-			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-		}
-		return responseVo;
+	public String edit(ArticleVO articleVO) throws Exception {
+		articleService.modify(articleVO);
+		return "/success";
 	}
 
 	/**
