@@ -58,7 +58,7 @@
                         <button class="btn btn-default" type="button">创建时间</button>
                     </span>
               
-				<input type="text" class='form-control form-date dateInp' placeholder='' readonly name="gmtCreated" value="$!utilDate.date2StringByDay($!jiuxiuMerchantListQuery.gmtCreated)">
+				<input type="text" class='form-control queryRt form-date dateInp' placeholder='' readonly name="gmtCreated" value="$!utilDate.date2StringByDay($!jiuxiuMerchantListQuery.gmtCreated)">
             </div>
            
             <div class="btn-group">
