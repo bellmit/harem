@@ -51,7 +51,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">买家手机号</button>
                     </span>
-                <input type="text" class="form-control" name="buyerPhone" id="buyerPhone" value="$!orderListQuery.buyerPhone" />
+                 <input type="text" class="form-control" name="buyerPhone" id="buyerPhone" value="$!orderListQuery.buyerPhone" />
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -153,7 +153,7 @@
                         <td>
                             <div>
                                 <div class="txt">$!order.jiuxiuTcBizOrder.buyerNick</div>
-                                <div class="txt">$!order.jiuxiuTcBizOrder.buyerPhone</div>
+                                <div class="txt">$!utilPhone.phoneFormat($!order.jiuxiuTcBizOrder.buyerPhone)</div>
                             </div>
                         </td>
                         <td>

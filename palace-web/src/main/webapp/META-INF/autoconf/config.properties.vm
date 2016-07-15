@@ -44,6 +44,7 @@ actionUploadFilesPath=${actionUploadFilesPath}
 filegw.url=${filegw.url}
 
 resource.path.jiuxiu=${resource.path.jiuxiu}
+resource.path.jiuxiu.app=${resource.path.jiuxiu.app}
 root.path=${root.path}
 env=${env}
 

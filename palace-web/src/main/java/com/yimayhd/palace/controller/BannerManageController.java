@@ -28,6 +28,10 @@ import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
+import com.yimayhd.snscenter.client.result.topic.TopicResult;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.query.MerchantPageQuery;
@@ -65,6 +69,12 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/list", method = RequestMethod.GET)
     public String boothList(Model model,BaseQuery baseQuery) throws Exception {
+        if(StringUtils.isNotEmpty(baseQuery.getBoothCode())){
+            baseQuery.setBoothCode(baseQuery.getBoothCode().trim());
+        }
+        if(StringUtils.isNotEmpty(baseQuery.getBoothName())){
+            baseQuery.setBoothName(baseQuery.getBoothName().trim());
+        }
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
@@ -216,10 +226,14 @@ public class BannerManageController extends BaseController {
             return "/system/banner/showcase/chooseDestination";
         }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){//选目主题
             return "/system/banner/showcase/chooseTheme";
-        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_LIST == type
-                || Constant.SHOWCASE_HOTEL_LIST == type || Constant.SHOWCASE_SCENIC_LIST == type){//选商品列表
+        }else if(Constant.SHOWCASE_ITEM_LIST == type
+                || Constant.SHOWCASE_HOTEL_LIST == type
+                || Constant.SHOWCASE_SCENIC_LIST == type
+                || Constant.SHOWCASE_VIEW_TOPIC_LIST == type
+                || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type
+                || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type){//选列表
             return "/system/banner/showcase/chooseItemList";
-        }else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL == type){//选商品详情
+        }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
             return "/system/banner/showcase/chooseItemDetail";
         }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){//选达人或美食
             return "/system/banner/showcase/chooseDaRenMeiShiDetail";
@@ -240,93 +254,172 @@ public class BannerManageController extends BaseController {
         result.put("type", type);
         result.put("PageNumber", pageNumber);
         result.put("pageSize", pageSize);
-        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION  ==  type){//选目的地
-            RegionQuery rq = new RegionQuery();
-            rq.setNeedCount(true);
-            rq.setPageNo(pageNumber);
-            rq.setStatus(RegionStatus.VALID.getStatus());
-            rq.setPageSize(0  ==  pageSize ? Constant.DEFAULT_PAGE_SIZE_TEN:pageSize);
-            rq.setType(RegionType.JIUXIU_REGION.getType());
-            PageVO page = showcaseService.getRegionDOListByType(rq);
-            result.put("pageVo", page);
-            return new ResponseVo(result);
-        }else if(Constant.SHOWCASE_SHOE_TYPE_THEME  ==  type){//选主题
-            TagInfoPageDTO tag = new TagInfoPageDTO();
-            tag.setDomain(1200);
-            tag.setOutType(code);
-            tag.setNeedCount(true);
-            tag.setPageNo(pageNumber);
-            tag.setPageSize(pageSize);
-            PageVO<ComTagDO> page = showcaseService.getTagListByTagType(tag);
-            result.put("pageVo", page);
-        }else if(Constant.SHOWCASE_HOTEL_LIST  ==  type){ //酒店列表
-            HotelPageQuery sp = new HotelPageQuery();
-            sp.setNeedCount(true);
-            sp.setPageNo(pageNumber);
-            sp.setPageSize(pageSize);
-            sp.setDomain(1200);
-            sp.setStatus(ItemStatus.valid.getValue());
-            if(NumberUtils.isNumber(keyWord)){
-                sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
-            }else if(StringUtils.isNotEmpty(keyWord)){
-                sp.setTags(keyWord);
-            }
-            PageVO<ShowCaseItem> page = showcaseService.getHotelList(sp);
-            result.put("pageVo", page);
-        }else if(Constant.SHOWCASE_SCENIC_LIST  ==  type){ //选景区列表
-            ScenicPageQuery sp = new ScenicPageQuery();
-            sp.setNeedCount(true);
-            sp.setPageNo(pageNumber);
-            sp.setPageSize(pageSize);
-            sp.setDomain(1200);
-            sp.setStatus(ItemStatus.valid.getValue());
-            if(NumberUtils.isNumber(keyWord)){
-                sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
-            }else if(StringUtils.isNotEmpty(keyWord)){
-                sp.setTags(keyWord);
-            }
-            PageVO<ShowCaseItem> page = showcaseService.getScenicList(sp);
-            result.put("pageVo", page);
-        }
-        else if(Constant.SHOWCASE_SHOE_TYPE_ITEM_DETAIL  ==  type){//选商品详情,列表
-            ItemQryDTO query = new ItemQryDTO();
-            query.setDomains(Arrays.asList(1200,1100));
-
-            query.setPageNo(pageNumber);
-            query.setPageSize(pageSize);
-            query.setStatus(Arrays.asList(ItemStatus.valid.getValue()));
-            if(NumberUtils.isNumber(keyWord)){
-                query.setId(Long.parseLong(keyWord));
-            }else if(StringUtils.isNotEmpty(keyWord)){
-                query.setName(keyWord);
-            }
-            if(null != ItemType.getByName(code)){ //商品详情这里不确定
-                query.setItemType(null == ItemType.getByName(code) ? 0 : ItemType.getByName(code).getValue());
-            }
-            PageVO<ShowCaseItem> page = showcaseService.getItemByItemOptionDTO(query);
-            result.put("pageVo", page);
-        }else if (Constant.SHOWCASE_SHOE_TYPE_MASTER  ==  type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL  ==  type){//达人的，美食的,店铺首页
-            MerchantPageQuery merchantQuery = new MerchantPageQuery();
-            MerchantOption option = MerchantOption.valueOfName(code);
-            merchantQuery.setDomainId(1200);
-            merchantQuery.setPageNo(pageNumber);
-            merchantQuery.setNeedCount(true);
-            merchantQuery.setStatus(MerchantStatus.ONLINE.getCode());
-            if(null != option){
-                merchantQuery.setOption(option.getOption());
-            }
-            if(NumberUtils.isNumber(keyWord)){
-                merchantQuery.setCityCode(Integer.parseInt(keyWord));
-            }else if(StringUtils.isNotEmpty(keyWord)){
-                merchantQuery.setName(keyWord);
-            }
-            PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery,option);
-            result.put("pageVo", page);
+        switch (type){
+            case Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION : //选目的地
+                getRegion(pageNumber,pageSize,result);
+                break;
+            case Constant.SHOWCASE_SHOE_TYPE_THEME : //选主题
+                getTagList(pageNumber,pageSize,result,code);
+                break;
+            case Constant.SHOWCASE_HOTEL_LIST : //选酒店列表
+                getHotelList(pageNumber,pageSize,result,keyWord);
+                break;
+            case Constant.SHOWCASE_SCENIC_LIST ://选景区列表
+                getScenicList(pageNumber,pageSize,result,keyWord);
+                break;
+            case Constant.SHOWCASE_ITEM_DETAIL ://选商品详情
+                getItem(pageNumber,pageSize,result,code,keyWord);
+                break;
+            case Constant.SHOWCASE_SHOE_TYPE_MASTER ://达人的，美食的,店铺首页
+                getMerchants(pageNumber,pageSize,result,code,keyWord);
+                break;
+            case Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL ://达人的，美食的,店铺首页
+                getMerchants(pageNumber,pageSize,result,code,keyWord);
+                break;
+            case Constant.SHOWCASE_VIEW_TOPIC_DETAIL ://话题详情
+                getTopicList(pageNumber,pageSize,result,keyWord);
+                break;
+            case Constant.SHOWCASE_MASTER_CIRCLE_DETAIL ://选达人圈详情
+                result = getUgcPageList(pageNumber,pageSize,result,keyWord);
+                break;
+            /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
+                getScenicList(pageNumber,pageSize,result,keyWord);
+                break;*/
         }
         return new ResponseVo(result);
     }
 
-    /*@RequestMapping(value = "/operation/list", method = RequestMethod.GET)
+    public Map<String, Object> getUgcPageList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
+       SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+        subjectInfoDTO.setNeedCount(true);
+        subjectInfoDTO.setPageNo(pageNumber);
+        subjectInfoDTO.setPageSize(pageSize);
+        if(NumberUtils.isNumber(keyWord)){
+            subjectInfoDTO.setId(Long.parseLong(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            subjectInfoDTO.setTextContent(keyWord);
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getUgcPageList(subjectInfoDTO);
+        result.put("pageVo", page);
+        return result;
+    }
+
+    public Map<String, Object> getTopicList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
+        TopicQueryListDTO topicQueryListDTO = new TopicQueryListDTO();
+        topicQueryListDTO.setNeedCount(true);
+        topicQueryListDTO.setPageNo(pageNumber);
+        topicQueryListDTO.setPageSize(pageSize);
+        if(NumberUtils.isNumber(keyWord)){
+            topicQueryListDTO.setId(Long.parseLong(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            topicQueryListDTO.setTitle(keyWord);
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getTopicPageList(topicQueryListDTO);
+        result.put("pageVo", page);
+        return result;
+    }
+
+
+    public Map<String, Object> getMerchants(int pageNumber,int pageSize,Map<String, Object> result,String code,String keyWord){
+        MerchantPageQuery merchantQuery = new MerchantPageQuery();
+        MerchantOption option = MerchantOption.valueOfName(code);
+        merchantQuery.setDomainId(1200);
+        merchantQuery.setPageNo(pageNumber);
+        merchantQuery.setNeedCount(true);
+        merchantQuery.setStatus(MerchantStatus.ONLINE.getCode());
+        if(null != option){
+            merchantQuery.setOption(option.getOption());
+        }
+        if(NumberUtils.isNumber(keyWord)){
+            merchantQuery.setCityCode(Integer.parseInt(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            merchantQuery.setName(keyWord);
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getMerchants(merchantQuery,option);
+        result.put("pageVo", page);
+        return result;
+    }
+
+
+    public Map<String, Object> getItem(int pageNumber,int pageSize,Map<String, Object> result,String code,String keyWord){
+        ItemQryDTO query = new ItemQryDTO();
+        query.setDomains(Arrays.asList(1200,1100));
+
+        query.setPageNo(pageNumber);
+        query.setPageSize(pageSize);
+        query.setStatus(Arrays.asList(ItemStatus.valid.getValue()));
+        if(NumberUtils.isNumber(keyWord)){
+            query.setId(Long.parseLong(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            query.setName(keyWord);
+        }
+        if(null != ItemType.getByName(code)){ //商品详情这里不确定
+            query.setItemType(null == ItemType.getByName(code) ? 0 : ItemType.getByName(code).getValue());
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getItemByItemOptionDTO(query);
+        result.put("pageVo", page);
+        return result;
+    }
+
+    public Map<String, Object> getScenicList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
+        ScenicPageQuery sp = new ScenicPageQuery();
+        sp.setNeedCount(true);
+        sp.setPageNo(pageNumber);
+        sp.setPageSize(pageSize);
+        sp.setDomain(1200);
+        sp.setStatus(ItemStatus.valid.getValue());
+        if(NumberUtils.isNumber(keyWord)){
+            sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            sp.setTags(keyWord);
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getScenicList(sp);
+        result.put("pageVo", page);
+        return result;
+    }
+
+    public Map<String, Object> getHotelList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
+        HotelPageQuery sp = new HotelPageQuery();
+        sp.setNeedCount(true);
+        sp.setPageNo(pageNumber);
+        sp.setPageSize(pageSize);
+        sp.setDomain(1200);
+        sp.setStatus(ItemStatus.valid.getValue());
+        if(NumberUtils.isNumber(keyWord)){
+            sp.setIds(Arrays.asList(Long.parseLong(keyWord)));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            sp.setTags(keyWord);
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getHotelList(sp);
+        result.put("pageVo", page);
+        return result;
+    }
+
+    public Map<String, Object> getTagList(int pageNumber,int pageSize,Map<String, Object> result,String code){
+        TagInfoPageDTO tag = new TagInfoPageDTO();
+        tag.setDomain(1200);
+        tag.setOutType(code);
+        tag.setNeedCount(true);
+        tag.setPageNo(pageNumber);
+        tag.setPageSize(pageSize);
+        PageVO<ComTagDO> page = showcaseService.getTagListByTagType(tag);
+        result.put("pageVo", page);
+        return result;
+    }
+
+    public Map<String, Object> getRegion(int pageNumber,int pageSize,Map<String, Object> result){
+        RegionQuery rq = new RegionQuery();
+        rq.setNeedCount(true);
+        rq.setPageNo(pageNumber);
+        rq.setStatus(RegionStatus.VALID.getStatus());
+        rq.setPageSize(0  ==  pageSize ? Constant.DEFAULT_PAGE_SIZE_TEN:pageSize);
+        rq.setType(RegionType.JIUXIU_REGION.getType());
+        PageVO page = showcaseService.getRegionDOListByType(rq);
+        result.put("pageVo", page);
+        return result;
+    }
+
+    @RequestMapping(value = "/operation/list", method = RequestMethod.GET)
     public String operationList(Model model,BaseQuery baseQuery) throws Exception {
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
@@ -339,12 +432,11 @@ public class BannerManageController extends BaseController {
         return "/system/banner/operation/edit";
     }
 
-
     @RequestMapping(value = "/operation/add", method = RequestMethod.POST)
     public String operationAdd(Model model) throws Exception {
 
         return "/system/banner/booth/list";
-    }*/
+    }
 
 
     @RequestMapping(value = "/appversion/list", method = RequestMethod.GET)
@@ -352,13 +444,9 @@ public class BannerManageController extends BaseController {
         String codeVal = request.getParameter("codeVal");
         if(StringUtils.isNotEmpty(codeVal) ){
             codeVal = codeVal.replaceAll("\\s*", "");
-            if(NumberUtils.isNumber(codeVal)){
-                query.setCode(Integer.parseInt(codeVal));
-            }
+            if(NumberUtils.isNumber(codeVal)){query.setCode(Integer.parseInt(codeVal));}
         }
-        if(StringUtils.isNotEmpty(query.getName())){
-            query.setName(query.getName().replaceAll("\\s*", ""));
-        }
+        if(StringUtils.isNotEmpty(query.getName())){query.setName(query.getName().replaceAll("\\s*", ""));}
         PageVO<AppVersionDO> page = boothService.getAppVersionList(query);
         model.addAttribute("query",query);
         model.addAttribute("pageVo",page);
@@ -382,8 +470,6 @@ public class BannerManageController extends BaseController {
         }
         return "success";
     }
-
-
 
 
 }

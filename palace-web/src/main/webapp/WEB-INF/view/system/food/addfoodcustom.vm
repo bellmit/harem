@@ -20,7 +20,7 @@
 	<div class="bgmeng"></div>
 	<div class="dlgcont"><label></label></div>
 </div>
-<input type="hidden" id="upldpath" value="$!filegw_url">
+<input type="hidden" id="upldpath" value="$!filegw_url/file/upload_string">
 <table class="addfood">
 		
 	<tr>

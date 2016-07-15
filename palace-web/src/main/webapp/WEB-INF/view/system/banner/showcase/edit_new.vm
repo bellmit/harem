@@ -131,6 +131,8 @@
             if ( obj.length > 0 && "text" == obj.attr("type")) {
                 obj.off().on('keyup',function(){
                     var value = obj.val();
+                    //去掉两头的空格
+                    value   =   value.replace(/^\s+|\s+$/g,"");
                     $("#chosId").val(value);
                     $("#addsecontentId").text(value);
                 });
@@ -173,7 +175,7 @@
             console.log("radioVal="+radioVal);
             console.log("selectVal="+selectVal);
 
-            if(radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST"){
+            if((radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST") || selectVal == "VIEW_TOPIC_DETAIL"){
                 $("#chosId").val($("#addsecontentId").text());
             }
             var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
@@ -276,6 +278,17 @@
                 msg.show();
                 return ;
             }
+            //如果是积分，广告限制在10个字内
+            var temp = "JIUXIU_INTEGRALMALL_RECOMMEND";
+            var boothCode = $("#boothCodeId").val();
+            if(temp == boothCode){
+                var leng = getStringLength(operationContentZH);
+                if(leng > 20){
+                    var msg = new $.zui.Messager('广告语不能超过10个字符', {placement: 'center',type:'warning',time:'1000'});
+                    msg.show();
+                    return ;
+                }
+            }
 
             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add',
                     {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
@@ -351,7 +364,13 @@
                 layer.msg('图片上传失败，请重试', {icon: 2});
             }
         }
-
+        var getStringLength = function(str) {
+            if (str == null) return 0;
+            if (typeof str != "string"){
+                str += "";
+            }
+            return str.replace(/[^\x00-\xff]/g,"01").length;
+        }
 
 
 </script>

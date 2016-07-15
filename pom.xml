@@ -25,9 +25,11 @@
 		<user.client.version>1.8.1-SNAPSHOT</user.client.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
+
 		<snscenter.client.version>1.1.0-SNAPSHOT</snscenter.client.version>
 		<resourcecenter.client.version>1.0.9.1-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.4-SNAPSHOT</membercenter.client.version>
+
 
 		<paycore.client.version>1.0.1-SNAPSHOT</paycore.client.version>
 		<tradecenter.client.version>1.0.13-SNAPSHOT</tradecenter.client.version>

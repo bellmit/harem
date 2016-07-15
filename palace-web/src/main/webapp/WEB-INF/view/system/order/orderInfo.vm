@@ -138,9 +138,9 @@
        	#end
     </div>
     <br><br>
-    ##如果是特产商品并且是已发货，则显示发货信息
+    ##如果是特产商品并且是已发货、已完成，则显示发货信息
     #if($order.bizOrder.orderType == 200)
-    	#if($!order.bizOrder.orderStatus == 6)
+    	#if($!order.bizOrder.orderStatus == 6 || $!order.bizOrder.orderStatus == 10)
 			<div class="contacts">
 		    	<div class="lType">物流信息</div>
 		        <table class="table table-hover">
@@ -196,9 +196,9 @@
     <div class="orderInfo">
         <div class="lType">订单商品信息</div>
         <div>
-            <span>订单总额：￥$!utilNum.moneyTransform($!order.iteamPrice_)</span>
-            <span>已优惠：￥$!utilNum.moneyTransform($!order.value)</span>
-    		<span>积分抵扣：￥$!utilNum.moneyTransform($!order.userPointNum)</span>
+            <span>订单总额：￥$!utilNum.moneyTransform($!order.iteamPrice_)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>已优惠：-￥$!utilNum.moneyTransform($!order.value)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    		<span>积分抵扣：-￥$!utilNum.moneyTransform($!order.userPointNum)</span>&nbsp;&nbsp;&nbsp;&nbsp;
     		<span>实付金额：￥$!utilNum.moneyTransform($!order.totalFee)</span>
         </div>
         <table class="table table-hover">
