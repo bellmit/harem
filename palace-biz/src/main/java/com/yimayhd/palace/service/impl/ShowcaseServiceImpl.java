@@ -23,6 +23,7 @@ import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemBizQueryService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ShowCaseItem;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.ShowcaseService;
@@ -357,7 +358,15 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setTitle(sw.getTitle());
         sd.setSummary(sw.getSummary());
         sd.setBoothContent(sw.getBoothContent());
-        sd.setOperationContent(StringUtils.isEmpty(sw.getOperationContent())?"":sw.getOperationContent().trim());
+        if(StringUtils.isEmpty(sw.getOperationContent())){
+            sd.setOperationContent("");
+        }else{
+            String oc = sw.getOperationContent().trim();
+            if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){
+                oc = oc.replaceAll(Constant.TOPIC_PREFIX_SUFFIX,"");
+            }
+            sd.setOperationContent(oc);
+        }
         sd.setContent(sw.getContent());
         sd.setShowcaseFeature(sw.getShowcaseFeature());
         sd.setStatus(sw.getStatus());//状态是手动改的
@@ -365,7 +374,15 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setSerialNo(sw.getSerialNo());
         sd.setGmtModified(new Date());
         Map<String,String> map = new HashMap<String,String>();
-        map.put("operationContentZH",StringUtils.isEmpty(sw.getOperationContentZH())?" ":sw.getOperationContentZH().trim());
+        if(StringUtils.isEmpty(sw.getOperationContentZH())){
+            map.put("operationContentZH","");
+        }else{
+            String ocZH = sw.getOperationContentZH().trim();
+            if(ocZH.contains(Constant.TOPIC_PREFIX_SUFFIX)){
+                ocZH = ocZH.replaceAll(Constant.TOPIC_PREFIX_SUFFIX,"");
+            }
+            map.put("operationContentZH",ocZH);
+        }
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));
         sd.setFeature(FeatureUtil.toString(map));
