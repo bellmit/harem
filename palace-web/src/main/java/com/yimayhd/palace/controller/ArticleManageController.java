@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -102,6 +103,30 @@ public class ArticleManageController extends BaseController {
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 		return "/success";
+	}
+
+	/**
+	 * 根据商品id获取相关信息
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getArticleItemDetailById/{id}/{type}")
+	@ResponseBody
+	public ResponseVo getArticleItemDetailById(@PathVariable("id") long id, @PathVariable("type") int type)
+			throws Exception {
+		try {
+			ResponseVo responseVo = new ResponseVo();
+			ArticleItemVO articleItemVO = articleService.getArticleItemDetailById(id, type);
+			if (articleItemVO == null) {
+				return ResponseVo.error();
+			}
+			responseVo.setData(articleItemVO);
+			return responseVo;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**

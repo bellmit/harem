@@ -86,27 +86,32 @@ public class ArticleConverter {
 				ItemDO itemDO = itemDOMap.get(itemId);
 				MerchantDO merchantDO = merchantDOMap.get(itemDO.getSellerId());
 				// TODO 商品详情
-				articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
-				articleProductItemVO.setItemPrice(Float.valueOf(itemDO.getPrice()));
-				articleProductItemVO.setItemTitle(itemDO.getTitle());
-				articleProductItemVO.setItemType(ItemType.get(itemDO.getItemType()).getText());
-				articleProductItemVO.setMerchantLogo(merchantDO.getLogo());
-				articleProductItemVO.setMerchantName(merchantDO.getName());
-				ItemFeature itemFeature = itemDO.getItemFeature();
-				if (itemFeature != null) {
-					List<IcSubject> subjects = itemFeature.getSubjects();
-					String itemPicTitle = "";
-					for (IcSubject icSubject : subjects) {
-						String txt = icSubject.getTxt();
-						itemPicTitle += txt + "   ";
-					}
-					articleProductItemVO.setItemTag(itemPicTitle);
-				}
-				articleItemVO.setArticleProductItemVO(articleProductItemVO);
+				ItemDOToArticleProductItemVO(articleItemVO, articleProductItemVO, itemDO, merchantDO);
 			}
 			articleItems.add(articleItemVO);
 		}
 		articleVO.setArticleItems(articleItems);
 		return articleVO;
+	}
+
+	public static void ItemDOToArticleProductItemVO(ArticleItemVO articleItemVO,
+			ArticleProductItemVO articleProductItemVO, ItemDO itemDO, MerchantDO merchantDO) {
+		articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
+		articleProductItemVO.setItemPrice(Float.valueOf(itemDO.getPrice()));
+		articleProductItemVO.setItemTitle(itemDO.getTitle());
+		articleProductItemVO.setItemType(ItemType.get(itemDO.getItemType()).getText());
+		articleProductItemVO.setMerchantLogo(merchantDO.getLogo());
+		articleProductItemVO.setMerchantName(merchantDO.getName());
+		ItemFeature itemFeature = itemDO.getItemFeature();
+		if (itemFeature != null) {
+			List<IcSubject> subjects = itemFeature.getSubjects();
+			String itemPicTitle = "";
+			for (IcSubject icSubject : subjects) {
+				String txt = icSubject.getTxt();
+				itemPicTitle += txt + "   ";
+			}
+			articleProductItemVO.setItemTag(itemPicTitle);
+		}
+		articleItemVO.setArticleProductItemVO(articleProductItemVO);
 	}
 }

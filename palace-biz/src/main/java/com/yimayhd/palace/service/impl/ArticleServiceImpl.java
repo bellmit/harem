@@ -10,21 +10,27 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.ArticleBiz;
 import com.yimayhd.palace.convert.ArticleConverter;
+import com.yimayhd.palace.model.ArticleItemVO;
+import com.yimayhd.palace.model.ArticleProductItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.repo.ArticleRepo;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.palace.util.DateUtil;
-import com.yimayhd.resourcecenter.domain.ArticleDO;
-import com.yimayhd.resourcecenter.domain.ArticleItemDO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
+import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
+import com.yimayhd.user.client.result.BaseResult;
 
 /**
  * H5文章
@@ -44,7 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
 	public PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception {
 		// 查询条件对接
 		ArticleQueryDTO articleQueryDTO = new ArticleQueryDTO();
-		articleQueryDTO.setPageNo(articleListQuery.getPageSize());
 		articleQueryDTO.setPageNo(articleListQuery.getPageNumber());
 		articleQueryDTO.setPageSize(articleListQuery.getPageSize());
 		// 状态
@@ -127,4 +132,25 @@ public class ArticleServiceImpl implements ArticleService {
 		return result;
 	}
 
+	@Override
+	public ArticleItemVO getArticleItemDetailById(long id, int type) {
+		ArticleItemVO articleItemVO = new ArticleItemVO();
+		if (type == ArticleItemType.PRODUCT.getValue()) {
+			ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
+			ItemResult itemResult = articleRepo.getItemById(id);
+			if (itemResult == null || !itemResult.isSuccess() || itemResult.getItem() == null) {
+				return null;
+			}
+			ItemDO itemDO = itemResult.getItem();
+			long sellerId = itemDO.getSellerId();
+			BaseResult<MerchantUserDTO> result = articleRepo.getMerchantBySellerId(sellerId);
+			if (result == null || result.getValue() == null) {
+				return null;
+			}
+			MerchantUserDTO merchantUserDTO = result.getValue();
+			ArticleConverter.ItemDOToArticleProductItemVO(articleItemVO, articleProductItemVO, itemDO,
+					merchantUserDTO.getMerchantDO());
+		}
+		return articleItemVO;
+	}
 }
