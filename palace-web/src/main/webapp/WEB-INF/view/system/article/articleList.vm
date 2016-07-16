@@ -66,7 +66,7 @@
                     #foreach($article in $articleList)
                     <tr class="subCheckedTR">
                         <td><input class="subChecked" type="checkbox" value="$!{article.id}"></td>
-                        <td>$!article.frontcover</td>
+                        <td><img height="80" width="100" src="$utilWebconfig.getTfsRootPath()$!article.frontcover"></td>
                         <td>$!article.title</td>
                         <td>$!utilDate.dateToString($!article.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
 						<td>$!article.pv</td>

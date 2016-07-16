@@ -50,7 +50,7 @@
                 </tr>
                 <tr>
                     <td><span class="spColor">*</span>发布时间</td>
-                    <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!article.gmtCreated" ></td>
+                    <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!utilDate.dateToString($!{article.gmtCreated},"yyyy-MM-dd HH:mm")" ></td>
                 </tr>
         </table>
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
