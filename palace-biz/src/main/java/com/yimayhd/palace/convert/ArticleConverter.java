@@ -20,9 +20,6 @@ import com.yimayhd.palace.util.RegExpValidator;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
 import com.yimayhd.resourcecenter.domain.ArticleItemDO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
-import com.yimayhd.resourcecenter.entity.Article;
-import com.yimayhd.resourcecenter.entity.ArticleItem;
-import com.yimayhd.resourcecenter.entity.ArticleProductItem;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.user.client.domain.MerchantDO;
 
