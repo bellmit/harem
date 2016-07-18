@@ -8,6 +8,7 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/style.css"/>
 
 <style type="text/css">
     .demo {width: 850px;margin: 20px auto;display: none;}
