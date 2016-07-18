@@ -2,10 +2,15 @@ package com.yimayhd.palace.biz;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.commission.convert.PictureTextConverter;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
+import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
 import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.palace.result.BizResult;
@@ -19,7 +24,8 @@ import com.yimayhd.user.client.result.BaseResult;
  *
  */
 public class MerchantBiz {
-
+	
+	private static final Logger log = LoggerFactory.getLogger("MerchantBiz");
 	@Autowired
 	private MerchantRepo merchantRepo;
 	public BizResultSupport addDeliciousFood(MerchantVO vo) {
@@ -50,5 +56,16 @@ public class MerchantBiz {
 	
 	public BizResult<TalentInfoDTO> queryTalentInfoByUserId (long userId,int domainId) {
 		return merchantRepo.queryTalentInfoByUserId(userId, domainId);
+	}
+	
+	public PictureTextVO getPictureText(long id) {
+		PictureTextVO pictureTextVO = null;
+		try {
+			PicTextResult picTextResult = merchantRepo.getPictureText(id);
+			pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
+		} catch (Exception e) {
+			log.error("params:id={} ,exception:{}",id,e);
+		}
+		return pictureTextVO; 
 	}
 }

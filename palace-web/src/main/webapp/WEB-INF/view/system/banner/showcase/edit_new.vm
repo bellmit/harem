@@ -123,6 +123,7 @@
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
             autotxt();
+            $('.selectpages').change(function(){$('#addsecontentId').text('')});
         });
 
         function autotxt(){  //如果是输入框的话，填什么 下面展示什么
