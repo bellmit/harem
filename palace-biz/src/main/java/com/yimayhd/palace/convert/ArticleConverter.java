@@ -41,7 +41,7 @@ public class ArticleConverter {
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 			articleItemVOList.add(articleItemVO);
 		}
-		articleVO.setArticleItems(articleItemVOList);
+		articleVO.setArticleItemList(articleItemVOList);
 		return articleVO;
 	}
 
@@ -50,7 +50,7 @@ public class ArticleConverter {
 		ArticleDO articleDO = new ArticleDO();
 		BeanUtils.copyProperties(articleVO, articleDO);
 		articleDO.setDomainId(Long.valueOf(Constant.DOMAIN_JIUXIU));
-		List<ArticleItemVO> articleItems = articleVO.getArticleItems();
+		List<ArticleItemVO> articleItems = articleVO.getArticleItemList();
 		List<ArticleItemDO> articleItemDOs = new ArrayList<ArticleItemDO>();
 		if (CollectionUtils.isNotEmpty(articleItems)) {
 			for (ArticleItemVO articleItemVO : articleItems) {
@@ -86,7 +86,7 @@ public class ArticleConverter {
 			}
 			articleItems.add(articleItemVO);
 		}
-		articleVO.setArticleItems(articleItems);
+		articleVO.setArticleItemList(articleItems);
 		return articleVO;
 	}
 

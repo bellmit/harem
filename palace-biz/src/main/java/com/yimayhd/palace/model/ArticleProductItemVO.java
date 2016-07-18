@@ -10,21 +10,13 @@ import java.io.Serializable;
  */
 public class ArticleProductItemVO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Float itemPrice;
+	private float itemPrice;
 	private String itemTitle;
 	private String merchantName;
 	private String merchantLogo;
 	private String itemType;
 	private String itemPic;
 	private String itemTag;
-
-	public Float getItemPrice() {
-		return itemPrice;
-	}
-
-	public void setItemPrice(Float itemPrice) {
-		this.itemPrice = itemPrice;
-	}
 
 	public String getItemTitle() {
 		return itemTitle;
@@ -72,6 +64,14 @@ public class ArticleProductItemVO implements Serializable {
 
 	public void setItemTag(String itemTag) {
 		this.itemTag = itemTag;
+	}
+
+	public float getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(float itemPrice) {
+		this.itemPrice = itemPrice;
 	}
 
 }

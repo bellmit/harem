@@ -12,49 +12,57 @@ import java.util.Date;
 public class ArticleItemVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private long id;
 
-	private Long articleId;
+	private long articleId;
 
-	private Integer type;
+	private int type;
 
-	private Integer subType;
+	private int subType;
 
 	private String title;
 
 	private String content;
 
-	private Integer status;
+	private int status;
 
-	private Long sort;
+	private long sort;
 
 	private Date gmtCreated;
 
 	private Date gmtModified;
 	private ArticleProductItemVO articleProductItemVO;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public Long getArticleId() {
+	public long getArticleId() {
 		return articleId;
 	}
 
-	public void setArticleId(Long articleId) {
+	public void setArticleId(long articleId) {
 		this.articleId = articleId;
 	}
 
-	public Integer getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(int type) {
 		this.type = type;
+	}
+
+	public int getSubType() {
+		return subType;
+	}
+
+	public void setSubType(int subType) {
+		this.subType = subType;
 	}
 
 	public String getTitle() {
@@ -62,7 +70,7 @@ public class ArticleItemVO implements Serializable {
 	}
 
 	public void setTitle(String title) {
-		this.title = title == null ? null : title.trim();
+		this.title = title;
 	}
 
 	public String getContent() {
@@ -70,22 +78,22 @@ public class ArticleItemVO implements Serializable {
 	}
 
 	public void setContent(String content) {
-		this.content = content == null ? null : content.trim();
+		this.content = content;
 	}
 
-	public Integer getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public Long getSort() {
+	public long getSort() {
 		return sort;
 	}
 
-	public void setSort(Long sort) {
+	public void setSort(long sort) {
 		this.sort = sort;
 	}
 
@@ -105,14 +113,6 @@ public class ArticleItemVO implements Serializable {
 		this.gmtModified = gmtModified;
 	}
 
-	public Integer getSubType() {
-		return subType;
-	}
-
-	public void setSubType(Integer subType) {
-		this.subType = subType;
-	}
-
 	public ArticleProductItemVO getArticleProductItemVO() {
 		return articleProductItemVO;
 	}
@@ -120,4 +120,5 @@ public class ArticleItemVO implements Serializable {
 	public void setArticleProductItemVO(ArticleProductItemVO articleProductItemVO) {
 		this.articleProductItemVO = articleProductItemVO;
 	}
+
 }

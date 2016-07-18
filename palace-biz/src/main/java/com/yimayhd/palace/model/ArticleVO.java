@@ -16,41 +16,41 @@ public class ArticleVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private long id;
 
-	private Long domainId;
+	private long domainId;
 
 	private String title;
-	
+
 	private String subTitle;
 
 	private String frontcover;
 
-	private Integer status;
-	
-	private Integer type;
+	private int status;
 
-	private Long pv;
+	private int type;
+
+	private long pv;
 
 	private Date gmtCreated;
 
 	private Date gmtModified;
-	
+
 	private List<ArticleItemVO> articleItemList;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public Long getDomainId() {
+	public long getDomainId() {
 		return domainId;
 	}
 
-	public void setDomainId(Long domainId) {
+	public void setDomainId(long domainId) {
 		this.domainId = domainId;
 	}
 
@@ -59,7 +59,15 @@ public class ArticleVO implements Serializable {
 	}
 
 	public void setTitle(String title) {
-		this.title = title == null ? null : title.trim();
+		this.title = title;
+	}
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
 	}
 
 	public String getFrontcover() {
@@ -67,22 +75,30 @@ public class ArticleVO implements Serializable {
 	}
 
 	public void setFrontcover(String frontcover) {
-		this.frontcover = frontcover == null ? null : frontcover.trim();
+		this.frontcover = frontcover;
 	}
 
-	public Integer getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public Long getPv() {
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public long getPv() {
 		return pv;
 	}
 
-	public void setPv(Long pv) {
+	public void setPv(long pv) {
 		this.pv = pv;
 	}
 
@@ -102,27 +118,12 @@ public class ArticleVO implements Serializable {
 		this.gmtModified = gmtModified;
 	}
 
-	public List<ArticleItemVO> getArticleItems() {
+	public List<ArticleItemVO> getArticleItemList() {
 		return articleItemList;
 	}
 
-	public void setArticleItems(List<ArticleItemVO> articleItems) {
-		this.articleItemList = articleItems;
+	public void setArticleItemList(List<ArticleItemVO> articleItemList) {
+		this.articleItemList = articleItemList;
 	}
 
-	public Integer getType() {
-		return type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	public String getSubTitle() {
-		return subTitle;
-	}
-
-	public void setSubTitle(String subTitle) {
-		this.subTitle = subTitle;
-	}
 }
