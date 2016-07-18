@@ -49,7 +49,7 @@ public class ArticleBiz {
 		HashMap<Long, MerchantDO> merchantDOMap = new HashMap<Long, MerchantDO>();
 		// 封装商品详情
 		for (ArticleItemDO articleItemDO : articleItemDOs) {
-			if (articleItemDO.getType().equals(ArticleItemType.PRODUCT.getValue())) {
+			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
 				itemIdSet.add(Long.parseLong(articleItemDO.getContent()));
 			}
 		}

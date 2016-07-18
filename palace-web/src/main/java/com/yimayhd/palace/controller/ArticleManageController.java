@@ -1,9 +1,6 @@
 package com.yimayhd.palace.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -24,9 +20,8 @@ import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.model.enums.ArticleStauts;
-import com.yimayhd.resourcecenter.model.enums.ArticleSubType;
 import com.yimayhd.resourcecenter.model.enums.ArticleType;
-import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.model.result.ResourceResult;
 
 /**
  * 文章管理
@@ -94,7 +89,7 @@ public class ArticleManageController extends BaseController {
 		// articleItemList.add(articleItemVO);
 		// }
 		// articleVO.setArticleItems(articleItemList);
-		RcResult<Boolean> result = articleService.add(articleVO);
+		ResourceResult<Boolean> result = articleService.add(articleVO);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
@@ -165,7 +160,7 @@ public class ArticleManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		RcResult<Boolean> result = articleService.violation(id);
+		ResourceResult<Boolean> result = articleService.violation(id);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
@@ -187,7 +182,7 @@ public class ArticleManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo close(@PathVariable("id") long id) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		RcResult<Boolean> result = articleService.regain(id);
+		ResourceResult<Boolean> result = articleService.regain(id);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
@@ -210,7 +205,7 @@ public class ArticleManageController extends BaseController {
 	public ResponseVo batchViolation(@RequestParam("articleIdList[]") ArrayList<Long> articleIdList) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
 		int status = ArticleStauts.OFFLINE.getValue();
-		RcResult<Boolean> result = articleService.batchViolation(articleIdList, status);
+		ResourceResult<Boolean> result = articleService.batchViolation(articleIdList, status);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

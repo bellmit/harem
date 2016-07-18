@@ -6,7 +6,8 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
-import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.model.result.ResourceResult;
+import com.yimayhd.resourcecenter.model.result.ResourceResult;
 
 /**
  * H5文章
@@ -42,7 +43,7 @@ public interface ArticleService {
 	 * @return H5对象
 	 * @throws Exception
 	 */
-	RcResult<Boolean> add(ArticleVO articleVO) throws Exception;
+	ResourceResult<Boolean> add(ArticleVO articleVO) throws Exception;
 
 	/**
 	 * 修改H5
@@ -51,7 +52,7 @@ public interface ArticleService {
 	 *            H5内容
 	 * @throws Exception
 	 */
-	RcResult<Boolean> modify(ArticleVO articleVO) throws Exception;
+	ResourceResult<Boolean> modify(ArticleVO articleVO) throws Exception;
 
 	/**
 	 * H5恢复
@@ -59,7 +60,7 @@ public interface ArticleService {
 	 * @param id
 	 *            H5ID
 	 */
-	RcResult<Boolean> regain(long id) throws Exception;
+	ResourceResult<Boolean> regain(long id) throws Exception;
 
 	/**
 	 * H5违规
@@ -67,7 +68,7 @@ public interface ArticleService {
 	 * @param id
 	 *            H5ID
 	 */
-	RcResult<Boolean> violation(long id) throws Exception;
+	ResourceResult<Boolean> violation(long id) throws Exception;
 
 	/**
 	 * H5违规（批量）
@@ -76,7 +77,7 @@ public interface ArticleService {
 	 * @param status
 	 * @return date:2016年7月15日 author:xmn
 	 */
-	RcResult<Boolean> batchViolation(List<Long> idList, int status);
+	ResourceResult<Boolean> batchViolation(List<Long> idList, int status);
 
 	ArticleItemVO getArticleItemDetailById(long id, int type);
 

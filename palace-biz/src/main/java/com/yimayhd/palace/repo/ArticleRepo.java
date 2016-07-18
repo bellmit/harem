@@ -14,7 +14,7 @@ import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
-import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.resourcecenter.service.ArticleClientService;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
@@ -44,37 +44,37 @@ public class ArticleRepo {
 		return result;
 	}
 
-	public RcResult<Boolean> add(ArticleDTO articleDTO) {
+	public ResourceResult<Boolean> add(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.add", articleDTO);
-		RcResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
+		ResourceResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
 		RepoUtils.resultLog(log, "articleClientServiceRef.add", result);
 		return result;
 	}
 
-	public RcResult<ArticleDTO> getArticleById(long id) {
+	public ResourceResult<ArticleDTO> getArticleById(long id) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.getArticleById", id);
-		RcResult<ArticleDTO> result = articleClientServiceRef.getArticleById(id);
-		RepoUtils.resultLog(log, "articleClientServiceRef.getArticleById", result);
+		ResourceResult<ArticleDTO> result = articleClientServiceRef.getArticleById(id);
+		RepoUtils.resultLog(log, "articleClientServiceRef.add", result);
 		return result;
 	}
 
-	public RcResult<Boolean> updateByStatus(long id) {
+	public ResourceResult<Boolean> updateByStatus(long id) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.updateByStatus", id);
-		RcResult<Boolean> result = articleClientServiceRef.updateStatusById(id);
+		ResourceResult<Boolean> result = articleClientServiceRef.updateStatusById(id);
 		RepoUtils.resultLog(log, "articleClientServiceRef.updateByStatus", result);
 		return result;
 	}
 
-	public RcResult<Boolean> updateStatusByIdList(List<Long> idList, int status) {
+	public ResourceResult<Boolean> updateStatusByIdList(List<Long> idList, int status) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.updateListByStatus", idList);
-		RcResult<Boolean> result = articleClientServiceRef.updateStatusByIdList(idList, status);
+		ResourceResult<Boolean> result = articleClientServiceRef.updateStatusByIdList(idList, status);
 		RepoUtils.resultLog(log, "articleClientServiceRef.updateListByStatus", result);
 		return result;
 	}
 
-	public RcResult<Boolean> modify(ArticleDTO articleDTO) {
+	public ResourceResult<Boolean> modify(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleClientServiceRef.modify", articleDTO);
-		RcResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
+		ResourceResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
 		RepoUtils.resultLog(log, "articleClientServiceRef.modify", result);
 		return result;
 	}

@@ -28,7 +28,7 @@ import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
-import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
 
@@ -87,44 +87,44 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleVO getArticleById(long id) throws Exception {
-		RcResult<ArticleDTO> rcResult = articleRepo.getArticleById(id);
-		if (rcResult == null || !rcResult.isSuccess() || rcResult.getT() == null) {
+		ResourceResult<ArticleDTO> ResourceResult = articleRepo.getArticleById(id);
+		if (ResourceResult == null || !ResourceResult.isSuccess() || ResourceResult.getT() == null) {
 			return null;
 		}
-		ArticleDTO articleDTO = rcResult.getT();
+		ArticleDTO articleDTO = ResourceResult.getT();
 		ArticleVO articleVO = articleBiz.getArticle(articleDTO);
 		return articleVO;
 	}
 
 	@Override
-	public RcResult<Boolean> add(ArticleVO articleVO) throws Exception {
+	public ResourceResult<Boolean> add(ArticleVO articleVO) throws Exception {
 		ArticleDTO articleDTO = ArticleConverter.getArticleDTO(articleVO);
-		RcResult<Boolean> result = articleRepo.add(articleDTO);
+		ResourceResult<Boolean> result = articleRepo.add(articleDTO);
 		return result;
 	}
 
 	@Override
-	public RcResult<Boolean> modify(ArticleVO articleVO) throws Exception {
+	public ResourceResult<Boolean> modify(ArticleVO articleVO) throws Exception {
 		ArticleDTO articleDTO = ArticleConverter.getArticleDTO(articleVO);
-		RcResult<Boolean> result = articleRepo.modify(articleDTO);
+		ResourceResult<Boolean> result = articleRepo.modify(articleDTO);
 		return result;
 	}
 
 	@Override
-	public RcResult<Boolean> regain(long id) throws Exception {
-		RcResult<Boolean> result = articleRepo.updateByStatus(id);
+	public ResourceResult<Boolean> regain(long id) throws Exception {
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id);
 		return result;
 	}
 
 	@Override
-	public RcResult<Boolean> violation(long id) throws Exception {
-		RcResult<Boolean> result = articleRepo.updateByStatus(id);
+	public ResourceResult<Boolean> violation(long id) throws Exception {
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id);
 		return result;
 	}
 
 	@Override
-	public RcResult<Boolean> batchViolation(List<Long> idList, int status) {
-		RcResult<Boolean> result = new RcResult<Boolean>();
+	public ResourceResult<Boolean> batchViolation(List<Long> idList, int status) {
+		ResourceResult<Boolean> result = new ResourceResult<Boolean>();
 		if (CollectionUtils.isEmpty(idList)) {
 			return result;
 		}

@@ -74,7 +74,7 @@ public class ArticleConverter {
 		for (ArticleItemDO articleItemDO : articleItemDOs) {
 			ArticleItemVO articleItemVO = new ArticleItemVO();
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
-			if (articleItemDO.getType().equals(ArticleItemType.PRODUCT.getValue())) {
+			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
 				ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
 				Long itemId = 0L;
 				if (RegExpValidator.IsNumber(articleItemDO.getContent())) {
@@ -82,7 +82,6 @@ public class ArticleConverter {
 				}
 				ItemDO itemDO = itemDOMap.get(itemId);
 				MerchantDO merchantDO = merchantDOMap.get(itemDO.getSellerId());
-				// TODO 商品详情
 				ItemDOToArticleProductItemVO(articleItemVO, articleProductItemVO, itemDO, merchantDO);
 			}
 			articleItems.add(articleItemVO);
