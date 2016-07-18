@@ -60,6 +60,8 @@ public class TopicServiceImpl implements TopicService {
 		//景区状态
 		if (StringUtils.isNotBlank(topicListQuery.getStatus())) {			
 			pageQuery.setStatus(Integer.parseInt(topicListQuery.getStatus()));
+		}else{
+			pageQuery.setStatus(-1);
 		}
 		//是否有描述
 		if (topicListQuery.getHasContent() != null) {			
