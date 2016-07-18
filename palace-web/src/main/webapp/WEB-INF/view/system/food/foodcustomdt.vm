@@ -1,7 +1,9 @@
-﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
+﻿﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <link type="text/css" rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/admin.css" />
 <link rel="stylesheet" type="text/css" href="$rs_js_css_path_jiuxiu/css/jquery-ui.css" />
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
+
 </head>
 <body>
 <div class="loading">
@@ -69,10 +71,19 @@
 			<td><label>经度：</label>$!numberFormatHelper.formatDoubleNumber($!merchant.lon)&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label>$!numberFormatHelper.formatDoubleNumber($!merchant.lat)</td>
 		</tr>
 		<tr>
+		<td class="tit"><span>*</span><label>图文详情：</label></td>
+		<td style="height:500px;">
+		#parse("system/layout/pictureText.vm")
+		</td>
+	</tr>
+		<tr>
 			<td colspan="2" class="save"><a href="" class="abtn backBtn">返回</a></td>
 		</tr>
 	</table>
-
+<script src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("comediter");</script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.addfoodcustom.js"></script>
 </body>
 </html>
