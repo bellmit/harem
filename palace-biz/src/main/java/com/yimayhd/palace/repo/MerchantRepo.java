@@ -80,11 +80,6 @@ public class MerchantRepo {
 				resultSupport.setSuccess(false);
 				
 			}
-			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
-			PictureTextVO pictureTextVO = new PictureTextVO();
-			pictureTextVO.setPictureTextItems(pictureTextItems);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(saveMerchantResult.getValue().getId(), PictureText.FOOD, pictureTextVO);
-			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(saveMerchantResult));
 		} catch (Exception e) {
 			log.error("add merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception:{} "+e);
@@ -115,11 +110,6 @@ public class MerchantRepo {
 				resultSupport.setMsg(updateMerchantResult.getErrorMsg());
 				resultSupport.setSuccess(false);
 			}
-			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
-			PictureTextVO pictureTextVO = new PictureTextVO();
-			pictureTextVO.setPictureTextItems(pictureTextItems);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(vo.getId(), PictureText.FOOD, pictureTextVO);
-			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(updateMerchantResult));
 		} catch (Exception e) {
 			log.error("update merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception is "+e);
