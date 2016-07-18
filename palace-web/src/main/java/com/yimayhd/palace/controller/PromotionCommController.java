@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
@@ -46,7 +46,7 @@ public class PromotionCommController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(HttpServletRequest request, Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
         actPromotionPageQuery.setLotteryType(EntityType.ITEM.getType());
-        PageVO<ActActivityDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
+        PageVO<ActActivityPromotionDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
         List<PromotionType> promotionTypeList = PromotionHelper.getAvaiableItemPromotionTypes();
         List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());
         model.addAttribute("promotionListQuery",actPromotionPageQuery);

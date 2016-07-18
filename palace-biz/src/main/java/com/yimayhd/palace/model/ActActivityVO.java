@@ -1,11 +1,12 @@
 package com.yimayhd.palace.model;
 
 import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 
 /**
  * Created by czf on 2016/2/6.
  */
-public class ActActivityVO extends ActActivityDO {
+public class ActActivityVO extends ActActivityPromotionDO {
 	private static final long serialVersionUID = 1L;
 
 	private int entityType;
