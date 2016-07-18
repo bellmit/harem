@@ -1,0 +1,30 @@
+
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
+<style type="text/css">
+	
+	.topicbox p{
+		margin:5px;
+		padding:0px;
+	}
+	
+</style>
+		
+<!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+
+<div class="topicbox">
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+	<p>2016-06-12 13:20:22 最新结算结果已返回</p>
+</div>

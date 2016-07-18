@@ -1,0 +1,88 @@
+
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
+		
+<!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+<div class="topicbox">
+	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+		
+		<div class="inputGroup whole" style="min-height:45px;">
+			<div class="input-group inpSingle">
+				编号:112212212
+			</div>
+			<div class="input-group inpSingle">
+				名称: 阿斯顿发打发
+			</div>
+			<div class="input-group inpSingle ">
+				用户类型:普通用户
+			</div>
+		</div>
+		
+		<div class="inputGroup whole">
+			<div class="input-group inpSingle">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">交易时间</button>
+                </span>
+				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+			</div>
+			<div class="input-group inpSingle">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">业务流水号</button>
+                </span>
+				<input type="text" class="form-control" name="" value="">
+			</div>
+			<div class="input-group inpSingle ">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">交易类型</button>
+                </span>
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="">
+                    <option value="">全部</option>
+                    <option value="" >结算</option>
+                    <option value="" >提现</option>
+                    <option value="" >消费</option>
+                    <option value="" >退款</option>
+                    <option value="" >充值</option>
+                </select>
+			</div>
+			<div class="btn-group">
+				<button type="submit" class="btn btn-primary search">查询</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary reset">重置</button>
+			</div>
+		</div>
+		
+		<div class="tableGroup whole">
+			<table class="table table-hover topicTable">
+				<tbody>
+					<tr>
+						<th>交易日期</th>
+						<th>业务流水号</th>
+						<th>交易类型</th>
+						<th>收支金额</th>
+						<th>金额</th>
+					</tr>
+					<tr>
+						<td>2016-04-07</td>
+						<td>TX231313232</td>
+						<td>提现</td>
+						<td>-800.00</td>
+						<td>2000.00</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		#parse("/page.vm")
+		#pageStyle("topicListForm")
+	</form>
+</div>
+<script type="text/javascript">
+
+</script>

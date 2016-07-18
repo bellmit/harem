@@ -1,0 +1,52 @@
+
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
+		
+<!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+<div class="topicbox">
+	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+		
+		<div class="inputGroup whole" style="min-height:45px;">
+			<div class="input-group inpSingle">
+				发起日期 ：2016-06-07
+			</div>
+			<div class="input-group inpSingle">
+				回盘时间：2016-06-07 10：00：00
+			</div>
+			<div class="input-group inpSingle ">
+				结算批次号：1
+			</div>
+		</div>
+		
+		<div class="tableGroup whole">
+			<table class="table table-hover topicTable">
+				<tbody>
+					<tr>
+						<th>结算单单号</th>
+						<th>商户编号</th>
+						<th>商户名称</th>
+						<th>结算金额</th>
+						<th>返回结果</th>
+					</tr>
+					<tr>
+						<td>23131313131313</td>
+						<td>12345667</td>
+						<td>云南啊啊旅行社</td>
+						<td>500.00</td>
+						<td>成功</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		#parse("/page.vm")
+		#pageStyle("topicListForm")
+	</form>
+</div>
+<script type="text/javascript">
+
+</script>
