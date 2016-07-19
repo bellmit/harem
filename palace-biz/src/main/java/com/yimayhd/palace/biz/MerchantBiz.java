@@ -62,6 +62,7 @@ public class MerchantBiz {
 	public PictureTextVO getPictureText(long id) {
 		PictureTextVO pictureTextVO = null;
 		try {
+			log.info("==============================id"+id);
 			PicTextResult picTextResult = merchantRepo.getPictureText(id);
 			log.info("=============================="+JSON.toJSONString(picTextResult));
 			pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
