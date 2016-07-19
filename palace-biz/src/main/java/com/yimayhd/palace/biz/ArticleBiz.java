@@ -19,6 +19,7 @@ import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.domain.ArticleItemDO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
+import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
@@ -41,14 +42,16 @@ public class ArticleBiz {
 	private MerchantService merchantService;
 
 	public ArticleVO getArticle(ArticleDTO articleDTO) {
-		List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
+//		List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
+		List<ArticleItemDTO> articleItemDTOs = articleDTO.getArticleItemDTOs();
 		HashSet<Long> itemIdSet = new HashSet<Long>();
 		ArrayList<Long> list = new ArrayList<Long>();
 		List<Long> sellerIdList = new ArrayList<Long>();
 		HashMap<Long, ItemDO> itemDOMap = new HashMap<Long, ItemDO>();
 		HashMap<Long, MerchantDO> merchantDOMap = new HashMap<Long, MerchantDO>();
 		// 封装商品详情
-		for (ArticleItemDO articleItemDO : articleItemDOs) {
+		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
+			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
 			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
 				itemIdSet.add(Long.parseLong(articleItemDO.getContent()));
 			}

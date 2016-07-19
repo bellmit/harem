@@ -14,8 +14,10 @@ import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.resourcecenter.service.ArticleClientService;
+import com.yimayhd.resourcecenter.service.backend.ArticleBackEndService;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
@@ -31,51 +33,51 @@ public class ArticleRepo {
 	public static final int STATUS_DISABLE = 2;
 	public static final int STATUS_ENABLE = 1;
 	@Autowired
-	private ArticleClientService articleClientServiceRef;
+	private ArticleBackEndService articleBackEndServiceRef;
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
 	@Autowired
 	private MerchantService merchantService;
 
-	public RCPageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
-		RepoUtils.requestLog(log, "articleClientServiceRef.pageQueryArticles", articleQueryDTO);
-		RCPageResult<ArticleDTO> result = articleClientServiceRef.queryArticleList(articleQueryDTO);
-		RepoUtils.resultLog(log, "articleClientServiceRef.pageQueryArticles", result);
+	public ResourcePageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
+		RepoUtils.requestLog(log, "articleBackEndServiceRef.pageQueryArticles", articleQueryDTO);
+		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.queryArticleList(articleQueryDTO);
+		RepoUtils.resultLog(log, "articleBackEndServiceRef.pageQueryArticles", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> add(ArticleDTO articleDTO) {
-		RepoUtils.requestLog(log, "articleClientServiceRef.add", articleDTO);
-		ResourceResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
-		RepoUtils.resultLog(log, "articleClientServiceRef.add", result);
+		RepoUtils.requestLog(log, "articleBackEndServiceRef.add", articleDTO);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+		RepoUtils.resultLog(log, "articleBackEndServiceRef.add", result);
 		return result;
 	}
 
 	public ResourceResult<ArticleDTO> getArticleById(long id) {
-		RepoUtils.requestLog(log, "articleClientServiceRef.getArticleById", id);
-		ResourceResult<ArticleDTO> result = articleClientServiceRef.getArticleById(id);
-		RepoUtils.resultLog(log, "articleClientServiceRef.add", result);
+		RepoUtils.requestLog(log, "articleBackEndServiceRef.getArticleById", id);
+		ResourceResult<ArticleDTO> result = articleBackEndServiceRef.getArticleById(id);
+		RepoUtils.resultLog(log, "articleBackEndServiceRef.add", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> updateByStatus(long id) {
-		RepoUtils.requestLog(log, "articleClientServiceRef.updateByStatus", id);
-		ResourceResult<Boolean> result = articleClientServiceRef.updateStatusById(id);
-		RepoUtils.resultLog(log, "articleClientServiceRef.updateByStatus", result);
+		RepoUtils.requestLog(log, "articleBackEndServiceRef.updateByStatus", id);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusById(id);
+		RepoUtils.resultLog(log, "articleBackEndServiceRef.updateByStatus", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> updateStatusByIdList(List<Long> idList, int status) {
-		RepoUtils.requestLog(log, "articleClientServiceRef.updateListByStatus", idList);
-		ResourceResult<Boolean> result = articleClientServiceRef.updateStatusByIdList(idList, status);
-		RepoUtils.resultLog(log, "articleClientServiceRef.updateListByStatus", result);
+		RepoUtils.requestLog(log, "articleBackEndServiceRef.updateListByStatus", idList);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdList(idList, status);
+		RepoUtils.resultLog(log, "articleBackEndServiceRef.updateListByStatus", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> modify(ArticleDTO articleDTO) {
-		RepoUtils.requestLog(log, "articleClientServiceRef.modify", articleDTO);
-		ResourceResult<Boolean> result = articleClientServiceRef.insertOrUpdate(articleDTO);
-		RepoUtils.resultLog(log, "articleClientServiceRef.modify", result);
+		RepoUtils.requestLog(log, "articleBackEndServiceRef.modify", articleDTO);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+		RepoUtils.resultLog(log, "articleBackEndServiceRef.modify", result);
 		return result;
 	}
 

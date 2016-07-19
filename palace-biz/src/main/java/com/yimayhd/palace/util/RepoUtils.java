@@ -7,6 +7,7 @@ import com.yimayhd.commentcenter.client.result.ResultSupport;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
+import com.yimayhd.resourcecenter.model.result.ResourceResultSupport;
 import com.yimayhd.ic.client.model.result.ICErrorCode;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
@@ -159,7 +160,7 @@ public class RepoUtils {
 		}
 	}
 
-	public static void resultLog(Logger log, String method, ResourceResult result) {
+	public static void resultLog(Logger log, String method, ResourceResultSupport result) {
 		String prefix = "ResourceCenter服务接口错误：";
 		if (result == null) {
 			log.error(RESULT_NULL, method);

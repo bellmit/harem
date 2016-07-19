@@ -28,6 +28,7 @@ import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
@@ -63,7 +64,7 @@ public class ArticleServiceImpl implements ArticleService {
 		if (StringUtils.isNotBlank(articleListQuery.getEndTime())) {
 			articleQueryDTO.setEndTime(DateUtil.formatMaxTimeForDate(articleListQuery.getEndTime()));
 		}
-		RCPageResult<ArticleDTO> result = articleRepo.pageQueryArticles(articleQueryDTO);
+		ResourcePageResult<ArticleDTO> result = articleRepo.pageQueryArticles(articleQueryDTO);
 		if (null == result) {
 			log.error("articleClientServiceRef.pageQueryArticles result is null and parame: "
 					+ JSON.toJSONString(articleQueryDTO));

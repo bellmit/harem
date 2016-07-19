@@ -20,6 +20,7 @@ import com.yimayhd.palace.util.RegExpValidator;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
 import com.yimayhd.resourcecenter.domain.ArticleItemDO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
+import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.user.client.domain.MerchantDO;
 
@@ -32,11 +33,12 @@ import com.yimayhd.user.client.domain.MerchantDO;
 public class ArticleConverter {
 	public static ArticleVO getArticleVO(ArticleDTO articleDTO) {
 		ArticleDO articleDO = articleDTO.getArticleDO();
-		List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
+		List<ArticleItemDTO> articleItemDTOs = articleDTO.getArticleItemDTOs();
 		ArticleVO articleVO = new ArticleVO();
 		BeanUtils.copyProperties(articleDO, articleVO);
 		List<ArticleItemVO> articleItemVOList = new ArrayList<ArticleItemVO>();
-		for (ArticleItemDO articleItemDO : articleItemDOs) {
+		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
+			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
 			ArticleItemVO articleItemVO = new ArticleItemVO();
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 			articleItemVOList.add(articleItemVO);
