@@ -42,17 +42,24 @@ public class ArticleBiz {
 	private MerchantService merchantService;
 
 	public ArticleVO getArticle(ArticleDTO articleDTO) {
-//		List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
+		// List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
 		List<ArticleItemDTO> articleItemDTOs = articleDTO.getArticleItemDTOs();
+		HashMap<Long, ItemDO> itemDOMap = new HashMap<Long, ItemDO>();
+		HashMap<Long, MerchantDO> merchantDOMap = new HashMap<Long, MerchantDO>();
+		getItemDoMapAndMerchantDoMap(articleItemDTOs, itemDOMap, merchantDOMap);
+		ArticleVO articleVO = ArticleConverter.getArticleDetailVO(articleDTO, itemDOMap, merchantDOMap);
+		return articleVO;
+	}
+
+	private void getItemDoMapAndMerchantDoMap(List<ArticleItemDTO> articleItemDTOs, HashMap<Long, ItemDO> itemDOMap,
+			HashMap<Long, MerchantDO> merchantDOMap) {
 		HashSet<Long> itemIdSet = new HashSet<Long>();
 		ArrayList<Long> list = new ArrayList<Long>();
 		List<Long> sellerIdList = new ArrayList<Long>();
-		HashMap<Long, ItemDO> itemDOMap = new HashMap<Long, ItemDO>();
-		HashMap<Long, MerchantDO> merchantDOMap = new HashMap<Long, MerchantDO>();
 		// 封装商品详情
 		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
 			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
-			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
+			if (articleItemDO.getType() == ArticleItemType.PRODUCT.getValue()) {
 				itemIdSet.add(Long.parseLong(articleItemDO.getContent()));
 			}
 		}
@@ -81,7 +88,5 @@ public class ArticleBiz {
 				merchantDOMap.put(merchantDO.getSellerId(), merchantDO);
 			}
 		}
-		ArticleVO articleVO = ArticleConverter.getArticleDetailVO(articleDTO, itemDOMap, merchantDOMap);
-		return articleVO;
 	}
 }

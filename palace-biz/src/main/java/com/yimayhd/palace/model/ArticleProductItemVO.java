@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * H5文章
@@ -16,7 +17,7 @@ public class ArticleProductItemVO implements Serializable {
 	private String merchantLogo;
 	private String itemType;
 	private String itemPic;
-	private String itemTag;
+	private List<String> itemTagList;
 
 	public String getItemTitle() {
 		return itemTitle;
@@ -58,20 +59,20 @@ public class ArticleProductItemVO implements Serializable {
 		this.itemPic = itemPic;
 	}
 
-	public String getItemTag() {
-		return itemTag;
-	}
-
-	public void setItemTag(String itemTag) {
-		this.itemTag = itemTag;
-	}
-
 	public float getItemPrice() {
 		return itemPrice;
 	}
 
 	public void setItemPrice(float itemPrice) {
 		this.itemPrice = itemPrice;
+	}
+
+	public List<String> getItemTagList() {
+		return itemTagList;
+	}
+
+	public void setItemTagList(List<String> itemTagList) {
+		this.itemTagList = itemTagList;
 	}
 
 }

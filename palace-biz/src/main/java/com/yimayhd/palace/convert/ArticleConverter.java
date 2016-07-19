@@ -103,12 +103,11 @@ public class ArticleConverter {
 		ItemFeature itemFeature = itemDO.getItemFeature();
 		if (itemFeature != null) {
 			List<IcSubject> subjects = itemFeature.getSubjects();
-			String itemPicTitle = "";
+			List<String> itemTagList=new ArrayList<String>();
 			for (IcSubject icSubject : subjects) {
-				String txt = icSubject.getTxt();
-				itemPicTitle += txt + "   ";
+				itemTagList.add(icSubject.getTxt());
 			}
-			articleProductItemVO.setItemTag(itemPicTitle);
+			articleProductItemVO.setItemTagList(itemTagList);
 		}
 		articleItemVO.setArticleProductItemVO(articleProductItemVO);
 	}
