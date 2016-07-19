@@ -19,6 +19,9 @@ public class ShowCaseItem implements Serializable{
     public String showStatus; //显示状态
     public String pushDate;//发布时间
 
+    public int appVersion;
+    public String code;
+
     public long getId() {
         return id;
     }
@@ -89,5 +92,21 @@ public class ShowCaseItem implements Serializable{
 
     public void setPushDate(String pushDate) {
         this.pushDate = pushDate;
+    }
+
+    public int getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(int appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

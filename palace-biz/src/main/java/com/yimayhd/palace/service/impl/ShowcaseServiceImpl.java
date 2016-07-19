@@ -37,6 +37,7 @@ import com.yimayhd.resourcecenter.model.enums.OperationStatusType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
+import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
@@ -569,5 +570,28 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return result.getValue();
     }
 
+    public PageVO<ShowCaseItem> getBoothPageList(BoothQuery boothQuery){
+        RCPageResult<BoothDO> result = boothClientServer.getBoothDOByQuery(boothQuery);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        List<BoothDO> list = result.getList();
+        List<ShowCaseItem> listBooth = boothToShowCaseItem(list);
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(boothQuery.getPageNo(), boothQuery.getPageSize(),result.getTotalCount(),listBooth);
+        return page;
+    }
+
+    public List<ShowCaseItem> boothToShowCaseItem(List<BoothDO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        for (BoothDO oo:list ) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getName());//标题
+            sc.setCode(oo.getCode());
+            sc.setAppVersion(oo.getAppVersion());
+            listSC.add(sc);
+        }
+        return listSC;
+    }
 
 }

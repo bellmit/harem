@@ -24,6 +24,7 @@ import com.yimayhd.palace.service.ThemeService;
 import com.yimayhd.resourcecenter.domain.AppVersionDO;
 import com.yimayhd.resourcecenter.model.enums.*;
 import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
+import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
@@ -104,6 +105,15 @@ public class BannerManageController extends BaseController {
      */
     @RequestMapping(value = "/booth/add", method = RequestMethod.POST)
     public String boothAdd(Model model,BoothVO boothVO) throws Exception {
+        //校验
+        if(null==boothVO || org.apache.commons.lang3.StringUtils.isEmpty(boothVO.getCode()) || org.apache.commons.lang3.StringUtils.isEmpty(boothVO.getName())){
+            model.addAttribute("message","参数错误");
+            return "error";
+        }
+        if(boothVO.getName().contains(Constant.BOOTH_NAME_FORBID)){
+            model.addAttribute("message","booth名称中不能包含_");
+            return "error";
+        }
         boothService.add(boothVO);
         return "success";
     }
@@ -231,13 +241,18 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_SCENIC_LIST == type
                 || Constant.SHOWCASE_VIEW_TOPIC_LIST == type
                 || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type
-                || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type){//选列表
+                || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type
+                ){//选列表
             return "/system/banner/showcase/chooseItemList";
         }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
             return "/system/banner/showcase/chooseItemDetail";
         }else if(Constant.SHOWCASE_SHOE_TYPE_MASTER == type || Constant.SHOWCASE_SHOE_TYPE_FOOD_DETAIL == type){//选达人或美食
             return "/system/banner/showcase/chooseDaRenMeiShiDetail";
+        }else if(Constant.SHOWCASE_NEST_BOOTH_LIST == type){//booth列表
+            return "/system/banner/showcase/chooseItemListVersion";
         }
+
+
         return "error";
     }
 
@@ -282,11 +297,29 @@ public class BannerManageController extends BaseController {
             case Constant.SHOWCASE_MASTER_CIRCLE_DETAIL ://选达人圈详情
                 result = getUgcPageList(pageNumber,pageSize,result,keyWord);
                 break;
+            case Constant.SHOWCASE_NEST_BOOTH_LIST ://booth列表
+                result = getBoothPageList(pageNumber,pageSize,result,keyWord);
+                break;
             /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);
                 break;*/
         }
         return new ResponseVo(result);
+    }
+
+    public Map<String, Object> getBoothPageList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
+        BoothQuery boothQuery = new BoothQuery();
+        boothQuery.setNeedCount(true);
+        boothQuery.setPageNo(pageNumber);
+        boothQuery.setPageSize(pageSize);
+        if(NumberUtils.isNumber(keyWord)){
+            boothQuery.setCode(keyWord);
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            boothQuery.setName(keyWord);
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getBoothPageList(boothQuery);
+        result.put("pageVo", page);
+        return result;
     }
 
     public Map<String, Object> getUgcPageList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
@@ -442,6 +475,10 @@ public class BannerManageController extends BaseController {
     @RequestMapping(value = "/appversion/list", method = RequestMethod.GET)
     public String list(Model model,AppVersionQuery query) throws Exception {
         String codeVal = request.getParameter("codeVal");
+        String pageNumber = request.getParameter("pageNumber");
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(pageNumber) && NumberUtils.isNumber(pageNumber)){
+            query.setPageNo(Integer.parseInt(pageNumber));
+        }
         if(StringUtils.isNotEmpty(codeVal) ){
             codeVal = codeVal.replaceAll("\\s*", "");
             if(NumberUtils.isNumber(codeVal)){query.setCode(Integer.parseInt(codeVal));}

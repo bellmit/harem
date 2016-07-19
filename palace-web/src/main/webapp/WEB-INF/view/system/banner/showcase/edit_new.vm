@@ -207,7 +207,11 @@
             var isRegion = false;
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
                 var sce = win.getItems();
-                console.log(sce);
+                console.log("---"+sce instanceof Array);
+                for(var i in sce) {
+                    console.log("==="+sce[i].id+"-"+sce[i].name);
+                }
+                return ;
                 var picUrl = sce.imgUrl;
                 if(picUrl !== null && picUrl !== undefined && picUrl !== '' && picUrl !== 'null'){
                     var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;

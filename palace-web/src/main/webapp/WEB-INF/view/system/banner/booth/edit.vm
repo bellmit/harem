@@ -10,6 +10,16 @@
                     <td><span class="spColor">*</span>名称：</td>
                     <td> <input type="text" class="inpCtlBlock name" name="name"  value=""></td>
                 </tr>
+
+                <tr>
+                    <td>主标题：</td>
+                    <td> <input type="text" class="inpCtlBlock description" name="title"  value=""></td>
+                </tr>
+                <tr>
+                    <td>副标题：</td>
+                    <td> <input type="text" class="inpCtlBlock description" name="subTitle"  value=""></td>
+                </tr>
+
                 <tr>
                     <td>描述：</td>
                     <td> <input type="text" class="inpCtlBlock description" name="desc"  value=""></td>

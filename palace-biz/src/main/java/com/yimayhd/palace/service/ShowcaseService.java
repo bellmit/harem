@@ -13,6 +13,7 @@ import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
+import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
@@ -135,5 +136,13 @@ public interface ShowcaseService {
      * @throws
      */
     public SnsSubjectDO getSubjectInfo(SubjectInfoDTO subjectInfoDTO);
+
+    /**
+     * 查询booth列表
+     * @parameter
+     * @return
+     * @throws
+     */
+    public PageVO<ShowCaseItem> getBoothPageList(BoothQuery boothQuery);
 
 }

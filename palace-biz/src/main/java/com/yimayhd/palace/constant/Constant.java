@@ -37,6 +37,7 @@ public class Constant {
 	public static final int SHOWCASE_MASTER_CIRCLE_DETAIL = 12;//达人圈详情
 	public static final int SHOWCASE_VIEW_TOPIC_DETAIL = 13;//话题详情
 	public static final int SHOWCASE_VIEW_TOPIC_LIST = 14;//话题列表
+	public static final int SHOWCASE_NEST_BOOTH_LIST = 15;//booth列表（嵌套booth）
 
 	public static final String DOT = ".";
 	public static final String COMMA = ",";
@@ -67,4 +68,5 @@ public class Constant {
 	public static final String TOPIC_REPEAT = "该话题已存在，不需要重复添加";
 	public static final String TOPIC_SUG_REPEAT = "该话题已推荐，不需要重复推荐";
 
+	public static final String BOOTH_NAME_FORBID = "_";
 }

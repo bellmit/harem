@@ -75,22 +75,22 @@
 			tbody.append(tr);
 		}
 		$(".selectResourceTable").append(table);
-		// 初始化特效
-		initTable();
-		// 已经选择的打上标记
-		$(".resources").each(function(){
-			var rId = $(this).attr("rId");
-			var rName = $(this).attr("rName");
-			$("tr[data-id^='resource_"+rId+"_']").addClass("active");
-		});
-	}
-	// 获得最终结果
-	function getItems() {
-		var result = [];
-		$(".resources").each(function(){
-			var rId = $(this).attr("rId");
-			result.push(resource_table[rId]);
-		});
-		return result;
-	}
+        // 初始化特效
+        initTable();
+        // 已经选择的打上标记
+        $(".resources").each(function(){
+            var rId = $(this).attr("rId");
+            var rName = $(this).attr("rName");
+            $("input[id='radio_"+rId+"']").attr("checked", "checked");
+        });
+    }
+    // 获得最终结果
+    function getItems() {
+        if($(".resources").length > 0) {
+            var rId = $(".resources").attr("rId");
+            return resource_table[rId];
+        } else {
+            return null;
+        }
+    }
 </script>
