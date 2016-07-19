@@ -85,6 +85,8 @@
 	
 	<!-- 话题 -->
 	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
-
+	
+	<!-- 对账 -->
+	<bean class="com.yimayhd.palace.service.impl.AuditServiceImpl"></bean>
 
 </beans>

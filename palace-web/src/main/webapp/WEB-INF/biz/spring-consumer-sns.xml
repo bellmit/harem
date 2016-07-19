@@ -45,4 +45,12 @@
         <property name="check" value="${consumer.dubbo.sns.check}"/>
         <property name="version" value="${consumer.dubbo.sns.version}"/>
     </bean>
+    <bean id="auditServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.audit.AuditService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.sns.check}"/>
+        <property name="version" value="${consumer.dubbo.sns.version}"/>
+    </bean>
 </beans>
