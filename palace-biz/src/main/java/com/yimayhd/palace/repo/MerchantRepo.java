@@ -216,7 +216,7 @@ public class MerchantRepo {
 		}
 		
 		// 图文详情
-		return  pictureTextRepo.getPictureText(id, PictureText.SHOP);
+		return  pictureTextRepo.getPictureText(id, PictureText.FOOD);
 		
 	}
 }
