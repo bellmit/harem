@@ -80,7 +80,7 @@
 			</div>
 		#end
 		
-		<div class="tableGroup whole">
+		<div class="tableGroup whole" style="word-break:break-all;">
 			<table class="table table-hover topicTable">
 				<tbody>
 					<tr>
