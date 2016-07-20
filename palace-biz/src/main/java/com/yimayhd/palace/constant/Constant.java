@@ -1,5 +1,9 @@
 package com.yimayhd.palace.constant;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 
  * @author wzf
@@ -68,5 +72,5 @@ public class Constant {
 	public static final String TOPIC_REPEAT = "该话题已存在，不需要重复添加";
 	public static final String TOPIC_SUG_REPEAT = "该话题已推荐，不需要重复推荐";
 
-	public static final String BOOTH_NAME_FORBID = "_";
+	public static final List<String> BOOTH_NAME_FORBID = Arrays.asList("|","_");
 }

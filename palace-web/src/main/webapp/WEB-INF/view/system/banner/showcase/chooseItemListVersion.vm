@@ -28,21 +28,21 @@
                 // 取消的删除
                 $(".resourceTable tbody tr").each(function() {
                     var data_id = $(this).attr("id");
-                    var str = data_id.split("_");
+                    var str = data_id.split("|");
                     if(event.checks.checks.indexOf(data_id)==-1) {
                         $("#r_"+str[1]).remove();
                     }
                 });
                 // 新增的添加
                 $(event.checks.checks).each(function() {
-                    var str = this.split("_");
+                    var str = this.split("|");
                     var rId = str[1];
                     var rName = str[2];
                     if($("#r_"+str[1]).length <= 0) {
                         var btn = $("<button class='btn btn-info resources'></button>");
                         // check
                         btn.click(function(){
-                            $("tr[data-id^='resource_"+$(this).attr("rId")+"_']").removeClass("active");
+                            $("tr[data-id^='resource|"+$(this).attr("rId")+"|']").removeClass("active");
                             $(this).remove();
                         });
                         btn.attr("id","r_"+rId);
@@ -76,9 +76,9 @@
                 name = "";
             }else{
                 name = item.name.replace(/<[^<>]+?>/g,'');
-                name = name.replace("_","-");
+                name = name.replace("|","");
             }
-            var tr = $("<tr id='resource_"+item.id+"_"+name+"_"+item.code+"'></tr>");
+            var tr = $("<tr id='resource|"+item.id+"|"+name +"|"+item.code +"|"+item.appVersion  +"'></tr>");
             tr.append($("<td>"+item.id+"</td>"));
             tr.append($("<td>"+item.code+"</td>"));
             tr.append($("<td>"+ name +"</td>"));
@@ -104,4 +104,17 @@
             return null;
         }
     }
+
+    function getItemss() {
+        var arr =[];
+        jQuery.each($('.checked-resource button'),function(i){
+            var aid=$(this).attr('rid');
+            var res = resource_table[aid];
+            arr.push(res);
+        });
+        JSON.stringify("arr="+arr)
+        return arr;
+    }
+
+
 </script>

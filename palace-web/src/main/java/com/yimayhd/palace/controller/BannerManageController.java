@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -110,8 +111,8 @@ public class BannerManageController extends BaseController {
             model.addAttribute("message","参数错误");
             return "error";
         }
-        if(boothVO.getName().contains(Constant.BOOTH_NAME_FORBID)){
-            model.addAttribute("message","booth名称中不能包含_");
+        if(Constant.BOOTH_NAME_FORBID.contains(boothVO.getName())){
+            model.addAttribute("message","booth名称中不能包含"+ JSON.toJSONString(Constant.BOOTH_NAME_FORBID));
             return "error";
         }
         boothService.add(boothVO);
