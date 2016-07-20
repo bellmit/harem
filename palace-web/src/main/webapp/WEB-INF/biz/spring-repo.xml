@@ -35,4 +35,5 @@
 	
 	<bean id="auditRepo" class="com.yimayhd.palace.repo.AuditRepo" />
 	<bean id="accountRepo" class="com.yimayhd.palace.repo.AccountRepo" />
+	<bean id="settlementRepo" class="com.yimayhd.palace.repo.SettlementRepo" />
 </beans>

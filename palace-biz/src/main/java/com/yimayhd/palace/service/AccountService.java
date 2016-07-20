@@ -13,12 +13,12 @@ public interface AccountService {
 	 * @param query
 	 * @return
 	 */
-	public EleAccBalanceResultVO queryEleAccBalance(AccountQuery query) throws Exception;
+	EleAccBalanceResultVO queryEleAccBalance(AccountQuery query) throws Exception;
 	
 	/**
 	 * 账户余额明细
 	 * @param query
 	 * @return
 	 */
-	public PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query) throws Exception;
+	PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query) throws Exception;
 }

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">
-		
+
 <!--[if lt IE 8]>
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
@@ -17,9 +17,9 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">发起日期</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="startTime" value="">
 				<span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="endTime" value="">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
@@ -74,12 +74,25 @@
 		#pageStyle("topicListForm")
 	</form>
 </div>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
 <script type="text/javascript">
-
+	
 	(function(){
 	
+		$(".form-date").datetimepicker({
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+	
 		$('.detail').click(function(){
-	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settle/detail';
+	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settlement/detail';
 			window.parent.tabsAdd("addTopic", url, 2, "结算单详情");
 	    });
 	    
@@ -94,7 +107,7 @@
 	    });
 	    
 	    $('.operateLog').click(function(){
-	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settle/operateLog';
+	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settlement/operateLog';
 			layer.open({
 			  type: 2,
 			  title: "操作记录",

@@ -40,7 +40,7 @@ public class AuditServiceImpl implements AuditService {
 		AuditProgressQuery queryDO = AuditQuery.getAuditProgressQuery(query);
 		PayPageResultDTO<PayAuditResultDO> result = auditRepo.queryAuditProgress(queryDO);
 		if(result == null){
-			log.error("auditRepo.queryAuditProgress return value is null !returnValue :" + JSON.toJSONString(result));
+			log.error("auditRepo.queryAuditProgress return value is null !returnValue : {}", JSON.toJSONString(result));
 			return new PageVO<PayAuditResultVO>();
 		}
 		
@@ -60,7 +60,7 @@ public class AuditServiceImpl implements AuditService {
 		AuditResultQuery queryDO = AuditQuery.getAuditResultQuery(query);
 		AuditResult result = auditRepo.queryAuditResult(queryDO);
 		if(result == null){
-			log.error("auditRepo.queryAuditResult return value is null !returnValue :" + JSON.toJSONString(result));
+			log.error("auditRepo.queryAuditResult return value is null !returnValue : {}", JSON.toJSONString(result));
 			return new ArrayList<AuditResultVO>();
 		}
 		
@@ -80,7 +80,7 @@ public class AuditServiceImpl implements AuditService {
 		AuditOrderQuery queryDO = AuditQuery.getAuditOrderQuery(query);
 		PayPageResultDTO<PayAuditOrderDO> result = auditRepo.queryAuditOrder(queryDO);
 		if(result == null){
-			log.error("auditRepo.queryAuditProgress return value is null !returnValue :" + JSON.toJSONString(result));
+			log.error("auditRepo.queryAuditProgress return value is null !returnValue : {}", JSON.toJSONString(result));
 			return new PageVO<PayAuditOrderVO>();
 		}
 		

@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
 		EleAccBalanceQuery queryDO = AccountQuery.getEleAccBalanceQuery(query);
 		EleAccBalanceResult result = accountRepo.queryEleAccBalance(queryDO);
 		if(result == null){
-			log.error("accountRepo.queryEleAccBalance return value is null !returnValue :" + JSON.toJSONString(result));
+			log.error("accountRepo.queryEleAccBalance return value is null !returnValue : {}", JSON.toJSONString(result));
 			return resultVO;
 		}
 		
@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
 		EleAccBillDetailQuery queryDO = AccountQuery.getEleAccBillDetailQuery(query);
 		PayPageResultDTO<EleAccountBillDTO> result = accountRepo.queryEleAccBillDetail(queryDO);
 		if(result == null){
-			log.error("accountRepo.queryEleAccBillDetail return value is null !returnValue :" + JSON.toJSONString(result));
+			log.error("accountRepo.queryEleAccBillDetail return value is null !returnValue : {}", JSON.toJSONString(result));
 			return new PageVO<EleAccountBillVO>();
 		}
 		

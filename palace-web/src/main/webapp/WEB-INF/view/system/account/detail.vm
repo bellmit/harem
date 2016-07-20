@@ -83,6 +83,23 @@
 		#pageStyle("topicListForm")
 	</form>
 </div>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
 <script type="text/javascript">
-
+	
+	(function(){
+	
+		$(".form-date").datetimepicker({
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+        
+	})();
+	
 </script>

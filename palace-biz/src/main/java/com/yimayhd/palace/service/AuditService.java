@@ -16,19 +16,19 @@ public interface AuditService {
 	 * @param auditProgressQuery
 	 * @return
 	 */
-	public PageVO<PayAuditResultVO> queryAuditProgress(AuditQuery query) throws Exception;
+	PageVO<PayAuditResultVO> queryAuditProgress(AuditQuery query) throws Exception;
 	
 	/**
 	 * 渠道对账汇总查询
 	 * @param query
 	 * @return
 	 */
-	public List<AuditResultVO> queryAuditResult(AuditQuery query) throws Exception;
+	List<AuditResultVO> queryAuditResult(AuditQuery query) throws Exception;
 	
 	/**
 	 * 渠道对账明细查询
 	 * @param auditOrderQuery
 	 * @return
 	 */
-	public PageVO<PayAuditOrderVO> queryAuditOrder(AuditQuery query) throws Exception;
+	PageVO<PayAuditOrderVO> queryAuditOrder(AuditQuery query) throws Exception;
 }
