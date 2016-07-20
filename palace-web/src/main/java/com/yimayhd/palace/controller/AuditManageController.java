@@ -40,7 +40,7 @@ public class AuditManageController extends BaseController {
 		
 		PageVO<PayAuditResultVO> pageVo = auditService.queryAuditProgress(query);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("auditQuery", query);
+		model.addAttribute("query", query);
 		
 		return "/system/audit/schedule";
 	}
@@ -56,7 +56,7 @@ public class AuditManageController extends BaseController {
 		
 		List<AuditResultVO> pageVo = auditService.queryAuditResult(query);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("auditQuery", query);
+		model.addAttribute("query", query);
 		
 		return "/system/audit/summary";
 	}
@@ -72,7 +72,7 @@ public class AuditManageController extends BaseController {
 		
 		PageVO<PayAuditOrderVO> pageVo = auditService.queryAuditOrder(query);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("auditQuery", query);
+		model.addAttribute("query", query);
 		
 		return "/system/audit/detail";
 	}

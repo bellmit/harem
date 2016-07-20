@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.palace.base.BaseController;
-import com.yimayhd.palace.tair.TcCacheManager;
-import com.yimayhd.user.session.manager.SessionManager;
+import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.EleAccBalanceResultVO;
+import com.yimayhd.palace.model.EleAccountBillVO;
+import com.yimayhd.palace.model.query.AccountQuery;
+import com.yimayhd.palace.service.AccountService;
 
 /** 
 * @ClassName: AccountManageController 
@@ -21,9 +24,7 @@ import com.yimayhd.user.session.manager.SessionManager;
 public class AccountManageController extends BaseController {
 	
 	@Autowired
-	private SessionManager sessionManager;
-	@Autowired
-	private TcCacheManager	tcCacheManager;
+	private AccountService accountService;
 	
 	/**
 	 * 账户列表
@@ -32,7 +33,13 @@ public class AccountManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model) throws Exception {
+	public String list(Model model, AccountQuery query) throws Exception {
+		
+		EleAccBalanceResultVO result = accountService.queryEleAccBalance(query);
+		model.addAttribute("pageVo", result.getEleAccBalanceVOPage());
+		model.addAttribute("totalAmount", result.getTotalAmount());
+		model.addAttribute("query", query);
+		
 		return "/system/account/list";
 	}
 	
@@ -43,7 +50,12 @@ public class AccountManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String detail(Model model) throws Exception {
+	public String detail(Model model, AccountQuery query) throws Exception {
+		
+		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("query", query);
+		
 		return "/system/account/detail";
 	}
 	

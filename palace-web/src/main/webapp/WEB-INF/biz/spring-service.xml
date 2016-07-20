@@ -88,5 +88,8 @@
 	
 	<!-- 对账 -->
 	<bean class="com.yimayhd.palace.service.impl.AuditServiceImpl"></bean>
+	
+	<!-- 账户 -->
+	<bean class="com.yimayhd.palace.service.impl.AccountServiceImpl"></bean>
 
 </beans>

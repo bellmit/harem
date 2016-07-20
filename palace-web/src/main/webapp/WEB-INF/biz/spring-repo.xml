@@ -34,4 +34,5 @@
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
 	
 	<bean id="auditRepo" class="com.yimayhd.palace.repo.AuditRepo" />
+	<bean id="accountRepo" class="com.yimayhd.palace.repo.AccountRepo" />
 </beans>
