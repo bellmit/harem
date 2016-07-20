@@ -98,6 +98,7 @@ public class ArticleConverter {
 
 	public static void ItemDOToArticleProductItemVO(ArticleItemVO articleItemVO,
 			ArticleProductItemVO articleProductItemVO, ItemDO itemDO, MerchantDO merchantDO) {
+		articleItemVO.setSubType(itemDO.getItemType());
 		articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
 		articleProductItemVO.setItemPrice(Float.valueOf(itemDO.getPrice()));
 		articleProductItemVO.setItemTitle(itemDO.getTitle());

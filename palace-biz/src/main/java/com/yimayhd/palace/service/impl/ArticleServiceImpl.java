@@ -136,6 +136,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public ArticleItemVO getArticleItemDetailById(long id, int type) {
 		ArticleItemVO articleItemVO = new ArticleItemVO();
+		articleItemVO.setType(type);
 		if (type == ArticleItemType.PRODUCT.getValue()) {
 			ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
 			ItemResult itemResult = articleRepo.getItemById(id);
