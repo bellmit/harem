@@ -3,6 +3,7 @@ package com.yimayhd.palace.model;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.TextUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.util.ListUtil;
 import com.yimayhd.user.client.domain.UserDO;
@@ -31,6 +32,9 @@ public class SnsSubjectVO extends SnsSubjectDO {
     private Integer supportNum;//点赞数
 
     public static SnsSubjectVO getSnsSubjectVO(SnsSubjectDO snsSubjectDO){
+    	if( snsSubjectDO == null ){
+    		return null;
+    	}
         SnsSubjectVO snsSubjectVO = new SnsSubjectVO();
         BeanUtils.copyProperties(snsSubjectDO, snsSubjectVO);
         //图片list(以‘|’开头，所以要移除第一个元素)
@@ -39,6 +43,9 @@ public class SnsSubjectVO extends SnsSubjectDO {
             snsSubjectVO.setPicList(picList);
             //图片预览用
             snsSubjectVO.setPicListStr(JSON.toJSONString(snsSubjectVO.getPicList()));
+        }
+        if(!StringUtils.isBlank(snsSubjectDO.getTextContent())){
+        	snsSubjectVO.setTopicTitleList(TextUtil.getTopicContent(snsSubjectDO.getTextContent()));
         }
         //时间
         snsSubjectVO.setGmtCreatedStr(DateUtil.dateToString(snsSubjectDO.getGmtCreated(), DateUtil.DAY_HORU_FORMAT));
