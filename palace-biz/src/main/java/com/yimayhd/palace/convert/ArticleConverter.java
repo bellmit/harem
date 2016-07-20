@@ -53,16 +53,18 @@ public class ArticleConverter {
 		BeanUtils.copyProperties(articleVO, articleDO);
 		articleDO.setDomainId(Long.valueOf(Constant.DOMAIN_JIUXIU));
 		List<ArticleItemVO> articleItems = articleVO.getArticleItemList();
-		List<ArticleItemDO> articleItemDOs = new ArrayList<ArticleItemDO>();
+		List<ArticleItemDTO> articleItemDTOs = new ArrayList<ArticleItemDTO>();
 		if (CollectionUtils.isNotEmpty(articleItems)) {
 			for (ArticleItemVO articleItemVO : articleItems) {
+				ArticleItemDTO articleItemDTO=new ArticleItemDTO();
 				ArticleItemDO articleItemDO = new ArticleItemDO();
 				BeanUtils.copyProperties(articleItemVO, articleItemDO);
-				articleItemDOs.add(articleItemDO);
+				articleItemDTO.setArticleItemDO(articleItemDO);
+				articleItemDTOs.add(articleItemDTO);
 			}
 		}
 		articleDTO.setArticleDO(articleDO);
-		articleDTO.setArticleItemDOs(articleItemDOs);
+		articleDTO.setArticleItemDTOs(articleItemDTOs);
 		return articleDTO;
 	}
 
@@ -71,9 +73,11 @@ public class ArticleConverter {
 		ArticleVO articleVO = new ArticleVO();
 		List<ArticleItemVO> articleItems = new ArrayList<ArticleItemVO>();
 		ArticleDO articleDO = articleDTO.getArticleDO();
-		List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
+//		List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
+		List<ArticleItemDTO> articleItemDTOs = articleDTO.getArticleItemDTOs();
 		BeanUtils.copyProperties(articleDO, articleVO);
-		for (ArticleItemDO articleItemDO : articleItemDOs) {
+		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
+			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
 			ArticleItemVO articleItemVO = new ArticleItemVO();
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
