@@ -786,3 +786,54 @@
 		 启用   
     #end
 #end
+
+#*对账渠道*#
+#macro(AUDIT_TYPE $type)
+    #if($type == '1')
+		支付宝
+    #elseif($type == '2')
+		 微信支付
+    #elseif($type == '3')
+		 光大云支付
+    #elseif($type == '4')
+		 光大电子钱宝
+    #end
+#end
+
+#*对账渠道option*#
+#macro(AUDIT_TYPE_OPTION $type)
+    <option value="1" #if($type == 1) selected="selected" #end >支付宝</option>
+    <option value="2" #if($type == 2) selected="selected" #end >微信支付</option>
+    <option value="3" #if($type == 3) selected="selected" #end >光大云支付</option>
+    <option value="4" #if($type == 4) selected="selected" #end >光大电子钱包</option>
+#end
+
+#*对账结果状态*#
+#macro(AUDIT_RESULT_STATUS $type)
+    #if($type == '1')
+		未开始
+    #elseif($type == '2')
+		文件已入库
+    #elseif($type == '3')
+		 对账中
+    #elseif($type == '4')
+		 对账相符
+	#elseif($type == '5')
+		 对账不符
+    #end
+#end
+
+#*对账订单状态*#
+#macro(AUDIT_ORDER_STATUS $type)
+    #if($type == '1')
+		金额不一致
+    #elseif($type == '2')
+		状态不一致
+    #elseif($type == '3')
+		 他有我无
+    #elseif($type == '4')
+		 我有他无
+	#elseif($type == '5')
+		对账相符 
+    #end
+#end

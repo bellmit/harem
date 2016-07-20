@@ -20,13 +20,13 @@ public class AuditQuery extends BaseQuery {
 	/**对账渠道*/
     private String auditType;
 
-    /**对账状态*/
+    /**对账状态 */
     private String auditStatus;
     
     /**对账结果*/
-    private String auditOrderStatus;
-    
-    public static AuditProgressQuery getAuditProgressQuery(AuditQuery query) throws ParseException{
+    private String auditResultStatus;
+
+	public static AuditProgressQuery getAuditProgressQuery(AuditQuery query) throws ParseException{
     	
     	if(query == null){
     		return null;
@@ -72,8 +72,8 @@ public class AuditQuery extends BaseQuery {
     		queryDO.setAuditType(Integer.parseInt(query.getAuditType()));
     	}
     	
-    	if(StringUtils.isNotEmpty(query.getAuditOrderStatus())){
-    		queryDO.setAuditStatus(Integer.parseInt(query.getAuditOrderStatus()));
+    	if(StringUtils.isNotEmpty(query.getAuditResultStatus())){
+    		queryDO.setAuditResultStatus(Integer.parseInt(query.getAuditResultStatus()));
     	}
     	
     	return queryDO;
@@ -102,8 +102,8 @@ public class AuditQuery extends BaseQuery {
     		queryDO.setAuditType(Integer.parseInt(query.getAuditType()));
     	}
     	
-    	if(StringUtils.isNotEmpty(query.getAuditOrderStatus())){
-    		queryDO.setAuditOrderStatus(Integer.parseInt(query.getAuditOrderStatus()));
+    	if(StringUtils.isNotEmpty(query.getAuditResultStatus())){
+    		queryDO.setAuditOrderStatus(Integer.parseInt(query.getAuditResultStatus()));
     	}
     	
     	return queryDO;
@@ -132,13 +132,13 @@ public class AuditQuery extends BaseQuery {
 	public void setAuditStatus(String auditStatus) {
 		this.auditStatus = auditStatus;
 	}
-
-	public String getAuditOrderStatus() {
-		return auditOrderStatus;
+	
+	public String getAuditResultStatus() {
+		return auditResultStatus;
 	}
 
-	public void setAuditOrderStatus(String auditOrderStatus) {
-		this.auditOrderStatus = auditOrderStatus;
+	public void setAuditResultStatus(String auditResultStatus) {
+		this.auditResultStatus = auditResultStatus;
 	}
-    
+
 }

@@ -18,28 +18,25 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账日期</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="auditDate" value="$!query.auditDate">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账渠道</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditType">
                     <option value="">全部</option>
-                    <option value="" >微信支付</option>
-                    <option value="" >支付宝</option>
-                    <option value="" >光大云支付</option>
-                    <option value="" >光大电子钱包</option>
+                    #AUDIT_TYPE_OPTION($!{query.auditType})
                 </select>
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账结果</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditResultStatus">
                     <option value="">全部</option>
-                    <option value="" >对账相符</option>
-                    <option value="" >对账不符</option>
+                    <option value="4" #if($query.auditResultStatus == 4) selected="selected" #end >对账相符</option>
+                    <option value="5" #if($query.auditResultStatus == 5) selected="selected" #end >对账不符</option>
                 </select>
 			</div>
 			<div class="btn-group">
@@ -56,12 +53,12 @@
 					<tr>
 						<th>对账时间</th>
 						<th>对账渠道</th>
-						<th>平台支付金额</th>
-						<th>银行支付金额</th>
-						<th>平台支付笔数</th>
-						<th>银行支付笔数</th>
-						<th>差异笔数</th>
-						<th>差异金额</th>
+						<th>平台支付金额 </th>
+						<th>银行支付金额 </th>
+						<th>平台支付笔数 </th>
+						<th>银行支付笔数 </th>
+						<th>差异笔数  </th>
+						<th>差异金额 t</th>
 						<th>对账结果</th>
 						<th>操作</th>
 					</tr>
@@ -74,10 +71,27 @@
 						<td>231</td>
 						<td>1</td>
 						<td>1000.00</td>
-						<td>对账不符</td>
+						<td>#AUDIT_RESULT_STATUS(5)</td>
 						<td>
 							<button type="button" class="btn btn-primary detail">下载对账单</button>
 						</td>
+					</tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>$utilDate.dateToString(${item.auditDate},'yyyy-MM-dd HH:mm:ss')</td>
+						<td>#AUDIT_TYPE($!{item.auditType})</td>
+						<td>$!item.platformTotalAmount</td>
+						<td>$!item.oppositeTotalAmount</td>
+						<td>$!item.platformTotalNum</td>
+						<td>$!item.oppositeTotalNum</td>
+						<td>$!item.failCount</td>
+						<td>$!item.platformTotalAmount - $!item.oppositeTotalAmount</td>
+						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
+						<td>
+							<button type="button" class="btn btn-primary detail">下载对账单</button>
+						</td>
+					</tr>
+					#end
 				</tbody>
 			</table>
 		</div>
@@ -85,6 +99,23 @@
 		#pageStyle("topicListForm")
 	</form>
 </div>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
 <script type="text/javascript">
+	
+	(function(){
+	
+		$(".form-date").datetimepicker({
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+        
+	})();
 	
 </script>

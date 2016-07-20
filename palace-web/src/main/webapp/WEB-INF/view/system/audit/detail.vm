@@ -26,10 +26,10 @@
                 </span>
 				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
                     <option value="">全部</option>
-                    <option value="" >微信支付</option>
-                    <option value="" >支付宝</option>
-                    <option value="" >光大云支付</option>
-                    <option value="" >光大电子钱包</option>
+                    <option value="1" >支付宝</option>
+                    <option value="2" >微信支付</option>
+                    <option value="3" >光大云支付</option>
+                    <option value="4" >光大电子钱包</option>
                 </select>
 			</div>
 			<div class="input-group inpSingle ">
@@ -38,11 +38,11 @@
                 </span>
 				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
                     <option value="">全部</option>
-                    <option value="" >金额不一致</option>
-                    <option value="" >状态不一致</option>
-                    <option value="" >他有我无</option>
-                    <option value="" >我有他无</option>
-                    <option value="" >对账相符</option>
+                    <option value="1" >金额不一致</option>
+                    <option value="2" >状态不一致</option>
+                    <option value="3" >他有我无</option>
+                    <option value="4" >我有他无</option>
+                    <option value="5" >对账相符</option>
                 </select>
 			</div>
 			<div class="btn-group">
@@ -88,6 +88,24 @@
 		#pageStyle("topicListForm")
 	</form>
 </div>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
 <script type="text/javascript">
+	
+	(function(){
+	
+		$(".form-date").datetimepicker({
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+        
+	})();
+	
 	
 </script>

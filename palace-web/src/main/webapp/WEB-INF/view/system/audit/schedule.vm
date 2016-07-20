@@ -11,37 +11,34 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+	<form class="form-signin" id="queryForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/audit/schedule" method="GET" role="form">
 		
 		<div class="inputGroup whole">
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账日期</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="auditDate" value="$!query.auditDate">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账渠道</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditType">
                     <option value="">全部</option>
-                    <option value="" >微信支付</option>
-                    <option value="" >支付宝</option>
-                    <option value="" >光大云支付</option>
-                    <option value="" >光大电子钱包</option>
+                    #AUDIT_TYPE_OPTION($!{query.auditType})
                 </select>
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账状态</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditResultStatus">
                     <option value="">全部</option>
-                    <option value="" >未开始</option>
-                    <option value="" >文件已入库</option>
-                    <option value="" >对账相符</option>
-                    <option value="" >对账不符</option>
+                    <option value="1" #if($query.auditResultStatus == 1) selected="selected" #end >未开始</option>
+                    <option value="2" #if($query.auditResultStatus == 2) selected="selected" #end >文件已入库</option>
+                    <option value="4" #if($query.auditResultStatus == 4) selected="selected" #end >对账相符</option>
+                    <option value="5" #if($query.auditResultStatus == 5) selected="selected" #end >对账不符</option>
                 </select>
 			</div>
 			<div class="btn-group">
@@ -62,10 +59,19 @@
 						<th>创建时间</th>
 					</tr>
 					<tr>
-						<td>微信</td>
+						<td>#AUDIT_TYPE(1)</td>
 						<td>2016-07-11</td>
 						<td>未开始</td>
 						<td>2016-7-11 10:35:16</td>
+					</tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>#AUDIT_TYPE($!{item.auditType})</td>
+						<td>$utilDate.dateToString(${item.auditDate},'yyyy-MM-dd')</td>
+						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
+						<td>$utilDate.dateToString(${item.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
+					</tr>
+					#end
 				</tbody>
 			</table>
 		</div>
@@ -73,6 +79,23 @@
 		#pageStyle("topicListForm")
 	</form>
 </div>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
 <script type="text/javascript">
+	
+	(function(){
+	
+		$(".form-date").datetimepicker({
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+        
+	})();
 	
 </script>
