@@ -73,7 +73,6 @@ public class ArticleConverter {
 		ArticleVO articleVO = new ArticleVO();
 		List<ArticleItemVO> articleItems = new ArrayList<ArticleItemVO>();
 		ArticleDO articleDO = articleDTO.getArticleDO();
-//		List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
 		List<ArticleItemDTO> articleItemDTOs = articleDTO.getArticleItemDTOs();
 		BeanUtils.copyProperties(articleDO, articleVO);
 		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
@@ -99,7 +98,9 @@ public class ArticleConverter {
 	public static void ItemDOToArticleProductItemVO(ArticleItemVO articleItemVO,
 			ArticleProductItemVO articleProductItemVO, ItemDO itemDO, MerchantDO merchantDO) {
 		articleItemVO.setSubType(itemDO.getItemType());
-		articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
+		if (PicUrlsUtil.getItemMainPics(itemDO)!=null) {
+			articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
+		}
 		articleProductItemVO.setItemPrice(Float.valueOf(itemDO.getPrice()));
 		articleProductItemVO.setItemTitle(itemDO.getTitle());
 		articleProductItemVO.setItemType(ItemType.get(itemDO.getItemType()).getText());
@@ -108,11 +109,14 @@ public class ArticleConverter {
 		ItemFeature itemFeature = itemDO.getItemFeature();
 		if (itemFeature != null) {
 			List<IcSubject> subjects = itemFeature.getSubjects();
-			List<String> itemTagList=new ArrayList<String>();
-			for (IcSubject icSubject : subjects) {
-				itemTagList.add(icSubject.getTxt());
+			List<String> itemTagList = new ArrayList<String>();
+			if (subjects!=null) {
+				for (IcSubject icSubject : subjects) {
+					String txt = icSubject.getTxt();
+					itemTagList.add(txt);
+				}
+				articleProductItemVO.setItemTagList(itemTagList);
 			}
-			articleProductItemVO.setItemTagList(itemTagList);
 		}
 		articleItemVO.setArticleProductItemVO(articleProductItemVO);
 	}
