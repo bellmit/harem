@@ -1,6 +1,13 @@
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/style.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">		
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editertwo.css"/>
+
 <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <div class="clubDynamicPage whole">
@@ -39,7 +46,7 @@
                     <td>
                         <div class="fileImgWrap">
                             <button type="button" id="batchUploadBtn" class="btn btn-success">选择图片</button>
-                            <input type="file"  name="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
+                            <input type="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
                             <input type="hidden" name="frontcover" value="$!article.frontcover"  id="FMReturnInput">
                             <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
                         </div>
@@ -52,12 +59,83 @@
                     <td><span class="spColor">*</span>发布时间</td>
                     <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!utilDate.dateToString($!{article.gmtCreated},"yyyy-MM-dd HH:mm")" ></td>
                 </tr>
+                <tr>
+                	<td></td>
+                	<td>
+                		<div id="editers">
+							<div class="editer-tip">
+						    	<p><b>编辑小助手：</b></p>
+						    	<p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
+						    	<p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
+						    	<p>3、最多添加50段内容</p>
+								<p>4、图片大小不能超过3M，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
+						    </div>
+							<div class="bd">
+								<!--<div class="itembox movesection">
+									<span class="tbd">
+										<div class="itemwrap">
+											<div class="itemimgbox">
+												<img src="../../img/img1.jpg"/>
+												<p class="itemtype"><i class="icon-type type21"></i>跟团游</p>
+												<p class="itemtag">自然风光","名族文化","休闲养生</p>
+											</div>
+											<div class="itemmsgbox">
+												<p class="itemright">
+													<span class="pritxt">九休专享价</span>
+													<span class="prinum">￥<em>1500</em></span>
+												</p>
+												<p class="itemleft">
+													<span class="itemtitle">ceshi跟团游-ppp,出发地阿拉善蒙安庆，目的地德宏，行程1，主题休名自</span>
+													<span class="itemshop">
+														<img class="icon-shop" src="../../img/girl.gif"/>
+														<label class="shoptitle">小飞哥的小店测试超长店铺名称最大限制20</label> 
+													</span>
+												</p>
+											</div>												
+										</div>-->
+									<!--</span>
+									<span class="tft clearfix">
+										<label class="itemtitlebox">
+											<input type="text" class="itemtitle" placeholder="请输入商品标题" />
+										</label>
+										<label class="searchitem">
+											<input type="text" class="searchitemid" placeholder="请输入商品ID"/>
+											<a class="searchitembtn" href="javascript:void(0)">查询</a>
+										</label>
+										<label class="groupbtn clearfix">
+											<a class="closeitem" href="javascript:void(0)">取消</a>
+											<a class="saveitem" href="javascript:void(0)">添加</a>
+										</label>
+									</span>
+								</div>-->
+							</div>
+							<div class="hd clearfix">
+								<ul class="clearfix">
+									<li><a href="javascript:void(0)" class="addtext">添加文本</a></li>
+									<li><a href="javascript:void(0)" class="addpic">添加图片</a></li>
+									<li><a href="javascript:void(0)" class="additem">添加商品</a></li>
+								</ul>
+							</div>
+							
+							<input type="hidden" id="articleItems" name="articleItems">
+							<input type="hidden" id="contentText" name="content">
+							<input type="hidden" id="uploadAction" value="http://filegw.test.jiuxiulvxing.com/filegw/">
+							<input type="hidden" id="imgUrl" value="http://192.168.1.209:7500/v1/tfs/">
+							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
+							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
+						</div>
+                	</td>
+	            </tr>
         </table>
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
     </form>
 </div>
+<!------------------------------------------------js分割线----------------------------------------->
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("editertwo");</script>
 <script>
-
 
  $(".form-date").datetimepicker(
             {
@@ -113,11 +191,11 @@
                 return false;
             }
             //列表长图片
-            var picUrls = new Array();
-            $('.picUrlsUrl').each(function(){
-                picUrls.push( $(this).attr('imgUrl'));
-            });
-            $('.picUrlsVal').val(JSON.stringify(picUrls));
+            //var picUrls = new Array();
+            //$('.picUrlsUrl').each(function(){
+            //    picUrls.push( $(this).attr('imgUrl'));
+            //});
+            //$('.picUrlsVal').val(JSON.stringify(picUrls));
             var actionUrl;
             var articleId = $('#articleForm').attr('articleId');
             if (articleId) {
