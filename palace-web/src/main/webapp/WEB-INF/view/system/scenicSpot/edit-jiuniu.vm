@@ -277,14 +277,13 @@
 		$(document).delegate(".saveTicketType", 'click', function(){
 			
 			var text = $(this).prev().val();
-			if(!text){
-				layer.msg('票型不能为空', {
+			if(!text || text.length > 10){
+				layer.msg('请输入1-10个字', {
                     icon: 2,
                     time: 2000
                 });
 				return;
 			}
-		
 			var content = [];
 			content.push('<span class="updateTicketType " >'+ text +'</span>');
 			content.push('<img class="editTicketType" src="$utilWebconfig.getStaticResourcesPath()/resources/img/edit.jpg"/>');

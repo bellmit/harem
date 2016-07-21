@@ -170,8 +170,8 @@ public class MerchantController extends BaseController {
 				model.addAttribute("containedOptions",containedOptions);
 			}
 			model.addAttribute("merchant",merchantDO );
-			model.addAttribute("pictureText", merchantBiz.getPictureText(id));
-			log.info("=============================="+JSON.toJSONString(merchantBiz.getPictureText(id)));
+			model.addAttribute("pictureText", merchantBiz.getPictureText(sessionManager.getUserId()));
+			log.info("=============================="+JSON.toJSONString(merchantBiz.getPictureText(sessionManager.getUserId())));
 			
 		}
 
@@ -196,7 +196,7 @@ public class MerchantController extends BaseController {
 				model.addAttribute("containedOptions",containedOptions);
 			}
 			model.addAttribute("merchant",merchant.getValue() );
-			model.addAttribute("pictureText", merchantBiz.getPictureText(id));
+			model.addAttribute("pictureText", merchantBiz.getPictureText(sessionManager.getUserId()));
 			
 		}
 		
