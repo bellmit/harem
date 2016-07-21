@@ -9,7 +9,7 @@ import com.yimayhd.palace.base.BaseQuery;
 public class SettlementQuery extends BaseQuery {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	/** 结算日期-开始日期,格式：yyyy-MM-dd */
     private String reqDateStart;
 
@@ -18,6 +18,18 @@ public class SettlementQuery extends BaseQuery {
     
     /**结算类型**/
     private String accountType;
+    
+    /** 结算单号 */
+    private String settlementId;
+
+	/** 回盘时间,格式：yyyy-MM-dd HH:mm:ss */
+    private String backTime;
+
+    /** 结算日期,格式：yyyy-MM-dd */
+    private String reqDate;
+    
+    /** 批次号 */
+    private String batchNo;
     
     public static com.yimayhd.pay.client.model.query.settlement.SettlementQuery getSettlementDTO(SettlementQuery query) throws ParseException{
     	
@@ -42,6 +54,19 @@ public class SettlementQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getAccountType())){
     		queryDO.setAccountType(Integer.parseInt(query.getAccountType()));
     	}
+    	if(StringUtils.isNotEmpty(query.getSettlementId())){
+    		queryDO.setSettlementId(Long.parseLong(query.getSettlementId()));
+    	}
+    	if(StringUtils.isNotEmpty(query.getBackTime())){
+    		queryDO.setBackTime(query.getBackTime());
+    	}
+    	if(StringUtils.isNotEmpty(query.getReqDate())){
+    		queryDO.setReqDate(query.getReqDate());
+    	}
+    	if(StringUtils.isNotEmpty(query.getBatchNo())){
+    		queryDO.setBatchNo(Integer.parseInt(query.getBatchNo()));
+    	}
+    	
     	return queryDO;
     }
     
@@ -69,4 +94,35 @@ public class SettlementQuery extends BaseQuery {
 		this.accountType = accountType;
 	}
     
+	public String getSettlementId() {
+		return settlementId;
+	}
+
+	public void setSettlementId(String settlementId) {
+		this.settlementId = settlementId;
+	}
+
+	public String getBackTime() {
+		return backTime;
+	}
+
+	public void setBackTime(String backTime) {
+		this.backTime = backTime;
+	}
+
+	public String getReqDate() {
+		return reqDate;
+	}
+
+	public void setReqDate(String reqDate) {
+		this.reqDate = reqDate;
+	}
+
+	public String getBatchNo() {
+		return batchNo;
+	}
+
+	public void setBatchNo(String batchNo) {
+		this.batchNo = batchNo;
+	}
 }

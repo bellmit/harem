@@ -849,7 +849,7 @@
     #end
 #end
 
-#*用户类型*#
+#*交易类型*#
 #macro(TRANS_TYPE $type)
     #if($type == '2')
 		充值
@@ -861,5 +861,14 @@
 		结算
 	#elseif($type == '10')
 		退款
+    #end
+#end
+
+#*账户类型*#
+#macro(ACCOUNT_TYPE $type)
+    #if($type == '1')
+		达人结算
+    #elseif($type == '2')
+		企业提现
     #end
 #end

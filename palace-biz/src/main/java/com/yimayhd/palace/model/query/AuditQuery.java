@@ -43,7 +43,7 @@ public class AuditQuery extends BaseQuery {
     	}
     	
     	if(StringUtils.isNotEmpty(query.getAuditStatus())){
-    		queryDO.setAuditStatus(Integer.parseInt(query.getAuditStatus()));
+    		queryDO.setAuditResultStatus(Integer.parseInt(query.getAuditStatus()));
     	}
     	
     	return queryDO;

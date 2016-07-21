@@ -9,17 +9,17 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+	<form class="form-signin" id="queryForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settlement/detail" method="GET" role="form">
 		
 		<div class="inputGroup whole" style="min-height:45px;">
 			<div class="input-group inpSingle">
-				发起日期 ：2016-06-07
+				发起日期 ：$!query.reqDate
 			</div>
 			<div class="input-group inpSingle">
-				回盘时间：2016-06-07 10：00：00
+				回盘时间：$!query.backTime
 			</div>
 			<div class="input-group inpSingle ">
-				结算批次号：1
+				结算批次号：$!query.batchNo
 			</div>
 		</div>
 		
@@ -40,6 +40,15 @@
 						<td>500.00</td>
 						<td>成功</td>
 					</tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>$!item.settlementId</td>
+						<td>$!item.sellerId</td>
+						<td>$!item.sellerNick</td>
+						<td>$!item.settlementAmountDouble</td>
+						<td>$!item.resDescription</td>
+					</tr>
+					#end
 				</tbody>
 			</table>
 		</div>

@@ -52,9 +52,9 @@ public class SettlementRepo{
 	 * @param query
 	 * @return
 	 */
-	public ResultSupport settlementFailRetry(SettlementDTO query) {
-		RepoUtils.requestLog(log, "settlementServiceRef.settlementFailRetry", query);
-		ResultSupport result = null;//settlementServiceRef.settlementFailRetry(query);
+	public ResultSupport settlementFailRetry(SettlementDTO settlement) {
+		RepoUtils.requestLog(log, "settlementServiceRef.settlementFailRetry", settlement);
+		ResultSupport result = null;//settlementServiceRef.settlementFailRetry(settlement);
 		RepoUtils.requestLog(log, "settlementServiceRef.settlementFailRetry", result);
 		return result;
 	}

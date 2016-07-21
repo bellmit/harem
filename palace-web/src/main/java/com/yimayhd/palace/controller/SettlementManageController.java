@@ -13,6 +13,8 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.SettlementVO;
 import com.yimayhd.palace.model.query.SettlementQuery;
 import com.yimayhd.palace.service.SettlementService;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /** 
 * @ClassName: VerifyManageController 
@@ -26,6 +28,9 @@ public class SettlementManageController extends BaseController {
 	
 	@Autowired
 	private SettlementService settlementService;
+	
+	@Autowired
+	private SessionManager sessionManager;
 	
 	/**
 	 * 结算列表
@@ -69,6 +74,9 @@ public class SettlementManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo settlementFailRetry(Model model, SettlementVO settlementVO) throws Exception {
 		try {
+			UserDO user = sessionManager.getUser();
+			settlementVO.setOperaterId(user.getId());
+			settlementVO.setOperaterName(user.getName());
 			boolean ret = settlementService.settlementFailRetry(settlementVO);
 			return  ResponseVo.success(ret);
 		} catch (Exception e) {

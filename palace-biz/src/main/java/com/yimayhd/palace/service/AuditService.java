@@ -3,7 +3,6 @@ package com.yimayhd.palace.service;
 import java.util.List;
 
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.AuditResultVO;
 import com.yimayhd.palace.model.PayAuditOrderVO;
 import com.yimayhd.palace.model.PayAuditResultVO;
 import com.yimayhd.palace.model.query.AuditQuery;
@@ -23,7 +22,7 @@ public interface AuditService {
 	 * @param query
 	 * @return
 	 */
-	List<AuditResultVO> queryAuditResult(AuditQuery query) throws Exception;
+	List<PayAuditResultVO> queryAuditResult(AuditQuery query) throws Exception;
 	
 	/**
 	 * 渠道对账明细查询

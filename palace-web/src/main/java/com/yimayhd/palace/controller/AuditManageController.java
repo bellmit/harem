@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.AuditResultVO;
 import com.yimayhd.palace.model.PayAuditOrderVO;
 import com.yimayhd.palace.model.PayAuditResultVO;
 import com.yimayhd.palace.model.query.AuditQuery;
@@ -54,7 +53,7 @@ public class AuditManageController extends BaseController {
 	@RequestMapping(value = "/summary", method = RequestMethod.GET)
 	public String summary(Model model, AuditQuery query) throws Exception {
 		
-		List<AuditResultVO> pageVo = auditService.queryAuditResult(query);
+		List<PayAuditResultVO> pageVo = auditService.queryAuditResult(query);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
 		

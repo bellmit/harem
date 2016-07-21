@@ -10,7 +10,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.AuditResultVO;
 import com.yimayhd.palace.model.PayAuditOrderVO;
 import com.yimayhd.palace.model.PayAuditResultVO;
 import com.yimayhd.palace.model.query.AuditQuery;
@@ -23,7 +22,6 @@ import com.yimayhd.pay.client.model.query.audit.AuditProgressQuery;
 import com.yimayhd.pay.client.model.query.audit.AuditResultQuery;
 import com.yimayhd.pay.client.model.result.PayPageResultDTO;
 import com.yimayhd.pay.client.model.result.audit.AuditResult;
-import com.yimayhd.pay.client.model.result.audit.dto.AuditResultDTO;
 
 /**
  * Created by hongfei.guo on 2015/11/18.
@@ -55,20 +53,20 @@ public class AuditServiceImpl implements AuditService {
 	}
 
 	@Override
-	public List<AuditResultVO> queryAuditResult(AuditQuery query) throws Exception {
+	public List<PayAuditResultVO> queryAuditResult(AuditQuery query) throws Exception {
 		
 		AuditResultQuery queryDO = AuditQuery.getAuditResultQuery(query);
 		AuditResult result = auditRepo.queryAuditResult(queryDO);
 		if(result == null){
 			log.error("auditRepo.queryAuditResult return value is null !returnValue : {}", JSON.toJSONString(result));
-			return new ArrayList<AuditResultVO>();
+			return new ArrayList<PayAuditResultVO>();
 		}
 		
-		List<AuditResultVO> listVO = new ArrayList<AuditResultVO>();
-		List<AuditResultDTO> listDO = result.getAuditResultDTOList();
+		List<PayAuditResultVO> listVO = new ArrayList<PayAuditResultVO>();
+		List<PayAuditResultDO> listDO = result.getAuditResultDOList();
 		if(CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
-				listVO.add(AuditResultVO.getAuditResultVO(listDO.get(i)));
+				listVO.add(PayAuditResultVO.getPayAuditResultVO(listDO.get(i)));
 			}
 		}
 		return listVO;
