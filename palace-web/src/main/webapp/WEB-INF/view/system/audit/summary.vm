@@ -73,7 +73,7 @@
 						<td>1000.00</td>
 						<td>#AUDIT_RESULT_STATUS(5)</td>
 						<td>
-							<button type="button" class="btn btn-primary detail">下载对账单</button>
+							<button type="button" class="btn btn-primary download" auditDate="2016-04-07" auditType="1">下载对账单</button>
 						</td>
 					</tr>
 					#foreach($item in $pageVo.itemList)
@@ -88,7 +88,7 @@
 						<td>$!item.platformTotalAmount - $!item.oppositeTotalAmount</td>
 						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
 						<td>
-							<button type="button" class="btn btn-primary detail">下载对账单</button>
+							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString(${item.auditDate},'yyyy-MM-dd')" auditType="!item.auditType">下载对账单</button>
 						</td>
 					</tr>
 					#end
@@ -115,6 +115,16 @@
             forceParse: 0,
             format: "yyyy-mm-dd"
         });
+        
+        $('.download').click(function(){
+        
+        	var param = [];
+        	param.push("auditDate="+ $(this).attr("auditDate"));
+        	param.push("auditType="+ $(this).attr("auditType"));
+        	
+	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/audit/download?'+ param.join("&");
+			window.open(url);
+	    });
         
 	})();
 	

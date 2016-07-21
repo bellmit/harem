@@ -1,6 +1,14 @@
 package com.yimayhd.palace.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,5 +82,16 @@ public class AuditManageController extends BaseController {
 		model.addAttribute("query", query);
 		
 		return "/system/audit/detail";
+	}
+	
+	/**
+	 * 下载对账单
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void download(HttpServletResponse response, AuditQuery query) throws Exception {
+		this.auditService.downloadAuditOrder(response, query);
 	}
 }

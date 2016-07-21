@@ -2,6 +2,8 @@ package com.yimayhd.palace.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.PayAuditOrderVO;
 import com.yimayhd.palace.model.PayAuditResultVO;
@@ -12,7 +14,7 @@ public interface AuditService {
 	
 	/**
 	 * 渠道对账进度查询
-	 * @param auditProgressQuery
+	 * @param query
 	 * @return
 	 */
 	PageVO<PayAuditResultVO> queryAuditProgress(AuditQuery query) throws Exception;
@@ -26,8 +28,15 @@ public interface AuditService {
 	
 	/**
 	 * 渠道对账明细查询
-	 * @param auditOrderQuery
+	 * @param query
 	 * @return
 	 */
 	PageVO<PayAuditOrderVO> queryAuditOrder(AuditQuery query) throws Exception;
+	
+	/**
+	 * 下载对账单
+	 * @param query
+	 * @return
+	 */
+	void downloadAuditOrder(HttpServletResponse response, AuditQuery query) throws Exception;
 }
