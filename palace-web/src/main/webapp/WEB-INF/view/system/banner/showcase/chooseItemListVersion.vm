@@ -105,6 +105,7 @@
         }
     }
 
+    //多选
     function getItemss() {
         var arr =[];
         jQuery.each($('.checked-resource button'),function(i){
