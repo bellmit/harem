@@ -111,9 +111,11 @@ public class BannerManageController extends BaseController {
             model.addAttribute("message","参数错误");
             return "error";
         }
-        if(Constant.BOOTH_NAME_FORBID.contains(boothVO.getName())){
-            model.addAttribute("message","booth名称中不能包含"+ JSON.toJSONString(Constant.BOOTH_NAME_FORBID));
-            return "error";
+        for(String str:Constant.BOOTH_NAME_FORBID){
+            if(boothVO.getCode().contains(str) || boothVO.getName().contains(str)){
+                model.addAttribute("message","booth[code,名称]中不能包含"+ JSON.toJSONString(Constant.BOOTH_NAME_FORBID));
+                return "error";
+            }
         }
         boothService.add(boothVO);
         return "success";
