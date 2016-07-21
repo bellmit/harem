@@ -9,8 +9,10 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
@@ -22,28 +24,19 @@ import java.util.*;
 @RequestMapping("/GF/export")
 public class ExportController extends BaseController{
 
-    @Autowired ViewExcel viewExcel;
-
     /**
      * 订单导出
      * @return 订单导出
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model,ExportQuery exportQuery) throws Exception {
-        Map<String, Object> obj = new HashMap<String,Object>();
-        obj.put("fileName","GF订单列表");
+    public ModelAndView list(ModelMap model, ExportQuery exportQuery) throws Exception {
         List<ExportGfOrder> list = new ArrayList<ExportGfOrder>();
         ExportGfOrder e1 = new ExportGfOrder();
         ExportGfOrder e2 = new ExportGfOrder();
-        ExportGfOrder e3 = new ExportGfOrder();
-        ExportGfOrder e4 = new ExportGfOrder();
-        ExportGfOrder e5 = new ExportGfOrder();
-
-
-
-
-        viewExcel.handle();
-        return null;
+        list.add(e1);list.add(e2);
+        model.put("list",list);
+        model.put("fileName","GF订单列表");
+        return new ModelAndView(new ViewExcel(), model);
     }
 }

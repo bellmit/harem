@@ -38,17 +38,17 @@ public class ViewExcel extends AbstractExcelView {
         OutputStream ouputStream = response.getOutputStream();
         try {
             String fileName = handle( obj, workbook);
-            //设置下载时客户端Excel的名称
-            //处理中文文件名
             fileName = PoiExcelUtils.encodeFilename(fileName, request);
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-disposition", "attachment;filename="+ fileName);
             workbook.write(ouputStream);
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
             ouputStream.flush();
             ouputStream.close();
         }
+
     }
 
     /**
@@ -63,31 +63,16 @@ public class ViewExcel extends AbstractExcelView {
      * @throws
      */
     public String handle(Map<String, Object> obj, HSSFWorkbook workbook){
-        {
-            Map<Integer,Object>  map = (Map<Integer, Object>) obj.get("list");
-            if(null != map ){
-                List<ExportGfOrder> list1 = (List<ExportGfOrder>) map.get("1");
-                obj.put("list", list1);
-                handleExportGfOrder(1, obj, workbook);
-                logger.info(">>>>汇总完- StatistExpendGold _size="+list1.size());
-
-            }
-            String name="";
-            String endTime = (String) obj.get("endTime");
-            String beginTime = (String) obj.get("beginTime");
-            if(beginTime.equals(endTime)){
-                name=beginTime;
-            }else{
-                name=beginTime+" - "+endTime;
-            }
-            return name+"_数据汇总.xls";
-        }
+        List<ExportGfOrder> list1 = (List<ExportGfOrder>) obj.get("list");
+        obj.put("list", list1);
+        String name = handleExportGfOrder(obj, workbook);
+        return name+"_数据汇总.xls";
     }
 
 
 
 
-    public String handleExportGfOrder(int type,Map<String, Object> obj, HSSFWorkbook workbook){
+    public String handleExportGfOrder(Map<String, Object> obj, HSSFWorkbook workbook){
         String filename =obj.get("fileName").toString();
 
         HSSFSheet sheet = workbook.createSheet(filename);
