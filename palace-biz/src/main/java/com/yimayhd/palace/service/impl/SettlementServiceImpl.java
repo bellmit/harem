@@ -30,7 +30,8 @@ public class SettlementServiceImpl implements SettlementService {
 	
 	@Override
 	public PageVO<SettlementVO> querySettlements(SettlementQuery query) throws Exception {
-		SettlementDTO queryDO = SettlementQuery.getSettlementDTO(query);
+		
+		com.yimayhd.pay.client.model.query.settlement.SettlementQuery queryDO = SettlementQuery.getSettlementDTO(query);
 		PayPageResultDTO<SettlementDTO> result = settlementRepo.querySettlements(queryDO);
 		if(result == null){
 			log.error("settlementRepo.queryAuditProgress return value is null !returnValue : {}", JSON.toJSONString(result));
@@ -49,7 +50,8 @@ public class SettlementServiceImpl implements SettlementService {
 
 	@Override
 	public PageVO<SettlementVO> querySettlementDetails(SettlementQuery query) throws Exception {
-		SettlementDTO queryDO = SettlementQuery.getSettlementDTO(query);
+		
+		com.yimayhd.pay.client.model.query.settlement.SettlementQuery queryDO = SettlementQuery.getSettlementDTO(query);
 		PayPageResultDTO<SettlementDTO> result = settlementRepo.querySettlementDetails(queryDO);
 		if(result == null){
 			log.error("settlementRepo.queryAuditProgress return value is null !returnValue : {}", JSON.toJSONString(result));

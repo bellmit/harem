@@ -11,38 +11,35 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+	<form class="form-signin" id="queryForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/audit/detail" method="GET" role="form">
 		
 		<div class="inputGroup whole">
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账日期</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="auditDate" value="$!query.auditDate">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账渠道</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditType">
                     <option value="">全部</option>
-                    <option value="1" >支付宝</option>
-                    <option value="2" >微信支付</option>
-                    <option value="3" >光大云支付</option>
-                    <option value="4" >光大电子钱包</option>
+                    #AUDIT_TYPE_OPTION($!{query.auditType})
                 </select>
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账结果</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="hasContent">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditResultStatus">
                     <option value="">全部</option>
-                    <option value="1" >金额不一致</option>
-                    <option value="2" >状态不一致</option>
-                    <option value="3" >他有我无</option>
-                    <option value="4" >我有他无</option>
-                    <option value="5" >对账相符</option>
+                    <option value="1" #if($query.auditResultStatus == 1) selected="selected" #end >金额不一致</option>
+                    <option value="2" #if($query.auditResultStatus == 2) selected="selected" #end >状态不一致</option>
+                    <option value="3" #if($query.auditResultStatus == 3) selected="selected" #end >他有我无</option>
+                    <option value="4" #if($query.auditResultStatus == 4) selected="selected" #end >我有他无</option>
+                    <option value="5" #if($query.auditResultStatus == 5) selected="selected" #end >对账相符</option>
                 </select>
 			</div>
 			<div class="btn-group">
@@ -81,6 +78,22 @@
 						<td>成功</td>
 						<td>成功</td>
 						<td>金额不一致</td>
+					<tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>jy123345</td>
+						<td>2016-7-7 20:13:02</td>
+						<td>微信支付</td>
+						<td>消费</td>
+						<td>zf9876</td>
+						<td>zf9876</td>
+						<td>300.00</td>
+						<td>288.00</td>
+						<td>成功</td>
+						<td>成功</td>
+						<td>金额不一致</td>
+					</tr>
+					#end
 				</tbody>
 			</table>
 		</div>

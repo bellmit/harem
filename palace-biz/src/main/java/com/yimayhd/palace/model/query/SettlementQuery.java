@@ -5,7 +5,6 @@ import java.text.ParseException;
 import org.apache.commons.lang.StringUtils;
 
 import com.yimayhd.palace.base.BaseQuery;
-import com.yimayhd.pay.client.model.param.settlement.SettlementDTO;
 
 public class SettlementQuery extends BaseQuery {
 
@@ -20,16 +19,18 @@ public class SettlementQuery extends BaseQuery {
     /**结算类型**/
     private String accountType;
     
-    public static SettlementDTO getSettlementDTO(SettlementQuery query) throws ParseException{
+    public static com.yimayhd.pay.client.model.query.settlement.SettlementQuery getSettlementDTO(SettlementQuery query) throws ParseException{
     	
     	if(query == null){
     		return null;
     	}
     	
-    	SettlementDTO queryDO = new SettlementDTO();
+    	com.yimayhd.pay.client.model.query.settlement.SettlementQuery queryDO = new com.yimayhd.pay.client.model.query.settlement.SettlementQuery();
     	if(query.getPageNumber() != null){
 			int pageNumber =query.getPageNumber();
 			int pageSize = query.getPageSize();
+			queryDO.setPageNo(pageNumber);
+			queryDO.setPageSize(pageSize);
 		}
     	
     	if(StringUtils.isNotEmpty(query.getReqDateStart())){

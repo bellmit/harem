@@ -9,31 +9,29 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
-		
-		<input type="hidden" id="isRecommendList" name="isRecommendList" value="$!isRecommendList" />
+	<form class="form-signin" id="queryForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/list" method="GET" role="form">
 		
 		<div class="inputGroup whole">
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">编号</button>
                 </span>
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control" name="userId" value="$!query.userId">
 			</div>
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">名称</button>
                 </span>
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control" name="userName" value="$!query.userName">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">用户类型</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="userType">
                     <option value="">全部</option>
-                    <option value="" >普通用户</option>
-                    <option value="" >企业用户</option>
+                    <option value="1" #if($query.userType == 1) selected="selected" #end >普通用户</option>
+                    <option value="2" #if($query.userType == 2) selected="selected" #end >企业用户</option>
                 </select>
 			</div>
 			<div class="btn-group">
@@ -45,7 +43,7 @@
 		</div>
 		
 		<div class="btn-single">
-			余额汇总：10000.00
+			余额汇总：$!totalAmount
 		</div>
 		
 		<div class="tableGroup whole">
@@ -64,9 +62,22 @@
 						<td>企业用户</td>
 						<td>3000</td>
 						<td>
-							<button type="button" class="btn btn-primary detail" >账户收支明细</button>
+							<button type="button" class="btn btn-primary detail" userId="100002" userName="光头教练" userType="2" >账户收支明细</button>
 						</td>
 					</tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>$!item.userId</td>
+						<td>$!item.userName</td>
+						<td>#USER_TYPE($!{item.userType})</td>
+						<td>$!item.accountBalance</td>
+						<td>
+							<button type="button" class="btn btn-primary detail" userId="$!item.userId" userName="$!item.userName" userType="$!item.userType" >
+								账户收支明细
+							</button>
+						</td>
+					</tr>
+					#end
 				</tbody>
 			</table>
 		</div>
@@ -79,8 +90,14 @@
 	(function(){
 	
 		$('.detail').click(function(){
-	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/detail';
-			window.parent.tabsAdd("addTopic", url, 2, "账户余额明细");
+			
+			var param = [];
+			param.push("userId="+ $(this).attr("userId"));
+			param.push("userName="+ $(this).attr("userName"));
+			param.push("userType="+ $(this).attr("userType"));
+			
+	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/detail?'+ param.join("&");
+			window.parent.tabsAdd("accountDetail", url, 2, "账户余额明细");
 	    });
 	
 	})();

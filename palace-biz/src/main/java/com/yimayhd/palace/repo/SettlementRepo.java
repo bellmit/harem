@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.pay.client.model.param.settlement.SettlementDTO;
+import com.yimayhd.pay.client.model.query.settlement.SettlementQuery;
 import com.yimayhd.pay.client.model.result.PayPageResultDTO;
-import com.yimayhd.pay.client.service.settlement.SettlementService;
 import com.yimayhd.pay.client.model.result.ResultSupport;
+import com.yimayhd.pay.client.service.settlement.SettlementService;
 /**
  * 结算管理Repo
  * 
@@ -27,9 +28,9 @@ public class SettlementRepo{
 	 * @param query
 	 * @return
 	 */
-	public PayPageResultDTO<SettlementDTO> querySettlements(SettlementDTO query) {
+	public PayPageResultDTO<SettlementDTO> querySettlements(SettlementQuery query) {
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlements", query);
-		PayPageResultDTO<SettlementDTO> result = null; //settlementServiceRef.querySettlements(query);
+		PayPageResultDTO<SettlementDTO> result = null;//settlementServiceRef.querySettlements(query);
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlements", result);
 		return result;
 	}
@@ -39,9 +40,9 @@ public class SettlementRepo{
 	 * @param query
 	 * @return
 	 */
-	public PayPageResultDTO<SettlementDTO> querySettlementDetails(SettlementDTO query) {
+	public PayPageResultDTO<SettlementDTO> querySettlementDetails(SettlementQuery query) {
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementDetails", query);
-		PayPageResultDTO<SettlementDTO> result = null; //settlementServiceRef.querySettlementDetails(query);
+		PayPageResultDTO<SettlementDTO> result = null;//settlementServiceRef.querySettlementDetails(query);
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementDetails", result);
 		return result;
 	}
@@ -53,7 +54,7 @@ public class SettlementRepo{
 	 */
 	public ResultSupport settlementFailRetry(SettlementDTO query) {
 		RepoUtils.requestLog(log, "settlementServiceRef.settlementFailRetry", query);
-		ResultSupport result = settlementServiceRef.settlementFailRetry(query);
+		ResultSupport result = null;//settlementServiceRef.settlementFailRetry(query);
 		RepoUtils.requestLog(log, "settlementServiceRef.settlementFailRetry", result);
 		return result;
 	}

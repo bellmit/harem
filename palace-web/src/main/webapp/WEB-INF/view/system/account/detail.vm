@@ -9,17 +9,20 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/topic/list" method="GET" role="form">
+	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/detail" method="GET" role="form">
 		
 		<div class="inputGroup whole" style="min-height:45px;">
 			<div class="input-group inpSingle">
-				编号:112212212
+				编号:$!query.userId
+				<input type="hidden" name="userId" value="$!query.userId">
 			</div>
 			<div class="input-group inpSingle">
-				名称: 阿斯顿发打发
+				名称: $!query.userName
+				<input type="hidden" name="userName" value="$!query.userName">
 			</div>
 			<div class="input-group inpSingle ">
-				用户类型:普通用户
+				用户类型:#USER_TYPE($!{query.userType})
+				<input type="hidden" name="userType" value="$!query.userType">
 			</div>
 		</div>
 		
@@ -28,27 +31,27 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">交易时间</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="transStartDate" value="$!query.transStartDate">
 				<span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-				<input type="text" class="form-control form-date dateInp" readonly name="" value="">
+				<input type="text" class="form-control form-date dateInp" readonly name="transEndDate" value="$!query.transEndDate">
 			</div>
 			<div class="input-group inpSingle">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">业务流水号</button>
                 </span>
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control" name="payOrderId" value="$!query.payOrderId">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">交易类型</button>
                 </span>
-				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="">
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="transType">
                     <option value="">全部</option>
-                    <option value="" >结算</option>
-                    <option value="" >提现</option>
-                    <option value="" >消费</option>
-                    <option value="" >退款</option>
-                    <option value="" >充值</option>
+                    <option value="7" #if($query.transType == 7) selected="selected" #end >结算</option>
+                    <option value="3" #if($query.transType == 3) selected="selected" #end >提现</option>
+                    <option value="6" #if($query.transType == 6) selected="selected" #end >消费</option>
+                    <option value="10" #if($query.transType == 10) selected="selected" #end >退款</option>
+                    <option value="2" #if($query.transType == 2) selected="selected" #end >充值</option>
                 </select>
 			</div>
 			<div class="btn-group">
@@ -72,10 +75,20 @@
 					<tr>
 						<td>2016-04-07</td>
 						<td>TX231313232</td>
-						<td>提现</td>
+						<td>#TRANS_TYPE(3)</td>
 						<td>-800.00</td>
 						<td>2000.00</td>
 					</tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>$utilDate.dateToString(${item.transTime},'yyyy-MM-dd')</td>
+						<td>$!item.transSn</td>
+						<td>#TRANS_TYPE($!{item.transType})</td>
+						<td>$!item.transAmount</td>
+						<td>$!item.accountBalance</td>
+					</tr>
+					#end
+					
 				</tbody>
 			</table>
 		</div>
