@@ -362,7 +362,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         if(StringUtils.isEmpty(sw.getOperationContent())){
             sd.setOperationContent("");
         }else{
-            String oc = sw.getOperationContent().trim();
+            String oc = sw.getOperationContent().replaceAll(" ","");
             if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){
                 oc = oc.replaceAll(Constant.TOPIC_PREFIX_SUFFIX,"");
             }

@@ -214,7 +214,7 @@
                     var cont="";
                     for(var i in sce) {
                         //console.log("==="+sce[i].id+"-"+sce[i].name);
-                        zsnr+=sce[i].name+"("+sce[i].appVersion+")"+ "|";//展示内容
+                        zsnr+=sce[i].name+"("+sce[i].appVersion+")"+ " | ";//展示内容
                         cont+=sce[i].code+","+sce[i].appVersion+"|";//隐藏框的
                     }
                     console.log("cont="+cont);
