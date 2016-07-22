@@ -3,9 +3,11 @@ package com.yimayhd.palace.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.checker.ArticleChecker;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
@@ -74,22 +77,11 @@ public class ArticleManageController extends BaseController {
 	 * @return 文章详情
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add")
 	public String add(ArticleVO articleVO) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		// List<ArticleItemVO> articleItemList = new ArrayList<ArticleItemVO>();
-		// for (int i = 0; i < 3; i++) {
-		// ArticleItemVO articleItemVO = new ArticleItemVO();
-		// articleItemVO.setContent("测试" + i);
-		// articleItemVO.setGmtCreated(new Date());
-		// articleItemVO.setType(ArticleType.EXPERTSTORY.getValue());
-		// articleItemVO.setSubType(ArticleSubType.CITY_ACTIVITY.getType());
-		// articleItemVO.setTitle("测试" + i);
-		// articleItemVO.setSort(Long.valueOf(i));
-		// articleItemList.add(articleItemVO);
-		// }
-		// articleVO.setArticleItems(articleItemList);
-		ResourceResult<Boolean> result = articleService.add(articleVO);
+		ArticleVO vo = ArticleChecker.convertToArticleVO(articleVO);
+		ResourceResult<Boolean> result = articleService.add(vo);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

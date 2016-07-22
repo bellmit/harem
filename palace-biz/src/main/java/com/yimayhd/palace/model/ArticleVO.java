@@ -35,6 +35,8 @@ public class ArticleVO implements Serializable {
 	private Date gmtCreated;
 
 	private Date gmtModified;
+	
+	private String articleItems;
 
 	private List<ArticleItemVO> articleItemList;
 
@@ -124,6 +126,14 @@ public class ArticleVO implements Serializable {
 
 	public void setArticleItemList(List<ArticleItemVO> articleItemList) {
 		this.articleItemList = articleItemList;
+	}
+
+	public String getArticleItems() {
+		return articleItems;
+	}
+
+	public void setArticleItems(String articleItems) {
+		this.articleItems = articleItems;
 	}
 
 }

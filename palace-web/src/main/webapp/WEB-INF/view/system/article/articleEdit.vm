@@ -118,7 +118,6 @@
 							</div>
 							
 							<input type="hidden" id="articleItems" name="articleItems">
-							<input type="hidden" id="contentText" name="content">
 							<input type="hidden" id="uploadAction" value="http://filegw.test.jiuxiulvxing.com/filegw/">
 							<input type="hidden" id="imgUrl" value="http://192.168.1.209:7500/v1/tfs/">
 							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
