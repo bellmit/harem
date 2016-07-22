@@ -31,11 +31,7 @@ public class ExportController extends BaseController{
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list(ModelMap model, ExportQuery exportQuery) throws Exception {
-        List<ExportGfOrder> list = new ArrayList<ExportGfOrder>();
-        ExportGfOrder e1 = new ExportGfOrder();
-        ExportGfOrder e2 = new ExportGfOrder();
-        list.add(e1);list.add(e2);
-        model.put("list",list);
+        model.put("query",exportQuery);
         model.put("fileName","GF订单列表");
         return new ModelAndView(new ViewExcel(), model);
     }
