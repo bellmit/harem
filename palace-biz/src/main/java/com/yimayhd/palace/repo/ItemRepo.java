@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,8 @@ public class ItemRepo {
 	private ItemPublishService itemPublishServiceRef;
 	@Autowired
 	private ItemSkuService itemSkuService ;
+	@Autowired
+	private ItemQueryService itemQueryServiceRef;
 	
 
 	public ICPageResult<ItemInfo> getItemList(ItemQryDTO itemQryDTO) {
@@ -133,5 +138,10 @@ public class ItemRepo {
 			return null;
 		}
 		return queryResult.getList() ;
+	}
+
+	public List<ItemDO> getItemByIds(List<Long> ids) {
+		ICResult<List<ItemDO>> icResult = itemQueryServiceRef.getItemByIds(ids);
+		return icResult.getModule();
 	}
 }

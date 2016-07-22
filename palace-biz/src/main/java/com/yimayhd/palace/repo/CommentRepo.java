@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.commentcenter.client.domain.ComRateDO;
+import com.yimayhd.commentcenter.client.dto.*;
+import com.yimayhd.commentcenter.client.result.ComRateResult;
+import com.yimayhd.commentcenter.client.service.ComRateService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -13,12 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
-import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
-import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
-import com.yimayhd.commentcenter.client.dto.TagNameTypeDTO;
-import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
-import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.query.TagPageQuery;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
@@ -45,6 +43,8 @@ public class CommentRepo {
 	private ComCenterService comCenterServiceRef;
 	@Autowired
 	private ComTagCenterService comTagCenterServiceRef;
+	@Autowired
+	private ComRateService comRateServiceRef;
 
 	/**
 	 * 保存标签
@@ -257,5 +257,27 @@ public class CommentRepo {
 		BaseResult<ComTagDO> tagByName = comTagCenterServiceRef.getTagByName(tagNameTypeDTO);
 		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagByName", tagByName);
 		return tagByName.getValue();
+	}
+
+	public BasePageResult<ComRateResult> getRatePageList(RatePageListDTO var1) {
+		return comRateServiceRef.getRatePageList(var1);
+	}
+
+	public BaseResult<Boolean> deleteComRate(RateStatusDTO var1) {
+        BaseResult<Boolean> result = new BaseResult<Boolean>();
+	    try {
+            result = comRateServiceRef.batchUpdateStatue(var1);
+        } catch (Exception e){
+            log.error("Exception e = {}", e.getMessage());
+        }
+        return result;
+	}
+
+	public BaseResult<ComRateDO> addRateReploy(RateReployDTO var1) {
+		return comRateServiceRef.addRateReploy(var1);
+	}
+
+	public BaseResult<Boolean> batchAddRateReploy(BatchRateReployDTO var1){
+		return comRateServiceRef.batchAddRateReploy(var1);
 	}
 }
