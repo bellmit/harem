@@ -83,7 +83,7 @@ public class MerchantRepo {
 			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
 			PictureTextVO pictureTextVO = new PictureTextVO();
 			pictureTextVO.setPictureTextItems(pictureTextItems);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sessionManager.getUserId(), PictureText.FOOD, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchantDO.getSellerId(), PictureText.FOOD, pictureTextVO);
 			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(saveMerchantResult));
 		} catch (Exception e) {
@@ -118,7 +118,7 @@ public class MerchantRepo {
 			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
 			PictureTextVO pictureTextVO = new PictureTextVO();
 			pictureTextVO.setPictureTextItems(pictureTextItems);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sessionManager.getUserId(), PictureText.FOOD, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(dto.getSellerId(), PictureText.FOOD, pictureTextVO);
 			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(updateMerchantResult));
 		} catch (Exception e) {
