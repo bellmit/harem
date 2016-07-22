@@ -3,21 +3,22 @@ package com.yimayhd.palace.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.checker.ArticleChecker;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
@@ -79,17 +80,19 @@ public class ArticleManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add")
 	public String add(ArticleVO articleVO) throws Exception {
-		ResponseVo responseVo = new ResponseVo();
-		ArticleVO vo = ArticleChecker.convertToArticleVO(articleVO);
+		CheckResult checkResult = ArticleChecker.checkArticleVO(articleVO);
+		ArticleVO vo = null;
+		if (checkResult.isSuccess()) {
+			vo = ArticleConverter.convertToArticleVO(articleVO);
+		} else {
+			throw new BaseException(checkResult.getMsg());
+		}
 		ResourceResult<Boolean> result = articleService.add(vo);
 		if (result.isSuccess()) {
-			responseVo.setMessage("添加成功！");
-			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+			return "/success";
 		} else {
-			responseVo.setMessage(result.getResultMsg());
-			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+			throw new BaseException(result.getResultMsg());
 		}
-		return "/success";
 	}
 
 	/**
@@ -103,6 +106,9 @@ public class ArticleManageController extends BaseController {
 	public ResponseVo getArticleItemDetailById(@PathVariable("id") long id, @PathVariable("type") int type)
 			throws Exception {
 		try {
+			if (id <= 0 || type <= 0) {
+				return ResponseVo.error();
+			}
 			ResponseVo responseVo = new ResponseVo();
 			ArticleItemVO articleItemVO = articleService.getArticleItemDetailById(id, type);
 			if (articleItemVO == null) {
