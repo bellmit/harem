@@ -30,7 +30,7 @@ public class ArticleVO implements Serializable {
 
 	private int type;
 
-	private long pv;
+	private int pv;
 
 	private Date gmtCreated;
 
@@ -96,14 +96,6 @@ public class ArticleVO implements Serializable {
 		this.type = type;
 	}
 
-	public long getPv() {
-		return pv;
-	}
-
-	public void setPv(long pv) {
-		this.pv = pv;
-	}
-
 	public Date getGmtCreated() {
 		return gmtCreated;
 	}
@@ -134,6 +126,14 @@ public class ArticleVO implements Serializable {
 
 	public void setArticleItems(String articleItems) {
 		this.articleItems = articleItems;
+	}
+
+	public int getPv() {
+		return pv;
+	}
+
+	public void setPv(int pv) {
+		this.pv = pv;
 	}
 
 }
