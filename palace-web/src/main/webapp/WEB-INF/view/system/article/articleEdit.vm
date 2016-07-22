@@ -71,43 +71,42 @@
 								<p>4、图片大小不能超过3M，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
 						    </div>
 							<div class="bd">
-								<!--<div class="itembox movesection">
-									<span class="tbd">
-										<div class="itemwrap">
-											<div class="itemimgbox">
-												<img src="../../img/img1.jpg"/>
-												<p class="itemtype"><i class="icon-type type21"></i>跟团游</p>
-												<p class="itemtag">自然风光","名族文化","休闲养生</p>
-											</div>
-											<div class="itemmsgbox">
-												<p class="itemright">
-													<span class="pritxt">九休专享价</span>
-													<span class="prinum">￥<em>1500</em></span>
-												</p>
-												<p class="itemleft">
-													<span class="itemtitle">ceshi跟团游-ppp,出发地阿拉善蒙安庆，目的地德宏，行程1，主题休名自</span>
-													<span class="itemshop">
-														<img class="icon-shop" src="../../img/girl.gif"/>
-														<label class="shoptitle">小飞哥的小店测试超长店铺名称最大限制20</label> 
-													</span>
-												</p>
-											</div>												
-										</div>-->
-									<!--</span>
-									<span class="tft clearfix">
-										<label class="itemtitlebox">
-											<input type="text" class="itemtitle" placeholder="请输入商品标题" />
-										</label>
-										<label class="searchitem">
-											<input type="text" class="searchitemid" placeholder="请输入商品ID"/>
-											<a class="searchitembtn" href="javascript:void(0)">查询</a>
-										</label>
-										<label class="groupbtn clearfix">
-											<a class="closeitem" href="javascript:void(0)">取消</a>
-											<a class="saveitem" href="javascript:void(0)">添加</a>
-										</label>
-									</span>
-								</div>-->
+							#foreach($articleItem in $!article.articleItemList)
+								#if($articleItem.type == 1)
+								<p class="text movesection"><font>$articleItem.content</font></p>
+								#end
+								#if($articleItem.type == 2)
+								<p class="pic movesection">
+									<img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end" class="nopic" id="1">
+									<input type="hidden" class="imgDateVal" value="$!articleItem.content">
+								</p>
+								#end
+								#if($articleItem.type == 3)
+								<div class="item movesection">
+									<div class="itemwraptitle">$!articleItem.title</div>
+									<div class="itemwrap" itemid="$articleItem.content" itemsubtype="$articleItem.subType">
+										<div class="itemimgbox">
+											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleProductItemVO.itemPic">
+											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>$!articleItem.articleProductItemVO.itemType</p>
+											<p class="itemtag">$!articleItem.articleProductItemVO.itemTag</p>
+										</div>
+										<div class="itemmsgbox">
+											<p class="itemright">
+												<span class="pritxt">九休专享价</span>
+												<span class="prinum">￥<em>$!articleItem.articleProductItemVO.itemPrice</em></span>
+											</p>
+											<p class="itemleft">
+												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
+												<span class="itemshop">
+													<img class="icon-shop" src="$utilWebconfig.getTfsRootPath()$!articleItem.articleProductItemVO.merchantLogo">
+													<label class="shoptitle">$!articleItem.articleProductItemVO.merchantName</label>
+												</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								#end
+            				#end																					
 							</div>
 							<div class="hd clearfix">
 								<ul class="clearfix">
