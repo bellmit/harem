@@ -3,11 +3,9 @@ package com.yimayhd.palace.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,6 +101,9 @@ public class ArticleManageController extends BaseController {
 	public ResponseVo getArticleItemDetailById(@PathVariable("id") long id, @PathVariable("type") int type)
 			throws Exception {
 		try {
+			if (id <= 0 || type <= 0) {
+				return ResponseVo.error();
+			}
 			ResponseVo responseVo = new ResponseVo();
 			ArticleItemVO articleItemVO = articleService.getArticleItemDetailById(id, type);
 			if (articleItemVO == null) {
