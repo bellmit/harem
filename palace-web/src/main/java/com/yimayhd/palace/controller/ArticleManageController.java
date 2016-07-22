@@ -144,7 +144,14 @@ public class ArticleManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(ArticleVO articleVO) throws Exception {
-		articleService.modify(articleVO);
+		CheckResult checkResult = ArticleChecker.checkArticleVO(articleVO);
+		ArticleVO vo = null;
+		if (checkResult.isSuccess()) {
+			vo = ArticleConverter.convertToArticleVO(articleVO);
+		} else {
+			throw new BaseException(checkResult.getMsg());
+		}
+		ResourceResult<Boolean> result = articleService.modify(vo);
 		return "/success";
 	}
 
