@@ -71,23 +71,6 @@ public class ViewExcel extends AbstractExcelView {
             for (MainOrder mo:pp.getItemList()) {
                 mo.getLogisticsOrderDO();
                 eo = new ExportGfOrder();
-                eo.setConsigneeName();
-                public String consigneeName="收货人姓名";//lgOrder.fullName //收货人姓名
-                public long buyerId=11;//order.buyerId//买家ID
-                public String buyerName="name";//order.buyerName //买家
-                public long buyerPhoneNum=18710022494L;//$!order.buyerPhoneNum//电话
-                public String contactAddress="北京长安街";//$!lgOrder.prov， $!lgOrder.city，  $!lgOrder.area，$!lgOrder.address，//详细地址
-                public long bizOrderId=111L;//$!order.mainOrder.bizOrderDO.bizOrderId//订单号
-                public String itemTitle="itemTitle";//$!subOrder.bizOrderDO.itemTitle//商品名称
-                public long itemId=10911L;//$!subOrder.bizOrderDO.itemId//商品ID
-                public long itemPrice=10000L;//$!subOrder.bizOrderDO.itemPrice //商品价格
-                public long actualFee=1009;//$!subOrder.sumFee//实际支付金额
-                public long buyAmount=1;//$!subOrder.bizOrderDO.buyAmount//商品数量
-                public String createDate="2016-11-11";//$!order.mainOrder.bizOrderDO.gmtCreated//下单时间
-                public long sumFee=10098;//$!subOrder.sumFee//订单总额
-                public long freightFee=98;//运费
-                public String paymentMode="收下" ;// //支付方式
-                public String orderShowState="发货中";//$order.mainO
                 list.add(eo);
             }
             return list;
