@@ -269,7 +269,7 @@ public class TopicServiceImpl implements TopicService {
 		}
 		
 		TopicListQuery query = new TopicListQuery();
-		query.setTitle(query.getTitle());
+		query.setTitle(topicInfoVO.getTitle());
 		PageVO<TopicVO> pageVo = this.getTopicPageList(query);
 		if(pageVo == null){
 			return;

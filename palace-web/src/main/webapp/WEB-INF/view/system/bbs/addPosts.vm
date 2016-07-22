@@ -68,7 +68,7 @@
                             <textarea class="form-control description" rows="5" name="summary">$!{posts.summary}</textarea>
                         </td>
                     </tr>
-                    <tr><td colspan="2"><span style="color:#3595CC;">提示：推荐图片 达人评测：288px*286px; 成迷私房课：大图657*453；小图：296*250; 活动报道：809*400; 精油+：286*284</span></td></tr>
+                    <tr><td colspan="2"><span style="color:#3595CC;">提示：推荐图片 达人评测：288px*286px; 成迷私房课：大图657*453；小图：296*250; 活动报道：809*400; 精油+：286*284 <br>展示图片: 建议上传尺寸为138px*138px</span></td></tr>
                     <tr>
                         <td><span class="spColor">*</span>帖子图片</td>
                         <td class="bigListPicTd">

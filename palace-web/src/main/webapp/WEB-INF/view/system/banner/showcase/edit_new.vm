@@ -207,9 +207,9 @@
             }
             var isRegion = false;
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
-                var sce = win.getItemss();
-                console.log(JSON.stringify(sce));
-                if(multiselect){
+                if(multiselect == "true"){
+                    var sce = win.getItemss();
+                    console.log(JSON.stringify(sce));
                     var zsnr="";
                     var cont="";
                     for(var i in sce) {
@@ -222,6 +222,8 @@
                     $("#chosId").val(cont);
                     $("#addsecontentId").text(zsnr);
                 }else{
+                    var sce = win.getItems();
+                    console.log(JSON.stringify(sce));
                     $("#addsecontentId").text(sce.name);
                     if(type==2){//2是目的地
                         $("#chosId").val(sce.cityCode);
