@@ -66,7 +66,6 @@
 								详情
 							</button>
 							<button type="button" class="btn btn-primary reSubmit" reqDate="2016-06-07" accountType="2" batchNo="1">失败重新提交</button>
-							<button type="button" class="btn btn-primary operateLog" >操作记录</button>
 						</td>
 					</tr>
 					#foreach($item in $pageVo.itemList)
@@ -84,7 +83,6 @@
 								详情
 							</button>
 							<button type="button" class="btn btn-primary reSubmit" reqDate="$!item.reqDate" accountType="$!item.accountType" batchNo="$!item.batchNo">失败重新提交</button>
-							<button type="button" class="btn btn-primary operateLog" >操作记录</button>
 						</td>
 					</tr>
 					#end
@@ -157,16 +155,6 @@
 			    },"json");
 			}, function(){
 			  
-			});
-	    });
-	    
-	    $('.operateLog').click(function(){
-	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settlement/operateLog';
-			layer.open({
-			  type: 2,
-			  title: "操作记录",
-			  area: ['600px', '400px'],
-			  content: url
 			});
 	    });
 	})();
