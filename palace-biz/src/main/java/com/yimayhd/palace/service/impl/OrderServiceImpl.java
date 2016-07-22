@@ -151,12 +151,10 @@ public class OrderServiceImpl implements OrderService {
 					mainOrderList.add(mo);
 				}
 			}
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
-					(int)batchQueryResult.getTotalCount(),mainOrderList);
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), (int)batchQueryResult.getTotalCount(),mainOrderList);
 			return orderPageVO;
 		}else{
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
-					0,mainOrderList);
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), 0,mainOrderList);
 			return orderPageVO;
 		}
 

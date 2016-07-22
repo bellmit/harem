@@ -1,10 +1,15 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.export.ExportGfOrder;
 import com.yimayhd.palace.model.query.ExportQuery;
 import com.yimayhd.palace.model.query.VoucherListQuery;
+import com.yimayhd.palace.model.trade.MainOrder;
+import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.palace.util.excel.poi.ViewExcel;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +29,7 @@ import java.util.*;
 @RequestMapping("/GF/export")
 public class ExportController extends BaseController{
 
+
     /**
      * 订单导出
      * @return 订单导出
@@ -31,8 +37,16 @@ public class ExportController extends BaseController{
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list(ModelMap model, ExportQuery exportQuery) throws Exception {
-        model.put("query",exportQuery);
-        model.put("fileName","GF订单列表");
+        try {
+            exportQuery.setDomain(1100);
+            if(StringUtils.isNotEmpty(exportQuery.getItemName()) && exportQuery.getItemName().equals(",")){
+                exportQuery.setItemName(null);
+            }
+            model.put("query",exportQuery);
+            model.put("fileName","GF订单列表");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new ModelAndView(new ViewExcel(), model);
     }
 }
