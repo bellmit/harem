@@ -207,7 +207,7 @@
             }
             var isRegion = false;
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
-                if(multiselect){
+                if(multiselect == "true"){
                     var sce = win.getItemss();
                     console.log(JSON.stringify(sce));
                     var zsnr="";
