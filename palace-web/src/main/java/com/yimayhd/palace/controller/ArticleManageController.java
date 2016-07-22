@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.checker.ArticleChecker;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
@@ -77,17 +80,19 @@ public class ArticleManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/add")
 	public String add(ArticleVO articleVO) throws Exception {
-		ResponseVo responseVo = new ResponseVo();
-		ArticleVO vo = ArticleChecker.convertToArticleVO(articleVO);
+		CheckResult checkResult = ArticleChecker.checkArticleVO(articleVO);
+		ArticleVO vo = null;
+		if (checkResult.isSuccess()) {
+			vo = ArticleConverter.convertToArticleVO(articleVO);
+		} else {
+			throw new BaseException(checkResult.getMsg());
+		}
 		ResourceResult<Boolean> result = articleService.add(vo);
 		if (result.isSuccess()) {
-			responseVo.setMessage("添加成功！");
-			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+			return "/success";
 		} else {
-			responseVo.setMessage(result.getResultMsg());
-			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+			throw new BaseException(result.getResultMsg());
 		}
-		return "/success";
 	}
 
 	/**

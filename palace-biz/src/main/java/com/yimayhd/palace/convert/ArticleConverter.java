@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
+import com.alibaba.fastjson.JSONArray;
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
@@ -120,4 +121,14 @@ public class ArticleConverter {
 		}
 		articleItemVO.setArticleProductItemVO(articleProductItemVO);
 	}
+	
+	public static ArticleVO convertToArticleVO(ArticleVO articleVO) {
+		String articleItems = articleVO.getArticleItems();
+		JSONArray jsonarray = JSONArray.parseArray(articleItems);
+		String json = jsonarray.toString();
+		List<ArticleItemVO> list = JSONArray.parseArray(json, ArticleItemVO.class);
+		articleVO.setArticleItemList(list);
+		return articleVO;
+	}
+
 }
