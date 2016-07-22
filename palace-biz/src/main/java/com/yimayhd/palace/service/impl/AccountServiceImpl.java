@@ -36,6 +36,15 @@ public class AccountServiceImpl implements AccountService {
 	public EleAccBalanceResultVO queryEleAccBalance(AccountQuery query) throws Exception {
 		
 		EleAccBalanceResultVO resultVO = new EleAccBalanceResultVO();
+		
+		try {
+			Long.parseLong(query.getUserId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("AccountServiceImpl.queryEleAccBalance param is illegal : {}, and exception is {}", JSON.toJSONString(query), e);
+			return resultVO;
+		}
+		
 		resultVO.setEleAccBalanceVOPage(new PageVO<EleAccBalanceVO>());
 		
 		EleAccBalanceQuery queryDO = AccountQuery.getEleAccBalanceQuery(query);

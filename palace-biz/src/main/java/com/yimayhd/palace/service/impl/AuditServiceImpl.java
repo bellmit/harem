@@ -134,6 +134,9 @@ public class AuditServiceImpl implements AuditService {
         toClient.write(buffer);
         toClient.flush();
         toClient.close();
+        
+        //删除生成的文件
+        file.delete();
 	}
 	
 	private void exportAuditOrderExcel(AuditQuery query, String path) throws Exception {
@@ -142,19 +145,19 @@ public class AuditServiceImpl implements AuditService {
 		WritableSheet ws = wwb.createSheet("aaa", 0);
 		Label label = new Label(0, 0, "交易流水号");
 		ws.addCell(label); 
-		label = new Label(0, 0, "交易类型");
+		label = new Label(1, 0, "交易类型");
 		ws.addCell(label);
-		label = new Label(1, 0, "平台交易时间");
+		label = new Label(2, 0, "平台交易时间");
 		ws.addCell(label);
-		label = new Label(2, 0, "平台交易金额（元）");
+		label = new Label(3, 0, "平台交易金额（元）");
 		ws.addCell(label);
-		label = new Label(3, 0, "第三方交易时间");
+		label = new Label(4, 0, "第三方交易时间");
 		ws.addCell(label);
-		label = new Label(4, 0, "第三方交易金额（元）");
+		label = new Label(5, 0, "第三方交易金额（元）");
 		ws.addCell(label);
-		label = new Label(5, 0, "对账状态");
+		label = new Label(6, 0, "对账状态");
 		ws.addCell(label);
-		label = new Label(6, 0, "备注");
+		label = new Label(7, 0, "备注");
 		ws.addCell(label);
 		
 		AuditOrderQuery queryDO = AuditQuery.getAuditOrderQuery(query);
@@ -180,22 +183,24 @@ public class AuditServiceImpl implements AuditService {
 			PayAuditOrderVO item = null;
 			for(int i = 0; i < list.size(); i++){
 				item = list.get(i);
+				
 				label = new Label(0, rowNo, item.getOutTradeNo());
 				ws.addCell(label);
-				
+				label = new Label(1, rowNo, DateUtil.dateToString(item.getTradeDate(), DateUtil.DATE_TIME_FORMAT));
+				ws.addCell(label);
 				TransType transType = TransType.getByType(item.getTransType());
-				label = new Label(1, rowNo, transType != null ? transType.getDesc() : "");
+				label = new Label(2, rowNo, transType != null ? transType.getDesc() : "");
 				ws.addCell(label);
-				label = new Label(2, rowNo, DateUtil.dateToString(item.getTradeDate(), DateUtil.DATE_TIME_FORMAT));
+				label = new Label(3, rowNo, DateUtil.dateToString(item.getTradeDate(), DateUtil.DATE_TIME_FORMAT));
 				ws.addCell(label);
-				label = new Label(3, rowNo, item.getTradeAmount()+"");
+				label = new Label(4, rowNo, item.getTradeAmount()+"");
 				ws.addCell(label);
-				label = new Label(4, rowNo, DateUtil.dateToString(item.getOppositeTradeDate(), DateUtil.DATE_TIME_FORMAT));
+				label = new Label(5, rowNo, DateUtil.dateToString(item.getOppositeTradeDate(), DateUtil.DATE_TIME_FORMAT));
 				ws.addCell(label);
 				AuditOrderStatus orderStatus = AuditOrderStatus.getByStatus(item.getAuditOrderStatus());
-				label = new Label(5, rowNo, orderStatus != null ? orderStatus.getDesc() : "");
+				label = new Label(6, rowNo, orderStatus != null ? orderStatus.getDesc() : "");
 				ws.addCell(label);
-				label = new Label(6, rowNo, "");
+				label = new Label(7, rowNo, "");
 				ws.addCell(label);
 			}
 			
