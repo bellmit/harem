@@ -104,6 +104,19 @@ public class MerchantRepo {
 		}
 		try {
 			MerchantDTO dto = vo.getMerchantDTO(vo);
+			BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(vo.getId());
+			if (merchant == null) {
+				log.error("result :{} ",merchant);
+				resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+				return resultSupport;
+			}
+			if (!merchant.isSuccess()) {
+				log.error("result :{} "+JSON.toJSONString(merchant));
+				resultSupport.setCode(merchant.getErrorCode());
+				resultSupport.setMsg(merchant.getErrorMsg());
+				resultSupport.setSuccess(false);
+			}
+			
 			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(dto);
 			if (updateMerchantResult == null) {
 				resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
@@ -118,11 +131,11 @@ public class MerchantRepo {
 			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
 			PictureTextVO pictureTextVO = new PictureTextVO();
 			pictureTextVO.setPictureTextItems(pictureTextItems);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(dto.getSellerId(), PictureText.FOOD, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchant.getValue().getSellerId(), PictureText.FOOD, pictureTextVO);
 			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(updateMerchantResult));
 		} catch (Exception e) {
-			log.error("update merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception is "+e);
+			log.error("update merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception is ",e);
 			resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
 			
 		}
