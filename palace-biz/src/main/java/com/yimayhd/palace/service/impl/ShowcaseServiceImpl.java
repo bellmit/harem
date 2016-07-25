@@ -545,7 +545,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> topicResultToShowCaseItem(List<TopicResult> listTop){
-        if(CollectionUtils.isEmpty(listTop)){
+        if(CollectionUtils.isNotEmpty(listTop)){
             List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
             for (TopicResult top:listTop ) {
                 ShowCaseItem sc = new ShowCaseItem();
