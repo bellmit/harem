@@ -750,7 +750,7 @@
 
 #macro(OPTION_COM_RATE_RATE_STATUS $type)
     <option value="" >全部</option>
-    <option value="RATE" #if($type == "RATE")selected#end>待回复</option>
+    <option value="RATE" #if($type == "RATE")selected#end>未回复</option>
     <option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
 #end
 
