@@ -31,7 +31,18 @@ public class ArticleItemVO implements Serializable {
 	private Date gmtCreated;
 
 	private Date gmtModified;
+	/**
+	 * 商品项
+	 */
 	private ArticleProductItemVO articleProductItemVO;
+	/**
+	 * 咨询服务项
+	 */
+	private ArticleConsultServiceItemVO articleConsultServiceItemVO;
+	/**
+	 * 达人项
+	 */
+	private ArticleExpertManItemVO articleExpertManItemVO;
 
 	public long getId() {
 		return id;
@@ -119,6 +130,22 @@ public class ArticleItemVO implements Serializable {
 
 	public void setArticleProductItemVO(ArticleProductItemVO articleProductItemVO) {
 		this.articleProductItemVO = articleProductItemVO;
+	}
+
+	public ArticleConsultServiceItemVO getArticleConsultServiceItemVO() {
+		return articleConsultServiceItemVO;
+	}
+
+	public void setArticleConsultServiceItemVO(ArticleConsultServiceItemVO articleConsultServiceItemVO) {
+		this.articleConsultServiceItemVO = articleConsultServiceItemVO;
+	}
+
+	public ArticleExpertManItemVO getArticleExpertManItemVO() {
+		return articleExpertManItemVO;
+	}
+
+	public void setArticleExpertManItemVO(ArticleExpertManItemVO articleExpertManItemVO) {
+		this.articleExpertManItemVO = articleExpertManItemVO;
 	}
 
 }

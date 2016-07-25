@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.util.RepoUtils;
@@ -32,8 +33,6 @@ public class ArticleRepo {
 	public static final int STATUS_ENABLE = 1;
 	@Autowired
 	private ArticleBackEndService articleBackEndServiceRef;
-	@Autowired
-	private ItemQueryService itemQueryServiceRef;
 	@Autowired
 	private MerchantService merchantService;
 
@@ -79,19 +78,4 @@ public class ArticleRepo {
 		return result;
 	}
 
-	public ItemResult getItemById(long id) {
-		RepoUtils.requestLog(log, "itemQueryServiceRef.getItemById", id);
-		ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
-		ItemResult result = itemQueryServiceRef.getItem(id, itemOptionDTO);
-		RepoUtils.resultLog(log, "itemQueryServiceRef.getItemById", result);
-		return result;
-	}
-
-	public BaseResult<MerchantUserDTO> getMerchantBySellerId(long sellerId) {
-		RepoUtils.requestLog(log, "merchantService.getMerchantBySellerId", sellerId);
-		BaseResult<MerchantUserDTO> result = merchantService.getMerchantAndUserBySellerId(sellerId,
-				Constant.DOMAIN_JIUXIU);
-		RepoUtils.requestLog(log, "merchantService.getMerchantBySellerId", result);
-		return result;
-	}
 }

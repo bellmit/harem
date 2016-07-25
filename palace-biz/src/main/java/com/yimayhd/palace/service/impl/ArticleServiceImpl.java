@@ -11,27 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.ArticleBiz;
 import com.yimayhd.palace.convert.ArticleConverter;
+import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
+import com.yimayhd.palace.model.ArticleExpertManItemVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.repo.ArticleRepo;
+import com.yimayhd.palace.repo.ItemRepo;
+import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
-import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
-import com.yimayhd.user.client.dto.MerchantUserDTO;
-import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.dto.UserDTO;
 
 /**
  * H5文章
@@ -46,6 +46,10 @@ public class ArticleServiceImpl implements ArticleService {
 	private ArticleRepo articleRepo;
 	@Autowired
 	private ArticleBiz articleBiz;
+	@Autowired
+	private ItemRepo itemRepo;
+	@Autowired
+	private MerchantRepo merchantRepo;
 
 	@Override
 	public PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception {
@@ -66,12 +70,10 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		ResourcePageResult<ArticleDTO> result = articleRepo.pageQueryArticles(articleQueryDTO);
 		if (null == result) {
-			log.error("articleClientServiceRef.pageQueryArticles result is null and parame: "
-					+ JSON.toJSONString(articleQueryDTO));
+			log.error("articleClientServiceRef.pageQueryArticles result is null and parame: " + JSON.toJSONString(articleQueryDTO));
 			throw new BaseException("返回结果错误,新增失败 ");
 		} else if (!result.isSuccess()) {
-			log.error("articleClientServiceRef.pageQueryArticles error:" + JSON.toJSONString(result) + "and parame: "
-					+ JSON.toJSONString(articleQueryDTO));
+			log.error("articleClientServiceRef.pageQueryArticles error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(articleQueryDTO));
 			throw new BaseException(result.getResultMsg());
 		}
 		int totalCount = result.getTotalCount();
@@ -82,8 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
 				articleList.add(ArticleConverter.getArticleVO(articleDTO));
 			}
 		}
-		return new PageVO<ArticleVO>(articleListQuery.getPageNumber(), articleListQuery.getPageSize(), totalCount,
-				articleList);
+		return new PageVO<ArticleVO>(articleListQuery.getPageNumber(), articleListQuery.getPageSize(), totalCount, articleList);
 	}
 
 	@Override
@@ -136,23 +137,33 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public ArticleItemVO getArticleItemDetailById(long id, int type) {
 		ArticleItemVO articleItemVO = new ArticleItemVO();
-		articleItemVO.setType(type);
-		if (type == ArticleItemType.PRODUCT.getValue()) {
-			ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
-			ItemResult itemResult = articleRepo.getItemById(id);
-			if (itemResult == null || !itemResult.isSuccess() || itemResult.getItem() == null) {
-				return null;
+		switch (ArticleItemType.getByType(type)) {
+		case PRODUCT:
+			ItemDO itemDO = articleBiz.getItemById(id);
+			if (itemDO != null) {
+				ArticleProductItemVO articleProductItemVO = articleBiz.getArticleProductItemVO(itemDO);
+				articleItemVO.setSubType(itemDO.getItemType());
+				articleItemVO.setArticleProductItemVO(articleProductItemVO);
 			}
-			ItemDO itemDO = itemResult.getItem();
-			long sellerId = itemDO.getSellerId();
-			BaseResult<MerchantUserDTO> result = articleRepo.getMerchantBySellerId(sellerId);
-			if (result == null || result.getValue() == null) {
-				return null;
+			break;
+		case EXPERTMAN:
+			UserDTO userDTO = articleBiz.queryTalentInfo(id);
+			ArticleExpertManItemVO articleExpertManItemVO = articleBiz.getArticleExpertManItemVO(userDTO);
+			articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
+			break;
+		case CONSULTSERVICE:
+			itemDO = articleBiz.getItemById(id);
+			if (itemDO != null) {
+				ArticleConsultServiceItemVO articleConsultServiceItemVO = articleBiz.getArticleConsultServiceItemVO(itemDO);
+				articleItemVO.setSubType(itemDO.getItemType());
+				articleItemVO.setArticleConsultServiceItemVO(articleConsultServiceItemVO);
 			}
-			MerchantUserDTO merchantUserDTO = result.getValue();
-			ArticleConverter.ItemDOToArticleProductItemVO(articleItemVO, articleProductItemVO, itemDO,
-					merchantUserDTO.getMerchantDO());
+			break;
+		default:
+			break;
 		}
+		articleItemVO.setType(type);
 		return articleItemVO;
 	}
+
 }

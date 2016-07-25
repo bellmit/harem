@@ -78,17 +78,17 @@ public class ArticleConverter {
 		BeanUtils.copyProperties(articleDO, articleVO);
 		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
 			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
-			ArticleItemVO articleItemVO = new ArticleItemVO();
+			ArticleItemVO articleItemVO=new ArticleItemVO();
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
-				ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
 				Long itemId = 0L;
 				if (RegExpValidator.IsNumber(articleItemDO.getContent())) {
 					itemId = Long.parseLong(articleItemDO.getContent());
 				}
 				ItemDO itemDO = itemDOMap.get(itemId);
 				MerchantDO merchantDO = merchantDOMap.get(itemDO.getSellerId());
-				ItemDOToArticleProductItemVO(articleItemVO, articleProductItemVO, itemDO, merchantDO);
+				ArticleProductItemVO articleProductItemVO = ItemDOToArticleProductItemVO(itemDO, merchantDO);
+				articleItemVO.setArticleProductItemVO(articleProductItemVO);
 			}
 			articleItems.add(articleItemVO);
 		}
@@ -96,13 +96,12 @@ public class ArticleConverter {
 		return articleVO;
 	}
 
-	public static void ItemDOToArticleProductItemVO(ArticleItemVO articleItemVO,
-			ArticleProductItemVO articleProductItemVO, ItemDO itemDO, MerchantDO merchantDO) {
-		articleItemVO.setSubType(itemDO.getItemType());
+	public static ArticleProductItemVO ItemDOToArticleProductItemVO(ItemDO itemDO, MerchantDO merchantDO) {
+		ArticleProductItemVO articleProductItemVO=new ArticleProductItemVO();
 		if (PicUrlsUtil.getItemMainPics(itemDO)!=null) {
 			articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
 		}
-		articleProductItemVO.setItemPrice(Float.valueOf(itemDO.getPrice()));
+		articleProductItemVO.setItemPrice(itemDO.getPrice());
 		articleProductItemVO.setItemTitle(itemDO.getTitle());
 		articleProductItemVO.setItemType(ItemType.get(itemDO.getItemType()).getText());
 		articleProductItemVO.setMerchantLogo(merchantDO.getLogo());
@@ -119,7 +118,7 @@ public class ArticleConverter {
 				articleProductItemVO.setItemTagList(itemTagList);
 			}
 		}
-		articleItemVO.setArticleProductItemVO(articleProductItemVO);
+		return articleProductItemVO;
 	}
 	
 	public static ArticleVO convertToArticleVO(ArticleVO articleVO) {

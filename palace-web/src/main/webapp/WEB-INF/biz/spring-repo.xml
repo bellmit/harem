@@ -19,6 +19,7 @@
 	<bean id="examineDealRepo" class="com.yimayhd.palace.repo.member.ExamineDealRepo"/>
 	<bean id="userRepo" class="com.yimayhd.palace.repo.user.UserRepo"/>
 	<bean id="merchantRepo" class="com.yimayhd.palace.repo.MerchantRepo"/>
+	<bean id="talentRepo" class="com.yimayhd.palace.repo.user.TalentRepo"/>
 	
 	
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>

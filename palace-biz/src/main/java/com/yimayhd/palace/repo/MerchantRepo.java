@@ -17,8 +17,10 @@ import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
+import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.enums.RegisterType;
 import com.yimayhd.user.client.result.BaseResult;
@@ -189,5 +191,11 @@ public class MerchantRepo {
 			return bizResult;
 		}
 	}
-	
+	public BaseResult<MerchantUserDTO> getMerchantAndUserBySellerId(long sellerId) {
+		RepoUtils.requestLog(log, "merchantService.getMerchantBySellerId", sellerId);
+		BaseResult<MerchantUserDTO> result = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId,
+				Constant.DOMAIN_JIUXIU);
+		RepoUtils.requestLog(log, "merchantService.getMerchantBySellerId", result);
+		return result;
+	}
 }
