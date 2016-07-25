@@ -3,6 +3,7 @@ package com.yimayhd.palace.controller;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.export.ExportGfOrder;
 import com.yimayhd.palace.model.query.ExportQuery;
 import com.yimayhd.palace.model.query.VoucherListQuery;
@@ -39,11 +40,30 @@ public class ExportController extends BaseController{
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list(ModelMap model, ExportQuery exportQuery) throws Exception {
         try {
+            if(null != exportQuery.getIds()){//暂时没有批量查的接口，等后期支持
+                ModelAndView mo = new ModelAndView();
+                mo.addObject("message","暂时不支持批量导出");
+                mo.setViewName("error");
+                return mo;
+            }
+            if(!check(exportQuery)){
+                ModelAndView mo = new ModelAndView();
+                mo.addObject("message","请设置订单导出的查询条件");
+                mo.setViewName("error");
+                return mo;
+            }
             exportQuery.setDomain(1100);
+            exportQuery.setPageSize(Constant.EXPORTPAGESIZE);
             if(StringUtils.isNotEmpty(exportQuery.getItemName()) && exportQuery.getItemName().equals(",")){
                 exportQuery.setItemName(null);
             }
             PageVO<MainOrder> pageVO = orderService.getOrderList(exportQuery);
+            if(null != pageVO && pageVO.getPageSize()>Constant.EXPORTPAGESIZE){//创建多sheet.依赖工具类无法注入问题的解决
+                ModelAndView mo = new ModelAndView();
+                mo.addObject("message","数据量太大，请缩短查询范围");
+                mo.setViewName("error");
+                return mo;
+            }
             model.put("pageVO",pageVO);
             model.put("query",exportQuery);
             model.put("fileName","GF订单列表");
@@ -52,4 +72,28 @@ public class ExportController extends BaseController{
         }
         return new ModelAndView(new ViewExcel(), model);
     }
+    public boolean  check(ExportQuery exportQuery){
+        boolean flag = false;
+        if(null != exportQuery ){
+            flag = true;
+            return flag;
+        }else if(null != exportQuery.getIds()){
+            flag = true;
+            return flag;
+        }else if( StringUtils.isNotEmpty(exportQuery.getBeginDate()) && StringUtils.isNotEmpty(exportQuery.getEndDate())){
+            flag = true;
+            return flag;
+        }else if(StringUtils.isNotEmpty(exportQuery.getItemName())){
+            flag = true;
+            return flag;
+        }else if(StringUtils.isNotEmpty(exportQuery.getBuyerName())){
+            flag = true;
+            return flag;
+        }else if(StringUtils.isNotEmpty(exportQuery.getBuyerPhone())){
+            flag = true;
+            return flag;
+        }
+        return flag;
+    }
+
 }
