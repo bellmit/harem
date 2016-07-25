@@ -447,11 +447,13 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         ShowCaseItem sc = null;
         List<HotelDO> listHotelDO = result.getList();
-        for (HotelDO ho :listHotelDO) {
-            sc = new ShowCaseItem();
-            sc.setId(ho.getId());
-            sc.setName(ho.getName());
-            list.add(sc);
+        if(CollectionUtils.isNotEmpty(result.getList())){
+            for (HotelDO ho :listHotelDO) {
+                sc = new ShowCaseItem();
+                sc.setId(ho.getId());
+                sc.setName(ho.getName());
+                list.add(sc);
+            }
         }
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(hotelPageQuery.getPageNo(), hotelPageQuery.getPageSize(), result.getTotalCount(), list);
         return page;
@@ -466,11 +468,13 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         ShowCaseItem sc = null;
         List<ScenicDO> listScenicDO = result.getList();
-        for (ScenicDO ho :listScenicDO) {
-            sc = new ShowCaseItem();
-            sc.setId(ho.getId());
-            sc.setName(ho.getName());
-            list.add(sc);
+        if(CollectionUtils.isNotEmpty(result.getList())){
+            for (ScenicDO ho :listScenicDO) {
+                sc = new ShowCaseItem();
+                sc.setId(ho.getId());
+                sc.setName(ho.getName());
+                list.add(sc);
+            }
         }
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(scenicPageQuery.getPageNo(), scenicPageQuery.getPageSize(), result.getTotalCount(), list);
         return page;
@@ -514,15 +518,17 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> ugcResultToShowCaseItem(List<SnsSubjectDO> listUgc){
-        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
-        for (SnsSubjectDO sns:listUgc ) {
-            ShowCaseItem sc = new ShowCaseItem();
-            sc.setId(sns.getId());
-            sc.setName(sns.getTextContent());//标题
-            sc.setImgUrl(sns.getPicContent());
-            list.add(sc);
+        if(CollectionUtils.isNotEmpty(listUgc)){
+            List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
+            for (SnsSubjectDO sns:listUgc ) {
+                ShowCaseItem sc = new ShowCaseItem();
+                sc.setId(sns.getId());
+                sc.setName(sns.getTextContent());//标题
+                sc.setImgUrl(sns.getPicContent());
+                list.add(sc);
+            }
         }
-        return list;
+        return null;
     }
 
 
@@ -539,15 +545,18 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> topicResultToShowCaseItem(List<TopicResult> listTop){
-        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
-        for (TopicResult top:listTop ) {
-            ShowCaseItem sc = new ShowCaseItem();
-            sc.setId(top.getId());
-            sc.setName(top.getTitle());//标题
-            sc.setImgUrl(top.getPics());
-            list.add(sc);
+        if(CollectionUtils.isEmpty(listTop)){
+            List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
+            for (TopicResult top:listTop ) {
+                ShowCaseItem sc = new ShowCaseItem();
+                sc.setId(top.getId());
+                sc.setName(top.getTitle());//标题
+                sc.setImgUrl(top.getPics());
+                list.add(sc);
+            }
+            return list;
         }
-        return list;
+        return null;
     }
 
     public SnsTopicDO getTopicDetailInfo(TopicQueryDTO topicQueryDTO){
@@ -582,16 +591,19 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> boothToShowCaseItem(List<BoothDO> list){
-        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
-        for (BoothDO oo:list ) {
-            ShowCaseItem sc = new ShowCaseItem();
-            sc.setId(oo.getId());
-            sc.setName(oo.getName());//标题
-            sc.setCode(oo.getCode());
-            sc.setAppVersion(oo.getAppVersion());
-            listSC.add(sc);
+        if(CollectionUtils.isNotEmpty(list)){
+            List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+            for (BoothDO oo:list ) {
+                ShowCaseItem sc = new ShowCaseItem();
+                sc.setId(oo.getId());
+                sc.setName(oo.getName());//标题
+                sc.setCode(oo.getCode());
+                sc.setAppVersion(oo.getAppVersion());
+                listSC.add(sc);
+            }
+            return listSC;
         }
-        return listSC;
+        return null;
     }
 
 }
