@@ -8,7 +8,7 @@
     </bean>
 
     <bean id="dubboRegistryConfig" class="com.alibaba.dubbo.config.RegistryConfig">
-        <property name="address" value="192.168.1.202:2181"/>
+        <property name="address" value="192.168.1.147:2181"/>
         <property name="protocol" value="zookeeper"/>
     </bean>
 

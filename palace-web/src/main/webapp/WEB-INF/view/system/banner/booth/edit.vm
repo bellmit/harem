@@ -10,9 +10,32 @@
                     <td><span class="spColor">*</span>名称：</td>
                     <td> <input type="text" class="inpCtlBlock name" name="name"  value=""></td>
                 </tr>
+
+                <tr>
+                    <td>主标题：</td>
+                    <td> <input type="text" class="inpCtlBlock description" name="title"  value=""></td>
+                </tr>
+                <tr>
+                    <td>副标题：</td>
+                    <td> <input type="text" class="inpCtlBlock description" name="subTitle"  value=""></td>
+                </tr>
+
                 <tr>
                     <td>描述：</td>
                     <td> <input type="text" class="inpCtlBlock description" name="desc"  value=""></td>
+                </tr>
+                <tr>
+                    <td>选择版本：</td>
+                    <td>
+                        <select class="form-control appVersion" name="appVersion" id="appvId" >
+                            <option value="0">请选择</option>
+                            #foreach($!appv in $listAppVersion)
+                                <option id="$!appv.id" value="$!appv.code"
+                                         #if($!currentBooth.appVersion == $!appv.appVersion) selected = 'selected' #end
+                                >$!appv.name</option>
+                            #end
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>缓存类型</td>
@@ -44,6 +67,9 @@
          }
          if($('.description').val() && $('.description').val().length > 200){
              return '描述不能超过200字';
+         }
+         if("" == $('.appVersion').val() || $('.appVersion').val() == 0){
+             return '请选择app版本号';
          }
      }
     $(function(){

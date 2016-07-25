@@ -3,9 +3,11 @@ package com.yimayhd.palace.model;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.TextUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.util.ListUtil;
 import com.yimayhd.user.client.domain.UserDO;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -15,16 +17,24 @@ import java.util.List;
  * Created by czf on 2015/12/31.
  */
 public class SnsSubjectVO extends SnsSubjectDO {
-    private UserDO userDO;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private UserDO userDO;
     private long tagId;
     private ComTagDO tag;
     private List<String> picList;
+	private List<String> topicTitleList;
     private String picListStr;
     private String gmtCreatedStr;//时间字符串(yyyy-MM-dd HH:mm)
     private Integer commentNum;//评论数
     private Integer supportNum;//点赞数
 
     public static SnsSubjectVO getSnsSubjectVO(SnsSubjectDO snsSubjectDO){
+    	if( snsSubjectDO == null ){
+    		return null;
+    	}
         SnsSubjectVO snsSubjectVO = new SnsSubjectVO();
         BeanUtils.copyProperties(snsSubjectDO, snsSubjectVO);
         //图片list(以‘|’开头，所以要移除第一个元素)
@@ -33,6 +43,9 @@ public class SnsSubjectVO extends SnsSubjectDO {
             snsSubjectVO.setPicList(picList);
             //图片预览用
             snsSubjectVO.setPicListStr(JSON.toJSONString(snsSubjectVO.getPicList()));
+        }
+        if(!StringUtils.isBlank(snsSubjectDO.getTextContent())){
+        	snsSubjectVO.setTopicTitleList(TextUtil.getTopicContent(snsSubjectDO.getTextContent()));
         }
         //时间
         snsSubjectVO.setGmtCreatedStr(DateUtil.dateToString(snsSubjectDO.getGmtCreated(), DateUtil.DAY_HORU_FORMAT));
@@ -102,4 +115,13 @@ public class SnsSubjectVO extends SnsSubjectDO {
     public void setPicListStr(String picListStr) {
         this.picListStr = picListStr;
     }
+
+	public List<String> getTopicTitleList() {
+		return topicTitleList;
+	}
+
+	public void setTopicTitleList(List<String> topicTitleList) {
+		this.topicTitleList = topicTitleList;
+	}
+
 }

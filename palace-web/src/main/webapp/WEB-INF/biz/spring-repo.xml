@@ -31,7 +31,6 @@
 	<bean id="orderRepo" class="com.yimayhd.palace.repo.OrderRepo" />
 	<bean id="cityRepo" class="com.yimayhd.palace.repo.CityRepo" />
 	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
-	
+	<bean id="topicRepo" class="com.yimayhd.palace.repo.TopicRepo" />
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
-	
 </beans>
