@@ -1,26 +1,19 @@
 package com.yimayhd.palace.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
-import com.yimayhd.palace.model.export.ExportGfOrder;
 import com.yimayhd.palace.model.query.ExportQuery;
-import com.yimayhd.palace.model.query.VoucherListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.service.OrderService;
-import com.yimayhd.palace.util.excel.poi.ViewExcel;
+import com.yimayhd.palace.controller.poi.ViewExcel;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.*;
 
 /**
  * @author create by yushengwei on 2016/7/18
@@ -74,10 +67,7 @@ public class ExportController extends BaseController{
     }
     public boolean  check(ExportQuery exportQuery){
         boolean flag = false;
-        if(null != exportQuery ){
-            flag = true;
-            return flag;
-        }else if(null != exportQuery.getIds()){
+        if(null != exportQuery.getIds()){
             flag = true;
             return flag;
         }else if( StringUtils.isNotEmpty(exportQuery.getBeginDate()) && StringUtils.isNotEmpty(exportQuery.getEndDate())){

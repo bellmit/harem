@@ -1,4 +1,4 @@
-package com.yimayhd.palace.util.excel.poi;
+package com.yimayhd.palace.controller.poi;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
@@ -43,11 +43,11 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
  * @author create by yushengwei on 2016/7/18
  * @Description
  */
-
+@Controller
 public class ViewExcel extends AbstractExcelView {
     private static final Logger logger = LoggerFactory.getLogger(ViewExcel.class);
 
-   /* @Autowired
+  /* @Autowired
     private OrderService orderService;*/
 
     @Override
@@ -131,7 +131,7 @@ public class ViewExcel extends AbstractExcelView {
     public String handleExportGfOrder(Map<String, Object> obj,HSSFWorkbook workbook){
         String filename =obj.get("fileName").toString();
         //这里可以创建多个sheet。
-        //orderService.buyerConfirmGoods(1);
+       /* orderService.buyerConfirmGoods(1);*/
         HSSFSheet sheet = assemblyHSSFSheet(filename,workbook);
         PageVO page = (PageVO)obj.get("pageVO");
         List<ExportGfOrder> list = getListExportGfOrder(obj);
