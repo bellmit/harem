@@ -197,7 +197,7 @@ public class MerchantController extends BaseController {
 			}
 			model.addAttribute("merchant",merchant.getValue() );
 			model.addAttribute("pictureText", merchantBiz.getPictureText(merchant.getValue().getSellerId()));
-			
+
 		}
 		
 		return "/system/food/foodcustomdt";
