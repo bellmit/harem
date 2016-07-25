@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
@@ -26,19 +25,12 @@ import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.resourcecenter.model.enums.ArticleStauts;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
-import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
-
-/**
- * H5文章
- * 
- * @author xiemingna
- *
- */
 public class ArticleServiceImpl implements ArticleService {
 
 	private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
@@ -124,7 +116,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public ResourceResult<Boolean> batchViolation(List<Long> idList, int status) {
+	public ResourceResult<Boolean> batchViolation(List<Long> idList, ArticleStauts status) {
 		ResourceResult<Boolean> result = new ResourceResult<Boolean>();
 		if (CollectionUtils.isEmpty(idList)) {
 			return result;

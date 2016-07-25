@@ -6,6 +6,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
+import com.yimayhd.resourcecenter.model.enums.ArticleStauts;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 
@@ -77,7 +78,7 @@ public interface ArticleService {
 	 * @param status
 	 * @return date:2016年7月15日 author:xmn
 	 */
-	ResourceResult<Boolean> batchViolation(List<Long> idList, int status);
+	ResourceResult<Boolean> batchViolation(List<Long> idList, ArticleStauts status);
 
 	ArticleItemVO getArticleItemDetailById(long id, int type);
 

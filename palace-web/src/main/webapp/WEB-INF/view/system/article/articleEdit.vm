@@ -154,9 +154,6 @@
          }else if($('.title').val().length > 200){
             return '直播内容不能超过200字';
          }
-         if(!$('.gmtCreated').val()){
-             return '发布时间不能为空';
-         }
      }
 	//上传图片
 	 $(document).delegate("#FMUploadFile",'change',function(){

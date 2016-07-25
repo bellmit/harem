@@ -209,8 +209,7 @@ public class ArticleManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchViolation(@RequestParam("articleIdList[]") ArrayList<Long> articleIdList) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		int status = ArticleStauts.OFFLINE.getValue();
-		ResourceResult<Boolean> result = articleService.batchViolation(articleIdList, status);
+		ResourceResult<Boolean> result = articleService.batchViolation(articleIdList, ArticleStauts.OFFLINE);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
