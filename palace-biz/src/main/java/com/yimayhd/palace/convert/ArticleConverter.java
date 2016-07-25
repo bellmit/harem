@@ -102,7 +102,7 @@ public class ArticleConverter {
 		if (PicUrlsUtil.getItemMainPics(itemDO)!=null) {
 			articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
 		}
-		articleProductItemVO.setItemPrice(Float.valueOf(itemDO.getPrice()));
+		articleProductItemVO.setItemPrice(itemDO.getPrice());
 		articleProductItemVO.setItemTitle(itemDO.getTitle());
 		articleProductItemVO.setItemType(ItemType.get(itemDO.getItemType()).getText());
 		articleProductItemVO.setMerchantLogo(merchantDO.getLogo());

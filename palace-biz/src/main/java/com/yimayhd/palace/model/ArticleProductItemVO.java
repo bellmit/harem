@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ArticleProductItemVO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private float itemPrice;
+	private long itemPrice;
 	private String itemTitle;
 	private String merchantName;
 	private String merchantLogo;
@@ -59,11 +59,11 @@ public class ArticleProductItemVO implements Serializable {
 		this.itemPic = itemPic;
 	}
 
-	public float getItemPrice() {
+	public long getItemPrice() {
 		return itemPrice;
 	}
 
-	public void setItemPrice(float itemPrice) {
+	public void setItemPrice(long itemPrice) {
 		this.itemPrice = itemPrice;
 	}
 
