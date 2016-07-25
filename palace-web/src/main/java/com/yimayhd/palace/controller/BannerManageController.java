@@ -345,6 +345,7 @@ public class BannerManageController extends BaseController {
         topicQueryListDTO.setNeedCount(true);
         topicQueryListDTO.setPageNo(pageNumber);
         topicQueryListDTO.setPageSize(pageSize);
+        topicQueryListDTO.setStatus(1);
         if(NumberUtils.isNumber(keyWord)){
             topicQueryListDTO.setId(Long.parseLong(keyWord));
         }else if(StringUtils.isNotEmpty(keyWord)){
