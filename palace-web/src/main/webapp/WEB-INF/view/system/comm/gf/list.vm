@@ -81,6 +81,7 @@
                         <button type="button" class="btn btn-primary commodityDetail" commodityId="$commodity.id" itemType="$commodity.itemType" categoryId="$!commodity.categoryId" outId="$!commodity.outId">查看</button>
                         <button type="button" class="btn btn-primary commodityBtn"  commodityId="$commodity.id" status="$commodity.status">#if($commodity.status == 2) 停用 #else 启用 #end </button>
 						<button type="button" class="btn btn-primary commodityRecommend"  commodityId="$commodity.id">关联售卖 </button>
+                        <button type="button" class="btn btn-primary commodityReview"  commodityId="$commodity.id">查看评论 </button>
                     </td>
                 </tr>
                 #end
@@ -148,6 +149,10 @@
                 top.tabsAdd("",url,2,$(this).text());
             });
 
+        });
+        $('.commodityReview').click(function(){
+            var url = actionDefaultPath + '/GF/comRateManage/list?itemId='+ $(this).attr('commodityId');
+            top.tabsAdd("",url,2,$(this).text()+$(this).attr('commodityId'));
         });
         //单个启用停用
         $('.commodityBtn').each(function(){
