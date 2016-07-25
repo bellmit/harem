@@ -7,22 +7,22 @@ import java.io.Serializable;
  * @Description
  */
 public class ExportGfOrder implements Serializable{
-    public String consigneeName="收货人姓名";//lgOrder.fullName //收货人姓名
-    public long buyerId=11;//order.buyerId//买家ID
-    public String buyerName="name";//order.buyerName //买家
-    public long buyerPhoneNum=18710022494L;//$!order.buyerPhoneNum//电话
-    public String contactAddress="北京长安街";//$!lgOrder.prov， $!lgOrder.city，  $!lgOrder.area，$!lgOrder.address，//详细地址
-    public long bizOrderId=111L;//$!order.mainOrder.bizOrderDO.bizOrderId//订单号
-    public String itemTitle="itemTitle";//$!subOrder.bizOrderDO.itemTitle//商品名称
-    public long itemId=10911L;//$!subOrder.bizOrderDO.itemId//商品ID
-    public long itemPrice=10000L;//$!subOrder.bizOrderDO.itemPrice //商品价格
-    public long actualFee=1009;//$!subOrder.sumFee//实际支付金额
-    public long buyAmount=1;//$!subOrder.bizOrderDO.buyAmount//商品数量
-    public String createDate="2016-11-11";//$!order.mainOrder.bizOrderDO.gmtCreated//下单时间
-    public long sumFee=10098;//$!subOrder.sumFee//订单总额
-    public long freightFee=98;//运费
-    public String paymentMode="收下" ;// //支付方式
-    public String orderShowState="发货中";//$order.mainOrder.orderShowState//订单状态
+    public String consigneeName;//lgOrder.fullName //收货人姓名
+    public long buyerId;//order.buyerId//买家ID
+    public String buyerName;//order.buyerName //买家
+    public String buyerPhoneNum;//$!order.buyerPhoneNum//电话
+    public String contactAddress;//$!lgOrder.prov， $!lgOrder.city，  $!lgOrder.area，$!lgOrder.address，//详细地址
+    public long bizOrderId;//$!order.mainOrder.bizOrderDO.bizOrderId//订单号
+    public String itemTitle;//$!subOrder.bizOrderDO.itemTitle//商品名称
+    public long itemId;//$!subOrder.bizOrderDO.itemId//商品ID
+    public long itemPrice;//$!subOrder.bizOrderDO.itemPrice //商品价格
+    public long actualFee;//$!subOrder.sumFee//实际支付金额
+    public long buyAmount;//$!subOrder.bizOrderDO.buyAmount//商品数量
+    public String createDate;//$!order.mainOrder.bizOrderDO.gmtCreated//下单时间
+    public long sumFee;//$!subOrder.sumFee//订单总额
+    public long freightFee;//运费
+    public String paymentMode;// //支付方式
+    public String orderShowState;//$order.mainOrder.orderShowState//订单状态
 
     public String getConsigneeName() {
         return consigneeName;
@@ -48,11 +48,11 @@ public class ExportGfOrder implements Serializable{
         this.buyerName = buyerName;
     }
 
-    public long getBuyerPhoneNum() {
+    public String getBuyerPhoneNum() {
         return buyerPhoneNum;
     }
 
-    public void setBuyerPhoneNum(long buyerPhoneNum) {
+    public void setBuyerPhoneNum(String buyerPhoneNum) {
         this.buyerPhoneNum = buyerPhoneNum;
     }
 

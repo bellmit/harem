@@ -28,7 +28,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/GF/export")
 public class ExportController extends BaseController{
-
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 订单导出
@@ -42,6 +43,8 @@ public class ExportController extends BaseController{
             if(StringUtils.isNotEmpty(exportQuery.getItemName()) && exportQuery.getItemName().equals(",")){
                 exportQuery.setItemName(null);
             }
+            PageVO<MainOrder> pageVO = orderService.getOrderList(exportQuery);
+            model.put("pageVO",pageVO);
             model.put("query",exportQuery);
             model.put("fileName","GF订单列表");
         } catch (Exception e) {
