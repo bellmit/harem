@@ -7,10 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 
+import com.yimayhd.ic.client.model.domain.item.IcDestination;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
@@ -21,14 +24,18 @@ import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleExpertManItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
 import com.yimayhd.palace.model.ArticleVO;
+import com.yimayhd.palace.repo.DestinationRepo;
 import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.palace.repo.user.TalentRepo;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.domain.ArticleItemDO;
+import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
+import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.dto.TalentDTO;
@@ -56,6 +63,8 @@ public class ArticleBiz {
 	private MerchantRepo merchantRepo;
 	@Autowired
 	private TalentRepo talentRepo;
+	@Autowired
+	private DestinationRepo destinationRepo;
 
 	public ArticleVO getArticle(ArticleDTO articleDTO) {
 		// List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
@@ -147,9 +156,43 @@ public class ArticleBiz {
 		articleConsultServiceItemVO.setServiceCurrentPrice(itemDO.getPrice());
 		articleConsultServiceItemVO.setServiceOriginalPrice(itemDO.getOriginalPrice());
 		articleConsultServiceItemVO.setServiceName(itemDO.getTitle());
-		String feature = itemDO.getFeature();
+		List<String> citys = getCityNameList(itemDO);
+		articleConsultServiceItemVO.setServiceCity(citys);
 		return articleConsultServiceItemVO;
 
+	}
+
+	private List<String> getCityNameList(ItemDO itemDO) {
+		ItemFeature itemFeature = itemDO.getItemFeature();
+		if (itemFeature == null) {
+			return null;
+		}
+		List<IcDestination> destCities = itemFeature.getDestCities();
+		ArrayList<Integer> cityCodeList = new ArrayList<Integer>();
+		if (CollectionUtils.isEmpty(destCities)) {
+			return null;
+		}
+		for (IcDestination icDestination : destCities) {
+			String code = icDestination.getCode();
+			if (StringUtils.isNumeric(code)) {
+				int parseInt = Integer.parseInt(code);
+				cityCodeList.add(parseInt);
+			}
+		}
+		ArrayList<String> citys = new ArrayList<String>();
+		DestinationQueryDTO aDestinationQueryDTO = new DestinationQueryDTO();
+		aDestinationQueryDTO.setCodeList(cityCodeList);
+		RcResult<List<DestinationDO>> result = destinationRepo.queryDestinationList(aDestinationQueryDTO);
+		if (result == null || !result.isSuccess() || CollectionUtils.isEmpty(result.getT())) {
+			return null;
+		}
+		List<DestinationDO> destinationDOs = result.getT();
+		if (CollectionUtils.isNotEmpty(destinationDOs)) {
+			for (DestinationDO destinationDO : destinationDOs) {
+				citys.add(destinationDO.getName());
+			}
+		}
+		return citys;
 	}
 
 	public ArticleExpertManItemVO getArticleExpertManItemVO(UserDTO userDTO) {

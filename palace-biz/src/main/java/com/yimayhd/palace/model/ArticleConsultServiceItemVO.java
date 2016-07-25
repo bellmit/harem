@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ArticleConsultServiceItemVO implements Serializable {
 	/**
@@ -9,7 +10,7 @@ public class ArticleConsultServiceItemVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String serviceHeadPic;
 	private String serviceName;
-	private String serviceCity;
+	private List<String> serviceCity;
 	private long serviceOriginalPrice;
 	private long serviceCurrentPrice;
 
@@ -29,11 +30,11 @@ public class ArticleConsultServiceItemVO implements Serializable {
 		this.serviceName = serviceName;
 	}
 
-	public String getServiceCity() {
+	public List<String> getServiceCity() {
 		return serviceCity;
 	}
 
-	public void setServiceCity(String serviceCity) {
+	public void setServiceCity(List<String> serviceCity) {
 		this.serviceCity = serviceCity;
 	}
 

@@ -31,6 +31,7 @@
 	<bean id="itemRepo" class="com.yimayhd.palace.repo.ItemRepo" />
 	<bean id="commentRepo" class="com.yimayhd.palace.repo.CommentRepo" />
 	<bean id="cityRepo" class="com.yimayhd.palace.repo.CityRepo" />
+	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
 	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
 	
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
