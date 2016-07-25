@@ -778,6 +778,19 @@
 	    #end
 	#end
 #end
+
+#macro(OPTION_COM_RATE_RATE_STATUS $type)
+    <option value="" >全部</option>
+    <option value="RATE" #if($type == "RATE")selected#end>未回复</option>
+    <option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
+#end
+
+#macro(OPTION_COM_RATE_BASE_STATUS $type)
+<option value="" >全部</option>
+<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
+<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
+#end
+
 #*话题状态*#
 #macro(TOPIC_STATUS $type)
     #if($type == '0')
@@ -786,4 +799,3 @@
 		 启用   
     #end
 #end
->>>>>>> v_1_6_0_20160726
