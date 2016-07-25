@@ -30,6 +30,9 @@ public class ArticleChecker {
 		if (ArticleItemSubType.get(articleVO.getType()) == null) {
 			return CheckResult.error("不支持的子项类型");
 		}
+		if (articleVO.getArticleItems() == null) {
+			return CheckResult.error("图文不能为空");
+		}
 		return CheckResult.success();
 	}
 
