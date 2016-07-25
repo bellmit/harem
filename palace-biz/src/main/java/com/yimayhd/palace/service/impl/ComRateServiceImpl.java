@@ -62,7 +62,7 @@ public class ComRateServiceImpl implements ComRateService {
             }
             if (!StringUtils.isBlank(comRateListQuery.getEndDate())) {
                 try {
-                    ratePageListDTO.setEndTime(DateUtil.convertStringToDate(comRateListQuery.getEndDate()).getTime());
+                    ratePageListDTO.setEndTime(DateUtil.convertStringToDate(comRateListQuery.getEndDate()+"23:59:59").getTime());
                 } catch (Exception e) {
                     log.error("error ", e);
                 }
@@ -78,15 +78,20 @@ public class ComRateServiceImpl implements ComRateService {
 
             if (!StringUtils.isBlank(comRateListQuery.getItemId())) {
                 long itemId =  (long) StringUtils.parseInteger(comRateListQuery.getItemId());
-                ratePageListDTO.setItemId(itemId);
+                log.debug("comRateListQuery.getItemId() = {}, itemId = {}", comRateListQuery.getItemId(), itemId);
+                if(itemId>0) {
+                    ratePageListDTO.setItemId(itemId);
+                } else {
+                    throw new Exception("itemId is zero");
+                }
             }
 
             ratePageListDTO.setPageSize(comRateListQuery.getPageSize());
             ratePageListDTO.setPageNo(comRateListQuery.getPageNumber());
-            log.info("ratePageListDTO {}", ratePageListDTO);
+            log.debug("ratePageListDTO {}", ratePageListDTO);
             BasePageResult<ComRateResult> comRatePageResult = commentRepo.getRatePageList(ratePageListDTO);
-            log.info("ratePageListDTO value {}", JSON.toJSONString(comRatePageResult));
-            log.info("ratePageList {}", JSON.toJSONString(comRatePageResult.getList()));
+            log.debug("ratePageListDTO value {}", JSON.toJSONString(comRatePageResult));
+            log.debug("ratePageList {}", JSON.toJSONString(comRatePageResult.getList()));
             if (comRatePageResult != null && comRatePageResult.isSuccess() && !CollectionUtils.isEmpty(comRatePageResult.getList())) {
 
                 List<Long> userIds = new ArrayList<Long>();
@@ -100,10 +105,15 @@ public class ComRateServiceImpl implements ComRateService {
                 }
 
                 List<UserDO> userDOs = userRepo.getUsers(userIds);
+                log.debug("userDOs = {}", JSON.toJSONString(userDOs));
                 Map<Long, UserDO> userDOMap = new HashMap<Long, UserDO>();
                 if (userDOs != null) {
                     for (int i = 0; i < userDOs.size(); i++) {
                         UserDO userDO = userDOs.get(i);
+                        if(StringUtils.isBlank(userDO.getNickname())){
+                            String mobileNo = userRepo.findMobileByUserId(userDO.getId());
+                            userDO.setMobileNo(mobileNo);
+                        }
                         userDOMap.put(userDO.getId(), userDO);
                     }
                 }
@@ -118,18 +128,18 @@ public class ComRateServiceImpl implements ComRateService {
                 }
 
                 BatchBizQueryResult bizQueryResult = orderRepo.queryOrderByOrderIds(orderIds);
-                log.info("BizQueryR {}", bizQueryResult);
+                log.debug("BizQueryR {}", bizQueryResult);
                 Map<Long, String> skuTitleMap = new HashMap<Long, String>();
                 if(bizQueryResult!=null && bizQueryResult.getBizOrderDOList()!=null){
                     for(int i=0; i<bizQueryResult.getBizOrderDOList().size(); i++){
                         TcMainOrder tcMainOrder = bizQueryResult.getBizOrderDOList().get(i);
                         List<TcDetailOrder> detailOrders = tcMainOrder.getDetailOrders();
-                        log.info("tcdetail order {}", detailOrders);
+                        log.debug("tcdetail order {}", detailOrders);
                         if(detailOrders!=null) {
                             for (int j = 0; j < detailOrders.size(); j++) {
                                 TcDetailOrder tcDetailOrder = detailOrders.get(j);
-                                log.info("tcDetailOrder={}",tcDetailOrder);
-                                log.info("tcDetailOrder.json.strong={}", JSON.toJSONString(tcDetailOrder));
+                                log.debug("tcDetailOrder={}",tcDetailOrder);
+                                log.debug("tcDetailOrder.json.strong={}", JSON.toJSONString(tcDetailOrder));
                                 skuTitleMap.put(tcDetailOrder.getBizOrder().getBizOrderId(), tcDetailOrder.getSkuTitle());
                             }
                         }
