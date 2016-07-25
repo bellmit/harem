@@ -1,4 +1,3 @@
-/*
 package com.yimayhd.palace.controller;
 
 import com.yimayhd.commentcenter.client.domain.ComRateDO;
@@ -21,11 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
-*/
 /**
  * Created by p on 7/18/16.
- *//*
-
+ */
 @Controller
 @RequestMapping("/GF/comRateManage")
 public class GFcomRateController {
@@ -55,4 +52,4 @@ public class GFcomRateController {
         BaseResult<Boolean> result = comRateService.replayComRate(ids, content);
         return result;
     }
-}*/
+}

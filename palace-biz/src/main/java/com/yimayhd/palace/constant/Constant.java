@@ -73,6 +73,4 @@ public class Constant {
 	public static final String TOPIC_SUG_REPEAT = "该话题已推荐，不需要重复推荐";
 
 	public static final List<String> BOOTH_NAME_FORBID = Arrays.asList("|","*","$","#"," ");
-
-	public static final int EXPORTPAGESIZE = 65536;
 }

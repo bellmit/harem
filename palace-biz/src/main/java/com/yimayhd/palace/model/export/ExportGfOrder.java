@@ -7,31 +7,22 @@ import java.io.Serializable;
  * @Description
  */
 public class ExportGfOrder implements Serializable{
-    public String consigneeName="";//lgOrder.fullName //收货人姓名
+    public String consigneeName;//lgOrder.fullName //收货人姓名
     public long buyerId;//order.buyerId//买家ID
-    public String buyerName="";//order.buyerName //买家
-    public String buyerPhoneNum="";//$!order.buyerPhoneNum//电话
-    public String contactAddress="";//$!lgOrder.prov， $!lgOrder.city，  $!lgOrder.area，$!lgOrder.address，//详细地址
+    public String buyerName;//order.buyerName //买家
+    public String buyerPhoneNum;//$!order.buyerPhoneNum//电话
+    public String contactAddress;//$!lgOrder.prov， $!lgOrder.city，  $!lgOrder.area，$!lgOrder.address，//详细地址
     public long bizOrderId;//$!order.mainOrder.bizOrderDO.bizOrderId//订单号
     public String itemTitle;//$!subOrder.bizOrderDO.itemTitle//商品名称
     public long itemId;//$!subOrder.bizOrderDO.itemId//商品ID
     public long itemPrice;//$!subOrder.bizOrderDO.itemPrice //商品价格
     public long actualFee;//$!subOrder.sumFee//实际支付金额
     public long buyAmount;//$!subOrder.bizOrderDO.buyAmount//商品数量
-    public String createDate="";//$!order.mainOrder.bizOrderDO.gmtCreated//下单时间
+    public String createDate;//$!order.mainOrder.bizOrderDO.gmtCreated//下单时间
     public long sumFee;//$!subOrder.sumFee//订单总额
     public long freightFee;//运费
-    public String paymentMode="";// //支付方式
-    public String orderShowState="";//$order.mainOrder.orderShowState//订单状态
-    public String itemNumber;//商品编码
-
-    public String getItemNumber() {
-        return itemNumber;
-    }
-
-    public void setItemNumber(String itemNumber) {
-        this.itemNumber = itemNumber;
-    }
+    public String paymentMode;// //支付方式
+    public String orderShowState;//$order.mainOrder.orderShowState//订单状态
 
     public String getConsigneeName() {
         return consigneeName;
