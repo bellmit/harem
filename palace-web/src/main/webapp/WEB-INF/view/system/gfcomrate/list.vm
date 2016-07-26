@@ -7,7 +7,7 @@
         <p>
             <em>评价状态：</em>
             <span>
-            <select name="rateStatus">
+            <select name="rateStatus" class="sel1">
                 #OPTION_COM_RATE_RATE_STATUS($!comRateListQuery.rateStatus)
             </select>
         </span>
@@ -24,7 +24,7 @@
             <em>商品ID：</em><span><input type = "text" name="itemId" value="$!comRateListQuery.itemId"></span>
             <em>是否删除：</em>
             <span>
-            <select name="baseStatus">
+            <select name="baseStatus" class="sel2">
                 #OPTION_COM_RATE_BASE_STATUS($!comRateListQuery.baseStatus)
             </select>
         </span>
@@ -59,9 +59,9 @@
                 #end
                 <br />
                 #if($comRate.userDO.nickname)
-                    <span class="nickName">$!comRate.userDO.nickname</span>
+                    <span class="nickName" title="$!comRate.userDO.nickname">$!comRate.userDO.nickname</span>
                 #elseif($comRate.userDO.mobileNo)
-                    <span class="nickName">$!comRate.userDO.mobileNo</span>
+                    <span class="nickName" title="$!comRate.userDO.mobileNo">$!comRate.userDO.mobileNo</span>
                 #end
             </dl>
             <dl class = "inforight">
@@ -196,6 +196,12 @@
     //单选
     $('.subChecked').click(function(){
         $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
+    });
+    // 重置
+    $(".resetBtn").on("click",function(){
+        $("input[type = 'text']").val("");
+        $('.sel1 option:eq(0)').attr('selected','selected')
+        $('.sel2 option:eq(0)').attr('selected','selected')
     });
     $('.orderdetail').click(function (event) {
         var orderId = $(this).attr("orderId");

@@ -94,3 +94,4 @@ ul li{list-style: none;}
   margin-left: 20px;
 }
 .reviewCon .nickName{white-space:nowrap;overflow:hidden;text-overflow:ellipsis; width:80px;display: inline-block;text-align: center;cursor: pointer;margin-top: 5px;}
+.orderdetail:hover{cursor: pointer;}
