@@ -1,6 +1,7 @@
 package com.yimayhd.palace.convert;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,13 +52,18 @@ public class ArticleConverter {
 	public static ArticleDTO getArticleDTO(ArticleVO articleVO) {
 		ArticleDTO articleDTO = new ArticleDTO();
 		ArticleDO articleDO = new ArticleDO();
-		BeanUtils.copyProperties(articleVO, articleDO);
+		articleDO.setTitle(articleVO.getTitle());
 		articleDO.setDomainId(Long.valueOf(Constant.DOMAIN_JIUXIU));
+		articleDO.setFrontcover(articleVO.getFrontcover());
+		articleDO.setPv(articleVO.getPv());
+		articleDO.setSubTitle(articleVO.getSubTitle());
+		articleDO.setType(articleVO.getType());
+		articleDO.setGmtCreated(new Date());
 		List<ArticleItemVO> articleItems = articleVO.getArticleItemList();
 		List<ArticleItemDTO> articleItemDTOs = new ArrayList<ArticleItemDTO>();
 		if (CollectionUtils.isNotEmpty(articleItems)) {
 			for (ArticleItemVO articleItemVO : articleItems) {
-				ArticleItemDTO articleItemDTO=new ArticleItemDTO();
+				ArticleItemDTO articleItemDTO = new ArticleItemDTO();
 				ArticleItemDO articleItemDO = new ArticleItemDO();
 				BeanUtils.copyProperties(articleItemVO, articleItemDO);
 				articleItemDTO.setArticleItemDO(articleItemDO);
@@ -69,8 +75,7 @@ public class ArticleConverter {
 		return articleDTO;
 	}
 
-	public static ArticleVO getArticleDetailVO(ArticleDTO articleDTO, HashMap<Long, ItemDO> itemDOMap,
-			HashMap<Long, MerchantDO> merchantDOMap) {
+	public static ArticleVO getArticleDetailVO(ArticleDTO articleDTO, HashMap<Long, ItemDO> itemDOMap, HashMap<Long, MerchantDO> merchantDOMap) {
 		ArticleVO articleVO = new ArticleVO();
 		List<ArticleItemVO> articleItems = new ArrayList<ArticleItemVO>();
 		ArticleDO articleDO = articleDTO.getArticleDO();
@@ -80,7 +85,7 @@ public class ArticleConverter {
 			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
 			ArticleItemVO articleItemVO = new ArticleItemVO();
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
-			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
+			if (articleItemDO.getType() == ArticleItemType.PRODUCT.getValue()) {
 				ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
 				Long itemId = 0L;
 				if (RegExpValidator.IsNumber(articleItemDO.getContent())) {
@@ -96,10 +101,9 @@ public class ArticleConverter {
 		return articleVO;
 	}
 
-	public static void ItemDOToArticleProductItemVO(ArticleItemVO articleItemVO,
-			ArticleProductItemVO articleProductItemVO, ItemDO itemDO, MerchantDO merchantDO) {
+	public static void ItemDOToArticleProductItemVO(ArticleItemVO articleItemVO, ArticleProductItemVO articleProductItemVO, ItemDO itemDO, MerchantDO merchantDO) {
 		articleItemVO.setSubType(itemDO.getItemType());
-		if (PicUrlsUtil.getItemMainPics(itemDO)!=null) {
+		if (PicUrlsUtil.getItemMainPics(itemDO) != null) {
 			articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
 		}
 		articleProductItemVO.setItemPrice(itemDO.getPrice());
@@ -111,7 +115,7 @@ public class ArticleConverter {
 		if (itemFeature != null) {
 			List<IcSubject> subjects = itemFeature.getSubjects();
 			List<String> itemTagList = new ArrayList<String>();
-			if (subjects!=null) {
+			if (subjects != null) {
 				for (IcSubject icSubject : subjects) {
 					String txt = icSubject.getTxt();
 					itemTagList.add(txt);
@@ -121,7 +125,7 @@ public class ArticleConverter {
 		}
 		articleItemVO.setArticleProductItemVO(articleProductItemVO);
 	}
-	
+
 	public static ArticleVO convertToArticleVO(ArticleVO articleVO) {
 		String articleItems = articleVO.getArticleItems();
 		JSONArray jsonarray = JSONArray.parseArray(articleItems);
