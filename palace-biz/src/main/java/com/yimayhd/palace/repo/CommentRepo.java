@@ -261,13 +261,13 @@ public class CommentRepo {
 	}
 
 	public BaseResult<Boolean> deleteComRate(RateStatusDTO var1) {
-        BaseResult<Boolean> result = new BaseResult<Boolean>();
-	    try {
-            result = comRateServiceRef.batchUpdateStatue(var1);
-        } catch (Exception e){
-            log.error("Exception e = {}", e.getMessage());
-        }
-        return result;
+		BaseResult<Boolean> result = new BaseResult<Boolean>();
+		try {
+			result = comRateServiceRef.batchUpdateStatue(var1);
+		} catch (Exception e){
+			log.error("Exception e = {}", e.getMessage());
+		}
+		return result;
 	}
 
 	public BaseResult<ComRateDO> addRateReploy(RateReployDTO var1) {

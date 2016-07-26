@@ -17,5 +17,4 @@ public interface ComRateService {
     public PageVO<ComRateVO> getRatePageList(ComRateListQuery comRateListQuery);
     public BaseResult<Boolean> deletComRate(List<Long> ids);
     public BaseResult<Boolean> replayComRate(List<Long> ids, String Content);
-//    public BaseResult<ComRateDO> replayComRate(Long id, String Content);
 }

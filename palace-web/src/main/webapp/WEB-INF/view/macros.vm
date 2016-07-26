@@ -746,6 +746,18 @@
 	#end
 #end
 
+#macro(OPTION_COM_RATE_RATE_STATUS $type)
+<option value="" >全部</option>
+<option value="RATE" #if($type == "RATE")selected#end>未回复</option>
+<option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
+#end
+
+#macro(OPTION_COM_RATE_BASE_STATUS $type)
+<option value="" >全部</option>
+<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
+<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
+#end
+
 ##订单列表-展示的SKU信息
 #macro(ROUTE_ORDER_LIST_SKU $type)
     #if($type == 3100 ||$type == 3200 || $type == 3500 || $type == 3600)

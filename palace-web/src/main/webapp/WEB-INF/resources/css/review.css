@@ -17,10 +17,10 @@ ul li{list-style: none;}
 .batchreview .con .sure{margin-left: 55px;}
 .batchreview .con a{margin-left: 15px;text-align: center;}
 .batchreview .con p a{outline: none;
-  border: none;
-  padding: 3px 20px;
-  cursor: pointer;
-  background: #E0ECFA;}
+    border: none;
+    padding: 3px 20px;
+    cursor: pointer;
+    background: #E0ECFA;}
 .batchreview .con p.tip_num{padding-bottom: 0px;}
 .batchreview .con p.tip_num em{font-style: normal;display: inline-block;margin-top: 10px;}
 .batchreview .con p.tip_num em.change{margin-left: 233px;}
@@ -33,41 +33,41 @@ ul li{list-style: none;}
 .reviewCon dl p{width:85%;min-width:820px;}
 .reviewCon dl p.showImg img{width:200px;height:200px;}
 .reviewCon dl .upload ul li {
-  float: left;
-  margin-left: 10px;
-  position: relative;
-  border: 2px solid #f2f2f2;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 85px;
-  height: 88px;
-  width: 88px;
+    float: left;
+    margin-left: 10px;
+    position: relative;
+    border: 2px solid #f2f2f2;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 85px;
+    height: 88px;
+    width: 88px;
 }
 .reviewCon dl .upload ul li img{
-  height: 84px;
+    height: 84px;
 }
 
 .reviewCon dl .upload ul li.first{margin-left: 0px;}
 .reviewCon dl .upload ul li b{
-  opacity: 0;
-  width: 0;
-  height: 0;
-  line-height: 0;
-  font-size: 0;
-  border: transparent 6px dashed;
-  border-top: 6px solid #ed6c44;
-  position: absolute;
-  left: 40px;
-  bottom: -13px;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    border: transparent 6px dashed;
+    border-top: 6px solid #ed6c44;
+    position: absolute;
+    left: 40px;
+    bottom: -13px;
 }
 .reviewCon dl p div.upload ul li img{  max-width: 84px;
-  cursor: pointer;
-  height: 84px;
-  vertical-align: top;}
+    cursor: pointer;
+    height: 84px;
+    vertical-align: top;}
 .reviewCon dl .showImg{
-  display: none;
-  width: 280px;
-  margin-top: 10px;
+    display: none;
+    width: 280px;
+    margin-top: 10px;
 }
 .reviewCon dl input.check{margin-top: 45px;}
 .reviewCon dl p{padding-bottom: 10px;display: block;}
@@ -77,20 +77,21 @@ ul li{list-style: none;}
 #btn_review .btn1{margin-left: 60%;}
 #btn_review input{vertical-align: middle;}
 .reviewCon dl p .realy{  padding: 8px 30px;
-  display: inline-block;
-  background-color: #ccc;
-  cursor: pointer;
-  margin-left: 2px;
-  text-decoration: none;
-  color: #000;float: right;}
+    display: inline-block;
+    background-color: #ccc;
+    cursor: pointer;
+    margin-left: 2px;
+    text-decoration: none;
+    color: #000;float: right;}
 .reviewCon dl p .goodsname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis; width:167px;display: inline-block;cursor: pointer;
-  display: inline-block;vertical-align: middle;}
+    display: inline-block;vertical-align: middle;}
 #btn_review a{  padding: 8px 40px;
-  display: inline-block;
-  background-color: #ccc;
-  cursor: pointer;
-  text-decoration: none;
-  color: #000;
-  margin-left: 20px;
+    display: inline-block;
+    background-color: #ccc;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+    margin-left: 20px;
 }
 .reviewCon .nickName{white-space:nowrap;overflow:hidden;text-overflow:ellipsis; width:80px;display: inline-block;text-align: center;cursor: pointer;margin-top: 5px;}
+.orderdetail:hover{cursor: pointer;}
