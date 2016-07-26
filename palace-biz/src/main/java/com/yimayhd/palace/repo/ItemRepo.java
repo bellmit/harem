@@ -41,7 +41,7 @@ public class ItemRepo {
 	private ItemSkuService itemSkuService ;
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
-	
+
 
 	public ICPageResult<ItemInfo> getItemList(ItemQryDTO itemQryDTO) {
 		if (itemQryDTO == null) {

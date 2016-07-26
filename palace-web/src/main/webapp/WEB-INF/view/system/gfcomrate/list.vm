@@ -32,8 +32,6 @@
         <p>
             <button type="submit" class="lookBtn">查询</button>
             <button type="reset" class="resetBtn">重置</button>
-##            <a class = "lookBtn">查询</a>
-##            <a class = "resetBtn">重置</a>
         </p>
     </div>
     <div id = "btn_review">
@@ -59,9 +57,9 @@
                 #end
                 <br />
                 #if($comRate.userDO.nickname)
-                    <span class="nickName">$!comRate.userDO.nickname</span>
+                    <span class="nickName" title="$!comRate.userDO.nickname">$!comRate.userDO.nickname</span>
                 #elseif($comRate.userDO.mobileNo)
-                    <span class="nickName">$!comRate.userDO.mobileNo</span>
+                    <span class="nickName" title="$!comRate.userDO.mobileNo">$!comRate.userDO.mobileNo</span>
                 #end
             </dl>
             <dl class = "inforight">
@@ -82,16 +80,16 @@
                     $!comRate.content
                 </p>
                 #if($comRate.picUrls)
-                <div class = "upload upload1 clearfix">
-                    <ul>
-                        #foreach($!picUrl in $!comRate.picUrls)
-                            <li><img class="pj" src="$utilWebconfig.getTfsRootPath()$!picUrl"><b></b></li>
-                        #end
-                    </ul>
-                </div>
-                <div class = "showImg">
-                    <img>
-                </div>
+                    <div class = "upload upload1 clearfix">
+                        <ul>
+                            #foreach($!picUrl in $!comRate.picUrls)
+                                <li><img class="pj" src="$utilWebconfig.getTfsRootPath()$!picUrl"><b></b></li>
+                            #end
+                        </ul>
+                    </div>
+                    <div class = "showImg">
+                        <img>
+                    </div>
                 #end
                 #if ($!comRate.backContent)
                     <p><strong>卖家回复:</strong></p>
