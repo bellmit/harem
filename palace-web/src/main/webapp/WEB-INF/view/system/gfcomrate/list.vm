@@ -59,9 +59,9 @@
                 #end
                 <br />
                 #if($comRate.userDO.nickname)
-                    <span class="nickName">$!comRate.userDO.nickname</span>
+                    <span class="nickName" title="$!comRate.userDO.nickname">$!comRate.userDO.nickname</span>
                 #elseif($comRate.userDO.mobileNo)
-                    <span class="nickName">$!comRate.userDO.mobileNo</span>
+                    <span class="nickName" title="$!comRate.userDO.mobileNo">$!comRate.userDO.mobileNo</span>
                 #end
             </dl>
             <dl class = "inforight">
