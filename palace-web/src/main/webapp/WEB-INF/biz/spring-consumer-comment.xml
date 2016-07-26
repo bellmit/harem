@@ -32,7 +32,7 @@
         <property name="check" value="${consumer.dubbo.comment.check}"/>
         <property name="version" value="${consumer.dubbo.comment.version}"/>
     </bean>
-    
+
     <bean id="comRateServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.commentcenter.client.service.ComRateService"/>
         <property name="application" ref="dubboApplicationConfig"/>
@@ -41,5 +41,5 @@
         <property name="check" value="${consumer.dubbo.comment.check}"/>
         <property name="version" value="${consumer.dubbo.comment.version}"/>
     </bean>
-    
+
 </beans>
