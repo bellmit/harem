@@ -37,10 +37,12 @@ public class ArticleVO implements Serializable {
 	private Date gmtModified;
 
 	private String articleItems;
+	
+	private String articleUrl;
 
 	private List<ArticleItemVO> articleItemList;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -134,6 +136,14 @@ public class ArticleVO implements Serializable {
 
 	public void setPv(Integer pv) {
 		this.pv = pv;
+	}
+
+	public String getArticleUrl() {
+		return articleUrl;
+	}
+
+	public void setArticleUrl(String articleUrl) {
+		this.articleUrl = articleUrl;
 	}
 
 }

@@ -152,7 +152,11 @@ public class ArticleManageController extends BaseController {
 			throw new BaseException(checkResult.getMsg());
 		}
 		ResourceResult<Boolean> result = articleService.modify(vo);
-		return "/success";
+		if (result.isSuccess()) {
+			return "/success";
+		} else {
+			throw new BaseException(result.getResultMsg());
+		}
 	}
 
 	/**

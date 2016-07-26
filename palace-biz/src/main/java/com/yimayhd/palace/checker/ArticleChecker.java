@@ -24,8 +24,8 @@ public class ArticleChecker {
 		if (StringUtils.isBlank(articleVO.getFrontcover())) {
 			return CheckResult.error("封面不能为空");
 		}
-		if (articleVO.getPv() <= 0) {
-			return CheckResult.error("阅读数必须大于0");
+		if (articleVO.getPv() <0) {
+			return CheckResult.error("阅读数不能小于0");
 		}
 		if (ArticleType.getTypeName(articleVO.getType()) == null) {
 			return CheckResult.error("不支持的文章类型");
