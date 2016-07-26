@@ -21,9 +21,6 @@ public class ArticleChecker {
 		if (StringUtils.isBlank(articleVO.getTitle())) {
 			return CheckResult.error("标题不能为空");
 		}
-		if (StringUtils.isBlank(articleVO.getSubTitle())) {
-			return CheckResult.error("副标题不能为空");
-		}
 		if (StringUtils.isBlank(articleVO.getFrontcover())) {
 			return CheckResult.error("封面不能为空");
 		}
