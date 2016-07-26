@@ -73,6 +73,9 @@
 
 	<bean class="com.yimayhd.palace.service.impl.AfterSaleServiceImpl"></bean>
 
+	<!-- GF商品评价 -->
+	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
+
 	<!--广告位配置-->
 	<bean class="com.yimayhd.palace.service.impl.BoothServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ShowcaseServiceImpl"></bean>
