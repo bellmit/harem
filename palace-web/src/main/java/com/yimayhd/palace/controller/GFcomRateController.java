@@ -1,10 +1,6 @@
 package com.yimayhd.palace.controller;
 
-import com.yimayhd.commentcenter.client.domain.ComRateDO;
-import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
-import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
-import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ComRateVO;
 import com.yimayhd.palace.service.ComRateService;
