@@ -54,7 +54,9 @@
 								</div>
 								<div class="imgwait"></div>
 								<div class="imgdelbtn">删除图片</div>
-								<a class='imguplbtn'><input type="file" class="adpicfile mult"></a>
+								#if(!$article.frontcover)
+								<a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile mult"></a>									
+								#end																
 								<input type="hidden" value="$!article.frontcover">
 							</div>
 							<input type="hidden" name="frontcover" class="picVal" value="$!article.frontcover">
