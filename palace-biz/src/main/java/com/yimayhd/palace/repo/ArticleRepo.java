@@ -47,7 +47,7 @@ public class ArticleRepo {
 
 	public ResourceResult<Boolean> add(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.add", articleDTO);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.insert(articleDTO);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.add", result);
 		return result;
 	}
@@ -75,7 +75,7 @@ public class ArticleRepo {
 
 	public ResourceResult<Boolean> modify(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.modify", articleDTO);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.modify(articleDTO);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.modify", result);
 		return result;
 	}
