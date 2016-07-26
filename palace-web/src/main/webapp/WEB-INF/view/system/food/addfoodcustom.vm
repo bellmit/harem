@@ -96,6 +96,7 @@
 		<td class="tit"><span>*</span><label>商家地图：</label></td>
 		<td><label>经度：</label><input id="locationX" readonly="readonly" name="longitude" value="$!numberFormatHelper.formatDoubleNumber($!merchant.lon)" >&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label><input id="locationY" readonly="readonly" value="$!numberFormatHelper.formatDoubleNumber($!merchant.lat)" name="latitude">&nbsp;&nbsp;<button class="locationXYSelectBtn">查找经纬度</button></td>
 	</tr>
+	
 	<tr>
 		<td class="tit"><span>*</span><label>图文详情：</label></td>
 		<td style="height:500px;">

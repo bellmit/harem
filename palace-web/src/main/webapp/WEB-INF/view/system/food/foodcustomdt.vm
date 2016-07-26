@@ -70,6 +70,7 @@
 			<td class="tit"><span>*</span><label>商家地图：</label></td>
 			<td><label>经度：</label>$!numberFormatHelper.formatDoubleNumber($!merchant.lon)&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label>$!numberFormatHelper.formatDoubleNumber($!merchant.lat)</td>
 		</tr>
+		
 		<tr>
 		<td class="tit"><span>*</span><label>图文详情：</label></td>
 		<td style="height:500px;">

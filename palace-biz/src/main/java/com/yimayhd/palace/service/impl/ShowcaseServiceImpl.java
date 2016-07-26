@@ -359,6 +359,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setTitle(sw.getTitle());
         sd.setSummary(sw.getSummary());
         sd.setBoothContent(sw.getBoothContent());
+
         if(StringUtils.isEmpty(sw.getOperationContent())){
             sd.setOperationContent("");
         }else{
@@ -368,6 +369,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             sd.setOperationContent(oc);
         }
+
         sd.setContent(sw.getContent());
         sd.setShowcaseFeature(sw.getShowcaseFeature());
         sd.setStatus(sw.getStatus());//状态是手动改的
@@ -375,6 +377,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setSerialNo(sw.getSerialNo());
         sd.setGmtModified(new Date());
         Map<String,String> map = new HashMap<String,String>();
+
         if(StringUtils.isEmpty(sw.getOperationContentZH())){
             map.put("operationContentZH","");
         }else{
@@ -384,6 +387,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             map.put("operationContentZH",ocZH);
         }
+
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));
         sd.setFeature(FeatureUtil.toString(map));

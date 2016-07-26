@@ -104,6 +104,7 @@ public class MerchantRepo {
 		}
 		try {
 			MerchantDTO dto = vo.getMerchantDTO(vo);
+
 			BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(vo.getId());
 			if (merchant == null) {
 				log.error("result :{} ",merchant);
@@ -117,6 +118,7 @@ public class MerchantRepo {
 				resultSupport.setSuccess(false);
 			}
 			
+
 			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(dto);
 			if (updateMerchantResult == null) {
 				resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
@@ -227,9 +229,11 @@ public class MerchantRepo {
 		if(id == 0){
 			return null;
 		}
+
 		log.info("==============================id"+id);
 		// 图文详情
 		return  pictureTextRepo.getPictureText(id, PictureText.FOOD);
+
 		
 	}
 }
