@@ -20,6 +20,7 @@ public class WebResourceConfigUtil {
     private final static String ENV = "env";
     private final static String ROOT_PATH = "root.path";
     private final static String FILEGW_URL = "filegw.url";
+	private final static String FILEGW_DOMAIN = "filegw.domain";
     
     public static String getTfsRootPath() {
         return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
@@ -55,6 +56,9 @@ public class WebResourceConfigUtil {
     public static String getFilegwUrl(){
     	return ResourceConfig.getInstance().getValueByKey(FILEGW_URL);
     }
+	public static String getFilegwDomain() {
+		return ResourceConfig.getInstance().getValueByKey(FILEGW_DOMAIN);
+	}
     public static boolean isTestMode(){
     	String e = ResourceConfig.getInstance().getValueByKey(ENV) ;
     	if( e != null && Constant.ENV_PROD.equalsIgnoreCase(e) ){

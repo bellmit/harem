@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">		
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editertwo.css"/>
-
 <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
@@ -150,9 +149,9 @@
      //非空验证
      var validate = function(){
          if(!$('.title').val()){
-             return '直播内容不能为空';
-         }else if($('.title').val().length > 200){
-            return '直播内容不能超过200字';
+             return '标题不能为空';
+         }else if($('.title').val().length > 38){
+            return '标题不能超过38字';
          }
      }
 	//上传图片

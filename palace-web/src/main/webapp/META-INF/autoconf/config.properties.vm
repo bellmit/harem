@@ -42,6 +42,7 @@ actionUploadFilePath=${actionUploadFilePath}
 actionUploadFilesPath=${actionUploadFilesPath}
 #D:webapp\WEB-INF\resources\ckeditor\config.js 也需要对应修改
 filegw.url=${filegw.url}
+filegw.domain=${filegw.domain}
 
 resource.path.jiuxiu=${resource.path.jiuxiu}
 root.path=${root.path}
