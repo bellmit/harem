@@ -46,7 +46,7 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
            <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button type="button" class="btn btn-primary btn-clean">重置</button>
             </div>
         </div>
         <button type="button" class="btn btn-primary addArticleBtn" id="addArticleBtn">添加文章</button>
@@ -102,6 +102,11 @@
                 format: "yyyy-mm-dd"
             });
     $(function(){
+    	//清除
+    	$('.btn-clean').click(function(){
+    		$(this).closest('.inputGroup').find('input.form-control').val('');
+    		$(this).closest('.inputGroup').find('select.form-control').val(0);
+    	});
         //查询
         $('.submitBtn').click(function(){
             $('#articleListForm').submit();
