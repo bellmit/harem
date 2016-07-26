@@ -46,7 +46,10 @@
 						<div class="imgallbox" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
 							<div class="imgbox imgno">
 								<div class="imgcon">
-									<img src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover #end ">
+									#if($!article.frontcover)
+										<img src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover #end ">
+									#else 
+									#end
 								</div>
 								<div class="imgwait"></div>
 								<div class="imgdelbtn">删除图片</div>
