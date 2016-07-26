@@ -1,0 +1,335 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/css/review.css" rel="stylesheet">
+<form class="form-signin" id="comRateVOListForm" name="comRateVOListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/comRateManage/list" method="GET" role="form">
+    <!-- 批量评论 -->
+    <div class = "reviewID">
+        <p>
+            <em>评价状态：</em>
+            <span>
+            <select name="rateStatus">
+                #OPTION_COM_RATE_RATE_STATUS($!comRateListQuery.rateStatus)
+            </select>
+        </span>
+            <em>评价日期：</em>
+            <span>
+            <input type = "text" name="beginDate" class="form-date dateInp" value="$!comRateListQuery.beginDate">
+        </span>
+            <em class = "to">至&nbsp &nbsp</em>
+            <span>
+            <input type = "text" name="endDate" class="form-date dateInp" value="$!comRateListQuery.endDate">
+        </span>
+        </p>
+        <p>
+            <em>商品ID：</em><span><input type = "text" name="itemId" value="$!comRateListQuery.itemId"></span>
+            <em>是否删除：</em>
+            <span>
+            <select name="baseStatus">
+                #OPTION_COM_RATE_BASE_STATUS($!comRateListQuery.baseStatus)
+            </select>
+        </span>
+        </p>
+        <p>
+            <button type="submit" class="lookBtn">查询</button>
+            <button type="reset" class="resetBtn">重置</button>
+        ##            <a class = "lookBtn">查询</a>
+        ##            <a class = "resetBtn">重置</a>
+        </p>
+    </div>
+    <div id = "btn_review">
+        <label><input type = "checkbox" class = "allcheck allChecked"/>全部</label>
+        <a class = "btn1 batchreplay">批量回复</a>
+        <a class = "btn2 batchdelete">批量删除</a>
+    </div>
+    #foreach($comRate in $comRateList)
+        <div class = "reviewCon subChecked clearfix">
+            <dl class = "first">
+                #if($comRate.status!=2)
+                    <input type = "checkbox" class = "check	subChecked" value="$!comRate.id" data-ratestatus="$!comRate.rateStatus" />
+                #else
+                    <input type = "checkbox" class="check" value="$!comRate.id" disabled="disabled" />
+                #end
+                $!comRate.id
+            </dl>
+            <dl>
+                #if($comRate.userDO.avatar)
+                    <img class = "headImg" src="$utilWebconfig.getTfsRootPath()$comRate.userDO.avatar" width="100"/>
+                #else
+                    <img class = "headImg" src="$utilWebconfig.getStaticResourcesPath()/resources/img/head.jpg" width="100"/>
+                #end
+                <br />
+                #if($comRate.userDO.nickname)
+                    <span class="nickName">$!comRate.userDO.nickname</span>
+                #elseif($comRate.userDO.mobileNo)
+                    <span class="nickName">$!comRate.userDO.mobileNo</span>
+                #end
+            </dl>
+            <dl class = "inforight">
+                <p>
+                    <em class = "first">评价日期：</em><strong>$!utilDate.dateToString($!comRate.gmtCreated,"yyyy-MM-dd HH:mm:ss")</strong>
+                    <em>商品名称：</em><strong  class = "goodsname" title="$!comRate.itemDO.title #if($!comRate.itemSkuTitle) $!comRate.itemSkuTitle #end">$!comRate.itemDO.title #if($!comRate.itemSkuTitle)<br>$!comRate.itemSkuTitle #end</strong>
+                    <em>订单编号：</em><strong><span class="orderdetail" orderid="$!comRate.orderId">$!comRate.orderId</span></strong>
+                    <em>商品编号：</em><strong>$!comRate.itemId</strong>
+                    #if($!comRate.status==2)
+                        <a class="realy">已删除</a>
+                    #else
+                        #if($!comRate.rateStatus==1)
+                            <a class = "realy toreplay" data-comrateid="$!comRate.id">回复</a>
+                        #end
+                    #end
+                </p>
+                <p>
+                    $!comRate.content
+                </p>
+                #if($comRate.picUrls)
+                    <div class = "upload upload1 clearfix">
+                        <ul>
+                            #foreach($!picUrl in $!comRate.picUrls)
+                                <li><img class="pj" src="$utilWebconfig.getTfsRootPath()$!picUrl"><b></b></li>
+                            #end
+                        </ul>
+                    </div>
+                    <div class = "showImg">
+                        <img>
+                    </div>
+                #end
+                #if ($!comRate.backContent)
+                    <p><strong>卖家回复:</strong></p>
+                    <p>
+                        $!comRate.backContent
+                    </p>
+                #end
+            </dl>
+        </div>
+    #end
+
+    #parse("/page.vm")
+    #pageStyle("comRateVOListForm")
+</form>
+<!-- 批量评价弹窗 -->
+<div class = "batchreview list list1 replayform">
+    <div class = "con">
+        <p class = "title">回复评论</p>
+        <textarea maxlength="200" id="replaycontent" placeholder="感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！"></textarea>
+        <p class = "tip_num"><em class = "change">0</em>/<em>200</em></p>
+        <p class = "txt" id="defaultcontent">感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！</p>
+        <p><a class = "publish" id="replaysubmitBtn">发表评论</a>
+            <a class = "cancel">取消</a></p>
+    </div>
+</div>
+
+<!-- 批量删除弹窗 -->
+<div class = "batchreview list list2 deleteform">
+    <div class = "con">
+        <p>评论删除后不可恢复，确定删除评论内容吗？</p>
+        <p><a class = "sure" id="deletesubmitBtn">确定</a>
+            <a class = "cancel">取消</a></p>
+    </div>
+</div>
+<input type="hidden" id="val" value="">
+<script>
+    var maskFun = function(){
+        $('body').append('<div class="mask" style= "display:block"></div>');
+        $(".mask").height($(document).height());
+    };
+    var showImgFun = function(){
+        var listli = $(".upload ul").find("li");
+        listli.click(function(event){
+            listli.css("borderColor","#f2f2f2");
+            $(".upload").find("b").css("opacity","0");
+            if(!this.is_select){
+                $(this).css("borderColor","#ed6c44");
+                $(this).closest(".inforight").find(".showImg img").attr("src",$(this).find('img').get(0).src);
+                $(this).find("b").css("opacity","1");
+                $(this).closest(".inforight").find(".showImg").show();
+                listli.filter(function(){this.is_select=false;});
+                $(".eredar-left").css('min-height',$(".eredar-right").height()+'px');
+                this.is_select=true;
+            }else{
+
+                $(this).css("borderColor","#f2f2f2");
+                $(this).find("b").css("opacity","0");
+                $(this).closest(".inforight").find(".showImg").hide();
+                this.is_select=false;
+            }
+            $(".eredar-left").css('min-height',$(".eredar-right").height()+'px');
+            event.stopPropagation();
+        });
+    };
+    showImgFun();
+    /* 提示服务描述中文本的字数提示 */
+    var curtxt = $.trim($("#replaycontent").val()).length;
+    var txt = $(".change").text();
+
+    if(txt != curtxt){
+        $(".change").text(curtxt);
+    }
+    $('#replaycontent').bind('input propertychange', function() {
+        var curtxt = $.trim($(this).val()).length;
+        if(txt != curtxt){
+            $(".change").text(curtxt);
+        }
+        if(curtxt == 0){
+            $(".change").text("0");
+        }
+    });
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+    //全选
+    $('.allChecked').click(function(){
+        $('.subChecked').prop('checked',$(this).prop('checked'));
+    });
+    //单选
+    $('.check').click(function () {
+        $(this).prop('checked',!$(this).prop('checked'));
+    });
+    //单选
+    $('.subChecked').click(function(){
+        $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
+    });
+    $('.orderdetail').click(function (event) {
+        var orderId = $(this).attr("orderId");
+        window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/gfOrder/"+orderId, 2, "GF订单"+orderId+"详情");
+        event.stopPropagation();
+    });
+    $(".toreplay").click(function(event){
+        maskFun();
+        $("#val").val($(this).data('comrateid'));
+        $(".replayform").show();
+        event.stopPropagation(); //  阻止事件冒泡
+    });
+    $(".batchreplay").click(function () {
+        maskFun();
+        ids = new Array();
+        id = $("#val").val();
+        if(id){
+            ids[0] = id;
+        } else {
+            var replay_str = '';
+            $('.subChecked:checked').each(function(i){
+                if($(this).data('ratestatus')==2){
+                    replay_str = '<br>注:已回复的不能再次回复';
+//                    $(this).prop('checked', false);
+                } else {
+                    ids.push($(this).val());
+                }
+            });
+
+            if(ids.length==0){
+                layer.alert('请选择要回复的评价!'+replay_str, {
+                    icon: 2,
+                    time: 2000
+                });
+                $(".cancel").trigger('click');
+                return false;
+            }
+        }
+        $(".replayform").show();
+    });
+    $(".batchdelete").click(function () {
+        maskFun();
+        ids = new Array();
+        $('.subChecked:checked').each(function(i){
+            ids[i] = $(this).val();
+        });
+        if(ids.length==0){
+            layer.alert('请选择要删除的评价!', {
+                icon: 2,
+                time: 2000
+            });
+            $(".cancel").trigger('click');
+            return false;
+        }
+        $(".deleteform").show();
+    });
+    $("#replaysubmitBtn").click(function () {
+        content = $("#replaycontent").val();
+        if(!content || content=='' || content.length==0){
+            content = $("#defaultcontent").text();
+        }
+        ids = new Array();
+        id = $("#val").val();
+        if(id){
+            ids[0] = id;
+        } else {
+            $('.subChecked:checked').each(function(i){
+                if($(this).data('ratestatus')==2){
+                    $(this).prop('checked', false);
+                } else {
+                    ids.push($(this).val());
+                }
+            });
+
+            if(ids.length==0){
+                layer.alert('请选择要回复的评价!', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+        }
+        $.post(actionDefaultPath +'/GF/comRateManage/batchreplay',{ids:ids,content:content},function(data){
+            if(data&&data.success == true&&data.value == true){
+                layer.alert('操作成功', {
+                    icon: 1,
+                    time: 1500
+                });
+                setTimeout(function () {
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.alert('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled',false);
+            }
+        })
+    });
+    $("#deletesubmitBtn").click(function () {
+        ids = new Array();
+        $('.subChecked:checked').each(function(i){
+            ids[i] = $(this).val();
+        });
+        if(ids.length==0){
+            layer.alert('请选择要删除的评价!', {
+                icon: 2,
+                time: 2000
+            });
+            $(".cancel").trigger('click');
+            return false;
+        }
+        $.post(actionDefaultPath +'/GF/comRateManage/batchdelete',{ids:ids},function(data){
+            if(data&&data.success == true&&data.value == true){
+                layer.alert('操作成功', {
+                    icon: 1,
+                    time: 1500
+                });
+                setTimeout(function () {
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.alert('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).props('disabled',false);
+            }
+        })
+    });
+    $(".cancel").on("click",function(){
+        $(".mask").remove();
+        $(".batchreview").hide();
+        $("#val").hide();
+    });
+</script>
