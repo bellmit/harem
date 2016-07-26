@@ -45,6 +45,7 @@ public class ArticleConverter {
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 			articleItemVOList.add(articleItemVO);
 		}
+		articleVO.setArticleUrl(articleDTO.getArticleUrl());
 		articleVO.setArticleItemList(articleItemVOList);
 		return articleVO;
 	}
@@ -53,12 +54,15 @@ public class ArticleConverter {
 		ArticleDTO articleDTO = new ArticleDTO();
 		ArticleDO articleDO = new ArticleDO();
 		articleDO.setTitle(articleVO.getTitle());
-		articleDO.setDomainId(Long.valueOf(Constant.DOMAIN_JIUXIU));
+		articleDO.setDomainId(Constant.DOMAIN_JIUXIU);
 		articleDO.setFrontcover(articleVO.getFrontcover());
 		articleDO.setPv(articleVO.getPv());
 		articleDO.setSubTitle(articleVO.getSubTitle());
 		articleDO.setType(articleVO.getType());
 		articleDO.setGmtCreated(new Date());
+		if (articleVO.getId() != null) {
+			articleDO.setId(articleVO.getId());
+		}
 		List<ArticleItemVO> articleItems = articleVO.getArticleItemList();
 		List<ArticleItemDTO> articleItemDTOs = new ArrayList<ArticleItemDTO>();
 		if (CollectionUtils.isNotEmpty(articleItems)) {
