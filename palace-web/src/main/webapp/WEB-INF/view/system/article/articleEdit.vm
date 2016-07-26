@@ -46,7 +46,7 @@
 						<div class="imgallbox" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
 							<div class="imgbox imgno">
 								<div class="imgcon">
-									<img src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover  #end ">
+									<img src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover #end ">
 								</div>
 								<div class="imgwait"></div>
 								<div class="imgdelbtn">删除图片</div>
@@ -63,7 +63,7 @@
                     <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!utilDate.dateToString($!{article.gmtCreated},"yyyy-MM-dd HH:mm")" ></td>
                 </tr> *#
                 <tr>
-                	<td></td>
+                	<td><span class="spColor">*</span>图文详情</td>
                 	<td>
                 		<div id="editers">
 							<div class="editer-tip">
@@ -76,16 +76,16 @@
 							<div class="bd">
 							#foreach($articleItem in $!article.articleItemList)
 								#if($articleItem.type == 1)
-								<p class="text movesection"><font>$articleItem.content</font></p>
+								<p class="text movesection saved"><font>$articleItem.content</font></p>
 								#end
 								#if($articleItem.type == 2)
-								<p class="pic movesection">
+								<p class="pic movesection saved">
 									<img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end" class="nopic" id="1">
 									<input type="hidden" class="imgDateVal" value="$!articleItem.content">
 								</p>
 								#end
 								#if($articleItem.type == 3)
-								<div class="item movesection">
+								<div class="item movesection saved">
 									<div class="itemwraptitle">$!articleItem.title</div>
 									<div class="itemwrap" itemid="$articleItem.content" itemsubtype="$articleItem.subType">
 										<div class="itemimgbox">
