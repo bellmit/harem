@@ -49,6 +49,7 @@
 									#if($!article.frontcover)
 										<img src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover #end ">
 									#else 
+										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">										
 									#end
 								</div>
 								<div class="imgwait"></div>
