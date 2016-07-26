@@ -68,19 +68,24 @@ public class BaseController {
 	@ExceptionHandler(Exception.class)
 	protected ModelAndView handleException(Exception e) throws IOException {
 		log.error(e.getMessage(), e);
+		String errMsg =  e.getMessage()+"，请核对后操作";
+		if(StringUtils.isEmpty(errMsg)){
+			errMsg = "服务器未知错误，请联系管理员";
+		}
+
 		ModelAndView modelAndView = new ModelAndView("/error");
 		if (e instanceof NoticeException || e instanceof BaseException) {
 			if(request.getHeader("x-requested-with") != null && "XMLHttpRequest".equals(request.getHeader("x-requested-with"))){
 				//ajax
 				response.setContentType("application/json;charset=utf-8");
 				PrintWriter out = response.getWriter();
-				String jsonString = JSON.toJSONString(new ResponseVo(ResponseStatus.FORBIDDEN.VALUE, e.getMessage()));
+				String jsonString = JSON.toJSONString(new ResponseVo(ResponseStatus.FORBIDDEN.VALUE, errMsg));
 				out.println(jsonString);
 				out.flush();
 				out.close();
 				return null;
 			}else{
-				modelAndView.addObject("message", e.getMessage() + "，请联系管理员");
+				modelAndView.addObject("message", errMsg);
 			}
 		} else {
 				if (request.getHeader("x-requested-with") != null && "XMLHttpRequest".equals(request.getHeader("x-requested-with"))) {
@@ -93,7 +98,7 @@ public class BaseController {
 					out.close();
 					return null;
 				} else {
-					modelAndView.addObject("message", "服务器未知错误，请联系管理员");
+					modelAndView.addObject("message", errMsg);
 				}
 		}
 		return modelAndView;

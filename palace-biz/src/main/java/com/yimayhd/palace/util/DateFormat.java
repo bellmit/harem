@@ -33,7 +33,7 @@ public class DateFormat {
         return dfNew.parse(date + " 23-59-59");
     }
 
-    public static String dateFormat(Date date,String format) throws ParseException {
+    public static String dateFormat(Date date,String format){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         String dateFormat = simpleDateFormat.format(date);
         return dateFormat;

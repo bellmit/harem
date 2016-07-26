@@ -21,6 +21,7 @@
 	<bean class="com.yimayhd.palace.service.impl.TripServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.RecommendedServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.EvaluationServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.SockpuppetServiceImpl"></bean>
 	<!-- 资源管理 -->
 	<bean class="com.yimayhd.palace.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.HotelRPCServiceImpl"></bean>
@@ -84,6 +85,9 @@
 	
 	<!-- 九休订单 -->
 	<bean class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
+	
+	<!-- 话题 -->
+	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
 
 
 </beans>

@@ -32,8 +32,6 @@
         <p>
             <button type="submit" class="lookBtn">查询</button>
             <button type="reset" class="resetBtn">重置</button>
-        ##            <a class = "lookBtn">查询</a>
-        ##            <a class = "resetBtn">重置</a>
         </p>
     </div>
     <div id = "btn_review">

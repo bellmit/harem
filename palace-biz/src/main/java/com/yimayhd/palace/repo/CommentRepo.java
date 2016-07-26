@@ -210,9 +210,6 @@ public class CommentRepo {
 
 	/**
 	 * 更新标签
-	 * 
-	 * @param tagType
-	 * @param tagDTO
 	 * @return
 	 */
 	public ComTagDO updateTag(TagInfoAddDTO tagInfoAddDTO) {

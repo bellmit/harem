@@ -40,7 +40,7 @@ public class PictureTextRepo {
 		comentQueryDTO.setOutType(outType.name());
 		RepoUtils.requestLog(log, "comPictureTextService.getPictureText", comentQueryDTO);
 		BaseResult<PicTextResult> pictureText = comPictureTextService.getPictureText(comentQueryDTO);
-		RepoUtils.resultLog(log, "comPictureTextService.getPictureText", pictureText);
+//		RepoUtils.resultLog(log, "comPictureTextService.getPictureText", pictureText);
 		return pictureText.getValue();
 	}
 	@Deprecated

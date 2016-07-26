@@ -17,10 +17,17 @@ public class ScenicAddVO {
     
 	private ScenicVO scenicVO;
 	private List<TicketVO> ticketVOList;
-	private String ticketListStr;
+	
+	private String insertTicketListStr;
+	
+	private String updateTicketListStr;
+	
 	private PictureTextVO	pictureText; // 图文详情
 		
 	public static List<TicketDO> transformTicketDOList(String ticketListStr){
+		if(StringUtils.isBlank(ticketListStr) || ticketListStr.equals("[]")){
+			return null;
+		}
 		
 		List<TicketDO> list = new ArrayList<TicketDO>();
 		if(StringUtils.isNotBlank(ticketListStr)) {
@@ -66,17 +73,25 @@ public class ScenicAddVO {
 	public void setTicketVOList(List<TicketVO> ticketVOList) {
 		this.ticketVOList = ticketVOList;
 	}
-	public String getTicketListStr() {
-		return ticketListStr;
-	}
-	public void setTicketListStr(String ticketListStr) {
-		this.ticketListStr = ticketListStr;
-	}
 	public PictureTextVO getPictureText() {
 		return pictureText;
 	}
 	public void setPictureText(PictureTextVO pictureText) {
 		this.pictureText = pictureText;
 	}
-	
+	public String getInsertTicketListStr() {
+		return insertTicketListStr;
+	}
+
+	public void setInsertTicketListStr(String insertTicketListStr) {
+		this.insertTicketListStr = insertTicketListStr;
+	}
+
+	public String getUpdateTicketListStr() {
+		return updateTicketListStr;
+	}
+
+	public void setUpdateTicketListStr(String updateTicketListStr) {
+		this.updateTicketListStr = updateTicketListStr;
+	}
 }
