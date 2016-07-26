@@ -149,6 +149,19 @@ public class OrderServiceImpl implements OrderService {
 					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId(), false);
 					mo.setUser(user);
 					mainOrderList.add(mo);
+
+					//查物流
+					LogisticsOrderDO log = mo.getLogisticsOrderDO();
+					if(null != log && StringUtils.isNotEmpty(log.getExpressNo()) ){
+						TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
+						taskInfoRequestDTO.setNumber(log.getExpressNo());
+						taskInfoRequestDTO.setCompany(StringUtils.isEmpty(log.getExpressCompany()) ? "" : log.getExpressCompany());
+						BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
+						if (lgResult.isSuccess() && lgResult.getValue()!=null){
+							mo.setExpress(lgResult.getValue());
+							mainOrderList.add(mo);
+						}
+					}
 				}
 			}
 			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), (int)batchQueryResult.getTotalCount(),mainOrderList);
