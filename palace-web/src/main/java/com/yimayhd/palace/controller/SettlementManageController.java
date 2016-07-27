@@ -75,8 +75,8 @@ public class SettlementManageController extends BaseController {
 	public ResponseVo settlementFailRetry(Model model, SettlementVO settlementVO) throws Exception {
 		try {
 			UserDO user = sessionManager.getUser();
-			settlementVO.setOperaterId(user.getId());
-			settlementVO.setOperaterName(user.getName());
+			settlementVO.setOperatorId(user.getId());
+			settlementVO.setOperatorName(user.getName());
 			boolean ret = settlementService.settlementFailRetry(settlementVO);
 			return  ResponseVo.success(ret);
 		} catch (Exception e) {
