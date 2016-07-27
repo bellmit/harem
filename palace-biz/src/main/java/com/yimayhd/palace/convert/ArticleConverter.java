@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSONArray;
@@ -136,6 +137,22 @@ public class ArticleConverter {
 		String json = jsonarray.toString();
 		List<ArticleItemVO> list = JSONArray.parseArray(json, ArticleItemVO.class);
 		articleVO.setArticleItemList(list);
+		return articleVO;
+	}
+
+	public static ArticleVO convertReplace(ArticleVO articleVO) {
+		String title = articleVO.getTitle();
+		String subTitle = articleVO.getSubTitle();
+		if (title != null) {
+			String replace = title.replace("\'", "&apos;");
+			String replace2 = replace.replace("\"", "&quot;");
+			articleVO.setTitle(replace2);
+		}
+		if (subTitle != null) {
+			String replace = subTitle.replace("\'", "&apos;");
+			String replace2 = replace.replace("\"", "&quot;");
+			articleVO.setSubTitle(replace2);
+		}
 		return articleVO;
 	}
 
