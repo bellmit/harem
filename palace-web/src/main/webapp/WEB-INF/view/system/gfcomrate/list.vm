@@ -30,16 +30,14 @@
         </span>
         </p>
         <p>
-            <button type="submit" class="lookBtn">查询</button>
-            <button type="reset" class="resetBtn">重置</button>
-##            <a class = "lookBtn">查询</a>
-##            <a class = "resetBtn">重置</a>
+            <button type="submit" class="btn btn-primary themeStop lookBtn">查询</button>
+            <a class="btn btn-primary themeStop resetBtn">重置</a>
         </p>
     </div>
     <div id = "btn_review">
         <label><input type = "checkbox" class = "allcheck allChecked"/>全部</label>
-        <a class = "btn1 batchreplay">批量回复</a>
-        <a class = "btn2 batchdelete">批量删除</a>
+        <a class = "btn btn-primary themeStop  btn1 batchreplay">批量回复</a>
+        <a class = "btn btn-primary themeStop  btn2 batchdelete">批量删除</a>
     </div>
     #foreach($comRate in $comRateList)
         <div class = "reviewCon subChecked clearfix">
@@ -71,10 +69,10 @@
                     <em>订单编号：</em><strong><span class="orderdetail" orderid="$!comRate.orderId">$!comRate.orderId</span></strong>
                     <em>商品编号：</em><strong>$!comRate.itemId</strong>
                     #if($!comRate.status==2)
-                        <a class="realy">已删除</a>
+                        <a class="btn btn-primary themeStop realy">已删除</a>
                     #else
                         #if($!comRate.rateStatus==1)
-                            <a class = "realy toreplay" data-comrateid="$!comRate.id">回复</a>
+                            <a class = "btn btn-primary themeStop realy toreplay" data-comrateid="$!comRate.id">回复</a>
                         #end
                     #end
                 </p>
@@ -113,8 +111,8 @@
         <textarea maxlength="200" id="replaycontent" placeholder="感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！"></textarea>
         <p class = "tip_num"><em class = "change">0</em>/<em>200</em></p>
         <p class = "txt" id="defaultcontent">感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！</p>
-        <p><a class = "publish" id="replaysubmitBtn">发表评论</a>
-            <a class = "cancel">取消</a></p>
+        <p><a class = "btn btn-primary themeStop publish" id="replaysubmitBtn">发表评论</a>
+            <a class = "btn btn-primary themeStop  cancel">取消</a></p>
     </div>
 </div>
 
@@ -122,8 +120,8 @@
 <div class = "batchreview list list2 deleteform">
     <div class = "con">
         <p>评论删除后不可恢复，确定删除评论内容吗？</p>
-        <p><a class = "sure" id="deletesubmitBtn">确定</a>
-            <a class = "cancel">取消</a></p>
+        <p><a class = "btn btn-primary themeStop sure" id="deletesubmitBtn">确定</a>
+            <a class = "btn btn-primary themeStop cancel">取消</a></p>
     </div>
 </div>
 <input type="hidden" id="val" value="">
@@ -198,10 +196,10 @@
         $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
     });
     // 重置
-    $(".resetBtn").on("click",function(){
+    $(".resetBtn").click(function(){
         $("input[type = 'text']").val("");
-        $('.sel1 option:eq(0)').attr('selected','selected')
-        $('.sel2 option:eq(0)').attr('selected','selected')
+        $('select.sel1').val("");
+        $('select.sel2').val("");
     });
     $('.orderdetail').click(function (event) {
         var orderId = $(this).attr("orderId");
