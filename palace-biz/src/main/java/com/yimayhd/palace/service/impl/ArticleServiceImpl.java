@@ -25,12 +25,13 @@ import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
-import com.yimayhd.resourcecenter.model.enums.ArticleStauts;
+import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
+
 public class ArticleServiceImpl implements ArticleService {
 
 	private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
@@ -58,12 +59,10 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		ResourcePageResult<ArticleDTO> result = articleRepo.pageQueryArticles(articleQueryDTO);
 		if (null == result) {
-			log.error("articleClientServiceRef.pageQueryArticles result is null and parame: "
-					+ JSON.toJSONString(articleQueryDTO));
+			log.error("articleClientServiceRef.pageQueryArticles result is null and parame: " + JSON.toJSONString(articleQueryDTO));
 			throw new BaseException("返回结果错误,新增失败 ");
 		} else if (!result.isSuccess()) {
-			log.error("articleClientServiceRef.pageQueryArticles error:" + JSON.toJSONString(result) + "and parame: "
-					+ JSON.toJSONString(articleQueryDTO));
+			log.error("articleClientServiceRef.pageQueryArticles error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(articleQueryDTO));
 			throw new BaseException(result.getResultMsg());
 		}
 		int totalCount = result.getTotalCount();
@@ -74,8 +73,7 @@ public class ArticleServiceImpl implements ArticleService {
 				articleList.add(ArticleConverter.getArticleVO(articleDTO));
 			}
 		}
-		return new PageVO<ArticleVO>(articleListQuery.getPageNumber(), articleListQuery.getPageSize(), totalCount,
-				articleList);
+		return new PageVO<ArticleVO>(articleListQuery.getPageNumber(), articleListQuery.getPageSize(), totalCount, articleList);
 	}
 
 	@Override
@@ -105,18 +103,18 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ResourceResult<Boolean> regain(long id) throws Exception {
-		ResourceResult<Boolean> result = articleRepo.updateByStatus(id);
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id, ArticleStatus.ONLINE);
 		return result;
 	}
 
 	@Override
 	public ResourceResult<Boolean> violation(long id) throws Exception {
-		ResourceResult<Boolean> result = articleRepo.updateByStatus(id);
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id, ArticleStatus.OFFLINE);
 		return result;
 	}
 
 	@Override
-	public ResourceResult<Boolean> batchViolation(List<Long> idList, ArticleStauts status) {
+	public ResourceResult<Boolean> batchViolation(List<Long> idList, ArticleStatus status) {
 		ResourceResult<Boolean> result = new ResourceResult<Boolean>();
 		if (CollectionUtils.isEmpty(idList)) {
 			return result;
@@ -142,8 +140,7 @@ public class ArticleServiceImpl implements ArticleService {
 				return null;
 			}
 			MerchantUserDTO merchantUserDTO = result.getValue();
-			ArticleConverter.ItemDOToArticleProductItemVO(articleItemVO, articleProductItemVO, itemDO,
-					merchantUserDTO.getMerchantDO());
+			ArticleConverter.ItemDOToArticleProductItemVO(articleItemVO, articleProductItemVO, itemDO, merchantUserDTO.getMerchantDO());
 		}
 		return articleItemVO;
 	}

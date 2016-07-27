@@ -23,7 +23,7 @@ import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.service.ArticleService;
-import com.yimayhd.resourcecenter.model.enums.ArticleStauts;
+import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.enums.ArticleType;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 
@@ -53,7 +53,7 @@ public class ArticleManageController extends BaseController {
 			model.addAttribute("query", articleListQuery);
 			model.addAttribute("articleList", pageVO.getItemList());
 			model.addAttribute("articleTypeList", ArticleType.values());
-			model.addAttribute("articleStautsList", ArticleStauts.values());
+			model.addAttribute("articleStautsList", ArticleStatus.values());
 			return "/system/article/articleList";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,7 +132,7 @@ public class ArticleManageController extends BaseController {
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ArticleVO articleVO = articleService.getArticleById(id);
 		model.addAttribute("articleTypeList", ArticleType.values());
-		model.addAttribute("articleStautsList", ArticleStauts.values());
+		model.addAttribute("articleStautsList", ArticleStatus.values());
 		model.addAttribute("article", articleVO);
 		return "/system/article/articleEdit";
 	}
@@ -213,7 +213,7 @@ public class ArticleManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchViolation(@RequestParam("articleIdList[]") ArrayList<Long> articleIdList) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		ResourceResult<Boolean> result = articleService.batchViolation(articleIdList, ArticleStauts.OFFLINE);
+		ResourceResult<Boolean> result = articleService.batchViolation(articleIdList, ArticleStatus.OFFLINE);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
