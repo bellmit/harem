@@ -1,7 +1,9 @@
 package com.yimayhd.palace.model.jiuxiu.helper;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +21,9 @@ import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.enums.MerchantSort;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 
 public class JiuxiuHelper {
@@ -37,6 +41,13 @@ public class JiuxiuHelper {
 		jiuxiuTcDetailOrder.setItemPrice(tcDetailOrder.getItemPrice());
 		jiuxiuTcDetailOrder.setActivityTime(tcDetailOrder.getActivityTime());
 		jiuxiuTcDetailOrder.setActivityContent(tcDetailOrder.getActivityContent());
+		//订单实付总额
+        long total = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());
+		 //获取子订单实付金额
+        if(tcDetailOrder.getBizOrder().getBuyAmount() > 0){
+        	long act = total/tcDetailOrder.getBizOrder().getBuyAmount();
+        	jiuxiuTcDetailOrder.setItemPrice_(act);
+        }
 	}
 	
 	public static void fillBizOrder(JiuxiuTcBizOrder jiuxiuTcBizOrder,TcBizOrder tcBizOrder,String phone){
@@ -52,7 +63,7 @@ public class JiuxiuHelper {
 		jiuxiuTcBizOrder.setOrderStatus(tcBizOrder.getOrderStatus());
 	}
 	
-	public static void fillMerchantListQuery(MerchantPageQuery merchantPageQuery,JiuxiuMerchantListQuery jiuxiuMerchantListQuery){
+	public static void fillMerchantListQuery(MerchantPageQuery merchantPageQuery,JiuxiuMerchantListQuery jiuxiuMerchantListQuery) throws ParseException{
 		merchantPageQuery.setPageNo(jiuxiuMerchantListQuery.getPageNumber());
 		merchantPageQuery.setPageSize(jiuxiuMerchantListQuery.getPageSize());
 		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -65,7 +76,7 @@ public class JiuxiuHelper {
 		merchantPageQuery.setOption(option);
 		merchantPageQuery.setOptionHandle(1);
 		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantName())){
-			merchantPageQuery.setName(jiuxiuMerchantListQuery.getMerchantName().trim());
+			merchantPageQuery.setNameLike(jiuxiuMerchantListQuery.getMerchantName().trim());
 		}
 //		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantNo()) && Common.regularMatches("[0-9]{1,}", jiuxiuMerchantListQuery.getMerchantNo())){
 //			merchantPageQuery.setSellerId(Long.parseLong(jiuxiuMerchantListQuery.getMerchantNo().trim()));
@@ -86,6 +97,12 @@ public class JiuxiuHelper {
 		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getStatus())){
 			merchantPageQuery.setStatus(Integer.parseInt(jiuxiuMerchantListQuery.getStatus()));
 		}
+		if (jiuxiuMerchantListQuery.getGmtCreated() != null) {
+			merchantPageQuery.setGmtCreatedStart(jiuxiuMerchantListQuery.getGmtCreated());
+			long dateEnd = jiuxiuMerchantListQuery.getGmtCreated().getTime()+1000*60*60*24-1;
+			merchantPageQuery.setGmtCreatedEnd(new Date(dateEnd));
+		}
+		merchantPageQuery.setSortOption(MerchantSort.GMT_CREATED_DESC.getCode());
 	}
 	
 	public static void fillOrderQueryDTO(OrderQueryDTO dto, JiuxiuOrderListQuery jiuxiuOrderListQuery){

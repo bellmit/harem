@@ -51,7 +51,7 @@
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <button type="button" class="btn btn-primary btn-clean">重置</button>
             </div>
         </div>
         <button type="button" class="btn btn-primary addLiveBtn" id="addLiveBtn">添加直播</button>
@@ -63,11 +63,9 @@
                     <th width="8%">用户昵称</th>
                     <th width="8%">用户手机号</th>
                     <th width="30%">内容</th>
-                    <th width="10%">标签</th>
-                    <th width="5%">来源</th>
+                    <th width="10%">话题</th>
                     <th width="3%">点赞数</th>
                     <th width="3%">评论数</th>
-                    <th width="3%">分享数</th>
                     <th width="5%">状态</th>
                     <th width="8%">发布时间</th>
                     <th width="13%">操作</th>
@@ -78,11 +76,13 @@
                         <td>$!live.userDO.nickname</td>
                         <td>$!live.userDO.mobileNo</td>
                         <td style="word-break: break-all;min-width: 40px;max-width: 349px;padding: 4px 4px !important;">$!esc.html($!live.textContent)</td>
-                        <th>$!esc.html($!live.tag.name)</th>
-                        <th>暂未实现</th>
+                        <th> 
+							#foreach($title in $live.topicTitleList)
+								$!title
+							#end
+						</th>
                         <th>$!live.supportNum</th>
                         <th>$!live.commentNum</th>
-                        <th>暂未实现</th>
                         <td>#TREND_STATUS($!live.status)</td>
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
@@ -163,8 +163,8 @@
         $('.allChecked').click(function(){
             $('.subChecked').prop('checked',$(this).prop('checked'));
         });
-        $(".subChecked").click( function(){
-            event.stopPropagation(); // do something
+        $(".subChecked").click( function(e){
+            e.stopPropagation(); // do something
         });
         //单选
         $('.subCheckedTR').click(function(){
@@ -174,7 +174,7 @@
         $('.livePicListBtn').click(function(){
             var picListStr = $(this).attr('picListStr');
             if(picListStr){
-                showPic(JSON.parse(picListStr),0, "300px", "600px");
+                showPic(JSON.parse(picListStr),0, "300px", "auto");
             }else{
                 layer.msg('没有图片', {
                     icon: 6,
@@ -190,6 +190,11 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
+			if(arr.length<=0){
+				alert("请至少选择一项！");
+				$(this).prop('disabled',false);
+				return;
+			}
             $.post(actionDefaultPath +'/B2C/liveManage/batchViolation',{liveIdList:arr},function(data){
                 if(data && data.status == 200){
                     layer.msg('操作成功', {
@@ -208,5 +213,10 @@
                 }
             })
         });
+        
+        $('.btn-clean').click(function () {
+        	$(this).closest('.inputGroup').find('input.form-control').val('');
+        	$(this).closest('.inputGroup').find('select.form-control').val(0);
+        })
     });
 </script>

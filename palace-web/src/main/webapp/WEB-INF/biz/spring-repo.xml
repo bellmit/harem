@@ -14,7 +14,6 @@
 	<bean class="com.yimayhd.palace.repo.PictureRepo"></bean>
 	<bean id="resourceRepo" class="com.yimayhd.palace.repo.ResourceRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.ActivityRepo"></bean>
-	<bean class="com.yimayhd.palace.repo.ArticleRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.TravelKaRepo"></bean>
 	<bean id="examineDealRepo" class="com.yimayhd.palace.repo.member.ExamineDealRepo"/>
 	<bean id="userRepo" class="com.yimayhd.palace.repo.user.UserRepo"/>
@@ -31,9 +30,7 @@
 	<bean id="itemRepo" class="com.yimayhd.palace.repo.ItemRepo" />
 	<bean id="commentRepo" class="com.yimayhd.palace.repo.CommentRepo" />
 	<bean id="cityRepo" class="com.yimayhd.palace.repo.CityRepo" />
-	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
 	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
-	
+	<bean id="topicRepo" class="com.yimayhd.palace.repo.TopicRepo" />
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
-	
 </beans>

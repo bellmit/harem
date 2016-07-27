@@ -473,7 +473,7 @@ public class ScenicServiceImpl implements ScenicService {
 		ScenicDO scenicDO = ScenicVO.getScenicDO(scenicVO);
 		scenicDO.setDomain(Constant.DOMAIN_JIUXIU);
 		
-		List<TicketDO> ticketDOList = ScenicAddVO.transformTicketDOList(scenicAddVO.getTicketListStr());
+		List<TicketDO> insertTicketDOList = ScenicAddVO.transformTicketDOList(scenicAddVO.getInsertTicketListStr());
 		
 		//判断景区是否存在
 		this.judgeExist(scenicVO);
@@ -482,7 +482,7 @@ public class ScenicServiceImpl implements ScenicService {
 			
 			ScenicAddDTO scenicAddDTO = new ScenicAddDTO();
 			scenicAddDTO.setScenic(scenicDO);
-			scenicAddDTO.setTicketDOList(ticketDOList);
+			scenicAddDTO.setTicketDOList(insertTicketDOList);
 			
 			ICResult<ScenicDO> addResult = scenicPublishService.addScenic(scenicAddDTO);
 			if(null == addResult){
@@ -518,6 +518,8 @@ public class ScenicServiceImpl implements ScenicService {
 				throw new BaseException("查询结果为空,修改失败 ");
 			}
 			
+			List<TicketDO> updateTicketDOList = ScenicAddVO.transformTicketDOList(scenicAddVO.getUpdateTicketListStr());
+			
 			ScenicUpdateDTO updateDTO = new ScenicUpdateDTO();
 			updateDTO.setId(scenicDO.getId());
 			updateDTO.setName(scenicDO.getName());
@@ -530,7 +532,8 @@ public class ScenicServiceImpl implements ScenicService {
 			updateDTO.setLocationText(scenicDO.getLocationText());
 			updateDTO.setLocationX(scenicDO.getLocationX());
 			updateDTO.setLocationY(scenicDO.getLocationY());
-			updateDTO.setTicketDOList(ticketDOList);
+			updateDTO.setTicketDOList(insertTicketDOList);
+			updateDTO.setUpdTicketList(updateTicketDOList);
 			updateDTO.setLevel(scenicDO.getLevel());
 			updateDTO.setScenicFeature(scenicDO.getScenicFeature());
 			updateDTO.setLogoUrl(scenicDO.getLogoUrl());

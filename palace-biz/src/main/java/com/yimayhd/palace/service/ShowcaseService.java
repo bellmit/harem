@@ -13,11 +13,19 @@ import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
+import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
+import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
+import com.yimayhd.snscenter.client.domain.SnsTopicDO;
+import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
+import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
+import com.yimayhd.snscenter.client.result.topic.TopicResult;
+import com.yimayhd.snscenter.client.result.ugc.UgcResult;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 
@@ -80,7 +88,7 @@ public interface ShowcaseService {
 
     PageVO<RegionDO> getRegionDOListByType(RegionQuery regionQuery);
     //主题
-    PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO)throws Exception;
+    PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO);
 
 
     public List<OperationDO> getAllOperactions() ;
@@ -88,15 +96,53 @@ public interface ShowcaseService {
     public BoothDO getBoothInfoByBoothCode(String code) throws Exception;
 
     //商品列表
-    public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) throws Exception ;
+    public PageVO<ShowCaseItem> getItemByItemOptionDTO(ItemQryDTO itemQryDTO) ;
 
-    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) throws Exception ;
+    public PageVO<ShowCaseItem> getHotelList(HotelPageQuery hotelPageQuery) ;
 
-    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery ccenicPageQuery) throws Exception ;
+    public PageVO<ShowCaseItem> getScenicList(ScenicPageQuery ccenicPageQuery) ;
 
 
     //达人 美食
-    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption) throws Exception ;
+    public PageVO<ShowCaseItem> getMerchants(MerchantPageQuery merchantPageQuery, MerchantOption merchantOption) ;
 
     public List<OperactionVO> getAllOperations() ;
+
+    /**
+     * 分页查询UGC列表
+     * @param subjectInfoDTO 入参
+     * @return
+     */
+    public PageVO<ShowCaseItem> getUgcPageList(SubjectInfoDTO subjectInfoDTO);
+
+    /**
+     * 分页查询话题列表
+     * @param topicQueryListDTO 入参
+     * @return
+     */
+    public PageVO<ShowCaseItem> getTopicPageList(TopicQueryListDTO topicQueryListDTO);
+
+    /**
+     * 查看话题详情
+     * @param topicQueryDTO
+     * @return
+     */
+    public SnsTopicDO getTopicDetailInfo(TopicQueryDTO topicQueryDTO);
+
+    /**
+     * 查询话题详情
+     * @parameter
+     * @return
+     * @throws
+     */
+    public SnsSubjectDO getSubjectInfo(SubjectInfoDTO subjectInfoDTO);
+
+    /**
+     * 查询booth列表
+     * @parameter
+     * @return
+     * @throws
+     */
+    public PageVO<ShowCaseItem> getBoothPageList(BoothQuery boothQuery);
+
 }
