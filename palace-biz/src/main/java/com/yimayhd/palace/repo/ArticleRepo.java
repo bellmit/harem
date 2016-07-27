@@ -39,14 +39,14 @@ public class ArticleRepo {
 
 	public ResourcePageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.pageQueryArticles", articleQueryDTO);
-		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.queryArticleList(articleQueryDTO);
+		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.getArticlePageListByQuery(articleQueryDTO);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.pageQueryArticles", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> add(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.add", articleDTO);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.insert(articleDTO);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.add", result);
 		return result;
 	}
@@ -65,16 +65,16 @@ public class ArticleRepo {
 		return result;
 	}
 
-	public ResourceResult<Boolean> updateStatusByIdList(List<Long> idList, int status) {
+	public ResourceResult<Boolean> updateStatusByIdList(List<Long> idList, ArticleStatus articleStatus) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.updateListByStatus", idList);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdList(idList, status);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdList(idList, articleStatus);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.updateListByStatus", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> modify(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.modify", articleDTO);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.modify(articleDTO);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.modify", result);
 		return result;
 	}

@@ -131,7 +131,7 @@ public class ArticleServiceImpl implements ArticleService {
 		if (CollectionUtils.isEmpty(idList)) {
 			return result;
 		}
-		result = articleRepo.updateStatusByIdList(idList, status);
+		result = articleRepo.updateStatusByIdList(idList, ArticleStatus.OFFLINE);
 		return result;
 	}
 
