@@ -61,7 +61,7 @@ public class ArticleRepo {
 
 	public ResourceResult<Boolean> updateByStatus(long id, ArticleStatus articleStauts) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.updateByStatus", id);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusById(id,articleStauts);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdAndStatus(id,articleStauts);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.updateByStatus", result);
 		return result;
 	}
