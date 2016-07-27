@@ -14,7 +14,7 @@
     <form name="articleForm" id="articleForm" action="" method="post" articleId="$!article.id">
         <table class="table">
 				<tr>
-                    <td>文章类型</td>
+                    <td>文章类型：</td>
                     <td>
 						<select class="form-control" name="type">
             					#foreach($articleType in $articleTypeList)
@@ -27,12 +27,14 @@
                     <td><span class="spColor">*</span>标题：</td>
                     <td>
 						 <input type="text" class="form-control summary title" name="title"  value="$!article.title" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
                     </td>
                 </tr>
 				<tr>
                     <td>副标题：</td>
                     <td>
-						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!article.subTitle">
+						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!article.subTitle" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
                     </td>
                 </tr>
 				<tr>
