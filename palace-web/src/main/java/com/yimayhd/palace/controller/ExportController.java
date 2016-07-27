@@ -79,14 +79,14 @@ public class ExportController extends BaseController{
             if(StringUtils.isNotEmpty(exportQuery.getItemName()) && exportQuery.getItemName().equals(",")){
                 exportQuery.setItemName(null);
             }
-            PageVO<MainOrder> pageVO = orderService.getExportOrderList(exportQuery);
+            PageVO<MainOrder> pageVO = getPageVOMainOrder(exportQuery);
             if(null == pageVO){
                 ModelAndView mo = new ModelAndView();
                 mo.addObject("message","查询无数据");
                 mo.setViewName("error");
                 return mo;
             }
-            List<ExportGfOrder> list = getListExportGfOrder(pageVO);
+            List<ExportGfOrder> list = getListExportGfOrder(pageVO,exportQuery);
             if(list.size()>Constant.EXPORTMAXCOUNT){
                 ModelAndView mo = new ModelAndView();
                 mo.addObject("message","数据量太大【"+pageVO.getTotalCount()+"，"+list.size()+"】，请缩小查询范围");
@@ -109,22 +109,27 @@ public class ExportController extends BaseController{
         return new ModelAndView(new ViewExcel(), model);
     }
 
-    public List<ExportGfOrder> getListExportGfOrder( PageVO<MainOrder> pageVO )throws Exception{
+    public List<ExportGfOrder> getListExportGfOrder( PageVO<MainOrder> pageVO,ExportQuery exportQuery )throws Exception{
         List<ExportGfOrder> list = new ArrayList<ExportGfOrder>();
         try {
             List<MainOrder> listMainOrder = pageVO.getItemList();
             if(null == pageVO || CollectionUtils.isEmpty(listMainOrder)){
                 return list;
             }
-            //循环这个page对象，直到总条数完
-            //int totalSize = pageVO.getTotalCount();
+            //这里先取出来totalpage,如果等于1，那说明只有100条数据，否则，去查nextpage的数据，一直循环
+            list.addAll(mainOrderToExportGfOrder(listMainOrder));
             int totalPage = pageVO.getLastPageNumber();
-            for (int i =0;i<totalPage;i++){
-                for (MainOrder mo:listMainOrder) {
-                    List<ExportGfOrder>  li = mainOrderToExportGfOrder(mo);
-                    if(CollectionUtils.isNotEmpty(li)){
-                        list.addAll(li);
+            if(1 == totalPage ){
+               return  list;
+            }else {
+                for (int page=1;page<=totalPage;page++){
+                    page = page+1;
+                    exportQuery.setPageNumber(page);
+                    PageVO pv = getPageVOMainOrder(exportQuery);
+                    if(null == pv){
+                        continue;
                     }
+                    list.addAll(mainOrderToExportGfOrder(pv.getItemList()));
                 }
             }
             System.out.println("---"+ JSON.toJSONString(list));
@@ -134,6 +139,26 @@ public class ExportController extends BaseController{
             return list;
         }
     }
+
+    public List<ExportGfOrder> mainOrderToExportGfOrder(List<MainOrder> mainOrderList) throws Exception{
+        List<ExportGfOrder> list = new ArrayList<ExportGfOrder>();
+        for (MainOrder ma :mainOrderList ) {
+        list.addAll(mainOrderToExportGfOrder(ma));
+        }
+        return list;
+    }
+
+    //子订单才成单个的订单
+    public PageVO<MainOrder> getPageVOMainOrder(ExportQuery exportQuery){
+        try {
+            PageVO<MainOrder> pageVO = orderService.getExportOrderList(exportQuery);
+            return pageVO;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public List<ExportGfOrder> mainOrderToExportGfOrder(MainOrder mainOrder) throws Exception{
         long bizOrderId = 0;
