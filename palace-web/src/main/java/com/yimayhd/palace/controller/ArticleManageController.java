@@ -156,7 +156,7 @@ public class ArticleManageController extends BaseController {
 	}
 
 	/**
-	 * 文章违规
+	 * 文章下架
 	 *
 	 * @return
 	 * @throws Exception
@@ -167,7 +167,7 @@ public class ArticleManageController extends BaseController {
 		ResponseVo responseVo = new ResponseVo();
 		ResourceResult<Boolean> result = articleService.violation(id);
 		if (result.isSuccess()) {
-			responseVo.setMessage("添加成功！");
+			responseVo.setMessage("文章下架成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
 		} else {
 			responseVo.setMessage(result.getResultMsg());
@@ -178,7 +178,7 @@ public class ArticleManageController extends BaseController {
 	}
 
 	/**
-	 * 文章恢复
+	 * 文章上架
 	 *
 	 * @return
 	 * @throws Exception
@@ -189,7 +189,7 @@ public class ArticleManageController extends BaseController {
 		ResponseVo responseVo = new ResponseVo();
 		ResourceResult<Boolean> result = articleService.regain(id);
 		if (result.isSuccess()) {
-			responseVo.setMessage("添加成功！");
+			responseVo.setMessage("文章上架成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
 		} else {
 			responseVo.setMessage(result.getResultMsg());
@@ -200,7 +200,7 @@ public class ArticleManageController extends BaseController {
 	}
 
 	/**
-	 * 文章违规(批量)
+	 * 文章下架(批量)
 	 *
 	 * @return
 	 * @throws Exception
