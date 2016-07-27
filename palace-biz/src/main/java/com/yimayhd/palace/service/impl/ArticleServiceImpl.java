@@ -28,6 +28,7 @@ import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
@@ -114,13 +115,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ResourceResult<Boolean> regain(long id) throws Exception {
-		ResourceResult<Boolean> result = articleRepo.updateByStatus(id);
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id,ArticleStatus.ONLINE);
 		return result;
 	}
 
 	@Override
 	public ResourceResult<Boolean> violation(long id) throws Exception {
-		ResourceResult<Boolean> result = articleRepo.updateByStatus(id);
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id,ArticleStatus.OFFLINE);
 		return result;
 	}
 

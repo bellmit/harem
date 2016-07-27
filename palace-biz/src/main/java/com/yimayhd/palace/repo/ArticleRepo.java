@@ -13,6 +13,7 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
+import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
@@ -57,9 +58,9 @@ public class ArticleRepo {
 		return result;
 	}
 
-	public ResourceResult<Boolean> updateByStatus(long id) {
+	public ResourceResult<Boolean> updateByStatus(long id, ArticleStatus articleStatus) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.updateByStatus", id);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusById(id);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdAndStatus(id,articleStatus);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.updateByStatus", result);
 		return result;
 	}
