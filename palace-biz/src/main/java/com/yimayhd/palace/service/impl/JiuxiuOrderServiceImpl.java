@@ -19,12 +19,14 @@ import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
 import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.result.BaseResult;
@@ -54,7 +56,7 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		OrderQueryDTO dto = new OrderQueryDTO();
 		
 		JiuxiuHelper.fillOrderQueryDTO(dto, jiuxiuOrderListQuery);
-		
+		dto.setNeedExtFeature(true);
 		BatchBizQueryResult result = tcBizQueryServiceRef.queryOrderForAdmin(dto);
 		BatchJiuxiuOrderResult jiuxiuResult = new BatchJiuxiuOrderResult();
 		List<JiuxiuTcMainOrder> jiuxiuTcMainOrders = new ArrayList<JiuxiuTcMainOrder>();
@@ -81,6 +83,12 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 					jiuxiuTcMainOrder.setScenicEnterTime(tcMainOrder.getScenicEnterTime());
 					jiuxiuTcMainOrder.setCheckInTime(tcMainOrder.getCheckInTime());
 					jiuxiuTcMainOrder.setCheckOutTime(tcMainOrder.getCheckOutTime());
+					//获取优惠劵优惠金额
+					VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrder.getBizOrder().getBizOrderDO());
+					if(null!=voucherInfo){
+						jiuxiuTcMainOrder.setRequirement(voucherInfo.getRequirement());
+						jiuxiuTcMainOrder.setValue(voucherInfo.getValue());
+					}
 
 					String phone =  userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo();
 					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(),phone);

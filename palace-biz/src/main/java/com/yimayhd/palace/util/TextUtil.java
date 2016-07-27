@@ -1,9 +1,19 @@
 package com.yimayhd.palace.util;
 
-import com.alibaba.fastjson.JSON;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 
+import com.alibaba.fastjson.JSON;
+
 public class TextUtil {
+	
+	private static final Pattern TAG_PATTERN = Pattern.compile("([#])([^#]+)([#])");
 	/**
 	 * 转为JSON字符串
 	 * 
@@ -22,4 +32,20 @@ public class TextUtil {
 		}
 		return "";
 	}
+	
+	/*
+	 * 获取微博话题内容
+	 */
+	public static List<String> getTopicContent(String str) {
+		Set<String> set = new HashSet<String>();
+		if( StringUtils.isBlank(str) ){
+			return null;
+		}
+		Matcher m = TAG_PATTERN.matcher(str.trim());
+		while (m.find()) {
+			set.add(m.group());
+		}
+		return new ArrayList<String>(set);
+	}
+	
 }

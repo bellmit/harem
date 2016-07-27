@@ -80,6 +80,11 @@ public class MerchantRepo {
 				resultSupport.setSuccess(false);
 				
 			}
+			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
+			PictureTextVO pictureTextVO = new PictureTextVO();
+			pictureTextVO.setPictureTextItems(pictureTextItems);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchantDO.getSellerId(), PictureText.SHOP, pictureTextVO);
+			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(saveMerchantResult));
 		} catch (Exception e) {
 			log.error("add merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception:{} "+e);
@@ -99,6 +104,20 @@ public class MerchantRepo {
 		}
 		try {
 			MerchantDTO dto = vo.getMerchantDTO(vo);
+
+			BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(vo.getId());
+			if (merchant == null) {
+				log.error("result :{} ",merchant);
+				resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+				return resultSupport;
+			}
+			if (!merchant.isSuccess()) {
+				log.error("result :{} "+JSON.toJSONString(merchant));
+				resultSupport.setCode(merchant.getErrorCode());
+				resultSupport.setMsg(merchant.getErrorMsg());
+				resultSupport.setSuccess(false);
+			}
+
 			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(dto);
 			if (updateMerchantResult == null) {
 				resultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
@@ -110,9 +129,14 @@ public class MerchantRepo {
 				resultSupport.setMsg(updateMerchantResult.getErrorMsg());
 				resultSupport.setSuccess(false);
 			}
+			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
+			PictureTextVO pictureTextVO = new PictureTextVO();
+			pictureTextVO.setPictureTextItems(pictureTextItems);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchant.getValue().getSellerId(), PictureText.SHOP, pictureTextVO);
+			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(updateMerchantResult));
 		} catch (Exception e) {
-			log.error("update merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception is "+e);
+			log.error("update merchant of food error and params:MerchantVO={}"+JSON.toJSONString(vo)+"and exception is ",e);
 			resultSupport.setPalaceReturnCode(PalaceReturnCode.UPDATE_MERCHANT_ERROR);
 			
 		}
@@ -204,9 +228,9 @@ public class MerchantRepo {
 		if(id == 0){
 			return null;
 		}
-		
+		log.info("==============================id"+id);
 		// 图文详情
 		return  pictureTextRepo.getPictureText(id, PictureText.SHOP);
-		
+
 	}
 }

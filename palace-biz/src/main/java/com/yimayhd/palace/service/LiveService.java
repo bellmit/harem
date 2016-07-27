@@ -56,5 +56,6 @@ public interface LiveService {
      * @param idList 直播idList
      */
     void batchViolation(List<Long> idList);
+	void delete(long id);
 
 }

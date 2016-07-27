@@ -3,7 +3,7 @@
 <div>
     <div class="input-group">
         <span class="input-group-addon">选择列表</span>
-        <input type="text" class="form-control" name="itemName" id="itemName" placeholder="输入标题或商品id查询">
+        <input type="text" class="form-control" name="itemName" id="itemName" placeholder="输入标题或id查询">
      <span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button>
      </span>
     </div>
@@ -104,4 +104,17 @@
             return null;
         }
     }
+
+    //多选
+    function getItemss() {
+        var arr =[];
+        jQuery.each($('.checked-resource button'),function(i){
+            var aid=$(this).attr('rid');
+            var res = resource_table[aid];
+            arr.push(res);
+        });
+        JSON.stringify("arr="+arr)
+        return arr;
+    }
+
 </script>

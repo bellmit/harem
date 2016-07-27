@@ -492,6 +492,13 @@
     下架
     #end
 #end
+#macro(SOCKPUPPET_STATUS $status)
+    #if($status == '10')
+    有效
+    #elseif($status == '20')
+    无效
+    #end
+#end
 
 
 #macro(REFUNDREASONTYPE $type)
@@ -580,6 +587,20 @@
     #end
 #end
 
+#macro(ORDER_BIZ_STATUS_NORMAL $type)
+    #if($type == 2)
+  		待付款 
+    #elseif($type == 3)
+       	已付款
+    #elseif($type == 6)
+      	 已发货
+    #elseif($type == 10)
+      	  已完成
+    #elseif($type == 8)
+       	 已取消
+    #end
+#end
+
 #macro(ORDER_BIZ_STATUS_SPOTS $type)
    	#if($type == 2)
   		待付款
@@ -622,6 +643,8 @@
         <span>
         	#if($order.bizOrder.orderType == 1200 || $order.bizOrder.orderType == 1100)
         	待确认；
+        	#elseif($order.bizOrder.orderType == 200)
+        	已付款；
         	#else
            	处理中；
            	#end
@@ -635,12 +658,18 @@
         	待使用；
         	#elseif($order.bizOrder.orderType == 1100)
         	预订成功；
+        	#elseif($order.bizOrder.orderType == 200)
+        	已发货；
         	#else
            	待出行；
            	#end
         </span>
         <span>
-          	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+        	#if($order.bizOrder.orderType == 200)
+          	  	发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+          	#else
+          	 	 确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.deliveryTime)
+          	#end
         </span>
     #elseif($type == 10)
         <span>
@@ -717,14 +746,28 @@
 	#end
 #end
 
+#macro(OPTION_COM_RATE_RATE_STATUS $type)
+<option value="" >全部</option>
+<option value="RATE" #if($type == "RATE")selected#end>未回复</option>
+<option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
+#end
+
+#macro(OPTION_COM_RATE_BASE_STATUS $type)
+<option value="" >全部</option>
+<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
+<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
+#end
+
 ##订单列表-展示的SKU信息
 #macro(ROUTE_ORDER_LIST_SKU $type)
-    #if($type == 3100 ||$type == 3200 || $type == 200
-	 || $type == 3500 || $type == 3600)
+    #if($type == 3100 ||$type == 3200 || $type == 3500 || $type == 3600)
 	   	<div class="t-name">$!subOrder.itemTitle</div>
 	    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate) 出发</div>
 	    <div class="t-userType">$!subOrder.itemSubTitle</div>
 	    <div class="t-userType">$!subOrder.personType</div>
+	#elseif( $type == 200)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
 	#elseif( $type == 3300)
 	   	<div class="t-name">$!subOrder.itemTitle</div>
 	    <div class="t-userType">$!subOrder.itemSubTitle</div>
@@ -740,7 +783,7 @@
 		<div class="t-name">$!subOrder.itemTitle</div>
 	    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.startDate)</div>
 	    <div class="t-userType">$!order.roomTitle</div>
-	    #if($type == 1400)
+	    #if($type == 1100)
 	    	<div class="t-userType">在线付</div>
 	    #elseif($type == 3400)
 	    	<div class="t-userType">到店付</div>
@@ -762,4 +805,13 @@
 
 #macro(DEFAULT_COM_RATE_REPLY_BACK_CONTENT $type)
 感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！
+#end
+
+#*话题状态*#
+#macro(TOPIC_STATUS $type)
+    #if($type == '0')
+		停用
+    #elseif($type == '1')
+		 启用   
+    #end
 #end

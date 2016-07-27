@@ -1,5 +1,6 @@
 package com.yimayhd.palace.model.trade;
 
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.palace.util.OrderUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -32,6 +33,16 @@ public class MainOrder {
     private UserDO user;
     
     private PayOrderDO payOrderDO;
+
+    private ExpressVO express;
+
+    public ExpressVO getExpress() {
+        return express;
+    }
+
+    public void setExpress(ExpressVO express) {
+        this.express = express;
+    }
 
     public BizOrderDO getBizOrderDO() {
         return bizOrderDO;

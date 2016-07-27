@@ -16,22 +16,26 @@
                     <td><span class="spColor">*</span>发布时间</td>
                     <td><input type="text" class='form-control form-date dateInp gmtCreatedStr' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr" ></td>
                 </tr>
-                <tr>
-                    <td>直播标签</td>
+               #* <tr>
+                    <td>选择话题</td>
                     <td>
-                        <select class="form-control" name="tagId">
-                            <option value="0">请选择标签</option>
+                         <select class="form-control" name="tagId">
+                            <option value="0">请选择话题</option>
                             #foreach($comTag in $comTagList)
                                 <option #if($comTag.id == $!live.tagId) selected #end value="$comTag.id">$!esc.html($!comTag.name)</option>
                             #end
-                        </select>
+                        </select> 
+                         <span id="userName">$!esc.html($!live.userDO.nickname)</span>
+                        <button type="button" class="btn btn-info selectUser">选择话题</button>
+                        <input type="hidden" id="tagId" name="tagId" value="$comTag.id" >
+						
                     </td>
-                </tr>
+                </tr> 
+				 *#
                  <tr>
                     <td>所属域</td>
                     <td>
                         <select class="form-control" name="domain">
-                            <option value="1000" #if($live.domain==1000)selected#end>B2C</option>
                             <option value="1200" #if($live.domain==1200)selected#end>九休</option>
                         </select>
                     </td>
@@ -41,7 +45,7 @@
                     <td> <input type="text" class="inpCtlBlock snsPOIDetail" name="snsPOI.detail"  value="$!esc.html($!live.snsPOI.detail)"></td>
                 </tr>
                 <tr>
-                    <td>作者信息：</td>
+                    <td><span class="spColor">*</span>作者信息：</td>
                     <td>
                         <button type="button" class="btn btn-info selectUser">选择用户</button>
                         <img src="#if($!live.userDO.avatar)$utilWebconfig.getTfsRootPath()$!live.userDO.avatar#end" alt="头像" class="img-circle grogUserLogo" id="userImg">
@@ -60,6 +64,22 @@
                             <input class="picUrlsVal" type="hidden" name="picListStr" value="">
                     </td>
                 </tr>
+				#if($live)
+                <tr>
+                    <td>播放视频：</td>
+                    <td class="videoTd">
+                    	#if((!$live.videoUrl)||($live.videoUrl==''))
+                        	没有视频
+						#else
+                        	<video width="320" height="240" controls autoplay>                        
+                        		<source src="$utilWebconfig.getTfsRootPath()$live.videoUrl" type="video/mp4">
+                        		Your browser does not support video
+							</video>
+                        #end
+                    	<input class="videoUrlsVal" type="hidden" name="videoListStr" value="$live.videoUrl">
+                    </td>
+                </tr>
+				#end
 
         </table>
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
@@ -114,14 +134,14 @@
 
         //选择大咖
         $('.selectUser').click(function(){
-            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser','选择用户',function() {
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectSockPuppetUser','选择用户',function() {
                 var user = win.getItem();
                 if(user == null){
                     return;
                 }
                 $("#userImg").attr('src',tfsRootPath + user.avatar);
-                $("#userId").val(user.id);
-                $("#userName").html(user.nickName);
+                $("#userId").val(user.userId);
+                $("#userName").html(user.nickname);
                 return true;
             });
         });

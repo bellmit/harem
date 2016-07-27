@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commission.convert.PictureTextConverter;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
@@ -61,7 +61,9 @@ public class MerchantBiz {
 	public PictureTextVO getPictureText(long id) {
 		PictureTextVO pictureTextVO = null;
 		try {
+			log.info("==============================id"+id);
 			PicTextResult picTextResult = merchantRepo.getPictureText(id);
+			log.info("=============================="+JSON.toJSONString(picTextResult));
 			pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
 		} catch (Exception e) {
 			log.error("params:id={} ,exception:{}",id,e);

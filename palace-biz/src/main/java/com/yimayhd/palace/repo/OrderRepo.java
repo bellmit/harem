@@ -4,7 +4,6 @@ import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
-import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

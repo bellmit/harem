@@ -1,13 +1,20 @@
 package com.yimayhd.palace.controller;
 
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.controller.loginout.vo.LoginoutVO;
+import com.yimayhd.palace.service.HaMenuService;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.LoginDTO;
+import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.client.service.UserService;
+import com.yimayhd.user.session.manager.JsonResult;
+import com.yimayhd.user.session.manager.SessionManager;
+import com.yimayhd.user.session.manager.VerifyCodeManager;
+import net.pocrd.entity.AbstractReturnCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,22 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.palace.base.BaseController;
-import com.yimayhd.palace.base.ResponseVo;
-import com.yimayhd.palace.constant.ResponseStatus;
-import com.yimayhd.palace.controller.loginout.vo.LoginoutVO;
-import com.yimayhd.palace.model.HaMenuDO;
-import com.yimayhd.palace.service.HaMenuService;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.dto.LoginDTO;
-import com.yimayhd.user.client.result.login.LoginResult;
-import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.JsonResult;
-import com.yimayhd.user.session.manager.SessionManager;
-import com.yimayhd.user.session.manager.VerifyCodeManager;
-
-import net.pocrd.entity.AbstractReturnCode;
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -88,6 +84,8 @@ public class LoginController extends BaseController {
             errorCode = result.getErrorCode();
             if (Integer.valueOf(AbstractReturnCode._C_SUCCESS).equals(Integer.valueOf(errorCode))) {
                 LOGGER.info("loginoutVO= {} login success and userId = {}", loginoutVO, result.getValue());
+                //更新缓存菜单
+                haMenuService.cacheMenuListByUserId(result.getToken());
                 String token = result.getToken();
                 Cookie cookie = new Cookie("token", token);
                 cookie.setHttpOnly(true);
@@ -139,7 +137,8 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String toMain(Model model) throws Exception {
     	UserDO user = sessionManager.getUser();
-        List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(user.getId());
+       // List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(user.getId());
+        List<com.yimayhd.membercenter.client.domain.HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserIdFromCatch(user.getId());
         model.addAttribute("menuList", haMenuDOList);
         model.addAttribute("userNickName", user.getNickname());
         return "/system/layout/layout";
