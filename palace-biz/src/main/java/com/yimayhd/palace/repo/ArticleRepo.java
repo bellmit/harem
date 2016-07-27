@@ -39,18 +39,26 @@ public class ArticleRepo {
 
 	public ResourcePageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.pageQueryArticles", articleQueryDTO);
-//		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.queryArticleList(articleQueryDTO);
-		//FIXME
-		ResourcePageResult<ArticleDTO> result = null ;
+//<<<<<<< HEAD
+////		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.queryArticleList(articleQueryDTO);
+//		//FIXME
+//		ResourcePageResult<ArticleDTO> result = null ;
+//=======
+		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.getArticlePageListByQuery(articleQueryDTO);
+//>>>>>>> b52ba2d793423698277aebd8a98c1730eefe05d8
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.pageQueryArticles", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> add(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.add", articleDTO);
-//		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
-		ResourceResult<Boolean> result = null;
-		//FIXME
+//<<<<<<< HEAD
+////		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+//		ResourceResult<Boolean> result = null;
+//		//FIXME
+//=======
+		ResourceResult<Boolean> result = articleBackEndServiceRef.insert(articleDTO);
+//>>>>>>> b52ba2d793423698277aebd8a98c1730eefe05d8
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.add", result);
 		return result;
 	}
@@ -69,19 +77,27 @@ public class ArticleRepo {
 		return result;
 	}
 
-	public ResourceResult<Boolean> updateStatusByIdList(List<Long> idList, int status) {
+	public ResourceResult<Boolean> updateStatusByIdList(List<Long> idList, ArticleStatus articleStatus) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.updateListByStatus", idList);
-//		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdList(idList, status);
-		//FIXME
-		ResourceResult<Boolean> result = null;
+//<<<<<<< HEAD
+////		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdList(idList, status);
+//		//FIXME
+//		ResourceResult<Boolean> result = null;
+//=======
+		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdList(idList, articleStatus);
+//>>>>>>> b52ba2d793423698277aebd8a98c1730eefe05d8
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.updateListByStatus", result);
 		return result;
 	}
 
 	public ResourceResult<Boolean> modify(ArticleDTO articleDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.modify", articleDTO);
-//		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
-		ResourceResult<Boolean> result = null ;
+//<<<<<<< HEAD
+////		ResourceResult<Boolean> result = articleBackEndServiceRef.insertOrUpdate(articleDTO);
+//		ResourceResult<Boolean> result = null ;
+//=======
+		ResourceResult<Boolean> result = articleBackEndServiceRef.modify(articleDTO);
+//>>>>>>> b52ba2d793423698277aebd8a98c1730eefe05d8
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.modify", result);
 		return result;
 	}
