@@ -151,10 +151,12 @@
 
         });
 
+
         $('.commodityReview').click(function(){
             var url = actionDefaultPath + '/GF/comRateManage/list?itemId='+ $(this).attr('commodityId');
             top.tabsAdd("",url,2,$(this).text()+$(this).attr('commodityId'));
         });
+
 
         //单个启用停用
         $('.commodityBtn').each(function(){
