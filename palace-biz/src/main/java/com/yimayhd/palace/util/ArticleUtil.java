@@ -1,6 +1,6 @@
 package com.yimayhd.palace.util;
 
-import com.yimayhd.resourcecenter.model.enums.ArticleStauts;
+import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.enums.ArticleType;
 
 /**
@@ -14,7 +14,7 @@ public class ArticleUtil {
 		if (status <= 0) {
 			return null;
 		}
-		ArticleStauts articleStauts = ArticleStauts.getByStatus(status);
+		ArticleStatus articleStauts = ArticleStatus.getByStatus(status);
 		if (articleStauts != null) {
 			return articleStauts.getDesc();
 		}
@@ -24,11 +24,11 @@ public class ArticleUtil {
 		if (status <= 0) {
 			return null;
 		}
-		if (status==ArticleStauts.OFFLINE.getValue()) {
-			return ArticleStauts.ONLINE.getDesc();
+		if (status==ArticleStatus.OFFLINE.getValue()) {
+			return ArticleStatus.ONLINE.getDesc();
 		}
-		if (status==ArticleStauts.ONLINE.getValue()) {
-			return ArticleStauts.OFFLINE.getDesc();
+		if (status==ArticleStatus.ONLINE.getValue()) {
+			return ArticleStatus.OFFLINE.getDesc();
 		}
 		return "未知状态";
 	}
