@@ -1,4 +1,4 @@
-﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
+﻿﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/jquery.form.js"></script>
@@ -7,6 +7,8 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
+
 <style type="text/css">
     .demo {width: 850px;margin: 20px auto;display: none;}
     #l-map {height: 400px;width: 600px;float: left;border: 1px solid #bcbcbc;}
@@ -94,13 +96,23 @@
 		<td class="tit"><span>*</span><label>商家地图：</label></td>
 		<td><label>经度：</label><input id="locationX" readonly="readonly" name="longitude" value="$!numberFormatHelper.formatDoubleNumber($!merchant.lon)" >&nbsp;&nbsp;&nbsp;&nbsp;<label>纬度：</label><input id="locationY" readonly="readonly" value="$!numberFormatHelper.formatDoubleNumber($!merchant.lat)" name="latitude">&nbsp;&nbsp;<button class="locationXYSelectBtn">查找经纬度</button></td>
 	</tr>
+	
+	<tr>
+		<td class="tit"><span>*</span><label>图文详情：</label></td>
+		<td style="height:500px;">
+		#parse("system/layout/pictureText.vm")
+		</td>
+	</tr>
 	<tr>
 		<td colspan="2" class="save"><button  class="save_btn">确定</button></td>
 	</tr>
 </table>
 
 
-
+<script src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("comediter");</script>
 <script>
 	var mapCallback = function (data) {
         if (data) {

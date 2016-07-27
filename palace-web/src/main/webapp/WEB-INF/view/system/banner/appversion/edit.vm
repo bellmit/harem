@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<div class="clubDynamicPage whole">
+    <form name="editForm" id="editForm" action="" method="post">
+        <table class="table">
+                <input type="hidden" name="appId" value="$!entity.id">
+                <tr>
+                    <td><span class="spColor">*</span>app名称：</td>
+                    <td> <input type="text" class="inpCtlBlock appName" name="appName"  value="$!entity.appName"></td>
+                </tr>
+
+                <tr>
+                    <td><span class="spColor">*</span>名称：</td>
+                    <td> <input type="text" class="inpCtlBlock name" name="name"  value="$!entity.name"></td>
+                </tr>
+
+                <tr>
+                    <td>描述：</td>
+                    <td> <input type="text" class="inpCtlBlock description" name="description"  value="$!entity.description"></td>
+                </tr>
+
+                <tr>
+                    <td><span class="spColor">*</span>版本号：</td>
+                    <td> <input type="text" class="inpCtlBlock code" name="code"  value="$!entity.code"></td>
+                </tr>
+        </table>
+        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+    </form>
+</div>
+<script>
+     //非空验证
+     var validate = function(){
+         if(!$('.code').val()){
+             return '版本号不能为空';
+         }else if($('.code').val().length  != 5){
+            return '版本号长度为5位数字';
+         }else if(isNaN( $('.code').val() )){
+             return '版本号只能输入5位数字';
+         }
+         if(!$('.name').val()){
+             return '名称不能为空';
+         }else if($('.name').val().length > 100){
+             return '名称不能超过20字';
+         }
+         if($('.description').val() && $('.description').val().length > 200){
+             return '描述不能超过200字';
+         }
+         /*if("" == $('.appVersion').val() || $('.appVersion').val() == 0){
+             return '请选择app版本号';
+         }*/
+     }
+    $(function(){
+        $('#btnSubmit').click(function(){
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var actionUrl = actionDefaultPath + '/banner/appversion/add';
+            $('#editForm').attr('action',actionUrl)
+            $('#editForm').submit();
+        });
+    });
+</script>

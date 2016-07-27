@@ -34,6 +34,7 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.jiuxiu.helper.JiuxiuHelper;
+import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
 import com.yimayhd.palace.model.vo.merchant.MerchantUserVo;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
@@ -102,6 +103,7 @@ public class MerchantController extends BaseController {
 	public BizResult<String> addDeliciousFoodMerchant(MerchantVO vo,Model model,Long id) {
 		BizResult<String> result = new BizResult<String>();
 		BizResultSupport saveResult = null;
+		
 		if (id <= 0 || id == null) {
 			
 			saveResult = merchantBiz.addDeliciousFood(vo);
@@ -151,18 +153,26 @@ public class MerchantController extends BaseController {
 		BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
 		if (merchant.isSuccess() && merchant.getValue() != null) {
 			MerchantDO merchantDO = merchant.getValue();
+			//MerchantVO merchantVO = new MerchantVO();
 			new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
-			new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
+			//new MerchantVO().bd_encrypt(merchantDO.getLat(), merchantDO.getLon(), merchantDO);
 			merchantDO.setName(merchantDO.getName().replaceAll("\"", "&quot;"));
 			merchantDO.setServiceTime(merchantDO.getServiceTime().replaceAll("\"", "&quot;"));
 			merchantDO.setAddress(merchantDO.getAddress().replaceAll("\"", "&quot;"));
+//			merchantVO.setName(merchantDO.getName());
+//			merchantVO.setServiceTime(merchantDO.getServiceTime());
+//			merchantVO.setAddress(merchantDO.getAddress());
+//			merchantVO.setLat(merchantDO.getLat());
+//			merchantVO.setLon(merchantDO.getLon());
 			long serviceFacility = merchantDO.getServiceFacility();
 			if (serviceFacility >= 0 ) {
 				List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
 				model.addAttribute("containedOptions",containedOptions);
 			}
 			model.addAttribute("merchant",merchantDO );
-			
+			model.addAttribute("pictureText", merchantBiz.getPictureText(merchant.getValue().getSellerId()));
+			log.info("=============================="+JSON.toJSONString(merchantBiz.getPictureText(merchant.getValue().getSellerId())));
+
 			
 		}
 
@@ -187,7 +197,8 @@ public class MerchantController extends BaseController {
 				model.addAttribute("containedOptions",containedOptions);
 			}
 			model.addAttribute("merchant",merchant.getValue() );
-			
+			model.addAttribute("pictureText", merchantBiz.getPictureText(merchant.getValue().getSellerId()));
+
 			
 		}
 		

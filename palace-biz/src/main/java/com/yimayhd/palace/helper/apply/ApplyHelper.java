@@ -33,10 +33,13 @@ public class ApplyHelper {
 		examinePageQueryDTO.setType(applyQuery.getType());
 		//FIXME wuzhengfei
 		int status = applyQuery.getStatus() ;
-		if( status == 0 ){
-			
+		if( status > 0 ){
+			examinePageQueryDTO.setStatus(status);
 		}
-		
+//		if (applyQuery.getGmtCreated() != null) {
+//			
+//			examinePageQueryDTO.setGmtCreated(applyQuery.getGmtCreated());
+//		}
 		return examinePageQueryDTO ;
 	}
 	

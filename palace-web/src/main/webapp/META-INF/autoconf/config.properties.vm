@@ -28,7 +28,7 @@ session.tair.namespace=${session.tair.namespace}
 session.tair.timeout=${session.tair.timeout}
 
 #tair.config.port        = 5198
-#tair.config.server      = 192.168.1.209
+#tair.config.server      = 192.168.1.153
 
 
 #静态文件地址
@@ -44,6 +44,7 @@ actionUploadFilesPath=${actionUploadFilesPath}
 filegw.url=${filegw.url}
 
 resource.path.jiuxiu=${resource.path.jiuxiu}
+resource.path.jiuxiu.app=${resource.path.jiuxiu.app}
 root.path=${root.path}
 env=${env}
 

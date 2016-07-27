@@ -28,4 +28,21 @@ public interface HaMenuService extends BaseService<HaMenuDO>{
     List<HaMenuDO> getUrlListByUserId(long id)throws Exception;
     
     List<HaMenuDO> getMenuList()throws Exception;
+    /**
+     * 同一权限调用，调用membercenter的权限接口
+     * 根据用户id获取菜单权限列表
+     * @param userId 用户id
+     * @return
+     * @throws Exception
+     */
+    List<com.yimayhd.membercenter.client.domain.HaMenuDO> getMenuListByUserIdFromCatch(long userId)throws Exception;
+
+    /**
+     * 更新用户菜单缓存
+     * @param token
+     * @return
+     * @throws Exception
+     */
+    boolean cacheMenuListByUserId(String token)throws Exception;
+
 }
