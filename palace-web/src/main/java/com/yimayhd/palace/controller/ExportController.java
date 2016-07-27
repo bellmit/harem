@@ -116,23 +116,21 @@ public class ExportController extends BaseController{
             if(null == pageVO || CollectionUtils.isEmpty(listMainOrder)){
                 return list;
             }
-            //这里先取出来totalpage,如果等于1，那说明只有100条数据，否则，去查nextpage的数据，一直循环
+            //这里先取出来totalpage,如果等于1，那说明只有 EXPORTPAGESIZE[100]条数据，否则，去循环nextpage的数据，
             list.addAll(mainOrderToExportGfOrder(listMainOrder));
             int totalPage = pageVO.getLastPageNumber();
             if(1 == totalPage ){
                return  list;
-            }else {
-                for (int page=1;page<=totalPage;page++){
-                    page = page+1;
-                    exportQuery.setPageNumber(page);
-                    PageVO pv = getPageVOMainOrder(exportQuery);
-                    if(null == pv){
-                        continue;
-                    }
-                    list.addAll(mainOrderToExportGfOrder(pv.getItemList()));
-                }
             }
-            System.out.println("---"+ JSON.toJSONString(list));
+            for (int page=1;page<=totalPage;page++){
+                page = page+1;
+                exportQuery.setPageNumber(page);
+                PageVO pv = getPageVOMainOrder(exportQuery);
+                if(null == pv){
+                    continue;
+                }
+                list.addAll(mainOrderToExportGfOrder(pv.getItemList()));
+            }
             return list;
         } catch (Exception e) {
             e.printStackTrace();
