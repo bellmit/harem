@@ -79,7 +79,7 @@ public class ExportController extends BaseController{
             if(StringUtils.isNotEmpty(exportQuery.getItemName()) && exportQuery.getItemName().equals(",")){
                 exportQuery.setItemName(null);
             }
-            PageVO<MainOrder> pageVO = orderService.getOrderList(exportQuery);
+            PageVO<MainOrder> pageVO = orderService.getExportOrderList(exportQuery);
             if(null == pageVO){
                 ModelAndView mo = new ModelAndView();
                 mo.addObject("message","查询无数据");
@@ -89,7 +89,7 @@ public class ExportController extends BaseController{
             List<ExportGfOrder> list = getListExportGfOrder(pageVO);
             if(list.size()>Constant.EXPORTMAXCOUNT){
                 ModelAndView mo = new ModelAndView();
-                mo.addObject("message","数据量太大，请缩小查询范围");
+                mo.addObject("message","数据量太大【"+pageVO.getTotalCount()+"，"+list.size()+"】，请缩小查询范围");
                 mo.setViewName("error");
                 return mo;
             }
@@ -117,8 +117,9 @@ public class ExportController extends BaseController{
                 return list;
             }
             //循环这个page对象，直到总条数完
-            int totalSize = pageVO.getTotalCount();
-            for (int i =0;i<totalSize;i++){
+            //int totalSize = pageVO.getTotalCount();
+            int totalPage = pageVO.getLastPageNumber();
+            for (int i =0;i<totalPage;i++){
                 for (MainOrder mo:listMainOrder) {
                     List<ExportGfOrder>  li = mainOrderToExportGfOrder(mo);
                     if(CollectionUtils.isNotEmpty(li)){
@@ -159,22 +160,19 @@ public class ExportController extends BaseController{
                     eo.setCreateDate(DateUtil.dateToString(bizOrder.getGmtCreated(),"yyyy-MM-dd"));
                 }
                 if(null != bizUser){
-                    eo.setBuyerId(bizUser.getId());
-                    eo.setBuyerPhoneNum(bizUser.getMobileNo());
-                }
-                if(0 != bizOrderId){
-                    //orderDetails = orderService.getOrderById(bizOrderId);
-                }
-                if(null != orderDetails ){
-                    MainOrder mainOrder1 = orderDetails.getMainOrder();
-                    expressVO = orderDetails.getExpress();
-                    //logisticsOrderDO = mainOrder1.getLogisticsOrderDO();
-                    eo.setPaymentMode(orderDetails.getPayChannel());
+                    //eo.setBuyerId(bizUser.getId());
                 }
                 logisticsOrderDO = mainOrder.getLogisticsOrderDO();
                 if(null != logisticsOrderDO ){
                     eo.setConsigneeName(logisticsOrderDO.getFullName());
-                    eo.setContactAddress(logisticsOrderDO.getProv()+ logisticsOrderDO.getCity()+ logisticsOrderDO.getArea()+logisticsOrderDO.getAddress());
+                    eo.setContactAddress(logisticsOrderDO.getArea()+logisticsOrderDO.getAddress());
+                    eo.setBuyerPhoneNum(logisticsOrderDO.getMobilePhone());
+                    eo.setBuyerId(logisticsOrderDO.getBuyerId());
+                }
+                payOrderDO = mainOrder.getPayOrderDO();
+                if(null != payOrderDO){
+                    PayChannel payChannel = PayChannel.getPayChannel(payOrderDO.getPayChannel());
+                    eo.setPaymentMode(null == payChannel ?"":payChannel.getDesc());
                 }
                 eo.setItemId(subOrder.getBizOrderDO().getItemId());
                 eo.setItemTitle(subOrder.getBizOrderDO().getItemTitle());
