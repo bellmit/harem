@@ -40,7 +40,7 @@ public class ArticleRepo {
 
 	public ResourcePageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.pageQueryArticles", articleQueryDTO);
-		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.queryArticleList(articleQueryDTO);
+		ResourcePageResult<ArticleDTO> result = articleBackEndServiceRef.getArticlePageListByQuery(articleQueryDTO);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.pageQueryArticles", result);
 		return result;
 	}
