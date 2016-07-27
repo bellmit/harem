@@ -91,10 +91,11 @@
                     <img>
                 </div>
                 #end
-                #if ($!comRate.backContent)
+                #if ($!comRate.rateStatus==2)
                     <p><strong>卖家回复:</strong></p>
                     <p>
                         $!comRate.backContent
+                        #DEFAULT_COM_RATE_REPLY_BACK_CONTENT()
                     </p>
                 #end
             </dl>
@@ -110,7 +111,7 @@
         <p class = "title">回复评论</p>
         <textarea maxlength="200" id="replaycontent" placeholder="感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！"></textarea>
         <p class = "tip_num"><em class = "change">0</em>/<em>200</em></p>
-        <p class = "txt" id="defaultcontent">感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！</p>
+        <p class = "txt" id="defaultcontent">#DEFAULT_COM_RATE_REPLY_BACK_CONTENT()</p>
         <p><a class = "btn btn-primary themeStop publish" id="replaysubmitBtn">发表评论</a>
             <a class = "btn btn-primary themeStop  cancel">取消</a></p>
     </div>
@@ -258,9 +259,6 @@
     });
     $("#replaysubmitBtn").click(function () {
         content = $("#replaycontent").val();
-        if(!content || content=='' || content.length==0){
-            content = $("#defaultcontent").text();
-        }
         ids = new Array();
         id = $("#val").val();
         if(id){

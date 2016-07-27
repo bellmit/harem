@@ -759,3 +759,7 @@
 <option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
 <option value="DELETED" #if($type == "DELETED")selected#end>是</option>
 #end
+
+#macro(DEFAULT_COM_RATE_REPLY_BACK_CONTENT $type)
+感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！
+#end
