@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">		
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editertwo.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/imgupload.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/newcom.css"/>
 
 <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
@@ -25,7 +26,7 @@
 				<tr>
                     <td><span class="spColor">*</span>标题：</td>
                     <td>
-						 <input type="text" class="form-control summary title" name="title"  value="$!article.title">
+						 <input type="text" class="form-control summary title" name="title"  value="$!article.title" maxlength="38">
                     </td>
                 </tr>
 				<tr>
@@ -41,7 +42,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>封面图</td>
+                    <td><span class="spColor">*</span>封面图：</td>
                     <td>
 						<div class="imgallbox" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
 							<div class="imgbox imgno">
@@ -69,7 +70,7 @@
                     <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!utilDate.dateToString($!{article.gmtCreated},"yyyy-MM-dd HH:mm")" ></td>
                 </tr> *#
                 <tr>
-                	<td><span class="spColor">*</span>图文详情</td>
+                	<td><span class="spColor">*</span>图文详情：</td>
                 	<td>
                 		<div id="editers">
 							<div class="editer-tip">
