@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.model.ArticleVO;
-import com.yimayhd.resourcecenter.model.enums.ArticleItemSubType;
+import com.yimayhd.resourcecenter.model.enums.ArticleType;
 
 /**
  * 文章checker
@@ -21,14 +21,17 @@ public class ArticleChecker {
 		if (StringUtils.isBlank(articleVO.getTitle())) {
 			return CheckResult.error("标题不能为空");
 		}
-		if (StringUtils.isBlank(articleVO.getSubTitle())) {
-			return CheckResult.error("副标题不能为空");
-		}
 		if (StringUtils.isBlank(articleVO.getFrontcover())) {
 			return CheckResult.error("封面不能为空");
 		}
-		if (ArticleItemSubType.get(articleVO.getType()) == null) {
-			return CheckResult.error("不支持的子项类型");
+		if (articleVO.getPv() <0) {
+			return CheckResult.error("阅读数不能小于0");
+		}
+		if (ArticleType.getTypeName(articleVO.getType()) == null) {
+			return CheckResult.error("不支持的文章类型");
+		}
+		if (articleVO.getArticleItems() == null || articleVO.getArticleItems().isEmpty()) {
+			return CheckResult.error("图文不能为空");
 		}
 		return CheckResult.success();
 	}

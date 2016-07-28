@@ -37,7 +37,6 @@
 	<bean class="com.yimayhd.palace.service.impl.RcOperationServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.RcShowcaseServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PictureServiceImpl"></bean>
-
 	<bean class="com.yimayhd.palace.service.impl.ArticleServiceImpl"></bean>
 
 	<!-- home config -->
@@ -86,7 +85,7 @@
 	
 	<!-- 九休订单 -->
 	<bean class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
-
+	
 	<!-- 话题 -->
 	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
 

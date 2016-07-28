@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.ArticleBiz;
@@ -34,12 +35,6 @@ import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.user.client.dto.UserDTO;
 
-/**
- * H5文章
- * 
- * @author xiemingna
- *
- */
 public class ArticleServiceImpl implements ArticleService {
 
 	private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
@@ -126,7 +121,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public ResourceResult<Boolean> batchViolation(List<Long> idList, int status) {
+	public ResourceResult<Boolean> batchViolation(List<Long> idList, ArticleStatus status) {
 		ResourceResult<Boolean> result = new ResourceResult<Boolean>();
 		if (CollectionUtils.isEmpty(idList)) {
 			return result;

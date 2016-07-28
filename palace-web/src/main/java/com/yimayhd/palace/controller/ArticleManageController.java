@@ -152,7 +152,11 @@ public class ArticleManageController extends BaseController {
 			throw new BaseException(checkResult.getMsg());
 		}
 		ResourceResult<Boolean> result = articleService.modify(vo);
-		return "/success";
+		if (result.isSuccess()) {
+			return "/success";
+		} else {
+			throw new BaseException(result.getResultMsg());
+		}
 	}
 
 	/**
@@ -209,8 +213,7 @@ public class ArticleManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchViolation(@RequestParam("articleIdList[]") ArrayList<Long> articleIdList) throws Exception {
 		ResponseVo responseVo = new ResponseVo();
-		int status = ArticleStatus.OFFLINE.getValue();
-		ResourceResult<Boolean> result = articleService.batchViolation(articleIdList, status);
+		ResourceResult<Boolean> result = articleService.batchViolation(articleIdList, ArticleStatus.OFFLINE);
 		if (result.isSuccess()) {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);

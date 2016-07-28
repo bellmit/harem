@@ -4,17 +4,17 @@
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">		
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editertwo.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/imgupload.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/newcom.css"/>
 
 <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+
 <div class="clubDynamicPage whole">
     <form name="articleForm" id="articleForm" action="" method="post" articleId="$!article.id">
         <table class="table">
 				<tr>
-                    <td>文章类型</td>
+                    <td>文章类型：</td>
                     <td>
 						<select class="form-control" name="type">
             					#foreach($articleType in $articleTypeList)
@@ -26,13 +26,16 @@
 				<tr>
                     <td><span class="spColor">*</span>标题：</td>
                     <td>
-						 <input type="text" class="form-control summary title" name="title"  value="$!article.title">
+						 <input type="text" class="form-control summary title" name="title"  value="$!{escUtil.html($!article.title)}" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
                     </td>
                 </tr>
 				<tr>
-                    <td><span class="spColor">*</span>子标题：</td>
+                    <td>副标题：</td>
                     <td>
-						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!article.subTitle">
+						 <span style="display:none">$!article.subTitle</span>
+						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!{escUtil.html($!article.subTitle)}" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
                     </td>
                 </tr>
 				<tr>
@@ -41,26 +44,36 @@
 						 <input type="text" class="form-control summary pv" name="pv"  value="$!article.pv">
                     </td>
                 </tr>
-				<tr>
-                    <td><span class="spColor">*</span>封面图</td>
+                <tr>
+                    <td><span class="spColor">*</span>封面图：</td>
                     <td>
-                        <div class="fileImgWrap">
-                            <button type="button" id="batchUploadBtn" class="btn btn-success">选择图片</button>
-                            <input type="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
-                            <input type="hidden" name="frontcover" value="$!article.frontcover"  id="FMReturnInput">
-                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
-                        </div>
-                        <div class="propagandaView">
-                            <img height="100" width="100" src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover  #end " id="FMReturnInputImg">
-                        </div>
+						<div class="imgallbox" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
+							<div class="imgbox imgno">
+								<div class="imgcon">
+									#if($!article.frontcover)
+										<img src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover #end ">
+									#else 
+										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">										
+									#end
+								</div>
+								<div class="imgwait"></div>
+								<div class="imgdelbtn">删除图片</div>
+								#if(!$article.frontcover)
+								<a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile mult"></a>									
+								#end																
+								<input type="hidden" value="$!article.frontcover">
+							</div>
+							<input type="hidden" name="frontcover" class="picVal" value="$!article.frontcover">
+						</div>
+						<p>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：690*330</p>
                     </td>
                 </tr>
-                <tr>
+               #*  <tr>
                     <td><span class="spColor">*</span>发布时间</td>
                     <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!utilDate.dateToString($!{article.gmtCreated},"yyyy-MM-dd HH:mm")" ></td>
-                </tr>
+                </tr> *#
                 <tr>
-                	<td></td>
+                	<td><span class="spColor">*</span>图文详情：</td>
                 	<td>
                 		<div id="editers">
 							<div class="editer-tip">
@@ -73,16 +86,16 @@
 							<div class="bd">
 							#foreach($articleItem in $!article.articleItemList)
 								#if($articleItem.type == 1)
-								<p class="text movesection"><font>$articleItem.content</font></p>
+								<p class="text movesection saved"><font>$articleItem.content</font></p>
 								#end
 								#if($articleItem.type == 2)
-								<p class="pic movesection">
+								<p class="pic movesection saved">
 									<img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end" class="nopic" id="1">
 									<input type="hidden" class="imgDateVal" value="$!articleItem.content">
 								</p>
 								#end
 								#if($articleItem.type == 3)
-								<div class="item movesection">
+								<div class="item movesection saved">
 									<div class="itemwraptitle">$!articleItem.title</div>
 									<div class="itemwrap" itemid="$articleItem.content" itemsubtype="$articleItem.subType">
 										<div class="itemimgbox">
@@ -117,8 +130,6 @@
 							</div>
 							
 							<input type="hidden" id="articleItems" name="articleItems">
-							<input type="hidden" id="uploadAction" value="http://filegw.test.jiuxiulvxing.com/filegw/">
-							<input type="hidden" id="imgUrl" value="http://192.168.1.209:7500/v1/tfs/">
 							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
 							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
 						</div>
@@ -132,77 +143,4 @@
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
-<script>seajs.use("editertwo");</script>
-<script>
-
- $(".form-date").datetimepicker(
-            {
-                language:  "zh-CN",
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                forceParse: 0,
-                showMeridian: 1,
-                format: "yyyy-mm-dd hh:ii"
-            });
-     //非空验证
-     var validate = function(){
-         if(!$('.title').val()){
-             return '直播内容不能为空';
-         }else if($('.title').val().length > 200){
-            return '直播内容不能超过200字';
-         }
-         if(!$('.gmtCreated').val()){
-             return '发布时间不能为空';
-         }
-     }
-	//上传图片
-	 $(document).delegate("#FMUploadFile",'change',function(){
-	     fileUpload('#FMUploadFile',1,pictureUploadCallBack);
-	 })
-		
- 	var pictureUploadCallBack = function(data){
-    if(data && data.status == 200){
-		console.log(data.data);
-        $('#FMReturnInput').val(data.data);
-        $('#FMReturnInputImg').attr('src',tfsRootPath + data.data);
-	}else{
-            layer.msg('图片上传失败，请重试', {icon: 2});
-        }
-    }
-	
-    $(function(){
-		 $(document).delegate("#batchUploadBtn",'change',function(){
-           		 fileUpload('#batchUploadBtn',2,batchCallBack);
-         });
-
-        $('#btnSubmit').click(function(){
-            //非空验证
-            var msg = validate();
-            if(msg){
-                layer.msg(msg, {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-            //列表长图片
-            //var picUrls = new Array();
-            //$('.picUrlsUrl').each(function(){
-            //    picUrls.push( $(this).attr('imgUrl'));
-            //});
-            //$('.picUrlsVal').val(JSON.stringify(picUrls));
-            var actionUrl;
-            var articleId = $('#articleForm').attr('articleId');
-            if (articleId) {
-                actionUrl = actionDefaultPath + '/jiuxiu/articleManage/edit/' + articleId;
-            } else {
-                actionUrl = actionDefaultPath + '/jiuxiu/articleManage/add';
-            }
-            $('#articleForm').attr('action',actionUrl)
-            $('#articleForm').submit();
-        });
-    });
-</script>
+<script>seajs.use("addarticle");</script>

@@ -1,10 +1,12 @@
 package com.yimayhd.palace.convert;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSONArray;
@@ -44,6 +46,7 @@ public class ArticleConverter {
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 			articleItemVOList.add(articleItemVO);
 		}
+		articleVO.setArticleUrl(articleDTO.getArticleUrl());
 		articleVO.setArticleItemList(articleItemVOList);
 		return articleVO;
 	}
@@ -51,13 +54,21 @@ public class ArticleConverter {
 	public static ArticleDTO getArticleDTO(ArticleVO articleVO) {
 		ArticleDTO articleDTO = new ArticleDTO();
 		ArticleDO articleDO = new ArticleDO();
-		BeanUtils.copyProperties(articleVO, articleDO);
-		articleDO.setDomainId(Long.valueOf(Constant.DOMAIN_JIUXIU));
+		articleDO.setTitle(articleVO.getTitle());
+		articleDO.setDomainId(Constant.DOMAIN_JIUXIU);
+		articleDO.setFrontcover(articleVO.getFrontcover());
+		articleDO.setPv(articleVO.getPv());
+		articleDO.setSubTitle(articleVO.getSubTitle());
+		articleDO.setType(articleVO.getType());
+		articleDO.setGmtCreated(new Date());
+		if (articleVO.getId() != null) {
+			articleDO.setId(articleVO.getId());
+		}
 		List<ArticleItemVO> articleItems = articleVO.getArticleItemList();
 		List<ArticleItemDTO> articleItemDTOs = new ArrayList<ArticleItemDTO>();
 		if (CollectionUtils.isNotEmpty(articleItems)) {
 			for (ArticleItemVO articleItemVO : articleItems) {
-				ArticleItemDTO articleItemDTO=new ArticleItemDTO();
+				ArticleItemDTO articleItemDTO = new ArticleItemDTO();
 				ArticleItemDO articleItemDO = new ArticleItemDO();
 				BeanUtils.copyProperties(articleItemVO, articleItemDO);
 				articleItemDTO.setArticleItemDO(articleItemDO);
@@ -69,8 +80,7 @@ public class ArticleConverter {
 		return articleDTO;
 	}
 
-	public static ArticleVO getArticleDetailVO(ArticleDTO articleDTO, HashMap<Long, ItemDO> itemDOMap,
-			HashMap<Long, MerchantDO> merchantDOMap) {
+	public static ArticleVO getArticleDetailVO(ArticleDTO articleDTO, HashMap<Long, ItemDO> itemDOMap, HashMap<Long, MerchantDO> merchantDOMap) {
 		ArticleVO articleVO = new ArticleVO();
 		List<ArticleItemVO> articleItems = new ArrayList<ArticleItemVO>();
 		ArticleDO articleDO = articleDTO.getArticleDO();
@@ -80,7 +90,8 @@ public class ArticleConverter {
 			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
 			ArticleItemVO articleItemVO=new ArticleItemVO();
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
-			if (articleItemDO.getType()==ArticleItemType.PRODUCT.getValue()) {
+
+			if (articleItemDO.getType() == ArticleItemType.PRODUCT.getValue()) {
 				Long itemId = 0L;
 				if (RegExpValidator.IsNumber(articleItemDO.getContent())) {
 					itemId = Long.parseLong(articleItemDO.getContent());
@@ -99,6 +110,7 @@ public class ArticleConverter {
 	public static ArticleProductItemVO ItemDOToArticleProductItemVO(ItemDO itemDO, MerchantDO merchantDO) {
 		ArticleProductItemVO articleProductItemVO=new ArticleProductItemVO();
 		if (PicUrlsUtil.getItemMainPics(itemDO)!=null) {
+
 			articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
 		}
 		articleProductItemVO.setItemPrice(itemDO.getPrice());
@@ -110,7 +122,7 @@ public class ArticleConverter {
 		if (itemFeature != null) {
 			List<IcSubject> subjects = itemFeature.getSubjects();
 			List<String> itemTagList = new ArrayList<String>();
-			if (subjects!=null) {
+			if (subjects != null) {
 				for (IcSubject icSubject : subjects) {
 					String txt = icSubject.getTxt();
 					itemTagList.add(txt);
@@ -120,7 +132,7 @@ public class ArticleConverter {
 		}
 		return articleProductItemVO;
 	}
-	
+
 	public static ArticleVO convertToArticleVO(ArticleVO articleVO) {
 		String articleItems = articleVO.getArticleItems();
 		JSONArray jsonarray = JSONArray.parseArray(articleItems);
@@ -130,4 +142,25 @@ public class ArticleConverter {
 		return articleVO;
 	}
 
+	public static ArticleVO convertReplace(ArticleVO articleVO) {
+		String title = articleVO.getTitle();
+		String subTitle = articleVO.getSubTitle();
+		if (title != null) {
+			String replace = replace(title);
+			articleVO.setTitle(replace);
+		}
+		if (subTitle != null) {
+			String replace = replace(subTitle);
+			articleVO.setTitle(replace);
+		}
+		return articleVO;
+	}
+	public static String replace(String text) {
+		if (StringUtils.isNotBlank(text)) {
+			String replace = text.replace("\'", "&apos;");
+			String replace2 = replace.replace("\"", "&quot;");
+			return replace2;
+		}
+		return "";
+	}
 }

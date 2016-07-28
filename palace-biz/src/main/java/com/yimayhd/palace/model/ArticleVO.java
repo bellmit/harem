@@ -16,9 +16,9 @@ public class ArticleVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private long id;
+	private Long id;
 
-	private long domainId;
+	private Long domainId;
 
 	private String title;
 
@@ -26,25 +26,27 @@ public class ArticleVO implements Serializable {
 
 	private String frontcover;
 
-	private int status;
+	private Integer status;
 
-	private int type;
+	private Integer type;
 
-	private int pv;
+	private Integer pv;
 
 	private Date gmtCreated;
 
 	private Date gmtModified;
-	
+
 	private String articleItems;
+	
+	private String articleUrl;
 
 	private List<ArticleItemVO> articleItemList;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -52,7 +54,7 @@ public class ArticleVO implements Serializable {
 		return domainId;
 	}
 
-	public void setDomainId(long domainId) {
+	public void setDomainId(Long domainId) {
 		this.domainId = domainId;
 	}
 
@@ -84,7 +86,7 @@ public class ArticleVO implements Serializable {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -92,7 +94,7 @@ public class ArticleVO implements Serializable {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 
@@ -132,8 +134,16 @@ public class ArticleVO implements Serializable {
 		return pv;
 	}
 
-	public void setPv(int pv) {
+	public void setPv(Integer pv) {
 		this.pv = pv;
+	}
+
+	public String getArticleUrl() {
+		return articleUrl;
+	}
+
+	public void setArticleUrl(String articleUrl) {
+		this.articleUrl = articleUrl;
 	}
 
 }

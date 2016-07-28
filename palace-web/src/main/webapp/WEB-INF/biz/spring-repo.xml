@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -20,6 +21,7 @@
 	<bean id="merchantRepo" class="com.yimayhd.palace.repo.MerchantRepo"/>
 	<bean id="talentRepo" class="com.yimayhd.palace.repo.user.TalentRepo"/>
 	
+	<bean class="com.yimayhd.palace.repo.ArticleRepo"></bean>
 	
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
 	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
@@ -36,4 +38,5 @@
 	
 	<bean id="articleRepo" class="com.yimayhd.palace.repo.ArticleRepo" />
 	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
+
 </beans>
