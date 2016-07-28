@@ -32,7 +32,7 @@ public class AccountRepo{
 	 */
 	public EleAccBalanceResult queryEleAccBalance(EleAccBalanceQuery query) {
 		RepoUtils.requestLog(log, "eleAccBillServiceRef.queryEleAccBalance", query);
-		EleAccBalanceResult result = null;//eleAccBillServiceRef.queryEleAccBalance(query);
+		EleAccBalanceResult result = eleAccBillServiceRef.queryEleAccBalance(query);
 		RepoUtils.requestLog(log, "eleAccBillServiceRef.queryEleAccBalance", result);
 		return result;
 	}
@@ -44,7 +44,7 @@ public class AccountRepo{
 	 */
 	public PayPageResultDTO<EleAccountBillDTO> queryEleAccBillDetail(EleAccBillDetailQuery query) {
 		RepoUtils.requestLog(log, "eleAccBillServiceRef.queryEleAccBillDetail", query);
-		PayPageResultDTO<EleAccountBillDTO> result = null;//eleAccBillServiceRef.queryEleAccBillDetail(query);
+		PayPageResultDTO<EleAccountBillDTO> result = eleAccBillServiceRef.queryEleAccBillDetail(query);
 		RepoUtils.requestLog(log, "eleAccBillServiceRef.queryEleAccBillDetail", result);
 		return result;
 	}

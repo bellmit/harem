@@ -40,7 +40,7 @@ public class SettlementServiceImpl implements SettlementService {
 		
 		List<SettlementVO> listVO = new ArrayList<SettlementVO>();
 		List<SettlementDTO> listDO = result.getList();
-		if(CollectionUtils.isEmpty(listDO)){
+		if(!CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
 				listVO.add(SettlementVO.getSettlementVO(listDO.get(i)));
 			}
@@ -60,7 +60,7 @@ public class SettlementServiceImpl implements SettlementService {
 		
 		List<SettlementVO> listVO = new ArrayList<SettlementVO>();
 		List<SettlementDTO> listDO = result.getList();
-		if(CollectionUtils.isEmpty(listDO)){
+		if(!CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
 				listVO.add(SettlementVO.getSettlementVO(listDO.get(i)));
 			}

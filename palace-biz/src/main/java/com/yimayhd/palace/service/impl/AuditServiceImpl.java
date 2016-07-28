@@ -62,7 +62,7 @@ public class AuditServiceImpl implements AuditService {
 		
 		List<PayAuditResultVO> listVO = new ArrayList<PayAuditResultVO>();
 		List<PayAuditResultDO> listDO = result.getList();
-		if(CollectionUtils.isEmpty(listDO)){
+		if(!CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
 				listVO.add(PayAuditResultVO.getPayAuditResultVO(listDO.get(i)));
 			}
@@ -82,7 +82,7 @@ public class AuditServiceImpl implements AuditService {
 		
 		List<PayAuditResultVO> listVO = new ArrayList<PayAuditResultVO>();
 		List<PayAuditResultDO> listDO = result.getAuditResultDOList();
-		if(CollectionUtils.isEmpty(listDO)){
+		if(!CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
 				listVO.add(PayAuditResultVO.getPayAuditResultVO(listDO.get(i)));
 			}
@@ -102,7 +102,7 @@ public class AuditServiceImpl implements AuditService {
 		
 		List<PayAuditOrderVO> listVO = new ArrayList<PayAuditOrderVO>();
 		List<PayAuditOrderDO> listDO = result.getList();
-		if(CollectionUtils.isEmpty(listDO)){
+		if(!CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
 				listVO.add(PayAuditOrderVO.getPayAuditOrderVO(listDO.get(i)));
 			}

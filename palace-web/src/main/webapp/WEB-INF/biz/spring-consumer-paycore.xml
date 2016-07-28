@@ -18,8 +18,8 @@
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.sns.check}"/>
-        <property name="version" value="${consumer.dubbo.sns.version}"/>
+        <property name="check" value="${consumer.dubbo.paycore.check}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
     </bean>
     
     <bean id="eleAccBillServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
@@ -27,8 +27,8 @@
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.sns.check}"/>
-        <property name="version" value="${consumer.dubbo.sns.version}"/>
+        <property name="check" value="${consumer.dubbo.paycore.check}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
     </bean>
     
     <bean id="settlementServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
@@ -36,7 +36,7 @@
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.sns.check}"/>
-        <property name="version" value="${consumer.dubbo.sns.version}"/>
+        <property name="check" value="${consumer.dubbo.paycore.check}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
     </bean>
 </beans>

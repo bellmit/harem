@@ -34,7 +34,7 @@ public class AuditRepo{
 	 */
 	public PayPageResultDTO<PayAuditResultDO> queryAuditProgress(AuditProgressQuery query) {
 		RepoUtils.requestLog(log, "auditServiceRef.queryAuditProgress", query);
-		PayPageResultDTO<PayAuditResultDO> result = null; //auditServiceRef.queryAuditProgress(query);
+		PayPageResultDTO<PayAuditResultDO> result = auditServiceRef.queryAuditProgress(query);
 		RepoUtils.requestLog(log, "auditServiceRef.queryAuditProgress", result);
 		return result;
 	}
@@ -46,7 +46,7 @@ public class AuditRepo{
 	 */
 	public AuditResult queryAuditResult(AuditResultQuery query) {
 		RepoUtils.requestLog(log, "auditServiceRef.queryAuditResult", query);
-		AuditResult result = null; //auditServiceRef.queryAuditResult(query);
+		AuditResult result = auditServiceRef.queryAuditResult(query);
 		RepoUtils.requestLog(log, "auditServiceRef.queryAuditResult", result);
 		return result;
 	}
@@ -59,7 +59,7 @@ public class AuditRepo{
 	public PayPageResultDTO<PayAuditOrderDO> queryAuditOrder(AuditOrderQuery query) {
 		
 		RepoUtils.requestLog(log, "auditServiceRef.queryAuditOrder", query);
-		PayPageResultDTO<PayAuditOrderDO> result = null; //auditServiceRef.queryAuditOrder(query);
+		PayPageResultDTO<PayAuditOrderDO> result = auditServiceRef.queryAuditOrder(query);
 		RepoUtils.requestLog(log, "auditServiceRef.queryAuditOrder", result);
 		return result;
 	}

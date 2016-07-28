@@ -38,7 +38,9 @@ public class AccountServiceImpl implements AccountService {
 		EleAccBalanceResultVO resultVO = new EleAccBalanceResultVO();
 		
 		try {
-			Long.parseLong(query.getUserId());
+			if(query.getUserId() != null){
+				Long.parseLong(query.getUserId());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("AccountServiceImpl.queryEleAccBalance param is illegal : {}, and exception is {}", JSON.toJSONString(query), e);
@@ -56,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 		
 		List<EleAccBalanceVO> listVO = new ArrayList<EleAccBalanceVO>();
 		List<EleAccBalanceDTO> listDO = result.getEleAccBalanceDTOList();
-		if(CollectionUtils.isEmpty(listDO)){
+		if(!CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
 				listVO.add(EleAccBalanceVO.getEleAccBalanceVO(listDO.get(i)));
 			}
@@ -81,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
 		
 		List<EleAccountBillVO> listVO = new ArrayList<EleAccountBillVO>();
 		List<EleAccountBillDTO> listDO = result.getList();
-		if(CollectionUtils.isEmpty(listDO)){
+		if(!CollectionUtils.isEmpty(listDO)){
 			for(int i = 0; i < listDO.size(); i++){
 				listVO.add(EleAccountBillVO.getEleAccountBillVO(listDO.get(i)));
 			}
