@@ -16,6 +16,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.ArticleExpertManItemVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
 import com.yimayhd.palace.model.ArticleVO;
@@ -26,6 +27,7 @@ import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.dto.UserDTO;
 
 /**
  * H5文章转换
@@ -142,25 +144,16 @@ public class ArticleConverter {
 		return articleVO;
 	}
 
-	public static ArticleVO convertReplace(ArticleVO articleVO) {
-		String title = articleVO.getTitle();
-		String subTitle = articleVO.getSubTitle();
-		if (title != null) {
-			String replace = replace(title);
-			articleVO.setTitle(replace);
-		}
-		if (subTitle != null) {
-			String replace = replace(subTitle);
-			articleVO.setTitle(replace);
-		}
-		return articleVO;
-	}
-	public static String replace(String text) {
-		if (StringUtils.isNotBlank(text)) {
-			String replace = text.replace("\'", "&apos;");
-			String replace2 = replace.replace("\"", "&quot;");
-			return replace2;
-		}
-		return "";
+	/**
+	 * 
+	 * @param userDTO
+	 * @return
+	 */
+	public static ArticleExpertManItemVO getArticleExpertManItemVO(UserDTO userDTO) {
+		ArticleExpertManItemVO articleExpertManItemVO = new ArticleExpertManItemVO();
+		articleExpertManItemVO.setHeadPic(userDTO.getAvatar());
+		articleExpertManItemVO.setNickName(userDTO.getNickname());
+		articleExpertManItemVO.setSignatures(userDTO.getSignature());
+		return articleExpertManItemVO;
 	}
 }

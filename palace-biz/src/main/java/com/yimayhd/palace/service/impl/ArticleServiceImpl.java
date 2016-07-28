@@ -144,7 +144,7 @@ public class ArticleServiceImpl implements ArticleService {
 			break;
 		case EXPERTMAN:
 			UserDTO userDTO = articleBiz.queryTalentInfo(id);
-			ArticleExpertManItemVO articleExpertManItemVO = articleBiz.getArticleExpertManItemVO(userDTO);
+			ArticleExpertManItemVO articleExpertManItemVO = ArticleConverter.getArticleExpertManItemVO(userDTO);
 			articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
 			break;
 		case CONSULTSERVICE:

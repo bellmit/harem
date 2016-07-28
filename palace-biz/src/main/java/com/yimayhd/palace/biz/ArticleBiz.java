@@ -137,6 +137,11 @@ public class ArticleBiz {
 		return itemDO;
 	}
 
+	/**
+	 * 查询达人信息
+	 * @param userId
+	 * @return
+	 */
 	public UserDTO queryTalentInfo(long userId) {
 		BaseResult<TalentDTO> result = talentRepo.queryTalentInfo(userId);
 		if (result == null || !result.isSuccess() || result.getValue() == null) {
@@ -147,8 +152,12 @@ public class ArticleBiz {
 		return userDTO;
 	}
 
+	/**
+	 * 封装咨询服务
+	 * @param itemDO
+	 * @return
+	 */
 	public ArticleConsultServiceItemVO getArticleConsultServiceItemVO(ItemDO itemDO) {
-		// TODO 字段获取
 		ArticleConsultServiceItemVO articleConsultServiceItemVO = new ArticleConsultServiceItemVO();
 		if (PicUrlsUtil.getItemMainPics(itemDO) != null) {
 			articleConsultServiceItemVO.setServiceHeadPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
@@ -158,11 +167,23 @@ public class ArticleBiz {
 		articleConsultServiceItemVO.setServiceName(itemDO.getTitle());
 		List<String> citys = getCityNameList(itemDO);
 		articleConsultServiceItemVO.setServiceCity(citys);
+		ItemFeature itemFeature = itemDO.getItemFeature();
+		if (itemFeature != null) {
+			articleConsultServiceItemVO.setConsultTime(itemFeature.getConsultTime());
+		}
 		return articleConsultServiceItemVO;
 
 	}
 
+	/**
+	 * 获得城市列表
+	 * @param itemDO
+	 * @return
+	 */
 	private List<String> getCityNameList(ItemDO itemDO) {
+		if (itemDO==null) {
+			return null;
+		}
 		ItemFeature itemFeature = itemDO.getItemFeature();
 		if (itemFeature == null) {
 			return null;
@@ -195,11 +216,4 @@ public class ArticleBiz {
 		return citys;
 	}
 
-	public ArticleExpertManItemVO getArticleExpertManItemVO(UserDTO userDTO) {
-		ArticleExpertManItemVO articleExpertManItemVO = new ArticleExpertManItemVO();
-		articleExpertManItemVO.setHeadPic(userDTO.getAvatar());
-		articleExpertManItemVO.setNickName(userDTO.getNickname());
-		articleExpertManItemVO.setSignatures(userDTO.getSignature());
-		return articleExpertManItemVO;
-	}
 }
