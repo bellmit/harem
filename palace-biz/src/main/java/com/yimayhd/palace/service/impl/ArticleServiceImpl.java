@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.ArticleBiz;
@@ -30,6 +29,7 @@ import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
+import com.yimayhd.resourcecenter.model.enums.ArticleType;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
@@ -54,8 +54,8 @@ public class ArticleServiceImpl implements ArticleService {
 		articleQueryDTO.setPageNo(articleListQuery.getPageNumber());
 		articleQueryDTO.setPageSize(articleListQuery.getPageSize());
 		// 状态
-		articleQueryDTO.setStatus(articleListQuery.getStatus());
-		articleQueryDTO.setType(articleListQuery.getType());
+		articleQueryDTO.setStatus(ArticleStatus.getByStatus(articleListQuery.getStatus()));
+		articleQueryDTO.setType(ArticleType.getArticleType(articleListQuery.getType()));
 		articleQueryDTO.setTitle(articleListQuery.getTitle());
 		// 开始结束时间
 		if (StringUtils.isNotBlank(articleListQuery.getStartTime())) {
@@ -64,6 +64,7 @@ public class ArticleServiceImpl implements ArticleService {
 		if (StringUtils.isNotBlank(articleListQuery.getEndTime())) {
 			articleQueryDTO.setEndTime(DateUtil.formatMaxTimeForDate(articleListQuery.getEndTime()));
 		}
+		articleQueryDTO.setNeedCount(true);
 		ResourcePageResult<ArticleDTO> result = articleRepo.pageQueryArticles(articleQueryDTO);
 		if (null == result) {
 			log.error("articleClientServiceRef.pageQueryArticles result is null and parame: " + JSON.toJSONString(articleQueryDTO));
