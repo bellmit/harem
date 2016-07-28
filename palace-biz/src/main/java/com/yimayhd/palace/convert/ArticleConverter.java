@@ -144,16 +144,21 @@ public class ArticleConverter {
 		String title = articleVO.getTitle();
 		String subTitle = articleVO.getSubTitle();
 		if (title != null) {
-			String replace = title.replace("\'", "&apos;");
-			String replace2 = replace.replace("\"", "&quot;");
-			articleVO.setTitle(replace2);
+			String replace = replace(title);
+			articleVO.setTitle(replace);
 		}
 		if (subTitle != null) {
-			String replace = subTitle.replace("\'", "&apos;");
-			String replace2 = replace.replace("\"", "&quot;");
-			articleVO.setSubTitle(replace2);
+			String replace = replace(subTitle);
+			articleVO.setTitle(replace);
 		}
 		return articleVO;
 	}
-
+	public static String replace(String text) {
+		if (StringUtils.isNotBlank(text)) {
+			String replace = text.replace("\'", "&apos;");
+			String replace2 = replace.replace("\"", "&quot;");
+			return replace2;
+		}
+		return "";
+	}
 }
