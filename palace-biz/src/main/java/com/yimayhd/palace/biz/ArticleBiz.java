@@ -7,6 +7,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.domain.item.IcDestination;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
@@ -17,6 +19,7 @@ import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
 import com.yimayhd.palace.model.ArticleVO;
+import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.DestinationRepo;
 import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.MerchantRepo;
@@ -54,6 +57,8 @@ public class ArticleBiz {
 	private TalentRepo talentRepo;
 	@Autowired
 	private DestinationRepo destinationRepo;
+	@Autowired
+	private CommentRepo commentRepo;
 
 	public ArticleVO getArticle(ArticleDTO articleDTO) {
 		// List<ArticleItemDO> articleItemDOs = articleDTO.getArticleItemDOs();
@@ -181,17 +186,13 @@ public class ArticleBiz {
 		if (itemDO == null) {
 			return null;
 		}
-		ItemFeature itemFeature = itemDO.getItemFeature();
-		if (itemFeature == null) {
+		List<ComTagDO> comTagDOs = commentRepo.getTagsByOutId(itemDO.getId(), TagType.DESTPLACE);
+		if (CollectionUtils.isEmpty(comTagDOs)) {
 			return null;
 		}
-		List<IcDestination> destCities = itemFeature.getDestCities();
 		ArrayList<Integer> cityCodeList = new ArrayList<Integer>();
-		if (CollectionUtils.isEmpty(destCities)) {
-			return null;
-		}
-		for (IcDestination icDestination : destCities) {
-			String code = icDestination.getCode();
+		for (ComTagDO comTagDO : comTagDOs) {
+			String code = comTagDO.getName();
 			if (StringUtils.isNumeric(code)) {
 				int parseInt = Integer.parseInt(code);
 				cityCodeList.add(parseInt);
