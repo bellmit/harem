@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSONArray;
@@ -16,6 +15,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleExpertManItemVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
@@ -23,8 +23,11 @@ import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.util.RegExpValidator;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
 import com.yimayhd.resourcecenter.domain.ArticleItemDO;
+import com.yimayhd.resourcecenter.dto.ArticleConsultServiceItemDTO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
+import com.yimayhd.resourcecenter.dto.ArticleExpertManItemDTO;
 import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
+import com.yimayhd.resourcecenter.dto.ArticleProductItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.UserDTO;
@@ -90,7 +93,7 @@ public class ArticleConverter {
 		BeanUtils.copyProperties(articleDO, articleVO);
 		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
 			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
-			ArticleItemVO articleItemVO=new ArticleItemVO();
+			ArticleItemVO articleItemVO = new ArticleItemVO();
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 
 			if (articleItemDO.getType() == ArticleItemType.PRODUCT.getValue()) {
@@ -110,8 +113,8 @@ public class ArticleConverter {
 	}
 
 	public static ArticleProductItemVO ItemDOToArticleProductItemVO(ItemDO itemDO, MerchantDO merchantDO) {
-		ArticleProductItemVO articleProductItemVO=new ArticleProductItemVO();
-		if (PicUrlsUtil.getItemMainPics(itemDO)!=null) {
+		ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
+		if (PicUrlsUtil.getItemMainPics(itemDO) != null) {
 
 			articleProductItemVO.setItemPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
 		}
@@ -155,5 +158,61 @@ public class ArticleConverter {
 		articleExpertManItemVO.setNickName(userDTO.getNickname());
 		articleExpertManItemVO.setSignatures(userDTO.getSignature());
 		return articleExpertManItemVO;
+	}
+
+	public static ArticleVO convertToArticleVOByArticleDTO(ArticleDTO articleDTO) {
+		if (articleDTO == null || articleDTO.getArticleDO() == null) {
+			return null;
+		}
+		ArticleVO articleVO = new ArticleVO();
+		ArticleDO articleDO = articleDTO.getArticleDO();
+		BeanUtils.copyProperties(articleDO, articleVO);
+		List<ArticleItemDTO> articleItemDTOs = articleDTO.getArticleItemDTOs();
+		List<ArticleItemVO> articleItemVOs = new ArrayList<ArticleItemVO>();
+		if (CollectionUtils.isEmpty(articleItemDTOs)) {
+			return articleVO;
+		}
+		for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
+			ArticleItemVO articleItemVO = new ArticleItemVO();
+			ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
+			BeanUtils.copyProperties(articleItemDO, articleItemVO);
+			switch (ArticleItemType.getByType(articleItemDO.getType())) {
+			case PRODUCT:
+				ArticleProductItemVO articleProductItemVO = getArticleItemDTOForProduct(articleItemDTO.getArticleProductItemDTO());
+				articleItemVO.setArticleProductItemVO(articleProductItemVO);
+				break;
+			case EXPERTMAN:
+				ArticleExpertManItemVO articleExpertManItemVO = getArticleItemDTOForExpertman(articleItemDTO.getArticleExpertManItemDTO());
+				articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
+				break;
+			case CONSULTSERVICE:
+				ArticleConsultServiceItemVO articleConsultServiceItemVO = getArticleItemDTOForConsultService(articleItemDTO.getArticleConsultServiceItemDTO());
+				articleItemVO.setArticleConsultServiceItemVO(articleConsultServiceItemVO);
+				break;
+			default:
+				break;
+			}
+			articleItemVOs.add(articleItemVO);
+		}
+		articleVO.setArticleItemList(articleItemVOs);
+		return articleVO;
+	}
+
+	private static ArticleConsultServiceItemVO getArticleItemDTOForConsultService(ArticleConsultServiceItemDTO articleConsultServiceItemDTO) {
+		ArticleConsultServiceItemVO articleConsultServiceItemVO = new ArticleConsultServiceItemVO();
+		BeanUtils.copyProperties(articleConsultServiceItemDTO, articleConsultServiceItemVO);
+		return articleConsultServiceItemVO;
+	}
+
+	private static ArticleExpertManItemVO getArticleItemDTOForExpertman(ArticleExpertManItemDTO articleExpertManItemDTO) {
+		ArticleExpertManItemVO articleExpertManItemVO = new ArticleExpertManItemVO();
+		BeanUtils.copyProperties(articleExpertManItemDTO, articleExpertManItemVO);
+		return articleExpertManItemVO;
+	}
+
+	private static ArticleProductItemVO getArticleItemDTOForProduct(ArticleProductItemDTO articleProductItemDTO) {
+		ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
+		BeanUtils.copyProperties(articleProductItemDTO, articleProductItemVO);
+		return articleProductItemVO;
 	}
 }
