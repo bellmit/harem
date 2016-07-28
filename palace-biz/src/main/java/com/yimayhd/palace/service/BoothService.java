@@ -4,7 +4,9 @@ import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.resourcecenter.domain.AppVersionDO;
+import com.yimayhd.resourcecenter.entity.Booth;
 import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
+import com.yimayhd.resourcecenter.model.query.BatchBoothQuery;
 
 import java.util.List;
 
@@ -37,4 +39,5 @@ public interface BoothService {
 
     AppVersionDO saveOrUpdateAppVersionDO(AppVersionDO entity)throws Exception;
 
+    List<Booth> getBatchBooth(BatchBoothQuery query);
 }

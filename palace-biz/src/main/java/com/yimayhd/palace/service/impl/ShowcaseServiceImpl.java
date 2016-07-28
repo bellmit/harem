@@ -29,26 +29,23 @@ import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.palace.util.NumUtil;
-import com.yimayhd.resourcecenter.domain.BoothDO;
-import com.yimayhd.resourcecenter.domain.OperationDO;
-import com.yimayhd.resourcecenter.domain.RegionDO;
-import com.yimayhd.resourcecenter.domain.ShowcaseDO;
+import com.yimayhd.resourcecenter.domain.*;
+import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.OperationStatusType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
-import com.yimayhd.resourcecenter.model.query.BoothQuery;
-import com.yimayhd.resourcecenter.model.query.OperationQuery;
-import com.yimayhd.resourcecenter.model.query.RegionQuery;
-import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.query.*;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.OperationClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.resourcecenter.service.backend.ArticleBackEndService;
 import com.yimayhd.resourcecenter.util.FeatureUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.domain.SnsTopicDO;
@@ -100,6 +97,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Autowired ItemQueryService itemQueryService;
 
     @Autowired SnsTopicCenterService snsTopicCenterServiceRef;
+
+    @Autowired ArticleBackEndService articleBackEndService;
 
 
 
@@ -609,6 +608,58 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             return listSC;
         }
         return null;
+    }
+
+    public PageVO<ShowCaseItem> getArticlePageListByQuery(ArticleQueryDTO articleQueryDTO ){
+        ResourcePageResult<ArticleDTO> result =  articleBackEndService.getArticlePageListByQuery(articleQueryDTO);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        List<ShowCaseItem> list = ArticleToShowCaseItem(result.getList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> ArticleToShowCaseItem(List<ArticleDTO> list){
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        for (ArticleDTO adt:list ) {
+            if(null == adt.getArticleDO()){
+                continue;
+            }
+            ArticleDO oo = adt.getArticleDO();
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getTitle());//标题
+            listSC.add(sc);
+        }
+        return listSC;
+    }
+
+    public PageVO<ShowCaseItem> getArticleDOPageListByQuery(ArticleQueryDTO  articleQueryDTO  ){
+        ResourcePageResult<ArticleDO> result =  null;//articleBackEndService.getArticleDOPageListByQuery(articleDO);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        List<ShowCaseItem> list = ArticleDOShowCaseItem(result.getList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> ArticleDOShowCaseItem(List<ArticleDO> list){
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        for (ArticleDO oo:list ) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getTitle());//标题
+            listSC.add(sc);
+        }
+        return listSC;
     }
 
 }

@@ -54,8 +54,8 @@ public class ArticleServiceImpl implements ArticleService {
 		articleQueryDTO.setPageNo(articleListQuery.getPageNumber());
 		articleQueryDTO.setPageSize(articleListQuery.getPageSize());
 		// 状态
-		articleQueryDTO.setStatus(articleListQuery.getStatus());
-		articleQueryDTO.setType(articleListQuery.getType());
+		// articleQueryDTO.setStatus(articleListQuery.getStatus());
+		// articleQueryDTO.setType(articleListQuery.getType());
 		articleQueryDTO.setTitle(articleListQuery.getTitle());
 		// 开始结束时间
 		if (StringUtils.isNotBlank(articleListQuery.getStartTime())) {

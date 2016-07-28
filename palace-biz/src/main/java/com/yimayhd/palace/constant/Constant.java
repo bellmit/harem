@@ -42,6 +42,7 @@ public class Constant {
 	public static final int SHOWCASE_VIEW_TOPIC_DETAIL = 13;//话题详情
 	public static final int SHOWCASE_VIEW_TOPIC_LIST = 14;//话题列表
 	public static final int SHOWCASE_NEST_BOOTH_LIST = 15;//booth列表（嵌套booth）
+	public static final int SHOWCASE_TRAVEL_INFORMATION_LIST = 16;//旅行（达人）资讯
 
 	public static final String DOT = ".";
 	public static final String COMMA = ",";
