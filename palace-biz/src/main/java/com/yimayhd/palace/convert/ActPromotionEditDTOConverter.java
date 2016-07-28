@@ -1,6 +1,6 @@
 package com.yimayhd.palace.convert;
 
-import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
@@ -19,19 +19,19 @@ public class ActPromotionEditDTOConverter {
         actPromotionEditDTO.setDelPromotionIdList(promotionEditDTO.getDelPromotionIdList());
         actPromotionEditDTO.setUpdPromotionDOList(promotionEditDTO.getUpdPromotionDOList());
 
-        ActActivityDO actActivityDO = new ActActivityDO();
-        BeanUtils.copyProperties(actActivityEditVO.getActActivityVO(),actActivityDO);
-        actActivityDO.setTitle(actActivityEditVO.getActActivityVO().getTitle());
-        actActivityDO.setSummary(actActivityEditVO.getActActivityVO().getDescription());
+        ActActivityPromotionDO actActivityPromotionDO = new ActActivityPromotionDO();
+        BeanUtils.copyProperties(actActivityEditVO.getActActivityVO(),actActivityPromotionDO);
+        actActivityPromotionDO.setTitle(actActivityEditVO.getActActivityVO().getTitle());
+        actActivityPromotionDO.setSummary(actActivityEditVO.getActActivityVO().getDescription());
         int lotteryType = EntityType.ITEM.getType();
         if(actActivityEditVO.getActActivityVO().getEntityType() == EntityType.SHOP.getType()){
             lotteryType = EntityType.SHOP.getType();
         }
-        actActivityDO.setLotteryType(lotteryType);
-        actActivityDO.setStartDate(actActivityEditVO.getActActivityVO().getStartDate());
-        actActivityDO.setEndDate(actActivityEditVO.getActActivityVO().getEndDate());
+        actActivityPromotionDO.setLotteryType(lotteryType);
+        actActivityPromotionDO.setStartDate(actActivityEditVO.getActActivityVO().getStartDate());
+        actActivityPromotionDO.setEndDate(actActivityEditVO.getActActivityVO().getEndDate());
 
-        actPromotionEditDTO.setActActivityDO(actActivityDO);
+        actPromotionEditDTO.setActActivityPromotionDO(actActivityPromotionDO);
 
         return actPromotionEditDTO;
     }

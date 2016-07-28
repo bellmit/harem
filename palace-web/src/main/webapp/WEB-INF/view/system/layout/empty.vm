@@ -15,6 +15,7 @@
     <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.validate.min.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
     <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/JQ_verify.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
     <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.metadata.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.validform.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 	<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/validate/messages_zh.min.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
     <title>运营管理系统</title>
     <script>

@@ -106,4 +106,17 @@
             return null;
         }
     }
+
+    //多选
+    function getItemss() {
+        var arr =[];
+        jQuery.each($('.checked-resource button'),function(i){
+            var aid=$(this).attr('rid');
+            var res = resource_table[aid];
+            arr.push(res);
+        });
+        JSON.stringify("arr="+arr)
+        return arr;
+    }
+
 </script>

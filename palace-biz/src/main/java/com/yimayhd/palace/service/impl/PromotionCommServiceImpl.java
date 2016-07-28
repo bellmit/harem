@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.druid.sql.visitor.functions.Now;
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
 import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
@@ -72,8 +72,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     private static final Logger log = LoggerFactory.getLogger(PromotionCommServiceImpl.class);
 
     @Override
-    public PageVO<ActActivityDO> getList(ActPromotionPageQuery actPromotionPageQuery) throws Exception {
-        PageVO<ActActivityDO> promotionDOPageVO = null;
+    public PageVO<ActActivityPromotionDO> getList(ActPromotionPageQuery actPromotionPageQuery) throws Exception {
+        PageVO<ActActivityPromotionDO> promotionDOPageVO = null;
         //构建查询条件
         com.yimayhd.activitycenter.query.ActPromotionPageQuery actPromotionPageQueryRef = new com.yimayhd.activitycenter.query.ActPromotionPageQuery();
         BeanUtils.copyProperties(actPromotionPageQuery,actPromotionPageQueryRef);
@@ -83,7 +83,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             Date endTime = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getEndTime());
             actPromotionPageQuery.setEndTime(DateUtil.date2String(endTime));
         }
-        ActPageResult<ActActivityDO> basePageResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQueryRef);
+        ActPageResult<ActActivityPromotionDO> basePageResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQueryRef);
         if(basePageResult == null){
             log.error("PromotionCommService.getList-PromotionQueryService.queryPromotions result is null and parame: " + JSON.toJSONString(actPromotionPageQuery) + "and promotionListQuery: " + actPromotionPageQuery);
             throw new BaseException("返回结果错误");
@@ -91,14 +91,14 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             log.error("PromotionCommService.getList-PromotionQueryService.queryPromotions error:" + JSON.toJSONString(basePageResult) + "and parame: " + JSON.toJSONString(actPromotionPageQuery) + "and promotionListQuery: " + actPromotionPageQuery);
             throw new BaseException(basePageResult.getMsg());
         }
-        promotionDOPageVO = new PageVO<ActActivityDO>(actPromotionPageQuery.getPageNumber(),actPromotionPageQuery.getPageSize(),basePageResult.getTotalCount(),basePageResult.getList());
+        promotionDOPageVO = new PageVO<ActActivityPromotionDO>(actPromotionPageQuery.getPageNumber(),actPromotionPageQuery.getPageSize(),basePageResult.getTotalCount(),basePageResult.getList());
         return promotionDOPageVO;
     }
 
     public void modify(ActActivityEditVO actActivityEditVO) throws Exception {
         ActResult<ActPromotionDTO> result = activityPromotionServiceRef.getActPromotionById(actActivityEditVO.getActActivityVO().getId());
 
-        if (result != null && result.getT()!= null && result.getT().getActActivityDO() != null && PromotionStatus.NOTBEING.getStatus() != result.getT().getActActivityDO().getStatus()){
+        if (result != null && result.getT()!= null && result.getT().getActActivityPromotionDO() != null && PromotionStatus.NOTBEING.getStatus() != result.getT().getActActivityPromotionDO().getStatus()){
             throw new BaseException("只有未开始活动允许修改");
         }
 
@@ -161,7 +161,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     @Override
 	public BizResultSupport check(ActActivityEditVO actActivityEditVO) {
     	BizResultSupport result = new BizResultSupport() ;
-    	ActActivityDO actActivityDO = actActivityEditVO.getActActivityVO() ;
+    	ActActivityPromotionDO actActivityDO = actActivityEditVO.getActActivityVO() ;
     	PromotionEditDTO promotionEditDTO = PromotionEditDTOConverter.getPromotionEditDTO(actActivityEditVO);
         List<PromotionDO> addPromotionDOList = promotionEditDTO.getAddPromotionDOList() ;
 //    	String tips = getItemSkuHasDirectReduceTip(addPromotionDOList);
@@ -342,24 +342,24 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     	com.yimayhd.activitycenter.query.ActPromotionPageQuery actPromotionPageQuery = new com.yimayhd.activitycenter.query.ActPromotionPageQuery() ;
     	actPromotionPageQuery.setType(type);
     	actPromotionPageQuery.setTitle(name);
-    	ActPageResult<ActActivityDO> queryResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQuery);
+    	ActPageResult<ActActivityPromotionDO> queryResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQuery);
     	if( queryResult == null || !queryResult.isSuccess() ){
     		log.error("queryActPromotions failed!  query={}  result={}",JSON.toJSONString(actPromotionPageQuery), JSON.toJSONString(queryResult));
     		return false;
     	}
-    	List<ActActivityDO> actActivityDOs = queryResult.getList();
+    	List<ActActivityPromotionDO> actActivityDOs = queryResult.getList();
     	if( org.springframework.util.CollectionUtils.isEmpty( actActivityDOs ) ){
     		return false;
     	}
     	if( activityId > 0 ){
-    		for( ActActivityDO actActivityDO : actActivityDOs ){
+    		for( ActActivityPromotionDO actActivityDO : actActivityDOs ){
     			if( actActivityDO.getId() == activityId ){
     				return false;
     			}
     		}
     	}
     	return true ;
-//        ActActivityDO actActivityDO = new ActActivityDO();
+//        ActActivityPromotionDO actActivityDO = new ActActivityPromotionDO();
 //        actActivityDO.setTitle(name);
 //        actActivityDO.setType(type);
 //        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);

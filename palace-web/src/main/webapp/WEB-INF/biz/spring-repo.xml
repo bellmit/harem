@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -14,12 +15,12 @@
 	<bean class="com.yimayhd.palace.repo.PictureRepo"></bean>
 	<bean id="resourceRepo" class="com.yimayhd.palace.repo.ResourceRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.ActivityRepo"></bean>
-	<bean class="com.yimayhd.palace.repo.ArticleRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.TravelKaRepo"></bean>
 	<bean id="examineDealRepo" class="com.yimayhd.palace.repo.member.ExamineDealRepo"/>
 	<bean id="userRepo" class="com.yimayhd.palace.repo.user.UserRepo"/>
 	<bean id="merchantRepo" class="com.yimayhd.palace.repo.MerchantRepo"/>
 	
+	<bean class="com.yimayhd.palace.repo.ArticleRepo"></bean>
 	
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
 	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
@@ -31,7 +32,7 @@
 	<bean id="commentRepo" class="com.yimayhd.palace.repo.CommentRepo" />
 	<bean id="cityRepo" class="com.yimayhd.palace.repo.CityRepo" />
 	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
-	
+	<bean id="topicRepo" class="com.yimayhd.palace.repo.TopicRepo" />
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
-	
+
 </beans>

@@ -24,6 +24,7 @@
                 <input type="hidden" class="inpControl" id="chooseId" name="choose" value="">
                 <input type="hidden" name="boothId" id="boothId" value="$!boothId">
                 <input type="hidden" name="boothCode" id="boothCodeId" value="$!boothCode">
+                <input type="hidden" name="appVersionCode" id="appVersionCodeId" value="$!appVersionCode">
                 <input type="hidden" name="showcaseId" id="showcaseId" value="$!showcase.id">
                 <input type="hidden" name="isEdit" id="isEditId" value="$!isEdit">
                 <td><label>权重：</label><input name='serialNo' id='serialNoId'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
@@ -122,6 +123,7 @@
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
             autotxt();
+            $('.selectpages').change(function(){$('#addsecontentId').text('')});
         });
 
         function autotxt(){  //如果是输入框的话，填什么 下面展示什么
@@ -129,6 +131,8 @@
             if ( obj.length > 0 && "text" == obj.attr("type")) {
                 obj.off().on('keyup',function(){
                     var value = obj.val();
+                    //去掉两头的空格
+                    value   =   value.replace(/^\s+|\s+$/g,"");
                     $("#chosId").val(value);
                     $("#addsecontentId").text(value);
                 });
@@ -171,7 +175,7 @@
             console.log("radioVal="+radioVal);
             console.log("selectVal="+selectVal);
 
-            if(radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST"){
+            if((radioVal == "VIEWTAG" && selectVal == "SCENIC_TAG_LIST") || selectVal == "VIEW_TOPIC_DETAIL"){
                 $("#chosId").val($("#addsecontentId").text());
             }
             var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
@@ -187,23 +191,14 @@
             autotxt();
         });
 
-       /* //处理添加内容的时候把operationid赋值
-        $("#addsecontentId").focus(function(){
-            var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
-            if(null == operationId || ""==operationId ||0==operationId){
-                var msg = new $.zui.Messager('请选选择跳转类型', {placement: 'center',type:'warning',time:'1000'});
-                msg.show();
-                return false;
-            }
-            $("#operationIds").val(operationId);
-        });*/
         $('.selecontent').click(function(){
             myinit();
         });
         myinit();
         //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
         $('.selecontent').click(function(){
-            var type= $('input:radio:checked').attr("jumpType")
+            var multiselect = $('input:radio:checked').attr("multiselect");
+            var type= $('input:radio:checked').attr("jumpType");
             var code = $('input:radio:checked').val();//获取选择的select的code
             var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
             $("#operationIds").val(operationId);
@@ -212,21 +207,35 @@
             }
             var isRegion = false;
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
-                var sce = win.getItems();
-                console.log(sce);
-                var picUrl = sce.imgUrl;
-                if(picUrl !== null || picUrl !== undefined || picUrl !== ''){
-                    var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
-                    $("#travelBGImgSH").val(picUrl);
-                    //alert(showPicUrl);
-                    $("#travelImgIdSH img").attr("src",showPicUrl);
-                }
-
-                $("#addsecontentId").text(sce.name);
-                if(type==2){//2是目的地
-                    $("#chosId").val(sce.cityCode);
+                if(multiselect == "true"){
+                    var sce = win.getItemss();
+                    console.log(JSON.stringify(sce));
+                    var zsnr="";
+                    var cont="";
+                    for(var i in sce) {
+                        //console.log("==="+sce[i].id+"-"+sce[i].name);
+                        zsnr+=sce[i].name+"("+sce[i].appVersion+")"+ " | ";//展示内容
+                        cont+=sce[i].code+","+sce[i].appVersion+"|";//隐藏框的
+                    }
+                    console.log("cont="+cont);
+                    console.log("zsnr="+zsnr);
+                    $("#chosId").val(cont);
+                    $("#addsecontentId").text(zsnr);
                 }else{
-                    $("#chosId").val(sce.id);
+                    var sce = win.getItems();
+                    console.log(JSON.stringify(sce));
+                    $("#addsecontentId").text(sce.name);
+                    if(type==2){//2是目的地
+                        $("#chosId").val(sce.cityCode);
+                    }else{
+                        $("#chosId").val(sce.id);
+                    }
+                    var picUrl = sce.imgUrl;
+                    if(picUrl !== null && picUrl !== undefined && picUrl !== '' && picUrl !== 'null'){
+                        var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
+                        $("#travelBGImgSH").val(picUrl);
+                        $("#travelImgIdSH img").attr("src",showPicUrl);
+                    }
                 }
                 myinit();
                 return true;
@@ -253,7 +262,7 @@
             var summary = $("#summaryId").val();
             var imgUrl = $("#travelBGImgSH").val();
             var content = "";
-
+            var appVersionCode = $("#appVersionCodeId").val();
             var radioIdVal = $("#operationDetailId").val();
             var selectVal = $(".selectpages").find("option:selected").val();
             var operationContent    = $("#chosId").val();
@@ -261,10 +270,13 @@
             if("GF_ITEM"==selectVal || "GF_URL" == selectVal){//gf外链和商品详情存在content里面
                 content = operationContent;
             }
+            if(""==radioIdVal||null==radioIdVal){
+                radioIdVal=0;
+            }
             console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo
                       +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
                       +" content="+content+" operationContent="+operationContent+" operationId="+operationId
-                      +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH);
+                      +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH+" appVersionCode="+appVersionCode);
 
             if(null == serialNo || ""==serialNo || isNaN(serialNo)){
                 var msg = new $.zui.Messager('权重请输入数字', {placement: 'center',type:'warning',time:'1000'});
@@ -281,12 +293,23 @@
                 msg.show();
                 return ;
             }
+            //如果是积分，广告限制在10个字内
+            var temp = "JIUXIU_INTEGRALMALL_RECOMMEND";
+            var boothCode = $("#boothCodeId").val();
+            if(temp == boothCode){
+                var leng = getStringLength(operationContentZH);
+                if(leng > 20){
+                    var msg = new $.zui.Messager('广告语不能超过10个字符', {placement: 'center',type:'warning',time:'1000'});
+                    msg.show();
+                    return ;
+                }
+            }
 
             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add',
                     {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
                         'title':title,'summary':summary, 'imgUrl':imgUrl,'operationContent':operationContent,
                         'content':content, 'operationId':operationId,'operationDetailId':radioIdVal,
-                        'operationContentZH':operationContentZH
+                        'operationContentZH':operationContentZH,'appVersionCode':appVersionCode
                     } ,function(data){
                         if(data.status == 200){
                             var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
@@ -297,7 +320,10 @@
                             return;
                         }
                         setTimeout(function(){
-                             window.location.href = '$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=1';
+                            var url = "$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?appVersionCode=$!appVersionCode"
+                                    +"&boothId="+boothId+"&pageNumber=1";
+                            window.location.href =url;
+
                         },2000);
                     })
         });
@@ -353,7 +379,13 @@
                 layer.msg('图片上传失败，请重试', {icon: 2});
             }
         }
-
+        var getStringLength = function(str) {
+            if (str == null) return 0;
+            if (typeof str != "string"){
+                str += "";
+            }
+            return str.replace(/[^\x00-\xff]/g,"01").length;
+        }
 
 
 </script>
