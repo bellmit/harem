@@ -6,11 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
-import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
@@ -18,8 +13,6 @@ import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.resourcecenter.service.backend.ArticleBackEndService;
-import com.yimayhd.user.client.dto.MerchantUserDTO;
-import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 
 /**

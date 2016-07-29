@@ -13,7 +13,7 @@ public class ArticleConsultServiceItemVO implements Serializable {
 	private List<String> serviceCity;
 	private long serviceOriginalPrice;
 	private long serviceCurrentPrice;
-	private long consultTime;
+	private int consultTime;
 
 	public String getServiceHeadPic() {
 		return serviceHeadPic;
@@ -55,11 +55,12 @@ public class ArticleConsultServiceItemVO implements Serializable {
 		this.serviceCurrentPrice = serviceCurrentPrice;
 	}
 
-	public long getConsultTime() {
+	public int getConsultTime() {
 		return consultTime;
 	}
 
-	public void setConsultTime(long consultTime) {
+	public void setConsultTime(int consultTime) {
 		this.consultTime = consultTime;
 	}
+
 }

@@ -192,27 +192,57 @@ public class ArticleConverter {
 			default:
 				break;
 			}
-			articleItemVOs.add(articleItemVO);
+			if (articleItemVO != null) {
+				articleItemVOs.add(articleItemVO);
+			}
 		}
 		articleVO.setArticleItemList(articleItemVOs);
 		return articleVO;
 	}
 
 	private static ArticleConsultServiceItemVO getArticleItemDTOForConsultService(ArticleConsultServiceItemDTO articleConsultServiceItemDTO) {
+		if (articleConsultServiceItemDTO == null) {
+			return null;
+		}
 		ArticleConsultServiceItemVO articleConsultServiceItemVO = new ArticleConsultServiceItemVO();
-		BeanUtils.copyProperties(articleConsultServiceItemDTO, articleConsultServiceItemVO);
+		articleConsultServiceItemVO.setConsultTime(articleConsultServiceItemDTO.getConsultTime());
+		articleConsultServiceItemVO.setServiceCity(articleConsultServiceItemDTO.getServiceCity());
+		articleConsultServiceItemVO.setServiceCurrentPrice(articleConsultServiceItemDTO.getServiceCurrentPrice());
+		articleConsultServiceItemVO.setServiceHeadPic(articleConsultServiceItemDTO.getServiceHeadPic());
+		articleConsultServiceItemVO.setServiceName(articleConsultServiceItemDTO.getServiceName());
+		articleConsultServiceItemVO.setServiceOriginalPrice(articleConsultServiceItemDTO.getServiceOriginalPrice());
+		// BeanUtils.copyProperties(articleConsultServiceItemDTO,
+		// articleConsultServiceItemVO);
 		return articleConsultServiceItemVO;
 	}
 
 	private static ArticleExpertManItemVO getArticleItemDTOForExpertman(ArticleExpertManItemDTO articleExpertManItemDTO) {
+		if (articleExpertManItemDTO == null) {
+			return null;
+		}
 		ArticleExpertManItemVO articleExpertManItemVO = new ArticleExpertManItemVO();
-		BeanUtils.copyProperties(articleExpertManItemDTO, articleExpertManItemVO);
+		articleExpertManItemVO.setHeadPic(articleExpertManItemDTO.getHeadPic());
+		articleExpertManItemVO.setNickName(articleExpertManItemDTO.getNickName());
+		articleExpertManItemVO.setSignatures(articleExpertManItemDTO.getSignatures());
+		// BeanUtils.copyProperties(articleExpertManItemDTO,
+		// articleExpertManItemVO);
 		return articleExpertManItemVO;
 	}
 
 	private static ArticleProductItemVO getArticleItemDTOForProduct(ArticleProductItemDTO articleProductItemDTO) {
+		if (articleProductItemDTO == null) {
+			return null;
+		}
 		ArticleProductItemVO articleProductItemVO = new ArticleProductItemVO();
-		BeanUtils.copyProperties(articleProductItemDTO, articleProductItemVO);
+		articleProductItemVO.setItemPic(articleProductItemDTO.getItemPic());
+		articleProductItemVO.setItemPrice(articleProductItemDTO.getItemPrice());
+		articleProductItemVO.setItemTagList(articleProductItemDTO.getItemTag());
+		articleProductItemVO.setItemTitle(articleProductItemDTO.getItemTitle());
+		articleProductItemVO.setItemType(articleProductItemDTO.getItemType());
+		articleProductItemVO.setMerchantLogo(articleProductItemDTO.getMerchantLogo());
+		articleProductItemVO.setMerchantName(articleProductItemDTO.getMerchantName());
+		// BeanUtils.copyProperties(articleProductItemDTO,
+		// articleProductItemVO);
 		return articleProductItemVO;
 	}
 }
