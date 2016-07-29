@@ -6,6 +6,7 @@ import java.util.List;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.enums.OrderSearchType;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcDetailOrder;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
@@ -193,6 +194,7 @@ public class JiuxiuOrderManageController extends BaseController {
 			model.addAttribute("pageVo", orderPageVO);
 			model.addAttribute("result", result.getJiuxiuTcMainOrders());
 			model.addAttribute("orderListQuery", jiuxiuOrderListQuery);
+			model.addAttribute("orderTypeList", OrderSearchType.values());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			e.printStackTrace();
