@@ -15,6 +15,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
@@ -27,6 +28,7 @@ import com.yimayhd.palace.repo.user.TalentRepo;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.user.client.domain.MerchantDO;
@@ -200,7 +202,9 @@ public class ArticleBiz {
 		}
 		ArrayList<String> citys = new ArrayList<String>();
 		DestinationQueryDTO aDestinationQueryDTO = new DestinationQueryDTO();
+		aDestinationQueryDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		aDestinationQueryDTO.setCodeList(cityCodeList);
+		aDestinationQueryDTO.setOutType(DestinationOutType.SERVICE.getCode());
 		RcResult<List<DestinationDO>> result = destinationRepo.queryDestinationList(aDestinationQueryDTO);
 		if (result == null || !result.isSuccess() || CollectionUtils.isEmpty(result.getT())) {
 			return null;
