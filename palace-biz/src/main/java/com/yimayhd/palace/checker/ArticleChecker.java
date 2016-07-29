@@ -27,7 +27,7 @@ public class ArticleChecker {
 		if (articleVO.getPv() <0) {
 			return CheckResult.error("阅读数不能小于0");
 		}
-		if (ArticleType.getTypeName(articleVO.getType()) == null) {
+		if (ArticleType.getArticleType(articleVO.getType()) == null) {
 			return CheckResult.error("不支持的文章类型");
 		}
 		if (articleVO.getArticleItems() == null || articleVO.getArticleItems().isEmpty()) {

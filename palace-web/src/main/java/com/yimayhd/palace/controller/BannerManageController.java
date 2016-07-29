@@ -319,14 +319,14 @@ public class BannerManageController extends BaseController {
             }
         }
         if(NumberUtils.isNumber(keyWord)){
-            //query.setID(keyWord);
+            query.setId(Integer.parseInt(keyWord));
         }else if(StringUtils.isNotEmpty(keyWord)){
             query.setTitle(keyWord);
         }
         query.setPageNo(pageNumber);
         query.setPageSize(pageSize);
-
-        PageVO<ShowCaseItem> page = showcaseService.getArticlePageListByQuery(query);
+        query.setStatus(ArticleStatus.ONLINE);
+        PageVO<ShowCaseItem> page = showcaseService.getArticleDOPageListByQuery(query);
         result.put("pageVo", page);
         return result;
     }

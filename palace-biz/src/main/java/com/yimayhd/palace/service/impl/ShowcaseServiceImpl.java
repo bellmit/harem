@@ -639,7 +639,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public PageVO<ShowCaseItem> getArticleDOPageListByQuery(ArticleQueryDTO  articleQueryDTO  ){
-        ResourcePageResult<ArticleDO> result =  null;//articleBackEndService.getArticleDOPageListByQuery(articleDO);
+        ResourcePageResult<ArticleDO> result =  articleBackEndService.getArticleDOPageListByQuery(articleQueryDTO);
         if(null == result || !result.isSuccess()){
             return null;
         }
@@ -657,6 +657,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             ShowCaseItem sc = new ShowCaseItem();
             sc.setId(oo.getId());
             sc.setName(oo.getTitle());//标题
+            sc.setImgUrl(StringUtils.isEmpty(oo.getFrontcover())?"":oo.getFrontcover());
             listSC.add(sc);
         }
         return listSC;

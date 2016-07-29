@@ -36,7 +36,7 @@ public class ArticleUtil {
 		if (type <= 0) {
 			return null;
 		}
-		ArticleType articleType = ArticleType.getTypeName(type);
+		ArticleType articleType = ArticleType.getArticleType(type);
 		if (articleType != null) {
 			return articleType.getDesc();
 		}
