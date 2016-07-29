@@ -50,7 +50,7 @@
                 $!comRate.id
             </dl>
             <dl>
-                #if($comRate.userDO.avatar)
+                #if($comRate.userDO.avatar&&$comRate.userDO.avatar!="")
                     <img class = "headImg" src="$utilWebconfig.getTfsRootPath()$comRate.userDO.avatar" width="100"/>
                 #else
                     <img class = "headImg" src="$utilWebconfig.getStaticResourcesPath()/resources/img/head.jpg" width="100"/>
