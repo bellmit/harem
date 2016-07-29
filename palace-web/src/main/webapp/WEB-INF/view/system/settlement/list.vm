@@ -52,22 +52,6 @@
 						<th>结算类型</th>
 						<th>操作</th>
 					</tr>
-					<tr>
-						<td>2016-06-01</td>
-						<td>2016-06-01 10：25：10</td>
-						<td>1</td>
-						<td>112</td>
-						<td>110</td>
-						<td>2</td>
-						<td>-273.00</td>
-						<td>达人结算</td>
-						<td>
-							<button type="button" class="btn btn-primary detail" settlementId="123123" backTime="2016-06-07 10：00：00" reqDate="2016-06-07" batchNo="1">
-								详情
-							</button>
-							<button type="button" class="btn btn-primary reSubmit" reqDate="2016-06-07" accountType="2" batchNo="1">失败重新提交</button>
-						</td>
-					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
 						<td>$!item.reqDate</td>
@@ -79,10 +63,17 @@
 						<td>$!item.channelFeeDouble</td>
 						<td>#ACCOUNT_TYPE($!item.accountType)</td>
 						<td>
-							<button type="button" class="btn btn-primary detail" settlementId="$!item.settlementId" backTime="$!item.backTime" reqDate="$!item.reqDate" batchNo="$!item.batchNo">
-								详情
-							</button>
-							<button type="button" class="btn btn-primary reSubmit" reqDate="$!item.reqDate" accountType="$!item.accountType" batchNo="$!item.batchNo">失败重新提交</button>
+						$!item.status
+							#if($!item.accountType == 1)
+								<button type="button" class="btn btn-primary detail" settlementId="$!item.settlementId" backTime="$!item.backTime" reqDate="$!item.reqDate" batchNo="$!item.batchNo">
+									详情
+								</button>
+								
+								
+								#if($!item.status == 5)
+									<button type="button" class="btn btn-primary reSubmit" reqDate="$!item.reqDate" accountType="$!item.accountType" batchNo="$!item.batchNo">失败重新提交</button>
+								#end
+							#end
 						</td>
 					</tr>
 					#end
@@ -157,6 +148,10 @@
 			  
 			});
 	    });
+	    
+	    $('.reset').click(function(){
+           $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
 	})();
 
 </script>

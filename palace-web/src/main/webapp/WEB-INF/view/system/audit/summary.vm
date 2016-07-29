@@ -76,7 +76,7 @@
 						</td>
 						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
 						<td>
-							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" auditType="!item.auditType">下载对账单</button>
+							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" auditType="$!item.auditType">下载对账单</button>
 						</td>
 					</tr>
 					#end

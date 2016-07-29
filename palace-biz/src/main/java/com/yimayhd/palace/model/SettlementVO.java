@@ -45,7 +45,7 @@ public class SettlementVO extends SettlementDTO{
         settlementDTO.setBatchNo(Integer.parseInt(settlementVO.getBatchNoStr()));
         settlementDTO.setAccountType(Integer.parseInt(settlementVO.getAccountTypeStr()));
         
-        return settlementVO;
+        return settlementDTO;
 	}
 	
 	public double getChannelFeeDouble() {

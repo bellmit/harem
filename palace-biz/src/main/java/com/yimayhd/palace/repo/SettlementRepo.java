@@ -30,7 +30,7 @@ public class SettlementRepo{
 	 */
 	public PayPageResultDTO<SettlementDTO> querySettlements(SettlementQuery query) {
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlements", query);
-		PayPageResultDTO<SettlementDTO> result = null;//settlementServiceRef.querySettlements(query);
+		PayPageResultDTO<SettlementDTO> result = settlementServiceRef.querySettlements(query);
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlements", result);
 		return result;
 	}
@@ -42,7 +42,7 @@ public class SettlementRepo{
 	 */
 	public PayPageResultDTO<SettlementDTO> querySettlementDetails(SettlementQuery query) {
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementDetails", query);
-		PayPageResultDTO<SettlementDTO> result = null;//settlementServiceRef.querySettlementDetails(query);
+		PayPageResultDTO<SettlementDTO> result = settlementServiceRef.querySettlementDetails(query);
 		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementDetails", result);
 		return result;
 	}
@@ -54,7 +54,7 @@ public class SettlementRepo{
 	 */
 	public ResultSupport settlementFailRetry(SettlementDTO settlement) {
 		RepoUtils.requestLog(log, "settlementServiceRef.settlementFailRetry", settlement);
-		ResultSupport result = null;//settlementServiceRef.settlementFailRetry(settlement);
+		ResultSupport result = settlementServiceRef.settlementFailRetry(settlement);
 		RepoUtils.requestLog(log, "settlementServiceRef.settlementFailRetry", result);
 		return result;
 	}

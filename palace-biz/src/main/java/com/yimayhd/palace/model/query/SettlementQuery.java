@@ -66,6 +66,7 @@ public class SettlementQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getBatchNo())){
     		queryDO.setBatchNo(Integer.parseInt(query.getBatchNo()));
     	}
+    	queryDO.setNeedCount(true);
     	
     	return queryDO;
     }

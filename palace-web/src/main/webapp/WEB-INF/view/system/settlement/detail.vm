@@ -33,13 +33,6 @@
 						<th>结算金额</th>
 						<th>返回结果</th>
 					</tr>
-					<tr>
-						<td>23131313131313</td>
-						<td>12345667</td>
-						<td>云南啊啊旅行社</td>
-						<td>500.00</td>
-						<td>成功</td>
-					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
 						<td>$!item.settlementId</td>

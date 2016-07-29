@@ -69,8 +69,6 @@
 				</tbody>
 			</table>
 		</div>
-		#parse("/page.vm")
-		#pageStyle("topicListForm")
 	</form>
 </div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
@@ -90,6 +88,9 @@
             format: "yyyy-mm-dd"
         });
         
+        $('.reset').click(function(){
+           $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
 	})();
 	
 </script>
