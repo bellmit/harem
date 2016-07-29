@@ -97,7 +97,7 @@
 								#if($articleItem.type == 3)
 								<div class="item movesection saved">
 									<div class="itemwraptitle">$!articleItem.title</div>
-									<div class="itemwrap" itemid="$articleItem.content" itemsubtype="$articleItem.subType">
+									<div class="wrap itemwrap" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
 										<div class="itemimgbox">
 											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleProductItemVO.itemPic">
 											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>$!articleItem.articleProductItemVO.itemType</p>
@@ -119,6 +119,41 @@
 									</div>
 								</div>
 								#end
+								#if($articleItem.type == 4)
+								<div class="item movesection saved">
+									<div class="itemwraptitle">$!articleItem.title</div>
+									<div class="wrap expertwrap" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
+										<div class="experthead">
+											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleExpertManItemVO.headPic"/>
+										</div>											
+										<div class="expertmsg">
+											<p class="ename">$!articleItem.articleExpertManItemVO.nickName</p>
+											<p class="esign">$!articleItem.articleExpertManItemVO.signatures</p>
+										</div>
+									</div>
+								</div>
+								#end								
+								#if($articleItem.type == 5)
+								<div class="item movesection saved">
+									<div class="itemwraptitle">$!articleItem.title</div>
+									<div class="wrap askwrap" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
+										<div class="askleft">
+											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleConsultServiceItemVO.serviceHeadPic"/>
+										</div>	
+										<div class="askright">
+											<a href="javascript:void(0);" class="askbtn">立即咨询</a>
+										</div>
+										<div class="askcenter">
+											<p class="askname">$!articleItem.articleConsultServiceItemVO.serviceName</p>
+											<p class="askpri">
+												<span class="apri">$!articleItem.articleConsultServiceItemVO.serviceCurrentPrice积分/15分钟</span>
+												<span class="bpri">$!articleItem.articleConsultServiceItemVO.serviceOriginalPrice积分</span>
+											</p>
+											<p class="askarea">$!articleItem.articleConsultServiceItemVO.serviceCity</p>
+										</div>
+									</div>
+								</div>
+								#end								
             				#end																					
 							</div>
 							<div class="hd clearfix">
@@ -126,6 +161,8 @@
 									<li><a href="javascript:void(0)" class="addtext">添加文本</a></li>
 									<li><a href="javascript:void(0)" class="addpic">添加图片</a></li>
 									<li><a href="javascript:void(0)" class="additem">添加商品</a></li>
+									<li><a href="javascript:void(0)" class="addexpert">添加达人</a></li>
+									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>									
 								</ul>
 							</div>
 							
