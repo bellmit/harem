@@ -58,45 +58,31 @@
 						<th>平台支付笔数 </th>
 						<th>银行支付笔数 </th>
 						<th>差异笔数  </th>
-						<th>差异金额 t</th>
+						<th>差异金额</th>
 						<th>对账结果</th>
 						<th>操作</th>
 					</tr>
+					#foreach($item in $pageVo)
 					<tr>
-						<td>2016-04-07 10：00：00</td>
-						<td>光大电子账户</td>
-						<td>51000.00</td>
-						<td>50000.00</td>
-						<td>230</td>
-						<td>231</td>
-						<td>1</td>
-						<td>1000.00</td>
-						<td>#AUDIT_RESULT_STATUS(5)</td>
-						<td>
-							<button type="button" class="btn btn-primary download" auditDate="2016-04-07" auditType="1">下载对账单</button>
-						</td>
-					</tr>
-					#foreach($item in $pageVo.itemList)
-					<tr>
-						<td>$utilDate.dateToString(${item.auditDate},'yyyy-MM-dd HH:mm:ss')</td>
+						<td>$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd HH:mm:ss')</td>
 						<td>#AUDIT_TYPE($!{item.auditType})</td>
 						<td>$!item.platformTotalAmount</td>
 						<td>$!item.oppositeTotalAmount</td>
 						<td>$!item.platformTotalNum</td>
 						<td>$!item.oppositeTotalNum</td>
 						<td>$!item.failCount</td>
-						<td>$!item.platformTotalAmount - $!item.oppositeTotalAmount</td>
+						<td>  
+							$!item.platformTotalAmount - $!item.oppositeTotalAmount
+						</td>
 						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
 						<td>
-							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString(${item.auditDate},'yyyy-MM-dd')" auditType="!item.auditType">下载对账单</button>
+							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" auditType="!item.auditType">下载对账单</button>
 						</td>
 					</tr>
 					#end
 				</tbody>
 			</table>
 		</div>
-		#parse("/page.vm")
-		#pageStyle("topicListForm")
 	</form>
 </div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>

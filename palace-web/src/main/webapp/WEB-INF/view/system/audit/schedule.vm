@@ -58,18 +58,12 @@
 						<th>对账状态</th>
 						<th>创建时间</th>
 					</tr>
-					<tr>
-						<td>#AUDIT_TYPE(1)</td>
-						<td>2016-07-11</td>
-						<td>未开始</td>
-						<td>2016-7-11 10:35:16</td>
-					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
-						<td>#AUDIT_TYPE($!{item.auditType})</td>
-						<td>$utilDate.dateToString(${item.auditDate},'yyyy-MM-dd')</td>
-						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
-						<td>$utilDate.dateToString(${item.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
+						<td>#AUDIT_TYPE($!item.auditType)</td>
+						<td>$utilDate.dateToString($!item.auditDate,"yyyy-MM-dd")</td>
+						<td>#AUDIT_RESULT_STATUS($!item.auditResultStatus)</td>
+						<td>$utilDate.dateToString($!item.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
 					</tr>
 					#end
 				</tbody>

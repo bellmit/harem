@@ -42,8 +42,8 @@ public class AuditQuery extends BaseQuery {
     		queryDO.setAuditType(Integer.parseInt(query.getAuditType()));
     	}
     	
-    	if(StringUtils.isNotEmpty(query.getAuditStatus())){
-    		queryDO.setAuditResultStatus(Integer.parseInt(query.getAuditStatus()));
+    	if(StringUtils.isNotEmpty(query.getAuditResultStatus())){
+    		queryDO.setAuditResultStatus(Integer.parseInt(query.getAuditResultStatus()));
     	}
     	
     	return queryDO;
@@ -75,7 +75,7 @@ public class AuditQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getAuditResultStatus())){
     		queryDO.setAuditResultStatus(Integer.parseInt(query.getAuditResultStatus()));
     	}
-    	
+    	queryDO.setNeedCount(true);
     	return queryDO;
     }
     
@@ -105,7 +105,7 @@ public class AuditQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getAuditResultStatus())){
     		queryDO.setAuditOrderStatus(Integer.parseInt(query.getAuditResultStatus()));
     	}
-    	
+    	queryDO.setNeedCount(true);
     	return queryDO;
     }
     
