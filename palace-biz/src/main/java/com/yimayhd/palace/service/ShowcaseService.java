@@ -147,7 +147,6 @@ public interface ShowcaseService {
      * 分页查询文章列表
      * @return
      */
-    @Deprecated
     public PageVO<ShowCaseItem> getArticlePageListByQuery(ArticleQueryDTO articleQueryDTO );
 
     /**

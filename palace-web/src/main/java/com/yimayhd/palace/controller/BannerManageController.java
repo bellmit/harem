@@ -326,7 +326,9 @@ public class BannerManageController extends BaseController {
         query.setPageNo(pageNumber);
         query.setPageSize(pageSize);
         query.setStatus(ArticleStatus.ONLINE);
-        PageVO<ShowCaseItem> page = showcaseService.getArticleDOPageListByQuery(query);
+
+        /*PageVO<ShowCaseItem> page = showcaseService.getArticleDOPageListByQuery(query);*/
+        PageVO<ShowCaseItem> page = showcaseService.getArticlePageListByQuery(query);
         result.put("pageVo", page);
         return result;
     }
