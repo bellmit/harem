@@ -3,6 +3,7 @@ package com.yimayhd.palace.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yimayhd.resourcecenter.model.enums.ArticleType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -56,6 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
 		// 状态
 		articleQueryDTO.setStatus(ArticleStatus.getByStatus(articleListQuery.getStatus()));
 		articleQueryDTO.setType(ArticleType.getArticleType(articleListQuery.getType()));
+
 		articleQueryDTO.setTitle(articleListQuery.getTitle());
 		// 开始结束时间
 		if (StringUtils.isNotBlank(articleListQuery.getStartTime())) {
