@@ -69,10 +69,10 @@
                     <em>订单编号：</em><strong><span class="orderdetail" orderid="$!comRate.orderId">$!comRate.orderId</span></strong>
                     <em>商品编号：</em><strong>$!comRate.itemId</strong>
                     #if($!comRate.status==2)
-                        <a class="btn btn-primary themeStop realy">已删除</a>
+                        <a class="realy">已删除</a>
                     #else
                         #if($!comRate.rateStatus==1)
-                            <a class = "btn btn-primary themeStop realy toreplay" data-comrateid="$!comRate.id">回复</a>
+                            <a class = "btn btn-primary themeStop realy torealy" data-comrateid="$!comRate.id">回复</a>
                         #end
                     #end
                 </p>
@@ -95,6 +95,7 @@
                     <p><strong>卖家回复:</strong></p>
                     <p>
                         $!comRate.backContent
+                        <br />
                         #DEFAULT_COM_RATE_REPLY_BACK_CONTENT()
                     </p>
                 #end
@@ -209,7 +210,7 @@
         window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/gfOrder/"+orderId, 2, "GF订单"+orderId+"详情");
         event.stopPropagation();
     });
-    $(".toreplay").click(function(event){
+    $(".torealy").click(function(event){
         maskFun();
         $("#val").val($(this).data('comrateid'));
         $(".replayform").show();
