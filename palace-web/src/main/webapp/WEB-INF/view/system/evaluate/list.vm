@@ -84,7 +84,9 @@
                         <td>$!utilPhone.mask($!evaluation.userDO.mobileNo)</td>
                         <td>$!commentUtil.getCommentType($!evaluation.outType)</td>
                         <td>$!esc.html($!evaluation.textContent)</td>
-                        <td class="articleDetail" articleId="$!evaluation.outId">$!evaluation.outId</td>
+                        <td>
+                        	<a href="javascript:void(0);" class="articleDetail" articleId="$!evaluation.outId" articleType="$!evaluation.outType">$!evaluation.outId</a>                        	
+                        </td>
                         <td>#TREND_STATUS($!evaluation.status)</td>
                         <td>$!utilDate.dateToString($!evaluation.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td><button type="button" class="btn btn-primary evaluationBtn"  evaluationId="$!evaluation.id" status="$!evaluation.status">#if($!evaluation.status == 1) 违规 #else 恢复 #end </button></td>
@@ -144,12 +146,11 @@
             });
         });
 
-		 $('.articleDetail').each(function(){
-            $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/liveManage/edit/'+ $(this).attr('articleId');
-                top.tabsAdd("",url,2,$(this).text());
-            });
-
+		$('.articleDetail').click(function(){
+			if($(this).attr('articleType')==2) var urls = '/B2C/liveManage/edit/';
+			if($(this).attr('articleType')==3) var urls = '/jiuxiu/articleManage/toEdit/';
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + urls + $(this).attr('articleId');
+            top.tabsAdd("",url,2,"详情");
         });
 		
         //全选
