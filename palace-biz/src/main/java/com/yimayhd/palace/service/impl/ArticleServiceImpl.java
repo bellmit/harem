@@ -162,6 +162,7 @@ public class ArticleServiceImpl implements ArticleService {
 			break;
 		}
 		articleItemVO.setType(type);
+		articleItemVO.setId(id);
 		return articleItemVO;
 	}
 
