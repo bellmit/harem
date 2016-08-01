@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
@@ -12,6 +13,7 @@ import com.yimayhd.palace.enums.PromotionTypes;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.PayRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderService;
@@ -47,6 +49,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -441,13 +444,11 @@ public class OrderServiceImpl implements OrderService {
 			}
 			if (!CollectionUtils.isEmpty(list)){
 				for (BizOrderDO bizOrderDO : list) {
-					//TODO:这里转换的话，需要判断查询条件传过来的订单状态是什么，然后过滤掉相应的数据
 					MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
 					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
 					//FIXME
 					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId(), false);
 					mo.setUser(user);
-					mainOrderList.add(mo);
 
 					//查物流
 					LogisticsOrderDO log = mo.getLogisticsOrderDO();
@@ -462,8 +463,11 @@ public class OrderServiceImpl implements OrderService {
 							mo.setLogisticsOrderDO(lg);
 							}
 					}
+					mainOrderList.add(mo);
 				}
 			}
+
+
 			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), (int)batchQueryResult.getTotalCount(),mainOrderList);
 			return orderPageVO;
 		}else{

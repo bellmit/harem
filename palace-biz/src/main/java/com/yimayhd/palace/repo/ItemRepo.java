@@ -142,6 +142,9 @@ public class ItemRepo {
 
 	public List<ItemDO> getItemByIds(List<Long> ids) {
 		ICResult<List<ItemDO>> icResult = itemQueryServiceRef.getItemByIds(ids);
-		return icResult.getModule();
+		if(null != icResult && icResult.isSuccess() && !CollectionUtils.isEmpty(icResult.getModule()) ){
+			return icResult.getModule();
+		}
+		return null;
 	}
 }
