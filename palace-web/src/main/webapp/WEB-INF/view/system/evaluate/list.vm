@@ -84,7 +84,7 @@
                         <td>$!utilPhone.mask($!evaluation.userDO.mobileNo)</td>
                         <td>#COMMENT_STATUS($!evaluation.outType)</td>
                         <td>$!esc.html($!evaluation.textContent)</td>
-                        <td>$!evaluation.outId</td>
+                        <td class="articleDetail" articleId="$!evaluation.outId">$!evaluation.outId</td>
                         <td>#TREND_STATUS($!evaluation.status)</td>
                         <td>$!utilDate.dateToString($!evaluation.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td><button type="button" class="btn btn-primary evaluationBtn"  evaluationId="$!evaluation.id" status="$!evaluation.status">#if($!evaluation.status == 1) 违规 #else 恢复 #end </button></td>
@@ -144,6 +144,14 @@
             });
         });
 
+		 $('.articleDetail').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/liveManage/edit/'+ $(this).attr('articleId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+
+        });
+		
         //全选
         $('.allChecked').click(function(){
             $('.subChecked').prop('checked',$(this).prop('checked'));

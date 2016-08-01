@@ -9,7 +9,7 @@ import com.yimayhd.commentcenter.client.enums.CommentType;
  *
  */
 public enum BizCommentType {
-	DYNAMICCOM(CommentType.DYNAMICCOM, "动态");
+	DYNAMICCOM(CommentType.LIVECOM, "动态");
 	private String text;
 	private CommentType commentType;
 
