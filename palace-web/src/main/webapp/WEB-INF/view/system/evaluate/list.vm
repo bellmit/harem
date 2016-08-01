@@ -37,9 +37,21 @@
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
                 <select class="form-control" name="evaluationStatus">
-                    <option value="0" >全部</option>
-                    <option value="1" #if($!evaluationListQuery.evaluationStatus == 1) selected #end>正常</option>
-                    <option value="2" #if($!evaluationListQuery.evaluationStatus == 2) selected #end>违规</option>
+					<option value="0" #if(!$evaluationListQuery.evaluationStatus) selected #end>全部</option>
+					#foreach($commentStatus in $commentStatusList)
+					<option value="$!{commentStatus.value}" #if($evaluationListQuery.evaluationStatus == $commentStatus.value) selected #end >$!{commentUtil.getCommentStatus($commentStatus.value)}</option>
+					#end
+                </select>
+            </div>
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">板块：</button>
+                </span>
+                <select class="form-control" name="evaluationType">
+					<option value="0" #if(!$evaluationListQuery.evaluationType) selected #end>全部</option>
+					#foreach($commentType in $commentTypeList)
+					<option value="$!{commentType.type}" #if($evaluationListQuery.evaluationType == $commentType.type) selected #end >$!{commentUtil.getCommentType($commentType.type)}</option>
+					#end
                 </select>
             </div>
 
@@ -59,8 +71,8 @@
                     <th>用户手机号</th>
                     <th>板块</th>
                     <th>内容</th>
-                    #*<th>被评论内容</th>
-                    <th>IP地址</th>*#
+                    <th>被评论内容ID</th>
+                    #*<th>IP地址</th>*#
                     <th>状态</th>
                     <th>发布时间</th>
 					<th>操作</th>
@@ -72,6 +84,7 @@
                         <td>$!utilPhone.mask($!evaluation.userDO.mobileNo)</td>
                         <td>#COMMENT_STATUS($!evaluation.outType)</td>
                         <td>$!esc.html($!evaluation.textContent)</td>
+                        <td>$!evaluation.outId</td>
                         <td>#TREND_STATUS($!evaluation.status)</td>
                         <td>$!utilDate.dateToString($!evaluation.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td><button type="button" class="btn btn-primary evaluationBtn"  evaluationId="$!evaluation.id" status="$!evaluation.status">#if($!evaluation.status == 1) 违规 #else 恢复 #end </button></td>
