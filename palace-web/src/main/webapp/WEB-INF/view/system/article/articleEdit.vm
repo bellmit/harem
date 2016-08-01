@@ -101,12 +101,16 @@
 										<div class="itemimgbox">
 											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleProductItemVO.itemPic">
 											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>$!articleItem.articleProductItemVO.itemType</p>
-											<p class="itemtag">$!articleItem.articleProductItemVO.itemTag</p>
+											<p class="itemtag">
+												#foreach( $itemtag in $!articleItem.articleProductItemVO.itemTagList )
+                                                    $itemtag 
+                                                #end
+											</p>
 										</div>
 										<div class="itemmsgbox">
 											<p class="itemright">
 												<span class="pritxt">九休专享价</span>
-												<span class="prinum">￥<em>$!articleItem.articleProductItemVO.itemPrice</em></span>
+												<span class="prinum">￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice / 100.00)$!pri</em></span>
 											</p>
 											<p class="itemleft">
 												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
@@ -149,7 +153,11 @@
 												<span class="apri">$!articleItem.articleConsultServiceItemVO.serviceCurrentPrice积分/15分钟</span>
 												<span class="bpri">$!articleItem.articleConsultServiceItemVO.serviceOriginalPrice积分</span>
 											</p>
-											<p class="askarea">$!articleItem.articleConsultServiceItemVO.serviceCity</p>
+											<p class="askarea">
+												#foreach( $city in $!articleItem.articleConsultServiceItemVO.serviceCity)
+                                                    $city #if( $foreach.hasNext )、 #end
+                                                #end
+											</p>
 										</div>
 									</div>
 								</div>

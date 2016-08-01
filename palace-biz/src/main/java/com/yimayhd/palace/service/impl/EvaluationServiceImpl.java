@@ -107,7 +107,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
         //昵称（用户id列表）
         commentDTO.setOutIdList(userIdList);
-
+        commentDTO.setOutType(evaluationListQuery.getEvaluationType());
         //状态
         commentDTO.setState(evaluationListQuery.getEvaluationStatus());
         BasePageResult<ComCommentDO> commentDOBasePageResult = comCenterServiceRef.getCommentInfoPage(commentDTO);
