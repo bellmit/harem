@@ -13,6 +13,8 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.SettlementVO;
 import com.yimayhd.palace.model.query.SettlementQuery;
 import com.yimayhd.palace.service.SettlementService;
+import com.yimayhd.pay.client.model.enums.SettlementStatus;
+import com.yimayhd.pay.client.model.enums.eleaccount.AccountType;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -44,6 +46,8 @@ public class SettlementManageController extends BaseController {
 		PageVO<SettlementVO> pageVo = settlementService.querySettlements(query);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
+		model.addAttribute("accountTypePerson", AccountType.PERSON.getType());
+		model.addAttribute("settlementFail", SettlementStatus.SETTLEMENT_FAIL.getValue());
 		
 		return "/system/settlement/list";
 	}

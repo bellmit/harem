@@ -26,7 +26,7 @@ public class AccountRepo{
 	protected EleAccBillService eleAccBillServiceRef;
 	
 	/**
-	 * 账户余额查询
+	 * 查询所有账户的余额
 	 * @param query
 	 * @return
 	 */
@@ -38,7 +38,7 @@ public class AccountRepo{
 	}
 	
 	/**
-	 * 账户余额明细
+	 * 用户收支明细的查询
 	 * @param query
 	 * @return
 	 */

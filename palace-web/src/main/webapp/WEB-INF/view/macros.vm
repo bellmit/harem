@@ -872,3 +872,14 @@
 		企业提现
     #end
 #end
+
+#*交易状态*#
+#macro(AUDIT_ORDER_TRADE_STATUS $type)
+    #if($type == '1')
+		成功
+    #elseif($type == '2')
+		失败
+    #elseif($type == '3')
+		不存在
+    #end
+#end

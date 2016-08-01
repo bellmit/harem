@@ -63,16 +63,18 @@
 						<td>$!item.channelFeeDouble</td>
 						<td>#ACCOUNT_TYPE($!item.accountType)</td>
 						<td>
-						$!item.status
-							#if($!item.accountType == 1)
+							#if($!item.accountType == $!accountTypePerson)
 								<button type="button" class="btn btn-primary detail" settlementId="$!item.settlementId" backTime="$!item.backTime" reqDate="$!item.reqDate" batchNo="$!item.batchNo">
 									详情
 								</button>
-								
-								
-								#if($!item.status == 5)
+								#if($!item.status == $!settlementFail)
 									<button type="button" class="btn btn-primary reSubmit" reqDate="$!item.reqDate" accountType="$!item.accountType" batchNo="$!item.batchNo">失败重新提交</button>
+								#else
+									<button type="button" class="btn disabled">失败重新提交</button>	
 								#end
+							#else
+								<button type="button" class="btn disabled">详情</button>
+								<button type="button" class="btn disabled">失败重新提交</button>
 							#end
 						</td>
 					</tr>
@@ -81,7 +83,7 @@
 			</table>
 		</div>
 		#parse("/page.vm")
-		#pageStyle("topicListForm")
+		#pageStyle("queryForm")
 	</form>
 </div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>

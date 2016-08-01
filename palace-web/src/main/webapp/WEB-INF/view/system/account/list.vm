@@ -56,15 +56,6 @@
 						<th>账户余额</th>
 						<th>操作</th>
 					</tr>
-					<tr>
-						<td>100002</td>
-						<td>光头教练</td>
-						<td>企业用户</td>
-						<td>3000</td>
-						<td>
-							<button type="button" class="btn btn-primary detail" userId="100002" userName="光头教练" userType="2" >账户收支明细</button>
-						</td>
-					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
 						<td>$!item.userId</td>
