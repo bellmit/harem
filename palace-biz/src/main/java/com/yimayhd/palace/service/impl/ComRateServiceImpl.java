@@ -62,7 +62,9 @@ public class ComRateServiceImpl implements ComRateService {
             }
             if (!StringUtils.isBlank(comRateListQuery.getEndDate())) {
                 try {
-                    ratePageListDTO.setEndTime(DateUtil.convertStringToDate(comRateListQuery.getEndDate()+" 23:59:59").getTime());
+                    Date endDate = DateUtil.convertStringToDate(comRateListQuery.getEndDate());
+                    endDate = DateUtil.formatMaxTimeForDate(endDate);
+                    ratePageListDTO.setEndTime(endDate.getTime());
                 } catch (Exception e) {
                     log.error("error ", e);
                 }
