@@ -796,7 +796,7 @@
     #elseif($type == '3')
 		 光大云支付
     #elseif($type == '4')
-		 光大电子钱宝
+		 光大电子钱包
     #end
 #end
 

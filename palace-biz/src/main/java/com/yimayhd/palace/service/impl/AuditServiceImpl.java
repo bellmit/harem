@@ -160,15 +160,14 @@ public class AuditServiceImpl implements AuditService {
 		label = new Label(7, 0, "备注");
 		ws.addCell(label);
 		
-		AuditOrderQuery queryDO = AuditQuery.getAuditOrderQuery(query);
+		query.setPageSize(Constant.DEFAULT_PAGE_MAX_SIZE);
 		int pageNumber = 1;
-		queryDO.setPageNo(pageNumber);
-		queryDO.setPageSize(Constant.DEFAULT_PAGE_MAX_SIZE);
 		
 		int rowNo = 1;
 		int totalPage = 0;
 		PageVO<PayAuditOrderVO> pageVO = null;
 		do{
+			query.setPageNumber(pageNumber);
 			pageVO = this.queryAuditOrder(query);
 			int totalCount = pageVO.getTotalCount();
 			if(totalPage == 0){
@@ -186,25 +185,26 @@ public class AuditServiceImpl implements AuditService {
 				
 				label = new Label(0, rowNo, item.getOutTradeNo());
 				ws.addCell(label);
-				label = new Label(1, rowNo, DateUtil.dateToString(item.getTradeDate(), DateUtil.DATE_TIME_FORMAT));
-				ws.addCell(label);
 				TransType transType = TransType.getByType(item.getTransType());
-				label = new Label(2, rowNo, transType != null ? transType.getDesc() : "");
+				label = new Label(1, rowNo, transType != null ? transType.getDesc() : "");
 				ws.addCell(label);
-				label = new Label(3, rowNo, DateUtil.dateToString(item.getTradeDate(), DateUtil.DATE_TIME_FORMAT));
+				label = new Label(2, rowNo, DateUtil.dateToString(item.getTradeDate(), DateUtil.DATE_TIME_FORMAT));
 				ws.addCell(label);
-				label = new Label(4, rowNo, item.getTradeAmount()+"");
+				label = new Label(3, rowNo, item.getTradeAmount()+"");
 				ws.addCell(label);
-				label = new Label(5, rowNo, DateUtil.dateToString(item.getOppositeTradeDate(), DateUtil.DATE_TIME_FORMAT));
+				label = new Label(4, rowNo, DateUtil.dateToString(item.getOppositeTradeDate(), DateUtil.DATE_TIME_FORMAT));
+				ws.addCell(label);
+				label = new Label(5, rowNo, item.getOppositeTradeAmount()+"");
 				ws.addCell(label);
 				AuditOrderStatus orderStatus = AuditOrderStatus.getByStatus(item.getAuditOrderStatus());
 				label = new Label(6, rowNo, orderStatus != null ? orderStatus.getDesc() : "");
 				ws.addCell(label);
 				label = new Label(7, rowNo, "");
 				ws.addCell(label);
+				
+				rowNo ++;
 			}
 			
-			rowNo ++;
 			pageNumber ++;
 		}while(pageNumber <= totalPage);
 		

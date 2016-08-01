@@ -112,6 +112,9 @@
 			window.open(url);
 	    });
         
+        $('.reset').click(function(){
+           $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
 	})();
 	
 </script>
