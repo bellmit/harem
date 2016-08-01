@@ -29,6 +29,7 @@ import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
+import com.yimayhd.resourcecenter.model.enums.DestinationUseType;
 import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.user.client.domain.MerchantDO;
@@ -201,11 +202,12 @@ public class ArticleBiz {
 			}
 		}
 		ArrayList<String> citys = new ArrayList<String>();
-		DestinationQueryDTO aDestinationQueryDTO = new DestinationQueryDTO();
-		aDestinationQueryDTO.setDomain(Constant.DOMAIN_JIUXIU);
-		aDestinationQueryDTO.setCodeList(cityCodeList);
-		aDestinationQueryDTO.setOutType(DestinationOutType.SERVICE.getCode());
-		RcResult<List<DestinationDO>> result = destinationRepo.queryDestinationList(aDestinationQueryDTO);
+		DestinationQueryDTO destinationQueryDTO = new DestinationQueryDTO();
+		destinationQueryDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		destinationQueryDTO.setCodeList(cityCodeList);
+		destinationQueryDTO.setOutType(DestinationOutType.SERVICE.getCode());
+		destinationQueryDTO.setUseType(DestinationUseType.APP_SHOW.getCode());
+		RcResult<List<DestinationDO>> result = destinationRepo.queryDestinationList(destinationQueryDTO);
 		if (result == null || !result.isSuccess() || CollectionUtils.isEmpty(result.getT())) {
 			return null;
 		}
