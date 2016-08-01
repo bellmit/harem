@@ -147,8 +147,9 @@
         });
 
 		$('.articleDetail').click(function(){
-			if($(this).attr('articleType')==2) var urls = '/B2C/liveManage/edit/';
-			if($(this).attr('articleType')==3) var urls = '/jiuxiu/articleManage/toEdit/';
+			var atype = $(this).attr('articleType');
+			if(atype==2) var urls = '/B2C/liveManage/edit/';
+			if(atype==3 || atype==4) var urls = '/jiuxiu/articleManage/toEdit/';
             var url = '$!utilWebconfig.getActionDefaultFontPath()' + urls + $(this).attr('articleId');
             top.tabsAdd("",url,2,"详情");
         });
