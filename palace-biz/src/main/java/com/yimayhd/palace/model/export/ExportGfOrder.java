@@ -15,15 +15,17 @@ public class ExportGfOrder implements Serializable{
     public long bizOrderId;//$!order.mainOrder.bizOrderDO.bizOrderId//订单号
     public String itemTitle;//$!subOrder.bizOrderDO.itemTitle//商品名称
     public long itemId;//$!subOrder.bizOrderDO.itemId//商品ID
-    public long itemPrice;//$!subOrder.bizOrderDO.itemPrice //商品价格
-    public long actualFee;//$!subOrder.sumFee//实际支付金额
+
     public long buyAmount;//$!subOrder.bizOrderDO.buyAmount//商品数量
     public String createDate="";//$!order.mainOrder.bizOrderDO.gmtCreated//下单时间
-    public long sumFee;//$!subOrder.sumFee//订单总额
-    public long freightFee;//运费
     public String paymentMode="";// //支付方式
     public String orderShowState="";//$order.mainOrder.orderShowState//订单状态
     public String itemNumber;//商品编码
+
+    public String sumFee;//$!subOrder.sumFee//订单总额
+    public String freightFee;//运费
+    public String itemPrice;//$!subOrder.bizOrderDO.itemPrice //商品价格
+    public String actualFee;//$!subOrder.sumFee//实际支付金额
 
     public String getItemNumber() {
         return itemNumber;
@@ -97,21 +99,6 @@ public class ExportGfOrder implements Serializable{
         this.itemId = itemId;
     }
 
-    public long getItemPrice() {
-        return itemPrice;
-    }
-
-    public void setItemPrice(long itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
-    public long getActualFee() {
-        return actualFee;
-    }
-
-    public void setActualFee(long actualFee) {
-        this.actualFee = actualFee;
-    }
 
     public long getBuyAmount() {
         return buyAmount;
@@ -129,22 +116,6 @@ public class ExportGfOrder implements Serializable{
         this.createDate = createDate;
     }
 
-    public long getSumFee() {
-        return sumFee;
-    }
-
-    public void setSumFee(long sumFee) {
-        this.sumFee = sumFee;
-    }
-
-    public long getFreightFee() {
-        return freightFee;
-    }
-
-    public void setFreightFee(long freightFee) {
-        this.freightFee = freightFee;
-    }
-
     public String getPaymentMode() {
         return paymentMode;
     }
@@ -159,5 +130,37 @@ public class ExportGfOrder implements Serializable{
 
     public void setOrderShowState(String orderShowState) {
         this.orderShowState = orderShowState;
+    }
+
+    public String getSumFee() {
+        return sumFee;
+    }
+
+    public void setSumFee(String sumFee) {
+        this.sumFee = sumFee;
+    }
+
+    public String getFreightFee() {
+        return freightFee;
+    }
+
+    public void setFreightFee(String freightFee) {
+        this.freightFee = freightFee;
+    }
+
+    public String getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(String itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public String getActualFee() {
+        return actualFee;
+    }
+
+    public void setActualFee(String actualFee) {
+        this.actualFee = actualFee;
     }
 }

@@ -96,7 +96,7 @@ public class ViewExcel extends AbstractExcelView {
             sheetRow.createCell(++oo).setCellValue(entity.getBuyerId());
             sheetRow.createCell(++oo).setCellValue(entity.getItemNumber());
         }
-        return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".xls";
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".csv";
     }
 
 

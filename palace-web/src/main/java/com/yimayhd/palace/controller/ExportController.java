@@ -6,6 +6,7 @@ import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.enums.OrderShowStatus;
 import com.yimayhd.palace.model.export.ExportGfOrder;
 import com.yimayhd.palace.model.query.ExportQuery;
@@ -16,6 +17,7 @@ import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.palace.controller.poi.ViewExcel;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.pay.client.model.enums.PayChannel;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -179,10 +181,12 @@ public class ExportController extends BaseController{
                 if(null != bizOrder){
                     bizOrderId = bizOrder.getBizOrderId();
                     eo.setBuyerName(bizOrder.getBuyerNick());
-                    eo.setActualFee(bizOrder.getActualTotalFee());
-                    eo.setSumFee(bizOrder.getActualTotalFee());
                     eo.setBizOrderId(bizOrderId);
                     eo.setCreateDate(DateUtil.dateToString(bizOrder.getGmtCreated(),"yyyy-MM-dd HH:mm:ss"));
+
+                    eo.setActualFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())) );
+                    eo.setSumFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())));
+
                 }
                 if(null != bizUser){
                     //eo.setBuyerId(bizUser.getId());
@@ -201,7 +205,7 @@ public class ExportController extends BaseController{
                 }
                 eo.setItemId(subOrder.getBizOrderDO().getItemId());
                 eo.setItemTitle(subOrder.getBizOrderDO().getItemTitle());
-                eo.setItemPrice(subOrder.getBizOrderDO().getItemPrice());
+                eo.setItemPrice(String.valueOf(NumUtil.moneyTransformDouble(subOrder.getBizOrderDO().getItemPrice())));
                 eo.setBuyAmount(subOrder.getBizOrderDO().getBuyAmount());
                 payOrderDO = mainOrder.getPayOrderDO();
                 if(null != payOrderDO){
@@ -209,7 +213,7 @@ public class ExportController extends BaseController{
                     eo.setPaymentMode(null == py?"":py.getDesc());
                 }
                 //-----------------
-                eo.setFreightFee(0);//运费
+                eo.setFreightFee("0");//运费
 
                 //查管易的编码
                 long key = subOrder.getBizOrderDO().getItemId();
