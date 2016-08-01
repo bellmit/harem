@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemSkuStatus;
@@ -16,7 +17,9 @@ import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuQueryDTO;
+import com.yimayhd.ic.client.model.param.item.ItemWeightDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
@@ -152,4 +155,13 @@ public class ItemRepo {
 		RepoUtils.resultLog(log, "itemQueryServiceRef.getItemById", result);
 		return result;
 	}
+	
+	@MethodLogger
+	public ICResultSupport updateItemOrderNum(ItemWeightDTO itemWeightDTO){
+		if(null == itemWeightDTO || itemWeightDTO.getItemId() <= 0 || itemWeightDTO.getOrderNum() <=0){
+			return null;
+		}
+		return itemPublishServiceRef.updateItemOrderNum(itemWeightDTO);
+	}
 }
+

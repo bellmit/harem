@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
@@ -16,7 +18,9 @@ import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.param.item.ItemWeightDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ItemConverter;
 import com.yimayhd.palace.model.ItemListQuery;
@@ -153,5 +157,21 @@ public class ItemServiceImpl implements ItemService {
 		itemBatchPublishDTO.setSellerId(sellerId);
 		itemBatchPublishDTO.setItemIdList(itemIds);
 		itemRepo.batchDelete(itemBatchPublishDTO);
+	}
+
+	@Override
+	public boolean updateItemOrderNum(long itemId, int orderNum){
+		ItemWeightDTO itemWeightDTO = new ItemWeightDTO();
+		itemWeightDTO.setItemId(itemId);
+		itemWeightDTO.setOrderNum(orderNum);
+		try {
+			ICResultSupport iCResultSupport = itemRepo.updateItemOrderNum(itemWeightDTO);
+			if(null == iCResultSupport || !iCResultSupport.isSuccess()){
+				return false;
+			}
+		} catch (Exception e) {
+			log.error("ItemService.updateItemOrderNum error!params:{}", JSONObject.toJSONString(itemWeightDTO),e);
+		}
+		return true;
 	}
 }
