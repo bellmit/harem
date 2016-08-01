@@ -82,7 +82,7 @@
                         <td><input class="subChecked" type="checkbox" value="$!evaluation.id"></td>
                         <td>$!esc.html($!evaluation.userDO.nickname)</td>
                         <td>$!utilPhone.mask($!evaluation.userDO.mobileNo)</td>
-                        <td>#COMMENT_STATUS($!evaluation.outType)</td>
+                        <td>$!commentUtil.getCommentType($!evaluation.outType)</td>
                         <td>$!esc.html($!evaluation.textContent)</td>
                         <td class="articleDetail" articleId="$!evaluation.outId">$!evaluation.outId</td>
                         <td>#TREND_STATUS($!evaluation.status)</td>

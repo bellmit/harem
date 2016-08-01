@@ -40,7 +40,7 @@ public class CommentUtil {
 		ArrayList<CommentType> arrayList = new ArrayList<CommentType>();
 		CommentType[] commentTypes = CommentType.values();
 		for (CommentType commentType : commentTypes) {
-			if (commentType.getType() != CommentType.LIVECOM.getType()) {
+			if (commentType.getType() != CommentType.DYNAMICCOM.getType()) {
 				arrayList.add(commentType);
 			}
 		}
