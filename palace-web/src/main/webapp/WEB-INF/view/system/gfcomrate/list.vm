@@ -335,6 +335,6 @@
     $(".cancel").on("click",function(){
         $(".mask").remove();
         $(".batchreview").hide();
-        $("#val").hide();
+        $("#val").val("");
     });
 </script>
