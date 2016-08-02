@@ -71,7 +71,7 @@ public class ViewExcel extends AbstractExcelView {
         //PageVO page = (PageVO)obj.get("pageVO");
         List<ExportGfOrder> list = (List<ExportGfOrder>)obj.get("ListExportGfOrder");
         if(null == list || list.size()==0){
-            return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".xls";
+            return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".csv";
         }
 
         for (int ii = 0; ii < list.size(); ii++) {
@@ -96,7 +96,7 @@ public class ViewExcel extends AbstractExcelView {
             sheetRow.createCell(++oo).setCellValue(entity.getBuyerId());
             sheetRow.createCell(++oo).setCellValue(entity.getItemNumber());
         }
-        return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".xls";
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".csv";
     }
 
 

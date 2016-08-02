@@ -1,19 +1,23 @@
 package com.yimayhd.palace.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.enums.OrderShowStatus;
 import com.yimayhd.palace.model.export.ExportGfOrder;
 import com.yimayhd.palace.model.query.ExportQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.model.trade.SubOrder;
+import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.palace.controller.poi.ViewExcel;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.pay.client.model.enums.PayChannel;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -28,9 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -42,6 +44,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExportController extends BaseController{
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ItemRepo itemRepo ;
 
     private AtomicInteger count = new AtomicInteger(0);
     private static final int MAX = 10 ;
@@ -146,7 +150,6 @@ public class ExportController extends BaseController{
         return list;
     }
 
-    //子订单才成单个的订单
     public PageVO<MainOrder> getPageVOMainOrder(ExportQuery exportQuery){
         try {
             PageVO<MainOrder> pageVO = orderService.getExportOrderList(exportQuery);
@@ -159,6 +162,7 @@ public class ExportController extends BaseController{
 
 
     public List<ExportGfOrder> mainOrderToExportGfOrder(MainOrder mainOrder) throws Exception{
+        Map<Long,String> gyMap = new HashMap<Long,String>();
         long bizOrderId = 0;
         PayOrderDO payOrderDO = null;
         LogisticsOrderDO logisticsOrderDO = null;
@@ -177,10 +181,12 @@ public class ExportController extends BaseController{
                 if(null != bizOrder){
                     bizOrderId = bizOrder.getBizOrderId();
                     eo.setBuyerName(bizOrder.getBuyerNick());
-                    eo.setActualFee(bizOrder.getActualTotalFee());
-                    eo.setSumFee(bizOrder.getActualTotalFee());
                     eo.setBizOrderId(bizOrderId);
-                    eo.setCreateDate(DateUtil.dateToString(bizOrder.getGmtCreated(),"yyyy-MM-dd"));
+                    eo.setCreateDate(DateUtil.dateToString(bizOrder.getGmtCreated(),"yyyy-MM-dd HH:mm:ss"));
+
+                    eo.setActualFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())) );
+                    eo.setSumFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())));
+
                 }
                 if(null != bizUser){
                     //eo.setBuyerId(bizUser.getId());
@@ -199,7 +205,7 @@ public class ExportController extends BaseController{
                 }
                 eo.setItemId(subOrder.getBizOrderDO().getItemId());
                 eo.setItemTitle(subOrder.getBizOrderDO().getItemTitle());
-                eo.setItemPrice(subOrder.getBizOrderDO().getItemPrice());
+                eo.setItemPrice(String.valueOf(NumUtil.moneyTransformDouble(subOrder.getBizOrderDO().getItemPrice())));
                 eo.setBuyAmount(subOrder.getBizOrderDO().getBuyAmount());
                 payOrderDO = mainOrder.getPayOrderDO();
                 if(null != payOrderDO){
@@ -207,7 +213,24 @@ public class ExportController extends BaseController{
                     eo.setPaymentMode(null == py?"":py.getDesc());
                 }
                 //-----------------
-                eo.setFreightFee(1);
+                eo.setFreightFee("0");//运费
+
+                //查管易的编码
+                long key = subOrder.getBizOrderDO().getItemId();
+                String code = gyMap.get(key);
+                if(StringUtils.isNotEmpty(code)){
+                    eo.setItemNumber(code);
+                }else{
+                    List<ItemDO> itemResult = itemRepo.getItemByIds(Arrays.asList(key));
+                    if(null != itemResult){
+                        ItemDO ido = itemResult.get(0);
+                        if(null != ido){
+                            code = ido.getCode();
+                            eo.setItemNumber(code);
+                            gyMap.put(key,code);
+                        }
+                    }
+                }
                 list.add(eo);
             }
         }
