@@ -73,7 +73,7 @@
                         <td>$!article.title</td>
                         <td>$!article.articleUrl</td>
                         <td>$!utilDate.dateToString($!article.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
-						<td>$!article.pv</td>
+						<td>$!article.pv/$!article.cachePv</td>
 						<td>$!{articleUtil.getArticleTypeName($!article.type)}</td>
 						<td>$!{articleUtil.getArticleStatus($!article.status)}</td>
                         <td>

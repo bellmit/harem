@@ -51,6 +51,7 @@ public class ArticleConverter {
 			BeanUtils.copyProperties(articleItemDO, articleItemVO);
 			articleItemVOList.add(articleItemVO);
 		}
+		articleVO.setCachePv(articleDTO.getPv());
 		articleVO.setArticleUrl(articleDTO.getArticleUrl());
 		articleVO.setArticleItemList(articleItemVOList);
 		return articleVO;
