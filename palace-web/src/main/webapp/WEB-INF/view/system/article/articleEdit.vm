@@ -154,7 +154,7 @@
 										<div class="askcenter">
 											<p class="askname">$!articleItem.articleConsultServiceItemVO.serviceName</p>
 											<p class="askpri">
-												<span class="apri">$!articleItem.articleConsultServiceItemVO.serviceCurrentPrice积分/15分钟</span>
+												<span class="apri">$!articleItem.articleConsultServiceItemVO.serviceCurrentPrice积分/$!articleItem.articleConsultServiceItemVO.consultTime分钟</span>
 												<span class="bpri">$!articleItem.articleConsultServiceItemVO.serviceOriginalPrice积分</span>
 											</p>
 											<p class="askarea">
