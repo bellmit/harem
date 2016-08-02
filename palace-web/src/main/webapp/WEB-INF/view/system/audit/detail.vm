@@ -74,8 +74,8 @@
 						<td>#TRANS_TYPE($!item.transType)</td>
 						<td>$!item.payOrderId</td>
 						<td>$!item.outTradeNo</td>
-						<td>$!item.tradeAmount</td>
-						<td>$!item.oppositeTradeAmount</td>
+						<td>$!item.tradeAmountYuan</td>
+						<td>$!item.oppositeTradeAmountYuan</td>
 						<td>#AUDIT_ORDER_TRADE_STATUS($!item.tradeStatus)</td>
 						<td>#AUDIT_ORDER_TRADE_STATUS($!item.oppositeTradeStatus)</td>
 						<td>#AUDIT_ORDER_STATUS($!item.auditOrderStatus)</td>

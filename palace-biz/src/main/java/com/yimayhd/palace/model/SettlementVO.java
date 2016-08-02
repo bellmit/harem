@@ -2,6 +2,7 @@ package com.yimayhd.palace.model;
 
 import org.springframework.beans.BeanUtils;
 
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.pay.client.model.param.settlement.SettlementDTO;
 
 /**
@@ -26,10 +27,8 @@ public class SettlementVO extends SettlementDTO{
         BeanUtils.copyProperties(settlementDTO, settlementVO);
         
         //将分转成元
-        double channelFeeDouble = (double)settlementDTO.getChannelFee()/ 100;
-        settlementVO.setChannelFeeDouble(channelFeeDouble);
-        
-        settlementVO.setSettlementAmountDouble((double)settlementDTO.getSettlementAmount() / 100);
+        settlementVO.setChannelFeeDouble(NumUtil.moneyTransformDouble(settlementDTO.getChannelFee()));
+        settlementVO.setSettlementAmountDouble(NumUtil.moneyTransformDouble(settlementDTO.getSettlementAmount()));
         
         return settlementVO;
 	}

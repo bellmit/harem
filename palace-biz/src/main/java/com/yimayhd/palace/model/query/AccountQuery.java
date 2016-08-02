@@ -53,6 +53,9 @@ public class AccountQuery extends BaseQuery {
     		queryDO.setUserType(Integer.parseInt(query.getUserType()));
     	}
     	
+    	queryDO.setNeedTotalAmount(true);
+		queryDO.setNeedCount(true);
+    	
     	return queryDO;
     }
     

@@ -3,6 +3,7 @@ package com.yimayhd.palace.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
 		EleAccBalanceResultVO resultVO = new EleAccBalanceResultVO();
 		
 		try {
-			if(query.getUserId() != null){
+			if(StringUtils.isNotEmpty(query.getUserId())){
 				Long.parseLong(query.getUserId());
 			}
 		} catch (Exception e) {

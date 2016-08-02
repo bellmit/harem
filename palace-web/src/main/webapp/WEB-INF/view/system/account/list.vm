@@ -60,7 +60,7 @@
 					<tr>
 						<td>$!item.userId</td>
 						<td>$!item.userName</td>
-						<td>#USER_TYPE($!{item.userType})</td>
+						<td>#USER_TYPE($!item.userType)</td>
 						<td>$!item.accountBalance</td>
 						<td>
 							<button type="button" class="btn btn-primary detail" userId="$!item.userId" userName="$!item.userName" userType="$!item.userType" >
@@ -90,6 +90,10 @@
 	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/detail?'+ param.join("&");
 			window.parent.tabsAdd("accountDetail", url, 2, "账户余额明细");
 	    });
+	    
+	    $('.reset').click(function(){
+           $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
 	
 	})();
 

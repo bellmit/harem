@@ -64,16 +64,14 @@
 					</tr>
 					#foreach($item in $pageVo)
 					<tr>
-						<td>$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd HH:mm:ss')</td>
+						<td>$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')</td>
 						<td>#AUDIT_TYPE($!{item.auditType})</td>
-						<td>$!item.platformTotalAmount</td>
-						<td>$!item.oppositeTotalAmount</td>
+						<td>$!item.platformTotalAmountYuan</td>
+						<td>$!item.oppositeTotalAmountYuan</td>
 						<td>$!item.platformTotalNum</td>
 						<td>$!item.oppositeTotalNum</td>
 						<td>$!item.failCount</td>
-						<td>  
-							$!item.platformTotalAmount - $!item.oppositeTotalAmount
-						</td>
+						<td>$!item.diffAmountYuan</td>
 						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
 						<td>
 							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" auditType="$!item.auditType">下载对账单</button>
