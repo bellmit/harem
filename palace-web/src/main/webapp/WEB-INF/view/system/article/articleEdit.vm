@@ -106,7 +106,7 @@
 										<div class="itemmsgbox">
 											<p class="itemright">
 												<span class="pritxt">九休专享价</span>
-												<span class="prinum">￥<em>$!articleItem.articleProductItemVO.itemPrice</em></span>
+												<span class="prinum">￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice / 100.00)$!pri</em></span>
 											</p>
 											<p class="itemleft">
 												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
