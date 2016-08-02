@@ -32,6 +32,7 @@ ul li{list-style: none;padding-left: 0px !important;}
 .orderdetail{cursor: pointer;text-decoration: underline;}
 .reviewCon dl p div.upload ul li img{  max-width: 84px;cursor: pointer;height: 84px;vertical-align: top;}
 .reviewCon dl .showImg{display: none;width: 50%;margin: 10px 0 10px 0;}
+.reviewCon dl .showImg img{width: 50%;}
 .reviewCon dl input.check{margin-top: 45px;}
 .reviewCon dl p{padding-bottom: 10px;display: block;}
 .reviewCon dl p em{font-style: normal;margin-left: 10px;}
