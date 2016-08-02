@@ -3,7 +3,6 @@ package com.yimayhd.palace.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yimayhd.resourcecenter.model.enums.ArticleType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -90,10 +89,10 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleVO getArticleById(long id) throws Exception {
 		ResourceResult<ArticleDTO> ResourceResult = articleRepo.getArticleById(id);
 		if (ResourceResult == null || !ResourceResult.isSuccess() || ResourceResult.getT() == null) {
-			return null;
+			throw new BaseException(ResourceResult.getResultMsg());
 		}
 		ArticleDTO articleDTO = ResourceResult.getT();
-		ArticleVO articleVO = articleBiz.getArticle(articleDTO);
+		ArticleVO articleVO = ArticleConverter.convertToArticleVOByArticleDTO(articleDTO);
 		return articleVO;
 	}
 
