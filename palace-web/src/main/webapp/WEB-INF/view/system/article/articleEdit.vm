@@ -154,6 +154,7 @@
 												<span class="bpri">$!articleItem.articleConsultServiceItemVO.serviceOriginalPrice积分</span>
 											</p>
 											<p class="askarea">
+												服务地区：
 												#foreach( $city in $!articleItem.articleConsultServiceItemVO.serviceCity)
                                                     $city #if( $foreach.hasNext )、 #end
                                                 #end
