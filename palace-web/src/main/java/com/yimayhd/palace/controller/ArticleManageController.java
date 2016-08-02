@@ -106,13 +106,15 @@ public class ArticleManageController extends BaseController {
 	public ResponseVo getArticleItemDetailById(@PathVariable("id") long id, @PathVariable("type") int type)
 			throws Exception {
 		try {
-			if (id <= 0 || type <= 0) {
-				return ResponseVo.error();
-			}
 			ResponseVo responseVo = new ResponseVo();
+			if (id <= 0 || type <= 0) {
+				responseVo.setMessage("输入数据不合法！");
+				return responseVo;
+			}
 			ArticleItemVO articleItemVO = articleService.getArticleItemDetailById(id, type);
 			if (articleItemVO == null) {
-				return ResponseVo.error();
+				responseVo.setMessage("查询的数据不存在！");
+				return responseVo;
 			}
 			responseVo.setData(articleItemVO);
 			return responseVo;

@@ -112,13 +112,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ResourceResult<Boolean> regain(long id) throws Exception {
-		ResourceResult<Boolean> result = articleRepo.updateByStatus(id,ArticleStatus.ONLINE);
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id, ArticleStatus.ONLINE);
 		return result;
 	}
 
 	@Override
 	public ResourceResult<Boolean> violation(long id) throws Exception {
-		ResourceResult<Boolean> result = articleRepo.updateByStatus(id,ArticleStatus.OFFLINE);
+		ResourceResult<Boolean> result = articleRepo.updateByStatus(id, ArticleStatus.OFFLINE);
 		return result;
 	}
 
@@ -142,12 +142,18 @@ public class ArticleServiceImpl implements ArticleService {
 				ArticleProductItemVO articleProductItemVO = articleBiz.getArticleProductItemVO(itemDO);
 				articleItemVO.setSubType(itemDO.getItemType());
 				articleItemVO.setArticleProductItemVO(articleProductItemVO);
+			} else {
+				return null;
 			}
 			break;
 		case EXPERTMAN:
 			UserDTO userDTO = articleBiz.queryTalentInfo(id);
-			ArticleExpertManItemVO articleExpertManItemVO = ArticleConverter.getArticleExpertManItemVO(userDTO);
-			articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
+			if (userDTO != null) {
+				ArticleExpertManItemVO articleExpertManItemVO = ArticleConverter.getArticleExpertManItemVO(userDTO);
+				articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
+			} else {
+				return null;
+			}
 			break;
 		case CONSULTSERVICE:
 			itemDO = articleBiz.getItemById(id);
@@ -155,6 +161,8 @@ public class ArticleServiceImpl implements ArticleService {
 				ArticleConsultServiceItemVO articleConsultServiceItemVO = articleBiz.getArticleConsultServiceItemVO(itemDO);
 				articleItemVO.setSubType(itemDO.getItemType());
 				articleItemVO.setArticleConsultServiceItemVO(articleConsultServiceItemVO);
+			} else {
+				return null;
 			}
 			break;
 		default:
