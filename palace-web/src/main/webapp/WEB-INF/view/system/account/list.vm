@@ -9,7 +9,7 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="queryForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/list" method="GET" role="form">
+	<form class="form-signin" id="queryForm" name="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/list" method="GET" role="form">
 		
 		<div class="inputGroup whole">
 			<div class="input-group inpSingle">
@@ -61,7 +61,7 @@
 						<td>$!item.userId</td>
 						<td>$!item.userName</td>
 						<td>#USER_TYPE($!item.userType)</td>
-						<td>$!item.accountBalance</td>
+						<td>$!item.accountBalanceYuan</td>
 						<td>
 							<button type="button" class="btn btn-primary detail" userId="$!item.userId" userName="$!item.userName" userType="$!item.userType" >
 								账户收支明细
@@ -73,7 +73,7 @@
 			</table>
 		</div>
 		#parse("/page.vm")
-		#pageStyle("topicListForm")
+		#pageStyle("queryForm")
 	</form>
 </div>
 <script type="text/javascript">

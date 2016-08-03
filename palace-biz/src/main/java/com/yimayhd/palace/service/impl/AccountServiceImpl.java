@@ -17,6 +17,7 @@ import com.yimayhd.palace.model.EleAccountBillVO;
 import com.yimayhd.palace.model.query.AccountQuery;
 import com.yimayhd.palace.repo.AccountRepo;
 import com.yimayhd.palace.service.AccountService;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBalanceQuery;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBillDetailQuery;
 import com.yimayhd.pay.client.model.result.PayPageResultDTO;
@@ -67,7 +68,7 @@ public class AccountServiceImpl implements AccountService {
 		
 		PageVO<EleAccBalanceVO> pageVO = new PageVO<EleAccBalanceVO>(query.getPageNumber(), query.getPageSize(), result.getTotalCount(), listVO);
 		resultVO.setEleAccBalanceVOPage(pageVO);
-		resultVO.setTotalAmount(result.getTotalAmount());
+		resultVO.setTotalAmount(NumUtil.moneyTransformDouble(result.getTotalAmount()));
 		return resultVO;
 	}
 

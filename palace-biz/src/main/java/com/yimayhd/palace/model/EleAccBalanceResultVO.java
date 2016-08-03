@@ -8,18 +8,18 @@ import com.yimayhd.palace.base.PageVO;
 public class EleAccBalanceResultVO {
 
 	/**总金额*/
-    private long totalAmount;
+    private double totalAmount;
 
 	/**
      * 电子账户的余额DTO
      */
     private PageVO<EleAccBalanceVO> eleAccBalanceVOPage;
 
-	public long getTotalAmount() {
+	public double getTotalAmount() {
 		return totalAmount;
 	}
 
-	public void setTotalAmount(long totalAmount) {
+	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 	

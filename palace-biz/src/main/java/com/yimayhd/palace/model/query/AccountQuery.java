@@ -93,7 +93,7 @@ public class AccountQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getTransType())){
     		queryDO.setTransType(Integer.parseInt(query.getTransType()));
     	}
-    	
+    	queryDO.setNeedCount(true);
     	return queryDO;
     }
     

@@ -72,20 +72,13 @@
 						<th>收支金额</th>
 						<th>金额</th>
 					</tr>
-					<tr>
-						<td>2016-04-07</td>
-						<td>TX231313232</td>
-						<td>#TRANS_TYPE(3)</td>
-						<td>-800.00</td>
-						<td>2000.00</td>
-					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
 						<td>$utilDate.dateToString(${item.transTime},'yyyy-MM-dd')</td>
 						<td>$!item.transSn</td>
 						<td>#TRANS_TYPE($!{item.transType})</td>
-						<td>$!item.transAmount</td>
-						<td>$!item.accountBalance</td>
+						<td>$!item.transAmountYuan</td>
+						<td>$!item.accountBalanceYuan</td>
 					</tr>
 					#end
 					
