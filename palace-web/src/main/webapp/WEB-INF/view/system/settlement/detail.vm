@@ -11,6 +11,9 @@
 <div class="topicbox">
 	<form class="form-signin" id="queryForm" name="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settlement/detail" method="GET" role="form">
 		
+		<input type="hidden" name="reqDate" value="$!query.reqDate" />
+		<input type="hidden" name="batchNo" value="$!query.batchNo" />
+		
 		<div class="inputGroup whole" style="min-height:45px;">
 			<div class="input-group inpSingle">
 				发起日期 ：$!query.reqDate
