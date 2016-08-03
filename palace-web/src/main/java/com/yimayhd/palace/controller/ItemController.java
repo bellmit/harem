@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.OrderNumFilterEnum;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
@@ -63,6 +64,7 @@ public class ItemController extends BaseController {
 		model.addAttribute("itemListQuery", itemListQuery);
 		model.addAttribute("itemTypeList", BizItemType.values());
 		model.addAttribute("itemStatusList", ItemStatus.values());
+		model.addAttribute("orderNumFilter",OrderNumFilterEnum.values());
 		return "/system/comm/itemList";
 	}
 	
