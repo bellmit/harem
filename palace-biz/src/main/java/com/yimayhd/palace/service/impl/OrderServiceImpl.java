@@ -10,6 +10,7 @@ import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.OrderConverter;
 import com.yimayhd.palace.enums.PromotionTypes;
+import com.yimayhd.palace.model.enums.PayStatus;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
@@ -463,6 +464,18 @@ public class OrderServiceImpl implements OrderService {
 							mo.setLogisticsOrderDO(lg);
 							}
 					}
+					//查付款
+					PayOrderDO pod = mo.getPayOrderDO();
+					if(PayStatus.PAID.getStatus() == bizOrderDO.getPayStatus() && null == pod){//已经付款的，但没有数据的 在查一遍
+						long bizOrderId = bizOrderDO.getBizOrderId() ;
+						int domainId = bizOrderDO.getDomain()==0?1100:bizOrderDO.getDomain() ;
+						BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId, domainId);
+						if( queryPayOrderResult != null && queryPayOrderResult.isSuccess() ){
+							PayOrderDO payOrderDO = queryPayOrderResult.getValue();
+							mo.setPayOrderDO(payOrderDO);
+						}
+					}
+
 					mainOrderList.add(mo);
 				}
 			}
