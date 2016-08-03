@@ -229,10 +229,12 @@
                 layer.alert("请设置导出订单的查询条件");
                 return ;
             }
-                var url ='$!utilWebconfig.getActionDefaultFontPath()/GF/export/list';
-                $('#tradeListForm').attr('action',url);
-                $('#tradeListForm').submit();
-
+            var url_prefix="$!utilWebconfig.getActionDefaultFontPath()";
+            var url ='/GF/export/list';
+            $('#tradeListForm').attr('action',url_prefix+url);
+            $('#tradeListForm').submit();
+            url = "/B2C/orderManage/gfOrderList";
+            $('#tradeListForm').attr('action',url_prefix+url);
         });
 
 	</script>
