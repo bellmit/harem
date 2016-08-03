@@ -32,6 +32,7 @@
                     <option value="">全部</option>
                     <option value="1" #if($query.userType == 1) selected="selected" #end >普通用户</option>
                     <option value="2" #if($query.userType == 2) selected="selected" #end >企业用户</option>
+                    <option value="3" #if($query.userType == 3) selected="selected" #end >达人用户</option>
                 </select>
 			</div>
 			<div class="btn-group">
