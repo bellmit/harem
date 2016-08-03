@@ -16,6 +16,7 @@ import com.yimayhd.palace.model.PayAuditOrderVO;
 import com.yimayhd.palace.model.PayAuditResultVO;
 import com.yimayhd.palace.model.query.AuditQuery;
 import com.yimayhd.palace.service.AuditService;
+import com.yimayhd.pay.client.model.enums.audit.AuditResultStatus;
 
 /** 
 * @ClassName: VerifyManageController 
@@ -58,6 +59,7 @@ public class AuditManageController extends BaseController {
 		List<PayAuditResultVO> pageVo = auditService.queryAuditResult(query);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
+		model.addAttribute("AUDIT_FAIL", AuditResultStatus.AUDIT_FAIL.getStatus());
 		
 		return "/system/audit/summary";
 	}

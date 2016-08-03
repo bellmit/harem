@@ -50,7 +50,9 @@
 						<th>银联失败笔数</th>
 						<th>平台计算结算费</th>
 						<th>结算类型</th>
+						<!--
 						<th>操作</th>
+						-->
 					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
@@ -62,6 +64,7 @@
 						<td>$!item.failCount</td>
 						<td>$!item.channelFeeDouble</td>
 						<td>#ACCOUNT_TYPE($!item.accountType)</td>
+						<!--
 						<td>
 							#if($!item.accountType == $!accountTypePerson)
 								<button type="button" class="btn btn-primary detail" settlementId="$!item.settlementId" backTime="$!item.backTime" reqDate="$!item.reqDate" batchNo="$!item.batchNo">
@@ -77,6 +80,7 @@
 								<button type="button" class="btn disabled">失败重新提交</button>
 							#end
 						</td>
+						-->
 					</tr>
 					#end
 				</tbody>

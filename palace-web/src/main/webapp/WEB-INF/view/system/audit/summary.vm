@@ -64,16 +64,19 @@
 					</tr>
 					#foreach($item in $pageVo)
 					<tr>
-						<td>$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')</td>
-						<td>#AUDIT_TYPE($!{item.auditType})</td>
-						<td>$!item.platformTotalAmountYuan</td>
-						<td>$!item.oppositeTotalAmountYuan</td>
-						<td>$!item.platformTotalNum</td>
-						<td>$!item.oppositeTotalNum</td>
-						<td>$!item.failCount</td>
-						<td>$!item.diffAmountYuan</td>
-						<td>#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
-						<td>
+						#if($item.auditResultStatus == $AUDIT_FAIL)
+							#set($redFont = "color:red;")
+						#end
+						<td style="$!redFont" >$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')</td>
+						<td style="$!redFont" >#AUDIT_TYPE($!{item.auditType})</td>
+						<td style="$!redFont" >$!item.platformTotalAmountYuan</td>
+						<td style="$!redFont" >$!item.oppositeTotalAmountYuan</td>
+						<td style="$!redFont" >$!item.platformTotalNum</td>
+						<td style="$!redFont" >$!item.oppositeTotalNum</td>
+						<td style="$!redFont" >$!item.failCount</td>
+						<td style="$!redFont" >$!item.diffAmountYuan</td>
+						<td style="$!redFont" >#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
+						<td style="$!redFont" >
 							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" auditType="$!item.auditType">下载对账单</button>
 						</td>
 					</tr>
