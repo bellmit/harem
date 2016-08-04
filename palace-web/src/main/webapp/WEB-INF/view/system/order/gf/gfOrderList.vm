@@ -230,7 +230,7 @@
                 return ;
             }
             var url_prefix="$!utilWebconfig.getActionDefaultFontPath()";
-            var url ='/GF/export/list';
+            var url ='/export/gf/list';
             $('#tradeListForm').attr('action',url_prefix+url);
             $('#tradeListForm').submit();
             url = "/B2C/orderManage/gfOrderList";

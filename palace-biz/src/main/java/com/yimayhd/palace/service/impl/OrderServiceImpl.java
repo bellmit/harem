@@ -387,6 +387,7 @@ public class OrderServiceImpl implements OrderService {
 			if (StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
 				userDOPageQuery.setMobile(orderListQuery.getBuyerPhone());
 			}
+			// userDOPageQuery.setUserIdList();
 			BasePageResult<UserDO> basePageResult = userServiceRef.findPageResultByCondition(userDOPageQuery);
 			if (basePageResult.isSuccess()){
 				if (!CollectionUtils.isEmpty(basePageResult.getList())){
@@ -466,7 +467,7 @@ public class OrderServiceImpl implements OrderService {
 					}
 					//查付款
 					PayOrderDO pod = mo.getPayOrderDO();
-					if(PayStatus.PAID.getStatus() == bizOrderDO.getPayStatus() && null == pod){//已经付款的，但没有数据的 在查一遍
+					if(null == pod && bizOrderDO.getPayStatus() >= PayStatus.PAID.getStatus() ){//已经付款的，但没有数据的 在查一遍
 						long bizOrderId = bizOrderDO.getBizOrderId() ;
 						int domainId = bizOrderDO.getDomain()==0?1100:bizOrderDO.getDomain() ;
 						BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId, domainId);

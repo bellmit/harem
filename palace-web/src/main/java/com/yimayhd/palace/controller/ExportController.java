@@ -40,7 +40,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Description:导出功能
  */
 @Controller
-@RequestMapping("/GF/export")
+@RequestMapping("/export")
 public class ExportController extends BaseController{
     @Autowired
     private OrderService orderService;
@@ -52,10 +52,10 @@ public class ExportController extends BaseController{
 
     /**
      * 订单导出
-     * @return 订单导出
+     * @return gf订单导出
      * @throws Exception
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/gf/list", method = RequestMethod.GET)
     public ModelAndView list(ModelMap model, ExportQuery exportQuery) throws Exception {
         try {
             if( count.intValue() >= MAX ){
@@ -180,7 +180,11 @@ public class ExportController extends BaseController{
                 eo.setOrderShowState(OrderShowStatus.getByStatus(mainOrder.getOrderShowState()).getDes());
                 if(null != bizOrder){
                     bizOrderId = bizOrder.getBizOrderId();
-                    eo.setBuyerName(bizOrder.getBuyerNick());
+                    String buyer = bizOrder.getBuyerNick();
+                    if(StringUtils.isEmpty(buyer)){
+                        buyer = bizUser.getMobileNo();
+                    }
+                    eo.setBuyerName(buyer);
                     eo.setBizOrderId(bizOrderId);
                     eo.setCreateDate(DateUtil.dateToString(bizOrder.getGmtCreated(),"yyyy-MM-dd HH:mm:ss"));
 
@@ -188,20 +192,20 @@ public class ExportController extends BaseController{
                     eo.setSumFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())));
 
                 }
-                if(null != bizUser){
+                //if(null != bizUser){
                     //eo.setBuyerId(bizUser.getId());
-                }
+                //}
                 logisticsOrderDO = mainOrder.getLogisticsOrderDO();
                 if(null != logisticsOrderDO ){
                     eo.setConsigneeName(logisticsOrderDO.getFullName());
-                    eo.setContactAddress(logisticsOrderDO.getArea()+logisticsOrderDO.getAddress());
+                    eo.setContactAddress(logisticsOrderDO.getProv()+logisticsOrderDO.getArea()+logisticsOrderDO.getAddress());
                     eo.setBuyerPhoneNum(logisticsOrderDO.getMobilePhone());
                     eo.setBuyerId(logisticsOrderDO.getBuyerId());
                 }
                 payOrderDO = mainOrder.getPayOrderDO();
                 if(null != payOrderDO){
                     PayChannel payChannel = PayChannel.getPayChannel(payOrderDO.getPayChannel());
-                    eo.setPaymentMode(null == payChannel ?"":payChannel.getDesc());
+                    eo.setPaymentMode(null == payChannel ? "-" : payChannel.getDesc());
                 }
                 eo.setItemId(subOrder.getBizOrderDO().getItemId());
                 eo.setItemTitle(subOrder.getBizOrderDO().getItemTitle());
