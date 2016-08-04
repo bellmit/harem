@@ -32,7 +32,7 @@
 					<td><span class="red">*</span>话题名称：</td>
 					<td>
 						<input class="form-control w500 in-bl wordCount" type="text" name="title" value="$!topic.title" 
-							maxlength="30" datatype="/^[^#\s]+$/" nullmsg="话题不能为空" errormsg="不能输入#号和空格"
+							maxlength="30" datatype="/^[^#]+$/" nullmsg="话题不能为空" errormsg="不能输入#号"
 							#if($topic.title)
 								readonly="readonly"
 							#end
