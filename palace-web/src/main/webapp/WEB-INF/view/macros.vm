@@ -570,6 +570,8 @@
     		酒店客栈（在线付）
     #elseif( $type == 3400)
         	酒店客栈（到店付）
+    #elseif( $type == 4000)
+        	达人咨询
     #end
 #end
 
@@ -630,6 +632,24 @@
        	 未入住
     #end
 #end
+
+
+#macro(ORDER_BIZ_STATUS_PROCESS $type)
+   	#if($type == 2)
+  		待付款
+    #elseif($type == 3)
+       	待确认
+    #elseif($type == 6)
+      	 已确认
+    #elseif($type == 10)
+      	  已完成
+    #elseif($type == 8)
+       	 已取消
+    #elseif($type == 11)
+       	 未入住
+    #end
+#end
+
 
 #macro(ORDER_BIZ_STATUS_M $type)
    	#if($type == 2)

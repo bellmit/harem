@@ -36,6 +36,9 @@
 		            
 		       	#elseif($order.bizOrder.orderType == 3400)
 		    		#ORDER_BIZ_STATUS_D_HOTEL($!order.bizOrder.orderStatus)
+		    		
+		    	#elseif($order.bizOrder.orderType == 4000)
+		    		#ORDER_BIZ_STATUS_PROCESS($!order.bizOrder.orderStatus)
 		   		#end
             <span>
         </div>
@@ -252,6 +255,8 @@
                            		#ORDER_BIZ_STATUS_SPOTS($subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
                            		#ORDER_BIZ_STATUS_HOTEL($subOrder.bizOrder.orderStatus)
+                           	#elseif($!subOrder.bizOrder.orderType == 4000 )
+                           		#ORDER_BIZ_STATUS_PROCESS($subOrder.bizOrder.orderStatus)
                             #end
                         </div>
                     </td>
