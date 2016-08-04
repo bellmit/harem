@@ -9,7 +9,7 @@
     <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
 <div class="topicbox">
-	<form class="form-signin" id="topicListForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/detail" method="GET" role="form">
+	<form class="form-signin" id="queryForm" name="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/detail" method="GET" role="form">
 		
 		<div class="inputGroup whole" style="min-height:45px;">
 			<div class="input-group inpSingle">
@@ -90,7 +90,7 @@
 			</table>
 		</div>
 		#parse("/page.vm")
-		#pageStyle("topicListForm")
+		#pageStyle("queryForm")
 	</form>
 </div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
@@ -108,6 +108,10 @@
             minView: 2,
             forceParse: 0,
             format: "yyyy-mm-dd"
+        });
+        
+        $('.reset').click(function(){
+           $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
         });
         
 	})();
