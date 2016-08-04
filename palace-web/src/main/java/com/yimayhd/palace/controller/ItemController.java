@@ -3,6 +3,7 @@ package com.yimayhd.palace.controller;
 import java.util.Arrays;
 
 import com.yimayhd.palace.enums.BizItemType;
+import com.yimayhd.palace.enums.OrderNumFilter;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class ItemController extends BaseController {
 		model.addAttribute("itemListQuery", itemListQuery);
 		model.addAttribute("itemTypeList", BizItemType.values());
 		model.addAttribute("itemStatusList", ItemStatus.values());
-		model.addAttribute("orderNumFilter",OrderNumFilterEnum.values());
+		model.addAttribute("orderNumFilter",OrderNumFilter.values());
 		return "/system/comm/itemList";
 	}
 	
