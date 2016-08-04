@@ -69,7 +69,11 @@
 					#foreach($item in $pageVo.itemList)
 					<tr>
 						<td>$!item.bizOrderId</td>
-						<td>$utilDate.dateToString($!item.tradeDate,'yyyy-MM-dd HH:mm:ss')</td>
+						<td>
+							#if("$!item.tradeDate" != "")
+								$utilDate.dateToString($item.tradeDate,'yyyy-MM-dd HH:mm:ss')
+							#end
+						</td>
 						<td>#AUDIT_TYPE($!item.auditType)</td>
 						<td>#TRANS_TYPE($!item.transType)</td>
 						<td>$!item.payOrderId</td>

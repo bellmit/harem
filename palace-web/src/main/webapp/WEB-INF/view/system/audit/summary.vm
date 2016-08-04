@@ -67,7 +67,7 @@
 						#if($item.auditResultStatus == $AUDIT_FAIL)
 							#set($redFont = "color:red;")
 						#end
-						<td style="$!redFont" >$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')</td>
+						<td style="$!redFont" >$utilDate.dateToString($item.auditDate,'yyyy-MM-dd')</td>
 						<td style="$!redFont" >#AUDIT_TYPE($!{item.auditType})</td>
 						<td style="$!redFont" >$!item.platformTotalAmountYuan</td>
 						<td style="$!redFont" >$!item.oppositeTotalAmountYuan</td>
