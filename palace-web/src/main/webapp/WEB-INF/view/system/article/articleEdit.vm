@@ -180,6 +180,7 @@
 							</div>
 							
 							<input type="hidden" id="articleItems" name="articleItems">
+							<input type="hidden" id="status" name="status" value="$!article.status">
 							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
 							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
 						</div>
