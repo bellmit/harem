@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +33,6 @@ import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.pay.client.model.domain.audit.PayAuditOrderDO;
 import com.yimayhd.pay.client.model.domain.audit.PayAuditResultDO;
 import com.yimayhd.pay.client.model.enums.TransType;
-import com.yimayhd.pay.client.model.enums.audit.AuditOrderStatus;
-import com.yimayhd.pay.client.model.enums.audit.AuditType;
 import com.yimayhd.pay.client.model.query.audit.AuditOrderQuery;
 import com.yimayhd.pay.client.model.query.audit.AuditProgressQuery;
 import com.yimayhd.pay.client.model.query.audit.AuditResultQuery;
@@ -115,9 +112,7 @@ public class AuditServiceImpl implements AuditService {
 	@Override
 	public void downloadAuditOrder(HttpServletResponse response, AuditQuery query) throws Exception {
 		
-		AuditType auditType = AuditType.getByType(Integer.parseInt(query.getAuditType()));
-		String auditName = auditType != null ? auditType.getDesc() : "";
-		String fileName = auditName +"-"+ query.getAuditDate() +".xls";
+		String fileName = query.getAuditTypeDesc() + query.getAuditDate() +"对账单.xls";
 		
 		String path = this.getClass().getClassLoader().getResource("").getPath() +"/"+ fileName;
 		this.exportAuditOrderExcel(query, path);
@@ -185,21 +180,20 @@ public class AuditServiceImpl implements AuditService {
 			for(int i = 0; i < list.size(); i++){
 				item = list.get(i);
 				
-				label = new Label(0, rowNo, item.getOutTradeNo());
+				label = new Label(0, rowNo, item.getBizOrderId()+"");
 				ws.addCell(label);
 				TransType transType = TransType.getByType(item.getTransType());
 				label = new Label(1, rowNo, transType != null ? transType.getDesc() : "");
 				ws.addCell(label);
 				label = new Label(2, rowNo, DateUtil.dateToString(item.getTradeDate(), DateUtil.DATE_TIME_FORMAT));
 				ws.addCell(label);
-				label = new Label(3, rowNo, item.getTradeAmount()+"");
+				label = new Label(3, rowNo, item.getTradeAmountYuan()+"");
 				ws.addCell(label);
 				label = new Label(4, rowNo, DateUtil.dateToString(item.getOppositeTradeDate(), DateUtil.DATE_TIME_FORMAT));
 				ws.addCell(label);
-				label = new Label(5, rowNo, item.getOppositeTradeAmount()+"");
+				label = new Label(5, rowNo, item.getOppositeTradeAmountYuan()+"");
 				ws.addCell(label);
-				AuditOrderStatus orderStatus = AuditOrderStatus.getByStatus(item.getAuditOrderStatus());
-				label = new Label(6, rowNo, orderStatus != null ? orderStatus.getDesc() : "");
+				label = new Label(6, rowNo, transOrderStatusDesc(item.getAuditOrderStatus()));
 				ws.addCell(label);
 				label = new Label(7, rowNo, "");
 				ws.addCell(label);
@@ -212,5 +206,30 @@ public class AuditServiceImpl implements AuditService {
 		
 		wwb.write();
 		wwb.close(); 
+	}
+	
+	private String transOrderStatusDesc(int status){
+		
+		String desc = "";
+		switch(status){
+			case 1:
+				desc = "金额不一致";
+				break;
+			case 2:
+				desc = "状态不一致";
+				break;
+			case 3:
+				desc = "他有我无";
+				break;
+			case 4:
+				desc = "我有他无";
+				break;
+			case 5:
+				desc = "对账相符 ";
+				break;
+			default:
+				desc = "";
+		}
+		return desc;
 	}
 }

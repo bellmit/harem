@@ -77,7 +77,8 @@
 						<td style="$!redFont" >$!item.diffAmountYuan</td>
 						<td style="$!redFont" >#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
 						<td style="$!redFont" >
-							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" auditType="$!item.auditType">下载对账单</button>
+							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" 
+							auditType="$!item.auditType" auditTypeDesc="#AUDIT_TYPE($!{item.auditType})">下载对账单</button>
 						</td>
 					</tr>
 					#end
@@ -118,6 +119,7 @@
         	var param = [];
         	param.push("auditDate="+ $(this).attr("auditDate"));
         	param.push("auditType="+ $(this).attr("auditType"));
+        	param.push("auditTypeDesc="+ $(this).attr("auditTypeDesc"));
         	
 	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/audit/download?'+ param.join("&");
 			window.open(url);

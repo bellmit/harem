@@ -25,6 +25,9 @@ public class AuditQuery extends BaseQuery {
     
     /**对账结果*/
     private String auditResultStatus;
+    
+    /**对账渠道名称*/
+    private String auditTypeDesc;
 
 	public static AuditProgressQuery getAuditProgressQuery(AuditQuery query) throws ParseException{
     	
@@ -140,5 +143,11 @@ public class AuditQuery extends BaseQuery {
 	public void setAuditResultStatus(String auditResultStatus) {
 		this.auditResultStatus = auditResultStatus;
 	}
+	public String getAuditTypeDesc() {
+		return auditTypeDesc;
+	}
 
+	public void setAuditTypeDesc(String auditTypeDesc) {
+		this.auditTypeDesc = auditTypeDesc;
+	}
 }
