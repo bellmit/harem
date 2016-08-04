@@ -1,9 +1,11 @@
 package com.yimayhd.palace.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import com.yimayhd.palace.model.PayAuditOrderVO;
 import com.yimayhd.palace.model.PayAuditResultVO;
 import com.yimayhd.palace.model.query.AuditQuery;
 import com.yimayhd.palace.service.AuditService;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.pay.client.model.enums.audit.AuditResultStatus;
 
 /** 
@@ -40,6 +43,9 @@ public class AuditManageController extends BaseController {
 	@RequestMapping(value = "/schedule", method = RequestMethod.GET)
 	public String schedule(Model model, AuditQuery query) throws Exception {
 		
+		if(StringUtils.isEmpty(query.getAuditDate())){
+			query.setAuditDate(DateUtil.getDayAgo(new Date(), -1));
+		}
 		PageVO<PayAuditResultVO> pageVo = auditService.queryAuditProgress(query);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
@@ -56,6 +62,9 @@ public class AuditManageController extends BaseController {
 	@RequestMapping(value = "/summary", method = RequestMethod.GET)
 	public String summary(Model model, AuditQuery query) throws Exception {
 		
+		if(StringUtils.isEmpty(query.getAuditDate())){
+			query.setAuditDate(DateUtil.getDayAgo(new Date(), -1));
+		}
 		List<PayAuditResultVO> pageVo = auditService.queryAuditResult(query);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);

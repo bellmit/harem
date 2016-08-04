@@ -41,9 +41,9 @@ public class SettlementRepo{
 	 * @return
 	 */
 	public PayPageResultDTO<SettlementDTO> querySettlementDetails(SettlementQuery query) {
-		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementDetails", query);
-		PayPageResultDTO<SettlementDTO> result = settlementServiceRef.querySettlementDetails(query);
-		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementDetails", result);
+		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementInfos", query);
+		PayPageResultDTO<SettlementDTO> result = settlementServiceRef.querySettlementInfos(query);
+		RepoUtils.requestLog(log, "settlementServiceRef.querySettlementInfos", result);
 		return result;
 	}
 	

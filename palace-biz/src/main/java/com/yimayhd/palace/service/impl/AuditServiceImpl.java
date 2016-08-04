@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -54,6 +55,7 @@ public class AuditServiceImpl implements AuditService {
 	public PageVO<PayAuditResultVO> queryAuditProgress(AuditQuery query) throws Exception {
 		
 		AuditProgressQuery queryDO = AuditQuery.getAuditProgressQuery(query);
+		
 		PayPageResultDTO<PayAuditResultDO> result = auditRepo.queryAuditProgress(queryDO);
 		if(result == null){
 			log.error("auditRepo.queryAuditProgress return value is null !returnValue : {}", JSON.toJSONString(result));
