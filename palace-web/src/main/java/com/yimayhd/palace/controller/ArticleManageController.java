@@ -56,6 +56,7 @@ public class ArticleManageController extends BaseController {
 			model.addAttribute("articleStautsList", ArticleStatus.values());
 			return "/system/article/articleList";
 		} catch (Exception e) {
+			log.error("/system/article/articleList error", e);
 			e.printStackTrace();
 		}
 		return "/system/article/articleList";
@@ -91,7 +92,7 @@ public class ArticleManageController extends BaseController {
 		if (result.isSuccess()) {
 			return "/success";
 		} else {
-			throw new BaseException(result.getResultMsg());
+			throw new BaseException(result.getMsg());
 		}
 	}
 
@@ -157,7 +158,7 @@ public class ArticleManageController extends BaseController {
 		if (result.isSuccess()) {
 			return "/success";
 		} else {
-			throw new BaseException(result.getResultMsg());
+			throw new BaseException(result.getMsg());
 		}
 	}
 
@@ -176,7 +177,7 @@ public class ArticleManageController extends BaseController {
 			responseVo.setMessage("文章下架成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
 		} else {
-			responseVo.setMessage(result.getResultMsg());
+			responseVo.setMessage(result.getMsg());
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 
@@ -198,8 +199,8 @@ public class ArticleManageController extends BaseController {
 			responseVo.setMessage("文章上架成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
 		} else {
-			responseVo.setMessage(result.getResultMsg());
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+			responseVo.setMessage(result.getMsg());
 		}
 
 		return responseVo;
@@ -220,7 +221,7 @@ public class ArticleManageController extends BaseController {
 			responseVo.setMessage("添加成功！");
 			responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
 		} else {
-			responseVo.setMessage(result.getResultMsg());
+			responseVo.setMessage(result.getMsg());
 			responseVo.setStatus(ResponseStatus.ERROR.VALUE);
 		}
 
