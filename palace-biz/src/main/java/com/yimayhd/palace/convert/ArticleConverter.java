@@ -29,6 +29,7 @@ import com.yimayhd.resourcecenter.dto.ArticleExpertManItemDTO;
 import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
 import com.yimayhd.resourcecenter.dto.ArticleProductItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.UserDTO;
 
@@ -66,6 +67,7 @@ public class ArticleConverter {
 		articleDO.setPv(articleVO.getPv());
 		articleDO.setSubTitle(articleVO.getSubTitle());
 		articleDO.setType(articleVO.getType());
+		articleDO.setStatus(articleVO.getStatus());
 		articleDO.setGmtCreated(new Date());
 		if (articleVO.getId() != null) {
 			articleDO.setId(articleVO.getId());
