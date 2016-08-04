@@ -74,7 +74,11 @@
 					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
-						<td>$utilDate.dateToString(${item.transTime},'yyyy-MM-dd')</td>
+						<td>
+							#if("$!{item.transTime}" != "")
+								$utilDate.dateToString(${item.transTime},'yyyy-MM-dd')	
+							#end
+						</td>
 						<td>$!item.transSn</td>
 						<td>#TRANS_TYPE($!{item.transType})</td>
 						<td>$!item.transAmountYuan</td>
