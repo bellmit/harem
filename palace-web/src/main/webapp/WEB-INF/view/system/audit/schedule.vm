@@ -76,12 +76,11 @@
 	
 	//对账日期默认为前一天
 	function setAuditPreDate(){
-		var dd = new Date(); 
-		dd.setDate(dd.getDate()-1); 
-		var y = dd.getFullYear(); 
-		var m = dd.getMonth()+1; 
-		var d = dd.getDate(); 
-		$("#auditDate").val(y +"-"+ m +"-" + d);
+		var today=new Date();
+	    var yesterdayMilliseconds=today.getTime()-1000*60*60*24;  
+	    var yesterday=new   Date();      
+	    yesterday.setTime(yesterdayMilliseconds);    
+	    $("#auditDate").val(yesterday.format("yyyy-MM-dd"));
 	}
 	
 	(function(){
@@ -99,11 +98,9 @@
         });
         
         $('.reset').click(function(){
-        
            $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
            setAuditPreDate();
         });
-        
         	
         if(!$("#auditDate").val()){
         	setAuditPreDate();
