@@ -59,8 +59,8 @@
 								<div class="imgwait"></div>
 								<div class="imgdelbtn">删除图片</div>
 								<a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
-								<input type="hidden" name="picVal" value="$!{topic.pics}"/>
 							</div>
+							<input type="hidden" name="picVal" class="picVal" value="$!{topic.pics}"/>
 						</div>
 					</td>
 				</tr>
