@@ -32,7 +32,7 @@
 					#foreach($sugTopic in $pageVo.itemList)
 						<tr>
 							<td>$!velocityCount</td>
-							<td>$!sugTopic.title</td>
+							<td>$sugTopic.title.replaceAll(" ","&nbsp;")</td>
 							<td>$utilDate.dateToString(${sugTopic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
 							<td>$!sugTopic.talkNum</td>
 							<td>$!sugTopic.readNum</td>
