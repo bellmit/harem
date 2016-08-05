@@ -1,0 +1,36 @@
+<div class="tab-content grogInfoWrap adjustFee">
+    <div class="tab-pane active" id="orderInfo adjustFee">
+        <div class="tableGroup whole adjustFee ">
+            <table class="table table-hover adjustFee">
+                <tbody>
+                <tr>
+                    <th>时间</th>
+                    <th>调整前价格</th>
+                    <th>调整后价格</th>
+                    <th>备注</th>
+                    <th>操作员</th>
+                </tr>
+                    #foreach($fee in $order.listAdjustFeeVO)
+                        <tr>
+                            <td  align="left">
+                                $!fee.adjustDate
+                            </td>
+                            <td  align="left">
+                                $!utilNum.moneyTransform($!fee.oldPrice)
+                            </td>
+                            <td  align="left">
+                                $!utilNum.moneyTransform($!fee.newPrice)
+                            </td>
+                            <td  align="left">
+                                $!fee.remark
+                            </td>
+                            <td  align="left">
+                                $!fee.adjustUserName
+                            </td>
+                        </tr>
+                    #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
