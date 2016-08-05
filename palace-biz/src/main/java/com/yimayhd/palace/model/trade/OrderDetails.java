@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model.trade;
 
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
+import com.yimayhd.palace.model.vo.AdjustFeeVO;
 import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
@@ -47,6 +48,35 @@ public class OrderDetails {
     private PromotionInfo orderPromotionInfo;
 
     private String promotionInfoDesc;
+
+    //订单改价
+    private List<AdjustFeeVO> listAdjustFeeVO;
+    private long oldFee;//原订单价格
+    private boolean hasAdjustFee;
+
+    public long getOldFee() {
+        return oldFee;
+    }
+
+    public void setOldFee(long oldFee) {
+        this.oldFee = oldFee;
+    }
+
+    public boolean isHasAdjustFee() {
+        return hasAdjustFee;
+    }
+
+    public void setHasAdjustFee(boolean hasAdjustFee) {
+        this.hasAdjustFee = hasAdjustFee;
+    }
+
+    public List<AdjustFeeVO> getListAdjustFeeVO() {
+        return listAdjustFeeVO;
+    }
+
+    public void setListAdjustFeeVO(List<AdjustFeeVO> listAdjustFeeVO) {
+        this.listAdjustFeeVO = listAdjustFeeVO;
+    }
 
     public long getOrderPromotionFee() {
         return orderPromotionFee;

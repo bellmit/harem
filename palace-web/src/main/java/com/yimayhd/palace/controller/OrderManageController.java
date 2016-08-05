@@ -13,10 +13,13 @@ import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.service.LogisticsService;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.param.order.AdjustFeeDTO;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -369,6 +372,53 @@ public class OrderManageController extends BaseController {
 		sg.setExpressNo(expressNo);
 		boolean flag = orderService.sellerSendGoods(sg);
 		return new ResponseVo(flag);
+	}
+
+
+	@RequestMapping(value = "/gfAdjustFee", method = RequestMethod.GET)
+	public String toGfAdjustFee(Model model,long bizOrderId,String oldPrice){
+		model.addAttribute("bizOrderId",bizOrderId);
+		model.addAttribute("oldPrice",oldPrice);
+		return "/system/order/gf/gfAdjustFee";
+	}
+
+	@RequestMapping(value = "/gfAdjustFee", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo gfAdjustFee(long bizOrderId,String oldPrice,String newPrice,String remark){
+		try {
+			long userId = sessionManager.getUserId();
+			if(0 == userId ){
+                return new ResponseVo(ResponseStatus.UNAUTHORIZED);
+            }
+			if(0==bizOrderId || (StringUtils.isEmpty(oldPrice)) || (StringUtils.isEmpty(newPrice))){//|| (!NumberUtils.isNumber(newPrice))
+                return new ResponseVo(ResponseStatus.INVALID_DATA);
+            }
+			if(StringUtils.isEmpty(remark) || lessPoints(newPrice)){
+				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"操作金额不能小于分");
+			}
+			StringBuilder sb = new StringBuilder();
+			sb.append("userId=").append(userId).append(",bizOrderId=").append(bizOrderId).append(",oldPrice=").append(oldPrice).append(",newPrice=").append(newPrice).append(",remark=").append(remark);
+			LOG.info(sb.toString());
+			AdjustFeeDTO sg = new AdjustFeeDTO();
+			sg.setBizOrderId(bizOrderId);
+			sg.setUpdateFee(NumUtil.moneyTransformString(newPrice));
+			sg.setRemark(remark);
+			sg.setUserId(userId);
+			boolean flag = orderService.adjustFee(sg);
+			return new ResponseVo(flag);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return new ResponseVo(false);
+		}
+	}
+
+	public boolean  lessPoints(String str){
+		int index = str.lastIndexOf(".");
+		if(index > -1) {
+			int len = str.substring(index + 1).length();
+			return (len>2)?true:false;
+		}
+		return false;
 	}
 
 }
