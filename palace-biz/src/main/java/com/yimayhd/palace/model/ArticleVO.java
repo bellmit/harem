@@ -84,7 +84,8 @@ public class ArticleVO implements Serializable {
 		this.frontcover = frontcover;
 	}
 
-	public int getStatus() {
+
+	public Integer getStatus() {
 		return status;
 	}
 
