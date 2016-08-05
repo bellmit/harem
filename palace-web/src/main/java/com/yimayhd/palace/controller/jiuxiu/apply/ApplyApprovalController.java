@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller.jiuxiu.apply;
 
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.*;
@@ -38,6 +39,7 @@ import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.CategoryService;
+import com.yimayhd.pay.client.model.result.ResultSupport;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.query.MerchantQuery;
@@ -600,6 +602,13 @@ public class ApplyApprovalController extends BaseController {
 				bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
 	            return bizResultSupport;
 			}
+		}
+        //验证银行账户
+        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
+        if (checkResult == null || !checkResult.isSuccess()) {
+			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
+			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+			return bizResultSupport;
 		}
         String[] array = allocationVO.getCategoryIds().split(",");
         long[] categoryIds = new long[array.length];
