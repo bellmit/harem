@@ -103,7 +103,7 @@
 							#end
 							$!velocityCount
 						</td>
-						<td>$!topic.title</td>
+						<td>$topic.title.replaceAll(" ","&nbsp;")</td>
 						<td>$!topic.content</td>
 						<td>$utilDate.dateToString(${topic.gmtCreated},'yyyy-MM-dd HH:mm:ss')</td>
 						<td>$!topic.talkNum</td>

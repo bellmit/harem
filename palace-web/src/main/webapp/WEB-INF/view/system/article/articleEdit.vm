@@ -119,7 +119,11 @@
 											<p class="itemleft">
 												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
 												<span class="itemshop">
+													#if($articleItem.articleProductItemVO.merchantLogo)
 													<img class="icon-shop" src="$utilWebconfig.getTfsRootPath()$!articleItem.articleProductItemVO.merchantLogo">
+													#else
+													<img class="icon-shop" src="$!rs_path_jiuxiu/img/ic_shop_default_logo.png">
+													#end
 													<label class="shoptitle">$!articleItem.articleProductItemVO.merchantName</label>
 												</span>
 											</p>
@@ -180,6 +184,7 @@
 							</div>
 							
 							<input type="hidden" id="articleItems" name="articleItems">
+							<input type="hidden" id="status" name="status" value="$!article.status">
 							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
 							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
 						</div>
