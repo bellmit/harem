@@ -182,6 +182,10 @@
                         <table class="table table-inner">
                             <tbody>
                             <tr>
+                                <td><span class="red">*</span>账户类型：</td>
+                                <td><span class="inputval">#if($!examineInfo.accountType == 1)对私账户 #elseif($!examineInfo.accountType == 1)对公账户 #end</span></td>
+                            </tr>
+                            <tr>
                                 <td><span class="red">*</span>开户银行：</td>
                                 <td><span class="inputval">$!examineInfo.financeOpenBankName</span></td>
                             </tr>
@@ -189,6 +193,22 @@
                                 <td><span class="red">*</span>开户名称：</td>
                                 <td><span class="inputval">$!examineInfo.financeOpenName</span></td>
                             </tr>
+                            #if($!examineInfo.accountType == 1)
+                            <tr>
+                                <td><span class="red">*</span>开户人身份证：</td>
+                                <td><span class="inputval">$!examineInfo.openerCard</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="red">*</span>开户人手机号：</td>
+                                <td><span class="inputval">$!examineInfo.openerTel</span></td>
+                            </tr>
+                            #end
+                            #if($!examineInfo.accountType == 2)
+                            <tr>
+                                <td><span class="red">*</span>结算联行号：</td>
+                                <td><span class="inputval">$!examineInfo.settlementCard</span></td>
+                            </tr>
+                            #end
                             <tr>
                                 <td><span class="red">*</span>结算账号：</td>
                                 <td><span class="inputval">$!examineInfo.accountNum</span></td>
