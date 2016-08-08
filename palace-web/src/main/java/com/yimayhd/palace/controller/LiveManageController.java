@@ -6,11 +6,13 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.enums.BizLiveStatus;
 import com.yimayhd.palace.model.SnsSubjectVO;
 import com.yimayhd.palace.model.SubjectInfoAddVO;
 import com.yimayhd.palace.model.query.LiveListQuery;
 import com.yimayhd.palace.repo.TagRepo;
 import com.yimayhd.palace.service.LiveService;
+import com.yimayhd.snscenter.client.enums.BaseStatus;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +47,10 @@ public class LiveManageController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, LiveListQuery liveListQuery) throws Exception {
         PageVO<SnsSubjectVO> pageVO = liveService.getList(liveListQuery);
+        BizLiveStatus[] liveStatus = BizLiveStatus.values();
         model.addAttribute("pageVo", pageVO);
         model.addAttribute("liveListQuery", liveListQuery);
+        model.addAttribute("liveStatusList", liveStatus);
         model.addAttribute("liveList", pageVO.getItemList());
         return "/system/live/list";
     }

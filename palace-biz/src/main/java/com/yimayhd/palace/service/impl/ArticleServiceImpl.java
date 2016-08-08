@@ -151,6 +151,7 @@ public class ArticleServiceImpl implements ArticleService {
 			if (userDTO != null) {
 				ArticleExpertManItemVO articleExpertManItemVO = ArticleConverter.getArticleExpertManItemVO(userDTO);
 				articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
+				articleItemVO.setSubType((int) userDTO.getOptions());
 			} else {
 				return null;
 			}
