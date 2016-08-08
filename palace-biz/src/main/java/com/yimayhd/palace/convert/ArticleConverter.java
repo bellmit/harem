@@ -19,6 +19,7 @@ import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleExpertManItemVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
+import com.yimayhd.palace.model.ArticleResourceItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.util.RegExpValidator;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
@@ -29,6 +30,7 @@ import com.yimayhd.resourcecenter.dto.ArticleExpertManItemDTO;
 import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
 import com.yimayhd.resourcecenter.dto.ArticleProductItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.UserDTO;
 
@@ -157,6 +159,9 @@ public class ArticleConverter {
 	 * @return
 	 */
 	public static ArticleExpertManItemVO getArticleExpertManItemVO(UserDTO userDTO) {
+		if (userDTO == null) {
+			return null;
+		}
 		ArticleExpertManItemVO articleExpertManItemVO = new ArticleExpertManItemVO();
 		articleExpertManItemVO.setHeadPic(userDTO.getAvatar());
 		articleExpertManItemVO.setNickName(userDTO.getNickname());
@@ -248,5 +253,18 @@ public class ArticleConverter {
 		// BeanUtils.copyProperties(articleProductItemDTO,
 		// articleProductItemVO);
 		return articleProductItemVO;
+	}
+
+	public static ArticleResourceItemVO getArticleResourceItemVO(SolrHotelDO hotelDO) {
+		if (hotelDO == null) {
+			return null;
+		}
+		ArticleResourceItemVO articleResourceItemVO = new ArticleResourceItemVO();
+		articleResourceItemVO.setResourceName(hotelDO.getHotelName());
+		articleResourceItemVO.setResourcePic(hotelDO.getIcon());
+		articleResourceItemVO.setResourcePrice(hotelDO.getPrice());
+		articleResourceItemVO.setResourceType("1");
+		articleResourceItemVO.setResourceCity(hotelDO.getCityName());
+		return articleResourceItemVO;
 	}
 }

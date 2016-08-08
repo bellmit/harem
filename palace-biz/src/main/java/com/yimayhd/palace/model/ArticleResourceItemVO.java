@@ -1,7 +1,6 @@
 package com.yimayhd.palace.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 达人故事资源项
@@ -30,7 +29,7 @@ public class ArticleResourceItemVO implements Serializable {
 	/**
 	 * 资源所在地区
 	 */
-	private List<String> resourceCity;
+	private String resourceCity;
 	/**
 	 * 最低价
 	 */
@@ -52,11 +51,12 @@ public class ArticleResourceItemVO implements Serializable {
 		this.resourceName = resourceName;
 	}
 
-	public List<String> getResourceCity() {
+
+	public String getResourceCity() {
 		return resourceCity;
 	}
 
-	public void setResourceCity(List<String> resourceCity) {
+	public void setResourceCity(String resourceCity) {
 		this.resourceCity = resourceCity;
 	}
 

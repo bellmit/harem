@@ -19,6 +19,7 @@ import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleExpertManItemVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
+import com.yimayhd.palace.model.ArticleResourceItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.repo.ArticleRepo;
@@ -33,6 +34,7 @@ import com.yimayhd.resourcecenter.model.enums.ArticleType;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
+import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
 import com.yimayhd.user.client.dto.UserDTO;
 
 public class ArticleServiceImpl implements ArticleService {
@@ -138,35 +140,35 @@ public class ArticleServiceImpl implements ArticleService {
 		switch (ArticleItemType.getByType(type)) {
 		case PRODUCT:
 			ItemDO itemDO = articleBiz.getItemById(id);
-			if (itemDO != null) {
-				ArticleProductItemVO articleProductItemVO = articleBiz.getArticleProductItemVO(itemDO);
+
+			ArticleProductItemVO articleProductItemVO = articleBiz.getArticleProductItemVO(itemDO);
+			if (articleProductItemVO != null) {
 				articleItemVO.setSubType(itemDO.getItemType());
 				articleItemVO.setArticleProductItemVO(articleProductItemVO);
-			} else {
-				return null;
 			}
 			break;
 		case EXPERTMAN:
 			UserDTO userDTO = articleBiz.queryTalentInfo(id);
-			if (userDTO != null) {
-				ArticleExpertManItemVO articleExpertManItemVO = ArticleConverter.getArticleExpertManItemVO(userDTO);
+			ArticleExpertManItemVO articleExpertManItemVO = ArticleConverter.getArticleExpertManItemVO(userDTO);
+			if (articleExpertManItemVO != null) {
 				articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
 				articleItemVO.setSubType((int) userDTO.getOptions());
-			} else {
-				return null;
 			}
 			break;
 		case CONSULTSERVICE:
 			itemDO = articleBiz.getItemById(id);
-			if (itemDO != null) {
-				ArticleConsultServiceItemVO articleConsultServiceItemVO = articleBiz.getArticleConsultServiceItemVO(itemDO);
+			ArticleConsultServiceItemVO articleConsultServiceItemVO = articleBiz.getArticleConsultServiceItemVO(itemDO);
+			if (articleConsultServiceItemVO != null) {
 				articleItemVO.setSubType(itemDO.getItemType());
 				articleItemVO.setArticleConsultServiceItemVO(articleConsultServiceItemVO);
-			} else {
-				return null;
 			}
 			break;
 		case RESOURCE:
+			SolrHotelDO hotelDO = articleBiz.getResourceById(id);
+			ArticleResourceItemVO articleResourceItemVO = ArticleConverter.getArticleResourceItemVO(hotelDO);
+			if (articleResourceItemVO != null) {
+				articleItemVO.setArticleResourceItemVO(articleResourceItemVO);
+			}
 			break;
 		default:
 			break;
