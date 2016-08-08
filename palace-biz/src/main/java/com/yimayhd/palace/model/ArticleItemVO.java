@@ -43,6 +43,11 @@ public class ArticleItemVO implements Serializable {
 	 * 达人项
 	 */
 	private ArticleExpertManItemVO articleExpertManItemVO;
+	
+	/**
+	 * 资源项
+	 */
+	private ArticleResourceItemVO articleResourceItemVO;
 
 	public long getId() {
 		return id;
@@ -146,6 +151,14 @@ public class ArticleItemVO implements Serializable {
 
 	public void setArticleExpertManItemVO(ArticleExpertManItemVO articleExpertManItemVO) {
 		this.articleExpertManItemVO = articleExpertManItemVO;
+	}
+
+	public ArticleResourceItemVO getArticleResourceItemVO() {
+		return articleResourceItemVO;
+	}
+
+	public void setArticleResourceItemVO(ArticleResourceItemVO articleResourceItemVO) {
+		this.articleResourceItemVO = articleResourceItemVO;
 	}
 
 }

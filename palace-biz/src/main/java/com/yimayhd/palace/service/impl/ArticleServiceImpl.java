@@ -165,6 +165,8 @@ public class ArticleServiceImpl implements ArticleService {
 				return null;
 			}
 			break;
+		case RESOURCE:
+			break;
 		default:
 			break;
 		}
