@@ -21,16 +21,16 @@ public class ResponseVo implements Serializable {
 	}
 
 	public ResponseVo(Object data) {
-		/*if(null != data && data instanceof Boolean){
+		this.status = DEFAULT_STATUS.VALUE;
+		this.data = data;
+		this.message = DEFAULT_STATUS.MESSAGE;
+		if(null != data && data instanceof Boolean){
 			if((boolean)data){
 				this.status = DEFAULT_STATUS.VALUE;
 			}else{
 				this.status = UNSUCCESSFUL.VALUE;
 			}
-		}*/
-		this.status = DEFAULT_STATUS.VALUE;
-		this.data = data;
-		this.message = DEFAULT_STATUS.MESSAGE;
+		}
 	}
 
 	public ResponseVo(ResponseStatus responseStatus) {
