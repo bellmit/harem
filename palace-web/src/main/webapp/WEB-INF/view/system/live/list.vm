@@ -77,19 +77,19 @@
                         <td>$!live.userDO.nickname</td>
                         <td>$!live.userDO.mobileNo</td>
                         <td style="word-break: break-all;min-width: 40px;max-width: 349px;padding: 4px 4px !important;">$!esc.html($!live.textContent)</td>
-                        <th> 
+                        <td> 
 							#foreach($title in $live.topicTitleList)
 								$!title
 							#end
-						</th>
-                        <th>$!live.supportNum</th>
-                        <th>$!live.commentNum</th>
+						</td>
+                        <td>$!live.supportNum</td>
+                        <td>$!live.commentNum</td>
                         <td>$!utilText.getLiveStatus($!live.status)</td>
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
                             <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>
                             <button type="button" class="btn btn-primary livePicListBtn"  picListStr='$!live.picListStr' >图片</button>
-                            <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status">#TREND_STATUS($!live.status)</button>
+                            <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status" #if($live.status == 3) disabled #end>#TREND_STATUS($!live.status)</button>
                         </td>
                     </tr>
                     #end
