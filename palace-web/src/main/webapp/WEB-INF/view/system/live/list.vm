@@ -84,7 +84,7 @@
 						</th>
                         <th>$!live.supportNum</th>
                         <th>$!live.commentNum</th>
-                        <td>#TREND_STATUS($!live.status)</td>
+                        <td>$!utilText.getLiveStatus($!live.status)</td>
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
                             <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>

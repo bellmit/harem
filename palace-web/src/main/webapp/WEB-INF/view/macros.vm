@@ -74,7 +74,7 @@
     #elseif($type == '2')
     违规
     #elseif($type == '3')
-    用户已删除
+    正常
     #end
 #end
 #*官方游记状态*#
