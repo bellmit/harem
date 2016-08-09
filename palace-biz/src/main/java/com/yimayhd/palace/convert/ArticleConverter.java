@@ -263,7 +263,6 @@ public class ArticleConverter {
 		articleResourceItemVO.setResourceName(hotelDO.getHotelName());
 		articleResourceItemVO.setResourcePic(hotelDO.getIcon());
 		articleResourceItemVO.setResourcePrice(hotelDO.getPrice());
-		articleResourceItemVO.setResourceType("1");
 		articleResourceItemVO.setTradeArea(hotelDO.getTradeArea());
 		return articleResourceItemVO;
 	}

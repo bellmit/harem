@@ -23,10 +23,6 @@ public class ArticleResourceItemVO implements Serializable {
 	 */
 	private String resourceName;
 	/**
-	 * 资源类型
-	 */
-	private String resourceType;
-	/**
 	 * 资源所在地区
 	 */
 	private String tradeArea;
@@ -57,14 +53,6 @@ public class ArticleResourceItemVO implements Serializable {
 
 	public void setResourcePrice(long resourcePrice) {
 		this.resourcePrice = resourcePrice;
-	}
-
-	public String getResourceType() {
-		return resourceType;
-	}
-
-	public void setResourceType(String resourceType) {
-		this.resourceType = resourceType;
 	}
 
 	public String getTradeArea() {
