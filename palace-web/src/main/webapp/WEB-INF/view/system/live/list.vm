@@ -137,7 +137,7 @@
                 var url = '';
                 if($(this).attr('status') == 1){//状态1是正长状态，操作是改为违规
                     url = actionDefaultPath + '/B2C/liveManage/violation/' + $(this).attr('liveId');
-                }else{
+                }if($(this).attr('status') == 2){//状态2是违规状态，操作是改为正常
                     url = actionDefaultPath + '/B2C/liveManage/regain/' + $(this).attr('liveId');
                 }
                 $.post(url ,function(data){
