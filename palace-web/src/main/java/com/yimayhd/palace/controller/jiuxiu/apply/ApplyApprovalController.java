@@ -604,12 +604,12 @@ public class ApplyApprovalController extends BaseController {
 			}
 		}
         //验证银行账户
-        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
-        if (checkResult == null || !checkResult.isSuccess()) {
-			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
-			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
-			return bizResultSupport;
-		}
+//        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
+//        if (checkResult == null || !checkResult.isSuccess()) {
+//			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
+//			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+//			return bizResultSupport;
+//		}
         String[] array = allocationVO.getCategoryIds().split(",");
         long[] categoryIds = new long[array.length];
         for (int i = 0; i < array.length; i++) {
