@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller.jiuxiu.apply;
 
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.*;
@@ -38,6 +39,7 @@ import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.CategoryService;
+import com.yimayhd.pay.client.model.result.ResultSupport;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.query.MerchantQuery;
@@ -50,6 +52,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -583,10 +586,30 @@ public class ApplyApprovalController extends BaseController {
         merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
         merchantQuery.setName(merchantName);
         BaseResult<List<MerchantDO>> merchantDOs = merchantService.getMerchantList(merchantQuery);
-        if (!merchantDOs.isSuccess() || !merchantDOs.getValue().isEmpty()) {
-            bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
+        if (!merchantDOs.isSuccess() ) {
+            bizResultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
             return bizResultSupport;
         }
+        if (!CollectionUtils.isEmpty(merchantDOs.getValue())) {
+        	int count = 0;
+			for (MerchantDO merchant : merchantDOs.getValue()) {
+				if (merchant.getSellerId() == examineInfoDTOResult.getValue().getSellerId() ) {
+					count ++ ;
+					break;
+				}
+			}
+			if (count == 0) {
+				bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
+	            return bizResultSupport;
+			}
+		}
+        //验证银行账户
+        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
+        if (checkResult == null || !checkResult.isSuccess()) {
+			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
+			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+			return bizResultSupport;
+		}
         String[] array = allocationVO.getCategoryIds().split(",");
         long[] categoryIds = new long[array.length];
         for (int i = 0; i < array.length; i++) {
