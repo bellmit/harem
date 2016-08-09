@@ -28,9 +28,9 @@
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
 				<select class="form-control" name="liveStatus">
-					<option value="0" #if(!$query.status) selected #end>请选择</option>
+					<option value="0" #if($!liveListQuery.liveStatus) selected #end>请选择</option>
 					#foreach($liveStatus in $liveStatusList)
-					<option value="$!{liveStatus.value}" #if($query.status == $liveStatus.value) selected #end >${liveStatus.text}</option>
+					<option value="$!{liveStatus.value}" #if($!liveListQuery.liveStatus == $liveStatus.value) selected #end >${liveStatus.text}</option>
 					#end
 				</select>
             </div>
