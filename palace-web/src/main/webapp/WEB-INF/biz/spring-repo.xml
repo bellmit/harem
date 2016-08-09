@@ -37,5 +37,6 @@
 	
 	<bean id="articleRepo" class="com.yimayhd.palace.repo.ArticleRepo" />
 	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
+	<bean id="solrsearchRepo" class="com.yimayhd.palace.repo.SolrsearchRepo" />
 
 </beans>

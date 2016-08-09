@@ -1,8 +1,10 @@
 package com.yimayhd.palace.biz;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.solrsearch.client.constant.HotelConstant;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.DestinationRepo;
 import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.MerchantRepo;
+import com.yimayhd.palace.repo.SolrsearchRepo;
 import com.yimayhd.palace.repo.user.TalentRepo;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
@@ -29,6 +32,9 @@ import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.resourcecenter.model.enums.DestinationUseType;
 import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.solrsearch.client.base.SolrsearchPageResult;
+import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
+import com.yimayhd.solrsearch.client.domain.query.SolrsearchDTO;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.TalentDTO;
 import com.yimayhd.user.client.dto.UserDTO;
@@ -59,6 +65,8 @@ public class ArticleBiz {
 	private DestinationRepo destinationRepo;
 	@Autowired
 	private CommentRepo commentRepo;
+	@Autowired
+	private SolrsearchRepo solrsearchRepo;
 
 	public ArticleProductItemVO getArticleProductItemVO(ItemDO itemDO) {
 		if (itemDO == null) {
@@ -106,6 +114,9 @@ public class ArticleBiz {
 	 * @return
 	 */
 	public ArticleConsultServiceItemVO getArticleConsultServiceItemVO(ItemDO itemDO) {
+		if (itemDO == null) {
+			return null;
+		}
 		ArticleConsultServiceItemVO articleConsultServiceItemVO = new ArticleConsultServiceItemVO();
 		if (PicUrlsUtil.getItemMainPics(itemDO) != null) {
 			articleConsultServiceItemVO.setServiceHeadPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
@@ -162,6 +173,23 @@ public class ArticleBiz {
 			}
 		}
 		return citys;
+	}
+
+	public SolrHotelDO getResourceById(long id) {
+		SolrsearchDTO solrsearchDTO = new SolrsearchDTO();
+		List<Long> ids=new ArrayList<Long>();
+		ids.add(id);
+		solrsearchDTO.setIds(ids);
+		solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		solrsearchDTO.setBeginDay(new Date());
+		solrsearchDTO.setEndDay(new Date());
+		solrsearchDTO.setHotelType(HotelConstant.HOTEL_JD);
+		SolrsearchPageResult<SolrHotelDO> result = solrsearchRepo.queryHotelListByPage(solrsearchDTO);
+		if (result == null || CollectionUtils.isEmpty(result.getList())) {
+			return null;
+		}
+		List<SolrHotelDO> list = result.getList();
+		return list.get(0);
 	}
 
 }

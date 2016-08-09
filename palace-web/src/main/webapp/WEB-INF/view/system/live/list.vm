@@ -27,11 +27,12 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-                <select class="form-control" name="liveStatus">
-                    <option value="0">请选择</option>
-                    <option value="1" #if($!liveListQuery.liveStatus == 1) selected #end>正常</option>
-                    <option value="2" #if($!liveListQuery.liveStatus == 2) selected #end>违规</option>
-                </select>
+				<select class="form-control" name="liveStatus">
+					<option value="0" #if($!liveListQuery.liveStatus) selected #end>请选择</option>
+					#foreach($liveStatus in $liveStatusList)
+					<option value="$!{liveStatus.value}" #if($!liveListQuery.liveStatus == $liveStatus.value) selected #end >${liveStatus.text}</option>
+					#end
+				</select>
             </div>
 
             <div class="input-group inpSingle">
@@ -83,12 +84,12 @@
 						</th>
                         <th>$!live.supportNum</th>
                         <th>$!live.commentNum</th>
-                        <td>#TREND_STATUS($!live.status)</td>
+                        <td>$!utilText.getLiveStatus($!live.status)</td>
                         <td>$!utilDate.dateToString($!live.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
                         <td>
                             <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>
                             <button type="button" class="btn btn-primary livePicListBtn"  picListStr='$!live.picListStr' >图片</button>
-                            <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status">#if($!live.status == 1) 违规 #else 恢复 #end </button>
+                            <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status">#TREND_STATUS($!live.status)</button>
                         </td>
                     </tr>
                     #end
@@ -136,7 +137,7 @@
                 var url = '';
                 if($(this).attr('status') == 1){//状态1是正长状态，操作是改为违规
                     url = actionDefaultPath + '/B2C/liveManage/violation/' + $(this).attr('liveId');
-                }else{
+                }if($(this).attr('status') == 2){//状态2是违规状态，操作是改为正常
                     url = actionDefaultPath + '/B2C/liveManage/regain/' + $(this).attr('liveId');
                 }
                 $.post(url ,function(data){
