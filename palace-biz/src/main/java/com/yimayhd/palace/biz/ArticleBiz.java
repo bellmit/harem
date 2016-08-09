@@ -43,153 +43,154 @@ import com.yimayhd.user.client.service.MerchantService;
 
 /**
  * 达人故事
- * 
- * @author xiemingna
  *
+ * @author xiemingna
  */
 public class ArticleBiz {
 
-	@Autowired
-	private ArticleService articleService;
-	@Autowired
-	private ItemQueryService itemQueryService;
-	@Autowired
-	private MerchantService merchantService;
-	@Autowired
-	private ItemRepo itemRepo;
-	@Autowired
-	private MerchantRepo merchantRepo;
-	@Autowired
-	private TalentRepo talentRepo;
-	@Autowired
-	private DestinationRepo destinationRepo;
-	@Autowired
-	private CommentRepo commentRepo;
-	@Autowired
-	private SolrsearchRepo solrsearchRepo;
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private ItemQueryService itemQueryService;
+    @Autowired
+    private MerchantService merchantService;
+    @Autowired
+    private ItemRepo itemRepo;
+    @Autowired
+    private MerchantRepo merchantRepo;
+    @Autowired
+    private TalentRepo talentRepo;
+    @Autowired
+    private DestinationRepo destinationRepo;
+    @Autowired
+    private CommentRepo commentRepo;
+    @Autowired
+    private SolrsearchRepo solrsearchRepo;
 
-	public ArticleProductItemVO getArticleProductItemVO(ItemDO itemDO) {
-		if (itemDO == null) {
-			return null;
-		}
-		long sellerId = itemDO.getSellerId();
-		BaseResult<MerchantDO> result = merchantRepo.getMerchantBySellerId(sellerId);
-		if (result == null || result.getValue() == null) {
-			return null;
-		}
-		MerchantDO merchantDO = result.getValue();
-		ArticleProductItemVO articleProductItemVO = ArticleConverter.ItemDOToArticleProductItemVO(itemDO, merchantDO);
-		return articleProductItemVO;
-	}
+    public ArticleProductItemVO getArticleProductItemVO(ItemDO itemDO) {
+        if (itemDO == null) {
+            return null;
+        }
+        long sellerId = itemDO.getSellerId();
+        BaseResult<MerchantDO> result = merchantRepo.getMerchantBySellerId(sellerId);
+        if (result == null || result.getValue() == null) {
+            return null;
+        }
+        MerchantDO merchantDO = result.getValue();
+        ArticleProductItemVO articleProductItemVO = ArticleConverter.ItemDOToArticleProductItemVO(itemDO, merchantDO);
+        return articleProductItemVO;
+    }
 
-	public ItemDO getItemById(long id) {
-		SingleItemQueryResult itemResult = itemRepo.querySingleItem(id);
-		if (itemResult == null || !itemResult.isSuccess()) {
-			return null;
-		}
-		ItemDO itemDO = itemResult.getItemDO();
-		return itemDO;
-	}
+    public ItemDO getItemById(long id) {
+        SingleItemQueryResult itemResult = itemRepo.querySingleItem(id);
+        if (itemResult == null || !itemResult.isSuccess()) {
+            return null;
+        }
+        ItemDO itemDO = itemResult.getItemDO();
+        return itemDO;
+    }
 
-	/**
-	 * 查询达人信息
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	public UserDTO queryTalentInfo(long userId) {
-		BaseResult<TalentDTO> result = talentRepo.queryTalentInfo(userId);
-		if (result == null || !result.isSuccess() || result.getValue() == null) {
-			return null;
-		}
-		TalentDTO talentDTO = result.getValue();
-		UserDTO userDTO = talentDTO.getUserDTO();
-		return userDTO;
-	}
+    /**
+     * 查询达人信息
+     *
+     * @param userId
+     * @return
+     */
+    public UserDTO queryTalentInfo(long userId) {
+        BaseResult<TalentDTO> result = talentRepo.queryTalentInfo(userId);
+        if (result == null || !result.isSuccess() || result.getValue() == null) {
+            return null;
+        }
+        TalentDTO talentDTO = result.getValue();
+        UserDTO userDTO = talentDTO.getUserDTO();
+        return userDTO;
+    }
 
-	/**
-	 * 封装咨询服务
-	 * 
-	 * @param itemDO
-	 * @return
-	 */
-	public ArticleConsultServiceItemVO getArticleConsultServiceItemVO(ItemDO itemDO) {
-		if (itemDO == null) {
-			return null;
-		}
-		ArticleConsultServiceItemVO articleConsultServiceItemVO = new ArticleConsultServiceItemVO();
-		if (PicUrlsUtil.getItemMainPics(itemDO) != null) {
-			articleConsultServiceItemVO.setServiceHeadPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
-		}
-		articleConsultServiceItemVO.setServiceCurrentPrice(itemDO.getPrice());
-		articleConsultServiceItemVO.setServiceOriginalPrice(itemDO.getOriginalPrice());
-		articleConsultServiceItemVO.setServiceName(itemDO.getTitle());
-		List<String> citys = getCityNameList(itemDO);
-		articleConsultServiceItemVO.setServiceCity(citys);
-		ItemFeature itemFeature = itemDO.getItemFeature();
-		if (itemFeature != null) {
-			articleConsultServiceItemVO.setConsultTime(itemFeature.getConsultTime());
-		}
-		return articleConsultServiceItemVO;
+    /**
+     * 封装咨询服务
+     *
+     * @param itemDO
+     * @return
+     */
+    public ArticleConsultServiceItemVO getArticleConsultServiceItemVO(ItemDO itemDO) {
+        if (itemDO == null) {
+            return null;
+        }
+        ArticleConsultServiceItemVO articleConsultServiceItemVO = new ArticleConsultServiceItemVO();
+        if (PicUrlsUtil.getItemMainPics(itemDO) != null) {
+            articleConsultServiceItemVO.setServiceHeadPic(PicUrlsUtil.getItemMainPics(itemDO).get(0));
+        }
+        articleConsultServiceItemVO.setServiceCurrentPrice(itemDO.getPrice());
+        articleConsultServiceItemVO.setServiceOriginalPrice(itemDO.getOriginalPrice());
+        articleConsultServiceItemVO.setServiceName(itemDO.getTitle());
+        List<String> citys = getCityNameList(itemDO);
+        articleConsultServiceItemVO.setServiceCity(citys);
+        ItemFeature itemFeature = itemDO.getItemFeature();
+        if (itemFeature != null) {
+            articleConsultServiceItemVO.setConsultTime(itemFeature.getConsultTime());
+        }
+        return articleConsultServiceItemVO;
 
-	}
+    }
 
-	/**
-	 * 获得城市列表
-	 * 
-	 * @param itemDO
-	 * @return
-	 */
-	private List<String> getCityNameList(ItemDO itemDO) {
-		if (itemDO == null) {
-			return null;
-		}
-		List<ComTagDO> comTagDOs = commentRepo.getTagsByOutId(itemDO.getId(), TagType.DESTPLACE);
-		if (CollectionUtils.isEmpty(comTagDOs)) {
-			return null;
-		}
-		ArrayList<Integer> cityCodeList = new ArrayList<Integer>();
-		for (ComTagDO comTagDO : comTagDOs) {
-			String code = comTagDO.getName();
-			if (StringUtils.isNumeric(code)) {
-				int parseInt = Integer.parseInt(code);
-				cityCodeList.add(parseInt);
-			}
-		}
-		ArrayList<String> citys = new ArrayList<String>();
-		DestinationQueryDTO destinationQueryDTO = new DestinationQueryDTO();
-		destinationQueryDTO.setDomain(Constant.DOMAIN_JIUXIU);
-		destinationQueryDTO.setCodeList(cityCodeList);
-		destinationQueryDTO.setOutType(DestinationOutType.SERVICE.getCode());
-		destinationQueryDTO.setUseType(DestinationUseType.APP_SHOW.getCode());
-		RcResult<List<DestinationDO>> result = destinationRepo.queryDestinationList(destinationQueryDTO);
-		if (result == null || !result.isSuccess() || CollectionUtils.isEmpty(result.getT())) {
-			return null;
-		}
-		List<DestinationDO> destinationDOs = result.getT();
-		if (CollectionUtils.isNotEmpty(destinationDOs)) {
-			for (DestinationDO destinationDO : destinationDOs) {
-				citys.add(destinationDO.getName());
-			}
-		}
-		return citys;
-	}
+    /**
+     * 获得城市列表
+     *
+     * @param itemDO
+     * @return
+     */
+    private List<String> getCityNameList(ItemDO itemDO) {
+        if (itemDO == null) {
+            return null;
+        }
+        List<ComTagDO> comTagDOs = commentRepo.getTagsByOutId(itemDO.getId(), TagType.DESTPLACE);
+        if (CollectionUtils.isEmpty(comTagDOs)) {
+            return null;
+        }
+        ArrayList<Integer> cityCodeList = new ArrayList<Integer>();
+        for (ComTagDO comTagDO : comTagDOs) {
+            String code = comTagDO.getName();
+            if (StringUtils.isNumeric(code)) {
+                int parseInt = Integer.parseInt(code);
+                cityCodeList.add(parseInt);
+            }
+        }
+        ArrayList<String> citys = new ArrayList<String>();
+        DestinationQueryDTO destinationQueryDTO = new DestinationQueryDTO();
+        destinationQueryDTO.setDomain(Constant.DOMAIN_JIUXIU);
+        destinationQueryDTO.setCodeList(cityCodeList);
+        destinationQueryDTO.setOutType(DestinationOutType.SERVICE.getCode());
+        destinationQueryDTO.setUseType(DestinationUseType.APP_SHOW.getCode());
+        RcResult<List<DestinationDO>> result = destinationRepo.queryDestinationList(destinationQueryDTO);
+        if (result == null || !result.isSuccess() || CollectionUtils.isEmpty(result.getT())) {
+            return null;
+        }
+        List<DestinationDO> destinationDOs = result.getT();
+        if (CollectionUtils.isNotEmpty(destinationDOs)) {
+            for (DestinationDO destinationDO : destinationDOs) {
+                citys.add(destinationDO.getName());
+            }
+        }
+        return citys;
+    }
 
-	public SolrHotelDO getResourceById(long id) {
-		SolrsearchDTO solrsearchDTO = new SolrsearchDTO();
-		List<Long> ids=new ArrayList<Long>();
-		ids.add(id);
-		solrsearchDTO.setIds(ids);
-		solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		solrsearchDTO.setBeginDay(new Date());
-		solrsearchDTO.setEndDay(new Date());
-		solrsearchDTO.setHotelType(HotelConstant.HOTEL_JD);
-		SolrsearchPageResult<SolrHotelDO> result = solrsearchRepo.queryHotelListByPage(solrsearchDTO);
-		if (result == null || CollectionUtils.isEmpty(result.getList())) {
-			return null;
-		}
-		List<SolrHotelDO> list = result.getList();
-		return list.get(0);
-	}
+    public SolrHotelDO getResourceById(long id) {
+        SolrsearchDTO solrsearchDTO = new SolrsearchDTO();
+        List<Long> ids = new ArrayList<Long>();
+        ids.add(id);
+        solrsearchDTO.setIds(ids);
+        solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+        solrsearchDTO.setBeginDay(new Date());
+        solrsearchDTO.setEndDay(new Date());
+        solrsearchDTO.setHotelType(HotelConstant.HOTEL_JD);
+        solrsearchDTO.setPageNo(1);
+        solrsearchDTO.setPageSize(1);
+        SolrsearchPageResult<SolrHotelDO> result = solrsearchRepo.queryHotelListByPage(solrsearchDTO);
+        if (result == null || CollectionUtils.isEmpty(result.getList())) {
+            return null;
+        }
+        List<SolrHotelDO> list = result.getList();
+        return list.get(0);
+    }
 
 }
