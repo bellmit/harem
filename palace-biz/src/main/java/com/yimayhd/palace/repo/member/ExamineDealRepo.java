@@ -96,37 +96,37 @@ public class ExamineDealRepo {
 	* @return VerifyIdentityResult    返回类型 
 	* @throws
 	 */
-//	public VerifyIdentityResult verifyEleBankAccount(ExamineInfoDTO dto) {
-//		logger.info("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
-//		try {
-//			
-//			VerifyEleAccountDTO verifyEleAccountDTO = new VerifyEleAccountDTO();
-//			verifyEleAccountDTO.setUserId(dto.getSellerId());
-//			verifyEleAccountDTO.setBankCardNo(dto.getAccountNum());
-//			verifyEleAccountDTO.setBankName(dto.getAccountBankName());
-//			verifyEleAccountDTO.setBankNo(dto.getSettlementCard());
-//			verifyEleAccountDTO.setIdNo(dto.getOpenerCard());
-//			verifyEleAccountDTO.setMerchantType(MerchantType.TALENT.getType());
-//			if (Integer.parseInt(dto.getAccountType()) == AccountType.PERSON.getType()) {
-//				
-//				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_ELE_ACCOUNT.getType());
-//			}else {
-//					
-//				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_CMP_ELE_ACCOUNT.getType());
-//				
-//			}
-//			verifyEleAccountDTO.setUserName(dto.getFinanceOpenName());
-//			verifyEleAccountDTO.setMobilePhone(dto.getOpenerTel());
-//			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:verifyEleAccountDTO={}",JSON.toJSONString(verifyEleAccountDTO));
-//			VerifyIdentityResult verifyResult = eleAccInfoServiceRef.verifyEleAccount(verifyEleAccountDTO);
-//			logger.info("eleAccInfoServiceRef.verifyEleAccount ,result:VerifyIdentityResult={}",JSON.toJSONString(verifyResult));
-//			
-//			return verifyResult;
-//		} catch (Exception e) {
-//			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
-//		}
-//		return null;
-//	}
+	public VerifyIdentityResult verifyEleBankAccount(ExamineInfoDTO dto) {
+		logger.info("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
+		try {
+			
+			VerifyEleAccountDTO verifyEleAccountDTO = new VerifyEleAccountDTO();
+			verifyEleAccountDTO.setUserId(dto.getSellerId());
+			verifyEleAccountDTO.setBankCardNo(dto.getAccountNum());
+			verifyEleAccountDTO.setBankName(dto.getAccountBankName());
+			verifyEleAccountDTO.setBankNo(dto.getSettlementCard());
+			verifyEleAccountDTO.setIdNo(dto.getOpenerCard());
+			verifyEleAccountDTO.setMerchantType(MerchantType.TALENT.getType());
+			if (Integer.parseInt(dto.getAccountType()) == AccountType.PERSON.getType()) {
+				
+				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_ELE_ACCOUNT.getType());
+			}else {
+					
+				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_CMP_ELE_ACCOUNT.getType());
+				
+			}
+			verifyEleAccountDTO.setUserName(dto.getFinanceOpenName());
+			verifyEleAccountDTO.setMobilePhone(dto.getOpenerTel());
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:verifyEleAccountDTO={}",JSON.toJSONString(verifyEleAccountDTO));
+			VerifyIdentityResult verifyResult = eleAccInfoServiceRef.verifyEleAccount(verifyEleAccountDTO);
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,result:VerifyIdentityResult={}",JSON.toJSONString(verifyResult));
+			
+			return verifyResult;
+		} catch (Exception e) {
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
+		}
+		return null;
+	}
 	/**
 	 * 
 	* created by zhangxiaoyang
@@ -138,29 +138,29 @@ public class ExamineDealRepo {
 	* @return ResultSupport    返回类型 
 	* @throws
 	 */
-//	public ResultSupport verifyCorBankAccount(ExamineInfoDTO dto) {
-//		logger.info("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
-//		try {
-//			VerifyCmpEleAccountDTO verifyCmpEleAccountDTO = new VerifyCmpEleAccountDTO();
-//			verifyCmpEleAccountDTO.setUserId(dto.getSellerId());
-//			verifyCmpEleAccountDTO.setBankAccountType(Integer.parseInt(dto.getAccountType()));
-//			verifyCmpEleAccountDTO.setOpenBankNo(dto.getSettlementCard());
-//			verifyCmpEleAccountDTO.setOpenBankName(dto.getAccountBankName());
-//			verifyCmpEleAccountDTO.setOpenAcctNo(dto.getAccountNum());
-//			verifyCmpEleAccountDTO.setOpenAcctName(dto.getFinanceOpenName());
-//			verifyCmpEleAccountDTO.setContactMobile(dto.getOpenerTel());
-//			verifyCmpEleAccountDTO.setContactIdNo(dto.getOpenerCard());
-//			verifyCmpEleAccountDTO.setCorpName(dto.getSellerName());
-//			verifyCmpEleAccountDTO.setContactName(dto.getFinanceOpenName());
-//			verifyCmpEleAccountDTO.setCorpBusiCode(dto.getSaleLicenseNumber());
-//			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount param:VerifyCmpEleAccountDTO={}",JSON.toJSONString(verifyCmpEleAccountDTO));
-//			ResultSupport verifyResult = eleAccInfoServiceRef.verifyCmpEleAccount(verifyCmpEleAccountDTO);
-//			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount ,result:ResultSupport={}",JSON.toJSONString(verifyResult));
-//			
-//			return verifyResult;
-//		} catch (Exception e) {
-//			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
-//		}
-//		return null;
-//	}
+	public ResultSupport verifyCorBankAccount(ExamineInfoDTO dto) {
+		logger.info("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
+		try {
+			VerifyCmpEleAccountDTO verifyCmpEleAccountDTO = new VerifyCmpEleAccountDTO();
+			verifyCmpEleAccountDTO.setUserId(dto.getSellerId());
+			verifyCmpEleAccountDTO.setBankAccountType(Integer.parseInt(dto.getAccountType()));
+			verifyCmpEleAccountDTO.setOpenBankNo(dto.getSettlementCard());
+			verifyCmpEleAccountDTO.setOpenBankName(dto.getAccountBankName());
+			verifyCmpEleAccountDTO.setOpenAcctNo(dto.getAccountNum());
+			verifyCmpEleAccountDTO.setOpenAcctName(dto.getFinanceOpenName());
+			verifyCmpEleAccountDTO.setContactMobile(dto.getOpenerTel());
+			verifyCmpEleAccountDTO.setContactIdNo(dto.getOpenerCard());
+			verifyCmpEleAccountDTO.setCorpName(dto.getSellerName());
+			verifyCmpEleAccountDTO.setContactName(dto.getFinanceOpenName());
+			verifyCmpEleAccountDTO.setCorpBusiCode(dto.getSaleLicenseNumber());
+			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount param:VerifyCmpEleAccountDTO={}",JSON.toJSONString(verifyCmpEleAccountDTO));
+			ResultSupport verifyResult = eleAccInfoServiceRef.verifyCmpEleAccount(verifyCmpEleAccountDTO);
+			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount ,result:ResultSupport={}",JSON.toJSONString(verifyResult));
+			
+			return verifyResult;
+		} catch (Exception e) {
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
+		}
+		return null;
+	}
 }
