@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.solrsearch.client.constant.HotelConstant;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,8 +177,13 @@ public class ArticleBiz {
 
 	public SolrHotelDO getResourceById(long id) {
 		SolrsearchDTO solrsearchDTO = new SolrsearchDTO();
-		solrsearchDTO.setId(id);
+		List<Long> ids=new ArrayList<Long>();
+		ids.add(id);
+		solrsearchDTO.setIds(ids);
+		solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		solrsearchDTO.setBeginDay(new Date());
+		solrsearchDTO.setEndDay(new Date());
+		solrsearchDTO.setHotelType(HotelConstant.HOTEL_JD);
 		SolrsearchPageResult<SolrHotelDO> result = solrsearchRepo.queryHotelListByPage(solrsearchDTO);
 		if (result == null || CollectionUtils.isEmpty(result.getList())) {
 			return null;

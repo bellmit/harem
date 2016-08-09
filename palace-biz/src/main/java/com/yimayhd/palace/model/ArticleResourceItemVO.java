@@ -29,7 +29,7 @@ public class ArticleResourceItemVO implements Serializable {
 	/**
 	 * 资源所在地区
 	 */
-	private String resourceCity;
+	private String tradeArea;
 	/**
 	 * 最低价
 	 */
@@ -51,15 +51,6 @@ public class ArticleResourceItemVO implements Serializable {
 		this.resourceName = resourceName;
 	}
 
-
-	public String getResourceCity() {
-		return resourceCity;
-	}
-
-	public void setResourceCity(String resourceCity) {
-		this.resourceCity = resourceCity;
-	}
-
 	public long getResourcePrice() {
 		return resourcePrice;
 	}
@@ -74,6 +65,14 @@ public class ArticleResourceItemVO implements Serializable {
 
 	public void setResourceType(String resourceType) {
 		this.resourceType = resourceType;
+	}
+
+	public String getTradeArea() {
+		return tradeArea;
+	}
+
+	public void setTradeArea(String tradeArea) {
+		this.tradeArea = tradeArea;
 	}
 
 }

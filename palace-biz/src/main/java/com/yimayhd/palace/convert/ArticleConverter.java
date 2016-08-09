@@ -264,7 +264,7 @@ public class ArticleConverter {
 		articleResourceItemVO.setResourcePic(hotelDO.getIcon());
 		articleResourceItemVO.setResourcePrice(hotelDO.getPrice());
 		articleResourceItemVO.setResourceType("1");
-		articleResourceItemVO.setResourceCity(hotelDO.getCityName());
+		articleResourceItemVO.setTradeArea(hotelDO.getTradeArea());
 		return articleResourceItemVO;
 	}
 }

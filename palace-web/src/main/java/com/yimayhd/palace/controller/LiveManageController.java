@@ -48,9 +48,13 @@ public class LiveManageController extends BaseController {
     public String list(Model model, LiveListQuery liveListQuery) throws Exception {
         PageVO<SnsSubjectVO> pageVO = liveService.getList(liveListQuery);
         BizLiveStatus[] liveStatus = BizLiveStatus.values();
+        List<BizLiveStatus> bizLiveStatuses=new ArrayList<BizLiveStatus>();
+        for (BizLiveStatus bizLiveStatus : liveStatus) {
+			bizLiveStatuses.add(bizLiveStatus);
+		}
         model.addAttribute("pageVo", pageVO);
         model.addAttribute("liveListQuery", liveListQuery);
-        model.addAttribute("liveStatusList", liveStatus);
+        model.addAttribute("liveStatusList", bizLiveStatuses);
         model.addAttribute("liveList", pageVO.getItemList());
         return "/system/live/list";
     }

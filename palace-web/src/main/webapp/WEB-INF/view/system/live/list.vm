@@ -30,7 +30,7 @@
 				<select class="form-control" name="liveStatus">
 					<option value="0" #if(!$query.status) selected #end>请选择</option>
 					#foreach($liveStatus in $liveStatusList)
-					<option value="$!{liveStatus.value}" #if($query.status == $liveStatus.value) selected #end >#TREND_STATUS($!liveStatus.status)</option>
+					<option value="$!{liveStatus.value}" #if($query.status == $liveStatus.value) selected #end >${liveStatus.text}</option>
 					#end
 				</select>
             </div>
