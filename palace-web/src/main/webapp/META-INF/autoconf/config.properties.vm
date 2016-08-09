@@ -107,3 +107,6 @@ consumer.dubbo.trade.version = ${consumer.dubbo.solr.version}
 
 consumer.dubbo.promotion.version = ${consumer.dubbo.promotion.version}
 consumer.dubbo.check = ${consumer.dubbo.check}
+
+consumer.dubbo.solr.check = ${consumer.dubbo.solr.check}
+consumer.dubbo.solr.version = ${consumer.dubbo.solr.version}
