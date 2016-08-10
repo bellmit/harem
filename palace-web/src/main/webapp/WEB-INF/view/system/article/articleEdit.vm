@@ -131,6 +131,34 @@
 									</div>
 								</div>
 								#end
+								#if($articleItem.type == 6)
+								<div class="item movesection saved">
+									<div class="itemwraptitle">$!articleItem.title</div>
+									<div class="wrap itemwrap" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
+										<div class="itemimgbox">
+											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleHotelResourceItemVO.resourcePic">
+											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>酒店/客栈</p>
+										</div>
+										<div class="itemmsgbox">
+											<p class="itemright">
+												<span class="pritxt"></span>
+												<span class="prinum">
+													#set($pri1=$!articleItem.articleHotelResourceItemVO.resourcePrice / 100)
+													#set($pri2=$!articleItem.articleHotelResourceItemVO.resourcePrice / 100.00)
+													￥<em>#set($pri=$!articleItem.articleHotelResourceItemVO.resourcePrice % 100)#if($pri == 0) $pri1 #else $pri2 #end</em>起
+												</span>
+											</p>
+											<p class="itemleft">
+												<span class="itemtitle hoteltitle">$!articleItem.articleHotelResourceItemVO.resourceName</span>
+												<span class="itemshop">
+													<i class="icon-area"></i>
+													<label class="shoptitle hotelarea">$!articleItem.articleHotelResourceItemVO.tradeArea</label>
+												</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								#end								
 								#if($articleItem.type == 4)
 								<div class="item movesection saved">
 									<div class="itemwraptitle">$!articleItem.title</div>
@@ -180,7 +208,8 @@
 									<li><a href="javascript:void(0)" class="addpic">添加图片</a></li>
 									<li><a href="javascript:void(0)" class="additem">添加商品</a></li>
 									<li><a href="javascript:void(0)" class="addexpert">添加达人</a></li>
-									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>									
+									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>
+									<li><a href="javascript:void(0)" class="addhotel">添加酒店</a></li>									
 								</ul>
 							</div>
 							
