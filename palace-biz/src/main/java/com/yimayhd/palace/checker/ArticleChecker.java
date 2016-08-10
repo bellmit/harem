@@ -18,7 +18,7 @@ public class ArticleChecker {
 	private static final Logger log = LoggerFactory.getLogger(ArticleChecker.class);
 
 	public static CheckResult checkArticleVO(ArticleVO articleVO) {
-		if (StringUtils.isBlank(articleVO.getTitle()) || articleVO.getTitle().length() > 38) {
+		if (StringUtils.isBlank(articleVO.getTitle()) || articleVO.getTitle().length() > 12) {
 			return CheckResult.error("标题不能为空");
 		}
 		if (StringUtils.isBlank(articleVO.getSubTitle()) || articleVO.getSubTitle().length() > 12) {
