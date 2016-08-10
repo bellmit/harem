@@ -138,7 +138,9 @@ public class ArticleServiceImpl implements ArticleService {
                 ItemDO itemDO = articleBiz.getItemById(id);
 
                 ArticleProductItemVO articleProductItemVO = articleBiz.getArticleProductItemVO(itemDO);
-                if (articleProductItemVO != null) {
+                if (articleProductItemVO == null) {
+                    return null;
+                } else {
                     articleItemVO.setSubType(itemDO.getItemType());
                     articleItemVO.setArticleProductItemVO(articleProductItemVO);
                 }
@@ -146,7 +148,9 @@ public class ArticleServiceImpl implements ArticleService {
             case EXPERTMAN:
                 UserDTO userDTO = articleBiz.queryTalentInfo(id);
                 ArticleExpertManItemVO articleExpertManItemVO = ArticleConverter.getArticleExpertManItemVO(userDTO);
-                if (articleExpertManItemVO != null) {
+                if (articleExpertManItemVO == null) {
+                    return null;
+                } else {
                     articleItemVO.setArticleExpertManItemVO(articleExpertManItemVO);
                     articleItemVO.setSubType((int) userDTO.getOptions());
                 }
@@ -154,7 +158,9 @@ public class ArticleServiceImpl implements ArticleService {
             case CONSULTSERVICE:
                 itemDO = articleBiz.getItemById(id);
                 ArticleConsultServiceItemVO articleConsultServiceItemVO = articleBiz.getArticleConsultServiceItemVO(itemDO);
-                if (articleConsultServiceItemVO != null) {
+                if (articleConsultServiceItemVO == null) {
+                    return null;
+                } else {
                     articleItemVO.setSubType(itemDO.getItemType());
                     articleItemVO.setArticleConsultServiceItemVO(articleConsultServiceItemVO);
                 }
@@ -162,14 +168,18 @@ public class ArticleServiceImpl implements ArticleService {
             case HOTELRESOURCE:
                 SolrHotelDO hotelDO = articleBiz.getSolrHotelDOById(id);
                 ArticleHotelResourceItemVO articleHotelResourceItemVO = ArticleConverter.getArticleHotelResourceItemVO(hotelDO);
-                if (articleHotelResourceItemVO != null) {
+                if (articleHotelResourceItemVO == null) {
+                    return null;
+                } else {
                     articleItemVO.setArticleHotelResourceItemVO(articleHotelResourceItemVO);
                 }
                 break;
             case SCENICRESOURCE:
                 SolrScenicDO solrScenicDO = articleBiz.getSolrScenicDOById(id);
                 ArticleScenicResourceItemVO articleScenicResourceItemVO = ArticleConverter.getArticleScenicResourceItemVO(solrScenicDO);
-                if (articleScenicResourceItemVO != null) {
+                if (articleScenicResourceItemVO == null) {
+                    return null;
+                } else {
                     articleItemVO.setArticleScenicResourceItemVO(articleScenicResourceItemVO);
                 }
                 break;
