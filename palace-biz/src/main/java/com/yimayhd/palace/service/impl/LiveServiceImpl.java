@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.snscenter.client.enums.BaseStatus;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +19,6 @@ import com.yimayhd.commentcenter.client.enums.CommentType;
 import com.yimayhd.commentcenter.client.enums.SupportType;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.SnsSubjectVO;
@@ -331,7 +331,17 @@ public class LiveServiceImpl implements LiveService {
 
 	@Override
 	public void regain(long id) throws Exception {
-		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
+		SubjectInfoDTO subjectInfoDTO1 = new SubjectInfoDTO();
+		subjectInfoDTO1.setId(id);
+		com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> snsSubjectDOBaseResult= snsCenterServiceRef.getSubjectInfo(subjectInfoDTO1);
+		if (snsSubjectDOBaseResult==null||!snsSubjectDOBaseResult.isSuccess()||snsSubjectDOBaseResult.getValue()==null){
+			throw new BaseException("该记录不存在！");
+		}
+        SnsSubjectDO snsSubjectDO = snsSubjectDOBaseResult.getValue();
+        if (snsSubjectDO.getStatus()==BaseStatus.UNAVAILABLE.getType()){
+            throw new BaseException("用户删除的记录不能恢复！");
+        }
+        SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
 		List<Long> subjectList = new ArrayList<Long>();
 		subjectList.add(id);
 		subjectInfoDTO.setSubjectList(subjectList);
