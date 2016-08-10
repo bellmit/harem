@@ -182,8 +182,8 @@ public class ArticleBiz {
         ids.add(id);
         solrsearchDTO.setIds(ids);
         solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-        solrsearchDTO.setBeginDay(DateUtil.getMonth(new Date(), -1));
-        solrsearchDTO.setEndDay(DateUtil.getMonth(new Date(), 1));
+        solrsearchDTO.setBeginDay(new Date());
+        solrsearchDTO.setEndDay(new Date());
         solrsearchDTO.setPageNo(1);
         solrsearchDTO.setPageSize(1);
         SolrsearchPageResult<SolrHotelDO> result = solrsearchRepo.queryHotelListByPage(solrsearchDTO);
@@ -199,8 +199,8 @@ public class ArticleBiz {
         ids.add(id);
         solrsearchDTO.setIds(ids);
         solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-        solrsearchDTO.setBeginDay(DateUtil.getMonth(new Date(), -1));
-        solrsearchDTO.setEndDay(DateUtil.getMonth(new Date(), 1));
+        solrsearchDTO.setBeginDay(new Date());
+        solrsearchDTO.setEndDay(new Date());
         solrsearchDTO.setPageNo(1);
         solrsearchDTO.setPageSize(1);
         SolrsearchPageResult<SolrScenicDO> result = solrsearchRepo.queryScenicListByPage(solrsearchDTO);
