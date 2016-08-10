@@ -19,7 +19,7 @@ import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleExpertManItemVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
-import com.yimayhd.palace.model.ArticleResourceItemVO;
+import com.yimayhd.palace.model.ArticleHotelResourceItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.util.RegExpValidator;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
@@ -255,15 +255,15 @@ public class ArticleConverter {
 		return articleProductItemVO;
 	}
 
-	public static ArticleResourceItemVO getArticleResourceItemVO(SolrHotelDO hotelDO) {
+	public static ArticleHotelResourceItemVO getArticleResourceItemVO(SolrHotelDO hotelDO) {
 		if (hotelDO == null) {
 			return null;
 		}
-		ArticleResourceItemVO articleResourceItemVO = new ArticleResourceItemVO();
-		articleResourceItemVO.setResourceName(hotelDO.getHotelName());
-		articleResourceItemVO.setResourcePic(hotelDO.getIcon());
-		articleResourceItemVO.setResourcePrice(hotelDO.getPrice());
-		articleResourceItemVO.setTradeArea(hotelDO.getTradeArea());
-		return articleResourceItemVO;
+		ArticleHotelResourceItemVO articleHotelResourceItemVO = new ArticleHotelResourceItemVO();
+		articleHotelResourceItemVO.setResourceName(hotelDO.getHotelName());
+		articleHotelResourceItemVO.setResourcePic(hotelDO.getIcon());
+		articleHotelResourceItemVO.setResourcePrice(hotelDO.getPrice());
+		articleHotelResourceItemVO.setTradeArea(hotelDO.getTradeArea());
+		return articleHotelResourceItemVO;
 	}
 }

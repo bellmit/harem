@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author xiemingna
  *
  */
-public class ArticleResourceItemVO implements Serializable {
+public class ArticleHotelResourceItemVO implements Serializable {
 
 	/**
 	 * 
