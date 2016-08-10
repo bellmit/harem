@@ -76,11 +76,14 @@ public class ApplyBiz {
 			result.setPalaceReturnCode(PalaceReturnCode.APPLY_RECORD_NOT_EXIT);
 			return result ;
 		}
-		VerifyIdentityResult verifyIdentityResult = examineDealRepo.verifyEleBankAccount(dto);
-		if (verifyIdentityResult == null || !verifyIdentityResult.isSuccess()) {
-			log.error("examineDealRepo.verifyEleBankAccount param:ExamineInfoDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(verifyIdentityResult));
-			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
-			return result;
+		if (approveVO.isPass()) {
+			
+			VerifyIdentityResult verifyIdentityResult = examineDealRepo.verifyEleBankAccount(dto);
+			if (verifyIdentityResult == null || !verifyIdentityResult.isSuccess()) {
+				log.error("examineDealRepo.verifyEleBankAccount param:ExamineInfoDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(verifyIdentityResult));
+				result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+				return result;
+			}
 		}
 		ExamineDealDTO examineDealDTO = ApplyHelper.getExamineDealDTO(approveVO, approverId);
 		examineDealDTO.setDomainId(dto.getDomainId());

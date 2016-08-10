@@ -104,6 +104,7 @@ public class ApplyApprovalController extends BaseController {
     @ResponseBody
     public BizResultSupport approve(ApproveVO approveVO) {
         BizResultSupport checkResult = ApplyApproveChecker.checkApproveVO(approveVO);
+        BizResultSupport approveResultSupport = new BizResultSupport();
         if (!checkResult.isSuccess()) {
             return checkResult;
         }
@@ -111,6 +112,14 @@ public class ApplyApprovalController extends BaseController {
         int type = examineInfoDTOResult.getValue().getType();
         // 如果审核通过并且身份是商户,此处不做任何处理,待商品类目分配完成后集中更新申请状态,新增申请明细,新增商户,新增商户与商品类目关系,发送短信
         if (approveVO.isPass() && type == MerchantType.MERCHANT.getType()) {
+        	//验证银行账户
+            BizResultSupport checkBankResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
+            if (checkBankResult == null || !checkBankResult.isSuccess()) {
+    			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
+    			approveResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+    			return approveResultSupport;
+    		}
+            
             checkResult = new BizResultSupport();
             return checkResult;
         }
@@ -602,13 +611,6 @@ public class ApplyApprovalController extends BaseController {
 				bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
 	            return bizResultSupport;
 			}
-		}
-        //验证银行账户
-        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
-        if (checkResult == null || !checkResult.isSuccess()) {
-			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
-			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
-			return bizResultSupport;
 		}
         
         String[] array = allocationVO.getCategoryIds().split(",");
