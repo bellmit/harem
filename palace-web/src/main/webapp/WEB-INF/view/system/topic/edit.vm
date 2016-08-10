@@ -32,7 +32,7 @@
 					<td><span class="red">*</span>话题名称：</td>
 					<td>
 						<input class="form-control w500 in-bl wordCount" type="text" name="title" value="$!topic.title" 
-							maxlength="30" datatype="/^[^#\s]+$/" nullmsg="话题不能为空" errormsg="不能输入#号和空格"
+							maxlength="30" datatype="/^[^#]+$/" nullmsg="话题不能为空" errormsg="不能输入#号"
 							#if($topic.title)
 								readonly="readonly"
 							#end
@@ -46,7 +46,7 @@
 					<td>话题配图：</td>
 					<td>
 						<div class="imgallbox" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
-							<input type="hidden" class="uplurl" value="$filegw_url/file/upload_compress_string" />
+							<input type="hidden" class="uplurl" value="$filegw_url/file/upload_compress" />
 							<input type="hidden" class="srcurl" value="$!{utilWebconfig.getTfsRootPath()}" />
 							<div class="imgbox imgno">
 								<div class="imgcon">
@@ -59,8 +59,8 @@
 								<div class="imgwait"></div>
 								<div class="imgdelbtn">删除图片</div>
 								<a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
-								<input type="hidden" name="picVal" value="$!{topic.pics}"/>
 							</div>
+							<input type="hidden" name="picVal" class="picVal" value="$!{topic.pics}"/>
 						</div>
 					</td>
 				</tr>

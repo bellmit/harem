@@ -68,16 +68,15 @@
                 <tr>
                     <td>播放视频：</td>
                     <td class="videoTd">
-                    	#if($live.videoUrl)
+                    	#if((!$live.videoUrl)||($live.videoUrl==''))
+                        	没有视频
+						#else
                         	<video width="320" height="240" controls autoplay>                        
                         		<source src="$utilWebconfig.getTfsRootPath()$live.videoUrl" type="video/mp4">
                         		Your browser does not support video
 							</video>
-						#else
-                        	没有视频
                         #end
-                    </td>
-                    <input class="videoUrlsVal" type="hidden" name="videoListStr" value="$live.videoUrl">
+                    	<input class="videoUrlsVal" type="hidden" name="videoListStr" value="$live.videoUrl">
                     </td>
                 </tr>
 				#end

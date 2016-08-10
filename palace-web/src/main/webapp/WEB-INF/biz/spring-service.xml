@@ -22,6 +22,7 @@
 	<bean class="com.yimayhd.palace.service.impl.RecommendedServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.EvaluationServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.SockpuppetServiceImpl"></bean>
+
 	<!-- 资源管理 -->
 	<bean class="com.yimayhd.palace.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.HotelRPCServiceImpl"></bean>
@@ -36,6 +37,8 @@
 	<bean class="com.yimayhd.palace.service.impl.RcOperationServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.RcShowcaseServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PictureServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ArticleServiceImpl"></bean>
+
 	<!-- home config -->
 	<bean class="com.yimayhd.palace.service.impl.HomeCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PeripheryCfgServiceImpl"></bean>

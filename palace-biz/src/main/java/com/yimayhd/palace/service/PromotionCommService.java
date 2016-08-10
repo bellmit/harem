@@ -1,6 +1,6 @@
 package com.yimayhd.palace.service;
 
-import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
@@ -16,7 +16,7 @@ public interface PromotionCommService {
      * @param actPromotionPageQuery 查询条件
      * @throws Exception
      */
-    PageVO<ActActivityDO> getList(ActPromotionPageQuery actPromotionPageQuery) throws Exception;
+    PageVO<ActActivityPromotionDO> getList(ActPromotionPageQuery actPromotionPageQuery) throws Exception;
 
     /**
      * 修改优惠

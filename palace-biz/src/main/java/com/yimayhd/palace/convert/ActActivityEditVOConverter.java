@@ -1,6 +1,6 @@
 package com.yimayhd.palace.convert;
 
-import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
 import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.ActActivityVO;
@@ -28,8 +28,8 @@ public class ActActivityEditVOConverter {
         ActActivityEditVO actActivityEditVO = new ActActivityEditVO();
 
         ActActivityVO actActivityVO = new ActActivityVO();
-        ActActivityDO actActivityDO = actPromotionDTO.getActActivityDO();
-        BeanUtils.copyProperties(actActivityDO, actActivityVO);
+        ActActivityPromotionDO actActivityPromotionDO = actPromotionDTO.getActActivityPromotionDO();
+        BeanUtils.copyProperties(actActivityPromotionDO, actActivityVO);
         actActivityEditVO.setActActivityVO(actActivityVO);
 
         List<PromotionVO> promotionVOList = new ArrayList<PromotionVO>();

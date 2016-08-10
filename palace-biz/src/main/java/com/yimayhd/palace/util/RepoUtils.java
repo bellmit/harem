@@ -4,10 +4,11 @@ import org.slf4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.result.ResultSupport;
-import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.ic.client.model.result.ICErrorCode;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.palace.base.BaseException;
+import com.yimayhd.resourcecenter.model.result.ResourceResultSupport;
 
 /**
  * Repo工具
@@ -152,6 +153,19 @@ public class RepoUtils {
 		} else if (!result.isSuccess()) {
 			log.error(RESULT_FAILURE, method, result.getErrorCode(), result.getErrorMsg());
 			throw new BaseException(prefix + result.getErrorMsg());
+		} else {
+			log.info(RESULT_SUCCESS, method);
+		}
+	}
+	
+	public static void resultLog(Logger log, String method, ResourceResultSupport result) {
+		String prefix = "ResourceCenter服务接口：";
+		if (result == null) {
+			log.error(RESULT_NULL, method);
+			throw new BaseException(prefix + "返回结果错误result=null");
+		} else if (!result.isSuccess()) {
+			log.error(RESULT_FAILURE, method, result.getReturnCode(), result.getMsg());
+			throw new BaseException(prefix + result.getMsg());
 		} else {
 			log.info(RESULT_SUCCESS, method);
 		}

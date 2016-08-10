@@ -32,6 +32,11 @@ public class HtmlUtil {
             }else if (Constant.showTypeText == od.getShowType()){
                 sb.append("type='text' ");
             }
+            if(0==od.getMultiSelect()){
+                sb.append("multiselect='").append(false).append("'");
+            }else{
+                sb.append("multiselect='").append(true).append("'");
+            }
             sb.append("operationId='").append(od.getOperationId()).append("'")
               .append(" jumpType='").append(od.getJumpType()).append("'").append(" value='").append(od.getShowValue())
               .append("'> ").append(od.getShowName()).append(" ").append("</label>");

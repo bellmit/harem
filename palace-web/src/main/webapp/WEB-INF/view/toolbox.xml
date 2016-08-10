@@ -12,7 +12,11 @@
         <tool key="jsonUtil" class="com.yimayhd.palace.util.JsonUtil"></tool>
         <tool key="utilHtml" class="com.yimayhd.palace.util.HtmlUtil"></tool>
         <tool key="numberFormatHelper" class="com.yimayhd.palace.helper.NumberFormatHelper"></tool>
+        <tool key="articleUtil" class="com.yimayhd.palace.util.ArticleUtil"></tool>
+        <tool key="escUtil" class="org.apache.velocity.tools.generic.EscapeTool"></tool>
+
         <tool key="utilTag" class="com.yimayhd.palace.util.TagUtil"></tool>
+
     </toolbox>
 
 </tools>

@@ -60,6 +60,8 @@ public class TopicServiceImpl implements TopicService {
 		//景区状态
 		if (StringUtils.isNotBlank(topicListQuery.getStatus())) {			
 			pageQuery.setStatus(Integer.parseInt(topicListQuery.getStatus()));
+		}else{
+			pageQuery.setStatus(-1);
 		}
 		//是否有描述
 		if (topicListQuery.getHasContent() != null) {			
@@ -267,7 +269,9 @@ public class TopicServiceImpl implements TopicService {
 		}
 		
 		TopicListQuery query = new TopicListQuery();
-		query.setTitle(query.getTitle());
+		query.setPageNumber(Constant.DEFAULT_PAGE_NO);
+		query.setPageSize(Constant.DEFAULT_PAGE_MAX_SIZE);
+		query.setTitle(topicInfoVO.getTitle());
 		PageVO<TopicVO> pageVo = this.getTopicPageList(query);
 		if(pageVo == null){
 			return;

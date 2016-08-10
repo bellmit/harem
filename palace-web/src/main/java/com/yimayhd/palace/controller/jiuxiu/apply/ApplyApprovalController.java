@@ -610,6 +610,7 @@ public class ApplyApprovalController extends BaseController {
 			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
 			return bizResultSupport;
 		}
+        
         String[] array = allocationVO.getCategoryIds().split(",");
         long[] categoryIds = new long[array.length];
         for (int i = 0; i < array.length; i++) {

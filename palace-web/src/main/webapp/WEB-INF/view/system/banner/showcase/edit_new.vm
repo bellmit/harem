@@ -123,6 +123,7 @@
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
             autotxt();
+            $('.selectpages').change(function(){$('#addsecontentId').text('')});
         });
 
         function autotxt(){  //如果是输入框的话，填什么 下面展示什么
@@ -196,7 +197,8 @@
         myinit();
         //获取选择内容是根据他的readio的value值选的,跟下拉框没关系
         $('.selecontent').click(function(){
-            var type= $('input:radio:checked').attr("jumpType")
+            var multiselect = $('input:radio:checked').attr("multiselect");
+            var type= $('input:radio:checked').attr("jumpType");
             var code = $('input:radio:checked').val();//获取选择的select的code
             var operationId = $("#opId").find("option:selected").attr("operationId");//获取选择的select的operationId即boothid
             $("#operationIds").val(operationId);
@@ -205,21 +207,35 @@
             }
             var isRegion = false;
             openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
-                var sce = win.getItems();
-                console.log(sce);
-                var picUrl = sce.imgUrl;
-                if(picUrl !== null && picUrl !== undefined && picUrl !== '' && picUrl !== 'null'){
-                    var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
-                    $("#travelBGImgSH").val(picUrl);
-                    //alert(showPicUrl);
-                    $("#travelImgIdSH img").attr("src",showPicUrl);
-                }
-
-                $("#addsecontentId").text(sce.name);
-                if(type==2){//2是目的地
-                    $("#chosId").val(sce.cityCode);
+                if(multiselect == "true"){
+                    var sce = win.getItemss();
+                    console.log(JSON.stringify(sce));
+                    var zsnr="";
+                    var cont="";
+                    for(var i in sce) {
+                        //console.log("==="+sce[i].id+"-"+sce[i].name);
+                        zsnr+=sce[i].name+"("+sce[i].appVersion+")"+ " | ";//展示内容
+                        cont+=sce[i].code+","+sce[i].appVersion+"|";//隐藏框的
+                    }
+                    console.log("cont="+cont);
+                    console.log("zsnr="+zsnr);
+                    $("#chosId").val(cont);
+                    $("#addsecontentId").text(zsnr);
                 }else{
-                    $("#chosId").val(sce.id);
+                    var sce = win.getItems();
+                    console.log(JSON.stringify(sce));
+                    $("#addsecontentId").text(sce.name);
+                    if(type==2){//2是目的地
+                        $("#chosId").val(sce.cityCode);
+                    }else{
+                        $("#chosId").val(sce.id);
+                    }
+                    var picUrl = sce.imgUrl;
+                    if(picUrl !== null && picUrl !== undefined && picUrl !== '' && picUrl !== 'null'){
+                        var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
+                        $("#travelBGImgSH").val(picUrl);
+                        $("#travelImgIdSH img").attr("src",showPicUrl);
+                    }
                 }
                 myinit();
                 return true;

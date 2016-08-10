@@ -77,8 +77,10 @@
                 <td>$!order.bizOrder.bizOrderId</td>
                 <td>下单时间：</td>
                 <td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.createTime)})}</td>
-                <td>出发日期：</td>
-                <td> $!date.format('yyyy-MM-dd',$!startDate)</td>
+                #if($order.bizOrder.orderType != 200 && $order.bizOrder.orderType != 3300 && $order.bizOrder.orderType != 1100 && $order.bizOrder.orderType != 3400)
+	                <td>出发日期：</td>
+	                <td> $!date.format('yyyy-MM-dd',$!startDate)</td>
+                #end
             </tr>
             <tr>
                 <td>付款时间：</td>

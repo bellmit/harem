@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.helper.apply.StringHelper;
+import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
@@ -35,17 +36,23 @@ public class MerchantVO extends MerchantDTO {
 	private String merchantName;
 	private double longitude;
 	private double latitude;
-//	private String cityInfo;
-//	public String[] getCityInfo() {
-//		String[] cityInfoArr = cityInfo.split(",");
-//		return cityInfoArr;
-//	}
-//	public void setCityInfo(String cityInfo) {
-//		this.cityInfo = cityInfo;
-//	}
 	private String openTime;
 	private String merchantAddress;
+	private String pictureTextString;
+	private PictureTextVO pictureText;
 	
+	public PictureTextVO getPictureText() {
+		return pictureText;
+	}
+	public void setPictureText(PictureTextVO pictureText) {
+		this.pictureText = pictureText;
+	}
+	public String getPictureTextString() {
+		return pictureTextString;
+	}
+	public void setPictureTextString(String pictureTextString) {
+		this.pictureTextString = pictureTextString;
+	}
 	public String getOpenTime() {
 		return openTime;
 	}
@@ -97,7 +104,6 @@ public class MerchantVO extends MerchantDTO {
 	public MerchantDTO getMerchantDTO(MerchantVO vo) {
 		if (vo == null ) {
 			log.error("merchantVO get merchantDTO error and params:vo={}"+JSON.toJSONString(vo));
-			//return null;
 			throw new BaseException("参数错误");
 		}
 		MerchantDTO dto =  new MerchantDTO();
@@ -105,23 +111,13 @@ public class MerchantVO extends MerchantDTO {
 			BeanUtils.copyProperties(dto, vo);
 			
 			dto.setDomainId(Constant.DOMAIN_JIUXIU);
-			//String name = getName(vo.getMerchantName());
 			dto.setName(filterBlankChar(vo.getMerchantName()));
 			dto.setAddress(filterBlankChar(vo.getMerchantAddress()));
 			dto.setServiceTime(filterBlankChar(vo.getOpenTime()));
-//			dto.setCityCode(Integer.parseInt(getCityInfo()[0]));
-//			dto.setCityName(getCityInfo()[0]);
-			//dto.setId(userId);
 
 			bd_decrypt(vo.getLatitude(), vo.getLongitude(),dto);
-//			dto.setLat(z * Math.sin(bd_decrypt(vo.getLatitude(), vo.getLongitude())));
-//			setLon(z * Math.cos(theta));
-//		    setLat(z * Math.sin(theta));
-
-			//dto.setAvgprice(getAvgPrice(vo.getAveragePrice()));
 
 			dto.setAvgprice(Math.round(vo.getAveragePrice()*100));
-			//dto.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
 			if (imgList != null && imgList.size()>0) {
 				
@@ -144,16 +140,6 @@ public class MerchantVO extends MerchantDTO {
 		return dto;
 		
 	}
-//	private long getAvgPrice(double averagePrice) {
-//		long l = (long)averagePrice;
-//		DecimalFormat df = new DecimalFormat(".##");
-//		long f = (long)Double.parseDouble(df.format((averagePrice-l)*100));
-
-//		//long f =(long)( (Double.parseDouble(df.format(averagePrice))-l)*100);
-
-
-//		return (l*100+f);
-//	}
 	
 	private String filterBlankChar(String str) {
 		if (str == null) {
@@ -171,31 +157,21 @@ public class MerchantVO extends MerchantDTO {
 		MerchantDO merchantDO = new MerchantDO();
 		try {
 			BeanUtils.copyProperties(merchantDO, vo);
-//			merchantDO.setCityCode(Integer.parseInt(getCityInfo()[0]));
-//			merchantDO.setCityName(getCityInfo()[0]);
 			merchantDO.setAddress(filterBlankChar(vo.getMerchantAddress()));
 			merchantDO.setServiceTime(filterBlankChar(vo.getOpenTime()));
-			//String name = getName(vo.getMerchantName());
 			merchantDO.setName(filterBlankChar(vo.getMerchantName()));
-			System.out.println(JSON.toJSON(merchantDO));
 			merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			merchantDO.setSellerId(userId);
 
 			bd_decrypt(vo.getLatitude(), vo.getLongitude(),merchantDO);
 
-//			merchantDO.setAvgprice(getAvgPrice(vo.getAveragePrice()));
 
 			merchantDO.setAvgprice(Math.round(vo.getAveragePrice()*100));
-			//merchantDO.setLoopImages(JSON.parseArray(vo.getLoopImageStr(), String.class));
 			merchantDO.setStatus(MerchantStatus.OFFLINE.getCode());
 			merchantDO.setOption(MerchantOption.EAT.getOption());
 			List<String> imgList = JSON.parseArray(vo.getLoopImageStr(), String.class);
-			//merchantDO.setFeature("{merchantPrincipalTel:"+vo.getMerchantPrincipalTel()+"},{serviceTime:"+vo.getServiceTime()+"}");
-			//merchantDO.setFeature(",{serviceTime:"+vo.getServiceTime()+"}");
 			merchantDO.setMerchantPrincipalTel(vo.getMerchantPrincipalTel());
-			//merchantDO.setServiceTime(vo.getServiceTime());
 			if (imgList != null && imgList.size()>0) {
-				//merchantDO.setPicUrls(imgList.get(0));
 				merchantDO.setLogo(imgList.get(0));
 			}
 			List<String> serviceList = JSON.parseArray(vo.getService(), String.class);
@@ -227,7 +203,6 @@ public class MerchantVO extends MerchantDTO {
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
-	//const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 	 /**
 	  * 将GCJ-02坐标系转换成BD-02坐标系
 	  * @param gg_lat
@@ -239,7 +214,6 @@ public class MerchantVO extends MerchantDTO {
 	    double x = gg_lon, y = gg_lat;
 	    double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
 	    double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
-	    //return theta;
 	    merchantDO.setLon(z * Math.cos(theta) + 0.0065);
 	    merchantDO.setLat(z * Math.sin(theta) + 0.006);
 	}
@@ -254,7 +228,6 @@ public class MerchantVO extends MerchantDTO {
 	    double x = longitude - 0.0065, y = latitude - 0.006;
 	    double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);
 	    double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
-	   // return theta;
 	    if (obj instanceof MerchantDO) {
 			MerchantDO merchantDO = (MerchantDO)obj;
 			merchantDO.setLon(z * Math.cos(theta));

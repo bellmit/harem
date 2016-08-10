@@ -360,17 +360,35 @@ public class ThemeManageController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String edit(ThemeVo themeVo, @PathVariable(value = "id") long id){
+	@ResponseBody
+	public ResponseVo edit(ThemeVo themeVo, @PathVariable(value = "id") long id){
+		ResponseVo response = new ResponseVo();
 		try {
 			themeVo.setId(id);
+			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
+			tagNameTypeDTO.setDomain(themeVo.getDomain());
+			tagNameTypeDTO.setName(themeVo.getName());
+			//tagNameTypeDTO.setOutType("LIVESUPTAG");
+			tagNameTypeDTO.setOutType(TagType.getByType( themeVo.getOutType()).name());
+			ComTagDO comTagDO = themeService.getTagByName(tagNameTypeDTO);
+			if (comTagDO != null&&comTagDO.getId()!=id) {
+				//return "/error";
+				response.setMessage("数据重复！");
+				response.setStatus(ResponseStatus.ERROR.VALUE);
+				return response;
+			}
 			ThemeVo dbThemeVo = themeService.saveOrUpdate(themeVo);
-			if(null != dbThemeVo ){
-				return "/success";	
+			if (null != dbThemeVo) {
+				//return "/success";
+				response.setMessage("修改成功！");
+				response.setStatus(ResponseStatus.SUCCESS.VALUE);
+				return response;
 			}
 		} catch (Exception e) {
 			LOGGER.error(">>>>", e);
+			return ResponseVo.error(e);
 		}
-		return "/error";
+		return response;
 	}
 
 
