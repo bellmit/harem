@@ -145,7 +145,7 @@
 												<span class="prinum">
 													#set($pri1=$!articleItem.articleHotelResourceItemVO.resourcePrice / 100)
 													#set($pri2=$!articleItem.articleHotelResourceItemVO.resourcePrice / 100.00)
-													￥<em>#set($pri=$!articleItem.articleHotelResourceItemVO.resourcePrice % 100)#if($pri == 0) $pri1 #else $pri2 #end</em>起
+													￥<em>#set($pri=$!articleItem.articleHotelResourceItemVO.resourcePrice % 100)#if($!pri == 0) $pri1 #else $!pri2 #end</em>起
 												</span>
 											</p>
 											<p class="itemleft">
