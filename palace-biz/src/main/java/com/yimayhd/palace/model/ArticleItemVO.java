@@ -47,7 +47,7 @@ public class ArticleItemVO implements Serializable {
 	/**
 	 * 资源项
 	 */
-	private ArticleResourceItemVO articleResourceItemVO;
+	private ArticleHotelResourceItemVO articleHotelResourceItemVO;
 
 	public long getId() {
 		return id;
@@ -153,12 +153,12 @@ public class ArticleItemVO implements Serializable {
 		this.articleExpertManItemVO = articleExpertManItemVO;
 	}
 
-	public ArticleResourceItemVO getArticleResourceItemVO() {
-		return articleResourceItemVO;
+	public ArticleHotelResourceItemVO getArticleHotelResourceItemVO() {
+		return articleHotelResourceItemVO;
 	}
 
-	public void setArticleResourceItemVO(ArticleResourceItemVO articleResourceItemVO) {
-		this.articleResourceItemVO = articleResourceItemVO;
+	public void setArticleHotelResourceItemVO(ArticleHotelResourceItemVO articleHotelResourceItemVO) {
+		this.articleHotelResourceItemVO = articleHotelResourceItemVO;
 	}
 
 }

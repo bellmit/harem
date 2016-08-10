@@ -159,9 +159,9 @@ public class ArticleServiceImpl implements ArticleService {
                 break;
             case HOTELRESOURCE:
                 SolrHotelDO hotelDO = articleBiz.getResourceById(id);
-                ArticleResourceItemVO articleResourceItemVO = ArticleConverter.getArticleResourceItemVO(hotelDO);
-                if (articleResourceItemVO != null) {
-                    articleItemVO.setArticleResourceItemVO(articleResourceItemVO);
+                ArticleHotelResourceItemVO articleHotelResourceItemVO = ArticleConverter.getArticleResourceItemVO(hotelDO);
+                if (articleHotelResourceItemVO != null) {
+                    articleItemVO.setArticleHotelResourceItemVO(articleHotelResourceItemVO);
                 }
                 break;
             case SCENICRESOURCE:
