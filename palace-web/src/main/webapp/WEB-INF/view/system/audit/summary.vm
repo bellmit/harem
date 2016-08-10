@@ -64,6 +64,7 @@
 					</tr>
 					#foreach($item in $pageVo)
 					<tr>
+						#set($redFont = "")
 						#if($item.auditResultStatus == $AUDIT_FAIL)
 							#set($redFont = "color:red;")
 						#end
