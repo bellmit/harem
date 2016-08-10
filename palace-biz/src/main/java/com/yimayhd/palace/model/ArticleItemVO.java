@@ -1,5 +1,7 @@
 package com.yimayhd.palace.model;
 
+import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,9 +47,13 @@ public class ArticleItemVO implements Serializable {
 	private ArticleExpertManItemVO articleExpertManItemVO;
 	
 	/**
-	 * 资源项
+	 * 酒店资源项
 	 */
 	private ArticleHotelResourceItemVO articleHotelResourceItemVO;
+	/**
+	 * 景区资源项
+	 */
+	private ArticleScenicResourceItemVO articleScenicResourceItemVO;
 
 	public long getId() {
 		return id;
@@ -161,4 +167,11 @@ public class ArticleItemVO implements Serializable {
 		this.articleHotelResourceItemVO = articleHotelResourceItemVO;
 	}
 
+	public ArticleScenicResourceItemVO getArticleScenicResourceItemVO() {
+		return articleScenicResourceItemVO;
+	}
+
+	public void setArticleScenicResourceItemVO(ArticleScenicResourceItemVO articleScenicResourceItemVO) {
+		this.articleScenicResourceItemVO = articleScenicResourceItemVO;
+	}
 }
