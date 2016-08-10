@@ -19,10 +19,10 @@ public class ArticleChecker {
 
 	public static CheckResult checkArticleVO(ArticleVO articleVO) {
 		if (StringUtils.isBlank(articleVO.getTitle()) || articleVO.getTitle().length() > 12) {
-			return CheckResult.error("标题不能为空");
+			return CheckResult.error("标题不能为空，长度最多12个字符");
 		}
 		if (StringUtils.isBlank(articleVO.getSubTitle()) || articleVO.getSubTitle().length() > 12) {
-			return CheckResult.error("副标题不能为空");
+			return CheckResult.error("副标题不能为空，长度最多12个字符");
 		}
 		if (StringUtils.isBlank(articleVO.getFrontcover())) {
 			return CheckResult.error("封面不能为空");
