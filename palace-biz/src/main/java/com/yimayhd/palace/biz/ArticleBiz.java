@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.solrsearch.client.constant.HotelConstant;
+import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,15 +176,14 @@ public class ArticleBiz {
         return citys;
     }
 
-    public SolrHotelDO getResourceById(long id) {
+    public SolrHotelDO getSolrHotelDOById(long id) {
         SolrsearchDTO solrsearchDTO = new SolrsearchDTO();
         List<Long> ids = new ArrayList<Long>();
         ids.add(id);
         solrsearchDTO.setIds(ids);
         solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-        solrsearchDTO.setBeginDay(new Date());
-        solrsearchDTO.setEndDay(new Date());
-        solrsearchDTO.setHotelType(HotelConstant.HOTEL_JD);
+        solrsearchDTO.setBeginDay(DateUtil.getMonth(new Date(), -1));
+        solrsearchDTO.setEndDay(DateUtil.getMonth(new Date(), 1));
         solrsearchDTO.setPageNo(1);
         solrsearchDTO.setPageSize(1);
         SolrsearchPageResult<SolrHotelDO> result = solrsearchRepo.queryHotelListByPage(solrsearchDTO);
@@ -190,6 +191,23 @@ public class ArticleBiz {
             return null;
         }
         List<SolrHotelDO> list = result.getList();
+        return list.get(0);
+    }
+    public SolrScenicDO getSolrScenicDOById(long id) {
+        SolrsearchDTO solrsearchDTO = new SolrsearchDTO();
+        List<Long> ids = new ArrayList<Long>();
+        ids.add(id);
+        solrsearchDTO.setIds(ids);
+        solrsearchDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+        solrsearchDTO.setBeginDay(DateUtil.getMonth(new Date(), -1));
+        solrsearchDTO.setEndDay(DateUtil.getMonth(new Date(), 1));
+        solrsearchDTO.setPageNo(1);
+        solrsearchDTO.setPageSize(1);
+        SolrsearchPageResult<SolrScenicDO> result = solrsearchRepo.queryScenicListByPage(solrsearchDTO);
+        if (result == null || CollectionUtils.isEmpty(result.getList())) {
+            return null;
+        }
+        List<SolrScenicDO> list = result.getList();
         return list.get(0);
     }
 

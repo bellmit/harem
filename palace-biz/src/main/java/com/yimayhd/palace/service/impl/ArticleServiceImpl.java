@@ -8,6 +8,7 @@ import com.yimayhd.palace.biz.ArticleBiz;
 import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.*;
 import com.yimayhd.palace.model.query.ArticleListQuery;
+import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
 import com.yimayhd.palace.repo.ArticleRepo;
 import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.MerchantRepo;
@@ -21,6 +22,7 @@ import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
+import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 import com.yimayhd.user.client.dto.UserDTO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -158,13 +160,18 @@ public class ArticleServiceImpl implements ArticleService {
                 }
                 break;
             case HOTELRESOURCE:
-                SolrHotelDO hotelDO = articleBiz.getResourceById(id);
-                ArticleHotelResourceItemVO articleHotelResourceItemVO = ArticleConverter.getArticleResourceItemVO(hotelDO);
+                SolrHotelDO hotelDO = articleBiz.getSolrHotelDOById(id);
+                ArticleHotelResourceItemVO articleHotelResourceItemVO = ArticleConverter.getArticleHotelResourceItemVO(hotelDO);
                 if (articleHotelResourceItemVO != null) {
                     articleItemVO.setArticleHotelResourceItemVO(articleHotelResourceItemVO);
                 }
                 break;
             case SCENICRESOURCE:
+                SolrScenicDO solrScenicDO = articleBiz.getSolrScenicDOById(id);
+                ArticleScenicResourceItemVO articleScenicResourceItemVO = ArticleConverter.getArticleScenicResourceItemVO(solrScenicDO);
+                if (articleScenicResourceItemVO != null) {
+                    articleItemVO.setArticleScenicResourceItemVO(articleScenicResourceItemVO);
+                }
                 break;
             default:
                 break;

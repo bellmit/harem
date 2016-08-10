@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
+import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -255,7 +257,7 @@ public class ArticleConverter {
 		return articleProductItemVO;
 	}
 
-	public static ArticleHotelResourceItemVO getArticleResourceItemVO(SolrHotelDO hotelDO) {
+	public static ArticleHotelResourceItemVO getArticleHotelResourceItemVO(SolrHotelDO hotelDO) {
 		if (hotelDO == null) {
 			return null;
 		}
@@ -265,5 +267,17 @@ public class ArticleConverter {
 		articleHotelResourceItemVO.setResourcePrice(hotelDO.getPrice());
 		articleHotelResourceItemVO.setTradeArea(hotelDO.getTradeArea());
 		return articleHotelResourceItemVO;
+	}
+
+	public static ArticleScenicResourceItemVO getArticleScenicResourceItemVO(SolrScenicDO solrScenicDO) {
+		if (solrScenicDO==null){
+			return null;
+		}
+		ArticleScenicResourceItemVO articleScenicResourceItemVO=new ArticleScenicResourceItemVO();
+		articleScenicResourceItemVO.setTradeArea(solrScenicDO.getCityName());
+		articleScenicResourceItemVO.setResourcePrice(solrScenicDO.getPrice());
+		articleScenicResourceItemVO.setResourceName(solrScenicDO.getScenicName());
+		articleScenicResourceItemVO.setResourcePic(solrScenicDO.getIcon());
+		return articleScenicResourceItemVO;
 	}
 }
