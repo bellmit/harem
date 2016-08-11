@@ -45,6 +45,7 @@
                             <td><span class="spColor">*</span>作者信息</td>
                             <td>
                                 <div class="userBtn">
+                                    <input type="hidden" value="$utilWebconfig.getTfsRootPath()" id="tfspath">
                                     <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
                                     <input type="hidden" id="nickNameId"  name="nickName" value="$!travelOfficial.nickName">
                                     <input type="hidden" id="userPhotoId"  name="userPhoto" value="#if($!travelOfficial.userPhoto)
@@ -52,7 +53,7 @@
                                     <input type="hidden" id="createIdId"  name="createId" value="$!travelOfficial.createId">#* $!travelOfficial.createId *#
                                 </div>
                                 <div class="userView">
-                                    <img src=" #if($travelOfficial.userPhoto) $utilWebconfig.getTfsRootPath()$!travelOfficial.userPhoto  #end">
+                                    <img src=" #if($travelOfficial.userPhoto) $utilWebconfig.getTfsRootPath()$!travelOfficial.userPhoto  #end" id="userViewSrc">
                                     <span id="shownickNameId">$!travelOfficial.createUserName</span>
                                 </div>
                             </td>
@@ -103,9 +104,9 @@
                         if(null != item){
                             $("#nickNameId").val(item.nickname);
                             $("#shownickNameId").text(item.name);
-
-                            $("#userPhotoId").val(item.avatar);
+                            $("#userPhotoId").val($("#tfspath").val()+item.avatar);
                             $("#createIdId").val(item.id);
+                            $("#userViewSrc").attr("src",$("#tfspath").val()+item.avatar);
                        }
                        return true;
                     });
