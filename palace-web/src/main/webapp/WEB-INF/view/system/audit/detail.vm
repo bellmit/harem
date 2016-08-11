@@ -18,7 +18,7 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">对账日期</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="auditDate" value="$!query.auditDate">
+				<input type="text" class="form-control form-date dateInp" readonly id="auditDate" name="auditDate" value="$!query.auditDate">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
@@ -95,6 +95,15 @@
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
 <script type="text/javascript">
 	
+	//对账日期默认为前一天
+	function setAuditPreDate(){
+		var today=new Date();
+	    var yesterdayMilliseconds=today.getTime()-1000*60*60*24;  
+	    var yesterday=new   Date();      
+	    yesterday.setTime(yesterdayMilliseconds);    
+	    $("#auditDate").val(yesterday.format("yyyy-MM-dd"));
+	}
+	
 	(function(){
 	
 		$(".form-date").datetimepicker({
@@ -111,7 +120,12 @@
         
         $('.reset').click(function(){
            $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+           setAuditPreDate();
         });
+        
+        if(!$("#auditDate").val()){
+        	setAuditPreDate();
+        }
 	})();
 	
 	

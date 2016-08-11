@@ -82,6 +82,9 @@ public class AuditManageController extends BaseController {
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String detail(Model model, AuditQuery query) throws Exception {
 		
+		if(StringUtils.isEmpty(query.getAuditDate())){
+			query.setAuditDate(DateUtil.getDayAgo(new Date(), -1));
+		}
 		PageVO<PayAuditOrderVO> pageVo = auditService.queryAuditOrder(query);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
