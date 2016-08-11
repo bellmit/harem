@@ -153,7 +153,7 @@
                         </td>
                         <td>
                             <div class="order-number">
-                                #if(! $order.merchantInfo.merchantName && ! $order.merchantInfo.userNick)
+                                #if($!order.merchantInfo.merchantName && $!order.merchantInfo.userNick)
                                     $!order.merchantInfo.merchantName/$!order.merchantInfo.userNick
                                 #else
                                     $!order.merchantInfo.merchantName$!order.merchantInfo.userNick
