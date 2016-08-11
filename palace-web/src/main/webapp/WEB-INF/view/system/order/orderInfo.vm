@@ -87,7 +87,7 @@
             </tr>
             <tr>
                 <td>付款时间：</td>
-                #if($order.bizOrder.orderType == 3400)
+                #if($order.bizOrder.orderType == 3400 || $order.bizOrder.orderType==4000)
             		<td></td>
             	#else
                 	<td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.payTime)})}</td>
