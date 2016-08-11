@@ -22,6 +22,7 @@ import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.pay.client.model.enums.PayChannel;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
+import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -91,7 +92,7 @@ public class ExportController extends BaseController{
                 return mo;
             }
             List<ExportGfOrder> list = getListExportGfOrder(pageVO,exportQuery);
-            if(list.size()>Constant.EXPORTMAXCOUNT){
+            if(list.size()>Constant.EXPORTMAXCOUNT && !exportQuery.resolve){
                 ModelAndView mo = new ModelAndView();
                 mo.addObject("message","数据量太大【"+pageVO.getTotalCount()+"，"+list.size()+"】，请缩小查询范围");
                 mo.setViewName("error");
@@ -187,8 +188,7 @@ public class ExportController extends BaseController{
                     eo.setBuyerName(buyer);
                     eo.setBizOrderId(bizOrderId);
                     eo.setCreateDate(DateUtil.dateToString(bizOrder.getGmtCreated(),"yyyy-MM-dd HH:mm:ss"));
-
-                    eo.setActualFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())) );
+                    eo.setActualFee(String.valueOf(NumUtil.moneyTransformDouble(BizOrderUtil.getSubOrderActualFee(bizOrder))) );
                     eo.setSumFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())));
 
                 }

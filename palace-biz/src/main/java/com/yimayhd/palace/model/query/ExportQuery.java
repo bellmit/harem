@@ -9,6 +9,16 @@ import java.util.Set;
  */
 public class ExportQuery extends OrderListQuery implements Serializable{
     private Set<Integer> ids;
+    public boolean resolve = false;//强制的下载
+
+    public boolean isResolve() {
+        return resolve;
+    }
+
+    public void setResolve(boolean resolve) {
+        this.resolve = resolve;
+    }
+
     public Set<Integer> getIds() {
         return ids;
     }
