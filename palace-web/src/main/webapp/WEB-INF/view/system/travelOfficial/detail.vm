@@ -47,7 +47,8 @@
                                 <div class="userBtn">
                                     <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
                                     <input type="hidden" id="nickNameId"  name="nickName" value="$!travelOfficial.nickName">
-                                    <input type="hidden" id="userPhotoId"  name="userPhoto" value="$!travelOfficial.userPhoto">
+                                    <input type="hidden" id="userPhotoId"  name="userPhoto" value="#if($!travelOfficial.userPhoto)
+ $utilWebconfig.getTfsRootPath()$!travelOfficial.userPhoto #end">
                                     <input type="hidden" id="createIdId"  name="createId" value="$!travelOfficial.createId">#* $!travelOfficial.createId *#
                                 </div>
                                 <div class="userView">

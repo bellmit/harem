@@ -133,7 +133,11 @@ public class TravelOfficialImpl implements TravelOfficialService{
             travelOfficialData.setPreface(snsTravelSpecialtyDO.getPreface() == null ? null :snsTravelSpecialtyDO.getPreface());
             travelOfficialData.setImgContentJson(snsTravelSpecialtyDO.getImgContentJson() == null ? null :snsTravelSpecialtyDO.getImgContentJson());
             travelOfficialData.setListTravelJsonDO(convertTravelJsonDO(snsTravelSpecialtyDO.getImgContentJson()));
-            travelOfficialData.setCreateUserName(getUserName(snsTravelSpecialtyDO.getCreateId()));
+            UserDO userDO = userRPCService.getUserById(snsTravelSpecialtyDO.getCreateId());
+            if(userDO!=null) {
+                travelOfficialData.setCreateUserName(userDO.getName());
+                travelOfficialData.setUserPhoto(userDO.getAvatar());
+            }
             travelOfficialData.setCreateId(snsTravelSpecialtyDO.getCreateId());
             travelOfficialData.setDomain(snsTravelSpecialtyDO.getDomain());
         }
