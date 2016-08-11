@@ -89,7 +89,7 @@
                         <td>
                             <button type="button" class="btn btn-primary liveDetail" liveId="$live.id">详情</button>
                             <button type="button" class="btn btn-primary livePicListBtn"  picListStr='$!live.picListStr' >图片</button>
-                            <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status" #if($live.status == 3) disabled #end>#TREND_STATUS($!live.status)</button>
+                            <button type="button" class="btn btn-primary liveBtn"  liveId="$!live.id" status="$!live.status" #if($live.status == 3) disabled #end>#LIVE_STATUS($!live.status)</button>
                         </td>
                     </tr>
                     #end

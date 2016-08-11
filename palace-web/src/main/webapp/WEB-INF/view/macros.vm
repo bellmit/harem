@@ -73,6 +73,13 @@
     正常
     #elseif($type == '2')
     违规
+    #end
+#end
+#macro(LIVE_STATUS $type)
+    #if($type == '1')
+    违规
+    #elseif($type == '2')
+    恢复
     #elseif($type == '3')
     正常
     #end
