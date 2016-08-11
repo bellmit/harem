@@ -76,15 +76,15 @@ public class ApplyBiz {
 			result.setPalaceReturnCode(PalaceReturnCode.APPLY_RECORD_NOT_EXIT);
 			return result ;
 		}
-		if (approveVO.isPass()) {
-			
-			VerifyIdentityResult verifyIdentityResult = examineDealRepo.verifyEleBankAccount(dto);
-			if (verifyIdentityResult == null || !verifyIdentityResult.isSuccess()) {
-				log.error("examineDealRepo.verifyEleBankAccount param:ExamineInfoDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(verifyIdentityResult));
-				result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
-				return result;
-			}
-		}
+//		if (approveVO.isPass()) {
+//			
+//			VerifyIdentityResult verifyIdentityResult = examineDealRepo.verifyEleBankAccount(dto);
+//			if (verifyIdentityResult == null || !verifyIdentityResult.isSuccess()) {
+//				log.error("examineDealRepo.verifyEleBankAccount param:ExamineInfoDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(verifyIdentityResult));
+//				result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+//				return result;
+//			}
+//		}
 		ExamineDealDTO examineDealDTO = ApplyHelper.getExamineDealDTO(approveVO, approverId);
 		examineDealDTO.setDomainId(dto.getDomainId());
 		examineDealDTO.setSellerId(dto.getSellerId());
@@ -103,6 +103,29 @@ public class ApplyBiz {
 		try {
 			log.info("examineDealRepo.verifyCorBankAccount param:ExamineInfoDTO={}",JSON.toJSONString(dto));
 			ResultSupport resultSupport = examineDealRepo.verifyCorBankAccount(dto);
+			log.info("examineDealRepo.verifyCorBankAccount result:{}",JSON.toJSONString(resultSupport));
+			if (resultSupport == null || !resultSupport.isSuccess()) {
+				log.error("examineDealRepo.verifyCorBankAccount result:{}",JSON.toJSONString(resultSupport));
+				result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+				return result;
+			}
+		} catch (Exception e) {
+			log.error("param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
+			result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+		}
+		
+		return result;
+	}
+	public BizResultSupport checkEleBankAccount(ExamineInfoDTO dto) {
+		BizResultSupport result = new BizResultSupport() ;
+		if (dto == null ) {
+			log.error("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
+			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return result;
+		}
+		try {
+			log.info("examineDealRepo.verifyCorBankAccount param:ExamineInfoDTO={}",JSON.toJSONString(dto));
+			ResultSupport resultSupport = examineDealRepo.verifyEleBankAccount(dto);
 			log.info("examineDealRepo.verifyCorBankAccount result:{}",JSON.toJSONString(resultSupport));
 			if (resultSupport == null || !resultSupport.isSuccess()) {
 				log.error("examineDealRepo.verifyCorBankAccount result:{}",JSON.toJSONString(resultSupport));

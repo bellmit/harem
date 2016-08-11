@@ -58,6 +58,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/jiuxiu/apply")
 public class ApplyApprovalController extends BaseController {
@@ -113,12 +115,12 @@ public class ApplyApprovalController extends BaseController {
         // 如果审核通过并且身份是商户,此处不做任何处理,待商品类目分配完成后集中更新申请状态,新增申请明细,新增商户,新增商户与商品类目关系,发送短信
         if (approveVO.isPass() && type == MerchantType.MERCHANT.getType()) {
         	//验证银行账户
-            BizResultSupport checkBankResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
-            if (checkBankResult == null || !checkBankResult.isSuccess()) {
-    			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
-    			approveResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
-    			return approveResultSupport;
-    		}
+//            BizResultSupport checkBankResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
+//            if (checkBankResult == null || !checkBankResult.isSuccess()) {
+//    			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
+//    			approveResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+//    			return approveResultSupport;
+//    		}
             
             checkResult = new BizResultSupport();
             return checkResult;
@@ -626,5 +628,27 @@ public class ApplyApprovalController extends BaseController {
 
         return new BizResultSupport();
 
+    }
+    @RequestMapping(value="verifyBankInfo")
+    @ResponseBody
+    public BizResultSupport verifyBankInfo(HttpServletRequest request,long examineId) {
+    	BizResultSupport result = new BizResultSupport();
+        MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(examineId);
+        if (examineInfoDTOResult == null || !examineInfoDTOResult.isSuccess() || examineInfoDTOResult.getValue() == null) {
+			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+			return result;
+		}
+        ExamineInfoDTO examineInfoDTO = examineInfoDTOResult.getValue();
+        if (examineInfoDTO.getType() == MerchantType.MERCHANT.getType()) {
+			result = applyBiz.checkCorBankAccount(examineInfoDTO);
+		}
+        if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
+			result = applyBiz.checkEleBankAccount(examineInfoDTO);
+		}
+        if (result == null) {
+			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+			return result;
+		}
+    	return result;
     }
 }
