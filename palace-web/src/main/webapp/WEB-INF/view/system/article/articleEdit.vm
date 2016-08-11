@@ -26,16 +26,16 @@
 				<tr>
                     <td><span class="spColor">*</span>标题：</td>
                     <td>
-						 <input type="text" class="form-control summary title" name="title"  value="$!{escUtil.html($!article.title)}" maxlength="38">
-						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
+						 <input type="text" class="form-control summary title" name="title"  value="$!{escUtil.html($!article.title)}" maxlength="12">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">12</em></span>
                     </td>
                 </tr>
 				<tr>
-                    <td>副标题：</td>
+                    <td><span class="spColor">*</span>副标题：</td>
                     <td>
 						 <span style="display:none">$!article.subTitle</span>
-						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!{escUtil.html($!article.subTitle)}" maxlength="38">
-						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
+						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!{escUtil.html($!article.subTitle)}" maxlength="12">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">12</em></span>
                     </td>
                 </tr>
 				<tr>
@@ -113,7 +113,7 @@
 												<span class="prinum">
 													#set($pri1=$!articleItem.articleProductItemVO.itemPrice / 100)
 													#set($pri2=$!articleItem.articleProductItemVO.itemPrice / 100.00)
-													￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice % 100)#if($pri == 0) $pri1 #else $pri2 #end</em>
+													￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice % 100)#if($pri == 0) $!pri1 #else $!pri2 #end</em>
 												</span>
 											</p>
 											<p class="itemleft">
@@ -131,6 +131,34 @@
 									</div>
 								</div>
 								#end
+								#if($articleItem.type == 6)
+								<div class="item movesection saved">
+									<div class="itemwraptitle">$!articleItem.title</div>
+									<div class="wrap itemwrap" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
+										<div class="itemimgbox">
+											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleHotelResourceItemVO.resourcePic">
+											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>酒店/客栈</p>
+										</div>
+										<div class="itemmsgbox">
+											<p class="itemright">
+												<span class="pritxt"></span>
+												<span class="prinum">
+													#set($pri1=$!articleItem.articleHotelResourceItemVO.resourcePrice / 100)
+													#set($pri2=$!articleItem.articleHotelResourceItemVO.resourcePrice / 100.00)
+													￥<em>#set($pri=$!articleItem.articleHotelResourceItemVO.resourcePrice % 100)#if($!pri == 0) $pri1 #else $!pri2 #end</em>起
+												</span>
+											</p>
+											<p class="itemleft">
+												<span class="itemtitle hoteltitle">$!articleItem.articleHotelResourceItemVO.resourceName</span>
+												<span class="itemshop">
+													<i class="icon-area"></i>
+													<label class="shoptitle hotelarea">$!articleItem.articleHotelResourceItemVO.tradeArea</label>
+												</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								#end								
 								#if($articleItem.type == 4)
 								<div class="item movesection saved">
 									<div class="itemwraptitle">$!articleItem.title</div>
@@ -158,7 +186,8 @@
 										<div class="askcenter">
 											<p class="askname">$!articleItem.articleConsultServiceItemVO.serviceName</p>
 											<p class="askpri">
-												<span class="apri">$!articleItem.articleConsultServiceItemVO.serviceCurrentPrice积分/$!articleItem.articleConsultServiceItemVO.consultTime分钟</span>
+												#set($minu=$!articleItem.articleConsultServiceItemVO.consultTime / 60)
+												<span class="apri">$!articleItem.articleConsultServiceItemVO.serviceCurrentPrice积分/$!minu分钟</span>
 												<span class="bpri">$!articleItem.articleConsultServiceItemVO.serviceOriginalPrice积分</span>
 											</p>
 											<p class="askarea">
@@ -179,7 +208,8 @@
 									<li><a href="javascript:void(0)" class="addpic">添加图片</a></li>
 									<li><a href="javascript:void(0)" class="additem">添加商品</a></li>
 									<li><a href="javascript:void(0)" class="addexpert">添加达人</a></li>
-									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>									
+									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>
+									<li><a href="javascript:void(0)" class="addhotel">添加酒店</a></li>									
 								</ul>
 							</div>
 							
