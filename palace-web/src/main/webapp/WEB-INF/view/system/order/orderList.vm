@@ -153,7 +153,12 @@
                         </td>
                         <td>
                             <div class="order-number">
-                             $!order.merchantInfo.merchantName
+                                #if($!order.merchantInfo.merchantName && $!order.merchantInfo.userNick)
+                                    $!order.merchantInfo.merchantName/$!order.merchantInfo.userNick
+                                #else
+                                    $!order.merchantInfo.merchantName$!order.merchantInfo.userNick
+                                #end
+
                             </div>
                         </td>
                         <td>
