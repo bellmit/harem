@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ import com.yimayhd.user.session.manager.SessionManager;
  *
  */
 public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
-	private static final Logger log = LoggerFactory.getLogger(JiuxiuOrderServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger("business.log");
 	@Autowired
     private SessionManager sessionManager;
 	@Autowired
@@ -57,7 +58,9 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		
 		JiuxiuHelper.fillOrderQueryDTO(dto, jiuxiuOrderListQuery);
 		dto.setNeedExtFeature(true);
+		log.info("dto:"+ JSON.toJSONString(dto));
 		BatchBizQueryResult result = tcBizQueryServiceRef.queryOrderForAdmin(dto);
+		log.info("BatchBizQueryResult:"+ JSON.toJSONString(result));
 		BatchJiuxiuOrderResult jiuxiuResult = new BatchJiuxiuOrderResult();
 		List<JiuxiuTcMainOrder> jiuxiuTcMainOrders = new ArrayList<JiuxiuTcMainOrder>();
 		jiuxiuResult.setTotalCount(result.getTotalCount());
