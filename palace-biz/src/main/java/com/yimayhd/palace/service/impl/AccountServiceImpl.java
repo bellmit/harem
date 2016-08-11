@@ -38,20 +38,17 @@ public class AccountServiceImpl implements AccountService {
 	public EleAccBalanceResultVO queryEleAccBalance(AccountQuery query) throws Exception {
 		
 		EleAccBalanceResultVO resultVO = new EleAccBalanceResultVO();
+		resultVO.setEleAccBalanceVOPage(new PageVO<EleAccBalanceVO>());
 		
+		EleAccBalanceQuery queryDO = null;
 		try {
-			if(StringUtils.isNotEmpty(query.getUserId())){
-				Long.parseLong(query.getUserId());
-			}
+			queryDO = AccountQuery.getEleAccBalanceQuery(query);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("AccountServiceImpl.queryEleAccBalance param is illegal : {}, and exception is {}", JSON.toJSONString(query), e);
 			return resultVO;
 		}
 		
-		resultVO.setEleAccBalanceVOPage(new PageVO<EleAccBalanceVO>());
-		
-		EleAccBalanceQuery queryDO = AccountQuery.getEleAccBalanceQuery(query);
 		EleAccBalanceResult result = accountRepo.queryEleAccBalance(queryDO);
 		if(result == null){
 			log.error("accountRepo.queryEleAccBalance return value is null !returnValue : {}", JSON.toJSONString(result));
@@ -75,8 +72,14 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query) throws Exception {
 		
+		EleAccBillDetailQuery queryDO = null;
+		try {
+			queryDO = AccountQuery.getEleAccBillDetailQuery(query);
+		} catch (Exception e) {
+			log.error("AccountServiceImpl.queryEleAccBillDetail param is illegal : {}, and exception is {}", JSON.toJSONString(query), e);
+			return new PageVO<EleAccountBillVO>();
+		}
 		
-		EleAccBillDetailQuery queryDO = AccountQuery.getEleAccBillDetailQuery(query);
 		PayPageResultDTO<EleAccountBillDTO> result = accountRepo.queryEleAccBillDetail(queryDO);
 		if(result == null){
 			log.error("accountRepo.queryEleAccBillDetail return value is null !returnValue : {}", JSON.toJSONString(result));

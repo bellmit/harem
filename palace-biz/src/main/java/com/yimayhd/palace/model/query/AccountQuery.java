@@ -29,7 +29,9 @@ public class AccountQuery extends BaseQuery {
     /**交易类型**/
     private String transType;
     
-    public static EleAccBalanceQuery getEleAccBalanceQuery(AccountQuery query) throws ParseException{
+    private String outSn;
+    
+	public static EleAccBalanceQuery getEleAccBalanceQuery(AccountQuery query) throws ParseException{
     	
     	if(query == null){
     		return null;
@@ -44,7 +46,7 @@ public class AccountQuery extends BaseQuery {
 		}
     	
     	if(StringUtils.isNotEmpty(query.getUserId())){
-    		queryDO.setUserId(Long.parseLong(query.getUserId()));
+    		queryDO.setUserId(Long.parseLong(query.getUserId().trim()));
     	}
     	if(StringUtils.isNotEmpty(query.getUserName())){
     		queryDO.setUserName(query.getUserName());
@@ -83,11 +85,7 @@ public class AccountQuery extends BaseQuery {
     	}
     	
     	if(StringUtils.isNotEmpty(query.getPayOrderId())){
-    		queryDO.setPayOrderId(Long.parseLong(query.getPayOrderId()));
-    	}
-    	
-    	if(StringUtils.isNotEmpty(query.getPayOrderId())){
-    		queryDO.setPayOrderId(Long.parseLong(query.getPayOrderId()));
+    		queryDO.setPayOrderId(Long.parseLong(query.getPayOrderId().trim()));
     	}
     	
     	if(StringUtils.isNotEmpty(query.getTransType())){
@@ -95,7 +93,10 @@ public class AccountQuery extends BaseQuery {
     	}
     	
     	if(StringUtils.isNotEmpty(query.getUserId())){
-    		queryDO.setUserId(Long.parseLong(query.getUserId()));
+    		queryDO.setUserId(Long.parseLong(query.getUserId().trim()));
+    	}
+    	if(StringUtils.isNotEmpty(query.getOutSn())){
+    		queryDO.setOutSn(Long.parseLong(query.getOutSn().trim()));
     	}
     	
     	queryDO.setNeedCount(true);
@@ -154,5 +155,13 @@ public class AccountQuery extends BaseQuery {
 
 	public void setPayOrderId(String payOrderId) {
 		this.payOrderId = payOrderId;
+	}
+	
+	public String getOutSn() {
+		return outSn;
+	}
+
+	public void setOutSn(String outSn) {
+		this.outSn = outSn;
 	}
 }

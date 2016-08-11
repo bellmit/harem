@@ -17,9 +17,9 @@
 				<span class="input-group-btn">
                     <button class="btn btn-default" type="button">发起日期</button>
                 </span>
-				<input type="text" class="form-control form-date dateInp" readonly name="reqDateStart" value="$!query.reqDateStart">
+				<input type="text" class="form-control form-date dateInp" readonly id="startDate" name="reqDateStart" value="$!query.reqDateStart">
 				<span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-				<input type="text" class="form-control form-date dateInp" readonly name="reqDateEnd" value="$!query.reqDateEnd">
+				<input type="text" class="form-control form-date dateInp" readonly id="endDate" name="reqDateEnd" value="$!query.reqDateEnd">
 			</div>
 			<div class="input-group inpSingle ">
 				<span class="input-group-btn">
@@ -95,7 +95,7 @@
 	
 	(function(){
 	
-		$(".form-date").datetimepicker({
+		$("#startDate").datetimepicker({
             language:  "zh-CN",
             weekStart: 1,
             todayBtn:  1,
@@ -105,8 +105,40 @@
             minView: 2,
             forceParse: 0,
             format: "yyyy-mm-dd"
+        }).on("changeDate", function(){
+        	var startDateStr = $("#startDate").val();
+        	if(startDateStr){
+        		var startDate = new Date(startDateStr + " 00:00:00");
+        	}
+        	
+        	var endDateStr = $("#endDate").val();
+        	if(endDateStr){
+        		var endDate = new Date(endDateStr + " 00:00:00");
+        	}
+        	
+        	if(startDate && endDate && startDate > endDate){
+        		$('#endDate').val(startDateStr);
+        	}
+        	$('#endDate').datetimepicker('setStartDate', startDateStr);
         });
+        
+        $("#endDate").datetimepicker({
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        })
 	
+		var startDateExist = $("#startDate").val(); 
+		if(startDateExist){
+			$('#endDate').datetimepicker('setStartDate', startDateExist);
+		}
+		
 		$('.detail').click(function(){
 		
 			var param = [];
