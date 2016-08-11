@@ -156,7 +156,12 @@ public class GFCommodityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
-	public String addCommon(ItemVO itemVO) throws Exception {
+	public String addCommon(ItemVO itemVO,Model model) throws Exception {
+		//
+		if(null == itemVO || itemVO.getPriceY()<=0 ||itemVO.getPrice() <=0 ){
+			model.addAttribute("message","itemVO不能为空，或者商品[sku]价格必须大于0");
+			return "/error";
+		}
 		long sellerId = B2CConstant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
 		logger.info("addCommon  itemVO={}", JSON.toJSONString(itemVO));
@@ -194,7 +199,11 @@ public class GFCommodityManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
-	public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
+	public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId,Model model) throws Exception {
+		if(null == itemVO || itemVO.getPriceY()<=0 ||itemVO.getPrice() <=0 ){
+			model.addAttribute("message","itemVO不能为空，或者商品[sku]价格必须大于0");
+			return "/error";
+		}
 		itemVO.setId(itemId);
 		long sellerId = B2CConstant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
