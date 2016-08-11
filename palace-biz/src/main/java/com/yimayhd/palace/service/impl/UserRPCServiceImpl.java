@@ -122,8 +122,13 @@ public class UserRPCServiceImpl implements UserRPCService {
 
 	@Override
 	public UserDO getUserById(long id) {
-		UserDO user = userServiceRef.getUserDOById(id);
-		return user;
+		BaseResult<UserDO> baseResult = userServiceRef.getUserDOByUserId(id);
+		if(baseResult!=null&&baseResult.isSuccess()){
+			return baseResult.getValue();
+		}else {
+			log.error("getUserById：result is null");
+			return null;
+		}
 	}
 
 	@Override

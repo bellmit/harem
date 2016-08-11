@@ -54,10 +54,10 @@ public class TextUtil {
 			return null;
 		}
 		if (status == BizLiveStatus.AVAILABLE.getValue()) {
-			return BizLiveStatus.DELETED.getText();
+			return BizLiveStatus.AVAILABLE.getText();
 		}
 		if (status == BizLiveStatus.DELETED.getValue()) {
-			return BizLiveStatus.AVAILABLE.getText();
+			return BizLiveStatus.DELETED.getText();
 		}
 		if (status == BizLiveStatus.UNAVAILABLE.getValue()) {
 			return BizLiveStatus.UNAVAILABLE.getText();
