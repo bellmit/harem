@@ -46,10 +46,10 @@ public class SettlementQuery extends BaseQuery {
 		}
     	
     	if(StringUtils.isNotEmpty(query.getReqDateStart())){
-    		queryDO.setReqDateStart(query.getReqDateStart());
+    		queryDO.setSettlementDateStart(query.getReqDateStart());
     	}
     	if(StringUtils.isNotEmpty(query.getReqDateEnd())){
-    		queryDO.setReqDateEnd(query.getReqDateEnd());
+    		queryDO.setSettlementDateEnd(query.getReqDateEnd());
     	}
     	if(StringUtils.isNotEmpty(query.getAccountType())){
     		queryDO.setAccountType(Integer.parseInt(query.getAccountType()));
@@ -61,7 +61,7 @@ public class SettlementQuery extends BaseQuery {
     		queryDO.setBackTime(query.getBackTime());
     	}
     	if(StringUtils.isNotEmpty(query.getReqDate())){
-    		queryDO.setReqDate(query.getReqDate());
+    		queryDO.setSettlementDate(query.getReqDate());
     	}
     	if(StringUtils.isNotEmpty(query.getBatchNo())){
     		queryDO.setBatchNo(Integer.parseInt(query.getBatchNo()));

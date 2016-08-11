@@ -851,14 +851,24 @@
 
 #*交易类型*#
 #macro(TRANS_TYPE $type)
-    #if($type == '2')
+	#if($type == '1')
+		支付
+    #elseif($type == '2')
 		充值
     #elseif($type == '3')
 		提现
+	#elseif($type == '4')
+		资金转入
+	#elseif($type == '5')
+		资金转出
     #elseif($type == '6')
 		消费
 	#elseif($type == '7')
 		结算
+	#elseif($type == '8')
+		手续费
+	#elseif($type == '9')
+		服务费
 	#elseif($type == '10')
 		退款
     #end
