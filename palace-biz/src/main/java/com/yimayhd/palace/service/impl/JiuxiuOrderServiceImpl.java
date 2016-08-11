@@ -42,7 +42,7 @@ import com.yimayhd.user.session.manager.SessionManager;
  *
  */
 public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
-	private static final Logger log = LoggerFactory.getLogger(JiuxiuOrderServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger("business.log");
 	@Autowired
     private SessionManager sessionManager;
 	@Autowired
