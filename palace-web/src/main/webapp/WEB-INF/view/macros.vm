@@ -532,7 +532,7 @@
         其他
     #end
 #end
-
+#*
 #macro(GFTRADEREFUNDSTATUS $status)
     #if($!status==0)
     未退款
@@ -549,7 +549,7 @@
     #elseif($!status==6)
     用户已撤销
     #end
-#end
+#end*#
 
 #macro(ORDER_BIZ_TYPES $type)
     #if( $type == 3100)
