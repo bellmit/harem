@@ -80,6 +80,7 @@ public class ItemConverter {
 			itemVO.setStatus(itemDTO.getStatus());
 			itemVO.setOperates(ItemUtil.getItemOperates(itemDTO.getItemType(), itemDTO.getStatus()));
 			itemVO.setGmtModified(itemDTO.getGmtModified());
+			itemVO.setOrderNum(itemDTO.getOrderNum());//权重
 		}
 		
 		IcMerchantInfo icMerchantInfo = itemInfo.getIcMerchantInfoInfo();

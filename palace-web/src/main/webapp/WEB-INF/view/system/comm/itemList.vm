@@ -122,8 +122,8 @@
                             $!{itemInfo.scenicVO.name}<br>
                             $!{itemInfo.ticketVO.title}<br>
 						#end
-						$!item.name
-
+						$!item.name<br>
+						#if($item.type==101) 权重:$!item.orderNum #end
 
 					</td>
 					<td>
