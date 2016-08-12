@@ -52,6 +52,8 @@
                     <option value="6" #if($query.transType == 6) selected="selected" #end >消费</option>
                     <option value="10" #if($query.transType == 10) selected="selected" #end >退款</option>
                     <option value="2" #if($query.transType == 2) selected="selected" #end >充值</option>
+                    <option value="8" #if($query.transType == 8) selected="selected" #end >手续费</option>
+                    <option value="9" #if($query.transType == 9) selected="selected" #end >服务费</option>
                 </select>
 			</div>
 			<div class="btn-group">
