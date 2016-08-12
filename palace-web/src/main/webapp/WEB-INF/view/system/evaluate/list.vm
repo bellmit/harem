@@ -192,6 +192,9 @@
                         time: 2000
                     });
                     $(this).prop('disabled',false);
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    },1000);
                 }
             })
         });
