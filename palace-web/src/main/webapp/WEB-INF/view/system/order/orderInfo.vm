@@ -124,7 +124,7 @@
 	                <td>$!order.logisticsOrderDO.fullName</td>
 	                <td>$!order.logisticsOrderDO.mobilePhone</td>
 	                <td>$!order.logisticsOrderDO.post</td>
-	                <td>$!order.logisticsOrderDO.prov $!order.logisticsOrderDO.city$!order.logisticsOrderDO.area</td>
+	                <td>$!order.logisticsOrderDO.prov $!order.logisticsOrderDO.city $!order.logisticsOrderDO.area</td>
 	                <td>$!order.logisticsOrderDO.address</td>
 	            </tr>
 	        </table>
