@@ -162,6 +162,9 @@
         $('.subCheckedTR').click(function(){
             $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
         });
+        $(".subChecked").click( function(event){
+            event.stopPropagation(); // do something
+        });
         //批量违规
         $('.evaluationBatchBtn').click(function(){
             $(this).prop('disabled',true);
@@ -169,6 +172,11 @@
             $('.subChecked:checked').each(function(){
                 arr.push($(this).val());
             });
+            if(arr.length==0){
+                layer.alert("请至少选择一项");
+                $(this).prop('disabled',false);
+                return;
+            }
             $.post(actionDefaultPath +'/B2C/evaluationManage/batchViolation',{evaluationIdList:arr},function(data){
                 if(data&&data.status == 200){
                     layer.alert('操作成功', {
