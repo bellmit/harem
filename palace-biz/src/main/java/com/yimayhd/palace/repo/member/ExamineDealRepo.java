@@ -21,6 +21,7 @@ import com.yimayhd.pay.client.model.result.ResultSupport;
 import com.yimayhd.pay.client.model.result.eleaccount.VerifyIdentityResult;
 import com.yimayhd.pay.client.service.eleaccount.EleAccInfoService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,8 +116,14 @@ public class ExamineDealRepo {
 				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_CMP_ELE_ACCOUNT.getType());
 				
 			}
-			verifyEleAccountDTO.setUserName(dto.getFinanceOpenName());
-			verifyEleAccountDTO.setMobilePhone(dto.getOpenerTel());
+			verifyEleAccountDTO.setUserName(dto.getPrincipleName());
+			if (StringUtils.isNotBlank(dto.getOpenerTel())) {
+				
+				verifyEleAccountDTO.setMobilePhone(dto.getOpenerTel());
+			}else {
+				verifyEleAccountDTO.setMobilePhone(dto.getPrincipleTel());
+				
+			}
 			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:verifyEleAccountDTO={}",JSON.toJSONString(verifyEleAccountDTO));
 			VerifyIdentityResult verifyResult = eleAccInfoServiceRef.verifyEleAccount(verifyEleAccountDTO);
 			logger.info("eleAccInfoServiceRef.verifyEleAccount ,result:VerifyIdentityResult={}",JSON.toJSONString(verifyResult));
@@ -148,10 +155,23 @@ public class ExamineDealRepo {
 			verifyCmpEleAccountDTO.setOpenBankName(dto.getAccountBankName());
 			verifyCmpEleAccountDTO.setOpenAcctNo(dto.getAccountNum());
 			verifyCmpEleAccountDTO.setOpenAcctName(dto.getFinanceOpenName());
-			verifyCmpEleAccountDTO.setContactMobile(dto.getOpenerTel());
+			if (StringUtils.isNotBlank(dto.getOpenerTel())) {
+				
+				verifyCmpEleAccountDTO.setContactMobile(dto.getOpenerTel());
+			}else {
+				verifyCmpEleAccountDTO.setContactMobile(dto.getPrincipleTel());
+				
+			}
 			verifyCmpEleAccountDTO.setContactIdNo(dto.getOpenerCard());
 			verifyCmpEleAccountDTO.setCorpName(dto.getSellerName());
-			verifyCmpEleAccountDTO.setContactName(dto.getFinanceOpenName());
+			if (dto.getAccountType().equals(String.valueOf(AccountType.PERSON.getType()))) {
+				
+				verifyCmpEleAccountDTO.setContactName(dto.getFinanceOpenName());
+			}
+			if (dto.getAccountType().equals(String.valueOf(AccountType.COMPANY.getType()))) {
+				
+				verifyCmpEleAccountDTO.setContactName(dto.getPrincipleName());
+			}
 			verifyCmpEleAccountDTO.setCorpBusiCode(dto.getSaleLicenseNumber());
 			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount param:VerifyCmpEleAccountDTO={}",JSON.toJSONString(verifyCmpEleAccountDTO));
 			ResultSupport verifyResult = eleAccInfoServiceRef.verifyCmpEleAccount(verifyCmpEleAccountDTO);

@@ -12,7 +12,7 @@
       </property>
       <!-- Tfs master nameserver ip address -->
       <property name="nsip">
-            <value>192.168.1.209:9999</value>
+            <value>${tfs.nsip}</value>
         <!--<value>172.16.160.4:8108</value>-->
     </property>
     <!-- TFS 集群的编号,这个编号只是一种参考,系统初始化的时候会从ns上取,取不到才用本地设置的.!-->
@@ -23,15 +23,15 @@
       <property name="uniqueServerList">
       	<list>
           <!--<value>172.16.160.2:5198</value>-->
-         <value>192.168.1.209:5198</value>
+         <value>${tfs.uniqueServerList}</value>
 </list>
 </property>
 <!-- tair排重数据库的groupName -->
       <property name="groupName">
-      	<value>group_1</value> <!--p_group1-->
+      	<value>${tfs.groupName}</value> <!--p_group1-->
       </property>
       <property name="namespace">
-      	<value>201</value><!-- 201 -->
+      	<value>${tfs.namespace}</value><!-- 201 -->
       </property>
     </bean>
 </beans>

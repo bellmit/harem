@@ -9,16 +9,16 @@
           >
        <property name="configServerList">
             <list>
-                <value>192.168.1.209:5198</value>
-                <value>192.168.1.209:5198</value>
+                <value>${tair.configServer.main}</value>
+                <value>${tair.configServer.slave}</value>
             </list>
         </property>
-        <property name="groupName" value="group_1" />
-        <property name="timeout" value="5000" />
+        <property name="groupName" value="${tair.groupName.per}" />
+        <property name="timeout" value="${tair.timeout}" />
     </bean>
     
     <bean id="tcCacheManager" class="com.yimayhd.palace.tair.TcCacheManager">
 		<property name="tairManager" ref="dtManager"></property>
-		<property name="namespace" value="299"></property>
+		<property name="namespace" value="${tair.palace.namespace}"></property>
 	</bean>
 </beans>

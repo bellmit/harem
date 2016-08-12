@@ -639,13 +639,19 @@ public class ApplyApprovalController extends BaseController {
 			return result;
 		}
         ExamineInfoDTO examineInfoDTO = examineInfoDTOResult.getValue();
-        if (examineInfoDTO.getType() == MerchantType.MERCHANT.getType()) {
-			result = applyBiz.checkCorBankAccount(examineInfoDTO);
-		}
-        if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
-			result = applyBiz.checkEleBankAccount(examineInfoDTO);
-		}
+        //if (examineInfoDTO.getType() == MerchantType.MERCHANT.getType()) {
+        log.info("applyBiz.checkCorBankAccount param:ExamineInfoDTO={}",JSON.toJSONString(examineInfoDTO));
+		result = applyBiz.checkCorBankAccount(examineInfoDTO);
+		log.info("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(result));
+//		}
+//        if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
+//			result = applyBiz.checkEleBankAccount(examineInfoDTO);
+//		}
         if (result == null) {
+			log.error("param:ExamineInfoDTO={}",JSON.toJSONString(examineInfoDTO));
+			return null;
+		}else if (!result.isSuccess()) {
+			log.error("param:ExamineInfoDTO={}",JSON.toJSONString(examineInfoDTO));
 			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
 			return result;
 		}
