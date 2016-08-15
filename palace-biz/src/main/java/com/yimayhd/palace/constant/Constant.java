@@ -75,6 +75,6 @@ public class Constant {
 	public static final List<String> BOOTH_NAME_FORBID = Arrays.asList("|","*","$","#"," ");
 
 	public static final int EXPORTPAGESIZE = 100;
-	public static final int EXPORTMAXCOUNT = 65536;
+	public static final int EXPORTMAXCOUNT = 5000;
 	//public static final int EXPORTMAXCOUNT = 2;
 }
