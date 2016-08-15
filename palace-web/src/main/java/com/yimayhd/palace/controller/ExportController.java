@@ -94,7 +94,7 @@ public class ExportController extends BaseController{
             List<ExportGfOrder> list = getListExportGfOrder(pageVO,exportQuery);
             if(list.size()>Constant.EXPORTMAXCOUNT && !exportQuery.resolve){
                 ModelAndView mo = new ModelAndView();
-                mo.addObject("message","数据量太大【"+pageVO.getTotalCount()+"，"+list.size()+"】，请缩小查询范围");
+                mo.addObject("message","订单数量"+pageVO.getTotalCount()+"条，单次导出最大数量不可超过"+Constant.EXPORTMAXCOUNT+"条，请分多次导出");
                 mo.setViewName("error");
                 return mo;
             }
