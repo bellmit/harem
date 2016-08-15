@@ -177,7 +177,7 @@
 <script>
 	function validateItemId(itemId,e) {
         var s = /^[0-9]*$/;
-        if(s.test(itemId)){
+        if(s.test(itemId.trim())){
             return;
         }
         e.preventDefault();
