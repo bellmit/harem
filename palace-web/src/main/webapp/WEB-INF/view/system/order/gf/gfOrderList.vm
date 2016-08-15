@@ -83,7 +83,7 @@
                                 #elseif(5 == $!subOrder.bizOrderDO.refundStatus)
                                     客户退货给卖家
                                 #elseif(6 == $!subOrder.bizOrderDO.refundStatus)
-                                    -
+                                    退款中
                                 #elseif(7 == $!subOrder.bizOrderDO.refundStatus)
                                     收货审核未通过，退货退款关闭
                                 #elseif(8 == $!subOrder.bizOrderDO.refundStatus)
@@ -106,10 +106,14 @@
 	                            <td rowspan="$size">
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
                                     <br>
-									#if(2==$!order.orderShowState && $!subOrder.bizOrderDO.refundStatus ==2)
-                                        <button type="button" class="btn btn-primary addRefund sendGoods1"
-                                                queryOrderState="$!orderListQuery.orderStat" orderId="$!bizOrder.bizOrderId">
-                                                #*[$!order.orderShowState , $!subOrder.bizOrderDO.refundStatus]*#手动发货</button>
+                                    <input type="hidden" value="[$!order.orderShowState , $!subOrder.bizOrderDO.refundStatus]">
+									#if(2==$!order.orderShowState)
+                                        #if($!subOrder.bizOrderDO.refundStatus ==0 || $!subOrder.bizOrderDO.refundStatus==2)
+
+                                            <button type="button" class="btn btn-primary addRefund sendGoods1" queryOrderState="$!orderListQuery.orderStat" orderId="$!bizOrder.bizOrderId">
+                                                手动发货
+                                            </button>
+                                        #end
 									#end
 								#* #if($order.orderShowState == 2)
 		                            #elseif($order.orderShowState == 3)
