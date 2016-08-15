@@ -198,7 +198,17 @@ public class ExportController extends BaseController{
                 logisticsOrderDO = mainOrder.getLogisticsOrderDO();
                 if(null != logisticsOrderDO ){
                     eo.setConsigneeName(logisticsOrderDO.getFullName());
-                    eo.setContactAddress(logisticsOrderDO.getProv()+logisticsOrderDO.getArea()+logisticsOrderDO.getAddress());
+                    StringBuilder sb = new StringBuilder();
+                    if(StringUtils.isNotEmpty(logisticsOrderDO.getProv())){
+                        sb.append(logisticsOrderDO.getProv());
+                    }
+                    if(StringUtils.isNotEmpty(logisticsOrderDO.getArea())){
+                     sb.append(logisticsOrderDO.getArea());
+                    }
+                    if(StringUtils.isNotEmpty(logisticsOrderDO.getAddress())){
+                        sb.append(logisticsOrderDO.getAddress());
+                    }
+                    eo.setContactAddress(sb.toString());
                     eo.setBuyerPhoneNum(logisticsOrderDO.getMobilePhone());
                     eo.setBuyerId(logisticsOrderDO.getBuyerId());
                 }
