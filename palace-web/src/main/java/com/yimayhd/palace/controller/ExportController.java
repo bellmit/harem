@@ -188,7 +188,7 @@ public class ExportController extends BaseController{
                     eo.setBuyerName(buyer);
                     eo.setBizOrderId(bizOrderId);
                     eo.setCreateDate(DateUtil.dateToString(bizOrder.getGmtCreated(),"yyyy-MM-dd HH:mm:ss"));
-                    eo.setActualFee(String.valueOf(NumUtil.moneyTransformDouble(BizOrderUtil.getSubOrderActualFee(bizOrder))) );
+                    eo.setActualFee(String.valueOf(NumUtil.moneyTransformDouble(BizOrderUtil.getSubOrderActualFee(subOrder.getBizOrderDO()))) );
                     eo.setSumFee(String.valueOf(NumUtil.moneyTransformDouble(bizOrder.getActualTotalFee())));
 
                 }
