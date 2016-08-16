@@ -49,7 +49,7 @@ public class ExportController extends BaseController{
     private ItemRepo itemRepo ;
 
     private AtomicInteger count = new AtomicInteger(0);
-    private static final int MAX = 10 ;
+    private static final int MAX = 1 ;
 
     /**
      * 订单导出
@@ -65,8 +65,6 @@ public class ExportController extends BaseController{
                 mo.setViewName("error");
                 return mo;
             }
-            count.incrementAndGet() ;
-
             if(null != exportQuery.getIds()){//暂时没有批量查的接口，等后期支持
                 ModelAndView mo = new ModelAndView();
                 mo.addObject("message","暂时不支持批量导出");
@@ -79,6 +77,7 @@ public class ExportController extends BaseController{
                 mo.setViewName("error");
                 return mo;
             }
+            count.incrementAndGet() ;
             exportQuery.setDomain(1100);
             exportQuery.setPageSize(Constant.EXPORTPAGESIZE);
             if(StringUtils.isNotEmpty(exportQuery.getItemName()) && exportQuery.getItemName().equals(",")){
