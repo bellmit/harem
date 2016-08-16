@@ -176,7 +176,7 @@ public class ExportController extends BaseController{
         List<ExportGfOrder> list = new ArrayList<ExportGfOrder>();
         BizOrderDO bizOrder = mainOrder.getBizOrderDO();
         UserDO bizUser  = mainOrder.getUser();;
-
+        log.info("mainOrder = {}",JSON.toJSONString(mainOrder));
         ExportGfOrder eo = null;
         List<SubOrder> subOrderList = mainOrder.getSubOrderList();
         if(CollectionUtils.isNotEmpty(subOrderList)){
