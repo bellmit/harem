@@ -180,13 +180,10 @@ public class RepoUtils {
 	 */
 	public static void resultLog(Logger log, String method, com.yimayhd.pay.client.model.result.ResultSupport result) {
 		String prefix = "PayCore服务接口错误：";
-		String prefix = "ResourceCenter服务接口：";
 		if (result == null) {
 			log.error(RESULT_NULL, method);
 			throw new BaseException(prefix + "返回结果错误result=null");
 		} else if (!result.isSuccess()) {
-			log.error(RESULT_FAILURE, method, result.getReturnCode(), result.getMsg());
-			throw new BaseException(prefix + result.getMsg());
 			log.error(RESULT_FAILURE, method, result.getErrorCode(), result.getResultMsg());
 			throw new BaseException(prefix + result.getResultMsg());
 		} else {
