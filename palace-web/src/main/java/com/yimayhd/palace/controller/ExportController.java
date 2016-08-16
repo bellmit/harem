@@ -101,6 +101,7 @@ public class ExportController extends BaseController{
             model.put("query",exportQuery);
             model.put("ListExportGfOrder",list);
             model.put("fileName","GF订单列表");
+            return new ModelAndView(new ViewExcel(), model);
         } catch (Exception e) {
             e.printStackTrace();
             ModelAndView mo = new ModelAndView();
@@ -110,16 +111,19 @@ public class ExportController extends BaseController{
         }finally {
             count.decrementAndGet();
         }
-        return new ModelAndView(new ViewExcel(), model);
     }
 
     public List<ExportGfOrder> getListExportGfOrder( PageVO<MainOrder> pageVO,ExportQuery exportQuery )throws Exception{
         List<ExportGfOrder> list = new ArrayList<ExportGfOrder>();
         try {
-            List<MainOrder> listMainOrder = pageVO.getItemList();
-            if(null == pageVO || CollectionUtils.isEmpty(listMainOrder)){
+            if(null == pageVO ){
                 return list;
             }
+            List<MainOrder> listMainOrder = pageVO.getItemList();
+            if(CollectionUtils.isEmpty(listMainOrder)){
+                return list;
+            }
+
             //这里先取出来totalpage,如果等于1，那说明只有 EXPORTPAGESIZE[100]条数据，否则，去循环nextpage的数据，
             list.addAll(mainOrderToExportGfOrder(listMainOrder));
             int totalPage = pageVO.getLastPageNumber();
@@ -182,7 +186,7 @@ public class ExportController extends BaseController{
                     bizOrderId = bizOrder.getBizOrderId();
                     String buyer = bizOrder.getBuyerNick();
                     if(StringUtils.isEmpty(buyer)){
-                        buyer = bizUser.getMobileNo();
+                        buyer = StringUtils.isEmpty(bizUser.getMobileNo())?"":bizUser.getMobileNo();
                     }
                     eo.setBuyerName(buyer);
                     eo.setBizOrderId(bizOrderId);
