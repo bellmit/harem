@@ -45,42 +45,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private MerchantRepo merchantRepo;
 
-	@Override
-	public PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception {
-		// 查询条件对接
-		ArticleQueryDTO articleQueryDTO = new ArticleQueryDTO();
-		articleQueryDTO.setPageNo(articleListQuery.getPageNumber());
-		articleQueryDTO.setPageSize(articleListQuery.getPageSize());
-		// 状态
-        articleQueryDTO.setStatus(ArticleStatus.getByStatus(articleListQuery.getStatus()));
-        articleQueryDTO.setType(ArticleType.getArticleType(articleListQuery.getType()));
-
-		articleQueryDTO.setTitle(articleListQuery.getTitle());
-		// 开始结束时间
-		if (StringUtils.isNotBlank(articleListQuery.getStartTime())) {
-			articleQueryDTO.setStartTime(DateUtil.formatMinTimeForDate(articleListQuery.getStartTime()));
-		}
-		if (StringUtils.isNotBlank(articleListQuery.getEndTime())) {
-			articleQueryDTO.setEndTime(DateUtil.formatMaxTimeForDate(articleListQuery.getEndTime()));
-		}
-		ResourcePageResult<ArticleDTO> result = articleRepo.pageQueryArticles(articleQueryDTO);
-		if (null == result) {
-			log.error("articleClientServiceRef.pageQueryArticles result is null and parame: " + JSON.toJSONString(articleQueryDTO));
-			throw new BaseException("返回结果错误,新增失败 ");
-		} else if (!result.isSuccess()) {
-			log.error("articleClientServiceRef.pageQueryArticles error:" + JSON.toJSONString(result) + "and parame: " + JSON.toJSONString(articleQueryDTO));
-			throw new BaseException(result.getResultMsg());
-		}
-		int totalCount = result.getTotalCount();
-		List<ArticleDTO> itemList = result.getList();
-		List<ArticleVO> articleList = new ArrayList<ArticleVO>();
-		if (CollectionUtils.isNotEmpty(result.getList())) {
-			for (ArticleDTO articleDTO : itemList) {
-				articleList.add(ArticleConverter.getArticleVO(articleDTO));
-			}
-		}
-		return new PageVO<ArticleVO>(articleListQuery.getPageNumber(), articleListQuery.getPageSize(), totalCount, articleList);
-	}
     @Override
     public PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception {
         // 查询条件对接
