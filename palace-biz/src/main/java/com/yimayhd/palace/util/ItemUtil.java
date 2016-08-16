@@ -6,6 +6,7 @@ import java.util.List;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.palace.enums.BizItemType;
+import com.yimayhd.palace.enums.OrderSearchType;
 import com.yimayhd.palace.model.enums.ItemOperate;
 
 /**
@@ -57,5 +58,16 @@ public class ItemUtil {
 
 	public static boolean isFreeLine(ItemType itemType) {
 		return ItemType.FREE_LINE.equals(itemType);
+	}
+	
+	public static String getOrderItemName(int itemType) {
+		if (itemType <= 0) {
+			return null;
+		}
+		OrderSearchType it = OrderSearchType.get(itemType);
+		if (it != null) {
+			return it.getText();
+		}
+		return "未知类型";
 	}
 }

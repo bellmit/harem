@@ -1,7 +1,6 @@
 package com.yimayhd.palace.controller.jiuxiu.apply;
 
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.*;
@@ -121,7 +120,7 @@ public class ApplyApprovalController extends BaseController {
 //    			approveResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
 //    			return approveResultSupport;
 //    		}
-            
+
             checkResult = new BizResultSupport();
             return checkResult;
         }
@@ -614,7 +613,14 @@ public class ApplyApprovalController extends BaseController {
 	            return bizResultSupport;
 			}
 		}
-        
+        //验证银行账户
+//        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
+//        if (checkResult == null || !checkResult.isSuccess()) {
+//			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
+//			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+//			return bizResultSupport;
+//		}
+
         String[] array = allocationVO.getCategoryIds().split(",");
         long[] categoryIds = new long[array.length];
         for (int i = 0; i < array.length; i++) {

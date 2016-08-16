@@ -14,9 +14,9 @@ public class ArticleUtil {
 		if (status <= 0) {
 			return null;
 		}
-		ArticleStatus articleStatus = ArticleStatus.getByStatus(status);
-		if (articleStatus != null) {
-			return articleStatus.getDesc();
+		ArticleStatus articleStauts = ArticleStatus.getByStatus(status);
+		if (articleStauts != null) {
+			return articleStauts.getDesc();
 		}
 		return "未知状态";
 	}

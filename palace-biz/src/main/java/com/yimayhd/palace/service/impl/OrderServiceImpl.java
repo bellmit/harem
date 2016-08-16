@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
@@ -12,20 +13,19 @@ import com.yimayhd.palace.enums.PromotionTypes;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.palace.model.vo.AdjustFeeVO;
 import com.yimayhd.palace.repo.PayRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.palace.util.NumUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.promotion.client.enums.PromotionType;
+import com.yimayhd.stone.enums.DomainAndAppId;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
-import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
-import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
-import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
-import com.yimayhd.tradecenter.client.model.enums.OrderSourceType;
+import com.yimayhd.tradecenter.client.model.enums.*;
 import com.yimayhd.tradecenter.client.model.param.order.*;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
@@ -148,6 +148,13 @@ public class OrderServiceImpl implements OrderService {
 					//FIXME
 					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId(), false);
 					mo.setUser(user);
+
+					//
+					if(bizOrderDO.getDomain() == DomainAndAppId.APP_DOMAIN_ID_GF_WEB.getDomainId() && bizOrderDO.getPayStatus() == PayStatus.NOT_PAY.getStatus()){
+						long fee = BizOrderUtil.getAdjustFeeOriginalActualTotalFee(bizOrderDO);
+						mo.setHasAdjustFee(true);
+						mo.setOldFee(fee);
+					}
 					mainOrderList.add(mo);
 				}
 			}
@@ -271,6 +278,28 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setPromotionInfoDesc(desc);
 					}
 				}
+				//订单状态是待付款的查一下改价的信息,如果没有操作人信息说明没有改价信息
+				if(mainOrder.getBizOrderDO().getPayStatus() == PayStatus.NOT_PAY.getStatus()){
+					long oldFee = BizOrderUtil.getAdjustFeeOriginalActualTotalFee(mainOrder.getBizOrderDO());
+					String uName = "";
+					long uid = BizOrderUtil.getAdjustFeeUserId(mainOrder.getBizOrderDO());
+					if(uid !=0 ){
+						orderDetails.setHasAdjustFee(true);
+						UserDO user = userServiceRef.getUserDOById(uid);
+						if(null != user){
+							uName = user.getName();
+						}
+						long newFee = mainOrder.getBizOrderDO().getActualTotalFee();
+						Date date = BizOrderUtil.getAdjustFeeDate(mainOrder.getBizOrderDO());
+						String remark = BizOrderUtil.getAdjustFeeRemark(mainOrder.getBizOrderDO());
+						AdjustFeeVO av = new AdjustFeeVO(oldFee,newFee,remark,date,uid,uName);
+						List<AdjustFeeVO> list = new ArrayList<AdjustFeeVO>();
+						list.add(av);
+						orderDetails.setHasAdjustFee(true);
+						orderDetails.setOldFee(oldFee);
+						orderDetails.setListAdjustFeeVO(list);
+					}
+				}
 
 				return orderDetails;
 			}
@@ -355,5 +384,13 @@ public class OrderServiceImpl implements OrderService {
 	public List<ExpressCodeRelationDO> selectAllExpressCode(){
 		List<ExpressCodeRelationDO> list = lgService.selectAllExpressCode();
 		return list;
+	}
+
+	public boolean adjustFee(AdjustFeeDTO ddjustFeeDTO){
+		ResultSupport result = tcTradeServiceRef.adjustFee(ddjustFeeDTO);
+		if(null != result && result.isSuccess() ){
+			return true;
+		}
+		return false;
 	}
 }

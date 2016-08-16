@@ -193,6 +193,7 @@
                                 <td><span class="red">*</span>开户名称：</td>
                                 <td><span class="inputval">$!examineInfo.financeOpenName</span></td>
                             </tr>
+
                             #if($!examineInfo.accountType == 1)
                             <tr>
                                 <td><span class="red">*</span>开户人身份证：</td>

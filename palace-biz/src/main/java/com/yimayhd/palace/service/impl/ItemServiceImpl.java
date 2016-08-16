@@ -4,11 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.model.item.IcMerchantVO;
+import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
+import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.MerchantService;
+import com.yimayhd.user.client.service.UserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
@@ -16,7 +28,9 @@ import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.param.item.ItemWeightDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ItemConverter;
 import com.yimayhd.palace.model.ItemListQuery;
@@ -44,7 +58,10 @@ public class ItemServiceImpl implements ItemService {
 	private CommentRepo commentRepo;
 	@Autowired
 	private CityRepo cityRepo;
-
+	@Autowired
+	private UserService userServiceRef;
+	@Autowired
+	private MerchantService userMerchantServiceRef;
 	@Override
 	public PageVO<ItemInfoVO> getItemList(ItemListQuery query) throws Exception{
 			
@@ -59,7 +76,16 @@ public class ItemServiceImpl implements ItemService {
 		if (CollectionUtils.isNotEmpty(itemInfoList)) {
 			List<Long> itemIds = new ArrayList<Long>();
 			for (ItemInfo itemInfo : itemInfoList) {
-				resultList.add(ItemConverter.toItemInfoVO(itemInfo));
+				ItemInfoVO temInfoVO =  ItemConverter.toItemInfoVO(itemInfo);
+				/**根据用户**型 获取店铺信息**/
+				IcMerchantVO icVO  = temInfoVO.getIcMerchantVO();
+				BaseResult<IcMerchantVO> result = getIcMerchantVO(itemInfo.getItemDTO().getSellerId());
+				if(result.isSuccess()&&result.getValue()!=null){
+					icVO.setUserNick(result.getValue().getUserNick());
+					icVO.setMerchantName(result.getValue().getMerchantName());
+				}
+				/****/
+				resultList.add(temInfoVO);
 				ItemDTO itemDTO = itemInfo.getItemDTO();
 				if(itemDTO != null){
 					itemIds.add(itemDTO.getId());
@@ -153,5 +179,68 @@ public class ItemServiceImpl implements ItemService {
 		itemBatchPublishDTO.setSellerId(sellerId);
 		itemBatchPublishDTO.setItemIdList(itemIds);
 		itemRepo.batchDelete(itemBatchPublishDTO);
+	}
+
+	@Override
+	public boolean updateItemOrderNum(long itemId, int orderNum){
+		ItemWeightDTO itemWeightDTO = new ItemWeightDTO();
+		itemWeightDTO.setItemId(itemId);
+		itemWeightDTO.setOrderNum(orderNum);
+		try {
+			ICResultSupport iCResultSupport = itemRepo.updateItemOrderNum(itemWeightDTO);
+			if(null == iCResultSupport || !iCResultSupport.isSuccess()){
+				return false;
+			}
+		} catch (Exception e) {
+			log.error("ItemService.updateItemOrderNum error!params:{}", JSONObject.toJSONString(itemWeightDTO),e);
+		}
+		return true;
+	}
+
+	/**
+	 * 查询 商户名称,达人昵称
+	 * @param sellerId
+	 * @return
+	 */
+	public BaseResult<IcMerchantVO> getIcMerchantVO(long sellerId){
+		BaseResult<IcMerchantVO> result = new BaseResult<IcMerchantVO>();
+		IcMerchantVO icMerchantVO = new IcMerchantVO();
+		BaseResult<UserDO> sellerUserResult = userServiceRef.getUserDOByUserId(sellerId);
+		if(!sellerUserResult.isSuccess()||sellerUserResult.getValue()==null){
+			log.error("用户信息错误,sellerId={},errorMsg={}",sellerId,sellerUserResult.getErrorMsg());
+			result.setErrorMsg(sellerUserResult.getErrorMsg());
+			result.setSuccess(false);
+			return result;
+		}
+		UserDO sellerUser = sellerUserResult.getValue();
+
+		if(UserOptions.USER_TALENT.has(sellerUser.getOptions())){
+			/**旧达人**/
+			// 没有店铺名称,只有昵称
+			//tcMerchantInfo.setMerchantName();
+			icMerchantVO.setUserNick(sellerUser.getNickname());
+		}
+		if(UserOptions.COMMON_TELENT.has(sellerUser.getOptions())){
+			/**新达人**/
+			// 只有昵称
+			icMerchantVO.setUserNick(sellerUser.getNickname());
+		}
+		if(UserOptions.COMMERCIAL_TENANT.has(sellerUser.getOptions())){
+			/**商户**/
+			//  店铺信息, 昵称用user
+			BaseResult<MerchantUserDTO> merchantUserResult = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId, Constant.DOMAIN_JIUXIU);
+			if(!merchantUserResult.isSuccess()||merchantUserResult.getValue()==null){
+				log.error("查询商户信息错误,sellerId={},errorMsg={}",sellerId,merchantUserResult.getErrorMsg());
+				result.setErrorMsg(merchantUserResult.getErrorMsg());
+				result.setSuccess(false);
+				return result;
+			}
+			MerchantDO merchantDO = merchantUserResult.getValue().getMerchantDO();
+			icMerchantVO.setMerchantName(merchantDO.getName());
+			icMerchantVO.setUserNick(sellerUser.getNickname());
+		}
+		result.setValue(icMerchantVO);
+		result.setSuccess(true);
+		return result;
 	}
 }

@@ -22,6 +22,14 @@ import com.yimayhd.pay.client.model.result.eleaccount.VerifyIdentityResult;
 import com.yimayhd.pay.client.service.eleaccount.EleAccInfoService;
 
 import org.apache.commons.lang3.StringUtils;
+import com.yimayhd.pay.client.model.enums.eleaccount.AccountType;
+import com.yimayhd.pay.client.model.enums.verify.VerifyIdentityType;
+import com.yimayhd.pay.client.model.param.eleaccount.verify.VerifyCmpEleAccountDTO;
+import com.yimayhd.pay.client.model.param.eleaccount.verify.VerifyEleAccountDTO;
+import com.yimayhd.pay.client.model.result.ResultSupport;
+import com.yimayhd.pay.client.model.result.eleaccount.VerifyIdentityResult;
+import com.yimayhd.pay.client.service.eleaccount.EleAccInfoService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +65,7 @@ public class ExamineDealRepo {
 			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
 			return result;
 		}
-		
+
 		MemResult<Boolean> approveResult = examineDealService.refuseMerchantOrAuditTalent(examineDealDTO);
 		if( approveResult == null || !approveResult.isSuccess() || approveResult.getValue() == null || !approveResult.getValue()){
 			logger.error("dealExamineInfo   examineDealDTO={},  Result={}", JSON.toJSONString(examineDealDTO), JSON.toJSONString(approveResult) );
@@ -87,20 +95,20 @@ public class ExamineDealRepo {
 		return dto ;
 	}
 	/**
-	 * 
+	 *
 	* created by zhangxiaoyang
 	* @date 2016年8月1日
-	* @Title: verifyEleBankAccount 
+	* @Title: verifyEleBankAccount
 	* @Description: 验证非企业银行帐号
 	* @param @param dto
-	* @param @return    设定文件 
-	* @return VerifyIdentityResult    返回类型 
+	* @param @return    设定文件
+	* @return VerifyIdentityResult    返回类型
 	* @throws
 	 */
 	public VerifyIdentityResult verifyEleBankAccount(ExamineInfoDTO dto) {
 		logger.info("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
 		try {
-			
+
 			VerifyEleAccountDTO verifyEleAccountDTO = new VerifyEleAccountDTO();
 			verifyEleAccountDTO.setUserId(dto.getSellerId());
 			verifyEleAccountDTO.setBankCardNo(dto.getAccountNum());
@@ -109,25 +117,25 @@ public class ExamineDealRepo {
 			verifyEleAccountDTO.setIdNo(dto.getOpenerCard());
 			verifyEleAccountDTO.setMerchantType(MerchantType.TALENT.getType());
 			if (Integer.parseInt(dto.getAccountType()) == AccountType.PERSON.getType()) {
-				
+
 				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_ELE_ACCOUNT.getType());
 			}else {
-					
+
 				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_CMP_ELE_ACCOUNT.getType());
-				
+
 			}
 			verifyEleAccountDTO.setUserName(dto.getPrincipleName());
 			if (StringUtils.isNotBlank(dto.getOpenerTel())) {
-				
+
 				verifyEleAccountDTO.setMobilePhone(dto.getOpenerTel());
 			}else {
 				verifyEleAccountDTO.setMobilePhone(dto.getPrincipleTel());
-				
+
 			}
 			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:verifyEleAccountDTO={}",JSON.toJSONString(verifyEleAccountDTO));
 			VerifyIdentityResult verifyResult = eleAccInfoServiceRef.verifyEleAccount(verifyEleAccountDTO);
 			logger.info("eleAccInfoServiceRef.verifyEleAccount ,result:VerifyIdentityResult={}",JSON.toJSONString(verifyResult));
-			
+
 			return verifyResult;
 		} catch (Exception e) {
 			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
@@ -135,14 +143,14 @@ public class ExamineDealRepo {
 		return null;
 	}
 	/**
-	 * 
+	 *
 	* created by zhangxiaoyang
 	* @date 2016年8月1日
-	* @Title: verifyCorBankAccount 
+	* @Title: verifyCorBankAccount
 	* @Description: 验证企业银行帐号
 	* @param @param dto
-	* @param @return    设定文件 
-	* @return ResultSupport    返回类型 
+	* @param @return    设定文件
+	* @return ResultSupport    返回类型
 	* @throws
 	 */
 	public ResultSupport verifyCorBankAccount(ExamineInfoDTO dto) {
@@ -156,27 +164,105 @@ public class ExamineDealRepo {
 			verifyCmpEleAccountDTO.setOpenAcctNo(dto.getAccountNum());
 			verifyCmpEleAccountDTO.setOpenAcctName(dto.getFinanceOpenName());
 			if (StringUtils.isNotBlank(dto.getOpenerTel())) {
-				
+
 				verifyCmpEleAccountDTO.setContactMobile(dto.getOpenerTel());
 			}else {
 				verifyCmpEleAccountDTO.setContactMobile(dto.getPrincipleTel());
-				
+
 			}
 			verifyCmpEleAccountDTO.setContactIdNo(dto.getOpenerCard());
 			verifyCmpEleAccountDTO.setCorpName(dto.getSellerName());
 			if (dto.getAccountType().equals(String.valueOf(AccountType.PERSON.getType()))) {
-				
+
 				verifyCmpEleAccountDTO.setContactName(dto.getFinanceOpenName());
 			}
 			if (dto.getAccountType().equals(String.valueOf(AccountType.COMPANY.getType()))) {
-				
+
 				verifyCmpEleAccountDTO.setContactName(dto.getPrincipleName());
 			}
 			verifyCmpEleAccountDTO.setCorpBusiCode(dto.getSaleLicenseNumber());
 			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount param:VerifyCmpEleAccountDTO={}",JSON.toJSONString(verifyCmpEleAccountDTO));
 			ResultSupport verifyResult = eleAccInfoServiceRef.verifyCmpEleAccount(verifyCmpEleAccountDTO);
 			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount ,result:ResultSupport={}",JSON.toJSONString(verifyResult));
-			
+
+			return verifyResult;
+		} catch (Exception e) {
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
+		}
+		return null;
+	}
+	/**
+	 *
+	* created by zhangxiaoyang
+	* @date 2016年8月1日
+	* @Title: verifyEleBankAccount
+	* @Description: 验证非企业银行帐号
+	* @param @param dto
+	* @param @return    设定文件
+	* @return VerifyIdentityResult    返回类型
+	* @throws
+	 */
+	public VerifyIdentityResult verifyEleBankAccount(ExamineInfoDTO dto) {
+		logger.info("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
+		try {
+
+			VerifyEleAccountDTO verifyEleAccountDTO = new VerifyEleAccountDTO();
+			verifyEleAccountDTO.setUserId(dto.getSellerId());
+			verifyEleAccountDTO.setBankCardNo(dto.getAccountNum());
+			verifyEleAccountDTO.setBankName(dto.getAccountBankName());
+			verifyEleAccountDTO.setBankNo(dto.getSettlementCard());
+			verifyEleAccountDTO.setIdNo(dto.getOpenerCard());
+			verifyEleAccountDTO.setMerchantType(MerchantType.TALENT.getType());
+			if (Integer.parseInt(dto.getAccountType()) == AccountType.PERSON.getType()) {
+
+				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_ELE_ACCOUNT.getType());
+			}else {
+
+				verifyEleAccountDTO.setVerifyIdentityType(VerifyIdentityType.OPEN_CMP_ELE_ACCOUNT.getType());
+
+			}
+			verifyEleAccountDTO.setUserName(dto.getFinanceOpenName());
+			verifyEleAccountDTO.setMobilePhone(dto.getOpenerTel());
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:verifyEleAccountDTO={}",JSON.toJSONString(verifyEleAccountDTO));
+			VerifyIdentityResult verifyResult = eleAccInfoServiceRef.verifyEleAccount(verifyEleAccountDTO);
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,result:VerifyIdentityResult={}",JSON.toJSONString(verifyResult));
+
+			return verifyResult;
+		} catch (Exception e) {
+			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);
+		}
+		return null;
+	}
+	/**
+	 *
+	* created by zhangxiaoyang
+	* @date 2016年8月1日
+	* @Title: verifyCorBankAccount
+	* @Description: 验证企业银行帐号
+	* @param @param dto
+	* @param @return    设定文件
+	* @return ResultSupport    返回类型
+	* @throws
+	 */
+	public ResultSupport verifyCorBankAccount(ExamineInfoDTO dto) {
+		logger.info("param:ExamineInfoDTO={}",JSON.toJSONString(dto));
+		try {
+			VerifyCmpEleAccountDTO verifyCmpEleAccountDTO = new VerifyCmpEleAccountDTO();
+			verifyCmpEleAccountDTO.setUserId(dto.getSellerId());
+			verifyCmpEleAccountDTO.setBankAccountType(Integer.parseInt(dto.getAccountType()));
+			verifyCmpEleAccountDTO.setOpenBankNo(dto.getSettlementCard());
+			verifyCmpEleAccountDTO.setOpenBankName(dto.getAccountBankName());
+			verifyCmpEleAccountDTO.setOpenAcctNo(dto.getAccountNum());
+			verifyCmpEleAccountDTO.setOpenAcctName(dto.getFinanceOpenName());
+			verifyCmpEleAccountDTO.setContactMobile(dto.getOpenerTel());
+			verifyCmpEleAccountDTO.setContactIdNo(dto.getOpenerCard());
+			verifyCmpEleAccountDTO.setCorpName(dto.getSellerName());
+			verifyCmpEleAccountDTO.setContactName(dto.getFinanceOpenName());
+			verifyCmpEleAccountDTO.setCorpBusiCode(dto.getSaleLicenseNumber());
+			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount param:VerifyCmpEleAccountDTO={}",JSON.toJSONString(verifyCmpEleAccountDTO));
+			ResultSupport verifyResult = eleAccInfoServiceRef.verifyCmpEleAccount(verifyCmpEleAccountDTO);
+			logger.info("eleAccInfoServiceRef.verifyCmpEleAccount ,result:ResultSupport={}",JSON.toJSONString(verifyResult));
+
 			return verifyResult;
 		} catch (Exception e) {
 			logger.info("eleAccInfoServiceRef.verifyEleAccount ,param:ExamineInfoDTO={},error:{}",JSON.toJSONString(dto),e);

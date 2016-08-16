@@ -18,7 +18,8 @@
 	<bean id="examineDealRepo" class="com.yimayhd.palace.repo.member.ExamineDealRepo"/>
 	<bean id="userRepo" class="com.yimayhd.palace.repo.user.UserRepo"/>
 	<bean id="merchantRepo" class="com.yimayhd.palace.repo.MerchantRepo"/>
-	
+	<bean id="talentRepo" class="com.yimayhd.palace.repo.user.TalentRepo"/>
+
 	<bean class="com.yimayhd.palace.repo.ArticleRepo"></bean>
 	
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
@@ -33,7 +34,12 @@
 	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
 	<bean id="topicRepo" class="com.yimayhd.palace.repo.TopicRepo" />
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
-	
+
+	<bean id="articleRepo" class="com.yimayhd.palace.repo.ArticleRepo" />
+	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
+	<bean id="solrsearchRepo" class="com.yimayhd.palace.repo.SolrsearchRepo" />
+
+
 	<bean id="auditRepo" class="com.yimayhd.palace.repo.AuditRepo" />
 	<bean id="accountRepo" class="com.yimayhd.palace.repo.AccountRepo" />
 	<bean id="settlementRepo" class="com.yimayhd.palace.repo.SettlementRepo" />

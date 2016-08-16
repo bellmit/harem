@@ -3,7 +3,12 @@ package com.yimayhd.palace.service.impl;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +46,7 @@ import com.yimayhd.user.session.manager.SessionManager;
  *
  */
 public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
-	private static final Logger log = LoggerFactory.getLogger(JiuxiuOrderServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger("business.log");
 	@Autowired
     private SessionManager sessionManager;
 	@Autowired
@@ -89,9 +94,11 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 						jiuxiuTcMainOrder.setRequirement(voucherInfo.getRequirement());
 						jiuxiuTcMainOrder.setValue(voucherInfo.getValue());
 					}
-
+					//  FIXME: wangjun 16/8/11 方法是否重复
+					/**
 					String phone =  userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo();
 					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(),phone);
+					 */
 
 				}
 				if(null!=tcDetailOrders && tcDetailOrders.size()>0){
@@ -108,20 +115,78 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 				}
 				jiuxiuTcMainOrder.setJiuxiuTcBizOrder(jiuxiuTcBizOrder);
 				jiuxiuTcMainOrder.setJiuxiuTcDetailOrders(jiuxiuTcDetailOrders);
+
+				tcMainOrder.getBizOrder().getSellerId();
+
 				//根据sellerid查询店铺与用户信息
+
+/*
 				BaseResult<MerchantUserDTO> merchantUserDTO = userMerchantServiceRef.getMerchantAndUserBySellerId(tcMainOrder.getBizOrder().getSellerId(), Constant.DOMAIN_JIUXIU);
 				TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
 				if(null!= merchantUserDTO.getValue() && null!= merchantUserDTO.getValue().getMerchantDO()){
 					MerchantDO merchantDO = merchantUserDTO.getValue().getMerchantDO();
 					tcMerchantInfo.setMerchantName(merchantDO.getName());
 					tcMerchantInfo.setMerchantId(merchantDO.getId());
+				}*/
+				long sellerId = tcMainOrder.getBizOrder().getSellerId();
+				BaseResult<TcMerchantInfo> tcMerchantInfoResult = this.getTcMerchantInfo(sellerId);
+				if(!tcMerchantInfoResult.isSuccess()||tcMerchantInfoResult.getValue()==null){
+					log.error("用户信息错误,sellerId={},errorMsg={}",sellerId,tcMerchantInfoResult.getErrorMsg());
+					continue;
 				}
-				jiuxiuTcMainOrder.setMerchantInfo(tcMerchantInfo);
+				jiuxiuTcMainOrder.setMerchantInfo(tcMerchantInfoResult.getValue());
 				jiuxiuTcMainOrders.add(jiuxiuTcMainOrder);
 			}
 		}
 		jiuxiuResult.setJiuxiuTcMainOrders(jiuxiuTcMainOrders);
 		return jiuxiuResult;
+	}
+
+	/**
+	 * 查询 商户名称,达人昵称
+	 * @param sellerId
+     * @return
+     */
+	public BaseResult<TcMerchantInfo> getTcMerchantInfo(long sellerId){
+		BaseResult<TcMerchantInfo> result = new BaseResult<TcMerchantInfo>();
+		TcMerchantInfo tcMerchantInfo = new TcMerchantInfo();
+		BaseResult<UserDO> sellerUserResult = userServiceRef.getUserDOByUserId(sellerId);
+		if(!sellerUserResult.isSuccess()||sellerUserResult.getValue()==null){
+			log.error("用户信息错误,sellerId={},errorMsg={}",sellerId,sellerUserResult.getErrorMsg());
+			result.setErrorMsg(sellerUserResult.getErrorMsg());
+			result.setSuccess(false);
+			return result;
+		}
+		UserDO sellerUser = sellerUserResult.getValue();
+
+		if(UserOptions.USER_TALENT.has(sellerUser.getOptions())){
+			/**旧达人**/
+		   // 没有店铺名称,只有昵称
+			//tcMerchantInfo.setMerchantName();
+			tcMerchantInfo.setUserNick(sellerUser.getNickname());
+		}
+		if(UserOptions.COMMON_TELENT.has(sellerUser.getOptions())){
+			/**新达人**/
+			// 只有昵称
+			tcMerchantInfo.setUserNick(sellerUser.getNickname());
+		}
+		if(UserOptions.COMMERCIAL_TENANT.has(sellerUser.getOptions())){
+			/**商户**/
+			//  店铺信息, 昵称用user
+			BaseResult<MerchantUserDTO> merchantUserResult = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId, Constant.DOMAIN_JIUXIU);
+			if(!merchantUserResult.isSuccess()||merchantUserResult.getValue()==null){
+				log.error("查询商户信息错误,sellerId={},errorMsg={}",sellerId,merchantUserResult.getErrorMsg());
+				result.setErrorMsg(merchantUserResult.getErrorMsg());
+				result.setSuccess(false);
+				return result;
+			}
+			MerchantDO merchantDO = merchantUserResult.getValue().getMerchantDO();
+			tcMerchantInfo.setMerchantName(merchantDO.getName());
+			tcMerchantInfo.setUserNick(sellerUser.getNickname());
+		}
+		result.setValue(tcMerchantInfo);
+		result.setSuccess(true);
+		return result;
 	}
 	
 }

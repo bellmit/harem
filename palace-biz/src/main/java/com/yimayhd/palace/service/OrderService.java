@@ -5,6 +5,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
+import com.yimayhd.tradecenter.client.model.param.order.AdjustFeeDTO;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 
 import java.util.List;
@@ -44,6 +45,8 @@ public interface OrderService {
 	boolean refundOrder(long id);
 
 	boolean closeOrder(long id);
+
+	public boolean adjustFee(AdjustFeeDTO ddjustFeeDTO);
 
 
 
