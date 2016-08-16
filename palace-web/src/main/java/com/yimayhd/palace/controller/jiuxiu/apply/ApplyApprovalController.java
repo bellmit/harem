@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller.jiuxiu.apply;
 
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.*;
