@@ -622,6 +622,7 @@ public class ApplyApprovalController extends BaseController {
 //		}
 
         String[] array = allocationVO.getCategoryIds().split(",");
+        //List<Long> categoryIds = JSON.parseObject(allocationVO.getCategoryIds(), Long.class);
         long[] categoryIds = new long[array.length];
         for (int i = 0; i < array.length; i++) {
             categoryIds[i] = Long.parseLong(array[i]);
