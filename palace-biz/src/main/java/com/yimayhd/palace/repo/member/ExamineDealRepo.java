@@ -22,13 +22,6 @@ import com.yimayhd.pay.client.model.result.eleaccount.VerifyIdentityResult;
 import com.yimayhd.pay.client.service.eleaccount.EleAccInfoService;
 
 import org.apache.commons.lang3.StringUtils;
-import com.yimayhd.pay.client.model.enums.eleaccount.AccountType;
-import com.yimayhd.pay.client.model.enums.verify.VerifyIdentityType;
-import com.yimayhd.pay.client.model.param.eleaccount.verify.VerifyCmpEleAccountDTO;
-import com.yimayhd.pay.client.model.param.eleaccount.verify.VerifyEleAccountDTO;
-import com.yimayhd.pay.client.model.result.ResultSupport;
-import com.yimayhd.pay.client.model.result.eleaccount.VerifyIdentityResult;
-import com.yimayhd.pay.client.service.eleaccount.EleAccInfoService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

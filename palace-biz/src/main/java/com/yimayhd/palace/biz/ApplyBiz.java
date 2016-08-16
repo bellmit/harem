@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.druid.support.logging.Log;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineDealDTO;
@@ -24,7 +23,6 @@ import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.pay.client.model.result.ResultSupport;
-import com.yimayhd.pay.client.model.result.eleaccount.VerifyIdentityResult;
 import com.yimayhd.user.client.domain.UserDO;
 
 public class ApplyBiz {
