@@ -175,7 +175,7 @@ public class ExportController extends BaseController{
         ExpressVO expressVO = null;
         List<ExportGfOrder> list = new ArrayList<ExportGfOrder>();
         BizOrderDO bizOrder = mainOrder.getBizOrderDO();
-        UserDO bizUser = mainOrder.getUser();
+        UserDO bizUser  = mainOrder.getUser();;
 
         ExportGfOrder eo = null;
         List<SubOrder> subOrderList = mainOrder.getSubOrderList();
@@ -186,8 +186,10 @@ public class ExportController extends BaseController{
                 if(null != bizOrder){
                     bizOrderId = bizOrder.getBizOrderId();
                     String buyer = bizOrder.getBuyerNick();
-                    if(StringUtils.isEmpty(buyer)){
-                        buyer = StringUtils.isEmpty(bizUser.getMobileNo())?"":bizUser.getMobileNo();
+                    if(StringUtils.isEmpty(buyer) && null !=bizUser){
+                        buyer = bizUser.getMobileNo();
+                    }else{
+                        buyer="";
                     }
                     eo.setBuyerName(buyer);
                     eo.setBizOrderId(bizOrderId);
