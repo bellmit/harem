@@ -330,7 +330,5 @@
             $('#tradeListForm').attr('action',url_prefix+url);
         });
 
-            });
-        });
 
 	</script>
