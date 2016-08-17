@@ -123,13 +123,14 @@
                             $!{itemInfo.ticketVO.title}<br>
 						#end
 						$!item.name<br>
-						#if($item.type==101) 权重:$!item.orderNum #end
+					#* #if($item.type==101) 权重:$!item.orderNum #end *#
+                    	权重:$!item.orderNum 
 
-					</td>
-					<td>
-					#*	#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
-							特产商品
-						#else*#
+                </td>
+                <td>
+                #*	#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
+                        特产商品
+                    #else*#
 							$!{utilItem.getItemTypeName($item.type)}
 						#*#end*#
 					</td>
