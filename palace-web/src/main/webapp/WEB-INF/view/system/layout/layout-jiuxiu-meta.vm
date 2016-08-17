@@ -15,7 +15,7 @@
 #end
 #set( $tfs = $utilWebconfig.getTfsRootPath())
 #set( $v = $utilWebconfig.getResourceVersion())
-
+#set( $filegw_domain = $utilWebconfig.getFilegwDomain())
 
 <input type="hidden" id="rs_js_css_path_jiuxiu" value="$rs_js_css_path_jiuxiu">
 <input type="hidden" id="test" value="$test">
@@ -24,5 +24,5 @@
 <input type="hidden" id="filegw_url" value="$filegw_url">
 <input type="hidden" id="palace_update_file" value="$palace_update_file">
 <input type="hidden" id="static_path" value="$rs_js_css_path_jiuxiu">
-
+<input type="hidden" id="filegw_domain" value="$filegw_domain">
 

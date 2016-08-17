@@ -1,0 +1,196 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <form class="form-signin" id="articleListForm" name="articleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/articleList" method="GET" role="form">
+        <div class="inputGroup whole">
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">发布时间：</button>
+                    </span>
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startTime" value="$!query.startTime">
+                <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endTime" value="$!query.endTime">
+            </div>
+
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+				 <select class="form-control" name="status">
+					<option value="0" #if(!$query.status) selected #end>全部</option>
+    					#foreach($articleStatus in $articleStautsList)
+    					<option value="$!{articleStatus.value}" #if($query.status == $articleStatus.value) selected #end >$!{articleUtil.getArticleStatus($articleStatus.value)}</option>
+    					#end
+				</select>
+            </div>
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">类型：</button>
+                </span>
+				 <select class="form-control" name="type">
+					<option value="0" #if(!$query.type) selected #end>全部</option>
+    					#foreach($articleType in $articleTypeList)
+    					<option value="$!{articleType.value}" #if($query.type == $articleType.value) selected #end >$!{articleUtil.getArticleTypeName($articleType.value)}</option>
+    					#end
+				</select>
+            </div>
+
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">标题</button>
+                    </span>
+                <input type="text" class="form-control" name="title" value="$!query.title">
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">查询</button>
+            </div>
+           <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-clean">重置</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary addArticleBtn" id="addArticleBtn">添加文章</button>
+        #* <button type="button" class="btn btn-primary articleBatchBtn">批量下架</button> *#
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tr>
+                   #* <th width="5%"><input class="allChecked" name="allChecked" type="checkbox">全选</th>*#
+                    <th width="5%">编号</th>
+                    <th width="10%">封面</th>
+                    <th width="20%">标题</th>
+                    <th width="20%">URL</th>
+                    <th width="12%">创建时间</th>
+                    <th width="5%">阅读数</th>
+                    <th width="8%">类型</th>
+                    <th width="5%">状态</th>
+                    <th width="15%">操作</th>
+                </tr>
+                    #foreach($article in $articleList)
+                    <tr class="subCheckedTR">
+                          #* <td><input class="subChecked" type="checkbox" value="$!{article.id}"></td>*#
+						<td>$!article.id</td>
+                        <td><img height="80" width="100" src="$utilWebconfig.getTfsRootPath()$!article.frontcover"></td>
+                        <td>$!article.title</td>
+                        <td>$!article.articleUrl$!article.id</td>
+                        <td>$!utilDate.dateToString($!article.gmtCreated,"yyyy-MM-dd HH:mm:ss")</td>
+						<td>$!article.pv</td>
+						<td>$!{articleUtil.getArticleTypeName($!article.type)}</td>
+						<td>$!{articleUtil.getArticleStatus($!article.status)}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary articleDetail" articleId="$article.id">编辑</button>
+                            <button type="button" class="btn btn-primary articleBtn"  articleId="$!article.id" status="$!article.status">$!{articleUtil.getOption($!article.status)}</button>
+                        </td>
+                    </tr>
+                    #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("articleListForm")
+    </form>
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+    $(function(){
+    	//清除
+    	$('.btn-clean').click(function(){
+    		$(this).closest('.inputGroup').find('input.form-control').val('');
+    		$(this).closest('.inputGroup').find('select.form-control').val(0);
+    	});
+        //查询
+        $('.submitBtn').click(function(){
+            $('#articleListForm').submit();
+        });
+        //新建
+        $('.addArticleBtn').click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuxiu/articleManage/toAdd';
+            top.tabsAdd("addArticleBtn",url,2,$(this).text())
+        });
+        $('.articleDetail').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/jiuxiu/articleManage/toEdit/'+ $(this).attr('articleId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+
+        });
+
+        //单个启用停用
+        $('.articleBtn').each(function(){
+            $(this).click(function(){
+                $(this).prop('disabled',true);
+                var url = '';
+                if($(this).attr('status') == 10){//状态1是正长状态，操作是改为违规
+					//违规
+                    url = actionDefaultPath + '/jiuxiu/articleManage/violation/' + $(this).attr('articleId');
+                }else{
+					//恢复
+                    url = actionDefaultPath + '/jiuxiu/articleManage/regain/' + $(this).attr('articleId');
+                }
+                $.post(url ,function(data){
+                    if(data.status == 200){
+                        layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                            window.location.href = window.location.href;
+                        },1500);
+                    }else{
+                        layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                        $(this).prop('disabled',false);
+                    }
+                })
+            });
+        });
+
+        //全选
+        $('.allChecked').click(function(){
+            $('.subChecked').prop('checked',$(this).prop('checked'));
+        });
+        $(".subChecked").click( function(event){
+            event.stopPropagation(); // do something
+        });
+        //单选
+        $('.subCheckedTR').click(function(){
+            $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
+        });
+        //批量违规
+        $('.articleBatchBtn').click(function(){
+            $(this).prop('disabled',true);
+            var arr = new Array();
+            $('.subChecked:checked').each(function(){
+                arr.push($(this).val());
+            });
+            $.post(actionDefaultPath +'/jiuxiu/articleManage/batchViolation',{articleIdList:arr},function(data){
+                if(data && data.status == 200){
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1500);
+                }else{
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled',false);
+                }
+            })
+        });
+    });
+</script>

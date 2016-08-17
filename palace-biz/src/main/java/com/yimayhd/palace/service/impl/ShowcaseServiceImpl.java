@@ -64,6 +64,7 @@ import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.service.MerchantService;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -359,6 +360,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setTitle(sw.getTitle());
         sd.setSummary(sw.getSummary());
         sd.setBoothContent(sw.getBoothContent());
+
         if(StringUtils.isEmpty(sw.getOperationContent())){
             sd.setOperationContent("");
         }else{
@@ -368,6 +370,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             sd.setOperationContent(oc);
         }
+
         sd.setContent(sw.getContent());
         sd.setShowcaseFeature(sw.getShowcaseFeature());
         sd.setStatus(sw.getStatus());//状态是手动改的
@@ -375,6 +378,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         sd.setSerialNo(sw.getSerialNo());
         sd.setGmtModified(new Date());
         Map<String,String> map = new HashMap<String,String>();
+
         if(StringUtils.isEmpty(sw.getOperationContentZH())){
             map.put("operationContentZH","");
         }else{
@@ -384,6 +388,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             map.put("operationContentZH",ocZH);
         }
+
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));
         sd.setFeature(FeatureUtil.toString(map));
@@ -545,7 +550,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> topicResultToShowCaseItem(List<TopicResult> listTop){
-        if(CollectionUtils.isEmpty(listTop)){
+        if(CollectionUtils.isNotEmpty(listTop)){
             List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
             for (TopicResult top:listTop ) {
                 ShowCaseItem sc = new ShowCaseItem();

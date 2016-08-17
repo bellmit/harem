@@ -50,6 +50,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -583,10 +584,23 @@ public class ApplyApprovalController extends BaseController {
         merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
         merchantQuery.setName(merchantName);
         BaseResult<List<MerchantDO>> merchantDOs = merchantService.getMerchantList(merchantQuery);
-        if (!merchantDOs.isSuccess() || !merchantDOs.getValue().isEmpty()) {
-            bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
+        if (!merchantDOs.isSuccess() ) {
+            bizResultSupport.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
             return bizResultSupport;
         }
+        if (!CollectionUtils.isEmpty(merchantDOs.getValue())) {
+        	int count = 0;
+			for (MerchantDO merchant : merchantDOs.getValue()) {
+				if (merchant.getSellerId() == examineInfoDTOResult.getValue().getSellerId() ) {
+					count ++ ;
+					break;
+				}
+			}
+			if (count == 0) {
+				bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MUTI_MERCHANT_FAILED);
+	            return bizResultSupport;
+			}
+		}
         String[] array = allocationVO.getCategoryIds().split(",");
         long[] categoryIds = new long[array.length];
         for (int i = 0; i < array.length; i++) {

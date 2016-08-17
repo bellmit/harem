@@ -228,9 +228,10 @@ public class MerchantRepo {
 		if(id == 0){
 			return null;
 		}
+
 		log.info("==============================id"+id);
 		// 图文详情
-		return  pictureTextRepo.getPictureText(id, PictureText.SHOP);
+		return  pictureTextRepo.getPictureText(id, PictureText.FOOD);
 
 	}
 }

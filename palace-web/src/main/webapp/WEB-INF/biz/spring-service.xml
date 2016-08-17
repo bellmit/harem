@@ -22,6 +22,7 @@
 	<bean class="com.yimayhd.palace.service.impl.RecommendedServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.EvaluationServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.SockpuppetServiceImpl"></bean>
+
 	<!-- 资源管理 -->
 	<bean class="com.yimayhd.palace.service.impl.RestaurantServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.HotelRPCServiceImpl"></bean>
@@ -36,6 +37,8 @@
 	<bean class="com.yimayhd.palace.service.impl.RcOperationServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.RcShowcaseServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PictureServiceImpl"></bean>
+	<bean class="com.yimayhd.palace.service.impl.ArticleServiceImpl"></bean>
+
 	<!-- home config -->
 	<bean class="com.yimayhd.palace.service.impl.HomeCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PeripheryCfgServiceImpl"></bean>
@@ -63,7 +66,8 @@
 	<bean class="com.yimayhd.palace.service.impl.EatMerchantServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionCommServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionShopServiceImpl"></bean>
-
+	<!-- 商品评价 -->
+	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
 
 	<!--GF商品-->
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
@@ -73,9 +77,6 @@
 	<bean class="com.yimayhd.palace.service.impl.LogisticsServiceImpl"></bean>
 
 	<bean class="com.yimayhd.palace.service.impl.AfterSaleServiceImpl"></bean>
-
-	<!-- GF商品评价 -->
-	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
 
 	<!--广告位配置-->
 	<bean class="com.yimayhd.palace.service.impl.BoothServiceImpl"></bean>
@@ -88,6 +89,5 @@
 	
 	<!-- 话题 -->
 	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
-
 
 </beans>

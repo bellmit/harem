@@ -269,6 +269,8 @@ public class TopicServiceImpl implements TopicService {
 		}
 		
 		TopicListQuery query = new TopicListQuery();
+		query.setPageNumber(Constant.DEFAULT_PAGE_NO);
+		query.setPageSize(Constant.DEFAULT_PAGE_MAX_SIZE);
 		query.setTitle(topicInfoVO.getTitle());
 		PageVO<TopicVO> pageVo = this.getTopicPageList(query);
 		if(pageVo == null){

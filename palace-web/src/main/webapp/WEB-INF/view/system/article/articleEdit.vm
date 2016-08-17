@@ -1,0 +1,150 @@
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/style.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">		
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editertwo.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/imgupload.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/newcom.css"/>
+
+<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+
+<div class="clubDynamicPage whole">
+    <form name="articleForm" id="articleForm" action="" method="post" articleId="$!article.id">
+        <table class="table">
+				<tr>
+                    <td>文章类型：</td>
+                    <td>
+						<select class="form-control" name="type">
+            					#foreach($articleType in $articleTypeList)
+            					<option value="$!{articleType.value}" #if($article.type == $articleType.value) selected #end >$!{articleUtil.getArticleTypeName($articleType.value)}</option>
+            					#end
+        				</select>
+                    </td>
+                </tr>
+				<tr>
+                    <td><span class="spColor">*</span>标题：</td>
+                    <td>
+						 <input type="text" class="form-control summary title" name="title"  value="$!{escUtil.html($!article.title)}" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
+                    </td>
+                </tr>
+				<tr>
+                    <td>副标题：</td>
+                    <td>
+						 <span style="display:none">$!article.subTitle</span>
+						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!{escUtil.html($!article.subTitle)}" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
+                    </td>
+                </tr>
+				<tr>
+                    <td><span class="spColor">*</span>初始阅读数：</td>
+                    <td>
+						 <input type="text" class="form-control summary pv" name="pv"  value="$!article.pv">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>封面图：</td>
+                    <td>
+						<div class="imgallbox" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
+							<div class="imgbox imgno">
+								<div class="imgcon">
+									#if($!article.frontcover)
+										<img src="#if($article.frontcover) $utilWebconfig.getTfsRootPath()$!article.frontcover #end ">
+									#else 
+										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">										
+									#end
+								</div>
+								<div class="imgwait"></div>
+								<div class="imgdelbtn">删除图片</div>
+								#if(!$article.frontcover)
+								<a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile mult"></a>									
+								#end																
+								<input type="hidden" value="$!article.frontcover">
+							</div>
+							<input type="hidden" name="frontcover" class="picVal" value="$!article.frontcover">
+						</div>
+						<p>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：690*330</p>
+                    </td>
+                </tr>
+               #*  <tr>
+                    <td><span class="spColor">*</span>发布时间</td>
+                    <td><input type="text" class='form-control form-date dateInp gmtCreated' placeholder='发布时间' readonly name="gmtCreated" value="$!utilDate.dateToString($!{article.gmtCreated},"yyyy-MM-dd HH:mm")" ></td>
+                </tr> *#
+                <tr>
+                	<td><span class="spColor">*</span>图文详情：</td>
+                	<td>
+                		<div id="editers">
+							<div class="editer-tip">
+						    	<p><b>编辑小助手：</b></p>
+						    	<p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
+						    	<p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
+						    	<p>3、最多添加50段内容</p>
+								<p>4、图片大小不能超过3M，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
+						    </div>
+							<div class="bd">
+							#foreach($articleItem in $!article.articleItemList)
+								#if($articleItem.type == 1)
+								<p class="text movesection saved"><font>$articleItem.content</font></p>
+								#end
+								#if($articleItem.type == 2)
+								<p class="pic movesection saved">
+									<img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end" class="nopic" id="1">
+									<input type="hidden" class="imgDateVal" value="$!articleItem.content">
+								</p>
+								#end
+								#if($articleItem.type == 3)
+								<div class="item movesection saved">
+									<div class="itemwraptitle">$!articleItem.title</div>
+									<div class="itemwrap" itemid="$articleItem.content" itemsubtype="$articleItem.subType">
+										<div class="itemimgbox">
+											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleProductItemVO.itemPic">
+											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>$!articleItem.articleProductItemVO.itemType</p>
+											<p class="itemtag">$!articleItem.articleProductItemVO.itemTag</p>
+										</div>
+										<div class="itemmsgbox">
+											<p class="itemright">
+												<span class="pritxt">九休专享价</span>
+                                                <span class="prinum">
+                                                    #set($pri1=$!articleItem.articleProductItemVO.itemPrice / 100)
+                                                    #set($pri2=$!articleItem.articleProductItemVO.itemPrice / 100.00)
+                                					￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice % 100)#if($pri == 0) $pri1 #else $pri2 #end</em>
+                                                </span>
+											</p>
+											<p class="itemleft">
+												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
+												<span class="itemshop">
+													<img class="icon-shop" src="$utilWebconfig.getTfsRootPath()$!articleItem.articleProductItemVO.merchantLogo">
+													<label class="shoptitle">$!articleItem.articleProductItemVO.merchantName</label>
+												</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								#end
+            				#end																					
+							</div>
+							<div class="hd clearfix">
+								<ul class="clearfix">
+									<li><a href="javascript:void(0)" class="addtext">添加文本</a></li>
+									<li><a href="javascript:void(0)" class="addpic">添加图片</a></li>
+									<li><a href="javascript:void(0)" class="additem">添加商品</a></li>
+								</ul>
+							</div>
+							
+							<input type="hidden" id="articleItems" name="articleItems">
+							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
+							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
+						</div>
+                	</td>
+	            </tr>
+        </table>
+        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+    </form>
+</div>
+<!------------------------------------------------js分割线----------------------------------------->
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("addarticle");</script>

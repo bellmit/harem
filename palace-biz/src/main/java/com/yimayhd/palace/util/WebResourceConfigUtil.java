@@ -1,3 +1,4 @@
+
 package com.yimayhd.palace.util;
 
 import com.yimayhd.palace.config.ResourceConfig;
@@ -13,14 +14,15 @@ public class WebResourceConfigUtil {
     private final static String ACTION_DEFAULT_FONT_PATH_KEY= "palace.actionDefaultFontPath";
     private final static String ACTION_UPLOAD_FILE_PATH_KEY = "actionUploadFilePath";
     private final static String ACTION_UPLOAD_FILES_PATH_KEY = "actionUploadFilesPath";
+    private final static String RESOURCE_PATH_JIUXIU_APP = "resource.path.jiuxiu.app";
 
     //分销
     private final static String ITEM_IMG_URI_PATH = "item.img.uri";
     private final static String RESOURCE_PATH_JIUXIU = "resource.path.jiuxiu";
-    private final static String RESOURCE_PATH_JIUXIU_APP = "resource.path.jiuxiu.app";
     private final static String ENV = "env";
     private final static String ROOT_PATH = "root.path";
     private final static String FILEGW_URL = "filegw.url";
+	private final static String FILEGW_DOMAIN = "filegw.domain";
     
     public static String getTfsRootPath() {
         return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
@@ -31,7 +33,6 @@ public class WebResourceConfigUtil {
     public static String getResourcePathJiuXiu() {
     	return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH_JIUXIU);
     }
-    
     public static String getResourcePathJiuXiuApp() {
     	return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH_JIUXIU_APP);
     }
@@ -52,6 +53,7 @@ public class WebResourceConfigUtil {
         return ResourceConfig.getInstance().getValueByKey(ACTION_UPLOAD_FILES_PATH_KEY);
     }
     public static String getResourceVersion(){
+    	//FIXME
         return "21";
     }
     public static String getItemImgUrlPath(){
@@ -60,6 +62,9 @@ public class WebResourceConfigUtil {
     public static String getFilegwUrl(){
     	return ResourceConfig.getInstance().getValueByKey(FILEGW_URL);
     }
+	public static String getFilegwDomain() {
+		return ResourceConfig.getInstance().getValueByKey(FILEGW_DOMAIN);
+	}
     public static boolean isTestMode(){
     	String e = ResourceConfig.getInstance().getValueByKey(ENV) ;
     	if( e != null && Constant.ENV_PROD.equalsIgnoreCase(e) ){
