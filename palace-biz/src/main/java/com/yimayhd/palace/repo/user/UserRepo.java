@@ -73,4 +73,13 @@ public class UserRepo {
 		return users;
 	}
 
+	public String findMobileByUserId(Long id){
+		BaseResult<String> mobile =  userServiceRef.findMobileByUserId(id);
+		if(mobile.isSuccess()){
+			return mobile.getValue();
+		} else {
+			return "";
+		}
+	}
+
 }

@@ -16,8 +16,8 @@
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList" method="GET" role="form">
         #parse("/system/order/gf/gfOrderQuery.vm")
-        
-        
+
+
         <div class="tableGroup whole order-list-items">
             <table class="table table-hover">
             <tbody>
@@ -70,10 +70,21 @@
                             </td>
                             <td >
 								#*$subOrder.bizOrderDO.refundStatus - $order.orderShowState <>*#
+                                    #*看tc的退款状态*#
 								#if(0 == $!subOrder.bizOrderDO.refundStatus)
 									-
-								#else
-									#GFTRADEREFUNDSTATUS($!subOrder.bizOrderDO.refundStatus)
+								#elseif(1 == $!subOrder.bizOrderDO.refundStatus)
+                                    未审批
+                                #elseif(2 == $!subOrder.bizOrderDO.refundStatus)
+                                    退款中
+                                #elseif(3 == $!subOrder.bizOrderDO.refundStatus)
+                                    退款失败
+                                #elseif(4 == $!subOrder.bizOrderDO.refundStatus)
+                                    退款或退货成功
+                                #elseif(5 == $!subOrder.bizOrderDO.refundStatus)
+                                    退款或退货中
+                                #elseif(6 == $!subOrder.bizOrderDO.refundStatus)
+                                    客户取消申请
 								#end
                             </td>
 	                        #if( $velocityCount == 1 )
@@ -90,10 +101,14 @@
 	                            <td rowspan="$size">
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
                                     <br>
-									#if(2==$!order.orderShowState && $!subOrder.bizOrderDO.refundStatus < 1)
-                                        <button type="button" class="btn btn-primary addRefund sendGoods1"
-                                                queryOrderState="$!orderListQuery.orderStat"
-                                                orderId="$!bizOrder.bizOrderId">手动发货</button>
+                                    <input type="hidden" value="[$!order.orderShowState , $!subOrder.bizOrderDO.refundStatus]">
+									#if(2==$!order.orderShowState)
+                                        #if($!subOrder.bizOrderDO.refundStatus ==0 || $!subOrder.bizOrderDO.refundStatus==6)
+
+                                            <button type="button" class="btn btn-primary addRefund sendGoods1" queryOrderState="$!orderListQuery.orderStat" orderId="$!bizOrder.bizOrderId">
+                                                手动发货
+                                            </button>
+                                        #end
 									#end
                                     #if(1==$!order.orderShowState)
                                         <button type="button" class="btn btn-primary addRefund modOrderPrice"
@@ -289,6 +304,32 @@
                         }
                     }
                 });
+			});
+		});
+
+
+        $('#export_import').click(function(){
+            var qorderNO = $("#qorderNO").val();
+            var qbeginDate = $("#qbeginDate").val();
+            var qendDate   = $("#qendDate").val();
+            var qorderStat = $("#qorderStat").val();
+            var qitemName = $("#qitemName").val();
+            var qbuyerPhone = $("#qbuyerPhone").val();
+            var qbuyerName = $("#qbuyerName").val();
+
+            if("" == qorderNO  && "" == qbeginDate  && "" == qendDate && "0"==qorderStat &&
+               "" == qitemName && "" == qbuyerPhone && "" == qbuyerName){
+                layer.alert("请设置导出订单的查询条件");
+                return ;
+            }
+            var url_prefix="$!utilWebconfig.getActionDefaultFontPath()";
+            var url ='/export/gf/list';
+            $('#tradeListForm').attr('action',url_prefix+url);
+            $('#tradeListForm').submit();
+            url = "/B2C/orderManage/gfOrderList";
+            $('#tradeListForm').attr('action',url_prefix+url);
+        });
+
             });
         });
 
