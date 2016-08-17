@@ -188,8 +188,6 @@ public class ExportController extends BaseController{
                     String buyer = bizOrder.getBuyerNick();
                     if(StringUtils.isEmpty(buyer) && null !=bizUser){
                         buyer = bizUser.getMobileNo();
-                    }else{
-                        buyer="";
                     }
                     eo.setBuyerName(buyer);
                     eo.setBizOrderId(bizOrderId);
