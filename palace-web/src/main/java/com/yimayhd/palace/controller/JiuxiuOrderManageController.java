@@ -7,6 +7,7 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.enums.OrderSearchType;
+import com.yimayhd.palace.model.item.IcMerchantVO;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcDetailOrder;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
@@ -26,6 +27,7 @@ import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
+import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.UserOptions;
@@ -116,7 +118,14 @@ public class JiuxiuOrderManageController extends BaseController {
 					List<TcDetailOrder> tcDetailOrders = tcMainOrder.getDetailOrders();
 					
 					model.addAttribute("startDate", tcDetailOrders.get(0).getStartDate());
-					UserDO seller = userServiceRef.getUserDOById(tcDetailOrders.get(0).getBizOrder()==null?0:tcDetailOrders.get(0).getBizOrder().getSellerId());
+
+					long _sellerId = tcDetailOrders.get(0).getBizOrder()==null?0:tcDetailOrders.get(0).getBizOrder().getSellerId();
+					BaseResult<TcMerchantInfo> resultTc =  jiuxiuOrderService.getTcMerchantInfo(_sellerId);
+					if(resultTc.isSuccess()&&resultTc.getValue()!=null){
+						model.addAttribute("talent", resultTc.getValue().getUserNick());
+						model.addAttribute("merchant", resultTc.getValue().getMerchantName());
+					}
+					/**UserDO seller = userServiceRef.getUserDOById(tcDetailOrders.get(0).getBizOrder()==null?0:tcDetailOrders.get(0).getBizOrder().getSellerId());
 					if(null!=seller){
 						boolean isUserTalent = UserOptions.USER_TALENT.has(seller.getOptions());
 						boolean isCommercialTenant = UserOptions.COMMERCIAL_TENANT.has(seller.getOptions());
@@ -128,6 +137,7 @@ public class JiuxiuOrderManageController extends BaseController {
 							model.addAttribute("merchant", tcMainOrder.getMerchantInfo() == null? "" : tcMainOrder.getMerchantInfo().getMerchantName());
 						}
 					}
+					 **/
 					//获取卖家备注
 					BizOrderDO bizOrderDO = new BizOrderDO();
 					bizOrderDO.setDomain(Constant.DOMAIN_JIUXIU);
@@ -201,5 +211,7 @@ public class JiuxiuOrderManageController extends BaseController {
 		}
 		return "/system/order/orderList";
 	}
+
+
 
 }
