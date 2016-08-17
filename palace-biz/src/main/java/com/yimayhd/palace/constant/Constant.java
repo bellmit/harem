@@ -79,4 +79,7 @@ public class Constant {
 	public static final int EXPORTPAGESIZE = 100;
 	public static final int EXPORTMAXCOUNT = 3000;
 	//public static final int EXPORTMAXCOUNT = 2;
+	public static final String BOOTH_PREFIX_SUFFIX = ",";
+	public static final String BOOTH_PREFIX_POSTFIX = "|";
+
 }

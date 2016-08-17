@@ -35,6 +35,7 @@ import com.yimayhd.resourcecenter.model.enums.OperationStatusType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
+import com.yimayhd.resourcecenter.model.param.SimpleBoothDTO;
 import com.yimayhd.resourcecenter.model.query.*;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -64,6 +65,7 @@ import com.yimayhd.user.client.service.MerchantService;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -364,8 +366,26 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             sd.setOperationContent("");
         }else{
             String oc = sw.getOperationContent().replaceAll(" ","");
-            if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){
+            if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){//去掉话题的##
                 oc = oc.replaceAll(Constant.TOPIC_PREFIX_SUFFIX,"");
+            }
+            if(oc.contains(Constant.BOOTH_PREFIX_POSTFIX)){
+                List<SimpleBoothDTO> list = new ArrayList<SimpleBoothDTO>();
+                String[] OcArr = oc.split("\\|");
+                if(null != OcArr && OcArr.length>0){
+                    for (String str:OcArr) {
+                        String[] strOc = str.split(Constant.BOOTH_PREFIX_SUFFIX);
+                        if(null !=strOc && strOc.length == 2){
+                            String code = strOc[0];
+                            String version = strOc[1];
+                            if(StringUtils.isNotEmpty(code) && StringUtils.isNotEmpty(version) && NumberUtils.isNumber(version)){
+                                SimpleBoothDTO sb = new SimpleBoothDTO(code,Integer.parseInt(version));
+                                list.add(sb);
+                            }
+                        }
+                    }
+                    oc = JSON.toJSONString(list);
+                }
             }
             sd.setOperationContent(oc);
         }
