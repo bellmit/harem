@@ -33,5 +33,5 @@
 	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
 	<bean id="topicRepo" class="com.yimayhd.palace.repo.TopicRepo" />
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
-
+	<bean id="guideRepo" class="com.yimayhd.palace.repo.GuideRepo"/>
 </beans>
