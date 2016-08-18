@@ -382,8 +382,8 @@ public class LiveServiceImpl implements LiveService {
         BasePageResult<SnsSubjectDO> result = snsCenterServiceRef.getSubjectInfoPage(subjectInfoDTO1);
         List<SnsSubjectDO> resultList = result.getList();
         for (SnsSubjectDO snsSubjectDO : resultList) {
-            if (snsSubjectDO.getStatus() == BaseStatus.UNAVAILABLE.getType()) {
-                throw new BaseException("用户删除的记录不能操作！");
+            if (snsSubjectDO.getStatus() == BaseStatus.UNAVAILABLE.getType()||snsSubjectDO.getStatus() == BaseStatus.DELETED.getType()) {
+                throw new BaseException("已违规或用户已删除的记录不能批量违规！");
             }
         }
         SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
