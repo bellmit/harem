@@ -72,7 +72,7 @@
 						<th>业务流水号</th>
 						<th>交易类型</th>
 						<th>收支金额</th>
-						<th>金额</th>
+						<th>余额</th>
 					</tr>
 					#foreach($item in $pageVo.itemList)
 					<tr>
@@ -83,7 +83,13 @@
 						</td>
 						<td>$!item.transSn</td>
 						<td>#TRANS_TYPE($!{item.transType})</td>
-						<td>$!item.transAmountYuan</td>
+						<td>
+							#if($item.transType == 7 || $item.transType == 10 || $item.transType == 2)
+								+$!item.transAmountYuan
+							#else
+								-$!item.transAmountYuan
+							#end
+						</td>
 						<td>$!item.accountBalanceYuan</td>
 					</tr>
 					#end
