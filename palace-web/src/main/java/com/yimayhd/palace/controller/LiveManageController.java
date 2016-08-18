@@ -145,12 +145,17 @@ public class LiveManageController extends BaseController {
     @RequestMapping(value = "/batchViolation", method = RequestMethod.POST)
     @ResponseBody
 	public ResponseVo batchPublish(@RequestParam("liveIdList[]") ArrayList<Long> liveIdList) {
-		if (CollectionUtils.isEmpty(liveIdList)) {
-			return new ResponseVo(ResponseStatus.INVALID_DATA);
-		}
-		liveService.batchViolation(liveIdList);
-		return new ResponseVo();
-	}
+        try {
+            if (CollectionUtils.isEmpty(liveIdList)) {
+                return new ResponseVo(ResponseStatus.INVALID_DATA);
+            }
+            liveService.batchViolation(liveIdList);
+            return new ResponseVo();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVo.error(e);
+        }
+    }
 
     /**
      * 根据id获取动态图片列表
