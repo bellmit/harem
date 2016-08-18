@@ -1,7 +1,7 @@
 package com.yimayhd.palace.controller;
 
-import com.yimayhd.palace.model.guide.GuideListQuery;
-import com.yimayhd.palace.model.guide.GuideVO;
+import com.yimayhd.palace.model.guide.GuideScenicListQuery;
+import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.service.GuideManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +28,7 @@ public class GuideManageController {
      * @throws Exception
      */
     @RequestMapping(value = "/list")
-    public String list(Model model, GuideListQuery guideListQuery) throws Exception {
+    public String list(Model model, GuideScenicListQuery guideListQuery) throws Exception {
         return null;
     }
 
@@ -61,7 +61,7 @@ public class GuideManageController {
      * @throws Exception
      */
     @RequestMapping(value = "/addGuide", method = RequestMethod.POST)
-    public String addGuide(Model model, GuideVO guideVO) throws Exception {
+    public String addGuide(Model model, GuideScenicVO guideVO) throws Exception {
         return null;
     }
 
@@ -72,7 +72,7 @@ public class GuideManageController {
      * @throws Exception
      */
     @RequestMapping(value = "/editGuide", method = RequestMethod.POST)
-    public String editGuide(Model model, GuideVO guideVO) throws Exception {
+    public String editGuide(Model model, GuideScenicVO guideVO) throws Exception {
         return null;
     }
 
@@ -86,7 +86,7 @@ public class GuideManageController {
      */
 
     @RequestMapping(value = "/setWeight", method = RequestMethod.POST)
-    public String setWeight(Model model, GuideVO guideVO) throws Exception {
+    public String setWeight(Model model, GuideScenicVO guideVO) throws Exception {
         return null;
     }
 

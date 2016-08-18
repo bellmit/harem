@@ -3,8 +3,8 @@ package com.yimayhd.palace.service.impl;
 
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.guide.GuideListQuery;
-import com.yimayhd.palace.model.guide.GuideVO;
+import com.yimayhd.palace.model.guide.GuideScenicListQuery;
+import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.repo.GuideRepo;
 import com.yimayhd.palace.service.GuideManageService;
 
@@ -24,7 +24,7 @@ public class GuideManageServiceImpl implements GuideManageService {
      * @return
      */
     @Override
-    public PageVO<GuideVO> getGuideList(GuideListQuery guideListQuery) {
+    public PageVO<GuideScenicVO> getGuideList(GuideScenicListQuery guideListQuery) {
         return null;
     }
 
@@ -35,7 +35,7 @@ public class GuideManageServiceImpl implements GuideManageService {
      * @return
      */
     @Override
-    public GuideVO addGuide(GuideVO guideVO) {
+    public GuideScenicVO addGuide(GuideScenicVO guideVO) {
         return null;
     }
 
@@ -46,7 +46,7 @@ public class GuideManageServiceImpl implements GuideManageService {
      * @return
      */
     @Override
-    public GuideVO updateGuide(GuideVO guideVO) {
+    public GuideScenicVO updateGuide(GuideScenicVO guideVO) {
         return null;
     }
 

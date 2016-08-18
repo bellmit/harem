@@ -1,8 +1,8 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.guide.GuideListQuery;
-import com.yimayhd.palace.model.guide.GuideVO;
+import com.yimayhd.palace.model.guide.GuideScenicListQuery;
+import com.yimayhd.palace.model.guide.GuideScenicVO;
 
 /**
  * 导览service
@@ -15,7 +15,7 @@ public interface GuideManageService {
      * @param guideListQuery
      * @return
      */
-    public PageVO<GuideVO> getGuideList(GuideListQuery guideListQuery);
+    public PageVO<GuideScenicVO> getGuideList(GuideScenicListQuery guideListQuery);
 
     /**
      * 添加导览
@@ -23,7 +23,7 @@ public interface GuideManageService {
      * @param guideVO
      * @return
      */
-    public GuideVO addGuide(GuideVO guideVO);
+    public GuideScenicVO addGuide(GuideScenicVO guideVO);
 
     /**
      * 修改导览
@@ -31,7 +31,7 @@ public interface GuideManageService {
      * @param guideVO
      * @return
      */
-    public GuideVO updateGuide(GuideVO guideVO);
+    public GuideScenicVO updateGuide(GuideScenicVO guideVO);
 
     /**
      * 设置权重

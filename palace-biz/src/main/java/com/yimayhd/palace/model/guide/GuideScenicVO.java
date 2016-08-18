@@ -3,7 +3,7 @@ package com.yimayhd.palace.model.guide;
 /**
  * Created by xushubing on 2016/8/18.
  */
-public class GuideVO {
+public class GuideScenicVO {
     private long guideid;//导览id
     private long scenicId;//景区id
     private String scenicName;//景区名称
@@ -21,7 +21,7 @@ public class GuideVO {
         return scenicId;
     }
 
-    public GuideVO setScenicId(long scenicId) {
+    public GuideScenicVO setScenicId(long scenicId) {
         this.scenicId = scenicId;
         return this;
     }
@@ -30,7 +30,7 @@ public class GuideVO {
         return guideImg;
     }
 
-    public GuideVO setGuideImg(String guideImg) {
+    public GuideScenicVO setGuideImg(String guideImg) {
         this.guideImg = guideImg;
         return this;
     }
@@ -39,7 +39,7 @@ public class GuideVO {
         return listImg;
     }
 
-    public GuideVO setListImg(String listImg) {
+    public GuideScenicVO setListImg(String listImg) {
         this.listImg = listImg;
         return this;
     }
@@ -48,7 +48,7 @@ public class GuideVO {
         return guideid;
     }
 
-    public GuideVO setGuideid(long guideid) {
+    public GuideScenicVO setGuideid(long guideid) {
         this.guideid = guideid;
         return this;
     }
@@ -57,7 +57,7 @@ public class GuideVO {
         return scenicName;
     }
 
-    public GuideVO setScenicName(String scenicName) {
+    public GuideScenicVO setScenicName(String scenicName) {
         this.scenicName = scenicName;
         return this;
     }
@@ -66,7 +66,7 @@ public class GuideVO {
         return scenicResourceNum;
     }
 
-    public GuideVO setScenicResourceNum(String scenicResourceNum) {
+    public GuideScenicVO setScenicResourceNum(String scenicResourceNum) {
         this.scenicResourceNum = scenicResourceNum;
         return this;
     }
@@ -75,7 +75,7 @@ public class GuideVO {
         return status;
     }
 
-    public GuideVO setStatus(int status) {
+    public GuideScenicVO setStatus(int status) {
         this.status = status;
         return this;
     }
@@ -84,7 +84,7 @@ public class GuideVO {
         return location;
     }
 
-    public GuideVO setLocation(String location) {
+    public GuideScenicVO setLocation(String location) {
         this.location = location;
         return this;
     }
@@ -93,7 +93,7 @@ public class GuideVO {
         return weight;
     }
 
-    public GuideVO setWeight(int weight) {
+    public GuideScenicVO setWeight(int weight) {
         this.weight = weight;
         return this;
     }
@@ -102,7 +102,7 @@ public class GuideVO {
         return level;
     }
 
-    public GuideVO setLevel(int level) {
+    public GuideScenicVO setLevel(int level) {
         this.level = level;
         return this;
     }

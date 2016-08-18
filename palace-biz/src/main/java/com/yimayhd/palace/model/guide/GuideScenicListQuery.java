@@ -5,7 +5,7 @@ import com.yimayhd.palace.base.BaseQuery;
 /**
  * Created by xushubing on 2016/8/18.
  */
-public class GuideListQuery extends BaseQuery {
+public class GuideScenicListQuery extends BaseQuery {
     private String scenicName;//景区名称
     private String scenicResourceNum;//景区资源编号
     private int status;// 状态
@@ -14,7 +14,7 @@ public class GuideListQuery extends BaseQuery {
         return scenicName;
     }
 
-    public GuideListQuery setScenicName(String scenicName) {
+    public GuideScenicListQuery setScenicName(String scenicName) {
         this.scenicName = scenicName;
         return this;
     }
@@ -23,7 +23,7 @@ public class GuideListQuery extends BaseQuery {
         return scenicResourceNum;
     }
 
-    public GuideListQuery setScenicResourceNum(String scenicResourceNum) {
+    public GuideScenicListQuery setScenicResourceNum(String scenicResourceNum) {
         this.scenicResourceNum = scenicResourceNum;
         return this;
     }
@@ -32,7 +32,7 @@ public class GuideListQuery extends BaseQuery {
         return status;
     }
 
-    public GuideListQuery setStatus(int status) {
+    public GuideScenicListQuery setStatus(int status) {
         this.status = status;
         return this;
     }
