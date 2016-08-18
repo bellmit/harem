@@ -39,10 +39,10 @@ public class GuideRepo {
         }
     }
 
-    public ICResult<Boolean> addGuide(GuideScenicDO guideScenicDO) {
+    public ICResult<GuideScenicDO> addGuide(GuideScenicDO guideScenicDO) {
         try {
-            ICResult<Boolean> result = guideServiceRef.addGuide(guideScenicDO);
-            if(result.isSuccess()&&result.getModule()) {
+            ICResult<GuideScenicDO> result = guideServiceRef.addGuide(guideScenicDO);
+            if(result.isSuccess()&&result.getModule()!=null) {
                 log.info("addGuide guideScenicDO={}, result={}", JSON.toJSONString(guideScenicDO), JSON.toJSONString(result));
                 return result;
             } else {
@@ -55,51 +55,51 @@ public class GuideRepo {
         }
     }
 
-    public ICResult<Boolean> updateGuide(GuideScenicUpdateDTO updateDTO) {
+    public boolean updateGuide(GuideScenicUpdateDTO updateDTO) {
         try {
             ICResult<Boolean> result = guideServiceRef.updateGuide(updateDTO);
             if(result.isSuccess()&&result.getModule()) {
                 log.info("updateGuide updateDTO={}, result={}", JSON.toJSONString(updateDTO), JSON.toJSONString(result));
-                return result;
+                return true;
             } else {
                 log.error("updateGuide updateDTO={}, result={}", JSON.toJSONString(updateDTO), JSON.toJSONString(result));
-                return null;
+                return false;
             }
         } catch (Exception e) {
             log.error("updateGuide updateDTO={}, exception={}", JSON.toJSONString(updateDTO), e);
-            return null;
+            return false;
         }
     }
 
-    public ICResult<Boolean> updateGuideStatus(int status, long guideId) {
+    public boolean updateGuideStatus(int status, long guideId) {
         try {
-            ICResult<Boolean> result = guideServiceRef.updateGuideStatus(status);
+            ICResult<Boolean> result = guideServiceRef.updateGuideStatus(status, guideId);
             if(result.isSuccess()&&result.getModule()) {
                 log.info("updateGuideStatus status={}, guideId={}, result={}", status, guideId, JSON.toJSONString(result));
-                return result;
+                return true;
             } else {
                 log.error("updateGuideStatus status={},guideId={}, result={}", status, guideId, JSON.toJSONString(result));
-                return null;
+                return false;
             }
         } catch (Exception e) {
             log.error("updateGuideStatus status={},guideId={}, exception={}", status, guideId, e);
-            return null;
+            return false;
         }
     }
 
-    public ICResult<Boolean> updateGuideWeight(int weight, long guideId) {
+    public boolean updateGuideWeight(int weight, long guideId) {
         try {
-            ICResult<Boolean> result = guideServiceRef.updateGuideWeight(weight);
+            ICResult<Boolean> result = guideServiceRef.updateGuideWeight(weight, guideId);
             if(result.isSuccess()&&result.getModule()) {
                 log.info("updateGuideWeight status={}, guideId={}, result={}", weight, guideId, JSON.toJSONString(result));
-                return result;
+                return true;
             } else {
                 log.error("updateGuideWeight status={},guideId={}, result={}", weight, guideId, JSON.toJSONString(result));
-                return null;
+                return false;
             }
         } catch (Exception e) {
             log.error("updateGuideWeight status={},guideId={}, exception={}", weight, guideId, e);
-            return null;
+            return false;
         }
     }
 }
