@@ -16,7 +16,7 @@
         <tool key="escUtil" class="org.apache.velocity.tools.generic.EscapeTool"></tool>
 
         <tool key="utilTag" class="com.yimayhd.palace.util.TagUtil"></tool>
+        <tool key="esc" class="org.apache.velocity.tools.generic.EscapeTool"></tool>
 
     </toolbox>
-
 </tools>

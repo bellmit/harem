@@ -83,7 +83,7 @@ public class MerchantRepo {
 			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
 			PictureTextVO pictureTextVO = new PictureTextVO();
 			pictureTextVO.setPictureTextItems(pictureTextItems);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchantDO.getSellerId(), PictureText.FOOD, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchantDO.getSellerId(), PictureText.SHOP, pictureTextVO);
 			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(saveMerchantResult));
 		} catch (Exception e) {
@@ -117,7 +117,6 @@ public class MerchantRepo {
 				resultSupport.setMsg(merchant.getErrorMsg());
 				resultSupport.setSuccess(false);
 			}
-			
 
 			BaseResult<Boolean> updateMerchantResult = userMerchantServiceRef.updateMerchantInfo(dto);
 			if (updateMerchantResult == null) {
@@ -133,7 +132,7 @@ public class MerchantRepo {
 			List<PictureTextItemVo> pictureTextItems = JSON.parseArray(vo.getPictureTextString(), PictureTextItemVo.class);
 			PictureTextVO pictureTextVO = new PictureTextVO();
 			pictureTextVO.setPictureTextItems(pictureTextItems);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchant.getValue().getSellerId(), PictureText.FOOD, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(merchant.getValue().getSellerId(), PictureText.SHOP, pictureTextVO);
 			pictureTextRepo.editPictureText(comentEditDTO);
 			log.error("result is ===============",JSON.toJSONString(updateMerchantResult));
 		} catch (Exception e) {
@@ -234,6 +233,5 @@ public class MerchantRepo {
 		// 图文详情
 		return  pictureTextRepo.getPictureText(id, PictureText.FOOD);
 
-		
 	}
 }

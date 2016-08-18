@@ -5,10 +5,10 @@
         <div class="buyerInfo">
             <div class="order-info-title">订单基础信息</div>
             <table class="table table-hover">
-                <tr>
+                #*<tr>
                     <td class="order-info-label">收货地址：</td>
                     <td class="order-info-value">
-                    	$!lgOrder.fullName， 
+                    	$!lgOrder.fullName，
                     	$!lgOrder.mobilePhone，
                     	$!lgOrder.prov，
                     	$!lgOrder.city，
@@ -16,7 +16,7 @@
                     	$!lgOrder.address，
                     	$!lgOrder.post
                     </td>
-                </tr>
+                </tr>*#
                 <tr>
                     <td class="order-info-label">物流公司名称：</td>
                     #if($!logistics.name)

@@ -26,6 +26,7 @@
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
 
+
 		<snscenter.client.version>1.1.0-SNAPSHOT</snscenter.client.version>
 		<resourcecenter.client.version>2.0.1-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.4-SNAPSHOT</membercenter.client.version>
@@ -33,7 +34,8 @@
 
 		<paycore.client.version>1.0.1-SNAPSHOT</paycore.client.version>
 		<tradecenter.client.version>1.0.13-SNAPSHOT</tradecenter.client.version>
-		<comment.version>1.0.4-SNAPSHOT</comment.version>
+		<comment.version>1.0.6.1-SNAPSHOT</comment.version>
+
 
 		<fhtd.version>0.1.0-SNAPSHOT</fhtd.version>
 		<logback.version>1.1.1</logback.version>
@@ -43,7 +45,7 @@
 		<promotion.client.version>1.0.0-SNAPSHOT</promotion.client.version>
 		<spread.version>1.0.9-SNAPSHOT</spread.version>
 		<tair.version>2.3.4.3</tair.version>
-		<activity.client.version>1.3.0-SNAPSHOT</activity.client.version>
+		<activity.client.version>1.4.2-SNAPSHOT</activity.client.version>
 		<lgcenter.client.version>0.0.6-SNAPSHOT</lgcenter.client.version>
 		<refund.version>1.0.0-SNAPSHOT</refund.version>
 	</properties>
@@ -695,6 +697,16 @@
 				<version>${refund.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>3.9</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>3.7-beta3</version>
+			</dependency>
 
 		</dependencies>
 
