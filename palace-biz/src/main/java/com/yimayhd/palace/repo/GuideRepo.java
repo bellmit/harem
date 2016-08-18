@@ -1,5 +1,6 @@
 package com.yimayhd.palace.repo;
 
+import com.yimayhd.ic.client.service.guide.GuideService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -8,5 +9,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class GuideRepo {
 
     @Autowired
-    private GuideRepo guideServiceRef;
+    private GuideService guideServiceRef;
 }
