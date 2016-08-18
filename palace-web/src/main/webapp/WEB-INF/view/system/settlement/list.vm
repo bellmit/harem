@@ -63,10 +63,11 @@
 						<td>$!item.successCount</td>
 						<td>$!item.failCount</td>
 						<td>
-							#if($!item.channelFeeDouble > 0){
+							#if($!item.channelFeeDouble > 0)
 								-$!item.channelFeeDouble
+							#else
+								$!item.channelFeeDouble	
 							#end
-							$!item.channelFeeDouble
 						</td>
 						<td>#ACCOUNT_TYPE($!item.accountType)</td>
 						<!--
