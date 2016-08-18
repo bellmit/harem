@@ -108,9 +108,29 @@
 	                    </tr>
 	                </table>
                 </div>
-                
-                
             </div>
+
+            <!-- 收货人信息 -->
+            <div class="buyerInfo">
+                <div class="order-info-title">收货人信息</div>
+                <div>
+                    <table class="table table-hover">
+                        <tr>
+                            <td class="order-info-label">收货地址：</td>
+                            <td class="order-info-value">
+                                $!lgOrder.fullName，
+                                $!lgOrder.mobilePhone，
+                                $!lgOrder.prov，
+                                $!lgOrder.city，
+                                $!lgOrder.area，
+                                $!lgOrder.address，
+                                $!lgOrder.post
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
             <br><br>
             <!-- 订单基础信息 -->
             <div class="orderBaseInfo">

@@ -53,4 +53,8 @@
 	<bean class="com.yimayhd.palace.service.impl.FlightRPCServiceImpl"></bean>
 	<!-- comment -->
 	<bean class="com.yimayhd.palace.service.impl.TagRPCServiceImpl"></bean>
+	
+	
+	<!-- 导览-->
+	<bean id="guideManageService" class="com.yimayhd.palace.service.impl.GuideManageServiceImpl"/>
 </beans>

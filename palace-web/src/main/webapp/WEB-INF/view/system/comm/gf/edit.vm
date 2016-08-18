@@ -369,6 +369,9 @@
         if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
             return '请输入正确的价格';
         }
+        if($('.priceY').val() <= 0 ){
+            return '商品价格必须大于0';
+        }
         
         if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
             return '请输入正确的库存';
@@ -424,6 +427,9 @@
         $('.price').each(function(){
             if(!$(this).val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($(this).val())){
                 msg = '请检查sku价格格式';
+            }
+            if($(this).val() <= 0 ){
+                msg = 'sku价格必须大于0';
             }
         });
         $('.stock').each(function(){

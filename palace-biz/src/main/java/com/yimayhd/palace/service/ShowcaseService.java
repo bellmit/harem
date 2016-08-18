@@ -35,6 +35,7 @@ import java.util.List;
  * Created by czf on 2016/4/13.
  */
 public interface ShowcaseService {
+
     /**
      *  根据boothId获取showcase列表
      * @param boothId

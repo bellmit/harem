@@ -45,6 +45,7 @@ public interface OrderService {
 
 	boolean closeOrder(long id);
 
+	PageVO<MainOrder> getExportOrderList(OrderListQuery orderListQuery) throws Exception;
 
 
 }

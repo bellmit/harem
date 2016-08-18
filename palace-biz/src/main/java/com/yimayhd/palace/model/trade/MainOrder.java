@@ -1,5 +1,6 @@
 package com.yimayhd.palace.model.trade;
 
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.palace.util.OrderUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
@@ -32,6 +33,18 @@ public class MainOrder {
     private UserDO user;
     
     private PayOrderDO payOrderDO;
+
+    private ExpressVO express;
+
+    public String gyCode;//订单对应商品在管易中的编码
+
+    public ExpressVO getExpress() {
+        return express;
+    }
+
+    public void setExpress(ExpressVO express) {
+        this.express = express;
+    }
 
     public BizOrderDO getBizOrderDO() {
         return bizOrderDO;
@@ -143,5 +156,12 @@ public class MainOrder {
 	public void setPayOrderDO(PayOrderDO payOrderDO) {
 		this.payOrderDO = payOrderDO;
 	}
-     
+
+    public String getGyCode() {
+        return gyCode;
+    }
+
+    public void setGyCode(String gyCode) {
+        this.gyCode = gyCode;
+    }
 }

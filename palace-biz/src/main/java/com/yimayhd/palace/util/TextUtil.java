@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -46,6 +47,13 @@ public class TextUtil {
 			set.add(m.group());
 		}
 		return new ArrayList<String>(set);
+	}
+
+	public static String html(String str) {
+		str = str.replaceAll("\"", "&quot;");
+//		str = str.replace("'", "&#39;");
+//		str = StringEscapeUtils.escapeHtml(str);
+		return str;
 	}
 	
 }
