@@ -541,7 +541,7 @@
         其他
     #end
 #end
-
+#*
 #macro(GFTRADEREFUNDSTATUS $status)
     #if($!status==0)
     未退款
@@ -558,7 +558,7 @@
     #elseif($!status==6)
     用户已撤销
     #end
-#end
+#end*#
 
 #macro(ORDER_BIZ_TYPES $type)
     #if( $type == 3100)
@@ -775,6 +775,18 @@
 	#end
 #end
 
+#macro(OPTION_COM_RATE_RATE_STATUS $type)
+<option value="" >全部</option>
+<option value="RATE" #if($type == "RATE")selected#end>未回复</option>
+<option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
+#end
+
+#macro(OPTION_COM_RATE_BASE_STATUS $type)
+<option value="" >全部</option>
+<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
+<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
+#end
+
 ##订单列表-展示的SKU信息
 #macro(ROUTE_ORDER_LIST_SKU $type)
     #if($type == 3100 ||$type == 3200 || $type == 3500 || $type == 3600)
@@ -807,6 +819,23 @@
 	    #end
 	#end
 #end
+
+#macro(OPTION_COM_RATE_RATE_STATUS $type)
+    <option value="" >全部</option>
+    <option value="RATE" #if($type == "RATE")selected#end>未回复</option>
+    <option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
+#end
+
+#macro(OPTION_COM_RATE_BASE_STATUS $type)
+<option value="" >全部</option>
+<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
+<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
+#end
+
+#macro(DEFAULT_COM_RATE_REPLY_BACK_CONTENT)
+感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！
+#end
+
 #*话题状态*#
 #macro(TOPIC_STATUS $type)
     #if($type == '0')

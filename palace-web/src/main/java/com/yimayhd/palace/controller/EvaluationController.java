@@ -58,8 +58,13 @@ public class EvaluationController extends BaseController {
 	@RequestMapping(value = "/violation/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
-		evaluationService.violation(id);
-		return new ResponseVo();
+		try {
+			evaluationService.violation(id);
+			return new ResponseVo();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.error(e);
+		}
 	}
 
 	/**
@@ -84,8 +89,13 @@ public class EvaluationController extends BaseController {
 	@RequestMapping(value = "/batchViolation", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo batchPublish(@RequestParam("evaluationIdList[]") ArrayList<Long> evaluationIdList) throws Exception {
-		evaluationService.batchViolation(evaluationIdList);
-		return new ResponseVo();
+		try {
+			evaluationService.batchViolation(evaluationIdList);
+			return new ResponseVo();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseVo.error(e);
+		}
 	}
 
 }
