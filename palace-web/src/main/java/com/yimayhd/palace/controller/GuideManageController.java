@@ -2,10 +2,13 @@ package com.yimayhd.palace.controller;
 
 import com.yimayhd.palace.model.guide.GuideListQuery;
 import com.yimayhd.palace.model.guide.GuideVO;
+import com.yimayhd.palace.service.GuideManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
 
 /**
  * 导览
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("/jiuniu/guideManage")
-public class GuideController {
+public class GuideManageController {
+    @Resource
+    private GuideManageService guideManageService;
     /**
      * 导览列表  分页
      *

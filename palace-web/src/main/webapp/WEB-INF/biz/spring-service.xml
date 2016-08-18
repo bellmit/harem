@@ -89,6 +89,7 @@
 	<!-- 话题 -->
 	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
 
-
+	<!-- 导览-->
+	<bean id="guideManageService" class="com.yimayhd.palace.service.impl.GuideManageServiceImpl"/>
 
 </beans>

@@ -73,7 +73,7 @@ public class GuideRepo {
 
     public ICResult<Boolean> updateGuideStatus(int status, long guideId) {
         try {
-            ICResult<Boolean> result = guideServiceRef.updateGuideStatus(status);
+            ICResult<Boolean> result = guideServiceRef.updateGuideStatus(status,guideId);
             if(result.isSuccess()&&result.getModule()) {
                 log.info("updateGuideStatus status={}, guideId={}, result={}", status, guideId, JSON.toJSONString(result));
                 return result;
@@ -89,7 +89,7 @@ public class GuideRepo {
 
     public ICResult<Boolean> updateGuideWeight(int weight, long guideId) {
         try {
-            ICResult<Boolean> result = guideServiceRef.updateGuideWeight(weight);
+            ICResult<Boolean> result = guideServiceRef.updateGuideWeight(weight,guideId);
             if(result.isSuccess()&&result.getModule()) {
                 log.info("updateGuideWeight status={}, guideId={}, result={}", weight, guideId, JSON.toJSONString(result));
                 return result;
