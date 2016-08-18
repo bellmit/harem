@@ -1,21 +1,19 @@
-
-
 <div class="order-query-container whole">
     <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">订单编号</button>
             </span>
-        <input type="text" class="form-control" name="orderNO" value="$!orderListQuery.orderNO">
+        <input type="text" class="form-control" name="orderNO" id="qorderNO" value="$!orderListQuery.orderNO">
 
     </div>
     <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">订单日期</button>
             </span>
-        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate"
+        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" id="qbeginDate"
                value="$!orderListQuery.beginDate">
         <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate"
+        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" id="qendDate"
                value="$!orderListQuery.endDate">
     </div>
 
@@ -35,7 +33,7 @@
 
 
 
-        <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
+        <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat" id="qorderStat">
             <option value="0">全部</option>
             <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>待付款</option>
             <option value="PAID" #if($!orderListQuery.orderStat == 'PAID') selected #end>待发货</option>
@@ -58,21 +56,21 @@
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">商品名称</button>
             </span>
-        <input type="text" class="form-control" name="itemName" value="$!orderListQuery.itemName">
+        <input type="text" class="form-control" name="itemName" id="qitemName" value="$!orderListQuery.itemName">
     </div>
 
     <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">买家手机号</button>
             </span>
-        <input type="text" class="form-control" name="buyerPhone" value="$!orderListQuery.buyerPhone">
+        <input type="text" class="form-control" name="buyerPhone" id="qbuyerPhone" value="$!orderListQuery.buyerPhone">
     </div>
 
     <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">买家昵称</button>
             </span>
-        <input type="text" class="form-control" name="buyerName" value="$!orderListQuery.buyerName">
+        <input type="text" class="form-control" name="buyerName" id="qbuyerName" value="$!orderListQuery.buyerName">
     </div>
 
     <div class="btn-group">
@@ -81,5 +79,7 @@
     <div class="btn-group">
         <button type="button" id="clean_btn" class="btn btn-primary">重置</button>
     </div>
-
+    <div class="btn-group">
+        <button type="button" id="export_import" class="btn btn-primary">订单导出</button>
+    </div>
 </div>

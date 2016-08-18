@@ -235,6 +235,9 @@
                         var showPicUrl="$utilWebconfig.getTfsRootPath()"+picUrl;
                         $("#travelBGImgSH").val(picUrl);
                         $("#travelImgIdSH img").attr("src",showPicUrl);
+                        var html="<img src='"+showPicUrl+"' class='dasda' width='200' height='200' " +"></img>";
+                        console.log("html="+html);
+                        $("#travelImgIdSH").append(html);
                     }
                 }
                 myinit();

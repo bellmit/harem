@@ -48,6 +48,7 @@ public interface OrderService {
 
 	public boolean adjustFee(AdjustFeeDTO ddjustFeeDTO);
 
+	PageVO<MainOrder> getExportOrderList(OrderListQuery orderListQuery) throws Exception;
 
 
 }

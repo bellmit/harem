@@ -1,3 +1,4 @@
+
 package com.yimayhd.palace.repo;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemSkuStatus;
@@ -19,6 +21,7 @@ import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuQueryDTO;
 import com.yimayhd.ic.client.model.param.item.ItemWeightDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
@@ -162,6 +165,14 @@ public class ItemRepo {
 			return null;
 		}
 		return itemPublishServiceRef.updateItemOrderNum(itemWeightDTO);
+	}
+	
+	public List<ItemDO> getItemByIds(List<Long> ids) {
+		ICResult<List<ItemDO>> icResult = itemQueryServiceRef.getItemByIds(ids);
+		if(null != icResult && icResult.isSuccess() && !CollectionUtils.isEmpty(icResult.getModule()) ){
+			return icResult.getModule();
+		}
+		return null;
 	}
 }
 

@@ -2,6 +2,7 @@ package com.yimayhd.palace.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commission.client.enums.Domain;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.lgcenter.client.dto.TaskInfoRequestDTO;
@@ -10,10 +11,12 @@ import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.OrderConverter;
 import com.yimayhd.palace.enums.PromotionTypes;
+import com.yimayhd.palace.model.enums.PayStatus;
 import com.yimayhd.palace.model.query.OrderListQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
 import com.yimayhd.palace.model.trade.OrderDetails;
 import com.yimayhd.palace.model.vo.AdjustFeeVO;
+import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.PayRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderService;
@@ -47,6 +50,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -156,14 +160,25 @@ public class OrderServiceImpl implements OrderService {
 						mo.setOldFee(fee);
 					}
 					mainOrderList.add(mo);
+
+					//查物流
+					LogisticsOrderDO log = mo.getLogisticsOrderDO();
+					if(null != log && StringUtils.isNotEmpty(log.getExpressNo()) ){
+						TaskInfoRequestDTO taskInfoRequestDTO = new TaskInfoRequestDTO();
+						taskInfoRequestDTO.setNumber(log.getExpressNo());
+						taskInfoRequestDTO.setCompany(StringUtils.isEmpty(log.getExpressCompany()) ? "" : log.getExpressCompany());
+						BaseResult<ExpressVO> lgResult =  lgService.getLogisticsInfo(taskInfoRequestDTO);
+						if (lgResult.isSuccess() && lgResult.getValue()!=null){
+							mo.setExpress(lgResult.getValue());
+							mainOrderList.add(mo);
+						}
+					}
 				}
 			}
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
-					(int)batchQueryResult.getTotalCount(),mainOrderList);
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), (int)batchQueryResult.getTotalCount(),mainOrderList);
 			return orderPageVO;
 		}else{
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
-					0,mainOrderList);
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), 0,mainOrderList);
 			return orderPageVO;
 		}
 
@@ -392,5 +407,123 @@ public class OrderServiceImpl implements OrderService {
 			return true;
 		}
 		return false;
+	}
+	
+	public PageVO<MainOrder> getExportOrderList(OrderListQuery orderListQuery) throws Exception {
+		List<MainOrder> mainOrderList = new ArrayList<MainOrder>();
+		long userId = 0;
+		List<BizOrderDO> list = null;
+		if (StringUtils.isNotEmpty(orderListQuery.getBuyerName()) || StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
+			UserDOPageQuery userDOPageQuery = new UserDOPageQuery();
+			userDOPageQuery.setPageNo(1);
+			userDOPageQuery.setPageSize(1);
+			if (StringUtils.isNotEmpty(orderListQuery.getBuyerName())){
+				userDOPageQuery.setNickname(orderListQuery.getBuyerName());
+			}
+			if (StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())){
+				userDOPageQuery.setMobile(orderListQuery.getBuyerPhone());
+			}
+			// userDOPageQuery.setUserIdList();
+			BasePageResult<UserDO> basePageResult = userServiceRef.findPageResultByCondition(userDOPageQuery);
+			if (basePageResult.isSuccess()){
+				if (!CollectionUtils.isEmpty(basePageResult.getList())){
+					UserDO userDO = basePageResult.getList().get(0);
+					userId = userDO.getId();
+				}else{
+					PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), 0,mainOrderList);
+					return orderPageVO;
+				}
+			}
+		}
+
+		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
+		if (orderQueryDTO!=null){
+			BatchQueryResult batchQueryResult = tcQueryServiceRef.queryOrders(orderQueryDTO);
+//			System.err.println(JSON.toJSONString(batchQueryResult));
+			if (null != batchQueryResult && batchQueryResult.isSuccess()){
+				//订单信息
+				List<BizOrderDO> bizOrderDOList = batchQueryResult.getBizOrderDOList();
+				//如果使用名称查询，查询出的全部是子订单，需要把子订单放入父订单中。
+				if (!CollectionUtils.isEmpty(bizOrderDOList) && StringUtils.isNotEmpty(orderQueryDTO.getItemName())){
+					OrderQueryDTO orderQueryDTOMain = new OrderQueryDTO();
+					List<Long> bizOrderIds = new ArrayList<Long>();
+					List<BizOrderDO> bizOrderDOListMain = new ArrayList<BizOrderDO>();
+					for (BizOrderDO bizOrderDO : bizOrderDOList) {
+						//判断是否是主订单
+						if(bizOrderDO.getIsMain() == MainDetailStatus.NO.getType()){
+							bizOrderIds.add(bizOrderDO.getParentId());
+							orderQueryDTOMain.setBizOrderIds(bizOrderIds);
+						}else{
+							bizOrderDOListMain.add(bizOrderDO);
+						}
+					}
+					if (!CollectionUtils.isEmpty(bizOrderIds)) {
+						BatchQueryResult batchQueryResultMain = tcQueryServiceRef.queryOrders(orderQueryDTOMain);
+						if (batchQueryResultMain.isSuccess() && !CollectionUtils.isEmpty(batchQueryResultMain.getBizOrderDOList())){
+							bizOrderDOListMain.addAll(batchQueryResultMain.getBizOrderDOList());
+						}
+					}
+
+					if (bizOrderDOListMain.size()>0){
+						for (BizOrderDO bizOrderDOMain : bizOrderDOListMain){
+							List<BizOrderDO> bizOrderDOTempList = new ArrayList<BizOrderDO>();
+							for (BizOrderDO bizOrderDO : bizOrderDOList){
+								if (bizOrderDO.getParentId() == bizOrderDOMain.getBizOrderId()){
+									bizOrderDOTempList.add(bizOrderDO);
+								}
+							}
+							bizOrderDOMain.setDetailOrderList(bizOrderDOTempList);
+						}
+					}
+					list = bizOrderDOListMain;
+				}else{
+					list = bizOrderDOList;
+				}
+			}
+			if (!CollectionUtils.isEmpty(list)){
+				for (BizOrderDO bizOrderDO : list) {
+					MainOrder mo = OrderConverter.orderVOConverter(bizOrderDO);
+					mo = OrderConverter.mainOrderStatusConverter(mo,bizOrderDO);
+					//FIXME
+					UserDO user = userServiceRef.getUserDOById(bizOrderDO.getBuyerId(), false);
+					mo.setUser(user);
+
+					//查物流
+					LogisticsOrderDO log = mo.getLogisticsOrderDO();
+					if(null == log ){
+						OrderQueryOption orderQueryOption = new OrderQueryOption();
+						orderQueryOption.setNeedPayOrder(true);
+						orderQueryOption.setNeedLogisticsOrder(true);
+						orderQueryOption.setNeedDetailOrder(true);
+						SingleQueryResult singleQueryResult = tcQueryServiceRef.querySingle(bizOrderDO.getBizOrderId(),orderQueryOption);
+						if(null !=singleQueryResult && singleQueryResult.isSuccess()){
+							LogisticsOrderDO lg = singleQueryResult.getLogisticsOrderDO();
+							mo.setLogisticsOrderDO(lg);
+							}
+					}
+					//查付款
+					PayOrderDO pod = mo.getPayOrderDO();
+					if(null == pod && bizOrderDO.getPayStatus() >= PayStatus.PAID.getStatus() ){//已经付款的，但没有数据的 在查一遍
+						long bizOrderId = bizOrderDO.getBizOrderId() ;
+						int domainId = bizOrderDO.getDomain()==0?1100:bizOrderDO.getDomain() ;
+						BizResult<PayOrderDO> queryPayOrderResult = payRepo.getPayOrderList(bizOrderId, domainId);
+						if( queryPayOrderResult != null && queryPayOrderResult.isSuccess() ){
+							PayOrderDO payOrderDO = queryPayOrderResult.getValue();
+							mo.setPayOrderDO(payOrderDO);
+						}
+					}
+
+					mainOrderList.add(mo);
+				}
+			}
+
+
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), (int)batchQueryResult.getTotalCount(),mainOrderList);
+			return orderPageVO;
+		}else{
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), 0,mainOrderList);
+			return orderPageVO;
+		}
+
 	}
 }

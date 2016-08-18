@@ -21,6 +21,8 @@ public class SubOrder {
     private long executeTime;
     private String vTxt;
 
+    public String gyCode;//订单对应商品在管易中的编码
+
     public SubOrder(){}
 
     public SubOrder(BizOrderDO bizOrderDO) {
@@ -104,5 +106,13 @@ public class SubOrder {
     public long getSumFee(){
     	long fee = OrderUtil.getOrderFee(bizOrderDO, BizOrderFeatureKey.SUB_ORDER_TOTAL_FEE) ;
     	return fee ;
+    }
+
+    public String getGyCode() {
+        return gyCode;
+    }
+
+    public void setGyCode(String gyCode) {
+        this.gyCode = gyCode;
     }
 }
