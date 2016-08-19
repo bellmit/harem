@@ -29,7 +29,7 @@
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
 		<comment.version>1.0.6-SNAPSHOT</comment.version>
 		<snscenter.client.version>1.2.0-SNAPSHOT</snscenter.client.version>
-		<resourcecenter.client.version>2.1.5-SNAPSHOT</resourcecenter.client.version>
+		<resourcecenter.client.version>2.1.6-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.6-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0.2-SNAPSHOT</paycore.client.version>
 		<tradecenter.client.version>1.0.15-SNAPSHOT</tradecenter.client.version>
