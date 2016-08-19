@@ -108,6 +108,7 @@
 					<th data-width="160">单价</th>
 					<th data-width="160">店铺名称/昵称</th>
 					<th data-col-class="text-center" data-width="70">状态</th>
+                    <th data-col-class="text-center" data-width="40">创建时间</th>
                     <th data-col-class="text-center" data-width="40">最后修改时间</th>
 					<th data-col-class="text-center" data-width="60">操作</th>
                 </tr>
@@ -157,6 +158,7 @@
                     		$!{utilItem.getItemStatusName($item.status)}	
                     	#end
                     </td>
+                    <td>$!{utilDate.date2String($item.publishDate)}</td>
                     <td>$!{utilDate.date2String($item.gmtModified)}</td>
                     <td>
                     	#if($item.type == 21 || $item.type == 22 || $item.type == 24 || $item.type == 25)
