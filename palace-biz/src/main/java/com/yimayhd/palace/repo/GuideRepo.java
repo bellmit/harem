@@ -39,10 +39,10 @@ public class GuideRepo {
         }
     }
 
-    public ICResult<Boolean> addGuide(GuideScenicDO guideScenicDO) {
+    public ICResult<GuideScenicDO> addGuide(GuideScenicDO guideScenicDO) {
         try {
-            ICResult<Boolean> result = guideServiceRef.addGuide(guideScenicDO);
-            if(result.isSuccess()&&result.getModule()) {
+            ICResult<GuideScenicDO> result = guideServiceRef.addGuide(guideScenicDO);
+            if(result.isSuccess()&&result.getModule()!=null) {
                 log.info("addGuide guideScenicDO={}, result={}", JSON.toJSONString(guideScenicDO), JSON.toJSONString(result));
                 return result;
             } else {
