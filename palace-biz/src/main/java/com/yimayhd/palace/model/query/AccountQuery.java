@@ -89,11 +89,11 @@ public class AccountQuery extends BaseQuery {
 		}
     	
     	if(StringUtils.isNotEmpty(query.getTransStartDate())){
-    		queryDO.setTransStartDate((DateUtil.convertStringToDate(DateUtil.DEFAULT_DATE_FORMAT, query.getTransStartDate())));
+    		queryDO.setTransStartDate((DateUtil.formatMinTimeForDate(query.getTransStartDate())));
     	}
     	
     	if(StringUtils.isNotEmpty(query.getTransEndDate())){
-    		queryDO.setTransEndDate((DateUtil.convertStringToDate(DateUtil.DEFAULT_DATE_FORMAT, query.getTransEndDate())));
+    		queryDO.setTransEndDate((DateUtil.formatMaxTimeForDate(query.getTransEndDate())));
     	}
     	
     	if(StringUtils.isNotEmpty(query.getPayOrderId())){
