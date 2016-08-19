@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller.merchant;
 
+import java.awt.JobAttributes.DestinationType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,9 +45,13 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.util.Common;
 import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.dto.DestinationNode;
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.service.DestinationService;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
@@ -85,15 +91,21 @@ public class MerchantController extends BaseController {
 	private UserService userServiceRef;
 	@Autowired
 	private ExamineDealService examineDealServiceRef;
-
-	private List<RegionDO> getMerchantRegions() {
-		RegionQuery query = new RegionQuery();
+	@Autowired
+	private DestinationService destinationServiceRef;
+	private List<DestinationNode> getMerchantRegions() {
+		/*RegionQuery query = new RegionQuery();
 		query.setPageSize(Constant.PAGE_SIZE);
 		query.setType(RegionType.JIUXIU_REGION.getType());
 		query.setStatus(Constant.PAGEQUERY_STATUS);
 		RCPageResult<RegionDO> cities = regionClientServiceRef.pageQuery(query);
 		if (cities.isSuccess() ) {
 			return cities.getList();
+		}*/
+		RcResult<List<DestinationNode>> destinationTree = destinationServiceRef.queryInlandDestinationTree(DestinationOutType.EAT.getCode(), Constant.DOMAIN_JIUXIU);
+		if (destinationTree != null && destinationTree.isSuccess() && !CollectionUtils.isEmpty(destinationTree.getT())) {
+			List<DestinationNode> destinationNodes = destinationTree.getT();
+			return destinationNodes.get(0).getChildList();
 		}
 		return null;
 	}
@@ -403,4 +415,6 @@ public class MerchantController extends BaseController {
 			return null;
 		}
 	}
+	
+	
 }
