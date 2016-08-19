@@ -94,7 +94,9 @@
 				#end
 
         </table>
-        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+#if($live.status != 3)
+        <button type="button" class="btn btn-info" id="btnSubmit"  #if($live.status == 3) disabled #end>保存</button>
+    #end
     </form>
 </div>
 <!------------------------------------------------js分割线----------------------------------------->
