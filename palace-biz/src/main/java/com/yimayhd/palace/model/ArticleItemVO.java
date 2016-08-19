@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * H5文章
- * 
+ *
  * @author xiemingna
  *
  */
@@ -43,7 +43,7 @@ public class ArticleItemVO implements Serializable {
 	 * 达人项
 	 */
 	private ArticleExpertManItemVO articleExpertManItemVO;
-	
+
 	/**
 	 * 酒店资源项
 	 */
@@ -52,6 +52,11 @@ public class ArticleItemVO implements Serializable {
 	 * 景区资源项
 	 */
 	private ArticleScenicResourceItemVO articleScenicResourceItemVO;
+
+	/**
+	 * 音频资源
+	 */
+	private ArticleAudioItemVO articleAudioItemVO;
 
 	public long getId() {
 		return id;
@@ -172,4 +177,12 @@ public class ArticleItemVO implements Serializable {
 	public void setArticleScenicResourceItemVO(ArticleScenicResourceItemVO articleScenicResourceItemVO) {
 		this.articleScenicResourceItemVO = articleScenicResourceItemVO;
 	}
+
+    public ArticleAudioItemVO getArticleAudioItemVO() {
+        return articleAudioItemVO;
+    }
+
+    public void setArticleAudioItemVO(ArticleAudioItemVO articleAudioItemVO) {
+        this.articleAudioItemVO = articleAudioItemVO;
+    }
 }

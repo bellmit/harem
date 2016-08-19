@@ -183,6 +183,15 @@ public class ArticleServiceImpl implements ArticleService {
                     articleItemVO.setArticleScenicResourceItemVO(articleScenicResourceItemVO);
                 }
                 break;
+            case AUDIO:
+                //TODO 音频文件封装
+//                ArticleAudioItemVO articleAudioItemVO = ArticleConverter.getArticleAudioItemVO();
+//                if (articleAudioItemVO == null) {
+//                    return null;
+//                } else {
+//                    articleItemVO.setArticleAudioItemVO(articleAudioItemVO);
+//                }
+                break;
             default:
                 break;
         }
