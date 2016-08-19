@@ -391,6 +391,9 @@ public class OrderManageController extends BaseController {
 			if(0==bizOrderId || (StringUtils.isEmpty(oldPrice)) || (StringUtils.isEmpty(newPrice))){//|| (!NumberUtils.isNumber(newPrice))
                 return new ResponseVo(ResponseStatus.INVALID_DATA);
             }
+			/*if(0==Integer.parseInt(newPrice)){
+				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"修改金额不能为0");
+			}*/
 			if(StringUtils.isEmpty(remark) || lessPoints(newPrice)){
 				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"操作金额不能小于分");
 			}
