@@ -710,7 +710,11 @@
   				<artifactId>solrsearch-client</artifactId>
 				<version>${solrsearch.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>com.chinanetcenter.wcs</groupId>
+				<artifactId>wcs-java-sdk</artifactId>
+				<version>1.6.3</version>
+			</dependency>
 		</dependencies>
 
 
