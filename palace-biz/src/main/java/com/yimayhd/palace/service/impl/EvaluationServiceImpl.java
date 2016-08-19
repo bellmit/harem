@@ -107,7 +107,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
         //昵称（用户id列表）
         commentDTO.setOutIdList(userIdList);
-
+        commentDTO.setOutType(evaluationListQuery.getEvaluationType());
         //状态
         commentDTO.setState(evaluationListQuery.getEvaluationStatus());
         BasePageResult<ComCommentDO> commentDOBasePageResult = comCenterServiceRef.getCommentInfoPage(commentDTO);
@@ -191,6 +191,19 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public void batchViolation(List<Long> idList) {
+        CommentDTO commentDTO1 = new CommentDTO();
+        commentDTO1.setIdList(idList);
+        BasePageResult<ComCommentDO> commentDOBasePageResult = comCenterServiceRef.getCommentInfoPage(commentDTO1);
+        if (commentDOBasePageResult==null||CollectionUtils.isEmpty(commentDOBasePageResult.getList())){
+            throw new BaseException("请至少选择一项");
+        }
+        List<ComCommentDO> list = commentDOBasePageResult.getList();
+        for (ComCommentDO commentDO : list) {
+            if(commentDO.getStatus()==BaseStatus.DELETED.getType()){
+                throw new BaseException("批量违规不能包含已违规的记录！");
+            }
+        }
+
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setIdList(idList);
         commentDTO.setState(BaseStatus.DELETED.getType());

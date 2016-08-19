@@ -21,6 +21,8 @@ public class ItemListQuery extends BaseQuery {
 	private String merchantName; //店铺名称
 	private Long outId;//外部id
 	private Integer outType;//外部类型 参考 ResourceType
+	
+	private String orderNumFilter;//商品权重
 
 	public String getMerchantName() {
 		return merchantName;
@@ -95,4 +97,15 @@ public class ItemListQuery extends BaseQuery {
 		this.outType = outType;
 		return this;
 	}
+
+	public String getOrderNumFilter() {
+		return orderNumFilter;
+	}
+
+	public void setOrderNumFilter(String orderNumFilter) {
+		this.orderNumFilter = orderNumFilter;
+	}
+
+
+	
 }

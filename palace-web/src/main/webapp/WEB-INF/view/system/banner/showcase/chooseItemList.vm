@@ -69,7 +69,7 @@
     function showData(itemList) {
         $(".selectResourceTable").empty();
         var table = $("<table class='table table-striped table-hover resourceTable'/>");
-        table.append("<thead><tr><th>编号</th><th>名称</th></tr></thead>");
+        table.append("<thead><tr><th>编号</th><th>名称</th><th>图片</th></tr></thead>");
         var tbody = $("<tbody/>");
         table.append(tbody);
         for(i in itemList) {
@@ -82,6 +82,11 @@
                 tr.append($("<td>"+ ""+"</td>"));
             }else{
                 tr.append($("<td>"+ item.name.replace(/<[^<>]+?>/g,'')+"</td>"));
+            }
+            if(null == item.imgUrl || item.name.imgUrl==0){
+                tr.append($("<td>"+ ""+"</td>"));
+            }else{
+                tr.append($("<td><img src='$utilWebconfig.getTfsRootPath()"+item.imgUrl+"' width='100' height='100'></td>"));
             }
             tbody.append(tr);
         }

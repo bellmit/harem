@@ -189,6 +189,7 @@
                                 <td><span class="red">*</span>开户名称：</td>
                                 <td><span class="inputval">$!examineInfo.financeOpenName</span></td>
                             </tr>
+                            
                             <tr>
                                 <td><span class="red">*</span>结算账号：</td>
                                 <td><span class="inputval">$!examineInfo.accountNum</span></td>

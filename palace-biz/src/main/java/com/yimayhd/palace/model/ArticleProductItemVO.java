@@ -59,20 +59,20 @@ public class ArticleProductItemVO implements Serializable {
 		this.itemPic = itemPic;
 	}
 
-	public long getItemPrice() {
-		return itemPrice;
-	}
-
-	public void setItemPrice(long itemPrice) {
-		this.itemPrice = itemPrice;
-	}
-
 	public List<String> getItemTagList() {
 		return itemTagList;
 	}
 
 	public void setItemTagList(List<String> itemTagList) {
 		this.itemTagList = itemTagList;
+	}
+
+	public long getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(long itemPrice) {
+		this.itemPrice = itemPrice;
 	}
 
 }

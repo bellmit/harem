@@ -31,6 +31,8 @@ public class ArticleVO implements Serializable {
 	private Integer type;
 
 	private Integer pv;
+	
+	private Long cachePv;
 
 	private Date gmtCreated;
 
@@ -82,7 +84,8 @@ public class ArticleVO implements Serializable {
 		this.frontcover = frontcover;
 	}
 
-	public int getStatus() {
+
+	public Integer getStatus() {
 		return status;
 	}
 
@@ -146,4 +149,12 @@ public class ArticleVO implements Serializable {
 		this.articleUrl = articleUrl;
 	}
 
+	public Long getCachePv() {
+		return cachePv;
+	}
+
+	public void setCachePv(Long cachePv) {
+		this.cachePv = cachePv;
+	}
+	
 }

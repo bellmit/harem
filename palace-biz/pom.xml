@@ -269,6 +269,10 @@
 			<artifactId>poi-ooxml</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.yimayhd.solrsearch</groupId>
+  			<artifactId>solrsearch-client</artifactId>
+		</dependency>
 	</dependencies>
 
 
