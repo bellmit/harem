@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
+import com.yimayhd.palace.model.ArticleScenicResourceItemVO;
 import com.yimayhd.resourcecenter.dto.*;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 import org.apache.commons.collections4.CollectionUtils;

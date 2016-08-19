@@ -8,7 +8,7 @@ import com.yimayhd.palace.biz.ArticleBiz;
 import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.*;
 import com.yimayhd.palace.model.query.ArticleListQuery;
-import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
+import com.yimayhd.palace.model.ArticleScenicResourceItemVO;
 import com.yimayhd.palace.repo.ArticleRepo;
 import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.MerchantRepo;

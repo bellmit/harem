@@ -1,7 +1,5 @@
 package com.yimayhd.palace.model;
 
-import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
-
 import java.io.Serializable;
 import java.util.Date;
 
