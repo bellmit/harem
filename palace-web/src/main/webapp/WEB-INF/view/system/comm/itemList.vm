@@ -123,7 +123,6 @@
                             $!{itemInfo.ticketVO.title}<br>
 						#end
 						$!item.name<br>
-					#* #if($item.type==101) 权重:$!item.orderNum #end *#
                     	权重:$!item.orderNum
 
                 </td>
