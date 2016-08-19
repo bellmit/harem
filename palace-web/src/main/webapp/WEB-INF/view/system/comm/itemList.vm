@@ -67,6 +67,14 @@
 				#end
             </select>
         </div>
+        <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">创建时间：</button>
+                    </span>
+            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startTime" value="$!itemListQuery.BeginDate">
+            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endTime" value="$!itemListQuery.endDate">
+        </div>
 		<div class="btn-group">
             <button type="submit" class="btn btn-primary form-submit">查询</button>
         </div>

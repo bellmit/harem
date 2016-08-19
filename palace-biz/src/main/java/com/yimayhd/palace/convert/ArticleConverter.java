@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.yimayhd.palace.model.ArticleScenicResourceItemVO;
+import com.yimayhd.palace.model.*;
 import com.yimayhd.resourcecenter.dto.*;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 import org.apache.commons.collections4.CollectionUtils;
@@ -202,6 +202,10 @@ public class ArticleConverter {
                     ArticleHotelResourceItemVO articleHotelResourceItemVO = getArticleHotelResourceItemVO(articleItemDTO.getArticleHotelResourceItemDTO());
                     articleItemVO.setArticleHotelResourceItemVO(articleHotelResourceItemVO);
                     break;
+                case AUDIO:
+                    ArticleAudioItemVO articleAudioItemVO = getArticleAudioItemVO(articleItemDTO.getArticleAudioItemDTO());
+                    articleItemVO.setArticleAudioItemVO(articleAudioItemVO);
+                    break;
                 default:
                     break;
             }
@@ -209,6 +213,18 @@ public class ArticleConverter {
         }
         articleVO.setArticleItemList(articleItemVOs);
         return articleVO;
+    }
+
+    private static ArticleAudioItemVO getArticleAudioItemVO(ArticleAudioItemDTO articleAudioItemDTO) {
+        if (articleAudioItemDTO==null){
+            return null;
+        }
+        ArticleAudioItemVO articleAudioItemVO=new ArticleAudioItemVO();
+        articleAudioItemVO.setAudioName(articleAudioItemDTO.getAudioName());
+        articleAudioItemVO.setAudioPic(articleAudioItemDTO.getAudioPic());
+        articleAudioItemVO.setAudioTime(articleAudioItemDTO.getAudioTime());
+        articleAudioItemVO.setAudioUrl(articleAudioItemDTO.getAudioUrl());
+        return articleAudioItemVO;
     }
 
     private static ArticleHotelResourceItemVO getArticleHotelResourceItemVO(ArticleHotelResourceItemDTO articleHotelResourceItemDTO) {

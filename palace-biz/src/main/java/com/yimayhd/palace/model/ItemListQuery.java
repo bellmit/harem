@@ -16,7 +16,7 @@ public class ItemListQuery extends BaseQuery {
 	private Long itemId;// 商品编码
 	private Integer itemType;// 商品类型
 	private Integer status;// 状态
-	private Date BeginDate;// 发布开始时间
+	private Date beginDate;// 发布开始时间
 	private Date endDate;// 发布结束时间
 	private String merchantName; //店铺名称
 	private Long outId;//外部id
@@ -41,11 +41,11 @@ public class ItemListQuery extends BaseQuery {
 	}
 
 	public Date getBeginDate() {
-		return BeginDate;
+		return beginDate;
 	}
 
 	public void setBeginDate(Date beginDate) {
-		BeginDate = beginDate;
+		this.beginDate = beginDate;
 	}
 
 	public Date getEndDate() {
