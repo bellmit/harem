@@ -155,9 +155,20 @@ public class OrderServiceImpl implements OrderService {
 
 					//
 					if(bizOrderDO.getDomain() == DomainAndAppId.APP_DOMAIN_ID_GF_WEB.getDomainId() && bizOrderDO.getPayStatus() == PayStatus.NOT_PAY.getStatus()){
-						long fee = BizOrderUtil.getAdjustFeeOriginalActualTotalFee(bizOrderDO);
 						mo.setHasAdjustFee(true);
-						mo.setOldFee(fee);
+						long uid = BizOrderUtil.getAdjustFeeUserId(bizOrderDO);
+						if(uid !=0 ){//说明有改价的记录
+							long oldFee = BizOrderUtil.getLong(bizOrderDO, BizOrderFeatureKey.ADJUST_FEE_ORIGINAL_ACTUAL_TOTAL_FEE);
+							long currentFee = bizOrderDO.getActualTotalFee();
+							String rk = BizOrderUtil.getAdjustFeeRemark(bizOrderDO);
+							mo.setOldFee(oldFee);
+							mo.setAdjustFee(currentFee);
+							mo.setAdjustRemark(rk);
+						}else{
+							mo.setOldFee(bizOrderDO.getActualTotalFee());
+							mo.setAdjustFee(0);
+							mo.setAdjustRemark("");
+						}
 					}
 					mainOrderList.add(mo);
 
