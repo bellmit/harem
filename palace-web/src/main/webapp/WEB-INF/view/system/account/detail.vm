@@ -84,7 +84,7 @@
 						<td>$!item.transSn</td>
 						<td>#TRANS_TYPE($!{item.transType})</td>
 						<td>
-							#if($item.transType == 7 || $item.transType == 10 || $item.transType == 2)
+							#if($item.transType == 7 || $item.transType == 10 || $item.transType == 2 || $item.transType == 9)
 								+$!item.transAmountYuan
 							#else
 								-$!item.transAmountYuan

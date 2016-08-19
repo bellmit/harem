@@ -60,7 +60,13 @@
 					#foreach($item in $pageVo.itemList)
 					<tr>
 						<td>$!item.userId</td>
-						<td>$!item.userName</td>
+						<td>
+							#if($!item.userType == 2)
+								$!item.corpName
+							#else
+								$!item.userName
+							#end
+						</td>
 						<td>#USER_TYPE($!item.userType)</td>
 						<td>$!item.accountBalanceYuan</td>
 						<td>

@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.pay.client.model.enums.eleaccount.UserType;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBalanceQuery;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBillDetailQuery;
 
@@ -48,11 +49,22 @@ public class AccountQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getUserId())){
     		queryDO.setUserId(Long.parseLong(query.getUserId().trim()));
     	}
-    	if(StringUtils.isNotEmpty(query.getUserName())){
-    		queryDO.setUserName(query.getUserName());
-    	}
+    	
+    	int userType = 0;
     	if(StringUtils.isNotEmpty(query.getUserType())){
-    		queryDO.setUserType(Integer.parseInt(query.getUserType()));
+    		userType = Integer.parseInt(query.getUserType());
+    		queryDO.setUserType(userType);
+    	}
+    	
+    	if(StringUtils.isNotEmpty(query.getUserName())){
+    		if(userType == UserType.COMPANY_USER.getType()){
+    			queryDO.setCorpName(query.getUserName().trim());
+    		}else if(userType == UserType.NORMAL_USER.getType() || userType == UserType.EXPERT_USER.getType()){
+    			queryDO.setUserName(query.getUserName().trim());
+    		}else{
+    			queryDO.setCorpName(query.getUserName().trim());
+    			queryDO.setUserName(query.getUserName().trim());
+    		}
     	}
     	
     	queryDO.setNeedTotalAmount(true);
