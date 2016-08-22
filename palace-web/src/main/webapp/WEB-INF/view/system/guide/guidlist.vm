@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>导览列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/css/zui.min.css?version=21" rel="stylesheet">
+    <link rel="stylesheet" href="http://console.test.jiuxiulvxing.com/palace-web/resources/css/common.css?version=21" />
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/js/zui.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/respond.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/common.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/layer-v2.1/layer.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery-form.js?version=21" type="text/javascript"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validate.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/JQ_verify.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.metadata.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validform.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/validate/messages_zh.min.js?version=21" type="text/javascript"></script>
+    <style type="text/css">
+        .table>thead th,
+        .table>tbody td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+<form id="form1" name="form1">
+    <div class="inputGroup">
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">景区名称：</button>
+                </span>
+            <input type="text" class="form-control" name="scenicName" value="">
+        </div>
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">景区资源编号：</button>
+                    </span>
+            <input type="text" class="form-control" name="scenicNumber" value="">
+        </div>
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+            <select class="form-control" name="commStatus">
+                <option value="0">全部</option>
+                <option value="1">上架</option>
+                <option value="2">下架</option>
+            </select>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary submitBtn">查询</button>
+        </div>
+        <div class="btn-group">
+            <button type="reset" class="btn btn-primary">重置</button>
+        </div>
+    </div>
+    <div class="btnBottomMargin">
+        <a type="button" class="btn btn-primary" href="guidedetail.html">新增导览</a>
+    </div>
+    <div class="tableGroup whole">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>列表头图</th>
+                <th>景区名称</th>
+                <th>景区资源编号</th>
+                <th>位置</th>
+                <th>等级</th>
+                <th>排序权重</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="item_111860" item-id="111860">
+                <td>1</td>
+                <td>
+                    <img src="http://img.test.yimayholiday.com/v1/tfs//T1A3VTByKT1RXrhCrK.jpg" width="150" height="90">
+                </td>
+                <td>
+                    景区导览1
+                </td>
+                <td>
+                    g00001
+                </td>
+                <td>位置</td>
+                <td>
+                    level1
+                </td>
+                <td>9999</td>
+                <td>
+                    上架
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" themeid="1800">编辑导览</button>
+                    <button type="button" class="btn btn-primary" themeid="1800">编辑景点 </button>
+                    <button type="button" class="btn btn-primary" themeid="1800">下架</button>
+                    <button type="button" class="btn btn-primary" themeid="1800">设置权重</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination pagination-large pagination-right pageWrap">
+        <ul class="pager" style="width: 100%;">
+            <li class="previous disabled">
+                <a href="javascript:void(0);" id="prePage">« 上一页</a>
+            </li>
+            <li class="active">
+                <span><a href="javascript:void(0);">1</a></span>
+            </li>
+            <li>
+                <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="2">2</a></span>
+            </li>
+            <li>
+                <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="3">3</a></span>
+            </li>
+            <li>
+                <a href="javascript:void(0);" data-toggle="pager" data-placement="top">...</a>
+            </li>
+            <li>
+                <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="63">99</a></span>
+            </li>
+            <li>
+                <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="64">100</a></span>
+            </li>
+            <li class="next">
+                <a href="javascript:void(0);" class="LinkeToPage" pageNo="2" id="nextPage">下一页»</a>
+            </li>
+            <li>
+                <div class="input-group" style="width: 149px;">
+                    <span class="input-group-addon">每页</span>
+                    <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span class="input-group-addon">条</span>
+                    <span class="input-group-addon">共 200 条</span>
+                </div>
+            </li>
+        </ul>
+        <script type="text/javascript">
+            $(function() {
+                $(".LinkeToPage").click(function() {
+                    pageFormSubmit($(this).attr("pageNo"), $("#pageSize").val());
+                });
+                $(".pageSize").val("10");
+                $(".pageSize").change(function() {
+                    pageFormSubmit(1, $(this).val());
+                });
+                var availHei = (top.window.screen.availHeight - 210);
+                var availWid = (top.window.screen.availWidth - 600);
+                top.$(".tabIframe").attr("style", "min-height:" + availHei + "px;min-width:" + availWid + "px;");
+            });
+
+            function pageFormSubmit(no, size) {
+                var pageNo = $("<input type='hidden' name='pageNumber'/>");
+                pageNo.val(no);
+                $("#commodityListForm").append(pageNo);
+                var pageSize = $("<input type='hidden' name='pageSize'/>");
+                pageSize.val(size);
+                $("#commodityListForm").append(pageSize);
+                $("#commodityListForm").submit();
+            }
+        </script>
+    </div>
+</form>
+</body>
+
+</html>

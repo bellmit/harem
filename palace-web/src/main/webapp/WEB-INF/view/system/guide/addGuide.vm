@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>导览详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/css/zui.min.css?version=21" rel="stylesheet">
+    <link rel="stylesheet" href="http://console.test.jiuxiulvxing.com/palace-web/resources/css/common.css?version=21" />
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/js/zui.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/respond.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/common.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/layer-v2.1/layer.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery-form.js?version=21" type="text/javascript"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validate.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/JQ_verify.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.metadata.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validform.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/validate/messages_zh.min.js?version=21" type="text/javascript"></script>
+    <style type="text/css">
+        .table th {
+            text-align: right;
+        }
+
+        .table .w15 {
+            width: 15%;
+        }
+
+        .table .w35 {
+            width: 35%
+        }
+
+        .table .w85 {
+            width: 85%
+        }
+
+        .upload-btn {
+            position: relative;
+        }
+
+        .upload-btn .btn {
+            width: 100px;
+        }
+
+        .upload-btn .upload-file {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 25px;
+            width: 102px;
+            height: 33px;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        .upload-view {
+            margin-top: 10px;
+        }
+
+        .upload-view .img-wapper {
+            position: relative;
+            width: 150px;
+            height: 75px;
+            border: 1px solid #ccc;
+        }
+
+        .img-wapper.uploaded:hover .delete-btn {
+            display: block;
+        }
+
+        .upload-view .upload-img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .upload-view .delete-btn {
+            display: none;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            background: #000;
+            opacity: 0.2;
+            filter: alpha(opacity=20);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<form id="frmGuidEdit">
+    <fieldset>
+        <legend>景区信息</legend>
+        <div class="btnBottomMargin">
+            <button type="button" class="btn btn-primary" id="btnSelectScenic">选择景区</button>
+        </div>
+        <table class="table table-bordered">
+            <tr>
+                <th class="w15">景区名称：</th>
+                <td class="w35">
+                    <span id="name" name="scenicName">景区景区景区</span>
+                </td>
+                <th class="w15">资源编号：</th>
+                <td class="w35">
+                    <span id="number" name="scenicNumber">编号编号</span>
+                </td>
+            </tr>
+            <tr>
+                <th class="w15">所在省、市、区：</th>
+                <td class="w35">
+                    <span id="location" name="location">北京市朝阳区</span>
+                </td>
+                <th class="w15">等级：</th>
+                <td class="w35"><span id="level" name="level">Level11111</span></td>
+            </tr>
+            <tr>
+                <th class="w15">主题： </th>
+                <td class="w35"><span id="theme" name="theme">主题主题主题</span></td>
+                <th class="w15">地址：</th>
+                <td class="w35"><span id="address" name="address">地址地址地址地址地址地址</span></td>
+            </tr>
+            <tr>
+                <th class="w15">经纬度：</th>
+                <td class="w35"><span id="latlng" name="latlng">20.182731823,123.98123791823</span></td>
+                <th class="w15"></th>
+                <td class="w35"></td>
+            </tr>
+        </table>
+        <table class="table table-bordered">
+            <tr>
+                <th><span class="spColor">*</span>导览列表头图：</th>
+                <td>
+                    <div class="upload-btn">
+                        <button type="button" class="btn btn-success">上传图片</button>
+                        <input type="file" name="file" class="upload-file" id="logoUrlUploadFile">
+                    </div>
+                    <div class="upload-view ">
+                        <div class="img-wapper uploaded">
+                            <img class="upload-img" id="logoUrlImg" imgurl="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
+                            <div class="delete-btn">删除</div>
+                            <input type="hidden" id="logoUrl" name="logoUrl" value="">
+                        </div>
+                        <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
+                    </div>
+                </td>
+                <th><span class="spColor">*</span>导览电子地图：</th>
+                <td>
+                    <div class="upload-btn">
+                        <button type="button" class="btn btn-success">上传图片</button>
+                        <input type="file" class="upload-file" id="mapUrlUploadfile">
+                    </div>
+                    <div class="upload-view">
+                        <div class="img-wapper">
+                            <img class="upload-img" id="mapUrlImg" imgurl="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
+                            <div class="delete-btn">删除</div>
+                            <input type="hidden" id="mapUrl" name="mapUrl" value="">
+                        </div>
+                        <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
+                    </div>
+                </td>
+                <th><span class="spColor">*</span>开场语音：</th>
+                <td>
+                    <div class="upload-btn">
+                        <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
+                    </div>
+                    <div class="upload-view">
+                        <div class="img-wapper" id="audioWapper">
+                            <img class="upload-img" imgurl="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
+                            <div class="delete-btn">删除</div>
+                            <input type="hidden" id="audioUrl" name="audioUrl" value="">
+                        </div>
+                        <span id="audioTime">时长为：3.9</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <fieldset>
+        <legend>实用锦囊</legend>
+        <table class="table">
+            <tr>
+                <th class="w15">景区门票信息：</th>
+                <td class="w85">
+                    <textarea class="form-control extra-info-item-text" name="ticketInfo" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="w15">营业时间：</th>
+                <td class="w85">
+                    <span id="yinyetime">周一至周五：8：00~21：00 周六周日：12：00~22：00</span>
+                </td>
+            </tr>
+            <tr>
+                <th class="w15">交通：</th>
+                <td class="w85">
+                    <textarea class="form-control extra-info-item-text" name="traffic" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="w15">温馨提示：</th>
+                <td class="w85">
+                    <textarea class="form-control extra-info-item-text" name="warmTips" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="w15">注意事项：</th>
+                <td class="w85">
+                    <textarea class="form-control extra-info-item-text" name="notice" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="w15">必玩必吃之事：</th>
+                <td class="w85">
+                    <textarea class="form-control extra-info-item-text" name="bwbc" rows="3"></textarea>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <div class="btnBottomMargin" style="text-align:center;">
+        <button type="button" class="btn btn-primary" style="width:150px" id="btnSubmit">全部保存</button>
+    </div>
+</form>
+<script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/layerModal.js?version=21"></script>
+<script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/upload.js?version=21"></script>
+<script>
+    layer.config({
+        extend: 'extend/layer.ext.js',
+        extend: ['skin/mySkin/style.css'],
+        skin: 'layer-ext-mySkin'
+    });
+    var actionDefaultPath = 'http://console.test.jiuxiulvxing.com/palace-web';
+    var tfsRootPath = 'http://img.test.yimayholiday.com/v1/tfs/';
+    var staticResourcesPath = 'http://console.test.jiuxiulvxing.com/palace-web';
+    var uploadFile = 'http://console.test.jiuxiulvxing.com/palace-web/upload/file';
+    var uploadFiles = 'http://console.test.jiuxiulvxing.com/palace-web/upload/files';
+</script>
+<script type="text/javascript">
+    var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+
+    function initUploadFile(fileId, hiddenId, imgId) {
+        $(fileId).on("change", function() {
+            fileUpload(fileId, 1, function(data) {
+                if (data && data.status == 200) {
+                    console.log(data.data);
+                    $(hiddenId).val(data.data);
+
+                    $(imgId).attr('src', tfsRootPath + data.data);
+
+                    $(imgId).closest(".upload-wapper").addClass("uploaded");
+                } else {
+                    layer.msg('图片上传失败，请重试', {
+                        icon: 2
+                    });
+                }
+            });
+        });
+    }
+
+    $(function() {
+        //上传导览列表头图
+        initUploadFile("#logoUrlUploadFile", "#logoUrl", "#logoUrlImg");
+
+        //上传导览电子地图
+        initUploadFile("#mapUrlUploadfile", "#mapUrl", "#mapUrlImg");
+        //选择景区
+        $('#btnSelectScenic').on("click", function() {
+            openModalForForm('selectscenic.html', "选择用户", function() {
+                var item = win.getItem();
+                if (item != null) {
+                    for (key in item) {
+                        $("#" + key).text(item[key]);
+                    }
+                }
+                return true;
+
+            });
+        });
+        //选择语音文件
+        $('#btnSelectAudio').on("click", function() {
+            openModalForForm('selectaudio.html', "选择语音文件", function() {
+                var item = win.getItem();
+                if (item != null) {
+                    $("#audioWapper").addClass("uploaded");
+                    $("#audioUrl").val(item.url);
+                    $("#audioTime").text(item.time);
+                }
+                return true;
+            });
+        });
+        //删除图片
+        $(".img-wapper .delete-btn").on("click", function() {
+            var $wapper = $(this).closest(".img-wapper");
+                $wapper.removeClass("uploaded");
+                $wapper.find(".upload-img").attr("src", defaultImg);
+                $wapper.find("input[type='hidden']").val('');
+        });
+    });
+</script>
+</body>
+
+</html>
