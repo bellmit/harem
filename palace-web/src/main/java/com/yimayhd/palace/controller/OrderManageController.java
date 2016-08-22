@@ -394,11 +394,12 @@ public class OrderManageController extends BaseController {
 			if(0==bizOrderId || (StringUtils.isEmpty(oldPrice)) || (StringUtils.isEmpty(newPrice))){//|| (!NumberUtils.isNumber(newPrice))
                 return new ResponseVo(ResponseStatus.INVALID_DATA);
             }
-			if(0==Integer.parseInt(newPrice)){
-				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"订单金额必须大于 0 元");
-			}
 			if(StringUtils.isEmpty(remark) || lessPoints(newPrice)){
 				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"小数点后最多精确2位，请重新修改");
+			}
+			//TODO:有空改成正则
+			if(newPrice.equals("0")||newPrice.equals("0.0")||newPrice.equals("0.00")){
+				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"订单金额必须大于 0 元");
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append("userId=").append(userId).append(",bizOrderId=").append(bizOrderId).append(",oldPrice=").append(oldPrice).append(",newPrice=").append(newPrice).append(",remark=").append(remark);
