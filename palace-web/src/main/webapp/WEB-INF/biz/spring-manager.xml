@@ -17,4 +17,5 @@
 	<bean id="levelBiz" class="com.yimayhd.commission.biz.LevelBiz" />
 	
 	<bean id="gfCorrelationBiz"      class="com.yimayhd.gf.biz.GFCorrelationBiz" />
+	<bean id="attachmentBiz"      class="com.yimayhd.palace.biz.AttachmentBiz" />
 </beans>

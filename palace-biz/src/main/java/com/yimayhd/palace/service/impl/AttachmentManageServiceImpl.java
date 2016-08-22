@@ -9,8 +9,12 @@ import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +23,7 @@ import java.util.List;
  * Created by xushubing on 2016/8/22.
  */
 public class AttachmentManageServiceImpl implements AttachmentManageService {
+    protected Logger log = LoggerFactory.getLogger(AttachmentManageServiceImpl.class);
     @Resource
     private MediaClientRepo mediaClientRepo;
 
@@ -49,10 +54,12 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      * @return
      */
     @Override
-    public AttachmentVO addAttachment(AttachmentVO attachmentVO) {
+    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file) {
         Long id = mediaClientRepo.addMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
         if (id != null && id > 0) {
             attachmentVO.setId(id);
+            //上传
+            File file1 = new File("");
             return attachmentVO;
         }
         return null;

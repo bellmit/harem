@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -51,62 +53,50 @@ public class AttachmentManageController {
     }
 
     /**
-     * 编辑导览跳转
+     * 编辑跳转
      *
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/toEdit")
     public String toEdit() throws Exception {
-        return null;
+        return "/system/attachment/editAttachment";
     }
 
     /**
-     * 添加导览
+     * 添加
      *
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/addGuide", method = RequestMethod.POST)
-    public String addGuide(Model model, GuideScenicVO guideVO) throws Exception {
+    @RequestMapping(value = "/addAttachment", method = RequestMethod.POST)
+    public String addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+        attachmentManageService.addAttachment(attachmentVO);
         return null;
     }
 
     /**
-     * 修改导览
+     * 修改
      *
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/editGuide", method = RequestMethod.POST)
-    public String editGuide(Model model, GuideScenicVO guideVO) throws Exception {
+    @RequestMapping(value = "/editAttachment", method = RequestMethod.POST)
+    public String editAttachment(Model model, AttachmentVO attachmentVO) throws Exception {
         return null;
     }
 
-    /**
-     * 设置权重
-     *
-     * @param model
-     * @param guideVO
-     * @return
-     * @throws Exception
-     */
-
-    @RequestMapping(value = "/setWeight", method = RequestMethod.POST)
-    public String setWeight(Model model, GuideScenicVO guideVO) throws Exception {
-        return null;
-    }
 
     /**
      * 上架
      *
      * @param model
-     * @param guideId
+     * @param id
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/status/up")
-    public String upStatus(Model model, long guideId) throws Exception {
+    public String upStatus(Model model, long id) throws Exception {
         return null;
     }
 
@@ -114,12 +104,12 @@ public class AttachmentManageController {
      * 下架
      *
      * @param model
-     * @param guideId
+     * @param id
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/status/down")
-    public String downStatus(Model model, long guideId) throws Exception {
+    public String downStatus(Model model, long id) throws Exception {
         return null;
     }
 }

@@ -19,6 +19,7 @@
     <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.metadata.js?version=21"></script>
     <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validform.js?version=21"></script>
     <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/validate/messages_zh.min.js?version=21" type="text/javascript"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/layerModal.js?version=21"></script>
     <style type="text/css">
         .table>thead th,
         .table>tbody td {
@@ -64,7 +65,7 @@
         <a type="button" class="btn btn-primary" href="guidedetail.html">新增导览</a>
     </div>
     <div class="tableGroup whole">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover" id="tbGuideList">
             <thead>
             <tr>
                 <th>序号</th>
@@ -79,7 +80,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr id="item_111860" item-id="111860">
+            <tr>
                 <td>1</td>
                 <td>
                     <img src="http://img.test.yimayholiday.com/v1/tfs//T1A3VTByKT1RXrhCrK.jpg" width="150" height="90">
@@ -99,10 +100,10 @@
                     上架
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary" themeid="1800">编辑导览</button>
-                    <button type="button" class="btn btn-primary" themeid="1800">编辑景点 </button>
-                    <button type="button" class="btn btn-primary" themeid="1800">下架</button>
-                    <button type="button" class="btn btn-primary" themeid="1800">设置权重</button>
+                    <button type="button" class="btn btn-primary">编辑导览</button>
+                    <button type="button" class="btn btn-primary">编辑景点 </button>
+                    <button type="button" class="btn btn-primary">下架</button>
+                    <button type="button" class="btn btn-primary weight">设置权重</button>
                 </td>
             </tr>
             </tbody>
@@ -148,6 +149,22 @@
             </li>
         </ul>
         <script type="text/javascript">
+            layer.config({
+                extend: 'extend/layer.ext.js',
+                extend: ['skin/mySkin/style.css'],
+                skin: 'layer-ext-mySkin'
+            });
+
+            function setWeight() {
+                $("#tbGuideList").on("click", ".weight", function() {
+                    layer.prompt({
+                        title: '设置权重',
+                        formType: 0
+                    }, function(value) {
+                        alert(value);
+                    });
+                });
+            }
             $(function() {
                 $(".LinkeToPage").click(function() {
                     pageFormSubmit($(this).attr("pageNo"), $("#pageSize").val());
@@ -159,6 +176,7 @@
                 var availHei = (top.window.screen.availHeight - 210);
                 var availWid = (top.window.screen.availWidth - 600);
                 top.$(".tabIframe").attr("style", "min-height:" + availHei + "px;min-width:" + availWid + "px;");
+                setWeight();
             });
 
             function pageFormSubmit(no, size) {
