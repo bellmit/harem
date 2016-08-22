@@ -161,13 +161,13 @@ public class RepoUtils {
 	}
 
 	public static void resultLog(Logger log, String method, ResourceResultSupport result) {
-		String prefix = "ResourceCenter服务接口错误：";
+		String prefix = "ResourceCenter服务接口：";
 		if (result == null) {
 			log.error(RESULT_NULL, method);
-			throw new BaseException(prefix + "返回结果错误");
+			throw new BaseException(prefix + "返回结果错误result=null");
 		} else if (!result.isSuccess()) {
-			log.error(RESULT_FAILURE, method, result.getReturnCode(), result.getResultMsg());
-			throw new BaseException(prefix + result.getResultMsg());
+			log.error(RESULT_FAILURE, method, result.getReturnCode(), result.getMsg());
+			throw new BaseException(prefix + result.getMsg());
 		} else {
 			log.info(RESULT_SUCCESS, method);
 		}

@@ -32,26 +32,24 @@ import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.palace.util.NumUtil;
-import com.yimayhd.resourcecenter.domain.BoothDO;
-import com.yimayhd.resourcecenter.domain.OperationDO;
-import com.yimayhd.resourcecenter.domain.RegionDO;
-import com.yimayhd.resourcecenter.domain.ShowcaseDO;
+import com.yimayhd.resourcecenter.domain.*;
+import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.OperationStatusType;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
-import com.yimayhd.resourcecenter.model.query.BoothQuery;
-import com.yimayhd.resourcecenter.model.query.OperationQuery;
-import com.yimayhd.resourcecenter.model.query.RegionQuery;
-import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.param.SimpleBoothDTO;
+import com.yimayhd.resourcecenter.model.query.*;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.OperationClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.resourcecenter.service.backend.ArticleBackEndService;
 import com.yimayhd.resourcecenter.util.FeatureUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.domain.SnsTopicDO;
@@ -70,6 +68,7 @@ import com.yimayhd.user.client.service.MerchantService;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -105,6 +104,11 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Autowired SnsTopicCenterService snsTopicCenterServiceRef;
 
     @Autowired GFCategoryRepo gfCategoryRepo;
+
+    @Autowired ArticleBackEndService articleBackEndService;
+
+
+
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
         return null;
@@ -368,8 +372,26 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             sd.setOperationContent("");
         }else{
             String oc = sw.getOperationContent().replaceAll(" ","");
-            if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){
+            if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){//去掉话题的##
                 oc = oc.replaceAll(Constant.TOPIC_PREFIX_SUFFIX,"");
+            }
+            if(oc.contains(Constant.BOOTH_PREFIX_POSTFIX)){
+                List<SimpleBoothDTO> list = new ArrayList<SimpleBoothDTO>();
+                String[] OcArr = oc.split("\\|");
+                if(null != OcArr && OcArr.length>0){
+                    for (String str:OcArr) {
+                        String[] strOc = str.split(Constant.BOOTH_PREFIX_SUFFIX);
+                        if(null !=strOc && strOc.length == 2){
+                            String code = strOc[0];
+                            String version = strOc[1];
+                            if(StringUtils.isNotEmpty(code) && StringUtils.isNotEmpty(version) && NumberUtils.isNumber(version)){
+                                SimpleBoothDTO sb = new SimpleBoothDTO(code,Integer.parseInt(version));
+                                list.add(sb);
+                            }
+                        }
+                    }
+                    oc = JSON.toJSONString(list);
+                }
             }
             sd.setOperationContent(oc);
         }
@@ -526,8 +548,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> ugcResultToShowCaseItem(List<SnsSubjectDO> listUgc){
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(listUgc)){
-            List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
             for (SnsSubjectDO sns:listUgc ) {
                 ShowCaseItem sc = new ShowCaseItem();
                 sc.setId(sns.getId());
@@ -536,7 +558,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 list.add(sc);
             }
         }
-        return null;
+        return list ;
     }
 
 
@@ -553,8 +575,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> topicResultToShowCaseItem(List<TopicResult> listTop){
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(listTop)){
-            List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
             for (TopicResult top:listTop ) {
                 ShowCaseItem sc = new ShowCaseItem();
                 sc.setId(top.getId());
@@ -562,9 +584,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 sc.setImgUrl(top.getPics());
                 list.add(sc);
             }
-            return list;
         }
-        return null;
+        return list;
     }
 
     public SnsTopicDO getTopicDetailInfo(TopicQueryDTO topicQueryDTO){
@@ -599,8 +620,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> boothToShowCaseItem(List<BoothDO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(list)){
-            List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
             for (BoothDO oo:list ) {
                 ShowCaseItem sc = new ShowCaseItem();
                 sc.setId(oo.getId());
@@ -609,9 +630,63 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 sc.setAppVersion(oo.getAppVersion());
                 listSC.add(sc);
             }
+        }
+        return listSC;
+    }
+
+    public PageVO<ShowCaseItem> getArticlePageListByQuery(ArticleQueryDTO articleQueryDTO ){
+        ResourcePageResult<ArticleDTO> result =  articleBackEndService.getArticlePageListByQuery(articleQueryDTO);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        List<ShowCaseItem> list = ArticleToShowCaseItem(result.getList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> ArticleToShowCaseItem(List<ArticleDTO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isEmpty(list)){
             return listSC;
         }
-        return null;
+        for (ArticleDTO adt:list ) {
+            if(null == adt.getArticleDO()){
+                continue;
+            }
+            ArticleDO oo = adt.getArticleDO();
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getTitle());//标题
+            sc.setImgUrl(StringUtils.isEmpty(oo.getFrontcover())? "" : oo.getFrontcover());
+            sc.setURL(StringUtils.isEmpty(adt.getArticleUrl())  ? "" : adt.getArticleUrl());
+            listSC.add(sc);
+        }
+        return listSC;
+    }
+
+    public PageVO<ShowCaseItem> getArticleDOPageListByQuery(ArticleQueryDTO  articleQueryDTO  ){
+        ResourcePageResult<ArticleDO> result =  articleBackEndService.getArticleDOPageListByQuery(articleQueryDTO);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        List<ShowCaseItem> list = ArticleDOShowCaseItem(result.getList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> ArticleDOShowCaseItem(List<ArticleDO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isEmpty(list)){
+            return listSC;
+        }
+        for (ArticleDO oo:list ) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getTitle());//标题
+            sc.setImgUrl(StringUtils.isEmpty(oo.getFrontcover())?"":oo.getFrontcover());
+            listSC.add(sc);
+        }
+        return listSC;
     }
 
     public List<ShowCaseItem> categoryResultToShowCaseItem(List<CategoryResult> list){

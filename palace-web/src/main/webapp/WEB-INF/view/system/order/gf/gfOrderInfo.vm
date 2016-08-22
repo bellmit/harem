@@ -19,6 +19,10 @@
         <li>
             <a href="#logisticsInfo" id="logisticsInfoId" data-toggle="tab">物流信息</a>
         </li>
+        #*#if($!order.mainOrder.orderShowState == 1)#end*#
+            <li>
+                <a href="#adjustFeeInfo" id="adjustFeeInfoId" data-toggle="tab">修改价格日志</a>
+            </li>
     </ul>
 
     <!-- 位置 -->
@@ -284,6 +288,9 @@
         </div>
         <div class="tab-pane" id="logisticsInfo">
             #parse("/system/logistics/logisticsInfo.vm")
+        </div>
+        <div class="tab-pane" id="adjustFeeInfo">
+            #parse("/system/order/gf/adjustFeeInfolog.vm")
         </div>
     </div>
 

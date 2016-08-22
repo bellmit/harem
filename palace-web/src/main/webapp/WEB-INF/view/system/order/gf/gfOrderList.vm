@@ -110,6 +110,20 @@
                                             </button>
                                         #end
 									#end
+                                    #if(1==$!order.orderShowState)
+                                        <button type="button" class="btn btn-primary addRefund modOrderPrice"
+                                                queryOrderState="$!orderListQuery.orderStat"
+                                                #if($!order.hasAdjustFee)
+                                                orderPrice="$!utilNum.moneyTransform($!order.oldFee)"
+                                                newPrice = "$!utilNum.moneyTransform($!order.adjustFee)"
+                                                remark = "$!order.adjustRemark"
+                                                #else
+                                                    orderPrice="$!utilNum.moneyTransform($!bizOrder.actualTotalFee)"
+                                                    newPrice = ""
+                                                    remark = ""
+                                                #end
+                                                orderId="$!bizOrder.bizOrderId">修改金额</button>
+                                    #end
 								#* #if($order.orderShowState == 2)
 		                            #elseif($order.orderShowState == 3)
 		                                <button type="button" class="btn btn-primary finish"
@@ -137,6 +151,9 @@
 
 		function check(str){
             return /^[\da-z]+$/i.test(str);
+        }
+        function checkNumber(str){
+            return /^\d+(\.\d+)?$/.test(str);
         }
 
         function checkLengthGT(str,length){
@@ -169,9 +186,9 @@
             })
         });
 
-		$(function () {
-			$(".sendGoods1").click(function(){
-				var bizOrderId = $(this).attr("orderId");
+        $(function () {
+            $(".sendGoods1").click(function(){
+                var bizOrderId = $(this).attr("orderId");
                 var queryOrderState =$(this).attr("queryOrderState");
                 layer.open({
                     type: 2,
@@ -184,7 +201,7 @@
                     content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfSendGoods?bizOrderId='+bizOrderId,
                     yes: function(index){
                         console.log(frames == window);
-						var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
+                        var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
 
                         var bizOrderId = dilog_iframe.find("#bizOrderId").val();
                         var wlgs= dilog_iframe.find("#choosewlId option:selected").val();
@@ -193,7 +210,7 @@
                         console.log(wlgs);
                         console.log(wldh);
 
-						if("" == wlgs || null == wlgs || 0==wlgs){
+                        if("" == wlgs || null == wlgs || 0==wlgs){
                             layer.alert("请选择物流公司");
                             return ;
                         }else if(""==wldh||null == wldh ){
@@ -202,28 +219,92 @@
                         }else if(!check(wldh)){
                             layer.alert("物流单号由10-20位字母或数字组成");
                             return ;
-						}else if(checkLengthGT(wldh,20)){
+                        }else if(checkLengthGT(wldh,20)){
                             layer.alert("物流单号由10-20位字母或数字组成");
                             return ;
-						}
-						else{
+                        }
+                        else{
                             console.log(bizOrderId);
                             console.log(wlgs);
                             console.log(wldh);
 
                             $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/gfSendGoods/',
-									{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
-                                if(data.status == 200){
-                                    layer.alert("操作成功");
-                                }else{
-                                    layer.alert("操作失败");
-                                }
-								setTimeout(function(){
-									var url =  "$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList?orderStat="+queryOrderState;
-									window.location.href =url;
-								},2000);
+                                    {'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+                                        if(data.status == 200){
+                                            layer.alert("操作成功");
+                                        }else{
+                                            layer.alert("操作失败");
+                                        }
+                                        setTimeout(function(){
+                                            var url =  "$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList?orderStat="+queryOrderState;
+                                            window.location.href =url;
+                                        },2000);
 
-                            })
+                                    })
+
+                        }
+                    }
+                });
+            });
+        });
+
+        $(function () {
+            $(".modOrderPrice").click(function(){
+                var bizOrderId = $(this).attr("orderId");
+                var oldPrice = $(this).attr("orderPrice");
+                var newPrice = $(this).attr("newPrice");
+                var remark = $(this).attr("remark");
+                console.log("oldPrice="+oldPrice+",newPrice="+newPrice+",remark="+remark);
+                var queryOrderState =$(this).attr("queryOrderState");
+                layer.open({
+                    type: 2,
+                    btn: ['确定', '取消'],
+                    title: '',
+                    fix: false,
+                    shadeClose: true,
+                    maxmin: true,
+                    area: ['800px', '200px'],
+                    content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfAdjustFee?bizOrderId='
+                    +bizOrderId+"&oldPrice="+oldPrice+"&newPrice="+newPrice+"&remark="+remark,
+                    yes: function(index){
+                        console.log(frames == window);
+                        var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
+                        var bizOrderId = dilog_iframe.find("#bizOrderId").val();
+                        var newPrice = dilog_iframe.find("#newPriceId").val();
+                        var oldPrice = dilog_iframe.find("#oldPriceId").text();
+                        var remark   = dilog_iframe.find("#remarkId").val();
+
+                        if("" == newPrice || null == newPrice ){
+                            layer.alert("修改金额不能为空");
+                            return ;
+                        }else if(!checkNumber(newPrice) ){
+                            layer.alert("修改金额只能是数字");
+                            return ;
+                        }else if("" == remark || null == remark){
+                            layer.alert("修改备注不能为空");
+                            return ;
+                        }else if(remark.length < 5 || remark.length > 50){
+                            layer.alert("修改备注长度限制5-50个字符");
+                            return ;
+                        }
+                        else{
+                            $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/gfAdjustFee',
+                                    {'bizOrderId':bizOrderId,'oldPrice':oldPrice,'newPrice':newPrice,'remark':remark} ,function(data){
+                                        if(data.status == 200){
+                                            layer.alert("操作成功");
+                                        }else{
+                                            var msg = data.message;
+                                            if(""==msg || null == msg){
+                                                msg = "操作失败";
+                                            }
+                                            layer.alert(msg);
+                                        }
+                                        setTimeout(function(){
+                                            var url =  "$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfOrderList?orderStat="+queryOrderState;
+                                            window.location.href =url;
+                                        },2000);
+
+                                    })
 
                         }
                     }
@@ -253,5 +334,6 @@
             url = "/B2C/orderManage/gfOrderList";
             $('#tradeListForm').attr('action',url_prefix+url);
         });
+
 
 	</script>

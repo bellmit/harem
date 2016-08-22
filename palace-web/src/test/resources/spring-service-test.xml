@@ -7,8 +7,8 @@
 	<!-- <context:component-scan base-package="com.yimayhd.palacee.service, com.yimayhd.palacee.task"
 		/> -->
 	<bean class="com.yimayhd.palace.service.impl.UserRPCServiceImpl"></bean>
-	<bean class="com.yimayhd.palace.service.impl.PictureRPCServiceImpl"></bean>
-	<bean class="com.yimayhd.palace.service.impl.TradeServiceImpl"></bean>
+<!-- 	<bean class="com.yimayhd.palace.service.impl.PictureRPCServiceImpl"></bean>
+ -->	<bean class="com.yimayhd.palace.service.impl.TradeServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.RefundServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.OrderServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.HaMenuServiceImpl"></bean>
@@ -18,15 +18,15 @@
 	<bean class="com.yimayhd.palace.service.impl.ClubServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ActivityServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PointRuleServiceImpl"></bean>
-	<bean class="com.yimayhd.palace.service.impl.TrendServiceImpl"></bean>
-	<bean class="com.yimayhd.palace.service.impl.TravelOfficialImpl"></bean>
+<!-- 	<bean class="com.yimayhd.palace.service.impl.TrendServiceImpl"></bean>
+ -->	<bean class="com.yimayhd.palace.service.impl.TravelOfficialImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.RegionServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.LiveServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ThemeServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ShowcaseServiceImpl"></bean>
 	<!-- 资源管理 -->
-	<bean class="com.yimayhd.palace.service.impl.RestaurantRPCServiceImpl"></bean>
-	<bean class="com.yimayhd.palace.service.impl.HotelRPCServiceImpl"></bean>
+<!-- 	<bean class="com.yimayhd.palace.service.impl.RestaurantRPCServiceImpl"></bean>
+ -->	<bean class="com.yimayhd.palace.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ScenicServiceImpl"></bean>
 
@@ -52,5 +52,5 @@
 	<bean id="systemManageService" class="com.yimayhd.palace.service.impl.SystemManageServiceImpl" />
 	<bean class="com.yimayhd.palace.service.impl.FlightRPCServiceImpl"></bean>
 	<!-- comment -->
-	<bean class="com.yimayhd.palace.service.impl.TagRPCServiceImpl"></bean>
-</beans>
+<!-- 	<bean class="com.yimayhd.palace.service.impl.TagRPCServiceImpl"></bean>
+ --></beans>

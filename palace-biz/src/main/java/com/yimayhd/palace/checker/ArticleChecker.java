@@ -18,16 +18,19 @@ public class ArticleChecker {
 	private static final Logger log = LoggerFactory.getLogger(ArticleChecker.class);
 
 	public static CheckResult checkArticleVO(ArticleVO articleVO) {
-		if (StringUtils.isBlank(articleVO.getTitle())) {
-			return CheckResult.error("标题不能为空");
+		if (StringUtils.isBlank(articleVO.getTitle()) || articleVO.getTitle().length() > 12) {
+			return CheckResult.error("标题不能为空，长度最多12个字符");
+		}
+		if (StringUtils.isBlank(articleVO.getSubTitle()) || articleVO.getSubTitle().length() > 12) {
+			return CheckResult.error("副标题不能为空，长度最多12个字符");
 		}
 		if (StringUtils.isBlank(articleVO.getFrontcover())) {
 			return CheckResult.error("封面不能为空");
 		}
-		if (articleVO.getPv() <0) {
+		if (articleVO.getPv() < 0) {
 			return CheckResult.error("阅读数不能小于0");
 		}
-		if (ArticleType.getTypeName(articleVO.getType()) == null) {
+		if (ArticleType.getArticleType(articleVO.getType()) == null) {
 			return CheckResult.error("不支持的文章类型");
 		}
 		if (articleVO.getArticleItems() == null || articleVO.getArticleItems().isEmpty()) {

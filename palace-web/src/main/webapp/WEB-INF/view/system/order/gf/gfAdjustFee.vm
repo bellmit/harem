@@ -1,0 +1,21 @@
+<style>
+    .cont1a div{margin: 20px 0 0 10px;}
+    .cont1a div em{width: 100px;  display: inline-block;  text-align: right; font-style: normal;}
+    .cont1a div input{width:400px;}
+</style>
+<div class = "title distance sendgoods">
+    <div class = "cont cont1a ">
+        <input type="hidden" id="bizOrderId" value="$!bizOrderId">
+        <div class = "info dh" ><em>原订单金额：</em>
+            <span  id="oldPriceId" >$!oldPrice</span>
+        </div>
+        <div class = "info dh" ><em>修改后金额：</em>
+            <input type="text" id="newPriceId"
+                   value="$!newPrice"
+                   placeholder="必填">
+        </div>
+        <div class = "info dh" ><em>修改备注：</em>
+            <input type="text" id="remarkId"  min="5" max="50"  value="$!remark" placeholder="必填，5~50个字">
+        </div>
+    </div>
+</div>

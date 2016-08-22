@@ -13,6 +13,8 @@ public enum ResponseStatus {
     DATA_PARSE_ERROR(4001, "JSON解析错误！"),
     INVALID_DATA(4002, "数据校验错误，请检查输入！"),
     FILE_TO_BIG(4003, "文件过大！"),
+    DATA_USER_DELETE(4004, "用户已删除！"),
+    UNSUCCESSFUL(-200, "执行失败！"),
     ;
 
     public Integer VALUE;

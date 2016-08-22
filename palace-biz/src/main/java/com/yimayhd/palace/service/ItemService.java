@@ -72,5 +72,13 @@ public interface ItemService {
 	 * @return
 	 */
 	void batchDelete(long sellerId, List<Long> itemIds) throws Exception;
+	
+	/**
+	 * 修改商品权重
+	 * @param itemId
+	 * @param orderNum
+	 * @return
+	 */
+	boolean updateItemOrderNum(long itemId, int orderNum);
 
 }

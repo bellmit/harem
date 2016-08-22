@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller.jiuxiu.apply;
 
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.*;
@@ -38,6 +39,7 @@ import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.CategoryService;
+import com.yimayhd.pay.client.model.result.ResultSupport;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.query.MerchantQuery;
@@ -601,12 +603,19 @@ public class ApplyApprovalController extends BaseController {
 	            return bizResultSupport;
 			}
 		}
+        //验证银行账户
+//        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
+//        if (checkResult == null || !checkResult.isSuccess()) {
+//			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
+//			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+//			return bizResultSupport;
+//		}
         String[] array = allocationVO.getCategoryIds().split(",");
-        long[] categoryIds = new long[array.length];
+        Long[] categoryIds = new Long[array.length];
         for (int i = 0; i < array.length; i++) {
             categoryIds[i] = Long.parseLong(array[i]);
         }
-        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(Constant.DOMAIN_JIUXIU, allocationVO.getExamineId(), categoryIds);
+        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(Constant.DOMAIN_JIUXIU, allocationVO.getExamineId(), Arrays.asList(categoryIds));
         if (!memResultSupport.isSuccess()) {
             bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MERCHANT_BIND_FAILED);
             return bizResultSupport;

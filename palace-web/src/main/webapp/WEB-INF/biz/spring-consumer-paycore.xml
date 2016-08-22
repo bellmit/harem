@@ -12,4 +12,12 @@
         <property name="check" value="${consumer.dubbo.paycore.check}"/>
         <property name="version" value="${consumer.dubbo.paycore.version}"/>
     </bean>
+	<bean id="eleAccInfoServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.eleaccount.EleAccInfoService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.paycore.check}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+    </bean>
 </beans>

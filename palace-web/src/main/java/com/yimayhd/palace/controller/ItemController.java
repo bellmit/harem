@@ -3,21 +3,26 @@ package com.yimayhd.palace.controller;
 import java.util.Arrays;
 
 import com.yimayhd.palace.enums.BizItemType;
+import com.yimayhd.palace.enums.OrderNumFilter;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.OrderNumFilterEnum;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ItemListQuery;
 import com.yimayhd.palace.model.enums.ItemOperate;
 import com.yimayhd.palace.model.item.ItemInfoVO;
@@ -60,6 +65,7 @@ public class ItemController extends BaseController {
 		model.addAttribute("itemListQuery", itemListQuery);
 		model.addAttribute("itemTypeList", BizItemType.values());
 		model.addAttribute("itemStatusList", ItemStatus.values());
+		model.addAttribute("orderNumFilter",OrderNumFilter.values());
 		return "/system/comm/itemList";
 	}
 	
@@ -101,5 +107,22 @@ public class ItemController extends BaseController {
 			itemService.batchDelete(sellerId, Arrays.asList(itemIds));
 		}
 		return new ResponseVo();
+	}
+	/**
+	 * 修改商品权重
+	 * @param model
+	 * @param itemId
+	 * @param orderNum
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateItemOrderNum", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateItemOrderNum (Model model, long itemId , int orderNum) throws Exception {
+		boolean updateResult = itemService.updateItemOrderNum(itemId,orderNum);
+		if(updateResult) {
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
 	}
 }

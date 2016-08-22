@@ -13,6 +13,7 @@ public class ResponseVo implements Serializable {
 	private static final long serialVersionUID = 6372741107786945383L;
 
 	private static final ResponseStatus DEFAULT_STATUS = ResponseStatus.SUCCESS;
+	private static final ResponseStatus UNSUCCESSFUL = ResponseStatus.UNSUCCESSFUL;
 
 	public ResponseVo() {
 		this.status = DEFAULT_STATUS.VALUE;
@@ -20,9 +21,15 @@ public class ResponseVo implements Serializable {
 	}
 
 	public ResponseVo(Object data) {
-		this.data = data;
 		this.status = DEFAULT_STATUS.VALUE;
+		this.data = data;
 		this.message = DEFAULT_STATUS.MESSAGE;
+		if(null != data && data instanceof Boolean){
+			if(!(boolean)data){
+				this.status = UNSUCCESSFUL.VALUE;
+				this.message = UNSUCCESSFUL.MESSAGE;
+			}
+		}
 	}
 
 	public ResponseVo(ResponseStatus responseStatus) {

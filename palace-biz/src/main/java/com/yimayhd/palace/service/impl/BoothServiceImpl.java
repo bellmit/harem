@@ -10,7 +10,9 @@ import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.resourcecenter.domain.AppVersionDO;
 import com.yimayhd.resourcecenter.domain.BoothDO;
+import com.yimayhd.resourcecenter.entity.Booth;
 import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
+import com.yimayhd.resourcecenter.model.query.BatchBoothQuery;
 import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
@@ -171,6 +173,12 @@ public class BoothServiceImpl implements BoothService {
         return dbAppVersionDO;
     }
 
-
+    public List<Booth> getBatchBooth(BatchBoothQuery query){
+        RcResult<List<Booth>>  result = boothClientServerRef.getBatchBooth(query);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        return result.getT();
+    }
 
 }

@@ -27,6 +27,8 @@ public class ItemVO {
 	private Date publishDate;
 	private List<String> operates;
 	private Date gmtModified;
+	/** 权重item.order_num */
+	private int orderNum;
 
 	public long getId() {
 		return id;
@@ -132,5 +134,13 @@ public class ItemVO {
 	public ItemVO setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
 		return this;
+	}
+
+	public int getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(int orderNum) {
+		this.orderNum = orderNum;
 	}
 }

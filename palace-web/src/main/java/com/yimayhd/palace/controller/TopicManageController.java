@@ -50,6 +50,11 @@ public class TopicManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, TopicListQuery topicListQuery, Boolean isRecommendList) throws Exception {
+		
+		if(isRecommendList != null && isRecommendList){
+			topicListQuery.setStatus(TopicStatus.AVAILABLE.getType()+"");
+		}
+		
 		PageVO<TopicVO> pageVo = topicService.getTopicPageList(topicListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("topicListQuery", topicListQuery);

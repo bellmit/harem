@@ -55,8 +55,19 @@ public class NumUtil {
         double realPrice = Double.parseDouble(decimalFormat.format(((double)price) / 100));
         return num * realPrice;
     }
-
+    public static long moneyTransformString(String money){
+        try {
+            double dn = Double.parseDouble(money)*100;
+            DecimalFormat decimalFormat = new DecimalFormat("#0");
+            String str = decimalFormat.format(dn);
+            return Long.parseLong(str);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     public static void main(String[] args){
-        System.out.println(totalFee(2,100));
+        System.out.println(moneyTransformString("1.99"));
+        //System.out.println(totalFee(2,100));
     }
 }

@@ -36,6 +36,9 @@
 		            
 		       	#elseif($order.bizOrder.orderType == 3400)
 		    		#ORDER_BIZ_STATUS_D_HOTEL($!order.bizOrder.orderStatus)
+		    		
+		    	#elseif($order.bizOrder.orderType == 4000)
+		    		#ORDER_BIZ_STATUS_PROCESS($!order.bizOrder.orderStatus)
 		   		#end
             <span>
         </div>
@@ -84,7 +87,7 @@
             </tr>
             <tr>
                 <td>付款时间：</td>
-                #if($order.bizOrder.orderType == 3400)
+                #if($order.bizOrder.orderType == 3400 || $order.bizOrder.orderType==4000)
             		<td></td>
             	#else
                 	<td>$!{utilDate.date2String($!{utilDate.longToDate($order.bizOrder.payTime)})}</td>
@@ -121,7 +124,7 @@
 	                <td>$!order.logisticsOrderDO.fullName</td>
 	                <td>$!order.logisticsOrderDO.mobilePhone</td>
 	                <td>$!order.logisticsOrderDO.post</td>
-	                <td>$!order.logisticsOrderDO.prov $!order.logisticsOrderDO.city</td>
+	                <td>$!order.logisticsOrderDO.prov $!order.logisticsOrderDO.city $!order.logisticsOrderDO.area</td>
 	                <td>$!order.logisticsOrderDO.address</td>
 	            </tr>
 	        </table>
@@ -252,6 +255,8 @@
                            		#ORDER_BIZ_STATUS_SPOTS($subOrder.bizOrder.orderStatus)
                             #elseif($!subOrder.bizOrder.orderType == 1100 || $!subOrder.bizOrder.orderType == 3400)
                            		#ORDER_BIZ_STATUS_HOTEL($subOrder.bizOrder.orderStatus)
+                           	#elseif($!subOrder.bizOrder.orderType == 4000 )
+                           		#ORDER_BIZ_STATUS_PROCESS($subOrder.bizOrder.orderStatus)
                             #end
                         </div>
                     </td>

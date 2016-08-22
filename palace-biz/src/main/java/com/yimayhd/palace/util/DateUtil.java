@@ -1082,6 +1082,26 @@ public class DateUtil {
 		}
 		return dateStr;
 	}
+	public static Date getDate(Date date, int day) {
+		if (null == date) {
+			return date;
+		}
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);   //设置当前日期
+		c.add(Calendar.DATE, day); //日期加1天
+		date = c.getTime();
+		return date;
+	}
+	public static Date getMonth(Date date, int month) {
+		if (null == date) {
+			return date;
+		}
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);   //设置当前日期
+		c.add(Calendar.MONTH, month); //日期加月
+		date = c.getTime();
+		return date;
+	}
 	public static void main(String[] args) {
 		System.out.println(dateToString(new Date(), "yyyy/MM/dd"));
 		Calendar calendar = Calendar.getInstance();

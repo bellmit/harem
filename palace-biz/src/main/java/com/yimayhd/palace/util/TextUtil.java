@@ -11,10 +11,12 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.enums.BizLiveStatus;
 
 public class TextUtil {
-	
+
 	private static final Pattern TAG_PATTERN = Pattern.compile("([#])([^#]+)([#])");
+
 	/**
 	 * 转为JSON字符串
 	 * 
@@ -25,21 +27,20 @@ public class TextUtil {
 		return JSON.toJSONString(obj);
 	}
 
-
-	public static String getPicFirst(String picUrls){
-		if(StringUtils.isNotBlank(picUrls)){
+	public static String getPicFirst(String picUrls) {
+		if (StringUtils.isNotBlank(picUrls)) {
 			String[] arr = picUrls.split("\\|");
 			return arr[0];
 		}
 		return "";
 	}
-	
+
 	/*
 	 * 获取微博话题内容
 	 */
 	public static List<String> getTopicContent(String str) {
 		Set<String> set = new HashSet<String>();
-		if( StringUtils.isBlank(str) ){
+		if (StringUtils.isBlank(str)) {
 			return null;
 		}
 		Matcher m = TAG_PATTERN.matcher(str.trim());
@@ -55,5 +56,21 @@ public class TextUtil {
 //		str = StringEscapeUtils.escapeHtml(str);
 		return str;
 	}
-	
+
+
+	public static String getLiveStatus(int status) {
+		if (status <= 0) {
+			return null;
+		}
+		if (status == BizLiveStatus.AVAILABLE.getValue()) {
+			return BizLiveStatus.AVAILABLE.getText();
+		}
+		if (status == BizLiveStatus.DELETED.getValue()) {
+			return BizLiveStatus.DELETED.getText();
+		}
+		if (status == BizLiveStatus.UNAVAILABLE.getValue()) {
+			return BizLiveStatus.UNAVAILABLE.getText();
+		}
+		return "未知状态";
+	}
 }

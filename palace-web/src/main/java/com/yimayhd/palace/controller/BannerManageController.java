@@ -25,17 +25,13 @@ import com.yimayhd.palace.service.BoothService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.service.ThemeService;
 import com.yimayhd.resourcecenter.domain.AppVersionDO;
+import com.yimayhd.resourcecenter.entity.Booth;
 import com.yimayhd.resourcecenter.model.enums.*;
-import com.yimayhd.resourcecenter.model.query.AppVersionQuery;
-import com.yimayhd.resourcecenter.model.query.BoothQuery;
-import com.yimayhd.resourcecenter.model.query.RegionQuery;
-import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.query.*;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
-import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
-import com.yimayhd.snscenter.client.result.topic.TopicResult;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.query.MerchantPageQuery;
@@ -45,13 +41,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -247,6 +243,7 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_VIEW_TOPIC_LIST == type
                 || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type
                 || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type
+                || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
                 || Constant.SHOWCASE_CATEGORY_LIST ==type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
@@ -306,6 +303,9 @@ public class BannerManageController extends BaseController {
             case Constant.SHOWCASE_NEST_BOOTH_LIST ://booth列表
                 result = getBoothPageList(pageNumber,pageSize,result,keyWord);
                 break;
+            case Constant.SHOWCASE_TRAVEL_INFORMATION_LIST ://旅行资讯
+                result = getArticlePageList(pageNumber,pageSize,result,keyWord,code);
+                break;
             case Constant.SHOWCASE_CATEGORY_LIST://品类
                 result = getCategoryList(pageNumber,pageSize,result,keyWord);
                 break;
@@ -316,21 +316,46 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(result);
     }
 
-    public Map<String, Object> getCategoryList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
+    public Map<String, Object> getCategoryList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord) {
         CategoryQueryDTO query = new CategoryQueryDTO();
         query.setNeedCount(true);
         query.setPageNo(pageNumber);
         query.setPageSize(pageSize);
         query.setDomain(1100);
-        if(NumberUtils.isNumber(keyWord)){
+        if (NumberUtils.isNumber(keyWord)) {
             //query.setId(Integer.parseInt(keyWord));
-        }else if(StringUtils.isNotEmpty(keyWord)){
+        } else if (StringUtils.isNotEmpty(keyWord)) {
             query.setName(keyWord);
         }
         PageVO<ShowCaseItem> page = showcaseService.getCategoryList(query);
         result.put("pageVo", page);
         return result;
     }
+
+    public Map<String, Object> getArticlePageList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord,String code){
+        ArticleQueryDTO query = new ArticleQueryDTO();
+        query.setNeedCount(true);
+        if(StringUtils.isNotEmpty(code) && NumberUtils.isNumber(code)){
+            ArticleType at = ArticleType.getArticleType(Integer.parseInt(code));
+            if(null != at ){
+                query.setType(at);
+            }
+        }
+        if(NumberUtils.isNumber(keyWord)){
+            query.setId(Integer.parseInt(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            query.setTitle(keyWord);
+        }
+        query.setPageNo(pageNumber);
+        query.setPageSize(pageSize);
+        query.setStatus(ArticleStatus.ONLINE);
+
+        /*PageVO<ShowCaseItem> page = showcaseService.getArticleDOPageListByQuery(query);*/
+        PageVO<ShowCaseItem> page = showcaseService.getArticlePageListByQuery(query);
+        result.put("pageVo", page);
+        return result;
+    }
+
 
     public Map<String, Object> getBoothPageList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
         BoothQuery boothQuery = new BoothQuery();
@@ -532,6 +557,21 @@ public class BannerManageController extends BaseController {
             return "error";
         }
         return "success";
+    }
+
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    public String test(Model model,String boothCode,int appVersion) throws Exception {
+        BatchBoothQuery query = new BatchBoothQuery();
+        BatchBoothQueryVO bv = new BatchBoothQueryVO();
+        bv.setCode(boothCode);
+        bv.setAppVersion(appVersion);
+        List<BatchBoothQueryVO> li = new ArrayList<BatchBoothQueryVO>();
+        li.add(bv);
+        query.setBatchQueryBooth(li);
+        List<Booth>  listBooth = boothService.getBatchBooth( query);
+        String str = JSON.toJSONString(listBooth);
+        return str;
     }
 
 
