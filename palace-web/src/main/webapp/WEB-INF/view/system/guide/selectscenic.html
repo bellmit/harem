@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>选择景区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/css/zui.min.css?version=21" rel="stylesheet">
+    <link rel="stylesheet" href="http://console.test.jiuxiulvxing.com/palace-web/resources/css/common.css?version=21" />
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/js/zui.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/respond.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/common.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/layer-v2.1/layer.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery-form.js?version=21" type="text/javascript"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validate.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/JQ_verify.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.metadata.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validform.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/validate/messages_zh.min.js?version=21" type="text/javascript"></script>
+    <style type="text/css">
+    .table>thead th,
+    .table>tbody td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    .table tr.selected {
+        background: #ffe7bc;
+    }
+    </style>
+</head>
+
+<body>
+    <form class="form-signin" id="frmGuideList" name="frmGuideList" method="GET" role="form">
+        <div class="inputGroup">
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">景区名称：</button>
+                </span>
+                <input type="text" class="form-control" name="scenicName" value="">
+            </div>
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">资源编号：</button>
+                    </span>
+                <input type="text" class="form-control" name="scenicNumber" value="">
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary submitBtn">搜索</button>
+            </div>
+        </div>
+        <div class="tableGroup whole">
+            <table class="table table-bordered" id="tbScenicList">
+                <thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>景区名称</th>
+                        <th>资源编号</th>
+                        <th>地址</th>
+                        <th>详情</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>
+                            景区名称
+                        </td>
+                        <td>
+                            资源编号
+                        </td>
+                        <td>
+                            地址地址地址地址
+                        </td>
+                        <td>
+                            <a type="button" class="btn btn-primary" themeid="1800">查看详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>
+                            景区名称
+                        </td>
+                        <td>
+                            资源编号
+                        </td>
+                        <td>
+                            地址地址地址地址
+                        </td>
+                        <td>
+                            <a type="button" class="btn btn-primary" themeid="1800">查看详情</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination pagination-large pagination-right pageWrap">
+            <ul class="pager" style="width: 100%;">
+                <li class="previous disabled">
+                    <a href="javascript:void(0);" id="prePage">« 上一页</a>
+                </li>
+                <li class="active">
+                    <span><a href="javascript:void(0);">1</a></span>
+                </li>
+                <li>
+                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="2">2</a></span>
+                </li>
+                <li>
+                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="3">3</a></span>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" data-toggle="pager" data-placement="top">...</a>
+                </li>
+                <li>
+                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="63">99</a></span>
+                </li>
+                <li>
+                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="64">100</a></span>
+                </li>
+                <li class="next">
+                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="2" id="nextPage">下一页»</a>
+                </li>
+                <li>
+                    <div class="input-group" style="width: 149px;">
+                        <span class="input-group-addon">每页</span>
+                        <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="input-group-addon">条</span>
+                        <span class="input-group-addon">共 200 条</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <script type="text/javascript">
+        $(function() {
+            $("#tbScenicList").on("click", "input[type='checkbox']", function() {
+                var $checkbox = $(this);
+                var checked = $checkbox[0].checked;
+                var $tr = $checkbox.closest("tr");
+
+                if (checked) {
+                    var $selecetdtr = $("#tbScenicList tr.selected");
+                    $selecetdtr.removeClass("selected");
+                    $selecetdtr.find("input[type='checkbox']").attr("checked", false);
+
+                    $tr.addClass("selected");
+                } else {
+                    $tr.removeClass("selected");
+                }
+            });
+        });
+
+        function getItem() {
+            return {
+                name: "aaaaaaaaaaaaaaaaaa",
+                number: "bbbbbbbbbbbbbbbbb",
+                location: "cccccccccccccccccc",
+                level: "1000",
+                theme: "ddddddddddddddd",
+                address: "eeeeeeeeeeeeeeeee",
+                latlng: "1.123123123,2.23123123123",
+                yinyetime:"周一至周五：8：00~21：00 周六周日：12：00~22：00"
+            }
+        }
+        </script>
+    </form>
+</body>
+
+</html>

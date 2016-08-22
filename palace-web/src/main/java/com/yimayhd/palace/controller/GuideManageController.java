@@ -1,7 +1,9 @@
 package com.yimayhd.palace.controller;
 
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
+import com.yimayhd.palace.model.item.ItemInfoVO;
 import com.yimayhd.palace.service.GuideManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
 public class GuideManageController {
     @Resource
     private GuideManageService guideManageService;
+
     /**
      * 导览列表  分页
      *
@@ -29,7 +32,11 @@ public class GuideManageController {
      */
     @RequestMapping(value = "/list")
     public String list(Model model, GuideScenicListQuery guideListQuery) throws Exception {
-        return null;
+        PageVO<GuideScenicVO> pageVO = guideManageService.getGuideList(guideListQuery);
+
+        model.addAttribute("pageVo", pageVO);
+        model.addAttribute("itemList", pageVO.getItemList());
+        return "/system/guide/guidelist";
     }
 
     /**
