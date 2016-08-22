@@ -41,4 +41,6 @@
 	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
 	<bean id="solrsearchRepo" class="com.yimayhd.palace.repo.SolrsearchRepo" />
 
+	<bean id="mediaClientRepo" class="com.yimayhd.palace.repo.MediaClientRepo"/>
+
 </beans>
