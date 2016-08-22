@@ -305,27 +305,14 @@ public class OrderServiceImpl implements OrderService {
 					}
 				}
 				//订单状态是待付款的查一下改价的信息,如果没有操作人信息说明没有改价信息
-				if(mainOrder.getBizOrderDO().getPayStatus() == PayStatus.NOT_PAY.getStatus()){
+				/*if(mainOrder.getBizOrderDO().getPayStatus() == PayStatus.NOT_PAY.getStatus()){}*/
 					long oldFee = BizOrderUtil.getAdjustFeeOriginalActualTotalFee(mainOrder.getBizOrderDO());
 					String uName = "";
 					long uid = BizOrderUtil.getAdjustFeeUserId(mainOrder.getBizOrderDO());
 					if(uid !=0 ){
-						orderDetails.setHasAdjustFee(true);
-						UserDO user = userServiceRef.getUserDOById(uid);
-						if(null != user){
-							uName = user.getName();
-						}
-						long newFee = mainOrder.getBizOrderDO().getActualTotalFee();
-						Date date = BizOrderUtil.getAdjustFeeDate(mainOrder.getBizOrderDO());
-						String remark = BizOrderUtil.getAdjustFeeRemark(mainOrder.getBizOrderDO());
-						AdjustFeeVO av = new AdjustFeeVO(oldFee,newFee,remark,date,uid,uName);
-						List<AdjustFeeVO> list = new ArrayList<AdjustFeeVO>();
-						list.add(av);
-						orderDetails.setHasAdjustFee(true);
-						orderDetails.setOldFee(oldFee);
-						orderDetails.setListAdjustFeeVO(list);
+						convertAdjustFeeList(orderDetails, mainOrder, oldFee, uName, uid);
 					}
-				}
+
 
 				return orderDetails;
 			}
@@ -336,6 +323,23 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		return null;
+	}
+
+	private void convertAdjustFeeList(OrderDetails orderDetails, MainOrder mainOrder, long oldFee, String uName, long uid) {
+		orderDetails.setHasAdjustFee(true);
+		UserDO user = userServiceRef.getUserDOById(uid);
+		if(null != user){
+            uName = user.getName();
+        }
+		long newFee = mainOrder.getBizOrderDO().getActualTotalFee();
+		Date date = BizOrderUtil.getAdjustFeeDate(mainOrder.getBizOrderDO());
+		String remark = BizOrderUtil.getAdjustFeeRemark(mainOrder.getBizOrderDO());
+		AdjustFeeVO av = new AdjustFeeVO(oldFee,newFee,remark,date,uid,uName);
+		List<AdjustFeeVO> list = new ArrayList<AdjustFeeVO>();
+		list.add(av);
+		orderDetails.setHasAdjustFee(true);
+		orderDetails.setOldFee(oldFee);
+		orderDetails.setListAdjustFeeVO(list);
 	}
 
 
