@@ -377,8 +377,10 @@ public class OrderManageController extends BaseController {
 	public String toGfAdjustFee(Model model,long bizOrderId,String oldPrice,String newPrice,String remark){
 		model.addAttribute("bizOrderId",bizOrderId);
 		model.addAttribute("oldPrice",StringUtils.isEmpty(oldPrice)?"":oldPrice);
-		if(StringUtils.isEmpty(newPrice) || "0.00".equals(newPrice)){newPrice = "";}
-		model.addAttribute(newPrice);
+		if(StringUtils.isEmpty(newPrice) || "0.00".equals(newPrice)){
+			newPrice = "";
+		}
+		model.addAttribute("newPrice",newPrice);
 		model.addAttribute("remark",remark);
 		return "/system/order/gf/gfAdjustFee";
 	}
