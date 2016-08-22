@@ -94,4 +94,7 @@
 	
 	<!-- 商品评价 -->
 	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
+
+	<!-- 附件中心-->
+	<bean id="attachmentManageService" class="com.yimayhd.palace.service.impl.AttachmentManageServiceImpl"/>
 </beans>
