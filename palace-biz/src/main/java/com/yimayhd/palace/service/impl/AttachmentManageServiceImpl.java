@@ -1,12 +1,18 @@
 package com.yimayhd.palace.service.impl;
 
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.attachment.AttachmentListQuery;
+import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.repo.MediaClientRepo;
 import com.yimayhd.palace.service.AttachmentManageService;
+import com.yimayhd.resourcecenter.domain.MediaDO;
+import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
+import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
+import com.yimayhd.resourcecenter.model.result.RCPageResult;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 附件中心 音频管理 导览
@@ -19,12 +25,21 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
     /**
      * 分页查询附件
      *
-     * @param attachmentListQuery
+     * @param mediaPageQuery
      * @return
      */
     @Override
-    public PageVO<AttachmentVO> getAttachmentList(AttachmentListQuery attachmentListQuery) {
-        return mediaClientRepo.getMediaPageList(attachmentListQuery);
+    public PageVO<AttachmentVO> getAttachmentList(MediaPageQuery mediaPageQuery) {
+        RCPageResult<MediaDO> result = mediaClientRepo.getMediaPageList(mediaPageQuery);
+        if (result == null) {
+            return null;
+        }
+        List<AttachmentVO> attachmentVOList = new ArrayList<AttachmentVO>();
+        List<MediaDO> mediaDOList = result.getList();
+        for (MediaDO mediaDO : mediaDOList) {
+            attachmentVOList.add(AttachmentConverter.mediaDO2AttachmentVO(mediaDO));
+        }
+        return new PageVO<AttachmentVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), attachmentVOList);
     }
 
     /**
@@ -35,6 +50,11 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      */
     @Override
     public AttachmentVO addAttachment(AttachmentVO attachmentVO) {
+        Long id = mediaClientRepo.addMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
+        if (id != null && id > 0) {
+            attachmentVO.setId(id);
+            return attachmentVO;
+        }
         return null;
     }
 
@@ -45,8 +65,8 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      * @return
      */
     @Override
-    public AttachmentVO updateAttachment(AttachmentVO attachmentVO) {
-        return null;
+    public boolean updateAttachment(AttachmentVO attachmentVO) {
+        return mediaClientRepo.updateMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
     }
 
     /**
@@ -57,7 +77,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      */
     @Override
     public boolean upStatus(long attachmentId) {
-        return false;
+        return mediaClientRepo.updateMediaStatus(MediaFileStatus.ON.getValue(), attachmentId);
     }
 
     /**
@@ -68,6 +88,6 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      */
     @Override
     public boolean downStatus(long attachmentId) {
-        return false;
+        return mediaClientRepo.updateMediaStatus(MediaFileStatus.OFF.getValue(), attachmentId);
     }
 }

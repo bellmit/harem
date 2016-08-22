@@ -1,6 +1,8 @@
 package com.yimayhd.palace;
 
 import com.chinanetcenter.api.util.Config;
+import com.yimayhd.palace.config.ResourceConfig;
+import com.yimayhd.palace.constant.AttachmentConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -26,8 +28,20 @@ public class ContextStartUpListener implements ApplicationListener<ContextRefres
                 return;
             }
             isStarted = true;
-            //初始化上传config
-            //Config.init();
+            try {
+                //初始化上传config
+                ResourceConfig resourceConfig = ResourceConfig.getInstance();
+                String ak = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_AK);
+                String sk = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_SK);
+                String putUrl = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_PUTURL);
+                String mgrUrl = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_MGRURL);
+                String bucketName = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME);
+                String getUrl = null;
+                Config.init(ak, sk, putUrl, getUrl, mgrUrl);
+            } catch (Exception e) {
+                logger.error("init chinanetcenter_config error");
+                logger.error("init chinanetcenter_config Exception:" + e);
+            }
         }
 
     }

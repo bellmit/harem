@@ -61,11 +61,11 @@ public class MediaClientRepo {
                 return result.getT();
             } else {
                 log.error("updateMedia updateDTO={}, result={}", JSON.toJSONString(updateDTO), JSON.toJSONString(result));
-                return null;
+                return false;
             }
         } catch (Exception e) {
             log.error("updateMedia updateDTO={}, exception={}", JSON.toJSONString(updateDTO), e);
-            return null;
+            return false;
         }
     }
 
@@ -77,11 +77,11 @@ public class MediaClientRepo {
                 return result.getT();
             } else {
                 log.error("updateMediaStatus status={},guideId={}, result={}", status, mediaId, JSON.toJSONString(result));
-                return null;
+                return false;
             }
         } catch (Exception e) {
             log.error("updateMediaStatus status={},guideId={}, exception={}", status, mediaId, e);
-            return null;
+            return false;
         }
     }
 }

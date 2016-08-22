@@ -3,6 +3,7 @@ package com.yimayhd.palace.service;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
+import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 
 /**
  * 附件中心 音频管理 导览
@@ -12,10 +13,10 @@ public interface AttachmentManageService {
     /**
      * 分页查询附件
      *
-     * @param attachmentListQuery
+     * @param mediaPageQuery
      * @return
      */
-    public PageVO<AttachmentVO> getAttachmentList(AttachmentListQuery attachmentListQuery);
+    public PageVO<AttachmentVO> getAttachmentList(MediaPageQuery mediaPageQuery);
 
     /**
      * 添加附件
@@ -31,7 +32,7 @@ public interface AttachmentManageService {
      * @param attachmentVO
      * @return
      */
-    public AttachmentVO updateAttachment(AttachmentVO attachmentVO);
+    public boolean updateAttachment(AttachmentVO attachmentVO);
 
     /**
      * 上架
