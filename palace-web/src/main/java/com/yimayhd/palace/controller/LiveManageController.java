@@ -6,11 +6,13 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.enums.BizLiveStatus;
 import com.yimayhd.palace.model.SnsSubjectVO;
 import com.yimayhd.palace.model.SubjectInfoAddVO;
 import com.yimayhd.palace.model.query.LiveListQuery;
 import com.yimayhd.palace.repo.TagRepo;
 import com.yimayhd.palace.service.LiveService;
+import com.yimayhd.snscenter.client.enums.BaseStatus;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +47,14 @@ public class LiveManageController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, LiveListQuery liveListQuery) throws Exception {
         PageVO<SnsSubjectVO> pageVO = liveService.getList(liveListQuery);
+        BizLiveStatus[] liveStatus = BizLiveStatus.values();
+        List<BizLiveStatus> bizLiveStatuses=new ArrayList<BizLiveStatus>();
+        for (BizLiveStatus bizLiveStatus : liveStatus) {
+			bizLiveStatuses.add(bizLiveStatus);
+		}
         model.addAttribute("pageVo", pageVO);
         model.addAttribute("liveListQuery", liveListQuery);
+        model.addAttribute("liveStatusList", bizLiveStatuses);
         model.addAttribute("liveList", pageVO.getItemList());
         return "/system/live/list";
     }
@@ -137,12 +145,17 @@ public class LiveManageController extends BaseController {
     @RequestMapping(value = "/batchViolation", method = RequestMethod.POST)
     @ResponseBody
 	public ResponseVo batchPublish(@RequestParam("liveIdList[]") ArrayList<Long> liveIdList) {
-		if (CollectionUtils.isEmpty(liveIdList)) {
-			return new ResponseVo(ResponseStatus.INVALID_DATA);
-		}
-		liveService.batchViolation(liveIdList);
-		return new ResponseVo();
-	}
+        try {
+            if (CollectionUtils.isEmpty(liveIdList)) {
+                return new ResponseVo(ResponseStatus.INVALID_DATA);
+            }
+            liveService.batchViolation(liveIdList);
+            return new ResponseVo();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVo.error(e);
+        }
+    }
 
     /**
      * 根据id获取动态图片列表

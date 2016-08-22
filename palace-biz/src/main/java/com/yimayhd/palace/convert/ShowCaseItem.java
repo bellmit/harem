@@ -21,6 +21,15 @@ public class ShowCaseItem implements Serializable{
 
     public int appVersion;
     public String code;
+    public String URL;//外链，url
+
+    public String getURL() {
+        return URL;
+    }
+
+    public void setURL(String URL) {
+        this.URL = URL;
+    }
 
     public long getId() {
         return id;

@@ -47,6 +47,7 @@ public class ItemConverter {
 		itemQryDTO.setEndDate(query.getEndDate());
 		itemQryDTO.setPageNo(query.getPageNumber());
 		itemQryDTO.setPageSize(query.getPageSize());
+		itemQryDTO.setOrderNumFilter(query.getOrderNumFilter());
 		if(query.getMerchantName()!=null) {
 			itemQryDTO.setMerchantName(query.getMerchantName()!=null? query.getMerchantName().trim():query.getMerchantName());
 		}
@@ -79,6 +80,7 @@ public class ItemConverter {
 			itemVO.setStatus(itemDTO.getStatus());
 			itemVO.setOperates(ItemUtil.getItemOperates(itemDTO.getItemType(), itemDTO.getStatus()));
 			itemVO.setGmtModified(itemDTO.getGmtModified());
+			itemVO.setOrderNum(itemDTO.getOrderNum());//权重
 		}
 		
 		IcMerchantInfo icMerchantInfo = itemInfo.getIcMerchantInfoInfo();

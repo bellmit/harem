@@ -55,6 +55,26 @@
 				#end
             </select>
         </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">权重：</button>
+            </span>
+            <select class="form-control" name="orderNumFilter">
+				<option value="" #if(!$itemListQuery.orderNumFilter) selected #end>全部</option>
+				#foreach($orderNum in $orderNumFilter)
+					#set($orderNumText = $orderNum.text)
+						<option value="$!{orderNum.name}" #if($itemListQuery.orderNumFilter == $orderNum.name) selected #end >$!{orderNumText}</option>
+				#end
+            </select>
+        </div>
+        <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">创建时间：</button>
+                    </span>
+            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!itemListQuery.beginDate">
+            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!itemListQuery.endDate">
+        </div>
 		<div class="btn-group">
             <button type="submit" class="btn btn-primary form-submit">查询</button>
         </div>
@@ -86,8 +106,9 @@
                     <th>商品名称</th>
 					<th data-col-class="text-center" data-width="110">商品类型</th>
 					<th data-width="160">单价</th>
-					<th data-width="160">店铺名称</th>
+					<th data-width="160">店铺名称/昵称</th>
 					<th data-col-class="text-center" data-width="70">状态</th>
+                    <th data-col-class="text-center" data-width="40">创建时间</th>
                     <th data-col-class="text-center" data-width="40">最后修改时间</th>
 					<th data-col-class="text-center" data-width="60">操作</th>
                 </tr>
@@ -110,19 +131,26 @@
                             $!{itemInfo.scenicVO.name}<br>
                             $!{itemInfo.ticketVO.title}<br>
 						#end
-						$!item.name
+						$!item.name<br>
+                    	权重:$!item.orderNum
 
-
-					</td>
-					<td>
-					#*	#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
-							特产商品
-						#else*#
+                </td>
+                <td>
+                #*	#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
+                        特产商品
+                    #else*#
 							$!{utilItem.getItemTypeName($item.type)}
 						#*#end*#
 					</td>
 					<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
-                    <td>$!merchant.merchantName</td>
+                    <td>
+						#if($!merchant.merchantName && $!merchant.userNick)
+							$!merchant.merchantName/$!merchant.userNick
+						#else
+							$!merchant.merchantName$!merchant.userNick
+						#end
+
+					</td>
                     <td>
                     	#if($utilItem.getItemStatusName($item.status) == '初始化')
                     		待上架
@@ -130,6 +158,7 @@
                     		$!{utilItem.getItemStatusName($item.status)}	
                     	#end
                     </td>
+                    <td>$!{utilDate.date2String($item.publishDate)}</td>
                     <td>$!{utilDate.date2String($item.gmtModified)}</td>
                     <td>
                     	#if($item.type == 21 || $item.type == 22 || $item.type == 24 || $item.type == 25)
@@ -143,6 +172,7 @@
 						#if($item.containsOperate('UNSHELVE'))
 						<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="UNSHELVE">下架</a><br/>
 						#end
+						<a class="btn btn-mini btn-link item-oderNum" href="javascript:void(0);" item-id="$!item.id" >权重</a><br/>
 					</td>
                 </tr>
 				#end
@@ -157,7 +187,7 @@
 <script>
 	function validateItemId(itemId,e) {
         var s = /^[0-9]*$/;
-        if(s.test(itemId)){
+        if(s.test(itemId.trim())){
             return;
         }
         e.preventDefault();
@@ -299,4 +329,52 @@
 			},"json");
 		});
     });
+    
+    
+        //权重
+        $(".item-oderNum").click(function(){
+			var id = $(this).attr("item-id");
+            layer.open({
+                type: 1,
+                btn: ['确定', '取消'],
+                fix: false,
+                title: false,
+                shadeClose: true,
+                area: ['230px', '130px'],
+                content : "<div style='text-align:center;margin-top:20px;'>权重：<input style='width:100px;' type='text' id ='qz' name='qz'/></div>",
+                yes: function(index){
+                    var orderNum = $("#qz").val();
+
+					if("" == orderNum || null == orderNum){
+                        layer.alert("请输入权重");
+                        return ;
+                    }
+                    if(orderNum < 1 || orderNum > 9999){
+                    	layer.alert("权重介于1-9999");
+                        return ;
+                    }
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateItemOrderNum/',
+							{'itemId':id,'orderNum':orderNum} ,function(data){
+                        if(data.status == 200){
+                            layer.msg('操作成功', {
+		        				icon : 1,
+		        				time : 1000
+		        			});
+		    				window.location.reload();
+                        }else{
+                            layer.msg('操作失败', {
+		        				icon : 2,
+		        				time : 1000
+		        			});
+                        }
+						setTimeout(function(){
+							layer.close(index);
+						},1000);
+
+                    }) 
+
+                    
+                }
+            });
+		});
 </script>

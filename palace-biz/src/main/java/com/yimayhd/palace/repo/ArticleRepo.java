@@ -6,10 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
-import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
@@ -17,8 +13,6 @@ import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.resourcecenter.service.backend.ArticleBackEndService;
-import com.yimayhd.user.client.dto.MerchantUserDTO;
-import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 
 /**
@@ -33,8 +27,6 @@ public class ArticleRepo {
 	public static final int STATUS_ENABLE = 1;
 	@Autowired
 	private ArticleBackEndService articleBackEndServiceRef;
-	@Autowired
-	private ItemQueryService itemQueryServiceRef;
 	@Autowired
 	private MerchantService merchantService;
 
@@ -59,9 +51,9 @@ public class ArticleRepo {
 		return result;
 	}
 
-	public ResourceResult<Boolean> updateByStatus(long id, ArticleStatus articleStauts) {
+	public ResourceResult<Boolean> updateByStatus(long id, ArticleStatus articleStatus) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.updateByStatus", id);
-		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdAndStatus(id,articleStauts);
+		ResourceResult<Boolean> result = articleBackEndServiceRef.updateStatusByIdAndStatus(id,articleStatus);
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.updateByStatus", result);
 		return result;
 	}
@@ -80,19 +72,4 @@ public class ArticleRepo {
 		return result;
 	}
 
-	public ItemResult getItemById(long id) {
-		RepoUtils.requestLog(log, "itemQueryServiceRef.getItemById", id);
-		ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
-		ItemResult result = itemQueryServiceRef.getItem(id, itemOptionDTO);
-		RepoUtils.resultLog(log, "itemQueryServiceRef.getItemById", result);
-		return result;
-	}
-
-	public BaseResult<MerchantUserDTO> getMerchantBySellerId(long sellerId) {
-		RepoUtils.requestLog(log, "merchantService.getMerchantBySellerId", sellerId);
-		BaseResult<MerchantUserDTO> result = merchantService.getMerchantAndUserBySellerId(sellerId,
-				Constant.DOMAIN_JIUXIU);
-		RepoUtils.requestLog(log, "merchantService.getMerchantBySellerId", result);
-		return result;
-	}
 }

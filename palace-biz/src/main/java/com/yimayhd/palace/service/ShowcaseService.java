@@ -8,15 +8,13 @@ import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
+import com.yimayhd.resourcecenter.domain.ArticleDO;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseStauts;
-import com.yimayhd.resourcecenter.model.query.BoothQuery;
-import com.yimayhd.resourcecenter.model.query.OperationQuery;
-import com.yimayhd.resourcecenter.model.query.RegionQuery;
-import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
+import com.yimayhd.resourcecenter.model.query.*;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
@@ -145,5 +143,17 @@ public interface ShowcaseService {
      * @throws
      */
     public PageVO<ShowCaseItem> getBoothPageList(BoothQuery boothQuery);
+
+    /**
+     * 分页查询文章列表
+     * @return
+     */
+    public PageVO<ShowCaseItem> getArticlePageListByQuery(ArticleQueryDTO articleQueryDTO );
+
+    /**
+     * 分页查询文章列表
+     * @return
+     */
+    public PageVO<ShowCaseItem> getArticleDOPageListByQuery(ArticleQueryDTO  articleQueryDTO  );
 
 }

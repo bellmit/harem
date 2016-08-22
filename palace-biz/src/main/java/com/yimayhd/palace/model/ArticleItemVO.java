@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * H5文章
- * 
+ *
  * @author xiemingna
  *
  */
@@ -31,7 +31,32 @@ public class ArticleItemVO implements Serializable {
 	private Date gmtCreated;
 
 	private Date gmtModified;
+	/**
+	 * 商品项
+	 */
 	private ArticleProductItemVO articleProductItemVO;
+	/**
+	 * 咨询服务项
+	 */
+	private ArticleConsultServiceItemVO articleConsultServiceItemVO;
+	/**
+	 * 达人项
+	 */
+	private ArticleExpertManItemVO articleExpertManItemVO;
+
+	/**
+	 * 酒店资源项
+	 */
+	private ArticleHotelResourceItemVO articleHotelResourceItemVO;
+	/**
+	 * 景区资源项
+	 */
+	private ArticleScenicResourceItemVO articleScenicResourceItemVO;
+
+	/**
+	 * 音频资源
+	 */
+	private ArticleAudioItemVO articleAudioItemVO;
 
 	public long getId() {
 		return id;
@@ -121,4 +146,43 @@ public class ArticleItemVO implements Serializable {
 		this.articleProductItemVO = articleProductItemVO;
 	}
 
+	public ArticleConsultServiceItemVO getArticleConsultServiceItemVO() {
+		return articleConsultServiceItemVO;
+	}
+
+	public void setArticleConsultServiceItemVO(ArticleConsultServiceItemVO articleConsultServiceItemVO) {
+		this.articleConsultServiceItemVO = articleConsultServiceItemVO;
+	}
+
+	public ArticleExpertManItemVO getArticleExpertManItemVO() {
+		return articleExpertManItemVO;
+	}
+
+	public void setArticleExpertManItemVO(ArticleExpertManItemVO articleExpertManItemVO) {
+		this.articleExpertManItemVO = articleExpertManItemVO;
+	}
+
+	public ArticleHotelResourceItemVO getArticleHotelResourceItemVO() {
+		return articleHotelResourceItemVO;
+	}
+
+	public void setArticleHotelResourceItemVO(ArticleHotelResourceItemVO articleHotelResourceItemVO) {
+		this.articleHotelResourceItemVO = articleHotelResourceItemVO;
+	}
+
+	public ArticleScenicResourceItemVO getArticleScenicResourceItemVO() {
+		return articleScenicResourceItemVO;
+	}
+
+	public void setArticleScenicResourceItemVO(ArticleScenicResourceItemVO articleScenicResourceItemVO) {
+		this.articleScenicResourceItemVO = articleScenicResourceItemVO;
+	}
+
+    public ArticleAudioItemVO getArticleAudioItemVO() {
+        return articleAudioItemVO;
+    }
+
+    public void setArticleAudioItemVO(ArticleAudioItemVO articleAudioItemVO) {
+        this.articleAudioItemVO = articleAudioItemVO;
+    }
 }

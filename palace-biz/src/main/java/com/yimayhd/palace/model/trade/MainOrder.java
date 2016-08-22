@@ -34,6 +34,26 @@ public class MainOrder {
     
     private PayOrderDO payOrderDO;
 
+    private boolean hasAdjustFee;//是否改价
+
+    private long oldFee;//改价前的原始订单金额
+
+    public boolean isHasAdjustFee() {
+        return hasAdjustFee;
+    }
+
+    public void setHasAdjustFee(boolean hasAdjustFee) {
+        this.hasAdjustFee = hasAdjustFee;
+    }
+
+    public long getOldFee() {
+        return oldFee;
+    }
+
+    public void setOldFee(long oldFee) {
+        this.oldFee = oldFee;
+    }
+
     private ExpressVO express;
 
     public String gyCode;//订单对应商品在管易中的编码

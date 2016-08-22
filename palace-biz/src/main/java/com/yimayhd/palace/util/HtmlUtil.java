@@ -31,6 +31,8 @@ public class HtmlUtil {
                 sb.append("type='checkbox' ");
             }else if (Constant.showTypeText == od.getShowType()){
                 sb.append("type='text' ");
+            }else if (Constant.showTypeLargeText == od.getShowType()){
+                sb.append("type='text' ");
             }
             if(0==od.getMultiSelect()){
                 sb.append("multiselect='").append(false).append("'");

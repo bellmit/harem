@@ -18,5 +18,6 @@
         <tool key="utilTag" class="com.yimayhd.palace.util.TagUtil"></tool>
         <tool key="esc" class="org.apache.velocity.tools.generic.EscapeTool"></tool>
 
+		<tool key="commentUtil" class="com.yimayhd.palace.util.CommentUtil"></tool>
     </toolbox>
 </tools>

@@ -13,6 +13,7 @@ public class EvaluationListQuery extends BaseQuery {
     private String nickName;
     private int sector;
     private int evaluationStatus;
+    private int evaluationType;
 
     public String getBeginDate() {
         return beginDate;
@@ -61,4 +62,12 @@ public class EvaluationListQuery extends BaseQuery {
     public void setEvaluationStatus(int evaluationStatus) {
         this.evaluationStatus = evaluationStatus;
     }
+
+	public int getEvaluationType() {
+		return evaluationType;
+	}
+
+	public void setEvaluationType(int evaluationType) {
+		this.evaluationType = evaluationType;
+	}
 }

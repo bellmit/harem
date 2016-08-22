@@ -1,5 +1,9 @@
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/style.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/imgupload.css"/>
+
 <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
@@ -41,7 +45,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><span class="spColor">*</span>直播地点</td>
+                    <td>直播地点</td>
                     <td> <input type="text" class="inpCtlBlock snsPOIDetail" name="snsPOI.detail"  value="$!esc.html($!live.snsPOI.detail)"></td>
                 </tr>
                 <tr>
@@ -54,14 +58,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>直播图片：</td>
-                    <td class="picUrlsTd">
-                                <input id="batchUploadBtn" type="file" multiple="multiple" >
-                                #foreach($pic in $live.picList)
-                                   <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
-                                #end
-                            </td>
-                            <input class="picUrlsVal" type="hidden" name="picListStr" value="">
+                    <td>直播图片：</td>                    
+                    <td>
+						<div class="imgallbox" data-num="9">
+							#foreach($pic in $live.picList)
+							<div class="imgbox">
+								<div class="imgcon">
+									<img src="$utilWebconfig.getTfsRootPath()$!pic">
+								</div>
+								<div class="imgwait"></div>
+								<div class="imgdelbtn">删除图片</div>																
+								<input type="hidden" value="$!pic">
+							</div>
+                            #end
+							<input type="hidden" name="picListStr" class="picUrlsVal" value="">
+						</div>
+						<p>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：690*330</p>						
                     </td>
                 </tr>
 				#if($live)
@@ -85,6 +97,11 @@
         <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
     </form>
 </div>
+<!------------------------------------------------js分割线----------------------------------------->
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("imgupload");</script>
 <script>
 
 
@@ -110,28 +127,17 @@
          if(!$('.gmtCreatedStr').val()){
              return '发布时间不能为空';
          }
-         if(!$('.snsPOIDetail').val()){
-             return '直播地点不能为空';
-         }else if($('.snsPOIDetail').val().length > 20){
+         if($('.snsPOIDetail').val().length > 20){
              return '直播地点不能超过20字';
          }
          if(!$('#userId').val()){
              return '作者信息不能为空';
          }
-         if($('.picUrlsUrl').length > 9){
+         if($('.imgbox').length > 9){
              return '直播图片不能超过9张';
          }
      }
-   var batchCallBack = function(dataVal){
-        for(var key in dataVal.data){
-             $('.picUrlsTd').append('<img class="picUrlsUrl uploadImgFile" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
-        }
-    }
-    $(function(){
-		 $(document).delegate("#batchUploadBtn",'change',function(){
-           		 fileUpload('#batchUploadBtn',2,batchCallBack);
-         });
-
+	$(function(){
         //选择大咖
         $('.selectUser').click(function(){
             openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectSockPuppetUser','选择用户',function() {
@@ -158,8 +164,8 @@
             }
             //列表长图片
             var picUrls = new Array();
-            $('.picUrlsUrl').each(function(){
-                picUrls.push( $(this).attr('imgUrl'));
+            $('.imgbox').find('input:hidden').each(function(){
+                if($(this).val()) picUrls.push( $(this).val());
             });
             $('.picUrlsVal').val(JSON.stringify(picUrls));
             var actionUrl;
