@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
@@ -145,5 +146,13 @@ public interface ShowcaseService {
      * @throws
      */
     public PageVO<ShowCaseItem> getBoothPageList(BoothQuery boothQuery);
+
+    /**
+     * 查询booth列表
+     * @parameter
+     * @return
+     * @throws
+     */
+    public PageVO<ShowCaseItem> getCategoryList(CategoryQueryDTO categoryQueryDTO);
 
 }

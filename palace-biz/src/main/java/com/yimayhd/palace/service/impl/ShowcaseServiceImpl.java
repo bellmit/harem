@@ -3,12 +3,15 @@ package com.yimayhd.palace.service.impl;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.commentcenter.client.result.CategoryResult;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.gf.repo.GFCategoryRepo;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
@@ -101,7 +104,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired SnsTopicCenterService snsTopicCenterServiceRef;
 
-
+    @Autowired GFCategoryRepo gfCategoryRepo;
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
         return null;
@@ -609,6 +612,30 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             return listSC;
         }
         return null;
+    }
+
+    public List<ShowCaseItem> categoryResultToShowCaseItem(List<CategoryResult> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isNotEmpty(list)){
+            for (CategoryResult oo:list ) {
+                ShowCaseItem sc = new ShowCaseItem();
+                sc.setId(oo.getId());
+                sc.setName(oo.getName());//标题
+                listSC.add(sc);
+            }
+        }
+        return listSC;
+    }
+
+    public PageVO<ShowCaseItem> getCategoryList(CategoryQueryDTO categoryQueryDTO){
+        BasePageResult<CategoryResult> result = gfCategoryRepo.pageQueryCategory(categoryQueryDTO);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        List<CategoryResult> list = result.getList();
+        List<ShowCaseItem> listCategory = categoryResultToShowCaseItem(list);
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(categoryQueryDTO.getPageNo(), categoryQueryDTO.getPageSize(),result.getTotalCount(),listCategory);
+        return page;
     }
 
 }

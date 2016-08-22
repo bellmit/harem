@@ -321,7 +321,16 @@ public class GFCategoryManagerController {
 			return "/error";
 		}
 	}
-	
-	
+
+	@RequestMapping(value = "/lists", method = RequestMethod.GET)
+	@ResponseBody
+	public PageVO gfCategoryLists(Model model,GFCategoryVo gfCategoryVo){
+		try {
+			PageVO<CategoryResult> pageVo = gfCategoryBiz.pageQueryCategory(gfCategoryVo);
+			return pageVo;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 }
