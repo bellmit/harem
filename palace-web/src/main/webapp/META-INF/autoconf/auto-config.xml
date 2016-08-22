@@ -118,6 +118,14 @@
 		<property name="jedis.master" defaultValue="mymaster" description=""/>
 
 	</group>
+	<group name="chinanetcenter">
+		<property name="chinanetcenter.config.sk" defaultValue="89563041d009a238fb27407a4d0de71061977d8e" description=""/>
+		<property name="chinanetcenter.config.ak" defaultValue="3789c5976cd89914f990b642af2924c6b4fa1f0e" description=""/>
+		<property name="chinanetcenter.config.puturl" defaultValue="http://gellefreres.up1.v1.wcsapi.com" description=""/>
+		<property name="chinanetcenter.config.mgrurl" defaultValue="http://gellefreres.mgr1.v1.wcsapi.com" description=""/>
+		<property name="chinanetcenter.config.bucketName" defaultValue="gellefreres-test001" description=""/>
+
+	</group>
 	<script>
 		<generate template="config.properties.vm" destfile="WEB-INF/config.properties"	charset="UTF-8" />
 		<generate template="redis.properties.vm" destfile="WEB-INF/redis.properties"	charset="UTF-8" />

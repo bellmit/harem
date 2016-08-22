@@ -1,6 +1,5 @@
 package com.yimayhd.palace.model.attachment;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -9,9 +8,10 @@ import java.util.Date;
 public class AttachmentVO {
     private long id;
     private String inputFileTitle;//名称
-    private String fileType;//类型
+    private int fileType;//类型
+    private String fileTypeStr;//类型
     private Date gmtCreated;
-    private BigDecimal duration;//时长
+    private long duration;//时长
     private String durationStr;//时长
     private int scope;//用途
     private String scopeStr;//用途
@@ -39,12 +39,21 @@ public class AttachmentVO {
         return this;
     }
 
-    public String getFileType() {
+    public int getFileType() {
         return fileType;
     }
 
-    public AttachmentVO setFileType(String fileType) {
+    public AttachmentVO setFileType(int fileType) {
         this.fileType = fileType;
+        return this;
+    }
+
+    public String getFileTypeStr() {
+        return fileTypeStr;
+    }
+
+    public AttachmentVO setFileTypeStr(String fileTypeStr) {
+        this.fileTypeStr = fileTypeStr;
         return this;
     }
 
@@ -58,7 +67,6 @@ public class AttachmentVO {
     }
 
 
-
     public String getRemark() {
         return remark;
     }
@@ -68,11 +76,11 @@ public class AttachmentVO {
         return this;
     }
 
-    public BigDecimal getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public AttachmentVO setDuration(BigDecimal duration) {
+    public AttachmentVO setDuration(long duration) {
         this.duration = duration;
         return this;
     }

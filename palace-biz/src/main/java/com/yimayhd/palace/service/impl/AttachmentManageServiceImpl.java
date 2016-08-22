@@ -3,13 +3,19 @@ package com.yimayhd.palace.service.impl;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
+import com.yimayhd.palace.repo.MediaClientRepo;
 import com.yimayhd.palace.service.AttachmentManageService;
+
+import javax.annotation.Resource;
 
 /**
  * 附件中心 音频管理 导览
  * Created by xushubing on 2016/8/22.
  */
 public class AttachmentManageServiceImpl implements AttachmentManageService {
+    @Resource
+    private MediaClientRepo mediaClientRepo;
+
     /**
      * 分页查询附件
      *
@@ -18,7 +24,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      */
     @Override
     public PageVO<AttachmentVO> getAttachmentList(AttachmentListQuery attachmentListQuery) {
-        return null;
+        return mediaClientRepo.getMediaPageList(attachmentListQuery);
     }
 
     /**
