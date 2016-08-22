@@ -4,6 +4,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 附件中心 音频管理 导览
@@ -24,7 +25,7 @@ public interface AttachmentManageService {
      * @param attachmentVO
      * @return
      */
-    public AttachmentVO addAttachment(AttachmentVO attachmentVO);
+    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file);
 
     /**
      * 修改附件

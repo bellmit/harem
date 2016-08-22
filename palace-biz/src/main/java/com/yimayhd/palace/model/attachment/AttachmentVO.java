@@ -86,7 +86,11 @@ public class AttachmentVO {
     }
 
     public String getDurationStr() {
-        return durationStr;
+        if(duration<=0){
+            return null;
+        }
+        return duration/60+"分"+duration%60+"秒";
+       // return durationStr;
     }
 
     public AttachmentVO setDurationStr(String durationStr) {
