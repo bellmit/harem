@@ -124,6 +124,7 @@
 		<property name="chinanetcenter.config.puturl" defaultValue="http://gellefreres.up1.v1.wcsapi.com" description=""/>
 		<property name="chinanetcenter.config.mgrurl" defaultValue="http://gellefreres.mgr1.v1.wcsapi.com" description=""/>
 		<property name="chinanetcenter.config.bucketName" defaultValue="gellefreres-test001" description=""/>
+		<property name="chinanetcenter.config.audio.host" defaultValue="http://audio.jiuxiulvxing.com" description=""/>
 
 	</group>
 	<script>

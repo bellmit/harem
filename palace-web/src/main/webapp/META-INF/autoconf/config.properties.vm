@@ -117,4 +117,6 @@ chinanetcenter.config.ak=${chinanetcenter.config.ak}
 chinanetcenter.config.puturl=${chinanetcenter.config.puturl}
 chinanetcenter.config.mgrurl=${chinanetcenter.config.mgrurl}
 chinanetcenter.config.bucketName=${chinanetcenter.config.bucketName}
+chinanetcenter.config.audio.host=http://audio.jiuxiulvxing.com
+
 #网宿上传配置结束

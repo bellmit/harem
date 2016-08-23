@@ -36,7 +36,7 @@ public class ContextStartUpListener implements ApplicationListener<ContextRefres
                 String putUrl = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_PUTURL);
                 String mgrUrl = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_MGRURL);
                 String bucketName = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME);
-                String getUrl = null;
+                String getUrl = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_AUDIO_HOST);;
                 Config.init(ak, sk, putUrl, getUrl, mgrUrl);
             } catch (Exception e) {
                 logger.error("init chinanetcenter_config error");
