@@ -3,6 +3,12 @@ package com.yimayhd.palace.service.impl;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
+import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
+import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideScenicPageQueryDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideScenicUpdateDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideTipsUpdateDTO;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -17,6 +23,7 @@ import com.yimayhd.palace.repo.GuideRepo;
 import com.yimayhd.palace.service.GuideManageService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +44,17 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public PageVO<GuideScenicVO> getGuideList(GuideScenicListQuery guideListQuery) {
-        return null;
+        GuideScenicPageQueryDTO guideScenicPageQueryDTO = GuideConverter.guideListQuery2GuideScenicPageQueryDTO(guideListQuery);
+        ICPageResult<GuideScenicDTO> result = guideRepo.getGuidePageList(guideScenicPageQueryDTO);
+        if (result == null) {
+            return null;
+        }
+        List<GuideScenicVO> guideScenicVOList = new ArrayList<GuideScenicVO>();
+        List<GuideScenicDTO> guideScenicDTOList = result.getList();
+        for (GuideScenicDTO guideScenicDTO : guideScenicDTOList) {
+            guideScenicVOList.add(GuideConverter.guideScenicDTO2GuideScenicVO(guideScenicDTO));
+        }
+        return new PageVO<GuideScenicVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), guideScenicVOList);
     }
 
     /**
@@ -48,7 +65,15 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public GuideScenicVO addGuide(GuideScenicVO guideVO) {
-        return null;
+        GuideScenicDO guideScenicDO = GuideConverter.guideSceniceVO2GuideScenicDO(guideVO);
+        GuideScenicDO result = guideRepo.addGuide(guideScenicDO);
+        if (result == null) {
+            return null;
+        }
+        guideVO.setGuideid(result.getId());
+        GuideScenicTipsDO guideScenicTipsDO = GuideConverter.guideSceniceVO2GuideScenicTipsDO(guideVO);
+        GuideScenicTipsDO resultTips = guideRepo.saveGuideScenicTips(guideScenicTipsDO);
+        return guideVO;
     }
 
     /**
@@ -59,7 +84,11 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public GuideScenicVO updateGuide(GuideScenicVO guideVO) {
-        return null;
+        GuideScenicUpdateDTO guideScenicUpdateDTO = GuideConverter.guideSceniceVO2GuideScenicUpdateDTO(guideVO);
+        boolean result = guideRepo.updateGuide(guideScenicUpdateDTO);
+        GuideTipsUpdateDTO guideTipsUpdateDTO = GuideConverter.guideSceniceVO2GuideScenicTipsDTO(guideVO);
+        boolean resultTips = guideRepo.updateGuideScenicTips(guideTipsUpdateDTO);
+        return guideVO;
     }
 
     /**
@@ -71,8 +100,7 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public boolean setWeight(long guideId, int weight) {
-        guideRepo.updateGuideWeight(weight, guideId);
-        return false;
+        return guideRepo.updateGuideWeight(weight, guideId);
     }
 
     /**
@@ -83,8 +111,7 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public boolean upStatus(final long guideId) {
-        guideRepo.updateGuideStatus(GuideStatus.ONLINE.getCode(), guideId);
-        return false;
+        return guideRepo.updateGuideStatus(GuideStatus.ONLINE.getCode(), guideId);
     }
 
     /**
@@ -95,19 +122,19 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public boolean downStatus(final long guideId) {
-        guideRepo.updateGuideStatus(GuideStatus.OFFLINE.getCode(), guideId);
-        return false;
+        return guideRepo.updateGuideStatus(GuideStatus.OFFLINE.getCode(), guideId);
     }
 
     /**
      * 获得导览的可用景区列表
+     *
      * @param scenicPageQuery
      * @return
      */
     @Override
     public PageVO<ScenicVO> getScenicList(ScenicPageQuery scenicPageQuery) {
-        ICPageResult<ScenicDO> result =  guideRepo.queryCanGuideScenic(scenicPageQuery);
-        if(null==result) {
+        ICPageResult<ScenicDO> result = guideRepo.queryCanGuideScenic(scenicPageQuery);
+        if (null == result) {
             return null;
         } else {
             List<ScenicVO> scenicVOList = GuideConverter.convertScenic(result.getList());

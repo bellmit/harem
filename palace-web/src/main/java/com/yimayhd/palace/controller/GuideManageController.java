@@ -1,13 +1,14 @@
 package com.yimayhd.palace.controller;
 
+import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
-import com.yimayhd.palace.model.item.ItemInfoVO;
 import com.yimayhd.palace.service.GuideManageService;
+import com.yimayhd.palace.util.Enums;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/jiuniu/guideManage")
-public class GuideManageController extends BaseController{
+public class GuideManageController extends BaseController {
     @Resource
     private GuideManageService guideManageService;
 
@@ -38,7 +39,9 @@ public class GuideManageController extends BaseController{
         PageVO<GuideScenicVO> pageVO = guideManageService.getGuideList(guideListQuery);
 
         model.addAttribute("pageVo", pageVO);
+        model.addAttribute("guideListQuery", guideListQuery);
         model.addAttribute("itemList", pageVO.getItemList());
+        model.addAttribute("guideStatusList", Enums.toList(GuideStatus.class));
         return "/system/guide/guidelist";
     }
 
@@ -50,7 +53,7 @@ public class GuideManageController extends BaseController{
      */
     @RequestMapping(value = "/toAdd")
     public String toAdd() throws Exception {
-        return null;
+        return "/system/guide/addGuide";
     }
 
     /**
@@ -60,8 +63,8 @@ public class GuideManageController extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/toEdit")
-    public String toEdit() throws Exception {
-        return null;
+    public String toEdit(final long id) throws Exception {
+        return "/system/guide/editGuide";
     }
 
     /**
@@ -72,6 +75,7 @@ public class GuideManageController extends BaseController{
      */
     @RequestMapping(value = "/addGuide", method = RequestMethod.POST)
     public String addGuide(Model model, GuideScenicVO guideVO) throws Exception {
+        guideManageService.addGuide(guideVO);
         return null;
     }
 
