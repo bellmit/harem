@@ -115,10 +115,6 @@ public class GuideConverter {
          */
         ScenicDO scenicDO = guideScenicDTO.getScenicDO();
 
-        /**
-         * 景点列表
-         */
-        //List<AttractionFocusDTO> attractionList = guideScenicDTO.g;
         if (guideDO != null) {
             guideScenicVO.setGuideid(guideDO.getId());
             guideScenicVO.setAudioTime(guideDO.getAudioTime());
@@ -131,7 +127,7 @@ public class GuideConverter {
         if (scenicDO != null) {
             guideScenicVO.setLevel(scenicDO.getLevel());
             guideScenicVO.setScenicName(scenicDO.getName());
-//            guideScenicVO.setScenicResourceNum(scenicDO.get);
+            guideScenicVO.setScenicResourceNum(String.valueOf(scenicDO.getId()));
             guideScenicVO.setLocation(scenicDO.getLocationText());
         }
         if (guideScenicVO.getGuideid() > 0) {
