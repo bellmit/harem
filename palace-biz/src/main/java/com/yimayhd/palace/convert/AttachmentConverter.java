@@ -38,4 +38,17 @@ public class AttachmentConverter {
         return attachmentVO;
     }
 
+    public static AttachmentVO mediaDTO2AttachmentVO(MediaDTO mediaDTO) {
+        if (mediaDTO == null) {
+            return null;
+        }
+        AttachmentVO attachmentVO = new AttachmentVO();
+        attachmentVO.setDuration(mediaDTO.getDuration());
+        //attachmentVO.setBucketName(ResourceConfig.getInstance().getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME));
+        attachmentVO.setFileType(mediaDTO.getFileType());
+        attachmentVO.setScope(mediaDTO.getScope());
+        attachmentVO.setInputFileTitle(mediaDTO.getInputFileTitle());
+        attachmentVO.setRemark(mediaDTO.getRemark());
+        return attachmentVO;
+    }
 }

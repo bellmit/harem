@@ -1,18 +1,27 @@
 package com.yimayhd.palace.controller;
 
+import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.service.AttachmentManageService;
+import com.yimayhd.palace.util.Enums;
+import com.yimayhd.resourcecenter.dto.MediaDTO;
+import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
+import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
+import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 附件中心 音频管理 导览
@@ -20,7 +29,9 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/jiuniu/attachmentManage")
-public class AttachmentManageController {
+public class AttachmentManageController extends BaseController{
+
+
     @Resource
     private AttachmentManageService attachmentManageService;
 
@@ -38,6 +49,10 @@ public class AttachmentManageController {
 
         model.addAttribute("pageVo", pageVO);
         model.addAttribute("itemList", pageVO.getItemList());
+        model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
+        model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
+        model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
+        model.addAttribute("mediaPageQuery", mediaPageQuery);
         return "/system/attachment/list";
     }
 
@@ -59,7 +74,17 @@ public class AttachmentManageController {
      * @throws Exception
      */
     @RequestMapping(value = "/toEdit")
-    public String toEdit() throws Exception {
+    public String toEdit(Model model, @RequestParam() final long id) throws Exception {
+        MediaDTO mediaDTO = attachmentManageService.getMediaById(id);
+        if (mediaDTO == null) {
+            return "/error";
+        }
+        AttachmentVO attachmentVO = AttachmentConverter.mediaDTO2AttachmentVO(mediaDTO);
+
+        model.addAttribute("attachmentVO", attachmentVO);
+        model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
+        model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
+        model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
         return "/system/attachment/editAttachment";
     }
 
@@ -71,7 +96,7 @@ public class AttachmentManageController {
      */
     @RequestMapping(value = "/addAttachment", method = RequestMethod.POST)
     public String addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
-        attachmentManageService.addAttachment(attachmentVO);
+        attachmentManageService.addAttachment(attachmentVO, file);
         return null;
     }
 

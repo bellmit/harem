@@ -73,15 +73,38 @@ public class MediaClientRepo {
         try {
             RcResult<Boolean> result = mediaClientServiceRef.updateMediaStatus(mediaId, status);
             if (result.isSuccess() && result.getT()) {
-                log.info("updateMediaStatus status={}, guideId={}, result={}", status, mediaId, JSON.toJSONString(result));
+                log.info("updateMediaStatus status={}, mediaId={}, result={}", status, mediaId, JSON.toJSONString(result));
                 return result.getT();
             } else {
-                log.error("updateMediaStatus status={},guideId={}, result={}", status, mediaId, JSON.toJSONString(result));
+                log.error("updateMediaStatus status={},mediaId={}, result={}", status, mediaId, JSON.toJSONString(result));
                 return false;
             }
         } catch (Exception e) {
-            log.error("updateMediaStatus status={},guideId={}, exception={}", status, mediaId, e);
+            log.error("updateMediaStatus status={},mediaId={}, exception={}", status, mediaId, e);
             return false;
         }
     }
+
+    /**
+     * 根据id 返回media
+     *
+     * @param id
+     * @return
+     */
+    public MediaDTO getMediaById(final long id) {
+        try {
+            RcResult<MediaDTO> result = mediaClientServiceRef.getMediaById(id);
+            if (result.isSuccess() && result.getT() != null) {
+                log.info("getMediaById id={}, , result={}", id, JSON.toJSONString(result));
+                return result.getT();
+            } else {
+                log.error("getMediaById id={}, result={}", id, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("getMediaById id={}, exception={}", id, e);
+            return null;
+        }
+    }
+
 }

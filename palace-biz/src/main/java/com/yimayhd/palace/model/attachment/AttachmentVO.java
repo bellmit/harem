@@ -1,5 +1,9 @@
 package com.yimayhd.palace.model.attachment;
 
+import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
+import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
+import com.yimayhd.resourcecenter.model.enums.MediaFileType;
+
 import java.util.Date;
 
 /**
@@ -49,7 +53,14 @@ public class AttachmentVO {
     }
 
     public String getFileTypeStr() {
-        return fileTypeStr;
+        if (fileType <= 0) {
+            return null;
+        }
+        MediaFileType mediaFileType = MediaFileType.getByValue(fileType);
+        if (mediaFileType == null) {
+            return null;
+        }
+        return mediaFileType.getDesc();
     }
 
     public AttachmentVO setFileTypeStr(String fileTypeStr) {
@@ -86,11 +97,11 @@ public class AttachmentVO {
     }
 
     public String getDurationStr() {
-        if(duration<=0){
+        if (duration <= 0) {
             return null;
         }
-        return duration/60+"分"+duration%60+"秒";
-       // return durationStr;
+        return duration / 60 + "分" + duration % 60 + "秒";
+        // return durationStr;
     }
 
     public AttachmentVO setDurationStr(String durationStr) {
@@ -108,7 +119,11 @@ public class AttachmentVO {
     }
 
     public String getScopeStr() {
-        return scopeStr;
+        MediaFileScope mediaFileScope = MediaFileScope.getByValue(scope);
+        if (mediaFileScope == null) {
+            return null;
+        }
+        return mediaFileScope.getDesc();
     }
 
     public AttachmentVO setScopeStr(String scopeStr) {
@@ -126,7 +141,11 @@ public class AttachmentVO {
     }
 
     public String getStatusStr() {
-        return statusStr;
+        MediaFileStatus mediaFileStatus = MediaFileStatus.getByValue(status);
+        if (mediaFileStatus == null) {
+            return null;
+        }
+        return mediaFileStatus.getDesc();
     }
 
     public AttachmentVO setStatusStr(String statusStr) {
