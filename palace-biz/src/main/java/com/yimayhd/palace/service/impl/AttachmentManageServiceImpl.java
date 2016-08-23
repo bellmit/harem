@@ -6,9 +6,11 @@ import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.repo.MediaClientRepo;
 import com.yimayhd.palace.service.AttachmentManageService;
 import com.yimayhd.resourcecenter.domain.MediaDO;
+import com.yimayhd.resourcecenter.dto.MediaDTO;
 import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.resourcecenter.model.result.RcResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -96,5 +98,16 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
     @Override
     public boolean downStatus(long attachmentId) {
         return mediaClientRepo.updateMediaStatus(MediaFileStatus.OFF.getValue(), attachmentId);
+    }
+
+    /**
+     * 根据id 返回media
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public MediaDTO getMediaById(long id) {
+        return mediaClientRepo.getMediaById(id);
     }
 }

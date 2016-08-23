@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller;
 
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/jiuniu/guideManage")
-public class GuideManageController {
+public class GuideManageController extends BaseController{
     @Resource
     private GuideManageService guideManageService;
 

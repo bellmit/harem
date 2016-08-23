@@ -1,8 +1,8 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
+import com.yimayhd.resourcecenter.dto.MediaDTO;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,4 +50,13 @@ public interface AttachmentManageService {
      * @return
      */
     public boolean downStatus(final long attachmentId);
+
+
+    /**
+     * 根据id 返回media
+     *
+     * @param id
+     * @return
+     */
+    public MediaDTO getMediaById(final long id);
 }
