@@ -270,7 +270,7 @@
         initUploadFile("#mapUrlUploadfile", "#mapUrl", "#mapUrlImg");
         //选择景区
         $('#btnSelectScenic').on("click", function() {
-            openModalForForm('selectscenic.html', "选择用户", function() {
+            openModalForForm('selectscenic.vm', "选择用户", function() {
                 var item = win.getItem();
                 if (item != null) {
                     for (key in item) {

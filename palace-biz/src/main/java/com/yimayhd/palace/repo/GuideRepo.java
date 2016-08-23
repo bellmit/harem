@@ -1,10 +1,12 @@
 package com.yimayhd.palace.repo;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
 import com.yimayhd.ic.client.model.dto.guide.GuideScenicPageQueryDTO;
 import com.yimayhd.ic.client.model.dto.guide.GuideScenicUpdateDTO;
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
@@ -100,6 +102,22 @@ public class GuideRepo {
         } catch (Exception e) {
             log.error("updateGuideWeight status={},guideId={}, exception={}", weight, guideId, e);
             return false;
+        }
+    }
+
+    public ICPageResult<ScenicDO> queryCanGuideScenic(ScenicPageQuery scenicPageQuery){
+        try {
+            ICPageResult<ScenicDO> result = guideServiceRef.queryCanGuideScenic(scenicPageQuery);
+            if(result.isSuccess()&&!result.getList().isEmpty()) {
+                log.info("queryCanGuideScenic scenicPageQuery={}, result={}", JSON.toJSONString(scenicPageQuery), JSON.toJSONString(result));
+                return result;
+            } else {
+                log.error("queryCanGuideScenic scenicPageQuery={}, result={}", JSON.toJSONString(scenicPageQuery), JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("queryCanGuideScenic scenicPageQuery={}, exception={}", JSON.toJSONString(scenicPageQuery), e);
+            return null;
         }
     }
 }

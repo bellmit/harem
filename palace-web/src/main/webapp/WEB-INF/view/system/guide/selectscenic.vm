@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
     <meta charset="UTF-8">
     <title>选择景区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -30,9 +26,8 @@
         background: #ffe7bc;
     }
     </style>
-</head>
 
-<body>
+
     <form class="form-signin" id="frmGuideList" name="frmGuideList" method="GET" role="form">
         <div class="inputGroup">
             <div class="input-group inpSingle">
@@ -173,6 +168,6 @@
         }
         </script>
     </form>
-</body>
 
-</html>
+
+

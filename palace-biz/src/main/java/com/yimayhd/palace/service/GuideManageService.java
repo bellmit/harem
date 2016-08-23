@@ -1,8 +1,10 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
+import com.yimayhd.palace.model.guide.ScenicVO;
 
 /**
  * 导览service
@@ -57,4 +59,18 @@ public interface GuideManageService {
      * @return
      */
     public boolean downStatus(final long guideId);
+
+    /**
+     * 获得导览的可用景区列表
+     * @param scenicPageQuery
+     * @return
+     */
+    public PageVO<ScenicVO> getScenicList(ScenicPageQuery scenicPageQuery);
+
+    /**
+     * 获得景区的主题名称
+     * @param scenicVO
+     * @return
+     */
+    public ScenicVO selectedScenic(ScenicVO scenicVO);
 }

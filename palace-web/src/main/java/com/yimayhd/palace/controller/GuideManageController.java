@@ -1,8 +1,10 @@
 package com.yimayhd.palace.controller;
 
+import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
+import com.yimayhd.palace.model.guide.ScenicVO;
 import com.yimayhd.palace.model.item.ItemInfoVO;
 import com.yimayhd.palace.service.GuideManageService;
 import org.springframework.stereotype.Controller;
@@ -121,5 +123,21 @@ public class GuideManageController {
     @RequestMapping(value = "/status/down")
     public String downStatus(Model model, long guideId) throws Exception {
         return null;
+    }
+
+    @RequestMapping(value = "/scenic/list")
+    public String list(Model model, ScenicPageQuery scenicPageQuery) throws Exception {
+        PageVO<ScenicVO> pageVO = guideManageService.getScenicList(scenicPageQuery);
+
+        model.addAttribute("pageVo", pageVO);
+        model.addAttribute("itemList", pageVO.getItemList());
+        return "/system/guide/guidelist";
+    }
+
+    @RequestMapping(value = "/scenic/selected")
+    public String selected(Model model, ScenicVO scenicVO) throws Exception {
+        scenicVO = guideManageService.selectedScenic(scenicVO);
+        model.addAttribute("scenicVO", scenicVO);
+        return "/system/guide/guidelist";
     }
 }
