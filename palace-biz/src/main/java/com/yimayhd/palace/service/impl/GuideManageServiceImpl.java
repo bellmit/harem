@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service.impl;
 
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -11,6 +12,7 @@ import com.yimayhd.palace.convert.GuideConverter;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
+import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.GuideRepo;
 import com.yimayhd.palace.service.GuideManageService;
 
@@ -23,6 +25,9 @@ import java.util.List;
 public class GuideManageServiceImpl implements GuideManageService {
     @Resource
     private GuideRepo guideRepo;
+
+    @Resource
+    private CommentRepo commentRepo;
 
     /**
      * 分页查询导览
@@ -116,6 +121,12 @@ public class GuideManageServiceImpl implements GuideManageService {
 
     @Override
     public ScenicVO selectedScenic(ScenicVO scenicVO) {
-        return null;
+        ComTagDO comTagDO = commentRepo.selectById(scenicVO.getSubjectId());
+        if(null==comTagDO) {
+            scenicVO.setSubjectName("");
+        } else {
+            scenicVO.setSubjectName(comTagDO.getName());
+        }
+        return scenicVO;
     }
 }

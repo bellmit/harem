@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComRateDO;
 import com.yimayhd.commentcenter.client.dto.*;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
@@ -276,5 +277,25 @@ public class CommentRepo {
 
 	public BaseResult<Boolean> batchAddRateReploy(BatchRateReployDTO var1){
 		return comRateServiceRef.batchAddRateReploy(var1);
+	}
+
+	public ComTagDO selectById(long id) {
+		try {
+			if(0==id) {
+				log.error("comCenterServiceRef.selectByPrimaryKey id={}",id);
+				return null;
+			}
+			BaseResult<ComTagDO> result = comCenterServiceRef.selectByPrimaryKey(id);
+			if(null==result||!result.isSuccess()) {
+				log.info("comCenterServiceRef.selectByPrimaryKey id={}, result={}",id, JSON.toJSONString(result));
+				return result.getValue();
+			} else {
+				log.error("comCenterServiceRef.selectByPrimaryKey id={}, result={}",id, JSON.toJSONString(result));
+				return null;
+			}
+		} catch (Exception e) {
+			log.error("comCenterServiceRef.selectByPrimaryKey id={}, Exception e = {}",id, e);
+			return null;
+		}
 	}
 }
