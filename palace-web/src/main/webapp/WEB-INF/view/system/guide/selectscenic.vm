@@ -28,7 +28,7 @@
     </style>
 
 
-    <form class="form-signin" id="frmGuideList" name="frmGuideList" method="GET" role="form">
+    <form class="form-signin" id="frmGuideList" name="frmGuideList" method="GET" action="$!utilWebconfig.getActionDefaultFontPath()/jiuniu/guideManage/scenic/list">
         <div class="inputGroup">
             <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -59,82 +59,30 @@
                 </thead>
                 <tbody>
                     <tr>
+                    #foreach($item in $itemList)
                         <td>
                             <input type="checkbox" />
                         </td>
                         <td>
-                            景区名称
+                            $!item.name
                         </td>
                         <td>
-                            资源编号
+                            $!item.id
                         </td>
                         <td>
-                            地址地址地址地址
-                        </td>
-                        <td>
-                            <a type="button" class="btn btn-primary" themeid="1800">查看详情</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" />
-                        </td>
-                        <td>
-                            景区名称
-                        </td>
-                        <td>
-                            资源编号
-                        </td>
-                        <td>
-                            地址地址地址地址
+                            $!item.locationText
                         </td>
                         <td>
                             <a type="button" class="btn btn-primary" themeid="1800">查看详情</a>
                         </td>
+                    #end
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="pagination pagination-large pagination-right pageWrap">
-            <ul class="pager" style="width: 100%;">
-                <li class="previous disabled">
-                    <a href="javascript:void(0);" id="prePage">« 上一页</a>
-                </li>
-                <li class="active">
-                    <span><a href="javascript:void(0);">1</a></span>
-                </li>
-                <li>
-                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="2">2</a></span>
-                </li>
-                <li>
-                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="3">3</a></span>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" data-toggle="pager" data-placement="top">...</a>
-                </li>
-                <li>
-                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="63">99</a></span>
-                </li>
-                <li>
-                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="64">100</a></span>
-                </li>
-                <li class="next">
-                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="2" id="nextPage">下一页»</a>
-                </li>
-                <li>
-                    <div class="input-group" style="width: 149px;">
-                        <span class="input-group-addon">每页</span>
-                        <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                        </select>
-                        <span class="input-group-addon">条</span>
-                        <span class="input-group-addon">共 200 条</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        #*分页*#
+        #parse("/page.vm")
+        #pageStyle("tbScenicList")
         <script type="text/javascript">
         $(function() {
             $("#tbScenicList").on("click", "input[type='checkbox']", function() {
