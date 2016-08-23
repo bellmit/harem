@@ -31,9 +31,10 @@
 			<td class="tit">城市：</td>
 			<td><select name="cityCode">
 					<option value="0">全部</option>
-				#foreach ($city in $cities)
-					<option value="$!city.cityCode">$!city.cityName</option>
-				#end
+					#foreach ($city in $cities)
+					<option  value="$!city.destinationDO.code">$!city.destinationDO.name</option>
+					#end
+				
 				</select></td>
 			<td class="tit">状态：</td>
 			<td><select name="status">
