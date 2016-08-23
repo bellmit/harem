@@ -1,5 +1,7 @@
 package com.yimayhd.palace.model.guide;
 
+import com.yimayhd.ic.client.model.enums.GuideStatus;
+
 /**
  * Created by xushubing on 2016/8/18.
  */
@@ -15,7 +17,69 @@ public class GuideScenicVO {
     private String guideImg;//电子地图图片
 
     private String listImg;//导览头图
+    /**
+     * 开场语音时长
+     */
+    private int audioTime;
+    /**
+     * 导览开场语音
+     */
+    private String guideAudio;
+//实用锦囊
+    private long guideTipsId;//实用锦囊 id
+    /**
+     * 景区门票信息
+     */
+    private String ticketInfo;
 
+    /**
+     * 营业时间
+     */
+    private String openTime;
+
+    /**
+     * 交通
+     */
+    private String traffic;
+
+    /**
+     * 温馨提示
+     */
+    private String tips;
+
+    /**
+     * 注意事项
+     */
+    private String cares;
+
+    /**
+     * 必玩必吃之事
+     */
+    private String haveTo;
+
+    //
+    private String statusStr;
+
+    private static GuideStatus getStatusByValue(int status) {
+        for (GuideStatus guideStatus : GuideStatus.values()) {
+            if (guideStatus.getCode() == status) {
+                return guideStatus;
+            }
+        }
+        return null;
+    }
+
+    public String getStatusStr() {
+        GuideStatus guideStatus = getStatusByValue(status);
+        if (guideStatus == null) {
+            return null;
+        }
+        return guideStatus.getDesc();
+    }
+
+    public void setStatusStr(String statusStr) {
+        this.statusStr = statusStr;
+    }
 
     public long getScenicId() {
         return scenicId;
@@ -105,5 +169,78 @@ public class GuideScenicVO {
     public GuideScenicVO setLevel(int level) {
         this.level = level;
         return this;
+    }
+
+    public int getAudioTime() {
+        return audioTime;
+    }
+
+    public void setAudioTime(int audioTime) {
+        this.audioTime = audioTime;
+    }
+
+    public String getGuideAudio() {
+        return guideAudio;
+    }
+
+    public void setGuideAudio(String guideAudio) {
+        this.guideAudio = guideAudio;
+    }
+
+    public String getTicketInfo() {
+        return ticketInfo;
+    }
+
+    public void setTicketInfo(String ticketInfo) {
+        this.ticketInfo = ticketInfo;
+    }
+
+    public String getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(String openTime) {
+        this.openTime = openTime;
+    }
+
+    public String getTraffic() {
+        return traffic;
+    }
+
+    public void setTraffic(String traffic) {
+        this.traffic = traffic;
+    }
+
+    public String getTips() {
+        return tips;
+    }
+
+    public void setTips(String tips) {
+        this.tips = tips;
+    }
+
+    public String getCares() {
+        return cares;
+    }
+
+    public void setCares(String cares) {
+        this.cares = cares;
+    }
+
+    public String getHaveTo() {
+        return haveTo;
+    }
+
+    public void setHaveTo(String haveTo) {
+        this.haveTo = haveTo;
+    }
+
+
+    public long getGuideTipsId() {
+        return guideTipsId;
+    }
+
+    public void setGuideTipsId(long guideTipsId) {
+        this.guideTipsId = guideTipsId;
     }
 }

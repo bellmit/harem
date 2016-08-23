@@ -1,0 +1,132 @@
+<form id="guideListQuery" name="guideListQuery">
+    <div class="inputGroup">
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">景区名称：</button>
+                </span>
+            <input type="text" class="form-control" name="scenicName" id="scenicName"
+                   value="$!{guideListQuery.scenicName}">
+        </div>
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">景区资源编号：</button>
+                    </span>
+            <input type="text" class="form-control" name="scenicResourceNum" id="scenicResourceNum"
+                   value="${guideListQuery.scenicResourceNum}">
+        </div>
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+            <select class="form-control" name="commStatus">
+                <option value="0">全部</option>
+                #foreach($guideStatus in $guideStatusList)
+                    <option value="$!{guideStatus.code}" #if($guideListQuery.status == $guideStatus.code)
+                            selected #end>$!{guideStatus.desc}</option>
+                #end
+            </select>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary submitBtn">查询</button>
+        </div>
+        <div class="btn-group">
+            <button type="reset" class="btn btn-primary">重置</button>
+        </div>
+    </div>
+    <div class="btnBottomMargin">
+        <a type="button" class="btn btn-primary" href="guidedetail.html">新增导览</a>
+    </div>
+    <div class="tableGroup whole">
+        <table class="table table-bordered table-hover" id="tbGuideList">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>列表头图</th>
+                <th>景区名称</th>
+                <th>景区资源编号</th>
+                <th>位置</th>
+                <th>等级</th>
+                <th>排序权重</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                #foreach($item in $itemList)
+                <tr>
+                    <td>$!{guideid}</td>
+                    <td>
+                        <img src="$!utilWebconfig.getTfsRootPath()$!{listImg}" width="150" height="90">
+                    </td>
+                    <td>
+                        $!{scenicName}
+                    </td>
+                    <td>
+                        $!{scenicResourceNum}
+                    </td>
+                    <td>$!{location}</td>
+                    <td>
+                        $!{level}
+                    </td>
+                    <td>$!{weight}</td>
+                    <td>
+                        $!{statusStr}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary">编辑导览</button>
+                        <button type="button" class="btn btn-primary">编辑景点</button>
+                        <button type="button" class="btn btn-primary">下架</button>
+                        <button type="button" class="btn btn-primary weight">设置权重</button>
+                    </td>
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+#*分页*#
+    #parse("/page.vm")
+    #pageStyle("tbGuideList")
+
+    <script type="text/javascript">
+        layer.config({
+            extend: 'extend/layer.ext.js',
+            extend: ['skin/mySkin/style.css'],
+            skin: 'layer-ext-mySkin'
+        });
+
+        function setWeight() {
+            $("#tbGuideList").on("click", ".weight", function () {
+                layer.prompt({
+                    title: '设置权重',
+                    formType: 0
+                }, function (value) {
+                    alert(value);
+                });
+            });
+        }
+        $(function () {
+            $(".LinkeToPage").click(function () {
+                pageFormSubmit($(this).attr("pageNo"), $("#pageSize").val());
+            });
+            $(".pageSize").val("10");
+            $(".pageSize").change(function () {
+                pageFormSubmit(1, $(this).val());
+            });
+            var availHei = (top.window.screen.availHeight - 210);
+            var availWid = (top.window.screen.availWidth - 600);
+            top.$(".tabIframe").attr("style", "min-height:" + availHei + "px;min-width:" + availWid + "px;");
+            setWeight();
+        });
+
+        function pageFormSubmit(no, size) {
+            var pageNo = $("<input type='hidden' name='pageNumber'/>");
+            pageNo.val(no);
+            $("#commodityListForm").append(pageNo);
+            var pageSize = $("<input type='hidden' name='pageSize'/>");
+            pageSize.val(size);
+            $("#commodityListForm").append(pageSize);
+            $("#commodityListForm").submit();
+        }
+    </script>
+</form>
+

@@ -2,8 +2,6 @@ package com.yimayhd.palace.service.impl;
 
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.AttachmentBiz;
-import com.yimayhd.palace.biz.AttachmentUpload;
-import com.yimayhd.palace.constant.AttachmentConstant;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
@@ -17,13 +15,11 @@ import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
-import com.yimayhd.resourcecenter.model.result.RcResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,8 +85,6 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         Long id = mediaClientRepo.addMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
         if (id != null && id > 0) {
             attachmentVO.setId(id);
-            //上传
-            File file1 = new File("");
             return attachmentVO;
         }
         return null;
