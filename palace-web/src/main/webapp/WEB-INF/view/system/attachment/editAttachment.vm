@@ -4,7 +4,7 @@
         <tr>
             <th><span class="spColor">*</span>名称：</th>
             <td>
-                <input type="text" class="inpCtlBlock limit-text"  name="inputFileTitle" id="inputFileTitle" value="">
+                <input type="text" class="inpCtlBlock limit-text"  name="inputFileTitle" id="inputFileTitle" value="$!{attachmentVO.inputFileTitle}">
                 <span class="num">0/38</span>
             </td>
         </tr>
@@ -31,16 +31,17 @@
             <th><span class="spColor">*</span>用途：</th>
             <td>
                 <select class="form-control inpCtlBlock" id="scope" name="scope">
-                    <option value="0">全部</option>
-                    <option value="1">H5</option>
-                    <option value="2">导览</option>
+                    #foreach($mediaFileScope in $mediaFileScopeList)
+                        <option value="$!{mediaFileScope.value}" #if($mediaPageQuery.scope == $mediaFileScope.value)
+                                selected #end>$!{mediaFileScope.desc}</option>
+                    #end
                 </select>
             </td>
         </tr>
         <tr>
             <th><span class="spColor">*</span>备注：</th>
             <td>
-                <input type="text" class="inpCtlBlock limit-text" id="remark" name="remark"  value=""><span class="num">0/38</span>
+                <input type="text" class="inpCtlBlock limit-text" id="remark" name="remark"  value="${attachmentVO.remark}"><span class="num">0/38</span>
             </td>
         </tr>
     </table>

@@ -25,7 +25,7 @@ public interface AttachmentManageService {
      * @param attachmentVO
      * @return
      */
-    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file);
+    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file,final long userId);
 
     /**
      * 修改附件

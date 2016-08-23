@@ -61,8 +61,9 @@
         </div>
     </div>
 </form>
-<form>
+<form action="/jiuniu/attachmentManage/addAttachment" enctype="multipart/form-data" id="addAttachmentForm" name="addAttachmentForm">
     <div class="btnBottomMargin">
+        <input type="file" name="fileData" class="file">
         <button type="button" class="btn btn-primary upload">上传文件
             <input type="file" name="fileData" class="file">
         </button>
@@ -105,7 +106,7 @@
                     $!{item.statusStr}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary edit">编辑</button>
+                    <button type="button" class="btn btn-primary edit" itemId="$item.id">编辑</button>
                     <button type="button" class="btn btn-primary play">播放</button>
                     <button type="button" class="btn btn-primary">下架</button>
                 </td>
@@ -126,18 +127,33 @@
         extend: ['skin/mySkin/style.css'],
         skin: 'layer-ext-mySkin'
     });
+    function submitEdit(data) {
+        alert(1);
+        $.ajax({
+            url: "",
+            type: "post",
+            data: data,
+            success: function(res) {
 
+            },
+            error: function(xmlres, status, code) {
+
+            }
+        });
+    }
     $(function () {
         $("#tbAttachmentList").on("click", ".edit", function () {
-            openModalForForm('attachmentedit.html', "编辑信息", function () {
+            var id = $(this).attr('itemId');
+            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id='+id, "编辑信息", function () {
                 var item = win.getItem();
                 if (item != null) {
                     alert(JSON.stringify(item))
+                    submitEdit(item);
                 }
                 return true;
             });
         });
-        $(".form-date").datetimepicker({
+        $(".dateInp").datetimepicker({
             language: "zh-CN",
             weekStart: 1,
             todayBtn: 1,

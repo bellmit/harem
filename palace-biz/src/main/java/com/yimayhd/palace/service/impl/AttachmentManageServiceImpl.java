@@ -1,13 +1,20 @@
 package com.yimayhd.palace.service.impl;
 
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.biz.AttachmentBiz;
+import com.yimayhd.palace.biz.AttachmentUpload;
+import com.yimayhd.palace.constant.AttachmentConstant;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.repo.MediaClientRepo;
+import com.yimayhd.palace.result.AttachmentUploadResult;
 import com.yimayhd.palace.service.AttachmentManageService;
 import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
+import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
 import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
+import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
@@ -28,6 +35,8 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
     protected Logger log = LoggerFactory.getLogger(AttachmentManageServiceImpl.class);
     @Resource
     private MediaClientRepo mediaClientRepo;
+    @Resource
+    private AttachmentBiz attachmentBiz;
 
     /**
      * 分页查询附件
@@ -56,7 +65,27 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      * @return
      */
     @Override
-    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file) {
+    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file, final long userId) {
+        AttachmentUploadResult attachmentUploadResult = attachmentBiz.uploadAttachment(file);
+        if (attachmentUploadResult == null) {
+            log.error("addAttachment uploadAttachment error");
+            return null;
+        }
+        MediaDTO mediaDTO = new MediaDTO();
+        mediaDTO.setScope(MediaFileScope.DEFAULT.getValue());
+        mediaDTO.setFileType(MediaFileType.MP3.getValue());
+        mediaDTO.setInputFileTitle(file.getOriginalFilename());
+        mediaDTO.setInputFileName(file.getOriginalFilename());
+        mediaDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+        mediaDTO.setStatus(MediaFileStatus.OFF.getValue());
+        mediaDTO.setUserId(userId);
+        //
+
+        mediaDTO.setBucketName(attachmentUploadResult.getBucketName());
+        mediaDTO.setFileHash(attachmentUploadResult.getHash());
+        mediaDTO.setRemoteUrl(attachmentUploadResult.getUrl());
+        mediaDTO.setFileKey(attachmentUploadResult.getKey());
+        mediaDTO.setDuration(attachmentUploadResult.getDuration());
         Long id = mediaClientRepo.addMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
         if (id != null && id > 0) {
             attachmentVO.setId(id);
@@ -66,6 +95,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         }
         return null;
     }
+
 
     /**
      * 修改附件
@@ -86,7 +116,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      */
     @Override
     public boolean upStatus(long attachmentId) {
-        return mediaClientRepo.updateMediaStatus(MediaFileStatus.ON.getValue(), attachmentId);
+        return mediaClientRepo.updateMediaStatus(attachmentId, MediaFileStatus.ON);
     }
 
     /**
@@ -97,7 +127,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      */
     @Override
     public boolean downStatus(long attachmentId) {
-        return mediaClientRepo.updateMediaStatus(MediaFileStatus.OFF.getValue(), attachmentId);
+        return mediaClientRepo.updateMediaStatus(attachmentId, MediaFileStatus.OFF);
     }
 
     /**

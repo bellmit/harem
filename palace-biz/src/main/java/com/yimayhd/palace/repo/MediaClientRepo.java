@@ -3,6 +3,7 @@ package com.yimayhd.palace.repo;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
+import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
@@ -69,18 +70,18 @@ public class MediaClientRepo {
         }
     }
 
-    public Boolean updateMediaStatus(int status, long mediaId) {
+    public Boolean updateMediaStatus(long mediaId, MediaFileStatus mediaFileStatus) {
         try {
-            RcResult<Boolean> result = mediaClientServiceRef.updateMediaStatus(mediaId, status);
+            RcResult<Boolean> result = mediaClientServiceRef.updateMediaStatus(mediaId, mediaFileStatus);
             if (result.isSuccess() && result.getT()) {
-                log.info("updateMediaStatus status={}, mediaId={}, result={}", status, mediaId, JSON.toJSONString(result));
+                log.info("updateMediaStatus status={}, mediaId={}, result={}", mediaFileStatus, mediaId, JSON.toJSONString(result));
                 return result.getT();
             } else {
-                log.error("updateMediaStatus status={},mediaId={}, result={}", status, mediaId, JSON.toJSONString(result));
+                log.error("updateMediaStatus status={},mediaId={}, result={}", mediaFileStatus, mediaId, JSON.toJSONString(result));
                 return false;
             }
         } catch (Exception e) {
-            log.error("updateMediaStatus status={},mediaId={}, exception={}", status, mediaId, e);
+            log.error("updateMediaStatus status={},guideId={}, exception={}", mediaFileStatus, mediaId, e);
             return false;
         }
     }

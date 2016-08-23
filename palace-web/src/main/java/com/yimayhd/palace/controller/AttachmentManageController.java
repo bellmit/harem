@@ -2,26 +2,33 @@ package com.yimayhd.palace.controller;
 
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.AttachmentConstant;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
-import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.service.AttachmentManageService;
+import com.yimayhd.palace.tair.CacheLockManager;
 import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
+import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
 import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
+import com.yimayhd.resourcecenter.model.result.ResourceResult;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.session.manager.SessionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 附件中心 音频管理 导览
@@ -29,11 +36,15 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/jiuniu/attachmentManage")
-public class AttachmentManageController extends BaseController{
+public class AttachmentManageController extends BaseController {
 
 
     @Resource
     private AttachmentManageService attachmentManageService;
+    @Resource
+    private CacheLockManager cacheLockManager;
+    @Autowired
+    private SessionManager sessionManager;
 
     /**
      * 分页
@@ -96,8 +107,18 @@ public class AttachmentManageController extends BaseController{
      */
     @RequestMapping(value = "/addAttachment", method = RequestMethod.POST)
     public String addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
-        attachmentManageService.addAttachment(attachmentVO, file);
-        return null;
+        String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK;
+        if (cacheLockManager.checkSubmitByCache(key)) {
+            try {
+                UserDO user = sessionManager.getUser();
+                attachmentManageService.addAttachment(attachmentVO, file, user.getId());
+            } finally {
+                cacheLockManager.deleteKey(key);
+            }
+        } else {
+            return "";
+        }
+        return "";
     }
 
     /**
@@ -107,8 +128,10 @@ public class AttachmentManageController extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/editAttachment", method = RequestMethod.POST)
-    public String editAttachment(Model model, AttachmentVO attachmentVO) throws Exception {
-        return null;
+    @ResponseBody
+    public ResponseVo editAttachment(Model model, AttachmentVO attachmentVO) throws Exception {
+        boolean result = attachmentManageService.updateAttachment(attachmentVO);
+        return returnResponseVo(result);
     }
 
 
@@ -121,8 +144,10 @@ public class AttachmentManageController extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/status/up")
-    public String upStatus(Model model, long id) throws Exception {
-        return null;
+    @ResponseBody
+    public ResponseVo upStatus(Model model, long id) throws Exception {
+        boolean result = attachmentManageService.upStatus(id);
+        return returnResponseVo(result);
     }
 
     /**
@@ -134,7 +159,21 @@ public class AttachmentManageController extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/status/down")
-    public String downStatus(Model model, long id) throws Exception {
-        return null;
+    @ResponseBody
+    public ResponseVo downStatus(Model model, long id) throws Exception {
+        boolean result = attachmentManageService.downStatus(id);
+        return returnResponseVo(result);
+    }
+
+    private ResponseVo returnResponseVo(boolean result) {
+        ResponseVo responseVo = new ResponseVo();
+        if (result) {
+            responseVo.setMessage(ResponseStatus.SUCCESS.MESSAGE);
+            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+        } else {
+            responseVo.setMessage(ResponseStatus.ERROR.MESSAGE);
+            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+        }
+        return responseVo;
     }
 }

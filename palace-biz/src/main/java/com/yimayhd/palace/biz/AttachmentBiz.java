@@ -3,6 +3,7 @@ package com.yimayhd.palace.biz;
 import com.yimayhd.palace.config.ResourceConfig;
 import com.yimayhd.palace.constant.AttachmentConstant;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
+import com.yimayhd.palace.result.AttachmentUploadResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
  * Created by Administrator on 2016/8/22.
  */
 public class AttachmentBiz {
-    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file) {
+    public AttachmentUploadResult uploadAttachment(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return null;
         }
@@ -23,7 +24,11 @@ public class AttachmentBiz {
             file.transferTo(tempFile);
             AttachmentUpload attachmentUpload = new AttachmentUpload();
             String bucketName = ResourceConfig.getInstance().getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME);
-            attachmentUpload.upload(bucketName, fileName, tempFile.getPath());
+            AttachmentUploadResult attachmentUploadResult = attachmentUpload.upload(bucketName, fileName, tempFile.getPath());
+            if(attachmentUploadResult!=null){
+                attachmentUploadResult.setBucketName(bucketName);
+            }
+            return attachmentUploadResult;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,10 +51,10 @@ public class AttachmentBiz {
         return extension;
     }
 
-    public String getTime(long duration){
-        if(duration<=0){
+    public String getTime(long duration) {
+        if (duration <= 0) {
             return null;
         }
-        return duration/60+"分"+duration%60+"秒";
+        return duration / 60 + "分" + duration % 60 + "秒";
     }
 }

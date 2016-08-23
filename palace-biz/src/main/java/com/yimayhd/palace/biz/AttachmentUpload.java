@@ -11,10 +11,16 @@ import com.chinanetcenter.api.wsbox.FileUploadCommand;
 import com.chinanetcenter.api.wsbox.SliceUploadResumable;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yimayhd.palace.result.AttachmentUploadResult;
+import com.yimayhd.palace.util.UrlUtil;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class AttachmentUpload {
@@ -56,7 +62,7 @@ public class AttachmentUpload {
     /**
      * 文件上传，上传本地路径的文件
      */
-    public void upload(String bucketName, String fileName, String localFilePath) {
+    public AttachmentUploadResult upload(String bucketName, String fileName, String localFilePath) {
         PutPolicy putPolicy = new PutPolicy(); // 上传策略
         putPolicy.setOverwrite(1); // 1覆盖上传 0 不覆盖
         //"fsizeLimit":0,"instant":0,"separate":0
@@ -66,7 +72,24 @@ public class AttachmentUpload {
         putPolicy.setDeadline("1472054400000");*/
         putPolicy.setReturnBody("key=$(key)&fname=$(fname)&fsize=$(fsize)&url=$(url)"); // 设置返回字符串，不设置默认返回hash
         HttpClientResult result = FileUploadCommand.upload(bucketName, fileName, localFilePath, putPolicy);
-        System.out.println(result.toString());
+        //System.out.println(result.toString());
+        if (result.getStatus() == 200) {
+            AttachmentUploadResult attachmentUploadResult = null;
+            try {
+                attachmentUploadResult = new AttachmentUploadResult();
+                BeanUtils.populate(attachmentUploadResult, UrlUtil.convertParamsString2Map(result.getResponse()));
+                //获取时长
+                Avinfo avinfo =  getAvinfo(attachmentUploadResult.getKey());
+                attachmentUploadResult.setDuration(getDuration(avinfo));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return attachmentUploadResult;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -294,10 +317,29 @@ public class AttachmentUpload {
         }
     }
 
-    public void getAvinfo(String fileKey) {
+    public Avinfo getAvinfo(String fileKey) {
         Avinfo avinfo = FileAvInfo.getFileAvinfo(fileKey);
         if (avinfo != null) {
             System.out.println(avinfo.toJson());
+            return avinfo;
+        }
+        return null;
+    }
+
+    public long getDuration(Avinfo avinfo) {
+        if (avinfo == null) {
+            return 0;
+        }
+        List<Stream> streams = avinfo.getStreams();
+        if (streams == null || streams.size() <= 0) {
+            return 0;
+        }
+        String d = streams.get(0).getDuration();
+        if (StringUtils.isNotBlank(d)) {
+            BigDecimal bigDecimal = new BigDecimal(d);
+            return bigDecimal.longValue();
+        } else {
+            return 0;
         }
     }
 
