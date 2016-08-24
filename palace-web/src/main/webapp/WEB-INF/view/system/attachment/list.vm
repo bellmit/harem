@@ -65,7 +65,9 @@
 <form action="$utilWebconfig.getStaticResourcesPath()/jiuniu/attachmentManage/addAttachment" enctype="multipart/form-data" id="addAttachmentForm"
       name="addAttachmentForm" method="post">
     <div class="btnBottomMargin">
-        <input type="file" name="fileData" class="file">
+        <input type="file" name="file" class="file">
+    </div>
+    <div class="btnBottomMargin">
         <button type="submit" class="btn btn-primary upload">上传文件
         </button>
     </div>

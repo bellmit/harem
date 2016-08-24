@@ -116,9 +116,9 @@ public class AttachmentManageController extends BaseController {
                 cacheLockManager.deleteKey(key);
             }
         } else {
-            return "";
+            return "redirect:/jiuxiu/attachmentManage/list";
         }
-        return "";
+        return "redirect:/jiuxiu/attachmentManage/list";
     }
 
     /**
