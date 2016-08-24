@@ -13,7 +13,7 @@
                     #foreach($fee in $order.listAdjustFeeVO)
                         <tr>
                             <td  align="left">
-                                $!fee.adjustDate
+                                $!date.format('yyyy-MM-dd HH:mm:ss',$!fee.adjustDate)
                             </td>
                             <td  align="left">
                                 $!utilNum.moneyTransform($!fee.oldPrice)

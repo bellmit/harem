@@ -374,9 +374,14 @@ public class OrderManageController extends BaseController {
 
 
 	@RequestMapping(value = "/gfAdjustFee", method = RequestMethod.GET)
-	public String toGfAdjustFee(Model model,long bizOrderId,String oldPrice){
+	public String toGfAdjustFee(Model model,long bizOrderId,String oldPrice,String newPrice,String remark){
 		model.addAttribute("bizOrderId",bizOrderId);
-		model.addAttribute("oldPrice",oldPrice);
+		model.addAttribute("oldPrice",StringUtils.isEmpty(oldPrice)?"":oldPrice);
+		if(StringUtils.isEmpty(newPrice) || "0.00".equals(newPrice)){
+			newPrice = "";
+		}
+		model.addAttribute("newPrice",newPrice);
+		model.addAttribute("remark",remark);
 		return "/system/order/gf/gfAdjustFee";
 	}
 
@@ -392,7 +397,11 @@ public class OrderManageController extends BaseController {
                 return new ResponseVo(ResponseStatus.INVALID_DATA);
             }
 			if(StringUtils.isEmpty(remark) || lessPoints(newPrice)){
-				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"操作金额不能小于分");
+				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"小数点后最多精确2位，请重新修改");
+			}
+			//TODO:有空改成正则
+			if(newPrice.equals("0")||newPrice.equals("0.0")||newPrice.equals("0.00")){
+				return new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,"订单金额必须大于 0 元");
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append("userId=").append(userId).append(",bizOrderId=").append(bizOrderId).append(",oldPrice=").append(oldPrice).append(",newPrice=").append(newPrice).append(",remark=").append(remark);

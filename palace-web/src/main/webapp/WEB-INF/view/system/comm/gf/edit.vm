@@ -372,7 +372,7 @@
         if($('.priceY').val() <= 0 ){
             return '商品价格必须大于0';
         }
-        
+
         if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
             return '请输入正确的库存';
         }

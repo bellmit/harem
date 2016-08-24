@@ -10,10 +10,12 @@
             <span  id="oldPriceId" >$!oldPrice</span>
         </div>
         <div class = "info dh" ><em>修改后金额：</em>
-            <input type="text" id="newPriceId"  value="" placeholder="必填">
+            <input type="text" id="newPriceId"
+                   value="$!newPrice"
+                   placeholder="必填">
         </div>
         <div class = "info dh" ><em>修改备注：</em>
-            <input type="text" id="remarkId"  min="5" max="50"  value="" placeholder="必填，5~50个字">
+            <input type="text" id="remarkId"  min="5" max="50"  value="$!remark" placeholder="必填，5~50个字">
         </div>
     </div>
 </div>

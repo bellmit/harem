@@ -116,8 +116,12 @@
                                                 queryOrderState="$!orderListQuery.orderStat"
                                                 #if($!order.hasAdjustFee)
                                                 orderPrice="$!utilNum.moneyTransform($!order.oldFee)"
+                                                newPrice = "$!utilNum.moneyTransform($!order.adjustFee)"
+                                                remark = "$!order.adjustRemark"
                                                 #else
-                                                orderPrice="$!utilNum.moneyTransform($!bizOrder.actualTotalFee)"
+                                                    orderPrice="$!utilNum.moneyTransform($!bizOrder.actualTotalFee)"
+                                                    newPrice = ""
+                                                    remark = ""
                                                 #end
                                                 orderId="$!bizOrder.bizOrderId">修改金额</button>
                                     #end
@@ -249,8 +253,9 @@
             $(".modOrderPrice").click(function(){
                 var bizOrderId = $(this).attr("orderId");
                 var oldPrice = $(this).attr("orderPrice");
-                var newPrice = 0;
-                var remark = "";
+                var newPrice = $(this).attr("newPrice");
+                var remark = $(this).attr("remark");
+                console.log("oldPrice="+oldPrice+",newPrice="+newPrice+",remark="+remark);
                 var queryOrderState =$(this).attr("queryOrderState");
                 layer.open({
                     type: 2,
@@ -261,7 +266,7 @@
                     maxmin: true,
                     area: ['800px', '200px'],
                     content: '$!utilWebconfig.getActionDefaultFontPath()/B2C/orderManage/gfAdjustFee?bizOrderId='
-                    +bizOrderId+"&oldPrice="+oldPrice,
+                    +bizOrderId+"&oldPrice="+oldPrice+"&newPrice="+newPrice+"&remark="+remark,
                     yes: function(index){
                         console.log(frames == window);
                         var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
@@ -330,5 +335,6 @@
             url = "/B2C/orderManage/gfOrderList";
             $('#tradeListForm').attr('action',url_prefix+url);
         });
+
 
 	</script>

@@ -186,7 +186,15 @@
                     setTimeout(function () {
                         window.location.href = window.location.href;
                     },1500);
-                }else{
+                }else if(data && data.status == 500){
+                    layer.msg(data.message, {
+                        icon: 2,
+                        time: 1500
+                    });
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },2000);
+                } else{
                     layer.alert('操作失败', {
                         icon: 2,
                         time: 2000

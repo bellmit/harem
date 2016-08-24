@@ -8,10 +8,8 @@
 
     <!--加载外部配置-->
     <context:property-placeholder location="config.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
-   <!--  <context:property-placeholder location="WEB-INF/velocity.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
-    <context:property-placeholder location="WEB-INF/redis.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
-   -->  <!--<context:property-placeholder location="WEB-INF/log4j.properties" file-encoding="utf-8" ignore-unresolvable="true"/>-->
 
+    <context:property-placeholder location="WEB-INF/redis.properties" file-encoding="utf-8" ignore-unresolvable="true"/> 
 
     <!--程序中获取配置文件信息-->
     <util:properties id="palaceProperties" location="config.properties"/>
