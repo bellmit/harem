@@ -542,8 +542,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> ugcResultToShowCaseItem(List<SnsSubjectDO> listUgc){
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(listUgc)){
-            List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
             for (SnsSubjectDO sns:listUgc ) {
                 ShowCaseItem sc = new ShowCaseItem();
                 sc.setId(sns.getId());
@@ -552,7 +552,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 list.add(sc);
             }
         }
-        return null;
+        return list ;
     }
 
 
@@ -569,8 +569,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> topicResultToShowCaseItem(List<TopicResult> listTop){
+        List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(listTop)){
-            List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
             for (TopicResult top:listTop ) {
                 ShowCaseItem sc = new ShowCaseItem();
                 sc.setId(top.getId());
@@ -578,9 +578,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 sc.setImgUrl(top.getPics());
                 list.add(sc);
             }
-            return list;
         }
-        return null;
+        return list;
     }
 
     public SnsTopicDO getTopicDetailInfo(TopicQueryDTO topicQueryDTO){
@@ -615,8 +614,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> boothToShowCaseItem(List<BoothDO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(list)){
-            List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
             for (BoothDO oo:list ) {
                 ShowCaseItem sc = new ShowCaseItem();
                 sc.setId(oo.getId());
@@ -625,9 +624,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
                 sc.setAppVersion(oo.getAppVersion());
                 listSC.add(sc);
             }
-            return listSC;
         }
-        return null;
+        return listSC;
     }
 
     public PageVO<ShowCaseItem> getArticlePageListByQuery(ArticleQueryDTO articleQueryDTO ){
@@ -641,10 +639,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> ArticleToShowCaseItem(List<ArticleDTO> list){
-        if(CollectionUtils.isEmpty(list)){
-            return null;
-        }
         List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isEmpty(list)){
+            return listSC;
+        }
         for (ArticleDTO adt:list ) {
             if(null == adt.getArticleDO()){
                 continue;
@@ -671,10 +669,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public List<ShowCaseItem> ArticleDOShowCaseItem(List<ArticleDO> list){
-        if(CollectionUtils.isEmpty(list)){
-            return null;
-        }
         List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isEmpty(list)){
+            return listSC;
+        }
         for (ArticleDO oo:list ) {
             ShowCaseItem sc = new ShowCaseItem();
             sc.setId(oo.getId());

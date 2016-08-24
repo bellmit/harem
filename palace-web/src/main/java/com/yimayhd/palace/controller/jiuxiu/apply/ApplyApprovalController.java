@@ -612,11 +612,11 @@ public class ApplyApprovalController extends BaseController {
 //			return bizResultSupport;
 //		}
         String[] array = allocationVO.getCategoryIds().split(",");
-        long[] categoryIds = new long[array.length];
+        Long[] categoryIds = new Long[array.length];
         for (int i = 0; i < array.length; i++) {
             categoryIds[i] = Long.parseLong(array[i]);
         }
-        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(Constant.DOMAIN_JIUXIU, allocationVO.getExamineId(), categoryIds);
+        MemResultSupport memResultSupport = merchantItemCategoryService.saveMerchantItemCategories(Constant.DOMAIN_JIUXIU, allocationVO.getExamineId(), Arrays.asList(categoryIds));
         if (!memResultSupport.isSuccess()) {
             bizResultSupport.setPalaceReturnCode(PalaceReturnCode.MERCHANT_BIND_FAILED);
             return bizResultSupport;

@@ -239,6 +239,8 @@ public class MerchantVO extends MerchantDTO {
 	    	dto.setLat(z * Math.sin(theta));
 	    }
 	}
-
+public static void main(String[] args) {
+	System.out.println(MerchantOption.EAT.getOption());
+}
 	
 }

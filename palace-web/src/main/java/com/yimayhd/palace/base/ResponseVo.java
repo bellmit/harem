@@ -25,10 +25,9 @@ public class ResponseVo implements Serializable {
 		this.data = data;
 		this.message = DEFAULT_STATUS.MESSAGE;
 		if(null != data && data instanceof Boolean){
-			if((boolean)data){
-				this.status = DEFAULT_STATUS.VALUE;
-			}else{
+			if(!(boolean)data){
 				this.status = UNSUCCESSFUL.VALUE;
+				this.message = UNSUCCESSFUL.MESSAGE;
 			}
 		}
 	}
