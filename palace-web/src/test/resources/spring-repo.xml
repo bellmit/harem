@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
+	<bean id="gfCategoryRepo" class="com.yimayhd.gf.repo.GFCategoryRepo" />
+	<bean id="hotelRepo" class="com.yimayhd.palace.repo.HotelRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.TagRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.LineRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.RestaurantRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.PictureTextRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.ScenicRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.PictureRepo"></bean>
+	<bean id="resourceRepo" class="com.yimayhd.palace.repo.ResourceRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.ActivityRepo"></bean>
+	<bean class="com.yimayhd.palace.repo.TravelKaRepo"></bean>
+	<bean id="examineDealRepo" class="com.yimayhd.palace.repo.member.ExamineDealRepo"/>
+	<bean id="userRepo" class="com.yimayhd.palace.repo.user.UserRepo"/>
+	<bean id="merchantRepo" class="com.yimayhd.palace.repo.MerchantRepo"/>
+	<bean id="talentRepo" class="com.yimayhd.palace.repo.user.TalentRepo"/>
+	
+	<bean class="com.yimayhd.palace.repo.ArticleRepo"></bean>
+	
+	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
+	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
+	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo"/>
+	<bean id="mallFansRepo" class="com.yimayhd.commission.repo.MallFansRepo" />
+	<bean id="levelRepo" class="com.yimayhd.commission.repo.LevelRepo" />
+	
+	<bean id="itemRepo" class="com.yimayhd.palace.repo.ItemRepo" />
+	<bean id="commentRepo" class="com.yimayhd.palace.repo.CommentRepo" />
+	<bean id="orderRepo" class="com.yimayhd.palace.repo.OrderRepo" />
+	<bean id="cityRepo" class="com.yimayhd.palace.repo.CityRepo" />
+	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
+	<bean id="topicRepo" class="com.yimayhd.palace.repo.TopicRepo" />
+	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
+	
+	<bean id="articleRepo" class="com.yimayhd.palace.repo.ArticleRepo" />
+	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
+	<bean id="solrsearchRepo" class="com.yimayhd.palace.repo.SolrsearchRepo" />
+
+</beans>
