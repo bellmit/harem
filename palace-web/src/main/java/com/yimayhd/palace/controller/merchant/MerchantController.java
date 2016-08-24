@@ -308,8 +308,7 @@ public class MerchantController extends BaseController {
 		
 	}
 	
-	
-	
+
 	/**
 	 * 商家列表
 	 * 

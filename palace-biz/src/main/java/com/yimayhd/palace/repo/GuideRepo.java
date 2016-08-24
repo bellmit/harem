@@ -1,8 +1,13 @@
 package com.yimayhd.palace.repo;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.dto.ComentDTO;
+import com.yimayhd.commentcenter.client.enums.PictureText;
+import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
+import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
 import com.yimayhd.ic.client.model.dto.guide.GuideScenicPageQueryDTO;
@@ -15,6 +20,8 @@ import com.yimayhd.ic.client.service.guide.GuideService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.yimayhd.palace.repo.PictureTextRepo;
+
 
 /**
  * Created by liuxp on 2016/8/17.
@@ -25,6 +32,9 @@ public class GuideRepo {
 
     @Autowired
     private GuideService guideServiceRef;
+
+    @Autowired
+    private PictureTextRepo pictureTextRepo;
 
     public ICPageResult<GuideScenicDTO> getGuidePageList(GuideScenicPageQueryDTO guideScenicQueryDTO) {
 
@@ -153,5 +163,114 @@ public class GuideRepo {
             log.error("queryCanGuideScenic scenicPageQuery={}, exception={}", JSON.toJSONString(scenicPageQuery), e);
             return null;
         }
+    }
+
+    // 删除景点
+    public ICResult<Boolean> deleteAttraction(long attractionId) {
+        try {
+            ICResult<Boolean> result = guideServiceRef.deleteAttraction(attractionId);
+            if (result.isSuccess() && result.getModule()) {
+                log.info("deleteAttraction attractionId={},result={}", attractionId, JSON.toJSONString(result));
+                return result;
+            } else {
+                log.error("deleteAttraction attractionId={},result={}", attractionId, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("deleteAttraction attractionId={} exception={}", attractionId, e);
+            return null;
+        }
+    }
+
+    // 景点详情
+    public ICResult<AttractionFocusDTO> queryAttractionDetail(long attractionId) {
+        try {
+            ICResult<AttractionFocusDTO> result = guideServiceRef.queryAttractionDetail(attractionId);
+
+            if (result.getModule().getAttractionDO() == null || result.getModule().getGuideFocusDOList() == null) {
+                log.info("queryAttractionDetail attractionId={},result={}", attractionId, JSON.toJSONString(result));
+                return result;
+            } else {
+                log.error("queryAttractionDetail attractionId={},result={}", attractionId, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("queryAttractionDetail attractionId={} exception={}", attractionId, e);
+            return null;
+        }
+    }
+
+    // 新增景点
+    public ICResult<GuideAttractionDO> addAttractionAndFocus(AttractionFocusAddDTO attractionFocusAddDTO) {
+        try {
+            ICResult<GuideAttractionDO> result = guideServiceRef.addAttractionAndFocus(attractionFocusAddDTO);
+            if (result.getModule() == null) {
+                log.info("addAttractionAndFocus attractionFocusAddDTO={},result={}", attractionFocusAddDTO, JSON.toJSONString(result));
+                return result;
+            } else {
+                log.error("addAttractionAndFocus attractionFocusAddDTO={},result={}", attractionFocusAddDTO, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("addAttractionAndFocus attractionFocusAddDTO={} exception={}", attractionFocusAddDTO, e);
+            return null;
+        }
+    }
+
+    // 更新景点
+    public ICResult<Boolean> updateAttractionAndFocus(AttractionFocusUpdateDTO attractionFocusUpdateDTO) {
+        try {
+            ICResult<Boolean> result = guideServiceRef.updateAttractionAndFocus(attractionFocusUpdateDTO);
+            if (result.isSuccess() && result.getModule()) {
+                log.info("updateAttractionAndFocus attractionFocusUpdateDTO={},result={}", attractionFocusUpdateDTO, JSON.toJSONString(result));
+                return result;
+            } else {
+                log.error("updateAttractionAndFocus attractionFocusUpdateDTO={},result={}", attractionFocusUpdateDTO, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("updateAttractionAndFocus attractionFocusUpdateDTO={} exception={}", attractionFocusUpdateDTO, e);
+            return null;
+        }
+    }
+
+    // 更新线路
+    public ICResult<Boolean> updateGuideLine(long guideId, GuideLineDTO guideLineDTO) {
+        try {
+            ICResult<Boolean> result = guideServiceRef.updateGuideLine(guideId, guideLineDTO);
+            if (result.isSuccess() && result.getModule()) {
+                log.info("updateGuideLine guideId={},guideLineDTO={},result={}", guideId, guideLineDTO, JSON.toJSONString(result));
+                return result;
+            } else {
+                log.error("updateGuideLine guideId={},guideLineDTO={},result={}", guideId, guideLineDTO, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("updateGuideLine guideId={} ,guideLineDTO={},exception={}", guideId, guideLineDTO, e);
+            return null;
+        }
+    }
+
+    // 获取景点图文
+    public PicTextResult getPictureText(long id) {
+        if (id == 0) {
+            return null;
+        }
+
+        log.info("==============================id" + id);
+        // 图文详情
+        return pictureTextRepo.getPictureText(id, PictureText.FOOD);
+
+    }
+
+    // 保存景点图文
+    public void savePictureText(ComentDTO comentDTO) {
+        if (null == null) {
+            return ;
+        }
+
+        log.info("==============================comentDTO" + comentDTO);
+        // 图文详情
+        pictureTextRepo.savePictureText(comentDTO);
     }
 }

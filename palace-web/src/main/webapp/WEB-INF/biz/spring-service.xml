@@ -91,7 +91,7 @@
 
 	<!-- 导览-->
 	<bean id="guideManageService" class="com.yimayhd.palace.service.impl.GuideManageServiceImpl"/>
-	
+
 	<!-- 商品评价 -->
 	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
 
