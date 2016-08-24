@@ -12,7 +12,7 @@
                         <button class="btn btn-default" type="button">景区资源编号：</button>
                     </span>
             <input type="text" class="form-control" name="scenicResourceNum" id="scenicResourceNum"
-                   value="${guideListQuery.scenicResourceNum}">
+                   value="$!{guideListQuery.scenicResourceNum}">
         </div>
         <div class="input-group inpSingle">
                 <span class="input-group-btn">

@@ -44,7 +44,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
     public PageVO<AttachmentVO> getAttachmentList(MediaPageQuery mediaPageQuery) {
         RCPageResult<MediaDO> result = mediaClientRepo.getMediaPageList(mediaPageQuery);
         if (result == null) {
-            return null;
+            return new PageVO<AttachmentVO>();
         }
         List<AttachmentVO> attachmentVOList = new ArrayList<AttachmentVO>();
         List<MediaDO> mediaDOList = result.getList();

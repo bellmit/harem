@@ -2,7 +2,8 @@
       rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
-<form id="mediaPageQuery" name="mediaPageQuery" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list">
+<form id="mediaPageQuery" name="mediaPageQuery"
+      action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -61,11 +62,11 @@
         </div>
     </div>
 </form>
-<form action="/jiuniu/attachmentManage/addAttachment" enctype="multipart/form-data" id="addAttachmentForm" name="addAttachmentForm">
+<form action="$utilWebconfig.getStaticResourcesPath()/jiuniu/attachmentManage/addAttachment" enctype="multipart/form-data" id="addAttachmentForm"
+      name="addAttachmentForm" method="post">
     <div class="btnBottomMargin">
         <input type="file" name="fileData" class="file">
-        <button type="button" class="btn btn-primary upload">上传文件
-            <input type="file" name="fileData" class="file">
+        <button type="submit" class="btn btn-primary upload">上传文件
         </button>
     </div>
 </form>
@@ -133,10 +134,10 @@
             url: "",
             type: "post",
             data: data,
-            success: function(res) {
+            success: function (res) {
 
             },
-            error: function(xmlres, status, code) {
+            error: function (xmlres, status, code) {
 
             }
         });
@@ -144,7 +145,7 @@
     $(function () {
         $("#tbAttachmentList").on("click", ".edit", function () {
             var id = $(this).attr('itemId');
-            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id='+id, "编辑信息", function () {
+            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑信息", function () {
                 var item = win.getItem();
                 if (item != null) {
                     alert(JSON.stringify(item))

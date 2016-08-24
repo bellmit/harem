@@ -47,7 +47,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         GuideScenicPageQueryDTO guideScenicPageQueryDTO = GuideConverter.guideListQuery2GuideScenicPageQueryDTO(guideListQuery);
         ICPageResult<GuideScenicDTO> result = guideRepo.getGuidePageList(guideScenicPageQueryDTO);
         if (result == null) {
-            return null;
+            return new PageVO<GuideScenicVO>();
         }
         List<GuideScenicVO> guideScenicVOList = new ArrayList<GuideScenicVO>();
         List<GuideScenicDTO> guideScenicDTOList = result.getList();
