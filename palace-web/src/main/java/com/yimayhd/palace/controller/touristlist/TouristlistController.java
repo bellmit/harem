@@ -35,7 +35,7 @@ import java.util.List;
  * Created by haozhu on 16/8/18.
  **/
 @Controller
-@RequestMapping("/jiuxiu/touristlist")
+@RequestMapping("/jiuxiu/scenicManage")
 public class TouristlistController extends BaseController {
 
     protected Logger log = LoggerFactory.getLogger(getClass());
@@ -50,7 +50,7 @@ public class TouristlistController extends BaseController {
     /**
      * select获取景点列表
      */
-    @RequestMapping(value = "touristlist", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String touristlList(Model model, long guideId) throws Exception {
         try {
             ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(guideId);
