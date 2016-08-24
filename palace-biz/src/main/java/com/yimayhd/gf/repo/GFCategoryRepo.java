@@ -106,7 +106,9 @@ public class GFCategoryRepo {
 			categorySaveDTO.setSellerId(gfCategoryVo.getSellerId());
 			categorySaveDTO.setStatus(gfCategoryVo.getStatus());
 			categorySaveDTO.setParentId(gfCategoryVo.getParentId());
-			
+			categorySaveDTO.setImgPc(gfCategoryVo.getImgPc());
+			categorySaveDTO.setImgWap(gfCategoryVo.getImgWap());
+			categorySaveDTO.setSummary(gfCategoryVo.getSummary());
 			baseResult = comCategoryService.saveCategoryDO(categorySaveDTO);
 			if(baseResult.isSuccess()){
 				return baseResult;
@@ -139,6 +141,9 @@ public class GFCategoryRepo {
 			categoryUpdateDTO.setSellerId(gfCategoryVo.getSellerId());
 			categoryUpdateDTO.setStatus(gfCategoryVo.getStatus());
 			categoryUpdateDTO.setParentId(gfCategoryVo.getParentId());
+			categoryUpdateDTO.setImgPc(gfCategoryVo.getImgPc());
+			categoryUpdateDTO.setImgWap(gfCategoryVo.getImgWap());
+			categoryUpdateDTO.setSummary(gfCategoryVo.getSummary());
 			baseResult = comCategoryService.updateCategory(categoryUpdateDTO);
 			if(baseResult.isSuccess()){
 				return baseResult;
