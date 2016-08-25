@@ -1,53 +1,7 @@
-<form id="editAttachment" name="editAttachment">
+<div>
+
     <input type="hidden" id="id" name="id" value="$attachmentVO.id">
-    <table class="table">
-        <tr>
-            <th><span class="spColor">*</span>名称：</th>
-            <td>
-                <input type="text" class="inpCtlBlock limit-text" name="inputFileTitle" id="inputFileTitle"
-                       value="$!{attachmentVO.inputFileTitle}">
-                <span class="num">0/38</span>
-            </td>
-        </tr>
-        <tr>
-            <th><span class="spColor">*</span>时长：</th>
-            <td>
-                <div class="input-group inpSingle">
-                    <select class="form-control" id="minute" name="minute">
-                        #foreach($item in [0..59])
-                            <option value="$item" #if($item == $attachmentVO.minuteVo) selected #end>$item</option>
-                        #end
-                    </select>
-                    <span class="input-group-addon fix-border fix-padding dateInpCenter">分</span>
-                    <select class="form-control" id="second" name="second">
-                        #foreach($item in [0..59])
-                            <option value="$item" #if($item == $attachmentVO.secondVo) selected #end>$item</option>
-                        #end
-                    </select>
-                    <span class="input-group-addon fix-padding dateInpCenter">秒</span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th><span class="spColor">*</span>用途：</th>
-            <td>
-                <select class="form-control inpCtlBlock" id="scope" name="scope">
-                    #foreach($mediaFileScope in $mediaFileScopeList)
-                        <option value="$!{mediaFileScope.value}" #if($mediaPageQuery.scope == $mediaFileScope.value)
-                                selected #end>$!{mediaFileScope.desc}</option>
-                    #end
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th><span class="spColor">*</span>备注：</th>
-            <td>
-                <input type="text" class="inpCtlBlock limit-text" id="remark" name="remark"
-                       value="$!{attachmentVO.remark}"><span class="num">0/38</span>
-            </td>
-        </tr>
-    </table>
-    <audio controls autoplay loop src="http://audio.jiuxiulvxing.com/Lovesong.mp3">
+    <audio controls autoplay loop src="$!{attachmentVO.remoteUrl}">
         <p>Your browser does not support the <code>audio</code> element.</p>
     </audio>
-</form>
+</div>

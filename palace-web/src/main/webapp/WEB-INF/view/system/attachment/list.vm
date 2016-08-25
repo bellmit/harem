@@ -58,7 +58,7 @@
             <button type="submit" class="btn btn-primary submitBtn">搜索</button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-clean">重置</button>
+            <button type="reset" class="btn btn-primary btn-clean">重置</button>
         </div>
     </div>
 </form>
@@ -132,6 +132,28 @@
         extend: ['skin/mySkin/style.css'],
         skin: 'layer-ext-mySkin'
     });
+    var openModalForAttachment = function (url, title, width, height) {// 弹出框url，标题，回调返回参数
+        layer.open({
+            type: 2,
+            btn: ['确定', '取消'],
+            title: title,
+            fix: false,
+            shadeClose: true,
+            maxmin: true,
+            area: [width, height],
+            content: url,
+            success: function (layero, index) {
+                win = window[layero.find('iframe')[0]['name']];
+            },
+            yes: function (index) {
+                layer.close(index);
+
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+    }
     function submitEdit(data) {
         //alert(1);
         $.ajax({
@@ -167,7 +189,7 @@
     $(function () {
         $("#tbAttachmentList").on("click", ".edit", function () {
             var id = $(this).attr('itemId');
-            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑信息", function () {
+            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑音频信息", function () {
                 var item = win.getItem();
                 if (item != null) {
                     //alert(JSON.stringify(item))
@@ -178,14 +200,7 @@
         });
         $("#tbAttachmentList").on("click", ".play", function () {
             var id = $(this).attr('itemId');
-            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑信息", function () {
-                var item = win.getItem();
-                if (item != null) {
-                    //alert(JSON.stringify(item))
-                    submitEdit(item);
-                }
-                return true;
-            });
+            openModalForAttachment('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '300px');
         });
         $(".dateInp").datetimepicker({
             language: "zh-CN",

@@ -49,21 +49,21 @@
     // 新增景点
     $(function(){
         $(".addTourist").click(function(){
-            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/touristlist/touristaddDetail");
+            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/touristlist/touristaddDetail");
         });
     });
     // 编辑景点
     $(function(){
         $(".touristEditDetail").click(function(){
             var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/touristlist/touristEditDetail?attractionId="+attractionId +"&id=0", 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/touristlist/touristEditDetail?attractionId="+attractionId +"&id=0", 2, "景点详情");
         });
     });
     // 删除景点
     $(function(){
         $(".updateStatus").click(function(){
             var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/touristlist/updateStatus?attractionId="+attractionId +"&id=0", 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/touristlist/updateStatus?attractionId="+attractionId +"&id=0", 2, "景点详情");
         });
     });
 </script>

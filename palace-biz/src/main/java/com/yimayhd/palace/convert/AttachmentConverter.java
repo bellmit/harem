@@ -50,6 +50,7 @@ public class AttachmentConverter {
         attachmentVO.setScope(mediaDTO.getScope());
         attachmentVO.setInputFileTitle(mediaDTO.getInputFileTitle());
         attachmentVO.setRemark(mediaDTO.getRemark());
+        attachmentVO.setRemoteUrl(mediaDTO.getRemoteUrl());
         return attachmentVO;
     }
 }
