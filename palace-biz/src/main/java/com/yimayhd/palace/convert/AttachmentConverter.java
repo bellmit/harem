@@ -1,7 +1,5 @@
 package com.yimayhd.palace.convert;
 
-import com.yimayhd.palace.config.ResourceConfig;
-import com.yimayhd.palace.constant.AttachmentConstant;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
@@ -15,12 +13,11 @@ public class AttachmentConverter {
             return null;
         }
         MediaDTO mediaDTO = new MediaDTO();
-        mediaDTO.setDuration(attachmentVO.getDuration());
-        mediaDTO.setBucketName(ResourceConfig.getInstance().getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME));
-        mediaDTO.setFileType(attachmentVO.getFileType());
+        mediaDTO.setDuration(attachmentVO.getMinute()*60+attachmentVO.getSecond());
         mediaDTO.setScope(attachmentVO.getScope());
         mediaDTO.setInputFileTitle(attachmentVO.getInputFileTitle());
         mediaDTO.setRemark(attachmentVO.getRemark());
+        mediaDTO.setId(attachmentVO.getId());
         return mediaDTO;
     }
 
@@ -46,6 +43,7 @@ public class AttachmentConverter {
             return null;
         }
         AttachmentVO attachmentVO = new AttachmentVO();
+        attachmentVO.setId(mediaDTO.getId());
         attachmentVO.setDuration(mediaDTO.getDuration());
         //attachmentVO.setBucketName(ResourceConfig.getInstance().getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME));
         attachmentVO.setFileType(mediaDTO.getFileType());

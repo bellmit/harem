@@ -1,4 +1,5 @@
 <form id="editAttachment" name="editAttachment">
+    <input type="hidden" id="id" name="id" value="$attachmentVO.id">
     <table class="table">
         <tr>
             <th><span class="spColor">*</span>名称：</th>
@@ -12,16 +13,16 @@
             <th><span class="spColor">*</span>时长：</th>
             <td>
                 <div class="input-group inpSingle">
-                    <select class="form-control" id="fen" name="fen">
-                        <option value="0">1</option>
-                        <option value="1">2</option>
-                        <option value="2">3</option>
+                    <select class="form-control" id="minute" name="minute">
+                        #foreach($item in [0..59])
+                            <option value="$item" #if($item == $attachmentVO.minute) selected #end>$item</option>
+                        #end
                     </select>
                     <span class="input-group-addon fix-border fix-padding dateInpCenter">分</span>
-                    <select class="form-control" id="miao" name="miao">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                    <select class="form-control" id="second" name="second">
+                        #foreach($item in [0..59])
+                            <option value="$item" #if($item == $attachmentVO.second) selected #end>$item</option>
+                        #end
                     </select>
                     <span class="input-group-addon fix-padding dateInpCenter">秒</span>
                 </div>
@@ -51,12 +52,12 @@
         $(function () {
             var limitTexts = $(".limit-text");
 
-            limitTexts.each(function() {
+            limitTexts.each(function () {
                 var txtlength = $(this).val().length;
                 $(this).next(".num").text(txtlength + " / " + maxNum);
             });
 
-            limitTexts.on("input propertychange", function() {
+            limitTexts.on("input propertychange", function () {
                 var input = $(this);
                 var txt = input.val();
                 var currnum = txt.length;
@@ -71,10 +72,11 @@
 
         function getItem() {
             return {
-                name: $("#name").val(),
-                fen: $("#fen").val(),
-                miao: $("#miao").val(),
-                yongtu: $("#yongtu").val(),
+                id: $("#id").val(),
+                inputFileTitle: $("#inputFileTitle").val(),
+                minute: $("#minute").val(),
+                second: $("#second").val(),
+                scope: $("#scope").val(),
                 remark: $("#remark").val()
             }
         }

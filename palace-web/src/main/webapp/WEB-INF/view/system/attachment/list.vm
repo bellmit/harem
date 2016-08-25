@@ -133,7 +133,7 @@
     function submitEdit(data) {
         alert(1);
         $.ajax({
-            url: "",
+            url: "$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/editAttachment",
             type: "post",
             data: data,
             success: function (res) {
