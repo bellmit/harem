@@ -49,16 +49,24 @@
     <script type="text/javascript">
         var maxNum = 38;
         $(function () {
-            $(".limit-text").on("input propertychange", function () {
-                var txt = $(this).val();
+            var limitTexts = $(".limit-text");
+
+            limitTexts.each(function() {
+                var txtlength = $(this).val().length;
+                $(this).next(".num").text(txtlength + " / " + maxNum);
+            });
+
+            limitTexts.on("input propertychange", function() {
+                var input = $(this);
+                var txt = input.val();
                 var currnum = txt.length;
                 if (currnum > maxNum) {
                     currnum = maxNum;
-                        $(this).val(txt.substr(0, maxNum));
+                    input.val(txt.substr(0, maxNum));
                 }
-                    $(this).next(".num").text(currnum + " / " + maxNum);
+                input.next(".num").text(currnum + " / " + maxNum);
                 return false;
-            })
+            });
         })
 
         function getItem() {
