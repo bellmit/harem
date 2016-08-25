@@ -51,9 +51,10 @@ public class TouristlistController extends BaseController {
      * select获取景点列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String touristlList(Model model, long guideId) throws Exception {
+    public String touristlList(Model model,Long attractionId) throws Exception {
         try {
-            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(guideId);
+
+            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(0);
 
             List<GuideAttractionDO> touristlist = new ArrayList<GuideAttractionDO>();
             int totalCount = 0;
