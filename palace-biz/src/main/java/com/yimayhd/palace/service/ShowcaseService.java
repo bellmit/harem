@@ -7,8 +7,8 @@ import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
-import com.yimayhd.resourcecenter.domain.ArticleDO;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
@@ -22,8 +22,6 @@ import com.yimayhd.snscenter.client.domain.SnsTopicDO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
-import com.yimayhd.snscenter.client.result.topic.TopicResult;
-import com.yimayhd.snscenter.client.result.ugc.UgcResult;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 
@@ -155,5 +153,11 @@ public interface ShowcaseService {
      * @return
      */
     public PageVO<ShowCaseItem> getArticleDOPageListByQuery(ArticleQueryDTO  articleQueryDTO  );
+
+    /**
+     * 分页查询导览列表
+     * @return
+     */
+    public PageVO<ShowCaseItem> getGuideListByQuery(GuideScenicListQuery query);
 
 }
