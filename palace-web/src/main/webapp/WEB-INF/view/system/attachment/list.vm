@@ -258,6 +258,16 @@
             var id = $(this).attr('itemId');
             openModalForAttachment('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '300px');
         });
+        $("#tbAttachmentList").on("click", ".on", function () {
+            var id = $(this).attr('itemId');
+            var data={"id":id};
+            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/up", "get", data);
+        });
+        $("#tbAttachmentList").on("click", ".off", function () {
+            var id = $(this).attr('itemId');
+            var data={"id":id};
+            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/down", "get", data);
+        });
         $(".dateInp").datetimepicker({
             language: "zh-CN",
             weekStart: 1,
