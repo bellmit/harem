@@ -158,8 +158,7 @@
                 },
                 'summary':{
                     required: "请输入品类简称",
-                    min:"品类简称最少输入1个字符",
-                    max:"品类简称最多输入8个字符"
+                    maxlength:"品类简称最多输入8个字符"
                 }
             },
             errorPlacement: function (error, element) { // 指定错误信息位置
