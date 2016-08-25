@@ -24,6 +24,26 @@ public class AttachmentVO {
     private String statusStr;//状态
     private String remoteUrl;//播放地址
 
+    private int minute;
+    private int second;
+
+
+    public int getMinute() {
+
+        return (int)duration/60;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public int getSecond() {
+        return (int) duration%60;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
 
     public long getId() {
         return id;
