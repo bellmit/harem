@@ -25,7 +25,12 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.attachment.AttachmentVO;
+import com.yimayhd.palace.model.guide.GuideScenicListQuery;
+import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
+import com.yimayhd.palace.service.AttachmentManageService;
+import com.yimayhd.palace.service.GuideManageService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.palace.util.NumUtil;
@@ -101,6 +106,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     @Autowired SnsTopicCenterService snsTopicCenterServiceRef;
 
     @Autowired ArticleBackEndService articleBackEndService;
+
+    @Autowired GuideManageService guideManageService ;
 
 
 
@@ -683,4 +690,26 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return listSC;
     }
 
+
+    public PageVO<ShowCaseItem> getGuideListByQuery(GuideScenicListQuery query){
+        PageVO<GuideScenicVO> pageA =  guideManageService.getGuideList(query);
+        if(null == pageA){
+            return null;
+        }
+        List<ShowCaseItem> list = attachmentVOToShowCaseItem(pageA.getItemList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(query.getPageNumber(), query.getPageSize(),pageA.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> attachmentVOToShowCaseItem(List<GuideScenicVO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        for (GuideScenicVO oo:list) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getGuideid());
+            sc.setName(oo.getScenicName());//标题
+            sc.setImgUrl(StringUtils.isEmpty(oo.getGuideImg())?"":oo.getGuideImg());
+            listSC.add(sc);
+        }
+        return listSC;
+    }
 }

@@ -6,9 +6,28 @@ import com.yimayhd.palace.base.BaseQuery;
  * Created by xushubing on 2016/8/18.
  */
 public class GuideScenicListQuery extends BaseQuery {
+    private static final long serialVersionUID = 2350825712224763525L;
     private String scenicName;//景区名称
     private String scenicResourceNum;//景区资源编号
     private int status;// 状态
+    private long guideId;//导览id
+    private String guideName;//导览名称
+
+    public long getGuideId() {
+        return guideId;
+    }
+
+    public void setGuideId(long guideId) {
+        this.guideId = guideId;
+    }
+
+    public String getGuideName() {
+        return guideName;
+    }
+
+    public void setGuideName(String guideName) {
+        this.guideName = guideName;
+    }
 
     public String getScenicName() {
         return scenicName;
