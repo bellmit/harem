@@ -8,6 +8,7 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.service.AttachmentManageService;
+import com.yimayhd.palace.service.impl.AttachmentManageServiceImpl;
 import com.yimayhd.palace.tair.CacheLockManager;
 import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
@@ -19,6 +20,8 @@ import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +40,7 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/jiuxiu/attachmentManage")
 public class AttachmentManageController extends BaseController {
-
+    private Logger log = LoggerFactory.getLogger(AttachmentManageServiceImpl.class);
 
     @Resource
     private AttachmentManageService attachmentManageService;
@@ -101,6 +104,7 @@ public class AttachmentManageController extends BaseController {
 
     /**
      * 播放
+     *
      * @param model
      * @param id
      * @return
@@ -126,19 +130,28 @@ public class AttachmentManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/addAttachment", method = RequestMethod.POST)
-    public String addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
-        String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK;
+    @ResponseBody
+    public ResponseVo addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+        UserDO user = sessionManager.getUser();
+        String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK+"_"+user.getId();
+        boolean result = false;
+        String message="上传失败";
         if (cacheLockManager.checkSubmitByCache(key)) {
             try {
-                UserDO user = sessionManager.getUser();
-                attachmentManageService.addAttachment(attachmentVO, file, user.getId());
+                result = attachmentManageService.addAttachment(attachmentVO, file, user.getId());
+                if(result) {
+                    message = "上传成功";
+                }
             } finally {
                 cacheLockManager.deleteKey(key);
             }
         } else {
-            return "redirect:/jiuxiu/attachmentManage/list";
+            message="其他文件上传中,稍后重试";
         }
-        return "redirect:/jiuxiu/attachmentManage/list";
+        ResponseVo responseVo =   returnResponseVo(result);
+        responseVo.setMessage(message);
+        return responseVo;
+
     }
 
     /**

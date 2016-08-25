@@ -9,6 +9,24 @@ public class GuideScenicListQuery extends BaseQuery {
     private String scenicName;//景区名称
     private String scenicResourceNum;//景区资源编号
     private int status;// 状态
+    private long guideId;//导览id
+    private long guideName;//导览名称
+
+    public long getGuideId() {
+        return guideId;
+    }
+
+    public void setGuideId(long guideId) {
+        this.guideId = guideId;
+    }
+
+    public long getGuideName() {
+        return guideName;
+    }
+
+    public void setGuideName(long guideName) {
+        this.guideName = guideName;
+    }
 
     public String getScenicName() {
         return scenicName;

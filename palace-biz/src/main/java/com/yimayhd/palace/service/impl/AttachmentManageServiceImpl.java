@@ -61,11 +61,11 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      * @return
      */
     @Override
-    public AttachmentVO addAttachment(AttachmentVO attachmentVO, MultipartFile file, final long userId) {
+    public boolean addAttachment(AttachmentVO attachmentVO, MultipartFile file, final long userId) {
         AttachmentUploadResult attachmentUploadResult = attachmentBiz.uploadAttachment(file);
         if (attachmentUploadResult == null) {
             log.error("addAttachment uploadAttachment error");
-            return null;
+            return false;
         }
         MediaDTO mediaDTO = new MediaDTO();
         mediaDTO.setScope(MediaFileScope.DEFAULT.getValue());
@@ -85,9 +85,9 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         Long id = mediaClientRepo.addMedia(mediaDTO);
         if (id != null && id > 0) {
             attachmentVO.setId(id);
-            return attachmentVO;
+            return true;
         }
-        return null;
+        return false;
     }
 
 
