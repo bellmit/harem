@@ -244,6 +244,7 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type
                 || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type
                 || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
+                ||  Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
         }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
