@@ -28,7 +28,7 @@ public class ContextStartUpListener implements ApplicationListener<ContextRefres
                 return;
             }
             isStarted = true;
-            try {
+          /*  try {
                 //初始化上传config
                 ResourceConfig resourceConfig = ResourceConfig.getInstance();
                 String ak = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_AK);
@@ -39,9 +39,10 @@ public class ContextStartUpListener implements ApplicationListener<ContextRefres
                 String getUrl = resourceConfig.getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_AUDIO_HOST);;
                 Config.init(ak, sk, putUrl, getUrl, mgrUrl);
             } catch (Exception e) {
+                e.printStackTrace();
                 logger.error("init chinanetcenter_config error");
                 logger.error("init chinanetcenter_config Exception:" + e);
-            }
+            }*/
         }
 
     }

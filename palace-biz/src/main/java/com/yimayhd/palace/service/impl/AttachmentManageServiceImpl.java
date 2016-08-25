@@ -82,7 +82,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         mediaDTO.setRemoteUrl(attachmentUploadResult.getUrl());
         mediaDTO.setFileKey(attachmentUploadResult.getKey());
         mediaDTO.setDuration(attachmentUploadResult.getDuration());
-        Long id = mediaClientRepo.addMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
+        Long id = mediaClientRepo.addMedia(mediaDTO);
         if (id != null && id > 0) {
             attachmentVO.setId(id);
             return attachmentVO;

@@ -79,7 +79,7 @@ public class AttachmentUpload {
                 attachmentUploadResult = new AttachmentUploadResult();
                 BeanUtils.populate(attachmentUploadResult, UrlUtil.convertParamsString2Map(result.getResponse()));
                 //获取时长
-                Avinfo avinfo =  getAvinfo(attachmentUploadResult.getKey());
+                Avinfo avinfo = getAvinfo(attachmentUploadResult.getKey());
                 attachmentUploadResult.setDuration(getDuration(avinfo));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -318,11 +318,16 @@ public class AttachmentUpload {
     }
 
     public Avinfo getAvinfo(String fileKey) {
-        Avinfo avinfo = FileAvInfo.getFileAvinfo(fileKey);
-        if (avinfo != null) {
-            System.out.println(avinfo.toJson());
-            return avinfo;
+        try {
+            Avinfo avinfo = FileAvInfo.getFileAvinfo(fileKey);
+            if (avinfo != null) {
+                System.out.println(avinfo.toJson());
+                return avinfo;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 

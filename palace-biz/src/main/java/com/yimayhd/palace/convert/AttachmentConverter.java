@@ -29,12 +29,15 @@ public class AttachmentConverter {
             return null;
         }
         AttachmentVO attachmentVO = new AttachmentVO();
+        attachmentVO.setId(mediaDO.getId());
         attachmentVO.setDuration(mediaDO.getDuration());
         //attachmentVO.setBucketName(ResourceConfig.getInstance().getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME));
         attachmentVO.setFileType(mediaDO.getFileType());
         attachmentVO.setScope(mediaDO.getScope());
         attachmentVO.setInputFileTitle(mediaDO.getInputFileTitle());
         attachmentVO.setRemark(mediaDO.getRemark());
+        attachmentVO.setStatus(mediaDO.getStatus());
+        attachmentVO.setGmtCreated(mediaDO.getGmtCreated());
         return attachmentVO;
     }
 

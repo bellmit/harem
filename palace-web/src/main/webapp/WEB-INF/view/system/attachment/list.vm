@@ -123,7 +123,7 @@
 #pageStyle("tbAttachmentList")
 
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
-<script src="$utilWebconfig.getStaticResourcesPath()/palace-web/resources/js/upload.js?version=21"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
 <script type="text/javascript">
     layer.config({
         extend: 'extend/layer.ext.js',

@@ -16,7 +16,7 @@ public class AttachmentConstant {
     public static final String CHINANETCENTER_CONFIG_PUTURL = "chinanetcenter.config.puturl";
     public static final String CHINANETCENTER_CONFIG_MGRURL = "chinanetcenter.config.mgrurl";
     public static final String CHINANETCENTER_CONFIG_BUCKETNAME = "chinanetcenter.config.bucketName";
-    public static final String CHINANETCENTER_CONFIG_AUDIO_HOST = "chinanetcenter.config.autio.host";
+    public static final String CHINANETCENTER_CONFIG_AUDIO_HOST = "chinanetcenter.config.audio.host";
 
 
     public static final String UPLOAD_ATTACHMENT_LOCK = "UPLOAD_ATTACHMENT_LOCK";
