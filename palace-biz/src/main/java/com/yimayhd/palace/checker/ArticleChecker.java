@@ -17,7 +17,7 @@ import com.yimayhd.resourcecenter.model.enums.ArticleType;
 public class ArticleChecker {
 	private static final Logger log = LoggerFactory.getLogger(ArticleChecker.class);
 
-	private static final int SUBTITLE_LENGTH=36;
+	private static final int SUBTITLE_LENGTH=36;//
 	private static final int TITLE_LENGTH=12;
 
 	public static CheckResult checkArticleVO(ArticleVO articleVO) {
