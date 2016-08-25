@@ -8,7 +8,7 @@
     </style>
 <form id="form1" name="form1">
     <div class="btnBottomMargin">
-        <a type="button" class="btn btn-primary addTourist" href="spotdetail.html"  attractionId="$!GuideAttractionDO.id">添加景点</a>
+        <a type="button" class="btn btn-primary addTourist"   attractionId="$!GuideAttractionDO.id">添加景点</a>
     </div>
     <div class="tableGroup whole">
         <table class="table table-bordered table-hover">
