@@ -18,7 +18,7 @@ public class AttachmentBiz {
         if (file == null || file.isEmpty()) {
             return null;
         }
-        String fileName = getFileName();
+        String fileName = getFileName()+"."+getExtension(file);
         try {
             File tempFile = File.createTempFile(fileName, null);
             file.transferTo(tempFile);

@@ -1,10 +1,10 @@
-
 <form id="editAttachment" name="editAttachment">
     <table class="table">
         <tr>
             <th><span class="spColor">*</span>名称：</th>
             <td>
-                <input type="text" class="inpCtlBlock limit-text"  name="inputFileTitle" id="inputFileTitle" value="$!{attachmentVO.inputFileTitle}">
+                <input type="text" class="inpCtlBlock limit-text" name="inputFileTitle" id="inputFileTitle"
+                       value="$!{attachmentVO.inputFileTitle}">
                 <span class="num">0/38</span>
             </td>
         </tr>
@@ -41,24 +41,32 @@
         <tr>
             <th><span class="spColor">*</span>备注：</th>
             <td>
-                <input type="text" class="inpCtlBlock limit-text" id="remark" name="remark"  value="${attachmentVO.remark}"><span class="num">0/38</span>
+                <input type="text" class="inpCtlBlock limit-text" id="remark" name="remark"
+                       value="$!{attachmentVO.remark}"><span class="num">0/38</span>
             </td>
         </tr>
     </table>
     <script type="text/javascript">
         var maxNum = 38;
-        $(function() {
-            $(".limit-text").on("input propertychange", function() {
-                var $this = $(this);
-                var txt = $this.val();
+        $(function () {
+            var limitTexts = $(".limit-text");
+
+            limitTexts.each(function() {
+                var txtlength = $(this).val().length;
+                $(this).next(".num").text(txtlength + " / " + maxNum);
+            });
+
+            limitTexts.on("input propertychange", function() {
+                var input = $(this);
+                var txt = input.val();
                 var currnum = txt.length;
                 if (currnum > maxNum) {
                     currnum = maxNum;
-                        $this.val(txt.substr(0, maxNum));
+                    input.val(txt.substr(0, maxNum));
                 }
-                    $this.next(".num").text(currnum + " / " + maxNum);
+                input.next(".num").text(currnum + " / " + maxNum);
                 return false;
-            })
+            });
         })
 
         function getItem() {

@@ -35,7 +35,7 @@ import javax.annotation.Resource;
  * Created by xushubing on 2016/8/18.
  */
 @Controller
-@RequestMapping("/jiuniu/attachmentManage")
+@RequestMapping("/jiuxiu/attachmentManage")
 public class AttachmentManageController extends BaseController {
 
 
