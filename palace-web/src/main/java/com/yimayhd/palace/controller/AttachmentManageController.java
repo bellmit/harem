@@ -100,6 +100,26 @@ public class AttachmentManageController extends BaseController {
     }
 
     /**
+     * 播放
+     * @param model
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/play")
+    public String play(Model model, @RequestParam() final long id) throws Exception {
+        MediaDTO mediaDTO = attachmentManageService.getMediaById(id);
+        if (mediaDTO == null) {
+            return "/error";
+        }
+        AttachmentVO attachmentVO = AttachmentConverter.mediaDTO2AttachmentVO(mediaDTO);
+
+        model.addAttribute("attachmentVO", attachmentVO);
+
+        return "/system/attachment/play";
+    }
+
+    /**
      * 添加
      *
      * @return

@@ -26,11 +26,28 @@ public class AttachmentVO {
 
     private int minute;
     private int second;
+    private int minuteVo;
+    private int secondVo;
 
+    public int getMinuteVo() {
+        return (int)duration/60;
+    }
+
+    public void setMinuteVo(int minuteVo) {
+        this.minuteVo = minuteVo;
+    }
+
+    public int getSecondVo() {
+        return (int)duration%60;
+    }
+
+    public void setSecondVo(int secondVo) {
+        this.secondVo = secondVo;
+    }
 
     public int getMinute() {
 
-        return (int)duration/60;
+        return minute;
     }
 
     public void setMinute(int minute) {
@@ -38,7 +55,7 @@ public class AttachmentVO {
     }
 
     public int getSecond() {
-        return (int) duration%60;
+        return second;
     }
 
     public void setSecond(int second) {

@@ -78,7 +78,7 @@ public class TouristlistController extends BaseController {
     /**
      * delete删除单个景点
      **/
-    @RequestMapping(value = "updateStatus", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ResponseBody
     public BizResult<String> updateStatus(long attractionId) {
 
@@ -105,7 +105,7 @@ public class TouristlistController extends BaseController {
     /**
      * select编辑查看 景点详情  景点介绍 和 线路设置 页面
      **/
-    @RequestMapping(value = "touristEditDetail", method = RequestMethod.GET)
+    @RequestMapping(value = "/touristEditDetail", method = RequestMethod.GET)
     public String touristEditDetail(Model model, long attractionId) throws Exception {
         try {
             ICResult<AttractionFocusDTO> AttractionDO = guideServiceRef.queryAttractionDetail(attractionId);
@@ -137,7 +137,7 @@ public class TouristlistController extends BaseController {
     /**
      * select新增 景点详情  景点介绍 和 线路设置 页面
      **/
-    @RequestMapping(value = "touristaddDetail", method = RequestMethod.GET)
+    @RequestMapping(value = "/touristaddDetail", method = RequestMethod.GET)
     public String touristaddDetail(Model model, long attractionId) throws Exception {
         try {
             ICResult<AttractionFocusDTO> AttractionDO = guideServiceRef.queryAttractionDetail(attractionId);
@@ -170,7 +170,7 @@ public class TouristlistController extends BaseController {
     /**
      * add/update 新增或者更新 保存景点详情
      **/
-    @RequestMapping(value = "addTourist", method = RequestMethod.POST)
+    @RequestMapping(value = "/addTourist", method = RequestMethod.POST)
     @ResponseBody
     public BizResult<String> addTourist(long attractionId, AttractionFocusAddDTO attractionFocusAddDTO, AttractionFocusUpdateDTO attractionFocusUpdateDTO) {
 
@@ -238,7 +238,7 @@ public class TouristlistController extends BaseController {
     /**
      * update保存线路集合
      **/
-    @RequestMapping(value = "updateGuideLine", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateGuideLine", method = RequestMethod.POST)
     @ResponseBody
     public BizResult<String> updateGuideLine(long guideId, GuideLineDTO guideLineDTO) {
 

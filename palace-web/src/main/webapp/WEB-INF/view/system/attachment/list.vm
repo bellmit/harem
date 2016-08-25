@@ -62,7 +62,8 @@
         </div>
     </div>
 </form>
-<form action="$utilWebconfig.getStaticResourcesPath()/jiuniu/attachmentManage/addAttachment" enctype="multipart/form-data" id="addAttachmentForm"
+<form action="$utilWebconfig.getStaticResourcesPath()/jiuniu/attachmentManage/addAttachment"
+      enctype="multipart/form-data" id="addAttachmentForm"
       name="addAttachmentForm" method="post">
     <div class="btnBottomMargin">
         <input type="file" name="file" class="file">
@@ -110,8 +111,9 @@
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary edit" itemId="$item.id">编辑</button>
-                    <button type="button" class="btn btn-primary play">播放</button>
-                    <button type="button" class="btn btn-primary">下架</button>
+                    <button type="button" class="btn btn-primary play" itemId="$item.id">播放</button>
+                    <button type="button" class="btn btn-primary off" itemId="$item.id">下架</button>
+                    <button type="button" class="btn btn-primary on" itemId="$item.id">上架</button>
                 </td>
             </tr>
             #end
@@ -131,16 +133,34 @@
         skin: 'layer-ext-mySkin'
     });
     function submitEdit(data) {
-        alert(1);
+        //alert(1);
         $.ajax({
             url: "$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/editAttachment",
             type: "post",
             data: data,
             success: function (res) {
-
+                if (data.status == 200) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+                } else {
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled', false);
+                }
             },
             error: function (xmlres, status, code) {
-
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
             }
         });
     }
@@ -150,7 +170,18 @@
             openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑信息", function () {
                 var item = win.getItem();
                 if (item != null) {
-                    alert(JSON.stringify(item))
+                    //alert(JSON.stringify(item))
+                    submitEdit(item);
+                }
+                return true;
+            });
+        });
+        $("#tbAttachmentList").on("click", ".play", function () {
+            var id = $(this).attr('itemId');
+            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑信息", function () {
+                var item = win.getItem();
+                if (item != null) {
+                    //alert(JSON.stringify(item))
                     submitEdit(item);
                 }
                 return true;
