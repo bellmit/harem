@@ -1,6 +1,5 @@
 package com.yimayhd.palace.controller.merchant;
 
-import java.awt.JobAttributes.DestinationType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,53 +17,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
-import com.yimayhd.commentcenter.client.enums.TagType;
-import com.yimayhd.commentcenter.client.service.ComTagCenterService;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
-import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
-import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.palace.base.BaseController;
-import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
-import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.jiuxiu.helper.JiuxiuHelper;
-import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
 import com.yimayhd.palace.model.vo.merchant.MerchantUserVo;
 import com.yimayhd.palace.model.vo.merchant.MerchantVO;
-import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
-import com.yimayhd.palace.util.Common;
-import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.dto.DestinationNode;
 import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
-import com.yimayhd.resourcecenter.model.enums.RegionType;
-import com.yimayhd.resourcecenter.model.query.RegionQuery;
-import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.service.DestinationService;
 import com.yimayhd.resourcecenter.service.RegionClientService;
-import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.dto.CityDTO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
-import com.yimayhd.user.client.enums.MerchantStatus;
 import com.yimayhd.user.client.enums.ServiceFacilityOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.result.BaseResult;
-import com.yimayhd.user.client.service.DataCacheService;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -183,7 +162,7 @@ public class MerchantController extends BaseController {
 			}
 			model.addAttribute("merchant",merchantDO );
 			model.addAttribute("pictureText", merchantBiz.getPictureText(merchant.getValue().getSellerId()));
-			log.info("=============================="+JSON.toJSONString(merchantBiz.getPictureText(merchant.getValue().getSellerId())));
+			//log.info("=============================="+JSON.toJSONString(merchantBiz.getPictureText(merchant.getValue().getSellerId())));
 
 		}
 
@@ -236,7 +215,7 @@ public class MerchantController extends BaseController {
 	}
 	@RequestMapping(value="getMerchantList",method=RequestMethod.GET)
 	public String getMerchantList(Model model,MerchantPageQuery merchantPageQuery) {
-		BizPageResult<MerchantVO> result = new BizPageResult<>() ;
+		//BizPageResult<MerchantVO> result = new BizPageResult<>() ;
 				
 		merchantPageQuery.setDomainId(Constant.DOMAIN_JIUXIU);
 		merchantPageQuery.setOption(MerchantOption.EAT.getOption());
@@ -364,7 +343,7 @@ public class MerchantController extends BaseController {
 	 */
 	@RequestMapping(value="detail")
 	public String getMerchantDetail(Model model,long id,long option){
-		UserDO user = sessionManager.getUser();
+		//UserDO user = sessionManager.getUser();
 		if(MerchantOption.MERCHANT.getOption()==option){
 			BaseResult<MerchantDO> meResult = merchantBiz.getMerchantBySellerId(id);
 			model.addAttribute("nickName",meResult.getValue().getName());
@@ -414,6 +393,68 @@ public class MerchantController extends BaseController {
 			return null;
 		}
 	}
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年8月25日
+	* @Title: modifyWeight 
+	* @Description: 设置商户权重
+	* @param  merchantId
+	* @param  weightValue
+	* @return BizResult<String>    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value="modifyMerchantWeight",method = RequestMethod.GET)
+	@ResponseBody
+	public BizResult<String> modifyMerchantWeight(long merchantId,int weightValue) {
+		BizResult<String> result = new BizResult<String>();
+		if (merchantId <= 0 || weightValue <= 0) {
+			log.error("params:merchantId={},weightValue={}",merchantId,weightValue);
+			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return result;
+		}
+		BizResult<Boolean> setResult = merchantBiz.modifyMerchantWeight(merchantId,weightValue);
+		if (setResult == null || !setResult.isSuccess()) {
+			log.error("params:sellerId={},weightVale={},result:{}",merchantId,weightValue,JSON.toJSONString(setResult));
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
+	}
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年8月25日
+	* @Title: modifyResourceWeight 
+	* @Description: 设置资源的权重
+	* @param  itemId
+	* @param  weightValue
+	* @param  type
 	
+	* @return BizResult<String>    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value="modifyResourceWeight",method = RequestMethod.POST)
+	@ResponseBody
+	public BizResult<String> modifyResourceWeight(long itemId,int weightValue,int type) {
+		BizResult<String> result = new BizResult<String>();
+		if (itemId <= 0 || weightValue <= 0) {
+			log.error("params:sellerId={},weightValue={}",itemId,weightValue);
+			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return result;
+		}
+		BizResult<Boolean> setResult = null;
+		if (true) {
+			setResult = merchantBiz.modifyHotelWeight(itemId, weightValue);
+		}else if (true) {
+			setResult = merchantBiz.modifyScenicWeight(itemId, weightValue);
+		}
+		if (setResult == null || !setResult.isSuccess()) {
+			log.error("params:itemId={},weightVale={},result:{}",itemId,weightValue,JSON.toJSONString(setResult));
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
+	}
 	
 }

@@ -3,6 +3,8 @@ package com.yimayhd.palace.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.yimayhd.palace.model.vo.AudioVO;
+
 /**
  * H5文章
  *
@@ -57,6 +59,15 @@ public class ArticleItemVO implements Serializable {
 	 * 音频资源
 	 */
 	private ArticleAudioItemVO articleAudioItemVO;
+	private AudioVO audioResource;
+	
+	public AudioVO getAudioResource() {
+		return audioResource;
+	}
+
+	public void setAudioResource(AudioVO audioResource) {
+		this.audioResource = audioResource;
+	}
 
 	public long getId() {
 		return id;

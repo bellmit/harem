@@ -8,6 +8,7 @@ import java.util.List;
 import com.yimayhd.palace.model.*;
 import com.yimayhd.resourcecenter.dto.*;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -24,10 +25,14 @@ import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
 import com.yimayhd.palace.model.ArticleHotelResourceItemVO;
 import com.yimayhd.palace.model.ArticleVO;
+import com.yimayhd.palace.model.vo.AudioVO;
 import com.yimayhd.palace.util.RegExpValidator;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
 import com.yimayhd.resourcecenter.domain.ArticleItemDO;
+import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
+import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.UserDTO;
@@ -65,6 +70,9 @@ public class ArticleConverter {
         articleDO.setPv(articleVO.getPv());
         articleDO.setSubTitle(articleVO.getSubTitle());
         articleDO.setType(articleVO.getType());
+        
+        articleDO.setAuthor(articleVO.getAuthor());
+        
         if (articleVO.getStatus() != null && articleVO.getStatus() > 0) {
             articleDO.setStatus(articleVO.getStatus());
         }
@@ -307,5 +315,29 @@ public class ArticleConverter {
         articleScenicResourceItemVO.setResourceName(solrScenicDO.getScenicName());
         articleScenicResourceItemVO.setResourcePic(solrScenicDO.getIcon());
         return articleScenicResourceItemVO;
+    }
+    
+    public static List<AudioVO> convertMedia2Audio(List<MediaDO> mediaList) {
+    	List<AudioVO> audios = new ArrayList<AudioVO>();
+    	for (MediaDO media : mediaList) {
+			
+    		AudioVO audio = new AudioVO();
+    		audio.setInputFileName(media.getInputFileName());
+    		if (media.getFileType() == MediaFileType.MP3.getValue()) {
+    			audio.setFileTypeName(MediaFileType.MP3.getDesc());
+    		}
+    		audio.setGmtCreated(media.getGmtCreated());
+    		if (media.getScope() == MediaFileScope.DEFAULT.getValue()) {
+    			audio.setScopeName(MediaFileScope.DEFAULT.getDesc());
+    		}else if (media.getScope() == MediaFileScope.GUIDE.getValue()) {
+    			audio.setScopeName(MediaFileScope.GUIDE.getDesc());
+    		}else if (media.getScope() == MediaFileScope.H5.getValue()) {
+    			audio.setScopeName(MediaFileScope.H5.getDesc());
+    		}
+    		audio.setDuration(media.getDuration());
+    		audio.setRemark(media.getRemark());
+    		audios.add(audio);
+		}
+    	return audios;
     }
 }
