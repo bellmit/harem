@@ -16,7 +16,7 @@
 
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
-<form id="tbAttachmentList" name="tbAttachmentList"
+<form id="tbAttachmentListForm" name="tbAttachmentListForm"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
@@ -146,7 +146,7 @@
 </div>
 #*分页*#
 #parse("/page.vm")
-#pageStyle("tbAttachmentList")
+#pageStyle("tbAttachmentListForm")
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
 <script type="text/javascript">
