@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  * Created by xushubing on 2016/8/18.
  */
 @Controller
-@RequestMapping("/jiuniu/guideManage")
+@RequestMapping("/jiuxiu/guideManage")
 public class GuideManageController extends BaseController {
     @Resource
     private GuideManageService guideManageService;
