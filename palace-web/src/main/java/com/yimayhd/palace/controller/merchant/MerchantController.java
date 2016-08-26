@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
@@ -444,9 +445,10 @@ public class MerchantController extends BaseController {
 			return result;
 		}
 		BizResult<Boolean> setResult = null;
-		if (true) {
+		if (ResourceType.HOTEL.getType() == type) {
 			setResult = merchantBiz.modifyHotelWeight(itemId, weightValue);
-		}else if (true) {
+		}else if (ResourceType.SCENIC.getType() == type) {
+			
 			setResult = merchantBiz.modifyScenicWeight(itemId, weightValue);
 		}
 		if (setResult == null || !setResult.isSuccess()) {
