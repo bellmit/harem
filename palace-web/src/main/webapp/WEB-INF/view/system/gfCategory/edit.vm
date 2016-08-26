@@ -45,12 +45,12 @@
                 <td>
                     <div class="fileImgWrap">
                         <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="imgPc" value="$!{theme.imgPc}" id="PCUrlUploadFileReturnInput" >
+                        <input type="hidden" name="imgPc" value="$!{PCpic}" id="PCUrlUploadFileReturnInput" >
                         <input type="file" name="imgPcfile" class="fileInp" id="PCUrlUploadFile">
                         <p>注：图片大小不超过2M<br />建议尺寸：1920*550</p>
                     </div>
                     <div class="logoView">
-                        <img src="#if($!theme.imgPc) $utilWebconfig.getTfsRootPath()$!{theme.imgPc} #end" class="img-square uploadImgFile" id="PCUrlUploadFileReturnImg">
+                        <img src="#if($!PCpic) $utilWebconfig.getTfsRootPath()$!{PCpic} #end" class="img-square uploadImgFile" id="PCUrlUploadFileReturnImg">
                     </div>
                 </td>
             </tr>
@@ -59,12 +59,12 @@
                 <td>
                     <div class="fileImgWrap">
                         <button type="button" class="btn btn-success">选择图片</button>
-                        <input type="hidden" name="imgWap" value="$!{theme.imgWap}" id="MobileUrlUploadFileReturnInput" >
+                        <input type="hidden" name="imgWap" value="$!{WAPpic}" id="MobileUrlUploadFileReturnInput" >
                         <input type="file" name="imgWapfile" class="fileInp" id="MobileUrlUploadFile">
                         <p>注：图片大小不超过2M<br />建议尺寸：<br />大系列图片750*360<br /> 小系列图片750*150</p>
                     </div>
                     <div class="logoView">
-                        <img src="#if($!theme.imgWap) $utilWebconfig.getTfsRootPath()$!{theme.imgWap} #end" class="img-square uploadImgFile" id="MobileUrlUploadFileReturnImg">
+                        <img src="#if($!WAPpic) $utilWebconfig.getTfsRootPath()$!{WAPpic} #end" class="img-square uploadImgFile" id="MobileUrlUploadFileReturnImg">
                     </div>
                 </td>
             </tr>

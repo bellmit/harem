@@ -3,7 +3,10 @@ package com.yimayhd.gf.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import com.yimayhd.commentcenter.client.enums.CategoryFeatureKey;
+import com.yimayhd.commentcenter.client.util.FeatureUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,7 +166,12 @@ public class GFCategoryManagerController {
 			modelMap.addAttribute("categoryList", categoryList);
 			
 			BaseResult<CategoryDO> baseResult2 = gfCategoryBiz.getCategoryById(id);
-			model.addAttribute("theme", baseResult2.getValue());
+			CategoryDO categoryDO = baseResult2.getValue();
+			model.addAttribute("theme", categoryDO);
+			Map<String, String> categoryFeature = FeatureUtil.setFeatureString(categoryDO.getFeature());
+			model.addAttribute("PCpic", categoryFeature.get(CategoryFeatureKey.IMG_PC.getCode()));
+			model.addAttribute("WAPpic", categoryFeature.get(CategoryFeatureKey.IMG_WAP.getCode()));
+
 			return "/system/gfCategory/edit";
 		} catch (Exception e) {
 			LOGGER.error("toEditCategory:id={}",id, e);
