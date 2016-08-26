@@ -136,13 +136,21 @@ public class GuideManageController extends BaseController {
 
         model.addAttribute("pageVo", pageVO);
         model.addAttribute("itemList", pageVO.getItemList());
-        return "/system/guide/guidelist";
+        return "/system/guide/selectscenic";
     }
+
+    /**
+     *
+     * @param model
+     * @param scenicVO
+     * @return
+     * @throws Exception
+     */
 
     @RequestMapping(value = "/scenic/selected")
     public String selected(Model model, ScenicVO scenicVO) throws Exception {
         scenicVO = guideManageService.selectedScenic(scenicVO);
         model.addAttribute("scenicVO", scenicVO);
-        return "/system/guide/guidelist";
+        return "/system/guide/selectscenic";
     }
 }

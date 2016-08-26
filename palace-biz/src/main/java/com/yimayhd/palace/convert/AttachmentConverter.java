@@ -15,7 +15,7 @@ public class AttachmentConverter {
             return null;
         }
         MediaDTO mediaDTO = new MediaDTO();
-        mediaDTO.setDuration(attachmentVO.getMinute() * 60 + attachmentVO.getSecond());
+        mediaDTO.setDuration(attachmentVO.getMinute()*60+attachmentVO.getSecond());
         mediaDTO.setScope(attachmentVO.getScope());
         mediaDTO.setInputFileTitle(attachmentVO.getInputFileTitle());
         mediaDTO.setRemark(attachmentVO.getRemark());
@@ -58,8 +58,8 @@ public class AttachmentConverter {
     }
 
 
-    public static MediaPageQuery attachmentListQuery2MediaPageQuery(AttachmentListQuery attachmentListQuery) {
-        if (attachmentListQuery == null) {
+    public static MediaPageQuery attachmentListQuery2MediaPageQuery(AttachmentListQuery attachmentListQuery){
+        if(attachmentListQuery==null){
             return null;
         }
         MediaPageQuery mediaPageQuery = new MediaPageQuery();
@@ -68,7 +68,7 @@ public class AttachmentConverter {
         mediaPageQuery.setPageSize(attachmentListQuery.getPageSize());
         mediaPageQuery.setEndTime(attachmentListQuery.getEndTime());
         mediaPageQuery.setFileType(attachmentListQuery.getFileType());
-        mediaPageQuery.setInputFileName(attachmentListQuery.getInputFileName());
+        mediaPageQuery.setInputFileTitle(attachmentListQuery.getInputFileTitle());
         mediaPageQuery.setRemark(attachmentListQuery.getRemark());
         mediaPageQuery.setStarteTime(attachmentListQuery.getStarteTime());
         mediaPageQuery.setStatus(attachmentListQuery.getStatus());

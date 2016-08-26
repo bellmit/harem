@@ -23,7 +23,7 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">文件名称：</button>
                 </span>
-            <input type="text" class="form-control" name="inputFileName" value="" id="inputFileName">
+            <input type="text" class="form-control" name="inputFileTitle" value="$!{mediaPageQuery.inputFileTitle}" id="inputFileName">
         </div>
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
