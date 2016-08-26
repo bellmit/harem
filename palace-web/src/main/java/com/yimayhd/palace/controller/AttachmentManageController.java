@@ -13,12 +13,9 @@ import com.yimayhd.palace.service.impl.AttachmentManageServiceImpl;
 import com.yimayhd.palace.tair.CacheLockManager;
 import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
-import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
 import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileType;
-import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
-import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.slf4j.Logger;
@@ -72,7 +69,19 @@ public class AttachmentManageController extends BaseController {
         model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class, null));
         return "/system/attachment/list";
     }
+    @RequestMapping(value = "/list/select")
+    public String sellectList(Model model, AttachmentListQuery attachmentListQuery) throws Exception {
+        attachmentListQuery.setStatus(MediaFileStatus.ON.getValue());
+        PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
 
+        model.addAttribute("pageVo", pageVO);
+        model.addAttribute("itemList", pageVO.getItemList());
+        model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
+        model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
+        model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
+        model.addAttribute("mediaPageQuery", attachmentListQuery);
+        return "/system/attachment/selectList";
+    }
     /**
      * 添加导览跳转
      *

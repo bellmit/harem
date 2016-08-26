@@ -248,7 +248,7 @@ public class MerchantRepo {
 		boolean setResult = userMerchantServiceRef.setMerchantWeight(setMerchantWeightDTO);
 		return setResult;
 	}
-	public boolean modifyHotelWeight(HotelPublishDTO hotelPublishDTO) {
+	/*public boolean modifyHotelWeight(HotelPublishDTO hotelPublishDTO) {
 		log.info("param:HotelPublishDTO={}",JSON.toJSONString(hotelPublishDTO));
 		boolean setResult = hotelServiceRef.setHotelWeight(hotelPublishDTO);
 		
@@ -258,6 +258,6 @@ public class MerchantRepo {
 		log.info("param:SetScenicWeightDTO={}",JSON.toJSONString(dto));
 		boolean setResult = scenicPublishService.setScenicWeight(dto);
 		return setResult;
-	}
+	}*/
 	
 }

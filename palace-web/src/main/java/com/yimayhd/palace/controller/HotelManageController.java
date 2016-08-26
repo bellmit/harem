@@ -1,19 +1,24 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.AreaService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.AreaVO;
 import com.yimayhd.palace.model.HotelFacilityVO;
 import com.yimayhd.palace.model.HotelVO;
 import com.yimayhd.palace.model.query.HotelListQuery;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.HotelRPCService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.ic.client.model.result.ICResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -257,5 +262,22 @@ public class HotelManageController extends BaseController {
 		hotelRPCService.setHotelStatusList(hotelIdList, hotelStatus);
 		return new ResponseVo();
 	}
-
+	
+	@RequestMapping(value="setHotelWeight",method = RequestMethod.POST)
+	@ResponseBody
+	public BizResult<String> modifyResourceWeight(long id,int weight) {
+		BizResult<String> result = new BizResult<String>();
+		if (id <= 0 || weight <= 0) {
+			log.error("params:id={},weightValue={}",id,weight);
+			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return result;
+		}
+		BizResult<Boolean> setResult = hotelRPCService.setHotelWeight(id, weight);
+		if (setResult == null || !setResult.isSuccess()) {
+			log.error("params:itemId={},weightVale={},result:{}",id,weight,JSON.toJSONString(setResult));
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
+	}
 }

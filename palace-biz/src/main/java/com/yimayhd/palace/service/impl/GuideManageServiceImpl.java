@@ -135,7 +135,7 @@ public class GuideManageServiceImpl implements GuideManageService {
     public PageVO<ScenicVO> getScenicList(ScenicPageQuery scenicPageQuery) {
         ICPageResult<ScenicDO> result = guideRepo.queryCanGuideScenic(scenicPageQuery);
         if (null == result) {
-            return null;
+            return new PageVO<ScenicVO>();
         } else {
             List<ScenicVO> scenicVOList = GuideConverter.convertScenic(result.getList());
             PageVO<ScenicVO> pageVO = new PageVO<ScenicVO>();

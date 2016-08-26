@@ -11,7 +11,7 @@ public class AttachmentListQuery extends BaseQuery {
     /**
      * 文件名称
      */
-    private String inputFileName;
+    private String inputFileTitle;
 
     /**
      *  30:mp3 40:mp4,所属表字段为rc_media.file_type
@@ -40,12 +40,12 @@ public class AttachmentListQuery extends BaseQuery {
 
     private String remark;//备注
 
-    public String getInputFileName() {
-        return inputFileName;
+    public String getInputFileTitle() {
+        return inputFileTitle;
     }
 
-    public void setInputFileName(String inputFileName) {
-        this.inputFileName = inputFileName;
+    public void setInputFileTitle(String inputFileTitle) {
+        this.inputFileTitle = inputFileTitle;
     }
 
     public int getFileType() {

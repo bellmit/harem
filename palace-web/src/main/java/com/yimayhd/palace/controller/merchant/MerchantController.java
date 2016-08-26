@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
@@ -421,40 +422,7 @@ public class MerchantController extends BaseController {
 		}
 		return result;
 	}
-	/**
-	 * 
-	* created by zhangxiaoyang
-	* @date 2016年8月25日
-	* @Title: modifyResourceWeight 
-	* @Description: 设置资源的权重
-	* @param  itemId
-	* @param  weightValue
-	* @param  type
 	
-	* @return BizResult<String>    返回类型 
-	* @throws
-	 */
-	@RequestMapping(value="modifyResourceWeight",method = RequestMethod.POST)
-	@ResponseBody
-	public BizResult<String> modifyResourceWeight(long itemId,int weightValue,int type) {
-		BizResult<String> result = new BizResult<String>();
-		if (itemId <= 0 || weightValue <= 0) {
-			log.error("params:sellerId={},weightValue={}",itemId,weightValue);
-			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
-			return result;
-		}
-		BizResult<Boolean> setResult = null;
-		if (true) {
-			setResult = merchantBiz.modifyHotelWeight(itemId, weightValue);
-		}else if (true) {
-			setResult = merchantBiz.modifyScenicWeight(itemId, weightValue);
-		}
-		if (setResult == null || !setResult.isSuccess()) {
-			log.error("params:itemId={},weightVale={},result:{}",itemId,weightValue,JSON.toJSONString(setResult));
-			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
-			return result;
-		}
-		return result;
-	}
+	
 	
 }

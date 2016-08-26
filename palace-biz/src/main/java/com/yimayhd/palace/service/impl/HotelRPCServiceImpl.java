@@ -21,11 +21,13 @@ import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.PictureFeature;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.enums.PictureTag;
 import com.yimayhd.ic.client.model.param.item.FacilityQueryDTO;
 import com.yimayhd.ic.client.model.param.item.HotelDTO;
+import com.yimayhd.ic.client.model.param.item.HotelPublishDTO;
 import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.RoomDTO;
 import com.yimayhd.ic.client.model.param.item.RoomStatusDTO;
@@ -41,6 +43,7 @@ import com.yimayhd.ic.client.service.item.ResourcePublishService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.HotelFacilityVO;
 import com.yimayhd.palace.model.HotelVO;
 import com.yimayhd.palace.model.PictureVO;
@@ -49,6 +52,7 @@ import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.HotelListQuery;
 import com.yimayhd.palace.repo.PictureTextRepo;
 import com.yimayhd.palace.repo.ResourceRepo;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.HotelRPCService;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.DateUtil;
@@ -741,6 +745,23 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 				throw new BaseException("该酒店已存在，不需要重复录入！");
 			}
 		}
+	}
+
+	@Override
+	public BizResult<Boolean> setHotelWeight(long id, int weight) {
+		
+		BizResult<Boolean> result = new BizResult<Boolean>();
+		HotelPublishDTO dto = new HotelPublishDTO();
+		dto.setSort(weight);
+		ItemDO itemDO = new ItemDO();
+		itemDO.setId(id);
+		dto.setItemDO(itemDO);
+		boolean setResult = hotelServiceRef.setHotelWeight(dto);
+		if (!setResult) {
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
 	}
 
 	

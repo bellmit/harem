@@ -1,121 +1,100 @@
-    <meta charset="UTF-8">
-    <title>选择景区</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/css/zui.min.css?version=21" rel="stylesheet">
-    <link rel="stylesheet" href="http://console.test.jiuxiulvxing.com/palace-web/resources/css/common.css?version=21" />
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/js/zui.min.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/respond.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/common.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/layer-v2.1/layer.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery-form.js?version=21" type="text/javascript"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validate.min.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/JQ_verify.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.metadata.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validform.js?version=21"></script>
-    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/validate/messages_zh.min.js?version=21" type="text/javascript"></script>
-    <style type="text/css">
-    .table>thead th,
-    .table>tbody td {
+<style type="text/css">
+    .table > thead th,
+    .table > tbody td {
         text-align: center;
         vertical-align: middle;
     }
-    
+
     .table tr.selected {
         background: #ffe7bc;
     }
-    </style>
+</style>
 
 
-    <form class="form-signin" id="frmGuideList" name="frmGuideList" method="GET" action="$!utilWebconfig.getActionDefaultFontPath()/jiuniu/guideManage/scenic/list">
-        <div class="inputGroup">
-            <div class="input-group inpSingle">
+<form class="form-signin" id="tbScenicList" name="tbScenicList" method="GET"
+      action="$!utilWebconfig.getActionDefaultFontPath()/jiuniu/guideManage/scenic/list">
+    <div class="inputGroup">
+        <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">景区名称：</button>
                 </span>
-                <input type="text" class="form-control" name="scenicName" value="">
-            </div>
-            <div class="input-group inpSingle">
+            <input type="text" class="form-control" name="scenicName" value="">
+        </div>
+        <div class="input-group inpSingle">
                 <span class="input-group-btn">
                         <button class="btn btn-default" type="button">资源编号：</button>
                     </span>
-                <input type="text" class="form-control" name="scenicNumber" value="">
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary submitBtn">搜索</button>
-            </div>
+            <input type="text" class="form-control" name="scenicNumber" value="">
         </div>
-        <div class="tableGroup whole">
-            <table class="table table-bordered" id="tbScenicList">
-                <thead>
-                    <tr>
-                        <th>选择</th>
-                        <th>景区名称</th>
-                        <th>资源编号</th>
-                        <th>地址</th>
-                        <th>详情</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    #foreach($item in $itemList)
-                        <td>
-                            <input type="checkbox" />
-                        </td>
-                        <td>
-                            $!item.name
-                        </td>
-                        <td>
-                            $!item.id
-                        </td>
-                        <td>
-                            $!item.locationText
-                        </td>
-                        <td>
-                            <a type="button" class="btn btn-primary" themeid="1800">查看详情</a>
-                        </td>
-                    #end
-                    </tr>
-                </tbody>
-            </table>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary submitBtn">搜索</button>
         </div>
-        #*分页*#
-        #parse("/page.vm")
-        #pageStyle("tbScenicList")
-        <script type="text/javascript">
-        $(function() {
-            $("#tbScenicList").on("click", "input[type='checkbox']", function() {
-                var $checkbox = $(this);
-                var checked = $checkbox[0].checked;
-                var $tr = $checkbox.closest("tr");
+    </div>
+    <div class="tableGroup whole">
+        <table class="table table-bordered" id="tbScenicList">
+            <thead>
+            <tr>
+                <th>选择</th>
+                <th>景区名称</th>
+                <th>资源编号</th>
+                <th>地址</th>
+                <th>详情</th>
+            </tr>
+            </thead>
+            <tbody>
+                #foreach($item in $itemList)
+                <tr>
+                    <td>
+                        <input type="checkbox" id="$!{item.id}"/>
+                    </td>
+                    <td>
+                        $!item.name
+                    </td>
+                    <td>
+                        $!item.id
+                    </td>
+                    <td>
+                        $!item.locationText
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-primary" themeid="1800">查看详情</a>
+                    </td>
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+</form>
+#*分页*#
+#parse("/page.vm")
+#pageStyle("tbScenicList")
+<script type="text/javascript">
+    $(function () {
+        $("#tbScenicList").on("click", "input[type='checkbox']", function () {
+            var checkbox = $(this);
+            var checked = checkbox[0].checked;
+            var tr = checkbox.closest("tr");
 
-                if (checked) {
-                    var $selecetdtr = $("#tbScenicList tr.selected");
-                    $selecetdtr.removeClass("selected");
-                    $selecetdtr.find("input[type='checkbox']").attr("checked", false);
+            if (checked) {
+                var selecetdtr = $("#tbScenicList tr.selected");
+                selecetdtr.removeClass("selected");
+                selecetdtr.find("input[type='checkbox']").attr("checked", false);
 
-                    $tr.addClass("selected");
-                } else {
-                    $tr.removeClass("selected");
-                }
-            });
-        });
-
-        function getItem() {
-            return {
-                name: "aaaaaaaaaaaaaaaaaa",
-                number: "bbbbbbbbbbbbbbbbb",
-                location: "cccccccccccccccccc",
-                level: "1000",
-                theme: "ddddddddddddddd",
-                address: "eeeeeeeeeeeeeeeee",
-                latlng: "1.123123123,2.23123123123",
-                yinyetime:"周一至周五：8：00~21：00 周六周日：12：00~22：00"
+                tr.addClass("selected");
+            } else {
+                tr.removeClass("selected");
             }
+        });
+    });
+
+    function getItem() {
+        var selecetdtr = $("#tbScenicList tr.selected").find("input[type='checkbox']");
+        return {
+            id: selecetdtr.attr("id")
+
         }
-        </script>
-    </form>
+    }
+</script>
 
 
 
