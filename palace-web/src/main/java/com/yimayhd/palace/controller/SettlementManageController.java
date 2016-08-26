@@ -36,7 +36,7 @@ public class SettlementManageController extends BaseController {
 	
 	/**
 	 * 结算列表
-	 * @param model
+	 * @param model  
 	 * @return
 	 * @throws Exception
 	 */
