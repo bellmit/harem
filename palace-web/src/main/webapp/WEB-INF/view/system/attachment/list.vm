@@ -16,7 +16,7 @@
 
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
-<form id="mediaPageQuery" name="mediaPageQuery"
+<form id="tbAttachmentList" name="tbAttachmentList"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
@@ -78,8 +78,8 @@
             <button type="reset" class="btn btn-primary btn-clean">重置</button>
         </div>
     </div>
-</form>
 
+</form>
 <form enctype="multipart/form-data" id="addAttachmentForm" name="addAttachmentForm" method="post">
     <div class="btnBottomMargin">
         <input type="hidden" id="uploadActionUrl"
@@ -95,6 +95,7 @@
         <tr>
             <th>序号</th>
             <th>名称</th>
+            <th>文件KEY</th>
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
@@ -110,6 +111,9 @@
                 <td>$!{item.id}</td>
                 <td>
                     $!{item.inputFileTitle}
+                </td>
+                <td>
+                    $!{item.fileKey}
                 </td>
                 <td>
                     $!{item.fileTypeStr}
@@ -143,7 +147,6 @@
 #*分页*#
 #parse("/page.vm")
 #pageStyle("tbAttachmentList")
-
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
 <script type="text/javascript">

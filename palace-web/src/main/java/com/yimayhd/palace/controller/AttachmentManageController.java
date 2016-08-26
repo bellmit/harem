@@ -6,6 +6,7 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.AttachmentConstant;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.AttachmentConverter;
+import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.service.AttachmentManageService;
 import com.yimayhd.palace.service.impl.AttachmentManageServiceImpl;
@@ -53,21 +54,22 @@ public class AttachmentManageController extends BaseController {
      * 分页
      *
      * @param model
-     * @param mediaPageQuery
+     * @param attachmentListQuery
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/list")
-    public String list(Model model, MediaPageQuery mediaPageQuery) throws Exception {
-        PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(mediaPageQuery);
+    public String list(Model model, AttachmentListQuery attachmentListQuery) throws Exception {
+
+        PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
 
         model.addAttribute("pageVo", pageVO);
         model.addAttribute("itemList", pageVO.getItemList());
         model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
         model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
         model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
-        model.addAttribute("mediaPageQuery", mediaPageQuery);
-        model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class,null));
+        model.addAttribute("mediaPageQuery", attachmentListQuery);
+        model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class, null));
         return "/system/attachment/list";
     }
 
@@ -134,22 +136,22 @@ public class AttachmentManageController extends BaseController {
     @ResponseBody
     public ResponseVo addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         UserDO user = sessionManager.getUser();
-        String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK+"_"+user.getId();
+        String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK + "_" + user.getId();
         boolean result = false;
-        String message="上传失败";
+        String message = "上传失败";
         if (cacheLockManager.checkSubmitByCache(key)) {
             try {
                 result = attachmentManageService.addAttachment(attachmentVO, file, user.getId());
-                if(result) {
+                if (result) {
                     message = "上传成功";
                 }
             } finally {
                 cacheLockManager.deleteKey(key);
             }
         } else {
-            message="其他文件上传中,稍后重试";
+            message = "其他文件上传中,稍后重试";
         }
-        ResponseVo responseVo =   returnResponseVo(result);
+        ResponseVo responseVo = returnResponseVo(result);
         responseVo.setMessage(message);
         return responseVo;
 

@@ -1,8 +1,10 @@
 package com.yimayhd.palace.convert;
 
+import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
+import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 
 /**
  * Created by Administrator on 2016/8/22.
@@ -13,7 +15,7 @@ public class AttachmentConverter {
             return null;
         }
         MediaDTO mediaDTO = new MediaDTO();
-        mediaDTO.setDuration(attachmentVO.getMinute()*60+attachmentVO.getSecond());
+        mediaDTO.setDuration(attachmentVO.getMinute() * 60 + attachmentVO.getSecond());
         mediaDTO.setScope(attachmentVO.getScope());
         mediaDTO.setInputFileTitle(attachmentVO.getInputFileTitle());
         mediaDTO.setRemark(attachmentVO.getRemark());
@@ -53,5 +55,24 @@ public class AttachmentConverter {
         attachmentVO.setRemark(mediaDTO.getRemark());
         attachmentVO.setRemoteUrl(mediaDTO.getRemoteUrl());
         return attachmentVO;
+    }
+
+
+    public static MediaPageQuery attachmentListQuery2MediaPageQuery(AttachmentListQuery attachmentListQuery) {
+        if (attachmentListQuery == null) {
+            return null;
+        }
+        MediaPageQuery mediaPageQuery = new MediaPageQuery();
+        mediaPageQuery.setScope(attachmentListQuery.getScope());
+        mediaPageQuery.setPageNo(attachmentListQuery.getPageNumber());
+        mediaPageQuery.setPageSize(attachmentListQuery.getPageSize());
+        mediaPageQuery.setEndTime(attachmentListQuery.getEndTime());
+        mediaPageQuery.setFileType(attachmentListQuery.getFileType());
+        mediaPageQuery.setInputFileName(attachmentListQuery.getInputFileName());
+        mediaPageQuery.setRemark(attachmentListQuery.getRemark());
+        mediaPageQuery.setStarteTime(attachmentListQuery.getStarteTime());
+        mediaPageQuery.setStatus(attachmentListQuery.getStatus());
+
+        return mediaPageQuery;
     }
 }
