@@ -236,23 +236,23 @@ public class TopicManageController extends BaseController {
 	* @return ResponseVo    返回类型 
 	* @throws
 	 */
-	@RequestMapping(value="/modifyTopicWeight/{id}/{weightValue}",method=RequestMethod.POST)
+	@RequestMapping(value="/setTopicWeight/{id}/{weight}",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo modifyTopicWeight(@PathVariable(value="id") long id,@PathVariable(value="weightValue")int weightValue) {
+	public ResponseVo modifyTopicWeight(@PathVariable(value="id") long id,@PathVariable(value="weight")int weight) {
 		ResponseVo responseVo = new ResponseVo();
-		if (id <= 0 || weightValue <= 0) {
-			log.error("params:id={},weightValue={}",id,weightValue);
+		if (id <= 0 || weight <= 0) {
+			log.error("params:id={},weightValue={}",id,weight);
 			return new ResponseVo(ResponseStatus.INVALID_DATA);
 		}
 		try {
-			BizResult<Boolean> setResult = topicService.modifyTopicWeight(id,weightValue);
+			BizResult<Boolean> setResult = topicService.modifyTopicWeight(id,weight);
 			if (setResult == null || (setResult != null && !setResult.isSuccess())) {
-				log.error("params:id={},weightValue={},result:{}",id,weightValue,JSON.toJSONString(setResult));
+				log.error("params:id={},weightValue={},result:{}",id,weight,JSON.toJSONString(setResult));
 				return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
 			}
 			return responseVo;
 		} catch (Exception e) {
-			log.error("param:id={},weightValue={},error:{}",id,weightValue,e);
+			log.error("param:id={},weightValue={},error:{}",id,weight,e);
 			return ResponseVo.error(e);
 		}
 	}
