@@ -126,10 +126,14 @@
                     $!{item.statusStr}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary edit" itemId="$item.id">编辑</button>
+                    #if($item.status==$mediaFileStatusMap.get("ON").value)
+                        <button type="button" class="btn btn-primary off" itemId="$item.id">下架</button>
+                    #end
+                    #if($item.status==$mediaFileStatusMap.get("OFF").value)
+                        <button type="button" class="btn btn-primary edit" itemId="$item.id">编辑</button>
+                        <button type="button" class="btn btn-primary on" itemId="$item.id">上架</button>
+                    #end
                     <button type="button" class="btn btn-primary play" itemId="$item.id">播放</button>
-                    <button type="button" class="btn btn-primary off" itemId="$item.id">下架</button>
-                    <button type="button" class="btn btn-primary on" itemId="$item.id">上架</button>
                 </td>
             </tr>
             #end
@@ -177,7 +181,7 @@
             type: type,
             data: data,
             success: function (res) {
-                if (data.status == 200) {
+                if (res.status == 200) {
                     layer.msg('操作成功', {
                         icon: 1,
                         time: 1500
@@ -260,12 +264,12 @@
         });
         $("#tbAttachmentList").on("click", ".on", function () {
             var id = $(this).attr('itemId');
-            var data={"id":id};
+            var data = {"id": id};
             submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/up", "get", data);
         });
         $("#tbAttachmentList").on("click", ".off", function () {
             var id = $(this).attr('itemId');
-            var data={"id":id};
+            var data = {"id": id};
             submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/down", "get", data);
         });
         $(".dateInp").datetimepicker({

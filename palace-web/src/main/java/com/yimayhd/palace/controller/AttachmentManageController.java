@@ -67,6 +67,7 @@ public class AttachmentManageController extends BaseController {
         model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
         model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
         model.addAttribute("mediaPageQuery", mediaPageQuery);
+        model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class,null));
         return "/system/attachment/list";
     }
 

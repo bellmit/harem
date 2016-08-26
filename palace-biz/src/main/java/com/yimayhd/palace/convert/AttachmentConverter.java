@@ -35,6 +35,7 @@ public class AttachmentConverter {
         attachmentVO.setRemark(mediaDO.getRemark());
         attachmentVO.setStatus(mediaDO.getStatus());
         attachmentVO.setGmtCreated(mediaDO.getGmtCreated());
+        attachmentVO.setFileKey(mediaDO.getFileKey());
         return attachmentVO;
     }
 

@@ -24,10 +24,21 @@ public class AttachmentVO {
     private String statusStr;//状态
     private String remoteUrl;//播放地址
 
+    private String fileKey;//
+
     private int minute;
     private int second;
     private int minuteVo;
     private int secondVo;
+
+
+    public String getFileKey() {
+        return fileKey;
+    }
+
+    public void setFileKey(String fileKey) {
+        this.fileKey = fileKey;
+    }
 
     public int getMinuteVo() {
         return (int)duration/60;
