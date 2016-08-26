@@ -143,4 +143,19 @@ public class TopicRepo{
 		RepoUtils.resultLog(log, "snsTopicCenterServiceRef.getSugTopicById", result);
 		return result;
     }
+    /**
+     * 
+    * created by zhangxiaoyang
+    * @date 2016年8月26日
+    * @Title: modifyTopicWeight 
+    * @Description: 设置话题权重
+    * @param 
+    * @return void    返回类型 
+    * @throws
+     */
+    public BaseResult<Boolean> modifyTopicWeight(long id,int weightValue) {
+    	
+    	BaseResult<Boolean> setResult = snsTopicCenterServiceRef.updateTopicWeights(id, weightValue);
+    	return setResult;
+    }
 }
