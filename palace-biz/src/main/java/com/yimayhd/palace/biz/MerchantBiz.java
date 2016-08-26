@@ -92,7 +92,7 @@ public class MerchantBiz {
 		return result;
 		
 	}
-	public BizResult<Boolean> modifyHotelWeight(long itemId,int weightValue) {
+	/*public BizResult<Boolean> modifyHotelWeight(long itemId,int weightValue) {
 		BizResult<Boolean> result = new BizResult<Boolean>();
 		HotelPublishDTO dto = new HotelPublishDTO();
 		dto.setSort(weightValue);
@@ -119,6 +119,6 @@ public class MerchantBiz {
 		}
 		return result;
 		
-	}
+	}*/
 }
 

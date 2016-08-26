@@ -11,6 +11,7 @@ import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.ScenicListQuery;
+import com.yimayhd.palace.result.BizResult;
 public interface ScenicService {
 	/**
 	 * 获取景区资源列表(可带查询条件)
@@ -89,4 +90,6 @@ public interface ScenicService {
 	 * 读取图文详情
 	 */
 	PictureTextVO getPictureText(long id) throws Exception;
+	
+	BizResult<Boolean> setScenicWeight(long id,int weight);
 }
