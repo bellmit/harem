@@ -68,7 +68,7 @@
 			<table class="table table-hover topicTable">
 				<tbody>
 					<tr>
-						<th>交易日期</th>
+						<th>交易时间</th>
 						<th>业务流水号</th>
 						<th>交易类型</th>
 						<th>收支金额</th>
@@ -78,7 +78,7 @@
 					<tr>
 						<td>
 							#if("$!{item.transTime}" != "")
-								$utilDate.dateToString(${item.transTime},'yyyy-MM-dd')	
+								$utilDate.dateToString(${item.transTime},'yyyy-MM-dd HH:mm:ss')	
 							#end
 						</td>
 						<td>$!item.transSn</td>

@@ -62,15 +62,16 @@
 						<td>$!item.userId</td>
 						<td>
 							#if($!item.userType == 2)
-								$!item.corpName
+								#set($accountUserName = $item.corpName)
 							#else
-								$!item.userName
+								#set($accountUserName = $item.userName)
 							#end
+							$!accountUserName
 						</td>
 						<td>#USER_TYPE($!item.userType)</td>
 						<td>$!item.accountBalanceYuan</td>
 						<td>
-							<button type="button" class="btn btn-primary detail" userId="$!item.userId" userName="$!item.userName" userType="$!item.userType" >
+							<button type="button" class="btn btn-primary detail" userId="$!item.userId" userName="$!accountUserName" userType="$!item.userType" >
 								账户收支明细
 							</button>
 						</td>
