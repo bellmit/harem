@@ -366,7 +366,7 @@ public class ThemeManageController extends BaseController {
 		try {
 			if (themeVo.getScore()>100) {
 				//return "/error";
-				response.setMessage("排序最大支持100！");
+				response.setMessage("排序范围支持[1-100]！");
 				response.setStatus(ResponseStatus.ERROR.VALUE);
 				return response;
 			}
