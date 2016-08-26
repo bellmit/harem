@@ -364,6 +364,12 @@ public class ThemeManageController extends BaseController {
 	public ResponseVo edit(ThemeVo themeVo, @PathVariable(value = "id") long id){
 		ResponseVo response = new ResponseVo();
 		try {
+			if (themeVo.getScore()>100) {
+				//return "/error";
+				response.setMessage("排序最大支持100！");
+				response.setStatus(ResponseStatus.ERROR.VALUE);
+				return response;
+			}
 			themeVo.setId(id);
 			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
 			tagNameTypeDTO.setDomain(themeVo.getDomain());
