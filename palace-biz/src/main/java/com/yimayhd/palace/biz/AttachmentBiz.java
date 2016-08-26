@@ -18,19 +18,24 @@ public class AttachmentBiz {
         if (file == null || file.isEmpty()) {
             return null;
         }
-        String fileName = getFileName()+"."+getExtension(file);
+        String fileName = getFileName() + "." + getExtension(file);
+        File tempFile = null;
         try {
-            File tempFile = File.createTempFile(fileName, null);
+            tempFile = File.createTempFile(fileName, null);
             file.transferTo(tempFile);
             AttachmentUpload attachmentUpload = new AttachmentUpload();
             String bucketName = ResourceConfig.getInstance().getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME);
             AttachmentUploadResult attachmentUploadResult = attachmentUpload.upload(bucketName, fileName, tempFile.getPath());
-            if(attachmentUploadResult!=null){
+            if (attachmentUploadResult != null) {
                 attachmentUploadResult.setBucketName(bucketName);
             }
             return attachmentUploadResult;
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (tempFile != null) {
+                tempFile.deleteOnExit();
+            }
         }
         return null;
     }
