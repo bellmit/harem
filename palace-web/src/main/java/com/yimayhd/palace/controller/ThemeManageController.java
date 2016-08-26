@@ -425,6 +425,12 @@ public class ThemeManageController extends BaseController {
 	public ResponseVo add(ThemeVo themeVo) {
 		ResponseVo response = new ResponseVo();
 		try {
+			if (themeVo.getScore()>100) {
+				//return "/error";
+				response.setMessage("排序范围支持[1-100]！");
+				response.setStatus(ResponseStatus.ERROR.VALUE);
+				return response;
+			}
 			TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
 			tagNameTypeDTO.setDomain(themeVo.getDomain());
 			tagNameTypeDTO.setName(themeVo.getName());
