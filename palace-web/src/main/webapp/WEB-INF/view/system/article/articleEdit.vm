@@ -39,6 +39,14 @@
                     </td>
                 </tr>
 				<tr>
+                    <td><span class="spColor">*</span>作者：</td>
+                    <td>
+						 <span style="display:none">$!article.subTitle</span>
+						 <input type="text" class="form-control summary author" name="author"  value="$!{escUtil.html($!article.author)}" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">12</em></span>
+                    </td>
+                </tr>
+				<tr>
                     <td><span class="spColor">*</span>初始阅读数：</td>
                     <td>
 						 <input type="text" class="form-control summary pv" name="pv"  value="$!article.pv">
@@ -210,6 +218,7 @@
 									<li><a href="javascript:void(0)" class="addexpert">添加达人</a></li>
 									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>
 									<li><a href="javascript:void(0)" class="addhotel">添加酒店</a></li>									
+									<li><a href="javascript:void(0)" class="addAudio">添加音频</a></li>									
 								</ul>
 							</div>
 							

@@ -4,6 +4,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.AttachmentBiz;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.AttachmentConverter;
+import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.repo.MediaClientRepo;
 import com.yimayhd.palace.result.AttachmentUploadResult;
@@ -37,12 +38,12 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
     /**
      * 分页查询附件
      *
-     * @param mediaPageQuery
+     * @param attachmentListQuery
      * @return
      */
     @Override
-    public PageVO<AttachmentVO> getAttachmentList(MediaPageQuery mediaPageQuery) {
-        RCPageResult<MediaDO> result = mediaClientRepo.getMediaPageList(mediaPageQuery);
+    public PageVO<AttachmentVO> getAttachmentList(AttachmentListQuery attachmentListQuery) {
+        RCPageResult<MediaDO> result = mediaClientRepo.getMediaPageList(AttachmentConverter.attachmentListQuery2MediaPageQuery(attachmentListQuery));
         if (result == null) {
             return new PageVO<AttachmentVO>();
         }

@@ -138,28 +138,8 @@ public class TouristlistController extends BaseController {
      * select新增 景点详情  景点介绍 和 线路设置 页面
      **/
     @RequestMapping(value = "/touristaddDetail", method = RequestMethod.GET)
-    public String touristaddDetail(Model model, long attractionId) throws Exception {
+    public String touristaddDetail(Model model) throws Exception {
         try {
-            ICResult<AttractionFocusDTO> AttractionDO = guideServiceRef.queryAttractionDetail(attractionId);
-
-            if (null != AttractionDO.getModule().getAttractionDO()) {
-
-                model.addAttribute("AttractionDO", AttractionDO.getModule().getAttractionDO());
-            }
-
-
-            ICResult<AttractionFocusDTO> FocusOrder = guideServiceRef.queryAttractionDetail(attractionId);
-
-            if (null != FocusOrder.getModule().getAttractionDO()) {
-
-                model.addAttribute("FocusOrder", FocusOrder.getModule().getAttractionDO().getFocusOrder());
-            }
-
-            PictureTextVO PictureText = trouistlistBiz.getPictureText(attractionId);
-
-            if (null != PictureText) {
-                model.addAttribute("PictureText", PictureText.getPictureTextItems());
-            }
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);

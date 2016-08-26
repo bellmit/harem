@@ -6,7 +6,10 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
+import com.yimayhd.palace.model.vo.AudioVO;
+import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
+import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 
 /**
@@ -80,5 +83,16 @@ public interface ArticleService {
 	ResourceResult<Boolean> batchViolation(List<Long> idList, ArticleStatus status);
 
 	ArticleItemVO getArticleItemDetailById(long id, int type);
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年8月25日
+	* @Title: getAudioArticleListPage 
+	* @Description: 获取音频列表
+	* @param @return    设定文件 
+	* @return ArticleItemVO    返回类型 
+	* @throws
+	 */
+	BizPageResult<AudioVO> getAudioArticleListPage(MediaPageQuery mediaPageQuery);
 
 }

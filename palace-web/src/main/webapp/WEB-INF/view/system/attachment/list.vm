@@ -16,7 +16,7 @@
 
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
-<form id="mediaPageQuery" name="mediaPageQuery"
+<form id="tbAttachmentListForm" name="tbAttachmentListForm"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
@@ -78,8 +78,8 @@
             <button type="reset" class="btn btn-primary btn-clean">重置</button>
         </div>
     </div>
-</form>
 
+</form>
 <form enctype="multipart/form-data" id="addAttachmentForm" name="addAttachmentForm" method="post">
     <div class="btnBottomMargin">
         <input type="hidden" id="uploadActionUrl"
@@ -95,6 +95,7 @@
         <tr>
             <th>序号</th>
             <th>名称</th>
+            <th>文件KEY</th>
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
@@ -112,6 +113,9 @@
                     $!{item.inputFileTitle}
                 </td>
                 <td>
+                    $!{item.fileKey}
+                </td>
+                <td>
                     $!{item.fileTypeStr}
                 </td>
                 <td>
@@ -126,10 +130,14 @@
                     $!{item.statusStr}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary edit" itemId="$item.id">编辑</button>
+                    #if($item.status==$mediaFileStatusMap.get("ON").value)
+                        <button type="button" class="btn btn-primary off" itemId="$item.id">下架</button>
+                    #end
+                    #if($item.status==$mediaFileStatusMap.get("OFF").value)
+                        <button type="button" class="btn btn-primary edit" itemId="$item.id">编辑</button>
+                        <button type="button" class="btn btn-primary on" itemId="$item.id">上架</button>
+                    #end
                     <button type="button" class="btn btn-primary play" itemId="$item.id">播放</button>
-                    <button type="button" class="btn btn-primary off" itemId="$item.id">下架</button>
-                    <button type="button" class="btn btn-primary on" itemId="$item.id">上架</button>
                 </td>
             </tr>
             #end
@@ -138,8 +146,7 @@
 </div>
 #*分页*#
 #parse("/page.vm")
-#pageStyle("tbAttachmentList")
-
+#pageStyle("tbAttachmentListForm")
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
 <script type="text/javascript">
@@ -177,7 +184,7 @@
             type: type,
             data: data,
             success: function (res) {
-                if (data.status == 200) {
+                if (res.status == 200) {
                     layer.msg('操作成功', {
                         icon: 1,
                         time: 1500
@@ -260,12 +267,12 @@
         });
         $("#tbAttachmentList").on("click", ".on", function () {
             var id = $(this).attr('itemId');
-            var data={"id":id};
+            var data = {"id": id};
             submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/up", "get", data);
         });
         $("#tbAttachmentList").on("click", ".off", function () {
             var id = $(this).attr('itemId');
-            var data={"id":id};
+            var data = {"id": id};
             submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/down", "get", data);
         });
         $(".dateInp").datetimepicker({

@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.solrsearch.client.constant.HotelConstant;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
@@ -22,17 +26,22 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.ArticleConsultServiceItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
+import com.yimayhd.palace.model.vo.AudioVO;
 import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.DestinationRepo;
 import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.palace.repo.SolrsearchRepo;
 import com.yimayhd.palace.repo.user.TalentRepo;
+import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
+import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.resourcecenter.model.enums.DestinationUseType;
 import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
+import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
+import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.solrsearch.client.base.SolrsearchPageResult;
 import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
@@ -50,6 +59,7 @@ import com.yimayhd.user.client.service.MerchantService;
  */
 public class ArticleBiz {
 
+	private static Logger log = LoggerFactory.getLogger("ArticleBiz");
     @Autowired
     private ArticleService articleService;
     @Autowired
@@ -210,5 +220,21 @@ public class ArticleBiz {
         List<SolrScenicDO> list = result.getList();
         return list.get(0);
     }
-
+    
+    public BizPageResult<AudioVO> queryAudioPageResult(MediaPageQuery mediaPageQuery) {
+    	BizPageResult<AudioVO> pageResult = new BizPageResult<AudioVO>();
+    	RCPageResult<MediaDO> queryAudioPageResult = solrsearchRepo.queryAudioPageResult(mediaPageQuery);
+    	if (queryAudioPageResult == null || (queryAudioPageResult != null && CollectionUtils.isEmpty(queryAudioPageResult.getList()))) {
+			log.error("solrsearchRepo.queryAudioPageResult param:MediaPageQuery={},result:{}",JSON.toJSONString(mediaPageQuery),JSON.toJSONString(queryAudioPageResult));
+			return null;
+    	}
+    	List<MediaDO> mediaList = queryAudioPageResult.getList();
+    	List<AudioVO> audioList = ArticleConverter.convertMedia2Audio(mediaList);
+    	pageResult.setList(audioList);
+    	pageResult.setPageNo(queryAudioPageResult.getPageNo());
+    	pageResult.setPageSize(queryAudioPageResult.getPageSize());
+    	pageResult.setSuccess(true);
+    	pageResult.setTotalCount(queryAudioPageResult.getTotalCount());
+    	return pageResult;
+    }
 }

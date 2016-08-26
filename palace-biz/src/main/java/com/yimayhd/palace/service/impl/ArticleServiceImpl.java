@@ -8,10 +8,12 @@ import com.yimayhd.palace.biz.ArticleBiz;
 import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.*;
 import com.yimayhd.palace.model.query.ArticleListQuery;
+import com.yimayhd.palace.model.vo.AudioVO;
 import com.yimayhd.palace.model.ArticleScenicResourceItemVO;
 import com.yimayhd.palace.repo.ArticleRepo;
 import com.yimayhd.palace.repo.ItemRepo;
 import com.yimayhd.palace.repo.MerchantRepo;
+import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
@@ -19,11 +21,13 @@ import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.enums.ArticleType;
 import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
+import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 import com.yimayhd.user.client.dto.UserDTO;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -185,6 +189,8 @@ public class ArticleServiceImpl implements ArticleService {
                 break;
             case AUDIO:
                 //TODO 音频文件封装
+            	
+            	//articleBiz.queryAudioPageResult(mediaPageQuery);
 //                ArticleAudioItemVO articleAudioItemVO = ArticleConverter.getArticleAudioItemVO();
 //                if (articleAudioItemVO == null) {
 //                    return null;
@@ -199,5 +205,15 @@ public class ArticleServiceImpl implements ArticleService {
         articleItemVO.setId(id);
         return articleItemVO;
     }
+
+	@Override
+	public BizPageResult<AudioVO> getAudioArticleListPage(MediaPageQuery mediaPageQuery) {
+		BizPageResult<AudioVO> queryAudioPageResult = articleBiz.queryAudioPageResult(mediaPageQuery);
+		if (queryAudioPageResult == null || (queryAudioPageResult != null && org.springframework.util.CollectionUtils.isEmpty(queryAudioPageResult.getList()))) {
+			log.error("articleBiz.queryAudioPageResult param:MediaPageQuery={},result:{}",JSON.toJSONString(mediaPageQuery),JSON.toJSONString(queryAudioPageResult));
+			return null;
+		}
+		return queryAudioPageResult;
+	}
 
 }

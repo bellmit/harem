@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
 import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
@@ -14,10 +15,10 @@ public interface AttachmentManageService {
     /**
      * 分页查询附件
      *
-     * @param mediaPageQuery
+     * @param attachmentListQuery
      * @return
      */
-    public PageVO<AttachmentVO> getAttachmentList(MediaPageQuery mediaPageQuery);
+    public PageVO<AttachmentVO> getAttachmentList(AttachmentListQuery attachmentListQuery);
 
     /**
      * 添加附件

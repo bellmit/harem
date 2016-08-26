@@ -46,27 +46,25 @@
     </div>
 </form>
 
-    #parse("/system/layout/layout-jiuxiu-js.vm")
-    <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.mandandetail.js?t="${date}></script>
 <script type="text/javascript">
     // 新增景点
     $(function(){
         $(".addTourist").click(function(){
-            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/touristlist/touristaddDetail");
+            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail",2,"景点详情");
         });
     });
     // 编辑景点
     $(function(){
         $(".touristEditDetail").click(function(){
             var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/touristlist/touristEditDetail?attractionId="+attractionId +"&id=0", 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+attractionId +"&id=0", 2, "景点详情");
         });
     });
     // 删除景点
     $(function(){
         $(".updateStatus").click(function(){
             var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/touristlist/updateStatus?attractionId="+attractionId +"&id=0", 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus?attractionId="+attractionId +"&id=0", 2, "景点详情");
         });
     });
 </script>
