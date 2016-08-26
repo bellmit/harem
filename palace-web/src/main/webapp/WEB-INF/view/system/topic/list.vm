@@ -81,8 +81,8 @@
 		#end
 		
 		<div class="tableGroup whole" style="word-break:break-all;">
-			<table class="table table-hover topicTable">
-				<tbody>
+			<table class="table table-hover topicTable table-bordered">
+				<thead>
 					<tr>
 						<th>序号</th>
 						<th>话题名称</th>
@@ -91,10 +91,13 @@
 						<th>参与人数</th>
 						<th>阅读数量</th>
 						<th>状态</th>
+						<th>权重</th>
 						#if($isRecommendList != true) 
 							<th>操作</th>
 						#end
-					</tr>
+					</tr>					
+				</thead>
+				<tbody>
 					#foreach($topic in $pageVo.itemList)
 					<tr>
 						<td>
@@ -109,6 +112,7 @@
 						<td>$!topic.talkNum</td>
 						<td>$!topic.readNum</td>
 						<td>#TOPIC_STATUS($!{topic.status})</td>
+						<td><div class="weight"></div></td>
 						#if($isRecommendList != true) 
 							<td>
 								<button type="button" class="btn btn-primary edit" topicId="$!topic.id" >查看/编辑</button>
@@ -117,7 +121,7 @@
 								#elseif($topic.status == $topicUnavailable)
 									<button type="button" class="btn btn-primary updateStatus" topicId="$!topic.id" topicType="$topicAvaliable" >启用</button>
 								#end
-								
+								<button type="button" class="btn btn-primary btn-weight" topicId="$!topic.id" >权重</button>
 							</td>
 						#end
 					</tr>
@@ -234,6 +238,29 @@
 	    		}
 		    });
 	    });
+
+        $(".btn-weight").click(function() {
+            var id = $(this).attr("topicId");
+            var $self = $(this);
+            layer.prompt({title:"请输入权重："},function(d,n){
+                var re = /^[1-9][0-9]{0,3}$/;
+                if (!re.test(d)) {layer.msg("权重值为1-9999的整数",{icon:2});return false;}else{
+                    $.ajax({
+                        url: actionDefaultPath+'/jiuxiu/merchant/modifyMerchantWeight/'+id+'/'+d,
+                        type: 'post',
+                        success:function(data){
+                            if(data.success){
+                                $self.closest("tr").find(".weight").text(d);
+                                layer.close(n);                                                  
+                            }else{layer.msg("修改失败，请稍后重试",{icon:2})}
+                        },
+                        error:function() {
+                            layer.msg("请求出错，请稍后重试",{icon:2})
+                        }
+                    })                    
+                }
+            })
+        });
 	    
 	})();
 </script>
