@@ -50,8 +50,8 @@ public class PalaceReturnCode implements Serializable {
 	public static final PalaceReturnCode FILE_TO_BIG = new PalaceReturnCode(25002000, "文件超过最大限制");
 	public static final PalaceReturnCode UPLOAD_FILE_FAILED = new PalaceReturnCode(25002001, "上传文件失败");
 
-	public static final PalaceReturnCode MUTI_MERCHANT = new PalaceReturnCode(25003000, "重复的商家名称");
-	public static final PalaceReturnCode MUTI_MERCHANT_FAILED = new PalaceReturnCode(25003001, "系统中已存在该商家名称");
+	public static final PalaceReturnCode MUTI_MERCHANT = new PalaceReturnCode(25003000, "重复的店铺名称");
+	public static final PalaceReturnCode MUTI_MERCHANT_FAILED = new PalaceReturnCode(25003001, "系统中已存在该店铺名称");
 
 	public static final PalaceReturnCode QUERY_FAILED = new PalaceReturnCode(25003002, "查询失败");
 	public static final PalaceReturnCode VERIFY_BANK_INFO_ERROR = new PalaceReturnCode(25003003, "银行账户信息验证不通过");
