@@ -43,6 +43,15 @@ public class ArticleVO implements Serializable {
 	private String articleUrl;
 
 	private List<ArticleItemVO> articleItemList;
+	private String author;
+	
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
 	public Long getId() {
 		return id;
