@@ -179,11 +179,11 @@
                     '   <div class="audio-info pull-left">' +
                     '       <div class="audio-info-item">' +
                     '           <label>时长：</label>' +
-                    '           <span>' + data.time + '</span>' +
+                    '           <span>' + data.durationStr + '</span>' +
                     '       </div>' +
                     '       <div class="audio-info-item">' +
                     '            <label>看点名称：</label>' +
-                    '           <input type="text" name="kandian' + index + '" id="kandian' + index + '" value="' + data.name + '">' +
+                    '           <input type="text" name="kandian' + index + '" id="kandian' + index + '" value="' + data.inputFileTitle + '">' +
                     '       </div>' +
                     '   </div>' +
                     '   <div class="pull-left">' +
