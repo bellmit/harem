@@ -1,4 +1,4 @@
-<form id="guideListForm" name="guideListForm">
+<form id="guideListForm" name="guideListForm" method="post" action="$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -18,8 +18,8 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">状态：</button>
                 </span>
-            <select class="form-control" name="commStatus">
-                <option value="0">全部</option>
+            <select class="form-control" name="status">
+                <option value="-1">全部</option>
                 #foreach($guideStatus in $guideStatusList)
                     <option value="$!{guideStatus.code}" #if($guideListQuery.status == $guideStatus.code)
                             selected #end>$!{guideStatus.desc}</option>
@@ -27,7 +27,7 @@
             </select>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary submitBtn">查询</button>
+            <button type="submit" class="btn btn-primary submitBtn">查询</button>
         </div>
         <div class="btn-group">
             <button type="reset" class="btn btn-primary">重置</button>
@@ -137,7 +137,7 @@
                 formType: 0
             }, function (value) {
                 var data = {weight: value, guideId: guideId}
-                submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/setWeight", "post", data);
+                submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/setWeight", "post", data);
             });
         });
     }
@@ -146,29 +146,29 @@
     $(function () {
         setWeight();
         $("#addGuide").click(function () {
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/toAdd", 2, "添加导览");
+            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/toAdd", 2, "添加导览");
         });
 
         $(".touristEditDetail").click(function () {
             var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId=" + attractionId + "&id=0", 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/touristEditDetail?attractionId=" + attractionId + "&id=0", 2, "景点详情");
         });
         //上架
         $("#tbGuideList").on("click", ".on", function () {
             var guideId = $(this).attr("guideId");
             var data = {guideId: guideId}
-            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/status/up", "post", data);
+            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/up", "post", data);
         });
         //下架
         $("#tbGuideList").on("click", ".off", function () {
             var guideId = $(this).attr("guideId");
             var data = {guideId: guideId}
-            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/status/down", "post", data);
+            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/down", "post", data);
         });
         //编辑
         $("#tbGuideList").on("click", ".off", function () {
             var guideId = $(this).attr("guideId");
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/toEdit?id=" + guideId, 2, "编辑导览");
+            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/toEdit?id=" + guideId, 2, "编辑导览");
         });
     });
 

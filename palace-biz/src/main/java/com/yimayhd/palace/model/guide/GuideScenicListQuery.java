@@ -9,7 +9,7 @@ public class GuideScenicListQuery extends BaseQuery {
     private static final long serialVersionUID = 2350825712224763525L;
     private String scenicName;//景区名称
     private String scenicResourceNum;//景区资源编号
-    private int status;// 状态
+    private int status = -1;// 状态
     private long guideId;//导览id
     private String guideName;//导览名称
 

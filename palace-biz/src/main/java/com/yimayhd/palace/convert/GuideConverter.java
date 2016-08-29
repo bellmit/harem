@@ -94,7 +94,11 @@ public class GuideConverter {
             return null;
         }
         GuideScenicPageQueryDTO guideScenicPageQueryDTO = new GuideScenicPageQueryDTO();
-        guideScenicPageQueryDTO.setStatus(guideScenicListQuery.getStatus());
+        if (guideScenicListQuery.getStatus() == -1) {
+            guideScenicPageQueryDTO.setStatus(null);
+        } else {
+            guideScenicPageQueryDTO.setStatus(guideScenicListQuery.getStatus());
+        }
         guideScenicPageQueryDTO.setPageNo(guideScenicListQuery.getPageNumber());
         guideScenicPageQueryDTO.setPageSize(guideScenicListQuery.getPageSize());
         return guideScenicPageQueryDTO;

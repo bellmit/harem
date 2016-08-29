@@ -285,7 +285,7 @@
         initUploadFile("#mapUrlUploadfile", "#guideImg", "#mapUrlImg");
         //选择景区
         $('#btnSelectScenic').on("click", function () {
-            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/scenic/list', "选择景区", function () {
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/list', "选择景区", function () {
                 var item = win.getItem();
                 if (item != null) {
                     $("#name").text(item.name);
@@ -297,7 +297,7 @@
                     $("#address").text(item.locationText);
                     $("#latlng").text(item.locationX + "," + item.locationY);
                     $.ajax({
-                        url: '$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/scenic/selected',
+                        url: '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/selected',
                         type: 'GET',
                         data: {guideId: item.id, subuectId: item.subjectId},
                         success: function (res) {
@@ -326,7 +326,7 @@
         });
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
-            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
                 var item = win.getItem();
                 alert(JSON.stringify(item))
                 if (item != null) {

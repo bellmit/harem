@@ -252,28 +252,28 @@
         });
         $("#tbAttachmentList").on("click", ".edit", function () {
             var id = $(this).attr('itemId');
-            openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑音频信息", function () {
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑音频信息", function () {
                 var item = win.getItem();
                 if (item != null) {
                     //alert(JSON.stringify(item))
-                    submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/editAttachment", "post", item);
+                    submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/editAttachment", "post", item);
                 }
                 return true;
             });
         });
         $("#tbAttachmentList").on("click", ".play", function () {
             var id = $(this).attr('itemId');
-            openModalForAttachment('$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '300px');
+            openModalForAttachment('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '300px');
         });
         $("#tbAttachmentList").on("click", ".on", function () {
             var id = $(this).attr('itemId');
             var data = {"id": id};
-            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/up", "get", data);
+            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/status/up", "get", data);
         });
         $("#tbAttachmentList").on("click", ".off", function () {
             var id = $(this).attr('itemId');
             var data = {"id": id};
-            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/status/down", "get", data);
+            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/status/down", "get", data);
         });
         $(".dateInp").datetimepicker({
             language: "zh-CN",
