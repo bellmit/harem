@@ -66,17 +66,20 @@
             *#
         </div>
         <div class="tableGroup whole">
-            <table class="table table-hover">
-                <tr>
-                	<!--
-                    <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
-                    -->
-                    <th>景区名称</th>
-                    <th>区域</th>
-                    <th>更新时间</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                    	<!--
+                        <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
+                        -->
+                        <th>景区名称</th>
+                        <th>区域</th>
+                        <th>更新时间</th>
+                        <th>状态</th>
+                        <th>权重</th>
+                        <th>操作</th>
+                    </tr>                    
+                </thead>
                     #foreach($scenic in $pageVo.itemList)
                     <tr class="subCheckedTR">
                     	<!--
@@ -96,6 +99,7 @@
                         	$utilDate.dateToString(${scenic.gmtModified},'yyyy-MM-dd HH:mm:ss')
                         </td>
                         <td>#ITEMSCENIC_STATUS_TWO($!scenic.status)</td>
+                        <td><div class="weight"></div></td>
                         <td>
                         #if($scenic.status == 1)
                         	<button type="button" class="btn btn-primary toUpdate" scenicId="$scenic.id">查看/编辑</button>
@@ -108,6 +112,7 @@
                         	*#
                         #end
                        <button type="button" class="btn btn-primary itemList" scenicId="$scenic.id">查看商品</button>
+                       <button type="button" class="btn btn-primary btn-weight" scenicId="$scenic.id">权重</button>
                         </td>
                     </tr>
                     #end
@@ -395,6 +400,30 @@
         
          $('.onReset').click(function(){
            $("#scenicDOListForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
+         //权重
+        $(".btn-weight").click(function() {
+            var id = $(this).attr("scenicId");
+            var $self = $(this);
+            layer.prompt({title:"请输入权重："},function(d,n){
+                var re = /^[1-9][0-9]{0,3}$/;
+                if (!re.test(d)) {layer.msg("权重值为1-9999的整数",{icon:2});return false;}else{
+                    $.ajax({
+                        url: actionDefaultPath+'/B2C/scenicSpotManage/setScenicWeight',
+                        type: 'post',
+                        data: {id: id,weight:d},
+                        success:function(data){
+                            if(data.success){
+                                $self.closest("tr").find(".weight").text(d);
+                                layer.close(n);                                                  
+                            }else{layer.msg("修改失败，请稍后重试",{icon:2})}
+                        },
+                        error:function() {
+                            layer.msg("请求出错，请稍后重试",{icon:2})
+                        }
+                    })                    
+                }
+            })
         });
     });
 </script>
