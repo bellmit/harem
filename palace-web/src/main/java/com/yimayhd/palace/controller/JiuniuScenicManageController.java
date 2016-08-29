@@ -101,7 +101,7 @@ public class JiuniuScenicManageController extends BaseController {
 
 	/**
 	 * 编辑景区（资源）
-	 * 
+	 *
 	 * @return 景区（资源）详情
 	 * @throws Exception
 	 */
@@ -109,10 +109,10 @@ public class JiuniuScenicManageController extends BaseController {
 	public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
 		ScenicAddVO scenicAddVO = scenicSpotService.getDetailById(id);
 		model.addAttribute("VO", scenicAddVO);
-		
+
 		List<ComTagDO> allLineThemes = scenicSpotService.getAllLineThemes();
 		put("themes", allLineThemes);
-		
+
 		if(scenicAddVO != null){
 			ScenicVO scenicVO = scenicAddVO.getScenicVO();
 			if(scenicVO != null){
@@ -124,12 +124,22 @@ public class JiuniuScenicManageController extends BaseController {
 				model.addAttribute("townList", townList);
 			}
 		}
-		
+
 		put("UUIDScenic", UUID.randomUUID().toString());
 		put("UUIDPicText", UUID.randomUUID().toString());
 		return "/system/scenicSpot/edit-jiuniu";
 	}
-
+	/**
+	 * 编辑景区（资源）
+	 *
+	 * @return 景区（资源）详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+	public String view(Model model, @PathVariable(value = "id") long id) throws Exception {
+		toEdit(model,id);
+		return "/system/scenicSpot/edit-jiuniu";
+	}
 	/**
 	 * 保存景区（资源）
 	 * 

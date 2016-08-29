@@ -61,7 +61,7 @@
                         $!item.locationText
                     </td>
                     <td>
-                        <a type="button" class="btn btn-primary" themeid="1800">查看详情</a>
+                        <a type="button" class="btn btn-primary view" themeid="${item.id}">查看详情</a>
                     </td>
                 </tr>
                 #end
@@ -107,6 +107,14 @@
             locationY:selecetdtr.attr("locationY")
         }
     }
+
+    $(function () {
+
+        $("#tbScenicList").on("click", ".view", function () {
+            var themeid = $(this).attr("themeid");
+            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicSpotManage/view/" + themeid, 2, "编辑导览");
+        });
+    });
 </script>
 
 
