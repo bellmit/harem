@@ -166,7 +166,7 @@
             submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/down", "post", data);
         });
         //编辑
-        $("#tbGuideList").on("click", ".off", function () {
+        $("#tbGuideList").on("click", ".edit", function () {
             var guideId = $(this).attr("guideId");
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/toEdit?id=" + guideId, 2, "编辑导览");
         });

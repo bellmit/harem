@@ -104,11 +104,13 @@ public class GuideConverter {
         return guideScenicPageQueryDTO;
     }
 
-    public static GuideScenicVO guideScenicDTO2GuideScenicVO(GuideScenicDTO guideScenicDTO) {
+    public static GuideScenicVO guideScenicDTO2GuideScenicVO(GuideScenicVO guideScenicVO, GuideScenicDTO guideScenicDTO) {
         if (guideScenicDTO == null) {
             return null;
         }
-        GuideScenicVO guideScenicVO = new GuideScenicVO();
+        if (guideScenicVO == null) {
+            guideScenicVO = new GuideScenicVO();
+        }
         /**
          * 导览信息
          */

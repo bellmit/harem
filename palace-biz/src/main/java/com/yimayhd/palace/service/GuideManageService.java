@@ -25,7 +25,7 @@ public interface GuideManageService {
      * @param guideVO
      * @return
      */
-    public GuideScenicVO addGuide(GuideScenicVO guideVO);
+    public boolean addGuide(GuideScenicVO guideVO);
 
     /**
      * 修改导览
@@ -33,7 +33,14 @@ public interface GuideManageService {
      * @param guideVO
      * @return
      */
-    public GuideScenicVO updateGuide(GuideScenicVO guideVO);
+    public boolean updateGuide(GuideScenicVO guideVO);
+
+    /**
+     * 根据id查询导览
+     * @param id
+     * @return
+     */
+    public GuideScenicVO getGuideById(long id);
 
     /**
      * 设置权重

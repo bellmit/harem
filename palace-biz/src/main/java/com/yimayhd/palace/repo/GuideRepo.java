@@ -17,6 +17,7 @@ import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
+import com.yimayhd.palace.model.guide.GuideScenicVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,44 @@ public class GuideRepo {
             }
         } catch (Exception e) {
             log.error("addGuide guideScenicDO={}, exception={}", JSON.toJSONString(guideScenicDO), e);
+            return null;
+        }
+    }
+
+    /**
+     * 根据导览id查询导览景区信息
+     *
+     * @param guideId
+     * @return
+     */
+    public GuideScenicDTO queryGuideDetail(long guideId) {
+        try {
+            ICResult<GuideScenicDTO> result = guideServiceRef.queryGuideDetail(guideId);
+            if (result.isSuccess() && result.getModule() != null) {
+                log.info("queryGuideDetail guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
+                return result.getModule();
+            } else {
+                log.error("queryGuideDetail guideId guideScenicDO={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("queryGuideDetail guideId={}, exception={}", JSON.toJSONString(guideId), e);
+            return null;
+        }
+    }
+
+    public GuideScenicDTO queryGuideDetailByScenicId(long scenicId) {
+        try {
+            ICResult<GuideScenicDTO> result = guideServiceRef.queryGuideDetailByScenicId(scenicId);
+            if (result.isSuccess() && result.getModule() != null) {
+                log.info("queryGuideDetailByScenicId scenicId={}, result={}", JSON.toJSONString(scenicId), JSON.toJSONString(result));
+                return result.getModule();
+            } else {
+                log.error("queryGuideDetailByScenicId scenicId guideScenicDO={}, result={}", JSON.toJSONString(scenicId), JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("queryGuideDetailByScenicId scenicId={}, exception={}", JSON.toJSONString(scenicId), e);
             return null;
         }
     }
@@ -266,7 +305,7 @@ public class GuideRepo {
     // 保存景点图文
     public void savePictureText(ComentDTO comentDTO) {
         if (null == null) {
-            return ;
+            return;
         }
 
         log.info("==============================comentDTO" + comentDTO);

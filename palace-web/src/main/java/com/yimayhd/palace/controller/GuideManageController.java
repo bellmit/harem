@@ -71,7 +71,9 @@ public class GuideManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/toEdit")
-    public String toEdit(final long id) throws Exception {
+    public String toEdit(Model model, final long id) throws Exception {
+        GuideScenicVO guideScenicVO = guideManageService.getGuideById(id);
+        model.addAttribute("guideScenicVO", guideScenicVO);
         return "/system/guide/editGuide";
     }
 
@@ -84,8 +86,12 @@ public class GuideManageController extends BaseController {
     @RequestMapping(value = "/addGuide", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo addGuide(Model model, GuideScenicVO guideVO) throws Exception {
-        guideManageService.addGuide(guideVO);
-        return new ResponseVo();
+        try {
+            boolean result = guideManageService.addGuide(guideVO);
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
     /**
@@ -97,8 +103,12 @@ public class GuideManageController extends BaseController {
     @RequestMapping(value = "/editGuide", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo editGuide(Model model, GuideScenicVO guideVO) throws Exception {
-        guideManageService.updateGuide(guideVO);
-        return new ResponseVo();
+        try {
+            boolean result = guideManageService.updateGuide(guideVO);
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
     /**
