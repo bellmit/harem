@@ -55,29 +55,32 @@
         <tbody>
             #foreach($item in $itemList)
             <tr>
-                <td>$!{guideid}</td>
+                <td>$!{item.guideId}</td>
                 <td>
-                    <img src="$!utilWebconfig.getTfsRootPath()$!{listImg}" width="150" height="90">
+                    <img src="$!utilWebconfig.getTfsRootPath()$!{item.listImg}" width="150" height="90">
                 </td>
                 <td>
-                    $!{scenicName}
+                    $!{item.scenicName}
                 </td>
                 <td>
-                    $!{scenicResourceNum}
+                    $!{item.scenicResourceNum}
                 </td>
-                <td>$!{location}</td>
+                <td>$!{item.location}</td>
                 <td>
-                    $!{level}
+                    $!{item.level}
                 </td>
-                <td>$!{weight}</td>
+                <td>$!{item.weight}</td>
                 <td>
-                    $!{statusStr}
+                    $!{item.statusStr}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary">编辑导览</button>
-                    <button type="button" class="btn btn-primary">编辑景点</button>
-                    <button type="button" class="btn btn-primary">下架</button>
-                    <button type="button" class="btn btn-primary weight">设置权重</button>
+                    <button type="button" class="btn btn-primary edit" guideId="$!{item.guideId}">编辑导览</button>
+                    <button type="button" class="btn btn-primary touristEditDetail" attractionId="$!{item.guideId}">
+                        编辑景点
+                    </button>
+                    <button type="button" class="btn btn-primary off" guideId="$!{item.guideId}">下架</button>
+                    <button type="button" class="btn btn-primary on" guideId="$!{item.guideId}">上架</button>
+                    <button type="button" class="btn btn-primary weight" guideId="$!{item.guideId}">设置权重</button>
                 </td>
             </tr>
             #end
@@ -87,34 +90,85 @@
 #*分页*#
 #parse("/page.vm")
 #pageStyle("guideListForm")
-
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script type="text/javascript">
     layer.config({
         extend: 'extend/layer.ext.js',
         extend: ['skin/mySkin/style.css'],
         skin: 'layer-ext-mySkin'
     });
-
+    function submitEdit(url, type, data) {
+        //alert(1);
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function (res) {
+                if (res.status == 200) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+                } else {
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled', false);
+                }
+            },
+            error: function (xmlres, status, code) {
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
+            }
+        });
+    }
     function setWeight() {
         $("#tbGuideList").on("click", ".weight", function () {
+            var guideId = $(this).attr("guideId");
             layer.prompt({
                 title: '设置权重',
                 formType: 0
             }, function (value) {
-                alert(value);
+                var data = {weight: value, guideId: guideId}
+                submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/setWeight", "post", data);
             });
         });
     }
 
     // 新增导览
     $(function () {
+        setWeight();
         $("#addGuide").click(function () {
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/toAdd", 2, "导览详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/toAdd", 2, "添加导览");
         });
 
         $(".touristEditDetail").click(function () {
             var attractionId = $(this).attr("attractionId");
             window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId=" + attractionId + "&id=0", 2, "景点详情");
+        });
+        //上架
+        $("#tbGuideList").on("click", ".on", function () {
+            var guideId = $(this).attr("guideId");
+            var data = {guideId: guideId}
+            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/status/up", "post", data);
+        });
+        //下架
+        $("#tbGuideList").on("click", ".off", function () {
+            var guideId = $(this).attr("guideId");
+            var data = {guideId: guideId}
+            submitEdit("$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/status/down", "post", data);
+        });
+        //编辑
+        $("#tbGuideList").on("click", ".off", function () {
+            var guideId = $(this).attr("guideId");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/toEdit?id=" + guideId, 2, "编辑导览");
         });
     });
 

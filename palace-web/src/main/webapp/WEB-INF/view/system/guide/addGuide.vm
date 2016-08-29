@@ -71,40 +71,41 @@
     }
 </style>
 
-<form id="frmGuidEdit">
+<form id="frmGuidEdit" method="POST" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/addGuide">
     <fieldset>
         <legend>景区信息</legend>
         <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary" id="btnSelectScenic">选择景区</button>
         </div>
+        <input type="hidden" id="scenicId" value="" name="scenicId">
         <table class="table table-bordered">
             <tr>
                 <th class="w15">景区名称：</th>
                 <td class="w35">
-                    <span id="name" name="scenicName">景区景区景区</span>
+                    <span id="name" name="scenicName"></span>
                 </td>
                 <th class="w15">资源编号：</th>
                 <td class="w35">
-                    <span id="number" name="scenicNumber">编号编号</span>
+                    <span id="number" name="scenicNumber"></span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">所在省、市、区：</th>
                 <td class="w35">
-                    <span id="location" name="location">北京市朝阳区</span>
+                    <span id="location" name="location" id="location"></span>
                 </td>
                 <th class="w15">等级：</th>
-                <td class="w35"><span id="level" name="level">Level11111</span></td>
+                <td class="w35"><span id="level" name="level" id="level"></span></td>
             </tr>
             <tr>
                 <th class="w15">主题：</th>
-                <td class="w35"><span id="theme" name="theme">主题主题主题</span></td>
+                <td class="w35"><span id="theme" name="theme" id="theme"></span></td>
                 <th class="w15">地址：</th>
-                <td class="w35"><span id="address" name="address">地址地址地址地址地址地址</span></td>
+                <td class="w35"><span id="address" name="address" id="address"></span></td>
             </tr>
             <tr>
                 <th class="w15">经纬度：</th>
-                <td class="w35"><span id="latlng" name="latlng">20.182731823,123.98123791823</span></td>
+                <td class="w35"><span id="latlng" name="latlng" id="latlng"></span></td>
                 <th class="w15"></th>
                 <td class="w35"></td>
             </tr>
@@ -122,7 +123,7 @@
                             <img class="upload-img" id="logoUrlImg" imgurl=""
                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                             <div class="delete-btn">删除</div>
-                            <input type="hidden" id="logoUrl" name="logoUrl" value="">
+                            <input type="hidden" id="listImg" name="listImg" value="">
                         </div>
                         <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                     </div>
@@ -138,7 +139,7 @@
                             <img class="upload-img" id="mapUrlImg" imgurl=""
                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                             <div class="delete-btn">删除</div>
-                            <input type="hidden" id="mapUrl" name="mapUrl" value="">
+                            <input type="hidden" id="guideImg" name="guideImg" value="">
                         </div>
                         <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                     </div>
@@ -153,9 +154,10 @@
                             <img class="upload-img" imgurl=""
                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                             <div class="delete-btn">删除</div>
-                            <input type="hidden" id="audioUrl" name="audioUrl" value="">
+                            <input type="hidden" id="guideAudio" name="guideAudio" value="">
+                            <input type="hidden" id="audioTime" name="audioTime" value="">
                         </div>
-                        <span id="audioTime">时长为：3.9</span>
+                        <span id="audioTimeVo">时长为：3.9</span>
                     </div>
                 </td>
             </tr>
@@ -174,6 +176,8 @@
                 <th class="w15">营业时间：</th>
                 <td class="w85">
                     <span id="yinyetime">周一至周五：8：00~21：00 周六周日：12：00~22：00</span>
+                    <textarea class="form-control extra-info-item-text" name="openTime" rows="3"
+                              id="openTime"></textarea>
                 </td>
             </tr>
             <tr>
@@ -185,19 +189,19 @@
             <tr>
                 <th class="w15">温馨提示：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="warmTips" rows="3"></textarea>
+                    <textarea class="form-control extra-info-item-text" name="tips" rows="3" id="tips"></textarea>
                 </td>
             </tr>
             <tr>
                 <th class="w15">注意事项：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="notice" rows="3"></textarea>
+                    <textarea class="form-control extra-info-item-text" name="cares" rows="3"></textarea>
                 </td>
             </tr>
             <tr>
                 <th class="w15">必玩必吃之事：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="bwbc" rows="3"></textarea>
+                    <textarea class="form-control extra-info-item-text" name="haveTo" rows="3"></textarea>
                 </td>
             </tr>
         </table>
@@ -222,7 +226,38 @@
 </script>
 <script type="text/javascript">
     var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-
+    function submitEdit(url, type, data) {
+        //alert(1);
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function (res) {
+                if (res.status == 200) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+                } else {
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled', false);
+                }
+            },
+            error: function (xmlres, status, code) {
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
+            }
+        });
+    }
     function initUploadFile(fileId, hiddenId, imgId) {
         $(fileId).on("change", function () {
             fileUpload(fileId, 1, function (data) {
@@ -244,19 +279,46 @@
 
     $(function () {
         //上传导览列表头图
-        initUploadFile("#logoUrlUploadFile", "#logoUrl", "#logoUrlImg");
+        initUploadFile("#logoUrlUploadFile", "#listImg", "#logoUrlImg");
 
         //上传导览电子地图
-        initUploadFile("#mapUrlUploadfile", "#mapUrl", "#mapUrlImg");
+        initUploadFile("#mapUrlUploadfile", "#guideImg", "#mapUrlImg");
         //选择景区
         $('#btnSelectScenic').on("click", function () {
             openModalForForm('$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/scenic/list', "选择景区", function () {
                 var item = win.getItem();
-                alert(JSON.stringify(item))
                 if (item != null) {
-                    $("#audioWapper").addClass("uploaded");
-                    $("#audioUrl").val(item.url);
-                    $("#audioTime").text(item.time);
+                    $("#name").text(item.name);
+                    $("#number").text(item.id);
+                    $("#scenicId").val(item.id);
+                    $("#location").text(item.locationProvinceName + " " + item.locationCityName + " " + item.locationTownName);
+                    $("#level").text(item.level);
+                    //$("#theme").text(item.time);
+                    $("#address").text(item.locationText);
+                    $("#latlng").text(item.locationX + "," + item.locationY);
+                    $.ajax({
+                        url: '$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/scenic/selected',
+                        type: 'GET',
+                        data: {guideId: item.id, subuectId: item.subjectId},
+                        success: function (res) {
+                            if (res.status == 200) {
+                                $("#theme").text(item.subjectName);
+                            } else {
+                                layer.msg('操作失败', {
+                                    icon: 2,
+                                    time: 2000
+                                });
+                                $(this).prop('disabled', false);
+                            }
+                        },
+                        error: function (xmlres, status, code) {
+                            layer.msg('操作失败', {
+                                icon: 2,
+                                time: 2000
+                            });
+                            $(this).prop('disabled', false);
+                        }
+                    });
                 }
                 return true;
 
@@ -269,8 +331,9 @@
                 alert(JSON.stringify(item))
                 if (item != null) {
                     $("#audioWapper").addClass("uploaded");
-                    $("#audioUrl").val(item.url);
-                    $("#audioTime").text(item.time);
+                    $("#guideAudio").val(item.fileKey);
+                    $("#audioTime").val(item.duration);
+                    $("#audioTimeVo").text(item.durationStr);
                 }
                 return true;
             });
@@ -281,6 +344,11 @@
             wapper.removeClass("uploaded");
             wapper.find(".upload-img").attr("src", defaultImg);
             wapper.find("input[type='hidden']").val('');
+        });
+        //form
+        $('#btnSubmit').on("click", function () {
+            var data = $("#frmGuidEdit").serializeArray(); //自动将form表单封装成json
+            submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/addGuide", "post", data);
         });
     });
 </script>

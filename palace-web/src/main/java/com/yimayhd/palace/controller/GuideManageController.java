@@ -4,15 +4,21 @@ import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
 import com.yimayhd.palace.service.GuideManageService;
 import com.yimayhd.palace.util.Enums;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -23,6 +29,8 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/jiuxiu/guideManage")
 public class GuideManageController extends BaseController {
+
+    protected Logger log = LoggerFactory.getLogger(GuideManageController.class);
     @Resource
     private GuideManageService guideManageService;
 
@@ -74,9 +82,10 @@ public class GuideManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/addGuide", method = RequestMethod.POST)
-    public String addGuide(Model model, GuideScenicVO guideVO) throws Exception {
+    @ResponseBody
+    public ResponseVo addGuide(Model model, GuideScenicVO guideVO) throws Exception {
         guideManageService.addGuide(guideVO);
-        return null;
+        return new ResponseVo();
     }
 
     /**
@@ -86,8 +95,10 @@ public class GuideManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/editGuide", method = RequestMethod.POST)
-    public String editGuide(Model model, GuideScenicVO guideVO) throws Exception {
-        return null;
+    @ResponseBody
+    public ResponseVo editGuide(Model model, GuideScenicVO guideVO) throws Exception {
+        guideManageService.updateGuide(guideVO);
+        return new ResponseVo();
     }
 
     /**
@@ -100,8 +111,14 @@ public class GuideManageController extends BaseController {
      */
 
     @RequestMapping(value = "/setWeight", method = RequestMethod.POST)
-    public String setWeight(Model model, GuideScenicVO guideVO) throws Exception {
-        return null;
+    @ResponseBody
+    public ResponseVo setWeight(Model model, GuideScenicVO guideVO) throws Exception {
+        try {
+            boolean result = guideManageService.setWeight(guideVO.getGuideId(), guideVO.getWeight());
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
     /**
@@ -113,8 +130,14 @@ public class GuideManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/status/up")
-    public String upStatus(Model model, long guideId) throws Exception {
-        return null;
+    @ResponseBody
+    public ResponseVo upStatus(Model model, long guideId) throws Exception {
+        try {
+            boolean result = guideManageService.upStatus(guideId);
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
     /**
@@ -126,8 +149,14 @@ public class GuideManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/status/down")
-    public String downStatus(Model model, long guideId) throws Exception {
-        return null;
+    @ResponseBody
+    public ResponseVo downStatus(Model model, long guideId) throws Exception {
+        try {
+            boolean result = guideManageService.downStatus(guideId);
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
     @RequestMapping(value = "/scenic/list")
@@ -140,7 +169,6 @@ public class GuideManageController extends BaseController {
     }
 
     /**
-     *
      * @param model
      * @param scenicVO
      * @return
@@ -148,9 +176,15 @@ public class GuideManageController extends BaseController {
      */
 
     @RequestMapping(value = "/scenic/selected")
-    public String selected(Model model, ScenicVO scenicVO) throws Exception {
-        scenicVO = guideManageService.selectedScenic(scenicVO);
-        model.addAttribute("scenicVO", scenicVO);
-        return "/system/guide/selectscenic";
+    @ResponseBody
+    public ResponseVo selected(Model model, ScenicVO scenicVO) throws Exception {
+        try {
+            ScenicVO result = guideManageService.selectedScenic(scenicVO);
+            return new ResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
+
+
 }

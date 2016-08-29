@@ -54,6 +54,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         for (GuideScenicDTO guideScenicDTO : guideScenicDTOList) {
             guideScenicVOList.add(GuideConverter.guideScenicDTO2GuideScenicVO(guideScenicDTO));
         }
+        result.setPageSize(guideListQuery.getPageSize());
         return new PageVO<GuideScenicVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), guideScenicVOList);
     }
 
@@ -70,7 +71,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         if (result == null) {
             return null;
         }
-        guideVO.setGuideid(result.getId());
+        guideVO.setGuideId(result.getId());
         GuideScenicTipsDO guideScenicTipsDO = GuideConverter.guideSceniceVO2GuideScenicTipsDO(guideVO);
         GuideScenicTipsDO resultTips = guideRepo.saveGuideScenicTips(guideScenicTipsDO);
         return guideVO;

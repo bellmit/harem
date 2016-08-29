@@ -6,6 +6,7 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.AttachmentConstant;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.AttachmentConverter;
+import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.service.AttachmentManageService;
@@ -69,6 +70,7 @@ public class AttachmentManageController extends BaseController {
         model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class, null));
         return "/system/attachment/list";
     }
+
     @RequestMapping(value = "/list/select")
     public String sellectList(Model model, AttachmentListQuery attachmentListQuery) throws Exception {
         attachmentListQuery.setStatus(MediaFileStatus.ON.getValue());
@@ -82,6 +84,7 @@ public class AttachmentManageController extends BaseController {
         model.addAttribute("mediaPageQuery", attachmentListQuery);
         return "/system/attachment/selectList";
     }
+
     /**
      * 添加导览跳转
      *
@@ -160,7 +163,7 @@ public class AttachmentManageController extends BaseController {
         } else {
             message = "其他文件上传中,稍后重试";
         }
-        ResponseVo responseVo = returnResponseVo(result);
+        ResponseVo responseVo = ResponseVoHelper.returnResponseVo(result);
         responseVo.setMessage(message);
         return responseVo;
 
@@ -176,7 +179,7 @@ public class AttachmentManageController extends BaseController {
     @ResponseBody
     public ResponseVo editAttachment(Model model, AttachmentVO attachmentVO) throws Exception {
         boolean result = attachmentManageService.updateAttachment(attachmentVO);
-        return returnResponseVo(result);
+        return ResponseVoHelper.returnResponseVo(result);
     }
 
 
@@ -192,7 +195,7 @@ public class AttachmentManageController extends BaseController {
     @ResponseBody
     public ResponseVo upStatus(Model model, long id) throws Exception {
         boolean result = attachmentManageService.upStatus(id);
-        return returnResponseVo(result);
+        return ResponseVoHelper.returnResponseVo(result);
     }
 
     /**
@@ -207,18 +210,8 @@ public class AttachmentManageController extends BaseController {
     @ResponseBody
     public ResponseVo downStatus(Model model, long id) throws Exception {
         boolean result = attachmentManageService.downStatus(id);
-        return returnResponseVo(result);
+        return ResponseVoHelper.returnResponseVo(result);
     }
 
-    private ResponseVo returnResponseVo(boolean result) {
-        ResponseVo responseVo = new ResponseVo();
-        if (result) {
-            responseVo.setMessage(ResponseStatus.SUCCESS.MESSAGE);
-            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-        } else {
-            responseVo.setMessage(ResponseStatus.ERROR.MESSAGE);
-            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-        }
-        return responseVo;
-    }
+
 }

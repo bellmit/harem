@@ -6,7 +6,7 @@ import com.yimayhd.ic.client.model.enums.GuideStatus;
  * Created by xushubing on 2016/8/18.
  */
 public class GuideScenicVO {
-    private long guideid;//导览id
+    private long guideId;//导览id
     private long scenicId;//景区id
     private String scenicName;//景区名称
     private String scenicResourceNum;//景区资源编号
@@ -108,14 +108,6 @@ public class GuideScenicVO {
         return this;
     }
 
-    public long getGuideid() {
-        return guideid;
-    }
-
-    public GuideScenicVO setGuideid(long guideid) {
-        this.guideid = guideid;
-        return this;
-    }
 
     public String getScenicName() {
         return scenicName;
@@ -242,5 +234,13 @@ public class GuideScenicVO {
 
     public void setGuideTipsId(long guideTipsId) {
         this.guideTipsId = guideTipsId;
+    }
+
+    public long getGuideId() {
+        return guideId;
+    }
+
+    public void setGuideId(long guideId) {
+        this.guideId = guideId;
     }
 }

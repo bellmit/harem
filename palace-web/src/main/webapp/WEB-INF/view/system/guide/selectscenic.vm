@@ -45,7 +45,11 @@
                 #foreach($item in $itemList)
                 <tr>
                     <td>
-                        <input type="checkbox" id="$!{item.id}"/>
+                        <input type="checkbox" id="$!{item.id}" subjectId="$!{item.subjectId}" name="${item.name}"
+                               locationText="${item.locationText}" locationProvinceName="${item.locationProvinceName}"
+                               locationCityName ="${item.locationCityName}" locationTownName="${item.locationTownName}"
+                               level="${item.level}" locationX="${item.locationX}" locationY="${item.locationY}"
+                        />
                     </td>
                     <td>
                         $!item.name
@@ -89,9 +93,18 @@
 
     function getItem() {
         var selecetdtr = $("#tbScenicList tr.selected").find("input[type='checkbox']");
-        return {
-            id: selecetdtr.attr("id")
 
+        return {
+            id: selecetdtr.attr("id"),
+            subjectId:selecetdtr.attr("subjectId"),
+            name:selecetdtr.attr("name"),
+            locationText:selecetdtr.attr("locationText"),
+            locationProvinceName:selecetdtr.attr("locationProvinceName"),
+            locationCityName:selecetdtr.attr("locationCityName"),
+            locationTownName:selecetdtr.attr("locationTownName"),
+            level:selecetdtr.attr("level"),
+            locationX:selecetdtr.attr("locationX"),
+            locationY:selecetdtr.attr("locationY")
         }
     }
 </script>

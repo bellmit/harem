@@ -705,7 +705,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
         for (GuideScenicVO oo:list) {
             ShowCaseItem sc = new ShowCaseItem();
-            sc.setId(oo.getGuideid());
+            sc.setId(oo.getGuideId());
             sc.setName(oo.getScenicName());//标题
             sc.setImgUrl(StringUtils.isEmpty(oo.getGuideImg())?"":oo.getGuideImg());
             listSC.add(sc);

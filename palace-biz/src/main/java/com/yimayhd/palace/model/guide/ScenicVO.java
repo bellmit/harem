@@ -1,14 +1,7 @@
 package com.yimayhd.palace.model.guide;
 
-import com.yimayhd.ic.client.model.domain.item.ICNeedKnow;
-import com.yimayhd.ic.client.model.domain.item.ScenicFeature;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuxp on 2016/8/22.

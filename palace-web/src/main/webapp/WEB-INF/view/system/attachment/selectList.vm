@@ -82,7 +82,7 @@
             #foreach($item in $itemList)
             <tr>
                 <td>
-                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.durationStr}"/>
+                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}"/>
                 </td>
                 <td>$!{item.id}</td>
                 <td>
@@ -149,7 +149,8 @@
         var selecetdtr = $("#tbAttachmentSellectList tr.selected").find("input[type='checkbox']");
         return {
             fileKey: selecetdtr.attr("fileKey"),
-            time: selecetdtr.attr("duration")
+            duration: selecetdtr.attr("duration"),
+            durationStr: selecetdtr.attr("durationStr")
         }
     }
 </script>
