@@ -82,7 +82,7 @@
             #foreach($item in $itemList)
             <tr>
                 <td>
-                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}"/>
+                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}" id="${item.id}"/>
                 </td>
                 <td>$!{item.id}</td>
                 <td>
@@ -150,7 +150,8 @@
         return {
             fileKey: selecetdtr.attr("fileKey"),
             duration: selecetdtr.attr("duration"),
-            durationStr: selecetdtr.attr("durationStr")
+            durationStr: selecetdtr.attr("durationStr"),
+            id:selecetdtr.attr("id")
         }
     }
 </script>
