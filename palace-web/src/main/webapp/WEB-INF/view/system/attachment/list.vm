@@ -95,7 +95,7 @@
         <tr>
             <th>序号</th>
             <th>名称</th>
-            <th>文件KEY</th>
+          #*  <th>文件KEY</th>*#
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
@@ -112,9 +112,9 @@
                 <td>
                     $!{item.inputFileTitle}
                 </td>
-                <td>
+             #*   <td>
                     $!{item.fileKey}
-                </td>
+                </td>*#
                 <td>
                     $!{item.fileTypeStr}
                 </td>
