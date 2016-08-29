@@ -117,8 +117,8 @@ public class ApplyBiz {
 		return result;
 	}
 	
-	public ExamineResultDTO getCheckResult() {
-		ExamineResultDTO checkResult = examineDealRepo.getCheckResult(sessionManager.getUserId());
+	public ExamineResultDTO getCheckResult(long sellerId) {
+		ExamineResultDTO checkResult = examineDealRepo.getCheckResult(sellerId);
 		if (checkResult == null) {
 			return null;
 		}

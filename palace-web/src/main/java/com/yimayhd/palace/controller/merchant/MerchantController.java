@@ -405,7 +405,7 @@ public class MerchantController extends BaseController {
 	* @return BizResult<String>    返回类型 
 	* @throws
 	 */
-	@RequestMapping(value="modifyMerchantWeight",method = RequestMethod.GET)
+	@RequestMapping(value="modifyMerchantWeight",method = RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> modifyMerchantWeight(long merchantId,int weightValue) {
 		BizResult<String> result = new BizResult<String>();

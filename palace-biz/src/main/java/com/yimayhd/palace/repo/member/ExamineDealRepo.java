@@ -177,7 +177,7 @@ public class ExamineDealRepo {
 	public ExamineResultDTO getCheckResult(long userId) {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		examineQueryDTO.setType(MerchantType.TALENT.getType());
+		//examineQueryDTO.setType(MerchantType.TALENT.getType());
 		examineQueryDTO.setSellerId(userId);
 		
 		try {

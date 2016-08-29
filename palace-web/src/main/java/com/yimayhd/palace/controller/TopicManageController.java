@@ -236,7 +236,7 @@ public class TopicManageController extends BaseController {
 	* @return ResponseVo    返回类型 
 	* @throws
 	 */
-	@RequestMapping(value="/setTopicWeight/{id}/{weight}",method=RequestMethod.POST)
+	@RequestMapping(value="/setTopicWeight/{id}/{weight}",method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseVo modifyTopicWeight(@PathVariable(value="id") long id,@PathVariable(value="weight")int weight) {
 		ResponseVo responseVo = new ResponseVo();
