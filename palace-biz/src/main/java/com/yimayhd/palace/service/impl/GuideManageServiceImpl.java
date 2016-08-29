@@ -52,7 +52,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         List<GuideScenicVO> guideScenicVOList = new ArrayList<GuideScenicVO>();
         List<GuideScenicDTO> guideScenicDTOList = result.getList();
         for (GuideScenicDTO guideScenicDTO : guideScenicDTOList) {
-            guideScenicVOList.add(GuideConverter.guideScenicDTO2GuideScenicVO(null, guideScenicDTO));
+            guideScenicVOList.add(GuideConverter.guideScenicDTO2GuideScenicVO(guideScenicDTO));
         }
         result.setPageSize(guideListQuery.getPageSize());
         return new PageVO<GuideScenicVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), guideScenicVOList);
@@ -108,10 +108,11 @@ public class GuideManageServiceImpl implements GuideManageService {
         if (guideScenicDTO == null) {
             return null;
         }
-        GuideScenicVO guideScenicVO = GuideConverter.guideScenicDTO2GuideScenicVO(null, guideScenicDTO);
-        GuideScenicDTO scenicDTO = guideRepo.queryGuideDetailByScenicId(guideScenicVO.getScenicId());
-
-        return GuideConverter.guideScenicDTO2GuideScenicVO(guideScenicVO, scenicDTO);
+        GuideScenicVO guideScenicVO = GuideConverter.guideScenicDTO2GuideScenicVO(guideScenicDTO);
+//        GuideScenicDTO scenicDTO = guideRepo.queryGuideDetailByScenicId(guideScenicVO.getScenicId());
+        GuideScenicTipsDO guideScenicTipsDO = guideRepo.queryGuideScenicTips(id);
+        guideScenicVO = GuideConverter.guideScenicTipsDO2guideSceniceVO2GuideScenicTipsDO(guideScenicVO, guideScenicTipsDO);
+        return guideScenicVO;
     }
 
     /**

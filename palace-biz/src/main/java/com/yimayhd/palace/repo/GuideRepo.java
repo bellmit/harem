@@ -83,11 +83,27 @@ public class GuideRepo {
                 log.info("queryGuideDetail guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
                 return result.getModule();
             } else {
-                log.error("queryGuideDetail guideId guideScenicDO={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
+                log.error("queryGuideDetail guideId ={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
                 return null;
             }
         } catch (Exception e) {
             log.error("queryGuideDetail guideId={}, exception={}", JSON.toJSONString(guideId), e);
+            return null;
+        }
+    }
+
+    public GuideScenicTipsDO queryGuideScenicTips(long guideId) {
+        try {
+            ICResult<GuideScenicTipsDO> result = guideServiceRef.queryGuideScenicTips(guideId);
+            if (result.isSuccess() && result.getModule() != null) {
+                log.info("queryGuideScenicTips guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
+                return result.getModule();
+            } else {
+                log.error("queryGuideScenicTips guideId ={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("queryGuideScenicTips guideId={}, exception={}", JSON.toJSONString(guideId), e);
             return null;
         }
     }

@@ -71,6 +71,26 @@ public class GuideConverter {
         return guideScenicTipsDO;
     }
 
+    public static GuideScenicVO guideScenicTipsDO2guideSceniceVO2GuideScenicTipsDO(GuideScenicVO guideScenicVO, GuideScenicTipsDO guideScenicTipsDO) {
+        if (guideScenicTipsDO == null) {
+            return null;
+        }
+        if (guideScenicVO == null) {
+            guideScenicVO = new GuideScenicVO();
+        }
+        if (guideScenicTipsDO.getId() > 0) {
+            guideScenicVO.setGuideTipsId(guideScenicTipsDO.getId());
+        }
+        guideScenicVO.setCares(guideScenicTipsDO.getCares());
+        guideScenicVO.setGuideId(guideScenicTipsDO.getGuideId());
+        guideScenicVO.setHaveTo(guideScenicTipsDO.getHaveTo());
+        guideScenicVO.setTicketInfo(guideScenicTipsDO.getTicketInfo());
+        guideScenicVO.setOpenTime(guideScenicTipsDO.getOpenTime());
+        guideScenicVO.setTips(guideScenicTipsDO.getTips());
+        guideScenicVO.setTraffic(guideScenicTipsDO.getTraffic());
+        return guideScenicVO;
+    }
+
     public static GuideTipsUpdateDTO guideSceniceVO2GuideScenicTipsDTO(GuideScenicVO guideVo) {
         if (guideVo == null) {
             return null;
@@ -104,13 +124,11 @@ public class GuideConverter {
         return guideScenicPageQueryDTO;
     }
 
-    public static GuideScenicVO guideScenicDTO2GuideScenicVO(GuideScenicVO guideScenicVO, GuideScenicDTO guideScenicDTO) {
+    public static GuideScenicVO guideScenicDTO2GuideScenicVO(GuideScenicDTO guideScenicDTO) {
         if (guideScenicDTO == null) {
             return null;
         }
-        if (guideScenicVO == null) {
-            guideScenicVO = new GuideScenicVO();
-        }
+        GuideScenicVO guideScenicVO = new GuideScenicVO();
         /**
          * 导览信息
          */

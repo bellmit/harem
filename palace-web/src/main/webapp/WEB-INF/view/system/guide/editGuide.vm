@@ -75,38 +75,38 @@
     <input type="hidden" name="guideId" id="guideId" value="${guideScenicVO.guideId}">
     <fieldset>
         <legend>景区信息</legend>
-        <div class="btnBottomMargin">
+    #*    <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary" id="btnSelectScenic">选择景区</button>
-        </div>
+        </div>*#
         <input type="hidden" id="scenicId" value="" name="scenicId">
         <table class="table table-bordered">
             <tr>
                 <th class="w15">景区名称：</th>
                 <td class="w35">
-                    <span id="name" name="scenicName"></span>
+                    <span id="name" name="scenicName">$!{guideScenicVO.scenicName}</span>
                 </td>
                 <th class="w15">资源编号：</th>
                 <td class="w35">
-                    <span id="number" name="scenicNumber"></span>
+                    <span id="number" name="scenicNumber">$!{guideScenicVO.scenicId}</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">所在省、市、区：</th>
                 <td class="w35">
-                    <span id="location" name="location" id="location"></span>
+                    <span id="location" name="location" id="location">$!{guideScenicVO.location}</span>
                 </td>
                 <th class="w15">等级：</th>
-                <td class="w35"><span id="level" name="level" id="level"></span></td>
+                <td class="w35"><span id="level" name="level" id="level">$!{guideScenicVO.level}</span></td>
             </tr>
             <tr>
                 <th class="w15">主题：</th>
-                <td class="w35"><span id="theme" name="theme" id="theme"></span></td>
+                <td class="w35"><span id="theme" name="theme" id="theme">$!{guideScenicVO.theme}</span></td>
                 <th class="w15">地址：</th>
-                <td class="w35"><span id="address" name="address" id="address"></span></td>
+                <td class="w35"><span id="address" name="address" id="address">$!{guideScenicVO.address}</span></td>
             </tr>
             <tr>
                 <th class="w15">经纬度：</th>
-                <td class="w35"><span id="latlng" name="latlng" id="latlng"></span></td>
+                <td class="w35"><span id="latlng" name="latlng" id="latlng">$!{guideScenicVO.scenicName}</span></td>
                 <th class="w15"></th>
                 <td class="w35"></td>
             </tr>
@@ -122,7 +122,7 @@
                     <div class="upload-view ">
                         <div class="img-wapper uploaded">
                             <img class="upload-img" id="logoUrlImg" imgurl=""
-                                 src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                                 src="$!utilWebconfig.getTfsRootPath()$!{guideScenicVO.listImg}"/>
                             <div class="delete-btn">删除</div>
                             <input type="hidden" id="listImg" name="listImg" value="">
                         </div>
@@ -138,7 +138,7 @@
                     <div class="upload-view">
                         <div class="img-wapper">
                             <img class="upload-img" id="mapUrlImg" imgurl=""
-                                 src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                                 src="$!utilWebconfig.getTfsRootPath()$!{guideScenicVO.guideImg}"/>
                             <div class="delete-btn">删除</div>
                             <input type="hidden" id="guideImg" name="guideImg" value="">
                         </div>
