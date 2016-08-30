@@ -93,6 +93,6 @@ public interface ArticleService {
 	* @return ArticleItemVO    返回类型 
 	* @throws
 	 */
-	BizPageResult<AudioVO> getAudioArticleListPage(MediaPageQuery mediaPageQuery);
+	BizPageResult<AudioVO> getAudioArticleListPage(long id);
 
 }

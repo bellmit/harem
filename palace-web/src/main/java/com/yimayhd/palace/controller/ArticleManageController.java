@@ -232,24 +232,24 @@ public class ArticleManageController extends BaseController {
         return responseVo;
     }
     
-    @RequestMapping(value="queryAudioListPage",method=RequestMethod.POST)
-    @ResponseBody
-    public ResponseVo queryAudioListPage(MediaPageQuery mediaPageQuery) {
-    	ResponseVo responseVo = new ResponseVo();
-    	if (mediaPageQuery == null || mediaPageQuery.getPageNo() <=0 || mediaPageQuery.getPageSize() <= 0) {
-			return new ResponseVo(ResponseStatus.INVALID_DATA);
-		}
-    	try {
-			BizPageResult<AudioVO> audioArticleListPage = articleService.getAudioArticleListPage(mediaPageQuery);
-			if (audioArticleListPage == null || (audioArticleListPage != null && CollectionUtils.isEmpty(audioArticleListPage.getList()))) {
-				return new ResponseVo(ResponseStatus.NOT_FOUND);
-				
-			}
-			responseVo.setData(audioArticleListPage);
-			return responseVo;
-		} catch (Exception e) {
-			log.error("param:MediaPageQuery={},error:{}",JSON.toJSONString(mediaPageQuery),e);
-			return new ResponseVo(ResponseStatus.ERROR);
-		}
-    }
+//    @RequestMapping(value="queryAudioListPage",method=RequestMethod.POST)
+//    @ResponseBody
+//    public ResponseVo queryAudioListPage(MediaPageQuery mediaPageQuery) {
+//    	ResponseVo responseVo = new ResponseVo();
+//    	if (mediaPageQuery == null || mediaPageQuery.getPageNo() <=0 || mediaPageQuery.getPageSize() <= 0) {
+//			return new ResponseVo(ResponseStatus.INVALID_DATA);
+//		}
+//    	try {
+//			BizPageResult<AudioVO> audioArticleListPage = articleService.getAudioArticleListPage(mediaPageQuery);
+//			if (audioArticleListPage == null || (audioArticleListPage != null && CollectionUtils.isEmpty(audioArticleListPage.getList()))) {
+//				return new ResponseVo(ResponseStatus.NOT_FOUND);
+//				
+//			}
+//			responseVo.setData(audioArticleListPage);
+//			return responseVo;
+//		} catch (Exception e) {
+//			log.error("param:MediaPageQuery={},error:{}",JSON.toJSONString(mediaPageQuery),e);
+//			return new ResponseVo(ResponseStatus.ERROR);
+//		}
+//    }
 }
