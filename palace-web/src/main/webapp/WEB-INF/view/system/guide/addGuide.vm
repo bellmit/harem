@@ -170,39 +170,45 @@
             <tr>
                 <th class="w15">景区门票信息：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="ticketInfo" rows="3"></textarea>
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" id="ticketInfo" name="ticketInfo" rows="3"></textarea>
+                    <span class="num">0/300</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">营业时间：</th>
                 <td class="w85">
                     <span id="yinyetime">周一至周五：8：00~21：00 周六周日：12：00~22：00</span>
-                    <textarea class="form-control extra-info-item-text" name="openTime" rows="3"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" name="openTime" rows="3"
                               id="openTime"></textarea>
+                    <span class="num">0/300</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">交通：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="traffic" rows="3"></textarea>
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="traffic" name="traffic" rows="3"></textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">温馨提示：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="tips" rows="3" id="tips"></textarea>
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" name="tips" rows="3" id="tips"></textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">注意事项：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="cares" rows="3"></textarea>
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="cares" name="cares" rows="3"></textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">必玩必吃之事：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="haveTo" rows="3"></textarea>
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="haveTo" name="haveTo" rows="3"></textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
         </table>
@@ -276,7 +282,7 @@
                         if (r) {
                             $(hiddenId).val(data.data);
                             $(imgId).attr('src', tfsRootPath + data.data);
-                            $(imgId).closest(".upload-wapper").addClass("uploaded");
+                            $(imgId).closest(".img-wapper").addClass("uploaded");
                         } else {
                             layer.msg('图片尺寸太大，请上传正确的图片', {
                                 icon: 2
@@ -288,7 +294,7 @@
                         icon: 2
                     });
                 }
-            }，500);
+            },500);
         });
     }
 
@@ -298,6 +304,29 @@
 
         //上传导览电子地图
         initUploadFile("#mapUrlUploadfile", "#guideImg", "#mapUrlImg");
+
+        //文本长度限制
+        var limitTexts=$(".limit-text");
+        limitTexts.each(function() {
+            var txtlength = $(this).val().length;
+            var maxlength=$(this).attr("maxlength");
+            $(this).next(".num").text(txtlength + " / " + maxlength);
+        });
+
+        limitTexts.on("input propertychange", function() {
+            var input = $(this);
+            var txt = input.val();
+            var currnum = txt.length;
+            var maxlength=input.attr("maxlength");
+            if (currnum > maxlength) {
+                currnum = maxlength;
+                    input.val(txt.substr(0, maxlength));
+            }
+
+            $(this).next(".num").text(currnum + " / " + maxlength);
+            return false;
+        });
+
         //选择景区
         $('#btnSelectScenic').on("click", function () {
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/list', "选择景区", function () {
@@ -362,6 +391,51 @@
         });
         //form
         $('#btnSubmit').on("click", function () {
+            if($("#scenicId").val().length==0){
+                layer.msg("请选择景区");
+                return;
+            }
+
+            if($("#listImg").val().length==0){
+                layer.msg("请上传列表头图");
+                return;
+            }
+
+            if($("#guideImg").val().length==0){
+                layer.msg("请上传导览地图");
+                return;
+            }
+
+            if($("#guideAudio").val().length==0){
+                layer.msg("请上传语音文件");
+                return;
+            }
+
+            if($("#ticketInfo").val().length==0){
+                layer.msg("请填写景区门票信息");
+                return;
+            }
+
+            if($("#traffic").val().length==0){
+                layer.msg("请填写交通信息");
+                return;
+            }
+
+            if($("#tips").val().length==0){
+                layer.msg("请填写温馨提示");
+                return;
+            }
+
+            if($("#cares").val().length==0){
+                layer.msg("请填写注意事项");
+                return;
+            }
+
+            if($("#haveTo").val().length==0){
+                layer.msg("请填写必玩必吃之事");
+                return;
+            }
+
             var data = $("#frmGuidEdit").serializeArray(); //自动将form表单封装成json
             submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/addGuide", "post", data);
         });
