@@ -41,6 +41,15 @@ public class ArticleVO implements Serializable {
 	private String articleItems;
 	
 	private String articleUrl;
+	private String imgString;
+	
+	public String getImgString() {
+		return imgString;
+	}
+
+	public void setImgString(String imgString) {
+		this.imgString = imgString;
+	}
 
 	private List<ArticleItemVO> articleItemList;
 	private String author;

@@ -189,8 +189,7 @@ public class ArticleServiceImpl implements ArticleService {
                 break;
             case AUDIO:
                 //TODO 音频文件封装
-            	
-            	//articleBiz.queryAudioPageResult(mediaPageQuery);
+//            	articleBiz.queryAudioPageResult(id);
 //                ArticleAudioItemVO articleAudioItemVO = ArticleConverter.getArticleAudioItemVO();
 //                if (articleAudioItemVO == null) {
 //                    return null;
@@ -207,10 +206,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 	@Override
-	public BizPageResult<AudioVO> getAudioArticleListPage(MediaPageQuery mediaPageQuery) {
-		BizPageResult<AudioVO> queryAudioPageResult = articleBiz.queryAudioPageResult(mediaPageQuery);
+	public BizPageResult<AudioVO> getAudioArticleListPage(long id) {
+		BizPageResult<AudioVO> queryAudioPageResult = articleBiz.queryAudioPageResult(id);
 		if (queryAudioPageResult == null || (queryAudioPageResult != null && org.springframework.util.CollectionUtils.isEmpty(queryAudioPageResult.getList()))) {
-			log.error("articleBiz.queryAudioPageResult param:MediaPageQuery={},result:{}",JSON.toJSONString(mediaPageQuery),JSON.toJSONString(queryAudioPageResult));
+			log.error("articleBiz.queryAudioPageResult param:id={},result:{}",id,JSON.toJSONString(queryAudioPageResult));
 			return null;
 		}
 		return queryAudioPageResult;

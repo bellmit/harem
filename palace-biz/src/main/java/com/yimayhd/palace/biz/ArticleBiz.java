@@ -221,8 +221,14 @@ public class ArticleBiz {
         return list.get(0);
     }
     
-    public BizPageResult<AudioVO> queryAudioPageResult(MediaPageQuery mediaPageQuery) {
+    public BizPageResult<AudioVO> queryAudioPageResult(long id) {
     	BizPageResult<AudioVO> pageResult = new BizPageResult<AudioVO>();
+    	MediaPageQuery mediaPageQuery = new MediaPageQuery();
+//    	mediaPageQuery.setPageNo(1);
+//    	mediaPageQuery.setPageSize(1);
+//    	mediaPageQuery.setStarteTime(new Date());
+//    	mediaPageQuery.setEndTime(new Date());
+//    	mediaPageQuery.set
     	RCPageResult<MediaDO> queryAudioPageResult = solrsearchRepo.queryAudioPageResult(mediaPageQuery);
     	if (queryAudioPageResult == null || (queryAudioPageResult != null && CollectionUtils.isEmpty(queryAudioPageResult.getList()))) {
 			log.error("solrsearchRepo.queryAudioPageResult param:MediaPageQuery={},result:{}",JSON.toJSONString(mediaPageQuery),JSON.toJSONString(queryAudioPageResult));

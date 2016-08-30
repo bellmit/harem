@@ -33,6 +33,17 @@ public class ArticleItemVO implements Serializable {
 	private Date gmtCreated;
 
 	private Date gmtModified;
+	
+	private String audioBackImg;
+	
+	public String getAudioBackImg() {
+		return audioBackImg;
+	}
+
+	public void setAudioBackImg(String audioBackImg) {
+		this.audioBackImg = audioBackImg;
+	}
+
 	/**
 	 * 商品项
 	 */
