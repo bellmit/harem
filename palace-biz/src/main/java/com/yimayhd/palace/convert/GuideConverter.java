@@ -33,7 +33,7 @@ public class GuideConverter {
         guideScenicDO.setGuideImg(guideVo.getGuideImg());
         guideScenicDO.setListImg(guideVo.getListImg());
         guideScenicDO.setScenicId(guideVo.getScenicId());
-
+        guideScenicDO.setScenicName(guideVo.getScenicName());
         return guideScenicDO;
     }
 
@@ -148,12 +148,15 @@ public class GuideConverter {
             guideScenicVO.setListImg(guideDO.getListImg());
             guideScenicVO.setScenicId(guideDO.getScenicId());
             guideScenicVO.setWeight(guideDO.getWeights());
+
         }
         if (scenicDO != null) {
             guideScenicVO.setLevel(scenicDO.getLevel());
             guideScenicVO.setScenicName(scenicDO.getName());
             guideScenicVO.setScenicResourceNum(String.valueOf(scenicDO.getId()));
-            guideScenicVO.setLocation(scenicDO.getLocationText());
+            guideScenicVO.setAddress(scenicDO.getLocationText());
+            guideScenicVO.setLocation(scenicDO.getLocationProvinceName()+" "+ scenicDO.getLocationCityName()+" "+ scenicDO.getLocationTownName());
+            guideScenicVO.setSubjectId(scenicDO.getSubjectId());
         }
         if (guideScenicVO.getGuideId() > 0) {
             return guideScenicVO;

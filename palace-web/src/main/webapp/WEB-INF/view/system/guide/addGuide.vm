@@ -299,10 +299,10 @@
                     $.ajax({
                         url: '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/selected',
                         type: 'GET',
-                        data: {guideId: item.id, subuectId: item.subjectId},
+                        data: {guideId: item.id, subjectId: item.subjectId},
                         success: function (res) {
                             if (res.status == 200) {
-                                $("#theme").text(item.subjectName);
+                                $("#theme").text(res.data.subjectName);
                             } else {
                                 layer.msg('操作失败', {
                                     icon: 2,

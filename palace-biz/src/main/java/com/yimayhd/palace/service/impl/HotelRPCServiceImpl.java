@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.param.item.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -25,12 +26,6 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.enums.PictureTag;
-import com.yimayhd.ic.client.model.param.item.FacilityQueryDTO;
-import com.yimayhd.ic.client.model.param.item.HotelDTO;
-import com.yimayhd.ic.client.model.param.item.HotelPublishDTO;
-import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
-import com.yimayhd.ic.client.model.param.item.RoomDTO;
-import com.yimayhd.ic.client.model.param.item.RoomStatusDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.query.RoomQuery;
@@ -751,12 +746,15 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 	public BizResult<Boolean> setHotelWeight(long id, int weight) {
 		
 		BizResult<Boolean> result = new BizResult<Boolean>();
-		HotelPublishDTO dto = new HotelPublishDTO();
-		dto.setSort(weight);
+	//	HotelPublishDTO dto = new HotelPublishDTO();
+		SetHotelWeightDTO setHotelWeightDTO = new SetHotelWeightDTO();
+		setHotelWeightDTO.setId(id);
+		setHotelWeightDTO.setOrderNum(weight);
+	/*	dto.setSort(weight);
 		ItemDO itemDO = new ItemDO();
 		itemDO.setId(id);
-		dto.setItemDO(itemDO);
-		boolean setResult = hotelServiceRef.setHotelWeight(dto);
+		dto.setItemDO(itemDO);*/
+		boolean setResult = hotelServiceRef.setHotelWeight(setHotelWeightDTO);
 		if (!setResult) {
 			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
 			return result;

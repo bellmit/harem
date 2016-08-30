@@ -78,7 +78,8 @@
     #*    <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary" id="btnSelectScenic">选择景区</button>
         </div>*#
-        <input type="hidden" id="scenicId" value="" name="scenicId">
+        <input type="hidden" id="scenicId" value="$!{guideScenicVO.scenicId}" name="scenicId">
+        <input type="hidden" id="subjectId" value="$!{guideScenicVO.subjectId}" name="subjectId">
         <table class="table table-bordered">
             <tr>
                 <th class="w15">景区名称：</th>
@@ -124,7 +125,7 @@
                             <img class="upload-img" id="logoUrlImg" imgurl=""
                                  src="$!utilWebconfig.getTfsRootPath()$!{guideScenicVO.listImg}"/>
                             <div class="delete-btn">删除</div>
-                            <input type="hidden" id="listImg" name="listImg" value="">
+                            <input type="hidden" id="listImg" name="listImg" value="$!{guideScenicVO.listImg}">
                         </div>
                         <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                     </div>
@@ -140,7 +141,7 @@
                             <img class="upload-img" id="mapUrlImg" imgurl=""
                                  src="$!utilWebconfig.getTfsRootPath()$!{guideScenicVO.guideImg}"/>
                             <div class="delete-btn">删除</div>
-                            <input type="hidden" id="guideImg" name="guideImg" value="">
+                            <input type="hidden" id="guideImg" name="guideImg" value="$!{guideScenicVO.guideImg}">
                         </div>
                         <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                     </div>
@@ -155,10 +156,10 @@
                             <img class="upload-img" imgurl=""
                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                             <div class="delete-btn">删除</div>
-                            <input type="hidden" id="guideAudio" name="guideAudio" value="">
-                            <input type="hidden" id="audioTime" name="audioTime" value="">
+                            <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
+                            <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
                         </div>
-                        <span id="audioTimeVo">时长为：3.9</span>
+                        <span id="audioTimeVo">时长为：$!{guideScenicVO.audioTimeStr}</span>
                     </div>
                 </td>
             </tr>
@@ -170,7 +171,8 @@
             <tr>
                 <th class="w15">景区门票信息：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="ticketInfo" rows="3">$!{guideScenicVO.ticketInfo}</textarea>
+                    <textarea class="form-control extra-info-item-text" name="ticketInfo"
+                              rows="3">$!{guideScenicVO.ticketInfo}</textarea>
                 </td>
             </tr>
             <tr>
@@ -184,25 +186,29 @@
             <tr>
                 <th class="w15">交通：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="traffic" rows="3">$!{guideScenicVO.traffic}</textarea>
+                    <textarea class="form-control extra-info-item-text" name="traffic"
+                              rows="3">$!{guideScenicVO.traffic}</textarea>
                 </td>
             </tr>
             <tr>
                 <th class="w15">温馨提示：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="tips" rows="3" id="tips">$!{guideScenicVO.tips}</textarea>
+                    <textarea class="form-control extra-info-item-text" name="tips" rows="3"
+                              id="tips">$!{guideScenicVO.tips}</textarea>
                 </td>
             </tr>
             <tr>
                 <th class="w15">注意事项：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="cares" rows="3">$!{guideScenicVO.cares}</textarea>
+                    <textarea class="form-control extra-info-item-text" name="cares"
+                              rows="3">$!{guideScenicVO.cares}</textarea>
                 </td>
             </tr>
             <tr>
                 <th class="w15">必玩必吃之事：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="haveTo" rows="3">$!{guideScenicVO.haveTo}</textarea>
+                    <textarea class="form-control extra-info-item-text" name="haveTo"
+                              rows="3">$!{guideScenicVO.haveTo}</textarea>
                 </td>
             </tr>
         </table>
@@ -277,8 +283,30 @@
             });
         });
     }
-    function initScenic() {
-        
+    function initScenicSubject() {
+        $.ajax({
+            url: '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/selected',
+            type: 'GET',
+            data: {subjectId: $("#subjectId").val()},
+            success: function (res) {
+                if (res.status == 200) {
+                    $("#theme").text(res.data.subjectName);
+                } else {
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled', false);
+                }
+            },
+            error: function (xmlres, status, code) {
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
+            }
+        });
     }
     $(function () {
         //上传导览列表头图
@@ -287,46 +315,8 @@
         //上传导览电子地图
         initUploadFile("#mapUrlUploadfile", "#guideImg", "#mapUrlImg");
         //选择景区
-        $('#btnSelectScenic').on("click", function () {
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/list', "选择景区", function () {
-                var item = win.getItem();
-                if (item != null) {
-                    $("#name").text(item.name);
-                    $("#number").text(item.id);
-                    $("#scenicId").val(item.id);
-                    $("#location").text(item.locationProvinceName + " " + item.locationCityName + " " + item.locationTownName);
-                    $("#level").text(item.level);
-                    //$("#theme").text(item.time);
-                    $("#address").text(item.locationText);
-                    $("#latlng").text(item.locationX + "," + item.locationY);
-                    $.ajax({
-                        url: '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/selected',
-                        type: 'GET',
-                        data: {guideId: item.id, subuectId: item.subjectId},
-                        success: function (res) {
-                            if (res.status == 200) {
-                                $("#theme").text(item.subjectName);
-                            } else {
-                                layer.msg('操作失败', {
-                                    icon: 2,
-                                    time: 2000
-                                });
-                                $(this).prop('disabled', false);
-                            }
-                        },
-                        error: function (xmlres, status, code) {
-                            layer.msg('操作失败', {
-                                icon: 2,
-                                time: 2000
-                            });
-                            $(this).prop('disabled', false);
-                        }
-                    });
-                }
-                return true;
+        initScenicSubject();
 
-            });
-        });
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {

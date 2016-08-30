@@ -21,11 +21,12 @@ public class GuideScenicVO {
      * 开场语音时长
      */
     private int audioTime;
+    private String audioTimeStr;
     /**
      * 导览开场语音
      */
     private String guideAudio;
-//实用锦囊
+    //实用锦囊
     private long guideTipsId;//实用锦囊 id
     /**
      * 景区门票信息
@@ -59,6 +60,37 @@ public class GuideScenicVO {
 
     //
     private String statusStr;
+
+    private long subjectId;
+    private String address;
+
+
+    public long getSubjectId() {
+        return subjectId;
+    }
+
+    public GuideScenicVO setSubjectId(long subjectId) {
+        this.subjectId = subjectId;
+        return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public GuideScenicVO setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public String getAudioTimeStr() {
+        return audioTime / 60 + "分" + audioTime % 60 + "秒";
+    }
+
+    public GuideScenicVO setAudioTimeStr(String audioTimeStr) {
+        this.audioTimeStr = audioTimeStr;
+        return this;
+    }
 
     private static GuideStatus getStatusByValue(int status) {
         for (GuideStatus guideStatus : GuideStatus.values()) {
