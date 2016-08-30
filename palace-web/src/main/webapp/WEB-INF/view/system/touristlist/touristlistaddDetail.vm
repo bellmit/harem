@@ -99,7 +99,7 @@
                 </tr>
             </table>
             <div class="btnBottomMargin" style="text-align:center;">
-                <button type="submit" class="btn btn-primary" style="width:150px" id="btnSaveSpotInfo">保存并下一步</button>
+                <button type="button" class="btn btn-primary" style="width:150px" id="btnSaveSpotInfo">保存并下一步</button>
             </div>
         </form>
     </div>
