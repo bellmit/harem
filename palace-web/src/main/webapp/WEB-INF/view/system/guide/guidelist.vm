@@ -76,7 +76,7 @@
                 </td>
             <td>
                 #if($item.status==$guideStatusMap.get("ONLINE").code)
-                    <button type="button" class="btn btn-primary off" guideId="$!{item.guideId}">下架11</button>
+                    <button type="button" class="btn btn-primary off" guideId="$!{item.guideId}">下架</button>
                 #end
                 #if($item.status==$guideStatusMap.get("OFFLINE").code)
                     <button type="button" class="btn btn-primary edit" guideId="$!{item.guideId}">编辑导览</button>
