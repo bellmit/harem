@@ -72,15 +72,21 @@ public class GuideManageServiceImpl implements GuideManageService {
             return false;
         }
         guideVO.setGuideId(result.getId());
+
+        return saveGuideScenicTips(guideVO);
+    }
+
+    private boolean saveGuideScenicTips(GuideScenicVO guideVO){
         GuideScenicTipsDO guideScenicTipsDO = GuideConverter.guideSceniceVO2GuideScenicTipsDO(guideVO);
         GuideScenicTipsDO resultTips = guideRepo.saveGuideScenicTips(guideScenicTipsDO);
         if (resultTips == null) {
             //delete
-            guideRepo.deleteGuide(result.getId());
+            guideRepo.deleteGuide(guideVO.getGuideId());
             return false;
         }
         return true;
     }
+
 
     /**
      * 修改导览
@@ -90,10 +96,21 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public boolean updateGuide(GuideScenicVO guideVO) {
+        final long id = guideVO.getGuideId();
+        GuideScenicDTO guideScenicDTO = guideRepo.queryGuideDetail(id);
+        if (guideScenicDTO == null) {
+            return false;
+        }
         GuideScenicUpdateDTO guideScenicUpdateDTO = GuideConverter.guideSceniceVO2GuideScenicUpdateDTO(guideVO);
         boolean result = guideRepo.updateGuide(guideScenicUpdateDTO);
-        GuideTipsUpdateDTO guideTipsUpdateDTO = GuideConverter.guideSceniceVO2GuideScenicTipsDTO(guideVO);
-        boolean resultTips = guideRepo.updateGuideScenicTips(guideTipsUpdateDTO);
+        boolean resultTips =false;
+        GuideScenicTipsDO guideScenicTipsDO = guideRepo.queryGuideScenicTips(id);
+        if(guideScenicTipsDO!=null) {
+            GuideTipsUpdateDTO guideTipsUpdateDTO = GuideConverter.guideSceniceVO2GuideScenicTipsDTO(guideVO);
+             resultTips = guideRepo.updateGuideScenicTips(guideTipsUpdateDTO);
+        }else {
+            resultTips =  saveGuideScenicTips(guideVO);
+        }
         return result && resultTips;
     }
 
@@ -112,7 +129,9 @@ public class GuideManageServiceImpl implements GuideManageService {
         GuideScenicVO guideScenicVO = GuideConverter.guideScenicDTO2GuideScenicVO(guideScenicDTO);
 //        GuideScenicDTO scenicDTO = guideRepo.queryGuideDetailByScenicId(guideScenicVO.getScenicId());
         GuideScenicTipsDO guideScenicTipsDO = guideRepo.queryGuideScenicTips(id);
-        guideScenicVO = GuideConverter.guideScenicTipsDO2guideSceniceVO2GuideScenicTipsDO(guideScenicVO, guideScenicTipsDO);
+        if(guideScenicTipsDO!=null) {
+            guideScenicVO = GuideConverter.guideScenicTipsDO2guideSceniceVO2GuideScenicTipsDO(guideScenicVO, guideScenicTipsDO);
+        }
         return guideScenicVO;
     }
 
