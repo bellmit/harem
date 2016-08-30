@@ -40,7 +40,7 @@
                                 <img class="upload-img" id="logoUrlImg" imgurl=""
                                      src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                                 <div class="delete-btn">删除</div>
-                                <input type="hidden" id="spotLogoUrl" name="spotLogoUrl" value="">
+                                <input type="hidden" id="attrImg" name="attrImg" value="">
                             </div>
                             <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                         </div>
@@ -284,7 +284,7 @@
 
     $(function () {
         //上传景点头图
-        initUploadFile("#logoUrlUploadFile", "#spotLogoUrl", "#logoUrlImg");
+        initUploadFile("#logoUrlUploadFile", "#attrImg", "#logoUrlImg");
 
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
