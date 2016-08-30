@@ -77,8 +77,13 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 				
 				if(null!=tcMainOrder && null !=tcMainOrder.getBizOrder()){
 					//封装订单基本信息
-
-					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(), userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo());
+					
+					UserDO userDo = userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId());
+					String phone = "";
+					if(null != userDo){
+						phone = userDo.getMobileNo();
+					}
+					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(), phone);
 					
 					jiuxiuTcMainOrder.setTotalFee(tcMainOrder.getTotalFee());
 					jiuxiuTcMainOrder.setHotelTitle(tcMainOrder.getHotelTitle());
