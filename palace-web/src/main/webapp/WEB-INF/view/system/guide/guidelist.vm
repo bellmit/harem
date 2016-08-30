@@ -161,16 +161,19 @@
         });
         //上架
         $("#tbGuideList").on("click", ".on", function () {
-            //layer.confirm("")
-            var guideId = $(this).attr("guideId");
-            var data = {guideId: guideId}
-            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/up", "post", data);
+            layer.confirm("确认要上架此导览？",function(){
+                var guideId = $(this).attr("guideId");
+                var data = {guideId: guideId}
+                submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/up", "post", data);
+            });
         });
         //下架
         $("#tbGuideList").on("click", ".off", function () {
-            var guideId = $(this).attr("guideId");
-            var data = {guideId: guideId}
-            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/down", "post", data);
+            layer.confirm("确认要下架此导览？",function(){
+                var guideId = $(this).attr("guideId");
+                var data = {guideId: guideId}
+                submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/down", "post", data);
+            });
         });
         //编辑
         $("#tbGuideList").on("click", ".edit", function () {
