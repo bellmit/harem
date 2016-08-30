@@ -4,24 +4,18 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.ComentDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
-import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
-import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicPageQueryDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicUpdateDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideTipsUpdateDTO;
+import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
-import com.yimayhd.palace.model.guide.GuideScenicVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.yimayhd.palace.repo.PictureTextRepo;
 
 
 /**
@@ -67,6 +61,28 @@ public class GuideRepo {
         } catch (Exception e) {
             log.error("addGuide guideScenicDO={}, exception={}", JSON.toJSONString(guideScenicDO), e);
             return null;
+        }
+    }
+
+    /**
+     * 删除导览
+     *
+     * @param guideId
+     * @return
+     */
+    public boolean deleteGuide(final long guideId) {
+        try {
+            ICResult<Boolean> result = guideServiceRef.deleteGuide(guideId);
+            if (result.isSuccess() && result.getModule() != null) {
+                log.info("addGuide guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
+                return result.getModule();
+            } else {
+                log.error("addGuide guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("addGuide guideId={}, exception={}", JSON.toJSONString(guideId), e);
+            return false;
         }
     }
 

@@ -57,32 +57,40 @@ public class AttachmentManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/list")
-    public String list(Model model, AttachmentListQuery attachmentListQuery) throws Exception {
+    public String list(Model model, AttachmentListQuery attachmentListQuery) {
 
-        PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
+        try {
+            PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
 
-        model.addAttribute("pageVo", pageVO);
-        model.addAttribute("itemList", pageVO.getItemList());
-        model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
-        model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
-        model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
-        model.addAttribute("mediaPageQuery", attachmentListQuery);
-        model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class, null));
-        return "/system/attachment/list";
+            model.addAttribute("pageVo", pageVO);
+            model.addAttribute("itemList", pageVO.getItemList());
+            model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
+            model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
+            model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
+            model.addAttribute("mediaPageQuery", attachmentListQuery);
+            model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class, null));
+            return "/system/attachment/list";
+        } catch (Exception e) {
+            return "/error";
+        }
     }
 
     @RequestMapping(value = "/list/select")
-    public String sellectList(Model model, AttachmentListQuery attachmentListQuery) throws Exception {
-        attachmentListQuery.setStatus(MediaFileStatus.ON.getValue());
-        PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
+    public String sellectList(Model model, AttachmentListQuery attachmentListQuery) {
+        try {
+            attachmentListQuery.setStatus(MediaFileStatus.ON.getValue());
+            PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
 
-        model.addAttribute("pageVo", pageVO);
-        model.addAttribute("itemList", pageVO.getItemList());
-        model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
-        model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
-        model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
-        model.addAttribute("mediaPageQuery", attachmentListQuery);
-        return "/system/attachment/selectList";
+            model.addAttribute("pageVo", pageVO);
+            model.addAttribute("itemList", pageVO.getItemList());
+            model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
+            model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
+            model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
+            model.addAttribute("mediaPageQuery", attachmentListQuery);
+            return "/system/attachment/selectList";
+        } catch (Exception e) {
+            return "/error";
+        }
     }
 
     /**
@@ -103,18 +111,22 @@ public class AttachmentManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/toEdit")
-    public String toEdit(Model model, @RequestParam() final long id) throws Exception {
-        MediaDTO mediaDTO = attachmentManageService.getMediaById(id);
-        if (mediaDTO == null) {
+    public String toEdit(Model model, @RequestParam() final long id) {
+        try {
+            MediaDTO mediaDTO = attachmentManageService.getMediaById(id);
+            if (mediaDTO == null) {
+                return "/error";
+            }
+            AttachmentVO attachmentVO = AttachmentConverter.mediaDTO2AttachmentVO(mediaDTO);
+
+            model.addAttribute("attachmentVO", attachmentVO);
+            model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
+            model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
+            model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
+            return "/system/attachment/editAttachment";
+        } catch (Exception e) {
             return "/error";
         }
-        AttachmentVO attachmentVO = AttachmentConverter.mediaDTO2AttachmentVO(mediaDTO);
-
-        model.addAttribute("attachmentVO", attachmentVO);
-        model.addAttribute("mediaFileTypeList", Enums.toList(MediaFileType.class));
-        model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
-        model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
-        return "/system/attachment/editAttachment";
     }
 
     /**
@@ -126,16 +138,20 @@ public class AttachmentManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/play")
-    public String play(Model model, @RequestParam() final long id) throws Exception {
-        MediaDTO mediaDTO = attachmentManageService.getMediaById(id);
-        if (mediaDTO == null) {
+    public String play(Model model, @RequestParam() final long id) {
+        try {
+            MediaDTO mediaDTO = attachmentManageService.getMediaById(id);
+            if (mediaDTO == null) {
+                return "/error";
+            }
+            AttachmentVO attachmentVO = AttachmentConverter.mediaDTO2AttachmentVO(mediaDTO);
+
+            model.addAttribute("attachmentVO", attachmentVO);
+
+            return "/system/attachment/play";
+        } catch (Exception e) {
             return "/error";
         }
-        AttachmentVO attachmentVO = AttachmentConverter.mediaDTO2AttachmentVO(mediaDTO);
-
-        model.addAttribute("attachmentVO", attachmentVO);
-
-        return "/system/attachment/play";
     }
 
     /**
@@ -146,26 +162,30 @@ public class AttachmentManageController extends BaseController {
      */
     @RequestMapping(value = "/addAttachment", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
-        UserDO user = sessionManager.getUser();
-        String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK + "_" + user.getId();
-        boolean result = false;
-        String message = "上传失败";
-        if (cacheLockManager.checkSubmitByCache(key)) {
-            try {
-                result = attachmentManageService.addAttachment(attachmentVO, file, user.getId());
-                if (result) {
-                    message = "上传成功";
+    public ResponseVo addAttachment(Model model, AttachmentVO attachmentVO, @RequestParam(value = "file", required = false) MultipartFile file) {
+        try {
+            UserDO user = sessionManager.getUser();
+            String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK + "_" + user.getId();
+            boolean result = false;
+            String message = "上传失败";
+            if (cacheLockManager.checkSubmitByCache(key)) {
+                try {
+                    result = attachmentManageService.addAttachment(attachmentVO, file, user.getId());
+                    if (result) {
+                        message = "上传成功";
+                    }
+                } finally {
+                    cacheLockManager.deleteKey(key);
                 }
-            } finally {
-                cacheLockManager.deleteKey(key);
+            } else {
+                message = "其他文件上传中,稍后重试";
             }
-        } else {
-            message = "其他文件上传中,稍后重试";
+            ResponseVo responseVo = ResponseVoHelper.returnResponseVo(result);
+            responseVo.setMessage(message);
+            return responseVo;
+        } catch (Exception e) {
+            return new ResponseVo();
         }
-        ResponseVo responseVo = ResponseVoHelper.returnResponseVo(result);
-        responseVo.setMessage(message);
-        return responseVo;
 
     }
 
@@ -177,9 +197,13 @@ public class AttachmentManageController extends BaseController {
      */
     @RequestMapping(value = "/editAttachment", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo editAttachment(Model model, AttachmentVO attachmentVO) throws Exception {
-        boolean result = attachmentManageService.updateAttachment(attachmentVO);
-        return ResponseVoHelper.returnResponseVo(result);
+    public ResponseVo editAttachment(Model model, AttachmentVO attachmentVO) {
+        try {
+            boolean result = attachmentManageService.updateAttachment(attachmentVO);
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
 
@@ -193,9 +217,13 @@ public class AttachmentManageController extends BaseController {
      */
     @RequestMapping(value = "/status/up")
     @ResponseBody
-    public ResponseVo upStatus(Model model, long id) throws Exception {
-        boolean result = attachmentManageService.upStatus(id);
-        return ResponseVoHelper.returnResponseVo(result);
+    public ResponseVo upStatus(Model model, long id) {
+        try {
+            boolean result = attachmentManageService.upStatus(id);
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
     /**
@@ -208,9 +236,13 @@ public class AttachmentManageController extends BaseController {
      */
     @RequestMapping(value = "/status/down")
     @ResponseBody
-    public ResponseVo downStatus(Model model, long id) throws Exception {
-        boolean result = attachmentManageService.downStatus(id);
-        return ResponseVoHelper.returnResponseVo(result);
+    public ResponseVo downStatus(Model model, long id) {
+        try {
+            boolean result = attachmentManageService.downStatus(id);
+            return ResponseVoHelper.returnResponseVo(result);
+        } catch (Exception e) {
+            return new ResponseVo();
+        }
     }
 
 

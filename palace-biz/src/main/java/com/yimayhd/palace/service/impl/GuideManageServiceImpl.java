@@ -76,6 +76,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         GuideScenicTipsDO resultTips = guideRepo.saveGuideScenicTips(guideScenicTipsDO);
         if (resultTips == null) {
             //delete
+            guideRepo.deleteGuide(result.getId());
             return false;
         }
         return true;
