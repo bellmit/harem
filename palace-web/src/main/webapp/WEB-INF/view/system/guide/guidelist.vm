@@ -61,14 +61,14 @@
                     <img src="$!utilWebconfig.getTfsRootPath()$!{item.listImg}" width="150" height="90">
                 </td>
                 <td>
-                    $!{item.scenicName}
+                    $!{item.scenicVO.name}
                 </td>
                 <td>
-                    $!{item.scenicResourceNum}
+                    $!{item.scenicVO.id}
                 </td>
-                <td>$!{item.location}</td>
+                <td>$!{item.scenicVO.locationText}</td>
                 <td>
-                    $!{item.level}
+                    $!{item.scenicVO.level}
                 </td>
                 <td>$!{item.weight}</td>
                 <td>

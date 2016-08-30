@@ -158,7 +158,7 @@
                             <input type="hidden" id="guideAudio" name="guideAudio" value="">
                             <input type="hidden" id="audioTime" name="audioTime" value="">
                         </div>
-                        <span id="audioTimeVo">时长为：3.9</span>
+                        <span id="audioTimeVo">时长为：</span>
                     </div>
                 </td>
             </tr>
@@ -330,7 +330,6 @@
         $('#btnSelectAudio').on("click", function () {
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
                 var item = win.getItem();
-                alert(JSON.stringify(item))
                 if (item != null) {
                     $("#audioWapper").addClass("uploaded");
                     $("#guideAudio").val(item.fileKey);

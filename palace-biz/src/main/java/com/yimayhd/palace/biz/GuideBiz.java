@@ -7,7 +7,6 @@ import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.service.GuideManageService;
-import com.yimayhd.palace.service.ServiceResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
