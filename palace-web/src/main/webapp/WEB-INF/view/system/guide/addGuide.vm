@@ -78,6 +78,7 @@
             <button type="button" class="btn btn-primary" id="btnSelectScenic">选择景区</button>
         </div>
         <input type="hidden" id="scenicId" value="" name="scenicId">
+        <input type="hidden" id="scenicName" value="" name="scenicName">
         <table class="table table-bordered">
             <tr>
                 <th class="w15">景区名称：</th>
@@ -291,6 +292,7 @@
                     $("#name").text(item.name);
                     $("#number").text(item.id);
                     $("#scenicId").val(item.id);
+                    $("#scenicName").val(item.name);
                     $("#location").text(item.locationProvinceName + " " + item.locationCityName + " " + item.locationTownName);
                     $("#level").text(item.level);
                     //$("#theme").text(item.time);

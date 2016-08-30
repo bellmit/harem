@@ -11,9 +11,7 @@ public class GuideScenicVO {
     private String scenicName;//景区名称
     private String scenicResourceNum;//景区资源编号
     private int status;// 状态 0: 下架  1：上架
-    private String location;//位置
     private int weight;//权重
-    private int level;//等级
     private String guideImg;//电子地图图片
 
     private String listImg;//导览头图
@@ -61,27 +59,18 @@ public class GuideScenicVO {
     //
     private String statusStr;
 
-    private long subjectId;
-    private String address;
 
+    private ScenicVO scenicVO;
 
-    public long getSubjectId() {
-        return subjectId;
+    public ScenicVO getScenicVO() {
+        return scenicVO;
     }
 
-    public GuideScenicVO setSubjectId(long subjectId) {
-        this.subjectId = subjectId;
+    public GuideScenicVO setScenicVO(ScenicVO scenicVO) {
+        this.scenicVO = scenicVO;
         return this;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public GuideScenicVO setAddress(String address) {
-        this.address = address;
-        return this;
-    }
 
     public String getAudioTimeStr() {
         return audioTime / 60 + "分" + audioTime % 60 + "秒";
@@ -168,14 +157,6 @@ public class GuideScenicVO {
         return this;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public GuideScenicVO setLocation(String location) {
-        this.location = location;
-        return this;
-    }
 
     public int getWeight() {
         return weight;
@@ -186,14 +167,6 @@ public class GuideScenicVO {
         return this;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public GuideScenicVO setLevel(int level) {
-        this.level = level;
-        return this;
-    }
 
     public int getAudioTime() {
         return audioTime;

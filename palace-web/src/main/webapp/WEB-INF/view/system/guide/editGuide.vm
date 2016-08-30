@@ -78,36 +78,36 @@
     #*    <div class="btnBottomMargin">
             <button type="button" class="btn btn-primary" id="btnSelectScenic">选择景区</button>
         </div>*#
-        <input type="hidden" id="scenicId" value="$!{guideScenicVO.scenicId}" name="scenicId">
-        <input type="hidden" id="subjectId" value="$!{guideScenicVO.subjectId}" name="subjectId">
+        <input type="hidden" id="scenicId" value="$!{guideScenicVO.scenicVO.id}" name="scenicId">
+        <input type="hidden" id="subjectId" value="$!{guideScenicVO.scenicVO.subjectId}" name="subjectId">
         <table class="table table-bordered">
             <tr>
                 <th class="w15">景区名称：</th>
                 <td class="w35">
-                    <span id="name" name="scenicName">$!{guideScenicVO.scenicName}</span>
+                    <span id="name" name="scenicName">$!{guideScenicVO.scenicVO.name}</span>
                 </td>
                 <th class="w15">资源编号：</th>
                 <td class="w35">
-                    <span id="number" name="scenicNumber">$!{guideScenicVO.scenicId}</span>
+                    <span id="number" name="scenicNumber">$!{guideScenicVO.scenicVO.id}</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">所在省、市、区：</th>
                 <td class="w35">
-                    <span id="location" name="location" id="location">$!{guideScenicVO.location}</span>
+                    <span id="location" name="location" id="location">$!{guideScenicVO.scenicVO.locationText}</span>
                 </td>
                 <th class="w15">等级：</th>
-                <td class="w35"><span id="level" name="level" id="level">$!{guideScenicVO.level}</span></td>
+                <td class="w35"><span id="level" name="level" id="level">$!{guideScenicVO.scenicVO.level}</span></td>
             </tr>
             <tr>
                 <th class="w15">主题：</th>
-                <td class="w35"><span id="theme" name="theme" id="theme">$!{guideScenicVO.theme}</span></td>
+                <td class="w35"><span id="theme" name="theme" id="theme"></span></td>
                 <th class="w15">地址：</th>
-                <td class="w35"><span id="address" name="address" id="address">$!{guideScenicVO.address}</span></td>
+                <td class="w35"><span id="address" name="address" id="address">$!{guideScenicVO.scenicVO.address}</span></td>
             </tr>
             <tr>
                 <th class="w15">经纬度：</th>
-                <td class="w35"><span id="latlng" name="latlng" id="latlng">$!{guideScenicVO.scenicName}</span></td>
+                <td class="w35"><span id="latlng" name="latlng" id="latlng">$!{guideScenicVO.scenicVO.locationX},$!{guideScenicVO.scenicVO.locationY}</span></td>
                 <th class="w15"></th>
                 <td class="w35"></td>
             </tr>

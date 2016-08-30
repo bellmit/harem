@@ -151,12 +151,15 @@ public class GuideConverter {
 
         }
         if (scenicDO != null) {
-            guideScenicVO.setLevel(scenicDO.getLevel());
+   /*         guideScenicVO.setLevel(scenicDO.getLevel());
             guideScenicVO.setScenicName(scenicDO.getName());
             guideScenicVO.setScenicResourceNum(String.valueOf(scenicDO.getId()));
             guideScenicVO.setAddress(scenicDO.getLocationText());
-            guideScenicVO.setLocation(scenicDO.getLocationProvinceName()+" "+ scenicDO.getLocationCityName()+" "+ scenicDO.getLocationTownName());
+            guideScenicVO.setLocation(scenicDO.getLocationProvinceName() + " " + scenicDO.getLocationCityName() + " " + scenicDO.getLocationTownName());
             guideScenicVO.setSubjectId(scenicDO.getSubjectId());
+            guideScenicVO.setLocationX(scenicDO.getLocationX());
+            guideScenicVO.setLocationY(scenicDO.getLocationY());*/
+            guideScenicVO.setScenicVO(scenicDO2ScenicVO(scenicDO));
         }
         if (guideScenicVO.getGuideId() > 0) {
             return guideScenicVO;
@@ -169,24 +172,34 @@ public class GuideConverter {
 
         List<ScenicVO> result = new ArrayList<ScenicVO>();
         for (ScenicDO scenicDO : scenicDOs) {
-            ScenicVO scenicVO = new ScenicVO();
-            scenicVO.setId(scenicDO.getId());
-            scenicVO.setGmtCreated(scenicDO.getGmtCreated());
-            scenicVO.setGmtModified(scenicDO.getGmtModified());
-            scenicVO.setLevel(scenicDO.getLevel());
-            scenicVO.setLocationCityId(scenicDO.getLocationCityId());
-            scenicVO.setLocationCityName(scenicDO.getLocationCityName());
-            scenicVO.setLocationProvinceId(scenicDO.getLocationProvinceId());
-            scenicVO.setLocationProvinceName(scenicDO.getLocationProvinceName());
-            scenicVO.setLocationText(scenicDO.getLocationText());
-            scenicVO.setLocationTownId(scenicDO.getLocationTownId());
-            scenicVO.setLocationTownName(scenicDO.getLocationTownName());
-            scenicVO.setLocationX(scenicDO.getLocationX());
-            scenicVO.setLocationY(scenicDO.getLocationY());
-            scenicVO.setName(scenicDO.getName());
-            scenicVO.setSubjectId(scenicDO.getSubjectId());
-            result.add(scenicVO);
+            result.add(scenicDO2ScenicVO(scenicDO));
         }
         return result;
     }
+
+
+    public static ScenicVO scenicDO2ScenicVO(ScenicDO scenicDO) {
+        if (scenicDO == null) {
+            return null;
+        }
+        ScenicVO scenicVO = new ScenicVO();
+        scenicVO.setId(scenicDO.getId());
+        scenicVO.setGmtCreated(scenicDO.getGmtCreated());
+        scenicVO.setGmtModified(scenicDO.getGmtModified());
+        scenicVO.setLevel(scenicDO.getLevel());
+        scenicVO.setLocationCityId(scenicDO.getLocationCityId());
+        scenicVO.setLocationCityName(scenicDO.getLocationCityName());
+        scenicVO.setLocationProvinceId(scenicDO.getLocationProvinceId());
+        scenicVO.setLocationProvinceName(scenicDO.getLocationProvinceName());
+        scenicVO.setLocationText(scenicDO.getLocationText());
+        scenicVO.setLocationTownId(scenicDO.getLocationTownId());
+        scenicVO.setLocationTownName(scenicDO.getLocationTownName());
+        scenicVO.setLocationX(scenicDO.getLocationX());
+        scenicVO.setLocationY(scenicDO.getLocationY());
+        scenicVO.setName(scenicDO.getName());
+        scenicVO.setSubjectId(scenicDO.getSubjectId());
+        scenicVO.setOpenTime(scenicDO.getOpenTime());
+        return scenicVO;
+    }
+
 }

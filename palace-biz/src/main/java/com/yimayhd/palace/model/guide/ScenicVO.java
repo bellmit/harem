@@ -88,6 +88,28 @@ public class ScenicVO implements Serializable{
      */
     private double locationY;
 
+    private String openTime;
+
+    private String address;
+
+    public String getAddress() {
+        return locationProvinceName+" "+locationCityName+" "+locationTownName;
+    }
+
+    public ScenicVO setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public String getOpenTime() {
+        return openTime;
+    }
+
+    public ScenicVO setOpenTime(String openTime) {
+        this.openTime = openTime;
+        return this;
+    }
+
     public long getId() {
         return id;
     }
