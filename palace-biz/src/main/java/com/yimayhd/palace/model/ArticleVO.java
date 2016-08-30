@@ -41,6 +41,7 @@ public class ArticleVO implements Serializable {
 	private String articleItems;
 	
 	private String articleUrl;
+	
 
 	private List<ArticleItemVO> articleItemList;
 	private String author;

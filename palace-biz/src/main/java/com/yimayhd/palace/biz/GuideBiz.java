@@ -20,6 +20,13 @@ public class GuideBiz {
     @Resource
     private GuideManageService guideManageService;
 
+    /**
+     * 校验数据
+     *
+     * @param guideScenicVO
+     * @return
+     */
+
     private CheckResult checkGuideScenicVO(GuideScenicVO guideScenicVO) {
         CheckResult checkResult = GuideChecker.checkGuideScenicVO(guideScenicVO);
         GuideScenicDTO guideScenicDTO = guideManageService.queryGuideDetailByScenicId(guideScenicVO.getScenicId());
@@ -31,16 +38,27 @@ public class GuideBiz {
         return checkResult;
     }
 
+    /**
+     * 添加导览
+     *
+     * @param guideScenicVO
+     * @return
+     */
     public CheckResult addGuide(GuideScenicVO guideScenicVO) {
-
         CheckResult checkResult = checkGuideScenicVO(guideScenicVO);
         if (checkResult.isSuccess()) {
             boolean result = guideManageService.addGuide(guideScenicVO);
             checkResult.setSuccess(result);
         }
-
         return checkResult;
     }
+
+    /**
+     * 修改导览
+     *
+     * @param guideScenicVO
+     * @return
+     */
 
     public CheckResult updateGuide(GuideScenicVO guideScenicVO) {
 
@@ -53,7 +71,14 @@ public class GuideBiz {
         return checkResult;
     }
 
+    /**
+     * 上架
+     *
+     * @param guideId
+     * @return
+     */
     public CheckResult upStatus(final long guideId) {
+        GuideScenicVO guideScenicVO = guideManageService.getGuideById(guideId);
         boolean result = guideManageService.upStatus(guideId);
         return CheckResult.success();
     }
