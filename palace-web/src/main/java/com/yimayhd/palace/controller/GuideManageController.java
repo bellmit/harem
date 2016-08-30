@@ -50,6 +50,7 @@ public class GuideManageController extends BaseController {
             model.addAttribute("guideListQuery", guideListQuery);
             model.addAttribute("itemList", pageVO.getItemList());
             model.addAttribute("guideStatusList", Enums.toList(GuideStatus.class));
+            model.addAttribute("guideStatusMap", Enums.toMap(GuideStatus.class, null));
             return "/system/guide/guidelist";
         } catch (Exception e) {
             return "/error";

@@ -103,11 +103,13 @@
                 <th class="w15">主题：</th>
                 <td class="w35"><span id="theme" name="theme" id="theme"></span></td>
                 <th class="w15">地址：</th>
-                <td class="w35"><span id="address" name="address" id="address">$!{guideScenicVO.scenicVO.address}</span></td>
+                <td class="w35"><span id="address" name="address" id="address">$!{guideScenicVO.scenicVO.address}</span>
+                </td>
             </tr>
             <tr>
                 <th class="w15">经纬度：</th>
-                <td class="w35"><span id="latlng" name="latlng" id="latlng">$!{guideScenicVO.scenicVO.locationX},$!{guideScenicVO.scenicVO.locationY}</span></td>
+                <td class="w35"><span id="latlng" name="latlng" id="latlng">$!{guideScenicVO.scenicVO.locationX}
+                    ,$!{guideScenicVO.scenicVO.locationY}</span></td>
                 <th class="w15"></th>
                 <td class="w35"></td>
             </tr>
@@ -168,6 +170,7 @@
     <fieldset>
         <legend>实用锦囊</legend>
         <table class="table">
+            <input type="hidden" id="guideTipsId" value="$!{guideScenicVO.guideTipsId}" name="guideTipsId">
             <tr>
                 <th class="w15">景区门票信息：</th>
                 <td class="w85">
@@ -321,7 +324,7 @@
         $('#btnSelectAudio').on("click", function () {
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
                 var item = win.getItem();
-                alert(JSON.stringify(item))
+                console.log(JSON.stringify(item));
                 if (item != null) {
                     $("#audioWapper").addClass("uploaded");
                     $("#guideAudio").val(item.fileKey);
@@ -341,7 +344,7 @@
         //form
         $('#btnSubmit').on("click", function () {
             var data = $("#frmGuidEdit").serializeArray(); //自动将form表单封装成json
-            submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/addGuide", "post", data);
+            submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/editGuide", "post", data);
         });
     });
 </script>

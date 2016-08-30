@@ -1,4 +1,5 @@
-<form id="guideListForm" name="guideListForm" method="post" action="$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/list">
+<form id="guideListForm" name="guideListForm" method="post"
+      action="$utilWebconfig.getStaticResourcesPath()/jiuxiu/guideManage/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -73,15 +74,20 @@
                 <td>
                     $!{item.statusStr}
                 </td>
-                <td>
+            <td>
+                #if($item.status==$guideStatusMap.get("ONLINE").code)
+                    <button type="button" class="btn btn-primary off" guideId="$!{item.guideId}">下架</button>
+                #end
+                #if($item.status==$guideStatusMap.get("OFFLINE").code)
                     <button type="button" class="btn btn-primary edit" guideId="$!{item.guideId}">编辑导览</button>
                     <button type="button" class="btn btn-primary touristEditDetail" attractionId="$!{item.guideId}">
                         编辑景点
                     </button>
-                    <button type="button" class="btn btn-primary off" guideId="$!{item.guideId}">下架</button>
+
                     <button type="button" class="btn btn-primary on" guideId="$!{item.guideId}">上架</button>
                     <button type="button" class="btn btn-primary weight" guideId="$!{item.guideId}">设置权重</button>
                 </td>
+                #end
             </tr>
             #end
         </tbody>
@@ -151,7 +157,7 @@
 
         $(".touristEditDetail").click(function () {
             var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?attractionId="+attractionId, 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?attractionId=" + attractionId, 2, "景点详情");
         });
         //上架
         $("#tbGuideList").on("click", ".on", function () {

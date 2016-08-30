@@ -87,6 +87,7 @@ public class GuideConverter {
         guideScenicVO.setOpenTime(guideScenicTipsDO.getOpenTime());
         guideScenicVO.setTips(guideScenicTipsDO.getTips());
         guideScenicVO.setTraffic(guideScenicTipsDO.getTraffic());
+
         return guideScenicVO;
     }
 
