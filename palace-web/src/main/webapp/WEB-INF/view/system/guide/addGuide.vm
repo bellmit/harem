@@ -65,8 +65,8 @@
         text-align: center;
         color: #fff;
         background: #000;
-        opacity: 0.2;
-        filter: alpha(opacity=20);
+        opacity: 0.5;
+        filter: alpha(opacity=50);
         cursor: pointer;
     }
 </style>
@@ -259,22 +259,36 @@
             }
         });
     }
+    function checkImg(src, callback) {
+        var img = new Image();
+        img.src = src;
+        img.onload = function() {
+            callback && callback(img.width <= 750 && img.height <= 360)
+        }
+    }
     function initUploadFile(fileId, hiddenId, imgId) {
         $(fileId).on("change", function () {
             fileUpload(fileId, 1, function (data) {
                 if (data && data.status == 200) {
                     console.log(data.data);
-                    $(hiddenId).val(data.data);
-
-                    $(imgId).attr('src', tfsRootPath + data.data);
-
-                    $(imgId).closest(".upload-wapper").addClass("uploaded");
+                    var src = tfsRootPath + data.data;
+                    checkImg(src, function(r) {
+                        if (r) {
+                            $(hiddenId).val(data.data);
+                            $(imgId).attr('src', tfsRootPath + data.data);
+                            $(imgId).closest(".upload-wapper").addClass("uploaded");
+                        } else {
+                            layer.msg('图片尺寸太大，请上传正确的图片', {
+                                icon: 2
+                            });
+                        }
+                    });
                 } else {
                     layer.msg('图片上传失败，请重试', {
                         icon: 2
                     });
                 }
-            });
+            }，500);
         });
     }
 
