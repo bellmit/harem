@@ -3,6 +3,7 @@ package com.yimayhd.palace.controller.touristlist;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.ComentDTO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
+import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.dto.guide.AttractionFocusAddDTO;
 import com.yimayhd.ic.client.model.dto.guide.AttractionFocusDTO;
 import com.yimayhd.ic.client.model.dto.guide.AttractionFocusUpdateDTO;
@@ -11,6 +12,7 @@ import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.biz.TrouistlistBiz;
+import com.yimayhd.palace.convert.GuideConverter;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.result.BizResult;
@@ -47,11 +49,12 @@ public class TouristlistController extends BaseController {
     private SessionManager sessionManager;
 
     //1
+
     /**
      * select获取景点列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String touristlList(Model model,Long attractionId) throws Exception {
+    public String touristlList(Model model, Long attractionId) throws Exception {
         try {
 
             ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(0);
@@ -103,7 +106,38 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * select编辑查看 景点详情  景点介绍 和 线路设置 页面
+     * update 更新线路
+     **/
+    @RequestMapping(value = "/updateGuideLine", method = RequestMethod.POST)
+    @ResponseBody
+    public BizResult<String> updateGuideLine(long guideId, GuideLineDTO guideLineDTO) {
+
+        BizResult<String> result = new BizResult<String>();
+
+        if (guideId != 0 && guideLineDTO != null) {
+            ICResult<Boolean> saveResult = trouistlistBiz.updateGuideLine(guideId, guideLineDTO);
+            if (saveResult == null) {
+                result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                return result;
+            }
+            if (saveResult.isSuccess()) {
+                result.initSuccess(saveResult.getResultMsg());
+                result.setValue("/jiuxiu/merchant/toMerchantList");
+            } else {
+                result.setCode(saveResult.getResultCode());
+                result.setMsg(saveResult.getResultMsg());
+                result.setSuccess(false);
+            }
+            log.error("saveResult:{}", JSON.toJSONString(saveResult));
+        }
+        return result;
+    }
+
+
+    //2
+
+    /**
+     * select  编辑页面 带景点详情和景点介绍
      **/
     @RequestMapping(value = "/touristEditDetail", method = RequestMethod.GET)
     public String touristEditDetail(Model model, long attractionId) throws Exception {
@@ -135,7 +169,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * select新增 景点详情  景点介绍 和 线路设置 页面
+     * select新增页面  不带景点详情和景点介绍
      **/
     @RequestMapping(value = "/touristaddDetail", method = RequestMethod.GET)
     public String touristaddDetail(Model model) throws Exception {
@@ -147,63 +181,73 @@ public class TouristlistController extends BaseController {
         return "/system/touristlist/touristlistaddDetail";
     }
 
+    // 新增或者更新保存  两个接口1 保存景点详情 2 保存图文
     /**
-     * add/update 新增或者更新 保存景点详情
+     * add 景点详情和景点介绍 新增保存
      **/
     @RequestMapping(value = "/addTourist", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> addTourist(long attractionId, AttractionFocusAddDTO attractionFocusAddDTO, AttractionFocusUpdateDTO attractionFocusUpdateDTO) {
+    public BizResult<String> addTourist(GuideAttractionDO guideAttractionDO) {
 
         BizResult<String> result = new BizResult<String>();
 
+        // 新增
+        ICResult<GuideAttractionDO> saveResult = null;
 
-        if (attractionId != 0) {
-            // 新增
-            ICResult<GuideAttractionDO> saveResult = null;
+        AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionDO2AttractionFocusAddDTO(guideAttractionDO);
 
-            saveResult = trouistlistBiz.addAttractionAndFocus(attractionFocusAddDTO);
-            if (saveResult == null) {
-                result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-                return result;
-            }
-            if (saveResult.isSuccess()) {
-                result.initSuccess(saveResult.getResultMsg());
-                result.setValue("/jiuxiu/merchant/toMerchantList");
-            } else {
+        saveResult = trouistlistBiz.addAttractionAndFocus(attractionFocusAddDTO);
 
-                result.setCode(saveResult.getResultCode());
-                result.setMsg(saveResult.getResultMsg());
-                result.setSuccess(false);
-            }
-            log.error("saveResult:{}", JSON.toJSONString(saveResult));
-
-        } else {
-            // 更新
-            ICResult<Boolean> saveResult = null;
-
-            saveResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
-            if (saveResult == null) {
-                result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-                return result;
-            }
-            if (saveResult.isSuccess()) {
-                result.initSuccess(saveResult.getResultMsg());
-                result.setValue("/jiuxiu/merchant/toMerchantList");
-            } else {
-                result.setCode(saveResult.getResultCode());
-                result.setMsg(saveResult.getResultMsg());
-                result.setSuccess(false);
-            }
-            log.error("saveResult:{}", JSON.toJSONString(saveResult));
+        if (saveResult == null) {
+            result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+            return result;
         }
+        if (saveResult.isSuccess()) {
+            result.initSuccess(saveResult.getResultMsg());
+            result.setValue("/jiuxiu/merchant/toMerchantList");
+        } else {
+
+            result.setCode(saveResult.getResultCode());
+            result.setMsg(saveResult.getResultMsg());
+            result.setSuccess(false);
+        }
+        log.error("saveResult:{}", JSON.toJSONString(saveResult));
 
         return result;
     }
 
-
-    // 2
     /**
-     * update保存景点图文介绍
+     * update 景点详情和景点介绍 更新保存
+     **/
+    @RequestMapping(value = "/updateTourist", method = RequestMethod.POST)
+    @ResponseBody
+    public BizResult<String> addTourist(long attractionId, AttractionFocusUpdateDTO attractionFocusUpdateDTO) {
+
+        BizResult<String> result = new BizResult<String>();
+
+        // 更新
+        ICResult<Boolean> saveResult = null;
+
+        saveResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
+        if (saveResult == null) {
+            result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+            return result;
+        }
+        if (saveResult.isSuccess()) {
+            result.initSuccess(saveResult.getResultMsg());
+            result.setValue("/jiuxiu/merchant/toMerchantList");
+        } else {
+            result.setCode(saveResult.getResultCode());
+            result.setMsg(saveResult.getResultMsg());
+            result.setSuccess(false);
+        }
+        log.error("saveResult:{}", JSON.toJSONString(saveResult));
+
+        return result;
+    }
+
+    /**
+     * update 景点图文 保存
      **/
     @RequestMapping(value = "/savePictureText/{id}", method = RequestMethod.POST)
     @ResponseBody
@@ -212,34 +256,5 @@ public class TouristlistController extends BaseController {
         if (comentDTO != null) {
             trouistlistBiz.savePictureText(comentDTO);
         }
-    }
-
-    //3
-    /**
-     * update保存线路集合
-     **/
-    @RequestMapping(value = "/updateGuideLine", method = RequestMethod.POST)
-    @ResponseBody
-    public BizResult<String> updateGuideLine(long guideId, GuideLineDTO guideLineDTO) {
-
-        BizResult<String> result = new BizResult<String>();
-
-        if (guideId != 0 && guideLineDTO != null) {
-            ICResult<Boolean> saveResult = trouistlistBiz.updateGuideLine(guideId, guideLineDTO);
-            if (saveResult == null) {
-                result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-                return result;
-            }
-            if (saveResult.isSuccess()) {
-                result.initSuccess(saveResult.getResultMsg());
-                result.setValue("/jiuxiu/merchant/toMerchantList");
-            } else {
-                result.setCode(saveResult.getResultCode());
-                result.setMsg(saveResult.getResultMsg());
-                result.setSuccess(false);
-            }
-            log.error("saveResult:{}", JSON.toJSONString(saveResult));
-        }
-        return result;
     }
 }

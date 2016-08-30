@@ -124,9 +124,9 @@
 
                     ##  标题和图片
 
-                        {$result.getAttractionDO().title}
+##                        {$result.getAttractionDO().title}
 
-                    $result.getAttractionDO().attrImg
+##                    $result.getAttractionDO().attrImg
 
 
                     <th><span class="spColor">*</span>景点介绍标题：</th>

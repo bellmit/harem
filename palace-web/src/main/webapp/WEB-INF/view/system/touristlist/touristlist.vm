@@ -1,50 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <title>景点列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/css/zui.min.css?version=21" rel="stylesheet">
+    <link rel="stylesheet" href="http://console.test.jiuxiulvxing.com/palace-web/resources/css/common.css?version=21" />
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/zui/js/zui.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/respond.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/common.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/layer-v2.1/layer.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery-form.js?version=21" type="text/javascript"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validate.min.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/JQ_verify.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.metadata.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/jquery.validform.js?version=21"></script>
+    <script src="http://console.test.jiuxiulvxing.com/palace-web/resources/validate/messages_zh.min.js?version=21" type="text/javascript"></script>
     <style type="text/css">
         .table>thead th,
         .table>tbody td {
             text-align: center;
             vertical-align: middle;
         }
+        .btnBottomMargin{
+            margin-top: 10px;
+        }
+
+        .line-editor {
+            width: 320px;
+            padding: 10px;
+            margin: 0 auto;
+        }
+
+        .line-editor .line {
+            position: relative;
+            width: 300px;
+            padding: 10px;
+            margin-top: 50px;
+            background: #ddd;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .line .line-info {
+            width: 100%;
+            text-align: center;
+        }
+
+        .line .form-control {
+            display: inline-block;
+        }
+
+        .line input {
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        .line select {
+            width: 150px;
+        }
+
+        .line .arrow {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            margin-left: -5px;
+            width: 8px;
+            height: 30px;
+            background: #999;
+        }
+
+        .line .arrow>em {
+            position: absolute;
+            content: '';
+            left: -50%;
+            bottom: -12px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid #999;
+        }
+
+        .line.start {
+            margin-top: 0;
+        }
+
+        .line.start .arrow {
+            display: none;
+        }
     </style>
+</head>
+
+<body>
 <form id="form1" name="form1">
-    <div class="btnBottomMargin">
-        <a type="button" class="btn btn-primary addTourist"   attractionId="$!GuideAttractionDO.id">添加景点</a>
-    </div>
-    <div class="tableGroup whole">
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>景点编号</th>
-                <th>景点名称</th>
-                <th>景点图</th>
-                <th>语音数量</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-                #foreach($GuideAttractionDO in $result)
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#spotList" data-toggle="tab">景点详情</a>
+        </li>
+        <li>
+            <a href="#lineSetting" data-toggle="tab">线路设置</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="spotList">
+            <div class="btnBottomMargin">
+                <a type="button" class="btn btn-primary addTourist" href="spotdetail.html">添加景点</a>
+            </div>
+            <div class="tableGroup whole">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>景点编号</th>
+                        <th>景点名称</th>
+                        <th>景点图</th>
+                        <th>语音数量</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        #foreach($GuideAttractionDO in $result)
+                        <tr>
+                            <td>$!GuideAttractionDO.id</td>
+                            <td>
+                                $!GuideAttractionDO.name
+                            </td>
+                            <td>
+                            ## <img src="http://img.test.yimayholiday.com/v1/tfs//T1A3VTByKT1RXrhCrK.jpg" width="150" height="90">
+                                <img src="{$!GuideAttractionDO.attrImg }" width="150" height="90">
+                            </td>
+                            <td>
+                                $!GuideAttractionDO.isDel
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary touristEditDetail" themeid="1800" attractionId="$!GuideAttractionDO.id">编辑</button>
+                                <button type="button" class="btn btn-primary updateStatus" themeid="1800" attractionId="$!GuideAttractionDO.id">删除</button>
+                            </td>
+                        </tr>
+                        #end
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane" id="lineSetting">
+            <table class="table" style="width:60%;margin:0 auto;">
                 <tr>
-                    <td>$!GuideAttractionDO.id</td>
-                    <td>
-                        $!GuideAttractionDO.name
-                    </td>
-                    <td>
-                    ## <img src="http://img.test.yimayholiday.com/v1/tfs//T1A3VTByKT1RXrhCrK.jpg" width="150" height="90">
-                        <img src="{$!GuideAttractionDO.attrImg }" width="150" height="90">
-                    </td>
-                    <td>
-                        $!GuideAttractionDO.isDel
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary touristEditDetail" themeid="1800" attractionId="$!GuideAttractionDO.id">编辑</button>
-                        <button type="button" class="btn btn-primary updateStatus" themeid="1800" attractionId="$!GuideAttractionDO.id">删除</button>
+                    <td style="text-align:center;">
+                        <button id="addPoint" type="button" class="btn btn-primary" style="margin-right:30px">添加节点</button>
+                        <button id="deletePoint" type="button" class="btn btn-primary" style="margin-right:30px">删除节点</button>
+                        <button id="saveLine" type="button" class="btn btn-primary">保存线路</button>
                     </td>
                 </tr>
-                #end
-            </tbody>
-        </table>
+                <tr>
+                    <td>
+                        <div id="lineEditor" class="line-editor">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </form>
+<script type="text/javascript">
+    function LineEditor(options) {
+        this.options = options || {};
+        this.lineData = this.options.data || [];
+        this.init();
+    }
+    LineEditor.prototype = {
+        init: function() {
+            var self = this;
+            $(self.selectors.lineEditor).append(self.getLineHtml(true));
+
+            this.attachEvent();
+        },
+        selectors: {
+            addPoint: "#addPoint",
+            deletePoint: "#deletePoint",
+            saveLine: "#deletePoint",
+            lineEditor: "#lineEditor",
+            line: ".line"
+        },
+        attachEvent: function() {
+            var self = this;
+            //添加节点
+            $(self.selectors.addPoint).on("click", function() {
+                if ($(self.selectors.line, self.selectors.lineEditor).length >= self.lineData.length) {
+                    return;
+                }
+
+                var lineHtml = self.getLineHtml(false);
+                $(self.selectors.lineEditor).append(lineHtml);
+            });
+            //删除节点
+            $(self.selectors.deletePoint).on("click", function() {
+                var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
+                if (lastItem.length == 0) {
+                    return;
+                }
+                if (lastItem.hasClass("start")) {
+                    return;
+                }
+                lastItem.remove();
+            });
+        },
+        getLineHtml: function(start) {
+            var temp = [];
+            var length = this.lineData.length;
+            var startCss = start ? "start" : "";
+            temp.push('<div class="line ' + startCss + '">');
+            temp.push('<div class="line-info">')
+            if (!start) {
+                temp.push('<input class="form-control" />');
+            }
+            temp.push('<select class="form-control">');
+            for (var index = 0; index < length; index++) {
+                temp.push('<option value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>');
+            }
+            temp.push('</select>');
+            temp.push('</div>');
+            temp.push('<i class="arrow"><em></em></i>');
+            temp.push('</div>');
+
+            return temp.join('');
+        }
+    };
+
+    $(function() {
+        var lineData = [{
+            value: 1,
+            name: "入口"
+        }, {
+            value: 2,
+            name: "景点1"
+        }, {
+            value: 3,
+            name: "景点2"
+        }, {
+            value: 4,
+            name: "景点3"
+        }];
+
+        var lineEditor = new LineEditor({
+            data: lineData
+        });
+    });
+</script>
+
 
 <script type="text/javascript">
     // 新增景点
@@ -68,3 +275,9 @@
         });
     });
 </script>
+
+</body>
+
+</html>
+
+

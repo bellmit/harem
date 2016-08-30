@@ -1,15 +1,14 @@
 package com.yimayhd.palace.convert;
 
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicPageQueryDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicUpdateDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideTipsUpdateDTO;
+import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,4 +201,24 @@ public class GuideConverter {
         return scenicVO;
     }
 
+
+    // 增加景点详情
+    public static AttractionFocusAddDTO attractionDO2AttractionFocusAddDTO(GuideAttractionDO attractionDO) {
+        if (attractionDO == null) {
+            return null;
+        }
+        AttractionFocusAddDTO attractionFocusAddDTO = new AttractionFocusAddDTO();
+        attractionFocusAddDTO.setAttractionDO(attractionDO);
+        return attractionFocusAddDTO;
+    }
+
+    // 更新景点详情
+    public static AttractionFocusUpdateDTO guideAttractionUpdateDTO2AttractionFocusUpdateDTO(GuideAttractionUpdateDTO guideAttractionUpdateDTO) {
+        if (guideAttractionUpdateDTO == null) {
+            return null;
+        }
+        AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
+        attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
+        return attractionFocusUpdateDTO;
+    }
 }
