@@ -202,7 +202,6 @@ public class GuideConverter {
         return scenicVO;
     }
 
-
     // 增加景点详情
     public static AttractionFocusAddDTO attractionDO2AttractionFocusAddDTO(GuideAttractionDO attractionDO) {
         if (attractionDO == null) {

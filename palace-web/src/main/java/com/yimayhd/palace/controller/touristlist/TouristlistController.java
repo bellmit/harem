@@ -57,7 +57,7 @@ public class TouristlistController extends BaseController {
     public String touristlList(Model model, Long attractionId) throws Exception {
         try {
 
-            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(0);
+            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(attractionId);
 
             List<GuideAttractionDO> touristlist = new ArrayList<GuideAttractionDO>();
             int totalCount = 0;
@@ -66,7 +66,6 @@ public class TouristlistController extends BaseController {
                 totalCount = result.getModule().size();
                 touristlist = result.getModule();
             }
-
             if (null != touristlist) {
 
                 model.addAttribute("touristlist", touristlist);
@@ -135,7 +134,6 @@ public class TouristlistController extends BaseController {
 
 
     //2
-
     /**
      * select  编辑页面 带景点详情和景点介绍
      **/
@@ -190,7 +188,6 @@ public class TouristlistController extends BaseController {
     public BizResult<String> addTourist(GuideAttractionDO guideAttractionDO) {
 
         BizResult<String> result = new BizResult<String>();
-
         // 新增
         ICResult<GuideAttractionDO> saveResult = null;
 

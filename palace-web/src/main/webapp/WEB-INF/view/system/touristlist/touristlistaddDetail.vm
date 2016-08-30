@@ -1,31 +1,41 @@
+
+    <style type="text/css">
+        .inpCtlBlock {
+            display: inline-block;
+            width: 70%;
+        }
+    </style>
+
 <input type="hidden" id="rs_js_css_path_jiuxiu" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="root_path" value="http://console.test.jiuxiulvxing.com/palace-web">
 <input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
 <input type="hidden" id="filegw_url" value="http://filegw.test.yimayholiday.com/filegw">
 <input type="hidden" id="palace_update_file" value="http://console.test.jiuxiulvxing.com/palace-web/upload/file">
 <input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
+<input type="hidden" id="hdnId" value="0">
+<input type="hidden" id="hdnGuideId" value="0">
 <ul id="myTab" class="nav nav-tabs">
-    <li class="active">
-        <a href="#spotInfo" data-toggle="tab">景点详情</a>
+    <li class="active" data-target="#spotInfo">
+        <a>景点详情</a>
     </li>
-    <li>
-        <a href="#spotIntro" data-toggle="tab">景点介绍</a>
+    <li data-target="#spotIntro">
+        <a data-target="#spotIntro">景点介绍</a>
     </li>
 </ul>
 <div class="tab-content">
-    <div class="tab-pane " id="spotInfo">
-        <form id="touristAddForm" name="touristAddForm">
+    <div class="tab-pane active" id="spotInfo">
+        <form id="frmSpotInfo">
             <table class="table">
                 <tr>
                     <th><span class="spColor">*</span>景点名称：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="name" id="name" value="">
+                        <input type="text" class="inpCtlBlock" name="spotName" id="spotName" datatype="*1-20" nullmsg="请输入景点名称！" errormsg="景点名称长度未1-20个字符" value="">
                     </td>
                 </tr>
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="id" id="id" value="">
+                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="*1-20" nullmsg="请输入景区编号！" errormsg="景点名称长度未1-20个字符" value="">
                     </td>
                 </tr>
                 <tr>
@@ -34,13 +44,12 @@
                         <div class="upload-btn">
                             <button type="button" class="btn btn-success">上传图片</button>
                             <input type="file" name="file" class="upload-file" id="logoUrlUploadFile">
+                            <input type="hidden" id="spotLogoUrl" name="spotLogoUrl" value="" datatype="*" nullmsg="请上传景点头图！">
                         </div>
                         <div class="upload-view ">
                             <div class="img-wapper uploaded">
-                                <img class="upload-img" id="logoUrlImg" imgurl=""
-                                     src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                                <img class="upload-img" id="logoUrlImg" imgurl="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
                                 <div class="delete-btn">删除</div>
-                                <input type="hidden" id="attrImg" name="attrImg" value="">
                             </div>
                             <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                         </div>
@@ -49,7 +58,7 @@
                 <tr>
                     <th><span class="spColor">*</span>浏览时间：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="tourTime" id="tourTime" value="">
+                        <input type="text" class="inpCtlBlock" name="tourTime" id="tourTime" datatype="n" nullmsg="请输入浏览时间！" errormsg="请输入正确的浏览时间" value="">
                     </td>
                 </tr>
                 <tr>
@@ -57,74 +66,67 @@
                     <td>
                         <div class="upload-btn">
                             <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
+                            <input type="hidden" id="hdnAudios" name="audios" datatype="*" nullmsg="请选择语音包">
                         </div>
                         <div class="audio-list">
                         </div>
                     </td>
                 </tr>
             </table>
+            <div class="btnBottomMargin" style="text-align:center;">
+                <button type="button" class="btn btn-primary" style="width:150px" id="btnSaveSpotInfo">保存并下一步</button>
+            </div>
         </form>
-        <div class="btnBottomMargin" style="text-align:center;">
-            <button type="button" class="btn btn-primary btnSaveSpotDetailInfo" style="width:150px"
-                    id="btnSaveSpotDetailInfo">保存并下一步
-            </button>
-        </div>
     </div>
     <div class="tab-pane" id="spotIntro">
-        <form id="touristPicTextAddForm" name="touristPicTextAddForm">
-            <table class="table" style="width:75%; margin:0 auto;">
+        <table class="table" style="width:75%; margin:0 auto;">
 
 
-            ##  标题和图片
-            ##   $result.getAttractionDO().title
-            ##  $result.getAttractionDO().attrImg
+        ##  标题和图片
+        ##  $result.getAttractionDO().title
+        ##  $result.getAttractionDO().attrImg
 
-                <tr>
-                    <th><span class="spColor">*</span>景点介绍标题：</th>
-                    <td>
-                        <input type="text" class="inpCtlBlock" maxlength="38" name="spotIntroTitle"
-                               id="spotIntroTitle" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div id="editers">
-                            <div class="editer-tip">
-                                <p><b>编辑小助手：</b></p>
-                                <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
-                                <p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
-                                <p>3、最多添加20段图片或文字</p>
-                                <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
-                            </div>
-                            <div class="bd">
-                            </div>
-                            <div class="hd clearfix">
-                                <ul class="clearfix">
-                                    <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
-                                    <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-                                </ul>
-                            </div>
-                            <textarea name="content" id="contentText" style="display:none;"></textarea>
-                            <input type="hidden" id="uploadAction"
-                                   value="http://console.test.jiuxiulvxing.com/palace-web/upload/file"/>
-                            <input type="hidden" id="imgUrl" value="http://img.test.yimayholiday.com/v1/tfs/"/>
+            <tr>
+                <th><span class="spColor">*</span>景点介绍标题：</th>
+                <td>
+                    <input type="text" class="inpCtlBlock" maxlength="38" name="spotIntroTitle" id="spotIntroTitle" value="">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="editers">
+                        <div class="editer-tip">
+                            <p><b>编辑小助手：</b></p>
+                            <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
+                            <p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
+                            <p>3、最多添加20段图片或文字</p>
+                            <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
                         </div>
-                        <script type="text/javascript">
-                            function getPictureText() {
-                                var content = $("#contentText").val();
-                                return {
-                                    pictureTextItems: JSON.parse(content || "[]")
-                                };
-                            }
-                        </script>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                        <div class="bd">
+                        </div>
+                        <div class="hd clearfix">
+                            <ul class="clearfix">
+                                <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+                                <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+                            </ul>
+                        </div>
+                        <textarea name="content" id="contentText" style="display:none;"></textarea>
+                        <input type="hidden" id="uploadAction" value="http://console.test.jiuxiulvxing.com/palace-web/upload/file" />
+                        <input type="hidden" id="imgUrl" value="http://img.test.yimayholiday.com/v1/tfs/" />
+                    </div>
+                    <script type="text/javascript">
+                        function getPictureText() {
+                            var content = $("#contentText").val();
+                            return {
+                                pictureTextItems: JSON.parse(content || "[]")
+                            };
+                        }
+                    </script>
+                </td>
+            </tr>
+        </table>
         <div class="btnBottomMargin" style="text-align:center; margin-top:20px;">
-            <button type="button" class="btn btn-primary" style="width:150px" id="btnSaveSpotPicTextIntro">
-                保存并下一步
-            </button>
+            <button type="button" class="btn btn-primary" style="width:150px" id="btnSaveSpotInfo">保存并下一步</button>
         </div>
     </div>
 </div>
@@ -137,51 +139,14 @@
     seajs.use("comediter");
 </script>
 <script type="text/javascript">
-
-
-    function submitEdit(url, type, data) {
-        //alert(1);
-        $.ajax({
-            url: url,
-            type: type,
-            data: data,
-            success: function (res) {
-                if (res.status == 200) {
-                    layer.msg('操作成功', {
-                        icon: 1,
-                        time: 1500
-                    });
-                    setTimeout(function () {
-                        window.location.href = window.location.href;
-                    }, 1500);
-                } else {
-                    layer.msg('操作失败', {
-                        icon: 2,
-                        time: 2000
-                    });
-                    $(this).prop('disabled', false);
-                }
-            },
-            error: function (xmlres, status, code) {
-                layer.msg('操作失败', {
-                    icon: 2,
-                    time: 2000
-                });
-                $(this).prop('disabled', false);
-            }
-        });
-    }
-
-
     function initUploadFile(fileId, hiddenId, imgId) {
-        $(fileId).on("change", function () {
-            fileUpload(fileId, 1, function (data) {
+        $(fileId).on("change", function() {
+            fileUpload(fileId, 1, function(data) {
                 if (data && data.status == 200) {
                     console.log(data.data);
                     $(hiddenId).val(data.data);
 
                     $(imgId).attr('src', tfsRootPath + data.data);
-
                     $(imgId).closest(".upload-wapper").addClass("uploaded");
                 } else {
                     layer.msg('图片上传失败，请重试', {
@@ -193,6 +158,7 @@
     }
 
     function addAudioItem(data) {
+        var str = JSON.stringify(data);
         var audioCount = $(".audio-list .audio-item").length;
         var index = audioCount + 1;
         var audioItem =
@@ -207,7 +173,8 @@
                 '       </div>' +
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
-                '           <input type="text" name="kandian' + index + '" id="kandian' + index + '" value="' + data.inputFileTitle + '">' +
+                '           <input type="hidden" class="focus-json" value="' + str + '">' +
+                '           <input type="text" class="focus-name" name="kandian' + index + '" id="kandian' + index + '" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
                 '   <div class="pull-left">' +
@@ -224,7 +191,7 @@
         this.init();
     }
     LineEditor.prototype = {
-        init: function () {
+        init: function() {
             var self = this;
             $(self.selectors.lineEditor).append(self.getLineHtml(true));
 
@@ -237,10 +204,10 @@
             lineEditor: "#lineEditor",
             line: ".line"
         },
-        attachEvent: function () {
+        attachEvent: function() {
             var self = this;
             //添加节点
-            $(self.selectors.addPoint).on("click", function () {
+            $(self.selectors.addPoint).on("click", function() {
                 if ($(self.selectors.line, self.selectors.lineEditor).length >= self.lineData.length) {
                     return;
                 }
@@ -249,7 +216,7 @@
                 $(self.selectors.lineEditor).append(lineHtml);
             });
             //删除节点
-            $(self.selectors.deletePoint).on("click", function () {
+            $(self.selectors.deletePoint).on("click", function() {
                 var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
                 if (lastItem.length == 0) {
                     return;
@@ -260,7 +227,7 @@
                 lastItem.remove();
             });
         },
-        getLineHtml: function (start) {
+        getLineHtml: function(start) {
             var temp = [];
             var length = this.lineData.length;
             var startCss = start ? "start" : "";
@@ -282,39 +249,53 @@
         }
     };
 
-    $(function () {
-        //上传景点头图
-        initUploadFile("#logoUrlUploadFile", "#attrImg", "#logoUrlImg");
+    $(function() {
+        $("#myTab li").on("click", function() {
+            var target = $(this).data("target");
+            if (target == "#spotIntro" && $("#hdnId").val() == "0") {
+                layer.alert("请先保存景点详情");
+                return;
+            }
 
-        //选择语音文件
-        $('#btnSelectAudio').on("click", function () {
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
-                var item = win.getItem();
-                if (item != null) {
-                    addAudioItem(item);
-                }
-                return true;
-            });
+            $("#myTab li").removeClass("active");
+            $(".tab-content .tab-pane").removeClass("active")
+
+            $(this).addClass("active");
+            $(target).addClass("active");
         });
+        //上传景点头图
+        initUploadFile("#logoUrlUploadFile", "#spotLogoUrl", "#logoUrlImg");
+
+        //选择语音文件 
+        $('#btnSelectAudio').on("click", function () { 
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件",
+                    function () { 
+                        var item = win.getItem(); 
+                        if (item != null) { 
+                            addAudioItem(item); 
+                        } 
+                 return true; 
+            }); 
+        });
+
         //删除图片
-        $(".img-wapper .delete-btn").on("click", function () {
-            var $wapper =
-            $(this).closest(".img-wapper");
+        $(".img-wapper .delete-btn").on("click", function() {
+            var $wapper = $(this).closest(".img-wapper");
                 $wapper.removeClass("uploaded");
                 $wapper.find(".upload-img").attr("src", defaultImg);
                 $wapper.find("input[type='hidden']").val('');
         });
 
         //删除语音文件
-        $(".audio-list").on("click", ".delete-item", function () {
-            var $item =
-            $(this).closest(".audio-item");
+        $(".audio-list").on("click", ".delete-item", function() {
+            var $item = $(this).closest(".audio-item");
                 $item.remove();
         });
 
 
-    ## 线路设置列表
-    ##            $result.getGuideFocusDOList();
+
+        ## 线路设置列表
+        ##            $result.getGuideFocusDOList();
         var lineEditor = new LineEditor({
             data: [{
                 value: 1,
@@ -331,22 +312,81 @@
             }]
         });
 
-    ## 保存景点详情
-        $('#btnSaveSpotDetailInfo').on("click", function () {
-        ##console.log(JSON.stringify(getPictureText()));
-            var data = $("#touristAddForm").serializeArray(); //自动将form表单封装成json
-            console.log(data);
-            submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist", "post", data);
-        });
+        //保存景点详情
+        $("#btnSaveSpotInfo").on("click", function() {
+            var spotInfo = {
+                id: $("#hdnId").val(),
+                guideId: $("#hdnGuideId").val(),
+                name: $("#spotName").val(),
+                attrImg: $("logoUrlImg").val(),
+                tourTime: $("#tourTime").val()
+            };
+            var focusOrderJson = $.map($(".audio-list .audio-item"), function() {
+                var item = $(this);
+                var json = JSON.parse(item.find(".focus-json").val());
+                json.inputFileTitle = item.find(".focus-name").val();
 
-    ## 保存图文
-        $('#btnSaveSpotPicTextIntro').on("click", function () {
-            var data = $("#touristPicTextAddForm").serializeArray(); //自动将form表单封装成json
-            submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText", "post", data);
-        });
+                return json;
+            });
 
+            spotInfo.focusOrder = JSON.stringify(focusOrderJson);
+            $.ajax({
+                url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist",
+                type: "post",
+                dataType: "json",
+                data: spotInfo,
+                beforeSubmit: function() {
+                    layer.msg("正在提交...", {
+                        icon: 16,
+                        time: null,
+                        shade: [0.3, '#000']
+                    });
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        $("#hdnId").val(data.id);
+                        $('#myTab li[data-target="#spotIntro"]').trigger("click");
+                    } else {
+                        layer.msg(data.message, {
+                            icon: 2
+                        });
+                    }
+                },
+                error: function() {
+                    layer.closeAll();
+                    layer.msg("提交失败。", {
+                        icon: 2
+                    });
+                }
+            });
+        });
     });
+
+    // 保存景点详情
+##    $('#btnSaveSpotDetailInfo').on("click", function () {
+##    console.log(JSON.stringify(getPictureText()));
+##        var data = $("#touristAddForm").serializeArray(); //自动将form表单封装成json
+##        console.log(data);
+##        submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist", "post", data);
+##    });
+
+    // 保存图文
+##    $('#btnSaveSpotPicTextIntro').on("click", function () {
+##        var data = $("#touristPicTextAddForm").serializeArray(); //自动将form表单封装成json
+##        submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText", "post", data);
+##    });
+
 </script>
+
+
+
+
+
+
+
+
+
+
 
 
 
