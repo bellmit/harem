@@ -5,6 +5,8 @@ import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.biz.GuideBiz;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
@@ -32,6 +34,9 @@ public class GuideManageController extends BaseController {
     protected Logger log = LoggerFactory.getLogger(GuideManageController.class);
     @Resource
     private GuideManageService guideManageService;
+
+    @Resource
+    private GuideBiz guideBiz;
 
     /**
      * 导览列表  分页
@@ -78,8 +83,12 @@ public class GuideManageController extends BaseController {
     public String toEdit(Model model, final long id) {
         try {
             GuideScenicVO guideScenicVO = guideManageService.getGuideById(id);
-            model.addAttribute("guideScenicVO", guideScenicVO);
-            return "/system/guide/editGuide";
+            if(guideScenicVO!=null) {
+                model.addAttribute("guideScenicVO", guideScenicVO);
+                return "/system/guide/editGuide";
+            }else{
+                return "/error";
+            }
         } catch (Exception e) {
             return "/error";
         }
@@ -95,8 +104,9 @@ public class GuideManageController extends BaseController {
     @ResponseBody
     public ResponseVo addGuide(Model model, GuideScenicVO guideVO) {
         try {
-            boolean result = guideManageService.addGuide(guideVO);
-            return ResponseVoHelper.returnResponseVo(result);
+            CheckResult checkResult = guideBiz.addGuide(guideVO);
+            //  boolean result = guideManageService.addGuide(guideVO);
+            return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
             return new ResponseVo();
         }
@@ -112,8 +122,8 @@ public class GuideManageController extends BaseController {
     @ResponseBody
     public ResponseVo editGuide(Model model, GuideScenicVO guideVO) {
         try {
-            boolean result = guideManageService.updateGuide(guideVO);
-            return ResponseVoHelper.returnResponseVo(result);
+            CheckResult checkResult = guideBiz.updateGuide(guideVO);
+            return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
             return new ResponseVo();
         }

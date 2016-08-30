@@ -124,7 +124,7 @@ public class GuideRepo {
         }
     }
 
-    public GuideScenicDTO queryGuideDetailByScenicId(long scenicId) {
+    public GuideScenicDTO queryGuideDetailByScenicId(final long scenicId) {
         try {
             ICResult<GuideScenicDTO> result = guideServiceRef.queryGuideDetailByScenicId(scenicId);
             if (result.isSuccess() && result.getModule() != null) {

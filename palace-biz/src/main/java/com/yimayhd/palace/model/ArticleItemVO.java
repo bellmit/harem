@@ -33,6 +33,19 @@ public class ArticleItemVO implements Serializable {
 	private Date gmtCreated;
 
 	private Date gmtModified;
+	
+	private String imgString;
+	
+	
+
+	public String getImgString() {
+		return imgString;
+	}
+
+	public void setImgString(String imgString) {
+		this.imgString = imgString;
+	}
+
 	/**
 	 * 商品项
 	 */

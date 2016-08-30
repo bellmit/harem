@@ -1,5 +1,6 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
@@ -37,6 +38,7 @@ public interface GuideManageService {
 
     /**
      * 根据id查询导览
+     *
      * @param id
      * @return
      */
@@ -45,11 +47,11 @@ public interface GuideManageService {
     /**
      * 设置权重
      *
-     * @param guideId  导览id
-     * @param weight 权重值
+     * @param guideId 导览id
+     * @param weight  权重值
      * @return boolean
      */
-    public boolean setWeight(final long guideId,final int weight);
+    public boolean setWeight(final long guideId, final int weight);
 
     /**
      * 上架
@@ -69,6 +71,7 @@ public interface GuideManageService {
 
     /**
      * 获得导览的可用景区列表
+     *
      * @param scenicPageQuery
      * @return
      */
@@ -76,8 +79,11 @@ public interface GuideManageService {
 
     /**
      * 获得景区的主题名称
+     *
      * @param scenicVO
      * @return
      */
     public ScenicVO selectedScenic(ScenicVO scenicVO);
+
+    public GuideScenicDTO queryGuideDetailByScenicId(final long scenicId);
 }

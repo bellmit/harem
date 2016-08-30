@@ -48,7 +48,7 @@ public class GuideConverter {
         guideScenicUpdateDTO.setGuideImg(guideVo.getGuideImg());
         guideScenicUpdateDTO.setListImg(guideVo.getListImg());
         guideScenicUpdateDTO.setScenicId(guideVo.getScenicId());
-//guideScenicUpdateDTO.set
+        guideScenicUpdateDTO.setAudioTime(guideVo.getAudioTime());
         return guideScenicUpdateDTO;
     }
 
