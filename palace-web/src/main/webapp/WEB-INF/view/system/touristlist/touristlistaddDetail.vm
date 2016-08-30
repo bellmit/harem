@@ -173,7 +173,7 @@
                 '       </div>' +
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
-                '           <input type="hidden" class="focus-json" value="' + str + '">' +
+                '           <input type="hidden" class="focus-json" value=\'' + str + '\'">' +
                 '           <input type="text" class="focus-name" name="kandian' + index + '" id="kandian' + index + '" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
@@ -318,7 +318,7 @@
                 id: $("#hdnId").val(),
                 guideId: $("#hdnGuideId").val(),
                 name: $("#spotName").val(),
-                attrImg: $("logoUrlImg").val(),
+                attrImg: $("#spotLogoUrl").val(),
                 tourTime: $("#tourTime").val()
             };
             var focusOrderJson = $.map($(".audio-list .audio-item"), function() {
