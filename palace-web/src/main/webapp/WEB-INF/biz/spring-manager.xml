@@ -20,4 +20,5 @@
 	<bean id="gfCorrelationBiz"      class="com.yimayhd.gf.biz.GFCorrelationBiz" />
 	<bean id="attachmentBiz" class="com.yimayhd.palace.biz.AttachmentBiz"/>
 	<bean id="cacheLockManager" class="com.yimayhd.palace.tair.CacheLockManager"/>
+	<bean id="guideBiz" class="com.yimayhd.palace.biz.GuideBiz"/>
 </beans>

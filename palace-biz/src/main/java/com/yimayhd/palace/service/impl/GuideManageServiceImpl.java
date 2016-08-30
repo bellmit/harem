@@ -76,7 +76,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         return saveGuideScenicTips(guideVO);
     }
 
-    private boolean saveGuideScenicTips(GuideScenicVO guideVO){
+    private boolean saveGuideScenicTips(GuideScenicVO guideVO) {
         GuideScenicTipsDO guideScenicTipsDO = GuideConverter.guideSceniceVO2GuideScenicTipsDO(guideVO);
         GuideScenicTipsDO resultTips = guideRepo.saveGuideScenicTips(guideScenicTipsDO);
         if (resultTips == null) {
@@ -103,13 +103,13 @@ public class GuideManageServiceImpl implements GuideManageService {
         }
         GuideScenicUpdateDTO guideScenicUpdateDTO = GuideConverter.guideSceniceVO2GuideScenicUpdateDTO(guideVO);
         boolean result = guideRepo.updateGuide(guideScenicUpdateDTO);
-        boolean resultTips =false;
+        boolean resultTips = false;
         GuideScenicTipsDO guideScenicTipsDO = guideRepo.queryGuideScenicTips(id);
-        if(guideScenicTipsDO!=null) {
+        if (guideScenicTipsDO != null) {
             GuideTipsUpdateDTO guideTipsUpdateDTO = GuideConverter.guideSceniceVO2GuideScenicTipsDTO(guideVO);
-             resultTips = guideRepo.updateGuideScenicTips(guideTipsUpdateDTO);
-        }else {
-            resultTips =  saveGuideScenicTips(guideVO);
+            resultTips = guideRepo.updateGuideScenicTips(guideTipsUpdateDTO);
+        } else {
+            resultTips = saveGuideScenicTips(guideVO);
         }
         return result && resultTips;
     }
@@ -129,7 +129,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         GuideScenicVO guideScenicVO = GuideConverter.guideScenicDTO2GuideScenicVO(guideScenicDTO);
 //        GuideScenicDTO scenicDTO = guideRepo.queryGuideDetailByScenicId(guideScenicVO.getScenicId());
         GuideScenicTipsDO guideScenicTipsDO = guideRepo.queryGuideScenicTips(id);
-        if(guideScenicTipsDO!=null) {
+        if (guideScenicTipsDO != null) {
             guideScenicVO = GuideConverter.guideScenicTipsDO2guideSceniceVO2GuideScenicTipsDO(guideScenicVO, guideScenicTipsDO);
         }
         return guideScenicVO;
@@ -199,5 +199,10 @@ public class GuideManageServiceImpl implements GuideManageService {
             scenicVO.setSubjectName(comTagDO.getName());
         }
         return scenicVO;
+    }
+
+    @Override
+    public GuideScenicDTO queryGuideDetailByScenicId(final long scenicId) {
+        return guideRepo.queryGuideDetailByScenicId(scenicId);
     }
 }
