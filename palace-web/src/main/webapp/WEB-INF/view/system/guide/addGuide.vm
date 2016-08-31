@@ -391,47 +391,47 @@
         });
         //form
         $('#btnSubmit').on("click", function () {
-            if($("#scenicId").val().length==0){
+            if($("#scenicId").val().trim().length==0){
                 layer.msg("请选择景区");
                 return;
             }
 
-            if($("#listImg").val().length==0){
+            if($("#listImg").val().trim().length==0){
                 layer.msg("请上传列表头图");
                 return;
             }
 
-            if($("#guideImg").val().length==0){
+            if($("#guideImg").val().trim().length==0){
                 layer.msg("请上传导览地图");
                 return;
             }
 
-            if($("#guideAudio").val().length==0){
+            if($("#guideAudio").val().trim().length==0){
                 layer.msg("请上传语音文件");
                 return;
             }
 
-            if($("#ticketInfo").val().length==0){
+            if($("#ticketInfo").val().trim().length==0){
                 layer.msg("请填写景区门票信息");
                 return;
             }
 
-            if($("#traffic").val().length==0){
+            if($("#traffic").val().trim().length==0){
                 layer.msg("请填写交通信息");
                 return;
             }
 
-            if($("#tips").val().length==0){
+            if($("#tips").val().trim().length==0){
                 layer.msg("请填写温馨提示");
                 return;
             }
 
-            if($("#cares").val().length==0){
+            if($("#cares").val().trim().length==0){
                 layer.msg("请填写注意事项");
                 return;
             }
 
-            if($("#haveTo").val().length==0){
+            if($("#haveTo").val().trim().length==0){
                 layer.msg("请填写必玩必吃之事");
                 return;
             }
