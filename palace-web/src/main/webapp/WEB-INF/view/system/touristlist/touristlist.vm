@@ -290,7 +290,7 @@
         $.ajax({
             url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus",
             type:"post",
-            data:{attractionId:attractionId,id:id}
+            data:{attractionId:attractionId,id:id},
             dataType:"json",
             success:function(data){
                 if(data.status==200){
