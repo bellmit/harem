@@ -384,16 +384,17 @@ public class CommodityServiceImpl implements CommodityService {
                 }
             });
             ItemSkuDO itemSkuDO = itemDO.getItemSkuDOList().get(0);
+            if(null == itemSkuDO){return itemDO;}
             long minPrice = itemSkuDO.getPrice();//最小的价格
             itemDO.setPrice(minPrice);
             String minSkuProperty = "";
             List<ItemSkuPVPair> itemSkuPVPList = itemSkuDO.getItemSkuPVPairList();
             for (ItemSkuPVPair pvp:itemSkuPVPList) {
-                minSkuProperty=pvp.getPTxt()+pvp.getVTxt();
+                minSkuProperty = pvp.getPTxt() + pvp.getVTxt();
             }
             ItemFeature itemFeature = itemDO.getItemFeature();
             if (itemFeature == null) {itemFeature = new ItemFeature(null);}
-            itemFeature.put(ItemFeatureKey.MIN_SKU_PROPERTY, minSkuProperty);
+            itemFeature.put(ItemFeatureKey.MIN_SKU_PROPERTY,minSkuProperty);
             itemDO.setItemFeature(itemFeature);
         }
         return itemDO;
