@@ -151,7 +151,7 @@
     
 	                        <td>
 	                            <button type="button" class="btn btn-primary addRefund detail" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">详情</button>
-                                <button type="button" class="btn btn-primary" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">商品</button>
+                                <button type="button" class="btn btn-primary itemlist" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">商品</button>
                                 <button type="button" class="btn btn-primary btn-weight" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">权重</button>
 	                        </td>
                     </tr>
@@ -194,7 +194,11 @@
             var option = $(this).attr("option");
             window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/merchant/detail?id="+userId+"&option="+option, 2, "商家详情");
         });
-
+        $(".itemlist").click(function () {
+            var userId = $(this).attr("userId");
+            var option = $(this).attr("option");
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/item/list?sellerId="+userId, 2, "商品列表");
+        });
         $(".btn-weight").click(function() {
             var userId = $(this).attr("userId");
             var $self = $(this);
