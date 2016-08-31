@@ -173,7 +173,6 @@
             <tr>
                 <th class="w15"><span class="spColor">*</span>营业时间：</th>
                 <td class="w85">
-                    <span id="yinyetime">周一至周五：8：00~21：00 周六周日：12：00~22：00</span>
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="300" name="openTime" rows="3"
                               id="openTime"></textarea>
                     <span class="num">0/300</span>
@@ -349,7 +348,6 @@
                                     icon: 2,
                                     time: 2000
                                 });
-                                $(this).prop('disabled', false);
                             }
                         },
                         error: function (xmlres, status, code) {
@@ -357,7 +355,6 @@
                                 icon: 2,
                                 time: 2000
                             });
-                            $(this).prop('disabled', false);
                         }
                     });
                 }
@@ -378,6 +375,9 @@
                     $("#audioTime").val(item.duration);
                     $("#audioTimeVo").text(item.durationStr);
                     $("#inputFileTitle").text(item.inputFileTitle);
+                }else{
+                    layer.msg("请选择语音文件",{icon:2});
+                    return false;
                 }
                 return true;
             });
