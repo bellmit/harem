@@ -155,7 +155,7 @@
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/toAdd", 2, "添加导览");
         });
 
-        $(".touristEditDetail").click(function () {
+        $("#tbGuideList").on("click", ".tour", function () {
             var attractionId = $(this).attr("attractionId");
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?attractionId=" + attractionId, 2, "景点详情");
         });
