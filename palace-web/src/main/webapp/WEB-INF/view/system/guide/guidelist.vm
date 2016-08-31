@@ -119,7 +119,7 @@
                         window.location.href = window.location.href;
                     }, 1500);
                 } else {
-                    layer.msg('操作失败', {
+                    layer.msg(res.message, {
                         icon: 2,
                         time: 2000
                     });
@@ -161,16 +161,16 @@
         });
         //上架
         $("#tbGuideList").on("click", ".on", function () {
+            var guideId = $(this).attr("guideId");
             layer.confirm("确认要上架此导览？",function(){
-                var guideId = $(this).attr("guideId");
                 var data = {guideId: guideId}
                 submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/up", "post", data);
             });
         });
         //下架
         $("#tbGuideList").on("click", ".off", function () {
+            var guideId = $(this).attr("guideId");
             layer.confirm("确认要下架此导览？",function(){
-                var guideId = $(this).attr("guideId");
                 var data = {guideId: guideId}
                 submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/status/down", "post", data);
             });

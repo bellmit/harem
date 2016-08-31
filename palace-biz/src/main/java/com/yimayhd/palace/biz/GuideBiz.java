@@ -79,8 +79,13 @@ public class GuideBiz {
      */
     public CheckResult upStatus(final long guideId) {
         GuideScenicVO guideScenicVO = guideManageService.getGuideById(guideId);
-        boolean result = guideManageService.upStatus(guideId);
-        return CheckResult.success();
+        CheckResult checkResult = GuideChecker.checkUpStatusGuideScenicVO(guideScenicVO);
+        if (checkResult.isSuccess()) {
+            boolean result = guideManageService.upStatus(guideId);
+            return CheckResult.success();
+        } else {
+            return checkResult;
+        }
     }
 
 }

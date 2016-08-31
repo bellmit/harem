@@ -83,10 +83,10 @@ public class GuideManageController extends BaseController {
     public String toEdit(Model model, final long id) {
         try {
             GuideScenicVO guideScenicVO = guideManageService.getGuideById(id);
-            if(guideScenicVO!=null) {
+            if (guideScenicVO != null) {
                 model.addAttribute("guideScenicVO", guideScenicVO);
                 return "/system/guide/editGuide";
-            }else{
+            } else {
                 return "/error";
             }
         } catch (Exception e) {
@@ -161,8 +161,10 @@ public class GuideManageController extends BaseController {
     @ResponseBody
     public ResponseVo upStatus(Model model, long guideId) {
         try {
-            boolean result = guideManageService.upStatus(guideId);
-            return ResponseVoHelper.returnResponseVo(result);
+        /*    boolean result = guideManageService.upStatus(guideId);
+            return ResponseVoHelper.returnResponseVo(result);*/
+            CheckResult checkResult = guideBiz.upStatus(guideId);
+            return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
             return new ResponseVo();
         }

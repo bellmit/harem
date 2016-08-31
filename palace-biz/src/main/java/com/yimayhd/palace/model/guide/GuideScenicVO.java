@@ -2,6 +2,8 @@ package com.yimayhd.palace.model.guide;
 
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by xushubing on 2016/8/18.
  */
@@ -12,8 +14,10 @@ public class GuideScenicVO {
     private String scenicResourceNum;//景区资源编号
     private int status;// 状态 0: 下架  1：上架
     private int weight;//权重
+    @NotNull(message = "电子地图图片不能为空")
     private String guideImg;//电子地图图片
 
+    @NotNull(message = "导览头图不能为空")
     private String listImg;//导览头图
     /**
      * 开场语音时长
@@ -57,6 +61,7 @@ public class GuideScenicVO {
     private String haveTo;
 
     //
+    @NotNull(message = "test不能为空")
     private String statusStr;
 
 
