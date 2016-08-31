@@ -29,12 +29,12 @@ public class MediaClientRepo {
             RCPageResult<MediaDO> result = mediaClientServiceRef.query(mediaPageQuery);
             if (result != null) {
 
-                if (result.isSuccess() && !result.getList().isEmpty()) {
+                if (result.isSuccess()) {
                     log.info("getMediaPageList mediaPageQuery={}, result={}", JSON.toJSONString(mediaPageQuery), JSON.toJSONString(result));
                     return result;
                 } else {
                     log.error("getMediaPageList mediaPageQuery={}, result={}", JSON.toJSONString(mediaPageQuery), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -50,12 +50,12 @@ public class MediaClientRepo {
             RcResult<Long> result = mediaClientServiceRef.addMedia(mediaDTO);
             if (result != null) {
 
-                if (result.isSuccess() && result.getT() != null) {
+                if (result.isSuccess()) {
                     log.info("addMedia mediaDTO={}, result={}", JSON.toJSONString(mediaDTO), JSON.toJSONString(result));
-                    return result.getT();
+                    return result.getT() == null ? 0 : result.getT();
                 } else {
                     log.error("addMedia mediaDTO={}, result={}", JSON.toJSONString(mediaDTO), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -71,12 +71,12 @@ public class MediaClientRepo {
             RcResult<Boolean> result = mediaClientServiceRef.updateMedia(updateDTO);
             if (result != null) {
 
-                if (result.isSuccess() && result.getT()) {
+                if (result.isSuccess()) {
                     log.info("updateMedia updateDTO={}, result={}", JSON.toJSONString(updateDTO), JSON.toJSONString(result));
-                    return result.getT();
+                    return result.getT() == null ? false : result.getT();
                 } else {
                     log.error("updateMedia updateDTO={}, result={}", JSON.toJSONString(updateDTO), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -92,12 +92,12 @@ public class MediaClientRepo {
             RcResult<Boolean> result = mediaClientServiceRef.updateMediaStatus(mediaId, mediaFileStatus);
             if (result != null) {
 
-                if (result.isSuccess() && result.getT()) {
+                if (result.isSuccess()) {
                     log.info("updateMediaStatus status={}, mediaId={}, result={}", mediaFileStatus, mediaId, JSON.toJSONString(result));
-                    return result.getT();
+                    return result.getT() == null ? false : result.getT();
                 } else {
                     log.error("updateMediaStatus status={},mediaId={}, result={}", mediaFileStatus, mediaId, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -119,12 +119,12 @@ public class MediaClientRepo {
             RcResult<MediaDTO> result = mediaClientServiceRef.getMediaById(id);
             if (result != null) {
 
-                if (result.isSuccess() && result.getT() != null) {
+                if (result.isSuccess()) {
                     log.info("getMediaById id={}, , result={}", id, JSON.toJSONString(result));
                     return result.getT();
                 } else {
                     log.error("getMediaById id={}, result={}", id, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());

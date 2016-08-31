@@ -40,12 +40,12 @@ public class GuideRepo {
         try {
             ICPageResult<GuideScenicDTO> result = guideServiceRef.getGuidePageList(guideScenicQueryDTO);
             if (result != null) {
-                if (result.isSuccess() && !result.getList().isEmpty()) {
+                if (result.isSuccess()) {
                     log.info("getGuidePageList guideScenicQueryDTO={}, result={}", JSON.toJSONString(guideScenicQueryDTO), JSON.toJSONString(result));
                     return result;
                 } else {
                     log.error("getGuidePageList guideScenicQueryDTO={}, result={}", JSON.toJSONString(guideScenicQueryDTO), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -60,12 +60,12 @@ public class GuideRepo {
         try {
             ICResult<GuideScenicDO> result = guideServiceRef.addGuide(guideScenicDO);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("addGuide guideScenicDO={}, result={}", JSON.toJSONString(guideScenicDO), JSON.toJSONString(result));
                     return result.getModule();
                 } else {
                     log.error("addGuide guideScenicDO={}, result={}", JSON.toJSONString(guideScenicDO), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -86,12 +86,12 @@ public class GuideRepo {
         try {
             ICResult<Boolean> result = guideServiceRef.deleteGuide(guideId);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("addGuide guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
-                    return result.getModule();
+                    return result.getModule() == null ? false : result.getModule();
                 } else {
                     log.error("addGuide guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -112,12 +112,12 @@ public class GuideRepo {
         try {
             ICResult<GuideScenicDTO> result = guideServiceRef.queryGuideDetail(guideId);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("queryGuideDetail guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
                     return result.getModule();
                 } else {
                     log.error("queryGuideDetail guideId ={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -137,7 +137,7 @@ public class GuideRepo {
                     return result.getModule();
                 } else {
                     log.error("queryGuideScenicTips guideId ={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -152,12 +152,12 @@ public class GuideRepo {
         try {
             ICResult<GuideScenicDTO> result = guideServiceRef.queryGuideDetailByScenicId(scenicId);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("queryGuideDetailByScenicId scenicId={}, result={}", JSON.toJSONString(scenicId), JSON.toJSONString(result));
                     return result.getModule();
                 } else {
                     log.error("queryGuideDetailByScenicId scenicId guideScenicDO={}, result={}", JSON.toJSONString(scenicId), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -172,12 +172,12 @@ public class GuideRepo {
         try {
             ICResult<GuideScenicTipsDO> result = guideServiceRef.saveGuideScenicTips(guideScenicTipsDO);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("saveGuideScenicTips guideScenicTipsDO={}, result={}", JSON.toJSONString(guideScenicTipsDO), JSON.toJSONString(result));
                     return result.getModule();
                 } else {
                     log.error("saveGuideScenicTips guideScenicTipsDO={}, result={}", JSON.toJSONString(guideScenicTipsDO), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -192,12 +192,12 @@ public class GuideRepo {
         try {
             ICResult<Boolean> result = guideServiceRef.updateGuideScenicTips(guideScenicTipsDTO);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("updateGuideScenicTips guideScenicTipsDTO={}, result={}", JSON.toJSONString(guideScenicTipsDTO), JSON.toJSONString(result));
-                    return result.getModule();
+                    return result.getModule() == null ? false : result.getModule();
                 } else {
                     log.error("updateGuideScenicTips guideScenicTipsDTO={}, result={}", JSON.toJSONString(guideScenicTipsDTO), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -212,12 +212,12 @@ public class GuideRepo {
         try {
             ICResult<Boolean> result = guideServiceRef.updateGuide(updateDTO);
             if (result != null) {
-                if (result.isSuccess() && result.getModule()) {
+                if (result.isSuccess()) {
                     log.info("updateGuide updateDTO={}, result={}", JSON.toJSONString(updateDTO), JSON.toJSONString(result));
-                    return result.getModule();
+                    return result.getModule() == null ? false : result.getModule();
                 } else {
                     log.error("updateGuide updateDTO={}, result={}", JSON.toJSONString(updateDTO), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -232,12 +232,12 @@ public class GuideRepo {
         try {
             ICResult<Boolean> result = guideServiceRef.updateGuideStatus(status, guideId);
             if (result != null) {
-                if (result.isSuccess() && result.getModule()) {
+                if (result.isSuccess()) {
                     log.info("updateGuideStatus status={}, guideId={}, result={}", status, guideId, JSON.toJSONString(result));
-                    return result.getModule();
+                    return result.getModule() == null ? false : result.getModule();
                 } else {
                     log.error("updateGuideStatus status={},guideId={}, result={}", status, guideId, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -252,12 +252,12 @@ public class GuideRepo {
         try {
             ICResult<Boolean> result = guideServiceRef.updateGuideWeight(weight, guideId);
             if (result != null) {
-                if (result.isSuccess() && result.getModule()) {
+                if (result.isSuccess()) {
                     log.info("updateGuideWeight status={}, guideId={}, result={}", weight, guideId, JSON.toJSONString(result));
-                    return result.getModule();
+                    return result.getModule() == null ? false : result.getModule();
                 } else {
                     log.error("updateGuideWeight status={},guideId={}, result={}", weight, guideId, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -283,7 +283,7 @@ public class GuideRepo {
                     return result.getModule();
                 } else {
                     log.error("queryAttraction guideId={}, result={}", guideId, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -309,7 +309,7 @@ public class GuideRepo {
                     return result.getModule();
                 } else {
                     log.error("queryGuideAttractionFocusInfo scenicId={}, result={}", scenicId, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -329,7 +329,7 @@ public class GuideRepo {
                     return result;
                 } else {
                     log.error("queryCanGuideScenic scenicPageQuery={}, result={}", JSON.toJSONString(scenicPageQuery), JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -350,7 +350,7 @@ public class GuideRepo {
                     return result;
                 } else {
                     log.error("deleteAttraction attractionId={},result={}", attractionId, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -371,7 +371,7 @@ public class GuideRepo {
                     return result;
                 } else {
                     log.error("queryAttractionDetail attractionId={},result={}", attractionId, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -392,7 +392,7 @@ public class GuideRepo {
                     return result;
                 } else {
                     log.error("addAttractionAndFocus attractionFocusAddDTO={},result={}", attractionFocusAddDTO, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -413,7 +413,7 @@ public class GuideRepo {
                     return result;
                 } else {
                     log.error("updateAttractionAndFocus attractionFocusUpdateDTO={},result={}", attractionFocusUpdateDTO, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
@@ -434,7 +434,7 @@ public class GuideRepo {
                     return result;
                 } else {
                     log.error("updateGuideLine guideId={},guideLineDTO={},result={}", guideId, guideLineDTO, JSON.toJSONString(result));
-                    throw new BaseException(result.getErrorCode());
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
                 throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
