@@ -390,7 +390,8 @@ public class CommodityServiceImpl implements CommodityService {
             String minSkuProperty = "";
             List<ItemSkuPVPair> itemSkuPVPList = itemSkuDO.getItemSkuPVPairList();
             for (ItemSkuPVPair pvp:itemSkuPVPList) {
-                minSkuProperty = pvp.getPTxt() + pvp.getVTxt();
+                /*minSkuProperty = pvp.getPTxt() + pvp.getVTxt();// 容量100ml*/
+                minSkuProperty = pvp.getVTxt();// 100ml
             }
             ItemFeature itemFeature = itemDO.getItemFeature();
             if (itemFeature == null) {itemFeature = new ItemFeature(null);}
