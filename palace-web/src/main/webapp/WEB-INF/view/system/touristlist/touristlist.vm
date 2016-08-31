@@ -97,7 +97,7 @@
 
 <body>
 <form id="form1" name="form1">
-    <input type="hidden" id="hdnGuideId" value="$attractionId">
+    <input type="hidden" id="hdnGuideId" value="$!{attractionId}">
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
             <a href="#spotList" data-toggle="tab">景点详情</a>

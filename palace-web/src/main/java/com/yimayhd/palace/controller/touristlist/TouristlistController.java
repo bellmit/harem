@@ -64,16 +64,16 @@ public class TouristlistController extends BaseController {
             // 线路顺序
             List<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
             int totalCount = 0;
-            if (result.isSuccess() && null != result && result.getModule().getAttractionDTOList().size() > 0) {
+            if (result!=null&& result.isSuccess() && result.getModule()!=null&&result.getModule().getAttractionDTOList()!=null&&result.getModule().getAttractionDTOList().size() > 0) {
                 totalCount = result.getModule().getAttractionDTOList().size();
                 touristlist = result.getModule().getAttractionDTOList();
                 guideLine = result.getModule().getGuideLineDTO().getGuideLine();
             }
             if (null != touristlist) {
-                model.addAttribute("attractionId", attractionId); // 导览id
                 model.addAttribute("touristlist", touristlist);  // 景点列表
                 model.addAttribute("guideLine", guideLine);  // 线路列表
             }
+            model.addAttribute("attractionId", attractionId); // 导览id
             System.out.println("touristlist="+JSON.toJSONString(touristlist));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -174,13 +174,13 @@ public class TouristlistController extends BaseController {
      * select新增页面  不带景点详情和景点介绍
      **/
     @RequestMapping(value = "/touristaddDetail", method = RequestMethod.GET)
-    public String touristaddDetail(Model model,long guideAttractionid) throws Exception {
+    public String touristaddDetail(Model model,long attractionId) throws Exception {
         try {
 
             // 导览id
-            if (guideAttractionid > 0) {
+            if (attractionId > 0) {
 
-                model.addAttribute("guideAttractionid", guideAttractionid);
+                model.addAttribute("guideAttractionid", attractionId);
             }
 
         } catch (Exception e) {
