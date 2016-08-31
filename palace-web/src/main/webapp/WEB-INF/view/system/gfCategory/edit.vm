@@ -88,6 +88,10 @@
         })
 
         $(document).delegate('#PCUrlUploadFile','change',function(){
+            var fileValue = $(this).val();
+            if(!fileValue){
+                return;
+            }
             fileUpload('#PCUrlUploadFile',1,function(data){
                 if(data && data.status==200){
                     $('#PCUrlUploadFileReturnInput').val(data.data);
@@ -99,6 +103,10 @@
         });
 
         $(document).delegate('#MobileUrlUploadFile','change',function(){
+            var fileValue = $(this).val();
+            if(!fileValue){
+                return;
+            }
             fileUpload('#MobileUrlUploadFile',1,function(data){
                 if(data && data.status==200){
                     $('#MobileUrlUploadFileReturnInput').val(data.data);
@@ -109,12 +117,24 @@
             });
         });
 
+        // 中文字两个字节
+        // param参数是数组类型，param[0]汉字长度，param[1]字符长度
+        $.validator.addMethod("byteRangeLength", function(value, element, param) {
+            var length = value.length;
+            for(var i = 0; i < value.length; i++){
+                if(value.charCodeAt(i) > 127){
+                    length++;
+                }
+            }
+            return this.optional(element) || ( length <= param[1]);
+        }, $.validator.format("请输入{0}个字以内"));
+
 		/*提交**/
         $("#themeForm").validate({
             rules: {
                 'name': {
                     required: true,
-                    maxlength:10
+                    byteRangeLength: [10,20]
                 },
                 'status': {
                     required: true
@@ -122,7 +142,7 @@
                  'priority': {
                     required: true,
                     digits: true,
-                    min:1,
+                    min:0,
                     max:1000
                 },
                 'imgPc': {
@@ -133,22 +153,20 @@
                 },
                 'summary':{
                     required: true,
-                    maxlength:8
+                    byteRangeLength: [8,16]
                 }
             },
             messages: {
                "name":{
-               required:"品类名称不能为空!",
-               maxlength:"品类名称不能超过10个字!"
+                   required:"品类名称不能为空!",
+                   maxlength:"品类名称不能超过10个字!"
                },
                "status":{
                    required:"请选择状态"
                    },
                "priority":{
                     required: "请输入排序数字",
-                    digits: "排序必须为零或正整数",
-                    min:"排序最大值的下限为1",
-                    max:"排序最大值的上限为1000"
+                    digits: "序号为1-1000的正整数"
                 },
                 "imgPc":{
                     required: "品类宣传图不能为空!"
