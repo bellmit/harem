@@ -97,6 +97,7 @@
 
 <body>
 <form id="form1" name="form1">
+    <input type="hidden" id="hdnGuideId" value="">
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
             <a href="#spotList" data-toggle="tab">景点详情</a>
@@ -111,7 +112,7 @@
                 <a type="button" class="btn btn-primary addTourist" href="spotdetail.html">添加景点</a>
             </div>
             <div class="tableGroup whole">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="tbTourList">
                     <thead>
                     <tr>
                         <th>景点编号</th>
@@ -137,8 +138,8 @@
                                 $!GuideAttractionDO.isDel
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary touristEditDetail" themeid="1800" attractionId="$!GuideAttractionDO.id">编辑</button>
-                                <button type="button" class="btn btn-primary updateStatus" themeid="1800" attractionId="$!GuideAttractionDO.id">删除</button>
+                                <button type="button" class="btn btn-primary edit" themeid="1800" id="$!GuideAttractionDO.id" attractionId="$!GuideAttractionDO.attractionId">编辑</button>
+                                <button type="button" class="btn btn-primary delete" themeid="1800" id="$!GuideAttractionDO.id" attractionId="$!GuideAttractionDO.attractionId">删除</button>
                             </td>
                         </tr>
                         #end
@@ -256,24 +257,50 @@
 <script type="text/javascript">
     // 新增景点
     $(function(){
+        var guideId=$("#hdnGuideId").val();
         $(".addTourist").click(function(){
             window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail",2,"景点详情");
         });
-    });
-    // 编辑景点
-    $(function(){
-        $(".touristEditDetail").click(function(){
+
+        //  编辑景点
+        $("#tbTourList").on(".edit",function(){
             var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+attractionId +"&id=0", 2, "景点详情");
+            var id=$(this).attr("id")
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+attractionId +"&id="+id, 2, "景点详情");
+        });
+
+        //删除景点
+        $(".updateStatus").on(".delete",function(){
+            var attractionId = $(this).attr("attractionId");
+            var id=$(this).attr("id")
+            layer.confirm("确认要删除此景点？",function(){
+                deleteTour(attractionId,id);
+            });
+            //window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus?attractionId="+attractionId +"&id="+id, 2, "景点详情");
         });
     });
-    // 删除景点
-    $(function(){
-        $(".updateStatus").click(function(){
-            var attractionId = $(this).attr("attractionId");
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus?attractionId="+attractionId +"&id=0", 2, "景点详情");
-        });
-    });
+
+    function deleteTour(attractionId,id){
+        $.ajax({
+            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus",
+            type:"post",
+            data:{attractionId:attractionId,id:id}
+            dataType:"json",
+            success:function(data){
+                if(data.status==200){
+                    layer.msg("删除成功!",{icon:1,time:1500});
+                    setTimeout(function(){
+                        window.location.reload();
+                    },2000)
+                }else{
+                    layer.msg("删除失败!",{icon:1,time:1500});
+                }
+            },
+            error:function(){
+                layer.msg("删除失败!",{icon:1,time:1500});
+            }
+        })
+    }
 </script>
 
 </body>
