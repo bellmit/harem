@@ -387,7 +387,7 @@ public class CommodityServiceImpl implements CommodityService {
             long minPrice = itemSkuDO.getPrice();//最小的价格
             itemDO.setPrice(minPrice);
             String minSkuProperty = "";
-            List<ItemSkuPVPair> itemSkuPVPList = itemDO.getItemPropertyList();
+            List<ItemSkuPVPair> itemSkuPVPList = itemSkuDO.getItemSkuPVPairList();
             for (ItemSkuPVPair pvp:itemSkuPVPList) {
                 minSkuProperty=pvp.getPTxt()+pvp.getVTxt();
             }
