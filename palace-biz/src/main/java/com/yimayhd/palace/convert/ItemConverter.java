@@ -57,6 +57,7 @@ public class ItemConverter {
 		if(query.getOutType()!=null) {
 			itemQryDTO.setOutType(query.getOutType());
 		}
+		itemQryDTO.setSellerId(query.getSellerId());
 		return itemQryDTO;
 	}
 
