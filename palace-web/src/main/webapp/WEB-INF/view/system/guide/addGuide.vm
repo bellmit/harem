@@ -378,6 +378,7 @@
                     $("#guideAudio").val(item.fileKey);
                     $("#audioTime").val(item.duration);
                     $("#audioTimeVo").text(item.durationStr);
+                    $("#inputFileTitle").text(item.inputFileTitle);
                 }
                 return true;
             });
