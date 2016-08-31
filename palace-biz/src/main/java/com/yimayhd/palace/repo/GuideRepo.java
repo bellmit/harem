@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 
 /**
  * Created by liuxp on 2016/8/17.
@@ -217,6 +219,46 @@ public class GuideRepo {
         } catch (Exception e) {
             log.error("updateGuideWeight status={},guideId={}, exception={}", weight, guideId, e);
             return false;
+        }
+    }
+    /**
+     * 根据导览id查询景点列表
+     * @parameter guideId
+     * @return
+     */
+    public List<GuideAttractionDO> queryAttraction(long guideId) {
+        try {
+            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(guideId);
+            if (result.isSuccess()) {
+                log.info("queryAttraction  guideId={}, result={}",  guideId, JSON.toJSONString(result));
+                return result.getModule();
+            } else {
+                log.error("queryAttraction guideId={}, result={}",  guideId, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("queryAttraction guideId={}, exception={}",  guideId, e);
+            return null;
+        }
+    }
+    /**
+     * 根据景区id查询景点列表+看点列表
+     * @param scenicId
+     * @return
+     */
+    public GuideCascadeAttractionDTO queryGuideAttractionFocusInfo(long scenicId){
+        try {
+            ICResult<GuideCascadeAttractionDTO> result = guideServiceRef.queryGuideAttractionFocusInfo(scenicId);
+            if (result.isSuccess()) {
+                log.info("queryGuideAttractionFocusInfo  scenicId={}, result={}",  scenicId, JSON.toJSONString(result));
+                return result.getModule();
+            } else {
+                log.error("queryGuideAttractionFocusInfo scenicId={}, result={}",  scenicId, JSON.toJSONString(result));
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("queryGuideAttractionFocusInfo scenicId={}, exception={}",  scenicId, e);
+            return null;
         }
     }
 

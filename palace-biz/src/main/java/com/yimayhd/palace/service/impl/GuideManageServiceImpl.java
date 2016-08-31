@@ -3,12 +3,10 @@ package com.yimayhd.palace.service.impl;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicPageQueryDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideScenicUpdateDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideTipsUpdateDTO;
+import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
@@ -201,8 +199,37 @@ public class GuideManageServiceImpl implements GuideManageService {
         return scenicVO;
     }
 
+    /**
+     * 根据景区id查询导览景区信息
+     *
+     * @param scenicId
+     * @return
+     */
     @Override
     public GuideScenicDTO queryGuideDetailByScenicId(final long scenicId) {
         return guideRepo.queryGuideDetailByScenicId(scenicId);
+    }
+
+    /**
+     * 根据导览id查询景点列表
+     *
+     * @param guideId
+     * @return
+     * @parameter guideId
+     */
+    @Override
+    public List<GuideAttractionDO> queryAttraction(final long guideId) {
+        return guideRepo.queryAttraction(guideId);
+    }
+
+    /**
+     * 根据景区id查询景点列表+看点列表
+     *
+     * @param scenicId
+     * @return
+     */
+    @Override
+    public GuideCascadeAttractionDTO queryGuideAttractionFocusInfo(final long scenicId) {
+        return guideRepo.queryGuideAttractionFocusInfo(scenicId);
     }
 }

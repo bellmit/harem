@@ -23,15 +23,15 @@ public class GuideConverter {
             return null;
         }
         GuideScenicDO guideScenicDO = new GuideScenicDO();
-        if (guideVo.getGuideId() > 0) {
+        if (guideVo.getGuideId() != null && guideVo.getGuideId() > 0) {
             guideScenicDO.setId(guideVo.getGuideId());
         }
-        guideScenicDO.setAudioTime(guideVo.getAudioTime());
+        guideScenicDO.setAudioTime(guideVo.getAudioTime() == null ? 0 : guideVo.getAudioTime());
         guideScenicDO.setStatus(guideVo.getStatus());
         guideScenicDO.setGuideAudio(guideVo.getGuideAudio());
         guideScenicDO.setGuideImg(guideVo.getGuideImg());
         guideScenicDO.setListImg(guideVo.getListImg());
-        guideScenicDO.setScenicId(guideVo.getScenicId());
+        guideScenicDO.setScenicId(guideVo.getScenicId() == null ? 0 : guideVo.getScenicId());
         guideScenicDO.setScenicName(guideVo.getScenicName());
         return guideScenicDO;
     }
@@ -41,14 +41,14 @@ public class GuideConverter {
             return null;
         }
         GuideScenicUpdateDTO guideScenicUpdateDTO = new GuideScenicUpdateDTO();
-        if (guideVo.getGuideId() > 0) {
+        if (guideVo.getGuideId() != null && guideVo.getGuideId() > 0) {
             guideScenicUpdateDTO.setId(guideVo.getGuideId());
         }
         guideScenicUpdateDTO.setGuideAudio(guideVo.getGuideAudio());
         guideScenicUpdateDTO.setGuideImg(guideVo.getGuideImg());
         guideScenicUpdateDTO.setListImg(guideVo.getListImg());
-        guideScenicUpdateDTO.setScenicId(guideVo.getScenicId());
-        guideScenicUpdateDTO.setAudioTime(guideVo.getAudioTime());
+        guideScenicUpdateDTO.setScenicId(guideVo.getScenicId() == null ? 0 : guideVo.getScenicId());
+        guideScenicUpdateDTO.setAudioTime(guideVo.getAudioTime() == null ? 0 : guideVo.getAudioTime());
         return guideScenicUpdateDTO;
     }
 
@@ -57,11 +57,11 @@ public class GuideConverter {
             return null;
         }
         GuideScenicTipsDO guideScenicTipsDO = new GuideScenicTipsDO();
-        if (guideVo.getGuideTipsId() > 0) {
+        if (guideVo.getGuideTipsId() != null && guideVo.getGuideTipsId() > 0) {
             guideScenicTipsDO.setId(guideVo.getGuideTipsId());
         }
         guideScenicTipsDO.setCares(guideVo.getCares());
-        guideScenicTipsDO.setGuideId(guideVo.getGuideId());
+        guideScenicTipsDO.setGuideId(guideVo.getGuideId()==null?0:guideVo.getGuideId()   );
         guideScenicTipsDO.setHaveTo(guideVo.getHaveTo());
         guideScenicTipsDO.setTicketInfo(guideVo.getTicketInfo());
         guideScenicTipsDO.setOpenTime(guideVo.getOpenTime());
@@ -100,7 +100,7 @@ public class GuideConverter {
             guideTipsUpdateDTO.setId(guideVo.getGuideTipsId());
         }
         guideTipsUpdateDTO.setCares(guideVo.getCares());
-        guideTipsUpdateDTO.setGuideId(guideVo.getGuideId());
+        guideTipsUpdateDTO.setGuideId(guideVo.getGuideId()==null?0:guideVo.getGuideId() );
         guideTipsUpdateDTO.setHaveTo(guideVo.getHaveTo());
         guideTipsUpdateDTO.setTicketInfo(guideVo.getTicketInfo());
         guideTipsUpdateDTO.setOpenTime(guideVo.getOpenTime());
@@ -161,7 +161,7 @@ public class GuideConverter {
             guideScenicVO.setLocationY(scenicDO.getLocationY());*/
             guideScenicVO.setScenicVO(scenicDO2ScenicVO(scenicDO));
         }
-        if (guideScenicVO.getGuideId() > 0) {
+        if (guideScenicVO.getGuideId()!=null&&guideScenicVO.getGuideId() > 0) {
             return guideScenicVO;
         } else {
             return null;

@@ -8,8 +8,10 @@ import javax.validation.constraints.NotNull;
  * Created by xushubing on 2016/8/18.
  */
 public class GuideScenicVO {
-    private long guideId;//导览id
-    private long scenicId;//景区id
+    @NotNull(message = "导览Id不能为空")
+    private Long guideId;//导览id
+    @NotNull(message = "景区Id不能为空")
+    private Long scenicId;//景区id
     private String scenicName;//景区名称
     private String scenicResourceNum;//景区资源编号
     private int status;// 状态 0: 下架  1：上架
@@ -22,14 +24,17 @@ public class GuideScenicVO {
     /**
      * 开场语音时长
      */
-    private int audioTime;
+    @NotNull(message = "开场语音时长不能为空")
+    private Integer audioTime;
     private String audioTimeStr;
     /**
      * 导览开场语音
      */
+    @NotNull(message = "导览开场语音不能为空")
     private String guideAudio;
     //实用锦囊
-    private long guideTipsId;//实用锦囊 id
+    @NotNull(message = "实用锦囊不能为空")
+    private Long guideTipsId;//实用锦囊 id
     /**
      * 景区门票信息
      */
@@ -61,7 +66,6 @@ public class GuideScenicVO {
     private String haveTo;
 
     //
-    @NotNull(message = "test不能为空")
     private String statusStr;
 
 
@@ -107,11 +111,11 @@ public class GuideScenicVO {
         this.statusStr = statusStr;
     }
 
-    public long getScenicId() {
+    public Long getScenicId() {
         return scenicId;
     }
 
-    public GuideScenicVO setScenicId(long scenicId) {
+    public GuideScenicVO setScenicId(Long scenicId) {
         this.scenicId = scenicId;
         return this;
     }
@@ -167,17 +171,17 @@ public class GuideScenicVO {
         return weight;
     }
 
-    public GuideScenicVO setWeight(int weight) {
+    public GuideScenicVO setWeight(Integer weight) {
         this.weight = weight;
         return this;
     }
 
 
-    public int getAudioTime() {
-        return audioTime;
+    public Integer getAudioTime() {
+        return audioTime==null?0:audioTime;
     }
 
-    public void setAudioTime(int audioTime) {
+    public void setAudioTime(Integer audioTime) {
         this.audioTime = audioTime;
     }
 
@@ -238,19 +242,19 @@ public class GuideScenicVO {
     }
 
 
-    public long getGuideTipsId() {
-        return guideTipsId;
+    public Long getGuideTipsId() {
+        return guideTipsId==null?0:guideTipsId;
     }
 
-    public void setGuideTipsId(long guideTipsId) {
+    public void setGuideTipsId(Long guideTipsId) {
         this.guideTipsId = guideTipsId;
     }
 
-    public long getGuideId() {
-        return guideId;
+    public Long getGuideId() {
+        return guideId==null?0:guideId;
     }
 
-    public void setGuideId(long guideId) {
+    public void setGuideId(Long guideId) {
         this.guideId = guideId;
     }
 }
