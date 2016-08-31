@@ -91,6 +91,7 @@ public interface GuideManageService {
 
     /**
      * 根据景区id查询导览景区信息
+     *
      * @param scenicId
      * @return
      */
@@ -98,13 +99,15 @@ public interface GuideManageService {
 
     /**
      * 根据导览id查询景点列表
-     * @parameter guideId
+     *
      * @return
+     * @parameter guideId
      */
     public List<GuideAttractionDO> queryAttraction(long guideId);
 
     /**
      * 根据景区id查询景点列表+看点列表
+     *
      * @param scenicId
      * @return
      */

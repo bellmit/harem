@@ -184,7 +184,7 @@ public class AttachmentManageController extends BaseController {
             responseVo.setMessage(message);
             return responseVo;
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
 
     }
@@ -202,7 +202,7 @@ public class AttachmentManageController extends BaseController {
             boolean result = attachmentManageService.updateAttachment(attachmentVO);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 
@@ -222,7 +222,7 @@ public class AttachmentManageController extends BaseController {
             boolean result = attachmentManageService.upStatus(id);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 
@@ -241,7 +241,7 @@ public class AttachmentManageController extends BaseController {
             boolean result = attachmentManageService.downStatus(id);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 

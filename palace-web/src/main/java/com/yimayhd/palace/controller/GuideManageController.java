@@ -108,7 +108,7 @@ public class GuideManageController extends BaseController {
             //  boolean result = guideManageService.addGuide(guideVO);
             return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 
@@ -125,7 +125,7 @@ public class GuideManageController extends BaseController {
             CheckResult checkResult = guideBiz.updateGuide(guideVO);
             return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 
@@ -145,7 +145,7 @@ public class GuideManageController extends BaseController {
             boolean result = guideManageService.setWeight(guideVO.getGuideId(), guideVO.getWeight());
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 
@@ -166,7 +166,7 @@ public class GuideManageController extends BaseController {
             CheckResult checkResult = guideBiz.upStatus(guideId);
             return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 
@@ -185,7 +185,7 @@ public class GuideManageController extends BaseController {
             boolean result = guideManageService.downStatus(guideId);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 
@@ -216,7 +216,7 @@ public class GuideManageController extends BaseController {
             ScenicVO result = guideManageService.selectedScenic(scenicVO);
             return new ResponseVo(result);
         } catch (Exception e) {
-            return new ResponseVo();
+            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 

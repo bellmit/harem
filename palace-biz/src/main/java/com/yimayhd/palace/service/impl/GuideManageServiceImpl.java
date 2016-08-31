@@ -93,7 +93,7 @@ public class GuideManageServiceImpl implements GuideManageService {
      * @return
      */
     @Override
-    public boolean updateGuide(GuideScenicVO guideVO) {
+    public boolean updateGuide(GuideScenicVO guideVO)  {
         final long id = guideVO.getGuideId();
         GuideScenicDTO guideScenicDTO = guideRepo.queryGuideDetail(id);
         if (guideScenicDTO == null) {
