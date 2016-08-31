@@ -161,6 +161,7 @@
         var str = JSON.stringify(data);
         var audioCount = $(".audio-list .audio-item").length;
         var index = audioCount + 1;
+        var id="item"+index;
         var audioItem =
                 '<div class="audio-item">' +
                 '   <div class="audio-img">' +
@@ -173,8 +174,8 @@
                 '       </div>' +
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
-                '           <input type="hidden" class="focus-json" value="' + str + '">' +
-                '           <input type="text" class="focus-name" name="kandian' + index + '" id="kandian' + index + '" value="' + data.inputFileTitle + '">' +
+                '           <input type="hidden" class="focus-json" id="'+id+'">' +
+                '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
                 '   <div class="pull-left">' +
@@ -183,6 +184,8 @@
                 '</div>';
 
         $(audioItem).appendTo(".audio-list");
+        $("#"+id).val(str);
+
     }
 
     function LineEditor(options) {
@@ -318,7 +321,7 @@
                 id: $("#hdnId").val(),
                 guideId: $("#hdnGuideId").val(),
                 name: $("#spotName").val(),
-                attrImg: $("logoUrlImg").val(),
+                attrImg: $("#spotLogoUrl").val(),
                 tourTime: $("#tourTime").val()
             };
             var focusOrderJson = $.map($(".audio-list .audio-item"), function() {
