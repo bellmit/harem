@@ -154,9 +154,9 @@
         $("#addGuide").click(function () {
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/toAdd", 2, "添加导览");
         });
-
+//编辑景点
         $("#tbGuideList").on("click", ".tour", function () {
-            var attractionId = $(this).attr("attractionId");
+            var attractionId = $(this).attr("guideId");
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?attractionId=" + attractionId, 2, "景点详情");
         });
         //上架
@@ -181,11 +181,11 @@
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/toEdit?id=" + guideId, 2, "编辑导览");
         });
 
-        //编辑景点
+       /* //编辑景点
         $("#tbGuideList").on("click", ".tour", function () {
             var guideId = $(this).attr("guideId");
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?guideId=" + guideId, 2, "编辑编辑景点");
-        });
+        });*/
 
     });
 
