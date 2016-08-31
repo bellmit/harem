@@ -145,7 +145,7 @@
 
                             <td>
                                 <div class="weight">
-                                    
+                                    $!merchant.merchantDO.orderNum
                                 </div>
                             </td>
     

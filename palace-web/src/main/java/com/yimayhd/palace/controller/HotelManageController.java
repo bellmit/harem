@@ -263,21 +263,5 @@ public class HotelManageController extends BaseController {
 		return new ResponseVo();
 	}
 	
-	@RequestMapping(value="setHotelWeight",method = RequestMethod.POST)
-	@ResponseBody
-	public BizResult<String> modifyResourceWeight(long id,int weight) {
-		BizResult<String> result = new BizResult<String>();
-		if (id <= 0 || weight <= 0) {
-			log.error("params:id={},weightValue={}",id,weight);
-			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
-			return result;
-		}
-		BizResult<Boolean> setResult = hotelRPCService.setHotelWeight(id, weight);
-		if (setResult == null || !setResult.isSuccess()) {
-			log.error("params:itemId={},weightVale={},result:{}",id,weight,JSON.toJSONString(setResult));
-			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
-			return result;
-		}
-		return result;
-	}
+	
 }

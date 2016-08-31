@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
@@ -26,12 +27,14 @@ import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.AreaVO;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.ScenicListQuery;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.ScenicService;
 import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -287,5 +290,21 @@ public class JiuniuScenicManageController extends BaseController {
 		}
 		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
-	
+	@RequestMapping(value="setScenicWeight",method = RequestMethod.POST)
+	@ResponseBody
+	public BizResult<String> modifyResourceWeight(long id,int weight) {
+		BizResult<String> result = new BizResult<String>();
+		if (id <= 0 || weight <= 0) {
+			log.error("params:id={},weightValue={}",id,weight);
+			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return result;
+		}
+		BizResult<Boolean> setResult = scenicSpotService.setScenicWeight(id, weight);
+		if (setResult == null || !setResult.isSuccess()) {
+			log.error("params:id={},weightVale={},result:{}",id,weight,JSON.toJSONString(setResult));
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
+	}
 }
