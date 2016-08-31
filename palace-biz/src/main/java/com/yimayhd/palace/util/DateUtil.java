@@ -1111,4 +1111,44 @@ public class DateUtil {
 		System.out.println(calendar2.getTime());
 		System.out.println(calendar.compareTo(calendar2));
 	}
+	
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年8月30日
+	* @Title: parseLong2Time 
+	* @Description: 将毫秒值转换为时长
+	* @param  ms
+	* @param
+	* @return String    返回类型 
+	* @throws
+	 */
+	public static String parseLong2Time(long sec) {
+		if (sec < 0) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		//long sec = ms/1000; 
+	    if (sec < 10) {
+			sb.append("00:0"+Math.round(sec));
+			//return sb.toString();
+		}else if (sec > 10 && sec < 60) {
+			sb.append("00:"+Math.round(sec));
+			//return sb.toString();
+		}else {
+			long min = sec/60;
+			long secIn = sec%60;
+			if (min < 10 && secIn < 10) {
+				sb.append("0"+Math.round(min)+":0"+Math.round(secIn));
+			}else if (min < 10 && secIn > 9) {
+				sb.append("0"+Math.round(min)+":"+Math.round(secIn));
+			}else if (min > 9 && secIn < 10) {
+				sb.append(Math.round(min)+":0"+Math.round(secIn));
+			}else if (min > 9 && secIn > 9) {
+				sb.append(Math.round(min)+":"+Math.round(secIn));
+			}
+		}
+		return sb.toString();
+		
+	}
 }

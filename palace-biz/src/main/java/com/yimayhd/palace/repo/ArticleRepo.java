@@ -29,6 +29,7 @@ public class ArticleRepo {
 	private ArticleBackEndService articleBackEndServiceRef;
 	@Autowired
 	private MerchantService merchantService;
+	
 
 	public ResourcePageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.pageQueryArticles", articleQueryDTO);
