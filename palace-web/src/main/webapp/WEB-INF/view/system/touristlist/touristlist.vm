@@ -109,7 +109,7 @@
     <div class="tab-content">
         <div class="tab-pane active" id="spotList">
             <div class="btnBottomMargin">
-                <a type="button" class="btn btn-primary addTourist" href="spotdetail.html">添加景点</a>
+                <a type="button" class="btn btn-primary addTourist" >添加景点</a>
             </div>
             <div class="tableGroup whole">
                 <table class="table table-bordered table-hover" id="tbTourList">
