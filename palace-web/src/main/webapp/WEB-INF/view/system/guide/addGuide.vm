@@ -120,7 +120,7 @@
                         <input type="file" name="file" class="upload-file" id="logoUrlUploadFile">
                     </div>
                     <div class="upload-view ">
-                        <div class="img-wapper uploaded">
+                        <div class="img-wapper">
                             <img class="upload-img" id="logoUrlImg" imgurl=""
                                  src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                             <div class="delete-btn">删除</div>
@@ -151,14 +151,10 @@
                         <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
                     </div>
                     <div class="upload-view">
-                        <div class="img-wapper" id="audioWapper">
-                            <img class="upload-img" imgurl=""
-                                 src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                            <div class="delete-btn">删除</div>
-                            <input type="hidden" id="guideAudio" name="guideAudio" value="">
-                            <input type="hidden" id="audioTime" name="audioTime" value="">
-                        </div>
-                        <span id="audioTimeVo">时长为：</span>
+                        <input type="hidden" id="guideAudio" name="guideAudio" value="">
+                        <input type="hidden" id="audioTime" name="audioTime" value="">
+                        <div><span>文件名称:</span><span id="inputFileTitle"></span></div>
+                        <div><span>时长为：</span><span id="audioTimeVo"></span></div>
                     </div>
                 </td>
             </tr>
@@ -168,14 +164,14 @@
         <legend>实用锦囊</legend>
         <table class="table">
             <tr>
-                <th class="w15">景区门票信息：</th>
+                <th class="w15"><span class="spColor">*</span>景区门票信息：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="300" id="ticketInfo" name="ticketInfo" rows="3"></textarea>
                     <span class="num">0/300</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">营业时间：</th>
+                <th class="w15"><span class="spColor">*</span>营业时间：</th>
                 <td class="w85">
                     <span id="yinyetime">周一至周五：8：00~21：00 周六周日：12：00~22：00</span>
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="300" name="openTime" rows="3"
@@ -184,28 +180,28 @@
                 </td>
             </tr>
             <tr>
-                <th class="w15">交通：</th>
+                <th class="w15"><span class="spColor">*</span>交通：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="traffic" name="traffic" rows="3"></textarea>
                     <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">温馨提示：</th>
+                <th class="w15"><span class="spColor">*</span>温馨提示：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="500" name="tips" rows="3" id="tips"></textarea>
                     <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">注意事项：</th>
+                <th class="w15"><span class="spColor">*</span>注意事项：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="cares" name="cares" rows="3"></textarea>
                     <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">必玩必吃之事：</th>
+                <th class="w15"><span class="spColor">*</span>必玩必吃之事：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="haveTo" name="haveTo" rows="3"></textarea>
                     <span class="num">0/500</span>
@@ -365,6 +361,10 @@
                         }
                     });
                 }
+                else{
+                    layer.msg("请选择景区",{icon:2});
+                    return false;
+                }
                 return true;
 
             });
@@ -374,7 +374,6 @@
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
                 var item = win.getItem();
                 if (item != null) {
-                    $("#audioWapper").addClass("uploaded");
                     $("#guideAudio").val(item.fileKey);
                     $("#audioTime").val(item.duration);
                     $("#audioTimeVo").text(item.durationStr);
@@ -385,55 +384,62 @@
         });
         //删除图片
         $(".img-wapper .delete-btn").on("click", function () {
-            var wapper = $(this).closest(".img-wapper");
-            wapper.removeClass("uploaded");
-            wapper.find(".upload-img").attr("src", defaultImg);
-            wapper.find("input[type='hidden']").val('');
+            var td = $(this).closest("td");
+
+            td.find(".img-wapper").removeClass("uploaded");
+            td.find(".upload-img").attr("src", defaultImg);
+            td.find("input[type='hidden']").val('');
+            td.find("input[type='file']").val('');
         });
         //form
         $('#btnSubmit').on("click", function () {
             if($("#scenicId").val().trim().length==0){
-                layer.msg("请选择景区");
+                layer.msg("请选择景区",{icon:2});
                 return;
             }
 
             if($("#listImg").val().trim().length==0){
-                layer.msg("请上传列表头图");
+                layer.msg("请上传导览列表头图",{icon:2});
                 return;
             }
 
             if($("#guideImg").val().trim().length==0){
-                layer.msg("请上传导览地图");
+                layer.msg("请上传导览电子地图",{icon:2});
                 return;
             }
 
             if($("#guideAudio").val().trim().length==0){
-                layer.msg("请上传语音文件");
+                layer.msg("请上传语音文件",{icon:2});
                 return;
             }
 
             if($("#ticketInfo").val().trim().length==0){
-                layer.msg("请填写景区门票信息");
+                layer.msg("请填写景区门票信息",{icon:2});
+                return;
+            }
+            if($("#openTime").val().trim().length==0){
+                layer.msg("请填写营业时间",{icon:2});
                 return;
             }
 
+
             if($("#traffic").val().trim().length==0){
-                layer.msg("请填写交通信息");
+                layer.msg("请填写交通信息",{icon:2});
                 return;
             }
 
             if($("#tips").val().trim().length==0){
-                layer.msg("请填写温馨提示");
+                layer.msg("请填写温馨提示",{icon:2});
                 return;
             }
 
             if($("#cares").val().trim().length==0){
-                layer.msg("请填写注意事项");
+                layer.msg("请填写注意事项",{icon:2});
                 return;
             }
 
             if($("#haveTo").val().trim().length==0){
-                layer.msg("请填写必玩必吃之事");
+                layer.msg("请填写必玩必吃之事",{icon:2});
                 return;
             }
 

@@ -93,6 +93,9 @@
 
     function getItem() {
         var selecetdtr = $("#tbScenicList tr.selected").find("input[type='checkbox']");
+        if(selecetdtr.length==0){
+            return null;
+        }
 
         return {
             id: selecetdtr.attr("id"),
