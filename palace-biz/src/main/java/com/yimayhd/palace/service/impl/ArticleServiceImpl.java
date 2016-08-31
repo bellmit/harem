@@ -12,11 +12,13 @@ import com.yimayhd.palace.model.vo.AudioVO;
 import com.yimayhd.palace.model.ArticleScenicResourceItemVO;
 import com.yimayhd.palace.repo.ArticleRepo;
 import com.yimayhd.palace.repo.ItemRepo;
+import com.yimayhd.palace.repo.MediaClientRepo;
 import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
+import com.yimayhd.resourcecenter.dto.ArticleItemDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.enums.ArticleType;
@@ -48,7 +50,8 @@ public class ArticleServiceImpl implements ArticleService {
     private ItemRepo itemRepo;
     @Autowired
     private MerchantRepo merchantRepo;
-
+    @Autowired
+	private MediaClientRepo mediaClientRepo;
     @Override
     public PageVO<ArticleVO> getList(ArticleListQuery articleListQuery) throws Exception {
         // 查询条件对接
