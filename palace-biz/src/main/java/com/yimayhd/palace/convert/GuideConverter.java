@@ -2,12 +2,15 @@ package com.yimayhd.palace.convert;
 
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
+import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
+import com.yimayhd.palace.model.guide.GuideAttractionVO;
+import com.alibaba.fastjson.JSONArray;
 
 
 import java.util.ArrayList;
@@ -203,12 +206,28 @@ public class GuideConverter {
     }
 
     // 增加景点详情
-    public static AttractionFocusAddDTO attractionDO2AttractionFocusAddDTO(GuideAttractionDO attractionDO) {
-        if (attractionDO == null) {
+    public static AttractionFocusAddDTO attractionVO2AttractionFocusAddDTO(GuideAttractionVO attractionVO) {
+        if (attractionVO == null) {
             return null;
         }
+
+        // 景点
+        GuideAttractionDO guideAttractionDO = new GuideAttractionDO();
+        if (attractionVO  == null) {
+            return null;
+        }
+        guideAttractionDO.setId(attractionVO.getId());
+        guideAttractionDO.setGuideId(attractionVO.getGuideId());
+        guideAttractionDO.setAttrImg(attractionVO.getAttrImg());
+        guideAttractionDO.setName(attractionVO.getName());
+        guideAttractionDO.setTourTime(attractionVO.getTourTime());
+        guideAttractionDO.setTitle(attractionVO.getTitle());
+
+        // 景点and看点
         AttractionFocusAddDTO attractionFocusAddDTO = new AttractionFocusAddDTO();
-        attractionFocusAddDTO.setAttractionDO(attractionDO);
+        attractionFocusAddDTO.setAttractionDO(guideAttractionDO);
+        attractionFocusAddDTO.setFocusAddList(JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class));
+
         return attractionFocusAddDTO;
     }
 

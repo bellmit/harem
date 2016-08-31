@@ -97,7 +97,7 @@
 
 <body>
 <form id="form1" name="form1">
-    <input type="hidden" id="hdnGuideId" value="">
+    <input type="hidden" id="hdnGuideId" value="$attractionId">
     <ul id="myTab" class="nav nav-tabs">
         <li class="active">
             <a href="#spotList" data-toggle="tab">景点详情</a>
@@ -124,22 +124,24 @@
                     </thead>
                     <tbody>
 
-                        #foreach($GuideAttractionDO in $result)
+                        #foreach($attractionCascadeFocusDTO in $touristlist)
                         <tr>
-                            <td>$!GuideAttractionDO.id</td>
+                            <td>$!attractionCascadeFocusDTO.guideAttractionDO.id</td>
                             <td>
-                                $!GuideAttractionDO.name
+                                $!attractionCascadeFocusDTO.guideAttractionDO.name
                             </td>
                             <td>
                             ## <img src="http://img.test.yimayholiday.com/v1/tfs//T1A3VTByKT1RXrhCrK.jpg" width="150" height="90">
-                                <img src="{$!GuideAttractionDO.attrImg }" width="150" height="90">
+                                <img src="{$!attractionCascadeFocusDTO.guideAttractionDO.attrImg }" width="150" height="90">
                             </td>
                             <td>
-                                $!GuideAttractionDO.isDel
+                                $!attractionCascadeFocusDTO.focusDOList.size()
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary edit" themeid="1800" id="$!GuideAttractionDO.id" attractionId="$!GuideAttractionDO.attractionId">编辑</button>
-                                <button type="button" class="btn btn-primary delete" themeid="1800" id="$!GuideAttractionDO.id" attractionId="$!GuideAttractionDO.attractionId">删除</button>
+                                <button type="button" class="btn btn-primary edit" themeid="1800" id="$!attractionCascadeFocusDTO.guideAttractionDO.id" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.attractionId">编辑</button>
+                                <button type="button" class="btn btn-primary delete" themeid="1800" id="$!attractionCascadeFocusDTO.guideAttractionDO.id" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.attractionId">删除</button>
+                                <button type="button" class="btn btn-primary touristEditDetail" themeid="1800" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">编辑</button>
+                                <button type="button" class="btn btn-primary updateStatus" themeid="1800" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">删除</button>
                             </td>
                         </tr>
                         #end
@@ -259,7 +261,7 @@
     $(function(){
         var guideId=$("#hdnGuideId").val();
         $(".addTourist").click(function(){
-            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail",2,"景点详情");
+            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail?attractionId="+guideId,2,"景点详情");
         });
 
         //  编辑景点
@@ -281,6 +283,10 @@
     });
 
     function deleteTour(attractionId,id){
+
+        ## 线路设置
+        ##$!guideLine
+
         $.ajax({
             url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus",
             type:"post",

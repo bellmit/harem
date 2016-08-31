@@ -13,7 +13,7 @@
 <input type="hidden" id="palace_update_file" value="http://console.test.jiuxiulvxing.com/palace-web/upload/file">
 <input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="hdnId" value="0">
-<input type="hidden" id="hdnGuideId" value="0">
+<input type="hidden" id="hdnGuideId" value="$guideAttractionid">
 <ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
         <a>景点详情</a>
@@ -174,7 +174,7 @@
                 '       </div>' +
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
-                '           <input type="hidden" class="focus-json" id="'+id+'">' +
+                '           <textarea style="display:none;" class="focus-json" id="'+id+'"></textarea>' +
                 '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
@@ -324,12 +324,14 @@
                 attrImg: $("#spotLogoUrl").val(),
                 tourTime: $("#tourTime").val()
             };
-            var focusOrderJson = $.map($(".audio-list .audio-item"), function() {
-                var item = $(this);
+            var focusOrderJson =[];
+            $(".audio-list .audio-item").each(function(i,d) {
+                var  item= $(d);
                 var json = JSON.parse(item.find(".focus-json").val());
+                console.log(json);
                 json.inputFileTitle = item.find(".focus-name").val();
 
-                return json;
+                focusOrderJson.push(json);
             });
 
             spotInfo.focusOrder = JSON.stringify(focusOrderJson);
@@ -346,8 +348,11 @@
                     });
                 },
                 success: function(data) {
-                    if (data.status == 200) {
-                        $("#hdnId").val(data.id);
+
+                    console.log(JSON.stringify(data));
+
+                    if (data.success) {
+                        $("#hdnId").val(data.value);
                         $('#myTab li[data-target="#spotIntro"]').trigger("click");
                     } else {
                         layer.msg(data.message, {

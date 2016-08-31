@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.ComentDTO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
-import com.yimayhd.ic.client.model.dto.guide.AttractionFocusAddDTO;
-import com.yimayhd.ic.client.model.dto.guide.AttractionFocusDTO;
-import com.yimayhd.ic.client.model.dto.guide.AttractionFocusUpdateDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideLineDTO;
+import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
 import com.yimayhd.palace.base.BaseController;
@@ -29,6 +26,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.yimayhd.palace.model.guide.GuideAttractionVO;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,28 +52,29 @@ public class TouristlistController extends BaseController {
     private SessionManager sessionManager;
 
     //1
-
     /**
      * select获取景点列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String touristlList(Model model, Long attractionId) throws Exception {
         try {
-
-            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttraction(attractionId);
-
-            List<GuideAttractionDO> touristlist = new ArrayList<GuideAttractionDO>();
+            ICResult<GuideCascadeAttractionDTO> result = guideServiceRef.queryGuideAttractionFocusInfo(attractionId);
+            // 景点列表
+            List<AttractionCascadeFocusDTO> touristlist = new ArrayList<AttractionCascadeFocusDTO>();
+            // 线路顺序
+            List<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
             int totalCount = 0;
-
-            if (result.isSuccess() && null != result && result.getModule().size() > 0) {
-                totalCount = result.getModule().size();
-                touristlist = result.getModule();
+            if (result.isSuccess() && null != result && result.getModule().getAttractionDTOList().size() > 0) {
+                totalCount = result.getModule().getAttractionDTOList().size();
+                touristlist = result.getModule().getAttractionDTOList();
+                guideLine = result.getModule().getGuideLineDTO().getGuideLine();
             }
             if (null != touristlist) {
-
-                model.addAttribute("touristlist", touristlist);
+                model.addAttribute("attractionId", attractionId); // 导览id
+                model.addAttribute("touristlist", touristlist);  // 景点列表
+                model.addAttribute("guideLine", guideLine);  // 线路列表
             }
-
+            System.out.println("touristlist="+JSON.toJSONString(touristlist));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -174,8 +174,14 @@ public class TouristlistController extends BaseController {
      * select新增页面  不带景点详情和景点介绍
      **/
     @RequestMapping(value = "/touristaddDetail", method = RequestMethod.GET)
-    public String touristaddDetail(Model model) throws Exception {
+    public String touristaddDetail(Model model,long guideAttractionid) throws Exception {
         try {
+
+            // 导览id
+            if (guideAttractionid > 0) {
+
+                model.addAttribute("guideAttractionid", guideAttractionid);
+            }
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -189,13 +195,13 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/addTourist", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> addTourist(GuideAttractionDO guideAttractionDO) {
+    public BizResult<String> addTourist(GuideAttractionVO guideAttractionVO) {
 
         BizResult<String> result = new BizResult<String>();
         // 新增
         ICResult<GuideAttractionDO> saveResult = null;
 
-        AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionDO2AttractionFocusAddDTO(guideAttractionDO);
+        AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionVO2AttractionFocusAddDTO(guideAttractionVO);
 
         saveResult = trouistlistBiz.addAttractionAndFocus(attractionFocusAddDTO);
 
@@ -205,7 +211,8 @@ public class TouristlistController extends BaseController {
         }
         if (saveResult.isSuccess()) {
             result.initSuccess(saveResult.getResultMsg());
-            result.setValue("/jiuxiu/merchant/toMerchantList");
+            //result.setValue(saveResult.getModule().getId()+"");
+            //result.setSuccess(true);
         } else {
 
             result.setCode(saveResult.getResultCode());
