@@ -331,7 +331,11 @@
                 console.log(json);
                 json.inputFileTitle = item.find(".focus-name").val();
 
-                focusOrderJson.push(json);
+                focusOrderJson.push({
+                    name:json.inputFileTitle,
+                    audioTime:json.duration,
+                    audio:json.fileKey
+                });
             });
 
             spotInfo.focusOrder = JSON.stringify(focusOrderJson);
