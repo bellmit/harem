@@ -387,11 +387,11 @@ public class GuideRepo {
         try {
             ICResult<GuideAttractionDO> result = guideServiceRef.addAttractionAndFocus(attractionFocusAddDTO);
             if (result != null) {
-                if (result.getModule() == null) {
-                    log.info("addAttractionAndFocus attractionFocusAddDTO={},result={}", attractionFocusAddDTO, JSON.toJSONString(result));
+                if (result.isSuccess()) {
+                    log.info("attractionFocusAddDTO attractionFocusAddDTO={},  result={}",attractionFocusAddDTO, JSON.toJSONString(result));
                     return result;
                 } else {
-                    log.error("addAttractionAndFocus attractionFocusAddDTO={},result={}", attractionFocusAddDTO, JSON.toJSONString(result));
+                    log.error("attractionFocusAddDTO attractionFocusAddDTO={}, result={}", attractionFocusAddDTO, JSON.toJSONString(result));
                     throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
                 }
             } else {
@@ -401,6 +401,7 @@ public class GuideRepo {
             log.error("addAttractionAndFocus attractionFocusAddDTO={} exception={}", attractionFocusAddDTO, e);
             throw new BaseException(e, e.getMessage());
         }
+
     }
 
     // 更新景点

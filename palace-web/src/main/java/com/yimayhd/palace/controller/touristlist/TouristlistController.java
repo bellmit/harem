@@ -56,9 +56,9 @@ public class TouristlistController extends BaseController {
      * select获取景点列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String touristlList(Model model, Long attractionId) throws Exception {
+    public String touristlList(Model model, Long attractionId,Long scenicId) throws Exception {
         try {
-            ICResult<GuideCascadeAttractionDTO> result = guideServiceRef.queryGuideAttractionFocusInfo(attractionId);
+            ICResult<GuideCascadeAttractionDTO> result = guideServiceRef.queryGuideAttractionFocusInfo(scenicId);
             // 景点列表
             List<AttractionCascadeFocusDTO> touristlist = new ArrayList<AttractionCascadeFocusDTO>();
             // 线路顺序
@@ -136,7 +136,6 @@ public class TouristlistController extends BaseController {
         return result;
     }
 
-
     //2
     /**
      * select  编辑页面 带景点详情和景点介绍
@@ -202,6 +201,7 @@ public class TouristlistController extends BaseController {
         ICResult<GuideAttractionDO> saveResult = null;
 
         AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionVO2AttractionFocusAddDTO(guideAttractionVO);
+
 
         saveResult = trouistlistBiz.addAttractionAndFocus(attractionFocusAddDTO);
 

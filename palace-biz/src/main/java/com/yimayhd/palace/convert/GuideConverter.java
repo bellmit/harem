@@ -221,7 +221,7 @@ public class GuideConverter {
         guideAttractionDO.setAttrImg(attractionVO.getAttrImg());
         guideAttractionDO.setName(attractionVO.getName());
         guideAttractionDO.setTourTime(attractionVO.getTourTime());
-        guideAttractionDO.setTitle(attractionVO.getTitle());
+        guideAttractionDO.setTitle(attractionVO.getName());
 
         // 景点and看点
         AttractionFocusAddDTO attractionFocusAddDTO = new AttractionFocusAddDTO();
