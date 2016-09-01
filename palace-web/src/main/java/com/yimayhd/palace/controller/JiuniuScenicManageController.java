@@ -290,6 +290,7 @@ public class JiuniuScenicManageController extends BaseController {
 		}
 		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
 	}
+
 	@RequestMapping(value="setScenicWeight",method = RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> modifyResourceWeight(long id,int weight) {
