@@ -336,6 +336,9 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
 
 //            System.err.println(JSON.toJSONString(commonItemPublishDTO));
+
+            //最小规格的数据
+            setItemDOFeature(itemDB);
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
             log.info("updatePublishCommonItem   dto={}, result={}", JSON.toJSONString(commonItemPublishDTO), JSON.toJSONString(itemPubResult));
 //            System.err.println(JSON.toJSONString(itemPubResult));
