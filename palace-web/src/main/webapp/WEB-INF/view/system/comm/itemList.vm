@@ -1,6 +1,6 @@
 
 <form class="form-signin" id="itemListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/list" method="POST" role="form">
-    
+    <input type="hidden"   name="sellerId" value="$!itemListQuery.sellerId"/>
     <div class="inputGroup whole">
     	<div class="input-group inpSingle">
             <span class="input-group-btn">
