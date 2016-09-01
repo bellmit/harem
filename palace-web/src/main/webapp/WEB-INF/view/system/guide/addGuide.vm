@@ -241,7 +241,8 @@
                         time: 1500
                     });
                     setTimeout(function () {
-                        window.location.href = window.location.href;
+                        //window.location.href = window.location.href;
+                        closeAndFreshPrevFrame();
                     }, 1500);
                 } else {
                     layer.msg(res.message, {
