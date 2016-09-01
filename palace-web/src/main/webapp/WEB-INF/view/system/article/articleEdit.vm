@@ -197,7 +197,7 @@
 											<p class="askpri">
 												#set($minu=$!articleItem.articleConsultServiceItemVO.consultTime / 60)
 												<span class="apri">$!articleItem.articleConsultServiceItemVO.serviceCurrentPrice积分/$!minu分钟</span>
-												<span class="bpri"><em>$!articleItem.articleConsultServiceItemVO.serviceOriginalPrice</em>积分</span>
+												<span class="bpri">$!articleItem.articleConsultServiceItemVO.serviceOriginalPrice积分</span>
 											</p>
 											<p class="askarea">
 												服务区域：
