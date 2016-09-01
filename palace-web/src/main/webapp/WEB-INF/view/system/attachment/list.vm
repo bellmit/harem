@@ -7,10 +7,22 @@
         vertical-align: middle;
     }
 
-    .upload-file {
-        float: left;
-        width: 200px;
-        margin-right: 20px;
+    .upload-btn {
+        position: relative;
+        width: 100px;
+        height: 35px;
+        z-index: 1;
+    }
+
+    .upload-btn .upload-file {
+        position: absolute;
+        width: 100px;
+        height: 35px;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        z-index: 2;
     }
 </style>
 
@@ -55,9 +67,9 @@
               <span class="input-group-btn">
                     <button class="btn btn-default" type="button">上传时间</button>
                 </span>
-            <input type="text" class='form-control dateInp' placeholder='' readonly name="starteTime" value="">
+            <input type="text" class='form-control dateInp startTime' placeholder='' readonly name="starteTime" value="$!{mediaPageQuery.startTimeStr}">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-            <input type="text" class='form-control dateInp' placeholder='' readonly name="endTime" value="">
+            <input type="text" class='form-control dateInp endTime' placeholder='' readonly name="endTime" value="$!{mediaPageQuery.endTimeStr}">
         </div>
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -84,9 +96,9 @@
     <div class="btnBottomMargin">
         <input type="hidden" id="uploadActionUrl"
                value="$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/addAttachment"/>
-        <input type="file" name="file" id="attachmentFile" class="form-control upload-file">
-        <a type="button" id="btnUpload" class="btn btn-primary">上传文件
-        </a>
+        <button type="button" id="btnUpload" class="btn btn-primary upload-btn">上传文件
+            <input type="file" name="file" id="attachmentFile" class="form-control upload-file">
+        </button>
     </div>
 </form>
 <div class="tableGroup whole">
@@ -161,7 +173,6 @@
             btn: ['确定', '取消'],
             title: title,
             fix: false,
-            shadeClose: true,
             maxmin: true,
             area: [width, height],
             content: url,
@@ -210,9 +221,18 @@
         });
     }
     $(function () {
-        $("#btnUpload").on("click", function () {
-            if ($("#attachmentFile").val().length == 0) {
+        $("#attachmentFile").on("change", function() {
+            var filePath = $("#attachmentFile").val().trim();
+            if (filePath.length == 0) {
                 layer.msg("请选择上传文件。", {
+                    icon: 2,
+                    time: 1500
+                });
+                return false;
+            }
+
+            if (!(/\.mp(3|4)$/.test(filePath))) {
+                layer.msg("请选择MP3、MP4格式的文件", {
                     icon: 2,
                     time: 1500
                 });
@@ -255,7 +275,15 @@
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/toEdit?id=' + id, "编辑音频信息", function () {
                 var item = win.getItem();
                 if (item != null) {
-                    //alert(JSON.stringify(item))
+                   if(item.inputFileTitle.length==0){
+                       layer.msg("请填写名称",{icon:2,time:2000});
+                       return false;
+                   }
+
+                    if(item.remark.length==0){
+                        layer.msg("请填写备注",{icon:2,time:2000});
+                        return false;
+                    }
                     submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/editAttachment", "post", item);
                 }
                 return true;
@@ -275,7 +303,7 @@
             var data = {"id": id};
             submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/status/down", "get", data);
         });
-        $(".dateInp").datetimepicker({
+        $(".startTime").datetimepicker({
             language: "zh-CN",
             weekStart: 1,
             todayBtn: 1,
@@ -284,7 +312,18 @@
             startView: 2,
             minView: 2,
             forceParse: 0,
-            format: "yyyy-mm-dd"
+            format: "yyyy-mm-dd 00:00:00"
+        });
+        $(".endTime").datetimepicker({
+            language: "zh-CN",
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd 23:59:59"
         });
     });
 </script>

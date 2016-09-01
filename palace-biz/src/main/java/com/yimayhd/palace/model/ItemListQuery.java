@@ -23,6 +23,15 @@ public class ItemListQuery extends BaseQuery {
 	private Integer outType;//外部类型 参考 ResourceType
 	
 	private String orderNumFilter;//商品权重
+	private long sellerId;
+	
+	public long getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(long sellerId) {
+		this.sellerId = sellerId;
+	}
 
 	public String getMerchantName() {
 		return merchantName;

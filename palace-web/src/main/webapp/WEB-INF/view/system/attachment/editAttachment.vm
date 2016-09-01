@@ -73,11 +73,11 @@
         function getItem() {
             return {
                 id: $("#id").val(),
-                inputFileTitle: $("#inputFileTitle").val(),
+                inputFileTitle: $("#inputFileTitle").val().trim(),
                 minute: $("#minute").val(),
                 second: $("#second").val(),
-                scope: $("#scope").val(),
-                remark: $("#remark").val()
+                scope: $("#scope").val().trim(),
+                remark: $("#remark").val().trim()
             }
         }
     </script>

@@ -70,7 +70,7 @@ public class AttachmentConverter {
         mediaPageQuery.setFileType(attachmentListQuery.getFileType());
         mediaPageQuery.setInputFileTitle(attachmentListQuery.getInputFileTitle());
         mediaPageQuery.setRemark(attachmentListQuery.getRemark());
-        mediaPageQuery.setStarteTime(attachmentListQuery.getStarteTime());
+        mediaPageQuery.setStarteTime(attachmentListQuery.getStartTime());
         mediaPageQuery.setStatus(attachmentListQuery.getStatus());
 
         return mediaPageQuery;

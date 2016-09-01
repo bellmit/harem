@@ -147,6 +147,9 @@
     });
     function getItem() {
         var selecetdtr = $("#tbAttachmentSellectList tr.selected").find("input[type='checkbox']");
+        if(selecetdtr.length==0){
+            return null;
+        }
         return {
             fileKey: selecetdtr.attr("fileKey"),//
             duration: selecetdtr.attr("duration"),//时长 long

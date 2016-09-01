@@ -172,23 +172,7 @@ public class ScenicManageController extends BaseController {
 		scenicSpotService.batchDisableStatus(scenicIdList);
 		return new ResponseVo();
 	}
-	@RequestMapping(value="setScenicWeight",method = RequestMethod.POST)
-	@ResponseBody
-	public BizResult<String> modifyResourceWeight(long id,int weight) {
-		BizResult<String> result = new BizResult<String>();
-		if (id <= 0 || weight <= 0) {
-			log.error("params:id={},weightValue={}",id,weight);
-			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
-			return result;
-		}
-		BizResult<Boolean> setResult = scenicSpotService.setScenicWeight(id, weight);
-		if (setResult == null || !setResult.isSuccess()) {
-			log.error("params:id={},weightVale={},result:{}",id,weight,JSON.toJSONString(setResult));
-			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
-			return result;
-		}
-		return result;
-	}
+	
 	
 	
 

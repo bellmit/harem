@@ -139,7 +139,7 @@
                         <input type="file" class="upload-file" id="mapUrlUploadfile">
                     </div>
                     <div class="upload-view">
-                        <div class="img-wapper">
+                        <div class="img-wapper uploaded">
                             <img class="upload-img" id="mapUrlImg" imgurl=""
                                  src="$!utilWebconfig.getTfsRootPath()$!{guideScenicVO.guideImg}"/>
                             <div class="delete-btn">删除</div>
@@ -154,14 +154,10 @@
                         <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
                     </div>
                     <div class="upload-view">
-                        <div class="img-wapper" id="audioWapper">
-                            <img class="upload-img" imgurl=""
-                                 src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                            <div class="delete-btn">删除</div>
-                            <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
-                            <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
-                        </div>
-                        <span id="audioTimeVo">时长为：$!{guideScenicVO.audioTimeStr}</span>
+                        <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
+                        <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
+                        <div><span>文件名称:</span><span id="inputFileTitle"></span></div>
+                        <div><span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span></div>
                     </div>
                 </td>
             </tr>
@@ -172,46 +168,51 @@
         <table class="table">
             <input type="hidden" id="guideTipsId" value="$!{guideScenicVO.guideTipsId}" name="guideTipsId">
             <tr>
-                <th class="w15">景区门票信息：</th>
+                <th class="w15"><span class="spColor">*</span>景区门票信息：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="ticketInfo"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" id="ticketInfo" name="ticketInfo"
                               rows="3">$!{guideScenicVO.ticketInfo}</textarea>
+                    <span class="num">0/300</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">营业时间：</th>
+                <th class="w15"><span class="spColor">*</span>营业时间：</th>
                 <td class="w85">
-                    <span id="yinyetime">周一至周五：8：00~21：00 周六周日：12：00~22：00</span>
-                    <textarea class="form-control extra-info-item-text" name="openTime" rows="3"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" name="openTime" rows="3"
                               id="openTime">$!{guideScenicVO.openTime}</textarea>
+                    <span class="num">0/300</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">交通：</th>
+                <th class="w15"><span class="spColor">*</span>交通：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="traffic"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="traffic" name="traffic"
                               rows="3">$!{guideScenicVO.traffic}</textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">温馨提示：</th>
+                <th class="w15"><span class="spColor">*</span>温馨提示：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="tips" rows="3"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="tips" name="tips" rows="3"
                               id="tips">$!{guideScenicVO.tips}</textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">注意事项：</th>
+                <th class="w15"><span class="spColor">*</span>注意事项：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="cares"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="cares" name="cares"
                               rows="3">$!{guideScenicVO.cares}</textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
             <tr>
-                <th class="w15">必玩必吃之事：</th>
+                <th class="w15"><span class="spColor">*</span>必玩必吃之事：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text" name="haveTo"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="haveTo" name="haveTo"
                               rows="3">$!{guideScenicVO.haveTo}</textarea>
+                    <span class="num">0/500</span>
                 </td>
             </tr>
         </table>
@@ -268,22 +269,36 @@
             }
         });
     }
+    function checkImg(src, callback) {
+        var img = new Image();
+        img.src = src;
+        img.onload = function() {
+            callback && callback(img.width <= 750 && img.height <= 360)
+        }
+    }
     function initUploadFile(fileId, hiddenId, imgId) {
         $(fileId).on("change", function () {
             fileUpload(fileId, 1, function (data) {
                 if (data && data.status == 200) {
                     console.log(data.data);
-                    $(hiddenId).val(data.data);
-
-                    $(imgId).attr('src', tfsRootPath + data.data);
-
-                    $(imgId).closest(".upload-wapper").addClass("uploaded");
+                    var src = tfsRootPath + data.data;
+                    checkImg(src, function(r) {
+                        if (r) {
+                            $(hiddenId).val(data.data);
+                            $(imgId).attr('src', tfsRootPath + data.data);
+                            $(imgId).closest(".img-wapper").addClass("uploaded");
+                        } else {
+                            layer.msg('图片尺寸太大，请上传正确的图片', {
+                                icon: 2
+                            });
+                        }
+                    });
                 } else {
                     layer.msg('图片上传失败，请重试', {
                         icon: 2
                     });
                 }
-            });
+            },500);
         });
     }
     function initScenicSubject() {
@@ -320,29 +335,100 @@
         //选择景区
         initScenicSubject();
 
+        //文本长度限制
+        var limitTexts=$(".limit-text");
+        limitTexts.each(function() {
+            var txtlength = $(this).val().length;
+            var maxlength=$(this).attr("maxlength");
+            $(this).next(".num").text(txtlength + " / " + maxlength);
+        });
+
+        limitTexts.on("input propertychange", function() {
+            var input = $(this);
+            var txt = input.val();
+            var currnum = txt.length;
+            var maxlength=input.attr("maxlength");
+            if (currnum > maxlength) {
+                currnum = maxlength;
+                input.val(txt.substr(0, maxlength));
+            }
+
+            $(this).next(".num").text(currnum + " / " + maxlength);
+            return false;
+        });
+
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
                 var item = win.getItem();
                 console.log(JSON.stringify(item));
                 if (item != null) {
-                    $("#audioWapper").addClass("uploaded");
                     $("#guideAudio").val(item.fileKey);
                     $("#audioTime").val(item.duration);
                     $("#audioTimeVo").text(item.durationStr);
+                    $("#inputFileTitle").text(item.inputFileTitle);
+                }else{
+                    layer.msg("请选择语音文件",{icon:2});
+                    return false;
                 }
                 return true;
             });
         });
         //删除图片
         $(".img-wapper .delete-btn").on("click", function () {
-            var wapper = $(this).closest(".img-wapper");
-            wapper.removeClass("uploaded");
-            wapper.find(".upload-img").attr("src", defaultImg);
-            wapper.find("input[type='hidden']").val('');
+            var td = $(this).closest("td");
+
+            td.find(".img-wapper").removeClass("uploaded");
+            td.find(".upload-img").attr("src", defaultImg);
+            td.find("input[type='hidden']").val('');
+            td.find("input[type='file']").val('');
         });
         //form
         $('#btnSubmit').on("click", function () {
+            if($("#listImg").val().trim().length==0){
+                layer.msg("请上传导览列表头图",{icon:2});
+                return;
+            }
+
+            if($("#guideImg").val().trim().length==0){
+                layer.msg("请上传导览电子地图",{icon:2});
+                return;
+            }
+
+            if($("#guideAudio").val().trim().length==0){
+                layer.msg("请上传语音文件",{icon:2});
+                return;
+            }
+
+            if($("#ticketInfo").val().trim().length==0){
+                layer.msg("请填写景区门票信息",{icon:2});
+                return;
+            }
+            if($("#openTime").val().trim().length==0){
+                layer.msg("请填写营业时间",{icon:2});
+                return;
+            }
+
+
+            if($("#traffic").val().trim().length==0){
+                layer.msg("请填写交通信息",{icon:2});
+                return;
+            }
+
+            if($("#tips").val().trim().length==0){
+                layer.msg("请填写温馨提示",{icon:2});
+                return;
+            }
+
+            if($("#cares").val().trim().length==0){
+                layer.msg("请填写注意事项",{icon:2});
+                return;
+            }
+
+            if($("#haveTo").val().trim().length==0){
+                layer.msg("请填写必玩必吃之事",{icon:2});
+                return;
+            }
             var data = $("#frmGuidEdit").serializeArray(); //自动将form表单封装成json
             submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/editGuide", "post", data);
         });
