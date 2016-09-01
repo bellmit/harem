@@ -67,7 +67,7 @@
               <span class="input-group-btn">
                     <button class="btn btn-default" type="button">上传时间</button>
                 </span>
-            <input type="text" class='form-control dateInp startTime' placeholder='' readonly name="starteTime" value="$!{mediaPageQuery.startTimeStr}">
+            <input type="text" class='form-control dateInp startTime' placeholder='' readonly name="startTime" value="$!{mediaPageQuery.startTimeStr}">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
             <input type="text" class='form-control dateInp endTime' placeholder='' readonly name="endTime" value="$!{mediaPageQuery.endTimeStr}">
         </div>
@@ -312,7 +312,7 @@
             startView: 2,
             minView: 2,
             forceParse: 0,
-            format: "yyyy-mm-dd 00:00:00"
+            format: "yyyy-mm-dd "
         });
         $(".endTime").datetimepicker({
             language: "zh-CN",

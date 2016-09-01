@@ -80,7 +80,7 @@
                 #end
                 #if($item.status==$guideStatusMap.get("OFFLINE").code)
                     <button type="button" class="btn btn-primary edit" guideId="$!{item.guideId}">编辑导览</button>
-                    <button type="button" class="btn btn-primary tour" guideId="$!{item.guideId}">
+                    <button type="button" class="btn btn-primary tour" guideId="$!{item.guideId}" scenicId="${item.scenicId}">
                         编辑景点
                     </button>
 
@@ -157,7 +157,8 @@
 //编辑景点
         $("#tbGuideList").on("click", ".tour", function () {
             var attractionId = $(this).attr("guideId");
-            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?attractionId=" + attractionId, 2, "景点详情");
+            var scenicId = $(this).attr("scenicId");
+            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?attractionId=" + attractionId+"&scenicId="+scenicId, 2, "景点详情");
         });
         //上架
         $("#tbGuideList").on("click", ".on", function () {
