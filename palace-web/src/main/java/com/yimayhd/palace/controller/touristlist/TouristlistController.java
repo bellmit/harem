@@ -67,11 +67,16 @@ public class TouristlistController extends BaseController {
             if (result!=null&& result.isSuccess() && result.getModule()!=null&&result.getModule().getAttractionDTOList()!=null&&result.getModule().getAttractionDTOList().size() > 0) {
                 totalCount = result.getModule().getAttractionDTOList().size();
                 touristlist = result.getModule().getAttractionDTOList();
-                guideLine = result.getModule().getGuideLineDTO().getGuideLine();
+
+                if (result.getModule().getGuideLineDTO() != null) {
+                    guideLine = result.getModule().getGuideLineDTO().getGuideLine();
+                }
             }
             if (null != touristlist) {
                 model.addAttribute("touristlist", touristlist);  // 景点列表
-                model.addAttribute("guideLine", guideLine);  // 线路列表
+                if (guideLine != null) {
+                    model.addAttribute("guideLine", guideLine);  // 线路列表
+                }
             }
             model.addAttribute("attractionId", attractionId); // 导览id
             System.out.println("touristlist="+JSON.toJSONString(touristlist));

@@ -131,8 +131,7 @@
                                 $!attractionCascadeFocusDTO.guideAttractionDO.name
                             </td>
                             <td>
-                            ## <img src="http://img.test.yimayholiday.com/v1/tfs//T1A3VTByKT1RXrhCrK.jpg" width="150" height="90">
-                                <img src="{$!attractionCascadeFocusDTO.guideAttractionDO.attrImg }" width="150" height="90">
+                                <img src="$!utilWebconfig.getTfsRootPath()$!{attractionCascadeFocusDTO.guideAttractionDO.attrImg}" width="150" height="90">
                             </td>
                             <td>
                                 $!attractionCascadeFocusDTO.focusDOList.size()
@@ -140,8 +139,6 @@
                             <td>
                                 <button type="button" class="btn btn-primary edit" themeid="1800" id="$!attractionCascadeFocusDTO.guideAttractionDO.id" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.attractionId">编辑</button>
                                 <button type="button" class="btn btn-primary delete" themeid="1800" id="$!attractionCascadeFocusDTO.guideAttractionDO.id" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.attractionId">删除</button>
-                                <button type="button" class="btn btn-primary touristEditDetail" themeid="1800" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">编辑</button>
-                                <button type="button" class="btn btn-primary updateStatus" themeid="1800" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">删除</button>
                             </td>
                         </tr>
                         #end
