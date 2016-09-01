@@ -19,7 +19,7 @@
         <a>景点详情</a>
     </li>
     <li data-target="#spotIntro">
-        <a data-target="#spotIntro">景点介绍</a>
+        <a>景点介绍</a>
     </li>
 </ul>
 <div class="tab-content">
@@ -188,70 +188,6 @@
 
     }
 
-    function LineEditor(options) {
-        this.options = options || {};
-        this.lineData = this.options.data || [];
-        this.init();
-    }
-    LineEditor.prototype = {
-        init: function() {
-            var self = this;
-            $(self.selectors.lineEditor).append(self.getLineHtml(true));
-
-            this.attachEvent();
-        },
-        selectors: {
-            addPoint: "#addPoint",
-            deletePoint: "#deletePoint",
-            saveLine: "#deletePoint",
-            lineEditor: "#lineEditor",
-            line: ".line"
-        },
-        attachEvent: function() {
-            var self = this;
-            //添加节点
-            $(self.selectors.addPoint).on("click", function() {
-                if ($(self.selectors.line, self.selectors.lineEditor).length >= self.lineData.length) {
-                    return;
-                }
-
-                var lineHtml = self.getLineHtml(false);
-                $(self.selectors.lineEditor).append(lineHtml);
-            });
-            //删除节点
-            $(self.selectors.deletePoint).on("click", function() {
-                var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
-                if (lastItem.length == 0) {
-                    return;
-                }
-                if (lastItem.hasClass("start")) {
-                    return;
-                }
-                lastItem.remove();
-            });
-        },
-        getLineHtml: function(start) {
-            var temp = [];
-            var length = this.lineData.length;
-            var startCss = start ? "start" : "";
-            temp.push('<div class="line ' + startCss + '">')
-            temp.push('<div class="line-info">')
-            if (!start) {
-                temp.push('<input class="form-control" />')
-            }
-            temp.push('<select class="form-control">')
-            for (var index = 0; index < length; index++) {
-                temp.push('<option value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>')
-            }
-            temp.push('</select>')
-            temp.push('</div>')
-            temp.push('<i class="arrow"><em></em></i>')
-            temp.push('</div>')
-
-            return temp.join('');
-        }
-    };
-
     $(function() {
         $("#myTab li").on("click", function() {
             var target = $(this).data("target");
@@ -293,26 +229,6 @@
         $(".audio-list").on("click", ".delete-item", function() {
             var $item = $(this).closest(".audio-item");
                 $item.remove();
-        });
-
-
-
-        ## 线路设置列表
-        ##            $result.getGuideFocusDOList();
-        var lineEditor = new LineEditor({
-            data: [{
-                value: 1,
-                name: "入口"
-            }, {
-                value: 2,
-                name: "景点1"
-            }, {
-                value: 3,
-                name: "景点2"
-            }, {
-                value: 4,
-                name: "景点3"
-            }]
         });
 
         //保存景点详情
