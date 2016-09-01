@@ -43,6 +43,7 @@ public class GuideManageServiceImpl implements GuideManageService {
     @Override
     public PageVO<GuideScenicVO> getGuideList(GuideScenicListQuery guideListQuery) {
         GuideScenicPageQueryDTO guideScenicPageQueryDTO = GuideConverter.guideListQuery2GuideScenicPageQueryDTO(guideListQuery);
+        guideScenicPageQueryDTO.setNeedCount(true);
         ICPageResult<GuideScenicDTO> result = guideRepo.getGuidePageList(guideScenicPageQueryDTO);
         if (result == null) {
             return new PageVO<GuideScenicVO>();
