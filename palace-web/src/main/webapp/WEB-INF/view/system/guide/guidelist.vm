@@ -31,7 +31,7 @@
             <button type="submit" class="btn btn-primary submitBtn">查询</button>
         </div>
         <div class="btn-group">
-            <button type="reset" class="btn btn-primary" id="btnReset">重置</button>
+            <button class="btn btn-primary" id="btnReset">重置</button>
         </div>
     </div>
 </form>
@@ -135,10 +135,8 @@
             }
         });
     }
+
     function setWeight() {
-        $("#btnReset").on("click",function(){
-            $("#guideListForm").find(".form-control").val('');
-        });
         $("#tbGuideList").on("click", ".weight", function () {
             var guideId = $(this).attr("guideId");
             layer.open({
@@ -168,6 +166,11 @@
             });
         });
     }
+
+    $("#btnReset").on("click",function(){
+        $("#guideListForm").find(".form-control").val('');
+    });
+
 
     // 新增导览
     $(function () {
