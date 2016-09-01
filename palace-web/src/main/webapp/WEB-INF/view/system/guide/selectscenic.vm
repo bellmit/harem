@@ -72,6 +72,7 @@
 #*分页*#
 #parse("/page.vm")
 #pageStyle("tbScenicList")
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script type="text/javascript">
     $(function () {
         $("#tbScenicList").on("click", "input[type='checkbox']", function () {
@@ -116,7 +117,7 @@
 
         $("#tbScenicList").on("click", ".view", function () {
             var themeid = $(this).attr("themeid");
-            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicSpotManage/view/" + themeid, 2, "编辑导览");
+            window.parent.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuniu/scenicSpotManage/" + themeid, 2, "编辑导览");
         });
     });
 </script>
