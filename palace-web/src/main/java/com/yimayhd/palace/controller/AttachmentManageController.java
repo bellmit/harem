@@ -71,6 +71,7 @@ public class AttachmentManageController extends BaseController {
             model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class, null));
             return "/system/attachment/list";
         } catch (Exception e) {
+            e.printStackTrace();
             return "/error";
         }
     }

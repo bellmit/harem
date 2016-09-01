@@ -50,6 +50,9 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         }
         List<AttachmentVO> attachmentVOList = new ArrayList<AttachmentVO>();
         List<MediaDO> mediaDOList = result.getList();
+        if(mediaDOList==null){
+            return new PageVO<AttachmentVO>();
+        }
         for (MediaDO mediaDO : mediaDOList) {
             attachmentVOList.add(AttachmentConverter.mediaDO2AttachmentVO(mediaDO));
         }

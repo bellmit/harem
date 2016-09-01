@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model.attachment;
 
 import com.yimayhd.palace.base.BaseQuery;
+import com.yimayhd.palace.util.DateUtil;
 
 import java.util.Date;
 
@@ -31,14 +32,40 @@ public class AttachmentListQuery extends BaseQuery {
     /**
      *  发起时间开始
      */
-    private Date starteTime;
+    private Date startTime;
+    private String startTimeStr;
 
     /**
      *  发起时间截止
      */
     private Date endTime;
+    private String endTimeStr;
 
     private String remark;//备注
+
+    public String getStartTimeStr() {
+        if(startTime!=null){
+            startTimeStr = DateUtil.formatDate(startTime);
+        }
+        return startTimeStr;
+    }
+
+    public AttachmentListQuery setStartTimeStr(String startTimeStr) {
+        this.startTimeStr = startTimeStr;
+        return this;
+    }
+
+    public String getEndTimeStr() {
+        if(endTime!=null){
+            endTimeStr = DateUtil.formatDate(endTime);
+        }
+        return endTimeStr;
+    }
+
+    public AttachmentListQuery setEndTimeStr(String endTimeStr) {
+        this.endTimeStr = endTimeStr;
+        return this;
+    }
 
     public String getInputFileTitle() {
         return inputFileTitle;
@@ -72,12 +99,13 @@ public class AttachmentListQuery extends BaseQuery {
         this.status = status;
     }
 
-    public Date getStarteTime() {
-        return starteTime;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStarteTime(Date starteTime) {
-        this.starteTime = starteTime;
+    public AttachmentListQuery setStartTime(Date startTime) {
+        this.startTime = startTime;
+        return this;
     }
 
     public Date getEndTime() {
