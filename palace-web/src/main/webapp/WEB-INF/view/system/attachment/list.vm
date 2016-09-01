@@ -219,12 +219,12 @@
         });
     }
     $(function () {
-        $("#btnquery").on("click",function(){
-            var startTime=$("#tbAttachmentListForm").find(".startTime");
-            var endTime=$("#tbAttachmentListForm").find(".startTime");
+        $("#btnQuery").on("click",function(){
+            var startTime=$("#tbAttachmentListForm").find(".startTime").val();
+            var endTime=$("#tbAttachmentListForm").find(".endTime").val();
 
             if(startTime.length>0&&endTime.length>0&&startTime>endTime){
-                layer.msg("开始时间不能小鱼结束时间",{icon:2,time:1000});
+                layer.msg("开始时间不能大于结束时间",{icon:2,time:1000});
                 return false;
             }
 
