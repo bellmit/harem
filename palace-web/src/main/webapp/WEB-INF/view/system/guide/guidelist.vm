@@ -203,11 +203,7 @@
             window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/toEdit?id=" + guideId, 2, "编辑导览");
         });
 
-       /* //编辑景点
-        $("#tbGuideList").on("click", ".tour", function () {
-            var guideId = $(this).attr("guideId");
-            window.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/list?guideId=" + guideId, 2, "编辑编辑景点");
-        });*/
+      
 
     });
 

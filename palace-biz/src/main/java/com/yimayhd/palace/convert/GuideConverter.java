@@ -1,5 +1,6 @@
 package com.yimayhd.palace.convert;
 
+import com.google.common.base.Strings;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
@@ -121,6 +122,14 @@ public class GuideConverter {
             guideScenicPageQueryDTO.setStatus(null);
         } else {
             guideScenicPageQueryDTO.setStatus(guideScenicListQuery.getStatus());
+        }
+        if(guideScenicListQuery.getScenicResourceNum()!=null&&guideScenicListQuery.getScenicResourceNum()>0) {
+            List<Long> ids = new ArrayList<Long>();
+            ids.add(guideScenicListQuery.getScenicResourceNum());
+            guideScenicPageQueryDTO.setScenicIdList(ids);
+        }
+        if(!Strings.isNullOrEmpty(guideScenicListQuery.getScenicName())) {
+            guideScenicPageQueryDTO.setScenicNameLike(guideScenicListQuery.getScenicName().trim());
         }
         guideScenicPageQueryDTO.setPageNo(guideScenicListQuery.getPageNumber());
         guideScenicPageQueryDTO.setPageSize(guideScenicListQuery.getPageSize());

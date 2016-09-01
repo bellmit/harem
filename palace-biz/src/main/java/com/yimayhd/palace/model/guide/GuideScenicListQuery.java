@@ -8,7 +8,7 @@ import com.yimayhd.palace.base.BaseQuery;
 public class GuideScenicListQuery extends BaseQuery {
     private static final long serialVersionUID = 2350825712224763525L;
     private String scenicName;//景区名称
-    private String scenicResourceNum;//景区资源编号
+    private Long scenicResourceNum;//景区资源编号
     private int status = -1;// 状态
     private long guideId;//导览id
     private String guideName;//导览名称
@@ -38,11 +38,11 @@ public class GuideScenicListQuery extends BaseQuery {
         return this;
     }
 
-    public String getScenicResourceNum() {
+    public Long getScenicResourceNum() {
         return scenicResourceNum;
     }
 
-    public GuideScenicListQuery setScenicResourceNum(String scenicResourceNum) {
+    public GuideScenicListQuery setScenicResourceNum(Long scenicResourceNum) {
         this.scenicResourceNum = scenicResourceNum;
         return this;
     }
