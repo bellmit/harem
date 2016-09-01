@@ -288,6 +288,8 @@ public class ArticleConverter {
         articleProductItemVO.setItemType(articleProductItemDTO.getItemType());
         articleProductItemVO.setMerchantLogo(articleProductItemDTO.getMerchantLogo());
         articleProductItemVO.setMerchantName(articleProductItemDTO.getMerchantName());
+        //
+        articleProductItemVO.setOldPrice(articleProductItemDTO.getOldPrice());
         // BeanUtils.copyProperties(articleProductItemDTO,
         // articleProductItemVO);
         return articleProductItemVO;

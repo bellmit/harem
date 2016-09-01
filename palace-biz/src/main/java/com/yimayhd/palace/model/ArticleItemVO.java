@@ -34,16 +34,16 @@ public class ArticleItemVO implements Serializable {
 
 	private Date gmtModified;
 	
-	private String imgString;
+	private String attachString;
 	
 	
 
-	public String getImgString() {
-		return imgString;
+	public String getAttachString() {
+		return attachString;
 	}
 
-	public void setImgString(String imgString) {
-		this.imgString = imgString;
+	public void setAttachString(String attachString) {
+		this.attachString = attachString;
 	}
 
 	/**
