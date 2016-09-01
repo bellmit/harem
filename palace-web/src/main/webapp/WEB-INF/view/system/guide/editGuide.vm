@@ -192,7 +192,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="w15"><span class="spColor">*</span>温馨提示：</th>
+                <th class="w15">温馨提示：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="tips" name="tips" rows="3"
                               id="tips">$!{guideScenicVO.tips}</textarea>
@@ -200,7 +200,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="w15"><span class="spColor">*</span>注意事项：</th>
+                <th class="w15">注意事项：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="cares" name="cares"
                               rows="3">$!{guideScenicVO.cares}</textarea>
@@ -208,7 +208,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="w15"><span class="spColor">*</span>必玩必吃之事：</th>
+                <th class="w15">必玩必吃之事：</th>
                 <td class="w85">
                     <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="haveTo" name="haveTo"
                               rows="3">$!{guideScenicVO.haveTo}</textarea>
@@ -416,7 +416,7 @@
                 return;
             }
 
-            if($("#tips").val().trim().length==0){
+          /*  if($("#tips").val().trim().length==0){
                 layer.msg("请填写温馨提示",{icon:2});
                 return;
             }
@@ -429,7 +429,7 @@
             if($("#haveTo").val().trim().length==0){
                 layer.msg("请填写必玩必吃之事",{icon:2});
                 return;
-            }
+            }*/
             var data = $("#frmGuidEdit").serializeArray(); //自动将form表单封装成json
             submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/editGuide", "post", data);
         });
