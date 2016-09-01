@@ -1,6 +1,11 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+<style>
+    #MobileUrlUploadFile{
+        margin-top:-60px;
+    }
+</style>
 <div class="createClubTable whole">
     <form name="addTheme" id="themeForm" action="" method="post" themeId="$!theme.id">
         <table class="table" style = "width:50%">
@@ -14,7 +19,7 @@
             <tr>
                 <td><span class="spColor">*</span>品类简称</td>
                 <td>
-                    <input type="text" class="form-control" placeholder="请输入8个字以内" name="summary" value="$!theme.summary">
+                    <input type="text" class="form-control" placeholder="请输入8个字符以内" name="summary" value="$!theme.summary">
                 </td>
             </tr>
             <tr>
@@ -153,13 +158,14 @@
                 },
                 'summary':{
                     required: true,
-                    byteRangeLength: [8,16]
+                    byteRangeLength: [4,8]
                 }
             },
             messages: {
                "name":{
                    required:"品类名称不能为空!",
-                   maxlength:"品类名称不能超过10个字!"
+                   maxlength:"品类名称不能超过10个字!",
+                   byteRangeLength:"品类名称不能超过10个字"
                },
                "status":{
                    required:"请选择状态"
@@ -176,7 +182,7 @@
                 },
                 'summary':{
                     required: "请输入品类简称",
-                    maxlength:"品类简称最多输入8个字符"
+                    byteRangeLength:"品类简称最多输入8个字符"
                 }
             },
             errorPlacement: function (error, element) { // 指定错误信息位置
