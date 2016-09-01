@@ -2,8 +2,11 @@ package com.yimayhd.palace.model.attachment;
 
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.util.DateUtil;
+import org.apache.commons.lang3.time.DateUtils;
 
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by xushubing on 2016/8/18.
@@ -15,28 +18,28 @@ public class AttachmentListQuery extends BaseQuery {
     private String inputFileTitle;
 
     /**
-     *  30:mp3 40:mp4,所属表字段为rc_media.file_type
+     * 30:mp3 40:mp4,所属表字段为rc_media.file_type
      */
     private int fileType;
 
     /**
-     *  用途,10:全部;20:导览;30:H5,所属表字段为rc_media.scope
+     * 用途,10:全部;20:导览;30:H5,所属表字段为rc_media.scope
      */
     private int scope;
 
     /**
-     *  状态,10:上架;20:下架,所属表字段为rc_media.status
+     * 状态,10:上架;20:下架,所属表字段为rc_media.status
      */
     private int status;
 
     /**
-     *  发起时间开始
+     * 发起时间开始
      */
     private Date startTime;
     private String startTimeStr;
 
     /**
-     *  发起时间截止
+     * 发起时间截止
      */
     private Date endTime;
     private String endTimeStr;
@@ -44,7 +47,7 @@ public class AttachmentListQuery extends BaseQuery {
     private String remark;//备注
 
     public String getStartTimeStr() {
-        if(startTime!=null){
+        if (startTime != null) {
             startTimeStr = DateUtil.formatDate(startTime);
         }
         return startTimeStr;
@@ -56,7 +59,7 @@ public class AttachmentListQuery extends BaseQuery {
     }
 
     public String getEndTimeStr() {
-        if(endTime!=null){
+        if (endTime != null) {
             endTimeStr = DateUtil.formatDate(endTime);
         }
         return endTimeStr;
@@ -100,6 +103,13 @@ public class AttachmentListQuery extends BaseQuery {
     }
 
     public Date getStartTime() {
+        if (startTimeStr != null) {
+            try {
+                startTime = DateUtils.parseDate(startTimeStr, Locale.CHINA, DateUtil.DATE_TIME_FORMAT);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         return startTime;
     }
 
@@ -109,6 +119,13 @@ public class AttachmentListQuery extends BaseQuery {
     }
 
     public Date getEndTime() {
+        if (endTimeStr != null) {
+            try {
+                endTime = DateUtils.parseDate(endTimeStr, Locale.CHINA, DateUtil.DATE_TIME_FORMAT);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         return endTime;
     }
 
