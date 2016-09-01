@@ -4,7 +4,7 @@
     <div class="inputGroup whole">
     	<div class="input-group inpSingle">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">店铺名称：</button>
+                <button class="btn btn-default" type="button">店铺名称/昵称：</button>
             </span>
             <input type="text"  class="form-control" name="merchantName" value="$!itemListQuery.merchantName"/>
         </div>
@@ -144,10 +144,13 @@
 					</td>
 					<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
                     <td>
-						#if($!merchant.merchantName && $!merchant.userNick)
+						#if($!merchant.merchantName && $!merchant.merchantName.length() > 0 
+							&& $!merchant.userNick && $!merchant.userNick.length() > 0)
 							$!merchant.merchantName/$!merchant.userNick
-						#else
-							$!merchant.merchantName$!merchant.userNick
+						#elseif($!merchant.merchantName && $!merchant.merchantName.length() > 0)
+							$!merchant.merchantName
+						#elseif($!merchant.userNick && $!merchant.userNick.length() > 0)
+							$!merchant.userNick
 						#end
 
 					</td>
