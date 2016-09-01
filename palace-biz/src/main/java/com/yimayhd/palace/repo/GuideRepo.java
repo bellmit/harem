@@ -446,26 +446,7 @@ public class GuideRepo {
         }
     }
 
-    // 获取景点图文
-    public PicTextResult getPictureText(long id) {
-        if (id == 0) {
-            return null;
-        }
 
-        log.info("==============================id" + id);
-        // 图文详情
-        return pictureTextRepo.getPictureText(id, PictureText.FOOD);
 
-    }
 
-    // 保存景点图文
-    public void savePictureText(ComentDTO comentDTO) {
-        if (null == null) {
-            return;
-        }
-
-        log.info("==============================comentDTO" + comentDTO);
-        // 图文详情
-        pictureTextRepo.savePictureText(comentDTO);
-    }
 }

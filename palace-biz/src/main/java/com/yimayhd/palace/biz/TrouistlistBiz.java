@@ -3,6 +3,8 @@ package com.yimayhd.palace.biz;
 import java.util.List;
 
 import com.yimayhd.commentcenter.client.dto.ComentDTO;
+import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
+import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.dto.guide.AttractionFocusAddDTO;
 import com.yimayhd.ic.client.model.dto.guide.AttractionFocusDTO;
@@ -25,6 +27,8 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.palace.repo.PictureTextRepo;
+
 
 
 /**
@@ -39,8 +43,18 @@ public class TrouistlistBiz {
     @Autowired
     private GuideRepo guideRepo;
 
+    @Autowired
+    private PictureTextRepo	pictureTextRepo;
+
     // 1
     // select获取景点列表...
+
+    // select获取线路集合
+
+    // update保存线路集合
+    public ICResult<Boolean> updateGuideLine(long guideId,GuideLineDTO guideLineDTO) {
+        return guideRepo.updateGuideLine(guideId,guideLineDTO);
+    }
 
     // delete删除单个景点
     public ICResult<Boolean> deleteAttraction(long attractionId) {
@@ -52,6 +66,7 @@ public class TrouistlistBiz {
         return guideRepo.queryAttractionDetail(attractionId);
     }
 
+    // 2
     // add增加保存景点
     public ICResult<GuideAttractionDO> addAttractionAndFocus(AttractionFocusAddDTO attractionFocusAddDTO) {
         return guideRepo.addAttractionAndFocus(attractionFocusAddDTO);
@@ -62,41 +77,23 @@ public class TrouistlistBiz {
         return guideRepo.updateAttractionAndFocus(attractionFocusUpdateDTO);
     }
 
-    // 2
-    // select获取景点图文介绍
-    public PictureTextVO getPictureText(long id) {
-        PictureTextVO pictureTextVO = null;
-        try {
+    // 3
+    // 更新或者保存 景点图文介绍
+    public void savePictureText(long id, PictureTextVO pictureTextVO) throws Exception {
+        ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(id, PictureText.SCENICSPOTS, pictureTextVO);
+        pictureTextRepo.editPictureText(comentEditDTO);
+    }
 
-            log.info("==============================id"+id);
-            PicTextResult picTextResult = guideRepo.getPictureText(id);
-            log.info("=============================="+JSON.toJSONString(picTextResult));
-
-            pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
-        } catch (Exception e) {
-            log.error("params:id={} ,exception:{}",id,e);
+    // 获取 景点图文介绍
+    public PictureTextVO getPictureText(long id) throws Exception {
+        if(id == 0){
+            return null;
         }
+
+        // 图文详情
+        PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.SCENICSPOTS);
+        PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
         return pictureTextVO;
-    }
-
-    // update保存景点图文介绍
-    // 保存景点图文
-    public void savePictureText(ComentDTO comentDTO) {
-        PictureTextVO pictureTextVO = null;
-        try {
-            guideRepo.savePictureText(comentDTO);
-        } catch (Exception e) {
-            log.error("params:comentDTO={} ,exception:{}",comentDTO,e);
-        }
-        return ;
-    }
-
-    //3
-    // select获取线路集合
-
-    // update保存线路集合
-    public ICResult<Boolean> updateGuideLine(long guideId,GuideLineDTO guideLineDTO) {
-        return guideRepo.updateGuideLine(guideId,guideLineDTO);
     }
 }
 
