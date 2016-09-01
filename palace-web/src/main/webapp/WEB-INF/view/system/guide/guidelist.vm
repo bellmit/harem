@@ -138,12 +138,30 @@
     function setWeight() {
         $("#tbGuideList").on("click", ".weight", function () {
             var guideId = $(this).attr("guideId");
-            layer.prompt({
+            layer.open({
+                type: 1, //page层
+                area: '400px',
+                btn: ['确定', '取消'],
                 title: '设置权重',
-                formType: 0
-            }, function (value) {
-                var data = {weight: value, guideId: guideId}
-                submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/setWeight", "post", data);
+                skin:"layui-layer-prompt",
+                shade: 0.6, //遮罩透明度
+                content: '<div style="padding:30px 50px;"><input type="text" class="layui-layer-input" placeholder="请输入1~9999范围内数字"></div>',
+                yes: function(index,layero) {
+                    var weight=layero.find(".layui-layer-input").val().trim();
+                    if(weight.length==0){
+                        layer.msg("请输入权重",{icon:2,time:1500});
+                        return false;
+                    }
+
+                    if(!(/^[1-9]\d{0,3}$/.test(weight))){
+                        layer.msg("请输入1~9999范围内的数字。",{icon:2,time:1500});
+                        return false;
+                    }
+
+
+                    var data = {weight: weight, guideId: guideId}
+                    submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/setWeight", "post", data);
+                }
             });
         });
     }
