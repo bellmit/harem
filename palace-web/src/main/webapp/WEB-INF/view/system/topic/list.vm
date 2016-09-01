@@ -112,7 +112,7 @@
 						<td>$!topic.talkNum</td>
 						<td>$!topic.readNum</td>
 						<td>#TOPIC_STATUS($!{topic.status})</td>
-						<td><div class="weight"></div></td>
+						<td><div class="weight">$!{topic.readNum}</div></td>
 						#if($isRecommendList != true) 
 							<td>
 								<button type="button" class="btn btn-primary edit" topicId="$!topic.id" >查看/编辑</button>
