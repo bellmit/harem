@@ -302,31 +302,7 @@
             },500);
         });
     }
-    function initScenicSubject() {
-        $.ajax({
-            url: '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/selected',
-            type: 'GET',
-            data: {subjectId: $("#subjectId").val()},
-            success: function (res) {
-                if (res.status == 200) {
-                    $("#theme").text(res.data.subjectName);
-                } else {
-                    layer.msg('操作失败', {
-                        icon: 2,
-                        time: 2000
-                    });
-                    $(this).prop('disabled', false);
-                }
-            },
-            error: function (xmlres, status, code) {
-                layer.msg('操作失败', {
-                    icon: 2,
-                    time: 2000
-                });
-                $(this).prop('disabled', false);
-            }
-        });
-    }
+
     $(function () {
         //上传导览列表头图
         initUploadFile("#logoUrlUploadFile", "#listImg", "#logoUrlImg");
