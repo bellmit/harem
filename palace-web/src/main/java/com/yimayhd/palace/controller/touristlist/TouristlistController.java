@@ -42,6 +42,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.palace.model.guide.GuideAttractionVO;
 import com.yimayhd.palace.tair.TcCacheManager;
+import com.yimayhd.palace.model.guide.AttractionListGuideLineVO;
+
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
@@ -99,6 +101,7 @@ public class TouristlistController extends BaseController {
                 }
             }
             model.addAttribute("attractionId", attractionId); // 导览id
+            model.addAttribute("scenicId", scenicId); // 导览id
             System.out.println("touristlist=" + JSON.toJSONString(touristlist));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -197,20 +200,24 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/queryGuideAttractionFocusInfo")
     @ResponseBody
-    public ResponseVo getArticleItemDetailById(long guideId)
+    public ResponseVo getArticleItemDetailById(long scenicId)
             throws Exception {
         try {
             ResponseVo responseVo = new ResponseVo();
 
-            if (guideId <= 0) {
+            if (scenicId <= 0) {
                 return new ResponseVo(ResponseStatus.INVALID_DATA);
             }
-            ICResult<GuideCascadeAttractionDTO> guideCascadeAttractionDTO = guideServiceRef.queryGuideAttractionFocusInfo(guideId);
+            ICResult<GuideCascadeAttractionDTO> guideCascadeAttractionDTO = guideServiceRef.queryGuideAttractionFocusInfo(scenicId);
+            if (guideCascadeAttractionDTO.getModule() == null){
+                return new ResponseVo(ResponseStatus.INVALID_DATA);
+            }
 
+            AttractionListGuideLineVO attractionListGuideLineVO = GuideConverter.guideCascadeAttractionDTO2AttractionListGuideLineVO(guideCascadeAttractionDTO.getModule());
             if (guideCascadeAttractionDTO == null) {
                 return new ResponseVo(ResponseStatus.NOT_FOUND);
             }
-            responseVo.setData(guideCascadeAttractionDTO);
+            responseVo.setData(attractionListGuideLineVO);
             return responseVo;
 
         } catch (Exception e) {

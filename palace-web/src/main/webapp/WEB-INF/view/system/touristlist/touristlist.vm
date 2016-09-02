@@ -98,6 +98,7 @@
 <body>
 <form id="form1" name="form1">
     <input type="hidden" id="hdnGuideId" value="$!{attractionId}">
+    <input type="hidden" id="hdnScenicId" value="$!{scenicId}">
     <ul id="myTab" class="nav nav-tabs">
         <li class="active" data-target="#spotList">
             <a >景点详情</a>
@@ -311,6 +312,7 @@
             var id = $(this).attr("id");
             var guideId=$(this).attr("guideId")
             window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+id+"&guideId="+guideId, 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?id="+guideId +"&guideId="+guideId, 2, "景点详情");
         });
 
         //删除景点
@@ -330,17 +332,18 @@
             $(target).addClass("active");
             if (target == "#lineSetting") {
                 //重新初始化线路
-                initLineEditor(guideId);
+                initLineEditor();
             }
         });
     });
 
 
-    function initLineEditor(guideId){
+    function initLineEditor(){
+        var scenicId=$("#hdnScenicId").val();
         $.ajax({
             url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/queryGuideAttractionFocusInfo",
             type:"get",
-            data:{guideId:guideId},
+            data:{scenicId:scenicId},
             beforeSend:function(){
                 layer.msg("正在获取线路设置...",{icon:16,time:null});
             },

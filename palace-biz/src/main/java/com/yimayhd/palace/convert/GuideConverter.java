@@ -431,8 +431,26 @@ public class GuideConverter {
 
             }
             attractionFocusVO.setGuideFocusVOList(guideFocusVOList);
-
         }
         return attractionFocusVO;
+    }
+
+    // 线路设置查询结果
+    public static AttractionListGuideLineVO guideCascadeAttractionDTO2AttractionListGuideLineVO(GuideCascadeAttractionDTO guideCascadeAttractionDTO) {
+        if (guideCascadeAttractionDTO == null) {
+            return null;
+        }
+        AttractionListGuideLineVO attractionListGuideLineVO = new AttractionListGuideLineVO();
+        if (guideCascadeAttractionDTO.getGuideLineDTO() == null){
+            attractionListGuideLineVO.setGuideLine(null);
+        }else {
+            attractionListGuideLineVO.setGuideLine(guideCascadeAttractionDTO.getGuideLineDTO().getGuideLine());
+        }
+        List<GuideAttractionDO> guideAttractionDOList = new ArrayList<GuideAttractionDO>();
+        for (int i = 0; i < guideCascadeAttractionDTO.getAttractionDTOList().size(); i++){
+            guideAttractionDOList.add(guideCascadeAttractionDTO.getAttractionDTOList().get(i).getGuideAttractionDO());
+        }
+        attractionListGuideLineVO.setGuideAttractionDOList(guideAttractionDOList);
+        return attractionListGuideLineVO;
     }
 }
