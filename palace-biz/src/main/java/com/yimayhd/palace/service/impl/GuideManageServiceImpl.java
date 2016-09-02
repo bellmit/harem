@@ -13,6 +13,7 @@ import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.Paginator;
 import com.yimayhd.palace.convert.GuideConverter;
+import com.yimayhd.palace.model.guide.AttractionFocusVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
@@ -232,5 +233,18 @@ public class GuideManageServiceImpl implements GuideManageService {
     @Override
     public GuideCascadeAttractionDTO queryGuideAttractionFocusInfo(final long scenicId) {
         return guideRepo.queryGuideAttractionFocusInfo(scenicId);
+    }
+
+    /**
+     * 查询景点以及景点下的看点信息
+     *
+     * @param attractionId
+     * @return
+     */
+    @Override
+    public AttractionFocusVO queryAttractionDetail(long attractionId) {
+        AttractionFocusDTO attractionFocusDTO =  guideRepo.queryAttractionDetail(attractionId);
+
+       return GuideConverter.attractionFocusDTO2AttractionFocusVO(attractionFocusDTO) ;
     }
 }

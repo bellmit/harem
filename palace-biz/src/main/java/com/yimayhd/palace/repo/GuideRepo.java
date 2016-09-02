@@ -362,13 +362,13 @@ public class GuideRepo {
     }
 
     // 景点详情
-    public ICResult<AttractionFocusDTO> queryAttractionDetail(long attractionId) {
+    public AttractionFocusDTO queryAttractionDetail(long attractionId) {
         try {
             ICResult<AttractionFocusDTO> result = guideServiceRef.queryAttractionDetail(attractionId);
             if (result != null) {
                 if (result.getModule().getAttractionDO() == null || result.getModule().getGuideFocusDOList() == null) {
                     log.info("queryAttractionDetail attractionId={},result={}", attractionId, JSON.toJSONString(result));
-                    return result;
+                    return result.getModule();
                 } else {
                     log.error("queryAttractionDetail attractionId={},result={}", attractionId, JSON.toJSONString(result));
                     throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());

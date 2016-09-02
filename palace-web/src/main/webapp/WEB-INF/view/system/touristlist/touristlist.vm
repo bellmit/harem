@@ -137,8 +137,8 @@
                                 $!attractionCascadeFocusDTO.focusDOList.size()
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary edit" themeid="1800" id="$!attractionCascadeFocusDTO.guideAttractionDO.id" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.attractionId">编辑</button>
-                                <button type="button" class="btn btn-primary delete" themeid="1800" id="$!attractionCascadeFocusDTO.guideAttractionDO.id" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.attractionId">删除</button>
+                                <button type="button" class="btn btn-primary edit"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">编辑</button>
+                                <button type="button" class="btn btn-primary delete"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">删除</button>
                             </td>
                         </tr>
                         #end
@@ -309,8 +309,8 @@
         //  编辑景点
         $("#tbTourList").on("click",".edit",function(){
             var attractionId = $(this).attr("attractionId");
-            var id=$(this).attr("id")
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+attractionId +"&id="+id, 2, "景点详情");
+            var guideId=$(this).attr("guideId")
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+attractionId +"&guideId="+guideId, 2, "景点详情");
         });
 
         //删除景点

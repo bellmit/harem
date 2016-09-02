@@ -22,11 +22,13 @@ import com.yimayhd.palace.convert.GuideConverter;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.ArticleItemVO;
+import com.yimayhd.palace.model.guide.AttractionFocusVO;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.palace.service.GuideManageService;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -41,6 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.palace.model.guide.GuideAttractionVO;
 import com.yimayhd.palace.tair.TcCacheManager;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -65,7 +68,8 @@ public class TouristlistController extends BaseController {
     private SessionManager sessionManager;
     @Autowired
     private TcCacheManager tcCacheManager;
-
+    @Resource
+    private GuideManageService guideManageService;
     //1
     /**
      * select获取景点列表  ok
@@ -243,19 +247,19 @@ public class TouristlistController extends BaseController {
      * select  编辑页面 带景点详情和景点介绍 待调试
      **/
     @RequestMapping(value = "/touristEditDetail", method = RequestMethod.GET)
-    public String touristEditDetail(Model model, long attractionId) throws Exception {
+    public String touristEditDetail(Model model, long attractionId,long guideId) throws Exception {
         try {
-            ICResult<AttractionFocusDTO> AttractionDO = guideServiceRef.queryAttractionDetail(attractionId);
+            AttractionFocusVO attractionFocusVO =    guideManageService.queryAttractionDetail(attractionId);
             // 景点信息和看点信息
-            if (null != AttractionDO.getModule().getAttractionDO()) {
-                model.addAttribute("AttractionDO", AttractionDO.getModule().getAttractionDO());
-                model.addAttribute("GuideFocusDOList", AttractionDO.getModule().getGuideFocusDOList());
+            if (null != attractionFocusVO) {
+                model.addAttribute("attractionDO", attractionFocusVO.getGuideAttractionVO());
+                model.addAttribute("guideFocusDOList", attractionFocusVO.getGuideFocusVOList());
             }
             // 获取景点介绍的图文
             PictureTextVO picTextVO = trouistlistBiz.getPictureText(attractionId);
             List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
             if (list.size() > 0) {
-                model.addAttribute("PictureTextItems", list);
+                model.addAttribute("pictureTextItems", list);
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

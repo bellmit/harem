@@ -1,4 +1,3 @@
-
 <style type="text/css">
     .inpCtlBlock {
         display: inline-block;
@@ -25,17 +24,20 @@
 <div class="tab-content">
     <div class="tab-pane active" id="spotInfo">
         <form id="frmSpotInfo">
+            <input type="hidden" id="id" name="id" value="${attractionDO.id}">
             <table class="table">
                 <tr>
                     <th><span class="spColor">*</span>景点名称：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="spotName" id="spotName" datatype="*1-20" nullmsg="请输入景点名称！" errormsg="景点名称长度未1-20个字符" value="">
+                        <input type="text" class="inpCtlBlock" name="name" id="name" datatype="*1-20" nullmsg="请输入景点名称！"
+                               errormsg="景点名称长度未1-20个字符" value="$!{attractionDO.name}">
                     </td>
                 </tr>
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="*1-20" nullmsg="请输入景区编号！" errormsg="景点名称长度未1-20个字符" value="">
+                        <input type="text" class="inpCtlBlock" name="attrNo" id="attrNo" datatype="*1-20"
+                               nullmsg="请输入景区编号！" errormsg="景点名称长度未1-20个字符" value="$!{attractionDO.attrNo}">
                     </td>
                 </tr>
                 <tr>
@@ -44,11 +46,13 @@
                         <div class="upload-btn">
                             <button type="button" class="btn btn-success">上传图片</button>
                             <input type="file" name="file" class="upload-file" id="logoUrlUploadFile">
-                            <input type="hidden" id="spotLogoUrl" name="spotLogoUrl" value="" datatype="*" nullmsg="请上传景点头图！">
+                            <input type="hidden" id="attrImg" name="attrImg" value="$!{attractionDO.attrImg}"
+                                   datatype="*" nullmsg="请上传景点头图！">
                         </div>
                         <div class="upload-view ">
                             <div class="img-wapper uploaded">
-                                <img class="upload-img" id="logoUrlImg" imgurl="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
+                                <img class="upload-img" id="logoUrlImg" imgurl=""
+                                     src="$!utilWebconfig.getTfsRootPath()$!{attractionDO.attrImg}"/>
                                 <div class="delete-btn">删除</div>
                             </div>
                             <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
@@ -58,7 +62,8 @@
                 <tr>
                     <th><span class="spColor">*</span>浏览时间：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="tourTime" id="tourTime" datatype="n" nullmsg="请输入浏览时间！" errormsg="请输入正确的浏览时间" value="">
+                        <input type="text" class="inpCtlBlock" name="tourTime" id="tourTime" datatype="n"
+                               nullmsg="请输入浏览时间！" errormsg="请输入正确的浏览时间" value="$!{attractionDO.tourTime}">
                     </td>
                 </tr>
                 <tr>
@@ -69,6 +74,30 @@
                             <input type="hidden" id="hdnAudios" name="audios" datatype="*" nullmsg="请选择语音包">
                         </div>
                         <div class="audio-list">
+                            #foreach($item in $guideFocusDOList)
+
+                                <div class="audio-item">
+                                    <div class="audio-img">
+                                        <img class="upload-img"
+                                             src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                             alt="">
+                                    </div>
+                                    <div class="audio-info pull-left">
+                                        <div class="audio-info-item">
+                                            <label>时长：</label>
+                                            <span>' + data.durationStr + '</span>
+                                        </div>
+                                        <div class="audio-info-item">
+                                            <label>看点名称：</label>
+                                            <textarea style="display:none;" class="focus-json" id="'+id+'"></textarea>
+                                            <input type="text" class="focus-name" value="' + data.inputFileTitle + '">
+                                        </div>
+                                    </div>
+                                    <div class="pull-left">
+                                        <button class="btn btn-primary delete-item">删除</button>
+                                    </div>
+                                </div>
+                            #end
                         </div>
                     </td>
                 </tr>
@@ -89,7 +118,8 @@
             <tr>
                 <th><span class="spColor">*</span>景点介绍标题：</th>
                 <td>
-                    <input type="text" class="inpCtlBlock" maxlength="38" name="spotIntroTitle" id="spotIntroTitle" value="">
+                    <input type="text" class="inpCtlBlock" maxlength="38" name="spotIntroTitle" id="spotIntroTitle"
+                           value="">
                 </td>
             </tr>
             <tr>
@@ -111,8 +141,9 @@
                             </ul>
                         </div>
                         <textarea name="content" id="contentText" style="display:none;"></textarea>
-                        <input type="hidden" id="uploadAction" value="http://console.test.jiuxiulvxing.com/palace-web/upload/file" />
-                        <input type="hidden" id="imgUrl" value="http://img.test.yimayholiday.com/v1/tfs/" />
+                        <input type="hidden" id="uploadAction"
+                               value="http://console.test.jiuxiulvxing.com/palace-web/upload/file"/>
+                        <input type="hidden" id="imgUrl" value="http://img.test.yimayholiday.com/v1/tfs/"/>
                     </div>
                     <script type="text/javascript">
                         function getPictureText() {
@@ -140,8 +171,8 @@
 </script>
 <script type="text/javascript">
     function initUploadFile(fileId, hiddenId, imgId) {
-        $(fileId).on("change", function() {
-            fileUpload(fileId, 1, function(data) {
+        $(fileId).on("change", function () {
+            fileUpload(fileId, 1, function (data) {
                 if (data && data.status == 200) {
                     console.log(data.data);
                     $(hiddenId).val(data.data);
@@ -161,7 +192,7 @@
         var str = JSON.stringify(data);
         var audioCount = $(".audio-list .audio-item").length;
         var index = audioCount + 1;
-        var id="item"+index;
+        var id = "item" + index;
         var audioItem =
                 '<div class="audio-item">' +
                 '   <div class="audio-img">' +
@@ -174,7 +205,7 @@
                 '       </div>' +
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
-                '           <textarea style="display:none;" class="focus-json" id="'+id+'"></textarea>' +
+                '           <textarea style="display:none;" class="focus-json" id="' + id + '"></textarea>' +
                 '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
@@ -184,7 +215,7 @@
                 '</div>';
 
         $(audioItem).appendTo(".audio-list");
-        $("#"+id).val(str);
+        $("#" + id).val(str);
 
     }
 
@@ -194,7 +225,7 @@
         this.init();
     }
     LineEditor.prototype = {
-        init: function() {
+        init: function () {
             var self = this;
             $(self.selectors.lineEditor).append(self.getLineHtml(true));
 
@@ -207,10 +238,10 @@
             lineEditor: "#lineEditor",
             line: ".line"
         },
-        attachEvent: function() {
+        attachEvent: function () {
             var self = this;
             //添加节点
-            $(self.selectors.addPoint).on("click", function() {
+            $(self.selectors.addPoint).on("click", function () {
                 if ($(self.selectors.line, self.selectors.lineEditor).length >= self.lineData.length) {
                     return;
                 }
@@ -219,7 +250,7 @@
                 $(self.selectors.lineEditor).append(lineHtml);
             });
             //删除节点
-            $(self.selectors.deletePoint).on("click", function() {
+            $(self.selectors.deletePoint).on("click", function () {
                 var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
                 if (lastItem.length == 0) {
                     return;
@@ -230,7 +261,7 @@
                 lastItem.remove();
             });
         },
-        getLineHtml: function(start) {
+        getLineHtml: function (start) {
             var temp = [];
             var length = this.lineData.length;
             var startCss = start ? "start" : "";
@@ -252,8 +283,8 @@
         }
     };
 
-    $(function() {
-        $("#myTab li").on("click", function() {
+    $(function () {
+        $("#myTab li").on("click", function () {
             var target = $(this).data("target");
             if (target == "#spotIntro" && $("#hdnId").val() == "0") {
                 layer.alert("请先保存景点详情");
@@ -267,7 +298,7 @@
             $(target).addClass("active");
         });
         //上传景点头图
-        initUploadFile("#logoUrlUploadFile", "#spotLogoUrl", "#logoUrlImg");
+        initUploadFile("#logoUrlUploadFile", "#attrImg", "#logoUrlImg");
 
         //选择语音文件 
         $('#btnSelectAudio').on("click", function () {
@@ -282,16 +313,18 @@
         });
 
         //删除图片
-        $(".img-wapper .delete-btn").on("click", function() {
-            var $wapper = $(this).closest(".img-wapper");
+        $(".img-wapper .delete-btn").on("click", function () {
+            var $wapper =
+            $(this).closest(".img-wapper");
                 $wapper.removeClass("uploaded");
                 $wapper.find(".upload-img").attr("src", defaultImg);
                 $wapper.find("input[type='hidden']").val('');
         });
 
         //删除语音文件
-        $(".audio-list").on("click", ".delete-item", function() {
-            var $item = $(this).closest(".audio-item");
+        $(".audio-list").on("click", ".delete-item", function () {
+            var $item =
+            $(this).closest(".audio-item");
                 $item.remove();
         });
 
@@ -316,7 +349,7 @@
         });
 
         //保存景点详情
-        $("#btnSaveSpotInfo").on("click", function() {
+        $("#btnSaveSpotInfo").on("click", function () {
             var spotInfo = {
                 id: $("#hdnId").val(),
                 guideId: $("#hdnGuideId").val(),
@@ -324,17 +357,17 @@
                 attrImg: $("#spotLogoUrl").val(),
                 tourTime: $("#tourTime").val()
             };
-            var focusOrderJson =[];
-            $(".audio-list .audio-item").each(function(i,d) {
-                var  item= $(d);
+            var focusOrderJson = [];
+            $(".audio-list .audio-item").each(function (i, d) {
+                var item = $(d);
                 var json = JSON.parse(item.find(".focus-json").val());
                 console.log(json);
                 json.inputFileTitle = item.find(".focus-name").val();
 
                 focusOrderJson.push({
-                    name:json.inputFileTitle,
-                    audioTime:json.duration,
-                    audio:json.fileKey
+                    name: json.inputFileTitle,
+                    audioTime: json.duration,
+                    audio: json.fileKey
                 });
             });
 
@@ -344,14 +377,14 @@
                 type: "post",
                 dataType: "json",
                 data: spotInfo,
-                beforeSubmit: function() {
+                beforeSubmit: function () {
                     layer.msg("正在提交...", {
                         icon: 16,
                         time: null,
                         shade: [0.3, '#000']
                     });
                 },
-                success: function(data) {
+                success: function (data) {
 
                     console.log(JSON.stringify(data));
 
@@ -364,7 +397,7 @@
                         });
                     }
                 },
-                error: function() {
+                error: function () {
                     layer.closeAll();
                     layer.msg("提交失败。", {
                         icon: 2

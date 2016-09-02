@@ -7,11 +7,9 @@ import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
-import com.yimayhd.palace.model.guide.GuideScenicListQuery;
-import com.yimayhd.palace.model.guide.GuideScenicVO;
-import com.yimayhd.palace.model.guide.ScenicVO;
-import com.yimayhd.palace.model.guide.GuideAttractionVO;
+import com.yimayhd.palace.model.guide.*;
 import com.alibaba.fastjson.JSONArray;
+import org.springframework.beans.BeanUtils;
 
 
 import java.util.ArrayList;
@@ -230,6 +228,7 @@ public class GuideConverter {
         guideAttractionDO.setName(attractionVO.getName());
         guideAttractionDO.setTourTime(attractionVO.getTourTime());
         guideAttractionDO.setTitle(attractionVO.getTitle());
+        guideAttractionDO.setAttrNo(attractionVO.getAttrNo());
 
         // 景点and看点
         AttractionFocusAddDTO attractionFocusAddDTO = new AttractionFocusAddDTO();
@@ -302,5 +301,53 @@ public class GuideConverter {
         attractionFocusUpdateDTO.setFocusUpdateDTOList(updateList);
         attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
         return attractionFocusUpdateDTO;
+    }
+
+
+
+    //
+
+    public static GuideAttractionVO guideAttractionDO2GuideAttractionVO(GuideAttractionDO guideAttractionDO){
+        if(guideAttractionDO==null){
+            return null;
+        }
+        GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
+        BeanUtils.copyProperties(guideAttractionDO,guideAttractionVO);
+        return guideAttractionVO;
+    }
+
+    public static GuideFocusVO guideFocusDO2GuideFocusVO(GuideFocusDO guideFocusDO){
+        if(guideFocusDO==null){
+            return null;
+        }
+        GuideFocusVO guideFocusVO = new GuideFocusVO();
+        BeanUtils.copyProperties(guideFocusDO,guideFocusVO);
+        return guideFocusVO;
+    }
+
+
+    public static AttractionFocusVO attractionFocusDTO2AttractionFocusVO(AttractionFocusDTO attractionFocusDTO){
+        if(attractionFocusDTO==null){
+            return null;
+        }
+        AttractionFocusVO attractionFocusVO = new AttractionFocusVO();
+        GuideAttractionDO guideAttractionDO =   attractionFocusDTO.getAttractionDO();
+        List<GuideFocusDO> guideFocusDOList =   attractionFocusDTO.getGuideFocusDOList();
+
+        if(guideAttractionDO!=null){
+            GuideAttractionVO guideAttractionVO =guideAttractionDO2GuideAttractionVO(guideAttractionDO);
+            attractionFocusVO.setGuideAttractionVO(guideAttractionVO);
+        }
+        if(guideFocusDOList!=null&&guideFocusDOList.size()>0){
+            List<GuideFocusVO> guideFocusVOList = new ArrayList<GuideFocusVO>();
+            for(GuideFocusDO guideFocusDO:guideFocusDOList){
+                GuideFocusVO guideFocusVO = guideFocusDO2GuideFocusVO(guideFocusDO);
+                if(guideFocusDO!=null) {
+                    guideFocusVOList.add(guideFocusVO);
+                }
+            }
+            attractionFocusVO.setGuideFocusVOList(guideFocusVOList);
+        }
+        return attractionFocusVO;
     }
 }

@@ -1,10 +1,12 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
+import com.yimayhd.ic.client.model.dto.guide.AttractionFocusDTO;
 import com.yimayhd.ic.client.model.dto.guide.GuideCascadeAttractionDTO;
 import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.guide.AttractionFocusVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
@@ -112,4 +114,11 @@ public interface GuideManageService {
      * @return
      */
     public GuideCascadeAttractionDTO queryGuideAttractionFocusInfo(long scenicId);
+
+    /**
+     * 查询景点以及景点下的看点信息
+     * @param attractionId
+     * @return
+     */
+    public AttractionFocusVO queryAttractionDetail(long attractionId);
 }

@@ -62,9 +62,9 @@ public class TrouistlistBiz {
     }
 
     // select查询景点详情
-    public ICResult<AttractionFocusDTO> queryAttractionDetail(long attractionId) {
+/*    public ICResult<AttractionFocusDTO> queryAttractionDetail(long attractionId) {
         return guideRepo.queryAttractionDetail(attractionId);
-    }
+    }*/
 
     // 2
     // add增加保存景点
