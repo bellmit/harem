@@ -194,7 +194,7 @@
                 editor.append(self.getLineHtml(true));
             } else {
                 $.each(self.lineSettings, function(index, line) {
-                    editor.append(self.getLineHtml(index == 0, line.tourid, line.time));
+                    editor.append(self.getLineHtml(index == 0, line));
                 });
             }
         },
@@ -229,7 +229,7 @@
         },
         saveLine:function(){
             var self=this;
-            var data={guideId:self.guideId,lines:self.getLineSettings};
+            var data={guideId:self.guideId,lines:self.getLineSettings()};
             $.ajax({
                 url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateGuideLine",
                 type:"post",
@@ -248,22 +248,22 @@
                 }
             });
         },
-        getLineHtml: function(start, tourid, time) {
+        getLineHtml: function(start, line) {
             var temp = [];
             var length = this.lineData.length;
             var startCss = start ? "start" : "";
-            var timeStr = time || '';
+            var distince = line ? line.distince : '';
             temp.push('<div class="line ' + startCss + '">');
             temp.push('<div class="line-info">')
             if (!start) {
-                temp.push('<input class="form-control" value="' + timeStr + '" />');
+                temp.push('<input class="form-control" value="' + distince + '" />');
             }
             temp.push('<select class="form-control">');
             for (var index = 0; index < length; index++) {
-                if (this.lineData[index].value == tourid) {
-                    temp.push('<option selected value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>');
+                if (line&&this.lineData[index].id == line.attractionId) {
+                    temp.push('<option selected value="' + this.lineData[index].id + '">' + this.lineData[index].name + '</option>');
                 } else {
-                    temp.push('<option value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>');
+                    temp.push('<option value="' +this.lineData[index].id + '">' + this.lineData[index].name + '</option>');
                 }
             }
             temp.push('</select>');
@@ -273,21 +273,35 @@
 
             return temp.join('');
         },
+        findLine:function(id){
+            for(var i=0;i<this.lineData.length;i++){
+                if(this.lineData[i].id==id){
+                    return this.lineData[i];
+                }
+            }
+        },
         getLineSettings: function() {
             var data = [];
+            var self=this;
             $(this.selectors.line).each(function(index, _line) {
-                var line = $(_line);
+                var line =self.findLine($(_line).find('select').val());
                 if (index == 0) {
                     data.push({
-                        tourid: line.find("select").val()
+                        guideId:self.guideId,
+                        distince:'',
+                        attractionId:line.id,
+                        no:line.attrNo
                     });
                 } else {
                     data.push({
-                        tourid: line.find("select").val(),
-                        time: line.find("input").val()
+                        guideId:self.guideId,
+                        distince:$(_line).find("input").val(),
+                        attractionId:line.id,
+                        no:line.attrNo
                     });
                 }
             });
+            console.dir(data);
             return data;
         },
         isValid:function () {
@@ -350,15 +364,15 @@
                 layer.closeAll();
                 if(res.status==200){
                     if(lineEditor){
-//                      lineEditor.lineData=res.data.lineData;
-//                      lineEditor.lineSettings=res.data.lineSettings;
+                        console.dir(res);
                         lineEditor.lineData=res.data.attractionDTOList;
-                        lineEditor.lineSettings=res.data.guideLineDTO.guideLine;
+                        lineEditor.lineSettings=res.data.guideLine;
                         lineEditor.render();
                     }else{
                         lineEditor=new LineEditor({
-                            lineData:res.data.lineData,
-                            lineSettings:res.data.lineSettings
+                            guideId:$("#hdnGuideId").val(),
+                            lineData:res.data.attractionDTOList,
+                            lineSettings:res.data.guideLine
                         });
                     }
                 }

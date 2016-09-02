@@ -220,7 +220,8 @@
     }
 
     $("#btnReset").on("click",function () {
-        $("#tbAttachmentListForm").find(".form-control").val('');
+        $("#tbAttachmentListForm").find("input.form-control").val('');
+        $("#tbAttachmentListForm").find("select.form-control").val('0');
     });
 
     $(function () {
