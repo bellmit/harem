@@ -25,6 +25,7 @@
     <div class="tab-pane active" id="spotInfo">
         <form id="frmSpotInfo">
             <input type="hidden" id="id" name="id" value="${attractionDO.id}">
+            <input type="hidden" id="guideId" name="guideId" value="${attractionDO.guideId}">
             <table class="table">
                 <tr>
                     <th><span class="spColor">*</span>景点名称：</th>
@@ -89,7 +90,7 @@
                                         </div>
                                         <div class="audio-info-item">
                                             <label>看点名称：</label>
-                                            <textarea style="display:none;" class="focus-json" id="item$!{velocityCount}">${item.focusOrder}</textarea>
+                                            <textarea style="display:none;" class="focus-json" id="item$!{velocityCount}">$!{item.focusOrder}</textarea>
                                             <input type="text" class="focus-name" value="$!{item.inputFileTitle}">
                                         </div>
                                     </div>
@@ -351,11 +352,12 @@
         //保存景点详情
         $("#btnSaveSpotInfo").on("click", function () {
             var spotInfo = {
-                id: $("#hdnId").val(),
-                guideId: $("#hdnGuideId").val(),
-                name: $("#spotName").val(),
-                attrImg: $("#spotLogoUrl").val(),
-                tourTime: $("#tourTime").val()
+                id: $("#id").val(),
+                guideId: $("#guideId").val(),
+                name: $("#name").val(),
+                attrImg: $("#attrImg").val(),
+                tourTime: $("#tourTime").val(),
+                attrNo:$("#attrNo").val()
             };
             var focusOrderJson = [];
             $(".audio-list .audio-item").each(function (i, d) {

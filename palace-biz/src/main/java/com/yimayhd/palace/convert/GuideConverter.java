@@ -256,6 +256,7 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setName(attractionVO.getName());
         guideAttractionUpdateDTO.setTourTime(attractionVO.getTourTime());
         guideAttractionUpdateDTO.setTitle(attractionVO.getTitle());
+        guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
         List<GuideFocusDO> oldList =  attractionFocusDTO.getGuideFocusDOList();
         List<GuideFocusDO> newList = JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class);
