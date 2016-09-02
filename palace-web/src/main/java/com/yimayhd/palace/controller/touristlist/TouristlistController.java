@@ -44,6 +44,7 @@ import com.yimayhd.palace.model.guide.GuideAttractionVO;
 import com.yimayhd.palace.tair.TcCacheManager;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -354,33 +355,38 @@ public class TouristlistController extends BaseController {
 
         BizResult<String> result = new BizResult<String>();
 
-        ICResult<Boolean> saveResult = null;
+        try {
+            ICResult<Boolean> saveResult = null;
 
-        // 查询景点
-        ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
+            // 查询景点
+            ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
 
-        if (attractionFocusDTOResult == null){
-            result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-            return result;
-        }
+            if (attractionFocusDTOResult == null){
+                result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                return result;
+            }
 
-        AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.guideAttractionVO2AttractionFocusUpdateDTO(guideAttractionVO,attractionFocusDTOResult.getModule());
+            AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.guideAttractionVO2AttractionFocusUpdateDTO(guideAttractionVO,attractionFocusDTOResult.getModule());
 
-        saveResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
+            saveResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
 
-        if (saveResult == null) {
-            result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-            return result;
-        }
-        if (saveResult.isSuccess()) {
-            result.initSuccess(saveResult.getResultMsg());
-            result.setValue("qqq");
-        } else {
-            result.setCode(saveResult.getResultCode());
-            result.setMsg(saveResult.getResultMsg());
+            if (saveResult == null) {
+                result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                return result;
+            }
+            if (saveResult.isSuccess()) {
+                result.initSuccess(saveResult.getResultMsg());
+                result.setValue("qqq");
+                result.setSuccess(true);
+            } else {
+                result.setCode(saveResult.getResultCode());
+                result.setMsg(saveResult.getResultMsg());
+                result.setSuccess(false);
+            }
+            log.error("saveResult:{}", JSON.toJSONString(saveResult));
+        } catch (Exception e) {
             result.setSuccess(false);
         }
-        log.error("saveResult:{}", JSON.toJSONString(saveResult));
 
         return result;
     }

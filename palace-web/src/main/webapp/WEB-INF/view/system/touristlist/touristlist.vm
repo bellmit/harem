@@ -303,7 +303,7 @@
     $(function(){
         var guideId=$("#hdnGuideId").val();
         $(".addTourist").click(function(){
-            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail?guideId="+guideId,2,"景点详情");
+            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail?attractionId="+guideId,2,"景点详情");
         });
 
         //  编辑景点
