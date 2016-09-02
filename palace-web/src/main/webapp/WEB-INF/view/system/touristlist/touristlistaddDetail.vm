@@ -14,7 +14,9 @@
 <input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
-<ul id="myTab" class="nav nav-tabs">
+    <input type="hidden" id="uuidPicText" value="$uuidPicText">
+
+    <ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
         <a>景点详情</a>
     </li>
