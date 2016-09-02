@@ -286,10 +286,11 @@
             fileUpload(fileId, 1, function(data) {
                 if (data && data.status == 200) {
                     console.log(data.data);
+                    var src = tfsRootPath + data.data;
                     checkImg(src, function(r) {
                         if (r) {
                             $(hiddenId).val(data.data);
-                            $(imgId).attr('src', tfsRootPath + data.data);
+                            $(imgId).attr('src', src);
                             $(imgId).closest(".upload-wapper").addClass("uploaded");
                         } else {
                             layer.msg('图片尺寸太大，请上传正确的图片', {
@@ -463,6 +464,7 @@
     function saveIntro(){
         var title=$("#spotIntroTitle").val().trim();
         var pictext=getPictureText();
+        var uuidPicText=$("#uuidPicText").val();
 
         if(title.length){
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
@@ -478,6 +480,7 @@
             url:"",
             type:"post",
             dataType:"json",
+            data:{title:title,pictext:JSON.stringify(pictext),uuidPicText:uuidPicText},
             success:function(res){
                 if(res.success){
                     layer.msg("保存成功。",{icon:1,time:1500});
