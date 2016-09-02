@@ -99,11 +99,11 @@
 <form id="form1" name="form1">
     <input type="hidden" id="hdnGuideId" value="$!{attractionId}">
     <ul id="myTab" class="nav nav-tabs">
-        <li class="active">
-            <a href="#spotList" data-toggle="tab">景点详情</a>
+        <li class="active" data-target="#spotList">
+            <a >景点详情</a>
         </li>
-        <li>
-            <a href="#lineSetting" data-toggle="tab">线路设置</a>
+        <li data-target="#lineSetting">
+            <a>线路设置</a>
         </li>
     </ul>
     <div class="tab-content">
@@ -168,15 +168,15 @@
 </form>
 <script type="text/javascript">
     function LineEditor(options) {
-        this.options = options || {};
-        this.lineData = this.options.data || [];
+        var opts = options || {};
+        this.lineData = opts.lineData || [];
+        this.lineSettings = opts.lineSettings || [];
         this.init();
     }
     LineEditor.prototype = {
+        constructor: LineEditor,
         init: function() {
-            var self = this;
-            $(self.selectors.lineEditor).append(self.getLineHtml(true));
-
+            this.render();
             this.attachEvent();
         },
         selectors: {
@@ -186,14 +186,21 @@
             lineEditor: "#lineEditor",
             line: ".line"
         },
+        render: function() {
+            var self = this;
+            var editor = $(self.selectors.lineEditor);
+            if (self.lineSettings.length == 0) {
+                editor.append(self.getLineHtml(true));
+            } else {
+                $.each(self.lineSettings, function(index, line) {
+                    editor.append(self.getLineHtml(index == 0, line.tourid, line.time));
+                });
+            }
+        },
         attachEvent: function() {
             var self = this;
             //添加节点
             $(self.selectors.addPoint).on("click", function() {
-                if ($(self.selectors.line, self.selectors.lineEditor).length >= self.lineData.length) {
-                    return;
-                }
-
                 var lineHtml = self.getLineHtml(false);
                 $(self.selectors.lineEditor).append(lineHtml);
             });
@@ -209,18 +216,23 @@
                 lastItem.remove();
             });
         },
-        getLineHtml: function(start) {
+        getLineHtml: function(start, tourid, time) {
             var temp = [];
             var length = this.lineData.length;
             var startCss = start ? "start" : "";
+            var timeStr = time || '';
             temp.push('<div class="line ' + startCss + '">');
             temp.push('<div class="line-info">')
             if (!start) {
-                temp.push('<input class="form-control" />');
+                temp.push('<input class="form-control" value="' + timeStr + '" />');
             }
             temp.push('<select class="form-control">');
             for (var index = 0; index < length; index++) {
-                temp.push('<option value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>');
+                if (this.lineData[index].value == tourid) {
+                    temp.push('<option selected value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>');
+                } else {
+                    temp.push('<option value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>');
+                }
             }
             temp.push('</select>');
             temp.push('</div>');
@@ -228,26 +240,51 @@
             temp.push('</div>');
 
             return temp.join('');
+        },
+        getLineSettings: function() {
+            var data = [];
+            $(this.selectors.line).each(function(index, _line) {
+                var line = $(_line);
+                if (index == 0) {
+                    data.push({
+                        tourid: line.find("select").val()
+                    });
+                } else {
+                    data.push({
+                        tourid: line.find("select").val(),
+                        time: line.find("input").val()
+                    });
+                }
+            });
+            return data;
         }
     };
 
     $(function() {
-        var lineData = [{
-            value: 1,
-            name: "入口"
-        }, {
-            value: 2,
-            name: "景点1"
-        }, {
-            value: 3,
-            name: "景点2"
-        }, {
-            value: 4,
-            name: "景点3"
-        }];
-
         var lineEditor = new LineEditor({
-            data: lineData
+            lineData:  [{
+                value: 1,
+                name: "入口"
+            }, {
+                value: 2,
+                name: "景点1"
+            }, {
+                value: 3,
+                name: "景点2"
+            }, {
+                value: 4,
+                name: "景点3"
+            }],
+            lineSettings:[{
+                tourid:1,
+                time:12
+            },{
+                tourid:3,
+                time:333
+            },{
+                tourid:4,
+                time:444
+            }]
         });
     });
 </script>
@@ -262,28 +299,70 @@
         });
 
         //  编辑景点
-        $("#tbTourList").on(".edit",function(){
+        $("#tbTourList").on("click",".edit",function(){
             var attractionId = $(this).attr("attractionId");
             var id=$(this).attr("id")
             window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+attractionId +"&id="+id, 2, "景点详情");
         });
 
         //删除景点
-        $(".updateStatus").on(".delete",function(){
+        $(".updateStatus").on("click",".delete",function(){
             var attractionId = $(this).attr("attractionId");
-            var id=$(this).attr("id")
-            layer.confirm("确认要删除此景点？",function(){
-                deleteTour(attractionId,id);
-            });
-            //window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus?attractionId="+attractionId +"&id="+id, 2, "景点详情");
+            var id=$(this).attr("id");
+            getTourStatus(attractionId,id);
+        });
+
+        //切换到线路页面
+        $("#myTab li").on("click", function() {
+            var target = $(this).data("target");
+            $("#myTab li").removeClass("active");
+            $(".tab-content .tab-pane").removeClass("active")
+
+            $(this).addClass("active");
+            $(target).addClass("active");
+            if (target == "#lineSetting") {
+                line
+            }
         });
     });
+    function getTourStatus(attractionId,id){
+        var data={attractionId:attractionId,id:id};
+        $.ajax({
+            url:"url",
+            type:"get",
+            data:data,
+            success:function(res){
+                if(res.status==200){
+                    msg=getTips(res.data);
+                    layer.confirm(msg,function(){
+                        deleteTour(attractionId,id);
+                    });
+                }
+                else{
+                    layer.msg("删除失败!",{icon:2,time:1500});
+                }
+            },
+            error:function(){
+                layer.msg("删除失败!",{icon:2,time:1500});
+            }
+        });
+    }
+
+    function getTips(status){
+        var message={
+            "0":"是否确认删除？",
+            "1":"删除此景点信息将影响线路设置，是否确认删除？",
+            "2":"删除此景点信息需重新配置线路，是否确认删除？"
+        };
+
+        var msg=message[status];
+        if(msg){
+            return msg;
+        }
+        return msg["1"];
+    }
 
     function deleteTour(attractionId,id){
-
-        ## 线路设置
-        ##$!guideLine
-
         $.ajax({
             url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus",
             type:"post",

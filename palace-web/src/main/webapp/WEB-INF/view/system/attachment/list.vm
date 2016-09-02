@@ -84,10 +84,10 @@
             </select>
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary submitBtn" id="btnQuery">搜索</button>
+            <button type="button" class="btn btn-primary submitBtn" id="btnQuery">搜索</button>
         </div>
         <div class="btn-group">
-            <button type="reset" class="btn btn-primary btn-clean" id="btnReset">重置</button>
+            <button type="button" class="btn btn-primary btn-clean" id="btnReset">重置</button>
         </div>
     </div>
 
@@ -218,6 +218,11 @@
             }
         });
     }
+
+    $("#btnReset").on("click",function () {
+        $("#tbAttachmentListForm").find(".form-control").val('');
+    });
+
     $(function () {
         $("#btnQuery").on("click",function(){
             var startTime=$("#tbAttachmentListForm").find(".startTime").val();
@@ -231,9 +236,6 @@
             $("#tbAttachmentListForm").submit();
         });
 
-        $("#btnreset").on("click",function () {
-           $("#tbAttachmentListForm").find(".form-control").val('');
-        });
         $("#attachmentFile").on("change", function() {
             var filePath = $("#attachmentFile").val().trim();
             if (filePath.length == 0) {
