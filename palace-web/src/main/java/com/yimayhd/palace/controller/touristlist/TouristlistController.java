@@ -65,7 +65,6 @@ public class TouristlistController extends BaseController {
     private TcCacheManager tcCacheManager;
 
     //1
-
     /**
      * select获取景点列表  ok
      */
@@ -101,7 +100,50 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * delete 删除景点
+     * delete 删除操作前 查询线路中景点的位置
+     **/
+    @RequestMapping(value = "/queryGuideLine", method = RequestMethod.POST)
+    @ResponseBody
+    public BizResult<String> queryGuideLine(long attractionId) {
+        BizResult<String> bizResult = new BizResult<String>();
+        if (attractionId < 0) {
+            log.error("params error :attractionId={} ", attractionId);
+            bizResult.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+            return bizResult;
+        }
+        ICResult<GuideLineDTO> result = guideServiceRef.queryGuideLine(attractionId);
+        if (result == null) {
+            bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+
+        } else if (!result.isSuccess()) {
+            bizResult.setCode(result.getResultCode());
+            bizResult.setMsg(result.getResultMsg());
+            bizResult.setSuccess(false);
+        } else {
+            bizResult.setCode(result.getResultCode());
+            bizResult.setMsg(result.getResultMsg());
+            int temp = -1;
+            for (int i = 0 ; i < result.getModule().getGuideLine().size(); i++){
+                GuideLineEntry entry = result.getModule().getGuideLine().get(i);
+                if (entry.getAttractionId() == attractionId){
+                    temp = i;
+                    break;
+                }
+            }
+            if (temp == -1){// 不在线路中
+                bizResult.setValue("0");
+            }else if(temp == result.getModule().getGuideLine().size()-1){ //线路的最后一个节点
+                bizResult.setValue("2");
+            }else {
+                bizResult.setValue("1");//线路的中间位置
+            }
+            bizResult.setSuccess(true);
+        }
+        return bizResult;
+    }
+
+    /**
+     * delete 删除操作 删除景点
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
@@ -132,7 +174,47 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * update 保存线路 待调试
+     * select线路设置前 查询景点列表和线路信息
+     **/
+    @RequestMapping(value = "/queryGuideAttractionFocusInfo", method = RequestMethod.GET)
+    public BizResult<String> queryGuideAttractionFocusInfo(Model model, Long attractionId, Long scenicId) throws Exception {
+        try {
+            BizResult<String> bizResult = new BizResult<String>();
+
+            ICResult<GuideCascadeAttractionDTO> result = guideServiceRef.queryGuideAttractionFocusInfo(scenicId);
+            // 景点列表
+            List<AttractionCascadeFocusDTO> touristlist = new ArrayList<AttractionCascadeFocusDTO>();
+            // 线路列表
+            List<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
+            int totalCount = 0;
+            if (result != null && result.isSuccess() && result.getModule() != null && result.getModule().getAttractionDTOList() != null && result.getModule().getAttractionDTOList().size() > 0) {
+                totalCount = result.getModule().getAttractionDTOList().size();
+                touristlist = result.getModule().getAttractionDTOList();
+
+                if (result.getModule().getGuideLineDTO() != null) {
+                    guideLine = result.getModule().getGuideLineDTO().getGuideLine();
+                }
+            }
+            if (null != touristlist) {
+                model.addAttribute("touristlist", touristlist);  // 景点列表
+                if (guideLine != null) {
+                    model.addAttribute("guideLine", guideLine);  // 线路列表
+                }
+            }
+            model.addAttribute("attractionId", attractionId); // 导览id
+            System.out.println("touristlist=" + JSON.toJSONString(touristlist));
+
+
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+
+//        return "/system/touristlist/touristlist";
+    }
+
+    /**
+     * update线路设置 保存线路 待调试
      **/
     @RequestMapping(value = "/updateGuideLine", method = RequestMethod.POST)
     @ResponseBody
