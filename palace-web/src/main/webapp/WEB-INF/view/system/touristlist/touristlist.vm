@@ -170,6 +170,7 @@
 <script type="text/javascript">
     function LineEditor(options) {
         var opts = options || {};
+        this.guideId=opts.guideId;
         this.lineData = opts.lineData || [];
         this.lineSettings = opts.lineSettings || [];
         this.init();
@@ -190,7 +191,7 @@
         render: function() {
             var self = this;
             var editor = $(self.selectors.lineEditor);
-            if (self.lineSettings.length == 0) {
+            if (self.lineSettings&&self.lineSettings.length == 0) {
                 editor.append(self.getLineHtml(true));
             } else {
                 $.each(self.lineSettings, function(index, line) {
@@ -229,14 +230,14 @@
         },
         saveLine:function(){
             var self=this;
-            var data={guideId:self.guideId,lines:self.getLineSettings()};
+            var data={guideId:self.guideId,lineListJson:JSON.stringify(self.getLineSettings())};
             $.ajax({
                 url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateGuideLine",
                 type:"post",
                 data:data,
                 dataType:"json",
                 success:function(res){
-                    if(res.status==200){
+                    if(res.success==200){
                        layer.msg("保存成功",{icon:1,time:1500});
                     }
                     else{
@@ -365,13 +366,13 @@
                 if(res.status==200){
                     if(lineEditor){
                         console.dir(res);
-                        lineEditor.lineData=res.data.attractionDTOList;
+                        lineEditor.lineData=res.data.guideAttractionDOList;
                         lineEditor.lineSettings=res.data.guideLine;
                         lineEditor.render();
                     }else{
                         lineEditor=new LineEditor({
                             guideId:$("#hdnGuideId").val(),
-                            lineData:res.data.attractionDTOList,
+                            lineData:res.data.guideAttractionDOList,
                             lineSettings:res.data.guideLine
                         });
                     }
