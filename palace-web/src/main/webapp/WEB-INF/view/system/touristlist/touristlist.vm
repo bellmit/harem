@@ -312,7 +312,6 @@
             var id = $(this).attr("id");
             var guideId=$(this).attr("guideId")
             window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+id+"&guideId="+guideId, 2, "景点详情");
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?id="+guideId +"&guideId="+guideId, 2, "景点详情");
         });
 
         //删除景点
