@@ -257,9 +257,11 @@ public class TouristlistController extends BaseController {
             }
             // 获取景点介绍的图文
             PictureTextVO picTextVO = trouistlistBiz.getPictureText(attractionId);
-            List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
-            if (list.size() > 0) {
-                model.addAttribute("pictureTextItems", list);
+            if(picTextVO!=null) {
+                List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
+                if (list.size() > 0) {
+                    model.addAttribute("pictureTextItems", list);
+                }
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

@@ -2,14 +2,22 @@ package com.yimayhd.palace.service.impl;
 
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
+import com.yimayhd.ic.client.model.param.item.ScenicDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.ic.client.model.query.TicketQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.Paginator;
 import com.yimayhd.palace.convert.GuideConverter;
@@ -20,6 +28,7 @@ import com.yimayhd.palace.model.guide.ScenicVO;
 import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.GuideRepo;
 import com.yimayhd.palace.service.GuideManageService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -34,6 +43,8 @@ public class GuideManageServiceImpl implements GuideManageService {
 
     @Resource
     private CommentRepo commentRepo;
+    @Autowired
+    private ItemQueryService itemQueryService;
 
     /**
      * 分页查询导览
@@ -95,7 +106,7 @@ public class GuideManageServiceImpl implements GuideManageService {
      * @return
      */
     @Override
-    public boolean updateGuide(GuideScenicVO guideVO)  {
+    public boolean updateGuide(GuideScenicVO guideVO) {
         final long id = guideVO.getGuideId();
         GuideScenicDTO guideScenicDTO = guideRepo.queryGuideDetail(id);
         if (guideScenicDTO == null) {
@@ -190,13 +201,26 @@ public class GuideManageServiceImpl implements GuideManageService {
         }
     }
 
+    /**
+     * @param scenicVO
+     * @return
+     * @deprecated
+     */
     @Override
     public ScenicVO selectedScenic(ScenicVO scenicVO) {
-        ComTagDO comTagDO = commentRepo.selectById(scenicVO.getSubjectId());
-        if (null == comTagDO) {
+        //  List<ComTagDO> comTagDOList = commentRepo.getTagsByOutId(scenicVO.getId(), TagType.VIEWTAG);
+        // ComTagDO comTagDO = commentRepo.selectById(scenicVO.getSubjectId());
+
+
+        List<ComTagDO> tagResultCheck = commentRepo.getTagInfoByOutIdAndType(scenicVO.getId(), TagType.VIEWTAG);
+        if (null == tagResultCheck) {
             scenicVO.setSubjectName("");
         } else {
-            scenicVO.setSubjectName(comTagDO.getName());
+            StringBuffer stringBuffer = new StringBuffer();
+            for (ComTagDO comTagDO : tagResultCheck) {
+                stringBuffer.append(comTagDO.getName() + " ");
+            }
+            scenicVO.setSubjectName(stringBuffer.toString());
         }
         return scenicVO;
     }
@@ -243,8 +267,8 @@ public class GuideManageServiceImpl implements GuideManageService {
      */
     @Override
     public AttractionFocusVO queryAttractionDetail(long attractionId) {
-        AttractionFocusDTO attractionFocusDTO =  guideRepo.queryAttractionDetail(attractionId);
+        AttractionFocusDTO attractionFocusDTO = guideRepo.queryAttractionDetail(attractionId);
 
-       return GuideConverter.attractionFocusDTO2AttractionFocusVO(attractionFocusDTO) ;
+        return GuideConverter.attractionFocusDTO2AttractionFocusVO(attractionFocusDTO);
     }
 }

@@ -65,7 +65,7 @@ public class GuideConverter {
             guideScenicTipsDO.setId(guideVo.getGuideTipsId());
         }
         guideScenicTipsDO.setCares(guideVo.getCares());
-        guideScenicTipsDO.setGuideId(guideVo.getGuideId()==null?0:guideVo.getGuideId()   );
+        guideScenicTipsDO.setGuideId(guideVo.getGuideId() == null ? 0 : guideVo.getGuideId());
         guideScenicTipsDO.setHaveTo(guideVo.getHaveTo());
         guideScenicTipsDO.setTicketInfo(guideVo.getTicketInfo());
         guideScenicTipsDO.setOpenTime(guideVo.getOpenTime());
@@ -104,7 +104,7 @@ public class GuideConverter {
             guideTipsUpdateDTO.setId(guideVo.getGuideTipsId());
         }
         guideTipsUpdateDTO.setCares(guideVo.getCares());
-        guideTipsUpdateDTO.setGuideId(guideVo.getGuideId()==null?0:guideVo.getGuideId() );
+        guideTipsUpdateDTO.setGuideId(guideVo.getGuideId() == null ? 0 : guideVo.getGuideId());
         guideTipsUpdateDTO.setHaveTo(guideVo.getHaveTo());
         guideTipsUpdateDTO.setTicketInfo(guideVo.getTicketInfo());
         guideTipsUpdateDTO.setOpenTime(guideVo.getOpenTime());
@@ -123,12 +123,12 @@ public class GuideConverter {
         } else {
             guideScenicPageQueryDTO.setStatus(guideScenicListQuery.getStatus());
         }
-        if(guideScenicListQuery.getScenicResourceNum()!=null&&guideScenicListQuery.getScenicResourceNum()>0) {
+        if (guideScenicListQuery.getScenicResourceNum() != null && guideScenicListQuery.getScenicResourceNum() > 0) {
             List<Long> ids = new ArrayList<Long>();
             ids.add(guideScenicListQuery.getScenicResourceNum());
             guideScenicPageQueryDTO.setScenicIdList(ids);
         }
-        if(!Strings.isNullOrEmpty(guideScenicListQuery.getScenicName())) {
+        if (!Strings.isNullOrEmpty(guideScenicListQuery.getScenicName())) {
             guideScenicPageQueryDTO.setScenicNameLike(guideScenicListQuery.getScenicName().trim());
         }
         guideScenicPageQueryDTO.setPageNo(guideScenicListQuery.getPageNumber());
@@ -173,7 +173,7 @@ public class GuideConverter {
             guideScenicVO.setLocationY(scenicDO.getLocationY());*/
             guideScenicVO.setScenicVO(scenicDO2ScenicVO(scenicDO));
         }
-        if (guideScenicVO.getGuideId()!=null&&guideScenicVO.getGuideId() > 0) {
+        if (guideScenicVO.getGuideId() != null && guideScenicVO.getGuideId() > 0) {
             return guideScenicVO;
         } else {
             return null;
@@ -211,6 +211,14 @@ public class GuideConverter {
         scenicVO.setName(scenicDO.getName());
         scenicVO.setSubjectId(scenicDO.getSubjectId());
         scenicVO.setOpenTime(scenicDO.getOpenTime());
+        List<String> names = scenicDO.getScenicFeature().getSubjectNames();
+        if (names != null) {
+            StringBuffer stringBuffer = new StringBuffer();
+            for(String name :names) {
+                stringBuffer.append(name+" ");
+            }
+            scenicVO.setSubjectName(stringBuffer.toString());
+        }
         return scenicVO;
     }
 
@@ -221,7 +229,7 @@ public class GuideConverter {
         }
         // 景点
         GuideAttractionDO guideAttractionDO = new GuideAttractionDO();
-        if (attractionVO  == null) {
+        if (attractionVO == null) {
             return null;
         }
         guideAttractionDO.setId(attractionVO.getId());
@@ -241,13 +249,13 @@ public class GuideConverter {
     }
 
     // 更新景点详情
-    public static AttractionFocusUpdateDTO guideAttractionVO2AttractionFocusUpdateDTO(GuideAttractionVO attractionVO,AttractionFocusDTO attractionFocusDTO) {
+    public static AttractionFocusUpdateDTO guideAttractionVO2AttractionFocusUpdateDTO(GuideAttractionVO attractionVO, AttractionFocusDTO attractionFocusDTO) {
         if (attractionVO == null) {
             return null;
         }
         // 景点
         GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
-        if (attractionVO  == null) {
+        if (attractionVO == null) {
             return null;
         }
         guideAttractionUpdateDTO.setId(attractionVO.getId());
@@ -258,15 +266,16 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setTitle(attractionVO.getTitle());
         guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
-        List<GuideFocusDO> oldList =  attractionFocusDTO.getGuideFocusDOList();
+        List<GuideFocusDO> oldList = attractionFocusDTO.getGuideFocusDOList();
         List<GuideFocusDO> newList = JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class);
         // 更新的看点
-        List<GuideFocusUpdateDTO> updateList =  new ArrayList<GuideFocusUpdateDTO>();;
-        for (int i = 0; i < oldList.size(); i++){
+        List<GuideFocusUpdateDTO> updateList = new ArrayList<GuideFocusUpdateDTO>();
+        ;
+        for (int i = 0; i < oldList.size(); i++) {
             GuideFocusDO oldGuideFocusDO = oldList.get(i);
-            for (int j = 0 ; j < newList.size() ;j++){
+            for (int j = 0; j < newList.size(); j++) {
                 GuideFocusDO newGuideFocusDO = oldList.get(j);
-                if (newGuideFocusDO.getId() == oldGuideFocusDO.getId()){
+                if (newGuideFocusDO.getId() == oldGuideFocusDO.getId()) {
                     GuideFocusUpdateDTO guideFocusUpdateDTO = new GuideFocusUpdateDTO();
                     guideFocusUpdateDTO.setId(newGuideFocusDO.getId());
                     guideFocusUpdateDTO.setName(newGuideFocusDO.getName());
@@ -277,23 +286,23 @@ public class GuideConverter {
             }
         }
         // 删除的看点
-        List<Long> deleteList =  new ArrayList<Long>();
-        for (int i = 0; i < oldList.size(); i++){
+        List<Long> deleteList = new ArrayList<Long>();
+        for (int i = 0; i < oldList.size(); i++) {
             GuideFocusDO oldGuideFocusDO = oldList.get(i);
-            for (int j = 0 ; j < updateList.size() ;j++){
+            for (int j = 0; j < updateList.size(); j++) {
                 GuideFocusDO newGuideFocusDO = oldList.get(j);
-                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()){
+                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()) {
                     deleteList.add(oldGuideFocusDO.getId());
                 }
             }
         }
         // 新增的看点
         List<GuideFocusDO> focusAddList = new ArrayList<GuideFocusDO>();
-        for (int i = 0; i < oldList.size(); i++){
+        for (int i = 0; i < oldList.size(); i++) {
             GuideFocusDO oldGuideFocusDO = oldList.get(i);
-            for (int j = 0 ; j < updateList.size() ;j++){
+            for (int j = 0; j < updateList.size(); j++) {
                 GuideFocusDO newGuideFocusDO = oldList.get(j);
-                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()){
+                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()) {
                     focusAddList.add(newGuideFocusDO);
                 }
             }
@@ -307,36 +316,33 @@ public class GuideConverter {
     }
 
 
-
     //
 
-    public static GuideAttractionVO guideAttractionDO2GuideAttractionVO(GuideAttractionDO guideAttractionDO){
-        if(guideAttractionDO==null){
+    public static GuideAttractionVO guideAttractionDO2GuideAttractionVO(GuideAttractionDO guideAttractionDO) {
+        if (guideAttractionDO == null) {
             return null;
         }
         GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
-        BeanUtils.copyProperties(guideAttractionDO,guideAttractionVO);
+        BeanUtils.copyProperties(guideAttractionDO, guideAttractionVO);
         return guideAttractionVO;
     }
 
 
-
-
-    public static AttractionFocusVO attractionFocusDTO2AttractionFocusVO(AttractionFocusDTO attractionFocusDTO){
-        if(attractionFocusDTO==null){
+    public static AttractionFocusVO attractionFocusDTO2AttractionFocusVO(AttractionFocusDTO attractionFocusDTO) {
+        if (attractionFocusDTO == null) {
             return null;
         }
         AttractionFocusVO attractionFocusVO = new AttractionFocusVO();
-        GuideAttractionDO guideAttractionDO =   attractionFocusDTO.getAttractionDO();
-        List<GuideFocusDO> guideFocusDOList =   attractionFocusDTO.getGuideFocusDOList();
+        GuideAttractionDO guideAttractionDO = attractionFocusDTO.getAttractionDO();
+        List<GuideFocusDO> guideFocusDOList = attractionFocusDTO.getGuideFocusDOList();
 
-        if(guideAttractionDO!=null){
-            GuideAttractionVO guideAttractionVO =guideAttractionDO2GuideAttractionVO(guideAttractionDO);
+        if (guideAttractionDO != null) {
+            GuideAttractionVO guideAttractionVO = guideAttractionDO2GuideAttractionVO(guideAttractionDO);
             attractionFocusVO.setGuideAttractionVO(guideAttractionVO);
         }
-        if(guideFocusDOList!=null&&guideFocusDOList.size()>0){
+        if (guideFocusDOList != null && guideFocusDOList.size() > 0) {
             List<GuideFocusVO> guideFocusVOList = new ArrayList<GuideFocusVO>();
-            for(GuideFocusDO guideFocusDO:guideFocusDOList){
+            for (GuideFocusDO guideFocusDO : guideFocusDOList) {
                 GuideFocusVO guideFocusVO = new GuideFocusVO();
                 guideFocusVO.setFileKey(guideFocusDO.getAudio());
                 guideFocusVO.setDuration(guideFocusDO.getAudioTime());
@@ -346,7 +352,7 @@ public class GuideConverter {
                     guideFocusVOList.add(guideFocusVO);
                 }*/
                 guideFocusVO.setFocusOrder(JSON.toJSONString(guideFocusVO));
-               guideFocusVOList.add(guideFocusVO);
+                guideFocusVOList.add(guideFocusVO);
 
             }
             attractionFocusVO.setGuideFocusVOList(guideFocusVOList);

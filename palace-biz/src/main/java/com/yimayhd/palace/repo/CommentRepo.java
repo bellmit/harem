@@ -11,6 +11,7 @@ import com.yimayhd.commentcenter.client.domain.ComRateDO;
 import com.yimayhd.commentcenter.client.dto.*;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.commentcenter.client.service.ComRateService;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -298,4 +299,25 @@ public class CommentRepo {
 			return null;
 		}
 	}
+
+
+public 	List<ComTagDO> getTagInfoByOutIdAndType(long outId,TagType tagType ){
+	try {
+		BaseResult<List<ComTagDO>> result =comCenterServiceRef.getTagInfoByOutIdAndType(outId,tagType.name() );
+		if (result != null) {
+			if (result.isSuccess()) {
+				log.info("getTagInfoByOutIdAndType outId={},tagType={}, result={}", outId,JSON.toJSONString(tagType), JSON.toJSONString(result));
+				return result.getValue();
+			} else {
+				log.info("getTagInfoByOutIdAndType outId={},tagType={}, result={}", outId,JSON.toJSONString(tagType), JSON.toJSONString(result));
+				throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+			}
+		} else {
+			throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+		}
+	} catch (Exception e) {
+		log.info("getTagInfoByOutIdAndType outId={},tagType={}, exception={}", outId,JSON.toJSONString(tagType), e);
+		throw new BaseException(e, e.getMessage());
+	}
+}
 }

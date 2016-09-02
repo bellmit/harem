@@ -338,27 +338,8 @@
                     $("#address").text(item.locationText);
                     $("#latlng").text(item.locationX + "," + item.locationY);
                     $("#openTime").val(item.openTime);
-                    $.ajax({
-                        url: '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/selected',
-                        type: 'GET',
-                        data: {guideId: item.id, subjectId: item.subjectId},
-                        success: function (res) {
-                            if (res.status == 200) {
-                                $("#theme").text(res.data.subjectName);
-                            } else {
-                                layer.msg('操作失败', {
-                                    icon: 2,
-                                    time: 2000
-                                });
-                            }
-                        },
-                        error: function (xmlres, status, code) {
-                            layer.msg('操作失败', {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    });
+                    $("#subjectName").val(item.subjectName);
+                    $("#theme").text(item.subjectName);
                 }
                 else{
                     layer.msg("请选择景区",{icon:2});

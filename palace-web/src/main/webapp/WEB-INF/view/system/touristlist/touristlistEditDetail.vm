@@ -90,7 +90,8 @@
                                         </div>
                                         <div class="audio-info-item">
                                             <label>看点名称：</label>
-                                            <textarea style="display:none;" class="focus-json" id="item$!{velocityCount}">$!{item.focusOrder}</textarea>
+                                            <textarea style="display:none;" class="focus-json"
+                                                      id="item$!{velocityCount}">$!{item.focusOrder}</textarea>
                                             <input type="text" class="focus-name" value="$!{item.inputFileTitle}">
                                         </div>
                                     </div>
@@ -120,7 +121,7 @@
                 <th><span class="spColor">*</span>景点介绍标题：</th>
                 <td>
                     <input type="text" class="inpCtlBlock" maxlength="38" name="spotIntroTitle" id="spotIntroTitle"
-                           value="">
+                           value="$!{attractionDO.title}">
                 </td>
             </tr>
             <tr>
@@ -134,6 +135,18 @@
                             <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
                         </div>
                         <div class="bd">
+                            #foreach($articleItem in $pictureTextItems)
+                                #if($articleItem.type == 1)
+                                    <p class="text movesection saved"><font>$articleItem.content</font></p>
+                                #end
+                                #if($articleItem.type == 2)
+                                    <p class="pic movesection saved">
+                                        <img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end"
+                                             class="nopic" id="1">
+                                        <input type="hidden" class="imgDateVal" value="$!articleItem.content">
+                                    </p>
+                                #end
+                            #end
                         </div>
                         <div class="hd clearfix">
                             <ul class="clearfix">
@@ -357,7 +370,7 @@
                 name: $("#name").val(),
                 attrImg: $("#attrImg").val(),
                 tourTime: $("#tourTime").val(),
-                attrNo:$("#attrNo").val()
+                attrNo: $("#attrNo").val()
             };
             var focusOrderJson = [];
             $(".audio-list .audio-item").each(function (i, d) {

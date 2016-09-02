@@ -48,7 +48,7 @@
                         <input type="checkbox" id="$!{item.id}" subjectId="$!{item.subjectId}" name="${item.name}"
                                locationText="${item.locationText}" locationProvinceName="${item.locationProvinceName}"
                                locationCityName ="${item.locationCityName}" locationTownName="${item.locationTownName}"
-                               level="${item.level}" locationX="${item.locationX}" locationY="${item.locationY}" openTime="${item.openTime}"
+                               level="${item.level}" locationX="${item.locationX}" locationY="${item.locationY}" openTime="${item.openTime}" subjectName = "${item.subjectName}"
                         />
                     </td>
                     <td>
@@ -109,7 +109,8 @@
             level:selecetdtr.attr("level"),
             locationX:selecetdtr.attr("locationX"),
             locationY:selecetdtr.attr("locationY"),
-            openTime:selecetdtr.attr("openTime")
+            openTime:selecetdtr.attr("openTime"),
+            subjectName:selecetdtr.attr("subjectName")
         }
     }
 

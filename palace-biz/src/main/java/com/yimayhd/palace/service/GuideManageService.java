@@ -88,6 +88,7 @@ public interface GuideManageService {
      *
      * @param scenicVO
      * @return
+     * @deprecated
      */
     public ScenicVO selectedScenic(ScenicVO scenicVO);
 
@@ -117,6 +118,7 @@ public interface GuideManageService {
 
     /**
      * 查询景点以及景点下的看点信息
+     *
      * @param attractionId
      * @return
      */
