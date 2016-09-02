@@ -203,6 +203,7 @@
     }
 
     function addAudioItem(data) {
+        data.id=0;
         var str = JSON.stringify(data);
         var audioCount = $(".audio-list .audio-item").length;
         var index = audioCount + 1;
@@ -380,6 +381,7 @@
                 json.inputFileTitle = item.find(".focus-name").val();
 
                 focusOrderJson.push({
+                    id:json.id,
                     name: json.inputFileTitle,
                     audioTime: json.duration,
                     audio: json.fileKey
