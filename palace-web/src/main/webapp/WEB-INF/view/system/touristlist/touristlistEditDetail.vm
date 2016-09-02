@@ -6,10 +6,10 @@
 </style>
 
 <input type="hidden" id="rs_js_css_path_jiuxiu" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
-<input type="hidden" id="root_path" value="http://console.test.jiuxiulvxing.com/palace-web">
+<input type="hidden" id="root_path" value="http://s0.tests.jiuxiulvxing.com:8080">
 <input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
-<input type="hidden" id="filegw_url" value="http://filegw.test.yimayholiday.com/filegw">
-<input type="hidden" id="palace_update_file" value="http://console.test.jiuxiulvxing.com/palace-web/upload/file">
+<input type="hidden" id="filegw_url" value="http://filegw.test.jiuxiulvxing.com/filegw">
+<input type="hidden" id="palace_update_file" value="http://s0.tests.jiuxiulvxing.com:8080/palace-web/upload/file">
 <input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
