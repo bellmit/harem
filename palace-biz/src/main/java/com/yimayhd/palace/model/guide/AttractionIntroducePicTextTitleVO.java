@@ -1,13 +1,19 @@
 package com.yimayhd.palace.model.guide;
 
-import java.util.List;
+import java.io.Serializable;
+
 
 /**
  * Created by haozhu on 16/9/2.
  */
-public class AttractionIntroducePicTextTitleVO {
+public class AttractionIntroducePicTextTitleVO implements Serializable {
 
     /**
+	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	*/
+	private static final long serialVersionUID = 8025780243738549629L;
+
+	/**
      * 景点id
      */
     private long attractionId;
@@ -15,7 +21,7 @@ public class AttractionIntroducePicTextTitleVO {
     /**
      *  图文信息
      */
-    private String json;
+    private String picTextString;
 
     /**
      *  重复提交的随机数
@@ -27,40 +33,38 @@ public class AttractionIntroducePicTextTitleVO {
      */
     private String title;
 
+	public long getAttractionId() {
+		return attractionId;
+	}
 
-    public long getAttractionId() {
-        return attractionId;
-    }
+	public void setAttractionId(long attractionId) {
+		this.attractionId = attractionId;
+	}
 
-    public com.yimayhd.palace.model.guide.AttractionIntroducePicTextTitleVO setAttractionId(long attractionId) {
-        this.attractionId = attractionId;
-        return this;
-    }
+	public String getPicTextString() {
+		return picTextString;
+	}
 
-    public String getJson() {
-        return json;
-    }
+	public void setPicTextString(String picTextString) {
+		this.picTextString = picTextString;
+	}
 
-    public com.yimayhd.palace.model.guide.AttractionIntroducePicTextTitleVO setJson(String  json) {
-        this.json = json;
-        return this;
-    }
+	public String getUuidPicText() {
+		return uuidPicText;
+	}
 
-    public String getUuidPicText() {
-        return uuidPicText;
-    }
+	public void setUuidPicText(String uuidPicText) {
+		this.uuidPicText = uuidPicText;
+	}
 
-    public com.yimayhd.palace.model.guide.AttractionIntroducePicTextTitleVO setUuidPicText(String uuidPicText) {
-        this.uuidPicText = uuidPicText;
-        return this;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public com.yimayhd.palace.model.guide.AttractionIntroducePicTextTitleVO setTitle(String title) {
-        this.title = title;
-        return this;
-    }
+
+   
 }
