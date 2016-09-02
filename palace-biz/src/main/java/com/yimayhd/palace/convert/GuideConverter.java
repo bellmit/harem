@@ -13,10 +13,7 @@ import com.yimayhd.palace.model.guide.*;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * 导览转换
@@ -295,6 +292,20 @@ public class GuideConverter {
         return result;
     }
 
+    public static ArrayList<GuideFocusDO> removeDuplicte(List<GuideFocusDO> guideFocusDOList) {
+        Set<GuideFocusDO> s = new TreeSet<GuideFocusDO>(new Comparator<GuideFocusDO>() {
+
+            @Override
+            public int compare(GuideFocusDO o1, GuideFocusDO o2) {
+                return o1.getAudio().compareTo(o2.getAudio());
+            }
+
+        });
+
+        s.addAll(guideFocusDOList);
+        return new ArrayList<GuideFocusDO>(s);
+    }
+
     // 更新景点详情
     public static AttractionFocusUpdateDTO guideAttractionVO2AttractionFocusUpdateDTO(GuideAttractionVO attractionVO, AttractionFocusDTO attractionFocusDTO) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         if (attractionVO == null) {
@@ -315,7 +326,10 @@ public class GuideConverter {
 
         List<GuideFocusDO> oldList = attractionFocusDTO.getGuideFocusDOList();
         List<GuideFocusDO> newList = JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class);
-
+        //去重
+        oldList = removeDuplicte(oldList);
+        newList = removeDuplicte(newList);
+        //
         List<String> oldKeys = getKeyFromList(oldList);
         List<String> newKeys = getKeyFromList(newList);
 
@@ -353,12 +367,12 @@ public class GuideConverter {
         List<String> deleteKeys = new ArrayList<String>();
         deleteKeys.addAll(allKeys);
         deleteKeys.removeAll(newKeys);//交集
-     //   List<GuideFocusDO> guideFocusDODeleteList = getGuideFocusDO(oldMap, deleteKeys);
-        Iterator d =deleteKeys.iterator();
+        //   List<GuideFocusDO> guideFocusDODeleteList = getGuideFocusDO(oldMap, deleteKeys);
+        Iterator d = deleteKeys.iterator();
         for (GuideFocusDO guideFocusDO : oldList) {
-            while (d.hasNext()){
+            while (d.hasNext()) {
                 String key = (String) d.next();
-                if(key.equals(guideFocusDO.getAudio())) {
+                if (key.equals(guideFocusDO.getAudio())) {
                     deleteList.add(guideFocusDO.getId());
                     d.remove();
                 }
@@ -369,7 +383,7 @@ public class GuideConverter {
         List<String> addKeys = new ArrayList<String>();
         addKeys.addAll(allKeys);
         addKeys.removeAll(oldKeys);
-        focusAddList = getGuideFocusDO(newMap,addKeys);
+        focusAddList = getGuideFocusDO(newMap, addKeys);
       /*  for (int i = 0; i < oldList.size(); i++) {
             GuideFocusDO oldGuideFocusDO = oldList.get(i);
             for (int j = 0; j < newList.size(); j++) {
@@ -441,13 +455,13 @@ public class GuideConverter {
             return null;
         }
         AttractionListGuideLineVO attractionListGuideLineVO = new AttractionListGuideLineVO();
-        if (guideCascadeAttractionDTO.getGuideLineDTO() == null){
+        if (guideCascadeAttractionDTO.getGuideLineDTO() == null) {
             attractionListGuideLineVO.setGuideLine(null);
-        }else {
+        } else {
             attractionListGuideLineVO.setGuideLine(guideCascadeAttractionDTO.getGuideLineDTO().getGuideLine());
         }
         List<GuideAttractionDO> guideAttractionDOList = new ArrayList<GuideAttractionDO>();
-        for (int i = 0; i < guideCascadeAttractionDTO.getAttractionDTOList().size(); i++){
+        for (int i = 0; i < guideCascadeAttractionDTO.getAttractionDTOList().size(); i++) {
             guideAttractionDOList.add(guideCascadeAttractionDTO.getAttractionDTOList().get(i).getGuideAttractionDO());
         }
         attractionListGuideLineVO.setGuideAttractionDOList(guideAttractionDOList);
