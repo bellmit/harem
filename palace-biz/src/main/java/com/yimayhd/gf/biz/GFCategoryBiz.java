@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.commentcenter.client.enums.CategoryStatus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -72,9 +73,11 @@ public class GFCategoryBiz {
 			categoryQueryDTO.setPageNo(gfCategoryVo.getPageNumber());
 			if(0 != gfCategoryVo.getStatus()){
 				categoryQueryDTO.setStatus(gfCategoryVo.getStatus());
-	        }
+	        }else{
+				categoryQueryDTO.setStatus(CategoryStatus.ONLINE.getStatus());
+			}
 			
-			BasePageResult<CategoryResult> basePageResult = gfCategoryRepo.getCategoryPage(categoryQueryDTO);
+			BasePageResult<CategoryResult> basePageResult = gfCategoryRepo.pageQueryCategory(categoryQueryDTO);
 			if(null != basePageResult && basePageResult.isSuccess() && CollectionUtils.isNotEmpty(basePageResult.getList())){//res.getValue()
 				totalCount=basePageResult.getTotalCount();
 				list = basePageResult.getList();

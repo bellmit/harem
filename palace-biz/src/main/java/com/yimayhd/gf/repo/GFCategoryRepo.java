@@ -77,6 +77,21 @@ public class GFCategoryRepo {
 		}
 		return basePageResult;
 	}
+
+	public BasePageResult<CategoryResult> pageQueryCategory(CategoryQueryDTO categoryQueryDTO) {
+		BasePageResult<CategoryResult> basePageResult =  new BasePageResult<CategoryResult>();
+		try {
+			if(categoryQueryDTO==null){
+				basePageResult.setErrorCode(ComCenterReturnCodes.C_CONTENT_CAN_NOT_BE_NULL);
+				return basePageResult;
+			}
+			basePageResult = comCategoryService.pageQueryCategory(categoryQueryDTO);
+		} catch (Exception e) {
+			basePageResult.setErrorCode(ComCenterReturnCodes.READ_DB_FAILED);
+			return basePageResult;
+		}
+		return basePageResult;
+	}
 	
 	public BaseResult<List<CategoryDO>> getPrimaryCategoryList(int domainId) {
 		BaseResult<List<CategoryDO>> baseResult =  new BaseResult<List<CategoryDO>>();
