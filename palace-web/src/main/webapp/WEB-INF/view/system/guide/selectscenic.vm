@@ -11,7 +11,7 @@
 </style>
 
 
-<form class="form-signin" id="tbScenicList" name="tbScenicList" method="POST"
+<form class="form-signin" id="tbScenicListForm" name="tbScenicListForm" method="POST"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
@@ -71,7 +71,7 @@
     </div>
 #*分页*#
 #parse("/page.vm")
-#pageStyle("tbScenicList")
+#pageStyle("tbScenicListForm")
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script type="text/javascript">
     $(function () {
