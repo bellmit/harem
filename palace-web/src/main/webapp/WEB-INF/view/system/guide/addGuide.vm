@@ -337,6 +337,7 @@
                     //$("#theme").text(item.time);
                     $("#address").text(item.locationText);
                     $("#latlng").text(item.locationX + "," + item.locationY);
+                    $("#openTime").val(item.openTime);
                     $.ajax({
                         url: '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/selected',
                         type: 'GET',

@@ -48,7 +48,7 @@
                         <input type="checkbox" id="$!{item.id}" subjectId="$!{item.subjectId}" name="${item.name}"
                                locationText="${item.locationText}" locationProvinceName="${item.locationProvinceName}"
                                locationCityName ="${item.locationCityName}" locationTownName="${item.locationTownName}"
-                               level="${item.level}" locationX="${item.locationX}" locationY="${item.locationY}" openTime="${item.o}"
+                               level="${item.level}" locationX="${item.locationX}" locationY="${item.locationY}" openTime="${item.openTime}"
                         />
                     </td>
                     <td>
