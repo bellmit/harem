@@ -62,14 +62,15 @@ public class GFCategoryRepo {
 		
 	}
 	
-	public BasePageResult<CategoryResult> pageQueryCategory(CategoryQueryDTO categoryQueryDTO) {
+	public BasePageResult<CategoryResult> getCategoryPage(CategoryQueryDTO categoryQueryDTO) {
 		BasePageResult<CategoryResult> basePageResult =  new BasePageResult<CategoryResult>();
 		try {
 			if(categoryQueryDTO==null){
 				basePageResult.setErrorCode(ComCenterReturnCodes.C_CONTENT_CAN_NOT_BE_NULL);
 				return basePageResult;
 			}
-			basePageResult = comCategoryService.pageQueryCategory(categoryQueryDTO);
+			/*basePageResult = comCategoryService.pageQueryCategory(categoryQueryDTO);*/
+			basePageResult = comCategoryService.getCategoryPage(categoryQueryDTO);
 		} catch (Exception e) {
 			basePageResult.setErrorCode(ComCenterReturnCodes.READ_DB_FAILED);
 			return basePageResult;

@@ -74,7 +74,7 @@ public class GFCategoryBiz {
 				categoryQueryDTO.setStatus(gfCategoryVo.getStatus());
 	        }
 			
-			BasePageResult<CategoryResult> basePageResult = gfCategoryRepo.pageQueryCategory(categoryQueryDTO);
+			BasePageResult<CategoryResult> basePageResult = gfCategoryRepo.getCategoryPage(categoryQueryDTO);
 			if(null != basePageResult && basePageResult.isSuccess() && CollectionUtils.isNotEmpty(basePageResult.getList())){//res.getValue()
 				totalCount=basePageResult.getTotalCount();
 				list = basePageResult.getList();

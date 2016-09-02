@@ -7,6 +7,7 @@ import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.query.CategoryTreeQueryDTO;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.CategoryResult;
@@ -703,13 +704,14 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     }
 
     public PageVO<ShowCaseItem> getCategoryList(CategoryQueryDTO categoryQueryDTO){
-        BasePageResult<CategoryResult> result = gfCategoryRepo.pageQueryCategory(categoryQueryDTO);
+        BasePageResult<CategoryResult> result = gfCategoryRepo.getCategoryPage(categoryQueryDTO);
         if(null == result || !result.isSuccess()){
             return null;
         }
         List<CategoryResult> list = result.getList();
         List<ShowCaseItem> listCategory = categoryResultToShowCaseItem(list);
-        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(categoryQueryDTO.getPageNo(), categoryQueryDTO.getPageSize(),result.getTotalCount(),listCategory);
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(categoryQueryDTO.getPageNo(),
+                categoryQueryDTO.getPageSize(),result.getTotalCount(),listCategory);
         return page;
     }
 

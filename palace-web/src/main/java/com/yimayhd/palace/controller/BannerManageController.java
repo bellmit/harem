@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
+import com.yimayhd.commentcenter.client.enums.CategoryStatus;
 import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
@@ -318,12 +319,13 @@ public class BannerManageController extends BaseController {
 
     public Map<String, Object> getCategoryList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord) {
         CategoryQueryDTO query = new CategoryQueryDTO();
+        query.setStatus(CategoryStatus.ONLINE.getStatus());
         query.setNeedCount(true);
         query.setPageNo(pageNumber);
         query.setPageSize(pageSize);
         query.setDomain(1100);
         if (NumberUtils.isNumber(keyWord)) {
-            //query.setId(Integer.parseInt(keyWord));
+            query.setId(Integer.parseInt(keyWord));
         } else if (StringUtils.isNotEmpty(keyWord)) {
             query.setName(keyWord);
         }
