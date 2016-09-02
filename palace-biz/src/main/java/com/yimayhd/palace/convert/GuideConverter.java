@@ -219,7 +219,6 @@ public class GuideConverter {
         if (attractionVO == null) {
             return null;
         }
-
         // 景点
         GuideAttractionDO guideAttractionDO = new GuideAttractionDO();
         if (attractionVO  == null) {
@@ -241,11 +240,66 @@ public class GuideConverter {
     }
 
     // 更新景点详情
-    public static AttractionFocusUpdateDTO guideAttractionUpdateDTO2AttractionFocusUpdateDTO(GuideAttractionUpdateDTO guideAttractionUpdateDTO) {
-        if (guideAttractionUpdateDTO == null) {
+    public static AttractionFocusUpdateDTO guideAttractionVO2AttractionFocusUpdateDTO(GuideAttractionVO attractionVO,AttractionFocusDTO attractionFocusDTO) {
+        if (attractionVO == null) {
             return null;
         }
+        // 景点
+        GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
+        if (attractionVO  == null) {
+            return null;
+        }
+        guideAttractionUpdateDTO.setId(attractionVO.getId());
+        guideAttractionUpdateDTO.setGuideId(attractionVO.getGuideId());
+        guideAttractionUpdateDTO.setAttrImg(attractionVO.getAttrImg());
+        guideAttractionUpdateDTO.setName(attractionVO.getName());
+        guideAttractionUpdateDTO.setTourTime(attractionVO.getTourTime());
+        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle());
+
+        List<GuideFocusDO> oldList =  attractionFocusDTO.getGuideFocusDOList();
+        List<GuideFocusDO> newList = JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class);
+        // 更新的看点
+        List<GuideFocusUpdateDTO> updateList =  new ArrayList<GuideFocusUpdateDTO>();;
+        for (int i = 0; i < oldList.size(); i++){
+            GuideFocusDO oldGuideFocusDO = oldList.get(i);
+            for (int j = 0 ; j < newList.size() ;j++){
+                GuideFocusDO newGuideFocusDO = oldList.get(j);
+                if (newGuideFocusDO.getId() == oldGuideFocusDO.getId()){
+                    GuideFocusUpdateDTO guideFocusUpdateDTO = new GuideFocusUpdateDTO;
+                    guideFocusUpdateDTO.setId(newGuideFocusDO.getId());
+                    guideFocusUpdateDTO.setName(newGuideFocusDO.getName());
+                    guideFocusUpdateDTO.setAudio(newGuideFocusDO.getAudio());
+                    guideFocusUpdateDTO.setAudioTime(newGuideFocusDO.getAudioTime());
+                    updateList.add(guideFocusUpdateDTO);
+                }
+            }
+        }
+        // 删除的看点
+        List<Long> deleteList =  new ArrayList<Long>();
+        for (int i = 0; i < oldList.size(); i++){
+            GuideFocusDO oldGuideFocusDO = oldList.get(i);
+            for (int j = 0 ; j < updateList.size() ;j++){
+                GuideFocusDO newGuideFocusDO = oldList.get(j);
+                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()){
+                    deleteList.add(oldGuideFocusDO.getId());
+                }
+            }
+        }
+        // 新增的看点
+        List<GuideFocusDO> focusAddList = new ArrayList<GuideFocusDO>();
+        for (int i = 0; i < oldList.size(); i++){
+            GuideFocusDO oldGuideFocusDO = oldList.get(i);
+            for (int j = 0 ; j < updateList.size() ;j++){
+                GuideFocusDO newGuideFocusDO = oldList.get(j);
+                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()){
+                    focusAddList.add(newGuideFocusDO);
+                }
+            }
+        }
         AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
+        attractionFocusUpdateDTO.setDeletedFocusIdList(deleteList);
+        attractionFocusUpdateDTO.setFocusAddList(focusAddList);
+        attractionFocusUpdateDTO.setFocusUpdateDTOList(updateList);
         attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
         return attractionFocusUpdateDTO;
     }
