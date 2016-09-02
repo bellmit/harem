@@ -21,10 +21,12 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.GuideConverter;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.helper.ResponseVoHelper;
+import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.result.BizResult;
+import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -176,41 +178,28 @@ public class TouristlistController extends BaseController {
     /**
      * select线路设置前 查询景点列表和线路信息
      **/
-    @RequestMapping(value = "/queryGuideAttractionFocusInfo", method = RequestMethod.GET)
-    public BizResult<String> queryGuideAttractionFocusInfo(Model model, Long attractionId, Long scenicId) throws Exception {
+    @RequestMapping(value = "/queryGuideAttractionFocusInfo/{attractionId}/{scenicId}")
+    @ResponseBody
+    public ResponseVo getArticleItemDetailById(@PathVariable("attractionId") long attractionId, @PathVariable("scenicId") long scenicId)
+            throws Exception {
         try {
-            BizResult<String> bizResult = new BizResult<String>();
+            ResponseVo responseVo = new ResponseVo();
 
-            ICResult<GuideCascadeAttractionDTO> result = guideServiceRef.queryGuideAttractionFocusInfo(scenicId);
-            // 景点列表
-            List<AttractionCascadeFocusDTO> touristlist = new ArrayList<AttractionCascadeFocusDTO>();
-            // 线路列表
-            List<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
-            int totalCount = 0;
-            if (result != null && result.isSuccess() && result.getModule() != null && result.getModule().getAttractionDTOList() != null && result.getModule().getAttractionDTOList().size() > 0) {
-                totalCount = result.getModule().getAttractionDTOList().size();
-                touristlist = result.getModule().getAttractionDTOList();
-
-                if (result.getModule().getGuideLineDTO() != null) {
-                    guideLine = result.getModule().getGuideLineDTO().getGuideLine();
-                }
+            if (attractionId <= 0 || scenicId <= 0) {
+                return new ResponseVo(ResponseStatus.INVALID_DATA);
             }
-            if (null != touristlist) {
-                model.addAttribute("touristlist", touristlist);  // 景点列表
-                if (guideLine != null) {
-                    model.addAttribute("guideLine", guideLine);  // 线路列表
-                }
-            }
-            model.addAttribute("attractionId", attractionId); // 导览id
-            System.out.println("touristlist=" + JSON.toJSONString(touristlist));
+            ICResult<GuideCascadeAttractionDTO> guideCascadeAttractionDTO = guideServiceRef.queryGuideAttractionFocusInfo(scenicId);
 
+            if (guideCascadeAttractionDTO == null) {
+                return new ResponseVo(ResponseStatus.NOT_FOUND);
+            }
+            responseVo.setData(guideCascadeAttractionDTO);
+            return responseVo;
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            return ResponseVo.error(e);
         }
-
-
-//        return "/system/touristlist/touristlist";
     }
 
     /**
