@@ -108,44 +108,56 @@ public class TouristlistController extends BaseController {
     /**
      * delete 删除操作前 查询线路中景点的位置
      **/
-    @RequestMapping(value = "/queryGuideLine", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryGuideLine", method = RequestMethod.GET)
     @ResponseBody
-    public BizResult<String> queryGuideLine(long attractionId) {
-        BizResult<String> bizResult = new BizResult<String>();
-        if (attractionId < 0) {
-            log.error("params error :attractionId={} ", attractionId);
-            bizResult.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
-            return bizResult;
-        }
-        ICResult<GuideLineDTO> result = guideServiceRef.queryGuideLine(attractionId);
-        if (result == null) {
-            bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+    public BizResult<String> queryGuideLine(long guideId,long id) {
+        try{
+            BizResult<String> bizResult = new BizResult<String>();
+            if (guideId < 0) {
+                log.error("params error :attractionId={} ", guideId);
+                bizResult.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+                return bizResult;
+            }
+            ICResult<GuideLineDTO> result = guideServiceRef.queryGuideLine(guideId);
+            if (result == null) {
+                bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
 
-        } else if (!result.isSuccess()) {
-            bizResult.setCode(result.getResultCode());
-            bizResult.setMsg(result.getResultMsg());
-            bizResult.setSuccess(false);
-        } else {
-            bizResult.setCode(result.getResultCode());
-            bizResult.setMsg(result.getResultMsg());
-            int temp = -1;
-            for (int i = 0 ; i < result.getModule().getGuideLine().size(); i++){
-                GuideLineEntry entry = result.getModule().getGuideLine().get(i);
-                if (entry.getAttractionId() == attractionId){
-                    temp = i;
-                    break;
+            } else if (!result.isSuccess()) {
+                bizResult.setCode(result.getResultCode());
+                bizResult.setMsg(result.getResultMsg());
+                bizResult.setSuccess(false);
+            } else {
+                bizResult.setCode(result.getResultCode());
+                bizResult.setMsg(result.getResultMsg());
+                int temp = -1;
+                if(result.getModule() != null){
+                    for (int i = 0 ; i < result.getModule().getGuideLine().size(); i++){
+                        GuideLineEntry entry = result.getModule().getGuideLine().get(i);
+                        if (entry.getAttractionId() == id){
+                            temp = i;
+                            break;
+                        }
+                    }
                 }
+                if (temp == -1){// 不在线路中
+                    bizResult.setValue("0");
+                }else if(temp == result.getModule().getGuideLine().size()-1){ //线路的最后一个节点
+                    bizResult.setValue("2");
+                }else {
+                    bizResult.setValue("1");//线路的中间位置
+                }
+                bizResult.setSuccess(true);
             }
-            if (temp == -1){// 不在线路中
-                bizResult.setValue("0");
-            }else if(temp == result.getModule().getGuideLine().size()-1){ //线路的最后一个节点
-                bizResult.setValue("2");
-            }else {
-                bizResult.setValue("1");//线路的中间位置
-            }
-            bizResult.setSuccess(true);
+            return bizResult;
+
+        }catch (Exception e){
+
+            log.error(e.getMessage(), e);
+
+            return null;
         }
-        return bizResult;
+
+
     }
 
     /**
@@ -153,17 +165,17 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> updateStatus(long attractionId) {
+    public BizResult<String> deleteAttraction(long id) {
 
         BizResult<String> bizResult = new BizResult<String>();
 
-        if (attractionId < 0) {
-            log.error("params error :attractionId={} ", attractionId);
+        if (id < 0) {
+            log.error("params erruor :attractionId={} ", id);
             bizResult.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
             return bizResult;
         }
 
-        ICResult<Boolean> result = trouistlistBiz.deleteAttraction(attractionId);
+        ICResult<Boolean> result = trouistlistBiz.deleteAttraction(id);
         if (result == null) {
             bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
 
@@ -182,17 +194,17 @@ public class TouristlistController extends BaseController {
     /**
      * select线路设置前 查询景点列表和线路信息
      **/
-    @RequestMapping(value = "/queryGuideAttractionFocusInfo/{attractionId}/{scenicId}")
+    @RequestMapping(value = "/queryGuideAttractionFocusInfo")
     @ResponseBody
-    public ResponseVo getArticleItemDetailById(@PathVariable("attractionId") long attractionId, @PathVariable("scenicId") long scenicId)
+    public ResponseVo getArticleItemDetailById(long guideId)
             throws Exception {
         try {
             ResponseVo responseVo = new ResponseVo();
 
-            if (attractionId <= 0 || scenicId <= 0) {
+            if (guideId <= 0) {
                 return new ResponseVo(ResponseStatus.INVALID_DATA);
             }
-            ICResult<GuideCascadeAttractionDTO> guideCascadeAttractionDTO = guideServiceRef.queryGuideAttractionFocusInfo(scenicId);
+            ICResult<GuideCascadeAttractionDTO> guideCascadeAttractionDTO = guideServiceRef.queryGuideAttractionFocusInfo(guideId);
 
             if (guideCascadeAttractionDTO == null) {
                 return new ResponseVo(ResponseStatus.NOT_FOUND);
@@ -338,7 +350,7 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/updateTourist", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> updateTourist( GuideAttractionVO guideAttractionVO) {
+    public BizResult<String> updateTourist(GuideAttractionVO guideAttractionVO) {
 
         BizResult<String> result = new BizResult<String>();
 
