@@ -240,7 +240,7 @@
                         function getPictureText() {
                             var content = $("#contentText").val();
                             return {
-                                pictureTextItems: JSON.parse(content || "[]")
+                                 pictureTextItems:JSON.parse(content || "[]")
                             };
                         }
                     </script>
@@ -266,7 +266,7 @@
     var actionDefaultPath = '$utilWebconfig.getRootPath()';
     var tfsRootPath = '$utilWebconfig.getTfsRootPath()';
     var staticResourcesPath = '$utilWebconfig.getStaticResourcesPath()';
-    var uploadFile = '$utilWebconfig.getRootPath()/upload/file';
+    var uploadFile = '$utilWebconfig.getRootPath()/palace-web/upload/file';
     var uploadFiles = '$utilWebconfig.getRootPath()/upload/files';
 </script>
 <script type="text/javascript">
@@ -473,25 +473,25 @@
     function saveIntro(){
         var picText={
             title:$("#spotIntroTitle").val().trim(),
-            pictext:JSON.stringify(getPictureText()),
+            picTextString:JSON.stringify(getPictureText()),
             uuidPicText:$("#uuidPicText").val(),
             attractionId:$("#hdnId").val()
         }
-        if(picText.title.length){
+        if(picText.title.length == 0){
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
             return false;
         }
 
-        if(picText.uuidPicText.length==0){
+        if(picText.uuidPicText.length == 0){
             layer.msg("请添加图文介绍",{icon:2,time:1500});
             return false;
         }
-
+		console.dir(picText);
         $.ajax({
             url:"$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText",
             type:"post",
             dataType:"json",
-            data:{attractionIntroducePicTextTitleVO:picText},
+            data:picText,
             success:function(res){
                 if(res.success){
                     layer.msg("保存成功。",{icon:1,time:1500});

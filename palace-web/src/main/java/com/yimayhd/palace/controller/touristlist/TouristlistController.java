@@ -189,9 +189,9 @@ public class TouristlistController extends BaseController {
             bizResult.setSuccess(true);
 
             // TODO: 16/9/2     重置线路
-//            if(status == 1){
-//                this.updateGuideLine(id,"");
-//            }
+            if(status == 1){
+                updateGuideLine(id,"");
+            }
         }
         return bizResult;
     }
@@ -412,7 +412,7 @@ public class TouristlistController extends BaseController {
 
         ResponseVo responseVo = new ResponseVo();
 
-        if (rs) {
+       // if (rs) {
             try {
                 if (StringUtils.isBlank(attractionIntroducePicTextTitleVO.getPicTextString())) {
                     log.warn("json is null");
@@ -425,12 +425,10 @@ public class TouristlistController extends BaseController {
                 trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO.getAttractionId(), pictureTextVO);
 
                 //// TODO: 16/9/2 更新标题
-//                {
-//                    GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
-//                    guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
-//                    guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
-//                    this.updateTourist(guideAttractionVO);
-//                }
+                GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
+                guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
+                guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
+                updateTourist(guideAttractionVO);
 
                 return ResponseVo.success();
 
@@ -440,7 +438,7 @@ public class TouristlistController extends BaseController {
                 resVO.setData(UUID.randomUUID().toString());
                 return resVO;
             }
-        }
-        return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
+        //}
+       // return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
     }
 }
