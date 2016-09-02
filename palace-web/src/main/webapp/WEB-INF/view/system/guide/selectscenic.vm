@@ -11,25 +11,26 @@
 </style>
 
 
-<form class="form-signin" id="tbScenicList" name="tbScenicList" method="GET"
-      action="$!utilWebconfig.getActionDefaultFontPath()/jiuniu/guideManage/scenic/list">
+<form class="form-signin" id="tbScenicList" name="tbScenicList" method="POST"
+      action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/list">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">景区名称：</button>
                 </span>
-            <input type="text" class="form-control" name="scenicName" value="">
+            <input type="text" class="form-control" name="scenicName" value="$!{scenicListQuery.scenicName}">
         </div>
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
                         <button class="btn btn-default" type="button">资源编号：</button>
                     </span>
-            <input type="text" class="form-control" name="scenicNumber" value="">
+            <input type="text" class="form-control" name="scenicNumber" value="$!{scenicListQuery.scenicNumber}">
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary submitBtn">搜索</button>
+            <button type="submit" class="btn btn-primary submitBtn">搜索</button>
         </div>
     </div>
+</form>
     <div class="tableGroup whole">
         <table class="table table-bordered" id="tbScenicList">
             <thead>
@@ -68,7 +69,6 @@
             </tbody>
         </table>
     </div>
-</form>
 #*分页*#
 #parse("/page.vm")
 #pageStyle("tbScenicList")
