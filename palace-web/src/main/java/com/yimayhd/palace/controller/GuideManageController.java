@@ -215,6 +215,7 @@ public class GuideManageController extends BaseController {
             model.addAttribute("scenicListQuery", scenicListQuery);
             return "/system/guide/selectscenic";
         } catch (Exception e) {
+            e.printStackTrace();
             return "/error";
         }
     }

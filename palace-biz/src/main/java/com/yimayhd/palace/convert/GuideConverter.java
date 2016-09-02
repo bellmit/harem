@@ -209,13 +209,15 @@ public class GuideConverter {
         scenicVO.setName(scenicDO.getName());
         scenicVO.setSubjectId(scenicDO.getSubjectId());
         scenicVO.setOpenTime(scenicDO.getOpenTime());
-        List<String> names = scenicDO.getScenicFeature().getSubjectNames();
-        if (names != null) {
-            StringBuffer stringBuffer = new StringBuffer();
-            for (String name : names) {
-                stringBuffer.append(name + " ");
+        if(scenicDO.getScenicFeature()!=null) {
+            List<String> names = scenicDO.getScenicFeature().getSubjectNames();
+            if (names != null) {
+                StringBuffer stringBuffer = new StringBuffer();
+                for (String name : names) {
+                    stringBuffer.append(name + " ");
+                }
+                scenicVO.setSubjectName(stringBuffer.toString());
             }
-            scenicVO.setSubjectName(stringBuffer.toString());
         }
         return scenicVO;
     }
