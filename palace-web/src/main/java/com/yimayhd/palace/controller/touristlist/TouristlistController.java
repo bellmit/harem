@@ -110,7 +110,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * delete 删除操作前 查询线路中景点的位置
+     * delete 删除操作前 查询线路中景点的位置 ok
      **/
     @RequestMapping(value = "/queryGuideLine", method = RequestMethod.GET)
     @ResponseBody
@@ -196,7 +196,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * select线路设置前 查询景点列表和线路信息
+     * select线路设置前 查询景点列表和线路信息 ok
      **/
     @RequestMapping(value = "/queryGuideAttractionFocusInfo")
     @ResponseBody
@@ -227,7 +227,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * update线路设置 保存线路 待调试
+     * update线路设置 保存线路 调试
      **/
     @RequestMapping(value = "/updateGuideLine", method = RequestMethod.POST)
     @ResponseBody
@@ -264,7 +264,7 @@ public class TouristlistController extends BaseController {
 
     //2
     /**
-     * select  编辑页面 带景点详情和景点介绍 待调试
+     * select  编辑页面 带景点详情和景点介绍 调试
      **/
     @RequestMapping(value = "/touristEditDetail", method = RequestMethod.GET)
     public String touristEditDetail(Model model, long attractionId,long guideId) throws Exception {
