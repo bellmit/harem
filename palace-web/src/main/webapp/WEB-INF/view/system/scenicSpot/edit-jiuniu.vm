@@ -226,11 +226,11 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-info saveNext">保存并下一步</button>
+          #*  <button type="submit" class="btn btn-info saveNext">保存并下一步</button>*#
         </div>
         <div class="tab-pane" id="scenicImgs" style="width:95%; margin:15px auto;">
             #parse("/system/scenicSpot/pictureText.vm")
-            <button type="button" class="btn btn-info saveAll">全部保存</button>
+          #*  <button type="button" class="btn btn-info saveAll">全部保存</button>*#
         </div>
     </div>
     
