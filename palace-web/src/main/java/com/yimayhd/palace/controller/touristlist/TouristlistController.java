@@ -175,7 +175,6 @@ public class TouristlistController extends BaseController {
             bizResult.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
             return bizResult;
         }
-
         ICResult<Boolean> result = trouistlistBiz.deleteAttraction(id);
         if (result == null) {
             bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
@@ -190,9 +189,9 @@ public class TouristlistController extends BaseController {
             bizResult.setSuccess(true);
 
             // TODO: 16/9/2     重置线路
-            if(status == 1){
-                this.updateGuideLine(id,"");
-            }
+//            if(status == 1){
+//                this.updateGuideLine(id,"");
+//            }
         }
         return bizResult;
     }
@@ -426,12 +425,12 @@ public class TouristlistController extends BaseController {
                 trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO.getAttractionId(), pictureTextVO);
 
                 //// TODO: 16/9/2 更新标题
-                {
-                    GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
-                    guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
-                    guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
-                    this.updateTourist(guideAttractionVO);
-                }
+//                {
+//                    GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
+//                    guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
+//                    guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
+//                    this.updateTourist(guideAttractionVO);
+//                }
 
                 return ResponseVo.success();
 
