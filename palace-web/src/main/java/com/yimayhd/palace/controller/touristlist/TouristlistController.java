@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.palace.model.guide.GuideAttractionVO;
 import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.palace.model.guide.AttractionListGuideLineVO;
-
+import com.yimayhd.palace.model.guide.AttractionIntroducePicTextTitleVO;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
@@ -401,24 +401,31 @@ public class TouristlistController extends BaseController {
     /**
      * 保存 景点图文详情（资源）  待调试
      */
-    @RequestMapping(value = "/savePictureText/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/savePictureText", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo savePictureText(@PathVariable("id") long id, String json, String uuidPicText) throws Exception {
+    public ResponseVo savePictureText(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO) throws Exception {
 
-        String key = Constant.APP + "_repeat_" + sessionManager.getUserId() + uuidPicText;
+        String key = Constant.APP + "_repeat_" + sessionManager.getUserId() + attractionIntroducePicTextTitleVO.getUuidPicText();
         boolean rs = tcCacheManager.addToTair(key, true, 2, 24 * 60 * 60);
+
+        ResponseVo responseVo = new ResponseVo();
+
         if (rs) {
             try {
-                if (StringUtils.isBlank(json)) {
+                if (StringUtils.isBlank(attractionIntroducePicTextTitleVO.getPicTextString())) {
                     log.warn("json is null");
                     return ResponseVo.error();
                 }
 
-                json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+                String json = attractionIntroducePicTextTitleVO.getPicTextString().replaceAll("\\s*\\\"\\s*", "\\\"");
                 PictureTextVO pictureTextVO = (PictureTextVO)JSONObject.parseObject(json, PictureTextVO.class);
 
-                trouistlistBiz.savePictureText(id, pictureTextVO);
+                trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO.getAttractionId(), pictureTextVO);
+
+                //// TODO: 16/9/2 更新标题
+
                 return ResponseVo.success();
+
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 ResponseVo resVO = ResponseVo.error(e);
