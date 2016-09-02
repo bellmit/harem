@@ -265,7 +265,7 @@ public class GuideConverter {
             for (int j = 0 ; j < newList.size() ;j++){
                 GuideFocusDO newGuideFocusDO = oldList.get(j);
                 if (newGuideFocusDO.getId() == oldGuideFocusDO.getId()){
-                    GuideFocusUpdateDTO guideFocusUpdateDTO = new GuideFocusUpdateDTO;
+                    GuideFocusUpdateDTO guideFocusUpdateDTO = new GuideFocusUpdateDTO();
                     guideFocusUpdateDTO.setId(newGuideFocusDO.getId());
                     guideFocusUpdateDTO.setName(newGuideFocusDO.getName());
                     guideFocusUpdateDTO.setAudio(newGuideFocusDO.getAudio());
