@@ -427,8 +427,10 @@ public class TouristlistController extends BaseController {
 
                 //// TODO: 16/9/2 更新标题
                 {
-
-
+                    GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
+                    guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
+                    guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
+                    this.updateTourist(guideAttractionVO);
                 }
 
                 return ResponseVo.success();
