@@ -366,7 +366,7 @@ public class GuideRepo {
         try {
             ICResult<AttractionFocusDTO> result = guideServiceRef.queryAttractionDetail(attractionId);
             if (result != null) {
-                if (result.getModule().getAttractionDO() == null || result.getModule().getGuideFocusDOList() == null) {
+                if (result.getModule().getAttractionDO() != null || result.getModule().getGuideFocusDOList() != null) {
                     log.info("queryAttractionDetail attractionId={},result={}", attractionId, JSON.toJSONString(result));
                     return result.getModule();
                 } else {

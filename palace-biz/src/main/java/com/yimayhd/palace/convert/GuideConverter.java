@@ -1,5 +1,6 @@
 package com.yimayhd.palace.convert;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
@@ -7,6 +8,7 @@ import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
+import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.model.guide.*;
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.BeanUtils;
@@ -316,14 +318,7 @@ public class GuideConverter {
         return guideAttractionVO;
     }
 
-    public static GuideFocusVO guideFocusDO2GuideFocusVO(GuideFocusDO guideFocusDO){
-        if(guideFocusDO==null){
-            return null;
-        }
-        GuideFocusVO guideFocusVO = new GuideFocusVO();
-        BeanUtils.copyProperties(guideFocusDO,guideFocusVO);
-        return guideFocusVO;
-    }
+
 
 
     public static AttractionFocusVO attractionFocusDTO2AttractionFocusVO(AttractionFocusDTO attractionFocusDTO){
@@ -341,12 +336,20 @@ public class GuideConverter {
         if(guideFocusDOList!=null&&guideFocusDOList.size()>0){
             List<GuideFocusVO> guideFocusVOList = new ArrayList<GuideFocusVO>();
             for(GuideFocusDO guideFocusDO:guideFocusDOList){
-                GuideFocusVO guideFocusVO = guideFocusDO2GuideFocusVO(guideFocusDO);
+                GuideFocusVO guideFocusVO = new GuideFocusVO();
+                guideFocusVO.setFileKey(guideFocusDO.getAudio());
+                guideFocusVO.setDuration(guideFocusDO.getAudioTime());
+                guideFocusVO.setInputFileTitle(guideFocusDO.getName());
+               /* GuideFocusVO guideFocusVO = guideFocusDO2GuideFocusVO(guideFocusDO);
                 if(guideFocusDO!=null) {
                     guideFocusVOList.add(guideFocusVO);
-                }
+                }*/
+                guideFocusVO.setFocusOrder(JSON.toJSONString(guideFocusVO));
+               guideFocusVOList.add(guideFocusVO);
+
             }
             attractionFocusVO.setGuideFocusVOList(guideFocusVOList);
+
         }
         return attractionFocusVO;
     }

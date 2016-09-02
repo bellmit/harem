@@ -246,7 +246,7 @@
                     layer.msg("保存失败!",{icon:2,time:1500});
                 }
             });
-        }
+        },
         getLineHtml: function(start, tourid, time) {
             var temp = [];
             var length = this.lineData.length;
@@ -343,7 +343,7 @@
             data:{guideId:guideId},
             beforeSend:function(){
                 layer.msg("正在获取线路设置...",{icon:16,time:null});
-            }
+            },
             success:function(res){
                 layer.closeAll();
                 if(res.status==200){

@@ -85,12 +85,12 @@
                                     <div class="audio-info pull-left">
                                         <div class="audio-info-item">
                                             <label>时长：</label>
-                                            <span>' + data.durationStr + '</span>
+                                            <span>$!{item.durationStr}</span>
                                         </div>
                                         <div class="audio-info-item">
                                             <label>看点名称：</label>
-                                            <textarea style="display:none;" class="focus-json" id="'+id+'"></textarea>
-                                            <input type="text" class="focus-name" value="' + data.inputFileTitle + '">
+                                            <textarea style="display:none;" class="focus-json" id="item$!{velocityCount}">${item.focusOrder}</textarea>
+                                            <input type="text" class="focus-name" value="$!{item.inputFileTitle}">
                                         </div>
                                     </div>
                                     <div class="pull-left">
@@ -373,7 +373,7 @@
 
             spotInfo.focusOrder = JSON.stringify(focusOrderJson);
             $.ajax({
-                url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist",
+                url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/updateTourist",
                 type: "post",
                 dataType: "json",
                 data: spotInfo,

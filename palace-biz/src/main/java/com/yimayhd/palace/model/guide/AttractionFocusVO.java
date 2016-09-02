@@ -1,5 +1,7 @@
 package com.yimayhd.palace.model.guide;
 
+import com.yimayhd.palace.model.attachment.AttachmentVO;
+
 import java.util.List;
 
 /**
@@ -15,6 +17,8 @@ public class AttractionFocusVO {
      * 看点信息
      */
     private List<GuideFocusVO> guideFocusVOList;
+
+
 
     public GuideAttractionVO getGuideAttractionVO() {
         return guideAttractionVO;

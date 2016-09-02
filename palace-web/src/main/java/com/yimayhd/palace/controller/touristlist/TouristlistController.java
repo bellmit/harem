@@ -336,7 +336,7 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/updateTourist", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> addTourist(long attractionId, GuideAttractionVO guideAttractionVO) {
+    public BizResult<String> updateTourist( GuideAttractionVO guideAttractionVO) {
 
         BizResult<String> result = new BizResult<String>();
 
