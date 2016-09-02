@@ -163,7 +163,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * delete 删除操作 删除景点
+     * delete 删除操作 删除景点 调试
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
@@ -190,6 +190,9 @@ public class TouristlistController extends BaseController {
             bizResult.setSuccess(true);
 
             // TODO: 16/9/2     重置线路
+            if(status == 1){
+                this.updateGuideLine(id,"");
+            }
         }
         return bizResult;
     }
@@ -226,7 +229,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * update线路设置 保存线路 调试
+     * update线路设置 保存线路 ok
      **/
     @RequestMapping(value = "/updateGuideLine", method = RequestMethod.POST)
     @ResponseBody
@@ -263,7 +266,7 @@ public class TouristlistController extends BaseController {
 
     //2
     /**
-     * select  编辑页面 带景点详情和景点介绍 调试
+     * select  编辑页面 带景点详情和景点介绍 ok
      **/
     @RequestMapping(value = "/touristEditDetail", method = RequestMethod.GET)
     public String touristEditDetail(Model model, long attractionId,long guideId) throws Exception {
@@ -289,7 +292,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * select新增页面  不带景点详情和景点介绍
+     * select新增页面  不带景点详情和景点介绍 ok
      **/
     @RequestMapping(value = "/touristaddDetail", method = RequestMethod.GET)
     public String touristaddDetail(Model model, long attractionId) throws Exception {
@@ -353,7 +356,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * update 景点详情和景点介绍 编辑保存 待调试
+     * update 景点详情和景点介绍 编辑保存 ok
      **/
     @RequestMapping(value = "/updateTourist", method = RequestMethod.POST)
     @ResponseBody
@@ -399,7 +402,7 @@ public class TouristlistController extends BaseController {
 
     //3
     /**
-     * 保存 景点图文详情（资源）  待调试
+     * 保存 景点图文详情（资源）  调试
      */
     @RequestMapping(value = "/savePictureText", method = RequestMethod.POST)
     @ResponseBody
@@ -423,6 +426,10 @@ public class TouristlistController extends BaseController {
                 trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO.getAttractionId(), pictureTextVO);
 
                 //// TODO: 16/9/2 更新标题
+                {
+
+
+                }
 
                 return ResponseVo.success();
 
