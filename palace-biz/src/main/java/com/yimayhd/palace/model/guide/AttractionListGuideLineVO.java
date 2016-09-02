@@ -14,12 +14,12 @@ import java.util.List;
 public class AttractionListGuideLineVO {
 
     /**
-     * 线路顺序
+     * 景点列表
      */
     List<GuideAttractionDO> guideAttractionDOList;
 
     /**
-     * 线路顺序
+     * 线路列表
      */
     List<GuideLineEntry> guideLine;
 

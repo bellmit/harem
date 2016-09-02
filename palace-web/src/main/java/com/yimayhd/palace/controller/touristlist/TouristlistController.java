@@ -160,8 +160,6 @@ public class TouristlistController extends BaseController {
 
             return null;
         }
-
-
     }
 
     /**
@@ -169,8 +167,7 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> deleteAttraction(long id) {
-
+    public BizResult<String> deleteAttraction(long id,long status) {
         BizResult<String> bizResult = new BizResult<String>();
 
         if (id < 0) {
@@ -191,6 +188,8 @@ public class TouristlistController extends BaseController {
             bizResult.setCode(result.getResultCode());
             bizResult.setMsg(result.getResultMsg());
             bizResult.setSuccess(true);
+
+            // TODO: 16/9/2     重置线路
         }
         return bizResult;
     }
@@ -269,7 +268,7 @@ public class TouristlistController extends BaseController {
     @RequestMapping(value = "/touristEditDetail", method = RequestMethod.GET)
     public String touristEditDetail(Model model, long attractionId,long guideId) throws Exception {
         try {
-            AttractionFocusVO attractionFocusVO =    guideManageService.queryAttractionDetail(attractionId);
+            AttractionFocusVO attractionFocusVO = guideManageService.queryAttractionDetail(attractionId);
             // 景点信息和看点信息
             if (null != attractionFocusVO) {
                 model.addAttribute("attractionDO", attractionFocusVO.getGuideAttractionVO());
@@ -383,7 +382,7 @@ public class TouristlistController extends BaseController {
             }
             if (saveResult.isSuccess()) {
                 result.initSuccess(saveResult.getResultMsg());
-                result.setValue("qqq");
+                result.setValue("1");
                 result.setSuccess(true);
             } else {
                 result.setCode(saveResult.getResultCode());
@@ -416,7 +415,7 @@ public class TouristlistController extends BaseController {
                 }
 
                 json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
-                PictureTextVO pictureTextVO = (PictureTextVO) JSONObject.parseObject(json, PictureTextVO.class);
+                PictureTextVO pictureTextVO = (PictureTextVO)JSONObject.parseObject(json, PictureTextVO.class);
 
                 trouistlistBiz.savePictureText(id, pictureTextVO);
                 return ResponseVo.success();
