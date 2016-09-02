@@ -137,8 +137,8 @@
                                 $!attractionCascadeFocusDTO.focusDOList.size()
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary edit"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">编辑</button>
-                                <button type="button" class="btn btn-primary delete"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" attractionId="$!attractionCascadeFocusDTO.guideAttractionDO.id">删除</button>
+                                <button type="button" class="btn btn-primary edit"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" id="$!attractionCascadeFocusDTO.guideAttractionDO.id">编辑</button>
+                                <button type="button" class="btn btn-primary delete"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" id="$!attractionCascadeFocusDTO.guideAttractionDO.id">删除</button>
                             </td>
                         </tr>
                         #end
@@ -230,7 +230,7 @@
             var self=this;
             var data={guideId:self.guideId,lines:self.getLineSettings};
             $.ajax({
-                url:"url",
+                url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateGuideLine",
                 type:"post",
                 data:data,
                 dataType:"json",
@@ -303,21 +303,21 @@
     $(function(){
         var guideId=$("#hdnGuideId").val();
         $(".addTourist").click(function(){
-            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail?attractionId="+guideId,2,"景点详情");
+            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail?guideId="+guideId,2,"景点详情");
         });
 
         //  编辑景点
         $("#tbTourList").on("click",".edit",function(){
-            var attractionId = $(this).attr("attractionId");
+            var id = $(this).attr("id");
             var guideId=$(this).attr("guideId")
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+attractionId +"&guideId="+guideId, 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?id="+attractionId +"&guideId="+guideId, 2, "景点详情");
         });
 
         //删除景点
-        $(".updateStatus").on("click",".delete",function(){
-            var attractionId = $(this).attr("attractionId");
-            var id=$(this).attr("id");
-            getTourStatus(attractionId,id);
+        $("#tbTourList").on("click",".delete",function(){
+            var id = $(this).attr("id");
+            var guideId=$(this).attr("guideId");
+            getTourStatus(guideId,id);
         });
 
         //切换到线路页面
@@ -338,7 +338,7 @@
 
     function initLineEditor(guideId){
         $.ajax({
-            url:"url",
+            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/queryGuideAttractionFocusInfo",
             type:"get",
             data:{guideId:guideId},
             beforeSend:function(){
@@ -348,8 +348,10 @@
                 layer.closeAll();
                 if(res.status==200){
                     if(lineEditor){
-                        lineEditor.lineData=res.data.lineData;
-                        lineEditor.lineSettings=res.data.lineSettings;
+//                      lineEditor.lineData=res.data.lineData;
+//                      lineEditor.lineSettings=res.data.lineSettings;
+                        lineEditor.lineData=res.data.attractionDTOList;
+                        lineEditor.lineSettings=res.data.guideLineDTO.guideLine;
                         lineEditor.render();
                     }else{
                         lineEditor=new LineEditor({
@@ -367,17 +369,17 @@
             }
         });
     }
-    function getTourStatus(attractionId,id){
-        var data={attractionId:attractionId,id:id};
+    function getTourStatus(guideId,id){
+        var data={guideId:guideId,id:id};
         $.ajax({
-            url:"url",
+            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/queryGuideLine",
             type:"get",
             data:data,
             success:function(res){
-                if(res.status==200){
-                    msg=getTips(res.data);
+                if(res.success){
+                    msg=getTips(res.value);
                     layer.confirm(msg,function(){
-                        deleteTour(attractionId,id);
+                        deleteTour(id);
                     });
                 }
                 else{
@@ -401,14 +403,14 @@
         if(msg){
             return msg;
         }
-        return msg["1"];
+        return message["1"];
     }
 
-    function deleteTour(attractionId,id){
+    function deleteTour(id){
         $.ajax({
-            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateStatus",
+            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/deleteAttraction",
             type:"post",
-            data:{attractionId:attractionId,id:id},
+            data:{id:id},
             dataType:"json",
             success:function(data){
                 if(data.status==200){
