@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import com.google.common.base.Strings;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.BaseController;
@@ -10,6 +11,7 @@ import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
+import com.yimayhd.palace.model.guide.ScenicListQuery;
 import com.yimayhd.palace.model.guide.ScenicVO;
 import com.yimayhd.palace.service.GuideManageService;
 import com.yimayhd.palace.util.Enums;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 导览
@@ -190,33 +194,28 @@ public class GuideManageController extends BaseController {
     }
 
     @RequestMapping(value = "/scenic/list")
-    public String list(Model model, ScenicPageQuery scenicPageQuery) {
+    public String list(Model model, ScenicListQuery scenicListQuery) {
         try {
+            ScenicPageQuery scenicPageQuery = new ScenicPageQuery();
+            scenicPageQuery.setNeedCount(true);
+            if (!Strings.isNullOrEmpty(scenicListQuery.getScenicName())) {
+                scenicPageQuery.setName(scenicListQuery.getScenicName());
+            }
+            if (scenicListQuery.getScenicNumber() != null && scenicListQuery.getScenicNumber() > 0) {
+                List<Long> ids = new ArrayList<>();
+                ids.add(scenicListQuery.getScenicNumber());
+                scenicPageQuery.setIds(ids);
+            }
+            scenicPageQuery.setPageNo(scenicListQuery.getPageNumber());
+            scenicPageQuery.setPageSize(scenicListQuery.getPageSize());
             PageVO<ScenicVO> pageVO = guideManageService.getScenicList(scenicPageQuery);
 
             model.addAttribute("pageVo", pageVO);
             model.addAttribute("itemList", pageVO.getItemList());
+            model.addAttribute("scenicListQuery", scenicListQuery);
             return "/system/guide/selectscenic";
         } catch (Exception e) {
             return "/error";
-        }
-    }
-
-    /**
-     * @param model
-     * @param scenicVO
-     * @return
-     * @throws Exception
-     */
-
-    @RequestMapping(value = "/scenic/selected")
-    @ResponseBody
-    public ResponseVo selected(Model model, ScenicVO scenicVO) {
-        try {
-            ScenicVO result = guideManageService.selectedScenic(scenicVO);
-            return new ResponseVo(result);
-        } catch (Exception e) {
-            return ResponseVoHelper.returnResponseVo(false);
         }
     }
 

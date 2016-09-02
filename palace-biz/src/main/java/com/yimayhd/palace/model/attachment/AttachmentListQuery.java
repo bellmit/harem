@@ -107,7 +107,7 @@ public class AttachmentListQuery extends BaseQuery {
             try {
                 startTime = DateUtils.parseDate(startTimeStr, Locale.CHINA, DateUtil.DATE_TIME_FORMAT);
             } catch (ParseException e) {
-                e.printStackTrace();
+                return null;
             }
         }
         return startTime;
@@ -123,7 +123,7 @@ public class AttachmentListQuery extends BaseQuery {
             try {
                 endTime = DateUtils.parseDate(endTimeStr, Locale.CHINA, DateUtil.DATE_TIME_FORMAT);
             } catch (ParseException e) {
-                e.printStackTrace();
+                return null;
             }
         }
         return endTime;

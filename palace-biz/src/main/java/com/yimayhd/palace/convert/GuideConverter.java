@@ -214,8 +214,8 @@ public class GuideConverter {
         List<String> names = scenicDO.getScenicFeature().getSubjectNames();
         if (names != null) {
             StringBuffer stringBuffer = new StringBuffer();
-            for(String name :names) {
-                stringBuffer.append(name+" ");
+            for (String name : names) {
+                stringBuffer.append(name + " ");
             }
             scenicVO.setSubjectName(stringBuffer.toString());
         }
@@ -347,7 +347,8 @@ public class GuideConverter {
                 guideFocusVO.setFileKey(guideFocusDO.getAudio());
                 guideFocusVO.setDuration(guideFocusDO.getAudioTime());
                 guideFocusVO.setInputFileTitle(guideFocusDO.getName());
-               /* GuideFocusVO guideFocusVO = guideFocusDO2GuideFocusVO(guideFocusDO);
+                guideFocusVO.setId(guideFocusDO.getId());
+                /* GuideFocusVO guideFocusVO = guideFocusDO2GuideFocusVO(guideFocusDO);
                 if(guideFocusDO!=null) {
                     guideFocusVOList.add(guideFocusVO);
                 }*/
