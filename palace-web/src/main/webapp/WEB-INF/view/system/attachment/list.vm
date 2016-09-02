@@ -224,6 +224,10 @@
     });
 
     $(function () {
+        //fix ie 下选择文件无效
+        $("#btnUpload").on("click",function(){
+            $("#attachmentFile")[0].click();
+        });
         $("#btnQuery").on("click",function(){
             var startTime=$("#tbAttachmentListForm").find(".startTime").val();
             var endTime=$("#tbAttachmentListForm").find(".endTime").val();
