@@ -429,17 +429,17 @@
             data:{id:id},
             dataType:"json",
             success:function(data){
-                if(data.status==200){
+                if(data.success){
                     layer.msg("删除成功!",{icon:1,time:1500});
                     setTimeout(function(){
                         window.location.reload();
                     },2000)
                 }else{
-                    layer.msg("删除失败!",{icon:1,time:1500});
+                    layer.msg("删除失败!",{icon:2,time:1500});
                 }
             },
             error:function(){
-                layer.msg("删除失败!",{icon:1,time:1500});
+                layer.msg("删除失败!",{icon:2,time:1500});
             }
         })
     }

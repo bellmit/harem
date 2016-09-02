@@ -1,11 +1,137 @@
+<style type="text/css">
+    .inpCtlBlock {
+        display: inline-block;
+        width: 70%;
+    }
+    .table th {
+        width: 20%;
+        text-align: right;
+        vertical-align: middle;
+    }
 
-    <style type="text/css">
-        .inpCtlBlock {
-            display: inline-block;
-            width: 70%;
-        }
-    </style>
+    .table td {
+        width: 80%;
+    }
 
+    .upload-btn {
+        position: relative;
+    }
+
+    .upload-btn .btn {
+        width: 100px;
+    }
+
+    .upload-btn .upload-file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 25px;
+        width: 102px;
+        height: 33px;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .upload-view {
+        margin-top: 10px;
+    }
+
+    .upload-view .img-wapper {
+        position: relative;
+        width: 150px;
+        height: 75px;
+        border: 1px solid #ccc;
+    }
+
+    .img-wapper.uploaded:hover .delete-btn {
+        display: block;
+    }
+
+    .upload-view .upload-img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .upload-view .delete-btn {
+        display: none;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        background: #000;
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+        cursor: pointer;
+    }
+
+    .audio-list {
+        margin-top: 10px;
+    }
+
+    .audio-item {
+        width: 490px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #eee;
+        background: #fafafa;
+        overflow: hidden;
+    }
+
+    .audio-img {
+        float: left;
+        width: 100px;
+        height: 75px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .audio-img img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .audio-info {
+        margin-right: 10px;
+    }
+
+    .audio-info-item label {
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        width: 80px;
+        text-align: right;
+    }
+
+    .audio-info-item span,
+    .audio-info-item input {
+        display: inline-block;
+        width: 200px;
+        height: 32px;
+        line-height: 32px;
+    }
+
+    .audio-info-item input {
+        padding: 5px 8px;
+        font-size: 13px;
+        line-height: 1.53846154;
+        color: #222;
+        vertical-align: middle;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/validform.css">
 <input type="hidden" id="rs_js_css_path_jiuxiu" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="root_path" value="http://console.test.jiuxiulvxing.com/palace-web">
 <input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
@@ -31,13 +157,13 @@
                 <tr>
                     <th><span class="spColor">*</span>景点名称：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="spotName" id="spotName" datatype="*1-20" nullmsg="请输入景点名称！" errormsg="景点名称长度未1-20个字符" value="">
+                        <input type="text" class="inpCtlBlock" name="spotName" id="spotName" datatype="*1-20" nullmsg="请输入景点名称！" placeholder="请输入20字以内字符" errormsg="请输入20字以内字符" value="">
                     </td>
                 </tr>
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="*1-20" nullmsg="请输入景区编号！" errormsg="景点名称长度未1-20个字符" value="">
+                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="/^[0-9a-zA-z]{1,20}$/" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字或者字母" errormsg="请输入20字以内的数字或者字母。" value="">
                     </td>
                 </tr>
                 <tr>
@@ -49,7 +175,7 @@
                             <input type="hidden" id="spotLogoUrl" name="spotLogoUrl" value="" datatype="*" nullmsg="请上传景点头图！">
                         </div>
                         <div class="upload-view ">
-                            <div class="img-wapper uploaded">
+                            <div class="img-wapper">
                                 <img class="upload-img" id="logoUrlImg" imgurl="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
                                 <div class="delete-btn">删除</div>
                             </div>
@@ -82,12 +208,6 @@
     </div>
     <div class="tab-pane" id="spotIntro">
         <table class="table" style="width:75%; margin:0 auto;">
-
-
-        ##  标题和图片
-        ##  $result.getAttractionDO().title
-        ##  $result.getAttractionDO().attrImg
-
             <tr>
                 <th><span class="spColor">*</span>景点介绍标题：</th>
                 <td>
@@ -138,18 +258,45 @@
 <script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/seajs-preload.js"></script>
 <script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/config.js"></script>
 <script>
+    layer.config({
+        extend: 'extend/layer.ext.js',
+        extend: ['skin/mySkin/style.css'],
+        skin: 'layer-ext-mySkin'
+    });
+    var actionDefaultPath = '$utilWebconfig.getRootPath()';
+    var tfsRootPath = '$utilWebconfig.getTfsRootPath()';
+    var staticResourcesPath = '$utilWebconfig.getStaticResourcesPath()';
+    var uploadFile = '$utilWebconfig.getRootPath()/upload/file';
+    var uploadFiles = '$utilWebconfig.getRootPath()/upload/files';
+</script>
+<script type="text/javascript">
     seajs.use("comediter");
 </script>
 <script type="text/javascript">
+    var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+    function checkImg(src, callback) {
+        var img = new Image();
+        img.src = src;
+        img.onload = function() {
+            callback && callback(img.width <= 750 && img.height <= 360)
+        }
+    }
     function initUploadFile(fileId, hiddenId, imgId) {
         $(fileId).on("change", function() {
             fileUpload(fileId, 1, function(data) {
                 if (data && data.status == 200) {
                     console.log(data.data);
-                    $(hiddenId).val(data.data);
-
-                    $(imgId).attr('src', tfsRootPath + data.data);
-                    $(imgId).closest(".upload-wapper").addClass("uploaded");
+                    checkImg(src, function(r) {
+                        if (r) {
+                            $(hiddenId).val(data.data);
+                            $(imgId).attr('src', tfsRootPath + data.data);
+                            $(imgId).closest(".upload-wapper").addClass("uploaded");
+                        } else {
+                            layer.msg('图片尺寸太大，请上传正确的图片', {
+                                icon: 2
+                            });
+                        }
+                    });
                 } else {
                     layer.msg('图片上传失败，请重试', {
                         icon: 2
@@ -209,13 +356,19 @@
 
         //选择语音文件 
         $('#btnSelectAudio').on("click", function () { 
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件",
-                    function () { 
-                        var item = win.getItem(); 
-                        if (item != null) { 
-                            addAudioItem(item); 
+            openModalForForm(
+                '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select',
+                "选择语音文件",
+                function () { 
+                    var item = win.getItem(); 
+                    if (item != null) { 
+                        addAudioItem(item); 
                         } 
-                 return true; 
+                    else{
+                        layer.msg("请选择语音",{icon:2,time:1500});
+                        return false;
+                    }
+                    return true; 
             }); 
         });
 
@@ -233,79 +386,112 @@
                 $item.remove();
         });
 
+        //表单验证
+
+        var validSpot=$("#frmSpotInfo").Validform({
+            tiptype:3,
+            showAllError:true,
+            ajaxPost:true
+        });
         //保存景点详情
         $("#btnSaveSpotInfo").on("click", function() {
-            var spotInfo = {
-                id: $("#hdnId").val(),
-                guideId: $("#hdnGuideId").val(),
-                name: $("#spotName").val(),
-                attrImg: $("#spotLogoUrl").val(),
-                tourTime: $("#tourTime").val()
-            };
-            var focusOrderJson =[];
-            $(".audio-list .audio-item").each(function(i,d) {
-                var  item= $(d);
-                var json = JSON.parse(item.find(".focus-json").val());
-                console.log(json);
-                json.inputFileTitle = item.find(".focus-name").val();
+            var checked=validSpot.check();
+            if(checked){
+                saveInfo();
+            }
+        });
+    });
+    //保存景点详情
+    function saveInfo(){
+        var spotInfo = {
+            id: $("#hdnId").val(),
+            guideId: $("#hdnGuideId").val(),
+            name: $("#spotName").val(),
+            attrImg: $("#spotLogoUrl").val(),
+            tourTime: $("#tourTime").val()
+        };
+        var focusOrderJson =[];
+        $(".audio-list .audio-item").each(function(i,d) {
+            var  item= $(d);
+            var json = JSON.parse(item.find(".focus-json").val());
+            console.log(json);
+            json.inputFileTitle = item.find(".focus-name").val();
 
-                focusOrderJson.push({
-                    name:json.inputFileTitle,
-                    audioTime:json.duration,
-                    audio:json.fileKey
-                });
+            focusOrderJson.push({
+                name:json.inputFileTitle,
+                audioTime:json.duration,
+                audio:json.fileKey
             });
+        });
 
-            spotInfo.focusOrder = JSON.stringify(focusOrderJson);
-            $.ajax({
-                url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist",
-                type: "post",
-                dataType: "json",
-                data: spotInfo,
-                beforeSubmit: function() {
-                    layer.msg("正在提交...", {
-                        icon: 16,
-                        time: null,
-                        shade: [0.3, '#000']
-                    });
-                },
-                success: function(data) {
+        spotInfo.focusOrder = JSON.stringify(focusOrderJson);
+        $.ajax({
+            url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist",
+            type: "post",
+            dataType: "json",
+            data: spotInfo,
+            beforeSubmit: function() {
+                layer.msg("正在提交...", {
+                    icon: 16,
+                    time: null,
+                    shade: [0.3, '#000']
+                });
+            },
+            success: function(data) {
 
-                    console.log(JSON.stringify(data));
+                console.log(JSON.stringify(data));
 
-                    if (data.success) {
-                        $("#hdnId").val(data.value);
-                        $('#myTab li[data-target="#spotIntro"]').trigger("click");
-                    } else {
-                        layer.msg(data.message, {
-                            icon: 2
-                        });
-                    }
-                },
-                error: function() {
-                    layer.closeAll();
-                    layer.msg("提交失败。", {
+                if (data.success) {
+                    $("#hdnId").val(data.value);
+                    $('#myTab li[data-target="#spotIntro"]').trigger("click");
+                } else {
+                    layer.msg(data.message, {
                         icon: 2
                     });
                 }
-            });
+            },
+            error: function() {
+                layer.closeAll();
+                layer.msg("提交失败。", {
+                    icon: 2
+                });
+            }
         });
-    });
+    }
 
-    // 保存景点详情
-##    $('#btnSaveSpotDetailInfo').on("click", function () {
-##    console.log(JSON.stringify(getPictureText()));
-##        var data = $("#touristAddForm").serializeArray(); //自动将form表单封装成json
-##        console.log(data);
-##        submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist", "post", data);
-##    });
+    //保存图文介绍
+    function saveIntro(){
+        var title=$("#spotIntroTitle").val().trim();
+        var pictext=getPictureText();
 
-    // 保存图文
-##    $('#btnSaveSpotPicTextIntro').on("click", function () {
-##        var data = $("#touristPicTextAddForm").serializeArray(); //自动将form表单封装成json
-##        submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText", "post", data);
-##    });
+        if(title.length){
+            layer.msg("请输入景点介绍标题",{icon:2,time:1500});
+            return false;
+        }
 
+        if(pictext.length==0){
+            layer.msg("请添加图文介绍",{icon:2,time:1500});
+            return false;
+        }
+
+        $.ajax({
+            url:"",
+            type:"post",
+            dataType:"json",
+            success:function(res){
+                if(res.success){
+                    layer.msg("保存成功。",{icon:1,time:1500});
+                }
+                else{
+
+                    layer.msg("保存失败。",{icon:2,time:1500});
+                }
+            },
+            error:function(){
+                layer.msg("保存失败。",{icon:2,time:1500});
+            }
+        });
+    }
 </script>
 
 
