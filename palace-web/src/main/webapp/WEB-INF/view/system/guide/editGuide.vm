@@ -101,7 +101,7 @@
             </tr>
             <tr>
                 <th class="w15">主题：</th>
-                <td class="w35"><span id="theme" name="theme" id="theme"></span></td>
+                <td class="w35"><span id="theme" name="theme" id="theme">$!{guideScenicVO.scenicVO.subjectName}</span></td>
                 <th class="w15">地址：</th>
                 <td class="w35"><span id="address" name="address" id="address">$!{guideScenicVO.scenicVO.address}</span>
                 </td>
@@ -334,7 +334,7 @@
         //上传导览电子地图
         initUploadFile("#mapUrlUploadfile", "#guideImg", "#mapUrlImg");
         //选择景区
-        initScenicSubject();
+        //initScenicSubject();
 
         //文本长度限制
         var limitTexts=$(".limit-text");
