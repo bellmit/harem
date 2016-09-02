@@ -310,7 +310,7 @@
         $("#tbTourList").on("click",".edit",function(){
             var id = $(this).attr("id");
             var guideId=$(this).attr("guideId")
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?id="+attractionId +"&guideId="+guideId, 2, "景点详情");
+            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?id="+id+"&guideId="+guideId, 2, "景点详情");
         });
 
         //删除景点
