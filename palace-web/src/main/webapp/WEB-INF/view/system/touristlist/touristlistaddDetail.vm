@@ -194,7 +194,7 @@
                     <td>
                         <div class="upload-btn">
                             <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
-                            <input type="hidden" id="hdnAudios" name="audios" datatype="*" nullmsg="请选择语音包">
+                            <input type="hidden" id="hdnAudios" name="audios">
                         </div>
                         <div class="audio-list">
                         </div>
@@ -397,6 +397,11 @@
         //保存景点详情
         $("#btnSaveSpotInfo").on("click", function() {
             var checked=validSpot.check();
+            if($(".audio-list .audio-item").length==0){
+                layer.msg("请选择语音包",{icon:2,time:1500});
+                return false;
+            }
+
             if(checked){
                 saveInfo();
             }

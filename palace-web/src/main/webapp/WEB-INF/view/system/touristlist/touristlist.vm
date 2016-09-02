@@ -191,6 +191,7 @@
         render: function() {
             var self = this;
             var editor = $(self.selectors.lineEditor);
+            editor.empty();
             if (self.lineSettings&&self.lineSettings.length == 0) {
                 editor.append(self.getLineHtml(true));
             } else {
@@ -396,7 +397,7 @@
                 if(res.success){
                     msg=getTips(res.value);
                     layer.confirm(msg,function(){
-                        deleteTour(id);
+                        deleteTour(id,res.value);
                     });
                 }
                 else{
@@ -423,11 +424,11 @@
         return message["1"];
     }
 
-    function deleteTour(id){
+    function deleteTour(id,status){
         $.ajax({
             url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/deleteAttraction",
             type:"post",
-            data:{id:id},
+            data:{id:id,status:status},
             dataType:"json",
             success:function(data){
                 if(data.success){
