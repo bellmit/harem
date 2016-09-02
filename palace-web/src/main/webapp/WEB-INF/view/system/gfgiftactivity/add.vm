@@ -37,9 +37,7 @@
         <div class = "addSet addShowID">
             <ul>
                 <li>
-                    <span><s>*</s><font>满</font></span><input type = "text"><font>元</font>
-                    <font>赠</font><s>*</s><input type = "text">
-                    <font>款</font><a class = "btn btn-primary themeStop addgoodsBtn" data-add="0">添加</a>
+                    <a class = "btn btn-primary themeStop addgoodsBtn" data-add="0">添加</a>
                 </li>
                 <li>
                     <span><s>*</s><font>赠品名称：</font></span><input type = "text" class = "name">
@@ -69,6 +67,8 @@
         <a class = "btn btn-primary themeStop">取消</a>
     </p>
 </div>
+##    <input type="hidden" id="filegw_url" value="">
+##    <input type="hidden" id="tfs" value="">
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/sea.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/seajs-preload.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/config.js"></script>
