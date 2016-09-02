@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.palace.constant.B2CConstant;
+import com.yimayhd.palace.model.*;
+import com.yimayhd.promotion.client.result.*;
+import com.yimayhd.promotion.client.service.PromotionPublishService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -35,9 +39,6 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ActActivityEditVOConverter;
 import com.yimayhd.palace.convert.ActPromotionEditDTOConverter;
 import com.yimayhd.palace.convert.PromotionEditDTOConverter;
-import com.yimayhd.palace.model.ActActivityEditVO;
-import com.yimayhd.palace.model.ActActivityVO;
-import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.PromotionCommService;
@@ -50,10 +51,6 @@ import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import com.yimayhd.promotion.client.query.EntityQueryPair;
 import com.yimayhd.promotion.client.query.PromotionPageQuery;
-import com.yimayhd.promotion.client.result.BasePageResult;
-import com.yimayhd.promotion.client.result.ItemPromotionQueryResult;
-import com.yimayhd.promotion.client.result.PcBaseItem;
-import com.yimayhd.promotion.client.result.PromotionDTO;
 import com.yimayhd.promotion.client.service.PromotionQueryService;
 
 /**
@@ -65,7 +62,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     private ActivityPromotionService activityPromotionServiceRef;
     @Autowired
     private PromotionQueryService promotionQueryService;
-
+    @Autowired
+    private PromotionPublishService promotionPublishServiceRef;
     @Autowired
     private ItemQueryService itemQueryServiceRef;
 
@@ -363,5 +361,34 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 //        actActivityDO.setTitle(name);
 //        actActivityDO.setType(type);
 //        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);
+    }
+    public GiftActivityVO getGiftActivity(long id) throws Exception {
+        GiftActivityVO giftActivityVO = new GiftActivityVO();
+
+        return giftActivityVO;
+    }
+    public boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
+        PromotionDO promotionDO = new PromotionDO();
+        promotionDO.setTitle(giftActivityVO.getTitle());
+        promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+        //promotionDO.setPromotionType(PromotionType.GIFT.getByType());
+        promotionDO.setPromotionType(7);
+        promotionDO.setEndTime(new Date());
+        promotionDO.setStartTime(new Date());
+        promotionDO.setGmtCreated(new Date());
+        promotionDO.setGmtModified(new Date());
+        Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
+        promotionDO.setFeature(JSON.toJSON(feature).toString());
+        PCResult<PromotionDO> addResult = promotionPublishServiceRef.addPromotion(promotionDO);
+        return addResult.isSuccess();
+    }
+    public boolean updateGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
+        PromotionDO promotionDO = new PromotionDO();
+        PCResult<Boolean> addResult = promotionPublishServiceRef.updPromotion(promotionDO);
+        return addResult.isSuccess();
+    }
+    public boolean stopGiftActivity(long id) throws Exception {
+        PCResult<Boolean> addResult = promotionPublishServiceRef.closePromotion(id);
+        return addResult.isSuccess();
     }
 }
