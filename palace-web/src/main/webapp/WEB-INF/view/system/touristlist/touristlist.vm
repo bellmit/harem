@@ -192,14 +192,16 @@
             });
             //删除节点
             $(self.selectors.deletePoint).on("click", function() {
-                var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
-                if (lastItem.length == 0) {
-                    return;
-                }
-                if (lastItem.hasClass("start")) {
-                    return;
-                }
-                lastItem.remove();
+                layer.confirm("是否确认要是删除？",function(){
+                    var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
+                    if (lastItem.length == 0) {
+                        return;
+                    }
+                    if (lastItem.hasClass("start")) {
+                        return;
+                    }
+                    lastItem.remove();
+                });
             });
 
             //保存节点
