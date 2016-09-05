@@ -137,6 +137,7 @@
 <input type="hidden" id="id" name="id" value="$!{attractionDO.id}">
 <input type="hidden" id="guideId" name="guideId" value="$!{attractionDO.guideId}">
 <input type="hidden" id="uuidPicText" value="$!{uuidPicText}" />
+
 <ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
         <a>景点详情</a>
@@ -148,6 +149,7 @@
 <div class="tab-content">
     <div class="tab-pane active" id="spotInfo">
         <form id="frmSpotInfo">
+
             <table class="table">
                 <tr>
                     <th><span class="spColor">*</span>景点名称：</th>
@@ -538,7 +540,11 @@
                     console.log(JSON.stringify(data));
 
                     if (data.success) {
+<<<<<<< HEAD
                         //$("#id").val(data.value);
+=======
+                      ## $("#hdnId").val(data.value);
+>>>>>>> 1db4dd7... 修改页面
                         $('#myTab li[data-target="#spotIntro"]').trigger("click");
                     } else {
                         layer.msg(data.message, {

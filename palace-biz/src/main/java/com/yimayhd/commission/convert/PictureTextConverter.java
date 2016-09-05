@@ -11,6 +11,7 @@ import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.enums.FeatureType;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.enums.PictureTextItemType;
 import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
@@ -55,6 +56,7 @@ public class PictureTextConverter {
 			return null;
 		}
 		ComentEditDTO comentEditDTO = new ComentEditDTO();
+		comentEditDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		comentEditDTO.setOutId(itemId);
 		comentEditDTO.setOutType(pictureTextType.name());
 		List<PicTextDO> picTextDOList = new ArrayList<PicTextDO>();
