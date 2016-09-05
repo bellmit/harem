@@ -501,7 +501,7 @@
             dataType:"json",
             data:picText,
             success:function(res){
-                if(res.success){
+                if(res.status == 200){
                     layer.msg("保存成功。",{icon:1,time:1500});
                 }
                 else{
