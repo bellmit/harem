@@ -169,6 +169,8 @@ public class GuideConverter {
             guideScenicVO.setSubjectId(scenicDO.getSubjectId());
             guideScenicVO.setLocationX(scenicDO.getLocationX());
             guideScenicVO.setLocationY(scenicDO.getLocationY());*/
+            guideScenicVO.setScenicName(scenicDO.getName());
+            guideScenicVO.setScenicResourceNum(scenicDO.getId() + "");
             guideScenicVO.setScenicVO(scenicDO2ScenicVO(scenicDO));
         }
         if (guideScenicVO.getGuideId() != null && guideScenicVO.getGuideId() > 0) {
@@ -209,7 +211,7 @@ public class GuideConverter {
         scenicVO.setName(scenicDO.getName());
         scenicVO.setSubjectId(scenicDO.getSubjectId());
         scenicVO.setOpenTime(scenicDO.getOpenTime());
-        if(scenicDO.getScenicFeature()!=null) {
+        if (scenicDO.getScenicFeature() != null) {
             List<String> names = scenicDO.getScenicFeature().getSubjectNames();
             if (names != null) {
                 StringBuffer stringBuffer = new StringBuffer();
@@ -327,8 +329,8 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
         List<GuideFocusDO> oldList = new ArrayList<GuideFocusDO>();
-        if (attractionFocusDTO.getGuideFocusDOList().size()>0) {
-             oldList.addAll(attractionFocusDTO.getGuideFocusDOList());
+        if (attractionFocusDTO.getGuideFocusDOList().size() > 0) {
+            oldList.addAll(attractionFocusDTO.getGuideFocusDOList());
         }
         List<GuideFocusDO> newList = new ArrayList<GuideFocusDO>();
         if (attractionVO.getFocusOrder() != null) {
