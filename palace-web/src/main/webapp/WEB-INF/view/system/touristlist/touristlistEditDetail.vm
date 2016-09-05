@@ -133,9 +133,9 @@
     }
 </style>
 
-<input type="hidden" id="id" name="id" value="${attractionDO.id}">
-<input type="hidden" id="guideId" name="guideId" value="${attractionDO.guideId}">
-<input type="hidden" id="uuidPicText" value="${uuidPicText}">
+<input type="hidden" id="id" name="id" value="$!{attractionDO.id}">
+<input type="hidden" id="guideId" name="guideId" value="$!{attractionDO.guideId}">
+<input type="hidden" id="uuidPicText" value="$!{uuidPicText}" />
 <ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
         <a>景点详情</a>
@@ -536,7 +536,7 @@
                     console.log(JSON.stringify(data));
 
                     if (data.success) {
-                        $("#id").val(data.value);
+                        //$("#id").val(data.value);
                         $('#myTab li[data-target="#spotIntro"]').trigger("click");
                     } else {
                         layer.msg(data.message, {
