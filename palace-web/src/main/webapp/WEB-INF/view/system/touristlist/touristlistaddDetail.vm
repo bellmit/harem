@@ -479,30 +479,32 @@
 
     //保存图文介绍
     function saveIntro(){
-        var picText={
+        var picText=getPictureText();
+        var data={
             title:$("#spotIntroTitle").val().trim(),
             picTextString:JSON.stringify(getPictureText()),
             uuidPicText:$("#uuidPicText").val(),
-            attractionId:$("#hdnId").val()
+            attractionId:$("#id").val()
         }
-        if(picText.title.length == 0){
+        if(data.title.length == 0){
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
             return false;
         }
 
-        if(picText.uuidPicText.length == 0){
-            layer.msg("请添加图文介绍",{icon:2,time:1500});
+        if(picText.pictureTextItems.length == 0){
+            layer.msg("请添至少添加一段图文详情",{icon:2,time:1500});
             return false;
         }
-		console.dir(picText);
+        console.dir(data);
         $.ajax({
             url:"$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText",
             type:"post",
             dataType:"json",
-            data:picText,
+            data:data,
             success:function(res){
                 if(res.status == 200){
                     layer.msg("保存成功。",{icon:1,time:1500});
+
                     setTimeout(function(){
                         closeAndFreshPrevFrame();
                     },1500);
@@ -515,6 +517,7 @@
                 layer.msg("保存失败。",{icon:2,time:1500});
             }
         });
+
     }
 </script>
 
