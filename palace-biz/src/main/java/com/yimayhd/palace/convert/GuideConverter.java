@@ -326,8 +326,16 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setTitle(attractionVO.getTitle());
         guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
-        List<GuideFocusDO> oldList = attractionFocusDTO.getGuideFocusDOList();
-        List<GuideFocusDO> newList = JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class);
+        List<GuideFocusDO> oldList = new ArrayList<GuideFocusDO>();
+        if (attractionFocusDTO.getGuideFocusDOList().size()>0) {
+             oldList.addAll(attractionFocusDTO.getGuideFocusDOList());
+        }
+        List<GuideFocusDO> newList = new ArrayList<GuideFocusDO>();
+        if (attractionVO.getFocusOrder() != null) {
+            if (JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class).size() > 0) {
+                newList.addAll(JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class));
+            }
+        }
         //去重
         oldList = removeDuplicte(oldList);
         newList = removeDuplicte(newList);
@@ -396,7 +404,6 @@ public class GuideConverter {
             }
         }*/
 
-
         AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
         attractionFocusUpdateDTO.setDeletedFocusIdList(deleteList);
         attractionFocusUpdateDTO.setFocusAddList(focusAddList);
@@ -407,7 +414,6 @@ public class GuideConverter {
 
 
     //
-
     public static GuideAttractionVO guideAttractionDO2GuideAttractionVO(GuideAttractionDO guideAttractionDO) {
         if (guideAttractionDO == null) {
             return null;
