@@ -21,13 +21,13 @@
             <input type="text" class="form-control" name="scenicName" value="$!{scenicListQuery.scenicName}">
         </div>
         <div class="input-group inpSingle">
-                <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">资源编号：</button>
-                    </span>
-            <input type="text" class="form-control" name="scenicNumber" value="$!{scenicListQuery.scenicNumber}">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">资源编号：</button>
+            </span>
+            <input type="text" class="form-control" placeholder="请输入编号，编号为数字" id="scenicNumber" name="scenicNumber" value="$!{scenicListQuery.scenicNumber}">
         </div>
         <div class="btn-group">
-            <button type="submit" class="btn btn-primary submitBtn">搜索</button>
+            <button type="submit" class="btn btn-primary" id="btnQuery">搜索</button>
         </div>
     </div>
 </form>
@@ -88,6 +88,15 @@
                 tr.addClass("selected");
             } else {
                 tr.removeClass("selected");
+            }
+        });
+
+        $("#btnQuery").on("click",function(){
+            var number=$("#scenicNumber").val();
+            if(number.length>=0&&(!(/^[0-9]*$/.test(number))))
+            {
+                layer.msg("资源编号请输入数字.",{icon:2,time:1500});
+                return false;
             }
         });
     });
