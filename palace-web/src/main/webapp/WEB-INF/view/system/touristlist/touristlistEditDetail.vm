@@ -251,7 +251,46 @@
                 <td colspan="2">
                     
                         
-                        #parse("system/layout/pictureText.vm")
+                        <div id="editers">
+                        <div class="editer-tip">
+                            <p><b>编辑小助手：</b></p>
+                            <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
+                            <p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
+                            <p>3、最多添加20段图片或文字</p>
+                            <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
+                        </div>
+                        <div class="bd">
+                            #foreach($articleItem in $pictureTextItems)
+                                #if($articleItem.type == 1)
+                                    <p class="text movesection saved"><font>$articleItem.content</font></p>
+                                #end
+                                #if($articleItem.type == 2)
+                                    <p class="pic movesection saved">
+                                        <img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end"
+                                             class="nopic" id="1">
+                                        <input type="hidden" class="imgDateVal" value="$!articleItem.content">
+                                    </p>
+                                #end
+                            #end
+                        </div>
+                        <div class="hd clearfix">
+                            <ul class="clearfix">
+                                <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+                                <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+                            </ul>
+                        </div>
+                        <textarea name="content" id="contentText" style="display:none;"></textarea>
+                        <input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
+						<input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}"/>
+                    </div>
+                    <script type="text/javascript">
+                        function getPictureText() {
+                            var content = $("#contentText").val();
+                            return {
+                                pictureTextItems: JSON.parse(content || "[]")
+                            };
+                        }
+                    </script>
                     
                     
                 </td>
