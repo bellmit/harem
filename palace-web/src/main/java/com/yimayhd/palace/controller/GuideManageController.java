@@ -8,6 +8,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.biz.GuideBiz;
 import com.yimayhd.palace.checker.result.CheckResult;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
@@ -206,6 +207,7 @@ public class GuideManageController extends BaseController {
                 ids.add(scenicListQuery.getScenicNumber());
                 scenicPageQuery.setIds(ids);
             }
+           // scenicListQuery.set(Constant.DOMAIN_JIUXIU);
             scenicPageQuery.setPageNo(scenicListQuery.getPageNumber());
             scenicPageQuery.setPageSize(scenicListQuery.getPageSize());
             PageVO<ScenicVO> pageVO = guideManageService.getScenicList(scenicPageQuery);

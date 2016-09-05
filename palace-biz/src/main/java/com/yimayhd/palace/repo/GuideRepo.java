@@ -14,6 +14,7 @@ import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
 import com.yimayhd.palace.base.BaseException;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -326,6 +327,7 @@ public class GuideRepo {
             if(scenicPageQuery!=null){
                 scenicPageQuery.setNeedCount(true);
             }
+            scenicPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
             ICPageResult<ScenicDO> result = guideServiceRef.queryCanGuideScenic(scenicPageQuery);
             if (result != null) {
                 if (result.isSuccess() ) {
