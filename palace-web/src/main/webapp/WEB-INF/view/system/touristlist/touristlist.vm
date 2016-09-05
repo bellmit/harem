@@ -397,7 +397,7 @@
                 if(res.success){
                     msg=getTips(res.value);
                     layer.confirm(msg,function(){
-                        deleteTour(id,res.value);
+                        deleteTour(guideId,id,res.value);
                     });
                 }
                 else{
@@ -424,11 +424,11 @@
         return message["1"];
     }
 
-    function deleteTour(id,status){
+    function deleteTour(guideId,id,status){
         $.ajax({
             url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/deleteAttraction",
             type:"post",
-            data:{id:id,status:status},
+            data:{guideId:guideId,id:id,status:status},
             dataType:"json",
             success:function(data){
                 if(data.success){
