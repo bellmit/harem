@@ -261,13 +261,13 @@
                             <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
                         </div>
                         <div class="bd">
-                            #foreach($articleItem in $picTextVO.getPictureTextItems())
-                                #if($pictureTextItem.type.equalsIgnoreCase('text'))
+                            #foreach($pictureTextItem in $picTextVO.getPictureTextItems())
+                                #if($pictureTextItem.type.equalsIgnoreCase('TEXT'))
                                     <p class="text">
                                         #set( $contentHtml = $pictureTextItem.value.replaceAll("\n","<br/>") )
                                         <font>$!{contentHtml}</font>
                                     </p>
-                                #elseif($pictureTextItem.type.equalsIgnoreCase('img'))
+                                #elseif($pictureTextItem.type.equalsIgnoreCase('IMG'))
                                     <p class="pic">
                                         <img src="$!{utilWebconfig.getTfsRootPath()}$!{pictureTextItem.value}">
                                         <input type="hidden" class="imgDateVal" value="$!{pictureTextItem.value}">
@@ -281,7 +281,7 @@
                                 <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
                             </ul>
                         </div>
-                        <textarea name="content" id="contentText" style="display:none;">  $!{pictureTextItems} </textarea>
+                        <textarea name="content" id="contentText" style="display:none;"> ${picTextVOJson} </textarea>
                         <input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
 						<input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}"/>
                     </div>
@@ -540,11 +540,7 @@
                     console.log(JSON.stringify(data));
 
                     if (data.success) {
-<<<<<<< HEAD
                         //$("#id").val(data.value);
-=======
-                      ## $("#hdnId").val(data.value);
->>>>>>> 1db4dd7... 修改页面
                         $('#myTab li[data-target="#spotIntro"]').trigger("click");
                     } else {
                         layer.msg(data.message, {
@@ -566,27 +562,28 @@
 
     //保存图文介绍
     function saveIntro(){
-        var picText={
+        var picText=getPictureText();
+        var data={
             title:$("#spotIntroTitle").val().trim(),
             picTextString:JSON.stringify(getPictureText()),
             uuidPicText:$("#uuidPicText").val(),
             attractionId:$("#id").val()
         }
-        if(picText.title.length == 0){
+        if(data.title.length == 0){
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
             return false;
         }
 
-        if(picText.uuidPicText.length == 0){
-            layer.msg("请添加图文介绍",{icon:2,time:1500});
+        if(picText.pictureTextItems.length == 0){
+            layer.msg("请添至少添加一段图文详情",{icon:2,time:1500});
             return false;
         }
-        console.dir(picText);
+        console.dir(data);
         $.ajax({
             url:"$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText",
             type:"post",
             dataType:"json",
-            data:picText,
+            data:data,
             success:function(res){
                 if(res.status == 200){
                     layer.msg("保存成功。",{icon:1,time:1500});
