@@ -346,8 +346,8 @@
                 if(res.status==200){
                     if(lineEditor){
                         console.dir(res);
-                        lineEditor.lineData=res.data.guideAttractionDOList;
-                        lineEditor.lineSettings=res.data.guideLine;
+                        lineEditor.lineData=res.data.guideAttractionDOList||[];
+                        lineEditor.lineSettings=res.data.guideLine||[];
                         lineEditor.render();
                     }else{
                         lineEditor=new LineEditor({
