@@ -284,8 +284,12 @@ public class TouristlistController extends BaseController {
                 List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
                 if (list.size() > 0) {
                     //put("uuidPicText", UUID.randomUUID().toString());
-                    model.addAttribute("pictureTextItems", list);
+                    model.addAttribute("pictureTextItems", JSON.toJSONString(list));
+
+
                 }
+                model.addAttribute("PictureTextVO", JSON.toJSONString(picTextVO));
+
                 model.addAttribute("uuidPicText",UUID.randomUUID().toString());
             }
         } catch (Exception e) {
@@ -388,7 +392,6 @@ public class TouristlistController extends BaseController {
             }
             if (saveResult.isSuccess()) {
                 result.initSuccess(saveResult.getResultMsg());
-//              result.setValue("1");
                 result.setSuccess(true);
             } else {
                 result.setCode(saveResult.getResultCode());
