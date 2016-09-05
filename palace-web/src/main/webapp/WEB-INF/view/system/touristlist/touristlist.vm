@@ -72,10 +72,6 @@
             display: none;
         }
     </style>
-<!--</head>
-
-<body>-->
-<form id="form1" name="form1">
     <input type="hidden" id="hdnGuideId" value="$!{attractionId}">
     <input type="hidden" id="hdnScenicId" value="$!{scenicId}">
     <ul id="myTab" class="nav nav-tabs">
@@ -129,6 +125,7 @@
         </div>
         <div class="tab-pane" id="lineSetting">
             <table class="table" style="width:60%;margin:0 auto;">
+                <form id="frmLineSetting">
                 <tr>
                     <td style="text-align:center;">
                         <button id="addPoint" type="button" class="btn btn-primary" style="margin-right:30px">添加节点</button>
@@ -143,9 +140,9 @@
                     </td>
                 </tr>
             </table>
+            </form>
         </div>
     </div>
-</form>
 <script type="text/javascript">
     function LineEditor(options) {
         var opts = options || {};
@@ -166,6 +163,13 @@
             lineEditor: "#lineEditor",
             saveLine:"#saveLine",
             line: ".line"
+        },
+        setOption:function(options){
+            var opts = options || {};
+            this.guideId=opts.guideId;
+            this.lineData = opts.lineData || [];
+            this.lineSettings = opts.lineSettings || [];
+            this.render();
         },
         render: function() {
             var self = this;
@@ -200,8 +204,9 @@
 
             //保存节点
             $(self.selectors.saveLine).on("click",function(){
-                if(!self.isValid()){
-                    layer.msg("请先设置线路",{icon:2,time:1500});
+            	var validResult=self.isValid();
+                if(!validResult.success){
+                    layer.msg(validResult.msg,{icon:2,time:1500});
                     return;
                 }
                 self.saveLine();
@@ -233,11 +238,11 @@
             var temp = [];
             var length = this.lineData.length;
             var startCss = start ? "start" : "";
-            var distince = line ? line.distince : '';
+            var distance = line ? line.distance : '';
             temp.push('<div class="line ' + startCss + '">');
             temp.push('<div class="line-info">')
             if (!start) {
-                temp.push('<input class="form-control" value="' + distince + '" />');
+                temp.push('<input class="form-control" datatype="n" nullmsg="请输入浏览时间！" errormsg="请输入正确的浏览时间" placeholder="请输入距离"  value="' + distance + '" />');
             }
             temp.push('<select class="form-control">');
             for (var index = 0; index < length; index++) {
@@ -269,14 +274,14 @@
                 if (index == 0) {
                     data.push({
                         guideId:self.guideId,
-                        distince:'',
+                        distance:'',
                         attractionId:line.id,
                         no:line.attrNo
                     });
                 } else {
                     data.push({
                         guideId:self.guideId,
-                        distince:$(_line).find("input").val(),
+                        distance:$(_line).find("input").val(),
                         attractionId:line.id,
                         no:line.attrNo
                     });
@@ -286,7 +291,30 @@
             return data;
         },
         isValid:function () {
-            return $(this.selectors.line).length>1;
+            if($(this.selectors.line).length<=1){
+                return {success:false,msg:"请先设置线路。"};
+            }
+
+            var disInput=$(this.selectors.line).find("input");
+            var errCount=0;
+            var reg=/^[0-9]*$/;
+            disInput.each(function(){
+            	var input=$(this);
+            	var value=input.val();
+
+            	if(value.length==0||!(reg.test(value))){
+            		input.css({"border-color":"#ff0000"});
+            		errCount++;
+            	}
+
+                input.css({"border-color":"#ccc"});
+            });
+
+			if(errCount==0){
+				return {success:true};
+			}else{
+                return {success:false,msg:"距离为空或输入不正确。"};
+			}
         }
     };
 
@@ -296,6 +324,7 @@
 <script type="text/javascript">
     // 新增景点
     var lineEditor=null;
+    var formValid=null;
     $(function(){
         var guideId=$("#hdnGuideId").val();
         $(".addTourist").click(function(){
@@ -329,6 +358,12 @@
                 initLineEditor();
             }
         });
+
+        formValid=$("#frmLineSetting").Validform({
+            tiptype:3,
+            showAllError:true,
+            ajaxPost:true
+        });
     });
 
 
@@ -343,18 +378,17 @@
             },
             success:function(res){
                 layer.closeAll();
+                console.dir(res);
                 if(res.status==200){
-                    if(lineEditor){
-                        console.dir(res);
-                        lineEditor.lineData=res.data.guideAttractionDOList||[];
-                        lineEditor.lineSettings=res.data.guideLine||[];
-                        lineEditor.render();
+                    var options={
+                        guideId:$("#hdnGuideId").val(),
+                        lineData:res.data.guideAttractionDOList,
+                        lineSettings:res.data.guideLine
+                    };
+                    if(lineEditor) {
+                        lineEditor.setOption(options);
                     }else{
-                        lineEditor=new LineEditor({
-                            guideId:$("#hdnGuideId").val(),
-                            lineData:res.data.guideAttractionDOList,
-                            lineSettings:res.data.guideLine
-                        });
+                        lineEditor=new LineEditor(options);
                     }
                 }
                 else{
