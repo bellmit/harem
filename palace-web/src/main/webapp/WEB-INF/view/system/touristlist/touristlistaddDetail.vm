@@ -252,12 +252,12 @@
         </div>
     </div>
 </div>
-<script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/layerModal.js?version=21"></script>
-<script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/upload.js?version=21"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
 <script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/sea.js"></script>
 <script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/seajs-preload.js"></script>
 <script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/config.js"></script>
-<script>
+<!--<script>
     layer.config({
         extend: 'extend/layer.ext.js',
         extend: ['skin/mySkin/style.css'],
@@ -268,7 +268,7 @@
     var staticResourcesPath = '$utilWebconfig.getStaticResourcesPath()';
 ##    var uploadFile = '$utilWebconfig.getRootPath()/upload/file';
 ##    var uploadFiles = '$utilWebconfig.getRootPath()/upload/file';
-</script>
+</script>-->
 <script type="text/javascript">
     seajs.use("comediter");
 </script>
@@ -492,7 +492,7 @@
             type:"post",
             dataType:"json",
             data:picText,
-            success:function(res.status = 200){
+            success:function(res){
                 if(res.success){
                     layer.msg("保存成功。",{icon:1,time:1500});
                 }
