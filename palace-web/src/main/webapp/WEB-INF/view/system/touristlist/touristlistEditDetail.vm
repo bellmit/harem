@@ -9,10 +9,11 @@
 <input type="hidden" id="root_path" value="http://s0.tests.jiuxiulvxing.com:8080">
 <input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
 <input type="hidden" id="filegw_url" value="http://filegw.test.jiuxiulvxing.com/filegw">
-<input type="hidden" id="palace_update_file" value="http://s0.tests.jiuxiulvxing.com:8080/palace-web/upload/file">
+<input type="hidden" id="palace_update_file" value="http://develop.jiuxiulvxing.com:8080/upload/file">
 <input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
+<input type="hidden" id="uuidPicText" value="$uuidPicText">
 <ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
         <a>景点详情</a>
@@ -171,7 +172,7 @@
             </tr>
         </table>
         <div class="btnBottomMargin" style="text-align:center; margin-top:20px;">
-            <button type="button" class="btn btn-primary" style="width:150px" id="btnSaveSpotInfo">保存</button>
+            <button type="button" class="btn btn-primary" style="width:150px" id="btnSavePicText">保存</button>
         </div>
     </div>
 </div>
@@ -344,6 +345,11 @@
         });
 
 
+        $("#btnSavePicText").on("click",function(){
+            saveIntro();
+        });
+
+
 
     ## 线路设置列表
     ##            $result.getGuideFocusDOList();
@@ -424,19 +430,45 @@
         });
     });
 
-    // 保存景点详情
-    ##    $('#btnSaveSpotDetailInfo').on("click", function () {
-    ##    console.log(JSON.stringify(getPictureText()));
-    ##        var data = $("#touristAddForm").serializeArray(); //自动将form表单封装成json
-    ##        console.log(data);
-    ##        submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist", "post", data);
-    ##    });
 
-    // 保存图文
-    ##    $('#btnSaveSpotPicTextIntro').on("click", function () {
-    ##        var data = $("#touristPicTextAddForm").serializeArray(); //自动将form表单封装成json
-    ##        submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText", "post", data);
-    ##    });
+
+    //保存图文介绍
+    function saveIntro(){
+        var picText={
+            title:$("#spotIntroTitle").val().trim(),
+            picTextString:JSON.stringify(getPictureText()),
+            uuidPicText:$("#uuidPicText").val(),
+            attractionId:$("#hdnId").val()
+        }
+        if(picText.title.length == 0){
+            layer.msg("请输入景点介绍标题",{icon:2,time:1500});
+            return false;
+        }
+
+        if(picText.uuidPicText.length == 0){
+            layer.msg("请添加图文介绍",{icon:2,time:1500});
+            return false;
+        }
+        console.dir(picText);
+        $.ajax({
+            url:"$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText",
+            type:"post",
+            dataType:"json",
+            data:picText,
+            success:function(res){
+                if(res.status == 200){
+                    layer.msg("保存成功。",{icon:1,time:1500});
+                }
+                else{
+                    layer.msg("保存失败。",{icon:2,time:1500});
+                }
+            },
+            error:function(){
+                layer.msg("保存失败。",{icon:2,time:1500});
+            }
+        });
+    }
+
 
 </script>
 

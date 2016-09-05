@@ -236,13 +236,15 @@ public class TouristlistController extends BaseController {
 
         BizResult<String> result = new BizResult<String>();
         ArrayList<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
-
-        lineListJson = lineListJson.replaceAll("\\s*\\\"\\s*", "\\\"");
-        guideLine.addAll(JSONArray.parseArray(lineListJson, GuideLineEntry.class));
-
         GuideLineDTO guideLineDTO = new GuideLineDTO();
-        guideLineDTO.setGuideLine(guideLine);
 
+        if (!lineListJson.equals("")) {
+            lineListJson = lineListJson.replaceAll("\\s*\\\"\\s*", "\\\"");
+            guideLine.addAll(JSONArray.parseArray(lineListJson, GuideLineEntry.class));
+            guideLineDTO.setGuideLine(guideLine);
+        }else{
+            guideLineDTO.setGuideLine(guideLine);
+        }
         if (guideId != 0 && lineListJson != null) {
             ICResult<Boolean> saveResult = trouistlistBiz.updateGuideLine(guideId, guideLineDTO);
             if (saveResult == null) {
@@ -282,6 +284,7 @@ public class TouristlistController extends BaseController {
                 List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
                 if (list.size() > 0) {
                     model.addAttribute("pictureTextItems", list);
+                    model.addAttribute("uuidPicText", UUID.randomUUID().toString());
                 }
             }
         } catch (Exception e) {
@@ -300,7 +303,7 @@ public class TouristlistController extends BaseController {
             if (attractionId > 0) {
                 model.addAttribute("guideAttractionid", attractionId);
                 // 防止图文24小时重复提交
-                model.addAttribute("UUIDPicText", UUID.randomUUID().toString());
+                model.addAttribute("uuidPicText", UUID.randomUUID().toString());
             }
 
         } catch (Exception e) {
@@ -421,6 +424,14 @@ public class TouristlistController extends BaseController {
 
                 String json = attractionIntroducePicTextTitleVO.getPicTextString().replaceAll("\\s*\\\"\\s*", "\\\"");
                 PictureTextVO pictureTextVO = (PictureTextVO)JSONObject.parseObject(json, PictureTextVO.class);
+//                for (int i = 0; i < pictureTextVO.getPictureTextItems().size(); i++){
+//                    PictureTextItemVo vo = pictureTextVO.getPictureTextItems().get(i);
+//                    if (vo.getType().contentEquals("img")){
+//                        vo.setType("1");
+//                    }else {
+//                        vo.setType("2");
+//                    }
+//                }
 
                 trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO.getAttractionId(), pictureTextVO);
 

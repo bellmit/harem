@@ -131,16 +131,16 @@
     }
 </style>
 
-<link rel="stylesheet" type="text/css" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/validform.css">
-<input type="hidden" id="rs_js_css_path_jiuxiu" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
-<input type="hidden" id="root_path" value="http://s0.tests.jiuxiulvxing.com:8080">
-<input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
-<input type="hidden" id="filegw_url" value="http://filegw.test.jiuxiulvxing.com/filegw">
-<input type="hidden" id="palace_update_file" value="http://s0.tests.jiuxiulvxing.com:8080/palace-web/upload/file">
-<input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
+##<link rel="stylesheet" type="text/css" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/validform.css">
+##<input type="hidden" id="rs_js_css_path_jiuxiu" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
+##<input type="hidden" id="root_path" value="http://s0.tests.jiuxiulvxing.com:8080">
+##<input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
+##<input type="hidden" id="filegw_url" value="http://filegw.test.jiuxiulvxing.com/filegw">
+##<input type="hidden" id="palace_update_file" value="http://develop.jiuxiulvxing.com:8080/upload/file">
+##<input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
-    <input type="hidden" id="uuidPicText" value="$uuidPicText">
+<input type="hidden" id="uuidPicText" value="$uuidPicText">
 
     <ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
@@ -266,7 +266,7 @@
     var actionDefaultPath = '$utilWebconfig.getRootPath()';
     var tfsRootPath = '$utilWebconfig.getTfsRootPath()';
     var staticResourcesPath = '$utilWebconfig.getStaticResourcesPath()';
-    var uploadFile = '$utilWebconfig.getRootPath()/palace-web/upload/file';
+    var uploadFile = '$utilWebconfig.getRootPath()/upload/file';
     var uploadFiles = '$utilWebconfig.getRootPath()/upload/files';
 </script>
 <script type="text/javascript">
