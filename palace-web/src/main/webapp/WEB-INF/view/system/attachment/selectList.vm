@@ -73,7 +73,7 @@
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
-         #*   <th>用途</th>*#
+            <th>用途</th>
             <th>备注</th>
         </tr>
         </thead>
@@ -94,9 +94,9 @@
                     $!utilDate.dateToString($!item.gmtCreated,"yyyy-MM-dd HH:mm:ss")
                 </td>
                 <td>$!{item.durationStr}</td>
-             #*   <td>
+                <td>
                     $!{item.scopeStr}
-                </td>*#
+                </td>
                 <td>$!{item.remark}</td>
 
             </tr>
