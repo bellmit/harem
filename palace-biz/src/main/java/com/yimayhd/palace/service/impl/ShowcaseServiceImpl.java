@@ -28,6 +28,7 @@ import com.yimayhd.palace.convert.ShowCaseItem;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
+import com.yimayhd.palace.model.guide.ScenicVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.AttachmentManageService;
 import com.yimayhd.palace.service.GuideManageService;
@@ -703,10 +704,16 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     public List<ShowCaseItem> attachmentVOToShowCaseItem(List<GuideScenicVO> list){
         List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        String title = "";
         for (GuideScenicVO oo:list) {
             ShowCaseItem sc = new ShowCaseItem();
-            sc.setId(oo.getGuideId());
-            sc.setName(oo.getScenicName());//标题
+            sc.setId(oo.getScenicId());
+            title = oo.getScenicName();
+            if(StringUtils.isEmpty(title)){
+                ScenicVO sv = oo.getScenicVO();
+                if(null != sv){title=sv.getName();}
+            }
+            sc.setName(title);//标题
             sc.setImgUrl(StringUtils.isEmpty(oo.getGuideImg())?"":oo.getGuideImg());
             listSC.add(sc);
         }
