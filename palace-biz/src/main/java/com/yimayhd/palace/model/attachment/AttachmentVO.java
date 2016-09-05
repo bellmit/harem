@@ -30,7 +30,17 @@ public class AttachmentVO {
     private int second;
     private int minuteVo;
     private int secondVo;
+    private long fsize;
 
+
+    public long getFsize() {
+        return fsize;
+    }
+
+    public AttachmentVO setFsize(long fsize) {
+        this.fsize = fsize;
+        return this;
+    }
 
     public String getFileKey() {
         return fileKey;

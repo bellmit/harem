@@ -1,5 +1,6 @@
 package com.yimayhd.palace.service.impl;
 
+import com.google.common.base.Strings;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.AttachmentBiz;
 import com.yimayhd.palace.constant.Constant;
@@ -80,6 +81,8 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         mediaDTO.setDomainId(Constant.DOMAIN_JIUXIU);
         mediaDTO.setStatus(MediaFileStatus.OFF.getValue());
         mediaDTO.setUserId(userId);
+        mediaDTO.setFsize(attachmentUploadResult.getFsize());
+
         //
 
         mediaDTO.setBucketName(attachmentUploadResult.getBucketName());
