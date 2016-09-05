@@ -206,7 +206,7 @@
             $(self.selectors.saveLine).on("click",function(){
             	var validResult=self.isValid();
                 if(!validResult.success){
-                    layer.msg(validResult.message,{icon:2,time:1500});
+                    layer.msg(validResult.msg,{icon:2,time:1500});
                     return;
                 }
                 self.saveLine();
@@ -306,6 +306,8 @@
             		input.css({"border-color":"#ff0000"});
             		errCount++;
             	}
+
+                input.css({"border-color":"#ccc"});
             });
 
 			if(errCount==0){
