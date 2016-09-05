@@ -132,6 +132,7 @@
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     }
 </style>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
 
 <input type="hidden" id="id" name="id" value="$!{attractionDO.id}">
 <input type="hidden" id="guideId" name="guideId" value="$!{attractionDO.guideId}">
@@ -258,15 +259,16 @@
                             <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
                         </div>
                         <div class="bd">
-                            #foreach($articleItem in $pictureTextItems)
-                                #if($articleItem.type == 1)
-                                    <p class="text movesection saved"><font>$articleItem.content</font></p>
-                                #end
-                                #if($articleItem.type == 2)
-                                    <p class="pic movesection saved">
-                                        <img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end"
-                                             class="nopic" id="1">
-                                        <input type="hidden" class="imgDateVal" value="$!articleItem.content">
+                            #foreach($articleItem in $picTextVO.getPictureTextItems())
+                                #if($pictureTextItem.type.equalsIgnoreCase('text'))
+                                    <p class="text">
+                                        #set( $contentHtml = $pictureTextItem.value.replaceAll("\n","<br/>") )
+                                        <font>$!{contentHtml}</font>
+                                    </p>
+                                #elseif($pictureTextItem.type.equalsIgnoreCase('img'))
+                                    <p class="pic">
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{pictureTextItem.value}">
+                                        <input type="hidden" class="imgDateVal" value="$!{pictureTextItem.value}">
                                     </p>
                                 #end
                             #end
@@ -582,6 +584,10 @@
             success:function(res){
                 if(res.status == 200){
                     layer.msg("保存成功。",{icon:1,time:1500});
+
+                    setTimeout(function(){
+                        closeAndFreshPrevFrame();
+                    },1500);
                 }
                 else{
                     layer.msg("保存失败。",{icon:2,time:1500});

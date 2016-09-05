@@ -132,7 +132,7 @@
     }
 </style>
 
-
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
 <input type="hidden" id="uuidPicText" value="$uuidPicText">
@@ -503,6 +503,9 @@
             success:function(res){
                 if(res.status == 200){
                     layer.msg("保存成功。",{icon:1,time:1500});
+                    setTimeout(function(){
+                        closeAndFreshPrevFrame();
+                    },1500);
                 }
                 else{
                     layer.msg("保存失败。",{icon:2,time:1500});

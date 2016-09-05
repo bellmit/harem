@@ -284,6 +284,7 @@ public class TouristlistController extends BaseController {
                 List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
                 if (list.size() > 0) {
                     //put("uuidPicText", UUID.randomUUID().toString());
+                    model.addAttribute("picTextVO", picTextVO);
                     model.addAttribute("pictureTextItems", JSON.toJSONString(list));
 
 
