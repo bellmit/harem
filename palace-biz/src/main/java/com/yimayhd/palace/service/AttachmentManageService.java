@@ -60,4 +60,22 @@ public interface AttachmentManageService {
      * @return
      */
     public MediaDTO getMediaById(final long id);
+
+
+    /**
+     * 根据filekey 查询
+     *
+     * @param fileKey
+     * @return
+     */
+    public MediaDTO getMediaByFileKey(final String fileKey) ;
+
+
+    /**
+     * 根据filekey 查询
+     *
+     * @param fileKey
+     * @return
+     */
+    public AttachmentVO getAttachmentVOByFileKey(final String fileKey) ;
 }

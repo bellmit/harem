@@ -1,6 +1,7 @@
 package com.yimayhd.palace.model.guide;
 
 import com.yimayhd.ic.client.model.enums.GuideStatus;
+import com.yimayhd.palace.model.attachment.AttachmentVO;
 
 import javax.validation.constraints.NotNull;
 
@@ -70,6 +71,21 @@ public class GuideScenicVO {
 
 
     private ScenicVO scenicVO;
+    private AttachmentVO attachmentVO;
+
+    public GuideScenicVO setWeight(int weight) {
+        this.weight = weight;
+        return this;
+    }
+
+    public AttachmentVO getAttachmentVO() {
+        return attachmentVO;
+    }
+
+    public GuideScenicVO setAttachmentVO(AttachmentVO attachmentVO) {
+        this.attachmentVO = attachmentVO;
+        return this;
+    }
 
     public ScenicVO getScenicVO() {
         return scenicVO;

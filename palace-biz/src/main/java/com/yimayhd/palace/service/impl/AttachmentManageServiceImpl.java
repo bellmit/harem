@@ -1,6 +1,5 @@
 package com.yimayhd.palace.service.impl;
 
-import com.google.common.base.Strings;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.AttachmentBiz;
 import com.yimayhd.palace.constant.Constant;
@@ -15,7 +14,6 @@ import com.yimayhd.resourcecenter.dto.MediaDTO;
 import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
 import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileType;
-import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -141,5 +139,28 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
     @Override
     public MediaDTO getMediaById(long id) {
         return mediaClientRepo.getMediaById(id);
+    }
+
+    /**
+     * 根据filekey 查询
+     *
+     * @param fileKey
+     * @return
+     */
+    @Override
+    public MediaDTO getMediaByFileKey(String fileKey) {
+        return mediaClientRepo.getMediaByFileKey(fileKey);
+    }
+
+
+    /**
+     * 根据filekey 查询
+     *
+     * @param fileKey
+     * @return
+     */
+    @Override
+    public AttachmentVO getAttachmentVOByFileKey(String fileKey) {
+        return AttachmentConverter.mediaDTO2AttachmentVO(getMediaByFileKey(fileKey));
     }
 }
