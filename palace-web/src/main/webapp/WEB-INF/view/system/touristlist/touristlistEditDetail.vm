@@ -261,8 +261,9 @@
                             <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
                         </div>
                         <div class="bd">
-                            #foreach($pictureTextItem in $picTextVO.getPictureTextItems())
-                                #if($pictureTextItem.type.equalsIgnoreCase('TEXT'))
+                            
+                            #foreach($pictureTextItem in $picTextVO.pictureTextItems)
+                                #if($pictureTextItem.type.equalsIgnoreCase('text'))
                                     <p class="text">
                                         #set( $contentHtml = $pictureTextItem.value.replaceAll("\n","<br/>") )
                                         <font>$!{contentHtml}</font>
@@ -538,7 +539,7 @@
                     console.log(JSON.stringify(data));
 
                     if (data.success) {
-                        //$("#id").val(data.value);
+
                         $('#myTab li[data-target="#spotIntro"]').trigger("click");
                     } else {
                         layer.msg(data.message, {
