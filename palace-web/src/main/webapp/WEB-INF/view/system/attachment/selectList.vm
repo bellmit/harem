@@ -81,7 +81,7 @@
             #foreach($item in $itemList)
             <tr>
                 <td>
-                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}" id="${item.id}" inputFileTitle="${item.inputFileTitle} fsize="${item.fsize}"/>
+                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}" id="${item.id}" inputFileTitle="${item.inputFileTitle}" fsize="${item.fsize}"/>
                 </td>
                 <td>$!{item.id}</td>
                 <td>

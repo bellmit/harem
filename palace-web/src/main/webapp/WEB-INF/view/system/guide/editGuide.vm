@@ -339,15 +339,20 @@
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
                 var item = win.getItem();
                 console.log(JSON.stringify(item));
-                if (item != null) {
-                    $("#guideAudio").val(item.fileKey);
-                    $("#audioTime").val(item.duration);
-                    $("#audioTimeVo").text(item.durationStr);
-                    $("#inputFileTitle").text(item.inputFileTitle);
-                }else{
+                if (item == null) {
                     layer.msg("请选择语音文件",{icon:2});
                     return false;
                 }
+
+                if(parseInt(item.fsize)>4*1024*1024){
+                    layer.msg("不能选择大于4M的语音文件",{icon:2});
+                    return false;
+                }
+
+                $("#guideAudio").val(item.fileKey);
+                $("#audioTime").val(item.duration);
+                $("#audioTimeVo").text(item.durationStr);
+                $("#inputFileTitle").text(item.inputFileTitle);
                 return true;
             });
         });
