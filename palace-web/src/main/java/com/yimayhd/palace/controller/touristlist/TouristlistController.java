@@ -431,14 +431,6 @@ public class TouristlistController extends BaseController {
 
                 String json = attractionIntroducePicTextTitleVO.getPicTextString().replaceAll("\\s*\\\"\\s*", "\\\"");
                 PictureTextVO pictureTextVO = (PictureTextVO)JSONObject.parseObject(json, PictureTextVO.class);
-//                for (int i = 0; i < pictureTextVO.getPictureTextItems().size(); i++){
-//                    PictureTextItemVo vo = pictureTextVO.getPictureTextItems().get(i);
-//                    if (vo.getType().contentEquals("img")){
-//                        vo.setType("1");
-//                    }else {
-//                        vo.setType("2");
-//                    }
-//                }
 
                 trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO.getAttractionId(), pictureTextVO);
 
