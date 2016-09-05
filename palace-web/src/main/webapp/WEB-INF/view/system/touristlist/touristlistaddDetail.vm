@@ -396,7 +396,6 @@
         });
 
         //表单验证
-
         var validSpot=$("#frmSpotInfo").Validform({
             tiptype:3,
             showAllError:true,
