@@ -1,3 +1,4 @@
+#set ($layout="/system/layout/layout-jiuxiu.vm")
 <style type="text/css">
     .inpCtlBlock {
         display: inline-block;
@@ -131,13 +132,7 @@
     }
 </style>
 
-<link rel="stylesheet" type="text/css" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/validform.css">
-<input type="hidden" id="rs_js_css_path_jiuxiu" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
-<input type="hidden" id="root_path" value="http://s0.tests.jiuxiulvxing.com:8080">
-<input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
-<input type="hidden" id="filegw_url" value="http://filegw.test.jiuxiulvxing.com/filegw">
-<input type="hidden" id="palace_update_file" value="http://develop.jiuxiulvxing.com:8080/upload/file">
-<input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
+
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
 <input type="hidden" id="uuidPicText" value="$uuidPicText">
@@ -216,34 +211,10 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <div id="editers">
-                        <div class="editer-tip">
-                            <p><b>编辑小助手：</b></p>
-                            <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
-                            <p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
-                            <p>3、最多添加20段图片或文字</p>
-                            <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
-                        </div>
-                        <div class="bd">
-                        </div>
-                        <div class="hd clearfix">
-                            <ul class="clearfix">
-                                <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
-                                <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-                            </ul>
-                        </div>
-                        <textarea name="content" id="contentText" style="display:none;"></textarea>
-                        <input type="hidden" id="uploadAction" value="http://console.test.jiuxiulvxing.com/palace-web/upload/file" />
-                        <input type="hidden" id="imgUrl" value="http://img.test.yimayholiday.com/v1/tfs/" />
-                    </div>
-                    <script type="text/javascript">
-                        function getPictureText() {
-                            var content = $("#contentText").val();
-                            return {
-                                 pictureTextItems:JSON.parse(content || "[]")
-                            };
-                        }
-                    </script>
+                    
+                        #parse("system/layout/pictureText.vm")
+                    
+                    
                 </td>
             </tr>
         </table>
@@ -252,12 +223,13 @@
         </div>
     </div>
 </div>
+
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
-<script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/sea.js"></script>
-<script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/seajs-preload.js"></script>
-<script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/config.js"></script>
-<!--<script>
+<script src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>
     layer.config({
         extend: 'extend/layer.ext.js',
         extend: ['skin/mySkin/style.css'],
