@@ -1,4 +1,4 @@
-#set ($layout="/system/layout/layout-jiuxiu.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
 <style type="text/css">
     .inpCtlBlock {
         display: inline-block;
