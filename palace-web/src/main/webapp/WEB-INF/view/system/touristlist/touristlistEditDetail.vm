@@ -458,18 +458,16 @@
 
         //删除图片
         $(".img-wapper .delete-btn").on("click", function () {
-            var $wapper =
-            $(this).closest(".img-wapper");
-                $wapper.removeClass("uploaded");
-                $wapper.find(".upload-img").attr("src", defaultImg);
-                $wapper.find("input[type='hidden']").val('');
+            var wapper =$(this).closest(".img-wapper");
+            wapper.removeClass("uploaded");
+            wapper.find(".upload-img").attr("src", defaultImg);
+            wapper.find("input[type='hidden']").val('');
         });
 
         //删除语音文件
         $(".audio-list").on("click", ".delete-item", function () {
-            var $item =
-            $(this).closest(".audio-item");
-                $item.remove();
+            var item = $(this).closest(".audio-item");
+            item.remove();
         });
 
 
