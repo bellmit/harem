@@ -1,16 +1,138 @@
+#parse("/system/layout/layout-jiuxiu-meta.vm")
 <style type="text/css">
     .inpCtlBlock {
         display: inline-block;
         width: 70%;
     }
+
+    .table th {
+        width: 20%;
+        text-align: right;
+        vertical-align: middle;
+    }
+
+    .table td {
+        width: 80%;
+    }
+
+    .upload-btn {
+        position: relative;
+    }
+
+    .upload-btn .btn {
+        width: 100px;
+    }
+
+    .upload-btn .upload-file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 25px;
+        width: 102px;
+        height: 33px;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .upload-view {
+        margin-top: 10px;
+    }
+
+    .upload-view .img-wapper {
+        position: relative;
+        width: 150px;
+        height: 75px;
+        border: 1px solid #ccc;
+    }
+
+    .img-wapper.uploaded:hover .delete-btn {
+        display: block;
+    }
+
+    .upload-view .upload-img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .upload-view .delete-btn {
+        display: none;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        background: #000;
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+        cursor: pointer;
+    }
+
+    .audio-list {
+        margin-top: 10px;
+    }
+
+    .audio-item {
+        width: 490px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #eee;
+        background: #fafafa;
+        overflow: hidden;
+    }
+
+    .audio-img {
+        float: left;
+        width: 100px;
+        height: 75px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .audio-img img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .audio-info {
+        margin-right: 10px;
+    }
+
+    .audio-info-item label {
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        width: 80px;
+        text-align: right;
+    }
+
+    .audio-info-item span,
+    .audio-info-item input {
+        display: inline-block;
+        width: 200px;
+        height: 32px;
+        line-height: 32px;
+    }
+
+    .audio-info-item input {
+        padding: 5px 8px;
+        font-size: 13px;
+        line-height: 1.53846154;
+        color: #222;
+        vertical-align: middle;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
 </style>
 
-<input type="hidden" id="rs_js_css_path_jiuxiu" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
-<input type="hidden" id="root_path" value="http://s0.tests.jiuxiulvxing.com:8080">
-<input type="hidden" id="tfs" value="http://img.test.yimayholiday.com/v1/tfs/">
-<input type="hidden" id="filegw_url" value="http://filegw.test.jiuxiulvxing.com/filegw">
-<input type="hidden" id="palace_update_file" value="http://develop.jiuxiulvxing.com:8080/upload/file">
-<input type="hidden" id="static_path" value="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src">
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
 <input type="hidden" id="uuidPicText" value="$uuidPicText">
@@ -127,7 +249,9 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <div id="editers">
+                    
+                        
+                        <div id="editers">
                         <div class="editer-tip">
                             <p><b>编辑小助手：</b></p>
                             <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
@@ -156,9 +280,8 @@
                             </ul>
                         </div>
                         <textarea name="content" id="contentText" style="display:none;"></textarea>
-                        <input type="hidden" id="uploadAction"
-                               value="http://console.test.jiuxiulvxing.com/palace-web/upload/file"/>
-                        <input type="hidden" id="imgUrl" value="http://img.test.yimayholiday.com/v1/tfs/"/>
+                        <input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
+						<input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}"/>
                     </div>
                     <script type="text/javascript">
                         function getPictureText() {
@@ -168,6 +291,8 @@
                             };
                         }
                     </script>
+                    
+                    
                 </td>
             </tr>
         </table>
@@ -176,11 +301,12 @@
         </div>
     </div>
 </div>
-<script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/layerModal.js?version=21"></script>
-<script src="http://console.test.jiuxiulvxing.com/palace-web/resources/js/upload.js?version=21"></script>
-<script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/sea.js"></script>
-<script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/seajs-preload.js"></script>
-<script src="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/js/config.js"></script>
+
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
+<script src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/config.js"></script>
 <script>
     seajs.use("comediter");
 </script>

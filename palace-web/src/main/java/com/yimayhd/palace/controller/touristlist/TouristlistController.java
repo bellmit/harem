@@ -167,7 +167,7 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> deleteAttraction(long id,long status) {
+    public BizResult<String> deleteAttraction(long guideId, long id,long status) {
         BizResult<String> bizResult = new BizResult<String>();
 
         if (id < 0) {
@@ -190,7 +190,7 @@ public class TouristlistController extends BaseController {
 
             // TODO: 16/9/2     重置线路
             if(status == 1){
-                updateGuideLine(id,"");
+                updateGuideLine(guideId,"");
             }
         }
         return bizResult;

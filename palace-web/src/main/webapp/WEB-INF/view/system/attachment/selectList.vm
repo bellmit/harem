@@ -57,7 +57,7 @@
             <button type="submit" class="btn btn-primary submitBtn">搜索</button>
         </div>
         <div class="btn-group">
-            <button type="reset" class="btn btn-primary btn-clean">重置</button>
+            <button type="button" id="btnReset" class="btn btn-primary btn-clean">重置</button>
         </div>
     </div>
 
@@ -73,7 +73,7 @@
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
-         #*   <th>用途</th>*#
+            <th>用途</th>
             <th>备注</th>
         </tr>
         </thead>
@@ -94,9 +94,9 @@
                     $!utilDate.dateToString($!item.gmtCreated,"yyyy-MM-dd HH:mm:ss")
                 </td>
                 <td>$!{item.durationStr}</td>
-             #*   <td>
+                <td>
                     $!{item.scopeStr}
-                </td>*#
+                </td>
                 <td>$!{item.remark}</td>
 
             </tr>
@@ -115,7 +115,10 @@
         extend: ['skin/mySkin/style.css'],
         skin: 'layer-ext-mySkin'
     });
-
+    $("#btnReset").on("click",function () {
+        $("#tbAttachmentSellectListForm").find("input.form-control").val('');
+        $("#tbAttachmentSellectListForm").find("select.form-control").val('0');
+    });
     $(function () {
         $("#tbAttachmentSellectList").on("click", "input[type='checkbox']", function () {
             var checkbox = $(this);
