@@ -483,7 +483,7 @@
             title:$("#spotIntroTitle").val().trim(),
             picTextString:JSON.stringify(getPictureText()),
             uuidPicText:$("#uuidPicText").val(),
-            attractionId:$("#id").val()
+            attractionId:$("#hdnId").val()
         }
         if(data.title.length == 0){
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
