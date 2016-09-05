@@ -328,7 +328,7 @@ public class GuideRepo {
             }
             ICPageResult<ScenicDO> result = guideServiceRef.queryCanGuideScenic(scenicPageQuery);
             if (result != null) {
-                if (result.isSuccess() && !result.getList().isEmpty()) {
+                if (result.isSuccess() ) {
                     log.info("queryCanGuideScenic scenicPageQuery={}, result={}", JSON.toJSONString(scenicPageQuery), JSON.toJSONString(result));
                     return result;
                 } else {
