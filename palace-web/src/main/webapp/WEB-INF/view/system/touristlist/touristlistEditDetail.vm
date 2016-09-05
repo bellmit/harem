@@ -133,9 +133,9 @@
     }
 </style>
 
-<input type="hidden" id="hdnId" value="0">
-<input type="hidden" id="hdnGuideId" value="$guideAttractionid">
-<input type="hidden" id="uuidPicText" value="$uuidPicText">
+<input type="hidden" id="id" name="id" value="${attractionDO.id}">
+<input type="hidden" id="guideId" name="guideId" value="${attractionDO.guideId}">
+<input type="hidden" id="uuidPicText" value="${uuidPicText}">
 <ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
         <a>景点详情</a>
@@ -147,8 +147,6 @@
 <div class="tab-content">
     <div class="tab-pane active" id="spotInfo">
         <form id="frmSpotInfo">
-            <input type="hidden" id="id" name="id" value="${attractionDO.id}">
-            <input type="hidden" id="guideId" name="guideId" value="${attractionDO.guideId}">
             <table class="table">
                 <tr>
                     <th><span class="spColor">*</span>景点名称：</th>
@@ -428,7 +426,7 @@
     $(function () {
         $("#myTab li").on("click", function () {
             var target = $(this).data("target");
-            if (target == "#spotIntro" && $("#hdnId").val() == "0") {
+            if (target == "#spotIntro" && $("#id").val() == "0") {
                 layer.alert("请先保存景点详情");
                 return;
             }
@@ -538,7 +536,7 @@
                     console.log(JSON.stringify(data));
 
                     if (data.success) {
-                        $("#hdnId").val(data.value);
+                        $("#id").val(data.value);
                         $('#myTab li[data-target="#spotIntro"]').trigger("click");
                     } else {
                         layer.msg(data.message, {
@@ -564,7 +562,7 @@
             title:$("#spotIntroTitle").val().trim(),
             picTextString:JSON.stringify(getPictureText()),
             uuidPicText:$("#uuidPicText").val(),
-            attractionId:$("#hdnId").val()
+            attractionId:$("#id").val()
         }
         if(picText.title.length == 0){
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
