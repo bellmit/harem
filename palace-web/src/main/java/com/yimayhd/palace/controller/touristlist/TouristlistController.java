@@ -292,6 +292,8 @@ public class TouristlistController extends BaseController {
 
                 model.addAttribute("uuidPicText",UUID.randomUUID().toString());
             }
+            model.addAttribute("attractionId", attractionId);
+            model.addAttribute("guideId", guideId);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -367,7 +369,7 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/updateTourist", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> updateTourist(GuideAttractionVO guideAttractionVO) {
+    public BizResult<String> updateTourist(GuideAttractionVO guideAttractionVO,Model model) {
 
         BizResult<String> result = new BizResult<String>();
 
@@ -399,6 +401,8 @@ public class TouristlistController extends BaseController {
                 result.setSuccess(false);
             }
             log.error("saveResult:{}", JSON.toJSONString(saveResult));
+            model.addAttribute("attractionId", guideAttractionVO.getId());
+            model.addAttribute("guideId", guideAttractionVO.getGuideId());
         } catch (Exception e) {
             result.setSuccess(false);
         }
@@ -412,7 +416,7 @@ public class TouristlistController extends BaseController {
      */
     @RequestMapping(value = "/savePictureText", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo savePictureText(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO) throws Exception {
+    public ResponseVo savePictureText(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO,Model model) throws Exception {
 
         String key = Constant.APP + "_repeat_" + sessionManager.getUserId() + attractionIntroducePicTextTitleVO.getUuidPicText();
         boolean rs = tcCacheManager.addToTair(key, true, 2, 24 * 60 * 60);
@@ -443,7 +447,7 @@ public class TouristlistController extends BaseController {
                 GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
                 guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
                 guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
-                updateTourist(guideAttractionVO);
+                updateTourist(guideAttractionVO,model);
 
                 return ResponseVo.success();
 
