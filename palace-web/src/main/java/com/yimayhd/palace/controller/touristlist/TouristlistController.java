@@ -387,7 +387,7 @@ public class TouristlistController extends BaseController {
             }
             if (saveResult.isSuccess()) {
                 result.initSuccess(saveResult.getResultMsg());
-                result.setValue("1");
+//              result.setValue("1");
                 result.setSuccess(true);
             } else {
                 result.setCode(saveResult.getResultCode());
