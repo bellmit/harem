@@ -156,7 +156,7 @@
                     <div class="upload-view">
                         <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
                         <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
-                        <div><span>文件名称:</span><span id="inputFileTitle"></span></div>
+                        <div><span>文件名称:</span><span id="inputFileTitle">${guideScenicVO.attachmentVO.inputFileTitle}</span></div>
                         <div><span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span></div>
                     </div>
                 </td>

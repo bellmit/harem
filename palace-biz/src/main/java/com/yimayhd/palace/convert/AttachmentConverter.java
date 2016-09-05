@@ -38,6 +38,7 @@ public class AttachmentConverter {
         attachmentVO.setStatus(mediaDO.getStatus());
         attachmentVO.setGmtCreated(mediaDO.getGmtCreated());
         attachmentVO.setFileKey(mediaDO.getFileKey());
+        attachmentVO.setFsize(mediaDO.getFsize());
         return attachmentVO;
     }
 
@@ -54,6 +55,7 @@ public class AttachmentConverter {
         attachmentVO.setInputFileTitle(mediaDTO.getInputFileTitle());
         attachmentVO.setRemark(mediaDTO.getRemark());
         attachmentVO.setRemoteUrl(mediaDTO.getRemoteUrl());
+        attachmentVO.setFsize(mediaDTO.getFsize());
         return attachmentVO;
     }
 

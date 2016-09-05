@@ -1,4 +1,4 @@
-
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <form class="form-signin" id="itemListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/list" method="POST" role="form">
     <input type="hidden"   name="sellerId" value="$!itemListQuery.sellerId"/>
     <div class="inputGroup whole">
@@ -186,7 +186,7 @@
     #parse("/page.vm")
     #pageStyle("itemListForm")
 </form>
-
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script>
     $(".form-date").datetimepicker(
             {

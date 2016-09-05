@@ -9,7 +9,7 @@ public class AttachmentUploadResult implements Serializable {
     private static final long serialVersionUID = -6536248627635723874L;
     private String key;
     private String fname;
-    private String fsize;
+    private long fsize;
     private String url;
     private String hash;
     private String bucketName;
@@ -48,11 +48,11 @@ public class AttachmentUploadResult implements Serializable {
         this.fname = fname;
     }
 
-    public String getFsize() {
+    public long getFsize() {
         return fsize;
     }
 
-    public void setFsize(String fsize) {
+    public void setFsize(long fsize) {
         this.fsize = fsize;
     }
 
