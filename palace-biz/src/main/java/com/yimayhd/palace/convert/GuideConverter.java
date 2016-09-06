@@ -245,7 +245,8 @@ public class GuideConverter {
         // 景点and看点
         AttractionFocusAddDTO attractionFocusAddDTO = new AttractionFocusAddDTO();
         attractionFocusAddDTO.setAttractionDO(guideAttractionDO);
-        attractionFocusAddDTO.setFocusAddList(JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class));
+        // 看点去重处理
+        attractionFocusAddDTO.setFocusAddList(removeDuplicte(JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class)));
 
         return attractionFocusAddDTO;
     }
@@ -347,19 +348,15 @@ public class GuideConverter {
         allKeys.addAll(oldKeys);
         allKeys.addAll(newKeys);
 
-
         HashMap<String, GuideFocusDO> oldMap = getMapFromList(oldList);
         HashMap<String, GuideFocusDO> newMap = getMapFromList(newList);
-//        if (!CollectionUtils.isEmpty(newList)) {
-//			
-//		}
+
         // 更新的看点
         List<GuideFocusUpdateDTO> updateList = new ArrayList<GuideFocusUpdateDTO>();
         List<String> updateKeys = new ArrayList<String>();
         updateKeys.addAll(newKeys);
         updateKeys.retainAll(oldKeys);//交集
         updateList = getGuideFocusUpdateDTO(newMap, updateKeys);
-
 
         // 删除的看点
         List<Long> deleteList = new ArrayList<Long>();
@@ -383,7 +380,6 @@ public class GuideConverter {
         addKeys.removeAll(oldKeys);
         focusAddList = getGuideFocusDO(newMap, addKeys);
 
-
         AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
         attractionFocusUpdateDTO.setDeletedFocusIdList(deleteList);
         attractionFocusUpdateDTO.setFocusAddList(focusAddList);
@@ -406,7 +402,6 @@ public class GuideConverter {
         attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
         return attractionFocusUpdateDTO;
     }
-
 
     //
     public static GuideAttractionVO guideAttractionDO2GuideAttractionVO(GuideAttractionDO guideAttractionDO) {

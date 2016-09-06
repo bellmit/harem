@@ -298,7 +298,7 @@
         });
     }
 
-    function addAudioItem(data) {
+    function addAudioItem(datas) {
         $.each(datas,function(index,data){
             if($("#"+data.id).length===0){
                 var str = JSON.stringify(data);
@@ -408,7 +408,8 @@
             guideId: $("#hdnGuideId").val(),
             name: $("#spotName").val(),
             attrImg: $("#spotLogoUrl").val(),
-            tourTime: $("#tourTime").val()
+            tourTime: $("#tourTime").val(),
+            attrNo: $("#spotNumber").val()
         };
         var focusOrderJson =[];
         $(".audio-list .audio-item").each(function(i,d) {
