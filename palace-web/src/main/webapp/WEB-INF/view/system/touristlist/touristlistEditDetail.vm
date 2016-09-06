@@ -187,8 +187,8 @@
                 <tr>
                     <th><span class="spColor">*</span>浏览时间：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="tourTime" id="tourTime" datatype="n"
-                               nullmsg="请输入浏览时间！" placeholder="请输入数字" errormsg="请输入正确的浏览时间" value="$!{attractionDO.tourTime}">
+                        <input type="text" class="inpCtlBlock" name="tourTime" id="tourTime" datatype="*1-10"
+                               nullmsg="请输入浏览时间！" placeholder="请输入浏览时间,长度不能超过10个字符" errormsg="长度不能超过10个字符" value="$!{attractionDO.tourTime}">
                     </td>
                 </tr>
                 <tr>
