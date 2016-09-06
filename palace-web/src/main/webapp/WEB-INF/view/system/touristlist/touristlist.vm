@@ -179,7 +179,7 @@
                 editor.append(self.getLineHtml(true));
             } else {
                 $.each(self.lineSettings, function(index, line) {
-                    editor.append(self.getLineHtml(index == 0, line));
+                    editor.append(self.getLineHtml(index === 0, line,index===0?'':self.lineSettings[index-1].distance));
                 });
             }
         },
@@ -238,11 +238,11 @@
                 }
             });
         },
-        getLineHtml: function(start, line) {
+        getLineHtml: function(start, line,dis) {
             var temp = [];
             var length = this.lineData.length;
             var startCss = start ? "start" : "";
-            var distance = line ? line.distance : '';
+            var distance = dis||'';
             temp.push('<div class="line ' + startCss + '">');
             temp.push('<div class="line-info">')
             if (!start) {
@@ -275,20 +275,16 @@
             var self=this;
             $(this.selectors.line).each(function(index, _line) {
                 var line =self.findLine($(_line).find('select').val());
-                if (index == 0) {
                     data.push({
                         guideId:self.guideId,
-                        distance:'',
+                        distance:0,
                         attractionId:line.id,
                         no:line.attrNo
                     });
-                } else {
-                    data.push({
-                        guideId:self.guideId,
-                        distance:$(_line).find("input").val(),
-                        attractionId:line.id,
-                        no:line.attrNo
-                    });
+                    
+                    if(index>0){
+                        data[index-1].distance=$(_line).find("input").val();
+                    }
                 }
             });
             console.dir(data);
