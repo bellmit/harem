@@ -425,7 +425,7 @@ public class TouristlistController extends BaseController {
 
         ResponseVo responseVo = new ResponseVo();
 
-        if (rs) {
+//        if (rs) {
             try {
                 if (StringUtils.isBlank(attractionIntroducePicTextTitleVO.getPicTextString())) {
                     log.warn("json is null");
@@ -464,7 +464,7 @@ public class TouristlistController extends BaseController {
                 resVO.setData(UUID.randomUUID().toString());
                 return resVO;
             }
-        }
-        return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
+//        }
+//        return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
     }
 }

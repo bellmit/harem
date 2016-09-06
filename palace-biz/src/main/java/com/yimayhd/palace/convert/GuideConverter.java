@@ -239,7 +239,8 @@ public class GuideConverter {
         guideAttractionDO.setAttrImg(attractionVO.getAttrImg());
         guideAttractionDO.setName(attractionVO.getName());
         guideAttractionDO.setTourTime(attractionVO.getTourTime());
-        guideAttractionDO.setTitle(attractionVO.getTitle());
+//        guideAttractionDO.setTitle(attractionVO.getTitle().trim());
+//        guideAttractionDO.setTitle(attractionVO.getSubTitle().trim());
         guideAttractionDO.setAttrNo(attractionVO.getAttrNo());
 
         // 景点and看点
