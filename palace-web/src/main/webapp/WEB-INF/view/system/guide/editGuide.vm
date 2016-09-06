@@ -38,14 +38,22 @@
         margin-top: 10px;
     }
 
-    .upload-view .img-wapper {
+    .upload-view .img-wapper,
+    .upload-view .mp3 {
         position: relative;
         width: 150px;
         height: 75px;
         border: 1px solid #ccc;
     }
 
-    .img-wapper.uploaded:hover .delete-btn {
+    .mp3.uploaded{
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAARVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADc6ur3AAAAF3RSTlMAlmw+RRoJLYKMEF1yNySypkt5ulfWn4nMxyYAAADLSURBVDjLtdHbCoMwDIDhNDWHHmfV7f0fdd2V2jCRwX4opfDRiwSgTod8YRiq7thzxVFMDg65pJkvgaeQ+RLAICwYhAUnYcFGvfJq38CyPj498QRs+H8gYoDJgIjOttAOyuxtIe3A97sSAFEUkQjUDyCeQFwVeNY0a8iiSyYDHkq1gwQSiohWA1xuG35+cMhxCWRASKhNUxbiSBy8BeLQa0oMINqCjIALe6JSa3/ytBUegQ3x9qCuR33Rz+tGPOBXRpNrO2CPtsZwuzfClAjZJq8DKQAAAABJRU5ErkJggg==")
+    }
+    
+    .img-wapper.uploaded:hover .delete-btn,
+    .mp3.uploaded:hover .delete-btn {
         display: block;
     }
 
@@ -65,8 +73,8 @@
         text-align: center;
         color: #fff;
         background: #000;
-        opacity: 0.2;
-        filter: alpha(opacity=20);
+        opacity: 0.7;
+        filter: alpha(opacity=70);
         cursor: pointer;
     }
 </style>
@@ -154,10 +162,17 @@
                         <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
                     </div>
                     <div class="upload-view">
+                        <div class="mp3">
+                             <div class="delete-btn" id="btnDeleteAudio">删除</div>
+                        </div>
                         <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
                         <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
-                        <div><span>文件名称:</span><span id="inputFileTitle">${guideScenicVO.attachmentVO.inputFileTitle}</span></div>
-                        <div><span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span></div>
+                        <div> 
+                            <span>文件名称:</span><span id="inputFileTitle">${guideScenicVO.attachmentVO.inputFileTitle}</span>
+                        </div>
+                        <div>
+                            <span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -338,6 +353,15 @@
                 $("#inputFileTitle").text(item.inputFileTitle);
                 return true;
             });
+        });
+
+        //删除语音
+        $("#btnDeleteAudio").on("click",function(){
+            $(".mp3").removeClass("uploaded");
+            $("#guideAudio").val('');
+            $("#audioTime").val('');
+            $("#audioTimeVo").text('');
+            $("#inputFileTitle").text('');
         });
         //删除图片
         $(".img-wapper .delete-btn").on("click", function () {
