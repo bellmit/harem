@@ -102,7 +102,7 @@
 
                         #foreach($attractionCascadeFocusDTO in $touristlist)
                         <tr>
-                            <td>$!attractionCascadeFocusDTO.guideAttractionDO.id</td>
+                            <td>$!attractionCascadeFocusDTO.guideAttractionDO.attrNo</td>
                             <td>
                                 $!attractionCascadeFocusDTO.guideAttractionDO.name
                             </td>
