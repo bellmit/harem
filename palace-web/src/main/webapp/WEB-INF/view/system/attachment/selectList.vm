@@ -18,6 +18,7 @@
         type="text/javascript"></script>
 <form id="tbAttachmentSellectListForm" name="tbAttachmentSellectListForm"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select">
+    <input type="hidden" id="multi" name="mulit" value="${mediaPageQuery.multi}">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">

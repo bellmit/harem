@@ -46,6 +46,17 @@ public class AttachmentListQuery extends BaseQuery {
 
     private String remark;//备注
 
+    private int multi;//1 单选 2 多选
+
+    public int getMulti() {
+        return multi;
+    }
+
+    public AttachmentListQuery setMulti(int multi) {
+        this.multi = multi;
+        return this;
+    }
+
     public String getStartTimeStr() {
         if (startTime != null) {
             startTimeStr = DateUtil.formatDate(startTime);
