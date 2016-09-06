@@ -33,6 +33,11 @@ public class AttractionIntroducePicTextTitleVO implements Serializable {
      */
     private String title;
 
+	/**
+	 *  景点详情副标题
+	 */
+	private String subTitle;
+
 	public long getAttractionId() {
 		return attractionId;
 	}
@@ -65,6 +70,11 @@ public class AttractionIntroducePicTextTitleVO implements Serializable {
 		this.title = title;
 	}
 
+	public String getSubTitle() {
+		return subTitle;
+	}
 
-   
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
 }

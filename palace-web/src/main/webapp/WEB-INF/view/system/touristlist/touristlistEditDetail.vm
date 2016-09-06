@@ -242,6 +242,12 @@
                 </td>
             </tr>
             <tr>
+                <th><span class="spColor">*</span>景点介绍副标题：</th>
+                <td>
+                    <input type="text" class="inpCtlBlock" maxlength="38" name="subSpotIntroTitle" id="subSpotIntroTitle" value="$!{attractionDO.subTitle}">
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     
                         
@@ -552,6 +558,7 @@ var spotInfo = {
         var picText=getPictureText();
         var data={
             title:$("#spotIntroTitle").val().trim(),
+            subTitle:$("#subSpotIntroTitle").val().trim(),
             picTextString:JSON.stringify(getPictureText()),
             uuidPicText:$("#uuidPicText").val(),
             attractionId:$("#id").val()

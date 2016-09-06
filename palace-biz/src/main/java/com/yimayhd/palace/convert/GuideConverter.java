@@ -324,7 +324,8 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setAttrImg(attractionVO.getAttrImg());
         guideAttractionUpdateDTO.setName(attractionVO.getName());
         guideAttractionUpdateDTO.setTourTime(attractionVO.getTourTime());
-        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle());
+        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle().trim());
+        guideAttractionUpdateDTO.setSubTitle(attractionVO.getSubTitle().trim());
         guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
         List<GuideFocusDO> oldList = new ArrayList<GuideFocusDO>();
@@ -398,7 +399,8 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setName(attractionFocusDTO.getAttractionDO().getName());
         guideAttractionUpdateDTO.setTourTime(attractionFocusDTO.getAttractionDO().getTourTime());
         guideAttractionUpdateDTO.setWeights(attractionFocusDTO.getAttractionDO().getWeights());
-        guideAttractionUpdateDTO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
+        guideAttractionUpdateDTO.setTitle(attractionIntroducePicTextTitleVO.getTitle().trim());
+        guideAttractionUpdateDTO.setSubTitle(attractionIntroducePicTextTitleVO.getSubTitle().trim());
         attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
         return attractionFocusUpdateDTO;
     }

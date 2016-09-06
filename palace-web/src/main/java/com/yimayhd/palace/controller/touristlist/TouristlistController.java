@@ -185,7 +185,7 @@ public class TouristlistController extends BaseController {
             if(status == 1){
                 updateGuideLine(guideId,"");
             }else if(status == 2){  
-                //// TODO: 16/9/6 线路删除最后一个景点
+                //// TODO: 16/9/6 线路删除线路最后一个景点 更新线路
                 ICResult<GuideLineDTO> guideLineDTOResult = guideServiceRef.queryGuideLine(guideId);
                 if (guideLineDTOResult == null) {
                     bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
@@ -439,14 +439,15 @@ public class TouristlistController extends BaseController {
                 //// TODO: 16/9/2 更新标题
                 GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
                 guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
-                guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
-               // updateTourist(guideAttractionVO,model);
+                guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle().trim());  // 去掉前后空格
+                guideAttractionVO.setSubTitle(attractionIntroducePicTextTitleVO.getSubTitle().trim());
+                // updateTourist(guideAttractionVO,model);
                 // 查询景点
                 ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
 
                 if (attractionFocusDTOResult == null){
-//                    result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-//                    return result;
+//                   result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+//                   return result;
                 	return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
                 }
 
