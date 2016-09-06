@@ -3,50 +3,41 @@ package com.yimayhd.palace.controller.touristlist;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.yimayhd.commentcenter.client.dto.ComentDTO;
-import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
-import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
-import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
 import com.yimayhd.palace.base.BaseController;
-import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.biz.TrouistlistBiz;
-import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.GuideConverter;
 import com.yimayhd.palace.error.PalaceReturnCode;
-import com.yimayhd.palace.helper.ResponseVoHelper;
-import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.guide.AttractionFocusVO;
-import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.result.BizResult;
-import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.palace.service.GuideManageService;
 import com.yimayhd.user.session.manager.SessionManager;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.palace.model.guide.GuideAttractionVO;
 import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.palace.model.guide.AttractionListGuideLineVO;
 import com.yimayhd.palace.model.guide.AttractionIntroducePicTextTitleVO;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -102,7 +93,7 @@ public class TouristlistController extends BaseController {
             }
             model.addAttribute("attractionId", attractionId); // 导览id
             model.addAttribute("scenicId", scenicId); // 导览id
-            System.out.println("touristlist=" + JSON.toJSONString(touristlist));
+           // System.out.println("touristlist=" + JSON.toJSONString(touristlist));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -437,8 +428,21 @@ public class TouristlistController extends BaseController {
                 GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
                 guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
                 guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
-                updateTourist(guideAttractionVO,model);
+               // updateTourist(guideAttractionVO,model);
+                // 查询景点
+                ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
 
+                if (attractionFocusDTOResult == null){
+//                    result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+//                    return result;
+                	return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+                }
+
+                AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.convertAttrattionVO2UpdateDTO(attractionIntroducePicTextTitleVO,attractionFocusDTOResult.getModule());
+                ICResult<Boolean> updateResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
+                if (updateResult == null || !updateResult.isSuccess()) {
+					return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+				}
                 return ResponseVo.success();
 
             } catch (Exception e) {

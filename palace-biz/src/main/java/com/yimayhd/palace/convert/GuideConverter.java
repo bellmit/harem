@@ -10,7 +10,9 @@ import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.palace.model.guide.*;
+
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -231,9 +233,7 @@ public class GuideConverter {
         }
         // 景点
         GuideAttractionDO guideAttractionDO = new GuideAttractionDO();
-        if (attractionVO == null) {
-            return null;
-        }
+       
         guideAttractionDO.setId(attractionVO.getId());
         guideAttractionDO.setGuideId(attractionVO.getGuideId());
         guideAttractionDO.setAttrImg(attractionVO.getAttrImg());
@@ -312,14 +312,12 @@ public class GuideConverter {
 
     // 更新景点详情
     public static AttractionFocusUpdateDTO guideAttractionVO2AttractionFocusUpdateDTO(GuideAttractionVO attractionVO, AttractionFocusDTO attractionFocusDTO) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        if (attractionVO == null) {
+    	if (attractionVO == null) {
             return null;
         }
         // 景点
         GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
-        if (attractionVO == null) {
-            return null;
-        }
+        
         guideAttractionUpdateDTO.setId(attractionVO.getId());
         guideAttractionUpdateDTO.setGuideId(attractionVO.getGuideId());
         guideAttractionUpdateDTO.setAttrImg(attractionVO.getAttrImg());
@@ -352,7 +350,9 @@ public class GuideConverter {
 
         HashMap<String, GuideFocusDO> oldMap = getMapFromList(oldList);
         HashMap<String, GuideFocusDO> newMap = getMapFromList(newList);
-
+//        if (!CollectionUtils.isEmpty(newList)) {
+//			
+//		}
         // 更新的看点
         List<GuideFocusUpdateDTO> updateList = new ArrayList<GuideFocusUpdateDTO>();
         List<String> updateKeys = new ArrayList<String>();
@@ -360,28 +360,14 @@ public class GuideConverter {
         updateKeys.retainAll(oldKeys);//交集
         updateList = getGuideFocusUpdateDTO(newMap, updateKeys);
 
-       /* for (int i = 0; i < oldList.size(); i++) {
-            GuideFocusDO oldGuideFocusDO = oldList.get(i);
-            for (int j = 0; j < newList.size(); j++) {
-                GuideFocusDO newGuideFocusDO = newList.get(j);
-                if (newGuideFocusDO.getId() == oldGuideFocusDO.getId()) {
-                    GuideFocusUpdateDTO guideFocusUpdateDTO = new GuideFocusUpdateDTO();
-                    guideFocusUpdateDTO.setId(newGuideFocusDO.getId());
-                    guideFocusUpdateDTO.setName(newGuideFocusDO.getName());
-                    guideFocusUpdateDTO.setAudio(newGuideFocusDO.getAudio());
-                    guideFocusUpdateDTO.setAudioTime(newGuideFocusDO.getAudioTime());
-                    updateList.add(guideFocusUpdateDTO);
-                }
-            }
-        }*/
+       
         // 删除的看点
         List<Long> deleteList = new ArrayList<Long>();
         List<String> deleteKeys = new ArrayList<String>();
         deleteKeys.addAll(allKeys);
         deleteKeys.removeAll(newKeys);//交集
-        //   List<GuideFocusDO> guideFocusDODeleteList = getGuideFocusDO(oldMap, deleteKeys);
-        Iterator d = deleteKeys.iterator();
         for (GuideFocusDO guideFocusDO : oldList) {
+        	Iterator d = deleteKeys.iterator();
             while (d.hasNext()) {
                 String key = (String) d.next();
                 if (key.equals(guideFocusDO.getAudio())) {
@@ -396,15 +382,7 @@ public class GuideConverter {
         addKeys.addAll(allKeys);
         addKeys.removeAll(oldKeys);
         focusAddList = getGuideFocusDO(newMap, addKeys);
-      /*  for (int i = 0; i < oldList.size(); i++) {
-            GuideFocusDO oldGuideFocusDO = oldList.get(i);
-            for (int j = 0; j < newList.size(); j++) {
-                GuideFocusDO newGuideFocusDO = newList.get(j);
-                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()) {
-                    focusAddList.add(newGuideFocusDO);
-                }
-            }
-        }*/
+      
 
         AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
         attractionFocusUpdateDTO.setDeletedFocusIdList(deleteList);
@@ -413,6 +391,21 @@ public class GuideConverter {
         attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
         return attractionFocusUpdateDTO;
     }
+
+	public static AttractionFocusUpdateDTO convertAttrattionVO2UpdateDTO(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO,AttractionFocusDTO attractionFocusDTO) {
+		AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
+		GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
+		guideAttractionUpdateDTO.setAttrImg(attractionFocusDTO.getAttractionDO().getAttrImg());
+		guideAttractionUpdateDTO.setAttrNo(attractionFocusDTO.getAttractionDO().getAttrNo());
+		guideAttractionUpdateDTO.setGuideId(attractionFocusDTO.getAttractionDO().getGuideId());
+		guideAttractionUpdateDTO.setId(attractionFocusDTO.getAttractionDO().getId());
+		guideAttractionUpdateDTO.setName(attractionFocusDTO.getAttractionDO().getName());
+		guideAttractionUpdateDTO.setTourTime(attractionFocusDTO.getAttractionDO().getTourTime());
+		guideAttractionUpdateDTO.setWeights(attractionFocusDTO.getAttractionDO().getWeights());
+		guideAttractionUpdateDTO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
+		attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
+		return attractionFocusUpdateDTO;
+	}
 
 
     //
