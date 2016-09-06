@@ -196,7 +196,6 @@
                     <td>
                         <div class="upload-btn">
                             <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
-                            <input type="hidden" id="hdnAudios" name="audios" datatype="*" nullmsg="请选择语音包">
                         </div>
                         <div class="audio-list">
                             #foreach($item in $guideFocusDOList)
@@ -312,11 +311,9 @@
         $(fileId).on("change", function () {
             fileUpload(fileId, 1, function (data) {
                 if (data && data.status == 200) {
-                    console.log(data.data);
                     $(hiddenId).val(data.data);
-
                     $(imgId).attr('src', tfsRootPath + data.data);
-                    $(imgId).closest(".upload-wapper").addClass("uploaded");
+                    $(imgId).closest(".img-wapper").addClass("uploaded");
                 } else {
                     layer.msg('图片上传失败，请重试', {
                         icon: 2
@@ -326,13 +323,10 @@
         });
     }
 
-    function addAudioItem(data) {
-        data.id=0;
-        var str = JSON.stringify(data);
-        var audioCount = $(".audio-list .audio-item").length;
-        var index = audioCount + 1;
-        var id = "item" + index;
-        var audioItem =
+    function addAudioItem(datas) {
+        $.each(datas,function(index,data){
+            var str = JSON.stringify(data);
+            var audioItem =
                 '<div class="audio-item">' +
                 '   <div class="audio-img">' +
                 '       <img class="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="">' +
@@ -344,7 +338,7 @@
                 '       </div>' +
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
-                '           <textarea style="display:none;" class="focus-json" id="' + id + '"></textarea>' +
+                '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">'+str+'</textarea>' +
                 '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
@@ -353,9 +347,8 @@
                 '   </div>' +
                 '</div>';
 
-        $(audioItem).appendTo(".audio-list");
-        $("#" + id).val(str);
-
+            $(audioItem).appendTo(".audio-list");
+        });
     }
 
     function LineEditor(options) {
@@ -404,19 +397,19 @@
             var temp = [];
             var length = this.lineData.length;
             var startCss = start ? "start" : "";
-            temp.push('<div class="line ' + startCss + '">')
-            temp.push('<div class="line-info">')
+            temp.push('<div class="line ' + startCss + '">');
+            temp.push('<div class="line-info">');
             if (!start) {
-                temp.push('<input class="form-control" />')
+                temp.push('<input class="form-control" />');
             }
-            temp.push('<select class="form-control">')
+            temp.push('<select class="form-control">');
             for (var index = 0; index < length; index++) {
-                temp.push('<option value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>')
+                temp.push('<option value="' + this.lineData[index].value + '">' + this.lineData[index].name + '</option>');
             }
-            temp.push('</select>')
-            temp.push('</div>')
-            temp.push('<i class="arrow"><em></em></i>')
-            temp.push('</div>')
+            temp.push('</select>');
+            temp.push('</div>');
+            temp.push('<i class="arrow"><em></em></i>');
+            temp.push('</div>');
 
             return temp.join('');
         }
@@ -441,22 +434,27 @@
 
         //选择语音文件 
         $('#btnSelectAudio').on("click", function () {
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件",
-                    function () {
-                        var item = win.getItem();
-                        if (item != null) {
-                            addAudioItem(item);
-                        }
-                        return true;
-                    });
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2', "选择语音文件",
+                function () {
+                    var items = win.getItem(); 
+                if (items.length === 0) { 
+                    layer.msg("请选择语音",{icon:2,time:1500});
+                    return false;
+                } 
+
+                addAudioItem(items); 
+                return true;
+                });
         });
 
         //删除图片
         $(".img-wapper .delete-btn").on("click", function () {
-            var wapper =$(this).closest(".img-wapper");
-            wapper.removeClass("uploaded");
-            wapper.find(".upload-img").attr("src", defaultImg);
-            wapper.find("input[type='hidden']").val('');
+            var td = $(this).closest("td");
+
+            td.find(".img-wapper").removeClass("uploaded");
+            td.find(".upload-img").attr("src", defaultImg);
+            td.find("input[type='hidden']").val('');
+            td.find("input[type='file']").val('');
         });
 
         //删除语音文件

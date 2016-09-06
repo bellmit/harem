@@ -238,7 +238,6 @@
 <script type="text/javascript">
     var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
     function submitEdit(url, type, data) {
-        //alert(1);
         $.ajax({
             url: url,
             type: type,
@@ -250,7 +249,6 @@
                         time: 1500
                     });
                     setTimeout(function () {
-//                        window.location.href = window.location.href;
                         closeAndFreshPrevFrame();
                     }, 1500);
                 } else {
@@ -270,30 +268,14 @@
             }
         });
     }
-    function checkImg(src, callback) {
-        var img = new Image();
-        img.src = src;
-        img.onload = function() {
-            callback && callback(img.width <= 750 && img.height <= 360)
-        }
-    }
     function initUploadFile(fileId, hiddenId, imgId) {
         $(fileId).on("change", function () {
             fileUpload(fileId, 1, function (data) {
                 if (data && data.status == 200) {
-                    console.log(data.data);
-                    var src = tfsRootPath + data.data;
-                    checkImg(src, function(r) {
-                        if (r) {
-                            $(hiddenId).val(data.data);
-                            $(imgId).attr('src', tfsRootPath + data.data);
-                            $(imgId).closest(".img-wapper").addClass("uploaded");
-                        } else {
-                            layer.msg('图片尺寸太大，请上传正确的图片', {
-                                icon: 2
-                            });
-                        }
-                    });
+                    $(hiddenId).val(data.data);
+                    $(imgId).attr('src', tfsRootPath + data.data);
+                    $(imgId).closest(".img-wapper").addClass("uploaded");
+                        
                 } else {
                     layer.msg('图片上传失败，请重试', {
                         icon: 2
@@ -336,13 +318,14 @@
 
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
-                var item = win.getItem();
-                console.log(JSON.stringify(item));
-                if (item == null) {
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1', "选择语音文件", function () {
+                var arr = win.getItem();
+                if (arr.length==0) {
                     layer.msg("请选择语音文件",{icon:2});
                     return false;
                 }
+
+                var item=arr[0];
 
                 if(parseInt(item.fsize)>4*1024*1024){
                     layer.msg("不能选择大于4M的语音文件",{icon:2});
