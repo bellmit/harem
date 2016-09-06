@@ -285,7 +285,6 @@
                     if(index>0){
                         data[index-1].distance=$(_line).find("input").val();
                     }
-                }
             });
             console.dir(data);
             return data;

@@ -184,6 +184,21 @@ public class TouristlistController extends BaseController {
             // TODO: 16/9/2     重置线路
             if(status == 1){
                 updateGuideLine(guideId,"");
+            }else if(status == 2){  
+                //// TODO: 16/9/6 线路删除最后一个景点
+                ICResult<GuideLineDTO> guideLineDTOResult = guideServiceRef.queryGuideLine(guideId);
+                if (guideLineDTOResult == null) {
+                    bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                }
+                if (guideLineDTOResult.isSuccess() && guideLineDTOResult.getModule() != null){
+                    List<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
+                    guideLine.addAll(guideLineDTOResult.getModule().getGuideLine()) ;
+                    int index = guideLine.size();
+                    if (index > 0){
+                        guideLine.remove(index-1);
+                        updateGuideLine(guideId,JSON.toJSONString(guideLine));
+                    }
+                }
             }
         }
         return bizResult;
@@ -362,20 +377,17 @@ public class TouristlistController extends BaseController {
     public BizResult<String> updateTourist(GuideAttractionVO guideAttractionVO,Model model) {
 
         BizResult<String> result = new BizResult<String>();
-
         try {
             ICResult<Boolean> saveResult = null;
 
             // 查询景点
             ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
-
             if (attractionFocusDTOResult == null){
                 result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
                 return result;
             }
 
             AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.guideAttractionVO2AttractionFocusUpdateDTO(guideAttractionVO,attractionFocusDTOResult.getModule());
-
             saveResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
 
             if (saveResult == null) {
