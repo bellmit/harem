@@ -307,6 +307,8 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.setTitle(itemVO.getTitle());
             //商品编码
             itemDB.setCode(itemVO.getCode());
+            //商品描述
+            itemDB.setOneWord(itemVO.getOneWord());
             //价格
             itemDB.setPrice(itemVO.getPriceLong());
             //商品库存
