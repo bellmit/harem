@@ -14,7 +14,11 @@
         z-index: 1;
     }
 
-    .upload-btn .upload-file {
+    #attachmentFile{
+        display: none;
+    } 
+
+    /*.upload-btn .upload-file {
         position: absolute;
         width: 100px;
         height: 35px;
@@ -23,7 +27,7 @@
         opacity: 0;
         filter: alpha(opacity=0);
         z-index: 2;
-    }
+    }*/
 </style>
 
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
@@ -96,8 +100,9 @@
     <div class="btnBottomMargin">
         <input type="hidden" id="uploadActionUrl"
                value="$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/addAttachment"/>
+
+        <input type="file" name="file" id="attachmentFile" class="upload-file">
         <button type="button" id="btnUpload" class="btn btn-primary upload-btn">上传文件
-            <input type="file" name="file" id="attachmentFile" class="form-control upload-file">
         </button>
     </div>
 </form>
