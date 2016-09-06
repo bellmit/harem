@@ -325,8 +325,8 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setAttrImg(attractionVO.getAttrImg());
         guideAttractionUpdateDTO.setName(attractionVO.getName());
         guideAttractionUpdateDTO.setTourTime(attractionVO.getTourTime());
-        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle().trim());
-        guideAttractionUpdateDTO.setSubTitle(attractionVO.getSubTitle().trim());
+//        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle().trim());
+//        guideAttractionUpdateDTO.setSubTitle(attractionVO.getSubTitle().trim());
         guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
         List<GuideFocusDO> oldList = new ArrayList<GuideFocusDO>();
