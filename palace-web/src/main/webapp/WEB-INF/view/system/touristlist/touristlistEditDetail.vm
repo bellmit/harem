@@ -325,29 +325,31 @@
 
     function addAudioItem(datas) {
         $.each(datas,function(index,data){
-            var str = JSON.stringify(data);
-            var audioItem =
-                '<div class="audio-item">' +
-                '   <div class="audio-img">' +
-                '       <img class="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="">' +
-                '   </div>' +
-                '   <div class="audio-info pull-left">' +
-                '       <div class="audio-info-item">' +
-                '           <label>时长：</label>' +
-                '           <span>' + data.durationStr + '</span>' +
-                '       </div>' +
-                '       <div class="audio-info-item">' +
-                '            <label>看点名称：</label>' +
-                '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">'+str+'</textarea>' +
-                '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
-                '       </div>' +
-                '   </div>' +
-                '   <div class="pull-left">' +
-                '    <button class="btn btn-primary delete-item">删除</button>' +
-                '   </div>' +
-                '</div>';
+            if($("#"+data.id).length===0){
+                var str = JSON.stringify(data);
+                var audioItem =
+                    '<div class="audio-item">' +
+                    '   <div class="audio-img">' +
+                    '       <img class="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="">' +
+                    '   </div>' +
+                    '   <div class="audio-info pull-left">' +
+                    '       <div class="audio-info-item">' +
+                    '           <label>时长：</label>' +
+                    '           <span>' + data.durationStr + '</span>' +
+                    '       </div>' +
+                    '       <div class="audio-info-item">' +
+                    '            <label>看点名称：</label>' +
+                    '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">'+str+'</textarea>' +
+                    '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
+                    '       </div>' +
+                    '   </div>' +
+                    '   <div class="pull-left">' +
+                    '    <button class="btn btn-primary delete-item">删除</button>' +
+                    '   </div>' +
+                    '</div>';
 
-            $(audioItem).appendTo(".audio-list");
+                $(audioItem).appendTo(".audio-list");
+            }
         });
     }
 
