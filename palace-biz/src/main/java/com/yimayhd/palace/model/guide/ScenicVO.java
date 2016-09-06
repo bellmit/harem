@@ -67,6 +67,7 @@ public class ScenicVO implements Serializable{
      * 等级
      */
     private int level;
+    private String levelDesc;
 
     /**
      * 主题id
@@ -91,6 +92,15 @@ public class ScenicVO implements Serializable{
     private String openTime;
 
     private String address;
+
+    public String getLevelDesc() {
+        return levelDesc;
+    }
+
+    public ScenicVO setLevelDesc(String levelDesc) {
+        this.levelDesc = levelDesc;
+        return this;
+    }
 
     public String getAddress() {
         return locationProvinceName+" "+locationCityName+" "+locationTownName;

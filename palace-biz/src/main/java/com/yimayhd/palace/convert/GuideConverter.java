@@ -9,10 +9,9 @@ import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
+import com.yimayhd.ic.client.model.enums.StarLevelType;
 import com.yimayhd.palace.model.guide.*;
-
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -223,6 +222,7 @@ public class GuideConverter {
                 scenicVO.setSubjectName(stringBuffer.toString());
             }
         }
+        scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
         return scenicVO;
     }
 
@@ -233,7 +233,7 @@ public class GuideConverter {
         }
         // 景点
         GuideAttractionDO guideAttractionDO = new GuideAttractionDO();
-       
+
         guideAttractionDO.setId(attractionVO.getId());
         guideAttractionDO.setGuideId(attractionVO.getGuideId());
         guideAttractionDO.setAttrImg(attractionVO.getAttrImg());
@@ -312,12 +312,12 @@ public class GuideConverter {
 
     // 更新景点详情
     public static AttractionFocusUpdateDTO guideAttractionVO2AttractionFocusUpdateDTO(GuideAttractionVO attractionVO, AttractionFocusDTO attractionFocusDTO) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    	if (attractionVO == null) {
+        if (attractionVO == null) {
             return null;
         }
         // 景点
         GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
-        
+
         guideAttractionUpdateDTO.setId(attractionVO.getId());
         guideAttractionUpdateDTO.setGuideId(attractionVO.getGuideId());
         guideAttractionUpdateDTO.setAttrImg(attractionVO.getAttrImg());
@@ -360,14 +360,14 @@ public class GuideConverter {
         updateKeys.retainAll(oldKeys);//交集
         updateList = getGuideFocusUpdateDTO(newMap, updateKeys);
 
-       
+
         // 删除的看点
         List<Long> deleteList = new ArrayList<Long>();
         List<String> deleteKeys = new ArrayList<String>();
         deleteKeys.addAll(allKeys);
         deleteKeys.removeAll(newKeys);//交集
         for (GuideFocusDO guideFocusDO : oldList) {
-        	Iterator d = deleteKeys.iterator();
+            Iterator d = deleteKeys.iterator();
             while (d.hasNext()) {
                 String key = (String) d.next();
                 if (key.equals(guideFocusDO.getAudio())) {
@@ -382,7 +382,7 @@ public class GuideConverter {
         addKeys.addAll(allKeys);
         addKeys.removeAll(oldKeys);
         focusAddList = getGuideFocusDO(newMap, addKeys);
-      
+
 
         AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
         attractionFocusUpdateDTO.setDeletedFocusIdList(deleteList);
@@ -392,20 +392,20 @@ public class GuideConverter {
         return attractionFocusUpdateDTO;
     }
 
-	public static AttractionFocusUpdateDTO convertAttrattionVO2UpdateDTO(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO,AttractionFocusDTO attractionFocusDTO) {
-		AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
-		GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
-		guideAttractionUpdateDTO.setAttrImg(attractionFocusDTO.getAttractionDO().getAttrImg());
-		guideAttractionUpdateDTO.setAttrNo(attractionFocusDTO.getAttractionDO().getAttrNo());
-		guideAttractionUpdateDTO.setGuideId(attractionFocusDTO.getAttractionDO().getGuideId());
-		guideAttractionUpdateDTO.setId(attractionFocusDTO.getAttractionDO().getId());
-		guideAttractionUpdateDTO.setName(attractionFocusDTO.getAttractionDO().getName());
-		guideAttractionUpdateDTO.setTourTime(attractionFocusDTO.getAttractionDO().getTourTime());
-		guideAttractionUpdateDTO.setWeights(attractionFocusDTO.getAttractionDO().getWeights());
-		guideAttractionUpdateDTO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
-		attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
-		return attractionFocusUpdateDTO;
-	}
+    public static AttractionFocusUpdateDTO convertAttrattionVO2UpdateDTO(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO, AttractionFocusDTO attractionFocusDTO) {
+        AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
+        GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
+        guideAttractionUpdateDTO.setAttrImg(attractionFocusDTO.getAttractionDO().getAttrImg());
+        guideAttractionUpdateDTO.setAttrNo(attractionFocusDTO.getAttractionDO().getAttrNo());
+        guideAttractionUpdateDTO.setGuideId(attractionFocusDTO.getAttractionDO().getGuideId());
+        guideAttractionUpdateDTO.setId(attractionFocusDTO.getAttractionDO().getId());
+        guideAttractionUpdateDTO.setName(attractionFocusDTO.getAttractionDO().getName());
+        guideAttractionUpdateDTO.setTourTime(attractionFocusDTO.getAttractionDO().getTourTime());
+        guideAttractionUpdateDTO.setWeights(attractionFocusDTO.getAttractionDO().getWeights());
+        guideAttractionUpdateDTO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
+        attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
+        return attractionFocusUpdateDTO;
+    }
 
 
     //
