@@ -362,28 +362,104 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 //        actActivityDO.setType(type);
 //        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);
     }
+
+    public PageVO<PromotionDO> getGiftActivtyList(GiftActivityVO giftActivityVO) {
+        PageVO<PromotionDO> giftActivtys = new PageVO<PromotionDO>();
+        List<Integer> statusList = new ArrayList<Integer>() ;
+        List<Integer> promotionTypeList = new ArrayList<Integer>();
+        if(StringUtils.isNotBlank(giftActivityVO.getBaseStatus())) {
+            int status;
+            status = Integer.parseInt(giftActivityVO.getBaseStatus());
+            if(status>0) {
+                statusList.add(status);
+            }
+        }
+        promotionTypeList.add(7);
+        PromotionPageQuery promotionPageQuery = new PromotionPageQuery() ;
+        promotionPageQuery.setTitle(giftActivityVO.getTitle());
+        if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
+            try {
+                Date startTime = DateUtil.convertStringToDate(giftActivityVO.getStartDateStr());
+                promotionPageQuery.setStartTime(startTime);
+            } catch (Exception e) {
+                //
+            }
+        }
+        if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
+            try {
+                Date endTime = DateUtil.convertStringToDate(giftActivityVO.getEndDateStr());
+                promotionPageQuery.setStartTime(endTime);
+            } catch (Exception e) {
+                //
+            }
+        }
+        promotionPageQuery.setStatusList(statusList);
+        promotionPageQuery.setPromotionTypeList(promotionTypeList);
+        promotionPageQuery.setDomain(B2CConstant.GF_DOMAIN);
+        BasePageResult<PromotionDO> queryResult = promotionQueryService.queryPromotions(promotionPageQuery);
+        if(null == queryResult || !queryResult.isSuccess()) {
+            log.error("giftActivityVO = {}, queryResult = {}", JSON.toJSONString(giftActivtys), JSON.toJSONString(queryResult));
+            return giftActivtys;
+        }
+        giftActivtys = new PageVO<PromotionDO>(
+                queryResult.getPageNo(),
+                queryResult.getPageSize(),
+                queryResult.getTotalCount(),
+                queryResult.getList()
+        );
+        return giftActivtys;
+    }
+
     public GiftActivityVO getGiftActivity(long id) throws Exception {
         GiftActivityVO giftActivityVO = new GiftActivityVO();
 
         return giftActivityVO;
     }
+
     public boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
         PromotionDO promotionDO = new PromotionDO();
         promotionDO.setTitle(giftActivityVO.getTitle());
+        promotionDO.setEntityType(EntityType.SHOP.getType());
+        promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
         promotionDO.setDomain(B2CConstant.GF_DOMAIN);
         //promotionDO.setPromotionType(PromotionType.GIFT.getByType());
         promotionDO.setPromotionType(7);
-        promotionDO.setEndTime(new Date());
-        promotionDO.setStartTime(new Date());
+        if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
+            Date startTime = DateUtil.convertStringToDate(giftActivityVO.getStartDateStr());
+            promotionDO.setStartTime(startTime);
+        }
+        if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
+            Date endTime = DateUtil.convertStringToDate(giftActivityVO.getEndDateStr());
+            promotionDO.setEndTime(endTime);
+        }
         promotionDO.setGmtCreated(new Date());
         promotionDO.setGmtModified(new Date());
+
         Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
+        feature.put("gifts", giftActivityVO.getGifts());
         promotionDO.setFeature(JSON.toJSON(feature).toString());
         PCResult<PromotionDO> addResult = promotionPublishServiceRef.addPromotion(promotionDO);
         return addResult.isSuccess();
     }
     public boolean updateGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
         PromotionDO promotionDO = new PromotionDO();
+        promotionDO.setTitle(giftActivityVO.getTitle());
+        promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+        //promotionDO.setPromotionType(PromotionType.GIFT.getByType());
+        promotionDO.setPromotionType(7);
+        if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
+            Date startTime = DateUtil.convertStringToDate(giftActivityVO.getStartDateStr());
+            promotionDO.setEndTime(startTime);
+        }
+        if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
+            Date endTime = DateUtil.convertStringToDate(giftActivityVO.getEndDateStr());
+            promotionDO.setEndTime(endTime);
+        }
+        promotionDO.setGmtCreated(new Date());
+        promotionDO.setGmtModified(new Date());
+        Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
+        feature.put("gifts", giftActivityVO.getGifts());
+        promotionDO.setFeature(JSON.toJSON(feature).toString());
         PCResult<Boolean> addResult = promotionPublishServiceRef.updPromotion(promotionDO);
         return addResult.isSuccess();
     }

@@ -17,7 +17,7 @@ public class GiftActivityVO extends PromotionDO {
     private int promotionType; //
     private String startDateStr; //
     private String endDateStr; //
-    private int status;
+    private String baseStatus;
     private List<GiftVO> gifts;
 
     public int getEntityType() {
@@ -76,11 +76,11 @@ public class GiftActivityVO extends PromotionDO {
         this.gifts = gifts;
     }
 
-    public int getStatus() {
-        return status;
+    public String getBaseStatus() {
+        return baseStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setBaseStatus(String baseStatus) {
+        this.baseStatus = baseStatus;
     }
 }

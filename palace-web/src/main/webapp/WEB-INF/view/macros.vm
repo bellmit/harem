@@ -775,6 +775,17 @@
 	#end
 #end
 
+#macro(OPTION_PROMOTION_GIFT_ACTIVITY_STATUS $status)
+<option value="">全部</option>
+<option value="1"#if($status == "1") selected#end>初始化</option>
+<option value="2"#if($status == "2") selected#end>上架</option>
+<option value="3"#if($status == "3") selected#end>下架</option>
+<option>未开始</option>
+<option>进行中</option>
+<option>已结束</option>
+<option>已停用</option>
+#end
+
 #macro(OPTION_COM_RATE_RATE_STATUS $type)
 <option value="" >全部</option>
 <option value="RATE" #if($type == "RATE")selected#end>未回复</option>
@@ -818,18 +829,6 @@
 	    	<div class="t-userType">到店付</div>
 	    #end
 	#end
-#end
-
-#macro(OPTION_COM_RATE_RATE_STATUS $type)
-    <option value="" >全部</option>
-    <option value="RATE" #if($type == "RATE")selected#end>未回复</option>
-    <option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
-#end
-
-#macro(OPTION_COM_RATE_BASE_STATUS $type)
-<option value="" >全部</option>
-<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
-<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
 #end
 
 #macro(DEFAULT_COM_RATE_REPLY_BACK_CONTENT)

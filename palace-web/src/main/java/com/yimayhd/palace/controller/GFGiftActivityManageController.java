@@ -8,12 +8,14 @@ import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.GiftActivityVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.service.PromotionCommService;
+import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,20 +33,17 @@ public class GFGiftActivityManageController {
     private PromotionCommService promotionCommService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(HttpServletRequest request, Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
-        actPromotionPageQuery.setLotteryType(EntityType.SHOP.getType());
-        actPromotionPageQuery.setType(7);
-        PageVO<ActActivityPromotionDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
-        List<PromotionType> promotionTypeList = PromotionHelper.getAvaiableItemPromotionTypes();
-        List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());
-        model.addAttribute("promotionListQuery",actPromotionPageQuery);
+    public String list(HttpServletRequest request, Model model, GiftActivityVO giftActivityVO) throws Exception {
+//        giftActivityVO.setLotteryType(EntityType.SHOP.getType());
+//        giftActivityVO.setType(7);
+        PageVO<PromotionDO> pageVO = promotionCommService.getGiftActivtyList(giftActivityVO);
+        model.addAttribute("promotionListQuery", giftActivityVO);
         model.addAttribute("pageVo",pageVO);
-        model.addAttribute("promotionTypeList",promotionTypeList);
-        model.addAttribute("promotionStatusList",promotionStatusList);
+
         return "/system/gfgiftactivity/list";
     }
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(GiftActivityVO giftActivityVO) throws Exception {
+    public String add(@RequestBody GiftActivityVO giftActivityVO) throws Exception {
         promotionCommService.addGiftActivity(giftActivityVO);
         return "/success";
     }

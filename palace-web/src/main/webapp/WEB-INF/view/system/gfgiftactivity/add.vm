@@ -15,20 +15,24 @@
         "$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js"
     ])
     <!--[if lt IE 8]>
-<div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
-<![endif]-->
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+    <![endif]-->
 <div id = "addGoods">
     <p class = "tit">规则设置</p>
     <div class = "con">
-        <p class = "first"><s>*</s><em>活动名称：</em><input type = "text"></p>
-        <p><s>*</s><em>活动时间：</em><input type = "text"><font>至</font><input type = "text"></p>
+        <p class = "first"><s>*</s><em>活动名称：</em><input type = "text" id="title" name="title"></p>
+        <p><s>*</s><em>活动时间：</em>
+            <input type = "text" id="startDateStr" class="form-date startDate" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
+            <font>至</font>
+            <input type = "text" id="endDateStr" class="form-date endDate" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")">
+        </p>
         <p><s>*</s><em>活动类型：</em><font>全场参加</font></p>
         <p><s>*</s><em>优惠设置：</em><font>注：所有赠品前台默认每款sku只能选择一个</font></p>
     </div>
     <div class = "addSet">
         <ul class = "p">
             <li>
-                <span><s>*</s><font>满</font></span><input type = "text"><font>元</font>
+                <span><s>*</s><font>满</font></span><input type = "text" id="requirementY"><font>元</font>
                 <font>赠</font>
             </li>
         </ul>
@@ -43,7 +47,7 @@
                     <span><s>*</s><font>赠品名称：</font></span><input type = "text" class = "name">
                 </li>
                 <li>
-                    <span><s>*</s><font>价格：</font></span><input type = "text">
+                    <span><s>*</s><font>价格：</font></span><input type = "text" class="price">
                 </li>
                 <div class = "uploadID">
                     <span><em><s>*</s>&nbsp 赠品图：</em></span>
@@ -51,19 +55,21 @@
                         <div class="imgbox imgno">	<!-- 上传图片框   加类名imgno -->
                             <div class="imgcon">
                                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+##                                <img src="http://img.test.yimayholiday.com/v1/tfs/T13zATBXJT1RXrhCrK.jpg"/>
                             </div>
                             <div class="imgwait"></div>
                             <div class="imgdelbtn">删除图片</div>
                             <a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
                             <input type="hidden">
                         </div>
+                        <input type="hidden" class="picVal" value="">
                     </div>
                 </div>
             </ul>
         </div>
     </div>
     <p class = "sBtn">
-        <a class = "btn btn-primary themeStop">保存</a>
+        <a class = "btn btn-primary themeStop" id="btnSubmit">保存</a>
         <a class = "btn btn-primary themeStop">取消</a>
     </p>
 </div>
@@ -74,6 +80,22 @@
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/config.js"></script>
 <script>seajs.use("addgoods");</script>
 <script>
+    var actionDefaultPath = "$!utilWebconfig.getActionDefaultFontPath()";
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
+            });
+    var validate = function () {
+
+    }
     $(function() {
         $('#btnSubmit').click(function () {
             var msg = validate();
@@ -84,29 +106,34 @@
                 });
                 return false;
             }
-            var promotionList = new Array();
-            $('.dataSelectTr').each(function () {
-                var promotion = {
-                    id: $(this).attr('promotionId') || 0,
-                    entityId: $(this).attr('entityId'),
-                    entityType: $(this).attr('entityType'),
-                    isDel: $(this).attr('isDel') || false,
-                    isModify: $(this).attr('isModify') || false,
-                    valueY: $(this).find('.priceY').val() | $('.allValueY').val()
-                };
-                promotionList.push(promotion);
-            });
-            $('.promotionVOListStr').val(JSON.stringify(promotionList));
-            var data = $('.dataSelectTr').attr('class');
+            var gifts = new Array();
+            $(".addShowID").each(function () {
+                var gift = {};
+                gift['title'] = $(this).find(".name").val();
+                gift['price'] = $(this).find(".price").val();
+                gift['imgUrl'] = $(this).find(".picVal").val();
+                gifts.push(gift);
+            })
+            var saveData = {};
+            saveData['title'] = $("#title").val();
+            saveData['startDateStr'] = $("#startDateStr").val();
+            saveData['endDateStr'] = $("#endDateStr").val();
+            saveData['requirementY'] = $("#requirementY").val();
+            saveData['gifts']=gifts;
+            console.log(saveData);
+            console.log(JSON.stringify(saveData));
             var actionUrl = "";
-            var actActivityId = $('#actActivityForm').attr('actActivityId');
-            if (actActivityId) {
-                actionUrl = actionDefaultPath + '/GF/promotionCommManage/edit/' + actActivityId;
-            } else {
-                actionUrl = actionDefaultPath + '/GF/promotionCommManage/add';
-            }
-            $('#actActivityForm').attr('action', actionUrl);
-            $('#actActivityForm').submit();
+            actionUrl = actionDefaultPath + '/GF/giftActivityManage/add';
+            $.ajax({
+                type:"POST",
+                url: actionUrl,
+                dataType:"json",
+                contentType:"application/json",
+                data:JSON.stringify(saveData),
+                success:function(data){
+                    console.log(data);
+                }
+            });
         });
     });
 </script>

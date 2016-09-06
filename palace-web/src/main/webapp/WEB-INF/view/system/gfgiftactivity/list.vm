@@ -1,6 +1,6 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<form class="form-signin" id="promotionListForm" name="promotionListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/promotionCommManage/list" method="GET" role="form">
+<form class="form-signin" id="giftActivityListForm" name="giftActivityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/giftActivityManage/list" method="GET" role="form">
     <div class="inputGroup whole">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -12,11 +12,8 @@
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button">促销状态:</button>
                 </span>
-            <select class="form-control" name="status">
-                <option value="0">全部</option>
-                #foreach($promotionStatus in $promotionStatusList)
-                    <option value="$!promotionStatus.status" #if($!promotionListQuery.status == $!promotionStatus.status) selected #end>$!promotionStatus.desc</option>
-                #end
+            <select class="form-control" name="baseStatus">
+                #OPTION_PROMOTION_GIFT_ACTIVITY_STATUS($!promotionListQuery.baseStatus)
             </select>
         </div>
 
@@ -24,9 +21,9 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">促销时间：</button>
                 </span>
-            <input type="text" class='form-control form-date dateInp beginTime' readonly name="beginTime" value="$!promotionListQuery.beginTime">
+            <input type="text" class='form-control form-date dateInp beginTime' readonly name="startDateStr" value="$!promotionListQuery.startDateStr">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-            <input type="text" class='form-control form-date endTime dateInp' readonly name="endTime" value="$!promotionListQuery.endTime">
+            <input type="text" class='form-control form-date endTime dateInp' readonly name="endDateStr" value="$!promotionListQuery.endDateStr">
         </div>
         <div class="btn-group">
             <button class="btn btn-primary" id="btnSubmit">查询</button>
@@ -43,27 +40,26 @@
     <div class="tableGroup whole">
         <table class="table table-hover">
             <tr>
-                <th>id</th>
                 <th>活动名称</th>
-                <th>活动类型</th>
-                <th>活动开始时间</th>
-                <th>活动结束时间</th>
-                <th>活动状态</th>
+                <th>促销开始时间</th>
+                <th>促销结束时间</th>
+                <th>促销状态</th>
                 <th>操作</th>
             </tr>
             #set($promotionList = $!pageVo.itemList)
             #foreach($promotion in $promotionList)
                 <tr>
-                    <td>$!promotion.id</td>
                     <td>$!promotion.title</td>
-                    <td>#PROMOTION_TYPE($!promotion.type)</td>
-                    <td>$!utilDate.dateToString($!promotion.startDate,"yyyy-MM-dd HH:mm:ss")</td>
-                    <td>$!utilDate.dateToString($!promotion.endDate,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>$!utilDate.dateToString($!promotion.startTime,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>$!utilDate.dateToString($!promotion.endTime,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>#PROMOTION_STATUS($!promotion.status)</td>
                     <td>
+                        <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">查看</button>
+                        #if($!promotion.status == 1)
                         <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">
-                            #if($!promotion.status == 1) 编辑  #else  查看  #end
+                             编辑
                         </button>
+                        #end
                         #if($!promotion.status != 4 && $!promotion.status != 3)
                             <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">停用</button>
                         #end
@@ -100,7 +96,7 @@
             $(this).prop('disabled',true);
             var id = $(this).attr('themeId');
             var url;
-            url = '/GF/promotionCommManage/close/' + id;
+            url = '/GF/giftActivityManage/close/' + id;
             $.post(actionDefaultPath + url ,function(data){
                 if(data.status == 200){
                     layer.msg('操作成功', {
@@ -122,7 +118,7 @@
 
         $('.themeDetail').each(function(){
             $(this).click(function(){
-                var url = actionDefaultPath + '/GF/promotionCommManage/edit/'+ $(this).attr('promotioId');
+                var url = actionDefaultPath + '/GF/giftActivityManage/edit/'+ $(this).attr('promotioId');
                 top.tabsAdd("",url,2,$(this).text());
             });
         });
@@ -139,9 +135,14 @@
                 }
             }
             if($("#promotionListForm").valid()){
-                $('#promotionListForm').attr('action',actionDefaultPath + '/GF/promotionCommManage/list')
+                $('#promotionListForm').attr('action',actionDefaultPath + '/GF/giftActivityManage/list')
                 $('#promotionListForm').submit();
             }
         });
+        $('#btnReset').click(function () {
+            $('#giftActivityListForm div:eq(0)').find('input').val("").end().find('select')[0].selectedIndex = 0;
+            $('#giftActivityListForm div:eq(0)').find('select')[1].selectedIndex = 0;
+            //$('#tradeListForm div:eq(0)').find('select')[0].selectedIndex = 0;
+        })
     });
-</script>PromotionQueryService
+</script>

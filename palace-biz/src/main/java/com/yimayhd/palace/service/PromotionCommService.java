@@ -6,6 +6,7 @@ import com.yimayhd.palace.model.ActActivityEditVO;
 import com.yimayhd.palace.model.GiftActivityVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.result.BizResultSupport;
+import com.yimayhd.promotion.client.domain.PromotionDO;
 
 /**
  * Created by czf on 2016/1/19.
@@ -65,4 +66,6 @@ public interface PromotionCommService {
     boolean isActivityNameRepeat(String name, int type, long activityId);
 
     boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception;
+
+    public PageVO<PromotionDO> getGiftActivtyList(GiftActivityVO giftActivityVO);
 }
