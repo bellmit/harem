@@ -370,7 +370,6 @@
         });
     });
 
-
     function initLineEditor(){
         var scenicId=$("#hdnScenicId").val();
         $.ajax({

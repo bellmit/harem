@@ -8,6 +8,7 @@ import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
 import com.yimayhd.palace.base.BaseController;
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.biz.TrouistlistBiz;
 import com.yimayhd.palace.constant.Constant;
@@ -64,6 +65,7 @@ public class TouristlistController extends BaseController {
     private TcCacheManager tcCacheManager;
     @Resource
     private GuideManageService guideManageService;
+
     //1
     /**
      * select获取景点列表  ok
@@ -154,7 +156,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * delete 删除操作 删除景点 调试
+     * delete 删除操作 删除景点 ok
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
@@ -278,7 +280,6 @@ public class TouristlistController extends BaseController {
                     model.addAttribute("picTextVOJson", JSON.toJSONString(list));
                 }
 
-
                 model.addAttribute("uuidPicText",UUID.randomUUID().toString());
             }
             model.addAttribute("attractionId", attractionId);
@@ -401,7 +402,7 @@ public class TouristlistController extends BaseController {
 
     //3
     /**
-     * 保存 景点图文详情（资源）  调试
+     * 保存 景点图文详情（资源）  ok
      */
     @RequestMapping(value = "/savePictureText", method = RequestMethod.POST)
     @ResponseBody
@@ -412,13 +413,12 @@ public class TouristlistController extends BaseController {
 
         ResponseVo responseVo = new ResponseVo();
 
-       // if (rs) {
+        if (rs) {
             try {
                 if (StringUtils.isBlank(attractionIntroducePicTextTitleVO.getPicTextString())) {
                     log.warn("json is null");
                     return ResponseVo.error();
                 }
-
                 String json = attractionIntroducePicTextTitleVO.getPicTextString().replaceAll("\\s*\\\"\\s*", "\\\"");
                 PictureTextVO pictureTextVO = (PictureTextVO)JSONObject.parseObject(json, PictureTextVO.class);
 
@@ -451,7 +451,7 @@ public class TouristlistController extends BaseController {
                 resVO.setData(UUID.randomUUID().toString());
                 return resVO;
             }
-        //}
-       // return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
+        }
+        return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
     }
 }
