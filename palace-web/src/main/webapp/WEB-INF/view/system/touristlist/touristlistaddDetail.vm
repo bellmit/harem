@@ -406,7 +406,8 @@
             guideId: $("#hdnGuideId").val(),
             name: $("#spotName").val(),
             attrImg: $("#spotLogoUrl").val(),
-            tourTime: $("#tourTime").val()
+            tourTime: $("#tourTime").val(),
+            attrNo: $("#spotNumber").val()
         };
         var focusOrderJson =[];
         $(".audio-list .audio-item").each(function(i,d) {
