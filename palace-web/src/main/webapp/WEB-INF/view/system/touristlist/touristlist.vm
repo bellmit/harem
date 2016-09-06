@@ -192,7 +192,7 @@
             });
             //删除节点
             $(self.selectors.deletePoint).on("click", function() {
-                layer.confirm("是否确认要是删除？",function(){
+                layer.confirm("是否确认删除？",function(index){
                     var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
                     if (lastItem.length == 0) {
                         return;
@@ -201,6 +201,8 @@
                         return;
                     }
                     lastItem.remove();
+
+                    layer.close(index);
                 });
             });
 
