@@ -49,7 +49,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         }
         List<AttachmentVO> attachmentVOList = new ArrayList<AttachmentVO>();
         List<MediaDO> mediaDOList = result.getList();
-        if(mediaDOList==null){
+        if (mediaDOList == null) {
             return new PageVO<AttachmentVO>();
         }
         for (MediaDO mediaDO : mediaDOList) {
@@ -57,6 +57,7 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         }
         return new PageVO<AttachmentVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), attachmentVOList);
     }
+
 
     /**
      * 添加附件
@@ -73,7 +74,10 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         }
         MediaDTO mediaDTO = new MediaDTO();
         mediaDTO.setScope(MediaFileScope.DEFAULT.getValue());
-        mediaDTO.setFileType(MediaFileType.MP3.getValue());
+        MediaFileType mediaFileType = MediaFileType.getByDesc(attachmentUploadResult.getExtension());
+        if (mediaFileType != null) {
+            mediaDTO.setFileType(mediaFileType.getValue());
+        }
         mediaDTO.setInputFileTitle(FilenameUtils.getBaseName(file.getOriginalFilename()));
         mediaDTO.setInputFileName(file.getOriginalFilename());
         mediaDTO.setDomainId(Constant.DOMAIN_JIUXIU);

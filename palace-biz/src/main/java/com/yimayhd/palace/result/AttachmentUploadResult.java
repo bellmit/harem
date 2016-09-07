@@ -14,7 +14,17 @@ public class AttachmentUploadResult implements Serializable {
     private String hash;
     private String bucketName;
     private long duration;
+    private String extension;//mp3 mp4
 
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public AttachmentUploadResult setExtension(String extension) {
+        this.extension = extension;
+        return this;
+    }
 
     public long getDuration() {
         return duration;
