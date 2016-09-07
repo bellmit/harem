@@ -165,9 +165,8 @@
                         <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
                     </div>
                     <div class="upload-view">
-                        <div class="mp3">
-                            <div class="delete-btn" id="btnDeleteAudio">删除</div>
-                        </div>
+                        <div class="mp3 uploaded">
+                             <div class="delete-btn" id="btnDeleteAudio">删除</div>
                         <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
                         <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
                         <div>
