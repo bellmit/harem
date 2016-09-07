@@ -297,6 +297,16 @@ public class CommodityServiceImpl implements CommodityService {
         }
         ItemDO itemDB = itemResult.getItem();
         if(null != itemDB) {
+            //新增的时候设置skuDOList
+            if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+                List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
+                for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                    if(itemSkuVO.isChecked()) {
+                        itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                    }
+                }
+                itemDB.setItemSkuDOList(itemSkuDOList);
+            }
             //参数类型匹配
             CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
             //设置itemDB
