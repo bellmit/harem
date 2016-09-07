@@ -18,7 +18,8 @@ public class AttachmentBiz {
         if (file == null || file.isEmpty()) {
             return null;
         }
-        String fileName = getFileName() + "." + getExtension(file);
+        String extension = getExtension(file);
+        String fileName = getFileName() + "." + extension;
         File tempFile = null;
         try {
             tempFile = File.createTempFile(fileName, null);
@@ -26,6 +27,7 @@ public class AttachmentBiz {
             AttachmentUpload attachmentUpload = new AttachmentUpload();
             String bucketName = ResourceConfig.getInstance().getValueByKey(AttachmentConstant.CHINANETCENTER_CONFIG_BUCKETNAME);
             AttachmentUploadResult attachmentUploadResult = attachmentUpload.upload(bucketName, fileName, tempFile.getPath());
+            attachmentUploadResult.setExtension(extension);
             if (attachmentUploadResult != null) {
                 attachmentUploadResult.setBucketName(bucketName);
             }
