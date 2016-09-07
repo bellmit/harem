@@ -14,6 +14,7 @@ public class ShowcaseVO extends ShowcaseDO {
     public String boothCode;//boothcode
     public String operationContentZH;//选择内容的中文
     public long  operationDetailId;//选择跳转类型的id[相应operationDetail表的id]
+    public boolean isFullScreen;//全屏展示
 
     public void setOperationContentZH(String operationContentZH) {
         this.operationContentZH = operationContentZH;
@@ -52,6 +53,14 @@ public class ShowcaseVO extends ShowcaseDO {
             }
         }
         this.operationDetailId = operationDetailIds;
+    }
+
+    public boolean isFullScreen() {
+        return isFullScreen;
+    }
+
+    public void setFullScreen(boolean fullScreen) {
+        isFullScreen = fullScreen;
     }
 
     public String getBoothCode() {
