@@ -161,8 +161,8 @@
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="attrNo" id="attrNo" datatype="/^[0-9a-zA-Z]{1,20}$/"
-                               nullmsg="请输入景区编号！" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字或者字母" value="$!{attractionDO.attrNo}">
+                        <input type="text" class="inpCtlBlock" name="attrNo" id="attrNo" datatype="/^[0-9]{1,20}$/"
+                               nullmsg="请输入景区编号！" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字" value="$!{attractionDO.attrNo}">
                     </td>
                 </tr>
                 <tr>
