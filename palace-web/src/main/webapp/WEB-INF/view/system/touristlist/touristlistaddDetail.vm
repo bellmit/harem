@@ -381,7 +381,10 @@
         //删除语音文件
         $(".audio-list").on("click", ".delete-item", function() {
             var item = $(this).closest(".audio-item");
-            item.remove();
+            layer.confirm("确认删除该语音？",function(index){
+                item.remove();
+                layer.close(index);
+            });
         });
 
         //表单验证
