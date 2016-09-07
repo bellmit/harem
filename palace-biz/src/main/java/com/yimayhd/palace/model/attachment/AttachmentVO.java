@@ -4,6 +4,7 @@ import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
 import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -32,6 +33,19 @@ public class AttachmentVO {
     private int secondVo;
     private long fsize;
 
+    private double fsizeM;//文件大小 M单位
+
+
+    public double getFsizeM() {
+        BigDecimal bigDecimal = new BigDecimal((double)fsize);
+        BigDecimal bigDecima2 = BigDecimal.valueOf(1024);
+        return bigDecimal.divide(bigDecima2,2,BigDecimal.ROUND_HALF_UP).divide(bigDecima2,2,BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    public AttachmentVO setFsizeM(double fsizeM) {
+        this.fsizeM = fsizeM;
+        return this;
+    }
 
     public long getFsize() {
         return fsize;

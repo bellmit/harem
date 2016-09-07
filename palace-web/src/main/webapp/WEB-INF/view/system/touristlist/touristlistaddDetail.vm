@@ -159,7 +159,7 @@
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="/^[0-9a-zA-z]{1,20}$/" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字或者字母" errormsg="请输入20字以内的数字或者字母。" value="">
+                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="/^[0-9]{1,20}$/" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字" errormsg="请输入20字以内的数字。" value="">
                     </td>
                 </tr>
                 <tr>
@@ -354,7 +354,7 @@
         //选择语音文件 
         $('#btnSelectAudio').on("click", function () { 
             openModalForForm(
-            '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2',
+            '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2&fileType=30',
             "选择语音文件",
             function () { 
                 var items = win.getItem(); 
