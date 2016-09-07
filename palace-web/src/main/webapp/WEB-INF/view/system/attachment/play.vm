@@ -1,7 +1,14 @@
 <div>
 
     <input type="hidden" id="id" name="id" value="$attachmentVO.id">
-    <audio controls autoplay loop src="$!{attachmentVO.remoteUrl}">
-        <p>Your browser does not support the <code>audio</code> element.</p>
-    </audio>
+    #if($attachmentVO.fileType==30)
+        <audio controls autoplay loop src="$!{attachmentVO.remoteUrl}">
+            <p>Your browser does not support the <code>audio</code> element.</p>
+        </audio>
+    #end
+    #if($attachmentVO.fileType==40)
+        <video controls autoplay loop src="$!{attachmentVO.remoteUrl}" width="450px" height="230px">
+            <p>Your browser does not support the <code>audio</code> element.</p>
+        </video>
+    #end
 </div>

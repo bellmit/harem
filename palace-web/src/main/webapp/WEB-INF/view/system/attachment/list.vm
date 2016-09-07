@@ -316,7 +316,7 @@
         });
         $("#tbAttachmentList").on("click", ".play", function () {
             var id = $(this).attr('itemId');
-            openModalForAttachment('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '300px');
+            openModalForAttachment('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '400px');
         });
         $("#tbAttachmentList").on("click", ".on", function () {
             var id = $(this).attr('itemId');
