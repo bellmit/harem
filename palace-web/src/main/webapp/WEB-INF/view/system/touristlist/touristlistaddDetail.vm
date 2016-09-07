@@ -477,6 +477,11 @@
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
             return false;
         }
+        
+        if(data.subTitle.length == 0){
+            layer.msg("请输入景点介绍标题",{icon:2,time:1500});
+            return false;
+        }
 
         if(picText.pictureTextItems.length == 0){
             layer.msg("请添至少添加一段图文详情",{icon:2,time:1500});

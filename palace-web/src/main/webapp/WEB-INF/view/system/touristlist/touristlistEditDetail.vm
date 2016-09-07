@@ -563,7 +563,13 @@ var spotInfo = {
             uuidPicText:$("#uuidPicText").val(),
             attractionId:$("#id").val()
         }
+
         if(data.title.length == 0){
+            layer.msg("请输入景点介绍标题",{icon:2,time:1500});
+            return false;
+        }
+
+        if(data.subTitle.length == 0){
             layer.msg("请输入景点介绍标题",{icon:2,time:1500});
             return false;
         }
