@@ -214,7 +214,7 @@ public class ItemServiceImpl implements ItemService {
 		}
 		UserDO sellerUser = sellerUserResult.getValue();
 
-		if(UserOptions.USER_TALENT.has(sellerUser.getOptions())){
+		if(UserOptions.USER_TALENT.has(sellerUser.getOptions()) || UserOptions.CERTIFICATED.has(sellerUser.getOptions())){
 			/**旧达人**/
 			// 没有店铺名称,只有昵称
 			//tcMerchantInfo.setMerchantName();
@@ -225,7 +225,7 @@ public class ItemServiceImpl implements ItemService {
 			// 只有昵称
 			icMerchantVO.setUserNick(sellerUser.getNickname());
 		}
-		if(UserOptions.COMMERCIAL_TENANT.has(sellerUser.getOptions())||UserOptions.CERTIFICATED.has(sellerUser.getOptions())){
+		if(UserOptions.COMMERCIAL_TENANT.has(sellerUser.getOptions())){
 			/**商户**/
 			//  店铺信息, 昵称用user
 			BaseResult<MerchantUserDTO> merchantUserResult = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId, Constant.DOMAIN_JIUXIU);
