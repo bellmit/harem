@@ -4,26 +4,29 @@
     <div class="inputGroup whole">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">促销名称:</button>
+                    <button class="btn btn-default" type="button">优惠名称</button>
                 </span>
             <input type="text" class="form-control" name="title" value="$!promotionListQuery.title">
         </div>
         <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">促销状态:</button>
+                    <button class="btn btn-default" type="button">状态：</button>
                 </span>
-            <select class="form-control" name="baseStatus">
-                #OPTION_PROMOTION_GIFT_ACTIVITY_STATUS($!promotionListQuery.baseStatus)
+            <select class="form-control" name="status">
+                <option value="0">全部</option>
+                #foreach($promotionStatus in $promotionStatusList)
+                    <option value="$!promotionStatus.status" #if($!promotionListQuery.status == $!promotionStatus.status) selected #end>$!promotionStatus.desc</option>
+                #end
             </select>
         </div>
 
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">促销时间：</button>
+                    <button class="btn btn-default" type="button">优惠时间</button>
                 </span>
-            <input type="text" class='form-control form-date dateInp beginTime' readonly name="startDateStr" value="$!promotionListQuery.startDateStr">
+            <input type="text" class='form-control form-date dateInp beginTime' readonly name="beginTime" value="$!promotionListQuery.beginTime">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-            <input type="text" class='form-control form-date endTime dateInp' readonly name="endDateStr" value="$!promotionListQuery.endDateStr">
+            <input type="text" class='form-control form-date endTime dateInp' readonly name="endTime" value="$!promotionListQuery.endTime">
         </div>
         <div class="btn-group">
             <button class="btn btn-primary" id="btnSubmit">查询</button>
@@ -50,8 +53,8 @@
             #foreach($promotion in $promotionList)
                 <tr>
                     <td>$!promotion.title</td>
-                    <td>$!utilDate.dateToString($!promotion.startTime,"yyyy-MM-dd HH:mm:ss")</td>
-                    <td>$!utilDate.dateToString($!promotion.endTime,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>$!utilDate.dateToString($!promotion.startDate,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>$!utilDate.dateToString($!promotion.endDate,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>#PROMOTION_STATUS($!promotion.status)</td>
                     <td>
                         <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">查看</button>

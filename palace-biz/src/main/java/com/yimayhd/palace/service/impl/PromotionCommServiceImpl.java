@@ -79,7 +79,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
         if(StringUtils.isNotBlank(actPromotionPageQuery.getEndTime())) {
             Date endTime = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getEndTime());
-            actPromotionPageQuery.setEndTime(DateUtil.date2String(endTime));
+            actPromotionPageQueryRef.setEndTime(DateUtil.date2String(endTime));
         }
         ActPageResult<ActActivityPromotionDO> basePageResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQueryRef);
         if(basePageResult == null){
@@ -94,11 +94,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     }
 
     public void modify(ActActivityEditVO actActivityEditVO) throws Exception {
-        ActResult<ActPromotionDTO> result = activityPromotionServiceRef.getActPromotionById(actActivityEditVO.getActActivityVO().getId());
-
-        if (result != null && result.getT()!= null && result.getT().getActActivityPromotionDO() != null && PromotionStatus.NOTBEING.getStatus() != result.getT().getActActivityPromotionDO().getStatus()){
-            throw new BaseException("只有未开始活动允许修改");
-        }
 
         ActPromotionEditDTO actPromotionEditDTO = ActPromotionEditDTOConverter.getActPromotionEditDTO(actActivityEditVO);
 //        List<PromotionDO> addPromotionDOList = actPromotionEditDTO.getAddPromotionDOList() ;
@@ -418,50 +413,79 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     public boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
         PromotionDO promotionDO = new PromotionDO();
+
         promotionDO.setTitle(giftActivityVO.getTitle());
-        promotionDO.setEntityType(EntityType.SHOP.getType());
-        promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
+        promotionDO.setEntityType(giftActivityVO.getEntityType());
+        promotionDO.setEntityId(giftActivityVO.getEntityId());
         promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+        promotionDO.setRequirement(Math.round(giftActivityVO.getRequirementY()*100));
         //promotionDO.setPromotionType(PromotionType.GIFT.getByType());
         promotionDO.setPromotionType(7);
+
         if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
-            Date startTime = DateUtil.convertStringToDate(giftActivityVO.getStartDateStr());
+            Date startTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
             promotionDO.setStartTime(startTime);
         }
+
         if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
-            Date endTime = DateUtil.convertStringToDate(giftActivityVO.getEndDateStr());
+            Date endTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
             promotionDO.setEndTime(endTime);
         }
-        promotionDO.setGmtCreated(new Date());
-        promotionDO.setGmtModified(new Date());
 
         Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
         feature.put("gifts", giftActivityVO.getGifts());
         promotionDO.setFeature(JSON.toJSON(feature).toString());
-        PCResult<PromotionDO> addResult = promotionPublishServiceRef.addPromotion(promotionDO);
-        return addResult.isSuccess();
+
+        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
+
+
+        PromotionEditDTO promotionEditDTO =  new PromotionEditDTO();
+
+
+
+        promotionDOList.add(promotionDO);
+        promotionEditDTO.setAddPromotionDOList(promotionDOList);
+        ActResultSupport actResultSupport = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+        return actResultSupport.isSuccess();
+
+
     }
     public boolean updateGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
         PromotionDO promotionDO = new PromotionDO();
+
         promotionDO.setTitle(giftActivityVO.getTitle());
+        promotionDO.setEntityType(giftActivityVO.getEntityType());
+        promotionDO.setEntityId(giftActivityVO.getEntityId());
         promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+        promotionDO.setRequirement(Math.round(giftActivityVO.getRequirementY()*100));
         //promotionDO.setPromotionType(PromotionType.GIFT.getByType());
         promotionDO.setPromotionType(7);
+
         if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
-            Date startTime = DateUtil.convertStringToDate(giftActivityVO.getStartDateStr());
-            promotionDO.setEndTime(startTime);
+            Date startTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
+            promotionDO.setStartTime(startTime);
         }
+
         if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
-            Date endTime = DateUtil.convertStringToDate(giftActivityVO.getEndDateStr());
+            Date endTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
             promotionDO.setEndTime(endTime);
         }
-        promotionDO.setGmtCreated(new Date());
-        promotionDO.setGmtModified(new Date());
+
         Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
         feature.put("gifts", giftActivityVO.getGifts());
         promotionDO.setFeature(JSON.toJSON(feature).toString());
-        PCResult<Boolean> addResult = promotionPublishServiceRef.updPromotion(promotionDO);
-        return addResult.isSuccess();
+
+        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
+
+
+        PromotionEditDTO promotionEditDTO =  new PromotionEditDTO();
+
+
+
+        promotionDOList.add(promotionDO);
+        promotionEditDTO.setUpdPromotionDOList(promotionDOList);
+        ActResultSupport actResultSupport = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+        return actResultSupport.isSuccess();
     }
     public boolean stopGiftActivity(long id) throws Exception {
         PCResult<Boolean> addResult = promotionPublishServiceRef.closePromotion(id);

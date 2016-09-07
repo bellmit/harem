@@ -38,8 +38,7 @@ public interface PromotionCommService {
      * @throws Exception
      */
     boolean add(ActActivityEditVO entity) throws Exception;
-    
-    
+
     BizResultSupport check(ActActivityEditVO entity) ;
 
     /**
@@ -66,6 +65,8 @@ public interface PromotionCommService {
     boolean isActivityNameRepeat(String name, int type, long activityId);
 
     boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception;
+
+    public boolean updateGiftActivity(GiftActivityVO giftActivityVO) throws Exception;
 
     public PageVO<PromotionDO> getGiftActivtyList(GiftActivityVO giftActivityVO);
 }
