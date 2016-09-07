@@ -93,6 +93,27 @@ public class ScenicVO implements Serializable{
 
     private String address;
 
+    private String latitude; 	//纬度
+    private String longitude;	//经度
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public ScenicVO setLatitude(String latitude) {
+        this.latitude = latitude;
+        return this;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public ScenicVO setLongitude(String longitude) {
+        this.longitude = longitude;
+        return this;
+    }
+
     public String getLevelDesc() {
         return levelDesc;
     }

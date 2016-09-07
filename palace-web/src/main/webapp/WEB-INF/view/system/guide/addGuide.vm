@@ -331,10 +331,10 @@
                     $("#scenicId").val(item.id);
                     $("#scenicName").val(item.name);
                     $("#location").text(item.locationProvinceName + " " + item.locationCityName + " " + item.locationTownName);
-                    $("#level").text(item.level);
+                    $("#level").text(item.levelDesc);
                     //$("#theme").text(item.time);
                     $("#address").text(item.locationText);
-                    $("#latlng").text(item.locationX + "," + item.locationY);
+                    $("#latlng").text( item.longitude + "," + item.latitude);
                     $("#openTime").val(item.openTime);
                     $("#subjectName").val(item.subjectName);
                     $("#theme").text(item.subjectName);

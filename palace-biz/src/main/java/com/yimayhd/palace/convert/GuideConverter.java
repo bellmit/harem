@@ -10,10 +10,13 @@ import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.enums.StarLevelType;
+import com.yimayhd.palace.model.Coordinate;
 import com.yimayhd.palace.model.guide.*;
+import com.yimayhd.palace.util.Common;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -190,6 +193,11 @@ public class GuideConverter {
         return result;
     }
 
+    public static String formatDoubleNumber(double d) {
+        DecimalFormat df = new DecimalFormat("0.######");
+        return df.format(d);
+
+    }
 
     public static ScenicVO scenicDO2ScenicVO(ScenicDO scenicDO) {
         if (scenicDO == null) {
@@ -223,6 +231,11 @@ public class GuideConverter {
             }
         }
         scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+        Coordinate cdt = Common.gcjToBd(scenicVO.getLocationY(), scenicVO.getLocationX());
+        scenicVO.setLocationX(cdt.getLongitude());
+        scenicVO.setLocationY(cdt.getLatitude());
+        scenicVO.setLongitude(formatDoubleNumber(scenicVO.getLocationX()));
+        scenicVO.setLatitude(formatDoubleNumber(scenicVO.getLocationY()));
         return scenicVO;
     }
 
