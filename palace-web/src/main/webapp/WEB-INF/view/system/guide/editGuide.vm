@@ -115,6 +115,7 @@
                 <th class="w15">地址：</th>
                 <td class="w35"><span id="address" name="address"
                                       id="address">$!{guideScenicVO.scenicVO.locationText}</span>
+
                 </td>
             </tr>
             <tr>
@@ -166,17 +167,17 @@
                     </div>
                     <div class="upload-view">
                         <div class="mp3 uploaded">
-                             <div class="delete-btn" id="btnDeleteAudio">删除</div>
-                        <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
-                        <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
-                        <div>
-                            <span>文件名称:</span><span
-                                id="inputFileTitle">${guideScenicVO.attachmentVO.inputFileTitle}</span>
+                            <div class="delete-btn" id="btnDeleteAudio">删除</div>
+                            <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
+                            <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
+                            <div>
+                                <span>文件名称:</span><span
+                                    id="inputFileTitle">${guideScenicVO.attachmentVO.inputFileTitle}</span>
+                            </div>
+                            <div>
+                                <span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span>
+                            </div>
                         </div>
-                        <div>
-                            <span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span>
-                        </div>
-                    </div>
                 </td>
             </tr>
         </table>
