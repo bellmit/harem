@@ -115,7 +115,6 @@
                 <th class="w15">地址：</th>
                 <td class="w35"><span id="address" name="address"
                                       id="address">$!{guideScenicVO.scenicVO.locationText}</span>
-
                 </td>
             </tr>
             <tr>
