@@ -19,6 +19,7 @@
 <form id="tbAttachmentSellectListForm" name="tbAttachmentSellectListForm"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select">
     <input type="hidden" id="multi" name="multi" value="${mediaPageQuery.multi}">
+    <input type="hidden" id="fileType" name="fileType" value="${mediaPageQuery.fileType}">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -74,6 +75,7 @@
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
+            <th>大小</th>
             <th>用途</th>
             <th>备注</th>
         </tr>
@@ -95,6 +97,7 @@
                     $!utilDate.dateToString($!item.gmtCreated,"yyyy-MM-dd HH:mm:ss")
                 </td>
                 <td>$!{item.durationStr}</td>
+                <td>$!{item.fsizeM}M</td>
                 <td>
                     $!{item.scopeStr}
                 </td>

@@ -349,7 +349,7 @@
         });
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1', "选择语音文件", function () {
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&fileType=30', "选择语音文件", function () {
                 var arr = win.getItem();
                 if (arr.length==0) {
                     layer.msg("请选择语音文件",{icon:2});
