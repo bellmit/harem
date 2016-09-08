@@ -477,15 +477,13 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
         List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
 
-
-        PromotionEditDTO promotionEditDTO =  new PromotionEditDTO();
-
-
-
         promotionDOList.add(promotionDO);
-        promotionEditDTO.setUpdPromotionDOList(promotionDOList);
-        ActResultSupport actResultSupport = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
-        return actResultSupport.isSuccess();
+
+        ActPromotionEditDTO actPromotionEditDTO = new ActPromotionEditDTO();
+        actPromotionEditDTO.setUpdPromotionDOList(promotionDOList);
+
+        ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
+        return baseResult.isSuccess();
     }
     public boolean stopGiftActivity(long id) throws Exception {
         PCResult<Boolean> addResult = promotionPublishServiceRef.closePromotion(id);
