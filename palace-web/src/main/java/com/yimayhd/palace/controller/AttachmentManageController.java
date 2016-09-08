@@ -1,10 +1,10 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.AttachmentConstant;
-import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
@@ -71,13 +71,13 @@ public class AttachmentManageController extends BaseController {
             model.addAttribute("mediaFileStatusMap", Enums.toMap(MediaFileStatus.class, null));
             return "/system/attachment/list";
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("list attachmentListQuery={}, exception={}", JSON.toJSONString(attachmentListQuery), e);
             return "/error";
         }
     }
 
     @RequestMapping(value = "/list/select")
-    public String sellectList(Model model, AttachmentListQuery attachmentListQuery) {
+    public String selectList(Model model, AttachmentListQuery attachmentListQuery) {
         try {
             attachmentListQuery.setStatus(MediaFileStatus.ON.getValue());
             PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
@@ -90,6 +90,7 @@ public class AttachmentManageController extends BaseController {
             model.addAttribute("mediaPageQuery", attachmentListQuery);
             return "/system/attachment/selectList";
         } catch (Exception e) {
+            log.error("selectList attachmentListQuery={}, exception={}", JSON.toJSONString(attachmentListQuery), e);
             return "/error";
         }
     }
@@ -126,6 +127,7 @@ public class AttachmentManageController extends BaseController {
             model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
             return "/system/attachment/editAttachment";
         } catch (Exception e) {
+            log.error("toEdit id={}, exception={}", JSON.toJSONString(id), e);
             return "/error";
         }
     }
@@ -151,6 +153,7 @@ public class AttachmentManageController extends BaseController {
 
             return "/system/attachment/play";
         } catch (Exception e) {
+            log.error("play id={}, exception={}", JSON.toJSONString(id), e);
             return "/error";
         }
     }
@@ -185,6 +188,7 @@ public class AttachmentManageController extends BaseController {
             responseVo.setMessage(message);
             return responseVo;
         } catch (Exception e) {
+            log.error("addAttachment attachmentVO={}, exception={}", JSON.toJSONString(attachmentVO), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
 
@@ -203,6 +207,7 @@ public class AttachmentManageController extends BaseController {
             boolean result = attachmentManageService.updateAttachment(attachmentVO);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
+            log.error("editAttachment attachmentVO={}, exception={}", JSON.toJSONString(attachmentVO), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
@@ -223,6 +228,7 @@ public class AttachmentManageController extends BaseController {
             boolean result = attachmentManageService.upStatus(id);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
+            log.error("upStatus id={}, exception={}", JSON.toJSONString(id), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
@@ -242,6 +248,7 @@ public class AttachmentManageController extends BaseController {
             boolean result = attachmentManageService.downStatus(id);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
+            log.error("downStatus id={}, exception={}", JSON.toJSONString(id), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
