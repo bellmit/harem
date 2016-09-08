@@ -443,7 +443,7 @@ function saveInfo() {
         type: "post",
         dataType: "json",
         data: spotInfo,
-        beforeSubmit: function() {
+        beforeSend: function() {
             layer.msg("正在提交...", {
                 icon: 16,
                 time: null,
