@@ -323,49 +323,35 @@
     
     
         //权重
-        $(".item-oderNum").click(function(){
-			var id = $(this).attr("item-id");
-            layer.open({
-                type: 1,
-                btn: ['确定', '取消'],
-                fix: false,
-                title: false,
-                shadeClose: true,
-                area: ['230px', '130px'],
-                content : "<div style='text-align:center;margin-top:20px;'>权重：<input style='width:100px;' type='text' id ='qz' name='qz'/></div>",
-                yes: function(index){
-                    var orderNum = $("#qz").val();
-
-					if("" == orderNum || null == orderNum){
-                        layer.alert("请输入权重");
-                        return ;
-                    }
-                    if(orderNum < 1 || orderNum > 9999){
-                    	layer.alert("权重介于1-9999");
-                        return ;
-                    }
-                    $.post('$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateItemOrderNum/',
-							{'itemId':id,'orderNum':orderNum} ,function(data){
-                        if(data.status == 200){
-                            layer.msg('操作成功', {
-		        				icon : 1,
-		        				time : 1000
-		        			});
-		    				window.location.reload();
-                        }else{
-                            layer.msg('操作失败', {
-		        				icon : 2,
-		        				time : 1000
-		        			});
+         $(".item-oderNum").click(function() {
+            var id = $(this).attr("item-id");
+            //var $self = $(this);
+            layer.prompt({title:"请输入权重："},function(d,n){
+                var re = /^[1-9][0-9]{0,3}$/;
+                if (!re.test(d)) {layer.msg("请输入1-9999正整数",{icon:2});return false;}else{
+                    $.ajax({
+                        url: '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateItemOrderNum/',
+                        type: 'post',
+                        data: {'itemId':id,'orderNum':d},
+                        success:function(data){
+                            if(data.status == 200){
+                                layer.msg('修改成功', {
+                                    icon : 1,
+                                    time : 1000
+                                });
+                                window.location.reload();
+                            }else{
+                                layer.msg('修改失败，请稍后重试', {
+                                    icon : 2,
+                                    time : 1000
+                                });
+                            }
+                        },
+                        error:function() {
+                            layer.msg("请求出错，请稍后重试",{icon:2})
                         }
-						setTimeout(function(){
-							layer.close(index);
-						},1000);
-
-                    }) 
-
-                    
+                    })                    
                 }
-            });
-		});
+            })
+        });
 </script>
