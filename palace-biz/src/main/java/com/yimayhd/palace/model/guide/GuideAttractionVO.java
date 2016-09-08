@@ -40,6 +40,12 @@ public class GuideAttractionVO  {
      */
     private String title;
 
+
+    /**
+     * 标题
+     */
+    private String subTitle;
+
     private int isDel;
 
     /**
@@ -117,6 +123,15 @@ public class GuideAttractionVO  {
         return this;
     }
 
+    public String getSubTitle() {
+        return subTitle;
+    }
+
+    public com.yimayhd.palace.model.guide.GuideAttractionVO setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -125,6 +140,7 @@ public class GuideAttractionVO  {
         this.title = title;
         return this;
     }
+
 
     public int getIsDel() {
         return isDel;

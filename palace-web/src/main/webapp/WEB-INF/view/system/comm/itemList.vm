@@ -145,10 +145,9 @@
 					<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
                     <td>
 						#if($!merchant.merchantName && $!merchant.merchantName.length() > 0 
-							&& $!merchant.userNick && $!merchant.userNick.length() > 0)
+							|| ( $!merchant.userNick && $!merchant.userNick.length() > 0))
 							$!merchant.merchantName/$!merchant.userNick
-						#elseif($!merchant.merchantName && $!merchant.merchantName.length() > 0)
-							$!merchant.merchantName
+						
 						#elseif($!merchant.userNick && $!merchant.userNick.length() > 0)
 							$!merchant.userNick
 						#end

@@ -135,4 +135,30 @@ public class MediaClientRepo {
         }
     }
 
+    /**
+     * 根据filekey 查询
+     *
+     * @param fileKey
+     * @return
+     */
+    public MediaDTO getMediaByFileKey(final String fileKey) {
+        try {
+            RcResult<MediaDTO> result = mediaClientServiceRef.getMediaByFileKey(fileKey);
+            if (result != null) {
+
+                if (result.isSuccess()) {
+                    log.info("getMediaByFileKey fileKey={}, , result={}", fileKey, JSON.toJSONString(result));
+                    return result.getT();
+                } else {
+                    log.error("getMediaByFileKey fileKey={}, result={}", fileKey, JSON.toJSONString(result));
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+                }
+            } else {
+                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+            }
+        } catch (Exception e) {
+            log.error("getMediaByFileKey fileKey={}, exception={}", fileKey, e);
+            throw new BaseException(e, e.getMessage());
+        }
+    }
 }

@@ -38,14 +38,22 @@
         margin-top: 10px;
     }
 
-    .upload-view .img-wapper {
+    .upload-view .img-wapper,
+    .upload-view .mp3 {
         position: relative;
         width: 150px;
         height: 75px;
         border: 1px solid #ccc;
     }
 
-    .img-wapper.uploaded:hover .delete-btn {
+    .mp3.uploaded {
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAARVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADc6ur3AAAAF3RSTlMAlmw+RRoJLYKMEF1yNySypkt5ulfWn4nMxyYAAADLSURBVDjLtdHbCoMwDIDhNDWHHmfV7f0fdd2V2jCRwX4opfDRiwSgTod8YRiq7thzxVFMDg65pJkvgaeQ+RLAICwYhAUnYcFGvfJq38CyPj498QRs+H8gYoDJgIjOttAOyuxtIe3A97sSAFEUkQjUDyCeQFwVeNY0a8iiSyYDHkq1gwQSiohWA1xuG35+cMhxCWRASKhNUxbiSBy8BeLQa0oMINqCjIALe6JSa3/ytBUegQ3x9qCuR33Rz+tGPOBXRpNrO2CPtsZwuzfClAjZJq8DKQAAAABJRU5ErkJggg==")
+    }
+
+    .img-wapper.uploaded:hover .delete-btn,
+    .mp3.uploaded:hover .delete-btn {
         display: block;
     }
 
@@ -65,8 +73,8 @@
         text-align: center;
         color: #fff;
         background: #000;
-        opacity: 0.2;
-        filter: alpha(opacity=20);
+        opacity: 0.7;
+        filter: alpha(opacity=70);
         cursor: pointer;
     }
 </style>
@@ -94,22 +102,25 @@
             <tr>
                 <th class="w15">所在省、市、区：</th>
                 <td class="w35">
-                    <span id="location" name="location" id="location">$!{guideScenicVO.scenicVO.locationText}</span>
+                    <span id="location" name="location" id="location">$!{guideScenicVO.scenicVO.address}</span>
                 </td>
                 <th class="w15">等级：</th>
-                <td class="w35"><span id="level" name="level" id="level">$!{guideScenicVO.scenicVO.level}</span></td>
+                <td class="w35"><span id="level" name="level" id="level">$!{guideScenicVO.scenicVO.levelDesc}</span>
+                </td>
             </tr>
             <tr>
                 <th class="w15">主题：</th>
-                <td class="w35"><span id="theme" name="theme" id="theme">$!{guideScenicVO.scenicVO.subjectName}</span></td>
+                <td class="w35"><span id="theme" name="theme" id="theme">$!{guideScenicVO.scenicVO.subjectName}</span>
+                </td>
                 <th class="w15">地址：</th>
-                <td class="w35"><span id="address" name="address" id="address">$!{guideScenicVO.scenicVO.address}</span>
+                <td class="w35"><span id="address" name="address"
+                                      id="address">$!{guideScenicVO.scenicVO.locationText}</span>
                 </td>
             </tr>
             <tr>
                 <th class="w15">经纬度：</th>
-                <td class="w35"><span id="latlng" name="latlng" id="latlng">$!{guideScenicVO.scenicVO.locationX}
-                    ,$!{guideScenicVO.scenicVO.locationY}</span></td>
+                <td class="w35"><span id="latlng" name="latlng" id="latlng">$!{guideScenicVO.scenicVO.longitude}
+                    ,$!{guideScenicVO.scenicVO.latitude}</span></td>
                 <th class="w15"></th>
                 <td class="w35"></td>
             </tr>
@@ -154,10 +165,18 @@
                         <button type="button" id="btnSelectAudio" class="btn btn-success">选择语音</button>
                     </div>
                     <div class="upload-view">
-                        <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
-                        <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
-                        <div><span>文件名称:</span><span id="inputFileTitle"></span></div>
-                        <div><span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span></div>
+                        <div class="mp3 uploaded">
+                            <div class="delete-btn" id="btnDeleteAudio">删除</div>
+                        </div>
+                            <input type="hidden" id="guideAudio" name="guideAudio" value="$!{guideScenicVO.guideAudio}">
+                            <input type="hidden" id="audioTime" name="audioTime" value="$!{guideScenicVO.audioTime}">
+                            <div>
+                                <span>文件名称:</span><span
+                                    id="inputFileTitle">${guideScenicVO.attachmentVO.inputFileTitle}</span>
+                            </div>
+                            <div>
+                                <span>时长为：</span><span id="audioTimeVo">$!{guideScenicVO.audioTimeStr}</span>
+                            </div>
                     </div>
                 </td>
             </tr>
@@ -170,7 +189,8 @@
             <tr>
                 <th class="w15"><span class="spColor">*</span>景区门票信息：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" id="ticketInfo" name="ticketInfo"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" id="ticketInfo"
+                              name="ticketInfo"
                               rows="3">$!{guideScenicVO.ticketInfo}</textarea>
                     <span class="num">0/300</span>
                 </td>
@@ -178,7 +198,8 @@
             <tr>
                 <th class="w15"><span class="spColor">*</span>营业时间：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" name="openTime" rows="3"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="300" name="openTime"
+                              rows="3"
                               id="openTime">$!{guideScenicVO.openTime}</textarea>
                     <span class="num">0/300</span>
                 </td>
@@ -186,7 +207,8 @@
             <tr>
                 <th class="w15"><span class="spColor">*</span>交通：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="traffic" name="traffic"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="traffic"
+                              name="traffic"
                               rows="3">$!{guideScenicVO.traffic}</textarea>
                     <span class="num">0/500</span>
                 </td>
@@ -194,7 +216,8 @@
             <tr>
                 <th class="w15">温馨提示：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="tips" name="tips" rows="3"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="tips" name="tips"
+                              rows="3"
                               id="tips">$!{guideScenicVO.tips}</textarea>
                     <span class="num">0/500</span>
                 </td>
@@ -202,7 +225,8 @@
             <tr>
                 <th class="w15">注意事项：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="cares" name="cares"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="cares"
+                              name="cares"
                               rows="3">$!{guideScenicVO.cares}</textarea>
                     <span class="num">0/500</span>
                 </td>
@@ -210,7 +234,8 @@
             <tr>
                 <th class="w15">必玩必吃之事：</th>
                 <td class="w85">
-                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="haveTo" name="haveTo"
+                    <textarea class="form-control extra-info-item-text limit-text" maxlength="500" id="haveTo"
+                              name="haveTo"
                               rows="3">$!{guideScenicVO.haveTo}</textarea>
                     <span class="num">0/500</span>
                 </td>
@@ -238,7 +263,6 @@
 <script type="text/javascript">
     var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
     function submitEdit(url, type, data) {
-        //alert(1);
         $.ajax({
             url: url,
             type: type,
@@ -250,7 +274,6 @@
                         time: 1500
                     });
                     setTimeout(function () {
-//                        window.location.href = window.location.href;
                         closeAndFreshPrevFrame();
                     }, 1500);
                 } else {
@@ -270,36 +293,20 @@
             }
         });
     }
-    function checkImg(src, callback) {
-        var img = new Image();
-        img.src = src;
-        img.onload = function() {
-            callback && callback(img.width <= 750 && img.height <= 360)
-        }
-    }
     function initUploadFile(fileId, hiddenId, imgId) {
         $(fileId).on("change", function () {
             fileUpload(fileId, 1, function (data) {
                 if (data && data.status == 200) {
-                    console.log(data.data);
-                    var src = tfsRootPath + data.data;
-                    checkImg(src, function(r) {
-                        if (r) {
-                            $(hiddenId).val(data.data);
-                            $(imgId).attr('src', tfsRootPath + data.data);
-                            $(imgId).closest(".img-wapper").addClass("uploaded");
-                        } else {
-                            layer.msg('图片尺寸太大，请上传正确的图片', {
-                                icon: 2
-                            });
-                        }
-                    });
+                    $(hiddenId).val(data.data);
+                    $(imgId).attr('src', tfsRootPath + data.data);
+                    $(imgId).closest(".img-wapper").addClass("uploaded");
+
                 } else {
                     layer.msg('图片上传失败，请重试', {
                         icon: 2
                     });
                 }
-            },500);
+            }, 500);
         });
     }
 
@@ -313,18 +320,18 @@
         //initScenicSubject();
 
         //文本长度限制
-        var limitTexts=$(".limit-text");
-        limitTexts.each(function() {
+        var limitTexts = $(".limit-text");
+        limitTexts.each(function () {
             var txtlength = $(this).val().length;
-            var maxlength=$(this).attr("maxlength");
+            var maxlength = $(this).attr("maxlength");
             $(this).next(".num").text(txtlength + " / " + maxlength);
         });
 
-        limitTexts.on("input propertychange", function() {
+        limitTexts.on("input propertychange", function () {
             var input = $(this);
             var txt = input.val();
             var currnum = txt.length;
-            var maxlength=input.attr("maxlength");
+            var maxlength = input.attr("maxlength");
             if (currnum > maxlength) {
                 currnum = maxlength;
                 input.val(txt.substr(0, maxlength));
@@ -336,20 +343,35 @@
 
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select', "选择语音文件", function () {
-                var item = win.getItem();
-                console.log(JSON.stringify(item));
-                if (item != null) {
-                    $("#guideAudio").val(item.fileKey);
-                    $("#audioTime").val(item.duration);
-                    $("#audioTimeVo").text(item.durationStr);
-                    $("#inputFileTitle").text(item.inputFileTitle);
-                }else{
-                    layer.msg("请选择语音文件",{icon:2});
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&fileType=30', "选择语音文件", function () {
+                var arr = win.getItem();
+                if (arr.length == 0) {
+                    layer.msg("请选择语音文件", {icon: 2});
                     return false;
                 }
+
+                var item = arr[0];
+
+                if (parseInt(item.fsize) > 4 * 1024 * 1024) {
+                    layer.msg("不能选择大于4M的语音文件", {icon: 2});
+                    return false;
+                }
+
+                $("#guideAudio").val(item.fileKey);
+                $("#audioTime").val(item.duration);
+                $("#audioTimeVo").text(item.durationStr);
+                $("#inputFileTitle").text(item.inputFileTitle);
                 return true;
             });
+        });
+
+        //删除语音
+        $("#btnDeleteAudio").on("click", function () {
+            $(".mp3").removeClass("uploaded");
+            $("#guideAudio").val('');
+            $("#audioTime").val('');
+            $("#audioTimeVo").text('');
+            $("#inputFileTitle").text('');
         });
         //删除图片
         $(".img-wapper .delete-btn").on("click", function () {
@@ -362,50 +384,50 @@
         });
         //form
         $('#btnSubmit').on("click", function () {
-            if($("#listImg").val().trim().length==0){
-                layer.msg("请上传导览列表头图",{icon:2});
+            if ($("#listImg").val().trim().length == 0) {
+                layer.msg("请上传导览列表头图", {icon: 2});
                 return;
             }
 
-            if($("#guideImg").val().trim().length==0){
-                layer.msg("请上传导览电子地图",{icon:2});
+            if ($("#guideImg").val().trim().length == 0) {
+                layer.msg("请上传导览电子地图", {icon: 2});
                 return;
             }
 
-            if($("#guideAudio").val().trim().length==0){
-                layer.msg("请上传语音文件",{icon:2});
+            if ($("#guideAudio").val().trim().length == 0) {
+                layer.msg("请上传语音文件", {icon: 2});
                 return;
             }
 
-            if($("#ticketInfo").val().trim().length==0){
-                layer.msg("请填写景区门票信息",{icon:2});
+            if ($("#ticketInfo").val().trim().length == 0) {
+                layer.msg("请填写景区门票信息", {icon: 2});
                 return;
             }
-            if($("#openTime").val().trim().length==0){
-                layer.msg("请填写营业时间",{icon:2});
-                return;
-            }
-
-
-            if($("#traffic").val().trim().length==0){
-                layer.msg("请填写交通信息",{icon:2});
+            if ($("#openTime").val().trim().length == 0) {
+                layer.msg("请填写营业时间", {icon: 2});
                 return;
             }
 
-          /*  if($("#tips").val().trim().length==0){
-                layer.msg("请填写温馨提示",{icon:2});
+
+            if ($("#traffic").val().trim().length == 0) {
+                layer.msg("请填写交通信息", {icon: 2});
                 return;
             }
 
-            if($("#cares").val().trim().length==0){
-                layer.msg("请填写注意事项",{icon:2});
-                return;
-            }
+            /*  if($("#tips").val().trim().length==0){
+                  layer.msg("请填写温馨提示",{icon:2});
+                  return;
+              }
 
-            if($("#haveTo").val().trim().length==0){
-                layer.msg("请填写必玩必吃之事",{icon:2});
-                return;
-            }*/
+              if($("#cares").val().trim().length==0){
+                  layer.msg("请填写注意事项",{icon:2});
+                  return;
+              }
+
+              if($("#haveTo").val().trim().length==0){
+                  layer.msg("请填写必玩必吃之事",{icon:2});
+                  return;
+              }*/
             var data = $("#frmGuidEdit").serializeArray(); //自动将form表单封装成json
             submitEdit("$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/editGuide", "post", data);
         });

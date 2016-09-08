@@ -326,8 +326,8 @@ public class GuideRepo {
 
             if(scenicPageQuery!=null){
                 scenicPageQuery.setNeedCount(true);
+                scenicPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
             }
-            scenicPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
             ICPageResult<ScenicDO> result = guideServiceRef.queryCanGuideScenic(scenicPageQuery);
             if (result != null) {
                 if (result.isSuccess() ) {
@@ -451,8 +451,4 @@ public class GuideRepo {
             throw new BaseException(e, e.getMessage());
         }
     }
-
-
-
-
 }

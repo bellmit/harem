@@ -49,7 +49,9 @@
                         <input type="checkbox" id="$!{item.id}" subjectId="$!{item.subjectId}" name="${item.name}"
                                locationText="${item.locationText}" locationProvinceName="${item.locationProvinceName}"
                                locationCityName ="${item.locationCityName}" locationTownName="${item.locationTownName}"
-                               level="${item.level}" locationX="${item.locationX}" locationY="${item.locationY}" openTime="${item.openTime}" subjectName = "${item.subjectName}"
+                               level="${item.level}" locationX="${item.locationX}" locationY="${item.locationY}"
+                               openTime="${item.openTime}" subjectName = "${item.subjectName}" levelDesc="${item.levelDesc}"
+                               latitude="${item.latitude}" longitude="${item.longitude}"
                         />
                     </td>
                     <td>
@@ -119,7 +121,10 @@
             locationX:selecetdtr.attr("locationX"),
             locationY:selecetdtr.attr("locationY"),
             openTime:selecetdtr.attr("openTime"),
-            subjectName:selecetdtr.attr("subjectName")
+            subjectName:selecetdtr.attr("subjectName"),
+            levelDesc:selecetdtr.attr("levelDesc"),
+            latitude:selecetdtr.attr("latitude"),
+            longitude:selecetdtr.attr("longitude")
         }
     }
 

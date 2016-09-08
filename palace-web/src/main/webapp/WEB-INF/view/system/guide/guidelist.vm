@@ -68,7 +68,7 @@
                 </td>
                 <td>$!{item.scenicVO.locationText}</td>
                 <td>
-                    $!{item.scenicVO.level}
+                    $!{item.scenicVO.levelDesc}
                 </td>
                 <td>$!{item.weight}</td>
                 <td>
@@ -85,9 +85,9 @@
                     </button>
 
                     <button type="button" class="btn btn-primary on" guideId="$!{item.guideId}">上架</button>
-                    <button type="button" class="btn btn-primary weight" guideId="$!{item.guideId}">设置权重</button>
-                </td>
                 #end
+                <button type="button" class="btn btn-primary weight" guideId="$!{item.guideId}">设置权重</button>
+                </td>
             </tr>
             #end
         </tbody>

@@ -14,7 +14,11 @@
         z-index: 1;
     }
 
-    .upload-btn .upload-file {
+    #attachmentFile{
+        display: none;
+    } 
+
+    /*.upload-btn .upload-file {
         position: absolute;
         width: 100px;
         height: 35px;
@@ -23,7 +27,7 @@
         opacity: 0;
         filter: alpha(opacity=0);
         z-index: 2;
-    }
+    }*/
 </style>
 
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
@@ -96,8 +100,9 @@
     <div class="btnBottomMargin">
         <input type="hidden" id="uploadActionUrl"
                value="$utilWebconfig.getStaticResourcesPath()/jiuxiu/attachmentManage/addAttachment"/>
+
+        <input type="file" name="file" id="attachmentFile" class="upload-file">
         <button type="button" id="btnUpload" class="btn btn-primary upload-btn">上传文件
-            <input type="file" name="file" id="attachmentFile" class="form-control upload-file">
         </button>
     </div>
 </form>
@@ -111,6 +116,7 @@
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
+            <th>大小</th>
             <th>用途</th>
             <th>备注</th>
             <th>状态</th>
@@ -134,6 +140,7 @@
                     $!utilDate.dateToString($!item.gmtCreated,"yyyy-MM-dd HH:mm:ss")
                 </td>
                 <td>$!{item.durationStr}</td>
+                <td>$!{item.fsizeM}M</td>
                 <td>
                     $!{item.scopeStr}
                 </td>
@@ -311,7 +318,7 @@
         });
         $("#tbAttachmentList").on("click", ".play", function () {
             var id = $(this).attr('itemId');
-            openModalForAttachment('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '300px');
+            openModalForAttachment('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/play?id=' + id, "播放", '500px', '400px');
         });
         $("#tbAttachmentList").on("click", ".on", function () {
             var id = $(this).attr('itemId');

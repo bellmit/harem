@@ -18,6 +18,8 @@
         type="text/javascript"></script>
 <form id="tbAttachmentSellectListForm" name="tbAttachmentSellectListForm"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select">
+    <input type="hidden" id="multi" name="multi" value="${mediaPageQuery.multi}">
+    <input type="hidden" id="fileType" name="fileType" value="${mediaPageQuery.fileType}">
     <div class="inputGroup">
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
@@ -73,6 +75,7 @@
             <th>格式</th>
             <th>上传时间</th>
             <th>时长</th>
+            <th>大小</th>
             <th>用途</th>
             <th>备注</th>
         </tr>
@@ -81,7 +84,7 @@
             #foreach($item in $itemList)
             <tr>
                 <td>
-                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}" id="${item.id}" inputFileTitle="${item.inputFileTitle} fsize="${item.fsize}"/>
+                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}" id="${item.id}" inputFileTitle="${item.inputFileTitle}" fsize="${item.fsize}"/>
                 </td>
                 <td>$!{item.id}</td>
                 <td>
@@ -94,6 +97,7 @@
                     $!utilDate.dateToString($!item.gmtCreated,"yyyy-MM-dd HH:mm:ss")
                 </td>
                 <td>$!{item.durationStr}</td>
+                <td>$!{item.fsizeM}M</td>
                 <td>
                     $!{item.scopeStr}
                 </td>
@@ -124,18 +128,22 @@
             var checkbox = $(this);
             var checked = checkbox[0].checked;
             var tr = checkbox.closest("tr");
+            var multi=$("#multi").val();//1单选 2多选
 
             if (checked) {
-                var selecetdtr = $("#tbAttachmentSellectList tr.selected");
-                selecetdtr.removeClass("selected");
-                selecetdtr.find("input[type='checkbox']").attr("checked", false);
+                //单选
+                if(multi=="1"){
+                    var selecetdtr = $("#tbAttachmentSellectList tr.selected");
+                    selecetdtr.removeClass("selected");
+                    selecetdtr.find("input[type='checkbox']").attr("checked", false);
+                }
 
                 tr.addClass("selected");
             } else {
                 tr.removeClass("selected");
             }
         });
-        $(".startTime").datetimepicker({
+        $(".dateInp").datetimepicker({
             language: "zh-CN",
             weekStart: 1,
             todayBtn: 1,
@@ -146,31 +154,27 @@
             forceParse: 0,
             format: "yyyy-mm-dd 00:00:00"
         });
-        $(".endTime").datetimepicker({
-            language: "zh-CN",
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0,
-            format: "yyyy-mm-dd 23:59:59"
-        });
     });
     function getItem() {
-        var selecetdtr = $("#tbAttachmentSellectList tr.selected").find("input[type='checkbox']");
-        if(selecetdtr.length==0){
-            return null;
+        var checkedAudios = $("#tbAttachmentSellectList tr.selected").find("input[type='checkbox']");
+        var arr=[];
+
+        if(checkedAudios.length==0){
+            return arr;
         }
-        return {
-            fileKey: selecetdtr.attr("fileKey"),//
-            duration: selecetdtr.attr("duration"),//时长 long
-            durationStr: selecetdtr.attr("durationStr"),//时长 字符串
-            id:selecetdtr.attr("id"),//id
-            inputFileTitle:selecetdtr.attr("inputFileTitle"),//
-            fsize:selecetdtr.attr("fsize")
-        }
+
+        checkedAudios.each(function(){
+            var audio=$(this);
+            arr.push({
+                fileKey: audio.attr("fileKey"),//
+                duration: audio.attr("duration"),//时长 long
+                durationStr: audio.attr("durationStr"),//时长 字符串
+                id:audio.attr("id"),//id
+                inputFileTitle:audio.attr("inputFileTitle"),//
+                fsize:audio.attr("fsize")
+            });
+        });
+        return arr;
     }
 </script>
 

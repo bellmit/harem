@@ -27,6 +27,7 @@ import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
 import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.GuideRepo;
+import com.yimayhd.palace.service.AttachmentManageService;
 import com.yimayhd.palace.service.GuideManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,6 +47,8 @@ public class GuideManageServiceImpl implements GuideManageService {
     @Autowired
     private ItemQueryService itemQueryService;
 
+    @Resource
+    private AttachmentManageService attachmentManageService;
     /**
      * 分页查询导览
      *
@@ -143,6 +146,7 @@ public class GuideManageServiceImpl implements GuideManageService {
         if (guideScenicTipsDO != null) {
             guideScenicVO = GuideConverter.guideScenicTipsDO2guideSceniceVO2GuideScenicTipsDO(guideScenicVO, guideScenicTipsDO);
         }
+        guideScenicVO.setAttachmentVO(attachmentManageService.getAttachmentVOByFileKey(guideScenicVO.getGuideAudio()));
         return guideScenicVO;
     }
 

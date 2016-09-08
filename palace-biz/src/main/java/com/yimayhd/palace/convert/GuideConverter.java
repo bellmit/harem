@@ -9,10 +9,14 @@ import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
+import com.yimayhd.ic.client.model.enums.StarLevelType;
+import com.yimayhd.palace.model.Coordinate;
 import com.yimayhd.palace.model.guide.*;
+import com.yimayhd.palace.util.Common;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -169,6 +173,8 @@ public class GuideConverter {
             guideScenicVO.setSubjectId(scenicDO.getSubjectId());
             guideScenicVO.setLocationX(scenicDO.getLocationX());
             guideScenicVO.setLocationY(scenicDO.getLocationY());*/
+            guideScenicVO.setScenicName(scenicDO.getName());
+            guideScenicVO.setScenicResourceNum(scenicDO.getId() + "");
             guideScenicVO.setScenicVO(scenicDO2ScenicVO(scenicDO));
         }
         if (guideScenicVO.getGuideId() != null && guideScenicVO.getGuideId() > 0) {
@@ -187,6 +193,11 @@ public class GuideConverter {
         return result;
     }
 
+    public static String formatDoubleNumber(double d) {
+        DecimalFormat df = new DecimalFormat("0.######");
+        return df.format(d);
+
+    }
 
     public static ScenicVO scenicDO2ScenicVO(ScenicDO scenicDO) {
         if (scenicDO == null) {
@@ -209,7 +220,7 @@ public class GuideConverter {
         scenicVO.setName(scenicDO.getName());
         scenicVO.setSubjectId(scenicDO.getSubjectId());
         scenicVO.setOpenTime(scenicDO.getOpenTime());
-        if(scenicDO.getScenicFeature()!=null) {
+        if (scenicDO.getScenicFeature() != null) {
             List<String> names = scenicDO.getScenicFeature().getSubjectNames();
             if (names != null) {
                 StringBuffer stringBuffer = new StringBuffer();
@@ -219,6 +230,12 @@ public class GuideConverter {
                 scenicVO.setSubjectName(stringBuffer.toString());
             }
         }
+        scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+        Coordinate cdt = Common.gcjToBd(scenicVO.getLocationY(), scenicVO.getLocationX());
+        scenicVO.setLocationX(cdt.getLongitude());
+        scenicVO.setLocationY(cdt.getLatitude());
+        scenicVO.setLongitude(formatDoubleNumber(scenicVO.getLocationX()));
+        scenicVO.setLatitude(formatDoubleNumber(scenicVO.getLocationY()));
         return scenicVO;
     }
 
@@ -229,21 +246,21 @@ public class GuideConverter {
         }
         // 景点
         GuideAttractionDO guideAttractionDO = new GuideAttractionDO();
-        if (attractionVO == null) {
-            return null;
-        }
+
         guideAttractionDO.setId(attractionVO.getId());
         guideAttractionDO.setGuideId(attractionVO.getGuideId());
         guideAttractionDO.setAttrImg(attractionVO.getAttrImg());
         guideAttractionDO.setName(attractionVO.getName());
         guideAttractionDO.setTourTime(attractionVO.getTourTime());
-        guideAttractionDO.setTitle(attractionVO.getTitle());
+//        guideAttractionDO.setTitle(attractionVO.getTitle().trim());
+//        guideAttractionDO.setTitle(attractionVO.getSubTitle().trim());
         guideAttractionDO.setAttrNo(attractionVO.getAttrNo());
 
         // 景点and看点
         AttractionFocusAddDTO attractionFocusAddDTO = new AttractionFocusAddDTO();
         attractionFocusAddDTO.setAttractionDO(guideAttractionDO);
-        attractionFocusAddDTO.setFocusAddList(JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class));
+        // 看点去重处理
+        attractionFocusAddDTO.setFocusAddList(removeDuplicte(JSONArray.parseArray(attractionVO.getFocusOrder(), GuideFocusDO.class)));
 
         return attractionFocusAddDTO;
     }
@@ -315,20 +332,19 @@ public class GuideConverter {
         }
         // 景点
         GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
-        if (attractionVO == null) {
-            return null;
-        }
+
         guideAttractionUpdateDTO.setId(attractionVO.getId());
         guideAttractionUpdateDTO.setGuideId(attractionVO.getGuideId());
         guideAttractionUpdateDTO.setAttrImg(attractionVO.getAttrImg());
         guideAttractionUpdateDTO.setName(attractionVO.getName());
         guideAttractionUpdateDTO.setTourTime(attractionVO.getTourTime());
-        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle());
+//        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle().trim());
+//        guideAttractionUpdateDTO.setSubTitle(attractionVO.getSubTitle().trim());
         guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
         List<GuideFocusDO> oldList = new ArrayList<GuideFocusDO>();
-        if (attractionFocusDTO.getGuideFocusDOList().size()>0) {
-             oldList.addAll(attractionFocusDTO.getGuideFocusDOList());
+        if (attractionFocusDTO.getGuideFocusDOList().size() > 0) {
+            oldList.addAll(attractionFocusDTO.getGuideFocusDOList());
         }
         List<GuideFocusDO> newList = new ArrayList<GuideFocusDO>();
         if (attractionVO.getFocusOrder() != null) {
@@ -347,7 +363,6 @@ public class GuideConverter {
         allKeys.addAll(oldKeys);
         allKeys.addAll(newKeys);
 
-
         HashMap<String, GuideFocusDO> oldMap = getMapFromList(oldList);
         HashMap<String, GuideFocusDO> newMap = getMapFromList(newList);
 
@@ -358,28 +373,13 @@ public class GuideConverter {
         updateKeys.retainAll(oldKeys);//交集
         updateList = getGuideFocusUpdateDTO(newMap, updateKeys);
 
-       /* for (int i = 0; i < oldList.size(); i++) {
-            GuideFocusDO oldGuideFocusDO = oldList.get(i);
-            for (int j = 0; j < newList.size(); j++) {
-                GuideFocusDO newGuideFocusDO = newList.get(j);
-                if (newGuideFocusDO.getId() == oldGuideFocusDO.getId()) {
-                    GuideFocusUpdateDTO guideFocusUpdateDTO = new GuideFocusUpdateDTO();
-                    guideFocusUpdateDTO.setId(newGuideFocusDO.getId());
-                    guideFocusUpdateDTO.setName(newGuideFocusDO.getName());
-                    guideFocusUpdateDTO.setAudio(newGuideFocusDO.getAudio());
-                    guideFocusUpdateDTO.setAudioTime(newGuideFocusDO.getAudioTime());
-                    updateList.add(guideFocusUpdateDTO);
-                }
-            }
-        }*/
         // 删除的看点
         List<Long> deleteList = new ArrayList<Long>();
         List<String> deleteKeys = new ArrayList<String>();
         deleteKeys.addAll(allKeys);
         deleteKeys.removeAll(newKeys);//交集
-        //   List<GuideFocusDO> guideFocusDODeleteList = getGuideFocusDO(oldMap, deleteKeys);
-        Iterator d = deleteKeys.iterator();
         for (GuideFocusDO guideFocusDO : oldList) {
+            Iterator d = deleteKeys.iterator();
             while (d.hasNext()) {
                 String key = (String) d.next();
                 if (key.equals(guideFocusDO.getAudio())) {
@@ -394,15 +394,6 @@ public class GuideConverter {
         addKeys.addAll(allKeys);
         addKeys.removeAll(oldKeys);
         focusAddList = getGuideFocusDO(newMap, addKeys);
-      /*  for (int i = 0; i < oldList.size(); i++) {
-            GuideFocusDO oldGuideFocusDO = oldList.get(i);
-            for (int j = 0; j < newList.size(); j++) {
-                GuideFocusDO newGuideFocusDO = newList.get(j);
-                if (newGuideFocusDO.getId() != oldGuideFocusDO.getId()) {
-                    focusAddList.add(newGuideFocusDO);
-                }
-            }
-        }*/
 
         AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
         attractionFocusUpdateDTO.setDeletedFocusIdList(deleteList);
@@ -412,6 +403,21 @@ public class GuideConverter {
         return attractionFocusUpdateDTO;
     }
 
+    public static AttractionFocusUpdateDTO convertAttrattionVO2UpdateDTO(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO, AttractionFocusDTO attractionFocusDTO) {
+        AttractionFocusUpdateDTO attractionFocusUpdateDTO = new AttractionFocusUpdateDTO();
+        GuideAttractionUpdateDTO guideAttractionUpdateDTO = new GuideAttractionUpdateDTO();
+        guideAttractionUpdateDTO.setAttrImg(attractionFocusDTO.getAttractionDO().getAttrImg());
+        guideAttractionUpdateDTO.setAttrNo(attractionFocusDTO.getAttractionDO().getAttrNo());
+        guideAttractionUpdateDTO.setGuideId(attractionFocusDTO.getAttractionDO().getGuideId());
+        guideAttractionUpdateDTO.setId(attractionFocusDTO.getAttractionDO().getId());
+        guideAttractionUpdateDTO.setName(attractionFocusDTO.getAttractionDO().getName());
+        guideAttractionUpdateDTO.setTourTime(attractionFocusDTO.getAttractionDO().getTourTime());
+        guideAttractionUpdateDTO.setWeights(attractionFocusDTO.getAttractionDO().getWeights());
+        guideAttractionUpdateDTO.setTitle(attractionIntroducePicTextTitleVO.getTitle().trim());
+        guideAttractionUpdateDTO.setSubTitle(attractionIntroducePicTextTitleVO.getSubTitle().trim());
+        attractionFocusUpdateDTO.setAttractionUpdateDTO(guideAttractionUpdateDTO);
+        return attractionFocusUpdateDTO;
+    }
 
     //
     public static GuideAttractionVO guideAttractionDO2GuideAttractionVO(GuideAttractionDO guideAttractionDO) {

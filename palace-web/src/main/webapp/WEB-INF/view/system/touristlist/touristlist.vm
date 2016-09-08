@@ -1,99 +1,96 @@
 <style type="text/css">
-        .table>thead th,
-        .table>tbody td {
-            text-align: center;
-            vertical-align: middle;
-        }
-        .btnBottomMargin{
-            margin-top: 10px;
-        }
+.table>thead th,
+.table>tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
 
-        .line-editor {
-            width: 320px;
-            padding: 10px;
-            margin: 0 auto;
-        }
+.btnBottomMargin {
+    margin-top: 10px;
+}
 
-        .line-editor .line {
-            position: relative;
-            width: 300px;
-            padding: 10px;
-            margin-top: 50px;
-            background: #ddd;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+.line-editor {
+    width: 320px;
+    padding: 10px;
+    margin: 0 auto;
+}
 
-        .line .line-info {
-            width: 100%;
-            text-align: center;
-        }
+.line-editor .line {
+    position: relative;
+    width: 300px;
+    padding: 10px;
+    margin-top: 50px;
+    background: #ddd;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        .line .form-control {
-            display: inline-block;
-        }
+.line .line-info {
+    width: 100%;
+    text-align: center;
+}
 
-        .line input {
-            width: 100px;
-            margin-right: 10px;
-        }
+.line .form-control {
+    display: inline-block;
+}
 
-        .line select {
-            width: 150px;
-        }
+.line input {
+    width: 100px;
+    margin-right: 10px;
+}
 
-        .line .arrow {
-            position: absolute;
-            top: -45px;
-            left: 50%;
-            margin-left: -5px;
-            width: 8px;
-            height: 30px;
-            background: #999;
-        }
+.line select {
+    width: 150px;
+}
 
-        .line .arrow>em {
-            position: absolute;
-            content: '';
-            left: -50%;
-            bottom: -12px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 12px solid #999;
-        }
+.line .arrow {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    margin-left: -5px;
+    width: 8px;
+    height: 30px;
+    background: #999;
+}
 
-        .line.start {
-            margin-top: 0;
-        }
+.line .arrow>em {
+    position: absolute;
+    content: '';
+    left: -50%;
+    bottom: -12px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid #999;
+}
 
-        .line.start .arrow {
-            display: none;
-        }
-    </style>
-<!--</head>
+.line.start {
+    margin-top: 0;
+}
 
-<body>-->
-<form id="form1" name="form1">
-    <input type="hidden" id="hdnGuideId" value="$!{attractionId}">
-    <input type="hidden" id="hdnScenicId" value="$!{scenicId}">
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active" data-target="#spotList">
-            <a >景点详情</a>
-        </li>
-        <li data-target="#lineSetting">
-            <a>线路设置</a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="spotList">
-            <div class="btnBottomMargin">
-                <a type="button" class="btn btn-primary addTourist" >添加景点</a>
-            </div>
-            <div class="tableGroup whole">
-                <table class="table table-bordered table-hover" id="tbTourList">
-                    <thead>
+.line.start .arrow {
+    display: none;
+}
+</style>
+<input type="hidden" id="hdnGuideId" value="$!{attractionId}">
+<input type="hidden" id="hdnScenicId" value="$!{scenicId}">
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active" data-target="#spotList">
+        <a>景点详情</a>
+    </li>
+    <li data-target="#lineSetting">
+        <a>线路设置</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="spotList">
+        <div class="btnBottomMargin">
+            <a type="button" class="btn btn-primary addTourist">添加景点</a>
+        </div>
+        <div class="tableGroup whole">
+            <table class="table table-bordered table-hover" id="tbTourList">
+                <thead>
                     <tr>
                         <th>景点编号</th>
                         <th>景点名称</th>
@@ -101,34 +98,33 @@
                         <th>语音数量</th>
                         <th>操作</th>
                     </tr>
-                    </thead>
-                    <tbody>
-
-                        #foreach($attractionCascadeFocusDTO in $touristlist)
-                        <tr>
-                            <td>$!attractionCascadeFocusDTO.guideAttractionDO.id</td>
-                            <td>
-                                $!attractionCascadeFocusDTO.guideAttractionDO.name
-                            </td>
-                            <td>
-                                <img src="$!utilWebconfig.getTfsRootPath()$!{attractionCascadeFocusDTO.guideAttractionDO.attrImg}" width="150" height="90">
-                            </td>
-                            <td>
-                                $!attractionCascadeFocusDTO.focusDOList.size()
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary edit"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" id="$!attractionCascadeFocusDTO.guideAttractionDO.id">编辑</button>
-                                <button type="button" class="btn btn-primary delete"  guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" id="$!attractionCascadeFocusDTO.guideAttractionDO.id">删除</button>
-                            </td>
-                        </tr>
-                        #end
-
-                    </tbody>
-                </table>
-            </div>
+                </thead>
+                <tbody>
+                    #foreach($attractionCascadeFocusDTO in $touristlist)
+                    <tr>
+                        <td>$!attractionCascadeFocusDTO.guideAttractionDO.attrNo</td>
+                        <td>
+                            $!attractionCascadeFocusDTO.guideAttractionDO.name
+                        </td>
+                        <td>
+                            <img src="$!utilWebconfig.getTfsRootPath()$!{attractionCascadeFocusDTO.guideAttractionDO.attrImg}" width="150" height="90">
+                        </td>
+                        <td>
+                            $!attractionCascadeFocusDTO.focusDOList.size()
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary edit" guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" id="$!attractionCascadeFocusDTO.guideAttractionDO.id">编辑</button>
+                            <button type="button" class="btn btn-primary delete" guideId="$!attractionCascadeFocusDTO.guideAttractionDO.guideId" id="$!attractionCascadeFocusDTO.guideAttractionDO.id">删除</button>
+                        </td>
+                    </tr>
+                    #end
+                </tbody>
+            </table>
         </div>
-        <div class="tab-pane" id="lineSetting">
-            <table class="table" style="width:60%;margin:0 auto;">
+    </div>
+    <div class="tab-pane" id="lineSetting">
+        <table class="table" style="width:60%;margin:0 auto;">
+            <form id="frmLineSetting">
                 <tr>
                     <td style="text-align:center;">
                         <button id="addPoint" type="button" class="btn btn-primary" style="margin-right:30px">添加节点</button>
@@ -142,52 +138,60 @@
                         </div>
                     </td>
                 </tr>
-            </table>
-        </div>
+        </table>
+        </form>
     </div>
-</form>
+</div>
 <script type="text/javascript">
-    function LineEditor(options) {
+function LineEditor(options) {
+    var opts = options || {};
+    this.guideId = opts.guideId;
+    this.lineData = opts.lineData || [];
+    this.lineSettings = opts.lineSettings || [];
+    this.init();
+}
+LineEditor.prototype = {
+    constructor: LineEditor,
+    init: function() {
+        this.render();
+        this.attachEvent();
+    },
+    selectors: {
+        addPoint: "#addPoint",
+        deletePoint: "#deletePoint",
+        lineEditor: "#lineEditor",
+        saveLine: "#saveLine",
+        line: ".line"
+    },
+    setOption: function(options) {
         var opts = options || {};
-        this.guideId=opts.guideId;
+        this.guideId = opts.guideId;
         this.lineData = opts.lineData || [];
         this.lineSettings = opts.lineSettings || [];
-        this.init();
-    }
-    LineEditor.prototype = {
-        constructor: LineEditor,
-        init: function() {
-            this.render();
-            this.attachEvent();
-        },
-        selectors: {
-            addPoint: "#addPoint",
-            deletePoint: "#deletePoint",
-            lineEditor: "#lineEditor",
-            saveLine:"#saveLine",
-            line: ".line"
-        },
-        render: function() {
-            var self = this;
-            var editor = $(self.selectors.lineEditor);
-            editor.empty();
-            if (self.lineSettings&&self.lineSettings.length == 0) {
-                editor.append(self.getLineHtml(true));
-            } else {
-                $.each(self.lineSettings, function(index, line) {
-                    editor.append(self.getLineHtml(index == 0, line));
-                });
-            }
-        },
-        attachEvent: function() {
-            var self = this;
-            //添加节点
-            $(self.selectors.addPoint).on("click", function() {
-                var lineHtml = self.getLineHtml(false);
-                $(self.selectors.lineEditor).append(lineHtml);
+        this.render();
+    },
+    render: function() {
+        var self = this;
+        var editor = $(self.selectors.lineEditor);
+        editor.empty();
+        if (self.lineSettings && self.lineSettings.length == 0) {
+            editor.append(self.getLineHtml(true));
+        } else {
+            $.each(self.lineSettings, function(index, line) {
+                editor.append(self.getLineHtml(index === 0, line, index === 0 ? '' : self.lineSettings[index - 1].distance));
             });
-            //删除节点
-            $(self.selectors.deletePoint).on("click", function() {
+        }
+    },
+    attachEvent: function() {
+        var self = this;
+        //添加节点
+        $(self.selectors.addPoint).on("click", function() {
+            var lineHtml = self.getLineHtml(false);
+            $(self.selectors.lineEditor).append(lineHtml);
+        });
+        //删除节点
+        $(self.selectors.deletePoint).on("click", function() {
+            layer.confirm("是否确认删除？", function(index) {
                 var lastItem = $(self.selectors.line + ":last", self.selectors.lineEditor);
                 if (lastItem.length == 0) {
                     return;
@@ -196,234 +200,314 @@
                     return;
                 }
                 lastItem.remove();
-            });
 
-            //保存节点
-            $(self.selectors.saveLine).on("click",function(){
-                if(!self.isValid()){
-                    layer.msg("请先设置线路",{icon:2,time:1500});
-                    return;
-                }
-                self.saveLine();
-
+                layer.close(index);
             });
-        },
-        saveLine:function(){
-            var self=this;
-            var data={guideId:self.guideId,lineListJson:JSON.stringify(self.getLineSettings())};
-            $.ajax({
-                url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateGuideLine",
-                type:"post",
-                data:data,
-                dataType:"json",
-                success:function(res){
-                    if(res.success){
-                       layer.msg("保存成功",{icon:1,time:1500});
-                    }
-                    else{
-                        layer.msg("保存失败!",{icon:2,time:1500});
-                    }
-                },
-                error:function(){
-                    layer.msg("保存失败!",{icon:2,time:1500});
-                }
-            });
-        },
-        getLineHtml: function(start, line) {
-            var temp = [];
-            var length = this.lineData.length;
-            var startCss = start ? "start" : "";
-            var distince = line ? line.distince : '';
-            temp.push('<div class="line ' + startCss + '">');
-            temp.push('<div class="line-info">')
-            if (!start) {
-                temp.push('<input class="form-control" value="' + distince + '" />');
-            }
-            temp.push('<select class="form-control">');
-            for (var index = 0; index < length; index++) {
-                if (line&&this.lineData[index].id == line.attractionId) {
-                    temp.push('<option selected value="' + this.lineData[index].id + '">' + this.lineData[index].name + '</option>');
-                } else {
-                    temp.push('<option value="' +this.lineData[index].id + '">' + this.lineData[index].name + '</option>');
-                }
-            }
-            temp.push('</select>');
-            temp.push('</div>');
-            temp.push('<i class="arrow"><em></em></i>');
-            temp.push('</div>');
+        });
 
-            return temp.join('');
-        },
-        findLine:function(id){
-            for(var i=0;i<this.lineData.length;i++){
-                if(this.lineData[i].id==id){
-                    return this.lineData[i];
-                }
+        //保存节点
+        $(self.selectors.saveLine).on("click", function() {
+            var validResult = self.isValid();
+            if (!validResult.success) {
+                layer.msg(validResult.msg, {
+                    icon: 2,
+                    time: 1500
+                });
+                return;
             }
-        },
-        getLineSettings: function() {
-            var data = [];
-            var self=this;
-            $(this.selectors.line).each(function(index, _line) {
-                var line =self.findLine($(_line).find('select').val());
-                if (index == 0) {
-                    data.push({
-                        guideId:self.guideId,
-                        distince:'',
-                        attractionId:line.id,
-                        no:line.attrNo
+            self.saveLine();
+
+        });
+    },
+    saveLine: function() {
+        var self = this;
+        var data = {
+            guideId: self.guideId,
+            lineListJson: JSON.stringify(self.getLineSettings())
+        };
+        $.ajax({
+            url: "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/updateGuideLine",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function(res) {
+                if (res.success) {
+                    layer.msg("保存成功", {
+                        icon: 1,
+                        time: 1500
                     });
                 } else {
-                    data.push({
-                        guideId:self.guideId,
-                        distince:$(_line).find("input").val(),
-                        attractionId:line.id,
-                        no:line.attrNo
+                    layer.msg("保存失败!", {
+                        icon: 2,
+                        time: 1500
                     });
                 }
-            });
-            console.dir(data);
-            return data;
-        },
-        isValid:function () {
-            return $(this.selectors.line).length>1;
+            },
+            error: function() {
+                layer.msg("保存失败!", {
+                    icon: 2,
+                    time: 1500
+                });
+            }
+        });
+    },
+    getLineHtml: function(start, line, dis) {
+        var temp = [];
+        var length = this.lineData.length;
+        var startCss = start ? "start" : "";
+        var distance = dis || '';
+        temp.push('<div class="line ' + startCss + '">');
+        temp.push('<div class="line-info">')
+        if (!start) {
+            temp.push('<input class="form-control" datatype="n" nullmsg="请输入浏览时间！" errormsg="请输入正确的浏览时间" placeholder="请输入距离"  value="' + distance + '" />');
         }
-    };
+        temp.push('<select class="form-control">');
+        for (var index = 0; index < length; index++) {
+            if (line && this.lineData[index].id == line.attractionId) {
+                temp.push('<option selected value="' + this.lineData[index].id + '">' + this.lineData[index].name + '</option>');
+            } else {
+                temp.push('<option value="' + this.lineData[index].id + '">' + this.lineData[index].name + '</option>');
+            }
+        }
+        temp.push('</select>');
+        temp.push('</div>');
+        temp.push('<i class="arrow"><em></em></i>');
+        temp.push('</div>');
 
-</script>
+        return temp.join('');
+    },
+    findLine: function(id) {
+        for (var i = 0; i < this.lineData.length; i++) {
+            if (this.lineData[i].id == id) {
+                return this.lineData[i];
+            }
+        }
+    },
+    getLineSettings: function() {
+        var data = [];
+        var self = this;
+        $(this.selectors.line).each(function(index, _line) {
+            var line = self.findLine($(_line).find('select').val());
+            data.push({
+                guideId: self.guideId,
+                distance: 0,
+                attractionId: line.id,
+                no: line.attrNo
+            });
 
-
-<script type="text/javascript">
-    // 新增景点
-    var lineEditor=null;
-    $(function(){
-        var guideId=$("#hdnGuideId").val();
-        $(".addTourist").click(function(){
-            window.parent.tabsAdd('',"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail?attractionId="+guideId,2,"景点详情");
-        });
-
-        //  编辑景点
-        $("#tbTourList").on("click",".edit",function(){
-            var id = $(this).attr("id");
-            var guideId=$(this).attr("guideId")
-            window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId="+id+"&guideId="+guideId, 2, "景点详情");
-        });
-
-        //删除景点
-        $("#tbTourList").on("click",".delete",function(){
-            var id = $(this).attr("id");
-            var guideId=$(this).attr("guideId");
-            getTourStatus(guideId,id);
-        });
-
-        //切换到线路页面
-        $("#myTab li").on("click", function() {
-            var target = $(this).data("target");
-            $("#myTab li").removeClass("active");
-            $(".tab-content .tab-pane").removeClass("active")
-
-            $(this).addClass("active");
-            $(target).addClass("active");
-            if (target == "#lineSetting") {
-                //重新初始化线路
-                initLineEditor();
+            if (index > 0) {
+                data[index - 1].distance = $(_line).find("input").val();
             }
         });
+        console.dir(data);
+        return data;
+    },
+    isValid: function() {
+        if ($(this.selectors.line).length <= 1) {
+            return {
+                success: false,
+                msg: "请先设置线路。"
+            };
+        }
+
+        var disInput = $(this.selectors.line).find("input");
+        var errCount = 0;
+        var reg = /^[0-9]*$/;
+        disInput.each(function() {
+            var input = $(this);
+            var value = input.val();
+
+            if (value.length == 0 || !(reg.test(value))) {
+                input.css({
+                    "border-color": "#ff0000"
+                });
+                errCount++;
+            }
+
+            input.css({
+                "border-color": "#ccc"
+            });
+        });
+
+        if (errCount == 0) {
+            return {
+                success: true
+            };
+        } else {
+            return {
+                success: false,
+                msg: "距离为空或输入不正确。"
+            };
+        }
+    }
+};
+</script>
+<script type="text/javascript">
+// 新增景点
+var lineEditor = null;
+var formValid = null;
+$(function() {
+    var guideId = $("#hdnGuideId").val();
+    $(".addTourist").click(function() {
+        window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristaddDetail?attractionId=" + guideId, 2, "景点详情");
     });
 
+    //  编辑景点
+    $("#tbTourList").on("click", ".edit", function() {
+        var id = $(this).attr("id");
+        var guideId = $(this).attr("guideId")
+        window.parent.tabsAdd('', "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/touristEditDetail?attractionId=" + id + "&guideId=" + guideId, 2, "景点详情");
+    });
 
-    function initLineEditor(){
-        var scenicId=$("#hdnScenicId").val();
-        $.ajax({
-            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/queryGuideAttractionFocusInfo",
-            type:"get",
-            data:{scenicId:scenicId},
-            beforeSend:function(){
-                layer.msg("正在获取线路设置...",{icon:16,time:null});
-            },
-            success:function(res){
-                layer.closeAll();
-                if(res.status==200){
-                    if(lineEditor){
-                        console.dir(res);
-                        lineEditor.lineData=res.data.guideAttractionDOList||[];
-                        lineEditor.lineSettings=res.data.guideLine||[];
-                        lineEditor.render();
-                    }else{
-                        lineEditor=new LineEditor({
-                            guideId:$("#hdnGuideId").val(),
-                            lineData:res.data.guideAttractionDOList,
-                            lineSettings:res.data.guideLine
-                        });
-                    }
-                }
-                else{
-                    layer.msg("获取线路设置失败!",{icon:2,time:1500});
-                }
-            },
-            error:function(){
-                layer.msg("获取线路设置失败!",{icon:2,time:1500});
-            }
-        });
-    }
-    function getTourStatus(guideId,id){
-        var data={guideId:guideId,id:id};
-        $.ajax({
-            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/queryGuideLine",
-            type:"get",
-            data:data,
-            success:function(res){
-                if(res.success){
-                    msg=getTips(res.value);
-                    layer.confirm(msg,function(){
-                        deleteTour(guideId,id,res.value);
-                    });
-                }
-                else{
-                    layer.msg("删除失败!",{icon:2,time:1500});
-                }
-            },
-            error:function(){
-                layer.msg("删除失败!",{icon:2,time:1500});
-            }
-        });
-    }
+    //删除景点
+    $("#tbTourList").on("click", ".delete", function() {
+        var id = $(this).attr("id");
+        var guideId = $(this).attr("guideId");
+        getTourStatus(guideId, id);
+    });
 
-    function getTips(status){
-        var message={
-            "0":"是否确认删除？",
-            "1":"删除此景点信息将影响线路设置，是否确认删除？",
-            "2":"删除此景点信息需重新配置线路，是否确认删除？"
-        };
+    //切换到线路页面
+    $("#myTab li").on("click", function() {
+        var target = $(this).data("target");
+        $("#myTab li").removeClass("active");
+        $(".tab-content .tab-pane").removeClass("active")
 
-        var msg=message[status];
-        if(msg){
-            return msg;
+        $(this).addClass("active");
+        $(target).addClass("active");
+        if (target == "#lineSetting") {
+            //重新初始化线路
+            initLineEditor();
         }
-        return message["1"];
-    }
+    });
 
-    function deleteTour(guideId,id,status){
-        $.ajax({
-            url:"$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/deleteAttraction",
-            type:"post",
-            data:{guideId:guideId,id:id,status:status},
-            dataType:"json",
-            success:function(data){
-                if(data.success){
-                    layer.msg("删除成功!",{icon:1,time:1500});
-                    setTimeout(function(){
-                        window.location.reload();
-                    },2000)
-                }else{
-                    layer.msg("删除失败!",{icon:2,time:1500});
+    formValid = $("#frmLineSetting").Validform({
+        tiptype: 3,
+        showAllError: true,
+        ajaxPost: true
+    });
+});
+
+function initLineEditor() {
+    var scenicId = $("#hdnScenicId").val();
+    $.ajax({
+        url: "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/queryGuideAttractionFocusInfo",
+        type: "get",
+        data: {
+            scenicId: scenicId
+        },
+        beforeSend: function() {
+            layer.msg("正在获取线路设置...", {
+                icon: 16,
+                time: null
+            });
+        },
+        success: function(res) {
+            layer.closeAll();
+            console.dir(res);
+            if (res.status == 200) {
+                var options = {
+                    guideId: $("#hdnGuideId").val(),
+                    lineData: res.data.guideAttractionDOList,
+                    lineSettings: res.data.guideLine
+                };
+                if (lineEditor) {
+                    lineEditor.setOption(options);
+                } else {
+                    lineEditor = new LineEditor(options);
                 }
-            },
-            error:function(){
-                layer.msg("删除失败!",{icon:2,time:1500});
+            } else {
+                layer.msg("获取线路设置失败!", {
+                    icon: 2,
+                    time: 1500
+                });
             }
-        })
+        },
+        error: function() {
+            layer.msg("获取线路设置失败!", {
+                icon: 2,
+                time: 1500
+            });
+        }
+    });
+}
+
+function getTourStatus(guideId, id) {
+    var data = {
+        guideId: guideId,
+        id: id
+    };
+    $.ajax({
+        url: "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/queryGuideLine",
+        type: "get",
+        data: data,
+        success: function(res) {
+            if (res.success) {
+                msg = getTips(res.value);
+                layer.confirm(msg, function() {
+                    deleteTour(guideId, id, res.value);
+                });
+            } else {
+                layer.msg("删除失败!", {
+                    icon: 2,
+                    time: 1500
+                });
+            }
+        },
+        error: function() {
+            layer.msg("删除失败!", {
+                icon: 2,
+                time: 1500
+            });
+        }
+    });
+}
+
+function getTips(status) {
+    var message = {
+        "0": "是否确认删除？",
+        "1": "删除此景点信息将影响线路设置，是否确认删除？",
+        "2": "删除此景点信息需重新配置线路，是否确认删除？"
+    };
+
+    var msg = message[status];
+    if (msg) {
+        return msg;
     }
+    return message["1"];
+}
+
+function deleteTour(guideId, id, status) {
+    $.ajax({
+        url: "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/deleteAttraction",
+        type: "post",
+        data: {
+            guideId: guideId,
+            id: id,
+            status: status
+        },
+        dataType: "json",
+        success: function(data) {
+            if (data.success) {
+                layer.msg("删除成功!", {
+                    icon: 1,
+                    time: 1500
+                });
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000)
+            } else {
+                layer.msg("删除失败!", {
+                    icon: 2,
+                    time: 1500
+                });
+            }
+        },
+        error: function() {
+            layer.msg("删除失败!", {
+                icon: 2,
+                time: 1500
+            });
+        }
+    })
+}
 </script>
-
-

@@ -3,11 +3,7 @@ package com.yimayhd.palace.controller.touristlist;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.yimayhd.commentcenter.client.dto.ComentDTO;
-import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
-import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
-import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.guide.GuideService;
@@ -15,38 +11,34 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.biz.TrouistlistBiz;
-import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.GuideConverter;
 import com.yimayhd.palace.error.PalaceReturnCode;
-import com.yimayhd.palace.helper.ResponseVoHelper;
-import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.guide.AttractionFocusVO;
-import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.result.BizResult;
-import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
 import com.yimayhd.palace.service.GuideManageService;
 import com.yimayhd.user.session.manager.SessionManager;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.palace.model.guide.GuideAttractionVO;
 import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.palace.model.guide.AttractionListGuideLineVO;
 import com.yimayhd.palace.model.guide.AttractionIntroducePicTextTitleVO;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -73,6 +65,7 @@ public class TouristlistController extends BaseController {
     private TcCacheManager tcCacheManager;
     @Resource
     private GuideManageService guideManageService;
+
     //1
     /**
      * select获取景点列表  ok
@@ -102,7 +95,7 @@ public class TouristlistController extends BaseController {
             }
             model.addAttribute("attractionId", attractionId); // 导览id
             model.addAttribute("scenicId", scenicId); // 导览id
-            System.out.println("touristlist=" + JSON.toJSONString(touristlist));
+           // System.out.println("touristlist=" + JSON.toJSONString(touristlist));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -163,7 +156,7 @@ public class TouristlistController extends BaseController {
     }
 
     /**
-     * delete 删除操作 删除景点 调试
+     * delete 删除操作 删除景点 ok
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
@@ -191,6 +184,21 @@ public class TouristlistController extends BaseController {
             // TODO: 16/9/2     重置线路
             if(status == 1){
                 updateGuideLine(guideId,"");
+            }else if(status == 2){  
+                //// TODO: 16/9/6 线路删除线路最后一个景点 更新线路
+                ICResult<GuideLineDTO> guideLineDTOResult = guideServiceRef.queryGuideLine(guideId);
+                if (guideLineDTOResult == null) {
+                    bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                }
+                if (guideLineDTOResult.isSuccess() && guideLineDTOResult.getModule() != null){
+                    List<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
+                    guideLine.addAll(guideLineDTOResult.getModule().getGuideLine()) ;
+                    int index = guideLine.size();
+                    if (index > 0){
+                        guideLine.remove(index-1);
+                        updateGuideLine(guideId,JSON.toJSONString(guideLine));
+                    }
+                }
             }
         }
         return bizResult;
@@ -283,10 +291,13 @@ public class TouristlistController extends BaseController {
             if(picTextVO!=null) {
                 List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
                 if (list.size() > 0) {
-                    model.addAttribute("pictureTextItems", list);
-                    model.addAttribute("uuidPicText", UUID.randomUUID().toString());
+                    model.addAttribute("picTextVO", picTextVO);
+                    model.addAttribute("picTextVOJson", JSON.toJSONString(list));
                 }
+                model.addAttribute("uuidPicText",UUID.randomUUID().toString());
             }
+            model.addAttribute("attractionId", attractionId);
+            model.addAttribute("guideId", guideId);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -362,23 +373,20 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/updateTourist", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> updateTourist(GuideAttractionVO guideAttractionVO) {
+    public BizResult<String> updateTourist(GuideAttractionVO guideAttractionVO,Model model) {
 
         BizResult<String> result = new BizResult<String>();
-
         try {
             ICResult<Boolean> saveResult = null;
 
             // 查询景点
             ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
-
             if (attractionFocusDTOResult == null){
                 result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
                 return result;
             }
 
             AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.guideAttractionVO2AttractionFocusUpdateDTO(guideAttractionVO,attractionFocusDTOResult.getModule());
-
             saveResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
 
             if (saveResult == null) {
@@ -387,7 +395,6 @@ public class TouristlistController extends BaseController {
             }
             if (saveResult.isSuccess()) {
                 result.initSuccess(saveResult.getResultMsg());
-//              result.setValue("1");
                 result.setSuccess(true);
             } else {
                 result.setCode(saveResult.getResultCode());
@@ -395,6 +402,8 @@ public class TouristlistController extends BaseController {
                 result.setSuccess(false);
             }
             log.error("saveResult:{}", JSON.toJSONString(saveResult));
+            model.addAttribute("attractionId", guideAttractionVO.getId());
+            model.addAttribute("guideId", guideAttractionVO.getGuideId());
         } catch (Exception e) {
             result.setSuccess(false);
         }
@@ -404,43 +413,47 @@ public class TouristlistController extends BaseController {
 
     //3
     /**
-     * 保存 景点图文详情（资源）  调试
+     * 保存 景点图文详情（资源）  ok
      */
     @RequestMapping(value = "/savePictureText", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo savePictureText(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO) throws Exception {
+    public ResponseVo savePictureText(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO,Model model) throws Exception {
 
         String key = Constant.APP + "_repeat_" + sessionManager.getUserId() + attractionIntroducePicTextTitleVO.getUuidPicText();
         boolean rs = tcCacheManager.addToTair(key, true, 2, 24 * 60 * 60);
 
         ResponseVo responseVo = new ResponseVo();
 
-       // if (rs) {
+//        if (rs) {
             try {
                 if (StringUtils.isBlank(attractionIntroducePicTextTitleVO.getPicTextString())) {
                     log.warn("json is null");
                     return ResponseVo.error();
                 }
-
                 String json = attractionIntroducePicTextTitleVO.getPicTextString().replaceAll("\\s*\\\"\\s*", "\\\"");
                 PictureTextVO pictureTextVO = (PictureTextVO)JSONObject.parseObject(json, PictureTextVO.class);
-//                for (int i = 0; i < pictureTextVO.getPictureTextItems().size(); i++){
-//                    PictureTextItemVo vo = pictureTextVO.getPictureTextItems().get(i);
-//                    if (vo.getType().contentEquals("img")){
-//                        vo.setType("1");
-//                    }else {
-//                        vo.setType("2");
-//                    }
-//                }
 
                 trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO.getAttractionId(), pictureTextVO);
 
                 //// TODO: 16/9/2 更新标题
                 GuideAttractionVO guideAttractionVO = new GuideAttractionVO();
                 guideAttractionVO.setId(attractionIntroducePicTextTitleVO.getAttractionId());
-                guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle());
-                updateTourist(guideAttractionVO);
+                guideAttractionVO.setTitle(attractionIntroducePicTextTitleVO.getTitle().trim());  // 去掉前后空格
+                guideAttractionVO.setSubTitle(attractionIntroducePicTextTitleVO.getSubTitle().trim());
+                // updateTourist(guideAttractionVO,model);
+                // 查询景点
+                ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
 
+                if (attractionFocusDTOResult == null){
+//                   result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+//                   return result;
+                	return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+                }
+                AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.convertAttrattionVO2UpdateDTO(attractionIntroducePicTextTitleVO,attractionFocusDTOResult.getModule());
+                ICResult<Boolean> updateResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
+                if (updateResult == null || !updateResult.isSuccess()) {
+					return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+				}
                 return ResponseVo.success();
 
             } catch (Exception e) {
@@ -449,7 +462,7 @@ public class TouristlistController extends BaseController {
                 resVO.setData(UUID.randomUUID().toString());
                 return resVO;
             }
-        //}
-       // return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
+//        }
+//        return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
     }
 }
