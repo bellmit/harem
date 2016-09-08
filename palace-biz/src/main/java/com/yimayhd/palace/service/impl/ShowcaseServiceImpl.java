@@ -415,7 +415,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             map.put("operationContentZH",ocZH);
         }
-
+        boolean isFullScreen = sw.isFullScreen();
+        map.put("isShowTitle",String.valueOf(isFullScreen));
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));
         sd.setFeature(FeatureUtil.toString(map));

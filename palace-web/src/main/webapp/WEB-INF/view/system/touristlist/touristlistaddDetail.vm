@@ -488,7 +488,7 @@ function saveIntro() {
     }
 
     if (data.subTitle.length == 0) {
-        layer.msg("请输入景点介绍标题", {
+        layer.msg("请输入景点介绍副标题", {
             icon: 2,
             time: 1500
         });
@@ -532,6 +532,6 @@ function saveIntro() {
             });
         }
     });
-
+    return false;
 }
 </script>

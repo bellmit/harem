@@ -294,7 +294,6 @@ public class TouristlistController extends BaseController {
                     model.addAttribute("picTextVO", picTextVO);
                     model.addAttribute("picTextVOJson", JSON.toJSONString(list));
                 }
-
                 model.addAttribute("uuidPicText",UUID.randomUUID().toString());
             }
             model.addAttribute("attractionId", attractionId);
@@ -450,7 +449,6 @@ public class TouristlistController extends BaseController {
 //                   return result;
                 	return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
                 }
-
                 AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.convertAttrattionVO2UpdateDTO(attractionIntroducePicTextTitleVO,attractionFocusDTOResult.getModule());
                 ICResult<Boolean> updateResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
                 if (updateResult == null || !updateResult.isSuccess()) {
