@@ -29,6 +29,15 @@ public class ItemVO {
 	private Date gmtModified;
 	/** 权重item.order_num */
 	private int orderNum;
+	private String keyWord;
+	
+	public String getKeyWord() {
+		return keyWord;
+	}
+
+	public void setKeyWord(String keyWord) {
+		this.keyWord = keyWord;
+	}
 
 	public long getId() {
 		return id;

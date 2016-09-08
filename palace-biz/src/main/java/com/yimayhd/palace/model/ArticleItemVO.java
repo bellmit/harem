@@ -2,6 +2,7 @@ package com.yimayhd.palace.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.yimayhd.palace.model.vo.AudioVO;
 
@@ -35,7 +36,6 @@ public class ArticleItemVO implements Serializable {
 	private Date gmtModified;
 	
 	private String attachString;
-	
 	
 
 	public String getAttachString() {

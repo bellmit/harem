@@ -80,5 +80,15 @@ public interface ItemService {
 	 * @return
 	 */
 	boolean updateItemOrderNum(long itemId, int orderNum);
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年9月8日
+	* @Description: 更新咨询商品关键字
+	* @param 
+	* @return boolean
+	* @throws
+	 */
+	boolean updateConsultKeyWord(long itemId,String keyWord);
 
 }

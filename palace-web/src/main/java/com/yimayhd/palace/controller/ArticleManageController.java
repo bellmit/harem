@@ -27,6 +27,7 @@ import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.model.vo.AudioVO;
+import com.yimayhd.palace.model.vo.SolrsearchVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
@@ -138,6 +139,9 @@ public class ArticleManageController extends BaseController {
     @RequestMapping(value = "/toEdit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
         ArticleVO articleVO = articleService.getArticleById(id);
+//        SolrsearchVO solrsearchVO = new SolrsearchVO();
+//        articleVO.getIdList();
+//        articleService.getHotelList(solrsearchVO);
         model.addAttribute("articleTypeList", ArticleType.values());
         model.addAttribute("articleStautsList", ArticleStatus.values());
         model.addAttribute("article", articleVO);

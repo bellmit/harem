@@ -10,8 +10,10 @@ import com.yimayhd.resourcecenter.dto.*;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import com.alibaba.druid.support.logging.Log;
 import com.alibaba.fastjson.JSONArray;
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -185,6 +187,7 @@ public class ArticleConverter {
         if (CollectionUtils.isEmpty(articleItemDTOs)) {
             return articleVO;
         }
+        List<Long> hotelIdList = new ArrayList<Long>();
         for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
             ArticleItemVO articleItemVO = new ArticleItemVO();
             ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
@@ -207,6 +210,10 @@ public class ArticleConverter {
                     articleItemVO.setArticleConsultServiceItemVO(articleConsultServiceItemVO);
                     break;
                 case HOTELRESOURCE:
+                	if (StringUtils.isNotBlank(articleItemDTO.getArticleItemDO().getContent())) {
+						
+                		hotelIdList.add(Long.parseLong(articleItemDTO.getArticleItemDO().getContent()));
+					}
                     ArticleHotelResourceItemVO articleHotelResourceItemVO = getArticleHotelResourceItemVO(articleItemDTO.getArticleHotelResourceItemDTO());
                     articleItemVO.setArticleHotelResourceItemVO(articleHotelResourceItemVO);
                     break;
@@ -219,6 +226,8 @@ public class ArticleConverter {
             }
             articleItemVOs.add(articleItemVO);
         }
+       // hotelIdList.add(256l);
+        articleVO.setIdList(hotelIdList);
         articleVO.setArticleItemList(articleItemVOs);
         return articleVO;
     }
