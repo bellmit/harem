@@ -150,6 +150,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         BeanUtils.copyProperties(sdo, svo);
         svo.setOperationContentZHs(svo.getFeature());
         svo.setOperationDetailIds(svo.getFeature());
+        svo.setFullScreen(svo.getFeature());
         return svo;
     }
 
@@ -415,7 +416,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             map.put("operationContentZH",ocZH);
         }
-        boolean isFullScreen = sw.isFullScreen();
+        boolean isFullScreen = sw.fullScreen();
         map.put("isShowTitle",String.valueOf(isFullScreen));
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));

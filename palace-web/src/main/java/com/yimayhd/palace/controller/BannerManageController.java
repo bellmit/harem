@@ -184,6 +184,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothCode",boothCode);
         model.addAttribute("appVersionCode",showcase.getAppVersionCode());
         model.addAttribute("operationDetailId",showcase.getOperationDetailId());
+        model.addAttribute("isFullScreen",showcase.fullScreen());
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("isEdit",true);

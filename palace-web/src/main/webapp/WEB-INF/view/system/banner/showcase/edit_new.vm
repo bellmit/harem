@@ -75,6 +75,7 @@
                                                     operationid="$!operations.operactio.id" #if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end >$!operations.operactio.name</option>
                                         #end
                                     </select>
+
                                     <div  id="radioId"></div>
                                 </td>
                             </tr>
@@ -90,6 +91,7 @@
                                 <input type="hidden" name="chcontent" id="chosId" value="$!showcase.operationContent" class="secontent">
                                 <td>
                                     内容展示：
+                                    <input type="hidden" id="isFullScreenId" value="$!isFullScreen">
                                 </td>
                                 <td>
                                     #if($!showcase.operationContentZH)
@@ -123,7 +125,18 @@
             var radioHtml= $("#opId").find("option:selected").attr("radiohtml");
             $("#radioId").html(radioHtml);
             autotxt();
-            $('.selectpages').change(function(){$('#addsecontentId').text('')});
+            $('.selectpages').change(function(){
+                $('#addsecontentId').text('');
+                isChecked ();
+            });
+            function isChecked (){
+                if($('#isFullScreenId').val()=='true'){
+                    $('input[name="chooseService"][type="checkbox"]').prop('checked',true);
+                }
+            };
+            isChecked ();
+
+
         });
 
         //如果是输入框的话，填什么 下面展示什么
@@ -144,23 +157,13 @@
             }
         }
 
-        function objInfo(obj){
-            for(var i=0;i<obj.length;i++){
-                inps = arr[i];
-                alert("-"+inps.type);
-            }
-
-
-                /*if ( obj.length > 0 && "text" == obj.attr("type")) { //如果展示内容有数据，关键字输入框里面没有数据，将展示内容的数据给关键字输入框
-                    var value=obj.val();
-                    if(null == value || ""==value){
-                        var spanText = $("#addsecontentId").text();
-                        obj.val(spanText);
-                    }
-                    return;
-                }*/
-
-
+        function objInfo(){
+            $('.selectpage input[type="checkbox"]').click(function(){
+                if($(this).prop('checked'))
+                    $(this).prop('value',true);
+                else
+                    $(this).prop('value',false);
+            });
         }
 
         function myinit(){
@@ -300,7 +303,7 @@
                       +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
                       +" content="+content+" operationContent="+operationContent+" operationId="+operationId
                       +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH
-                      +" appVersionCode="+appVersionCode+" isFullScreen="+isFullScreen);
+                      +" appVersionCode="+appVersionCode+" fullScreen="+isFullScreen);
 
             if(null == serialNo || ""==serialNo || isNaN(serialNo)){
                 var msg = new $.zui.Messager('权重请输入数字', {placement: 'center',type:'warning',time:'1000'});
@@ -333,7 +336,8 @@
                     {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
                         'title':title,'summary':summary, 'imgUrl':imgUrl,'operationContent':operationContent,
                         'content':content, 'operationId':operationId,'operationDetailId':radioIdVal,
-                        'operationContentZH':operationContentZH,'appVersionCode':appVersionCode,'isFullScreen':isFullScreen
+                        'operationContentZH':operationContentZH,'appVersionCode':appVersionCode,
+                        'fullScreen':isFullScreen,'fullScreens':isFullScreen
                     } ,function(data){
                         if(data.status == 200){
                             var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
