@@ -455,7 +455,7 @@ function saveInfo() {
                 $("#hdnId").val(data.value);
                 $('#myTab li[data-target="#spotIntro"]').trigger("click");
             } else {
-                layer.msg(data.message, {
+                layer.msg(data.msg, {
                     icon: 2
                 });
             }

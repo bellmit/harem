@@ -6,10 +6,7 @@ import com.yimayhd.commentcenter.client.dto.ComentDTO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
-import com.yimayhd.ic.client.model.dto.guide.AttractionFocusAddDTO;
-import com.yimayhd.ic.client.model.dto.guide.AttractionFocusDTO;
-import com.yimayhd.ic.client.model.dto.guide.AttractionFocusUpdateDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideLineDTO;
+import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.palace.repo.GuideRepo;
 import org.slf4j.Logger;
@@ -95,5 +92,16 @@ public class TrouistlistBiz {
         PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
         return pictureTextVO;
     }
+
+    // 查询景点编号是否重复
+    public ICResult<List<GuideAttractionDO>> queryAttractionList(GuideAttractionQueryDTO queryDTO) throws Exception {
+        if(queryDTO == null){
+            return null;
+        }
+        ICResult<List<GuideAttractionDO>> result = guideRepo.queryAttractionList(queryDTO);
+        return result;
+    }
+
+
 }
 

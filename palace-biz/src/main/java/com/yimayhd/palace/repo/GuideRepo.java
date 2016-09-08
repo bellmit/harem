@@ -451,4 +451,25 @@ public class GuideRepo {
             throw new BaseException(e, e.getMessage());
         }
     }
+
+    // 查询重复景点编号
+    public ICResult<List<GuideAttractionDO>> queryAttractionList(GuideAttractionQueryDTO queryDTO) {
+        try {
+            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttractionList(queryDTO);
+            if (result != null) {
+                if (result.isSuccess()) {
+                    log.info("queryAttractionList queryDTO={},result={}", queryDTO, JSON.toJSONString(result));
+                    return result;
+                } else {
+                    log.error("queryAttractionList queryDTO={},result={}", queryDTO, JSON.toJSONString(result));
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+                }
+            } else {
+                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+            }
+        } catch (Exception e) {
+            log.error("queryAttractionList queryDTO={} ,exception={}", queryDTO, e);
+            throw new BaseException(e, e.getMessage());
+        }
+    }
 }
