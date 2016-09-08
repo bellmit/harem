@@ -59,8 +59,16 @@ public class ShowcaseVO extends ShowcaseDO {
         return isFullScreen;
     }
 
-    public void setFullScreen(boolean fullScreen) {
-        isFullScreen = fullScreen;
+    public void setFullScreen(String feature) {
+        boolean isFullScreen = false;
+        if(StringUtils.isNotEmpty(feature)){
+            Map<String, String> map = FeatureUtil.fromString(feature);
+            if(null != map ){
+                String fullScreen = map.get("isFullScreen");
+                isFullScreen =  StringUtils.isEmpty(fullScreen)?false:Boolean.parseBoolean(fullScreen);
+            }
+        }
+        this.isFullScreen = isFullScreen;
     }
 
     public String getBoothCode() {

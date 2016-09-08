@@ -126,7 +126,8 @@
             $('.selectpages').change(function(){$('#addsecontentId').text('')});
         });
 
-        function autotxt(){  //如果是输入框的话，填什么 下面展示什么
+        //如果是输入框的话，填什么 下面展示什么
+        function autotxt(){
             var obj=$('input[name=chooseService]');
             if ( obj.length > 0 && "text" == obj.attr("type")) {
                 obj.off().on('keyup',function(){
@@ -138,28 +139,44 @@
                 });
                 $("#operationDetailId").val(obj.attr("id"));
             }else if ( obj.length > 0 && "radio" == obj.attr("type")) {
-                /*obj.off().on('change',function(){
-                    var value = $('input[name=chooseService]:checked').parent().text();
-                    $("#chosId").val(value);
-                    $("#addsecontentId").text(value);
-                });*/
                 var radioIdVal  = $("input[name='chooseService']:checked").attr("id");
                 $("#operationDetailId").val(radioIdVal);
             }
         }
 
+        function objInfo(obj){
+            for(var i=0;i<obj.length;i++){
+                inps = arr[i];
+                alert("-"+inps.type);
+            }
+
+
+                /*if ( obj.length > 0 && "text" == obj.attr("type")) { //如果展示内容有数据，关键字输入框里面没有数据，将展示内容的数据给关键字输入框
+                    var value=obj.val();
+                    if(null == value || ""==value){
+                        var spanText = $("#addsecontentId").text();
+                        obj.val(spanText);
+                    }
+                    return;
+                }*/
+
+
+        }
+
         function myinit(){
             //只有类型是radio的时候才执行
             var obj=$('input[name=chooseService]');
-            if ( obj.length > 0 && "text" == obj.attr("type")) {
-                //如果展示内容有数据，关键字输入框里面没有数据，将展示内容的数据给关键字输入框
-                var value=obj.val();
-                if(null == value || ""==value){
-                    var spanText = $("#addsecontentId").text();
-                    obj.val(spanText);
-                }
+            //看有几个obj
+            if(obj.length == 0){
                 return;
             }
+            if(obj.length >1){
+                objInfo(obj);
+                return ;
+            }
+
+
+
             var obj=$('input[name="chooseService"]:checked');
             if(obj.attr('jumptype') == 11 ){
                 $(".selectcontent").hide();
@@ -213,7 +230,6 @@
                     var zsnr="";
                     var cont="";
                     for(var i in sce) {
-                        //console.log("==="+sce[i].id+"-"+sce[i].name);
                         zsnr+=sce[i].name+"("+sce[i].appVersion+")"+ " | ";//展示内容
                         cont+=sce[i].code+","+sce[i].appVersion+"|";//隐藏框的
                     }
@@ -252,10 +268,14 @@
 
         $(function(){myinit();});
 
-
-
         //保存
         $('#saveId').click(function(){
+            var isFullScreen = false;
+            var operation  =  $("#opId").find("option:selected").attr("value");;
+            var fullScreen =  $("input[name='chooseService']:checked").attr("value");
+            if("H5" == operation && fullScreen){//是外链的话，看是否选择全屏展示
+                isFullScreen = true;
+            }
             var operationId = $("#operationIds").val();
             var showcaseId = $("#showcaseId").val();
             var boothId = $("#boothId").val();
@@ -279,7 +299,8 @@
             console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo
                       +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
                       +" content="+content+" operationContent="+operationContent+" operationId="+operationId
-                      +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH+" appVersionCode="+appVersionCode);
+                      +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH
+                      +" appVersionCode="+appVersionCode+" isFullScreen="+isFullScreen);
 
             if(null == serialNo || ""==serialNo || isNaN(serialNo)){
                 var msg = new $.zui.Messager('权重请输入数字', {placement: 'center',type:'warning',time:'1000'});
@@ -312,7 +333,7 @@
                     {'id':showcaseId, 'boothId':boothId, 'serialNo':serialNo, 'info':info,
                         'title':title,'summary':summary, 'imgUrl':imgUrl,'operationContent':operationContent,
                         'content':content, 'operationId':operationId,'operationDetailId':radioIdVal,
-                        'operationContentZH':operationContentZH,'appVersionCode':appVersionCode
+                        'operationContentZH':operationContentZH,'appVersionCode':appVersionCode,'isFullScreen':isFullScreen
                     } ,function(data){
                         if(data.status == 200){
                             var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
