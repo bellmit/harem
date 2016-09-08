@@ -1,58 +1,45 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <form class="form-signin" id="itemListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/list" method="POST" role="form">
-    <input type="hidden"   name="sellerId" value="$!itemListQuery.sellerId"/>
+    <input type="hidden" name="sellerId" value="$!itemListQuery.sellerId" />
     <div class="inputGroup whole">
-    	<div class="input-group inpSingle">
+        <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">店铺名称/昵称：</button>
             </span>
-            <input type="text"  class="form-control" name="merchantName" value="$!itemListQuery.merchantName"/>
+            <input type="text" class="form-control" name="merchantName" value="$!itemListQuery.merchantName" />
         </div>
         <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">商品编号：</button>
             </span>
-            <input type="text"  class="form-control" id="itemId" name="itemId" value="$!itemListQuery.itemId"/>
+            <input type="text" class="form-control" id="itemId" name="itemId" value="$!itemListQuery.itemId" />
         </div>
         <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">状态：</button>
             </span>
             <select class="form-control" name="status">
-				<option value="" #if(!$itemListQuery.status) selected #end>全部</option>
-				#foreach($itemStatus in $itemStatusList)
-					#set($itemStatusText = $itemStatus.text)
-					#if($itemStatusText != '删除')
-						#if($itemStatusText == '初始化')
-							#set($itemStatusText = '待上架')
-						#end
-						<option value="$!{itemStatus.value}" #if($itemListQuery.status == $itemStatus.value) selected #end >$!itemStatusText</option>
-					#end
-				#end
+                <option value="" #if(!$itemListQuery.status) selected #end>全部</option>
+                #foreach($itemStatus in $itemStatusList) #set($itemStatusText = $itemStatus.text) #if($itemStatusText != '删除') #if($itemStatusText == '初始化') #set($itemStatusText = '待上架') #end
+                <option value="$!{itemStatus.value}" #if($itemListQuery.status==$ itemStatus.value) selected #end>$!itemStatusText</option>
+                #end #end
             </select>
         </div>
         <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">商品名称：</button>
             </span>
-            <input type="text"  class="form-control" name="name" value="$!itemListQuery.name"/>
+            <input type="text" class="form-control" name="name" value="$!itemListQuery.name" />
         </div>
-		<div class="input-group inpSingle">
+        <div class="input-group inpSingle">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">商品类型：</button>
             </span>
             <select class="form-control" name="itemType">
-				<option value="" #if(!$itemListQuery.itemType) selected #end>全部</option>
-				#foreach($itemType in $itemTypeList)
-					#set($itemTypeText = $itemType.text)
-			#*		#if($itemTypeText == '普通商品交易' || $itemTypeText == '跟团游' ||
-							$itemTypeText == '自由行' || $itemTypeText == '同城活动')
-						#if($itemTypeText == '普通商品交易')
-							#set($itemTypeText = '特产商品')	
-						#end*#
-						<option value="$!{itemType.value}" #if($itemListQuery.itemType == $itemType.value) selected #end >$!{itemTypeText}</option>
-					#*#end*#
-				#end
+                <option value="" #if(!$itemListQuery.itemType) selected #end>全部</option>
+                #foreach($itemType in $itemTypeList) #set($itemTypeText = $itemType.text) #* #if($itemTypeText == '普通商品交易' || $itemTypeText == '跟团游' || $itemTypeText == '自由行' || $itemTypeText == '同城活动') #if($itemTypeText == '普通商品交易') #set($itemTypeText = '特产商品') #end*#
+                <option value="$!{itemType.value}" #if($itemListQuery.itemType==$ itemType.value) selected #end>$!{itemTypeText}</option>
+                #*#end*# #end
             </select>
         </div>
         <div class="input-group inpSingle">
@@ -60,22 +47,21 @@
                 <button class="btn btn-default" type="button">权重：</button>
             </span>
             <select class="form-control" name="orderNumFilter">
-				<option value="" #if(!$itemListQuery.orderNumFilter) selected #end>全部</option>
-				#foreach($orderNum in $orderNumFilter)
-					#set($orderNumText = $orderNum.text)
-						<option value="$!{orderNum.name}" #if($itemListQuery.orderNumFilter == $orderNum.name) selected #end >$!{orderNumText}</option>
-				#end
+                <option value="" #if(!$itemListQuery.orderNumFilter) selected #end>全部</option>
+                #foreach($orderNum in $orderNumFilter) #set($orderNumText = $orderNum.text)
+                <option value="$!{orderNum.name}" #if($itemListQuery.orderNumFilter==$ orderNum.name) selected #end>$!{orderNumText}</option>
+                #end
             </select>
         </div>
         <div class="input-group inpSingle">
-                    <span class="input-group-btn">
+            <span class="input-group-btn">
                         <button class="btn btn-default" type="button">创建时间：</button>
                     </span>
             <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!itemListQuery.beginDate">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
             <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!itemListQuery.endDate">
         </div>
-		<div class="btn-group">
+        <div class="btn-group">
             <button type="submit" class="btn btn-primary form-submit">查询</button>
         </div>
         <div class="btn-group">
@@ -83,312 +69,337 @@
         </div>
     </div>
     <div class="inputGroup whole">
-    	#*
-		 <div class="btn-group">
-           <button type="button" class="btn btn-primary batch-operate" operate-type="SHELVE">批量上架</button>
-         </div>
-         <div class="btn-group">
-           <button type="button" class="btn btn-primary batch-operate" operate-type="DELETE">批量删除</button>
-         </div>
-		*#
-		 <div class="btn-group">
-           <button type="button" class="btn btn-primary batch-operate" operate-type="UNSHELVE">批量下架</button>
-         </div>
-	 </div>
-    
-	 <div class="tableGroup whole">
-         <table class="table datatable table-bordered table-hover">
-			<thead>
+        #*
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary batch-operate" operate-type="SHELVE">批量上架</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary batch-operate" operate-type="DELETE">批量删除</button>
+        </div>
+        *#
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary batch-operate" operate-type="UNSHELVE">批量下架</button>
+        </div>
+    </div>
+    <div class="tableGroup whole">
+        <table class="table datatable table-bordered table-hover">
+            <thead>
                 <tr>
-                	<th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
+                    <th>
+                        <input class="allChecked" name="allChecked" type="checkbox">全选</th>
                     <th data-col-class="text-center" data-width="80">编号</th>
                     <th>商品主图</th>
                     <th>商品名称</th>
-					<th data-col-class="text-center" data-width="110">商品类型</th>
-					<th data-width="160">单价</th>
-					<th data-width="160">店铺名称/昵称</th>
-					<th data-col-class="text-center" data-width="70">状态</th>
+                    <th data-col-class="text-center" data-width="110">商品类型</th>
+                    <th data-width="160">单价</th>
+                    <th data-width="160">店铺名称/昵称</th>
+                    <th data-col-class="text-center" data-width="70">状态</th>
                     <th data-col-class="text-center" data-width="40">创建时间</th>
                     <th data-col-class="text-center" data-width="40">最后修改时间</th>
-					<th data-col-class="text-center" data-width="60">操作</th>
+                    <th data-col-class="text-center" data-width="60">操作</th>
                 </tr>
             </thead>
-			<tbody >
-                #foreach($itemInfo in $itemList)
-                #set($item = $itemInfo.itemVO)
-                #set($merchant = $itemInfo.icMerchantVO)
+            <tbody>
+                #foreach($itemInfo in $itemList) #set($item = $itemInfo.itemVO) #set($merchant = $itemInfo.icMerchantVO)
                 <tr id="item_$!{item.id}" item-id="$!item.id">
-                	<td><input class="subChecked" type="checkbox" value="$!item.id"></td>
+                    <td>
+                        <input class="subChecked" type="checkbox" value="$!item.id">
+                    </td>
                     <td>$!item.id</td>
                     <td>
-                    	<img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="160" height="90" />
+                        <img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="160" height="90" />
                     </td>
                     <td>
-						#if($item.type==3)
-						$!{itemInfo.hotelVO.name}<br>
-							$!{itemInfo.roomVO.name}<br>
-						#elseif($item.type==4)
-                            $!{itemInfo.scenicVO.name}<br>
-                            $!{itemInfo.ticketVO.title}<br>
-						#end
-						$!item.name<br>
-                    	权重:$!item.orderNum
-
-                </td>
-                <td>
-                #*	#if($utilItem.getItemTypeName($item.type) == '普通商品交易')
-                        特产商品
-                    #else*#
-							$!{utilItem.getItemTypeName($item.type)}
-						#*#end*#
-					</td>
-					<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
+                        #if($item.type==3) $!{itemInfo.hotelVO.name}
+                        <br> $!{itemInfo.roomVO.name}
+                        <br> #elseif($item.type==4) $!{itemInfo.scenicVO.name}
+                        <br> $!{itemInfo.ticketVO.title}
+                        <br> #end $!item.name
+                        <br> 权重:$!item.orderNum
+                        <br> 关键字:$!item.keyWord
+                    </td>
                     <td>
-						#if($!merchant.merchantName && $!merchant.merchantName.length() > 0 
-							|| ( $!merchant.userNick && $!merchant.userNick.length() > 0))
-							$!merchant.merchantName/$!merchant.userNick
-						
-						#elseif($!merchant.userNick && $!merchant.userNick.length() > 0)
-							$!merchant.userNick
-						#end
-
-					</td>
+                        #* #if($utilItem.getItemTypeName($item.type) == '普通商品交易') 特产商品 #else*# $!{utilItem.getItemTypeName($item.type)} #*#end*#
+                    </td>
+                    <td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
                     <td>
-                    	#if($utilItem.getItemStatusName($item.status) == '初始化')
-                    		待上架
-                    	#else
-                    		$!{utilItem.getItemStatusName($item.status)}	
-                    	#end
+                        #if($!merchant.merchantName && $!merchant.merchantName.length() > 0 || ( $!merchant.userNick && $!merchant.userNick.length() > 0)) $!merchant.merchantName/$!merchant.userNick #elseif($!merchant.userNick && $!merchant.userNick.length() > 0) $!merchant.userNick #end
+                    </td>
+                    <td>
+                        #if($utilItem.getItemStatusName($item.status) == '初始化') 待上架 #else $!{utilItem.getItemStatusName($item.status)} #end
                     </td>
                     <td>$!{utilDate.date2String($item.publishDate)}</td>
                     <td>$!{utilDate.date2String($item.gmtModified)}</td>
                     <td>
-                    	#if($item.type == 21 || $item.type == 22 || $item.type == 24 || $item.type == 25)
-                			<a type="button" class="btn btn-mini btn-link  commodityDetail" commodityId="$!item.id" appUrl="$utilWebconfig.getResourcePathJiuXiuApp()">详情</a>
-                    	#end
-                    	#*
-						#if($item.containsOperate('SHELVE'))
-						<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="SHELVE">上架</a><br/>
-						#end
-						*#
-						#if($item.containsOperate('UNSHELVE'))
-						<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="UNSHELVE">下架</a><br/>
-						#end
-						<a class="btn btn-mini btn-link item-oderNum" href="javascript:void(0);" item-id="$!item.id" >权重</a><br/>
-					</td>
+                        #if($item.type == 21 || $item.type == 22 || $item.type == 24 || $item.type == 25)
+                        <a type="button" class="btn btn-mini btn-link  commodityDetail" commodityId="$!item.id" appUrl="$utilWebconfig.getResourcePathJiuXiuApp()">详情</a> #end #* #if($item.containsOperate('SHELVE'))
+                        <a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="SHELVE">上架</a>
+                        <br/> #end *# #if($item.containsOperate('UNSHELVE'))
+                        <a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="UNSHELVE">下架</a>
+                        <br/> #end
+                        <a class="btn btn-mini btn-link item-oderNum" href="javascript:void(0);" item-id="$!item.id">权重</a>
+                        <br/>
+                        <a class="btn btn-mini btn-link keywords" href="javascript:void(0);" item-id="$!item.id">设置关键字</a>
+                    </td>
                 </tr>
-				#end
+                #end
             </tbody>
         </table>
     </div>
-#*分页*#
-    #parse("/page.vm")
-    #pageStyle("itemListForm")
+    #*分页*# #parse("/page.vm") #pageStyle("itemListForm")
 </form>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script>
-    $(".form-date").datetimepicker(
-            {
-                language: "zh-CN",
-                weekStart: 1,
-                todayBtn: 1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0,
-                format: "yyyy-mm-dd"
-            });
-	function validateItemId(itemId,e) {
-        var s = /^[0-9]*$/;
-        if(s.test(itemId.trim())){
-            return;
-        }
-        e.preventDefault();
-        layer.alert('商品编号输入不正确', {
-            icon : 2
-        });
+$(".form-date").datetimepicker({
+    language: "zh-CN",
+    weekStart: 1,
+    todayBtn: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    format: "yyyy-mm-dd"
+});
 
+function validateItemId(itemId, e) {
+    var s = /^[0-9]*$/;
+    if (s.test(itemId.trim())) {
+        return;
     }
-    $(function() {
-		$('.commodityDetail').each(function(){
-	        $(this).click(function(){
-	            var url = $(this).attr('appUrl') + '/view/detail/detail.html?id='+ $(this).attr('commodityId');
-	            window.openwin(url);
-	           // top.tabsAdd("",url,2,$(this).text());
-	        });
-	
-	    });
-    	
-        //$("#itemListForm").validate();
-     /*   $("#itemListForm").validate({
-            debug:true
-        });*/
-        $("#itemListForm").submit(function (e) {
-			var itemId= $("#itemId").val();
-			 validateItemId(itemId,e);
-        });
+    e.preventDefault();
+    layer.alert('商品编号输入不正确', {
+        icon: 2
     });
-	$(".form-clear").click(function() {
-		$(".form-control").val("");
-	});
-	
-	//全选
-    $('.allChecked').click(function(){
-        $('.subChecked').prop('checked',$(this).prop('checked'));
-    });
-	
-	function batchOperate(target){
-		var checkedIdList = new Array();
-        $('.subChecked:checked').each(function(){
-            checkedIdList.push($(this).val());
+
+}
+$(function() {
+    $('.commodityDetail').each(function() {
+        $(this).click(function() {
+            var url = $(this).attr('appUrl') + '/view/detail/detail.html?id=' + $(this).attr('commodityId');
+            window.openwin(url);
+            // top.tabsAdd("",url,2,$(this).text());
         });
-        
-        if(checkedIdList.length < 1){
-            layer.msg('请选择商品', {
-                icon: 2,
-                time: 2000
+
+    });
+
+    //$("#itemListForm").validate();
+    /*   $("#itemListForm").validate({
+           debug:true
+       });*/
+    $("#itemListForm").submit(function(e) {
+        var itemId = $("#itemId").val();
+        validateItemId(itemId, e);
+    });
+});
+$(".form-clear").click(function() {
+    $(".form-control").val("");
+});
+
+//全选
+$('.allChecked').click(function() {
+    $('.subChecked').prop('checked', $(this).prop('checked'));
+});
+
+function batchOperate(target) {
+    var checkedIdList = new Array();
+    $('.subChecked:checked').each(function() {
+        checkedIdList.push($(this).val());
+    });
+
+    if (checkedIdList.length < 1) {
+        layer.msg('请选择商品', {
+            icon: 2,
+            time: 2000
+        });
+        return false;
+    }
+
+    var param = {
+        itemIds: checkedIdList,
+        operate: $(target).attr("operate-type")
+    };
+    $.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/batchOperate", param, function(result) {
+        if (result.status) {
+            window.location.reload();
+        } else {
+            layer.alert('操作失败', {
+                icon: 2
+            });
+        }
+    }, "json");
+}
+
+//批量操作
+$('.batch-operate').click(function() {
+
+    var checkedIdList = new Array();
+    $('.subChecked:checked').each(function() {
+        checkedIdList.push($(this).val());
+    });
+
+    if (checkedIdList.length < 1) {
+        layer.msg('请选择商品', {
+            icon: 2,
+            time: 2000
+        });
+        return false;
+    }
+
+    var operateType = $(this).attr("operate-type");
+
+    var param = {
+        itemIds: checkedIdList,
+        operate: operateType
+    };
+
+    var confirmText = "";
+    if (operateType == "SHELVE") {
+        confirmText = '确定要上架该批商品吗？'
+    } else if (operateType == "UNSHELVE") {
+        confirmText = '确定要下架该批商品吗？'
+    } else if (operateType == "DELETE") {
+        confirmText = '确定要删除该批商品吗？'
+    }
+
+    layer.confirm(confirmText, {
+        btn: ['确定', '取消'],
+        title: "提示"
+    }, function() {
+        $.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/batchOperate", param, function(result) {
+            if (result.status) {
+                window.location.reload();
+            } else {
+                layer.alert('操作失败', {
+                    icon: 2
+                });
+            }
+        }, "json");
+    });
+});
+
+// 商品操作
+$('.item-operate').click(function() {
+    var id = $(this).attr("item-id");
+
+    var operateType = $(this).attr("operate-type");
+    var params = {
+        operate: operateType
+    };
+
+    var confirmText = "";
+    if (operateType == "SHELVE") {
+        confirmText = '确定要上架该商品吗？'
+    } else if (operateType == "UNSHELVE") {
+        confirmText = '确定要下架该商品吗？'
+    } else if (operateType == "DELETE") {
+        confirmText = '确定要删除该商品吗？'
+    }
+
+    layer.confirm(confirmText, {
+        btn: ['确定', '取消'],
+        title: "提示"
+    }, function() {
+        $.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/" + id + "/operate", params, function(result) {
+            if (result.status == 200) {
+                window.location.reload();
+            } else {
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 1000
+                });
+            }
+        }, "json");
+    });
+});
+
+
+//权重
+$(".item-oderNum").click(function() {
+    var id = $(this).attr("item-id");
+    //var $self = $(this);
+    layer.prompt({
+        title: "请输入权重："
+    }, function(d, n) {
+        var re = /^[1-9][0-9]{0,3}$/;
+        if (!re.test(d)) {
+            layer.msg("请输入1-9999正整数", {
+                icon: 2
             });
             return false;
-        }
-    	
-		var param = {
-			itemIds:checkedIdList,
-			operate:$(target).attr("operate-type")
-		};
-		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/batchOperate",param,function(result) {
-			if(result.status) {
-				window.location.reload();
-			} else {
-				layer.alert('操作失败', {
-					icon : 2
-				});
-			}
-		},"json");
-	}
-	
-	//批量操作
-    $('.batch-operate').click(function(){
-		
-		var checkedIdList = new Array();
-        $('.subChecked:checked').each(function(){
-            checkedIdList.push($(this).val());
-        });
-        
-        if(checkedIdList.length < 1){
-            layer.msg('请选择商品', {
-                icon: 2,
-                time: 2000
-            });
-            return false;
-        }
-    	
-    	var operateType = $(this).attr("operate-type");
-    	
-		var param = {
-			itemIds:checkedIdList,
-			operate:operateType
-		};
-		
-		var confirmText = "";
-		if(operateType == "SHELVE"){
-			confirmText = '确定要上架该批商品吗？'
-		}else if(operateType == "UNSHELVE"){
-			confirmText = '确定要下架该批商品吗？'
-		}else if(operateType == "DELETE"){
-			confirmText = '确定要删除该批商品吗？'
-		}
-		
-		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
-			$.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/batchOperate",param,function(result) {
-				if(result.status) {
-					window.location.reload();
-				} else {
-					layer.alert('操作失败', {
-						icon : 2
-					});
-				}
-			},"json");
-		});
-    });
-    
-	// 商品操作
-	$('.item-operate').click(function(){
-		var id = $(this).attr("item-id");
-		
-		var operateType = $(this).attr("operate-type");
-		var params = {
-			operate:operateType
-		};
-		
-		var confirmText = "";
-		if(operateType == "SHELVE"){
-			confirmText = '确定要上架该商品吗？'
-		}else if(operateType == "UNSHELVE"){
-			confirmText = '确定要下架该商品吗？'
-		}else if(operateType == "DELETE"){
-			confirmText = '确定要删除该商品吗？'
-		}
-		
-		layer.confirm(confirmText, {btn: ['确定','取消'], title:"提示"}, function(){
-			$.post("$!{utilWebconfig.getActionDefaultFontPath()}/jiuxiu/item/"+id+"/operate",params,function(result) {
-				if(result.status == 200) {
-					window.location.reload();
-				} else {
-					layer.msg('操作失败', {
-	    				icon : 2,
-	    				time : 1000
-	    			});
-				}
-			},"json");
-		});
-    });
-    
-    
-        //权重
-        $(".item-oderNum").click(function(){
-			var id = $(this).attr("item-id");
-            layer.open({
-                type: 1,
-                btn: ['确定', '取消'],
-                fix: false,
-                title: false,
-                shadeClose: true,
-                area: ['230px', '130px'],
-                content : "<div style='text-align:center;margin-top:20px;'>权重：<input style='width:100px;' type='text' id ='qz' name='qz'/></div>",
-                yes: function(index){
-                    var orderNum = $("#qz").val();
-
-					if("" == orderNum || null == orderNum){
-                        layer.alert("请输入权重");
-                        return ;
+        } else {
+            $.ajax({
+                url: '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateItemOrderNum/',
+                type: 'post',
+                data: {
+                    'itemId': id,
+                    'orderNum': d
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        layer.msg('修改成功', {
+                            icon: 1,
+                            time: 1000
+                        });
+                        window.location.reload();
+                    } else {
+                        layer.msg('修改失败，请稍后重试', {
+                            icon: 2,
+                            time: 1000
+                        });
                     }
-                    if(orderNum < 1 || orderNum > 9999){
-                    	layer.alert("权重介于1-9999");
-                        return ;
-                    }
-                    $.post('$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateItemOrderNum/',
-							{'itemId':id,'orderNum':orderNum} ,function(data){
-                        if(data.status == 200){
-                            layer.msg('操作成功', {
-		        				icon : 1,
-		        				time : 1000
-		        			});
-		    				window.location.reload();
-                        }else{
-                            layer.msg('操作失败', {
-		        				icon : 2,
-		        				time : 1000
-		        			});
-                        }
-						setTimeout(function(){
-							layer.close(index);
-						},1000);
-
-                    }) 
-
-                    
+                },
+                error: function() {
+                    layer.msg("请求出错，请稍后重试", {
+                        icon: 2
+                    })
                 }
+            })
+        }
+    });
+});
+
+//关键字
+$(".keywords").click(function() {
+    var id = $(this).attr("item-id");
+    layer.prompt({
+        title: "请输入关键字："
+    }, function(d, n) {
+        if (d.length == 0) {
+            layer.msg("请输入关键字", {
+                icon: 2
             });
-		});
+            return false;
+        } else {
+            $.ajax({
+                url: '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateKeyWord/',
+                type: 'post',
+                data: {
+                    'itemId': id,
+                    'keyWord': d
+
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        layer.msg('修改成功', {
+                            icon: 1,
+                            time: 1000
+                        });
+                        window.location.reload();
+                    } else {
+                        layer.msg('修改失败，请稍后重试', {
+                            icon: 2,
+                            time: 1000
+                        });
+                    }
+                },
+                error: function() {
+                    layer.msg("请求出错，请稍后重试", {
+                        icon: 2
+                    })
+                }
+            })
+        }
+    });
+});
 </script>

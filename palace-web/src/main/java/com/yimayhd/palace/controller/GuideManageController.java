@@ -1,5 +1,6 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -63,6 +64,7 @@ public class GuideManageController extends BaseController {
             model.addAttribute("guideStatusMap", Enums.toMap(GuideStatus.class, null));
             return "/system/guide/guidelist";
         } catch (Exception e) {
+            log.error("list guideListQuery={}, exception={}", JSON.toJSONString(guideListQuery), e);
             return "/error";
         }
     }
@@ -95,6 +97,7 @@ public class GuideManageController extends BaseController {
                 return "/error";
             }
         } catch (Exception e) {
+            log.error("toEdit id={}, exception={}", JSON.toJSONString(id), e);
             return "/error";
         }
     }
@@ -113,6 +116,7 @@ public class GuideManageController extends BaseController {
             //  boolean result = guideManageService.addGuide(guideVO);
             return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
+            log.error("addGuide guideVO={}, exception={}", JSON.toJSONString(guideVO), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
@@ -130,6 +134,7 @@ public class GuideManageController extends BaseController {
             CheckResult checkResult = guideBiz.updateGuide(guideVO);
             return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
+            log.error("editGuide guideVO={}, exception={}", JSON.toJSONString(guideVO), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
@@ -150,6 +155,7 @@ public class GuideManageController extends BaseController {
             boolean result = guideManageService.setWeight(guideVO.getGuideId(), guideVO.getWeight());
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
+            log.error("setWeight guideVO={}, exception={}", JSON.toJSONString(guideVO), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
@@ -171,6 +177,7 @@ public class GuideManageController extends BaseController {
             CheckResult checkResult = guideBiz.upStatus(guideId);
             return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
+            log.error("upStatus guideId={}, exception={}", JSON.toJSONString(guideId), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
@@ -190,6 +197,7 @@ public class GuideManageController extends BaseController {
             boolean result = guideManageService.downStatus(guideId);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
+            log.error("downStatus guideId={}, exception={}", JSON.toJSONString(guideId), e);
             return ResponseVoHelper.returnResponseVo(false);
         }
     }
@@ -217,7 +225,7 @@ public class GuideManageController extends BaseController {
             model.addAttribute("scenicListQuery", scenicListQuery);
             return "/system/guide/selectscenic";
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("list scenicListQuery={}, exception={}", JSON.toJSONString(scenicListQuery), e);
             return "/error";
         }
     }

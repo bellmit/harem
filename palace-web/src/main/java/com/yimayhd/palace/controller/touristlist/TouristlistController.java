@@ -336,6 +336,18 @@ public class TouristlistController extends BaseController {
             // 新增
             ICResult<GuideAttractionDO> saveResult = null;
 
+            // 查询景点编号是否重复
+            GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
+            queryDTO.setGuideId(guideAttractionVO.getGuideId());
+            queryDTO.setNo(guideAttractionVO.getAttrNo());
+            ICResult<List<GuideAttractionDO>>  queryDTOResult = trouistlistBiz.queryAttractionList(queryDTO);
+            if (queryDTOResult.getModule() != null && queryDTOResult.getModule().size() > 0){
+                result.setMsg("景点编号已重复");
+                result.setSuccess(false);
+                return  result;
+            }
+
+            // 保存详情
             AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionVO2AttractionFocusAddDTO(guideAttractionVO);
 
             saveResult = trouistlistBiz.addAttractionAndFocus(attractionFocusAddDTO);
@@ -378,6 +390,17 @@ public class TouristlistController extends BaseController {
         BizResult<String> result = new BizResult<String>();
         try {
             ICResult<Boolean> saveResult = null;
+
+            // 查询景点编号是否重复
+            GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
+            queryDTO.setGuideId(guideAttractionVO.getGuideId());
+            queryDTO.setNo(guideAttractionVO.getAttrNo());
+            ICResult<List<GuideAttractionDO>>  queryDTOResult = trouistlistBiz.queryAttractionList(queryDTO);
+            if (queryDTOResult.getModule() != null && queryDTOResult.getModule().size() > 0){
+                result.setMsg("景点编号已重复");
+                result.setSuccess(false);
+                return  result;
+            }
 
             // 查询景点
             ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());

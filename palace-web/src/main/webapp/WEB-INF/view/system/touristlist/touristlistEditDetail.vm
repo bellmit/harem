@@ -163,6 +163,7 @@
                     <td>
                         <input type="text" class="inpCtlBlock" name="attrNo" id="attrNo" datatype="/^[0-9]{1,20}$/"
                                nullmsg="请输入景区编号！" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字" value="$!{attractionDO.attrNo}">
+                        <input type="text" class="inpCtlBlock" name="attrNo" id="attrNo" datatype="/^[0-9]{1,4}$/" nullmsg="请输入景区编号！" errormsg="请输入景区编号！" placeholder="请输入1~4字以内的数字" value="$!{attractionDO.attrNo}">
                     </td>
                 </tr>
                 <tr>
@@ -249,8 +250,8 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    
-                        
+
+
                         <div id="editers">
                         <div class="editer-tip">
                             <p><b>编辑小助手：</b></p>
@@ -260,7 +261,7 @@
                             <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
                         </div>
                         <div class="bd">
-                            
+
                             #foreach($pictureTextItem in $picTextVO.pictureTextItems)
                                 #if($pictureTextItem.type.equalsIgnoreCase('text'))
                                     <p class="text">
@@ -293,8 +294,8 @@
                             };
                         }
                     </script>
-                    
-                    
+
+
                 </td>
             </tr>
         </table>
@@ -381,11 +382,10 @@
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2&fileType=30', "选择语音文件",
                 function () {
                     var items = win.getItem();
-                    if(items.length===0)
+                    if(items.length===0) {
                         layer.msg("请选择语音",{icon:2,time:1500});
                         return false;
                     }
-
                     addAudioItem(items);
                     return true;
                 });
@@ -490,6 +490,35 @@ var spotInfo = {
                     });
                 }
             });
+    spotInfo.focusOrder = JSON.stringify(focusOrderJson);
+    $.ajax({
+        url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/updateTourist",
+        type: "post",
+        dataType: "json",
+        data: spotInfo,
+        beforeSubmit: function() {
+            layer.msg("正在提交...", {
+                icon: 16,
+                time: null,
+                shade: [0.3, '#000']
+            });
+        },
+        success: function(data) {
+            if (data.success) {
+                $('#myTab li[data-target="#spotIntro"]').trigger("click");
+            } else {
+                layer.msg(data.msg, {
+                    icon: 2
+                });
+            }
+        },
+        error: function() {
+            layer.closeAll();
+            layer.msg("保存失败。", {
+                icon: 2
+            });
+        }
+    });
 }
 
     //保存图文介绍
@@ -509,7 +538,7 @@ var spotInfo = {
         }
 
         if(data.subTitle.length == 0){
-            layer.msg("请输入景点介绍副标题",{icon:2,time:1500});
+            layer.msg("请输入景点介绍标题",{icon:2,time:1500});
             return false;
         }
 

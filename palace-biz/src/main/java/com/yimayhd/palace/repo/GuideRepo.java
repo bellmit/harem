@@ -133,7 +133,7 @@ public class GuideRepo {
         try {
             ICResult<GuideScenicTipsDO> result = guideServiceRef.queryGuideScenicTips(guideId);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("queryGuideScenicTips guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
                     return result.getModule();
                 } else {
@@ -326,8 +326,8 @@ public class GuideRepo {
 
             if(scenicPageQuery!=null){
                 scenicPageQuery.setNeedCount(true);
+                scenicPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
             }
-            scenicPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
             ICPageResult<ScenicDO> result = guideServiceRef.queryCanGuideScenic(scenicPageQuery);
             if (result != null) {
                 if (result.isSuccess() ) {
@@ -448,6 +448,27 @@ public class GuideRepo {
             }
         } catch (Exception e) {
             log.error("updateGuideLine guideId={} ,guideLineDTO={},exception={}", guideId, guideLineDTO, e);
+            throw new BaseException(e, e.getMessage());
+        }
+    }
+
+    // 查询重复景点编号
+    public ICResult<List<GuideAttractionDO>> queryAttractionList(GuideAttractionQueryDTO queryDTO) {
+        try {
+            ICResult<List<GuideAttractionDO>> result = guideServiceRef.queryAttractionList(queryDTO);
+            if (result != null) {
+                if (result.isSuccess()) {
+                    log.info("queryAttractionList queryDTO={},result={}", queryDTO, JSON.toJSONString(result));
+                    return result;
+                } else {
+                    log.error("queryAttractionList queryDTO={},result={}", queryDTO, JSON.toJSONString(result));
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+                }
+            } else {
+                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+            }
+        } catch (Exception e) {
+            log.error("queryAttractionList queryDTO={} ,exception={}", queryDTO, e);
             throw new BaseException(e, e.getMessage());
         }
     }
