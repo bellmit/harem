@@ -451,8 +451,4 @@ public class GuideRepo {
             throw new BaseException(e, e.getMessage());
         }
     }
-
-
-
-
 }
