@@ -133,7 +133,7 @@ public class GuideRepo {
         try {
             ICResult<GuideScenicTipsDO> result = guideServiceRef.queryGuideScenicTips(guideId);
             if (result != null) {
-                if (result.isSuccess() && result.getModule() != null) {
+                if (result.isSuccess()) {
                     log.info("queryGuideScenicTips guideId={}, result={}", JSON.toJSONString(guideId), JSON.toJSONString(result));
                     return result.getModule();
                 } else {
