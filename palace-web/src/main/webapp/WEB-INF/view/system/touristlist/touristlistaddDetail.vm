@@ -158,7 +158,7 @@
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="/^[0-9]{1,4}$/" nullmsg="请输入景区编号！" placeholder="请输入4字以内的数字" errormsg="请输入4字以内的数字。" ajaxurl="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/verifyAttrNo?guideId=$guideAttractionid" value="">
+                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="/^[0-9]{1,4}$/" nullmsg="请输入景区编号！" placeholder="请输入1~4字以内的数字" errormsg="请输入4字以内的数字。" value="">
                     </td>
                 </tr>
                 <tr>
@@ -455,7 +455,7 @@ function saveInfo() {
                 $("#hdnId").val(data.value);
                 $('#myTab li[data-target="#spotIntro"]').trigger("click");
             } else {
-                layer.msg("保存失败。", {
+                layer.msg(data.message, {
                     icon: 2
                 });
             }
