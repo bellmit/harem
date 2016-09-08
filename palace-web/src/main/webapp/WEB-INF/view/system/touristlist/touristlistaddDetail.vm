@@ -443,13 +443,6 @@ function saveInfo() {
         type: "post",
         dataType: "json",
         data: spotInfo,
-        beforeSend: function() {
-            layer.msg("正在提交...", {
-                icon: 16,
-                time: null,
-                shade: [0.3, '#000']
-            });
-        },
         success: function(data) {
             if (data.success) {
                 $("#hdnId").val(data.value);
