@@ -1,144 +1,143 @@
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <style type="text/css">
-    .inpCtlBlock {
-        display: inline-block;
-        width: 70%;
-    }
-    .table th {
-        width: 20%;
-        text-align: right;
-        vertical-align: middle;
-    }
+.inpCtlBlock {
+    display: inline-block;
+    width: 70%;
+}
 
-    .table td {
-        width: 80%;
-    }
+.table th {
+    width: 20%;
+    text-align: right;
+    vertical-align: middle;
+}
 
-    .upload-btn {
-        position: relative;
-    }
+.table td {
+    width: 80%;
+}
 
-    .upload-btn .btn {
-        width: 100px;
-    }
+.upload-btn {
+    position: relative;
+}
 
-    .upload-btn .upload-file {
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-size: 25px;
-        width: 102px;
-        height: 33px;
-        opacity: 0;
-        filter: alpha(opacity=0);
-    }
+.upload-btn .btn {
+    width: 100px;
+}
 
-    .upload-view {
-        margin-top: 10px;
-    }
+.upload-btn .upload-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px;
+    width: 102px;
+    height: 33px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
 
-    .upload-view .img-wapper {
-        position: relative;
-        width: 150px;
-        height: 75px;
-        border: 1px solid #ccc;
-    }
+.upload-view {
+    margin-top: 10px;
+}
 
-    .img-wapper.uploaded:hover .delete-btn {
-        display: block;
-    }
+.upload-view .img-wapper {
+    position: relative;
+    width: 150px;
+    height: 75px;
+    border: 1px solid #ccc;
+}
 
-    .upload-view .upload-img {
-        width: 100%;
-        height: 100%;
-    }
+.img-wapper.uploaded:hover .delete-btn {
+    display: block;
+}
 
-    .upload-view .delete-btn {
-        display: none;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: #fff;
-        background: #000;
-        opacity: 0.7;
-        filter: alpha(opacity=70);
-        cursor: pointer;
-    }
+.upload-view .upload-img {
+    width: 100%;
+    height: 100%;
+}
 
-    .audio-list {
-        margin-top: 10px;
-    }
+.upload-view .delete-btn {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    background: #000;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    cursor: pointer;
+}
 
-    .audio-item {
-        width: 490px;
-        margin-bottom: 10px;
-        padding: 10px;
-        border: 1px solid #eee;
-        background: #fafafa;
-        overflow: hidden;
-    }
+.audio-list {
+    margin-top: 10px;
+}
 
-    .audio-img {
-        float: left;
-        width: 100px;
-        height: 75px;
-        margin-right: 10px;
-        border: 1px solid #ccc;
-    }
+.audio-item {
+    width: 490px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eee;
+    background: #fafafa;
+    overflow: hidden;
+}
 
-    .audio-img img {
-        width: 100%;
-        height: 100%;
-    }
+.audio-img {
+    float: left;
+    width: 100px;
+    height: 75px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+}
 
-    .audio-info {
-        margin-right: 10px;
-    }
+.audio-img img {
+    width: 100%;
+    height: 100%;
+}
 
-    .audio-info-item label {
-        display: inline-block;
-        height: 32px;
-        line-height: 32px;
-        width: 80px;
-        text-align: right;
-    }
+.audio-info {
+    margin-right: 10px;
+}
 
-    .audio-info-item span,
-    .audio-info-item input {
-        display: inline-block;
-        width: 200px;
-        height: 32px;
-        line-height: 32px;
-    }
+.audio-info-item label {
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    width: 80px;
+    text-align: right;
+}
 
-    .audio-info-item input {
-        padding: 5px 8px;
-        font-size: 13px;
-        line-height: 1.53846154;
-        color: #222;
-        vertical-align: middle;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    }
+.audio-info-item span,
+.audio-info-item input {
+    display: inline-block;
+    width: 200px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.audio-info-item input {
+    padding: 5px 8px;
+    font-size: 13px;
+    line-height: 1.53846154;
+    color: #222;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
 </style>
-
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css" />
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/validform.css">
 <input type="hidden" id="hdnId" value="0">
 <input type="hidden" id="hdnGuideId" value="$guideAttractionid">
 <input type="hidden" id="uuidPicText" value="$uuidPicText">
-
-    <ul id="myTab" class="nav nav-tabs">
+<ul id="myTab" class="nav nav-tabs">
     <li class="active" data-target="#spotInfo">
         <a>景点详情</a>
     </li>
@@ -159,7 +158,7 @@
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="/^[0-9]{1,20}$/" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字" errormsg="请输入20字以内的数字。" value="">
+                        <input type="text" class="inpCtlBlock" name="spotNumber" id="spotNumber" datatype="/^[0-9]{1,4}$/" nullmsg="请输入景区编号！" placeholder="请输入4字以内的数字" errormsg="请输入4字以内的数字。" ajaxurl="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/verifyAttrNo?guideId=$guideAttractionid" value="">
                     </td>
                 </tr>
                 <tr>
@@ -217,7 +216,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                <div id="editers">
+                    <div id="editers">
                         <div class="editer-tip">
                             <p><b>编辑小助手：</b></p>
                             <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
@@ -226,18 +225,16 @@
                             <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
                         </div>
                         <div class="bd">
-                            #foreach($articleItem in $pictureTextItems)
-                                #if($articleItem.type == 1)
-                                    <p class="text movesection saved"><font>$articleItem.content</font></p>
-                                #end
-                                #if($articleItem.type == 2)
-                                    <p class="pic movesection saved">
-                                        <img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end"
-                                             class="nopic" id="1">
-                                        <input type="hidden" class="imgDateVal" value="$!articleItem.content">
-                                    </p>
-                                #end
-                            #end
+                            #foreach($articleItem in $pictureTextItems) #if($articleItem.type == 1)
+                            <p class="text movesection saved">
+                                <font>$articleItem.content</font>
+                            </p>
+                            #end #if($articleItem.type == 2)
+                            <p class="pic movesection saved">
+                                <img src="#if($articleItem.content) $utilWebconfig.getTfsRootPath()$!articleItem.content #end" class="nopic" id="1">
+                                <input type="hidden" class="imgDateVal" value="$!articleItem.content">
+                            </p>
+                            #end #end
                         </div>
                         <div class="hd clearfix">
                             <ul class="clearfix">
@@ -246,16 +243,16 @@
                             </ul>
                         </div>
                         <textarea name="content" id="contentText" style="display:none;"></textarea>
-                        <input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
-						<input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}"/>
+                        <input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" />
+                        <input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />
                     </div>
                     <script type="text/javascript">
-                        function getPictureText() {
-                            var content = $("#contentText").val();
-                            return {
-                                pictureTextItems: JSON.parse(content || "[]")
-                            };
-                        }
+                    function getPictureText() {
+                        var content = $("#contentText").val();
+                        return {
+                            pictureTextItems: JSON.parse(content || "[]")
+                        };
+                    }
                     </script>
                 </td>
             </tr>
@@ -265,270 +262,276 @@
         </div>
     </div>
 </div>
-
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>
 <script src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script src="$rs_js_css_path_jiuxiu/js/config.js"></script>
 <script>
-    layer.config({
-        extend: 'extend/layer.ext.js',
-        extend: ['skin/mySkin/style.css'],
-        skin: 'layer-ext-mySkin'
-    });
-    var actionDefaultPath = '$utilWebconfig.getRootPath()';
-    var tfsRootPath = '$utilWebconfig.getTfsRootPath()';
-    var staticResourcesPath = '$utilWebconfig.getStaticResourcesPath()';
-##    var uploadFile = '$utilWebconfig.getRootPath()/upload/file';
-##    var uploadFiles = '$utilWebconfig.getRootPath()/upload/file';
+layer.config({
+    extend: 'extend/layer.ext.js',
+    extend: ['skin/mySkin/style.css'],
+    skin: 'layer-ext-mySkin'
+});
+var actionDefaultPath = '$utilWebconfig.getRootPath()';
+var tfsRootPath = '$utilWebconfig.getTfsRootPath()';
+var staticResourcesPath = '$utilWebconfig.getStaticResourcesPath()';##
+var uploadFile = '$utilWebconfig.getRootPath()/upload/file';##
+var uploadFiles = '$utilWebconfig.getRootPath()/upload/file';
 </script>-->
 <script type="text/javascript">
-    seajs.use("comediter");
+seajs.use("comediter");
 </script>
 <script type="text/javascript">
-    var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-    function initUploadFile(fileId, hiddenId, imgId) {
-        $(fileId).on("change", function() {
-            fileUpload(fileId, 1, function(data) {
-                if (data && data.status == 200) {
-                            $(hiddenId).val(data.data);
-                            $(imgId).attr('src', tfsRootPath + data.data);
-                            $(imgId).closest(".img-wapper").addClass("uploaded");
-                } else {
-                    layer.msg('图片上传失败，请重试', {
-                        icon: 2
-                    });
-                }
-            });
-        });
-    }
+var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 
-    function addAudioItem(datas) {
-        $.each(datas,function(index,data){
-            if($("#"+data.id).length===0){
-                var str = JSON.stringify(data);
-                var audioItem =
-                    '<div class="audio-item">' +
-                    '   <div class="audio-img">' +
-                    '       <img class="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="">' +
-                    '   </div>' +
-                    '   <div class="audio-info pull-left">' +
-                    '       <div class="audio-info-item">' +
-                    '           <label>时长：</label>' +
-                    '           <span>' + data.durationStr + '</span>' +
-                    '       </div>' +
-                    '       <div class="audio-info-item">' +
-                    '            <label>看点名称：</label>' +
-                    '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">'+str+'</textarea>' +
-                    '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
-                    '       </div>' +
-                    '   </div>' +
-                    '   <div class="pull-left">' +
-                    '    <button class="btn btn-primary delete-item">删除</button>' +
-                    '   </div>' +
-                    '</div>';
-
-                $(audioItem).appendTo(".audio-list");
-            }
-        });
-    }
-
-    $(function() {
-        $("#myTab li").on("click", function() {
-            var target = $(this).data("target");
-            if (target == "#spotIntro" && $("#hdnId").val() == "0") {
-                layer.alert("请先保存景点详情");
-                return;
-            }
-
-            $("#myTab li").removeClass("active");
-            $(".tab-content .tab-pane").removeClass("active");
-
-            $(this).addClass("active");
-            $(target).addClass("active");
-        });
-        //上传景点头图
-        initUploadFile("#logoUrlUploadFile", "#spotLogoUrl", "#logoUrlImg");
-
-        $('#btnSelectAudio').on("click", function () {
-            openModalForForm(
-            '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2&fileType=30',
-            "选择语音文件",
-            function () {
-                var items = win.getItem();
-                if (items.length === 0) {
-                    layer.msg("请选择语音",{icon:2,time:1500});
-                    return false;
-                }
-
-                addAudioItem(items); 
-                return true;
-            });
-        });
-
-        //删除图片
-        $(".img-wapper .delete-btn").on("click", function() {
-           var td = $(this).closest("td");
-
-            td.find(".img-wapper").removeClass("uploaded");
-            td.find(".upload-img").attr("src", defaultImg);
-            td.find("input[type='hidden']").val('');
-            td.find("input[type='file']").val('');
-        });
-
-        //删除语音文件
-        $(".audio-list").on("click", ".delete-item", function() {
-            var item = $(this).closest(".audio-item");
-            layer.confirm("确认删除该语音？",function(index){
-                item.remove();
-                layer.close(index);
-            });
-        });
-
-        //表单验证
-        var validSpot=$("#frmSpotInfo").Validform({
-            tiptype:3,
-            showAllError:true,
-            ajaxPost:true
-        });
-        //保存景点详情
-        $("#btnSaveSpotInfo").on("click", function() {
-            var checked=validSpot.check();
-            if($(".audio-list .audio-item").length==0){
-                layer.msg("请选择语音包",{icon:2,time:1500});
-                return false;
-            }
-
-            if(checked){
-                saveInfo();
-            }
-        });
-
-        $("#btnSavePicText").on("click",function(){
-            saveIntro();
-        });
-    });
-    //保存景点详情
-    function saveInfo(){
-        var spotInfo = {
-            id: $("#hdnId").val(),
-            guideId: $("#hdnGuideId").val(),
-            name: $("#spotName").val(),
-            attrImg: $("#spotLogoUrl").val(),
-            tourTime: $("#tourTime").val(),
-            attrNo: $("#spotNumber").val()
-        };
-        var focusOrderJson =[];
-        $(".audio-list .audio-item").each(function(i,d) {
-            var  item= $(d);
-            var json = JSON.parse(item.find(".focus-json").val());
-            console.log(json);
-            json.inputFileTitle = item.find(".focus-name").val();
-
-            focusOrderJson.push({
-                name:json.inputFileTitle,
-                audioTime:json.duration,
-                audio:json.fileKey
-            });
-        });
-
-        spotInfo.focusOrder = JSON.stringify(focusOrderJson);
-        $.ajax({
-            url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist",
-            type: "post",
-            dataType: "json",
-            data: spotInfo,
-            beforeSubmit: function() {
-                layer.msg("正在提交...", {
-                    icon: 16,
-                    time: null,
-                    shade: [0.3, '#000']
-                });
-            },
-            success: function(data) {
-                if (data.success) {
-                    $("#hdnId").val(data.value);
-                    $('#myTab li[data-target="#spotIntro"]').trigger("click");
-                } else {
-                    layer.msg("保存失败。", {
-                        icon: 2
-                    });
-                }
-            },
-            error: function() {
-                layer.closeAll();
-                layer.msg("保存失败。", {
+function initUploadFile(fileId, hiddenId, imgId) {
+    $(fileId).on("change", function() {
+        fileUpload(fileId, 1, function(data) {
+            if (data && data.status == 200) {
+                $(hiddenId).val(data.data);
+                $(imgId).attr('src', tfsRootPath + data.data);
+                $(imgId).closest(".img-wapper").addClass("uploaded");
+            } else {
+                layer.msg('图片上传失败，请重试', {
                     icon: 2
                 });
             }
         });
-    }
+    });
+}
 
-    //保存图文介绍
-    function saveIntro(){
-        var picText=getPictureText();
-        var data={
-            title:$("#spotIntroTitle").val().trim(),
-            subTitle:$("#subSpotIntroTitle").val().trim(),
-            picTextString:JSON.stringify(getPictureText()),
-            uuidPicText:$("#uuidPicText").val(),
-            attractionId:$("#hdnId").val()
+function addAudioItem(datas) {
+    $.each(datas, function(index, data) {
+        if ($("#" + data.id).length === 0) {
+            var str = JSON.stringify(data);
+            var audioItem =
+                '<div class="audio-item">' +
+                '   <div class="audio-img">' +
+                '       <img class="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="">' +
+                '   </div>' +
+                '   <div class="audio-info pull-left">' +
+                '       <div class="audio-info-item">' +
+                '           <label>时长：</label>' +
+                '           <span>' + data.durationStr + '</span>' +
+                '       </div>' +
+                '       <div class="audio-info-item">' +
+                '            <label>看点名称：</label>' +
+                '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">' + str + '</textarea>' +
+                '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
+                '       </div>' +
+                '   </div>' +
+                '   <div class="pull-left">' +
+                '    <button class="btn btn-primary delete-item">删除</button>' +
+                '   </div>' +
+                '</div>';
+
+            $(audioItem).appendTo(".audio-list");
         }
-        if(data.title.length == 0){
-            layer.msg("请输入景点介绍标题",{icon:2,time:1500});
-            return false;
-        }
-        
-        if(data.subTitle.length == 0){
-            layer.msg("请输入景点介绍标题",{icon:2,time:1500});
-            return false;
+    });
+}
+
+$(function() {
+    $("#myTab li").on("click", function() {
+        var target = $(this).data("target");
+        if (target == "#spotIntro" && $("#hdnId").val() == "0") {
+            layer.alert("请先保存景点详情");
+            return;
         }
 
-        if(picText.pictureTextItems.length == 0){
-            layer.msg("请添至少添加一段图文详情",{icon:2,time:1500});
-            return false;
-        }
-        console.dir(data);
-        $.ajax({
-            url:"$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText",
-            type:"post",
-            dataType:"json",
-            data:data,
-            success:function(res){
-                if(res.status == 200){
-                    layer.msg("保存成功。",{icon:1,time:1500});
+        $("#myTab li").removeClass("active");
+        $(".tab-content .tab-pane").removeClass("active");
 
-                    setTimeout(function(){
-                        closeAndFreshPrevFrame();
-                    },1500);
+        $(this).addClass("active");
+        $(target).addClass("active");
+    });
+    //上传景点头图
+    initUploadFile("#logoUrlUploadFile", "#spotLogoUrl", "#logoUrlImg");
+
+    $('#btnSelectAudio').on("click", function() {
+        openModalForForm(
+            '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2&fileType=30',
+            "选择语音文件",
+            function() {
+                var items = win.getItem();
+                if (items.length === 0) {
+                    layer.msg("请选择语音", {
+                        icon: 2,
+                        time: 1500
+                    });
+                    return false;
                 }
-                else{
-                    layer.msg("保存失败。",{icon:2,time:1500});
-                }
-            },
-            error:function(){
-                layer.msg("保存失败。",{icon:2,time:1500});
-            }
+
+                addAudioItem(items);
+
+                return true;
+            });
+    });
+
+    //删除图片
+    $(".img-wapper .delete-btn").on("click", function() {
+        var td = $(this).closest("td");
+
+        td.find(".img-wapper").removeClass("uploaded");
+        td.find(".upload-img").attr("src", defaultImg);
+        td.find("input[type='hidden']").val('');
+        td.find("input[type='file']").val('');
+    });
+
+    //删除语音文件
+    $(".audio-list").on("click", ".delete-item", function() {
+        var item = $(this).closest(".audio-item");
+        layer.confirm("确认删除该语音？", function(index) {
+            item.remove();
+            layer.close(index);
         });
+    });
 
+    //表单验证
+    var validSpot = $("#frmSpotInfo").Validform({
+        tiptype: 3,
+        showAllError: true,
+        ajaxPost: true
+    });
+    //保存景点详情
+    $("#btnSaveSpotInfo").on("click", function() {
+        var checked = validSpot.check();
+        if ($(".audio-list .audio-item").length == 0) {
+            layer.msg("请选择语音包", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+
+        if (checked) {
+            saveInfo();
+        }
+    });
+
+    $("#btnSavePicText").on("click", function() {
+        saveIntro();
+    });
+});
+//保存景点详情
+function saveInfo() {
+    var spotInfo = {
+        id: $("#hdnId").val(),
+        guideId: $("#hdnGuideId").val(),
+        name: $("#spotName").val(),
+        attrImg: $("#spotLogoUrl").val(),
+        tourTime: $("#tourTime").val(),
+        attrNo: $("#spotNumber").val()
+    };
+    var focusOrderJson = [];
+    $(".audio-list .audio-item").each(function(i, d) {
+        var item = $(d);
+        var json = JSON.parse(item.find(".focus-json").val());
+        console.log(json);
+        json.inputFileTitle = item.find(".focus-name").val();
+
+        focusOrderJson.push({
+            name: json.inputFileTitle,
+            audioTime: json.duration,
+            audio: json.fileKey
+        });
+    });
+
+    spotInfo.focusOrder = JSON.stringify(focusOrderJson);
+    $.ajax({
+        url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/addTourist",
+        type: "post",
+        dataType: "json",
+        data: spotInfo,
+        beforeSubmit: function() {
+            layer.msg("正在提交...", {
+                icon: 16,
+                time: null,
+                shade: [0.3, '#000']
+            });
+        },
+        success: function(data) {
+            if (data.success) {
+                $("#hdnId").val(data.value);
+                $('#myTab li[data-target="#spotIntro"]').trigger("click");
+            } else {
+                layer.msg("保存失败。", {
+                    icon: 2
+                });
+            }
+        },
+        error: function() {
+            layer.closeAll();
+            layer.msg("保存失败。", {
+                icon: 2
+            });
+        }
+    });
+}
+
+//保存图文介绍
+function saveIntro() {
+    var picText = getPictureText();
+    var data = {
+        title: $("#spotIntroTitle").val().trim(),
+        subTitle: $("#subSpotIntroTitle").val().trim(),
+        picTextString: JSON.stringify(getPictureText()),
+        uuidPicText: $("#uuidPicText").val(),
+        attractionId: $("#hdnId").val()
     }
+    if (data.title.length == 0) {
+        layer.msg("请输入景点介绍标题", {
+            icon: 2,
+            time: 1500
+        });
+        return false;
+    }
+
+    if (data.subTitle.length == 0) {
+        layer.msg("请输入景点介绍标题", {
+            icon: 2,
+            time: 1500
+        });
+        return false;
+    }
+
+    if (picText.pictureTextItems.length == 0) {
+        layer.msg("请添至少添加一段图文详情", {
+            icon: 2,
+            time: 1500
+        });
+        return false;
+    }
+    console.dir(data);
+    $.ajax({
+        url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/savePictureText",
+        type: "post",
+        dataType: "json",
+        data: data,
+        success: function(res) {
+            if (res.status == 200) {
+                layer.msg("保存成功。", {
+                    icon: 1,
+                    time: 1500
+                });
+
+                setTimeout(function() {
+                    closeAndFreshPrevFrame();
+                }, 1500);
+            } else {
+                layer.msg("保存失败。", {
+                    icon: 2,
+                    time: 1500
+                });
+            }
+        },
+        error: function() {
+            layer.msg("保存失败。", {
+                icon: 2,
+                time: 1500
+            });
+        }
+    });
+
+}
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
