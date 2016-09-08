@@ -65,8 +65,8 @@
         text-align: center;
         color: #fff;
         background: #000;
-        opacity: 0.2;
-        filter: alpha(opacity=20);
+        opacity: 0.7;
+        filter: alpha(opacity=70);
         cursor: pointer;
     }
 
@@ -313,6 +313,7 @@
     seajs.use("comediter");
 </script>
 <script type="text/javascript">
+    var defaultImg = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
     function initUploadFile(fileId, hiddenId, imgId) {
         $(fileId).on("change", function () {
             fileUpload(fileId, 1, function (data) {
@@ -375,18 +376,18 @@
         //上传景点头图
         initUploadFile("#logoUrlUploadFile", "#attrImg", "#logoUrlImg");
 
-        //选择语音文件 
+        //选择语音文件
         $('#btnSelectAudio').on("click", function () {
             openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2&fileType=30', "选择语音文件",
                 function () {
-                    var items = win.getItem(); 
-                if (items.length === 0) { 
-                    layer.msg("请选择语音",{icon:2,time:1500});
-                    return false;
-                } 
+                    var items = win.getItem();
+                    if(items.length===0)
+                        layer.msg("请选择语音",{icon:2,time:1500});
+                        return false;
+                    }
 
-                addAudioItem(items); 
-                return true;
+                    addAudioItem(items);
+                    return true;
                 });
         });
 

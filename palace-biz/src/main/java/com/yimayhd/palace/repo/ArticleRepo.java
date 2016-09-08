@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.util.RepoUtils;
 import com.yimayhd.resourcecenter.dto.ArticleDTO;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
@@ -13,6 +14,10 @@ import com.yimayhd.resourcecenter.model.query.ArticleQueryDTO;
 import com.yimayhd.resourcecenter.model.result.ResourcePageResult;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 import com.yimayhd.resourcecenter.service.backend.ArticleBackEndService;
+import com.yimayhd.solrsearch.client.base.SolrsearchPageResult;
+import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
+import com.yimayhd.solrsearch.client.domain.query.SolrsearchDTO;
+import com.yimayhd.solrsearch.client.service.SolrsearchService;
 import com.yimayhd.user.client.service.MerchantService;
 
 /**
@@ -29,7 +34,8 @@ public class ArticleRepo {
 	private ArticleBackEndService articleBackEndServiceRef;
 	@Autowired
 	private MerchantService merchantService;
-	
+	@Autowired
+	private SolrsearchService solrsearchServiceRef;
 
 	public ResourcePageResult<ArticleDTO> pageQueryArticles(ArticleQueryDTO articleQueryDTO) {
 		RepoUtils.requestLog(log, "articleBackEndServiceRef.pageQueryArticles", articleQueryDTO);
@@ -72,5 +78,12 @@ public class ArticleRepo {
 		RepoUtils.resultLog(log, "articleBackEndServiceRef.modify", result);
 		return result;
 	}
-
+	
+	public SolrsearchPageResult<SolrHotelDO> getHotelList(SolrsearchDTO solrsearchDTO) {
+		log.debug("solrsearchServiceRef.queryHotelListByPage", JSON.toJSONString(solrsearchDTO));
+		SolrsearchPageResult<SolrHotelDO> result = solrsearchServiceRef.queryHotelListByPage(solrsearchDTO);
+		log.debug("solrsearchServiceRef.queryHotelListByPage", JSON.toJSONString(result));
+		return result;
+	}
+	
 }
