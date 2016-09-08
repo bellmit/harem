@@ -391,27 +391,28 @@ public class TouristlistController extends BaseController {
         try {
             ICResult<Boolean> saveResult = null;
 
-            // 查询景点编号是否重复
-            GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
-            queryDTO.setGuideId(guideAttractionVO.getGuideId());
-            queryDTO.setNo(guideAttractionVO.getAttrNo());
-            ICResult<List<GuideAttractionDO>>  queryDTOResult = trouistlistBiz.queryAttractionList(queryDTO);
-            if (queryDTOResult.getModule() != null && queryDTOResult.getModule().size() > 0){
-                result.setMsg("景点编号已重复");
-                result.setSuccess(false);
-                return  result;
-            }
-
             // 查询景点
             ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
             if (attractionFocusDTOResult == null){
                 result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
                 return result;
             }
+            // 修改景点编号后判断是否重复
+            if (guideAttractionVO.getAttrNo() != attractionFocusDTOResult.getModule().getAttractionDO().getAttrNo()){
+                // 查询景点编号是否重复
+                GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
+                queryDTO.setGuideId(guideAttractionVO.getGuideId());
+                queryDTO.setNo(guideAttractionVO.getAttrNo());
+                ICResult<List<GuideAttractionDO>>  queryDTOResult = trouistlistBiz.queryAttractionList(queryDTO);
+                if (queryDTOResult.getModule() != null && queryDTOResult.getModule().size() > 0){
+                    result.setMsg("景点编号已重复");
+                    result.setSuccess(false);
+                    return  result;
+                }
+            }
 
             AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.guideAttractionVO2AttractionFocusUpdateDTO(guideAttractionVO,attractionFocusDTOResult.getModule());
             saveResult = trouistlistBiz.updateAttractionAndFocus(attractionFocusUpdateDTO);
-
             if (saveResult == null) {
                 result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
                 return result;

@@ -161,8 +161,6 @@
                 <tr>
                     <th><span class="spColor">*</span>景点编号：</th>
                     <td>
-                        <input type="text" class="inpCtlBlock" name="attrNo" id="attrNo" datatype="/^[0-9]{1,20}$/"
-                               nullmsg="请输入景区编号！" nullmsg="请输入景区编号！" placeholder="请输入20字以内的数字" value="$!{attractionDO.attrNo}">
                         <input type="text" class="inpCtlBlock" name="attrNo" id="attrNo" datatype="/^[0-9]{1,4}$/" nullmsg="请输入景区编号！" errormsg="请输入景区编号！" placeholder="请输入1~4字以内的数字" value="$!{attractionDO.attrNo}">
                     </td>
                 </tr>
@@ -430,6 +428,7 @@
         });
 
         $("#btnSavePicText").on("click",function(){
+            $(this).prop("disabled",true);
             saveIntro();
         });
 
@@ -438,7 +437,7 @@
 
 //保存景点详情
 function saveInfo(){
-var spotInfo = {
+        var spotInfo = {
                 id: $("#id").val(),
                 guideId: $("#guideId").val(),
                 name: $("#name").val(),
@@ -478,47 +477,21 @@ var spotInfo = {
                     if (data.success) {
                         $('#myTab li[data-target="#spotIntro"]').trigger("click");
                     } else {
-                        layer.msg("保存失败。", {
+                        layer.msg(data.msg, {
                             icon: 2
                         });
                     }
                 },
-                error: function () {
+                error: function (a,b,c) {
+                    console.dir(a);
+                    console.dir(b);
+                    console.dir(c);
                     layer.closeAll();
-                    layer.msg("保存失败。", {
+                    layer.msg("保存失败, {
                         icon: 2
                     });
                 }
             });
-    spotInfo.focusOrder = JSON.stringify(focusOrderJson);
-    $.ajax({
-        url: "$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/scenicManage/updateTourist",
-        type: "post",
-        dataType: "json",
-        data: spotInfo,
-        beforeSubmit: function() {
-            layer.msg("正在提交...", {
-                icon: 16,
-                time: null,
-                shade: [0.3, '#000']
-            });
-        },
-        success: function(data) {
-            if (data.success) {
-                $('#myTab li[data-target="#spotIntro"]').trigger("click");
-            } else {
-                layer.msg(data.msg, {
-                    icon: 2
-                });
-            }
-        },
-        error: function() {
-            layer.closeAll();
-            layer.msg("保存失败。", {
-                icon: 2
-            });
-        }
-    });
 }
 
     //保存图文介绍
@@ -569,8 +542,6 @@ var spotInfo = {
             }
         });
     }
-
-
 </script>
 
 
