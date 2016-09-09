@@ -270,6 +270,7 @@ public class GFCategoryRepo {
 			basePageResult.setErrorCode(ComCenterReturnCodes.C_CONTENT_CAN_NOT_BE_NULL);
 			return  basePageResult;
 		}
+		categoryRelationDTO.setNeedCount(true);
 		basePageResult = comCategoryService.getCategoryRelationPageList(categoryRelationDTO);
 		RepoUtils.resultLog(LOGGER, "comCategoryService.getCategoryRelationPageList", basePageResult);
 		return basePageResult;

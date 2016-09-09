@@ -71,11 +71,7 @@ public class GFCategoryBiz {
 				categoryQueryDTO.setName(gfCategoryVo.getName());
 	        }
 			categoryQueryDTO.setPageNo(gfCategoryVo.getPageNumber());
-			if(0 != gfCategoryVo.getStatus()){
-				categoryQueryDTO.setStatus(gfCategoryVo.getStatus());
-	        }else{
-				categoryQueryDTO.setStatus(CategoryStatus.ONLINE.getStatus());
-			}
+			categoryQueryDTO.setStatus(gfCategoryVo.getStatus());
 			
 			BasePageResult<CategoryResult> basePageResult = gfCategoryRepo.pageQueryCategory(categoryQueryDTO);
 			if(null != basePageResult && basePageResult.isSuccess() && CollectionUtils.isNotEmpty(basePageResult.getList())){//res.getValue()
@@ -320,7 +316,7 @@ public class GFCategoryBiz {
         	
 		}
         
-        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),basePageResult.getTotalCount(),itemVOList);
+        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(basePageResult.getPageNo(),basePageResult.getPageSize(),basePageResult.getTotalCount(),itemVOList);
         return pageVO;
 	}
 
