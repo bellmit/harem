@@ -138,8 +138,10 @@
                         <a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="UNSHELVE">下架</a>
                         <br/> #end
                         <a class="btn btn-mini btn-link item-oderNum" href="javascript:void(0);" item-id="$!item.id">权重</a>
+                        #if($item.type == 101)
                         <br/>
                         <a class="btn btn-mini btn-link keywords" href="javascript:void(0);" item-id="$!item.id">设置关键字</a>
+                        #end
                     </td>
                 </tr>
                 #end
