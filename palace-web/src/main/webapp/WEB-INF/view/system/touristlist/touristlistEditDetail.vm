@@ -221,21 +221,21 @@
             </div>
         </form>
     </div>
-    <div class="tab-pane" id="spotIntro">
-        <form id="frmSpotIntro">
-            <table class="table" style="width:75%; margin:0 auto;">
-                <tr>
-                    <th><span class="spColor">*</span>景点介绍标题：</th>
-                    <td>
-                        <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符" name="spotIntroTitle" id="spotIntroTitle" value="$!{attractionDO.title}">
-                    </td>
-                </tr>
-                <tr>
-                    <th><span class="spColor">*</span>景点介绍副标题：</th>
-                    <td>
-                        <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍副标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符 name=" subSpotIntroTitle " id="subSpotIntroTitle " value="$!{attractionDO.subTitle} ">
+    <div class="tab-pane" id="spotIntro"><form id="frmSpotIntro">
+    <table class="table" style="width:75%; margin:0 auto;">
+        <tr>
+            <th><span class="spColor">*</span>景点介绍标题：</th>
+            <td>
+                <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符" name="spotIntroTitle" id="spotIntroTitle" value="$!{attractionDO.title}">
+            </td>
+        </tr>
+        <tr>
+            <th><span class="spColor">*</span>景点介绍副标题：</th>
+            <td>
+                <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍副标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符 name=" subSpotIntroTitle " id="subSpotIntroTitle " value="$!{attractionDO.subTitle} ">
                 </td>
             </tr>
+
             <tr>
                 <td colspan="2 ">
                     <div id="editers ">
@@ -400,9 +400,6 @@ $(function() {
         showAllError: true,
         ajaxPost: true
     });
-
-
-
     //保存景点详情
     $("#btnSaveSpotInfo").on("click", function() {
         var checked = soptInfoValidfrom.check();
