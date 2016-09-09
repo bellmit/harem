@@ -476,7 +476,7 @@ function saveInfo() {
             icon: 2
         });
 
-        retrun;
+        return;
     }
 
     spotInfo.focusOrder = JSON.stringify(focusOrderJson);
