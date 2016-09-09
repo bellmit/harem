@@ -800,6 +800,9 @@ public class DateUtil {
 	}
 
 	public static String convertDateToString(Date date) throws Exception {
+		if (date == null) {
+			return "";
+		}
 		String dateStr;
 		try {
 			SimpleDateFormat formatter = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
