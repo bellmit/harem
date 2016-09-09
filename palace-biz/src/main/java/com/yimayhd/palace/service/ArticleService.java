@@ -7,10 +7,11 @@ import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
 import com.yimayhd.palace.model.vo.AudioVO;
+import com.yimayhd.palace.model.vo.SolrsearchVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
-import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
+import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
 
 /**
  * H5文章
@@ -94,7 +95,17 @@ public interface ArticleService {
 	* @throws
 	 */
 	BizPageResult<AudioVO> getAudioArticleListPage(long id);
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年9月7日
+	* @Description:查询酒店列表获取酒店类型
+	* @param solrsearchVO
+	* @return List<SolrHotelDO>
+	* @throws
+	 */
 	
-	//biz
+	List<SolrHotelDO> getHotelList(SolrsearchVO solrsearchVO);
+	
 
 }

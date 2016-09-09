@@ -21,7 +21,7 @@
             <select class="form-control" name="status">
                 <option value="" #if(!$itemListQuery.status) selected #end>全部</option>
                 #foreach($itemStatus in $itemStatusList) #set($itemStatusText = $itemStatus.text) #if($itemStatusText != '删除') #if($itemStatusText == '初始化') #set($itemStatusText = '待上架') #end
-                <option value="$!{itemStatus.value}" #if($itemListQuery.status==$ itemStatus.value) selected #end>$!itemStatusText</option>
+                <option value="$!{itemStatus.value}" #if($itemListQuery.status == $itemStatus.value) selected #end>$!itemStatusText</option>
                 #end #end
             </select>
         </div>
@@ -38,7 +38,7 @@
             <select class="form-control" name="itemType">
                 <option value="" #if(!$itemListQuery.itemType) selected #end>全部</option>
                 #foreach($itemType in $itemTypeList) #set($itemTypeText = $itemType.text) #* #if($itemTypeText == '普通商品交易' || $itemTypeText == '跟团游' || $itemTypeText == '自由行' || $itemTypeText == '同城活动') #if($itemTypeText == '普通商品交易') #set($itemTypeText = '特产商品') #end*#
-                <option value="$!{itemType.value}" #if($itemListQuery.itemType==$ itemType.value) selected #end>$!{itemTypeText}</option>
+                <option value="$!{itemType.value}" #if($itemListQuery.itemType == $itemType.value) selected #end>$!{itemTypeText}</option>
                 #*#end*# #end
             </select>
         </div>
@@ -49,7 +49,7 @@
             <select class="form-control" name="orderNumFilter">
                 <option value="" #if(!$itemListQuery.orderNumFilter) selected #end>全部</option>
                 #foreach($orderNum in $orderNumFilter) #set($orderNumText = $orderNum.text)
-                <option value="$!{orderNum.name}" #if($itemListQuery.orderNumFilter==$ orderNum.name) selected #end>$!{orderNumText}</option>
+                <option value="$!{orderNum.name}" #if($itemListQuery.orderNumFilter == $orderNum.name) selected #end>$!{orderNumText}</option>
                 #end
             </select>
         </div>
@@ -173,6 +173,18 @@ function validateItemId(itemId, e) {
     });
 
 }
+function validateDate(startDay,endDay,e) {
+	var startDate = new Date(startDay);
+	var endDate = new Date(endDay);
+	if(startDate)
+	if(Date.parse(startDate) <= Date.parse(endDate)) {
+		return;
+	}
+	e.preventDefault();
+    layer.alert('开始日期不能大于结束日期', {
+        icon: 2
+    });
+}
 $(function() {
     $('.commodityDetail').each(function() {
         $(this).click(function() {
@@ -190,6 +202,9 @@ $(function() {
     $("#itemListForm").submit(function(e) {
         var itemId = $("#itemId").val();
         validateItemId(itemId, e);
+        var startDay = $("input[name='beginDate']").val();
+        var endDay = $("input[name='endDate']").val();
+        validateDate(startDay,endDay,e);
     });
 });
 $(".form-clear").click(function() {
@@ -372,7 +387,7 @@ $(".keywords").click(function() {
             return false;
         } else {
             $.ajax({
-                url: '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateKeyWord/',
+                url: '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/item/updateKeyWord',
                 type: 'post',
                 data: {
                     'itemId': id,

@@ -42,7 +42,17 @@ public class ArticleVO implements Serializable {
 	
 	private String articleUrl;
 	
+	private List<Long> idList;
+	
+	
 
+	public List<Long> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<Long> idList) {
+		this.idList = idList;
+	}
 	private List<ArticleItemVO> articleItemList;
 	private String author;
 	

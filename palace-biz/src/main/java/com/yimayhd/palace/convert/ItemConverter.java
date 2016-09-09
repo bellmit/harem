@@ -83,6 +83,7 @@ public class ItemConverter {
 			itemVO.setGmtModified(itemDTO.getGmtModified());
 			itemVO.setOrderNum(itemDTO.getOrderNum());//权重
 			itemVO.setPublishDate(itemDTO.getGmtCreated());
+			itemVO.setKeyWord(itemDTO.getOneWord());
 		}
 		
 		IcMerchantInfo icMerchantInfo = itemInfo.getIcMerchantInfoInfo();

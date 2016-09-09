@@ -79,11 +79,11 @@ public class ArticleRepo {
 		return result;
 	}
 	
-	public SolrsearchPageResult<SolrHotelDO> getHotelList(SolrsearchDTO solrsearchDTO) {
-		log.debug("solrsearchServiceRef.queryHotelListByPage", JSON.toJSONString(solrsearchDTO));
-		SolrsearchPageResult<SolrHotelDO> result = solrsearchServiceRef.queryHotelListByPage(solrsearchDTO);
-		log.debug("solrsearchServiceRef.queryHotelListByPage", JSON.toJSONString(result));
-		return result;
-	}
+//	public SolrsearchPageResult<SolrHotelDO> getHotelList(SolrsearchDTO solrsearchDTO) {
+//		log.debug("solrsearchServiceRef.queryHotelListByPage", JSON.toJSONString(solrsearchDTO));
+//		SolrsearchPageResult<SolrHotelDO> result = solrsearchServiceRef.queryHotelListByPage(solrsearchDTO);
+//		log.debug("solrsearchServiceRef.queryHotelListByPage", JSON.toJSONString(result));
+//		return result;
+//	}
 	
 }
