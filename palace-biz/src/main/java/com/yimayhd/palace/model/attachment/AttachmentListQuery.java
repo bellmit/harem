@@ -48,6 +48,17 @@ public class AttachmentListQuery extends BaseQuery {
 
     private int multi;//1 单选 2 多选
 
+    private int maxSize;//选择大小控制，单位M
+
+    public int getMaxSize(){
+        return maxSize;
+    }
+
+    public AttachmentListQuery setMaxSize(int maxSize){
+        this.maxSize=maxSize;
+        return this;
+    }
+
     public int getMulti() {
         return multi;
     }

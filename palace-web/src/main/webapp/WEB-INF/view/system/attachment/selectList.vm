@@ -19,6 +19,7 @@
 <form id="tbAttachmentSellectListForm" name="tbAttachmentSellectListForm"
       action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select">
     <input type="hidden" id="multi" name="multi" value="${mediaPageQuery.multi}">
+    <input type="hidden" id="maxSize" name="maxSize" value="${mediaPageQuery.maxSize}"
     <input type="hidden" id="fileType" name="fileType" value="${mediaPageQuery.fileType}">
     <div class="inputGroup">
         <div class="input-group inpSingle">
@@ -129,8 +130,16 @@
             var checked = checkbox[0].checked;
             var tr = checkbox.closest("tr");
             var multi=$("#multi").val();//1单选 2多选
+            var maxSize=parseInt($("#maxSize").val(),10);//大小限制 单位M
+            var fsize=parseInt(checkbox.attr("fsize"),10);
 
             if (checked) {
+                if(maxSize!=0&&fsize>maxSize*1024*1024){
+                    layer.msg("不能选择大于"+maxSize+"M的语音文件",{icon:2,time:1500});
+                    checkbox[0].checked=false;
+                    return false;
+                }
+
                 //单选
                 if(multi=="1"){
                     var selecetdtr = $("#tbAttachmentSellectList tr.selected");

@@ -343,19 +343,19 @@
 
         //选择语音文件
         $('#btnSelectAudio').on("click", function () {
-            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&fileType=30', "选择语音文件", function () {
+            openModalForForm('$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&fileType=30&maxSize=4', "选择语音文件", function () {
                 var arr = win.getItem();
                 if (arr.length == 0) {
                     layer.msg("请选择语音文件", {icon: 2});
                     return false;
                 }
 
-                var item = arr[0];
+                /*var item = arr[0];
 
                 if (parseInt(item.fsize) > 4 * 1024 * 1024) {
                     layer.msg("不能选择大于4M的语音文件", {icon: 2});
                     return false;
-                }
+                }*/
 
                 $("#guideAudio").val(item.fileKey);
                 $("#audioTime").val(item.duration);
