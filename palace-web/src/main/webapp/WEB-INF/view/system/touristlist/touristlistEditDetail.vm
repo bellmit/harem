@@ -221,70 +221,71 @@
             </div>
         </form>
     </div>
-    <div class="tab-pane" id="spotIntro"><form id="frmSpotIntro">
-    <table class="table" style="width:75%; margin:0 auto;">
-        <tr>
-            <th><span class="spColor">*</span>景点介绍标题：</th>
-            <td>
-                <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符" name="spotIntroTitle" id="spotIntroTitle" value="$!{attractionDO.title}">
-            </td>
-        </tr>
-        <tr>
-            <th><span class="spColor">*</span>景点介绍副标题：</th>
-            <td>
-                <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍副标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符 name=" subSpotIntroTitle " id="subSpotIntroTitle " value="$!{attractionDO.subTitle} ">
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2 ">
-                    <div id="editers ">
-                        <div class="editer-tip ">
-                            <p><b>编辑小助手：</b></p>
-                            <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
-                            <p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
-                            <p>3、最多添加20段图片或文字</p>
-                            <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
+    <div class="tab-pane" id="spotIntro">
+        <form id="frmSpotIntro">
+            <table class="table" style="width:75%; margin:0 auto;">
+                <tr>
+                    <th><span class="spColor">*</span>景点介绍标题：</th>
+                    <td>
+                        <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符" name="spotIntroTitle" id="spotIntroTitle" value="$!{attractionDO.title}">
+                    </td>
+                </tr>
+                <tr>
+                    <th><span class="spColor">*</span>景点介绍副标题：</th>
+                    <td>
+                        <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍副标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符" name="subSpotIntroTitle" id="subSpotIntroTitle" value="$!{attractionDO.subTitle} ">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="editers">
+                            <div class="editer-tip">
+                                <p><b>编辑小助手：</b></p>
+                                <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
+                                <p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
+                                <p>3、最多添加20段图片或文字</p>
+                                <p>4、图片大小不能超过500K，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
+                            </div>
+                            <div class="bd">
+                                #foreach($pictureTextItem in $picTextVO.pictureTextItems) #if($pictureTextItem.type.equalsIgnoreCase('text'))
+                                <p class="text">
+                                    #set( $contentHtml = $pictureTextItem.value.replaceAll("\n ","
+                                    <br/>") )
+                                    <font>$!{contentHtml}</font>
+                                </p>
+                                #elseif($pictureTextItem.type.equalsIgnoreCase('IMG'))
+                                <p class="pic">
+                                    <img src="$!{utilWebconfig.getTfsRootPath()}$!{pictureTextItem.value}">
+                                    <input type="hidden" class="imgDateVal" value="$!{pictureTextItem.value}">
+                                </p>
+                                #end #end
+                            </div>
+                            <div class="hd clearfix">
+                                <ul class="clearfix">
+                                    <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+                                    <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+                                </ul>
+                            </div>
+                            <textarea name="content" id="contentText" style="display:none;"> ${picTextVOJson} </textarea>
+                            <input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" />
+                            <input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />
                         </div>
-                        <div class="bd ">
-                            #foreach($pictureTextItem in $picTextVO.pictureTextItems) #if($pictureTextItem.type.equalsIgnoreCase('text'))
-                            <p class="text ">
-                                #set( $contentHtml = $pictureTextItem.value.replaceAll("\n "," <br/>") )
-                        <font>$!{contentHtml}</font>
-                        </p>
-                        #elseif($pictureTextItem.type.equalsIgnoreCase('IMG'))
-                        <p class="pic">
-                            <img src="$!{utilWebconfig.getTfsRootPath()}$!{pictureTextItem.value}">
-                            <input type="hidden" class="imgDateVal" value="$!{pictureTextItem.value}">
-                        </p>
-                        #end #end
+                        <script type="text/javascript">
+                        function getPictureText() {
+                            var content = $("#contentText").val();
+                            return {
+                                pictureTextItems: JSON.parse(content || "[]")
+                            };
+                        }
+                        </script>
+                    </td>
+                </tr>
+            </table>
+            <div class="btnBottomMargin" style="text-align:center; margin-top:20px;">
+                <button type="button" class="btn btn-primary" style="width:150px" id="btnSavePicText">保存</button>
+            </div>
+        </form>
     </div>
-    <div class="hd clearfix">
-        <ul class="clearfix">
-            <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
-            <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-        </ul>
-    </div>
-    <textarea name="content" id="contentText" style="display:none;"> ${picTextVOJson} </textarea>
-    <input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" />
-    <input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />
-</div>
-<script type="text/javascript">
-function getPictureText() {
-    var content = $("#contentText").val();
-    return {
-        pictureTextItems: JSON.parse(content || "[]")
-    };
-}
-</script>
-</td>
-</tr>
-</table>
-<div class="btnBottomMargin" style="text-align:center; margin-top:20px;">
-    <button type="button" class="btn btn-primary" style="width:150px" id="btnSavePicText">保存</button>
-</div>
-</form>
-</div>
 </div>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=21"></script>

@@ -57,9 +57,9 @@
             <span class="input-group-btn">
                         <button class="btn btn-default" type="button">创建时间：</button>
                     </span>
-            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!itemListQuery.beginDate">
+            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!{utilDate.convertDateToString($!itemListQuery.beginDate)}">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!itemListQuery.endDate">
+            <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!{utilDate.convertDateToString($!itemListQuery.endDate)}">
         </div>
         <div class="btn-group">
             <button type="submit" class="btn btn-primary form-submit">查询</button>
@@ -116,7 +116,9 @@
                         <br> $!{itemInfo.ticketVO.title}
                         <br> #end $!item.name
                         <br> 权重:$!item.orderNum
+                        #if($item.type == 101)
                         <br> 关键字:$!item.keyWord
+                        #end
                     </td>
                     <td>
                         #* #if($utilItem.getItemTypeName($item.type) == '普通商品交易') 特产商品 #else*# $!{utilItem.getItemTypeName($item.type)} #*#end*#
@@ -173,12 +175,23 @@ function validateItemId(itemId, e) {
     layer.alert('商品编号输入不正确', {
         icon: 2
     });
-
+	return false;
 }
 function validateDate(startDay,endDay,e) {
+	if(startDay.trim().length == 0 && endDay.trim().length > 0) {
+		e.preventDefault();
+	    layer.alert('开始日期不能为空', {
+	        icon: 2
+	    });
+	    return false;
+	}
 	var startDate = new Date(startDay);
-	var endDate = new Date(endDay);
-	if(startDate)
+	if(endDay.trim().length == 0) {
+		var endDate = new Date();
+	}else{
+	
+		var endDate = new Date(endDay);
+	}
 	if(Date.parse(startDate) <= Date.parse(endDate)) {
 		return;
 	}
@@ -186,6 +199,7 @@ function validateDate(startDay,endDay,e) {
     layer.alert('开始日期不能大于结束日期', {
         icon: 2
     });
+    return false;
 }
 $(function() {
     $('.commodityDetail').each(function() {
@@ -203,7 +217,10 @@ $(function() {
        });*/
     $("#itemListForm").submit(function(e) {
         var itemId = $("#itemId").val();
-        validateItemId(itemId, e);
+       	var result = validateItemId(itemId, e);
+       	if(!result) {
+       		return result;
+       	}
         var startDay = $("input[name='beginDate']").val();
         var endDay = $("input[name='endDate']").val();
         validateDate(startDay,endDay,e);
