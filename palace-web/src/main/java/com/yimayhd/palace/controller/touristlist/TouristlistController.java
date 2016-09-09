@@ -469,8 +469,8 @@ public class TouristlistController extends BaseController {
                 ICResult<AttractionFocusDTO> attractionFocusDTOResult = guideServiceRef.queryAttractionDetail(guideAttractionVO.getId());
 
                 if (attractionFocusDTOResult == null){
-//                   result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-//                   return result;
+//                  result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+//                  return result;
                 	return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
                 }
                 AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.convertAttrattionVO2UpdateDTO(attractionIntroducePicTextTitleVO,attractionFocusDTOResult.getModule());
