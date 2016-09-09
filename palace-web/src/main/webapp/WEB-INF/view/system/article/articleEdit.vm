@@ -146,7 +146,7 @@
 									<div class="wrap itemwrap" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
 										<div class="itemimgbox">
 											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleHotelResourceItemVO.resourcePic">
-											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>酒店/客栈</p>
+											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>$!articleItem.articleHotelResourceItemVO.hotelType</p>
 										</div>
 										<div class="itemmsgbox">
 											<p class="itemright">
