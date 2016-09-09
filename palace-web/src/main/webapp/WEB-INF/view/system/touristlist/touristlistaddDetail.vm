@@ -201,17 +201,18 @@
         </form>
     </div>
     <div class="tab-pane" id="spotIntro">
-        <table class="table" style="width:75%; margin:0 auto;">
-            <tr>
-                <th><span class="spColor">*</span>景点介绍标题：</th>
-                <td>
-                    <input type="text" class="inpCtlBlock" maxlength="38" name="spotIntroTitle" id="spotIntroTitle" value="">
-                </td>
-            </tr>
-            <tr>
-                <th><span class="spColor">*</span>景点介绍副标题：</th>
-                <td>
-                    <input type="text" class="inpCtlBlock" maxlength="38" name="subSpotIntroTitle" id="subSpotIntroTitle" value="">
+        <form id="frmSpotIntro">
+            <table class="table" style="width:75%; margin:0 auto;">
+                <tr>
+                    <th><span class="spColor">*</span>景点介绍标题：</th>
+                    <td>
+                        <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符" name="spotIntroTitle" id="spotIntroTitle" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th><span class="spColor">*</span>景点介绍副标题：</th>
+                    <td>
+                        <input type="text" class="inpCtlBlock" maxlength="38" datatype="*1-38" nullmsg="请输入景点介绍副标题！" placeholder="请输入38字以内字符" errormsg="请输入38字以内字符 name=" subSpotIntroTitle " id="subSpotIntroTitle " value="">
                 </td>
             </tr>
             <tr>
@@ -260,6 +261,7 @@
         <div class="btnBottomMargin" style="text-align:center; margin-top:20px;">
             <button type="button" class="btn btn-primary" style="width:150px" id="btnSavePicText">保存</button>
         </div>
+        </form>
     </div>
 </div>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
@@ -387,15 +389,14 @@ $(function() {
         });
     });
 
-    //表单验证
-    var validSpot = $("#frmSpotInfo").Validform({
+   var soptInfoValidfrom = $("#frmSpotInfo").Validform({
         tiptype: 3,
         showAllError: true,
         ajaxPost: true
     });
     //保存景点详情
     $("#btnSaveSpotInfo").on("click", function() {
-        var checked = validSpot.check();
+        var checked = soptInfoValidfrom.check();
         if ($(".audio-list .audio-item").length == 0) {
             layer.msg("请选择语音包", {
                 icon: 2,
@@ -409,8 +410,16 @@ $(function() {
         }
     });
 
+    var soptIntroValidfrom = $("#frmSpotIntro").Validform({
+        tiptype: 3,
+        showAllError: true,
+        ajaxPost: true
+    });
+
     $("#btnSavePicText").on("click", function() {
-        saveIntro();
+        if (soptIntroValidfrom.check()) {
+            saveIntro();
+        }
     });
 });
 //保存景点详情
@@ -472,7 +481,7 @@ function saveIntro() {
         uuidPicText: $("#uuidPicText").val(),
         attractionId: $("#hdnId").val()
     }
-    if (data.title.length == 0) {
+    /*if (data.title.length == 0) {
         layer.msg("请输入景点介绍标题", {
             icon: 2,
             time: 1500
@@ -486,7 +495,7 @@ function saveIntro() {
             time: 1500
         });
         return false;
-    }
+    }*/
 
     if (picText.pictureTextItems.length == 0) {
         layer.msg("请添至少添加一段图文详情", {

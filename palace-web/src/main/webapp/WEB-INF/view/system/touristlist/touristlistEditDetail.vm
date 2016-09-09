@@ -419,15 +419,10 @@ $(function() {
         }
     });
 
-<<<<<<< HEAD
     var soptIntroValidfrom = $("#frmSpotIntro").Validform({
         tiptype: 3,
         showAllError: true,
         ajaxPost: true
-=======
-    $("#btnSavePicText").on("click", function() {
-        saveIntro();
->>>>>>> fc3ca65f8afbd5c2b001494851d670ec6cb5c009
     });
 
     $("#btnSavePicText").on("click", function() {
