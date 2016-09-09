@@ -217,7 +217,10 @@ $(function() {
        	}
         var startDay = $("input[name='beginDate']").val();
         var endDay = $("input[name='endDate']").val();
-        validateDate(startDay,endDay,e);
+        if(endDay.trim().length > 0 || startDay.trim().length > 0) {
+        
+        	validateDate(startDay,endDay,e);
+        }
     });
 });
 $(".form-clear").click(function() {
