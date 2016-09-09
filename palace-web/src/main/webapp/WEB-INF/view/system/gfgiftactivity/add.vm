@@ -15,95 +15,189 @@
         "$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js"
     ])
     <!--[if lt IE 8]>
-        <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
-    <![endif]-->
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
     <div id = "addGoods">
-        <p class = "tit">规则设置</p>
-        <div class = "con">
-            <p class = "first"><s>*</s><em>活动名称：</em><input type="text" id="title" value=""></p>
-            <p><s>*</s><em>活动时间：</em>
-                <input type="text" id="startDateStr" class="form-date startDate" readonly />
-
-                <font>至</font>
-                <input type="text" id="endDateStr" class="form-date endDate" readonly />
-            </p>
-            <p><s>*</s><em>活动类型：</em><font>全场参加</font></p>
-            <p><s>*</s><em>优惠设置：</em><font>注：所有赠品前台默认每款sku只能选择一个</font></p>
-        </div>
-        <div class = "addSet">
-            <ul class = "p">
-                <li>
-                    <span><s>*</s><font>满</font></span><input type = "text" id="requirementY"><font>元</font>
-                    <font>赠</font>
-                </li>
-            </ul>
-        </div>
-        <div id="one">
-            <div class = "addSet addShowID addShowID1">
-                <ul>
-                    <li>
-                        <span><s>*</s><font>赠品名称：</font></span><input type = "text" class = "name">
-                    </li>
-                    <li>
-                        <span><s>*</s><font>价格：</font></span><input type = "text" class="price">
-                    </li>
-                    <div class = "uploadID">
-                        <span><em><s>*</s>&nbsp 赠品图：</em></span>
-                        <div class="imgallbox showImg" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
-                            <div class="imgbox imgno">	<!-- 上传图片框   加类名imgno -->
+        <table width="100%" class="baseInfo">
+            <thead>
+            <tr>
+                <td colspan="2">规则设置</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right" width="20%"><s>*</s><em>活动名称：</em></td>
+                <td align="left"><input type = "text" class="txt" value="$!actActivityEditVO.actActivityVO.title" id="title"/></td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><em>活动时间：</em></td>
+                <td align="left">
+                    <input type = "text" class="txt" value="$!actActivityEditVO.actActivityVO.startDate" id="startDate"/>
+                    <font>至</font>
+                    <input type = "text" class="txt" value="$!actActivityEditVO.actActivityVO.endDate" id="endDate"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><em>活动类型：</em></td>
+                <td align="left">全场参加</td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><em>优惠设置：</em></td>
+                <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
+            </tr>
+            </tbody>
+        </table>
+        <style>.mainTableTemplate{}</style>
+        <table width="100%" class="mainTableTemplate" data-id="">
+            <thead>
+            <tr>
+                <td align="left" width="20%">档一</td>
+                <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value=""><font>元</font><font>赠</font></td>
+                <td>
+                    <a class="btn addTableBtn" data-add="0">添加</a>
+                    <!--
+                    <a class="btn delTableBtn" data-add="0">删除</a>
+                    -->
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right"><s>*</s><font>赠品名称：</font></td>
+                <td colspan="2"><input type = "text" class="txt name" value=""/></td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><font>价格：</font></td>
+                <td colspan="2"><input type="text" class="txt price" value=""/></td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><font>赠品图：</font></td>
+                <td>
+                    <div class="imgallbox showImg" data-num="1">
+                        <div class="imgbox imgno">
+                            <div class="imgcon">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                            </div>
+                            <div class="imgwait"></div>
+                            <div class="imgdelbtn">删除图片</div>
+                            <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
+                            <input type="hidden">
+                        </div>
+                        <input type="hidden" class="picVal" />
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        #set($promotionVOList = $!actActivityEditVO.promotionVOList)
+        <!-- $promotionVOList.size() -->
+        #if($promotionVOList.size()>0)
+            #foreach($promotionVO in $promotionVOList)
+            <table width="100%" class="mainTable" data-id="$!promotionVO.id">
+                <thead>
+                <tr>
+                    <td align="left" width="20%">档一</td>
+                    <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.requirementY"><font>元</font><font>赠</font></td>
+                    <td>
+                        <a class="btn addTableBtn" data-add="0">添加</a>
+                        <!--
+                        <a class="btn delTableBtn" data-add="0">删除</a>
+                        -->
+                    </td>
+                </tr>
+                </thead>
+                #set($gifts = $!promotionVO.gifts)
+                #foreach($gift in $!gifts)
+                <tbody>
+                <tr>
+                    <td align="right"><s>*</s><font>赠品名称：</font></td>
+                    <td colspan="2"><input type = "text" class="txt name" value="$!gift.title"/></td>
+                </tr>
+                <tr>
+                    <td align="right"><s>*</s><font>价格：</font></td>
+                    <td colspan="2"><input type="text" class="txt price" value="$!gift.price"/></td>
+                </tr>
+                <tr>
+                    <td align="right"><s>*</s><font>赠品图：</font></td>
+                    <td>
+                        <div class="imgallbox showImg" data-num="1">
+                            <div class="imgbox imgno">
                                 <div class="imgcon">
                                     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
                                 </div>
                                 <div class="imgwait"></div>
                                 <div class="imgdelbtn">删除图片</div>
-                                <a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
+                                <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
                                 <input type="hidden">
                             </div>
-                            <input type="hidden" class="picVal" />
+                            <input type="hidden" class="picVal" value="$!gift.imgUrl" />
                         </div>
-                    </div>
-                    <li class = "speadd">
-                        <a class = "btn btn-primary themeStop addgoodsBtn" data-add="0">添加</a>
-                    </li>
-                </ul>
-            </div>
-            <div class = "addSet addShowID addShowID2" style = "display:none">
-                <ul>
-                    <li>
-                        <span><s>*</s><font>赠品名称：</font></span><input type = "text" class = "name">
-                    </li>
-                    <li>
-                        <span><s>*</s><font>价格：</font></span><input type = "text" class="price">
-                    </li>
-                    <div class = "uploadID">
-                        <span><em><s>*</s>&nbsp 赠品图：</em></span>
-                        <div class="imgallbox showImg" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
-                            <div class="imgbox imgno">	<!-- 上传图片框   加类名imgno -->
-                                <div class="imgcon">
-                                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-                                </div>
-                                <div class="imgwait"></div>
-                                <div class="imgdelbtn">删除图片</div>
-                                <a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
-                                <input type="hidden">
+                    </td>
+                    <td>
+                        <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
+                    </td>
+                </tr>
+                </tbody>
+                #end
+            </table>
+            #end
+        #else
+        <table width="100%" class="mainTable" data-id="">
+            <thead>
+            <tr>
+                <td align="left" width="20%">档一</td>
+                <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value=""><font>元</font><font>赠</font></td>
+                <td>
+                    <a class="btn addTableBtn" data-add="0">添加</a>
+                    <!--
+                    <a class="btn delTableBtn" data-add="0">删除</a>
+                    -->
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right"><s>*</s><font>赠品名称：</font></td>
+                <td colspan="2"><input type = "text" class="txt name" value=""/></td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><font>价格：</font></td>
+                <td colspan="2"><input type="text" class="txt price" value=""/></td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><font>赠品图：</font></td>
+                <td>
+                    <div class="imgallbox showImg" data-num="1">
+                        <div class="imgbox imgno">
+                            <div class="imgcon">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
                             </div>
-                            <input type="hidden" class="picVal" />
+                            <div class="imgwait"></div>
+                            <div class="imgdelbtn">删除图片</div>
+                            <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
+                            <input type="hidden">
                         </div>
+                        <input type="hidden" class="picVal" />
                     </div>
-                    <li class = "speadd">
-                        <a class = "btn btn-primary themeStop delBtn" data-add="0">删除</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <p class = "sBtn">
-            <a class = "btn btn-primary themeStop" id="btnSubmit">保存</a>
-            <a class = "btn btn-primary themeStop" id="btnCancel">取消</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        #end
+        <p class ="sBtn">
+            <a class = "btn btn-primary themeStop" id="saveBtn">保存</a>
+            <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
         </p>
     </div>
-    <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/sea.js"></script>
-    <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/seajs-preload.js"></script>
-    <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/config.js"></script>
+    <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+    <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+    <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
     <script>seajs.use("addgoods");</script>
 <script>
     var actionDefaultPath = "$!utilWebconfig.getActionDefaultFontPath()";
@@ -122,8 +216,9 @@
     var validate = function () {
 
     }
+
     $(function() {
-        $('#btnSubmit').click(function () {
+        $('#saveBtn').click(function () {
             var msg = validate();
             if (msg) {
                 layer.msg(msg, {
@@ -132,38 +227,69 @@
                 });
                 return false;
             }
-            var gifts = new Array();
-            $(".addShowID").each(function () {
-                if("none" != $(this).css("display")){
+
+            var actActivityEditVO = {};
+
+            var actActivityVO = {};
+            var promotionVOList = new Array();
+
+            actActivityVO['title'] = $("#title").val();
+            actActivityVO['startDateStr'] = $("#startDate").val();
+            actActivityVO['endDateStr'] = $("#endDate").val();
+            actActivityVO['entityType'] = 3;
+            actActivityVO['entityId'] = 1000;
+
+            $(".mainTable").each(function(i, n){
+                var promotionVO = {};
+                var requirementY = $(this).find(".requirement").val();
+                promotionVO['priceY'] = requirementY;
+                promotionVO['id'] = $(this).find(".id").val();
+                var tbodys = $(this).find('tbody');
+                var gifts = new Array();
+                tbodys.each(function (j, k) {
                     var gift = {};
-                    gift['title'] = $(this).find(".name").val();
-                    gift['price'] = $(this).find(".price").val();
-                    gift['imgUrl'] = $(this).find(".picVal").val();
+                    gift['title'] = $(k).find(".name").val();
+                    gift['imgUrl'] = $(k).find(".picVal").val();
+                    gift['price'] = $(k).find(".price").val();
                     gifts.push(gift);
-                }
-            })
-            var saveData = {};
-            saveData['title'] = $("#title").val();
-            saveData['startDateStr'] = $("#startDateStr").val();
-            saveData['endDateStr'] = $("#endDateStr").val();
-            saveData['entityType'] = 3;
-            saveData['entityId'] = 1000;
-            saveData['requirementY'] = $("#requirementY").val();
-            saveData['gifts']=gifts;
-            console.log(saveData);
-            console.log(JSON.stringify(saveData));
+                });
+                promotionVO['gifts'] = gifts;
+                promotionVOList.push(promotionVO);
+            });
+
+            actActivityEditVO['actActivityVO'] = actActivityVO;
+            actActivityEditVO['promotionVOList'] = promotionVOList;
+            actActivityEditVO['promotionVOListStr'] = '';
+            console.log(actActivityEditVO);
+            console.log(JSON.stringify(actActivityEditVO));
             var actionUrl = "";
             actionUrl = actionDefaultPath + '/GF/giftActivityManage/add';
-            $.ajax({
+            /*$.ajax({
                 type:"POST",
                 url: actionUrl,
                 dataType:"json",
                 contentType:"application/json",
-                data:JSON.stringify(saveData),
+                data: JSON.stringify(actActivityEditVO),
                 success:function(data){
                     console.log(data);
                 }
-            });
+            });*/
         });
     });
+    /*
+    *
+            for(i = 0; i<5; i++){
+                var gifts = new Array();
+                var gift = {};
+                gift['title'] = 'title';
+                gift['imgUrl'] = 'xxx.jpg';
+                gift['price'] = 100;
+                gifts.push(gift);
+                var promotionVO = {};
+                promotionVO['priceY'] = 10*i+100;
+                promotionVO['id'] = 0;
+                promotionVO['feature'] = JSON.stringify(gifts);
+                promotionVOList.push(promotionVO);
+            }
+     */
 </script>

@@ -1,0 +1,212 @@
+    #set($layout = "/system/layout/layout-gf.vm")
+    #parse("/system/layout/layout-jiuxiu-meta.vm")
+    #set($title = "查看新增自助商品")
+    #set($styles = [
+        "$!rs_js_css_path_jiuxiu/css/zui.min.css"
+        ,"$!rs_js_css_path_jiuxiu/css/base.css"
+        ,"$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+        ,"$!rs_js_css_path_jiuxiu/css/promotion/edit.css"
+        ,"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css"
+        ,"$!rs_js_css_path_jiuxiu/css/imgupload.css"
+        ,"$!rs_js_css_path_jiuxiu/css/addgoods.css"
+    ])
+
+    #set($jses = [
+        "$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js"
+    ])
+    <!--[if lt IE 8]>
+        <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+    <![endif]-->
+    <div id = "addGoods">
+        <p class = "tit">规则设置</p>
+        <div class = "con">
+            <p class = "first"><s>*</s><em>活动名称：</em><input type="text" id="title" value=""></p>
+            <p><s>*</s><em>活动时间：</em>
+                <input type="text" id="startDateStr" class="form-date startDate" readonly />
+
+                <font>至</font>
+                <input type="text" id="endDateStr" class="form-date endDate" readonly />
+            </p>
+            <p><s>*</s><em>活动类型：</em><font>全场参加</font></p>
+            <p><s>*</s><em>优惠设置：</em><font>注：所有赠品前台默认每款sku只能选择一个</font></p>
+        </div>
+        <div class = "addSet">
+            <ul class = "p">
+                <li>
+                    <span><s>*</s><font>满</font></span><input type = "text" id="requirementY"><font>元</font>
+                    <font>赠</font>
+                </li>
+            </ul>
+        </div>
+        <div id="one">
+            <div class = "addSet addShowID addShowID1">
+                <ul>
+                    <li>
+                        <span><s>*</s><font>赠品名称：</font></span><input type = "text" class = "name">
+                    </li>
+                    <li>
+                        <span><s>*</s><font>价格：</font></span><input type = "text" class="price">
+                    </li>
+                    <div class = "uploadID">
+                        <span><em><s>*</s>&nbsp 赠品图：</em></span>
+                        <div class="imgallbox showImg" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
+                            <div class="imgbox imgno">	<!-- 上传图片框   加类名imgno -->
+                                <div class="imgcon">
+                                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                                </div>
+                                <div class="imgwait"></div>
+                                <div class="imgdelbtn">删除图片</div>
+                                <a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
+                                <input type="hidden">
+                            </div>
+                            <input type="hidden" class="picVal" />
+                        </div>
+                    </div>
+                    <li class = "speadd">
+                        <a class = "btn btn-primary themeStop addgoodsBtn" data-add="0">添加</a>
+                    </li>
+                </ul>
+            </div>
+            <div class = "addSet addShowID addShowID2" style = "display:none">
+                <ul>
+                    <li>
+                        <span><s>*</s><font>赠品名称：</font></span><input type = "text" class = "name">
+                    </li>
+                    <li>
+                        <span><s>*</s><font>价格：</font></span><input type = "text" class="price">
+                    </li>
+                    <div class = "uploadID">
+                        <span><em><s>*</s>&nbsp 赠品图：</em></span>
+                        <div class="imgallbox showImg" data-num="1"> <!--  data-num = "n"设置图片最大上传数量  -->
+                            <div class="imgbox imgno">	<!-- 上传图片框   加类名imgno -->
+                                <div class="imgcon">
+                                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                                </div>
+                                <div class="imgwait"></div>
+                                <div class="imgdelbtn">删除图片</div>
+                                <a class='imguplbtn'><input type="file" name="adpicfile" class="adpicfile"></a>
+                                <input type="hidden">
+                            </div>
+                            <input type="hidden" class="picVal" />
+                        </div>
+                    </div>
+                    <li class = "speadd">
+                        <a class = "btn btn-primary themeStop delBtn" data-add="0">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <p class = "sBtn">
+            <a class = "btn btn-primary themeStop" id="btnSubmit">保存</a>
+            <a class = "btn btn-primary themeStop" id="btnCancel">取消</a>
+        </p>
+    </div>
+    <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/sea.js"></script>
+    <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/seajs-preload.js"></script>
+    <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/config.js"></script>
+    <script>seajs.use("addgoods");</script>
+<script>
+    var actionDefaultPath = "$!utilWebconfig.getActionDefaultFontPath()";
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
+            });
+    var validate = function () {
+
+    }
+    $(function() {
+        $('#btnSubmit').click(function () {
+            var msg = validate();
+            if (msg) {
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var gifts = new Array();
+            $(".addShowID").each(function () {
+                if("none" != $(this).css("display")){
+                    var gift = {};
+                    gift['title'] = $(this).find(".name").val();
+                    gift['price'] = $(this).find(".price").val();
+                    gift['imgUrl'] = $(this).find(".picVal").val();
+                    gifts.push(gift);
+                }
+            })
+
+            var actActivityEditVO = new Array();
+
+            var actActivityVO = new Array();
+            var promotionVOList = new Array();
+
+
+            actActivityVO['title'] = '';
+            actActivityVO['entityType'] = 3;
+            actActivityVO['entityId'] = 1000;
+            actActivityVO['type'] = '';
+            actActivityVO['startDateStr'] = '';
+            actActivityVO['endDateStr'] = '';
+
+            $(".addShowID").each(function () {
+
+                promotionVO['requirementY'] = ;
+                promotionVO['']
+                if("none" != $(this).css("display")){
+                    var gift = {};
+                    gift['title'] = $(this).find(".name").val();
+                    gift['price'] = $(this).find(".price").val();
+                    gift['imgUrl'] = $(this).find(".picVal").val();
+                    gifts.push(gift);
+                    var p = {};
+                    p['gifts'] = gifts;
+                    promotionVO['gifts'] = gifts;
+                }
+
+
+            })
+            for(i = 0; i<5; i++){
+            var promotionVO = new Array();
+                promotionVO['feature']
+                promotionVOList.push(promotionVO);
+            }
+            actActivityEditVO['actActivityVO'] = actActivityVO;
+            actActivityEditVO['promotionVOList'] = promotionVOList;
+            var saveData = new Array();
+
+            saveData['title'] = $("#title").val();
+            saveData['startDateStr'] = $("#startDateStr").val();
+            saveData['endDateStr'] = $("#endDateStr").val();
+            saveData['entityType'] = 3;
+            saveData['entityId'] = 1000;
+            saveData['requirementY'] = $("#requirementY").val();
+            saveData['gifts'] = gifts;
+
+
+
+            saveData['actActivityVO'] = actActivityVO;
+            console.log(saveData);
+            console.log(JSON.stringify(saveData));
+            var actionUrl = "";
+            actionUrl = actionDefaultPath + '/GF/giftActivityManage/add';
+            $.ajax({
+                type:"POST",
+                url: actionUrl,
+                dataType:"json",
+                contentType:"application/json",
+                data:JSON.stringify(saveData),
+                success:function(data){
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>

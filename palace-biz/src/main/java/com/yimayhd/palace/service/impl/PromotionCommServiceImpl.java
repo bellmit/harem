@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.dubbo.common.json.JSONObject;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.*;
+import com.yimayhd.promotion.client.domain.PromotionFeature;
+import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
 import com.yimayhd.promotion.client.result.*;
 import com.yimayhd.promotion.client.service.PromotionPublishService;
 import org.apache.commons.collections.CollectionUtils;
@@ -357,7 +360,42 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 //        actActivityDO.setType(type);
 //        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);
     }
+    public ActActivityEditVO getGiftById(long id) throws Exception {
 
+        ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);
+        if(actResult == null){
+            log.error("activityPromotionServiceRef.getActPromotionById return null and param : " + id);
+            throw new BaseException("返回结果为空");
+        } else if(!actResult.isSuccess()){
+            log.error("activityPromotionServiceRef.getActPromotionById error:" + actResult + "and param :" + id);
+            throw new BaseException(actResult.getMsg());
+        }
+        ActActivityEditVO actActivityEditVO = new ActActivityEditVO();
+        ActActivityVO actActivityVO = new ActActivityVO();
+        List<PromotionVO> promotionVOList = new ArrayList<PromotionVO>();
+        ActPromotionDTO actPromotionDTO = actResult.getT();
+        List<PromotionDO> promotionDOList = actPromotionDTO.getPromotionDOList();
+        ActActivityPromotionDO actActivityPromotionDO = actPromotionDTO.getActActivityPromotionDO();
+
+        actActivityVO.setId(actActivityPromotionDO.getId());
+        actActivityVO.setTitle(actActivityPromotionDO.getTitle());
+        actActivityVO.setStartDate(actActivityPromotionDO.getStartDate());
+        actActivityVO.setEndDate(actActivityPromotionDO.getEndDate());
+
+        for(PromotionDO promotionDO:promotionDOList){
+            PromotionVO promotionVO = new PromotionVO();
+            promotionVO.setId(promotionDO.getId());
+            promotionVO.setResultPriceY(promotionDO.getRequirement());
+            Map<String, Object> feature = (Map)JSON.parseObject(promotionDO.getFeature(), HashMap.class);
+            Object object = feature.get("gifts");
+            List<GiftVO> gifts = (List<GiftVO>)object;
+            promotionVO.setGifts(gifts);
+            promotionVOList.add(promotionVO);
+        }
+        actActivityEditVO.setActActivityVO(actActivityVO);
+        actActivityEditVO.setPromotionVOList(promotionVOList);
+        return actActivityEditVO;
+    }
     public PageVO<PromotionDO> getGiftActivtyList(GiftActivityVO giftActivityVO) {
         PageVO<PromotionDO> giftActivtys = new PageVO<PromotionDO>();
         List<Integer> statusList = new ArrayList<Integer>() ;
@@ -411,6 +449,97 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         return giftActivityVO;
     }
 
+    @Override
+    public boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception {
+        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
+        List<PromotionVO> promotionVOList = actActivityEditVO.getPromotionVOList();
+        PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
+        Date startDate = new Date();
+        Date endDate = new Date();
+        try {
+            startDate = DateUtil.convertStringToDate(actActivityVO.getStartDateStr());
+            endDate = DateUtil.convertStringToDate(actActivityVO.getEndDateStr());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
+
+        for(PromotionVO promotionVO:promotionVOList) {
+            PromotionDO promotionDO = new PromotionDO();
+
+            promotionDO.setTitle(actActivityVO.getTitle());
+            promotionDO.setRequirement(Math.round(promotionVO.getPriceY()*100));
+//            promotionDO.setPromotionType(PromotionType.GIFT.getType());
+            promotionDO.setPromotionType(7);
+            promotionDO.setEntityType(EntityType.SHOP.getType());
+            promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
+            //PromotionFeatureKey
+            promotionDO.setFeature(promotionVO.getFeature());
+            promotionDO.setStartTime(startDate);
+            promotionDO.setEndTime(endDate);
+            promotionDOList.add(promotionDO);
+        }
+        promotionEditDTO.setAddPromotionDOList(promotionDOList);
+        ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+        if(baseResult == null){
+            log.error("PromotionCommService.add error: " + promotionEditDTO);
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.add error:" + promotionEditDTO);
+            throw new BaseException(baseResult.getMsg());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateGift(ActActivityEditVO actActivityEditVO) throws Exception {
+        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
+        List<PromotionVO> promotionVOList = actActivityEditVO.getPromotionVOList();
+        PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
+        Date startDate = new Date();
+        Date endDate = new Date();
+        try {
+            startDate = DateUtil.convertStringToDate(actActivityVO.getStartDateStr());
+            endDate = DateUtil.convertStringToDate(actActivityVO.getEndDateStr());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
+
+        for(PromotionVO promotionVO:promotionVOList) {
+            PromotionDO promotionDO = new PromotionDO();
+            promotionDO.setId(promotionVO.getId());
+            promotionDO.setTitle(actActivityVO.getTitle());
+            promotionDO.setRequirement(Math.round(promotionVO.getPriceY()*100));
+//            promotionDO.setPromotionType(PromotionType.GIFT.getType());
+            promotionDO.setPromotionType(7);
+            promotionDO.setEntityType(EntityType.SHOP.getType());
+            promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
+            promotionDO.setFeature(promotionVO.getFeature());
+            promotionDO.setStartTime(startDate);
+            promotionDO.setEndTime(endDate);
+            promotionDOList.add(promotionDO);
+        }
+        promotionEditDTO.setAddPromotionDOList(promotionDOList);
+        ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+        if(baseResult == null){
+            log.error("PromotionCommService.add error: " + promotionEditDTO);
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.add error:" + promotionEditDTO);
+            throw new BaseException(baseResult.getMsg());
+        }
+        return true;
+    }
+
+    public boolean updateEndGift(ActActivityEditVO actActivityEditVO) throws Exception {
+        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
+        actActivityVO.getId();
+        actActivityVO.getEndDateStr();
+        return true;
+    }
     public boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
         PromotionDO promotionDO = new PromotionDO();
 

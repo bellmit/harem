@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
 import com.yimayhd.palace.base.PageVO;
@@ -40,40 +41,62 @@ public class GFGiftActivityManageController {
         model.addAttribute("promotionStatusList",promotionStatusList);
         return "/system/gfgiftactivity/list";
     }
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean add(@RequestBody GiftActivityVO giftActivityVO) throws Exception {
-        return promotionCommService.addGiftActivity(giftActivityVO);
+    public Boolean add(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
+        return promotionCommService.addGift(actActivityEditVO);
     }
+
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean editGiftActivity(@RequestBody GiftActivityVO giftActivityVO) throws Exception{
-        return promotionCommService.updateGiftActivity(giftActivityVO);
+    public Boolean editGiftActivity(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception{
+        return promotionCommService.updateGift(actActivityEditVO);
     }
+
     @RequestMapping(value="/toAdd", method = RequestMethod.GET)
     public String toAddGiftActivity(){
         return "/system/gfgiftactivity/add";
     }
+
     @RequestMapping("/toEdit/{id}")
     public String toEditGiftActivity(Model model, @PathVariable(value = "id") long id){
         try {
-            ActActivityEditVO actActivityEditVO = promotionCommService.getById(id);
-            List<PromotionVO> promotionVOs = actActivityEditVO.getPromotionVOList();
-            PromotionVO promotionVO = promotionVOs.get(0);
-            promotionVO.getFeature();
-            Map<String, List<GiftVO>> hashMap = JSON.toJavaObject(promotionVO.getFeature(), Map<String, List<GiftVO>>);
-            model.addAttribute("promotionVO", promotionVO);
-            return "/system/gfgiftactivity/edit";
+            ActActivityEditVO actActivityEditVO = promotionCommService.getGiftById(id);
+            model.addAttribute("actActivityEditVO", actActivityEditVO);
+            return "/system/gfgiftactivity/add";
         } catch (Exception e) {
             e.printStackTrace();
             return "/error";
         }
     }
+
+    /**
+     * 下架
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean close(@PathVariable("id") long id) throws Exception {
+        return promotionCommService.close(id);
+    }
+
+    /**
+     * 修改结束时间
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/end/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean endTime(@PathVariable("id") long id, @RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
+        return promotionCommService.updateEndGift(actActivityEditVO);
+    }
+
     @RequestMapping("/show/{id}")
     public String showGiftActivity(Model model, @PathVariable(value = "id") long id){
         return "/system/gfgiftactivity/show";
-    }
-    @RequestMapping("/toEdit")
-    public void toEditGiftActivity(){
     }
 }

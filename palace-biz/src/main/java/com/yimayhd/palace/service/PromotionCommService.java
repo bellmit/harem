@@ -49,7 +49,7 @@ public interface PromotionCommService {
      * @throws Exception
      */
     ActActivityEditVO getById(long id) throws Exception;
-
+    ActActivityEditVO getGiftById(long id) throws Exception;
     /**
      * 优惠上架
      * @param id 优惠ID
@@ -63,6 +63,12 @@ public interface PromotionCommService {
     boolean close(long id)throws Exception;
 
     boolean isActivityNameRepeat(String name, int type, long activityId);
+
+    boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception;
+
+    boolean updateGift(ActActivityEditVO actActivityEditVO) throws Exception;
+
+    boolean updateEndGift(ActActivityEditVO actActivityEditVO) throws Exception;
 
     boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception;
 
