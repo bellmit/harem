@@ -372,6 +372,16 @@ $(function() {
                     });
                     return false;
                 }
+
+                var addedLength=$(".audio-item").length;
+                if((addedLength+items.length)>20){
+                    layer.msg("语音文件最多只能添加20个", {
+                        icon: 2,
+                        time: 1500
+                    });
+                    return false;
+                }
+                
                 addAudioItem(items);
                 return true;
             });
