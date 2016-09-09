@@ -186,7 +186,7 @@ function validateDate(startDay,endDay,e) {
 	
 		var endDate = new Date(endDay);
 	}
-	if(Date.parse(startDate) <= Date.parse(endDate)) {
+	if(startDay.trim().length <=0 || Date.parse(startDate) <= Date.parse(endDate)) {
 		return;
 	}
 	e.preventDefault();
