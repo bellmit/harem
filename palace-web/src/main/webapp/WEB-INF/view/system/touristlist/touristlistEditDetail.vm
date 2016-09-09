@@ -331,7 +331,7 @@ function addAudioItem(datas) {
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
                 '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">' + str + '</textarea>' +
-                '           <input type="text" class="focus-name" value="' + data.inputFileTitle + '">' +
+                '           <input type="text" class="focus-name" maxlength="20" placeholder="请输入20字以内字符" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
                 '   <div class="pull-left">' +
@@ -373,15 +373,15 @@ $(function() {
                     return false;
                 }
 
-                var addedLength=$(".audio-item").length;
-                if((addedLength+items.length)>20){
+                var addedLength = $(".audio-item").length;
+                if ((addedLength + items.length) > 20) {
                     layer.msg("语音文件最多只能添加20个", {
                         icon: 2,
                         time: 1500
                     });
                     return false;
                 }
-                
+
                 addAudioItem(items);
                 return true;
             });
@@ -451,12 +451,17 @@ function saveInfo() {
         tourTime: $("#tourTime").val(),
         attrNo: $("#attrNo").val()
     };
+    var focusNameValid = true;
     var focusOrderJson = [];
     $(".audio-list .audio-item").each(function(i, d) {
         var item = $(d);
         var json = JSON.parse(item.find(".focus-json").val());
         console.log(json);
-        json.inputFileTitle = item.find(".focus-name").val();
+        json.inputFileTitle = (item.find(".focus-name").val() || '').trim();
+
+        if (json.inputFileTitle.length == 0) {
+            focusNameValid = false;
+        }
 
         focusOrderJson.push({
             id: json.id,
@@ -465,6 +470,14 @@ function saveInfo() {
             audio: json.fileKey
         });
     });
+
+    if (!focusNameValid) {
+        layer.msg("看点名称不能为空，请输入。", {
+            icon: 2
+        });
+
+        retrun;
+    }
 
     spotInfo.focusOrder = JSON.stringify(focusOrderJson);
     $.ajax({

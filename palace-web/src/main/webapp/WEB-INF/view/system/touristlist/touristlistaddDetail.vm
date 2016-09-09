@@ -320,7 +320,7 @@ function addAudioItem(datas) {
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
                 '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">' + str + '</textarea>' +
-                '           <input type="text" class="focus-name" maxlength="20" datatype="*1-20" value="' + data.inputFileTitle + '">' +
+                '           <input type="text" class="focus-name" maxlength="20" placeholder="请输入20字以内字符" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
                 '   <div class="pull-left">' +
@@ -441,19 +441,33 @@ function saveInfo() {
         tourTime: $("#tourTime").val(),
         attrNo: $("#spotNumber").val()
     };
+
+    var focusNameValid = true;
     var focusOrderJson = [];
     $(".audio-list .audio-item").each(function(i, d) {
         var item = $(d);
         var json = JSON.parse(item.find(".focus-json").val());
-        console.log(json);
-        json.inputFileTitle = item.find(".focus-name").val();
+       json.inputFileTitle = (item.find(".focus-name").val()||'').trim();
+
+        if(json.inputFileTitle.length==0){
+            focusNameValid=false;
+        }
 
         focusOrderJson.push({
+            id: json.id,
             name: json.inputFileTitle,
             audioTime: json.duration,
             audio: json.fileKey
         });
     });
+
+    if(!focusNameValid){
+        layer.msg("看点名称不能为空，请输入。", {
+                icon: 2
+            });
+
+        return;
+    }
 
     spotInfo.focusOrder = JSON.stringify(focusOrderJson);
     $.ajax({
