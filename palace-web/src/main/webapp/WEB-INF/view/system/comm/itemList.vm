@@ -103,7 +103,7 @@
                 #foreach($itemInfo in $itemList) #set($item = $itemInfo.itemVO) #set($merchant = $itemInfo.icMerchantVO)
                 <tr id="item_$!{item.id}" item-id="$!item.id">
                     <td>
-                        <input class="subChecked" type="checkbox" value="$!item.id">
+                        <input class="subChecked" type="checkbox" value="$!{item.id}">
                     </td>
                     <td>$!item.id</td>
                     <td>
@@ -178,13 +178,7 @@ function validateItemId(itemId, e) {
 	return false;
 }
 function validateDate(startDay,endDay,e) {
-	if(startDay.trim().length == 0 && endDay.trim().length > 0) {
-		e.preventDefault();
-	    layer.alert('开始日期不能为空', {
-	        icon: 2
-	    });
-	    return false;
-	}
+	
 	var startDate = new Date(startDay);
 	if(endDay.trim().length == 0) {
 		var endDate = new Date();
@@ -218,7 +212,7 @@ $(function() {
     $("#itemListForm").submit(function(e) {
         var itemId = $("#itemId").val();
        	var result = validateItemId(itemId, e);
-       	if(!result) {
+       	if(result == false) {
        		return result;
        	}
         var startDay = $("input[name='beginDate']").val();
