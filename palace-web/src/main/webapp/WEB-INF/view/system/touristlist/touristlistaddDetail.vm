@@ -174,7 +174,7 @@
                                 <img class="upload-img" id="logoUrlImg" imgurl="" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
                                 <div class="delete-btn">删除</div>
                             </div>
-                            <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
+                            <span>图片大小不能超过3M，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                         </div>
                     </td>
                 </tr>
@@ -299,7 +299,7 @@ function initUploadFile(fileId, hiddenId, imgId) {
                     icon: 2
                 });
             }
-        });
+        },3*1024);
     });
 }
 

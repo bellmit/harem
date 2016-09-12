@@ -140,7 +140,7 @@
                             <div class="delete-btn">删除</div>
                             <input type="hidden" id="listImg" name="listImg" value="$!{guideScenicVO.listImg}">
                         </div>
-                        <span>图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
+                        <span>图片大小不能超过3M，格式为JPG,JPEG,PNG，建议尺寸：750×360</span>
                     </div>
                 </td>
                 <th><span class="spColor">*</span>导览电子地图：</th>
@@ -306,7 +306,7 @@
                         icon: 2
                     });
                 }
-            }, 500);
+            }, 3*1024);
         });
     }
 
