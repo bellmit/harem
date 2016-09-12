@@ -45,6 +45,7 @@
 		<lgcenter.client.version>0.0.6-SNAPSHOT</lgcenter.client.version>
 		<refund.version>1.0.0-SNAPSHOT</refund.version>
 		<solrsearch.version>1.0.3-SNAPSHOT</solrsearch.version>
+		<live.version>0.0.1-SNAPSHOT</live.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -535,6 +536,12 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+            <groupId>com.yimayhd.live</groupId>
+            <artifactId>live-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        	</dependency>
+
 			<dependency>
 				<groupId>com.yimayhd.pay</groupId>
 				<artifactId>paycore-client</artifactId>
