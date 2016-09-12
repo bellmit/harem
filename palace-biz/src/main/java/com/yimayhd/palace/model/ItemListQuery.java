@@ -18,7 +18,7 @@ public class ItemListQuery extends BaseQuery {
 	private Integer status;// 状态
 	private Date beginDate;// 发布开始时间
 	private Date endDate;// 发布结束时间
-	private String merchantName; //店铺名称
+	private String merchantName; //商户名称（店铺名称或昵称）
 	private Long outId;//外部id
 	private Integer outType;//外部类型 参考 ResourceType
 	
