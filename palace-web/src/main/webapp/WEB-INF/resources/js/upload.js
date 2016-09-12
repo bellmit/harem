@@ -6,17 +6,21 @@ var fileUpload = function(id, type, callBack, fileSize) { //id：上传控件筛
 
 var uploadSenedFile = function(files, type, callBack, fileSize) { //id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data，fileSize：限制上传大小
     var oFiles = files;
+
+    //默认大小为4M
+    var maxSize = fileSize || 4 * 1024;
     // 实例化一个表单数据对象
     var formData = new FormData();
     // 遍历文件列表，插入到表单数据中
     for (var i = 0, file; file = oFiles[i]; i++) {
-        if (fileSize && file.size > fileSize * 1024) {
-            layer.msg('图片不能大于' + formatSize(fileSize*1024), { icon: 2 });
-            return;
-        } else if (file.size > 4 * 1024 * 1024) {
-            layer.msg('图片不能大于4M', { icon: 2 });
+        if (file.size > maxSize * 1024) {
+            layer.msg('图片不能大于' + formatSize(maxSize * 1024), { icon: 2 });
             return;
         }
+        /*else if (file.size > 4 * 1024 * 1024) {
+            layer.msg('图片不能大于4M', { icon: 2 });
+            return;
+        }*/
 
         var fileName = file.name;
         var fileType = (fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length)).toLowerCase();
@@ -62,7 +66,7 @@ var uploadSenedFile = function(files, type, callBack, fileSize) { //id：上传�
 }
 
 //格式化文件大小，输出成带单位的字符串
-function formatSize(size,units) {
+function formatSize(size, units) {
     var unit;
 
     units = units || ['B', 'K', 'M', 'G', 'TB'];
