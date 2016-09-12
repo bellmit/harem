@@ -121,7 +121,7 @@
 
         $('.themeDetail').each(function(){
             $(this).click(function(){
-                var url = actionDefaultPath + '/GF/giftActivityManage/toEdit/'+ $(this).attr('promotioId');
+                var url = actionDefaultPath + '/GF/giftActivityManage/edit/'+ $(this).attr('promotioId');
                 top.tabsAdd("",url,2,$(this).text());
             });
         });

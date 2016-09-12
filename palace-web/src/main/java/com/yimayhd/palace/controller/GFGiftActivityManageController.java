@@ -59,7 +59,7 @@ public class GFGiftActivityManageController {
         return "/system/gfgiftactivity/add";
     }
 
-    @RequestMapping("/toEdit/{id}")
+    @RequestMapping("/edit/{id}")
     public String toEditGiftActivity(Model model, @PathVariable(value = "id") long id){
         try {
             ActActivityEditVO actActivityEditVO = promotionCommService.getGiftById(id);

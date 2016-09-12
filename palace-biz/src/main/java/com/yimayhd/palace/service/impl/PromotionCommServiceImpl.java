@@ -385,11 +385,15 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         for(PromotionDO promotionDO:promotionDOList){
             PromotionVO promotionVO = new PromotionVO();
             promotionVO.setId(promotionDO.getId());
-            promotionVO.setResultPriceY(promotionDO.getRequirement());
-            Map<String, Object> feature = (Map)JSON.parseObject(promotionDO.getFeature(), HashMap.class);
-            Object object = feature.get("gifts");
-            List<GiftVO> gifts = (List<GiftVO>)object;
-            promotionVO.setGifts(gifts);
+            promotionVO.setPriceY(Math.round(promotionDO.getRequirement()/100.00));
+            try {
+                Map<String, Object> feature = (Map) JSON.parseObject(promotionDO.getFeature(), HashMap.class);
+                Object object = feature.get("gifts");
+                List<GiftVO> gifts = (List<GiftVO>) object;
+                promotionVO.setGifts(gifts);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
             promotionVOList.add(promotionVO);
         }
         actActivityEditVO.setActActivityVO(actActivityVO);
@@ -468,19 +472,34 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         for(PromotionVO promotionVO:promotionVOList) {
             PromotionDO promotionDO = new PromotionDO();
 
+            promotionDO.setId(promotionVO.getId());
             promotionDO.setTitle(actActivityVO.getTitle());
+//            promotionDO.setRequirement(promotionVO.getRequirement());
             promotionDO.setRequirement(Math.round(promotionVO.getPriceY()*100));
 //            promotionDO.setPromotionType(PromotionType.GIFT.getType());
             promotionDO.setPromotionType(7);
             promotionDO.setEntityType(EntityType.SHOP.getType());
             promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
             //PromotionFeatureKey
-            promotionDO.setFeature(promotionVO.getFeature());
+
+            Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
+            List<GiftVO> gifts = new ArrayList<GiftVO>();
+            for(GiftVO gift: promotionVO.getGifts()) {
+                gift.setPrice(Math.round(gift.getPriceY()*100));
+                gifts.add(gift);
+            }
+            feature.put("gifts", gifts);
+            promotionDO.setFeature(JSON.toJSON(feature).toString());
+
             promotionDO.setStartTime(startDate);
             promotionDO.setEndTime(endDate);
             promotionDOList.add(promotionDO);
         }
-        promotionEditDTO.setAddPromotionDOList(promotionDOList);
+        if(actActivityVO.getId()>0){
+            promotionEditDTO.setUpdPromotionDOList(promotionDOList);
+        } else {
+            promotionEditDTO.setAddPromotionDOList(promotionDOList);
+        }
         ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
         if(baseResult == null){
             log.error("PromotionCommService.add error: " + promotionEditDTO);
