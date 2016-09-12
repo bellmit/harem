@@ -215,7 +215,7 @@
 								<div class="audiohead">
 								<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleAudioItemVO.audioPic" class="audioheadimg" imgval="$!articleItem.articleAudioItemVO.audioPic">
 								<i class="ic-audio ic-play"></i>
-								<audio loop="loop" class="myaudio" src="$utilWebconfig.getAudioRootPath()/$!articleItem.articleAudioItemVO.audioUrl"></audio>
+								<audio loop="loop" class="myaudio" src="$!articleItem.articleAudioItemVO.audioUrl"></audio>
 								</div>
 								<div class="audiomsg">
 								<p class="auname">$!articleItem.articleAudioItemVO.audioName</p>
