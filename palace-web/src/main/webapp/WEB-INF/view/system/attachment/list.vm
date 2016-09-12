@@ -330,7 +330,7 @@
             var data = {"id": id};
             submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/status/down", "get", data);
         });
-        $(".dateInp").datetimepicker({
+        $(".startTime").datetimepicker({
             language: "zh-CN",
             weekStart: 1,
             todayBtn: 1,
@@ -340,6 +340,17 @@
             minView: 2,
             forceParse: 0,
             format: "yyyy-mm-dd 00:00:00"
+        });
+        $(".endTime").datetimepicker({
+            language: "zh-CN",
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd 23:59:59"
         });
     });
 </script>
