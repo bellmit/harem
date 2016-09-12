@@ -71,10 +71,10 @@
             #end
         </table>
     </div>
-</form>
 #*分页*#
 #parse("/page.vm")
-#pageStyle("promotionListForm")
+#pageStyle("giftActivityListForm")
+</form>
 <script>
     $(".form-date").datetimepicker(
             {

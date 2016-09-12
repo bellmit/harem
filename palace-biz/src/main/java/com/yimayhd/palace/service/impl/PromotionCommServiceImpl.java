@@ -457,19 +457,25 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     public boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception {
         ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
         List<PromotionVO> promotionVOList = actActivityEditVO.getPromotionVOList();
-        PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
+
         Date startDate = new Date();
         Date endDate = new Date();
         try {
-            startDate = DateUtil.convertStringToDate(actActivityVO.getStartDateStr());
-            endDate = DateUtil.convertStringToDate(actActivityVO.getEndDateStr());
+            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
+            endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
+        List<PromotionDO> addPromotionDOList = new ArrayList<PromotionDO>();
+        List<PromotionDO> updPromotionDOList = new ArrayList<PromotionDO>();
+        List<Long> delPromotionDOIds = new ArrayList<Long>();
 
         for(PromotionVO promotionVO:promotionVOList) {
+            if(promotionVO.getId()>0 && promotionVO.isDel()){
+                delPromotionDOIds.add(promotionVO.getId());
+                continue;
+            }
             PromotionDO promotionDO = new PromotionDO();
 
             promotionDO.setId(promotionVO.getId());
@@ -493,21 +499,46 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
             promotionDO.setStartTime(startDate);
             promotionDO.setEndTime(endDate);
-            promotionDOList.add(promotionDO);
+            if(promotionVO.getId()>0){
+                updPromotionDOList.add(promotionDO);
+            } else {
+                addPromotionDOList.add(promotionDO);
+            }
         }
+
         if(actActivityVO.getId()>0){
-            promotionEditDTO.setUpdPromotionDOList(promotionDOList);
+            ActPromotionEditDTO actPromotionEditDTO = new ActPromotionEditDTO();
+            ActActivityPromotionDO actActivityPromotionDO = new ActActivityPromotionDO();
+            actActivityPromotionDO.setId(actActivityVO.getId());
+            actActivityPromotionDO.setStartDate(startDate);
+            actActivityPromotionDO.setEndDate(endDate);
+            actActivityPromotionDO.setTitle(actActivityVO.getTitle());
+            actPromotionEditDTO.setActActivityPromotionDO(actActivityPromotionDO);
+
+            actPromotionEditDTO.setUpdPromotionDOList(updPromotionDOList);
+            actPromotionEditDTO.setAddPromotionDOList(addPromotionDOList);
+            actPromotionEditDTO.setDelPromotionIdList(delPromotionDOIds);
+            ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
+            if(baseResult == null){
+                log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
+                throw new BaseException("返回结果错误");
+            } else if(!baseResult.isSuccess()){
+                log.error("PromotionCommService.modify-promotionPublishService.updPromotion error:" + actPromotionEditDTO);
+                throw new BaseException(baseResult.getMsg());
+            }
         } else {
-            promotionEditDTO.setAddPromotionDOList(promotionDOList);
+            PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
+            promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
+            ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+            if(baseResult == null){
+                log.error("PromotionCommService.add error: " + promotionEditDTO);
+                throw new BaseException("返回结果错误");
+            } else if(!baseResult.isSuccess()){
+                log.error("PromotionCommService.add error:" + promotionEditDTO);
+                throw new BaseException(baseResult.getMsg());
+            }
         }
-        ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
-        if(baseResult == null){
-            log.error("PromotionCommService.add error: " + promotionEditDTO);
-            throw new BaseException("返回结果错误");
-        } else if(!baseResult.isSuccess()){
-            log.error("PromotionCommService.add error:" + promotionEditDTO);
-            throw new BaseException(baseResult.getMsg());
-        }
+
         return true;
     }
 

@@ -13,6 +13,7 @@ import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +57,7 @@ public class GFGiftActivityManageController {
 
     @RequestMapping(value="/toAdd", method = RequestMethod.GET)
     public String toAddGiftActivity(){
-        return "/system/gfgiftactivity/add";
+        return "/system/gfgiftactivity/edit";
     }
 
     @RequestMapping("/edit/{id}")
@@ -64,7 +65,7 @@ public class GFGiftActivityManageController {
         try {
             ActActivityEditVO actActivityEditVO = promotionCommService.getGiftById(id);
             model.addAttribute("actActivityEditVO", actActivityEditVO);
-            return "/system/gfgiftactivity/add";
+            return "/system/gfgiftactivity/edit";
         } catch (Exception e) {
             e.printStackTrace();
             return "/error";
