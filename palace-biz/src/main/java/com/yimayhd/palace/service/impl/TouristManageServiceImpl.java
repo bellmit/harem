@@ -151,7 +151,6 @@ public class TouristManageServiceImpl implements TouristManageService {
         if (id == 0) {
             return null;
         }
-
         // 图文详情
         PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.SCENICSPOTS);
         PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);

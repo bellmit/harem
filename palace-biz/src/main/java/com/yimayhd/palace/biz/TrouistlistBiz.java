@@ -60,7 +60,6 @@ public class TrouistlistBiz {
     @Autowired
     private TcCacheManager tcCacheManager;
 
-
     // delete删除单个景点
     public ICResult<Boolean> deleteAttraction(long attractionId) {
         return touristManageService.deleteAttraction(attractionId);
@@ -271,7 +270,6 @@ public class TrouistlistBiz {
             log.error("saveResult:{}", JSON.toJSONString(saveResult));
             return bizResult;
         }catch (Exception e){
-
 
         }
         return bizResult;
