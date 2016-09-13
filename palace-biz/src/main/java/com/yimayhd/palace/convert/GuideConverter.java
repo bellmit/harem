@@ -231,12 +231,12 @@ public class GuideConverter {
                 scenicVO.setSubjectName(stringBuffer.toString());
             }
         }
-        //scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+        scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
 
-        ScenicLevelType level = ScenicLevelType.getByType(scenicDO.getLevel());
+      /*  ScenicLevelType level = ScenicLevelType.getByType(scenicDO.getLevel());
         if(level != null){
             scenicVO.setLevelDesc( level.getDesc());
-        }
+        }*/
         Coordinate cdt = Common.gcjToBd(scenicVO.getLocationY(), scenicVO.getLocationX());
         scenicVO.setLocationX(cdt.getLongitude());
         scenicVO.setLocationY(cdt.getLatitude());
