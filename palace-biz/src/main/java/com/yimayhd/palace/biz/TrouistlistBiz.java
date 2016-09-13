@@ -155,7 +155,6 @@ public class TrouistlistBiz {
         return bizResult;
     }
 
-
     // 查询景点和线路信息
     public BizResult<AttractionListGuideLineVO> queryGuideAttractionFocusInfo(long scenicId) {
         BizResult<AttractionListGuideLineVO> bizResult = new BizResult<AttractionListGuideLineVO>();
@@ -206,32 +205,47 @@ public class TrouistlistBiz {
 
     // 新增保存
     public BizResult<String> addTourist(GuideAttractionVO guideAttractionVO) {
-        BizResult<String> result = new BizResult<String>();
-        // 查询景点编号是否重复
-        GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
-        queryDTO.setGuideId(guideAttractionVO.getGuideId());
-        queryDTO.setNo(guideAttractionVO.getAttrNo());
-        ICResult<List<GuideAttractionDO>> queryDTOResult = touristManageService.queryAttractionList(queryDTO);
-        if (queryDTOResult.getModule() != null
-                && queryDTOResult.getModule().size() > 0) {
-            result.setMsg("景点编号已重复");
-            result.setSuccess(false);
-            return result;
+        BizResult<String> bizResult = new BizResult<String>();
+        try {
+            if (guideAttractionVO.getId() != 0) {  // 新增后重新编辑 走更新景点详情接口
+                BizResult<Boolean> updateTouristResult = updateTourist(guideAttractionVO);
+                bizResult.setCode(updateTouristResult.getCode());
+                bizResult.setMsg(updateTouristResult.getMsg());
+                bizResult.setSuccess(updateTouristResult.isSuccess());
+                if (updateTouristResult.isSuccess())
+                    bizResult.setValue(guideAttractionVO.getId() + "");
+                return bizResult;
+            }
+
+            // 新增判断景点编号
+            GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
+            queryDTO.setGuideId(guideAttractionVO.getGuideId());
+            queryDTO.setNo(guideAttractionVO.getAttrNo());
+            ICResult<List<GuideAttractionDO>> queryDTOResult = touristManageService.queryAttractionList(queryDTO);
+            if (queryDTOResult.getModule() != null && queryDTOResult.getModule().size() > 0) {
+                bizResult.setMsg("景点编号已重复");
+                bizResult.setSuccess(false);
+                return bizResult;
+            }
+
+            // 保存详情
+            AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionVO2AttractionFocusAddDTO(guideAttractionVO);
+            ICResult<GuideAttractionDO> guideAttractionDOICResult = addAttractionAndFocus(attractionFocusAddDTO);
+            if (guideAttractionDOICResult == null) {
+                bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                return bizResult;
+            }
+            bizResult.setCode(guideAttractionDOICResult.getResultCode());
+            bizResult.setMsg(guideAttractionDOICResult.getResultMsg());
+            bizResult.setSuccess(guideAttractionDOICResult.isSuccess());
+            if (guideAttractionDOICResult.isSuccess() && guideAttractionDOICResult.getModule() != null)
+                bizResult.setValue(guideAttractionDOICResult.getModule().getId() + "");
+            log.error("saveResult:{}", JSON.toJSONString(bizResult));
+            return bizResult;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
-        // 保存详情
-        AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionVO2AttractionFocusAddDTO(guideAttractionVO);
-        ICResult<GuideAttractionDO> guideAttractionDOICResult = addAttractionAndFocus(attractionFocusAddDTO);
-        if (guideAttractionDOICResult == null) {
-            result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-            return result;
-        }
-        result.setCode(guideAttractionDOICResult.getResultCode());
-        result.setMsg(guideAttractionDOICResult.getResultMsg());
-        result.setSuccess(guideAttractionDOICResult.isSuccess());
-        if (guideAttractionDOICResult.isSuccess() && guideAttractionDOICResult.getModule() != null)
-            result.setValue(guideAttractionDOICResult.getModule().getId() + "");
-        log.error("saveResult:{}", JSON.toJSONString(result));
-        return result;
+        return bizResult;
     }
 
     // 更新景点详情
@@ -241,10 +255,6 @@ public class TrouistlistBiz {
             // 查询景点
             AttractionFocusDTO attractionFocusDTO = touristManageService.queryAttractionDetail(guideAttractionVO.getId());
             AttractionFocusVO attractionFocusVO = GuideConverter.attractionFocusDTO2AttractionFocusVO(attractionFocusDTO);
-            if (attractionFocusVO == null) {
-                bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-                return bizResult;
-            }
             // 修改景点编号后判断是否重复
             if (guideAttractionVO.getAttrNo() != attractionFocusVO.getGuideAttractionVO().getAttrNo()) {
                 // 查询景点编号是否重复
@@ -258,6 +268,7 @@ public class TrouistlistBiz {
                     return bizResult;
                 }
             }
+
             AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.guideAttractionVO2AttractionFocusUpdateDTO(guideAttractionVO, attractionFocusDTO);
             ICResult<Boolean> saveResult = updateAttractionAndFocus(attractionFocusUpdateDTO);
             if (saveResult == null) {
@@ -269,8 +280,8 @@ public class TrouistlistBiz {
             bizResult.setSuccess(saveResult.isSuccess());
             log.error("saveResult:{}", JSON.toJSONString(saveResult));
             return bizResult;
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
         return bizResult;
     }
