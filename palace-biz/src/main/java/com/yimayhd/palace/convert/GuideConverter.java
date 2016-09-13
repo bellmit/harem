@@ -9,7 +9,6 @@ import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
-import com.yimayhd.ic.client.model.enums.ScenicLevelType;
 import com.yimayhd.ic.client.model.enums.StarLevelType;
 import com.yimayhd.palace.model.Coordinate;
 import com.yimayhd.palace.model.guide.*;
