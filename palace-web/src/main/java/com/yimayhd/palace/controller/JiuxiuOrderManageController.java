@@ -110,10 +110,14 @@ public class JiuxiuOrderManageController extends BaseController {
 				}
 				//获取使用的积分
 				jiuxiuTcMainOrder.setUserPointNum(BizOrderUtil.getUsePointNum(tcMainOrder.getBizOrder().getBizOrderDO()));
-				
 				//根据userId获取用户信息
-				UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
-				model.addAttribute("phone", buyer.getMobileNo());
+				//UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
+
+				BaseResult<UserDO> userDOResult = userServiceRef.getUserDOByUserId(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
+				if(userDOResult.isSuccess()||userDOResult.getValue()!=null){
+					UserDO buyer =userDOResult.getValue();
+					model.addAttribute("phone", buyer.getMobileNo());
+				}
 				if(null!=tcMainOrder.getDetailOrders()){
 					List<TcDetailOrder> tcDetailOrders = tcMainOrder.getDetailOrders();
 					
