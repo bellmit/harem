@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 //
+
 /**
  * 景点列表
  * <p>
@@ -51,7 +52,7 @@ public class TouristlistController extends BaseController {
                 model.addAttribute("guideLine", guideCascadeAttractionVO.getGuideLine());  // 线路列表
                 model.addAttribute("attractionId", attractionId); // 导览id
                 model.addAttribute("scenicId", scenicId); // 导览id
-            }else {
+            } else {
                 return "/error";
             }
         } catch (Exception e) {
@@ -66,15 +67,15 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/queryGuideLine", method = RequestMethod.GET)
     @ResponseBody
-    public GuideLineVO queryGuideLine(long guideId,long id) {
-        try{
-            GuideLineVO guideLineVO = trouistlistBiz.queryGuideLine(guideId,id);
-            return  guideLineVO;
-        }catch (Exception e){
+    public GuideLineVO queryGuideLine(Long guideId, Long id) {
+        try {
+            GuideLineVO guideLineVO = trouistlistBiz.queryGuideLine(guideId, id);
+            return guideLineVO;
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             GuideLineVO guideLineVO = new GuideLineVO();
             guideLineVO.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-            return  guideLineVO;
+            return guideLineVO;
         }
     }
 
@@ -83,15 +84,15 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/deleteAttraction", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> deleteAttraction(long guideId,long id,GuideLineVO.Position position) {
+    public BizResult<String> deleteAttraction(Long guideId, Long id, GuideLineVO.Position position) {
         BizResult<String> bizResult = new BizResult<>();
-        try{
-            bizResult = trouistlistBiz.deleteAttraction(guideId,id,position);
-            return  bizResult;
-        }catch (Exception e){
+        try {
+            bizResult = trouistlistBiz.deleteAttraction(guideId, id, position);
+            return bizResult;
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-            return  bizResult;
+            return bizResult;
         }
     }
 
@@ -100,7 +101,7 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/queryGuideAttractionFocusInfo")
     @ResponseBody
-    public BizResult<AttractionListGuideLineVO> queryGuideAttractionFocusInfo(long scenicId) throws Exception {
+    public BizResult<AttractionListGuideLineVO> queryGuideAttractionFocusInfo(Long scenicId) throws Exception {
         BizResult<AttractionListGuideLineVO> bizResult = new BizResult<AttractionListGuideLineVO>();
         try {
             bizResult = trouistlistBiz.queryGuideAttractionFocusInfo(scenicId);
@@ -117,10 +118,10 @@ public class TouristlistController extends BaseController {
      **/
     @RequestMapping(value = "/updateGuideLine", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> updateGuideLine(long guideId, String lineListJson) {
+    public BizResult<String> updateGuideLine(Long guideId, String lineListJson) {
         BizResult<String> bizResult = new BizResult<String>();
         try {
-            bizResult = trouistlistBiz.updateGuideLine(guideId,lineListJson);
+            bizResult = trouistlistBiz.updateGuideLine(guideId, lineListJson);
             return bizResult;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -133,7 +134,7 @@ public class TouristlistController extends BaseController {
      * select  编辑页面 带景点详情和景点介绍
      **/
     @RequestMapping(value = "/touristEditDetail", method = RequestMethod.GET)
-    public String touristEditDetail(Model model, long attractionId,long guideId) throws Exception {
+    public String touristEditDetail(Model model, Long attractionId, Long guideId) throws Exception {
         try {
             AttractionFocusDTO attractionFocusDTOICResult = touristManageService.queryAttractionDetail(attractionId);
             AttractionFocusVO attractionFocusVO = GuideConverter.attractionFocusDTO2AttractionFocusVO(attractionFocusDTOICResult);
@@ -142,12 +143,12 @@ public class TouristlistController extends BaseController {
                 model.addAttribute("guideFocusDOList", attractionFocusVO.getGuideFocusVOList());
             }
             PictureTextVO picTextVO = touristManageService.getPictureText(attractionId);
-            if(picTextVO!=null && picTextVO.getPictureTextItems().size() > 0) {
+            if (picTextVO != null && picTextVO.getPictureTextItems().size() > 0) {
                 List<PictureTextItemVo> list = picTextVO.getPictureTextItems();
                 model.addAttribute("picTextVO", picTextVO);
                 model.addAttribute("picTextVOJson", JSON.toJSONString(list));
             }
-            model.addAttribute("uuidPicText",UUID.randomUUID().toString());
+            model.addAttribute("uuidPicText", UUID.randomUUID().toString());
             model.addAttribute("attractionId", attractionId);
             model.addAttribute("guideId", guideId);
         } catch (Exception e) {
@@ -160,7 +161,7 @@ public class TouristlistController extends BaseController {
      * select新增页面  不带景点详情和景点介绍
      **/
     @RequestMapping(value = "/touristaddDetail", method = RequestMethod.GET)
-    public String touristaddDetail(Model model, long attractionId) throws Exception {
+    public String touristaddDetail(Model model, Long attractionId) throws Exception {
         try {
             if (attractionId > 0) {
                 model.addAttribute("guideAttractionid", attractionId);
@@ -173,6 +174,7 @@ public class TouristlistController extends BaseController {
     }
 
     // 新增或者更新保存  两个接口1 保存景点详情 2 保存图文
+
     /**
      * add 景点详情和景点介绍 新增保存
      **/
@@ -211,14 +213,14 @@ public class TouristlistController extends BaseController {
      */
     @RequestMapping(value = "/savePictureText", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<Boolean> savePictureText(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO,Model model) throws Exception {
+    public BizResult<Boolean> savePictureText(AttractionIntroducePicTextTitleVO attractionIntroducePicTextTitleVO, Model model) throws Exception {
         BizResult<Boolean> result = new BizResult<Boolean>();
-       try{
-           result = trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO);
-           return  result;
-       }catch (Exception e){
-           result.setSuccess(false);
-           return  result;
-       }
+        try {
+            result = trouistlistBiz.savePictureText(attractionIntroducePicTextTitleVO);
+            return result;
+        } catch (Exception e) {
+            result.setSuccess(false);
+            return result;
+        }
     }
 }

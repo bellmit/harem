@@ -1,6 +1,5 @@
 package com.yimayhd.palace.model.guide;
 
-import com.yimayhd.ic.client.model.dto.guide.GuideLineDTO;
 import com.yimayhd.ic.client.model.dto.guide.GuideLineEntry;
 import com.yimayhd.palace.result.BizResultSupport;
 

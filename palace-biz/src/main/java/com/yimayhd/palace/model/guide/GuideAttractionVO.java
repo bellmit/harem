@@ -1,10 +1,6 @@
 package com.yimayhd.palace.model.guide;
 
-import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
-
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by haozhu on 16/8/31.

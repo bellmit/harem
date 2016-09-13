@@ -1,11 +1,8 @@
 package com.yimayhd.palace.model.guide;
 
-import com.yimayhd.ic.client.model.dto.guide.GuideLineDTO;
-import com.yimayhd.ic.client.model.dto.guide.GuideLineEntry;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
+import com.yimayhd.ic.client.model.dto.guide.GuideLineEntry;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -324,7 +324,7 @@ function addAudioItem(datas) {
                 '       </div>' +
                 '   </div>' +
                 '   <div class="pull-left">' +
-                '    <button class="btn btn-primary delete-item">删除</button>' +
+                '    <span class="btn btn-primary delete-item">删除</span>' +
                 '   </div>' +
                 '</div>';
 
