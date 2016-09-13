@@ -85,7 +85,7 @@
             #foreach($item in $itemList)
             <tr>
                 <td>
-                    <input type="radio" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}" id="${item.id}" inputFileTitle="${item.inputFileTitle}" fsize="${item.fsize}"/>
+                    <input type="checkbox" fileKey="${item.fileKey}" duration="${item.duration}" durationStr="${item.durationStr}" id="${item.id}" inputFileTitle="${item.inputFileTitle}" fsize="${item.fsize}"/>
                 </td>
                 <td>$!{item.id}</td>
                 <td>
@@ -129,7 +129,7 @@
             var checkbox = $(this);
             var checked = checkbox[0].checked;
             var tr = checkbox.closest("tr");
-            var multi=$("#multi").val();//1单选 2多选
+            //var multi=$("#multi").val();//1单选 2多选
             var maxSize=parseInt($("#maxSize").val(),10);//大小限制 单位M
             var fsize=parseInt(checkbox.attr("fsize"),10);
 
@@ -139,14 +139,10 @@
                     checkbox[0].checked=false;
                     return false;
                 }
-
                 //单选
-                if(multi=="1"){
-                    var selecetdtr = $("#tbAttachmentSellectList tr.selected");
-                    selecetdtr.removeClass("selected");
-                    selecetdtr.find("input[type='checkbox']").attr("checked", false);
-                }
-
+                var selecetdtr = $("#tbAttachmentSellectList tr.selected");
+                selecetdtr.removeClass("selected");
+                selecetdtr.find("input[type='checkbox']").attr("checked", false);
                 tr.addClass("selected");
             } else {
                 tr.removeClass("selected");
@@ -177,24 +173,22 @@
     });
     function getItem() {
         var checkedAudios = $("#tbAttachmentSellectList tr.selected").find("input[type='checkbox']");
-        var arr=[];
-
         if(checkedAudios.length==0){
-            return arr;
+            return false;
         }
-
+        var result;
         checkedAudios.each(function(){
             var audio=$(this);
-            arr.push({
+            result = {
                 fileKey: audio.attr("fileKey"),//
                 duration: audio.attr("duration"),//时长 long
                 durationStr: audio.attr("durationStr"),//时长 字符串
                 id:audio.attr("id"),//id
                 inputFileTitle:audio.attr("inputFileTitle"),//
                 fsize:audio.attr("fsize")
-            });
+            };
         });
-        return arr;
+        return result;
     }
 </script>
 
