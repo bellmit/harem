@@ -77,7 +77,7 @@ public class AttachmentManageController extends BaseController {
     }
 
     @RequestMapping(value = "/list/select")
-    public String selectList(Model model, AttachmentListQuery attachmentListQuery) {
+    public String selectList(Model model, AttachmentListQuery attachmentListQuery,String type) {
         try {
             attachmentListQuery.setStatus(MediaFileStatus.ON.getValue());
             PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
@@ -88,6 +88,10 @@ public class AttachmentManageController extends BaseController {
             model.addAttribute("mediaFileStatusList", Enums.toList(MediaFileStatus.class));
             model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
             model.addAttribute("mediaPageQuery", attachmentListQuery);
+            if ("radio".equalsIgnoreCase(type)) {
+				
+            	return "/system/article/selectList";
+			}
             return "/system/attachment/selectList";
         } catch (Exception e) {
             log.error("selectList attachmentListQuery={}, exception={}", JSON.toJSONString(attachmentListQuery), e);
