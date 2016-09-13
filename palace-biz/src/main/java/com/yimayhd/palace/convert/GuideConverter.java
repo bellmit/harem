@@ -9,6 +9,7 @@ import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
+import com.yimayhd.ic.client.model.enums.ScenicLevelType;
 import com.yimayhd.ic.client.model.enums.StarLevelType;
 import com.yimayhd.palace.model.Coordinate;
 import com.yimayhd.palace.model.guide.*;
@@ -230,7 +231,12 @@ public class GuideConverter {
                 scenicVO.setSubjectName(stringBuffer.toString());
             }
         }
-        scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+        //scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+
+        ScenicLevelType level = ScenicLevelType.getByType(scenicDO.getLevel());
+        if(level != null){
+            scenicVO.setLevelDesc( level.getDesc());
+        }
         Coordinate cdt = Common.gcjToBd(scenicVO.getLocationY(), scenicVO.getLocationX());
         scenicVO.setLocationX(cdt.getLongitude());
         scenicVO.setLocationY(cdt.getLatitude());
