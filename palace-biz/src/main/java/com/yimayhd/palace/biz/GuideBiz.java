@@ -32,7 +32,6 @@ public class GuideBiz {
      * @param guideScenicVO
      * @return
      */
-
     private CheckResult checkGuideScenicVO(GuideScenicVO guideScenicVO) {
         CheckResult checkResult = GuideChecker.checkGuideScenicVO(guideScenicVO);
 
@@ -107,9 +106,9 @@ public class GuideBiz {
             if (guideCascadeAttractionDTO == null) {
                 return GuideChecker.getCheckResult(PalaceReturnCode.UP_GUIDE_STATUS_ATTRACTION_ERROR);
             }
-/**
- * 导览景区信息
- */
+            /**
+             * 导览景区信息
+             */
             GuideScenicDTO guideScenicDTO = guideCascadeAttractionDTO.getGuideScenicDTO();
             if (guideScenicDTO == null) {
                 return GuideChecker.getCheckResult(PalaceReturnCode.UP_GUIDE_STATUS_SCENIC_ERROR);

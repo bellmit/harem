@@ -18,8 +18,6 @@ public class AttractionFocusVO {
      */
     private List<GuideFocusVO> guideFocusVOList;
 
-
-
     public GuideAttractionVO getGuideAttractionVO() {
         return guideAttractionVO;
     }
