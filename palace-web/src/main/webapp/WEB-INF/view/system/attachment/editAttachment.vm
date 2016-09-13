@@ -33,7 +33,7 @@
             <td>
                 <select class="form-control inpCtlBlock" id="scope" name="scope">
                     #foreach($mediaFileScope in $mediaFileScopeList)
-                        <option value="$!{mediaFileScope.value}" #if($mediaPageQuery.scope == $mediaFileScope.value)
+                        <option value="$!{mediaFileScope.value}" #if($attachmentVO.scope == $mediaFileScope.value)
                                 selected #end>$!{mediaFileScope.desc}</option>
                     #end
                 </select>

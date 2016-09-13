@@ -148,8 +148,8 @@
                         <td><span class="spColor">*</span>景区等级</td>
                         <td>
                             <select class="form-control {required:true}" name="scenicVO.level">
+                                <option value="0"  #if($!{VO.scenicVO.level} <11) selected #end>无A</option>
                                 <option value="15" #if($!{VO.scenicVO.level} == 15) selected #end>5A</option>
-                                <option value="0"  #if($!{VO.scenicVO.level} == 0) selected #end>无A</option>
                                 <option value="14" #if($!{VO.scenicVO.level} == 14) selected #end>4A</option>
                                 <option value="13" #if($!{VO.scenicVO.level} == 13) selected #end>3A</option>
                                 <option value="12" #if($!{VO.scenicVO.level} == 12) selected #end>2A</option>
