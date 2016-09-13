@@ -547,7 +547,7 @@ function saveIntro() {
         dataType: "json",
         data: data,
         success: function(res) {
-            if (res.status == 200) {
+            if (res.success) {
                 layer.msg("保存成功。", {
                     icon: 1,
                     time: 1500

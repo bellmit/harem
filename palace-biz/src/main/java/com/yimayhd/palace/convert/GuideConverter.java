@@ -9,6 +9,7 @@ import com.yimayhd.ic.client.model.domain.guide.GuideFocusDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
+import com.yimayhd.ic.client.model.enums.ScenicLevelType;
 import com.yimayhd.ic.client.model.enums.StarLevelType;
 import com.yimayhd.palace.model.Coordinate;
 import com.yimayhd.palace.model.guide.*;
@@ -230,7 +231,12 @@ public class GuideConverter {
                 scenicVO.setSubjectName(stringBuffer.toString());
             }
         }
-        scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+        //scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+
+        ScenicLevelType level = ScenicLevelType.getByType(scenicDO.getLevel());
+        if(level != null){
+            scenicVO.setLevelDesc( level.getDesc());
+        }
         Coordinate cdt = Common.gcjToBd(scenicVO.getLocationY(), scenicVO.getLocationX());
         scenicVO.setLocationX(cdt.getLongitude());
         scenicVO.setLocationY(cdt.getLatitude());
@@ -338,8 +344,8 @@ public class GuideConverter {
         guideAttractionUpdateDTO.setAttrImg(attractionVO.getAttrImg());
         guideAttractionUpdateDTO.setName(attractionVO.getName());
         guideAttractionUpdateDTO.setTourTime(attractionVO.getTourTime());
-//        guideAttractionUpdateDTO.setTitle(attractionVO.getTitle().trim());
-//        guideAttractionUpdateDTO.setSubTitle(attractionVO.getSubTitle().trim());
+//      guideAttractionUpdateDTO.setTitle(attractionVO.getTitle().trim());
+//      guideAttractionUpdateDTO.setSubTitle(attractionVO.getSubTitle().trim());
         guideAttractionUpdateDTO.setAttrNo(attractionVO.getAttrNo());
 
         List<GuideFocusDO> oldList = new ArrayList<GuideFocusDO>();
@@ -464,19 +470,19 @@ public class GuideConverter {
     }
 
     // 线路设置查询结果
-    public static AttractionListGuideLineVO guideCascadeAttractionDTO2AttractionListGuideLineVO(GuideCascadeAttractionDTO guideCascadeAttractionDTO) {
-        if (guideCascadeAttractionDTO == null) {
+    public static AttractionListGuideLineVO guideCascadeAttractionDTO2AttractionListGuideLineVO(GuideCascadeAttractionVO guideCascadeAttractionVO) {
+        if (guideCascadeAttractionVO == null) {
             return null;
         }
         AttractionListGuideLineVO attractionListGuideLineVO = new AttractionListGuideLineVO();
-        if (guideCascadeAttractionDTO.getGuideLineDTO() == null) {
+        if (guideCascadeAttractionVO.getGuideLine() == null) {
             attractionListGuideLineVO.setGuideLine(null);
         } else {
-            attractionListGuideLineVO.setGuideLine(guideCascadeAttractionDTO.getGuideLineDTO().getGuideLine());
+            attractionListGuideLineVO.setGuideLine(guideCascadeAttractionVO.getGuideLine());
         }
         List<GuideAttractionDO> guideAttractionDOList = new ArrayList<GuideAttractionDO>();
-        for (int i = 0; i < guideCascadeAttractionDTO.getAttractionDTOList().size(); i++) {
-            guideAttractionDOList.add(guideCascadeAttractionDTO.getAttractionDTOList().get(i).getGuideAttractionDO());
+        for (int i = 0; i < guideCascadeAttractionVO.getAttractionDTOList().size(); i++) {
+            guideAttractionDOList.add(guideCascadeAttractionVO.getAttractionDTOList().get(i).getGuideAttractionDO());
         }
         attractionListGuideLineVO.setGuideAttractionDOList(guideAttractionDOList);
         return attractionListGuideLineVO;

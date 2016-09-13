@@ -147,7 +147,6 @@ public class GuideManageController extends BaseController {
      * @return
      * @throws Exception
      */
-
     @RequestMapping(value = "/setWeight", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo setWeight(Model model, GuideScenicVO guideVO) {

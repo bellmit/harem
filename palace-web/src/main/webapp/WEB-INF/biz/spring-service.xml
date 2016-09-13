@@ -97,4 +97,8 @@
 
 	<!-- 附件中心-->
 	<bean id="attachmentManageService" class="com.yimayhd.palace.service.impl.AttachmentManageServiceImpl"/>
+
+	<!-- 导览景点-->
+	<bean id="touristManageService" class="com.yimayhd.palace.service.impl.TouristManageServiceImpl"/>
+
 </beans>
