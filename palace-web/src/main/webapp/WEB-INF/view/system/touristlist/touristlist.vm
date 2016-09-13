@@ -264,9 +264,9 @@ LineEditor.prototype = {
         temp.push('<select class="form-control">');
         for (var index = 0; index < length; index++) {
             if (line && this.lineData[index].id == line.attractionId) {
-                temp.push('<option selected value="' + this.lineData[index].id + '">' + this.lineData[index].name+' '+this.lineData[index].attrNo + '</option>');
+                temp.push('<option selected value="' + this.lineData[index].id + '">' + this.lineData[index].attrNo+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+this.lineData[index].name + '</option>');
             } else {
-                temp.push('<option value="' + this.lineData[index].id + '">' + this.lineData[index].name+' '+this.lineData[index].attrNo + '</option>');
+                temp.push('<option value="' + this.lineData[index].id + '">' + this.lineData[index].attrNo+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+this.lineData[index].name + '</option>');
             }
         }
         temp.push('</select>');
@@ -404,11 +404,11 @@ function initLineEditor() {
         success: function(res) {
             layer.closeAll();
             console.dir(res);
-            if (res.status == 200) {
+            if (res.success) {
                 var options = {
                     guideId: $("#hdnGuideId").val(),
-                    lineData: res.data.guideAttractionDOList,
-                    lineSettings: res.data.guideLine
+                    lineData: res.value.guideAttractionDOList,
+                    lineSettings: res.value.guideLine
                 };
                 if (lineEditor) {
                     lineEditor.setOption(options);
@@ -442,9 +442,9 @@ function getTourStatus(guideId, id) {
         data: data,
         success: function(res) {
             if (res.success) {
-                msg = getTips(res.value);
+                msg = getTips(res.position);
                 layer.confirm(msg, function() {
-                    deleteTour(guideId, id, res.value);
+                    deleteTour(guideId, id, res.position);
                 });
             } else {
                 layer.msg("删除失败!", {
@@ -462,28 +462,28 @@ function getTourStatus(guideId, id) {
     });
 }
 
-function getTips(status) {
+function getTips(position) {
     var message = {
-        "0": "是否确认删除？",
-        "1": "删除此景点信息将影响线路设置，是否确认删除？",
-        "2": "删除此景点信息需重新配置线路，是否确认删除？"
+        "out": "是否确认删除？",
+        "end": "删除此景点信息将影响线路设置，是否确认删除？",
+        "between": "删除此景点信息需重新配置线路，是否确认删除？"
     };
 
-    var msg = message[status];
+    var msg = message[position];
     if (msg) {
         return msg;
     }
     return message["1"];
 }
 
-function deleteTour(guideId, id, status) {
+function deleteTour(guideId, id, position) {
     $.ajax({
         url: "$utilWebconfig.getStaticResourcesPath()/jiuxiu/scenicManage/deleteAttraction",
         type: "post",
         data: {
             guideId: guideId,
             id: id,
-            status: status
+            position: position
         },
         dataType: "json",
         success: function(data) {

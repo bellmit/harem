@@ -472,4 +472,26 @@ public class GuideRepo {
             throw new BaseException(e, e.getMessage());
         }
     }
+
+
+    // 查询线路
+    public ICResult<GuideLineDTO> queryGuideLine(long guideId) {
+        try {
+            ICResult<GuideLineDTO> result = guideServiceRef.queryGuideLine(guideId);
+            if (result != null) {
+                if (result.isSuccess()) {
+                    log.info("queryGuideLine guideId={},result={}", guideId, JSON.toJSONString(result));
+                    return result;
+                } else {
+                    log.error("queryGuideLine guideId={},result={}", guideId, JSON.toJSONString(result));
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+                }
+            } else {
+                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+            }
+        } catch (Exception e) {
+            log.error("queryGuideLine guideId={} ,exception={}", guideId, e);
+            throw new BaseException(e, e.getMessage());
+        }
+    }
 }
