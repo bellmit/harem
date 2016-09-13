@@ -231,7 +231,7 @@ public class GuideConverter {
                 scenicVO.setSubjectName(stringBuffer.toString());
             }
         }
-        //scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
+       // scenicVO.setLevelDesc(StarLevelType.getByTypeWithDefault(scenicDO.getLevel()).getDesc());
 
         ScenicLevelType level = ScenicLevelType.getByType(scenicDO.getLevel());
         if(level != null){

@@ -1,15 +1,8 @@
 package com.yimayhd.palace.biz;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.yimayhd.commentcenter.client.dto.ComentDTO;
-import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
-import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
 import com.yimayhd.ic.client.model.result.ICResult;
@@ -17,32 +10,19 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.GuideConverter;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.guide.*;
-import com.yimayhd.palace.repo.GuideRepo;
-import com.yimayhd.palace.service.GuideManageService;
+import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.TouristManageService;
 import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.alibaba.fastjson.JSON;
-
-import com.yimayhd.commentcenter.client.result.PicTextResult;
-import com.yimayhd.commission.convert.PictureTextConverter;
-import com.yimayhd.membercenter.client.domain.CertificatesDO;
-import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
-import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
-import com.yimayhd.palace.model.vo.merchant.MerchantVO;
-import com.yimayhd.palace.result.BizResult;
-import com.yimayhd.palace.result.BizResultSupport;
-import com.yimayhd.user.client.domain.MerchantDO;
-import com.yimayhd.user.client.result.BaseResult;
-import com.yimayhd.palace.repo.PictureTextRepo;
-import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -155,7 +135,6 @@ public class TrouistlistBiz {
         return bizResult;
     }
 
-
     // 查询景点和线路信息
     public BizResult<AttractionListGuideLineVO> queryGuideAttractionFocusInfo(long scenicId) {
         BizResult<AttractionListGuideLineVO> bizResult = new BizResult<AttractionListGuideLineVO>();
@@ -206,32 +185,47 @@ public class TrouistlistBiz {
 
     // 新增保存
     public BizResult<String> addTourist(GuideAttractionVO guideAttractionVO) {
-        BizResult<String> result = new BizResult<String>();
-        // 查询景点编号是否重复
-        GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
-        queryDTO.setGuideId(guideAttractionVO.getGuideId());
-        queryDTO.setNo(guideAttractionVO.getAttrNo());
-        ICResult<List<GuideAttractionDO>> queryDTOResult = touristManageService.queryAttractionList(queryDTO);
-        if (queryDTOResult.getModule() != null
-                && queryDTOResult.getModule().size() > 0) {
-            result.setMsg("景点编号已重复");
-            result.setSuccess(false);
-            return result;
+        BizResult<String> bizResult = new BizResult<String>();
+        try {
+            if (guideAttractionVO.getId() != 0) {  // 新增后重新编辑 走更新景点详情接口
+                BizResult<Boolean> updateTouristResult = updateTourist(guideAttractionVO);
+                bizResult.setCode(updateTouristResult.getCode());
+                bizResult.setMsg(updateTouristResult.getMsg());
+                bizResult.setSuccess(updateTouristResult.isSuccess());
+                if (updateTouristResult.isSuccess())
+                    bizResult.setValue(guideAttractionVO.getId() + "");
+                return bizResult;
+            }
+
+            // 新增判断景点编号
+            GuideAttractionQueryDTO queryDTO = new GuideAttractionQueryDTO();
+            queryDTO.setGuideId(guideAttractionVO.getGuideId());
+            queryDTO.setNo(guideAttractionVO.getAttrNo());
+            ICResult<List<GuideAttractionDO>> queryDTOResult = touristManageService.queryAttractionList(queryDTO);
+            if (queryDTOResult.getModule() != null && queryDTOResult.getModule().size() > 0) {
+                bizResult.setMsg("景点编号已重复");
+                bizResult.setSuccess(false);
+                return bizResult;
+            }
+
+            // 保存详情
+            AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionVO2AttractionFocusAddDTO(guideAttractionVO);
+            ICResult<GuideAttractionDO> guideAttractionDOICResult = addAttractionAndFocus(attractionFocusAddDTO);
+            if (guideAttractionDOICResult == null) {
+                bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                return bizResult;
+            }
+            bizResult.setCode(guideAttractionDOICResult.getResultCode());
+            bizResult.setMsg(guideAttractionDOICResult.getResultMsg());
+            bizResult.setSuccess(guideAttractionDOICResult.isSuccess());
+            if (guideAttractionDOICResult.isSuccess() && guideAttractionDOICResult.getModule() != null)
+                bizResult.setValue(guideAttractionDOICResult.getModule().getId() + "");
+            log.error("saveResult:{}", JSON.toJSONString(bizResult));
+            return bizResult;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
-        // 保存详情
-        AttractionFocusAddDTO attractionFocusAddDTO = GuideConverter.attractionVO2AttractionFocusAddDTO(guideAttractionVO);
-        ICResult<GuideAttractionDO> guideAttractionDOICResult = addAttractionAndFocus(attractionFocusAddDTO);
-        if (guideAttractionDOICResult == null) {
-            result.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-            return result;
-        }
-        result.setCode(guideAttractionDOICResult.getResultCode());
-        result.setMsg(guideAttractionDOICResult.getResultMsg());
-        result.setSuccess(guideAttractionDOICResult.isSuccess());
-        if (guideAttractionDOICResult.isSuccess() && guideAttractionDOICResult.getModule() != null)
-            result.setValue(guideAttractionDOICResult.getModule().getId() + "");
-        log.error("saveResult:{}", JSON.toJSONString(result));
-        return result;
+        return bizResult;
     }
 
     // 更新景点详情
@@ -241,10 +235,6 @@ public class TrouistlistBiz {
             // 查询景点
             AttractionFocusDTO attractionFocusDTO = touristManageService.queryAttractionDetail(guideAttractionVO.getId());
             AttractionFocusVO attractionFocusVO = GuideConverter.attractionFocusDTO2AttractionFocusVO(attractionFocusDTO);
-            if (attractionFocusVO == null) {
-                bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-                return bizResult;
-            }
             // 修改景点编号后判断是否重复
             if (guideAttractionVO.getAttrNo() != attractionFocusVO.getGuideAttractionVO().getAttrNo()) {
                 // 查询景点编号是否重复
@@ -258,6 +248,7 @@ public class TrouistlistBiz {
                     return bizResult;
                 }
             }
+
             AttractionFocusUpdateDTO attractionFocusUpdateDTO = GuideConverter.guideAttractionVO2AttractionFocusUpdateDTO(guideAttractionVO, attractionFocusDTO);
             ICResult<Boolean> saveResult = updateAttractionAndFocus(attractionFocusUpdateDTO);
             if (saveResult == null) {
@@ -269,8 +260,8 @@ public class TrouistlistBiz {
             bizResult.setSuccess(saveResult.isSuccess());
             log.error("saveResult:{}", JSON.toJSONString(saveResult));
             return bizResult;
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
         return bizResult;
     }

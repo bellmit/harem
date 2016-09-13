@@ -264,9 +264,9 @@ LineEditor.prototype = {
         temp.push('<select class="form-control">');
         for (var index = 0; index < length; index++) {
             if (line && this.lineData[index].id == line.attractionId) {
-                temp.push('<option selected value="' + this.lineData[index].id + '">' + this.lineData[index].attrNo+' '+this.lineData[index].name + '</option>');
+                temp.push('<option selected value="' + this.lineData[index].id + '">' + this.lineData[index].attrNo+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+this.lineData[index].name + '</option>');
             } else {
-                temp.push('<option value="' + this.lineData[index].id + '">' + this.lineData[index].attrNo+' '+this.lineData[index].name + '</option>');
+                temp.push('<option value="' + this.lineData[index].id + '">' + this.lineData[index].attrNo+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+this.lineData[index].name + '</option>');
             }
         }
         temp.push('</select>');

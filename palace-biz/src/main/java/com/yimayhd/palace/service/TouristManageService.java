@@ -1,22 +1,12 @@
 package com.yimayhd.palace.service;
 
-import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
-import com.yimayhd.commentcenter.client.enums.PictureText;
-import com.yimayhd.commission.convert.PictureTextConverter;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
-import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
-import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
 import com.yimayhd.ic.client.model.dto.guide.*;
-import com.yimayhd.ic.client.model.query.ScenicPageQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.guide.*;
+import com.yimayhd.palace.model.guide.GuideCascadeAttractionVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by haozhu on 16/9/9.
