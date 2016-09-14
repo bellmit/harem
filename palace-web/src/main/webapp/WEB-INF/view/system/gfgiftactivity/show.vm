@@ -61,7 +61,7 @@
                 <thead>
                 <tr>
                     <td align="left" width="20%">档一</td>
-                    <td width="50%"><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.priceY" disabled><font>元</font><font>赠</font></td>
+                    <td width="50%"><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.requirementY" disabled><font>元</font><font>赠</font></td>
                     <td>
                         <input type="hidden" class="id" value="$!promotionVO.id"/>
                     </td>
