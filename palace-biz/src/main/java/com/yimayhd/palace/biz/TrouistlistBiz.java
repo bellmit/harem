@@ -65,7 +65,6 @@ public class TrouistlistBiz {
         ICResult<GuideLineDTO> result = touristManageService.queryGuideLine(guideId);
         if (result == null) {
             guideLineVO.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-
         } else if (!result.isSuccess()) {
             guideLineVO.setCode(result.getResultCode());
             guideLineVO.setMsg(result.getResultMsg());
@@ -138,8 +137,9 @@ public class TrouistlistBiz {
     // 查询景点和线路信息
     public BizResult<AttractionListGuideLineVO> queryGuideAttractionFocusInfo(long scenicId) {
         BizResult<AttractionListGuideLineVO> bizResult = new BizResult<AttractionListGuideLineVO>();
+
         if (scenicId <= 0) {
-            bizResult.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+            bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
             return bizResult;
         }
         GuideCascadeAttractionVO guideCascadeAttractionVO = touristManageService.queryGuideAttractionFocusInfo(scenicId);

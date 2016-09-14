@@ -116,7 +116,7 @@ public class JiuxiuOrderManageController extends BaseController {
 				BaseResult<UserDO> userDOResult = userServiceRef.getUserDOByUserId(tcMainOrder.getBizOrder()==null?0:tcMainOrder.getBizOrder().getBuyerId());
 				if(userDOResult.isSuccess()||userDOResult.getValue()!=null){
 					UserDO buyer =userDOResult.getValue();
-					model.addAttribute("phone", buyer.getMobileNo());
+					model.addAttribute("phone", buyer.getUnmaskMobile());
 				}
 				if(null!=tcMainOrder.getDetailOrders()){
 					List<TcDetailOrder> tcDetailOrders = tcMainOrder.getDetailOrders();

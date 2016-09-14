@@ -71,4 +71,14 @@ public class PalaceReturnCode implements Serializable {
 
     /***************************************** 文件 ********************************************************/
     public static final PalaceReturnCode FILE_TYPE_ERROR = new PalaceReturnCode(25006001, "文件类型错误");
+
+
+    /***************************************** 附件相关********************************************************/
+
+    public static final PalaceReturnCode ADD_ATTACHMENT_SUCCESS= new PalaceReturnCode(25006000, "上传成功");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR = new PalaceReturnCode(25006001, "上传失败");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_FILE_NULL = new PalaceReturnCode(25006002, "文件为空");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_FILE_NAME_REPEAT = new PalaceReturnCode(25006003, "文件名称重复");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_UPLOAD_REPEAT = new PalaceReturnCode(25005104, "其他文件上传中,稍后重试");
+
 }

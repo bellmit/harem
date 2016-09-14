@@ -6,12 +6,8 @@
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button">店铺名称/昵称：</button>
             </span>
-          <!--  <input type="text" class="form-control" name="merchantName" value="$!itemListQuery.merchantName" /> -->
-          <select class="form-control" name="sellerName">
-                <option value="merchantName" #if(!$itemListQuery.sellerName == 'merchantName') selected #end>店铺名称</option>
-                <option value="nickName" #if($itemListQuery.sellerName == 'nickName') selected #end>达人昵称</option>
-               
-           </select>
+            <input type="text" class="form-control" name="merchantName" value="$!itemListQuery.merchantName" />
+          
         </div>
         <div class="input-group inpSingle">
             <span class="input-group-btn">

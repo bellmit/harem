@@ -37,19 +37,21 @@ public class TouristManageServiceImpl implements TouristManageService {
      * @return
      */
     @Override
-    public GuideCascadeAttractionVO queryGuideAttractionFocusInfo(long scenicId) {
+    public GuideCascadeAttractionVO queryGuideAttractionFocusInfo(Long scenicId) {
+        if (scenicId ==null)
+            return new GuideCascadeAttractionVO();
         GuideCascadeAttractionDTO guideCascadeAttractionDTO = guideRepo.queryGuideAttractionFocusInfo(scenicId);
         if (guideCascadeAttractionDTO == null) {
             return new GuideCascadeAttractionVO();
         }
         List<AttractionCascadeFocusDTO> touristlist = new ArrayList<AttractionCascadeFocusDTO>(); // 景点列表
         List<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>(); // 线路顺序
-        List<AttractionCascadeFocusDTO> attractionDTOList = guideCascadeAttractionDTO.getAttractionDTOList();
-        List<GuideLineEntry> GuideLineEntryList = guideCascadeAttractionDTO.getGuideLineDTO().getGuideLine();
-        touristlist.addAll(attractionDTOList);
-        guideLine.addAll(GuideLineEntryList);
+        if(guideCascadeAttractionDTO.getAttractionDTOList() != null)
+            touristlist.addAll(guideCascadeAttractionDTO.getAttractionDTOList());
+        if (guideCascadeAttractionDTO.getGuideLineDTO() != null)
+            guideLine.addAll(guideCascadeAttractionDTO.getGuideLineDTO().getGuideLine());
         GuideCascadeAttractionVO guideCascadeAttractionVO = new GuideCascadeAttractionVO();
-        guideCascadeAttractionVO.setAttractionDTOList(attractionDTOList);
+        guideCascadeAttractionVO.setAttractionDTOList(touristlist);
         guideCascadeAttractionVO.setGuideLine(guideLine);
         return guideCascadeAttractionVO;
     }

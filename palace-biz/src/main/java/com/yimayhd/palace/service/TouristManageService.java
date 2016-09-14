@@ -18,7 +18,7 @@ public interface TouristManageService {
      * @param scenicId
      * @return
      */
-    public GuideCascadeAttractionVO queryGuideAttractionFocusInfo(long scenicId);
+    public GuideCascadeAttractionVO queryGuideAttractionFocusInfo(Long scenicId);
 
     /**
      * 新增景点+看点
