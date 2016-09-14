@@ -86,10 +86,6 @@
                                     <div class="imgcon">
                                         <img src="$!tfs$!gift.imgUrl">
                                     </div>
-                                    <div class="imgwait"></div>
-##                                    <div class="imgdelbtn">删除图片</div>
-                                    <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
-                                    <input type="hidden">
                                 </div>
                                 <input type="hidden" class="picVal" value="$!gift.imgUrl" />
                             </div>
