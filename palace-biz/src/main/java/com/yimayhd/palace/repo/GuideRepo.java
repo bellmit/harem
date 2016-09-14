@@ -1,9 +1,6 @@
 package com.yimayhd.palace.repo;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.commentcenter.client.dto.ComentDTO;
-import com.yimayhd.commentcenter.client.enums.PictureText;
-import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
