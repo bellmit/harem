@@ -62,6 +62,22 @@ public class GFCategoryRepo {
 		
 	}
 	
+	public BasePageResult<CategoryResult> getCategoryPage(CategoryQueryDTO categoryQueryDTO) {
+		BasePageResult<CategoryResult> basePageResult =  new BasePageResult<CategoryResult>();
+		try {
+			if(categoryQueryDTO==null){
+				basePageResult.setErrorCode(ComCenterReturnCodes.C_CONTENT_CAN_NOT_BE_NULL);
+				return basePageResult;
+			}
+			/*basePageResult = comCategoryService.pageQueryCategory(categoryQueryDTO);*/
+			basePageResult = comCategoryService.getCategoryPage(categoryQueryDTO);
+		} catch (Exception e) {
+			basePageResult.setErrorCode(ComCenterReturnCodes.READ_DB_FAILED);
+			return basePageResult;
+		}
+		return basePageResult;
+	}
+
 	public BasePageResult<CategoryResult> pageQueryCategory(CategoryQueryDTO categoryQueryDTO) {
 		BasePageResult<CategoryResult> basePageResult =  new BasePageResult<CategoryResult>();
 		try {
@@ -106,7 +122,9 @@ public class GFCategoryRepo {
 			categorySaveDTO.setSellerId(gfCategoryVo.getSellerId());
 			categorySaveDTO.setStatus(gfCategoryVo.getStatus());
 			categorySaveDTO.setParentId(gfCategoryVo.getParentId());
-			
+			categorySaveDTO.setImgPc(gfCategoryVo.getImgPc());
+			categorySaveDTO.setImgWap(gfCategoryVo.getImgWap());
+			categorySaveDTO.setSummary(gfCategoryVo.getSummary());
 			baseResult = comCategoryService.saveCategoryDO(categorySaveDTO);
 			if(baseResult.isSuccess()){
 				return baseResult;
@@ -139,6 +157,9 @@ public class GFCategoryRepo {
 			categoryUpdateDTO.setSellerId(gfCategoryVo.getSellerId());
 			categoryUpdateDTO.setStatus(gfCategoryVo.getStatus());
 			categoryUpdateDTO.setParentId(gfCategoryVo.getParentId());
+			categoryUpdateDTO.setImgPc(gfCategoryVo.getImgPc());
+			categoryUpdateDTO.setImgWap(gfCategoryVo.getImgWap());
+			categoryUpdateDTO.setSummary(gfCategoryVo.getSummary());
 			baseResult = comCategoryService.updateCategory(categoryUpdateDTO);
 			if(baseResult.isSuccess()){
 				return baseResult;
@@ -249,6 +270,7 @@ public class GFCategoryRepo {
 			basePageResult.setErrorCode(ComCenterReturnCodes.C_CONTENT_CAN_NOT_BE_NULL);
 			return  basePageResult;
 		}
+		categoryRelationDTO.setNeedCount(true);
 		basePageResult = comCategoryService.getCategoryRelationPageList(categoryRelationDTO);
 		RepoUtils.resultLog(LOGGER, "comCategoryService.getCategoryRelationPageList", basePageResult);
 		return basePageResult;

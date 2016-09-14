@@ -19,14 +19,13 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<palace.version>1.0.1-SNAPSHOT</palace.version>
-		<itemcenter.client.version>1.0.12-SNAPSHOT</itemcenter.client.version>
-
+		<itemcenter.client.version>1.0.12.1-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.7.0-SNAPSHOT</session.manager.version>
 		<user.client.version>1.8.6-SNAPSHOT</user.client.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
-		<comment.version>1.0.6-SNAPSHOT</comment.version>
+		<comment.version>1.0.7-SNAPSHOT</comment.version>
 		<snscenter.client.version>1.2.0-SNAPSHOT</snscenter.client.version>
 		<resourcecenter.client.version>2.1.5-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.6-SNAPSHOT</membercenter.client.version>
