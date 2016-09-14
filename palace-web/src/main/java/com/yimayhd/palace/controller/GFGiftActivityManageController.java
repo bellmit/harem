@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.activitycenter.enums.PromotionStatus;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.constant.B2CConstant;
+import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.constant.*;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.helper.PromotionHelper;
 import com.yimayhd.palace.model.*;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
@@ -34,7 +36,7 @@ public class GFGiftActivityManageController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
         actPromotionPageQuery.setLotteryType(EntityType.SHOP.getType());
-        actPromotionPageQuery.setType(7);
+        actPromotionPageQuery.setType(PromotionType.FREE_GIFT.getType());
         PageVO<ActActivityPromotionDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
         List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());
         model.addAttribute("promotionListQuery", actPromotionPageQuery);
@@ -45,14 +47,15 @@ public class GFGiftActivityManageController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean add(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
-        return promotionCommService.addGift(actActivityEditVO);
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @ResponseBody
-    public Boolean editGiftActivity(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception{
-        return promotionCommService.updateGift(actActivityEditVO);
+    public ResponseVo add(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
+        ResponseVo responseVo = new ResponseVo();
+        Boolean result = promotionCommService.addGift(actActivityEditVO);
+        if(result){
+            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+        } else {
+            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+        }
+        return responseVo;
     }
 
     @RequestMapping(value="/toAdd", method = RequestMethod.GET)
@@ -98,6 +101,23 @@ public class GFGiftActivityManageController {
 
     @RequestMapping("/show/{id}")
     public String showGiftActivity(Model model, @PathVariable(value = "id") long id){
-        return "/system/gfgiftactivity/show";
+        try {
+            ActActivityEditVO actActivityEditVO = promotionCommService.getGiftById(id);
+            model.addAttribute("actActivityEditVO", actActivityEditVO);
+            return "/system/gfgiftactivity/show";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/error";
+        }
+    }
+    @RequestMapping("/check")
+    @ResponseBody
+    public ResponseVo check(@RequestBody ActActivityVO actActivityVO){
+        ResponseVo responseVo = new ResponseVo();
+//        Date endDate = actActivityVO.getEndDateStr();
+//        Date startDate = actActivityVO.getStartDateStr();
+        responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+//        responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+        return responseVo;
     }
 }

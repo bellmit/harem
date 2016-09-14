@@ -34,10 +34,14 @@ public class MoneyUtil {
 	}
 
 	public static void main(String[] args) {
+		System.out.println(moneyFormat("100"));
 		System.out.println(moneyFormat(123123213.0163123));
 		System.out.println(moneyFormatInInt(123123213.7163123));
 	}
 
+	public static String moneyY(Double money) {
+		return new java.text.DecimalFormat("#.00").format(money);
+	}
 	public static String centToYuanMoneyFormat(long money) {
 		return moneyFormat(money * 0.01);
 	}

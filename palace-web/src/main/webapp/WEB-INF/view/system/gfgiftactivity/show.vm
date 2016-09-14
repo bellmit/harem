@@ -17,50 +17,6 @@
 <!--[if lt IE 8]>
 <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
-<div id="giftGood" style="display:none">
-    <table width="100%" class="mainTable">
-        <thead>
-        <tr>
-            <td align="left" width="20%">档一</td>
-            <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value=""><font>元</font><font>赠</font></td>
-            <td>
-                <input type="hidden" class="id" value="0"/>
-                <a class="btn addTableBtn" data-add="0">添加</a>
-            </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td align="right"><s>*</s><font>赠品名称：</font></td>
-            <td colspan="2"><input type = "text" class="txt name" value=""/></td>
-        </tr>
-        <tr>
-            <td align="right"><s>*</s><font>价格：</font></td>
-            <td colspan="2"><input type="text" class="txt price" value=""/></td>
-        </tr>
-        <tr>
-            <td align="right"><s>*</s><font>赠品图：</font></td>
-            <td>
-                <div class="imgallbox showImg" data-num="1">
-                    <div class="imgbox imgno">
-                        <div class="imgcon">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-                        </div>
-                        <div class="imgwait"></div>
-                        <div class="imgdelbtn">删除图片</div>
-                        <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
-                        <input type="hidden">
-                    </div>
-                    <input type="hidden" class="picVal" />
-                </div>
-            </td>
-            <td>
-                <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 <div id = "addGoods">
     <table width="100%" class="baseInfo">
         <thead>
@@ -70,45 +26,44 @@
         </thead>
         <tbody>
         <tr>
-            <td align="right" width="20%"><s>*</s><em>活动名称：</em></td>
+            <td align="right" width="20%"><em>活动名称：</em></td>
             <td align="left">
                 <input type="hidden" id="id" value="$!actActivityEditVO.actActivityVO.id" />
-                <input type = "text" class="txt" value="$!actActivityEditVO.actActivityVO.title" id="title"/>
+                <font>$!actActivityEditVO.actActivityVO.title</font>
             </td>
         </tr>
         <tr>
-            <td align="right"><s>*</s><em>活动时间：</em></td>
+            <td align="right"><em>活动时间：</em></td>
             <td align="left">
-                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")" id="startDate"/>
+                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")" id="startDate" disabled/>
                 <font>至</font>
-                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
+                #if($!actActivityEditVO.actActivityVO.status==2 || $!actActivityEditVO.actActivityVO.status==1)
+                    <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
+                #else
+                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate" disabled/>
+                #end
             </td>
         </tr>
         <tr>
-            <td align="right"><s>*</s><em>活动类型：</em></td>
+            <td align="right"><em>活动类型：</em></td>
             <td align="left">全场参加</td>
         </tr>
         <tr>
-            <td align="right"><s>*</s><em>优惠设置：</em></td>
+            <td align="right"><em>优惠设置：</em></td>
             <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
         </tr>
         </tbody>
     </table>
     #set($promotionVOList = $!actActivityEditVO.promotionVOList)
-    <!-- $promotionVOList.size() -->
     #if($promotionVOList.size()>0)
         #foreach($promotionVO in $promotionVOList)
             <table width="100%" class="mainTable">
                 <thead>
                 <tr>
                     <td align="left" width="20%">档一</td>
-                    <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.priceY"><font>元</font><font>赠</font></td>
+                    <td width="50%"><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.priceY" disabled><font>元</font><font>赠</font></td>
                     <td>
                         <input type="hidden" class="id" value="$!promotionVO.id"/>
-                        <a class="btn addTableBtn" data-add="0">添加</a>
-                        #if($velocityCount>1)
-                            <a class="btn delTableBtn" data-add="0">删除</a>
-                        #end
                     </td>
                 </tr>
                 </thead>
@@ -116,15 +71,15 @@
                 #foreach($gift in $!gifts)
                     <tbody>
                     <tr>
-                        <td align="right"><s>*</s><font>赠品名称：</font></td>
-                        <td colspan="2"><input type = "text" class="txt name" value="$!gift.title"/></td>
+                        <td align="right"><font>赠品名称：</font></td>
+                        <td colspan="2">$!gift.title</td>
                     </tr>
                     <tr>
-                        <td align="right"><s>*</s><font>价格：</font></td>
-                        <td colspan="2"><input type="text" class="txt price" value="$!gift.priceY"/></td>
+                        <td align="right"><font>价格：</font></td>
+                        <td colspan="2">$!gift.priceY<font>元</font></td>
                     </tr>
                     <tr>
-                        <td align="right"><s>*</s><font>赠品图：</font></td>
+                        <td align="right"><font>赠品图：</font></td>
                         <td>
                             <div class="imgallbox showImg" data-num="1">
                                 <div class="imgbox imgno">
@@ -132,7 +87,7 @@
                                         <img src="$!tfs$!gift.imgUrl">
                                     </div>
                                     <div class="imgwait"></div>
-                                    <div class="imgdelbtn">删除图片</div>
+##                                    <div class="imgdelbtn">删除图片</div>
                                     <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
                                     <input type="hidden">
                                 </div>
@@ -140,64 +95,19 @@
                             </div>
                         </td>
                         <td>
-                            <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
-                            #if($velocityCount>1)
-                                <a class="btn btn-primary themeStop delGoodsBtn" data-add="0">删除</a>
-                            #end
                         </td>
                     </tr>
                     </tbody>
                 #end
             </table>
         #end
-    #else
-        <table width="100%" class="mainTable">
-            <thead>
-            <tr>
-                <td align="left" width="20%">档一</td>
-                <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value=""><font>元</font><font>赠</font></td>
-                <td>
-                    <input type="hidden" class="id" value="0"/>
-                    <a class="btn addTableBtn" data-add="0">添加</a>
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td align="right"><s>*</s><font>赠品名称：</font></td>
-                <td colspan="2"><input type = "text" class="txt name" value=""/></td>
-            </tr>
-            <tr>
-                <td align="right"><s>*</s><font>价格：</font></td>
-                <td colspan="2"><input type="text" class="txt price" value=""/></td>
-            </tr>
-            <tr>
-                <td align="right"><s>*</s><font>赠品图：</font></td>
-                <td>
-                    <div class="imgallbox showImg" data-num="1">
-                        <div class="imgbox imgno">
-                            <div class="imgcon">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-                            </div>
-                            <div class="imgwait"></div>
-                            <div class="imgdelbtn">删除图片</div>
-                            <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
-                            <input type="hidden">
-                        </div>
-                        <input type="hidden" class="picVal" />
-                    </div>
-                </td>
-                <td>
-                    <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    #end
+        #end
+    #if($actActivityEditVO.actActivityVO.status==1 || $actActivityEditVO.actActivityVO.status==2)
     <p class ="sBtn">
         <a class = "btn btn-primary themeStop" id="saveBtn">保存</a>
         <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
     </p>
+    #end
 </div>
 <input type="hidden" id="actionDefaultPath" value="$!utilWebconfig.getActionDefaultFontPath()" />
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>

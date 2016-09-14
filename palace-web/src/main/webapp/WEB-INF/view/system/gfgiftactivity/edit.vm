@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <td align="right"><s>*</s><font>价格：</font></td>
-            <td colspan="2"><input type="text" class="txt price" value=""/></td>
+            <td colspan="2"><input type="text" class="txt price" value=""/><font>元</font></td>
         </tr>
         <tr>
             <td align="right"><s>*</s><font>赠品图：</font></td>
@@ -61,7 +61,7 @@
         </tbody>
     </table>
 </div>
-<div id = "addGoods">
+    <div id = "addGoods">
     <table width="100%" class="baseInfo">
         <thead>
         <tr>
@@ -95,14 +95,13 @@
         </tbody>
     </table>
     #set($promotionVOList = $!actActivityEditVO.promotionVOList)
-    <!-- $promotionVOList.size() -->
     #if($promotionVOList.size()>0)
         #foreach($promotionVO in $promotionVOList)
             <table width="100%" class="mainTable">
                 <thead>
                 <tr>
                     <td align="left" width="20%">档一</td>
-                    <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.priceY"><font>元</font><font>赠</font></td>
+                    <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.requirementY"><font>元</font><font>赠</font></td>
                     <td>
                         <input type="hidden" class="id" value="$!promotionVO.id"/>
                         <a class="btn addTableBtn" data-add="0">添加</a>
@@ -121,7 +120,7 @@
                     </tr>
                     <tr>
                         <td align="right"><s>*</s><font>价格：</font></td>
-                        <td colspan="2"><input type="text" class="txt price" value="$!gift.priceY"/></td>
+                        <td colspan="2"><input type="text" class="txt price" value="$!gift.priceY"/><font>元</font></td>
                     </tr>
                     <tr>
                         <td align="right"><s>*</s><font>赠品图：</font></td>
@@ -169,7 +168,7 @@
             </tr>
             <tr>
                 <td align="right"><s>*</s><font>价格：</font></td>
-                <td colspan="2"><input type="text" class="txt price" value=""/></td>
+                <td colspan="2"><input type="text" class="txt price" value=""/><font>元</font></td>
             </tr>
             <tr>
                 <td align="right"><s>*</s><font>赠品图：</font></td>

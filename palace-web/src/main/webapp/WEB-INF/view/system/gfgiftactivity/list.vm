@@ -59,7 +59,7 @@
                     <td>
                         <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">查看</button>
                         #if($!promotion.status == 1)
-                        <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">
+                        <button type="button" class="btn btn-primary themeEdit" promotionStatus="$promotion.status" promotioId="$promotion.id">
                              编辑
                         </button>
                         #end
@@ -121,11 +121,16 @@
 
         $('.themeDetail').each(function(){
             $(this).click(function(){
+                var url = actionDefaultPath + '/GF/giftActivityManage/show/'+ $(this).attr('promotioId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+        });
+        $('.themeEdit').each(function(){
+            $(this).click(function(){
                 var url = actionDefaultPath + '/GF/giftActivityManage/edit/'+ $(this).attr('promotioId');
                 top.tabsAdd("",url,2,$(this).text());
             });
         });
-
         $('#btnSubmit').click(function(){
             if($('.beginTime').val() && $('.endTime').val()){
                 if($('.beginTime').val() > $('.endTime').val()){

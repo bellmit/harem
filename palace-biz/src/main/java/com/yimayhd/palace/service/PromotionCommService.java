@@ -66,13 +66,6 @@ public interface PromotionCommService {
 
     boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception;
 
-    boolean updateGift(ActActivityEditVO actActivityEditVO) throws Exception;
-
     boolean updateEndGift(ActActivityEditVO actActivityEditVO) throws Exception;
 
-    boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception;
-
-    public boolean updateGiftActivity(GiftActivityVO giftActivityVO) throws Exception;
-
-    public PageVO<PromotionDO> getGiftActivtyList(GiftActivityVO giftActivityVO);
 }

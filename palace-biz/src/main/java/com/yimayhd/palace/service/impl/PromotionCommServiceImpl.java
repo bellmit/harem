@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.json.JSONObject;
+import com.yimayhd.activitycenter.result.track.ActivityResult;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.*;
+import com.yimayhd.palace.util.MoneyUtil;
+import com.yimayhd.promotion.client.domain.FullGiveFeature;
 import com.yimayhd.promotion.client.domain.PromotionFeature;
 import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
 import com.yimayhd.promotion.client.result.*;
@@ -329,8 +332,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     @Override
     public boolean close(long id) throws Exception {
-        boolean res = activityPromotionServiceRef.closeActPromotion(id).isSuccess();
-        return res;
+        ActResultSupport actResultSupport= activityPromotionServiceRef.closeActPromotion(id);
+        return actResultSupport.isSuccess();
     }
 
     @Override
@@ -382,82 +385,42 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         actActivityVO.setStartDate(actActivityPromotionDO.getStartDate());
         actActivityVO.setEndDate(actActivityPromotionDO.getEndDate());
 
-        for(PromotionDO promotionDO:promotionDOList){
+        for(PromotionDO promotionDO:promotionDOList) {
             PromotionVO promotionVO = new PromotionVO();
             promotionVO.setId(promotionDO.getId());
-            promotionVO.setPriceY(Math.round(promotionDO.getRequirement()/100.00));
-            try {
-                Map<String, Object> feature = (Map) JSON.parseObject(promotionDO.getFeature(), HashMap.class);
-                Object object = feature.get("gifts");
-                List<GiftVO> gifts = (List<GiftVO>) object;
-                promotionVO.setGifts(gifts);
-            }catch (Exception e) {
-                e.printStackTrace();
+            String requirement = MoneyUtil.centToYuanMoneyFormat(promotionDO.getRequirement());
+            Double priceY = Double.valueOf(requirement.toString());
+            promotionVO.setRequirementY(MoneyUtil.moneyY(priceY));
+            List<GiftVO> gifts = new ArrayList<GiftVO>();
+            if (StringUtils.isNotBlank(promotionDO.getFeature())) {
+                PromotionFeature promotionFeature = new PromotionFeature(promotionDO.getFeature());
+                List<FullGiveFeature> fullGiveFeatures = promotionFeature.getFreeGiftList();
+                for (FullGiveFeature fullGiveFeature : fullGiveFeatures) {
+                    GiftVO giftVO = new GiftVO();
+                    Double money = (double)(fullGiveFeature.getPrice()*0.01);
+                    giftVO.setPriceY(money.toString());
+                    giftVO.setPrice(fullGiveFeature.getPrice());
+                    giftVO.setTitle(fullGiveFeature.getGiftName());
+                    giftVO.setImgUrl(fullGiveFeature.getGiftPicture());
+                    gifts.add(giftVO);
+                }
             }
+            promotionVO.setGifts(gifts);
             promotionVOList.add(promotionVO);
         }
         actActivityEditVO.setActActivityVO(actActivityVO);
         actActivityEditVO.setPromotionVOList(promotionVOList);
         return actActivityEditVO;
     }
-    public PageVO<PromotionDO> getGiftActivtyList(GiftActivityVO giftActivityVO) {
-        PageVO<PromotionDO> giftActivtys = new PageVO<PromotionDO>();
-        List<Integer> statusList = new ArrayList<Integer>() ;
-        List<Integer> promotionTypeList = new ArrayList<Integer>();
-        if(StringUtils.isNotBlank(giftActivityVO.getBaseStatus())) {
-            int status;
-            status = Integer.parseInt(giftActivityVO.getBaseStatus());
-            if(status>0) {
-                statusList.add(status);
-            }
-        }
-        promotionTypeList.add(7);
-        PromotionPageQuery promotionPageQuery = new PromotionPageQuery() ;
-        promotionPageQuery.setTitle(giftActivityVO.getTitle());
-        if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
-            try {
-                Date startTime = DateUtil.convertStringToDate(giftActivityVO.getStartDateStr());
-                promotionPageQuery.setStartTime(startTime);
-            } catch (Exception e) {
-                //
-            }
-        }
-        if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
-            try {
-                Date endTime = DateUtil.convertStringToDate(giftActivityVO.getEndDateStr());
-                promotionPageQuery.setStartTime(endTime);
-            } catch (Exception e) {
-                //
-            }
-        }
-        promotionPageQuery.setStatusList(statusList);
-        promotionPageQuery.setPromotionTypeList(promotionTypeList);
-        promotionPageQuery.setDomain(B2CConstant.GF_DOMAIN);
-        BasePageResult<PromotionDO> queryResult = promotionQueryService.queryPromotions(promotionPageQuery);
-        if(null == queryResult || !queryResult.isSuccess()) {
-            log.error("giftActivityVO = {}, queryResult = {}", JSON.toJSONString(giftActivtys), JSON.toJSONString(queryResult));
-            return giftActivtys;
-        }
-        giftActivtys = new PageVO<PromotionDO>(
-                queryResult.getPageNo(),
-                queryResult.getPageSize(),
-                queryResult.getTotalCount(),
-                queryResult.getList()
-        );
-        return giftActivtys;
-    }
-
-    public GiftActivityVO getGiftActivity(long id) throws Exception {
-        GiftActivityVO giftActivityVO = new GiftActivityVO();
-
-        return giftActivityVO;
-    }
 
     @Override
     public boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception {
         ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
         List<PromotionVO> promotionVOList = actActivityEditVO.getPromotionVOList();
-
+        Map<Long, String> features = new HashMap<Long, String>();
+        if(actActivityVO.getId()> 0){
+            features = getPromotionFeatures(actActivityVO.getId());
+        }
         Date startDate = new Date();
         Date endDate = new Date();
         try {
@@ -466,7 +429,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        if(actActivityVO.getId()>0){
+            ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(actActivityVO.getId());
+            actResult.getT();
+        }
         List<PromotionDO> addPromotionDOList = new ArrayList<PromotionDO>();
         List<PromotionDO> updPromotionDOList = new ArrayList<PromotionDO>();
         List<Long> delPromotionDOIds = new ArrayList<Long>();
@@ -480,22 +446,29 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
             promotionDO.setId(promotionVO.getId());
             promotionDO.setTitle(actActivityVO.getTitle());
-//            promotionDO.setRequirement(promotionVO.getRequirement());
-            promotionDO.setRequirement(Math.round(promotionVO.getPriceY()*100));
-//            promotionDO.setPromotionType(PromotionType.GIFT.getType());
-            promotionDO.setPromotionType(7);
+            Double requirementY = Double.valueOf(promotionVO.getRequirementY().toString());
+            promotionDO.setRequirement(Math.round(requirementY*100));
+            promotionDO.setPromotionType(PromotionType.FREE_GIFT.getType());
             promotionDO.setEntityType(EntityType.SHOP.getType());
             promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
             //PromotionFeatureKey
-
-            Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
-            List<GiftVO> gifts = new ArrayList<GiftVO>();
+            List<FullGiveFeature> fullGiveFeatures = new ArrayList<FullGiveFeature>();
             for(GiftVO gift: promotionVO.getGifts()) {
-                gift.setPrice(Math.round(gift.getPriceY()*100));
-                gifts.add(gift);
+                FullGiveFeature fullGiveFeature = new FullGiveFeature();
+                Double priceY = Double.valueOf(gift.getPriceY().toString());
+                fullGiveFeature.setPrice(Math.round(priceY*100));
+                fullGiveFeature.setGiftName(gift.getTitle());
+                fullGiveFeature.setGiftPicture(gift.getImgUrl());
+                fullGiveFeatures.add(fullGiveFeature);
             }
-            feature.put("gifts", gifts);
-            promotionDO.setFeature(JSON.toJSON(feature).toString());
+            String feature = "";
+            if(promotionVO.getId()>0) {
+                feature = features.get(promotionVO.getId());
+            }
+            PromotionFeature promotionFeature = new PromotionFeature(feature);
+            promotionFeature.put(PromotionFeatureKey.FREE_GIFT, fullGiveFeatures);
+            String new_feature = promotionFeature.getFeature();
+            promotionDO.setFeature(new_feature);
 
             promotionDO.setStartTime(startDate);
             promotionDO.setEndTime(endDate);
@@ -542,130 +515,28 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         return true;
     }
 
-    @Override
-    public boolean updateGift(ActActivityEditVO actActivityEditVO) throws Exception {
-        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
-        List<PromotionVO> promotionVOList = actActivityEditVO.getPromotionVOList();
-        PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
-        Date startDate = new Date();
-        Date endDate = new Date();
-        try {
-            startDate = DateUtil.convertStringToDate(actActivityVO.getStartDateStr());
-            endDate = DateUtil.convertStringToDate(actActivityVO.getEndDateStr());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
-
-        for(PromotionVO promotionVO:promotionVOList) {
-            PromotionDO promotionDO = new PromotionDO();
-            promotionDO.setId(promotionVO.getId());
-            promotionDO.setTitle(actActivityVO.getTitle());
-            promotionDO.setRequirement(Math.round(promotionVO.getPriceY()*100));
-//            promotionDO.setPromotionType(PromotionType.GIFT.getType());
-            promotionDO.setPromotionType(7);
-            promotionDO.setEntityType(EntityType.SHOP.getType());
-            promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
-            promotionDO.setFeature(promotionVO.getFeature());
-            promotionDO.setStartTime(startDate);
-            promotionDO.setEndTime(endDate);
-            promotionDOList.add(promotionDO);
-        }
-        promotionEditDTO.setAddPromotionDOList(promotionDOList);
-        ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
-        if(baseResult == null){
-            log.error("PromotionCommService.add error: " + promotionEditDTO);
-            throw new BaseException("返回结果错误");
-        } else if(!baseResult.isSuccess()){
-            log.error("PromotionCommService.add error:" + promotionEditDTO);
-            throw new BaseException(baseResult.getMsg());
-        }
-        return true;
-    }
-
     public boolean updateEndGift(ActActivityEditVO actActivityEditVO) throws Exception {
         ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
         actActivityVO.getId();
         actActivityVO.getEndDateStr();
         return true;
     }
-    public boolean addGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
-        PromotionDO promotionDO = new PromotionDO();
 
-        promotionDO.setTitle(giftActivityVO.getTitle());
-        promotionDO.setEntityType(giftActivityVO.getEntityType());
-        promotionDO.setEntityId(giftActivityVO.getEntityId());
-        promotionDO.setDomain(B2CConstant.GF_DOMAIN);
-        promotionDO.setRequirement(Math.round(giftActivityVO.getRequirementY()*100));
-        //promotionDO.setPromotionType(PromotionType.GIFT.getByType());
-        promotionDO.setPromotionType(7);
-
-        if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
-            Date startTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
-            promotionDO.setStartTime(startTime);
+    private Map<Long, String> getPromotionFeatures(long id){
+        Map<Long, String> promotionFeatures = new HashMap<Long, String>();
+        ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);
+        if(actResult == null){
+            log.error("activityPromotionServiceRef.getActPromotionById return null and param : " + id);
+            return null;
+        } else if(!actResult.isSuccess()){
+            log.error("activityPromotionServiceRef.getActPromotionById error:" + actResult + "and param :" + id);
+            return null;
         }
-
-        if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
-            Date endTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
-            promotionDO.setEndTime(endTime);
+        ActPromotionDTO actPromotionDTO = actResult.getT();
+        List<PromotionDO> promotionDOList = actPromotionDTO.getPromotionDOList();
+        for(PromotionDO promotionDO:promotionDOList) {
+            promotionFeatures.put(promotionDO.getId(), promotionDO.getFeature());
         }
-
-        Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
-        feature.put("gifts", giftActivityVO.getGifts());
-        promotionDO.setFeature(JSON.toJSON(feature).toString());
-
-        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
-
-
-        PromotionEditDTO promotionEditDTO =  new PromotionEditDTO();
-
-
-
-        promotionDOList.add(promotionDO);
-        promotionEditDTO.setAddPromotionDOList(promotionDOList);
-        ActResultSupport actResultSupport = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
-        return actResultSupport.isSuccess();
-
-
-    }
-    public boolean updateGiftActivity(GiftActivityVO giftActivityVO) throws Exception {
-        PromotionDO promotionDO = new PromotionDO();
-
-        promotionDO.setTitle(giftActivityVO.getTitle());
-        promotionDO.setEntityType(giftActivityVO.getEntityType());
-        promotionDO.setEntityId(giftActivityVO.getEntityId());
-        promotionDO.setDomain(B2CConstant.GF_DOMAIN);
-        promotionDO.setRequirement(Math.round(giftActivityVO.getRequirementY()*100));
-        //promotionDO.setPromotionType(PromotionType.GIFT.getByType());
-        promotionDO.setPromotionType(7);
-
-        if(StringUtils.isNotBlank(giftActivityVO.getStartDateStr())) {
-            Date startTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
-            promotionDO.setStartTime(startTime);
-        }
-
-        if(StringUtils.isNotBlank(giftActivityVO.getEndDateStr())) {
-            Date endTime = DateUtil.convertStringToDateUseringFormats(giftActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
-            promotionDO.setEndTime(endTime);
-        }
-
-        Map<String, List<GiftVO>> feature= new HashMap<String, List<GiftVO>>();
-        feature.put("gifts", giftActivityVO.getGifts());
-        promotionDO.setFeature(JSON.toJSON(feature).toString());
-
-        List<PromotionDO> promotionDOList = new ArrayList<PromotionDO>();
-
-        promotionDOList.add(promotionDO);
-
-        ActPromotionEditDTO actPromotionEditDTO = new ActPromotionEditDTO();
-        actPromotionEditDTO.setUpdPromotionDOList(promotionDOList);
-
-        ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
-        return baseResult.isSuccess();
-    }
-    public boolean stopGiftActivity(long id) throws Exception {
-        PCResult<Boolean> addResult = promotionPublishServiceRef.closePromotion(id);
-        return addResult.isSuccess();
+        return promotionFeatures;
     }
 }

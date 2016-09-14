@@ -23,6 +23,7 @@ public class PromotionVO extends PromotionDO {
     private long stockNum;
     private int itemStatus;
     private List<GiftVO> gifts;
+    private String requirementY;
 
     public static PromotionVO getPromotionVO(PromotionDO promotionDO){
         PromotionVO promotionVO = new PromotionVO();
@@ -125,5 +126,13 @@ public class PromotionVO extends PromotionDO {
 
     public void setGifts(List<GiftVO> gifts) {
         this.gifts = gifts;
+    }
+
+    public String getRequirementY() {
+        return requirementY;
+    }
+
+    public void setRequirementY(String requirementY) {
+        this.requirementY = requirementY;
     }
 }

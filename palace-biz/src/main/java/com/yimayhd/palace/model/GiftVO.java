@@ -7,7 +7,7 @@ public class GiftVO {
     private String title;
     private String imgUrl;
     private long price;
-    private double priceY;
+    private String priceY;
 
     public String getTitle() {
         return title;
@@ -33,11 +33,11 @@ public class GiftVO {
         this.price = price;
     }
 
-    public double getPriceY() {
+    public String getPriceY() {
         return priceY;
     }
 
-    public void setPriceY(double priceY) {
+    public void setPriceY(String priceY) {
         this.priceY = priceY;
     }
 }
