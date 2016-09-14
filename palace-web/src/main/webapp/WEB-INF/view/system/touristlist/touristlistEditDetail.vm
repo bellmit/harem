@@ -204,7 +204,7 @@
                                     <div class="audio-info-item">
                                         <label>看点名称：</label>
                                         <textarea style="display:none;" class="focus-json" id="item$!{velocityCount}">$!{item.focusOrder}</textarea>
-                                        <input type="text" class="focus-name" value="$!{item.inputFileTitle}">
+                                        <input type="text" maxlength="20" class="focus-name" value="$!{item.inputFileTitle}">
                                     </div>
                                 </div>
                                 <div class="pull-left">

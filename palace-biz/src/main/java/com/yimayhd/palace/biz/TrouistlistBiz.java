@@ -65,7 +65,6 @@ public class TrouistlistBiz {
         ICResult<GuideLineDTO> result = touristManageService.queryGuideLine(guideId);
         if (result == null) {
             guideLineVO.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
-
         } else if (!result.isSuccess()) {
             guideLineVO.setCode(result.getResultCode());
             guideLineVO.setMsg(result.getResultMsg());
