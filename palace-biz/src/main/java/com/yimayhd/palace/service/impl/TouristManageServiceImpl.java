@@ -37,7 +37,9 @@ public class TouristManageServiceImpl implements TouristManageService {
      * @return
      */
     @Override
-    public GuideCascadeAttractionVO queryGuideAttractionFocusInfo(long scenicId) {
+    public GuideCascadeAttractionVO queryGuideAttractionFocusInfo(Long scenicId) {
+        if (scenicId ==null)
+            return new GuideCascadeAttractionVO();
         GuideCascadeAttractionDTO guideCascadeAttractionDTO = guideRepo.queryGuideAttractionFocusInfo(scenicId);
         if (guideCascadeAttractionDTO == null) {
             return new GuideCascadeAttractionVO();
