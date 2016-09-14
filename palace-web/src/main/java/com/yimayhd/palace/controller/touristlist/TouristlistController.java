@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.UUID;
 
 //
-
 /**
  * 景点列表
  * <p>
@@ -174,7 +173,6 @@ public class TouristlistController extends BaseController {
     }
 
     // 新增或者更新保存  两个接口1 保存景点详情 2 保存图文
-
     /**
      * add 景点详情和景点介绍 新增保存
      **/

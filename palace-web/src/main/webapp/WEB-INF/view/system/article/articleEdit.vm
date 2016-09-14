@@ -242,7 +242,7 @@
 							<input type="hidden" id="status" name="status" value="$!article.status">
 							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
 							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
-							<input type="hidden" id="selectAudioUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select">
+							<input type="hidden" id="selectAudioUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&maxSize=4">
 						</div>
                 	</td>
 	            </tr>
