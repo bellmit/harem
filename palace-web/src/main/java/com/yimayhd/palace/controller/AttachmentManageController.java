@@ -6,6 +6,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.AttachmentConstant;
 import com.yimayhd.palace.convert.AttachmentConverter;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.helper.ResponseVoHelper;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
@@ -19,6 +20,7 @@ import com.yimayhd.resourcecenter.model.enums.MediaFileStatus;
 import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +79,7 @@ public class AttachmentManageController extends BaseController {
     }
 
     @RequestMapping(value = "/list/select")
-    public String selectList(Model model, AttachmentListQuery attachmentListQuery,String type) {
+    public String selectList(Model model, AttachmentListQuery attachmentListQuery, String type) {
         try {
             attachmentListQuery.setStatus(MediaFileStatus.ON.getValue());
             PageVO<AttachmentVO> pageVO = attachmentManageService.getAttachmentList(attachmentListQuery);
@@ -89,9 +91,9 @@ public class AttachmentManageController extends BaseController {
             model.addAttribute("mediaFileScopeList", Enums.toList(MediaFileScope.class));
             model.addAttribute("mediaPageQuery", attachmentListQuery);
             if ("radio".equalsIgnoreCase(type)) {
-				
-            	return "/system/article/selectList";
-			}
+
+                return "/system/article/selectList";
+            }
             return "/system/attachment/selectList";
         } catch (Exception e) {
             log.error("selectList attachmentListQuery={}, exception={}", JSON.toJSONString(attachmentListQuery), e);
@@ -175,18 +177,29 @@ public class AttachmentManageController extends BaseController {
             UserDO user = sessionManager.getUser();
             String key = AttachmentConstant.UPLOAD_ATTACHMENT_LOCK + "_" + user.getId();
             boolean result = false;
-            String message = "上传失败";
+            String message = PalaceReturnCode.ADD_ATTACHMENT_ERROR.getErrorMsg();
             if (cacheLockManager.checkSubmitByCache(key)) {
                 try {
-                    result = attachmentManageService.addAttachment(attachmentVO, file, user.getId());
-                    if (result) {
-                        message = "上传成功";
+                    if (file != null && !file.isEmpty()) {
+
+                        String fileName = FilenameUtils.getBaseName(file.getOriginalFilename());
+                        MediaDTO mediaDTO = attachmentManageService.getMediaByFileName(fileName);
+                        if (mediaDTO == null) {
+                            result = attachmentManageService.addAttachment(attachmentVO, file, user.getId());
+                            if (result) {
+                                message = PalaceReturnCode.ADD_ATTACHMENT_SUCCESS.getErrorMsg();
+                            }
+                        } else {
+                            message = PalaceReturnCode.ADD_ATTACHMENT_ERROR_FILE_NAME_REPEAT.getErrorMsg();
+                        }
+                    } else {
+                        message = PalaceReturnCode.ADD_ATTACHMENT_ERROR_FILE_NULL.getErrorMsg();
                     }
                 } finally {
                     cacheLockManager.deleteKey(key);
                 }
             } else {
-                message = "其他文件上传中,稍后重试";
+                message = PalaceReturnCode.ADD_ATTACHMENT_ERROR_UPLOAD_REPEAT.getErrorMsg();
             }
             ResponseVo responseVo = ResponseVoHelper.returnResponseVo(result);
             responseVo.setMessage(message);
@@ -208,6 +221,12 @@ public class AttachmentManageController extends BaseController {
     @ResponseBody
     public ResponseVo editAttachment(Model model, AttachmentVO attachmentVO) {
         try {
+            MediaDTO mediaDTO = attachmentManageService.getMediaByFileName(attachmentVO.getInputFileTitle());
+            if (mediaDTO != null) {
+                ResponseVo responseVo = ResponseVoHelper.returnResponseVo(false);
+                responseVo.setMessage(PalaceReturnCode.ADD_ATTACHMENT_ERROR_FILE_NAME_REPEAT.getErrorMsg());
+                return responseVo;
+            }
             boolean result = attachmentManageService.updateAttachment(attachmentVO);
             return ResponseVoHelper.returnResponseVo(result);
         } catch (Exception e) {
