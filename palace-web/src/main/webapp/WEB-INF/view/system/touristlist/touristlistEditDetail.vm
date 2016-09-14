@@ -89,6 +89,10 @@
     height: 75px;
     margin-right: 10px;
     border: 1px solid #ccc;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAARVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADc6ur3AAAAF3RSTlMAlmw+RRoJLYKMEF1yNySypkt5ulfWn4nMxyYAAADLSURBVDjLtdHbCoMwDIDhNDWHHmfV7f0fdd2V2jCRwX4opfDRiwSgTod8YRiq7thzxVFMDg65pJkvgaeQ+RLAICwYhAUnYcFGvfJq38CyPj498QRs+H8gYoDJgIjOttAOyuxtIe3A97sSAFEUkQjUDyCeQFwVeNY0a8iiSyYDHkq1gwQSiohWA1xuG35+cMhxCWRASKhNUxbiSBy8BeLQa0oMINqCjIALe6JSa3/ytBUegQ3x9qCuR33Rz+tGPOBXRpNrO2CPtsZwuzfClAjZJq8DKQAAAABJRU5ErkJggg==")
+
 }
 
 .audio-img img {
@@ -193,9 +197,7 @@
                         <div class="audio-list">
                             #foreach($item in $guideFocusDOList)
                             <div class="audio-item">
-                                <div class="audio-img">
-                                    <img class="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="">
-                                </div>
+                                <div class="audio-img"></div>
                                 <div class="audio-info pull-left">
                                     <div class="audio-info-item">
                                         <label>时长：</label>
@@ -203,7 +205,7 @@
                                     </div>
                                     <div class="audio-info-item">
                                         <label>看点名称：</label>
-                                        <textarea style="display:none;" class="focus-json" id="item$!{velocityCount}">$!{item.focusOrder}</textarea>
+                                        <textarea style="display:none;" class="focus-json" id="$!{item.id}">$!{item.focusOrder}</textarea>
                                         <input type="text" maxlength="20" class="focus-name" value="$!{item.inputFileTitle}">
                                     </div>
                                 </div>
@@ -320,9 +322,7 @@ function addAudioItem(datas) {
             var str = JSON.stringify(data);
             var audioItem =
                 '<div class="audio-item">' +
-                '   <div class="audio-img">' +
-                '       <img class="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="">' +
-                '   </div>' +
+                '   <div class="audio-img"></div>' +
                 '   <div class="audio-info pull-left">' +
                 '       <div class="audio-info-item">' +
                 '           <label>时长：</label>' +
