@@ -205,7 +205,7 @@
                                     </div>
                                     <div class="audio-info-item">
                                         <label>看点名称：</label>
-                                        <textarea style="display:none;" class="focus-json" id="$!{item.id}">$!{item.focusOrder}</textarea>
+                                        <textarea style="display:none;" class="focus-json" id=$!{item.fileKey.replace(".mp3","")}>$!{item.focusOrder}</textarea>
                                         <input type="text" maxlength="20" class="focus-name" value="$!{item.inputFileTitle}">
                                     </div>
                                 </div>
@@ -318,7 +318,7 @@ function initUploadFile(fileId, hiddenId, imgId) {
 
 function addAudioItem(datas) {
     $.each(datas, function(index, data) {
-        if ($("#" + data.id).length === 0) {
+        if ($("#" + getName(data.fileKey)).length === 0) {
             var str = JSON.stringify(data);
             var audioItem =
                 '<div class="audio-item">' +
@@ -330,7 +330,7 @@ function addAudioItem(datas) {
                 '       </div>' +
                 '       <div class="audio-info-item">' +
                 '            <label>看点名称：</label>' +
-                '           <textarea style="display:none;" class="focus-json" id="' + data.id + '">' + str + '</textarea>' +
+                '           <textarea style="display:none;" class="focus-json" id="' + getName(data.fileKey) + '">' + str + '</textarea>' +
                 '           <input type="text" class="focus-name" maxlength="20" placeholder="请输入20字以内字符" value="' + data.inputFileTitle + '">' +
                 '       </div>' +
                 '   </div>' +
@@ -341,6 +341,9 @@ function addAudioItem(datas) {
             $(audioItem).appendTo(".audio-list");
         }
     });
+}
+function getName(str){
+    return str.replace(/\.mp(3|4)/,'');
 }
 $(function() {
     $("#myTab li").on("click", function() {
