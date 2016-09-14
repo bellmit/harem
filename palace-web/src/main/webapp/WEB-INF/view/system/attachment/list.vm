@@ -211,7 +211,7 @@
                         window.location.href = window.location.href;
                     }, 1500);
                 } else {
-                    layer.msg('操作失败', {
+                    layer.msg(res.message, {
                         icon: 2,
                         time: 2000
                     });
@@ -313,7 +313,6 @@
                     }
                     submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/editAttachment", "post", item);
                 }
-                return true;
             });
         });
         $("#tbAttachmentList").on("click", ".play", function () {

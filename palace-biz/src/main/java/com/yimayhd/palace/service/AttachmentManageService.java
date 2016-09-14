@@ -70,6 +70,12 @@ public interface AttachmentManageService {
      */
     public MediaDTO getMediaByFileKey(final String fileKey) ;
 
+    /**
+     * 根据文件名称查询
+     * @param fileName
+     * @return
+     */
+    public MediaDTO getMediaByFileName(final String fileName) ;
 
     /**
      * 根据filekey 查询

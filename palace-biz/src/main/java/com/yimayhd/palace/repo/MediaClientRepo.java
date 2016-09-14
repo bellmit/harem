@@ -161,4 +161,30 @@ public class MediaClientRepo {
             throw new BaseException(e, e.getMessage());
         }
     }
+
+    /**
+     * 按照名称查询
+     * @param fileName
+     * @return
+     */
+    public MediaDTO getMediaByFileName(final String fileName) {
+        try {
+            RcResult<MediaDTO> result = mediaClientServiceRef.getMediaByFileName(fileName);
+            if (result != null) {
+
+                if (result.isSuccess()) {
+                    log.info("getMediaByFileName fileKey={}, , result={}", fileName, JSON.toJSONString(result));
+                    return result.getT();
+                } else {
+                    log.error("getMediaByFileName fileKey={}, result={}", fileName, JSON.toJSONString(result));
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+                }
+            } else {
+                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+            }
+        } catch (Exception e) {
+            log.error("getMediaByFileName fileKey={}, exception={}", fileName, e);
+            throw new BaseException(e, e.getMessage());
+        }
+    }
 }
