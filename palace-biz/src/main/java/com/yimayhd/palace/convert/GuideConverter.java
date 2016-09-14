@@ -15,6 +15,8 @@ import com.yimayhd.palace.model.Coordinate;
 import com.yimayhd.palace.model.guide.*;
 import com.yimayhd.palace.util.Common;
 import org.springframework.beans.BeanUtils;
+import com.yimayhd.palace.util.DateUtil;
+
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
@@ -456,6 +458,7 @@ public class GuideConverter {
                 guideFocusVO.setDuration(guideFocusDO.getAudioTime());
                 guideFocusVO.setInputFileTitle(guideFocusDO.getName());
                 guideFocusVO.setId(guideFocusDO.getId());
+                guideFocusVO.setDurationStr(DateUtil.parseLong2Time(guideFocusDO.getAudioTime()));
                 /* GuideFocusVO guideFocusVO = guideFocusDO2GuideFocusVO(guideFocusDO);
                 if(guideFocusDO!=null) {
                     guideFocusVOList.add(guideFocusVO);

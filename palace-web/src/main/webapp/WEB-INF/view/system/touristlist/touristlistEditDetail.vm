@@ -201,7 +201,7 @@
                                 <div class="audio-info pull-left">
                                     <div class="audio-info-item">
                                         <label>时长：</label>
-                                        <span>$!{item.duration}</span>
+                                        <span>$!{item.durationStr}</span>
                                     </div>
                                     <div class="audio-info-item">
                                         <label>看点名称：</label>
