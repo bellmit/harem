@@ -156,6 +156,16 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
         return mediaClientRepo.getMediaByFileKey(fileKey);
     }
 
+    /**
+     * 根据文件名称查询
+     *
+     * @param fileName
+     * @return
+     */
+    @Override
+    public MediaDTO getMediaByFileName(String fileName) {
+        return mediaClientRepo.getMediaByFileName(fileName);
+    }
 
     /**
      * 根据filekey 查询

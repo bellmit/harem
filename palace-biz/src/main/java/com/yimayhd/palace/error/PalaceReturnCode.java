@@ -65,4 +65,14 @@ public class PalaceReturnCode implements Serializable {
     public static final PalaceReturnCode UP_GUIDE_STATUS_ATTRACTION_ERROR = new PalaceReturnCode(25005201, "导览缺少景点信息");
     public static final PalaceReturnCode UP_GUIDE_STATUS_LINE_ERROR = new PalaceReturnCode(25005201, "导览缺少景点线路信息");
     public static final PalaceReturnCode UP_GUIDE_STATUS_SCENIC_ERROR = new PalaceReturnCode(25005201, "导览缺少景区信息");
+
+
+    /***************************************** 附件相关********************************************************/
+
+    public static final PalaceReturnCode ADD_ATTACHMENT_SUCCESS= new PalaceReturnCode(25006000, "上传成功");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR = new PalaceReturnCode(25006001, "上传失败");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_FILE_NULL = new PalaceReturnCode(25006002, "文件为空");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_FILE_NAME_REPEAT = new PalaceReturnCode(25006003, "文件名称重复");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_UPLOAD_REPEAT = new PalaceReturnCode(25005104, "其他文件上传中,稍后重试");
+
 }
