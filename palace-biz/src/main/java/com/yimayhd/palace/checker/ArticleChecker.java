@@ -22,10 +22,10 @@ public class ArticleChecker {
 
 	public static CheckResult checkArticleVO(ArticleVO articleVO) {
 		if (StringUtils.isBlank(articleVO.getTitle()) || articleVO.getTitle().length() > TITLE_LENGTH) {
-			return CheckResult.error("标题不能为空，长度最多12个字符");
+			return CheckResult.error("标题不能为空，长度最多"+TITLE_LENGTH+"个字符");
 		}
 		if (StringUtils.isBlank(articleVO.getSubTitle()) || articleVO.getSubTitle().length() > SUBTITLE_LENGTH) {
-			return CheckResult.error("副标题不能为空，长度最多12个字符");
+			return CheckResult.error("副标题不能为空，长度最多"+SUBTITLE_LENGTH+"个字符");
 		}
 		if (StringUtils.isBlank(articleVO.getFrontcover())) {
 			return CheckResult.error("封面不能为空");
