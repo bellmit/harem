@@ -336,6 +336,8 @@ public class BannerManageController extends BaseController {
         query.setStatus(GuideStatus.ONLINE.getCode());
 
         PageVO<ShowCaseItem> page = showcaseService.getGuideListByQuery(query);
+        result.put("pageVo", page);
+        return result;
 	}
     public Map<String, Object> getCategoryList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord) {
         CategoryQueryDTO query = new CategoryQueryDTO();
